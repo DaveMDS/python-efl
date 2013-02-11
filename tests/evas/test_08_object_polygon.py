@@ -1,0 +1,26 @@
+#!/usr/bin/env python
+
+from efl import evas
+import unittest
+
+
+class TestPolygonBasics(unittest.TestCase):
+    def setUp(self):
+        self.canvas = evas.Canvas(method="buffer",
+                                  size=(400, 500),
+                                  viewport=(0, 0, 400, 500))
+        self.canvas.engine_info_set(self.canvas.engine_info_get())
+
+    def tearDown(self):
+        self.canvas.delete()
+        del self.canvas
+
+    def testConstructor(self):
+        o = evas.Polygon(self.canvas, geometry=(10, 20, 30, 40))
+        self.assertEqual(type(o), evas.Polygon)
+        self.assertEqual(o.geometry_get(), (10, 20, 30, 40))
+
+
+if __name__ == '__main__':
+    unittest.main(verbosity=2)
+    evas.shutdown()

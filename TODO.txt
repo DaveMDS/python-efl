@@ -1,0 +1,62 @@
+
+BUGS:
+
+* Ecore/Evas: 00_run_all_test.py, lots of errors
+* Evas: smart object doesn't work
+* object_from_instance fail with EdjeExternals
+* test_map3.py is buggy
+* test_mapbuf.py line 14 should work
+* test_progressbar.py on exit cause an endless loop (Timer??)
+* test_video.py have problems
+* test_menu.py -> evas events cb
+* test_naviframe is broken (also in the python-elementary version)
+* test_core_evas_canvas_callbacks.py have 2 lines commented out
+* test_emotion.py loop on shutdown (parent issue)
+
+* edje.color_class_list() is broken in C (disabled in edje/test_01_basics.py)
+* edje.text_class_list() is broken in C (disabled out in edje/test_01_basics.py)
+
+
+TODO:
+
+* Fix all the compilation warnings!
+* ecore.Poller
+* ecore.FileMonitor
+* alert on signal and subprocess module usage (was in python-ecore/ecore/__init__.py)
+* Ecore test_08_exe.py :  Use unittests
+* evas.SmartObject
+* edje.Edit
+* edje: complete the unit tests
+* elm.Web need a test
+* elm.GestureLayer need a test
+* elm.PhotoCam need a test
+* elm.Transit need a test
+* elm.Conformant need a test
+* include python-ethumb
+* include python-e_dbus (or make edbus2 ??)
+
+
+TODO FOR PYTHON 3:
+
+* ecore.Exe (use new buffer interface)
+* ecore.FdHandler (use new buffer interface)
+* edje external
+
+
+STUFF LEAVED OUT:
+
+* EcoreEvas
+* EcoreImf
+* EcoreX
+* EcoreWin32
+* python-evas/evas/utils.py
+* python-evas/evas/decorators.py
+* python-evas/evas/debug.py
+* python-evas old hack to rotate objects
+* edje decorators callbacks
+
+
+CHANGES FROM 1.7 to 1.8:
+
+* added efl container package
+* ecore.file.Download => efl.ecore.FileDownload

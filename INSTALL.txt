@@ -1,0 +1,59 @@
+
+1. REQUIREMENTS:
+
+1. Python 2.7 or higher (http://www.python.org/)
+   - Tested with Python 2.7 / 3.2
+2. Cython 0.17.3 or higher (http://cython.org/)
+   - Tested with Cython 0.17.3
+3. EFL core library
+   - eo, evas, ecore, edje, elementary and, optionally, emotion
+4. pkg-config (http://www.freedesktop.org/wiki/Software/pkg-config)
+   - Windows executable (and GLib dependency) can be downloaded from
+     http://www.gtk.org/download/win32.php
+
+
+
+2. BUILDING EFL
+
+ Once EFL is built and installed in your desired destination, proceed with
+ building the wrapper.
+
+
+
+2a. BUILDING WITH GCC/G++ (Linux, OS X, etc.)
+
+   python setup.py build_ext
+
+2b. BUILDING WITH Visual Studio (Windows)
+
+   python setup.py build_ext
+
+2c. BUILDING WITH MINGW (Windows)
+
+   python setup.py build_ext -c mingw32
+
+
+
+4. INSTALLATION
+
+4a. For system-wide installation (needs administrator privileges):
+
+    python setup.py install
+
+4b. For user installation:
+
+    python setup.py install --user
+
+4c. To install for python3:
+
+    python3 setup.py install (also cython need to be installed with py3)
+
+
+
+5. DEMOS and TESTS
+
+ You can run individual tests or use the 00_run_all_tests.py in each folder or
+ even in the tests/ base dir to run all the tests at once.
+
+ The tests in elementary are not unittest and are meant to be run by the user
+ as they usually require some sort of interaction.

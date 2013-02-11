@@ -1,0 +1,52 @@
+#!/usr/bin/env python
+
+from efl import evas
+import unittest
+
+
+@unittest.skip("TO BE DONE")
+class MyObject(evas.SmartObject):
+    def __init__(self, canvas, *args, **kargs):
+        evas.SmartObject.__init__(self, canvas, *args, **kargs)
+        w, h = self.size
+        w2 = w / 2
+        h2 = h / 2
+        self.r1 = evas.Rectangle(canvas, geometry=(0, 0, w2, h2),
+                                 color="#ff0000")
+        self.member_add(self.r1)
+
+        self.r2 = evas.Rectangle(canvas, geometry=(w2, h2, w2, h2),
+                                 color="#00ff00")
+        self.member_add(self.r2)
+
+    def resize(self, w, h):
+        w2 = w / 2
+        h2 = h / 2
+        self.r1.geometry = (0, 0, w2, h2)
+        self.r2.geometry = (w2, h2, w2, h2)
+
+@unittest.skip("TO BE DONE")
+class SmartObjectTest(unittest.TestCase):
+    def setUp(self):
+        self.canvas = evas.Canvas(method="buffer",
+                                  size=(400, 500),
+                                  viewport=(0, 0, 400, 500))
+        self.canvas.engine_info_set(self.canvas.engine_info_get())
+        self.obj = MyObject(self.canvas)
+
+    def testMembers(self):
+        self.assertEqual(self.obj.members, (self.obj.r1, self.obj.r2))
+
+    def testResize(self):
+        print self.obj.geometry
+        print self.obj.r1.geometry
+        self.obj.resize(100, 100)
+        print self.obj.geometry
+        print self.obj.r1.geometry
+        self.assertEqual(self.obj.r1.geometry, (0, 0, 50, 50))
+        self.assertEqual(self.obj.r2.geometry, (50, 50, 50, 50))
+
+
+if __name__ == '__main__':
+    unittest.main(verbosity=2)
+    evas.shutdown()
