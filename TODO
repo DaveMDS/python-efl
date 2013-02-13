@@ -1,14 +1,11 @@
 
 BUGS:
 
-* Ecore/Evas: 00_run_all_test.py, lots of errors
 * Evas: smart object doesn't work
 * object_from_instance fail with EdjeExternals
 * test_map3.py is buggy
 * test_mapbuf.py line 14 should work
-* test_progressbar.py on exit cause an endless loop (Timer??)
 * test_video.py have problems
-* test_menu.py -> evas events cb
 * test_naviframe is broken (also in the python-elementary version)
 * test_core_evas_canvas_callbacks.py have 2 lines commented out
 * test_emotion.py loop on shutdown (parent issue)

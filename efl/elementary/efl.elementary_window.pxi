@@ -1,36 +1,25 @@
-# Copyright (c) 2008-2009 Simon Busch
+# Copyright (C) 2007-2013 various contributors (see AUTHORS)
 #
-# This file is part of python-elementary.
+# This file is part of Python-EFL.
 #
-# python-elementary is free software: you can redistribute it and/or modify
-# it under the terms of the GNU Lesser General Public License as published by
-# the Free Software Foundation, either version 3 of the License, or
-# (at your option) any later version.
+# Python-EFL is free software; you can redistribute it and/or
+# modify it under the terms of the GNU Lesser General Public
+# License as published by the Free Software Foundation; either
+# version 2.1 of the License, or (at your option) any later version.
 #
-# python-elementary is distributed in the hope that it will be useful,
+# Python-EFL is distributed in the hope that it will be useful,
 # but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-# GNU Lesser General Public License for more details.
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+# Lesser General Public License for more details.
 #
 # You should have received a copy of the GNU Lesser General Public License
-# along with python-elementary.  If not, see <http://www.gnu.org/licenses/>.
-#
+# along with this Python-EFL.  If not, see <http://www.gnu.org/licenses/>.
 
-# from efl.eo cimport object_from_instance
-# from efl.evas cimport Evas
-# from efl.evas cimport evas_object_evas_get
-# from efl.evas cimport canvas_from_instance
 
 cdef class Window(Object):
 
     def __init__(self, name, type):
         self._set_obj(elm_win_add(NULL, _cfruni(name), type))
-#         self._add_obj(elm_obj_win_class_get(), NULL)
-
-#         cdef Evas *e
-#         e = evas_object_evas_get(self.obj)
-#         canvas = Canvas_from_instance(e)
-#         evasObject.__init__(self, canvas)
 
     def resize_object_add(self, evasObject subobj):
         elm_win_resize_object_add(self.obj, subobj.obj)
