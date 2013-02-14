@@ -111,10 +111,14 @@ def naviframe_clicked(obj):
         win.callback_delete_request_add(lambda o: elementary.exit())
 
     bg = elementary.Background(win)
+    bg.size_hint_weight = (evas.EVAS_HINT_EXPAND, evas.EVAS_HINT_EXPAND)
+    bg.size_hint_align = (evas.EVAS_HINT_FILL, evas.EVAS_HINT_FILL)
     win.resize_object_add(bg)
     bg.show()
 
     nf = elementary.Naviframe(win)
+    nf.size_hint_weight = (evas.EVAS_HINT_EXPAND, evas.EVAS_HINT_EXPAND)
+    nf.size_hint_align = (evas.EVAS_HINT_FILL, evas.EVAS_HINT_FILL)
     win.resize_object_add(nf)
     nf.show()
 
