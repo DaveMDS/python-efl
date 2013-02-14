@@ -51,7 +51,7 @@ def cb_btn_search_name(bt, Map, en):
     en.text = "searching..."
 
 def cb_search_name(Map, name, en):
-    global _name
+    global _from
 
     en.text = name.address
     (lon, lat) = name.region
@@ -210,7 +210,7 @@ def map_route_clicked(obj):
 
     en = elementary.Entry(win)
     en.scrollable = True
-    en.single_line = True
+    # en.single_line = True
     en.text = "type an address here"
     en.size_hint_weight = (evas.EVAS_HINT_EXPAND, evas.EVAS_HINT_EXPAND)
     en.size_hint_align = (evas.EVAS_HINT_FILL, evas.EVAS_HINT_FILL)
@@ -232,7 +232,7 @@ def map_route_clicked(obj):
 
     en = elementary.Entry(win)
     en.scrollable = True
-    en.single_line = True
+    # en.single_line = True
     en.disabled = True
     en.text = "place the start point and press the button"
     en.size_hint_weight = (evas.EVAS_HINT_EXPAND, evas.EVAS_HINT_EXPAND)
@@ -247,7 +247,6 @@ def map_route_clicked(obj):
     bt.show()
 
 
-    
     win.resize(600, 600)
     win.show()
 

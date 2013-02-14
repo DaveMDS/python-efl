@@ -2,7 +2,6 @@
 BUGS:
 
 * Evas: smart object doesn't work
-* test_map3.py is buggy
 * test_mapbuf.py line 14 should work
 * test_video.py have problems
 * test_naviframe is broken (also in the python-elementary version)
