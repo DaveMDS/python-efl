@@ -11,7 +11,7 @@ names = [ "Hello", "World", "Spam", "Egg", "Ham", "Good", "Bad", "Milk",
 mb_list = []
 
 def cb_btn_close(btn, win):
-    # win.delete()
+    win.delete()
     elementary.exit()
     
 def cb_ck_map(ck):
@@ -177,7 +177,7 @@ def mapbuf_clicked(obj, item=None):
     hbox.pack_end(bt)
     bt.show()
 
-    win.resize(480, 800)
+    win.resize(480, 600)
     win.show()
 
 
