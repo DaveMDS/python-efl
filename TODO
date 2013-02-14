@@ -2,7 +2,6 @@
 BUGS:
 
 * Evas: smart object doesn't work
-* test_video.py have problems
 * test_naviframe is broken (also in the python-elementary version)
 * test_core_evas_canvas_callbacks.py have 2 lines commented out
 * test_emotion.py loop on shutdown (parent issue)

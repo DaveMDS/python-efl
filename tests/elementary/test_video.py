@@ -5,11 +5,9 @@ from efl import elementary
 from efl import evas
 
 
-def my_bt_open(bt, file, *args, **kwargs):
-    video = args[0]
-
-    if (file):
-        video.file = file
+def my_bt_open(bt, file, video):
+    if (file and video):
+        video.file_set(file)
         video.play()
 
 def notify_show(video, event, no):
