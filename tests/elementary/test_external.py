@@ -1,8 +1,9 @@
 #!/usr/bin/env python
 # encoding: utf-8
 
-from efl import elementary
 from efl import evas
+from efl import ecore
+from efl import elementary
 
 
 
@@ -64,7 +65,7 @@ def edje_external_pbar_clicked(obj, item=None):
     ly.show()
 
     bt = ly.edje_get().part_external_object_get("ext_button3")
-    bt.text = "...or Pyton"
+    bt.text = "...or from Python"
     bt.callback_clicked_add(cb_btn3_clicked, ly)
 
     win.resize(320, 400)
@@ -175,3 +176,5 @@ if __name__ == "__main__":
     win.show()
     elementary.run()
     elementary.shutdown()
+    ecore.shutdown()
+    evas.shutdown()

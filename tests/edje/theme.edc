@@ -1,4 +1,8 @@
 
+externals {
+    external: "elm";
+}
+
 data {
     item: "key1" "value1";
     item: "key2" "value2";
@@ -68,6 +72,41 @@ collections {
                         font: "Sans";
                         size: 12;
                         text: "label test";
+                    }
+                }
+            }
+            part {
+                name: "ext_elm_label";
+                type: EXTERNAL;
+                source: "elm/label";
+                description {
+                    state: "default" 0.0;
+                    params {
+                        string: "label" "This is an elm label";
+                    }
+                }
+            }
+            part {
+                name: "ext_elm_slider";
+                type: EXTERNAL;
+                source: "elm/slider";
+                description {
+                    state: "default" 0.0;
+                    rel2 {
+                        relative: 1.0 0.5;
+                        offset: -1 -1;
+                    }
+                    params {
+                        string: "label" "external slider";
+                        double: "min" -1;
+                        double: "max" 999;
+                        double: "value" 0.6;
+                        bool: "inverted" 1;
+                        bool: "horizontal" 1;
+                        int: "span" 45;
+                        string: "unit format" "test %f";
+                        string: "indicator format" "%f ind";
+                        string: "icon" "folder";
                     }
                 }
             }

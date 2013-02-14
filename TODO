@@ -2,7 +2,6 @@
 BUGS:
 
 * Evas: smart object doesn't work
-* object_from_instance fail with EdjeExternals
 * test_map3.py is buggy
 * test_mapbuf.py line 14 should work
 * test_video.py have problems

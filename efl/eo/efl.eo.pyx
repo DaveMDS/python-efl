@@ -132,6 +132,7 @@ cdef object object_from_instance(cEo *obj):
     klass_name = eo_class_name_get(eo_class_get(obj))
     if klass_name == NULL:
         raise ValueError("Eo object %#x does not have a type!" % <long>obj)
+#     print("Klass name: %s" % klass_name)
 
     klass = object_mapping.get(klass_name, None)
     if klass == None:
