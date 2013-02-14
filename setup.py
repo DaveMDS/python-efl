@@ -77,12 +77,12 @@ edje_ext = Extension("efl.edje", ["efl/edje/efl.edje.pyx"],
 modules.append(edje_ext)
 
 # Emotion
-# emotion_cflags, emotion_libs = pkg_config('Emotion', 'emotion', "1.7.99")
-# emotion_ext = Extension("efl.emotion", ["efl/emotion/efl.emotion.pyx"],
-                        # include_dirs = ['include/'],
-                        # extra_compile_args = emotion_cflags,
-                        # extra_link_args = emotion_libs)
-# modules.append(emotion_ext)
+emotion_cflags, emotion_libs = pkg_config('Emotion', 'emotion', "1.7.99")
+emotion_ext = Extension("efl.emotion", ["efl/emotion/efl.emotion.pyx"],
+                        include_dirs = ['include/'],
+                        extra_compile_args = emotion_cflags,
+                        extra_link_args = emotion_libs)
+modules.append(emotion_ext)
 
 # Elementary
 elm_cflags, elm_libs = pkg_config('Elementary', 'elementary', "1.7.99")

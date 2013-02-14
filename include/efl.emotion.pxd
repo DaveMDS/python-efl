@@ -21,54 +21,18 @@ from efl.evas cimport Object as evasObject
 
 
 cdef extern from "Emotion.h":
-    ctypedef enum Emotion_Module:
-        EMOTION_MODULE_XINE = 0
-        EMOTION_MODULE_GSTREAMER
 
     ctypedef enum Emotion_Event:
         pass
-#         EMOTION_EVENT_MENU1 = 0
-#         EMOTION_EVENT_MENU2
-#         EMOTION_EVENT_MENU3
-#         EMOTION_EVENT_MENU4
-#         EMOTION_EVENT_MENU5
-#         EMOTION_EVENT_MENU6
-#         EMOTION_EVENT_MENU7
-#         EMOTION_EVENT_UP
-#         EMOTION_EVENT_DOWN
-#         EMOTION_EVENT_LEFT
-#         EMOTION_EVENT_RIGHT
-#         EMOTION_EVENT_SELECT
-#         EMOTION_EVENT_NEXT
-#         EMOTION_EVENT_PREV
-#         EMOTION_EVENT_ANGLE_NEXT
-#         EMOTION_EVENT_ANGLE_PREV
-#         EMOTION_EVENT_FORCE
-#         EMOTION_EVENT_0
-#         EMOTION_EVENT_1
-#         EMOTION_EVENT_2
-#         EMOTION_EVENT_3
-#         EMOTION_EVENT_4
-#         EMOTION_EVENT_5
-#         EMOTION_EVENT_6
-#         EMOTION_EVENT_7
-#         EMOTION_EVENT_8
-#         EMOTION_EVENT_9
-#         EMOTION_EVENT_10
 
     ctypedef enum Emotion_Meta_Info:
-        EMOTION_META_INFO_TRACK_TITLE
-        EMOTION_META_INFO_TRACK_ARTIST
-        EMOTION_META_INFO_TRACK_ALBUM
-        EMOTION_META_INFO_TRACK_YEAR
-        EMOTION_META_INFO_TRACK_GENRE
-        EMOTION_META_INFO_TRACK_COMMENT
-        EMOTION_META_INFO_TRACK_DISC_ID
-        EMOTION_META_INFO_TRACK_COUNT
+        pass
 
-    cdef enum Emotion_Channel_Settings:
-        EMOTION_CHANNEL_AUTO = -1
-        EMOTION_CHANNEL_DEFAULT = 0
+    ctypedef enum Emotion_Aspect:
+        pass
+
+    ctypedef enum Emotion_Suspend:
+        pass
 
     Eina_Bool emotion_init()
     Eina_Bool emotion_shutdown()

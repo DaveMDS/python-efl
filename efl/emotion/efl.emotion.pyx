@@ -23,40 +23,63 @@ from efl.evas cimport evas_object_smart_callback_add
 from efl.evas cimport evas_object_smart_callback_del
 
 
-__extra_epydoc_fields__ = (
-    ("parm", "Parameter", "Parameters"), # epydoc don't support pyrex properly
-    )
-
-
-EMOTION_EVENT_MENU1 = 0
-EMOTION_EVENT_MENU2 = 1
-EMOTION_EVENT_MENU3 = 2
-EMOTION_EVENT_MENU4 = 3
-EMOTION_EVENT_MENU5 = 4
-EMOTION_EVENT_MENU6 = 5
-EMOTION_EVENT_MENU7 = 6
-EMOTION_EVENT_UP = 7
-EMOTION_EVENT_DOWN = 8
-EMOTION_EVENT_LEFT = 9
-EMOTION_EVENT_RIGHT = 10
-EMOTION_EVENT_SELECT = 11
-EMOTION_EVENT_NEXT = 12
-EMOTION_EVENT_PREV = 13
+# Emotion_Event:
+EMOTION_EVENT_MENU1      = 0
+EMOTION_EVENT_MENU2      = 1
+EMOTION_EVENT_MENU3      = 2
+EMOTION_EVENT_MENU4      = 3
+EMOTION_EVENT_MENU5      = 4
+EMOTION_EVENT_MENU6      = 5
+EMOTION_EVENT_MENU7      = 6
+EMOTION_EVENT_UP         = 7
+EMOTION_EVENT_DOWN       = 8
+EMOTION_EVENT_LEFT       = 9
+EMOTION_EVENT_RIGHT      = 10
+EMOTION_EVENT_SELECT     = 11
+EMOTION_EVENT_NEXT       = 12
+EMOTION_EVENT_PREV       = 13
 EMOTION_EVENT_ANGLE_NEXT = 14
 EMOTION_EVENT_ANGLE_PREV = 15
-EMOTION_EVENT_FORCE = 16
-EMOTION_EVENT_0 = 17
-EMOTION_EVENT_1 = 18
-EMOTION_EVENT_2 = 19
-EMOTION_EVENT_3 = 20
-EMOTION_EVENT_4 = 21
-EMOTION_EVENT_5 = 22
-EMOTION_EVENT_6 = 23
-EMOTION_EVENT_7 = 24
-EMOTION_EVENT_8 = 25
-EMOTION_EVENT_9 = 26
-EMOTION_EVENT_10 = 27
+EMOTION_EVENT_FORCE      = 16
+EMOTION_EVENT_0          = 17
+EMOTION_EVENT_1          = 18
+EMOTION_EVENT_2          = 19
+EMOTION_EVENT_3          = 20
+EMOTION_EVENT_4          = 21
+EMOTION_EVENT_5          = 22
+EMOTION_EVENT_6          = 23
+EMOTION_EVENT_7          = 24
+EMOTION_EVENT_8          = 25
+EMOTION_EVENT_9          = 26
+EMOTION_EVENT_10         = 27
 
+# Emotion_Meta_Info:
+EMOTION_META_INFO_TRACK_TITLE    = 0
+EMOTION_META_INFO_TRACK_ARTIST   = 1
+EMOTION_META_INFO_TRACK_ALBUM    = 2
+EMOTION_META_INFO_TRACK_YEAR     = 3
+EMOTION_META_INFO_TRACK_GENRE    = 4
+EMOTION_META_INFO_TRACK_COMMENT  = 5
+EMOTION_META_INFO_TRACK_DISC_ID  = 6
+EMOTION_META_INFO_TRACK_COUNT    = 7
+
+# Emotion_Channel_Settings:
+EMOTION_CHANNEL_AUTO    = -1
+EMOTION_CHANNEL_DEFAULT = 0
+
+# Emotion_Aspect:
+EMOTION_ASPECT_KEEP_NONE   = 0
+EMOTION_ASPECT_KEEP_WIDTH  = 1
+EMOTION_ASPECT_KEEP_HEIGHT = 2
+EMOTION_ASPECT_KEEP_BOTH   = 3
+EMOTION_ASPECT_CROP        = 4
+EMOTION_ASPECT_CUSTOM      = 5
+
+# Emotion_Suspend:
+EMOTION_WAKEUP     = 0
+EMOTION_SLEEP      = 1
+EMOTION_DEEP_SLEEP = 2
+EMOTION_HIBERNATE  = 3
 
 
 cdef void _emotion_callback(void *data, Evas_Object *o, void *ei) with gil:
@@ -90,20 +113,18 @@ cdef class Emotion(evasObject):
         self._emotion_callbacks = {}
 
     def __init__(self, Canvas canvas not None, **kargs):
-        if self.obj == NULL:
-            self._set_obj(emotion_object_add(canvas.obj))
-#             self._add_obj(emotion_object_class_get(), canvas.obj)
+        self._set_obj(emotion_object_add(canvas.obj))
         self._set_common_params(**kargs)
 
     def _set_common_params(self,
-                           char *module_filename="gstreamer",
+                           char *module_name="gstreamer",
                            module_params=None, size=None, pos=None,
                            geometry=None, color=None, name=None):
         evasObject._set_common_params(self, size=size, pos=pos, name=name,
                                       geometry=geometry, color=color)
-        if emotion_object_init(self.obj, module_filename) == 0:
+        if emotion_object_init(self.obj, module_name) == 0:
             raise EmotionModuleInitError("failed to initialize module '%s'" %
-                                         module_filename)
+                                         module_name)
 
         if isinstance(module_params, (tuple, list)):
             module_params = dict(module_params)
@@ -489,13 +510,6 @@ cdef class Emotion(evasObject):
             return self.meta_info_dict_get()
 
     def callback_add(self, char *event, func, *args, **kargs):
-        """Add callback to given emotion event.
-
-        Signature: C{function(object, *args, **kargs)}
-
-        @parm: B{event} event to listen, like "frame_decode".
-        @parm: B{func} callable to use.
-        """
         e = intern(event)
         lst = self._emotion_callbacks.setdefault(e, [])
         if not lst:
@@ -504,11 +518,6 @@ cdef class Emotion(evasObject):
         lst.append((func, args, kargs))
 
     def callback_del(self, char *event, func):
-        """Remove previously connected callback.
-
-        @parm: B{event}
-        @parm: B{func}
-        """
         try:
             lst = self._emotion_callbacks[event]
         except KeyError, e:
@@ -602,5 +611,6 @@ cdef class Emotion(evasObject):
 
 
 _object_mapping_register("Emotion_Object", Emotion)
+
 
 init()

@@ -55,5 +55,5 @@
  You can run individual tests or use the 00_run_all_tests.py in each folder or
  even in the tests/ base dir to run all the tests at once.
 
- The tests in elementary are not unittest and are meant to be run by the user
- as they usually require some sort of interaction.
+ The tests in elementary and emotion are not unittest and are meant to be
+ run by the user as they usually require some sort of interaction.

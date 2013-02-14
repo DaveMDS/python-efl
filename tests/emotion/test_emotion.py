@@ -25,28 +25,28 @@ theme_file = data_dir + "/theme.edj"
 class MovieWindow(edje.Edje):
     def __init__(self, canvas, media_module, media_file):
         # emotion video
-        # self.vid = emotion.Emotion(canvas, module_filename=media_module)
-        # self.vid.file = media_file
-        # self.vid.smooth_scale = True
-        # self.vid.play = True
+        self.vid = emotion.Emotion(canvas, module_name=media_module)
+        self.vid.file = media_file
+        self.vid.smooth_scale = True
+        self.vid.play = True
 
         # edje scene object
         edje.Edje.__init__(self, canvas, size=(320, 240),
                            file=theme_file, group="video_controller")
         self.part_drag_value_set("video_speed", 0.0, 1.0)
         self.part_text_set("video_speed_txt", "1.0")
-        # self.part_swallow("video_swallow", self.vid)
+        self.part_swallow("video_swallow", self.vid)
         self.data["moving"] = False
         self.data["resizing"] = False
 
         # connect edje + emotion signals
-        # self._setup_signals_video()
-        # self._setup_signals_frame()
+        self._setup_signals_video()
+        self._setup_signals_frame()
 
     def _setup_signals_video(self):
         # connect emotion events
-        # self.vid.on_frame_decode_add(self.vid_frame_decode_cb)
-        # self.vid.on_length_change_add(self.vid_length_change_cb)
+        self.vid.on_frame_decode_add(self.vid_frame_decode_cb)
+        self.vid.on_length_change_add(self.vid_length_change_cb)
         self.vid.on_frame_resize_add(self.vid_frame_resize_cb)
         self.vid.on_decode_stop_add(self.vid_decode_stop_cb)
         self.vid.on_channels_change_add(self.vid_channels_change_cb)
@@ -194,7 +194,7 @@ class MovieWindow(edje.Edje):
     def vid_button_change_cb(self, vid):
         print "spu button:", vid.spu_button
 
-"""
+
 class AppKeyboardEvents(object):
     def broadcast_event(win, event):
         for mw in win.data["movie_windows"]:
@@ -237,11 +237,11 @@ class AppKeyboardEvents(object):
         # print "avoid_damage is now", win.avoid_damage
 
     def shaped_change(win):
-        win.shaped = not win.shaped
+        win.shaped = False if win.shaped else True
         print "shaped is now", win.shaped
 
     def bordless_change(win):
-        win.borderless = not win.borderless
+        win.borderless = False if win.borderless else True
         print "borderless is now", win.borderless
 
     def main_delete_request(win):
@@ -290,37 +290,7 @@ class AppKeyboardEvents(object):
             pass
         except Exception, e:
             print "%s ignored exception: %s" % (self.__class__.__name__, e)
-"""
 
-"""
-def create_scene(ee, canvas):
-    bg = edje.Edje(canvas, file=theme_file, group="background")
-    bg.size = canvas.size
-    bg.layer = -999
-    bg.focus = True
-    bg.show()
-    bg.on_key_down_add(AppKeyboardEvents(), ee)
-    ee.data["bg"] = bg
-
-
-
-
-
-def create_videos(ee, canvas, media_module, args):
-    objects = []
-    for fname in args:
-        mw = MovieWindow(canvas, media_module=media_module, media_file=fname)
-        mw.show()
-        mw.play = True
-        objects.append(mw)
-    ee.data["movie_windows"] = objects
-
-
-def destroy_videos(ee):
-    for obj in ee.data["movie_windows"]:
-        obj.delete()
-    del ee.data["movie_windows"]
-"""
 
 
 def parse_geometry(option, opt, value, parser):
@@ -341,9 +311,9 @@ def cmdline_parse():
                       default=(800, 600),
                       help="use given window geometry")
     parser.add_option("-e", "--engine", type="choice",
-                      choices=("xine", "gstreamer", "generic"), default="gstreamer",
-                      help=("which multimedia engine to use (xine, gst, generic), "
-                            "default=%default"))
+                      choices=("xine", "gstreamer", "vlc"), default="gstreamer",
+                      help=("multimedia engine to use (xine, gstreamer or vlc) "
+                            "default=%default") )
     options, args = parser.parse_args()
     if not args:
         parser.error("missing filename")
@@ -359,13 +329,12 @@ if __name__ == "__main__"or True:
     win = elementary.Window("test-emotion", elementary.ELM_WIN_BASIC)
     win.title_set("python-emotion test application")
     win.callback_delete_request_add(lambda o: elementary.exit())
-    # win.on_key_down_add(AppKeyboardEvents())
+    win.on_key_down_add(AppKeyboardEvents())
 
     
     # edje main scene object
     scene = edje.Edje(win.evas, file=theme_file, group="background")
     win.resize_object_add(scene)
-    # win.data["scene"] = scene
     scene.show()
 
     # one edje frame for each file passed
@@ -379,36 +348,22 @@ if __name__ == "__main__"or True:
         i += 40
     win.data["movie_windows"] = objects
 
-    r = evas.Rectangle(win.evas, size=(100,100))
-    r.show()
-
-    r.delete()
-    
-    # vid = emotion.Emotion(win.evas, module_filename=options.engine)
-    # vid.file = args[0]
-    # vid.size=(200,200)
-    # vid.smooth_scale = True
-    # vid.play = True
-    # vid.show()
-
     # show the win and enter elm main loop
     win.resize(*options.geometry)
     win.show()
     elementary.run()
 
     # Cleanup objects or you'll get "NAUGHTY PROGRAMMER!!!" on shutdown ;-)
-    
-    # vid.delete()
-    # r.delete()
-    # for obj in win.data["movie_windows"]:
-        # obj.delete()
+    for obj in win.data["movie_windows"]:
+        obj.delete()
 
-    # scene.delete()
-    # del win.data["movie_windows"]
-    # win.delete()
-    # del scene
+    scene.delete()
+    del win.data["movie_windows"]
+    win.delete()
+    del scene
     
 
     elementary.shutdown()
-    # emotion.shutdown()
-    # evas.shutdown()
+    emotion.shutdown()
+    edje.shutdown()
+    evas.shutdown()
