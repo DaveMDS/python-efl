@@ -305,18 +305,37 @@ cdef class Edje(Object):
         edje_object_part_unswallow(self.obj, obj.obj)
 
     def part_swallow_get(self, part):
-        return object_from_instance(edje_object_part_swallow_get(self.obj,
-                                                                 _cfruni(part)))
+        return object_from_instance(edje_object_part_swallow_get(
+                                    self.obj, _cfruni(part)))
 
     def part_external_object_get(self, part):
-        return object_from_instance(edje_object_part_external_object_get(self.obj,
-                                                                _cfruni(part)))
+        return object_from_instance(edje_object_part_external_object_get(
+                                    self.obj, _cfruni(part)))
 
-    def part_external_param_set(self, char *part, char *param, value):
+    def part_external_param_set(self, part, param, value):
         cdef Edje_External_Param p
-        cdef Edje_External_Param_Type t
+        cdef const_char_ptr c_part
+        cdef const_char_ptr c_param
 
-        p.name = param
+        if isinstance(part, unicode):
+            str1 = part.encode('UTF-8')
+            c_part = str1
+        elif isinstance(part, str):
+            c_part = part
+        else:
+            raise TypeError("part must be str or unicode, found %s" %
+                             type(part).__name__)
+
+        if isinstance(param, unicode):
+            str2 = param.encode('UTF-8')
+            c_param = str2
+        elif isinstance(param, str):
+            c_param = param
+        else:
+            raise TypeError("param must be str or unicode, found %s" %
+                             type(param).__name__)
+
+        p.name = c_param
         if isinstance(value, bool): # bool is int, so keep it before!
             p.type = EDJE_EXTERNAL_PARAM_TYPE_BOOL
             p.i = value
@@ -329,41 +348,54 @@ cdef class Edje(Object):
         elif isinstance(value, (str, unicode)):
             # may be STRING or CHOICE
             p.type = edje_object_part_external_param_type_get(
-                self.obj, part, param)
-
+                        self.obj, c_part, c_param)
             if isinstance(value, unicode):
-                value = value.encode("utf-8")
+                value = value.encode("UTF-8")
             p.s = value
         else:
             raise TypeError("unsupported type %s" % type(value).__name__)
-        return bool(edje_object_part_external_param_set(self.obj, part, &p))
 
-    def part_external_param_get(self, char *part, char *param):
+        return bool(edje_object_part_external_param_set(self.obj, c_part, &p))
+
+    def part_external_param_get(self, part, param):
         cdef Edje_External_Param p
-        cdef Edje_External_Param_Type t
+        cdef const_char_ptr c_part
+        cdef const_char_ptr c_param
 
-        t = edje_object_part_external_param_type_get(self.obj, part, param)
-        if t == EDJE_EXTERNAL_PARAM_TYPE_MAX:
+        if isinstance(part, unicode):
+            str1 = part.encode('UTF-8')
+            c_part = str1
+        elif isinstance(part, str):
+            c_part = part
+        else:
+            raise TypeError("part must be str or unicode, found %s" %
+                             type(part).__name__)
+
+        if isinstance(param, unicode):
+            str2 = param.encode('UTF-8')
+            c_param = str2
+        elif isinstance(param, str):
+            c_param = param
+        else:
+            raise TypeError("param must be str or unicode, found %s" %
+                             type(param).__name__)
+
+        p.name = c_param
+        p.type = edje_object_part_external_param_type_get(self.obj, c_part, c_param)
+        if p.type >= EDJE_EXTERNAL_PARAM_TYPE_MAX:
             return None
 
-        p.name = param
-        p.type = t
-        if not edje_object_part_external_param_get(self.obj, part, &p):
+        if not edje_object_part_external_param_get(self.obj, c_part, &p):
             return None
-        if t == EDJE_EXTERNAL_PARAM_TYPE_BOOL:
+        if p.type == EDJE_EXTERNAL_PARAM_TYPE_BOOL:
             return bool(p.i)
-        elif t == EDJE_EXTERNAL_PARAM_TYPE_INT:
+        elif p.type == EDJE_EXTERNAL_PARAM_TYPE_INT:
             return p.i
-        elif t == EDJE_EXTERNAL_PARAM_TYPE_DOUBLE:
+        elif p.type == EDJE_EXTERNAL_PARAM_TYPE_DOUBLE:
             return p.d
-        elif t == EDJE_EXTERNAL_PARAM_TYPE_STRING:
-            if p.s == NULL:
-                return ""
-            return p.s
-        elif t == EDJE_EXTERNAL_PARAM_TYPE_CHOICE:
-            if p.s == NULL:
-                return ""
-            return p.s
+        elif p.type == EDJE_EXTERNAL_PARAM_TYPE_STRING or \
+             p.type == EDJE_EXTERNAL_PARAM_TYPE_CHOICE:
+            return _ctouni(p.s)
 
     def part_box_append(self, part, Object obj):
         return bool(edje_object_part_box_append(self.obj, _cfruni(part), obj.obj))

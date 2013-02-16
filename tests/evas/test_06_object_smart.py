@@ -38,11 +38,11 @@ class SmartObjectTest(unittest.TestCase):
         self.assertEqual(self.obj.members, (self.obj.r1, self.obj.r2))
 
     def testResize(self):
-        print self.obj.geometry
-        print self.obj.r1.geometry
+        print(self.obj.geometry)
+        print(self.obj.r1.geometry)
         self.obj.resize(100, 100)
-        print self.obj.geometry
-        print self.obj.r1.geometry
+        print(self.obj.geometry)
+        print(self.obj.r1.geometry)
         self.assertEqual(self.obj.r1.geometry, (0, 0, 50, 50))
         self.assertEqual(self.obj.r2.geometry, (50, 50, 50, 50))
 

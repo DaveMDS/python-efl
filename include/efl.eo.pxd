@@ -36,7 +36,7 @@ cdef _object_mapping_register(char *name, klass)
 cdef _object_mapping_unregister(char*name)
 
 cdef inline unicode _touni(char* s)
-cdef inline char*   _fruni(s)
+cdef inline char* _fruni(s)
 cdef inline unicode _ctouni(const_char_ptr s)
 cdef inline const_char_ptr _cfruni(s)
 

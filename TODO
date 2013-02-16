@@ -32,7 +32,6 @@ TODO FOR PYTHON 3:
 
 * ecore.Exe (use new buffer interface)
 * ecore.FdHandler (use new buffer interface)
-* edje external
 
 
 STUFF LEAVED OUT:

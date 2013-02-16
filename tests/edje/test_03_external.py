@@ -26,9 +26,17 @@ class TestEdjeExternal(unittest.TestCase):
         elm_label = self.theme.part_external_object_get("ext_elm_label")
         self.assertIsInstance(elm_label, elementary.Label)
 
+        # check values setted in edc (from external)
+        self.assertEqual(self.theme.part_external_param_get("ext_elm_label", "label"), "This is an elm label")
 
+        # check values setted in edc (from object)
         self.assertEqual(elm_label.text, "This is an elm label")
+
+        # do params set
         self.theme.part_external_param_set("ext_elm_label", "label", "new text")
+
+        # recheck setted values
+        self.assertEqual(self.theme.part_external_param_get("ext_elm_label", "label"), "new text")
         self.assertEqual(elm_label.text, "new text")
 
 
@@ -36,10 +44,21 @@ class TestEdjeExternal(unittest.TestCase):
         elm_slider = self.theme.part_external_object_get("ext_elm_slider")
         self.assertIsInstance(elm_slider, elementary.Slider)
 
-        # check values setted in edc
+        # check values setted in edc (from external)
+        self.assertEqual(self.theme.part_external_param_get("ext_elm_slider", "label"), "external slider")
+        self.assertEqual(self.theme.part_external_param_get("ext_elm_slider", "min"), -2)
+        self.assertEqual(self.theme.part_external_param_get("ext_elm_slider", "max"), 999)
+        self.assertEqual(self.theme.part_external_param_get("ext_elm_slider", "value"), 0.6)
+        self.assertEqual(self.theme.part_external_param_get("ext_elm_slider", "inverted"), True)
+        self.assertEqual(self.theme.part_external_param_get("ext_elm_slider", "horizontal"), True)
+        self.assertEqual(self.theme.part_external_param_get("ext_elm_slider", "span"), 45)
+        self.assertEqual(self.theme.part_external_param_get("ext_elm_slider", "unit format"), "test %f")
+        self.assertEqual(self.theme.part_external_param_get("ext_elm_slider", "indicator format"), "%f ind")
+
+        # check values setted in edc (from object)
         self.assertEqual(elm_slider.text, "external slider")
         self.assertEqual(elm_slider.min_max, (-1, 999))
-        self.assertEqual(elm_slider.value_get(), 0.6)
+        self.assertEqual(elm_slider.value, 0.6)
         self.assertEqual(elm_slider.inverted, True)
         self.assertEqual(elm_slider.horizontal, True)
         self.assertEqual(elm_slider.span_size, 45)
