@@ -33,15 +33,15 @@ cdef int PY_REFCOUNT(object o):
     return obj.ob_refcnt
  
 
-cdef inline unicode _touni(char* s):
+cdef unicode _touni(char* s):
     return s.decode('UTF-8', 'strict') if s else None
 
 
-cdef inline unicode _ctouni(const_char_ptr s):
+cdef unicode _ctouni(const_char_ptr s):
     return s.decode('UTF-8', 'strict') if s else None
 
 
-cdef inline char *_fruni(s):
+cdef char *_fruni(s):
     cdef char *c_string
     if s is None:
         return NULL
@@ -55,7 +55,7 @@ cdef inline char *_fruni(s):
     return c_string
 
 
-cdef inline const_char_ptr _cfruni(s):
+cdef const_char_ptr _cfruni(s):
     cdef const_char_ptr c_string
     if s is None:
         return NULL
