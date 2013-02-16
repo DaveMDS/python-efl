@@ -46,7 +46,7 @@ class TestEdjeExternal(unittest.TestCase):
 
         # check values setted in edc (from external)
         self.assertEqual(self.theme.part_external_param_get("ext_elm_slider", "label"), "external slider")
-        self.assertEqual(self.theme.part_external_param_get("ext_elm_slider", "min"), -2)
+        self.assertEqual(self.theme.part_external_param_get("ext_elm_slider", "min"), -1)
         self.assertEqual(self.theme.part_external_param_get("ext_elm_slider", "max"), 999)
         self.assertEqual(self.theme.part_external_param_get("ext_elm_slider", "value"), 0.6)
         self.assertEqual(self.theme.part_external_param_get("ext_elm_slider", "inverted"), True)
