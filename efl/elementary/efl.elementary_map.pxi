@@ -237,7 +237,10 @@ cdef class MapOverlay(object):
         elm_map_overlay_content_set(self.overlay, content.obj)
 
     def content_get(self):
-        return object_from_instance(elm_map_overlay_content_get(self.overlay))
+        cdef Evas_Object *obj
+
+        obj = <Evas_Object *>elm_map_overlay_content_get(self.overlay)
+        return object_from_instance(obj)
 
     property content:
         def __get__(self):
@@ -249,7 +252,10 @@ cdef class MapOverlay(object):
         elm_map_overlay_icon_set(self.overlay, icon.obj)
 
     def icon_get(self):
-        return object_from_instance(elm_map_overlay_icon_get(self.overlay))
+        cdef Evas_Object *obj
+
+        obj = <Evas_Object *>elm_map_overlay_icon_get(self.overlay)
+        return object_from_instance(obj)
 
     property icon:
         def __get__(self):
@@ -295,7 +301,6 @@ cdef class MapOverlay(object):
         elm_map_overlay_get_cb_set(self.overlay, _map_overlay_get_callback,
                                                  <void *>cb_data)
         Py_INCREF(cb_data)
-        self.cb_get_data
 
     def callback_clicked_unset(self, func):
         elm_map_overlay_get_cb_set(self.overlay, NULL, NULL)

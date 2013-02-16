@@ -53,6 +53,7 @@ cdef class MultiButtonEntryItem(ObjectItem):
 
         self.params = (callback, args, kargs)
 
+        
         if kind == ELM_MULTIBUTTONENTRY_INSERT_PREPEND:
             item = elm_multibuttonentry_item_prepend(mbe.obj,
                                                     _cfruni(label), cb, <void*>self)
@@ -65,6 +66,8 @@ cdef class MultiButtonEntryItem(ObjectItem):
         elif kind == ELM_MULTIBUTTONENTRY_INSERT_AFTER:
             item = elm_multibuttonentry_item_insert_after(mbe.obj,
                                  before_after.item, _cfruni(label), cb, <void*>self)
+        else:
+            item = NULL
 
         if item != NULL:
             self._set_obj(item)

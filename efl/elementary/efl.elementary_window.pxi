@@ -67,13 +67,16 @@ cdef class Window(Object):
         elm_win_icon_object_set(self.obj, icon.obj)
 
     def icon_object_get(self):
-        return object_from_instance(elm_win_icon_object_get(self.obj))
+        cdef Evas_Object *obj
+
+        obj = <Evas_Object *>elm_win_icon_object_get(self.obj)
+        return object_from_instance(obj)
 
     property icon_object:
         def __get__(self):
-            return object_from_instance(elm_win_icon_object_get(self.obj))
+            return self.icon_object_get()
         def __set__(self, evasObject icon):
-            elm_win_icon_object_set(self.obj, icon.obj)
+            self.icon_object_set(icon)
 
     def autodel_set(self, autodel):
         elm_win_autodel_set(self.obj, autodel)

@@ -19,8 +19,8 @@
 def need_efreet():
     return bool(elm_need_efreet())
 
-def need_e_dbus():
-    return bool(elm_need_e_dbus())
+def need_edbus():
+    return bool(elm_need_edbus())
 
 def need_ethumb():
     return bool(elm_need_ethumb())

@@ -15,18 +15,19 @@
 # You should have received a copy of the GNU Lesser General Public License
 # along with this Python-EFL.  If not, see <http://www.gnu.org/licenses/>.
 
-from efl cimport evas
+from efl.evas import EVAS_EVENT_FLAG_NONE
 
 cdef Evas_Event_Flags _gesture_layer_event_cb(void *data, void *event_info) with gil:
-    (callback, args, kwargs) = <object>data
     try:
+        (callback, args, kwargs) = <object>data
         ret = callback(args, kwargs)
         if ret is not None:
             return <Evas_Event_Flags>ret
         else:
-            return evas.EVAS_EVENT_FLAG_NONE
+            return EVAS_EVENT_FLAG_NONE
     except Exception as e:
         traceback.print_exc()
+        return EVAS_EVENT_FLAG_NONE
 
 
 cdef class GestureLayer(Object):
@@ -43,12 +44,7 @@ cdef class GestureLayer(Object):
             cb = _gesture_layer_event_cb
 
         data = (callback, args, kwargs)
-
-        elm_gesture_layer_cb_set(   self.obj,
-                                    idx,
-                                    cb_type,
-                                    cb,
-                                    <void *>data)
+        elm_gesture_layer_cb_set(self.obj, idx, cb_type, cb, <void *>data)
 
     property hold_events:
         def __get__(self):

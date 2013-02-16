@@ -21,9 +21,6 @@ cdef class Scroller(Object):
     def __init__(self, evasObject parent):
         self._set_obj(elm_scroller_add(parent.obj))
 
-    def custom_widget_base_theme_set(self, widget, base):
-        elm_scroller_custom_widget_base_theme_set(self.obj, _cfruni(widget), _cfruni(base))
-
     def content_min_limit(self, w, h):
         elm_scroller_content_min_limit(self.obj, w, h)
 

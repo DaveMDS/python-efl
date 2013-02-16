@@ -57,18 +57,6 @@ cdef class Label(LayoutClass):
         def __set__(self, ellipsis):
             elm_label_ellipsis_set(self.obj, ellipsis)
 
-    def slide_set(self, bool slide):
-        elm_label_slide_set(self.obj, slide)
-
-    def slide_get(self):
-        return elm_label_slide_get(self.obj)
-
-    property slide:
-        def __get__(self):
-            return elm_label_slide_get(self.obj)
-        def __set__(self, slide):
-            elm_label_slide_set(self.obj, slide)
-
     def slide_duration_set(self, duration):
         elm_label_slide_duration_set(self.obj, duration)
 

@@ -18,21 +18,18 @@
 
 from efl.evas cimport Object as evasObject
 from efl.evas cimport EventKeyDown, EventKeyUp
-# from efl.evas cimport evas_object_data_get
 from efl.evas cimport evas_object_smart_callback_add
 from efl.evas cimport evas_object_smart_callback_del
 from efl.evas import EVAS_CALLBACK_KEY_DOWN
 from efl.evas import EVAS_CALLBACK_KEY_UP
-# from evas cimport eina_list_append
 
-# from evas.c_evas import _extended_object_mapping_register
 
 #API XXX: Callbacks!
 cdef void _object_callback(void *data,
                            Evas_Object *o, void *event_info) with gil:
     cdef Object obj
     cdef object event, ei
-#     obj = <Object>evas_object_data_get(o, "python-evas")
+
     obj = object_from_instance(o)
     event = <object>data
     lst = tuple(obj._elmcallbacks[event])
@@ -49,8 +46,6 @@ cdef void _object_callback(void *data,
 cdef Evas_Object *_tooltip_content_create(void *data, Evas_Object *o, Evas_Object *t) with gil:
     cdef Object ret, obj, tooltip
 
-#     obj = <Object>evas_object_data_get(o, "python-evas")
-#     tooltip = Object_from_instance(t)
     obj = object_from_instance(o)
     tooltip = object_from_instance(t)
     (func, args, kargs) = <object>data
@@ -94,26 +89,6 @@ cdef Eina_Bool _event_callback(void *data, Evas_Object *o, Evas_Object *src, Eva
         up_event._unset_obj()
 
 
-cdef void _event_data_del_cb(void *data, Evas_Object *o, void *event_info) with gil:
-    pass
-#     Py_DECREF(<object>data)
-
-# MOVED TO efl.eo.pyx
-# cdef _strings_to_python(const_Eina_List *lst):
-#     cdef const_char_ptr s
-#     ret = []
-#     while lst:
-#         s = <const_char_ptr>lst.data
-#         if s != NULL:
-#             ret.append(_ctouni(s))
-#         lst = lst.next
-#     return ret
-# 
-# cdef Eina_List * _strings_from_python(strings):
-#     cdef Eina_List *lst = NULL
-#     for s in strings:
-#         lst = eina_list_append(lst, _cfruni(s))
-#     return lst
 
 def _cb_string_conv(long addr):
     cdef const_char_ptr s = <const_char_ptr>addr
@@ -122,20 +97,6 @@ def _cb_string_conv(long addr):
     else:
         return s
 
-# MOVED TO efl.eo.pyx
-# cdef _object_list_to_python(const_Eina_List *lst):
-#     cdef Evas_Object *o
-#     ret = []
-#     while lst:
-#         o = <Evas_Object *>lst.data
-#         obj = Object_from_instance(o)
-#         ret.append(obj)
-#         lst = lst.next
-#     return ret
-
-# cdef class Canvas(evas.c_evas.Canvas):
-#     def __init__(self):
-#         pass
 
 cdef class Object(evasObject):
 
@@ -530,9 +491,9 @@ cdef class Object(evasObject):
             self.tooltip_window_mode_set(value)
 
     #Translatable text
-    def domain_translatable_text_part_set(self, part, domain, text):
-        elm_object_domain_translatable_text_part_set(self.obj, _cfruni(part), _cfruni(domain), _cfruni(text))
-
+    def domain_translatable_part_text_set(self, part, domain, text):
+        elm_object_domain_translatable_part_text_set(self.obj, _cfruni(part), _cfruni(domain), _cfruni(text))
+        
     def domain_translatable_text_set(self, domain, text):
         elm_object_domain_translatable_text_set(self.obj, _cfruni(domain), _cfruni(text))
 

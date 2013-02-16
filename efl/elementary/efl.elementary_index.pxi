@@ -69,12 +69,6 @@ cdef class IndexItem(ObjectItem):
         def __get__(self):
             return _ctouni(elm_index_item_letter_get(self.item))
 
-cdef Elm_Object_Item *_elm_index_item_from_python(IndexItem item):
-    if item is None:
-        return NULL
-    else:
-        return item.item
-
 
 cdef class Index(LayoutClass):
 

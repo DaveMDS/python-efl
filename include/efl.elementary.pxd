@@ -535,7 +535,7 @@ cdef extern from "Elementary.h":
 
     # Need
     Eina_Bool                elm_need_efreet()
-    Eina_Bool                elm_need_e_dbus()
+    Eina_Bool                elm_need_edbus()
     Eina_Bool                elm_need_ethumb()
     Eina_Bool                elm_need_web()
 
@@ -650,7 +650,7 @@ cdef extern from "Elementary.h":
     Eina_Bool                elm_object_tooltip_window_mode_get(Evas_Object *obj)
 
     # Object - Translatable text (elm_general.h) (py3: DONE)
-    void                     elm_object_domain_translatable_text_part_set(Evas_Object *obj, const_char_ptr part, const_char_ptr domain, const_char_ptr text)
+    void                     elm_object_domain_translatable_part_text_set(Evas_Object *obj, const_char_ptr part, const_char_ptr domain, const_char_ptr text)
     void                     elm_object_domain_translatable_text_set(Evas_Object *obj, const_char_ptr domain, const_char_ptr text)
     void                     elm_object_translatable_text_set(Evas_Object *obj, const_char_ptr text)
     const_char_ptr           elm_object_translatable_text_part_get(Evas_Object *obj, const_char_ptr part)
@@ -1344,8 +1344,6 @@ cdef extern from "Elementary.h":
     Evas_Coord               elm_label_wrap_width_get(Evas_Object *obj)
     void                     elm_label_ellipsis_set(Evas_Object *obj, Eina_Bool ellipsis)
     Eina_Bool                elm_label_ellipsis_get(Evas_Object *obj)
-    void                     elm_label_slide_set(Evas_Object *obj, Eina_Bool slide)
-    Eina_Bool                elm_label_slide_get(Evas_Object *obj)
     void                     elm_label_slide_duration_set(Evas_Object *obj, double duration)
     double                   elm_label_slide_duration_get(Evas_Object *obj)
 
@@ -1591,8 +1589,6 @@ cdef extern from "Elementary.h":
     Evas_Object             *elm_notify_add(Evas_Object *parent)
     void                     elm_notify_parent_set(Evas_Object *obj, Evas_Object *parent)
     Evas_Object             *elm_notify_parent_get(Evas_Object *obj)
-    void                     elm_notify_orient_set(Evas_Object *obj, int orient)
-    int                      elm_notify_orient_get(Evas_Object *obj)
     void                     elm_notify_timeout_set(Evas_Object *obj, double timeout)
     double                   elm_notify_timeout_get(Evas_Object *obj)
     void                     elm_notify_allow_events_set(Evas_Object *obj, Eina_Bool repeat)
@@ -1693,7 +1689,6 @@ cdef extern from "Elementary.h":
 
     # Scroller              (api:DONE  cb:DONE  test:DONE  doc:DONE  py3:DONE)
     Evas_Object             *elm_scroller_add(Evas_Object *parent)
-    void                     elm_scroller_custom_widget_base_theme_set(Evas_Object *obj, const_char_ptr widget, const_char_ptr base)
     void                     elm_scroller_content_min_limit(Evas_Object *obj, Eina_Bool w, Eina_Bool h)
     void                     elm_scroller_region_show(Evas_Object *obj, Evas_Coord x, Evas_Coord y, Evas_Coord w, Evas_Coord h)
     void                     elm_scroller_policy_set(Evas_Object *obj, Elm_Scroller_Policy policy_h, Elm_Scroller_Policy policy_v)

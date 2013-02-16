@@ -43,18 +43,6 @@ cdef class Notify(Object):
                 o = NULL
             elm_notify_parent_set(self.obj, o)
 
-    def orient_set(self, int orient):
-        elm_notify_orient_set(self.obj, orient)
-
-    def orient_get(self):
-        return elm_notify_orient_get(self.obj)
-
-    property orient:
-        def __get__(self):
-            return elm_notify_orient_get(self.obj)
-        def __set__(self, orient):
-            elm_notify_orient_set(self.obj, orient)
-
     def timeout_set(self, double timeout):
         elm_notify_timeout_set(self.obj, timeout)
 
