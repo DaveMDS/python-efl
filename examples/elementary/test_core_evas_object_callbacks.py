@@ -5,6 +5,7 @@ from efl import elementary
 from efl import evas
 
 
+
 def btn_del_cbs_cb(button, rect):
     rect.event_callback_del(evas.EVAS_CALLBACK_MOUSE_IN, events_cb2)
     rect.event_callback_del(evas.EVAS_CALLBACK_MOUSE_OUT, events_cb2)
@@ -56,7 +57,7 @@ def core_evas_object_callbacks_clicked(obj, item=None):
     text.font_set("Sans", 12)
     text.pos = (10, 10)
     text.show()
-    
+
     r = evas.Rectangle(win.evas, size=(100,100), color=(100,0,0,200), pos=(50,50))
     r.event_callback_add(evas.EVAS_CALLBACK_MOUSE_IN, events_cb2, "EVAS_CALLBACK_MOUSE_IN")
     r.event_callback_add(evas.EVAS_CALLBACK_MOUSE_OUT, events_cb2, "EVAS_CALLBACK_MOUSE_OUT")
@@ -165,4 +166,4 @@ if __name__ == "__main__":
 
     elementary.run()
     elementary.shutdown()
-
+    evas.shutdown()

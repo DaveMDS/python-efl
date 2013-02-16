@@ -15,14 +15,14 @@
 # You should have received a copy of the GNU Lesser General Public License
 # along with this Python-EFL.  If not, see <http://www.gnu.org/licenses/>.
 
+from cpython cimport Py_INCREF, Py_DECREF
 
 
-# cdef int _object_free_wrapper_resources(Object obj) except 0:
-#     cdef int i
-#     for i from 0 <= i < evas_object_event_callbacks_len:
-#         obj._callbacks[i] = None
-#     obj.data.clear()
-#     return 1
+cdef int _object_free_wrapper_resources(Object obj) except 0:
+    cdef int i
+    for i from 0 <= i < evas_object_event_callbacks_len:
+        obj._callbacks[i] = None
+    return 1
 
 
 cdef int _object_unregister_callbacks(Object obj) except 0:
@@ -35,28 +35,25 @@ cdef int _object_unregister_callbacks(Object obj) except 0:
                 cb = evas_object_event_callbacks[i]
                 evas_object_event_callback_del(o, i, cb)
 
-#     evas_object_event_callback_del(o, EVAS_CALLBACK_FREE, obj_free_cb)
+    evas_object_event_callback_del(o, EVAS_CALLBACK_FREE, obj_free_cb)
     return 1
 
 
-# cdef void obj_free_cb(void *data, Evas *e,
-#                       Evas_Object *obj, void *event_info) with gil:
-#     cdef Object self
-#     self = <Object>data
-# 
-#     self.obj = NULL
-#     self.evas = <Canvas>None
-# 
-#     lst = self._callbacks[EVAS_CALLBACK_FREE]
-#     if lst is not None:
-#         for func, args, kargs in lst:
-#             try:
-#                 func(self, *args, **kargs)
-#             except:
-#                 traceback.print_exc()
-# 
-#     _object_free_wrapper_resources(self)
-#     Py_DECREF(self)
+cdef void obj_free_cb(void *data, Evas *e,
+                      Evas_Object *obj, void *event_info) with gil:
+    cdef Object self = <Object>data
+
+    lst = self._callbacks[EVAS_CALLBACK_FREE]
+    if lst is not None:
+        for func, args, kargs in lst:
+            try:
+                func(self, *args, **kargs)
+            except:
+                traceback.print_exc()
+
+    _object_unregister_callbacks(self)
+    _object_free_wrapper_resources(self)
+    Py_DECREF(self)
 
 
 # cdef _object_register_decorated_callbacks(obj):
@@ -141,49 +138,11 @@ cdef class Object(Eo):
                  self.__class__.__name__, name_str, x, y, w, h,
                  r, g, b, a, self.layer_get(), clip, self.visible_get())
 
-#     cdef int _unset_obj(self) except 0:
-#         assert self.obj != NULL, "Object must wrap something"
-#         _object_unregister_callbacks(self)
-#         _object_free_wrapper_resources(self)
-#         assert evas_object_data_del(self.obj, _cfruni("python-evas")) == <void*>self, \
-#                "Evas_Object has incorrect python-evas data"
-#         self.obj = NULL
-#         self.evas = <Canvas>None
-#         Py_DECREF(self)
-#         return 1
-# 
-#     cdef int _set_obj(self, Evas_Object *obj) except 0:
-#         assert self.obj == NULL, "Object must be clean"
-#         assert evas_object_data_get(obj, _cfruni("python-evas")) == NULL, \
-#                "Evas_Object must not wrapped by something else!"
-#         self.obj = obj
-#         Py_INCREF(self)
-#         evas_object_data_set(obj, _cfruni("python-evas"), <void *>self)
-#         evas_object_event_callback_add(obj, EVAS_CALLBACK_FREE, obj_free_cb,
-#                                        <void *>self)
-#         _object_register_decorated_callbacks(self)
-#         self.name_set(self.__class__.__name__)
-#         return 1
-
-
-#     def __dealloc__(self):
-#         cdef void *data
-#         cdef Evas_Object *obj
-#
-#         if self.obj != NULL:
-#             _object_unregister_callbacks(self)
-#         self.data = None
-#         self._callbacks = None
-#         obj = self.obj
-#         if obj == NULL:
-#             return
-#         self.obj = NULL
-#         self.evas = <Canvas>None
-# 
-#         data = evas_object_data_get(obj, _cfruni("python-evas"))
-#         assert data == NULL, "Object must not be wrapped!"
-#         evas_object_del(obj)
-
+    cdef _set_obj(self, Evas_Object *obj):
+        Eo._set_obj(self, obj)
+        evas_object_event_callback_add(obj, EVAS_CALLBACK_FREE,
+                                       obj_free_cb, <void *>self)
+        Py_INCREF(self)
 
     def _set_common_params(self, size=None, pos=None, geometry=None,
                            color=None, name=None):
