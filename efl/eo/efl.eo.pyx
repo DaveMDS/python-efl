@@ -88,7 +88,7 @@ cdef Eina_List * _strings_from_python(strings):
     return lst
 
 
-cdef inline _object_list_to_python(const_Eina_List *lst):
+cdef _object_list_to_python(const_Eina_List *lst):
     ret = []
     while lst:
         ret.append(object_from_instance(<cEo *>lst.data))

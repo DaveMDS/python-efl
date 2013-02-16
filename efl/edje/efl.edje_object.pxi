@@ -242,8 +242,9 @@ cdef class Edje(Object):
         return bool(edje_object_part_exists(self.obj, _cfruni(part)))
 
     def part_object_get(self, part):
-        return object_from_instance(edje_object_part_object_get(self.obj,
-                                                                _cfruni(part)))
+        cdef Evas_Object *obj
+        obj = <Evas_Object*>edje_object_part_object_get(self.obj, _cfruni(part))
+        return object_from_instance(obj)
 
     def part_geometry_get(self, part):
         cdef int x, y, w, h
