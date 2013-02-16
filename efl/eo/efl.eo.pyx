@@ -16,12 +16,13 @@
 # along with this Python-EFL.  If not, see <http://www.gnu.org/licenses/>.
 
 from cpython cimport PyObject, Py_INCREF, Py_DECREF
-from efl cimport Eina_Bool, const_Eina_List, eina_list_append
+from efl cimport Eina_Bool, const_Eina_List, eina_list_append, const_void
 from efl.c_eo cimport Eo as cEo
 from efl.c_eo cimport eo_init, eo_shutdown, eo_del, eo_unref, eo_wref_add, eo_add, Eo_Class
 from efl.c_eo cimport eo_do, eo_class_name_get, eo_class_get
 from efl.c_eo cimport eo_base_data_set, eo_base_data_get, eo_base_data_del
-from efl.c_eo cimport eo_event_callback_add, eo_event_callback_del, Eo_Event_Description
+from efl.c_eo cimport eo_event_callback_add, eo_event_callback_del
+from efl.c_eo cimport Eo_Event_Description, const_Eo_Event_Description
 from efl.c_eo cimport eo_parent_get
 from efl.c_eo cimport EO_EV_DEL
 
@@ -177,12 +178,12 @@ EO_CALLBACK_CONTINUE = 1
 ######################################################################
 
 
-cdef Eina_Bool _eo_event_del_cb(void *data, cEo *obj, Eo_Event_Description *desc, void *event_info) with gil:
+cdef Eina_Bool _eo_event_del_cb(void *data, cEo *obj, const_Eo_Event_Description *desc, void *event_info) with gil:
     cdef Eo self = <Eo>data
 
 #     print("DEL CB: %s" % Eo.__repr__(self))
 
-    eo_do(self.obj, eo_event_callback_del(EO_EV_DEL, _eo_event_del_cb, <void *>self))
+    eo_do(self.obj, eo_event_callback_del(EO_EV_DEL, _eo_event_del_cb, <const_void *>self))
     eo_do(self.obj, eo_base_data_del("python-eo"))
     self.obj = NULL
     Py_DECREF(self)
@@ -237,7 +238,7 @@ cdef class Eo(object):
 
         self.obj = obj
         eo_do(self.obj, eo_base_data_set("python-eo", <void *>self, NULL))
-        eo_do(self.obj, eo_event_callback_add(EO_EV_DEL, _eo_event_del_cb, <void *>self))
+        eo_do(self.obj, eo_event_callback_add(EO_EV_DEL, _eo_event_del_cb, <const_void *>self))
         Py_INCREF(self)
 
 #     cdef _unset_obj(self): # __UNUSED__
