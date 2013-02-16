@@ -2,7 +2,6 @@
 BUGS:
 
 * Evas: smart object doesn't work
-* test_core_evas_canvas_callbacks.py have 2 lines commented out
 
 * edje.color_class_list() is broken in C (disabled in edje/test_01_basics.py)
 * edje.text_class_list() is broken in C (disabled out in edje/test_01_basics.py)
