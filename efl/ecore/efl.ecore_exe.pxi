@@ -247,23 +247,6 @@ cdef class Exe(object):
     def free(self):
         self.delete()
 
-    """
-    def send(self, buffer, long size=0):
-        cdef const_void *b_data
-        cdef Py_ssize_t b_size
-
-        # TODO: update to new buffer api
-        PyObject_AsReadBuffer(buffer, &b_data, &b_size)
-        if size <= 0:
-            size = b_size
-        elif size > b_size:
-            raise ValueError(
-                "given size (%d) is larger than buffer size (%d)." %
-                (size, b_size))
-
-        return bool(ecore_exe_send(self.exe, b_data, size))
-    
-    """
     def send(self, buf, long size=0):
         cdef Py_buffer buf_view
 
