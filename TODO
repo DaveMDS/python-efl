@@ -12,7 +12,6 @@ TODO:
 * ecore.Poller
 * ecore.FileMonitor
 * alert on signal and subprocess module usage (was in python-ecore/ecore/__init__.py)
-* Ecore test_08_exe.py :  Use unittests
 * evas.SmartObject
 * edje.Edit
 * edje: complete the unit tests
@@ -27,11 +26,6 @@ TODO:
 * elm.Label Slide Mode
 * elm.Notify align_set/get/prop
 * cleanup elementary_object
-
-TODO FOR PYTHON 3:
-
-* ecore.Exe (use new buffer interface)
-* ecore.FdHandler (use new buffer interface)
 
 
 STUFF LEAVED OUT:

@@ -16,10 +16,10 @@
 # along with this Python-EFL.  If not, see <http://www.gnu.org/licenses/>.
 
 
-# TODO: remove me after usage is update to new buffer api
 cdef extern from "Python.h":
-    int PyObject_AsReadBuffer(obj, void **buffer, Py_ssize_t *buffer_len) except -1
     object PyUnicode_FromStringAndSize(char *s, Py_ssize_t len)
+    int PyObject_GetBuffer(obj, Py_buffer *view, int flags)
+    void PyBuffer_Release(Py_buffer *view)
 
 
 cdef exe_flags2str(int value):
@@ -247,6 +247,7 @@ cdef class Exe(object):
     def free(self):
         self.delete()
 
+    """
     def send(self, buffer, long size=0):
         cdef const_void *b_data
         cdef Py_ssize_t b_size
@@ -261,7 +262,27 @@ cdef class Exe(object):
                 (size, b_size))
 
         return bool(ecore_exe_send(self.exe, b_data, size))
+    
+    """
+    def send(self, buf, long size=0):
+        cdef Py_buffer buf_view
 
+        if isinstance(buf, (str, unicode)):
+            buf = buf.encode("UTF-8")
+
+        PyObject_GetBuffer(buf, &buf_view, 0)
+
+        if size <= 0:
+            size = buf_view.len
+        elif size > buf_view.len:
+            raise ValueError(
+                "given size (%d) is larger than buffer size (%d)." %
+                (size, buf_view.len))
+
+        ret = bool(ecore_exe_send(self.exe, <const_void *>buf_view.buf, buf_view.len))
+        PyBuffer_Release(&buf_view)
+        return ret
+    
     def close_stdin(self):
         ecore_exe_close_stdin(self.exe)
 
@@ -417,11 +438,11 @@ cdef class Exe(object):
         filter.callback_del(func, args, kargs)
 
 
-def exe_run(char *exe_cmd, data=None):
+def exe_run(exe_cmd, data=None):
     return Exe(exe_cmd, data=data)
 
 
-def exe_pipe_run(char *exe_cmd, int flags=0, data=None):
+def exe_pipe_run(exe_cmd, int flags=0, data=None):
     return Exe(exe_cmd, flags, data)
 
 

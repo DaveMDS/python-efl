@@ -12,7 +12,7 @@ def cb_read(fd_handler, a, b):
 
 def timer_write(wfd):
     print("write to fd: %s" % wfd)
-    os.write(wfd, "[some data]")
+    os.write(wfd, b"[some data]")
     return True
 
 
