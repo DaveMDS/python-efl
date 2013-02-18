@@ -38,7 +38,6 @@ class TestBasics(unittest.TestCase):
         edje.collection_cache_set(32)
         self.assertEqual(edje.collection_cache_get(), 32)
 
-    @unittest.skip("BROKEN ALSO IN C")
     def testColorClasses(self):
         edje.color_class_set("MyColorClass",
                              100, 150, 200, 255,
@@ -49,22 +48,21 @@ class TestBasics(unittest.TestCase):
                           101, 151, 201, 255,
                           102, 152, 202, 255))
 
-        # THIS IS BROKEN ALSO IN C
-        # self.assertEqual(edje.color_class_list(), ["MyColorClass"])
+        self.assertEqual(edje.color_class_list(), ["MyColorClass"])
 
         edje.color_class_del("MyColorClass")
         self.assertEqual(edje.color_class_get("MyColorClass"),
                          (0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0))
         self.assertEqual(edje.color_class_list(), [])
 
-    @unittest.skip("BROKEN ALSO IN C")
     def testTextClasses(self):
         edje.text_class_set("MyTextClass", "Sans", 12)
+        edje.text_class_set("MySecondTextClass", "Sans", 6)
 
-        # THIS IS BROKEN ALSO IN C
-        # self.assertEqual(edje.text_class_list(), ["MyTextClass"])
+        self.assertEqual(edje.text_class_list(), ["MyTextClass", "MySecondTextClass"])
 
         edje.text_class_del("MyTextClass")
+        edje.text_class_del("MySecondTextClass")
         self.assertEqual(edje.text_class_list(), [])
 
     def testAvailableModules(self):

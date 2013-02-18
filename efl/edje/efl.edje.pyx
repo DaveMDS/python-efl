@@ -231,7 +231,7 @@ def color_class_list():
     lst = edje_color_class_list()
     itr = lst
     while itr:
-        ret.append(<char*>itr.data)
+        ret.append(_touni(<char*>itr.data))
         libc.stdlib.free(itr.data)
         itr = itr.next
     eina_list_free(lst)
@@ -252,8 +252,8 @@ def text_class_list():
     lst = edje_text_class_list()
     itr = lst
     while itr:
-        ret.append(<char*>itr.data)
-        libc.stdlib.free(itr.data)
+        ret.append(_touni(<char*>itr.data))
+        eina_stringshare_del(<Eina_Stringshare*>itr.data)
         itr = itr.next
     eina_list_free(lst)
     return ret

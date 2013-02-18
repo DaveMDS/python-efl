@@ -18,6 +18,7 @@
 
 cdef extern from *:
     ctypedef char* const_char_ptr "const char *"
+    ctypedef char const_char "const char"
     ctypedef void const_void "const void"
 
 cdef extern from "stdlib.h":
@@ -57,6 +58,7 @@ cdef extern from "Eina.h":
     #
     ctypedef unsigned char Eina_Bool
     ctypedef int Eina_Error
+    ctypedef const_char Eina_Stringshare
 
     ####################################################################
     # Structures
@@ -99,6 +101,12 @@ cdef extern from "Eina.h":
 
     Eina_Bool eina_iterator_next(Eina_Iterator *iterator, void **data)
     void eina_iterator_free(Eina_Iterator *iterator)
+
+    Eina_Stringshare *eina_stringshare_add_length(const_char_ptr str, unsigned int slen)
+    Eina_Stringshare *eina_stringshare_add(const_char_ptr str)
+    void              eina_stringshare_del(Eina_Stringshare *str)
+    Eina_Stringshare *eina_stringshare_ref(Eina_Stringshare *str)
+    int               eina_stringshare_strlen(Eina_Stringshare *str)
     
     Eina_List *eina_list_free(Eina_List *list)
     Eina_List *eina_list_append(Eina_List *list, void *data)
