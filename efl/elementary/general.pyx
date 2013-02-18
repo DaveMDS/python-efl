@@ -67,26 +67,6 @@ logging.basicConfig(level=logging.DEBUG)
 log = logging.getLogger("elementary")
 
 
-cdef _METHOD_DEPRECATED(self, replacement=None, message=None):
-    stack = traceback.extract_stack()
-    caller = stack[-1]
-    caller_module, caller_line, caller_name, caller_code = caller
-    if caller_code:
-        msg = "%s:%s %s (class %s) is deprecated." % \
-            (caller_module, caller_line, caller_code,
-            self.__class__.__name__ if self else 'None')
-    else:
-        msg = "%s:%s %s.%s() is deprecated." % \
-            (caller_module, caller_line,
-            self.__class__.__name__ if self else 'None', caller_name)
-    if replacement:
-        msg += " Use %s() instead." % (replacement,)
-    if message:
-        msg += " " + message
-    log.warn(msg)
-
-
-
 ELM_ACTIONSLIDER_NONE = 0
 ELM_ACTIONSLIDER_LEFT = 1 << 0
 ELM_ACTIONSLIDER_CENTER = 1 << 1

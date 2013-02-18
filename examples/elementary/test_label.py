@@ -115,7 +115,7 @@ def label_clicked(obj):
               "will slide/scroll through the length of label." \
               "This only works with the themes \"slide_short\", " \
               "\"slide_long\" and \"slide_bounce\"."
-    lb.slide = True
+    lb.slide_mode = elementary.ELM_LABEL_SLIDE_MODE_AUTO
     lb.style = ("slide_short")
     lb.size_hint_align = (0.0, 0.5)
     gd.pack(lb, 5, 50, 90, 15)

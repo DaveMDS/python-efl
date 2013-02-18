@@ -36,11 +36,27 @@
 
     Word wrap, and if that fails, char wrap.
 
+
+.. rubric:: Slide modes
+
+.. data:: ELM_LABEL_SLIDE_MODE_NONE
+
+    The label will never slide.
+
+.. data:: ELM_LABEL_SLIDE_MODE_AUTO
+
+    The label slide if the content is bigger than it's container.
+
+.. data:: ELM_LABEL_SLIDE_MODE_ALWAYS
+
+    The label will always slide.
+
 """
 
 include "widget_header.pxi"
 
 from layout_class cimport LayoutClass
+from efl.eo import _METHOD_DEPRECATED
 
 cimport enums
 
@@ -48,6 +64,11 @@ ELM_WRAP_NONE = enums.ELM_WRAP_NONE
 ELM_WRAP_CHAR = enums.ELM_WRAP_CHAR
 ELM_WRAP_WORD = enums.ELM_WRAP_WORD
 ELM_WRAP_MIXED = enums.ELM_WRAP_MIXED
+
+ELM_LABEL_SLIDE_MODE_NONE = enums.ELM_LABEL_SLIDE_MODE_NONE
+ELM_LABEL_SLIDE_MODE_AUTO = enums.ELM_LABEL_SLIDE_MODE_AUTO
+ELM_LABEL_SLIDE_MODE_ALWAYS = enums.ELM_LABEL_SLIDE_MODE_ALWAYS
+
 
 cdef class Label(LayoutClass):
 
@@ -161,18 +182,24 @@ cdef class Label(LayoutClass):
         .. warning:: This only works with the themes "slide_short",
             "slide_long" and "slide_bounce".
 
+        .. warning:: Deprecated. use slide_mode instead
+
         :type: bool
 
         """
         def __get__(self):
+            _METHOD_DEPRECATED(self, replacement="slide_mode")
             return elm_label_slide_get(self.obj)
 
         def __set__(self, slide):
+            _METHOD_DEPRECATED(self, replacement="slide_mode")
             elm_label_slide_set(self.obj, slide)
 
     def slide_set(self, bint slide):
+        _METHOD_DEPRECATED(self, replacement="slide_mode")
         elm_label_slide_set(self.obj, slide)
     def slide_get(self):
+        _METHOD_DEPRECATED(self, replacement="slide_mode")
         return elm_label_slide_get(self.obj)
 
     property slide_duration:
@@ -192,6 +219,34 @@ cdef class Label(LayoutClass):
         elm_label_slide_duration_set(self.obj, duration)
     def slide_duration_get(self):
         return elm_label_slide_duration_get(self.obj)
+
+    property slide_mode:
+        """Change the slide mode of the label widget.
+
+        By default, slide mode is none. Possible values for ``mode`` are:
+
+        - ELM_LABEL_SLIDE_MODE_NONE - no slide effect
+        - ELM_LABEL_SLIDE_MODE_AUTO - slide only if the label area is bigger than
+            the text width length
+        - ELM_LABEL_SLIDE_MODE_ALWAYS - slide always
+
+        :type: Elm_Label_Slide_Mode
+
+        """
+        def __get__(self):
+            return elm_label_slide_mode_get(self.obj)
+
+        def __set__(self, mode):
+            elm_label_slide_mode_set(self.obj, mode)
+
+    def slide_mode_set(self, mode):
+        elm_label_slide_mode_set(self.obj, mode)
+    def slide_mode_get(self):
+        return elm_label_slide_mode_get(self.obj)
+
+    def slide_go(self):
+        """Start the slide effect."""
+        elm_label_slide_go(self.obj)
 
     def callback_language_changed_add(self, func, *args, **kwargs):
         """The program's language changed."""

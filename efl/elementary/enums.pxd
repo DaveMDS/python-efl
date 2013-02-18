@@ -234,6 +234,11 @@ cdef extern from "Elementary.h":
         ELM_INPUT_PANEL_RETURN_KEY_TYPE_SEARCH
         ELM_INPUT_PANEL_RETURN_KEY_TYPE_SEND
 
+    ctypedef enum Elm_Label_Slide_Mode:
+        ELM_LABEL_SLIDE_MODE_NONE
+        ELM_LABEL_SLIDE_MODE_AUTO
+        ELM_LABEL_SLIDE_MODE_ALWAYS
+
     ctypedef enum Elm_List_Mode:
         ELM_LIST_COMPRESS
         ELM_LIST_SCROLL

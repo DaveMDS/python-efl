@@ -26,6 +26,7 @@ from efl.c_eo cimport Eo_Event_Description, const_Eo_Event_Description
 from efl.c_eo cimport eo_parent_get
 from efl.c_eo cimport EO_EV_DEL
 
+import traceback
 
 ######################################################################
 
@@ -94,6 +95,26 @@ cdef _object_list_to_python(const_Eina_List *lst):
         ret.append(object_from_instance(<cEo *>lst.data))
         lst = lst.next
     return ret
+
+
+def _METHOD_DEPRECATED(self, replacement=None, message=None):
+    stack = traceback.extract_stack()
+    caller = stack[-1]
+    caller_module, caller_line, caller_name, caller_code = caller
+    if caller_code:
+        msg = "%s:%s %s (class %s) is deprecated." % \
+            (caller_module, caller_line, caller_code,
+            self.__class__.__name__ if self else 'None')
+    else:
+        msg = "%s:%s %s.%s() is deprecated." % \
+            (caller_module, caller_line,
+            self.__class__.__name__ if self else 'None', caller_name)
+    if replacement:
+        msg += " Use %s() instead." % (replacement,)
+    if message:
+        msg += " " + message
+#     log.warn(msg)
+    print(msg)
 
 
 ######################################################################
