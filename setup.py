@@ -2,7 +2,7 @@
 
 import sys
 import subprocess
-from distutils.core import setup
+from distutils.core import setup, Command
 from distutils.extension import Extension
 
 try:
@@ -14,12 +14,21 @@ try:
 except ImportError:
     raise SystemExit("Requires Cython (http://cython.org/)")
 
+try:
+    from sphinx.setup_command import BuildDoc
+except ImportError:
+    class BuildDoc(Command):
+        description = "build documentation using sphinx, that must be installed."
+        user_options = []
+        def initialize_options(self): pass
+        def finalize_options(self): pass
+        def run(self): print("Error: sphinx not found")
 
 def pkg_config(name, require, min_vers=None):
     try:
         sys.stdout.write("Checking for " + name + ": ")
         ver = subprocess.check_output(["pkg-config", "--modversion", require]).decode("utf-8").strip()
-        if min_vers is not None:
+        if False:#min_vers is not None:
             assert 0 == subprocess.call(["pkg-config", "--atleast-version", min_vers, require])
         cflags = subprocess.check_output(["pkg-config", "--cflags", require]).decode("utf-8").split()
         libs = subprocess.check_output(["pkg-config", "--libs", require]).decode("utf-8").split()
@@ -178,7 +187,7 @@ if __name__ == "__main__":
         description = "Python bindings for the EFL stack",
         license = "GNU Lesser General Public License (LGPL)",
         packages = ["efl", "efl.elementary"],
-        cmdclass = {"build_ext": build_ext},
+        cmdclass = {'build_ext': build_ext, 'build_sphinx': BuildDoc, 'build_doc': BuildDoc},
         #ext_modules = modules
         ext_modules = cythonize(modules, include_path=["include",], compiler_directives={"embedsignature": False}),
     )
