@@ -28,7 +28,7 @@ def pkg_config(name, require, min_vers=None):
     try:
         sys.stdout.write("Checking for " + name + ": ")
         ver = subprocess.check_output(["pkg-config", "--modversion", require]).decode("utf-8").strip()
-        if False:#min_vers is not None:
+        if min_vers is not None:
             assert 0 == subprocess.call(["pkg-config", "--atleast-version", min_vers, require])
         cflags = subprocess.check_output(["pkg-config", "--cflags", require]).decode("utf-8").split()
         libs = subprocess.check_output(["pkg-config", "--libs", require]).decode("utf-8").split()
