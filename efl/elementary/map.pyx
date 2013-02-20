@@ -585,7 +585,6 @@ cdef class MapOverlayRoute(MapOverlay):
 cdef public class Map(Object)[object PyElementaryMap, type PyElementaryMap_Type]:
 
     def __init__(self, evasObject parent):
-        Object.__init__(self, parent.evas)
         self._set_obj(elm_map_add(parent.obj))
 
     property zoom:

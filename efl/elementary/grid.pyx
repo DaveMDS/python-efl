@@ -37,7 +37,6 @@ cdef class Grid(Object):
     """
 
     def __init__(self, evasObject parent):
-#         Object.__init__(self, parent.evas)
         self._set_obj(elm_grid_add(parent.obj))
 
     property size:

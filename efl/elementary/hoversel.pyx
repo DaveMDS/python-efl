@@ -180,7 +180,6 @@ cdef class Hoversel(Button):
     """
 
     def __init__(self, evasObject parent):
-#         Object.__init__(self, parent.evas)
         self._set_obj(elm_hoversel_add(parent.obj))
 
     property horizontal:

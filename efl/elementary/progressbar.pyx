@@ -100,10 +100,16 @@ cdef class Progressbar(LayoutClass):
             elm_progressbar_pulse_set(self.obj, pulse)
 
         def __get__(self):
-            return ProgressbarPulseState(elm_progressbar_pulse_get(self.obj))
+            return ProgressbarPulseState(self, elm_progressbar_pulse_get(self.obj))
 
     def _pulse(self, state):
         elm_progressbar_pulse(self.obj, state)
+
+    def pulse_set(self, state):
+        elm_progressbar_pulse_set(self.obj, state)
+
+    def pulse_get(self):
+        return bool(elm_progressbar_pulse_get(self.obj))
 
     property value:
         """The progress value (in percentage) on a given progress bar widget.

@@ -127,7 +127,6 @@ cdef class Web(Object):
     cdef object _console_message_hook
 
     def __init__(self,evasObject parent):
-#         Object.__init__(self, parent.evas)
         self._set_obj(elm_web_add(parent.obj))
 
     # XXX TODO: complete all callbacks from elm_web.h

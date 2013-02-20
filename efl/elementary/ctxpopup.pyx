@@ -110,7 +110,6 @@ cdef class Ctxpopup(Object):
     """
 
     def __init__(self, evasObject parent):
-        Object.__init__(self, parent.evas)
         self._set_obj(elm_ctxpopup_add(parent.obj))
 
     property hover_parent:

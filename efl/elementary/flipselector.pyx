@@ -105,7 +105,6 @@ cdef class FlipSelector(Object):
     """
 
     def __init__(self, evasObject parent):
-        Object.__init__(self, parent.evas)
         self._set_obj(elm_flipselector_add(parent.obj))
 
     def next(self):

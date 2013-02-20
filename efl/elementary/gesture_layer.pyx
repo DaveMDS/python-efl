@@ -199,7 +199,6 @@ cdef class GestureLayer(Object):
         :rtype: :py:class:`GestureLayer`
 
         """
-        Object.__init__(self, parent.evas)
         self._set_obj(elm_gesture_layer_add(parent.obj))
 
     def cb_set(self, Elm_Gesture_Type idx, callback, Elm_Gesture_State cb_type, *args, **kwargs):
