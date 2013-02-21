@@ -131,13 +131,15 @@ def anchor_clicked(obj, event_info):
     print(("Entry object is %s" % (obj)))
     print(("We should have EntryAnchorInfo here: %s" % (str(event_info))))
     print(("EntryAnchorInfo has the following properties and methods: %s" % (dir(event_info))))
+    print(event_info.name)
 
 def anchor_hover_opened(obj, event_info):
     print(("We should have EntryAnchorHoverInfo here: %s" % (event_info)))
     print(("EntryAnchorHoverInfo has the following properties and methods: %s" % (dir(event_info))))
-    btn = Button(obj)
+    print(event_info.anchor_info.name)
+    btn = elementary.Button(obj)
     btn.text_set("Testing entry anchor")
-    event_info.hover.content_set("middle", btn)
+    event_info.hover.part_content_set("middle", btn)
     btn.show()
 
 def entry_anchor_clicked(obj, item=None):

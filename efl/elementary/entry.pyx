@@ -230,7 +230,7 @@ def Entry_markup_to_utf8(string):
 def Entry_utf8_to_markup(string):
     return _ctouni(elm_entry_utf8_to_markup(_fruni(str)))
 
-class EntryAnchorInfo:
+class EntryAnchorInfo(object):
     def __init__(self):
         self.name = None
         self.button = 0
@@ -239,7 +239,7 @@ class EntryAnchorInfo:
         self.w = 0
         self.h = 0
 
-class EntryAnchorHoverInfo:
+class EntryAnchorHoverInfo(object):
     def __init__(self):
         self.anchor_info = None
         self.hover = None
@@ -252,7 +252,7 @@ class EntryAnchorHoverInfo:
 def _entryanchor_conv(long addr):
     cdef Elm_Entry_Anchor_Info *ei = <Elm_Entry_Anchor_Info *>addr
     eai = EntryAnchorInfo()
-    eai.name = ei.name
+    eai.name = _ctouni(ei.name)
     eai.button = ei.button
     eai.x = ei.x
     eai.y = ei.y
@@ -263,7 +263,7 @@ def _entryanchor_conv(long addr):
 def _entryanchorhover_conv(long addr):
     cdef Elm_Entry_Anchor_Hover_Info *ehi = <Elm_Entry_Anchor_Hover_Info *>addr
     eahi = EntryAnchorHoverInfo()
-    eahi.anchor_info = <object>ehi.anchor_info
+    eahi.anchor_info = _entryanchor_conv(<long><void *>ehi.anchor_info)
     eahi.hover = Hover(None, <object>ehi.hover)
     eahi.hover_parent = (ehi.hover_parent.x, ehi.hover_parent.y,
                        ehi.hover_parent.w, ehi.hover_parent.h)
