@@ -231,6 +231,18 @@ def Entry_utf8_to_markup(string):
     return _ctouni(elm_entry_utf8_to_markup(_fruni(str)))
 
 class EntryAnchorInfo(object):
+    """
+
+    The info sent in the callback for the "anchor,clicked" signals emitted by entries.
+
+    :var name: The name of the anchor, as stated in its href.
+    :var button: The mouse button used to click on it.
+    :var x: Anchor geometry, relative to canvas.
+    :var y: Anchor geometry, relative to canvas.
+    :var w: Anchor geometry, relative to canvas.
+    :var h: Anchor geometry, relative to canvas.
+
+    """
     def __init__(self):
         self.name = None
         self.button = 0
@@ -240,6 +252,19 @@ class EntryAnchorInfo(object):
         self.h = 0
 
 class EntryAnchorHoverInfo(object):
+    """
+
+    The info sent in the callback for "anchor,clicked" signals emitted by the Anchor_Hover widget.
+
+    :var anchor_info: The actual anchor info.
+    :var hover: The hover object to use for the popup.
+    :var hover_parent: Geometry of the object used as parent by the hover.
+    :var hover_left: Hint indicating if there's space for content on the left side of the hover.
+    :var hover_right: Hint indicating content fits on the right side of the hover.
+    :var hover_top: Hint indicating content fits on top of the hover.
+    :var hover_bottom: Hint indicating content fits below the hover.
+
+    """
     def __init__(self):
         self.anchor_info = None
         self.hover = None
