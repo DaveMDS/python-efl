@@ -18,6 +18,8 @@
 
 """
 
+.. _Elm_Actionslider_Pos:
+
 .. rubric:: Actionslider positions
 
 .. data:: ELM_ACTIONSLIDER_NONE
@@ -77,12 +79,12 @@ cdef class Actionslider(LayoutClass):
     magnetized" position.
 
     This widget emits the following signals, besides the ones sent from
-    :py:class:`elementary.layout.Layout`:
+    :py:class:`efl.elementary.layout_class.LayoutClass`:
 
     - **selected** - when user selects an enabled position (the label is
-        passed as event info)".
+      passed as event info)".
     - **pos_changed** - when the indicator reaches any of the
-        positions("left", "right" or "center").
+      positions("left", "right" or "center").
 
     Default text parts of the actionslider widget that you can use for are:
 
@@ -90,8 +92,6 @@ cdef class Actionslider(LayoutClass):
     - **left** - A left label of the actionslider
     - **right** - A right label of the actionslider
     - **center** - A center label of the actionslider
-
-    .. note:: By default all positions are set as enabled.
 
     """
 
@@ -113,7 +113,7 @@ cdef class Actionslider(LayoutClass):
     property indicator_pos:
         """Indicator position.
 
-        :type: Elm_Actionslider_Pos
+        :type: :ref:`Actionslider position <Elm_Actionslider_Pos>`
 
         """
         def __get__(self):
@@ -131,7 +131,7 @@ cdef class Actionslider(LayoutClass):
         magnets ``or`` them together(e.g.: ``ELM_ACTIONSLIDER_LEFT |
         ELM_ACTIONSLIDER_RIGHT``)
 
-        :type: Elm_Actionslider_Pos
+        :type: :ref:`Actionslider position <Elm_Actionslider_Pos>`
 
         """
         def __get__(self):
@@ -149,9 +149,9 @@ cdef class Actionslider(LayoutClass):
         enabled ``or`` them together(e.g.: ``ELM_ACTIONSLIDER_LEFT |
         ELM_ACTIONSLIDER_RIGHT``).
 
-        .. note:: All the positions are enabled by default.
+        .. note:: All positions are enabled by default.
 
-        :type: Elm_Actionslider_Pos
+        :type: :ref:`Actionslider position <Elm_Actionslider_Pos>`
 
         """
         def __get__(self):

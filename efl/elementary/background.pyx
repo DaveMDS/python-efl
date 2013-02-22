@@ -18,7 +18,9 @@
 
 """
 
-.. rubric:: Background tiling modes
+.. _Elm_Bg_Option:
+
+.. rubric:: Background display modes
 
 .. data:: ELM_BG_OPTION_CENTER
 
@@ -89,38 +91,33 @@ cdef class Background(LayoutClass):
 
         .. note:: This will only affect the contents of one of the background's
             swallow spots, namely *"elm.swallow.background"*. If you want to
-            achieve the :py:class:`elementary.layout.Layout`'s file setting
+            achieve the :py:class:`efl.elementary.layout_class.LayoutClass`'s file setting
             behavior, you'll have to call that method on this object.
 
-        :type: string file, optional string group
+        :type: string file, *optional* string group
 
         """
         def __get__(self):
             cdef const_char *filename, *group
             elm_bg_file_get(self.obj, &filename, &group)
-            if filename == NULL:
-                filename = ""
-            if group == NULL:
-                group = ""
             return (_ctouni(filename), _ctouni(group))
 
         def __set__(self, value):
+            cdef int ret
             if isinstance(value, tuple) or isinstance(value, list):
                 filename, group = value
             else:
                 filename = value
                 group = ""
-            elm_bg_file_set(self.obj, _cfruni(filename), _cfruni(group))
+            ret = elm_bg_file_set(self.obj, _cfruni(filename), _cfruni(group))
+            if not ret:
+                raise RuntimeError("Could not set background file.")
 
     def file_set(self, filename, group = ""):
         return bool(elm_bg_file_set(self.obj, _cfruni(filename), _cfruni(group)))
     def file_get(self):
         cdef const_char *filename, *group
         elm_bg_file_get(self.obj, &filename, &group)
-        if filename == NULL:
-            filename = ""
-        if group == NULL:
-            group = ""
         return (_ctouni(filename), _ctouni(group))
 
     property option:
@@ -131,7 +128,7 @@ cdef class Background(LayoutClass):
         image file. The image can be displayed tiled, scaled, centered or
         stretched.
 
-        :type: Elm_Bg_Option
+        :type: :ref:`Background display mode <Elm_Bg_Option>`
 
         """
         def __get__(self):
