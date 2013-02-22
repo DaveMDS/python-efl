@@ -35,8 +35,9 @@
 """
 
 include "widget_header.pxi"
+include "callback_conversions.pxi"
+
 from object_item cimport ObjectItem
-from object_item import _cb_object_item_conv
 from layout_class cimport LayoutClass
 
 cimport enums

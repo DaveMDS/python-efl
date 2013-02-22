@@ -66,7 +66,7 @@ include "widget_header.pxi"
 from object cimport Object
 
 include "conversions.pxi"
-include "callbacks.pxi"
+include "callback_conversions.pxi"
 import traceback
 
 cimport enums

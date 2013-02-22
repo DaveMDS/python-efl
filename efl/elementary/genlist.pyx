@@ -146,6 +146,7 @@
 """
 
 include "widget_header.pxi"
+include "callback_conversions.pxi"
 include "tooltips.pxi"
 from object_item cimport    ObjectItem, \
                             _object_item_to_python, \
@@ -153,7 +154,6 @@ from object_item cimport    ObjectItem, \
                             _object_item_from_python, \
                             _object_item_list_to_python, \
                             elm_object_item_data_get
-from object_item import _cb_object_item_conv
 from general cimport strdup
 from efl.evas cimport eina_list_remove_list
 from scroller cimport *

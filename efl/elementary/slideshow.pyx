@@ -17,6 +17,7 @@
 #
 
 include "widget_header.pxi"
+include "callback_conversions.pxi"
 include "conversions.pxi"
 
 from layout_class cimport LayoutClass
@@ -24,7 +25,6 @@ from layout_class cimport LayoutClass
 import traceback
 from object_item cimport    _object_item_to_python, \
                             _object_item_list_to_python
-from object_item import _cb_object_item_conv
 
 cdef _py_elm_slideshow_item_call(func, Evas_Object *obj, data) with gil:
     try:

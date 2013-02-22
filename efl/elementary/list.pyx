@@ -93,12 +93,12 @@
 """
 
 include "widget_header.pxi"
+include "callback_conversions.pxi"
 
 from object cimport Object
 from object_item cimport    _object_item_callback, \
                             _object_item_to_python, \
                             _object_item_list_to_python
-from object_item import _cb_object_item_conv
 from scroller cimport *
 
 cimport enums

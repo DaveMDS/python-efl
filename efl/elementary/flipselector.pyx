@@ -17,7 +17,7 @@
 #
 
 include "widget_header.pxi"
-include "callbacks.pxi"
+include "callback_conversions.pxi"
 
 from object cimport Object
 from object_item cimport _object_item_to_python, _object_item_callback, _object_item_list_to_python

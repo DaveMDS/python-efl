@@ -27,10 +27,6 @@ import traceback
 
 cdef class ObjectItem
 
-def _cb_object_item_conv(long addr):
-    cdef Elm_Object_Item *it = <Elm_Object_Item *>addr
-    return _object_item_to_python(it)
-
 cdef Elm_Object_Item * _object_item_from_python(ObjectItem item) except NULL:
     if item is None or item.item is NULL:
         raise TypeError("Invalid item!")

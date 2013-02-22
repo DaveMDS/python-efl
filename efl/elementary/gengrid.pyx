@@ -39,6 +39,7 @@
 """
 
 include "widget_header.pxi"
+include "callback_conversions.pxi"
 include "tooltips.pxi"
 
 from object cimport Object
@@ -47,7 +48,6 @@ from object_item cimport    ObjectItem, \
                             elm_object_item_widget_get, \
                             _object_item_from_python, \
                             _object_item_list_to_python
-from object_item import _cb_object_item_conv
 from general cimport strdup
 from scroller cimport *
 cimport enums

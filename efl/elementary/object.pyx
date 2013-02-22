@@ -92,7 +92,6 @@ cdef Eina_Bool _event_dispatcher(o, src, Evas_Callback_Type t, event_info):
                 return True
     return False
 
-#TODO: More event types
 cdef Eina_Bool _event_callback(void *data, Evas_Object *o, Evas_Object *src, Evas_Callback_Type t, void *event_info) with gil:
     cdef Object obj = object_from_instance(o)
     cdef Object src_obj = object_from_instance(src)
@@ -122,10 +121,6 @@ cdef void _event_data_del_cb(void *data, Evas_Object *o, void *event_info) with 
     pass
 #     Py_DECREF(<object>data)
 
-
-def _cb_string_conv(long addr):
-    cdef const_char_ptr s = <const_char_ptr>addr
-    return s if s is not NULL else None
 
 cdef _object_list_to_python(const_Eina_List *lst):
     cdef Evas_Object *o

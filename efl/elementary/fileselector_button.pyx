@@ -31,7 +31,7 @@
 """
 
 include "widget_header.pxi"
-include "callbacks.pxi"
+include "callback_conversions.pxi"
 
 cimport enums
 
