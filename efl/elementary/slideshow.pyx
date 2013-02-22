@@ -68,8 +68,10 @@ cdef void _py_elm_slideshow_item_del(void *data, Evas_Object *obj) with gil:
             func(o, params[1])
         except Exception as e:
             traceback.print_exc()
-    item._unset_obj()
-    Py_DECREF(item)
+
+    # XXX: SlideShow item handling is weird
+    #item._unset_obj()
+    #Py_DECREF(item)
 
 cdef int _py_elm_slideshow_compare_func(const_void *data1, const_void *data2) with gil:
     cdef SlideshowItem item1    = <object>data1
@@ -196,21 +198,19 @@ cdef class SlideshowItem(ObjectItem):
         self.item = NULL
 
     def __str__(self):
-        return "%s(item_class=%s, func=%s, item_data=%s)" % \
+        return "%s(item_class=%s, item_data=%s)" % \
                (self.__class__.__name__,
                 self.params[0].__class__.__name__,
-                self.params[2],
                 self.params[1])
 
     def __repr__(self):
         return ("%s(%#x, refcount=%d, Elm_Object_Item=%#x, "
-                "item_class=%s, func=%s, item_data=%r)") % \
+                "item_class=%s, item_data=%r)") % \
                (self.__class__.__name__,
                 <unsigned long><void*>self,
                 PY_REFCOUNT(self),
                 <unsigned long>self.obj,
                 self.params[0].__class__.__name__,
-                self.params[2],
                 self.params[1])
 
     property object:
