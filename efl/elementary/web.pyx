@@ -65,7 +65,6 @@ include "widget_header.pxi"
 
 from object cimport Object
 
-include "conversions.pxi"
 include "callback_conversions.pxi"
 import traceback
 

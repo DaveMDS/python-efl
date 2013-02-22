@@ -77,7 +77,7 @@
 """
 
 include "widget_header.pxi"
-include "conversions.pxi"
+from efl.eo cimport _object_list_to_python, _strings_from_python
 
 cimport enums
 

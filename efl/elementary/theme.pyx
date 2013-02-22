@@ -18,7 +18,7 @@
 from cpython cimport Py_INCREF, Py_DECREF
 
 include "widget_header.pxi"
-include "conversions.pxi"
+from efl.eo cimport _strings_to_python
 
 cdef class Theme(object):
 

@@ -18,7 +18,7 @@
 
 include "widget_header.pxi"
 include "callback_conversions.pxi"
-include "conversions.pxi"
+from efl.eo cimport _strings_to_python
 
 from layout_class cimport LayoutClass
 
