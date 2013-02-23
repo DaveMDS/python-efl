@@ -594,12 +594,13 @@ cdef class GenlistItem(ObjectItem):
                 self.params[1])
 
     def append_to(self, Genlist genlist):
-        """append_to(Genlist genlist)
+        """append_to(Genlist genlist) -> GenlistItem
 
         Append a new item (add as last row) to this genlist.
 
         :param genlist: The Genlist upon which this item is to be appended.
         :type genlist: :py:class:`Genlist`
+        :rtype: :py:class:`GenlistItem`
 
         """
         cdef Elm_Object_Item *item
@@ -620,12 +621,13 @@ cdef class GenlistItem(ObjectItem):
             return None
 
     def prepend_to(self, Genlist genlist):
-        """prepend_to(Genlist genlist)
+        """prepend_to(Genlist genlist) -> GenlistItem
 
         Prepend a new item (add as first row) to this Genlist.
 
         :param genlist: The Genlist upon which this item is to be prepended.
         :type genlist: :py:class:`Genlist`
+        :rtype: :py:class:`GenlistItem`
 
         """
         cdef Elm_Object_Item *item
@@ -646,12 +648,14 @@ cdef class GenlistItem(ObjectItem):
             return None
 
     def insert_before(self, GenlistItem before_item=None):
-        """insert_before(GenlistItem before_item=None)
+        """insert_before(GenlistItem before_item=None) -> GenlistItem
 
         Insert a new item (row) before another item in this genlist.
 
         :param before_item: a reference item to use, the new item
             will be inserted before it.
+        :type before_item: :py:class:`GenlistItem`
+        :rtype: :py:class:`GenlistItem`
 
         """
         cdef Genlist genlist
@@ -677,12 +681,14 @@ cdef class GenlistItem(ObjectItem):
             return None
 
     def insert_after(self, GenlistItem after_item=None):
-        """insert_after(GenlistItem after_item=None)
+        """insert_after(GenlistItem after_item=None) -> GenlistItem
 
         Insert a new item (row) after another item in this genlist.
 
         :param after_item: a reference item to use, the new item
             will be inserted after it.
+        :type after_item: :py:class:`GenlistItem`
+        :rtype: :py:class:`GenlistItem`
 
         """
         cdef Genlist genlist
@@ -708,23 +714,18 @@ cdef class GenlistItem(ObjectItem):
             return None
 
     def sorted_insert(self, Genlist genlist, comparison_func):
-        """
+        """sorted_insert(Genlist genlist, comparison_func) -> GenlistItem
 
         Insert a new item into the sorted genlist object
 
-        @param obj The genlist object
-        @param itc The item class for the item
-        @param data The item data
-        @param parent The parent item, or NULL if none
-        @param type Item type
-        @param comp The function called for the sort
-        @param func Convenience function called when item selected
-        @param func_data Data passed to @p func above.
-        @return A handle to the item added or NULL if not possible
+        :param genlist: The Genlist object
+        :type genlist: :py:class:`Genlist`
+        :param comparison_func: The function called for the sort
+        :rtype: :py:class:`GenlistItem`
 
         This inserts an item in the genlist based on user defined comparison
-        function. The two arguments passed to the function @p func are genlist item
-        handles to compare.
+        function. The two arguments passed to the function are genlist items
+        to compare.
 
         """
         cdef Elm_Object_Item *item
