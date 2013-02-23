@@ -62,7 +62,7 @@ include "widget_header.pxi"
 
 from object cimport Object
 
-from efl.evas cimport evas_object_data_get
+from efl.eo cimport _object_list_to_python
 
 #~ ctypedef enum Elm_Box_CLayout:
 #~     ELM_BOX_LAYOUT_HORIZONTAL
@@ -380,18 +380,7 @@ cdef class Box(Object):
 
         """
         def __get__(self):
-            cdef Evas_Object *o
-            cdef Object obj
-            cdef const_Eina_List *lst
-
-            ret = []
-            lst = elm_box_children_get(self.obj)
-            while lst:
-                o = <Evas_Object *> lst.data
-                obj = <Object>evas_object_data_get(o, "python-evas")
-                ret.append(obj)
-                lst = lst.next
-            return ret
+            return _object_list_to_python(elm_box_children_get(self.obj))
 
         #def __set__(self, value):
             #TODO: unpack_all() and then get the objects from value and pack_end() them.
@@ -400,18 +389,7 @@ cdef class Box(Object):
             elm_box_clear(self.obj)
 
     def children_get(self):
-        cdef Evas_Object *o
-        cdef Object obj
-        cdef const_Eina_List *lst
-
-        ret = []
-        lst = elm_box_children_get(self.obj)
-        while lst:
-            o = <Evas_Object *> lst.data
-            obj = <Object>evas_object_data_get(o, "python-evas")
-            ret.append(obj)
-            lst = lst.next
-        return ret
+        return _object_list_to_python(elm_box_children_get(self.obj))
 
     property padding:
         """The space (padding) between the box's elements.

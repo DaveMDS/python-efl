@@ -19,7 +19,8 @@ include "widget_header.pxi"
 include "callback_conversions.pxi"
 
 from object cimport Object
-from object_item cimport ObjectItem, _object_item_callback, _object_item_to_python
+from object_item cimport ObjectItem, _object_item_callback, \
+    _object_item_to_python, _object_item_list_to_python
 from scroller cimport *
 
 cdef class DiskselectorItem(ObjectItem):
@@ -289,19 +290,7 @@ cdef class Diskselector(Object):
 
         """
         def __get__(self):
-            cdef Elm_Object_Item *it
-            cdef const_Eina_List *lst
-
-            lst = elm_diskselector_items_get(self.obj)
-            ret = []
-            ret_append = ret.append
-            while lst:
-                it = <Elm_Object_Item *>lst.data
-                lst = lst.next
-                o = _object_item_to_python(it)
-                if o is not None:
-                    ret_append(o)
-            return ret
+            return _object_item_list_to_python(elm_diskselector_items_get(self.obj))
 
     def item_append(self, label, evasObject icon = None, callback = None, *args, **kwargs):
         """item_append(self, unicode label, evas.Object icon = None, callback = None, *args, **kwargs) -> DiskselectorItem
@@ -367,8 +356,7 @@ cdef class Diskselector(Object):
 
         """
         def __get__(self):
-            cdef Elm_Object_Item *it = elm_diskselector_selected_item_get(self.obj)
-            return _object_item_to_python(it)
+            return _object_item_to_python(elm_diskselector_selected_item_get(self.obj))
 
     property first_item:
         """Get the first item of the diskselector.
@@ -382,8 +370,7 @@ cdef class Diskselector(Object):
 
         """
         def __get__(self):
-            cdef Elm_Object_Item *it = elm_diskselector_first_item_get(self.obj)
-            return _object_item_to_python(it)
+            return _object_item_to_python(elm_diskselector_first_item_get(self.obj))
 
     property last_item:
         """Get the last item of the diskselector.
@@ -397,8 +384,7 @@ cdef class Diskselector(Object):
 
         """
         def __get__(self):
-            cdef Elm_Object_Item *it = elm_diskselector_last_item_get(self.obj)
-            return _object_item_to_python(it)
+            return _object_item_to_python(elm_diskselector_last_item_get(self.obj))
 
     def callback_selected_add(self, func, *args, **kwargs):
         """When item is selected, i.e. scroller stops."""
