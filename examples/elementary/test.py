@@ -148,6 +148,7 @@ items = [
             ("Genlist", genlist_clicked),
             ("Genlist 2", genlist2_clicked),
             ("Genlist Group", genlist3_clicked),
+            ("Genlist Sorted", genlist4_clicked),
             ("Gengrid", gengrid_clicked),
         ]),
          ("Naviframe", [

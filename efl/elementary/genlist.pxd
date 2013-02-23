@@ -6,6 +6,7 @@ from enums cimport Elm_Scroller_Policy, Elm_List_Mode, Elm_Object_Select_Mode, \
     Elm_Genlist_Item_Type, Elm_Genlist_Item_Scrollto_Type, \
     Elm_Genlist_Item_Field_Type
 from libc.string cimport const_char
+from libc.stdlib cimport const_void
 
 cdef extern from "Elementary.h":
 

@@ -283,6 +283,29 @@ cdef void _py_elm_genlist_item_func(void *data, Evas_Object *obj, void *event_in
         except Exception as e:
             traceback.print_exc()
 
+cdef int _py_elm_genlist_compare_func(const_void *data1, const_void *data2) with gil:
+    cdef Elm_Object_Item *citem1    = <Elm_Object_Item *>data1
+    cdef Elm_Object_Item *citem2    = <Elm_Object_Item *>data2
+    cdef object func
+
+    item1 = <GenlistItem>elm_object_item_data_get(citem1)
+    item2 = <GenlistItem>elm_object_item_data_get(citem2)
+
+    func = item1.comparison_func
+
+    if not func:
+        return 0
+
+    ret = func(item1, item2)
+    if ret is not None:
+        try:
+            return ret
+        except Exception as e:
+            traceback.print_exc()
+            return 0
+    else:
+        return 0
+
 class GenlistItemsCount(int):
     def __new__(cls, Object obj, int count):
         return int.__new__(cls, count)
@@ -481,6 +504,7 @@ cdef class GenlistItem(ObjectItem):
     cdef Elm_Object_Item *parent_item
     cdef int flags
     cdef Evas_Smart_Cb cb
+    cdef public object comparison_func
 
     def __cinit__(self):
         self.item_class = NULL
@@ -683,7 +707,48 @@ cdef class GenlistItem(ObjectItem):
             Py_DECREF(self)
             return None
 
-    #Elm_Object_Item         *elm_genlist_item_sorted_insert(self.obj, Elm_Genlist_Item_Class *itc, void *data, Elm_Object_Item *parent, Elm_Genlist_Item_Type flags, Eina_Compare_Cb comp, Evas_Smart_Cb func, void *func_data)
+    def sorted_insert(self, Genlist genlist, comparison_func):
+        """
+
+        Insert a new item into the sorted genlist object
+
+        @param obj The genlist object
+        @param itc The item class for the item
+        @param data The item data
+        @param parent The parent item, or NULL if none
+        @param type Item type
+        @param comp The function called for the sort
+        @param func Convenience function called when item selected
+        @param func_data Data passed to @p func above.
+        @return A handle to the item added or NULL if not possible
+
+        This inserts an item in the genlist based on user defined comparison
+        function. The two arguments passed to the function @p func are genlist item
+        handles to compare.
+
+        """
+        cdef Elm_Object_Item *item
+
+        if comparison_func is not None:
+            if not callable(comparison_func):
+                raise TypeError("func is not None or callable")
+            self.comparison_func = comparison_func
+
+        item = elm_genlist_item_sorted_insert(  genlist.obj,
+                                                self.item_class,
+                                                <void*>self,
+                                                self.parent_item,
+                                                <Elm_Genlist_Item_Type>self.flags,
+                                                _py_elm_genlist_compare_func,
+                                                self.cb,
+                                                <void*>self)
+
+        if item != NULL:
+            self._set_obj(item)
+            return self
+        else:
+            Py_DECREF(self)
+            return None
 
     property data:
         """User data for the item."""

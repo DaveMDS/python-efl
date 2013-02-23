@@ -17,6 +17,20 @@ def gl_content_get(obj, part, data):
 def gl_state_get(obj, part, item_data):
     return False
 
+def gl_comp_func(item1, item2):
+    #print(item1.data)
+    #print(item2.data)
+    # If data1 is 'less' than data2, -1 must be returned, if it is 'greater', 1 must be returned, and if they are equal, 0 must be returned.
+    if item1.data < item2.data:
+        return -1
+    elif item1.data == item2.data:
+        return 0
+    elif item1.data > item2.data:
+        return 1
+    else:
+        print("BAAAAAAAAD Comparison!")
+        return 0
+
 def gl_item_sel(gli, gl, *args, **kwargs):
     print("\n---GenlistItem selected---")
     print(gli)
@@ -100,7 +114,7 @@ def genlist_clicked(obj, item=None):
     vbx.horizontal_set(True)
     bx.pack_end(vbx)
     vbx.show()
-    
+
     itc1 = elementary.GenlistItemClass(item_style="default",
                                        text_get_func=gl_text_get,
                                        content_get_func=gl_content_get,
@@ -390,6 +404,33 @@ def genlist3_clicked(obj, item=None):
     win.resize(320, 320)
     win.show()
 
+def genlist4_clicked(obj, item=None):
+    win = elementary.Window("Genlist", elementary.ELM_WIN_BASIC)
+    win.title_set("Genlist sorted insert test")
+    win.autodel_set(True)
+
+    bg = elementary.Background(win)
+    win.resize_object_add(bg)
+    bg.size_hint_weight_set(evas.EVAS_HINT_EXPAND, evas.EVAS_HINT_EXPAND)
+    bg.show()
+
+    gl = elementary.Genlist(win)
+    win.resize_object_add(gl)
+    gl.size_hint_align_set(evas.EVAS_HINT_FILL, evas.EVAS_HINT_FILL)
+    gl.size_hint_weight_set(evas.EVAS_HINT_EXPAND, evas.EVAS_HINT_EXPAND)
+    gl.show()
+
+    itc_i = elementary.GenlistItemClass(item_style="default",
+                                       text_get_func=gl_text_get,
+                                       content_get_func=gl_content_get,
+                                       state_get_func=gl_state_get)
+
+    for i in range(100,-1,-1):
+        elementary.GenlistItem(itc_i, None, 0, None, i).sorted_insert(gl, gl_comp_func)
+
+    win.resize(320, 320)
+    win.show()
+
 
 if __name__ == "__main__":
     def destroy(obj):
@@ -422,9 +463,12 @@ if __name__ == "__main__":
     fr.content_set(lb)
     lb.show()
 
-    items = [("Genlist", genlist_clicked),
-             ("Genlist 2", genlist2_clicked),
-             ("Genlist Group", genlist3_clicked)]
+    items = [
+        ("Genlist", genlist_clicked),
+        ("Genlist 2", genlist2_clicked),
+        ("Genlist Group", genlist3_clicked),
+        ("Genlist Sorted", genlist4_clicked),
+    ]
 
     li = elementary.List(win)
     li.size_hint_weight_set(evas.EVAS_HINT_EXPAND, evas.EVAS_HINT_EXPAND)
