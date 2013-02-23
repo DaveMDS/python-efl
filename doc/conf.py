@@ -29,7 +29,9 @@ sys.path.insert(0, os.path.abspath("../build/"+d))
 
 # Add any Sphinx extension module names here, as strings. They can be extensions
 # coming with Sphinx (named 'sphinx.ext.*') or your custom ones.
-extensions = ['sphinx.ext.autodoc', 'sphinx.ext.viewcode']
+extensions = [
+    'sphinx.ext.autodoc',
+]
 
 autodoc_default_flags = [
     'members',
@@ -118,7 +120,7 @@ html_theme = 'sphinxdoc'
 #html_title = None
 
 # A shorter title for the navigation bar.  Default is the same as html_title.
-#html_short_title = None
+html_short_title = "Python Bindings for EFL"
 
 # The name of an image file (relative to this directory) to place at the top
 # of the sidebar.
@@ -159,7 +161,7 @@ html_static_path = ['_static']
 #html_split_index = False
 
 # If true, links to the reST sources are added to the pages.
-#html_show_sourcelink = True
+html_show_sourcelink = False
 
 # If true, "Created using Sphinx" is shown in the HTML footer. Default is True.
 #html_show_sphinx = True
@@ -176,7 +178,7 @@ html_static_path = ['_static']
 #html_file_suffix = None
 
 # Output file base name for HTML help builder.
-htmlhelp_basename = 'PythonBindingsforEFLElementarydoc'
+htmlhelp_basename = 'PythonEFLdoc'
 
 
 # -- Options for LaTeX output --------------------------------------------------
@@ -195,7 +197,7 @@ latex_elements = {
 # Grouping the document tree into LaTeX files. List of tuples
 # (source start file, target name, title, author, documentclass [howto/manual]).
 latex_documents = [
-  ('index', 'PythonBindingsforEFLElementary.tex', u'Python Bindings for EFL Elementary Documentation',
+  ('index', 'PythonEFL.tex', u'Python Bindings for EFL Documentation',
    u'Simon Busch, Gustavo Sverzut Barbieri, Ulisses Furquim, ProFUSION embedded systems, Boris Faure, Fabiano Fidencio, Davide Andreoli, Kai Huuhko', 'manual'),
 ]
 
@@ -225,7 +227,7 @@ latex_documents = [
 # One entry per manual page. List of tuples
 # (source start file, name, description, authors, manual section).
 man_pages = [
-    ('index', 'pythonbindingsforeflelementary', u'Python Bindings for EFL Elementary Documentation',
+    ('index', 'python-efl', u'Python Bindings for EFL Documentation',
      [u'Simon Busch, Gustavo Sverzut Barbieri, Ulisses Furquim, ProFUSION embedded systems, Boris Faure, Fabiano Fidencio, Davide Andreoli, Kai Huuhko'], 1)
 ]
 
@@ -257,10 +259,10 @@ texinfo_documents = [
 # -- Options for Epub output ---------------------------------------------------
 
 # Bibliographic Dublin Core info.
-epub_title = u'Python Bindings for EFL Elementary'
+epub_title = u'Python Bindings for EFL'
 epub_author = u'Simon Busch, Gustavo Sverzut Barbieri, Ulisses Furquim, ProFUSION embedded systems, Boris Faure, Fabiano Fidencio, Davide Andreoli, Kai Huuhko'
 epub_publisher = u'Simon Busch, Gustavo Sverzut Barbieri, Ulisses Furquim, ProFUSION embedded systems, Boris Faure, Fabiano Fidencio, Davide Andreoli, Kai Huuhko'
-epub_copyright = u'2012, Simon Busch, Gustavo Sverzut Barbieri, Ulisses Furquim, ProFUSION embedded systems, Boris Faure, Fabiano Fidencio, Davide Andreoli, Kai Huuhko'
+epub_copyright = u'2008-2013, Simon Busch, Gustavo Sverzut Barbieri, Ulisses Furquim, ProFUSION embedded systems, Boris Faure, Fabiano Fidencio, Davide Andreoli, Kai Huuhko'
 
 # The language of the text. It defaults to the language option
 # or en if the language is not set.
