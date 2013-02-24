@@ -20,7 +20,6 @@ TODO:
 * include python-ethumb
 * include python-e_dbus (or make edbus2 ??)
 * check emotion api completness
-* elm.Label Slide Mode
 * elm.Notify align_set/get/prop
 * cleanup elementary_object
 
@@ -46,6 +45,5 @@ CHANGES FROM 1.7 to 1.8:
 * elementary.need_e_dbus => elementary.need_e_dbus
 * elm.domain_translatable_text_part_set => elm.domain_translatable_part_text_set
 * elm.Scroller.custom_widget_base_theme_set =>  elm.Layout.theme_set             TODO is this right?
-* elm.Label.slide_set/get/prop removed  =>  Slide Mode (TODO)
 * elm.notify.orient_set/get/prop removed  =>  align_set (TODO)
 

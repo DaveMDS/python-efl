@@ -3,7 +3,7 @@ efl Package
 
 .. toctree::
 
-    module-evas
+    evas/evas
     module-ecore
     module-emotion
     elementary/elementary

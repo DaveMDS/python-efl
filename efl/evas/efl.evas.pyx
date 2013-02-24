@@ -167,10 +167,27 @@ def shutdown():
 
 
 def render_method_lookup(name):
+    """render_method_lookup(name)
+
+    Lookup render method and return its id (> 0 if found).
+
+    @param name: Render method
+    @type name: string
+    @return: ID
+    @rtype: int
+
+    """
     return evas_render_method_lookup(_cfruni(name))
 
 
 def render_method_list():
+    """render_method_list()
+
+    Returns a list of render method names.
+
+    @rtype: list of str
+
+    """
     cdef Eina_List *lst
 
     ret = []

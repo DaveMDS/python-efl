@@ -105,7 +105,73 @@ cdef _object_del_callback_from_list(Object obj, int type, func):
 
 
 cdef class Object(Eo):
+    """Basic Graphical Object (or actor).
 
+    Objects are managed by L{Canvas} in a non-immediate way, that is,
+    all operations, like moving, resizing, changing the color, etc will
+    not trigger immediate repainting, instead it will save the new state
+    and mark both this object and its Canvas as "dirty" so can be redrawn
+    on L{Canvas.render()} (usually called by the underlying system, like
+    B{ecore.evas} when you're entering idle. This means that doesn't matter
+    how many times you're moving an object between frame updates: just the
+    last state will be used, that's why you really should do animations
+    using L{ecore.animator_add()} instead of L{ecore.timer_add()}, since
+    it will call registered functions in one batch and then trigger redraw,
+    instead of calling one function, then redraw, then the next function,
+    and redraw...
+
+    The most important concept for evas object is B{clipping}
+    (L{clip_set()} and L{clip_unset()}), usually done by use of
+    L{Rectangle} as clipper. Clip objects will affect the drawing behavior:
+     - Limiting visibility
+     - Limiting geometry
+     - Modulating color
+    Clips respects the hierarchy: the minimum area and the composed color
+    will be used used at the end, if one object is not visible, othe lower
+    objects (clipped by it) will not be visible as well. Clipping is the
+    recommended way of doing fade out/in effect, instead of changing object's
+    color, clip it to a rectangle and change its color: this will work as
+    expected with every object, unlike directly changing color that just
+    work for L{Image}s.
+
+    As with every evas component, colors should be specified in
+    B{pre-multiplied} format, see L{evas.color_parse()} and
+    L{evas.color_argb_premul()}.
+
+    Objects can be grouped by means of L{SmartObject}, a virtual class
+    that can have it's methods implemented in order to apply methods to
+    its children.
+
+    @attention: since we have two systems controlling object's life (Evas
+        and Python) objects need to be explicitly deleted using L{delete()}
+        call. If this call is not issued, the Python object will not be
+        released, but if the object is deleted by Evas (ie: due parent
+        deletion), the object will become "shallow" and all operations
+        will either have no effect or raise exceptions. You can be notified
+        of object deletion by the C{EVAS_CALLBACK_FREE} (see L{on_free_add()}
+        or L{event_callback_add()}.
+
+    @ivar data: utility dict used to hold any user data.
+    @ivar evas: L{Canvas} that owns this object.
+
+    @group State manipulation: clip_set, clip_get, clip_unset, clip,
+        color_set, color_get, color, show, hide, visible_set, visible_get,
+        visible, delete, is_deleted
+    @group Positioning: pos_set, pos_get, pos, move, move_relative,
+        size_set, size_get, size, resize, geometry*, center*, top_left*,
+        top_right*, bottom_left*, bottom_right*
+    @group Layer & Stack manipulation: above_get, above, below_get, below,
+        layer_set, layer_get, layer, lower, raise_, stack_above, stack_below,
+        bottom_get, bottom, top_get, top
+    @group Event processing control: focus_set, focus_get, focus,
+        pass_events*, repeat_events*, propagate_events*
+    @group Event callbacks: event_callback_*, on_*
+    @group Often unused: render_op*, anti_alias*, pointer_mode*
+
+    @param evas: Evas canvas for this object
+    @type evas: L{Canvas}
+
+    """
     def __cinit__(self):
         self._callbacks = [None] * evas_object_event_callbacks_len
 
@@ -158,6 +224,11 @@ cdef class Object(Eo):
             self.name_set(name)
 
     def delete(self):
+        """delete()
+
+        Delete the evas object.
+
+        """
         evas_object_del(self.obj)
 
     def evas_get(self):
