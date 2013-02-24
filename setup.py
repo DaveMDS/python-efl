@@ -188,6 +188,10 @@ if __name__ == "__main__":
         license = "GNU Lesser General Public License (LGPL)",
         packages = ["efl", "efl.elementary"],
         cmdclass = {'build_ext': build_ext, 'build_sphinx': BuildDoc, 'build_doc': BuildDoc},
-        #ext_modules = modules
+        command_options = {
+            "build_doc": {
+                "builder": (None, "coverage"),
+            },
+        },
         ext_modules = cythonize(modules, include_path=["include",], compiler_directives={"embedsignature": False}),
     )
