@@ -213,6 +213,7 @@ Reference
    class-object-textblock
    class-object-box
    class-object-smart
+   class-map
 
 Inheritance diagram
 -------------------
