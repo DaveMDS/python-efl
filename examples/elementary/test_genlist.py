@@ -1,6 +1,8 @@
 #!/usr/bin/env python
 # encoding: utf-8
 
+import time
+
 from efl import elementary
 from efl import evas
 
@@ -431,6 +433,49 @@ def genlist4_clicked(obj, item=None):
     win.resize(320, 320)
     win.show()
 
+def genlist5_clicked(obj, item=None):
+    win = elementary.Window("Genlist", elementary.ELM_WIN_BASIC)
+    win.title_set("Genlist iteration test")
+    win.autodel_set(True)
+
+    bg = elementary.Background(win)
+    win.resize_object_add(bg)
+    bg.size_hint_weight_set(evas.EVAS_HINT_EXPAND, evas.EVAS_HINT_EXPAND)
+    bg.show()
+
+    gl = elementary.Genlist(win)
+    win.resize_object_add(gl)
+    gl.size_hint_align_set(evas.EVAS_HINT_FILL, evas.EVAS_HINT_FILL)
+    gl.size_hint_weight_set(evas.EVAS_HINT_EXPAND, evas.EVAS_HINT_EXPAND)
+    gl.show()
+
+    itc_i = elementary.GenlistItemClass(item_style="default",
+                                       text_get_func=gl_text_get,
+                                       content_get_func=gl_content_get,
+                                       state_get_func=gl_state_get)
+
+    item_count = 10000
+
+    t1 = time.time()
+    for i in xrange(item_count):
+        elementary.GenlistItem(itc_i, None, 0, None, i).append_to(gl)
+    t2 = time.time()
+
+    j = gl.first_item
+    t3 = time.time()
+    while j:
+        d = j.data
+        j = j.next
+    t4 = time.time()
+
+    print("Time to add {0} items:".format(item_count))
+    print(t2-t1)
+    print("Time to iterate item data over {0} items:".format(item_count))
+    print(t4-t3)
+
+    win.resize(320, 320)
+    win.show()
+
 
 if __name__ == "__main__":
     def destroy(obj):
@@ -468,6 +513,7 @@ if __name__ == "__main__":
         ("Genlist 2", genlist2_clicked),
         ("Genlist Group", genlist3_clicked),
         ("Genlist Sorted", genlist4_clicked),
+        ("Genlist Iteration", genlist5_clicked),
     ]
 
     li = elementary.List(win)
