@@ -2,4 +2,3 @@
 ===============================
 
 .. autoclass:: efl.evas.Polygon
-    :inherited-members:

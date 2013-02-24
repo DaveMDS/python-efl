@@ -17,7 +17,9 @@
 
 
 cdef class Map(object):
-
+    """
+    An object that represent a rotation to apply
+    """
     cdef Evas_Map *map
 
     def __cinit__(self, *a, **ka):
@@ -27,6 +29,7 @@ cdef class Map(object):
         self.map = evas_map_new(count)
 
     def delete(self):
+        "delete the map object"
         evas_map_free(self.map)
         self.map = NULL
 

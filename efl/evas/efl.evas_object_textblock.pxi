@@ -18,6 +18,27 @@
 
 cdef class Textblock(Object):
 
+    """A Textblock.
+
+    :param canvas: Evas canvas for this object
+    :type canvas: Canvas
+    :keyword size: Width and height
+    :type size: tuple of ints
+    :keyword pos: X and Y
+    :type pos: tuple of ints
+    :keyword geometry: X, Y, width, height
+    :type geometry: tuple of ints
+    :keyword color: R, G, B, A
+    :type color: tuple of ints
+    :keyword name: Object name
+    :type name: string
+    :keyword text_markup: Markup text
+    :type text_markup: string
+    :keyword style: The style
+    :type style: string
+
+    """
+
     def __init__(self, Canvas canvas not None, **kargs):
         self._set_obj(evas_object_textblock_add(canvas.obj))
         self._set_common_params(**kargs)
@@ -31,11 +52,19 @@ cdef class Textblock(Object):
             self.text_markup_set(text_markup)
 
     def style_get(self):
+        """get the current style
+
+        :rtype: str
+        """
         cdef const_Evas_Textblock_Style *style
         style = evas_object_textblock_style_get(self.obj)
         return _ctouni(evas_textblock_style_get(style))
 
     def style_set(self, value):
+        """set the textblock style information
+
+        :param value:
+        """
         cdef Evas_Textblock_Style *style = evas_textblock_style_new()
         evas_textblock_style_set(style, _cfruni(value))
         evas_object_textblock_style_set(self.obj, style)
@@ -49,9 +78,17 @@ cdef class Textblock(Object):
             self.style_set(value)
 
     def text_markup_get(self):
+        """get the current markup text
+
+        :rtype: str
+        """
         return _ctouni(evas_object_textblock_text_markup_get(self.obj))
 
     def text_markup_set(self, value):
+        """set the textblock markup information
+
+        :param value:
+        """
         evas_object_textblock_text_markup_set(self.obj, _cfruni(value))
 
     property text_markup:
@@ -75,6 +112,14 @@ cdef class Textblock(Object):
             self.replace_char_set(value)
 
     def line_number_geometry_get(self, int index):
+        """Retrieve position and dimension information of a specific line.
+
+        This function is used to obtain the **x**, **y**, **width** and **height**
+        of a the line located at **index** within this object.
+
+        :param index: index of desired line
+        :rtype: tuple of int
+        """
         cdef int cx, cy, cw, ch, r
         r = evas_object_textblock_line_number_geometry_get(self.obj, index, &cx, &cy, &cw, &ch)
         if r == 0:

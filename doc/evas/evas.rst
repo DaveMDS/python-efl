@@ -202,6 +202,7 @@ Reference
 .. toctree::
    :maxdepth: 4
 
+   class-rect
    class-canvas
    class-object
    class-object-rectangle

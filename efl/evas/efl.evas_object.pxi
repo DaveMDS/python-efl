@@ -105,24 +105,26 @@ cdef _object_del_callback_from_list(Object obj, int type, func):
 
 
 cdef class Object(Eo):
-    """Basic Graphical Object (or actor).
+    """ Basic Graphical Object (or actor).
 
-    Objects are managed by L{Canvas} in a non-immediate way, that is,
+    :py:class:`Objects <efl.evas.Object>` are managed by
+    :py:class:`Canvas <efl.evas.Canvas>` in a non-immediate way, that is,
     all operations, like moving, resizing, changing the color, etc will
     not trigger immediate repainting, instead it will save the new state
     and mark both this object and its Canvas as "dirty" so can be redrawn
-    on L{Canvas.render()} (usually called by the underlying system, like
-    B{ecore.evas} when you're entering idle. This means that doesn't matter
-    how many times you're moving an object between frame updates: just the
-    last state will be used, that's why you really should do animations
-    using L{ecore.animator_add()} instead of L{ecore.timer_add()}, since
+    on Canvas.render() (usually called by the underlying system, when
+    you're entering idle. This means that doesn't matter how many times
+    you're moving an object between frame updates: just the last state
+    will be used, that's why you really should do animations
+    using L{efl.ecore.animator_add()} instead of L{efl.ecore.timer_add()}, since
     it will call registered functions in one batch and then trigger redraw,
     instead of calling one function, then redraw, then the next function,
     and redraw...
 
-    The most important concept for evas object is B{clipping}
-    (L{clip_set()} and L{clip_unset()}), usually done by use of
-    L{Rectangle} as clipper. Clip objects will affect the drawing behavior:
+    The most important concept for evas object is *clipping*
+    (:py:attr:`clip`), usually done by use of
+    :py:class:`Rectangle <efl.evas.Rectangle>` as clipper. Clip objects will
+    affect the drawing behavior:
      - Limiting visibility
      - Limiting geometry
      - Modulating color
@@ -132,17 +134,17 @@ cdef class Object(Eo):
     recommended way of doing fade out/in effect, instead of changing object's
     color, clip it to a rectangle and change its color: this will work as
     expected with every object, unlike directly changing color that just
-    work for L{Image}s.
+    work for :py:class:`Images <efl.evas.Image>`
 
     As with every evas component, colors should be specified in
-    B{pre-multiplied} format, see L{evas.color_parse()} and
+    **pre-multiplied** format, see L{evas.color_parse()} and
     L{evas.color_argb_premul()}.
 
     Objects can be grouped by means of L{SmartObject}, a virtual class
     that can have it's methods implemented in order to apply methods to
     its children.
 
-    @attention: since we have two systems controlling object's life (Evas
+    .. attention:: since we have two systems controlling object's life (Evas
         and Python) objects need to be explicitly deleted using L{delete()}
         call. If this call is not issued, the Python object will not be
         released, but if the object is deleted by Evas (ie: due parent
@@ -150,26 +152,6 @@ cdef class Object(Eo):
         will either have no effect or raise exceptions. You can be notified
         of object deletion by the C{EVAS_CALLBACK_FREE} (see L{on_free_add()}
         or L{event_callback_add()}.
-
-    @ivar data: utility dict used to hold any user data.
-    @ivar evas: L{Canvas} that owns this object.
-
-    @group State manipulation: clip_set, clip_get, clip_unset, clip,
-        color_set, color_get, color, show, hide, visible_set, visible_get,
-        visible, delete, is_deleted
-    @group Positioning: pos_set, pos_get, pos, move, move_relative,
-        size_set, size_get, size, resize, geometry*, center*, top_left*,
-        top_right*, bottom_left*, bottom_right*
-    @group Layer & Stack manipulation: above_get, above, below_get, below,
-        layer_set, layer_get, layer, lower, raise_, stack_above, stack_below,
-        bottom_get, bottom, top_get, top
-    @group Event processing control: focus_set, focus_get, focus,
-        pass_events*, repeat_events*, propagate_events*
-    @group Event callbacks: event_callback_*, on_*
-    @group Often unused: render_op*, anti_alias*, pointer_mode*
-
-    @param evas: Evas canvas for this object
-    @type evas: L{Canvas}
 
     """
     def __cinit__(self):
@@ -224,20 +206,31 @@ cdef class Object(Eo):
             self.name_set(name)
 
     def delete(self):
-        """delete()
+        """ Delete object and free it's internal (wrapped) resources.
 
-        Delete the evas object.
+        .. note:: after this operation the object will be still alive in
+            Python, but it will be shallow and every operation
+            will have no effect (and may raise exceptions).
+
+        :raise ValueError: if object already deleted.
 
         """
         evas_object_del(self.obj)
 
-    def evas_get(self):
-        return object_from_instance(evas_object_evas_get(self.obj))
 
     property evas:
+        """ The evas Canvas that owns this object.
+        
+        :type: :py:class:`efl.evas.Canvas`
+        
+        """
         def __get__(self):
             return object_from_instance(evas_object_evas_get(self.obj))
 
+    def evas_get(self):
+        return object_from_instance(evas_object_evas_get(self.obj))
+
+# TODO move to Eo
 #     def type_get(self):
 #         """type_get()
 # 
@@ -257,73 +250,112 @@ cdef class Object(Eo):
 #         def __get__(self):
 #             return self.type_get()
 
-    def layer_set(self, int layer):
-        evas_object_layer_set(self.obj, layer)
-
-    def layer_get(self):
-        return evas_object_layer_get(self.obj)
-
     property layer:
+        """Object's layer number.
+
+        :type: int
+
+        """
         def __set__(self, int l):
             evas_object_layer_set(self.obj, l)
 
         def __get__(self):
             return evas_object_layer_get(self.obj)
 
+    def layer_set(self, int layer):
+        evas_object_layer_set(self.obj, layer)
+    def layer_get(self):
+        return evas_object_layer_get(self.obj)
+
+
     def raise_(self):
+        """ Raise to the top of its layer."""
         evas_object_raise(self.obj)
 
     def lower(self):
+        """ Lower to the bottom of its layer."""
         evas_object_lower(self.obj)
 
     def stack_above(self, Object above):
+        """ Reorder to be above the given one.
+
+        :param above:
+        :type above: :py:class:`efl.evas.Object`
+
+        """
         evas_object_stack_above(self.obj, above.obj)
 
     def stack_below(self, Object below):
+        """ Reorder to be below the given one.
+
+        :param below:
+        :type below: :py:class:`efl.evas.Object`
+
+        """
         evas_object_stack_below(self.obj, below.obj)
+
+    property above:
+        """ The object above this.
+
+        :type: :py:class:`efl.evas.Object`
+
+        """
+        def __get__(self):
+            cdef Evas_Object *other
+            other = evas_object_above_get(self.obj)
+            return object_from_instance(other)
 
     def above_get(self):
         cdef Evas_Object *other
         other = evas_object_above_get(self.obj)
         return object_from_instance(other)
 
-    property above:
+    property below:
+        """ The object below this.
+
+        :type: :py:class:`efl.evas.Object`
+
+        """
         def __get__(self):
-            return self.above_get()
+            cdef Evas_Object *other
+            other = evas_object_below_get(self.obj)
+            return object_from_instance(other)
 
     def below_get(self):
         cdef Evas_Object *other
         other = evas_object_below_get(self.obj)
         return object_from_instance(other)
 
-    property below:
+    property top:
+        """The topmost object. (Same as self.evas.top_get()).
+
+        :type: :py:class:`efl.evas.Object`
+
+        """
         def __get__(self):
-            return self.below_get()
+            return self.evas.top_get()
 
     def top_get(self):
         return self.evas.top_get()
 
-    property top:
+    property bottom:
+        """The bottommost object. (Same as self.evas.bottom_get()).
+
+        :type: :py:class:`efl.evas.Object`
+
+        """
         def __get__(self):
-            return self.top_get()
+            return self.evas.bottom_get()
 
     def bottom_get(self):
         return self.evas.bottom_get()
 
-    property bottom:
-        def __get__(self):
-            return self.bottom_get()
-
-    def geometry_get(self):
-        cdef int x, y, w, h
-        evas_object_geometry_get(self.obj, &x, &y, &w, &h)
-        return (x, y, w, h)
-
-    def geometry_set(self, int x, int y, int w, int h):
-        evas_object_move(self.obj, x, y)
-        evas_object_resize(self.obj, w, h)
-
     property geometry:
+        """Object's position and size (X, Y, W, H).
+
+        :type: tuple of ints
+
+        """
         def __get__(self): # replicated to avoid performance hit
             cdef int x, y, w, h
             evas_object_geometry_get(self.obj, &x, &y, &w, &h)
@@ -335,15 +367,20 @@ cdef class Object(Eo):
             evas_object_move(self.obj, x, y)
             evas_object_resize(self.obj, w, h)
 
-    def size_get(self):
-        cdef int w, h
-        evas_object_geometry_get(self.obj, NULL, NULL, &w, &h)
-        return (w, h)
-
-    def size_set(self, int w, int h):
+    def geometry_get(self):
+        cdef int x, y, w, h
+        evas_object_geometry_get(self.obj, &x, &y, &w, &h)
+        return (x, y, w, h)
+    def geometry_set(self, int x, int y, int w, int h):
+        evas_object_move(self.obj, x, y)
         evas_object_resize(self.obj, w, h)
 
     property size:
+        """Object's size (width and height).
+
+        :type: tuple of ints
+
+        """
         def __get__(self): # replicated to avoid performance hit
             cdef int w, h
             evas_object_geometry_get(self.obj, NULL, NULL, &w, &h)
@@ -354,18 +391,55 @@ cdef class Object(Eo):
             w, h = spec
             evas_object_resize(self.obj, w, h)
 
-    def resize(self, int w, int h):
+    def size_get(self):
+        cdef int w, h
+        evas_object_geometry_get(self.obj, NULL, NULL, &w, &h)
+        return (w, h)
+    def size_set(self, int w, int h):
         evas_object_resize(self.obj, w, h)
+
+    def resize(self, int w, int h):
+        """resize(int w, int h)
+
+        Same as L{size_set()}.
+
+        :param w: Width.
+        :type w: int
+        :param h: Height.
+        :type h: int
+
+        """
+        evas_object_resize(self.obj, w, h)
+
+    property pos:
+        """Object's position on the X and Y coordinates.
+
+        :type: tuple of ints
+
+        """
+        def __get__(self): # replicated to avoid performance hit
+            cdef int x, y
+            evas_object_geometry_get(self.obj, &x, &y, NULL, NULL)
+            return (x, y)
+
+        def __set__(self, spec):
+            cdef int x, y
+            x, y = spec
+            evas_object_move(self.obj, x, y)
 
     def pos_get(self):
         cdef int x, y
         evas_object_geometry_get(self.obj, &x, &y, NULL, NULL)
         return (x, y)
-
     def pos_set(self, int x, int y):
         evas_object_move(self.obj, x, y)
 
-    property pos:
+    property top_left:
+        """Object's top-left corner coordinates.
+
+        :type: tuple of ints
+
+        """
         def __get__(self): # replicated to avoid performance hit
             cdef int x, y
             evas_object_geometry_get(self.obj, &x, &y, NULL, NULL)
@@ -380,32 +454,15 @@ cdef class Object(Eo):
         cdef int x, y
         evas_object_geometry_get(self.obj, &x, &y, NULL, NULL)
         return (x, y)
-
     def top_left_set(self, int x, int y):
         evas_object_move(self.obj, x, y)
 
-    property top_left:
-        def __get__(self): # replicated to avoid performance hit
-            cdef int x, y
-            evas_object_geometry_get(self.obj, &x, &y, NULL, NULL)
-            return (x, y)
-
-        def __set__(self, spec):
-            cdef int x, y
-            x, y = spec
-            evas_object_move(self.obj, x, y)
-
-    def top_center_get(self):
-        cdef int x, y, w
-        evas_object_geometry_get(self.obj, &x, &y, &w, NULL)
-        return (x + w/2, y)
-
-    def top_center_set(self, int x, int y):
-        cdef int w
-        evas_object_geometry_get(self.obj, NULL, NULL, &w, NULL)
-        evas_object_move(self.obj, x - w/2, y)
-
     property top_center:
+        """The coordinates of the top-center position.
+
+        :type: tuple of ints
+
+        """
         def __get__(self): # replicated to avoid performance hit
             cdef int x, y, w
             evas_object_geometry_get(self.obj, &x, &y, &w, NULL)
@@ -417,17 +474,21 @@ cdef class Object(Eo):
             evas_object_geometry_get(self.obj, NULL, NULL, &w, NULL)
             evas_object_move(self.obj, x - w/2, y)
 
-    def top_right_get(self):
+    def top_center_get(self):
         cdef int x, y, w
         evas_object_geometry_get(self.obj, &x, &y, &w, NULL)
-        return (x + w, y)
-
-    def top_right_set(self, int x, int y):
+        return (x + w/2, y)
+    def top_center_set(self, int x, int y):
         cdef int w
         evas_object_geometry_get(self.obj, NULL, NULL, &w, NULL)
-        evas_object_move(self.obj, x - w, y)
+        evas_object_move(self.obj, x - w/2, y)
 
     property top_right:
+        """Object's top-right corner coordinates.
+
+        :type: tuple of ints
+
+        """
         def __get__(self): # replicated to avoid performance hit
             cdef int x, y, w
             evas_object_geometry_get(self.obj, &x, &y, &w, NULL)
@@ -439,17 +500,21 @@ cdef class Object(Eo):
             evas_object_geometry_get(self.obj, NULL, NULL, &w, NULL)
             evas_object_move(self.obj, x - w, y)
 
-    def left_center_get(self):
-        cdef int x, y, h
-        evas_object_geometry_get(self.obj, &x, &y, NULL, &h)
-        return (x, y + h/2)
-
-    def left_center_set(self, int x, int y):
-        cdef int h
-        evas_object_geometry_get(self.obj, NULL, NULL, NULL, &h)
-        evas_object_move(self.obj, x, y - h/2)
+    def top_right_get(self):
+        cdef int x, y, w
+        evas_object_geometry_get(self.obj, &x, &y, &w, NULL)
+        return (x + w, y)
+    def top_right_set(self, int x, int y):
+        cdef int w
+        evas_object_geometry_get(self.obj, NULL, NULL, &w, NULL)
+        evas_object_move(self.obj, x - w, y)
 
     property left_center:
+        """The coordinates of the left-center position.
+
+        :type: tuple of ints
+
+        """
         def __get__(self): # replicated to avoid performance hit
             cdef int x, y, h
             evas_object_geometry_get(self.obj, &x, &y, NULL, &h)
@@ -461,17 +526,21 @@ cdef class Object(Eo):
             evas_object_geometry_get(self.obj, NULL, NULL, NULL, &h)
             evas_object_move(self.obj, x, y - h/2)
 
-    def right_center_get(self):
-        cdef int x, y, w, h
-        evas_object_geometry_get(self.obj, &x, &y, &w, &h)
-        return (x + w, y + h/2)
-
-    def right_center_set(self, int x, int y):
-        cdef int w, h
-        evas_object_geometry_get(self.obj, NULL, NULL, &w, &h)
-        evas_object_move(self.obj, x - w, y - h/2)
+    def left_center_get(self):
+        cdef int x, y, h
+        evas_object_geometry_get(self.obj, &x, &y, NULL, &h)
+        return (x, y + h/2)
+    def left_center_set(self, int x, int y):
+        cdef int h
+        evas_object_geometry_get(self.obj, NULL, NULL, NULL, &h)
+        evas_object_move(self.obj, x, y - h/2)
 
     property right_center:
+        """The coordinates of the right-center position.
+
+        :type: tuple of ints
+
+        """
         def __get__(self): # replicated to avoid performance hit
             cdef int x, y, w, h
             evas_object_geometry_get(self.obj, &x, &y, &w, &h)
@@ -483,17 +552,21 @@ cdef class Object(Eo):
             evas_object_geometry_get(self.obj, NULL, NULL, &w, &h)
             evas_object_move(self.obj, x - w, y - h/2)
 
-    def bottom_left_get(self):
-        cdef int x, y, h
-        evas_object_geometry_get(self.obj, &x, &y, NULL, &h)
-        return (x, y + h)
-
-    def bottom_left_set(self, int x, int y):
-        cdef int h
-        evas_object_geometry_get(self.obj, NULL, NULL, NULL, &h)
-        evas_object_move(self.obj, x, y - h)
+    def right_center_get(self):
+        cdef int x, y, w, h
+        evas_object_geometry_get(self.obj, &x, &y, &w, &h)
+        return (x + w, y + h/2)
+    def right_center_set(self, int x, int y):
+        cdef int w, h
+        evas_object_geometry_get(self.obj, NULL, NULL, &w, &h)
+        evas_object_move(self.obj, x - w, y - h/2)
 
     property bottom_left:
+        """Object's bottom-left corner coordinates.
+
+        :type: tuple of ints
+
+        """
         def __get__(self): # replicated to avoid performance hit
             cdef int x, y, h
             evas_object_geometry_get(self.obj, &x, &y, NULL, &h)
@@ -505,17 +578,21 @@ cdef class Object(Eo):
             evas_object_geometry_get(self.obj, NULL, NULL, NULL, &h)
             evas_object_move(self.obj, x, y - h)
 
-    def bottom_center_get(self):
-        cdef int x, y, w, h
-        evas_object_geometry_get(self.obj, &x, &y, &w, &h)
-        return (x + w/2, y + h)
-
-    def bottom_center_set(self, int x, int y):
-        cdef int w, h
-        evas_object_geometry_get(self.obj, NULL, NULL, &w, &h)
-        evas_object_move(self.obj, x - w/2, y - h)
+    def bottom_left_get(self):
+        cdef int x, y, h
+        evas_object_geometry_get(self.obj, &x, &y, NULL, &h)
+        return (x, y + h)
+    def bottom_left_set(self, int x, int y):
+        cdef int h
+        evas_object_geometry_get(self.obj, NULL, NULL, NULL, &h)
+        evas_object_move(self.obj, x, y - h)
 
     property bottom_center:
+        """Object's bottom-center coordinates.
+
+        :type: tuple of ints
+
+        """
         def __get__(self): # replicated to avoid performance hit
             cdef int x, y, w, h
             evas_object_geometry_get(self.obj, &x, &y, &w, &h)
@@ -527,17 +604,21 @@ cdef class Object(Eo):
             evas_object_geometry_get(self.obj, NULL, NULL, &w, &h)
             evas_object_move(self.obj, x - w/2, y - h)
 
-    def bottom_right_get(self):
+    def bottom_center_get(self):
         cdef int x, y, w, h
         evas_object_geometry_get(self.obj, &x, &y, &w, &h)
-        return (x + w, y + h)
-
-    def bottom_right_set(self, int x, int y):
+        return (x + w/2, y + h)
+    def bottom_center_set(self, int x, int y):
         cdef int w, h
         evas_object_geometry_get(self.obj, NULL, NULL, &w, &h)
-        evas_object_move(self.obj, x - w, y - h)
+        evas_object_move(self.obj, x - w/2, y - h)
 
     property bottom_right:
+        """Object's bottom-right corner coordinates.
+
+        :type: tuple of ints
+
+        """
         def __get__(self): # replicated to avoid performance hit
             cdef int x, y, w, h
             evas_object_geometry_get(self.obj, &x, &y, &w, &h)
@@ -549,17 +630,21 @@ cdef class Object(Eo):
             evas_object_geometry_get(self.obj, NULL, NULL, &w, &h)
             evas_object_move(self.obj, x - w, y - h)
 
-    def center_get(self):
+    def bottom_right_get(self):
         cdef int x, y, w, h
         evas_object_geometry_get(self.obj, &x, &y, &w, &h)
-        return (x + w/2, y + h/2)
-
-    def center_set(self, int x, int y):
+        return (x + w, y + h)
+    def bottom_right_set(self, int x, int y):
         cdef int w, h
         evas_object_geometry_get(self.obj, NULL, NULL, &w, &h)
-        evas_object_move(self.obj, x - w/2, y - h/2)
+        evas_object_move(self.obj, x - w, y - h)
 
     property center:
+        """Object's center coordinates.
+
+        :type: tuple of ints
+
+        """
         def __get__(self): # replicated to avoid performance hit
             cdef int x, y, w, h
             evas_object_geometry_get(self.obj, &x, &y, &w, &h)
@@ -571,7 +656,29 @@ cdef class Object(Eo):
             evas_object_geometry_get(self.obj, NULL, NULL, &w, &h)
             evas_object_move(self.obj, x - w/2, y - h/2)
 
+    def center_get(self):
+        cdef int x, y, w, h
+        evas_object_geometry_get(self.obj, &x, &y, &w, &h)
+        return (x + w/2, y + h/2)
+    def center_set(self, int x, int y):
+        cdef int w, h
+        evas_object_geometry_get(self.obj, NULL, NULL, &w, &h)
+        evas_object_move(self.obj, x - w/2, y - h/2)
+
     property rect:
+        """A rectangle representing the object's geometry.
+
+        Rectangles have useful operations like clip, clamp, union and
+        also provides various attributes like top_left, center_x, ...
+
+        Note that changing rectangle is a snapshot of current state, it
+        is not synchronized to the object, so modifying attributes DO NOT
+        change the object itself! You must set the Object.rect property
+        to update object information.
+
+        :type: :py:class:`efl.evas.Rect`
+
+        """
         def __get__(self):
             cdef int x, y, w, h
             evas_object_geometry_get(self.obj, &x, &y, &w, &h)
@@ -586,200 +693,373 @@ cdef class Object(Eo):
             evas_object_move(self.obj, r.x0, r.y0)
             evas_object_resize(self.obj, r._w, r._h)
 
+    property size_hint_min:
+        """Hint about minimum size.
+
+        This is not an enforcement, just a hint that can be used by
+        other objects like Edje, boxes, tables and others.
+
+        Value 0 is disabled.
+
+        When this property changes, EVAS_CALLBACK_CHANGED_SIZE_HINTS
+        will be emitted.
+
+        :type: tuple of ints
+
+        """
+        def __get__(self):
+            cdef int w, h
+            evas_object_size_hint_min_get(self.obj, &w, &h)
+            return (w, h)
+
+        def __set__(self, spec):
+            w, h = spec
+            evas_object_size_hint_min_set(self.obj, w, h)
+
     def size_hint_min_get(self):
         cdef int w, h
         evas_object_size_hint_min_get(self.obj, &w, &h)
         return (w, h)
-
     def size_hint_min_set(self, int w, int h):
         evas_object_size_hint_min_set(self.obj, w, h)
 
-    property size_hint_min:
+    property size_hint_max:
+        """Hint about maximum size.
+
+        This is not an enforcement, just a hint that can be used by
+        other objects like Edje, boxes, tables and others.
+
+        Value -1 is disabled.
+
+        When this property changes, EVAS_CALLBACK_CHANGED_SIZE_HINTS
+        will be emitted.
+
+        :type: tuple of ints
+
+        """
         def __get__(self):
-            return self.size_hint_min_get()
+            cdef int w, h
+            evas_object_size_hint_max_get(self.obj, &w, &h)
+            return (w, h)
 
         def __set__(self, spec):
-            self.size_hint_min_set(*spec)
+            w, h = spec
+            evas_object_size_hint_max_set(self.obj, w, h)
 
     def size_hint_max_get(self):
         cdef int w, h
         evas_object_size_hint_max_get(self.obj, &w, &h)
         return (w, h)
-
     def size_hint_max_set(self, int w, int h):
         evas_object_size_hint_max_set(self.obj, w, h)
 
-    property size_hint_max:
+    property size_hint_request:
+        """Hint about request size.
+
+        This is not an enforcement, just a hint that can be used by
+        other objects like Edje, boxes, tables and others.
+
+        Value 0 is disabled.
+
+        When this property changes, EVAS_CALLBACK_CHANGED_SIZE_HINTS
+        will be emitted.
+
+        :type: tuple of ints
+
+        """
         def __get__(self):
-            return self.size_hint_max_get()
+            cdef int w, h
+            evas_object_size_hint_request_get(self.obj, &w, &h)
+            return (w, h)
 
         def __set__(self, spec):
-            self.size_hint_max_set(*spec)
+            w, h = spec
+            evas_object_size_hint_request_set(self.obj, w, h)
 
     def size_hint_request_get(self):
         cdef int w, h
         evas_object_size_hint_request_get(self.obj, &w, &h)
         return (w, h)
-
     def size_hint_request_set(self, int w, int h):
         evas_object_size_hint_request_set(self.obj, w, h)
 
-    property size_hint_request:
+    property size_hint_aspect:
+        """Hint about aspect.
+
+        This is not an enforcement, just a hint that can be used by
+        other objects like Edje, boxes, tables and others.
+
+        Aspect EVAS_ASPECT_CONTROL_NONE is disabled.
+
+        When this property changes, EVAS_CALLBACK_CHANGED_SIZE_HINTS
+        will be emitted.
+
+        :type: tuple of ints
+
+        """
         def __get__(self):
-            return self.size_hint_request_get()
+            cdef int w, h
+            cdef Evas_Aspect_Control aspect
+            evas_object_size_hint_aspect_get(self.obj, &aspect, &w, &h)
+            return (<int>aspect, w, h)
 
         def __set__(self, spec):
-            self.size_hint_request_set(*spec)
+            aspect, w, h = spec
+            evas_object_size_hint_aspect_set(   self.obj,
+                                                <Evas_Aspect_Control>aspect,
+                                                w, h)
 
     def size_hint_aspect_get(self):
         cdef int w, h
         cdef Evas_Aspect_Control aspect
         evas_object_size_hint_aspect_get(self.obj, &aspect, &w, &h)
         return (<int>aspect, w, h)
-
     def size_hint_aspect_set(self, int aspect, int w, int h):
         evas_object_size_hint_aspect_set(self.obj, <Evas_Aspect_Control>aspect,
                                          w, h)
 
-    property size_hint_aspect:
+    property size_hint_align:
+        """Hint about alignment.
+
+        This is not an enforcement, just a hint that can be used by
+        other objects like Edje, boxes, tables and others.
+
+        Accepted values are in the 0.0 to 1.0 range, with the special
+        value -1.0 used to specify"justify" or "fill" by some users.
+        See documentation of possible users.
+
+        When this property changes, EVAS_CALLBACK_CHANGED_SIZE_HINTS
+        will be emitted.
+
+        :type: tuple of floats
+
+        """
         def __get__(self):
-            return self.size_hint_aspect_get()
+            cdef double x, y
+            evas_object_size_hint_align_get(self.obj, &x, &y)
+            return (x, y)
 
         def __set__(self, spec):
-            self.size_hint_aspect_set(*spec)
+            x, y = spec
+            evas_object_size_hint_align_set(self.obj, x, y)
 
     def size_hint_align_get(self):
         cdef double x, y
         evas_object_size_hint_align_get(self.obj, &x, &y)
         return (x, y)
-
     def size_hint_align_set(self, float x, float y):
         evas_object_size_hint_align_set(self.obj, x, y)
 
-    property size_hint_align:
+    property size_hint_weight:
+        """Hint about weight.
+
+        This is not an enforcement, just a hint that can be used by
+        other objects like Edje, boxes, tables and others.
+
+        Value 0.0 is disabled.
+
+        When this property changes, EVAS_CALLBACK_CHANGED_SIZE_HINTS
+        will be emitted.
+
+        :type: tuple of floats
+
+        """
         def __get__(self):
-            return self.size_hint_align_get()
+            cdef double x, y
+            evas_object_size_hint_weight_get(self.obj, &x, &y)
+            return (x, y)
 
         def __set__(self, spec):
-            self.size_hint_align_set(*spec)
+            x, y = spec
+            evas_object_size_hint_weight_set(self.obj, x, y)
 
     def size_hint_weight_get(self):
         cdef double x, y
         evas_object_size_hint_weight_get(self.obj, &x, &y)
         return (x, y)
-
     def size_hint_weight_set(self, float x, float y):
         evas_object_size_hint_weight_set(self.obj, x, y)
 
-    property size_hint_weight:
+    property size_hint_padding:
+        """Hint about padding.
+
+        This is not an enforcement, just a hint that can be used by
+        other objects like Edje, boxes, tables and others.
+
+        When this property changes, EVAS_CALLBACK_CHANGED_SIZE_HINTS
+        will be emitted.
+
+        """
         def __get__(self):
-            return self.size_hint_weight_get()
+            cdef int l, r, t, b
+            evas_object_size_hint_padding_get(self.obj, &l, &r, &t, &b)
+            return (l, r, t, b)
 
         def __set__(self, spec):
-            self.size_hint_weight_set(*spec)
+            l, r, t, b = spec
+            evas_object_size_hint_padding_set(self.obj, l, r, t, b)
 
     def size_hint_padding_get(self):
         cdef int l, r, t, b
         evas_object_size_hint_padding_get(self.obj, &l, &r, &t, &b)
         return (l, r, t, b)
-
     def size_hint_padding_set(self, int l, int r, int t, int b):
         evas_object_size_hint_padding_set(self.obj, l, r, t, b)
 
-    property size_hint_padding:
-        def __get__(self):
-            return self.size_hint_padding_get()
-
-        def __set__(self, spec):
-            self.size_hint_padding_set(*spec)
-
     def move(self, int x, int y):
+        """move(int x, int y)
+
+        Same as L{pos_set()}.
+
+        """
         evas_object_move(self.obj, x, y)
 
     def move_relative(self, int dx, int dy):
+        """move(int dx, int dy)
+
+        Move relatively to current position.
+
+        """
         cdef int x, y
         evas_object_geometry_get(self.obj, &x, &y, NULL, NULL)
         evas_object_move(self.obj, x + dx, y + dy)
 
     def show(self):
+        """Show the object."""
         evas_object_show(self.obj)
 
     def hide(self):
+        """Hide the object."""
         evas_object_hide(self.obj)
+
+    property visible:
+        """Whenever it's visible or not.
+
+        :type: bool
+
+        """
+        def __get__(self):
+            return bool(evas_object_visible_get(self.obj))
+
+        def __set__(self, spec):
+            if spec:
+                self.show()
+            else:
+                self.hide()
 
     def visible_get(self):
         return bool(evas_object_visible_get(self.obj))
-
     def visible_set(self, spec):
         if spec:
             self.show()
         else:
             self.hide()
 
-    property visible:
-        def __get__(self):
-            return self.visible_get()
+    property static_clip:
+        """A hint flag on the object, whether this is used as a static clipper
+        or not.
 
-        def __set__(self, spec):
-            self.visible_set(spec)
+        :type: bool
+
+        """
+        def __get__(self):
+            return bool(evas_object_static_clip_get(self.obj))
+
+        def __set__(self, value):
+            evas_object_static_clip_set(self.obj, value)
 
     def static_clip_get(self):
         return bool(evas_object_static_clip_get(self.obj))
-
     def static_clip_set(self, int value):
         evas_object_static_clip_set(self.obj, value)
 
-    property static_clip:
-        def __get__(self):
-            return self.static_clip_get()
+    property render_op:
+        """Render operation used at drawing.
 
-        def __set__(self, value):
-            self.static_clip_set(value)
+        :type: Evas_Render_Op
+
+        """
+        def __get__(self):
+            return evas_object_render_op_get(self.obj)
+
+        def __set__(self, int value):
+            evas_object_render_op_set(self.obj, <Evas_Render_Op>value)
 
     def render_op_get(self):
         return evas_object_render_op_get(self.obj)
-
     def render_op_set(self, int value):
         evas_object_render_op_set(self.obj, <Evas_Render_Op>value)
 
-    property render_op:
+    property anti_alias:
+        """If anti-aliased primitives should be used.
+
+        :type: bool
+
+        """
         def __get__(self):
-            return self.render_op_get()
+            return bool(evas_object_anti_alias_get(self.obj))
 
         def __set__(self, int value):
-            self.render_op_set(value)
+            evas_object_anti_alias_set(self.obj, value)
 
     def anti_alias_get(self):
         return bool(evas_object_anti_alias_get(self.obj))
-
     def anti_alias_set(self, int value):
         evas_object_anti_alias_set(self.obj, value)
 
-    property anti_alias:
-        def __get__(self):
-            return self.anti_alias_get()
+    property color:
+        """Object's (r, g, b, a) color, in pre-multiply colorspace.
 
-        def __set__(self, int value):
-            self.anti_alias_set(value)
+        :type: tuple of ints
+
+        """
+
+        def __get__(self):
+            cdef int r, g, b, a
+            evas_object_color_get(self.obj, &r, &g, &b, &a)
+            return (r, g, b, a)
+
+        def __set__(self, color):
+            r, g, b, a = color
+            evas_object_color_set(self.obj, r, g, b, a)
 
     def color_set(self, int r, int g, int b, int a):
         evas_object_color_set(self.obj, r, g, b, a)
-
     def color_get(self):
         cdef int r, g, b, a
         evas_object_color_get(self.obj, &r, &g, &b, &a)
         return (r, g, b, a)
 
-    property color:
-        def __get__(self):
-            return self.color_get()
+    property clip:
+        """Object's clipper.
 
-        def __set__(self, color):
-            self.color_set(*color)
+        :type: :py:class:`efl.evas.Object`
+
+        """
+        def __get__(self):
+            cdef Evas_Object *clip
+            clip = evas_object_clip_get(self.obj)
+            return object_from_instance(clip)
+
+        def __set__(self, value):
+            cdef Evas_Object *clip
+            cdef Object o
+            if value is None:
+                evas_object_clip_unset(self.obj)
+            elif isinstance(value, Object):
+                o = <Object>value
+                clip = o.obj
+                evas_object_clip_set(self.obj, clip)
+            else:
+                raise ValueError("clip must be evas.Object or None")
+
+        def __del__(self):
+            evas_object_clip_unset(self.obj)
 
     def clip_get(self):
-        return object_from_instance(evas_object_clip_get(self.obj))
-
+        cdef Evas_Object *clip
+        clip = evas_object_clip_get(self.obj)
+        return object_from_instance(clip)
     def clip_set(self, value):
         cdef Evas_Object *clip
         cdef Object o
@@ -791,19 +1071,21 @@ cdef class Object(Eo):
             evas_object_clip_set(self.obj, clip)
         else:
             raise ValueError("clip must be evas.Object or None")
-
     def clip_unset(self):
         evas_object_clip_unset(self.obj)
 
-    property clip:
+
+
+
+
+    property clipees:
+        """Objects that this object clips.
+
+        :type: tuple of :py:class:`efl.evas.Object`
+
+        """
         def __get__(self):
-            return self.clip_get()
-
-        def __set__(self, value):
-            self.clip_set(value)
-
-        def __del__(self):
-            self.clip_unset()
+            return self.clipees_get()
 
     def clipees_get(self):
         cdef const_Eina_List *itr
@@ -816,37 +1098,67 @@ cdef class Object(Eo):
             itr = itr.next
         return tuple(ret)
 
-    property clipees:
-        def __get__(self):
-            return self.clipees_get()
-
-    def name_get(self):
-        return _ctouni(evas_object_name_get(self.obj))
-
-    def name_set(self, value):
-        evas_object_name_set(self.obj, _cfruni(value))
-
     property name:
+        """Object name or *None*.
+
+        :type: string
+
+        """
         def __get__(self):
             return _ctouni(evas_object_name_get(self.obj))
 
         def __set__(self, value):
             evas_object_name_set(self.obj, _cfruni(value))
 
+    def name_get(self):
+        return _ctouni(evas_object_name_get(self.obj))
+    def name_set(self, value):
+        evas_object_name_set(self.obj, _cfruni(value))
+
+    property focus:
+        """Whenever object currently have the focus.
+
+        :type: bool
+
+        """
+        def __get__(self):
+            return bool(evas_object_focus_get(self.obj))
+
+        def __set__(self, int value):
+            evas_object_focus_set(self.obj, value)
+
     def focus_get(self):
         return bool(evas_object_focus_get(self.obj))
-
     def focus_set(self, value):
         evas_object_focus_set(self.obj, value)
 
-    property focus:
-        def __get__(self):
-            return self.focus_get()
-
-        def __set__(self, int value):
-            self.focus_set(value)
-
     def event_callback_add(self, Evas_Callback_Type type, func, *args, **kargs):
+        """event_callback_add(int type, func, *args, **kargs)
+
+        Add a new callback for the given event.
+
+        :param type: an integer with event type code, like
+            *EVAS_CALLBACK_MOUSE_IN*, *EVAS_CALLBACK_KEY_DOWN* and
+            other *EVAS_CALLBACK_* constants.
+        :type type: int
+        :param func: function to call back, this function will have one of
+            the following signatures::
+
+                function(object, event, *args, **kargs)
+                function(object, *args, **kargs)
+
+            The former is used by events that provide more data, like
+            *EVAS_CALLBACK_MOUSE_*, *EVAS_CALLBACK_KEY_*, while the
+            second is used by events without. Parameters given at the
+            end of *event_callback_add()* will be given to the callback.
+            Note that the object passed to the callback in **event**
+            parameter will only be valid during the callback, using it
+            after callback returns will raise an ValueError.
+        :type func: function
+
+        :raise ValueError: if **type** is unknown.
+        :raise TypeError: if **func** is not callable.
+        """
         cdef Evas_Object_Event_Cb cb
 
         if not callable(func):
@@ -858,6 +1170,21 @@ cdef class Object(Eo):
                 evas_object_event_callback_add(self.obj, type, cb, <void*>self)
 
     def event_callback_del(self, Evas_Callback_Type type, func):
+        """event_callback_add(int type, func)
+
+        Remove callback for the given event.
+
+        :param type: an integer with event type code.
+        :type type: int
+        :param func: function used with :py:func:`event_callback_add()`.
+        :type func: function
+        :precond: **type** and **func** must be used as parameter for
+            :py:func:`event_callback_add()`.
+
+        :raise ValueError: if **type** is unknown or if there was no
+            **func** connected with this type.
+
+        """
         cdef Evas_Object_Event_Cb cb
         if _object_del_callback_from_list(self, type, func):
             if type != EVAS_CALLBACK_FREE:
@@ -865,203 +1192,392 @@ cdef class Object(Eo):
                 evas_object_event_callback_del(self.obj, type, cb)
 
     def on_mouse_in_add(self, func, *a, **k):
+        """Same as event_callback_add(EVAS_CALLBACK_MOUSE_IN, ...)
+
+        Expected signature::
+
+            function(object, event_info, *args, **kargs)
+        """
         self.event_callback_add(EVAS_CALLBACK_MOUSE_IN, func, *a, **k)
 
     def on_mouse_in_del(self, func):
+        """Same as event_callback_del(EVAS_CALLBACK_MOUSE_IN, ...)"""
         self.event_callback_del(EVAS_CALLBACK_MOUSE_IN, func)
 
     def on_mouse_out_add(self, func, *a, **k):
+        """Same as event_callback_add(EVAS_CALLBACK_MOUSE_OUT, ...)
+
+        Expected signature::
+
+            function(object, event_info, *args, **kargs)
+        """
         self.event_callback_add(EVAS_CALLBACK_MOUSE_OUT, func, *a, **k)
 
     def on_mouse_out_del(self, func):
+        """Same as event_callback_del(EVAS_CALLBACK_MOUSE_OUT, ...)"""
         self.event_callback_del(EVAS_CALLBACK_MOUSE_OUT, func)
 
     def on_mouse_down_add(self, func, *a, **k):
+        """Same as event_callback_add(EVAS_CALLBACK_MOUSE_DOWN, ...)
+
+        Expected signature::
+
+            function(object, event_info, *args, **kargs)
+        """
         self.event_callback_add(EVAS_CALLBACK_MOUSE_DOWN, func, *a, **k)
 
     def on_mouse_down_del(self, func):
+        """Same as event_callback_del(EVAS_CALLBACK_MOUSE_DOWN, ...)"""
         self.event_callback_del(EVAS_CALLBACK_MOUSE_DOWN, func)
 
     def on_mouse_up_add(self, func, *a, **k):
+        """Same as event_callback_add(EVAS_CALLBACK_MOUSE_UP, ...)
+
+        Expected signature::
+
+            function(object, event_info, *args, **kargs)
+        """
         self.event_callback_add(EVAS_CALLBACK_MOUSE_UP, func, *a, **k)
 
     def on_mouse_up_del(self, func):
+        """Same as event_callback_del(EVAS_CALLBACK_MOUSE_UP, ...)"""
         self.event_callback_del(EVAS_CALLBACK_MOUSE_UP, func)
 
     def on_mouse_move_add(self, func, *a, **k):
+        """Same as event_callback_add(EVAS_CALLBACK_MOUSE_MOVE, ...)
+
+        Expected signature::
+
+            function(object, event_info, *args, **kargs)
+        """
         self.event_callback_add(EVAS_CALLBACK_MOUSE_MOVE, func, *a, **k)
 
     def on_mouse_move_del(self, func):
+        """Same as event_callback_del(EVAS_CALLBACK_MOUSE_MOVE, ...)"""
         self.event_callback_del(EVAS_CALLBACK_MOUSE_MOVE, func)
 
     def on_mouse_wheel_add(self, func, *a, **k):
+        """Same as event_callback_add(EVAS_CALLBACK_MOUSE_WHEEL, ...)
+
+        Expected signature::
+
+            function(object, event_info, *args, **kargs)
+        """
         self.event_callback_add(EVAS_CALLBACK_MOUSE_WHEEL, func, *a, **k)
 
     def on_mouse_wheel_del(self, func):
+        """Same as event_callback_del(EVAS_CALLBACK_MOUSE_WHEEL, ...)"""
         self.event_callback_del(EVAS_CALLBACK_MOUSE_WHEEL, func)
 
     def on_free_add(self, func, *a, **k):
+        """Same as event_callback_add(EVAS_CALLBACK_FREE, ...)
+
+        This is called after freeing object resources (see
+        EVAS_CALLBACK_DEL).
+
+        Expected signature::
+
+            function(object, *args, **kargs)
+        """
         self.event_callback_add(EVAS_CALLBACK_FREE, func, *a, **k)
 
     def on_free_del(self, func):
+        """Same as event_callback_del(EVAS_CALLBACK_FREE, ...)"""
         self.event_callback_del(EVAS_CALLBACK_FREE, func)
 
     def on_key_down_add(self, func, *a, **k):
+        """Same as event_callback_add(EVAS_CALLBACK_KEY_DOWN, ...)
+
+        Expected signature::
+
+            function(object, event_info, *args, **kargs)
+        """
         self.event_callback_add(EVAS_CALLBACK_KEY_DOWN, func, *a, **k)
 
     def on_key_down_del(self, func):
+        """Same as event_callback_del(EVAS_CALLBACK_KEY_DOWN, ...)"""
         self.event_callback_del(EVAS_CALLBACK_KEY_DOWN, func)
 
     def on_key_up_add(self, func, *a, **k):
+        """Same as event_callback_add(EVAS_CALLBACK_KEY_UP, ...)
+
+        Expected signature::
+
+            function(object, event_info, *args, **kargs)
+        """
         self.event_callback_add(EVAS_CALLBACK_KEY_UP, func, *a, **k)
 
     def on_key_up_del(self, func):
+        """Same as event_callback_del(EVAS_CALLBACK_KEY_UP, ...)"""
         self.event_callback_del(EVAS_CALLBACK_KEY_UP, func)
 
     def on_focus_in_add(self, func, *a, **k):
+        """Same as event_callback_add(EVAS_CALLBACK_FOCUS_IN, ...)
+
+        Expected signature::
+
+            function(object, *args, **kargs)
+        """
         self.event_callback_add(EVAS_CALLBACK_FOCUS_IN, func, *a, **k)
 
     def on_focus_in_del(self, func):
+        """Same as event_callback_del(EVAS_CALLBACK_FOCUS_IN, ...)"""
         self.event_callback_del(EVAS_CALLBACK_FOCUS_IN, func)
 
     def on_focus_out_add(self, func, *a, **k):
+        """Same as event_callback_add(EVAS_CALLBACK_FOCUS_OUT, ...)
+
+        Expected signature::
+
+            function(object, *args, **kargs)
+        """
         self.event_callback_add(EVAS_CALLBACK_FOCUS_OUT, func, *a, **k)
 
     def on_focus_out_del(self, func):
+        """Same as event_callback_del(EVAS_CALLBACK_FOCUS_OUT, ...)"""
         self.event_callback_del(EVAS_CALLBACK_FOCUS_OUT, func)
 
     def on_show_add(self, func, *a, **k):
+        """Same as event_callback_add(EVAS_CALLBACK_SHOW, ...)
+
+        Expected signature::
+
+            function(object, *args, **kargs)
+        """
         self.event_callback_add(EVAS_CALLBACK_SHOW, func, *a, **k)
 
     def on_show_del(self, func):
+        """Same as event_callback_del(EVAS_CALLBACK_SHOW, ...)"""
         self.event_callback_del(EVAS_CALLBACK_SHOW, func)
 
     def on_hide_add(self, func, *a, **k):
+        """Same as event_callback_add(EVAS_CALLBACK_HIDE, ...)
+
+        Expected signature::
+
+            function(object, *args, **kargs)
+        """
         self.event_callback_add(EVAS_CALLBACK_HIDE, func, *a, **k)
 
     def on_hide_del(self, func):
+        """Same as event_callback_del(EVAS_CALLBACK_HIDE, ...)"""
         self.event_callback_del(EVAS_CALLBACK_HIDE, func)
 
     def on_move_add(self, func, *a, **k):
+        """Same as event_callback_add(EVAS_CALLBACK_MOVE, ...)
+
+        Expected signature::
+
+            function(object, *args, **kargs)
+        """
         self.event_callback_add(EVAS_CALLBACK_MOVE, func, *a, **k)
 
     def on_move_del(self, func):
+        """Same as event_callback_del(EVAS_CALLBACK_MOVE, ...)"""
         self.event_callback_del(EVAS_CALLBACK_MOVE, func)
 
     def on_resize_add(self, func, *a, **k):
+        """Same as event_callback_add(EVAS_CALLBACK_RESIZE, ...)
+
+        Expected signature::
+
+            function(object, *args, **kargs)
+        """
         self.event_callback_add(EVAS_CALLBACK_RESIZE, func, *a, **k)
 
     def on_resize_del(self, func):
+        """Same as event_callback_del(EVAS_CALLBACK_RESIZE, ...)"""
         self.event_callback_del(EVAS_CALLBACK_RESIZE, func)
 
     def on_restack_add(self, func, *a, **k):
+        """Same as event_callback_add(EVAS_CALLBACK_RESTACK, ...)
+
+        Expected signature::
+
+            function(object, *args, **kargs)
+        """
         self.event_callback_add(EVAS_CALLBACK_RESTACK, func, *a, **k)
 
     def on_restack_del(self, func):
+        """Same as event_callback_del(EVAS_CALLBACK_RESTACK, ...)"""
         self.event_callback_del(EVAS_CALLBACK_RESTACK, func)
 
     def on_del_add(self, func, *a, **k):
+        """Same as event_callback_add(EVAS_CALLBACK_DEL, ...)
+
+        This is called before freeing object resources (see
+        EVAS_CALLBACK_FREE).
+
+        Expected signature::
+
+            function(object, *args, **kargs)
+        """
         self.event_callback_add(EVAS_CALLBACK_DEL, func, *a, **k)
 
     def on_del_del(self, func):
+        """Same as event_callback_del(EVAS_CALLBACK_DEL, ...)"""
         self.event_callback_del(EVAS_CALLBACK_DEL, func)
 
     def on_hold_add(self, func, *a, **k):
+        """Same as event_callback_add(EVAS_CALLBACK_HOLD, ...)"""
         self.event_callback_add(EVAS_CALLBACK_HOLD, func, *a, **k)
 
     def on_hold_del(self, func):
+        """Same as event_callback_del(EVAS_CALLBACK_HOLD, ...)"""
         self.event_callback_del(EVAS_CALLBACK_HOLD, func)
 
     def on_changed_size_hints_add(self, func, *a, **k):
+        """Same as event_callback_add(EVAS_CALLBACK_CHANGED_SIZE_HINTS, ...)"""
         self.event_callback_add(EVAS_CALLBACK_CHANGED_SIZE_HINTS, func, *a, **k)
 
     def on_changed_size_hints_del(self, func):
+        """Same as event_callback_del(EVAS_CALLBACK_CHANGED_SIZE_HINTS, ...)"""
         self.event_callback_del(EVAS_CALLBACK_CHANGED_SIZE_HINTS, func)
+
+    property pass_events:
+        """Whenever object should ignore and pass events.
+
+        If True, this will cause events on it to be ignored. They will be
+        triggered on the next lower object (that is not set to pass events)
+        instead.
+
+        Objects that pass events will also not be accounted in some operations
+        unless explicitly required, like
+        :py:func:`evas.canvas.Canvas.top_at_xy_get()`,
+        :py:func:`evas.canvas.Canvas.top_in_rectangle_get()`,
+        :py:func:`evas.canvas.Canvas.objects_at_xy_get()`,
+        :py:func:`evas.canvas.Canvas.objects_in_rectangle_get()`.
+
+        :type: bool
+
+        """
+        def __get__(self):
+            return bool(evas_object_pass_events_get(self.obj))
+
+        def __set__(self, int value):
+            evas_object_pass_events_set(self.obj, value)
 
     def pass_events_get(self):
         return bool(evas_object_pass_events_get(self.obj))
-
     def pass_events_set(self, value):
         evas_object_pass_events_set(self.obj, value)
 
-    property pass_events:
+    property repeat_events:
+        """Whenever object should process and then repeat events.
+
+        If True, this will cause events on it to be processed but then
+        they will be triggered on the next lower object (that is not set to
+        pass events).
+
+        :type: bool
+
+        """
         def __get__(self):
-            return self.pass_events_get()
+            return bool(evas_object_repeat_events_get(self.obj))
 
         def __set__(self, int value):
-            self.pass_events_set(value)
+            evas_object_repeat_events_set(self.obj, value)
 
     def repeat_events_get(self):
         return bool(evas_object_repeat_events_get(self.obj))
-
     def repeat_events_set(self, value):
         evas_object_repeat_events_set(self.obj, value)
 
-    property repeat_events:
+    property propagate_events:
+        """Whenever object should propagate events to its parent.
+
+        If True, this will cause events on this object to propagate to its
+        :py:class:`evas.object_smart.SmartObject` parent, if it's a member
+        of one.
+
+        :type: bool
+
+        """
         def __get__(self):
-            return self.repeat_events_get()
+            return bool(evas_object_propagate_events_get(self.obj))
 
         def __set__(self, int value):
-            self.repeat_events_set(value)
+            evas_object_propagate_events_set(self.obj, value)
 
     def propagate_events_get(self):
         return bool(evas_object_propagate_events_get(self.obj))
-
     def propagate_events_set(self, value):
         evas_object_propagate_events_set(self.obj, value)
 
-    property propagate_events:
+    property pointer_mode:
+        """If pointer should be grabbed while processing events.
+
+        If *EVAS_OBJECT_POINTER_MODE_AUTOGRAB*, then when mouse is
+        down at this object, events will be restricted to it as source, mouse
+        moves, for example, will be emitted even if outside this object area.
+
+        If *EVAS_OBJECT_POINTER_MODE_NOGRAB*, then events will be emitted
+        just when inside this object area.
+
+        The default value is *EVAS_OBJECT_POINTER_MODE_AUTOGRAB*.
+
+        :type: Evas_Object_Pointer_Mode
+
+        """
         def __get__(self):
-            return self.propagate_events_get()
+            return <int>evas_object_pointer_mode_get(self.obj)
 
         def __set__(self, int value):
-            self.propagate_events_set(value)
+            evas_object_pointer_mode_set(self.obj, <Evas_Object_Pointer_Mode>value)
 
     def pointer_mode_get(self):
         return <int>evas_object_pointer_mode_get(self.obj)
-
     def pointer_mode_set(self, int value):
         evas_object_pointer_mode_set(self.obj, <Evas_Object_Pointer_Mode>value)
 
-    property pointer_mode:
-        def __get__(self):
-            return self.pointer_mode_get()
+    property parent:
+        """Object that this object is member of, or *None*.
 
-        def __set__(self, int value):
-            self.pointer_mode_set(value)
+        :type: :py:class:`efl.evas.Object`
+
+        """
+        def __get__(self):
+            cdef Evas_Object *obj
+            obj = evas_object_smart_parent_get(self.obj)
+            return object_from_instance(obj)
 
     def parent_get(self):
         cdef Evas_Object *obj
         obj = evas_object_smart_parent_get(self.obj)
         return object_from_instance(obj)
 
-    property parent:
-        def __get__(self):
-            return self.parent_get()
-
-    def map_enabled_set(self, enabled):
-        evas_object_map_enable_set(self.obj, bool(enabled))
-    
-    def map_enabled_get(self):
-        return bool(evas_object_map_enable_get(self.obj))
-
     property map_enabled:
+        """Map enabled state
+
+        :type: bool
+
+        """
         def __get__(self):
             return bool(evas_object_map_enable_get(self.obj))
         def __set__(self, value):
             evas_object_map_enable_set(self.obj, bool(value))
-    
-    def map_set(self, Map map):
-        evas_object_map_set(self.obj, map.map)
 
-    def map_get(self):
-#         TODO dunno how to do this in a sane way
-#         #return evas_object_map_get(self.obj)
-        return None
+    def map_enabled_set(self, enabled):
+        evas_object_map_enable_set(self.obj, bool(enabled))
+    def map_enabled_get(self):
+        return bool(evas_object_map_enable_get(self.obj))
 
     property map:
+        """Map
+
+        :type: Map
+
+        """
         def __get__(self):
             return None # TODO
         def __set__(self, Map map):
             evas_object_map_set(self.obj, map.map)
+
+    def map_set(self, Map map):
+        evas_object_map_set(self.obj, map.map)
+
+    def map_get(self):
+        # TODO dunno how to do this in a sane way
+        #return evas_object_map_get(self.obj)
+        return None
     

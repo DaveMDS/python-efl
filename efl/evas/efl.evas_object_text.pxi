@@ -18,6 +18,41 @@
 
 cdef class Text(Object):
 
+    """
+
+    Text.
+
+    :param canvas: Evas canvas for this object
+    :type canvas: Canvas
+    :keyword size: Width and height
+    :type size: tuple of ints
+    :keyword pos: X and Y
+    :type pos: tuple of ints
+    :keyword geometry: X, Y, width, height
+    :type geometry: tuple of ints
+    :keyword color: R, G, B, A
+    :type color: tuple of ints
+    :keyword name: Object name
+    :type name: string
+    :keyword text: The text
+    :type text: string
+    :keyword font: Font name
+    :type font: string
+    :keyword font_source: Where to find the font
+    :type font_source: string
+    :keyword style: Style
+    :type style: string
+    :keyword shadow_color: The shadow color
+    :type shadow_color: tuple of ints
+    :keyword glow_color: The primary glow color
+    :type glow_color: tuple of ints
+    :keyword glow2_color: The secondary glow color
+    :type glow2_color: tuple of ints
+    :keyword outline_color: The outline color
+    :type outline_color: tuple of ints
+
+    """
+
     def __init__(self, Canvas canvas not None, **kargs):
         self._set_obj(evas_object_text_add(canvas.obj))
         self._set_common_params(**kargs)
@@ -46,9 +81,11 @@ cdef class Text(Object):
             self.outline_color_set(*color_parse(outline_color))
 
     def font_source_get(self):
+        """:rtype: str"""
         return _ctouni(evas_object_text_font_source_get(self.obj))
 
     def font_source_set(self, value):
+        """Set where to find the font (ie: EET/Edje)."""
         evas_object_text_font_source_set(self.obj, _cfruni(value))
 
     property font_source:
@@ -59,12 +96,18 @@ cdef class Text(Object):
             self.font_source_set(value)
 
     def font_get(self):
+        """:rtype: (str, int)"""
         cdef const_char_ptr f
         cdef int size
         evas_object_text_font_get(self.obj, &f, &size)
         return (_ctouni(f), size)
 
     def font_set(self, font, int size=10):
+        """Set font to use.
+
+        :param font:.
+        :param size:.
+        """
         evas_object_text_font_set(self.obj, _cfruni(font), size)
 
     property font:
@@ -77,9 +120,11 @@ cdef class Text(Object):
             self.font_set(*spec)
 
     def text_get(self):
+        """:rtype: str"""
         return _ctouni(evas_object_text_text_get(self.obj))
 
     def text_set(self, value):
+        """Change text to be used"""
         evas_object_text_text_set(self.obj, _cfruni(value))
 
     property text:
@@ -90,6 +135,7 @@ cdef class Text(Object):
             self.text_set(value)
 
     def ascent_get(self):
+        """:rtype: int"""
         return evas_object_text_ascent_get(self.obj)
 
     property ascent:
@@ -97,6 +143,7 @@ cdef class Text(Object):
             return self.ascent_get()
 
     def descent_get(self):
+        """:rtype: int"""
         return evas_object_text_descent_get(self.obj)
 
     property descent:
@@ -104,6 +151,7 @@ cdef class Text(Object):
             return self.descent_get()
 
     def max_ascent_get(self):
+        """:rtype: int"""
         return evas_object_text_max_ascent_get(self.obj)
 
     property max_ascent:
@@ -111,6 +159,7 @@ cdef class Text(Object):
             return self.max_ascent_get()
 
     def max_descent_get(self):
+        """:rtype: int"""
         return evas_object_text_max_descent_get(self.obj)
 
     property max_descent:
@@ -118,6 +167,7 @@ cdef class Text(Object):
             return self.max_descent_get()
 
     def horiz_advance_get(self):
+        """:rtype: int"""
         return evas_object_text_horiz_advance_get(self.obj)
 
     property horiz_advance:
@@ -125,6 +175,7 @@ cdef class Text(Object):
             return self.horiz_advance_get()
 
     def vert_advance_get(self):
+        """:rtype: int"""
         return evas_object_text_vert_advance_get(self.obj)
 
     property vert_advance:
@@ -132,6 +183,7 @@ cdef class Text(Object):
             return self.vert_advance_get()
 
     def inset_get(self):
+        """:rtype: int"""
         return evas_object_text_inset_get(self.obj)
 
     property inset:
@@ -139,6 +191,14 @@ cdef class Text(Object):
             return self.inset_get()
 
     def char_pos_get(self, int char_index):
+        """Retrieve position and dimension information of a character.
+
+        This function is used to obtain the **x**, **y**, **width** and **height**
+        of a the character located at **char_index** within this object.
+
+        :param char_index: index of desired character.
+        :rtype: tuple of int
+        """
         cdef int x, y, w, h, r
         r = evas_object_text_char_pos_get(self.obj, char_index, &x, &y, &w, &h)
         if r == 0:
@@ -147,6 +207,16 @@ cdef class Text(Object):
             return (x, y, w, h)
 
     def char_coords_get(self, int x, int y):
+        """Retrieve position and dimension information of a character at
+        desired position.
+
+        Like L{char_pos_get()}, but instead of providing the character
+        index one can give its position.
+
+        :param x:
+        :param y:
+        :rtype: tuple of int
+        """
         cdef int cx, cy, cw, ch, c
         c = evas_object_text_char_coords_get(self.obj, x, y,
                                              &cx, &cy, &cw, &ch)
@@ -156,9 +226,26 @@ cdef class Text(Object):
             return ("%c" % c, cx, cy, cw, ch)
 
     def style_get(self):
+        """:rtype: int"""
         return evas_object_text_style_get(self.obj)
 
     def style_set(self, int value):
+        """Set text drawing style.
+
+        :param value: can be one of:
+
+         - EVAS_TEXT_STYLE_PLAIN
+         - EVAS_TEXT_STYLE_SHADOW
+         - EVAS_TEXT_STYLE_OUTLINE
+         - EVAS_TEXT_STYLE_SOFT_OUTLINE
+         - EVAS_TEXT_STYLE_GLOW
+         - EVAS_TEXT_STYLE_OUTLINE_SHADOW
+         - EVAS_TEXT_STYLE_FAR_SHADOW
+         - EVAS_TEXT_STYLE_OUTLINE_SOFT_SHADOW
+         - EVAS_TEXT_STYLE_SOFT_SHADOW
+         - EVAS_TEXT_STYLE_FAR_SOFT_SHADOW
+
+        """
         evas_object_text_style_set(self.obj, <Evas_Text_Style_Type>value)
 
     property style:
@@ -169,11 +256,19 @@ cdef class Text(Object):
             self.style_set(value)
 
     def shadow_color_get(self):
+        """:rtype: tuple of int"""
         cdef int r, g, b, a
         evas_object_text_shadow_color_get(self.obj, &r, &g, &b, &a)
         return (r, g, b, a)
 
     def shadow_color_set(self, int r, int g, int b, int a):
+        """Set shadow color.
+
+        :param r:
+        :param g:
+        :param b:
+        :param a:
+        """
         evas_object_text_shadow_color_set(self.obj, r, g, b, a)
 
     property shadow_color:
@@ -184,11 +279,19 @@ cdef class Text(Object):
             self.shadow_color_set(*spec)
 
     def glow_color_get(self):
+        """:rtype: tuple of int"""
         cdef int r, g, b, a
         evas_object_text_glow_color_get(self.obj, &r, &g, &b, &a)
         return (r, g, b, a)
 
     def glow_color_set(self, int r, int g, int b, int a):
+        """Set glow color.
+
+        :param r:
+        :param g:
+        :param b:
+        :param a:
+        """
         evas_object_text_glow_color_set(self.obj, r, g, b, a)
 
     property glow_color:
@@ -199,11 +302,19 @@ cdef class Text(Object):
             self.glow_color_set(*spec)
 
     def glow2_color_get(self):
+        """:rtype: tuple of int"""
         cdef int r, g, b, a
         evas_object_text_glow2_color_get(self.obj, &r, &g, &b, &a)
         return (r, g, b, a)
 
     def glow2_color_set(self, int r, int g, int b, int a):
+        """Set second level glow color.
+
+        :param r:
+        :param g:
+        :param b:
+        :param a:
+        """
         evas_object_text_glow2_color_set(self.obj, r, g, b, a)
 
     property glow2_color:
@@ -214,11 +325,19 @@ cdef class Text(Object):
             self.glow2_color_set(*spec)
 
     def outline_color_get(self):
+        """:rtype: tuple of int"""
         cdef int r, g, b, a
         evas_object_text_outline_color_get(self.obj, &r, &g, &b, &a)
         return (r, g, b, a)
 
     def outline_color_set(self, int r, int g, int b, int a):
+        """Set outline color.
+
+        :param r:
+        :param g:
+        :param b:
+        :param a:
+        """
         evas_object_text_outline_color_set(self.obj, r, g, b, a)
 
     property outline_color:
@@ -229,6 +348,7 @@ cdef class Text(Object):
             self.outline_color_set(*spec)
 
     def style_pad_get(self):
+        """:rtype: tuple of int"""
         cdef int l, r, t, b
         evas_object_text_style_pad_get(self.obj, &l, &r, &t, &b)
         return (l, r, t, b)

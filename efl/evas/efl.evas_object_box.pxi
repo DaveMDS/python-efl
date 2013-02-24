@@ -18,7 +18,30 @@
 
 
 cdef class Box(Object):
+    """
 
+    A box is a convenience smart object that packs children inside it in
+    **sequence**, using a layouting function specified by the user.
+
+    There are a couple of pre-made layouting functions **built-in in Evas**,
+    all of them using children size hints to define their size and alignment
+    inside their cell space.
+
+
+    :param canvas: The evas canvas for this object
+    :type canvas: L{Canvas}
+    :keyword size: Width and height
+    :type size: tuple of ints
+    :keyword pos: X and Y
+    :type pos: tuple of ints
+    :keyword geometry: X, Y, width, height
+    :type geometry: tuple of ints
+    :keyword color: R, G, B, A
+    :type color: tuple of ints
+    :keyword name: Object name
+    :type name: string
+
+    """
     def __init__(self, Canvas canvas not None, **kargs):
         self._set_obj(evas_object_box_add(canvas.obj))
         self._set_common_params(**kargs)

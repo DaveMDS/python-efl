@@ -17,7 +17,64 @@
 
 
 cdef class Rect(object):
+    """
 
+    Type to store and manipulate rectangular coordinates.
+
+    This class provides the description of a rectangle and means to
+    access and modify its properties in an easy way.
+
+    Useful properties are:
+
+    - left (or "x")
+    - right
+    - top (or "y")
+    - bottom
+    - center_x
+    - center_y
+    - width (or "w")
+    - height (or "h")
+    - top_left
+    - top_right
+    - bottom_left
+    - bottom_right
+    - center
+    - pos
+    - size
+    - area
+
+    Useful methods are:
+
+    - normalize
+    - contains
+    - intercepts
+    - clip
+    - union
+    - clamp
+    - move_by
+    - inflate
+
+    Usage example:
+
+     >>> r1 = Rect(10, 20, 30, 40)
+     >>> r2 = Rect((0, 0), (100, 100))
+     >>> r1
+     Rect(x=10, y=20, w=30, h=40)
+     >>> r2
+     Rect(x=0, y=0, w=100, h=100)
+     >>> r1.contains(r2)
+     False
+     >>> r2.contains(r1)
+     True
+     >>> r1 in r2 # same as r2.contains(r1)
+     True
+     >>> r1.intercepts(r2)
+     True
+
+    .. attention:: this is not a graphical object! Do not confuse with
+       :py:class:`efl.evas.Rectangle`.
+
+    """
     def __init__(self, *args, **kargs):
         cdef Rect other
         self.x0 = 0
@@ -331,6 +388,7 @@ cdef class Rect(object):
             return self._w * self._h
 
     def normalize(self):
+        "Normalize coordinates so both width and height are positive."
         cdef int tmp
         if self._w < 0:
             tmp = self.x0
@@ -345,6 +403,7 @@ cdef class Rect(object):
             self._h = -self._h
 
     def __richcmp__(a, b, int op):
+        "Compares two rectangles for (in)equality"
         cdef Rect o1, o2
         cdef int res
         if isinstance(a, Rect):
@@ -370,10 +429,12 @@ cdef class Rect(object):
             raise TypeError("unsupported comparison operation")
 
     def __nonzero__(self):
+        "Checks if all coordinates are not zero."
         return bool(self.x0 != 0 and self._w != 0 and \
                     self.y0 != 0 and self._h != 0)
 
     def __contains__(self, obj):
+        "Checks if contains given rectangle."
         cdef Rect o
         if isinstance(obj, Rect):
             o = obj
@@ -386,13 +447,16 @@ cdef class Rect(object):
                     self.y0 <= o.top and o.bottom <= self.y1)
 
     def contains(self, obj):
+        "Checks if contains given rectangle."
         return obj in self
 
     def contains_point(self, x, y):
+        "Checks if contains the given point."
         return bool(self.x0 <= x <= self.x1 and \
                     self.y0 <= y <= self.y1)
 
     def intercepts(self, obj):
+        "Checks if intercepts given rectangle."
         cdef Rect o
         cdef int left, right, top, bottom, a, b, c, d
         if isinstance(obj, Rect):
@@ -421,6 +485,7 @@ cdef class Rect(object):
         return bool((a or b) and (c or d))
 
     def clip(self, obj):
+        "Returns a new Rect that represents current cropped inside parameter."
         cdef Rect o
         cdef int left, right, top, bottom, width, height
         if isinstance(obj, Rect):
@@ -450,6 +515,7 @@ cdef class Rect(object):
             return Rect(0, 0, 0, 0)
 
     def union(self, obj):
+        "Returns a new Rect that covers both rectangles."
         cdef Rect o
         cdef int left, right, top, bottom
         if isinstance(obj, Rect):
@@ -474,6 +540,12 @@ cdef class Rect(object):
         return Rect(left, top, right - left, bottom - top)
 
     def clamp(self, obj):
+        """Returns a new Rect that represents current moved inside given
+           parameter.
+
+           If given rectangle is smaller, it'll be centered.
+
+        """
         cdef Rect o, ret
         cdef int left, right, top, bottom, width, height
 
@@ -509,7 +581,9 @@ cdef class Rect(object):
         return ret
 
     def move_by(self, int offset_x, int offset_y):
+        "Returns a new Rect that represents current moved by given offsets."
         return Rect(self.x0 + offset_x, self.y0 + offset_y, self._w, self._h)
 
     def inflate(self, int amount_w, int amount_h):
+        "Returns a new Rect that represents current inflated by given amount."
         return Rect(self.x0, self.y0, self._w + amount_w, self._h + amount_h)
