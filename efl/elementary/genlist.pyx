@@ -148,6 +148,9 @@
 include "widget_header.pxi"
 include "callback_conversions.pxi"
 include "tooltips.pxi"
+
+from efl.eo import _METHOD_DEPRECATED
+
 from object_item cimport    ObjectItem, \
                             _object_item_to_python, \
                             elm_object_item_widget_get, \
@@ -155,7 +158,7 @@ from object_item cimport    ObjectItem, \
                             _object_item_list_to_python, \
                             elm_object_item_data_get
 from general cimport strdup
-from efl.evas cimport eina_list_remove_list
+#from efl.evas cimport eina_list_remove_list
 from scroller cimport *
 cimport enums
 
@@ -293,7 +296,7 @@ cdef int _py_elm_genlist_compare_func(const_void *data1, const_void *data2) with
 
     func = item1.comparison_func
 
-    if not func:
+    if func is None:
         return 0
 
     ret = func(item1, item2)
@@ -314,7 +317,7 @@ class GenlistItemsCount(int):
         self.obj = obj
 
     def __call__(self):
-        #_METHOD_DEPRECATED(self.obj, None, "Use items_count instead")
+        _METHOD_DEPRECATED(self.obj, None, "Use items_count instead")
         return self.obj._items_count()
 
 cdef class GenlistItemClass(object):
@@ -391,34 +394,38 @@ cdef class GenlistItemClass(object):
             'item_data' is the value given to Genlist item append/prepend
             methods, it should represent your row model as you want.
         """
-        if item_style:
+        if item_style is not None:
             self._item_style = item_style
 
-        if text_get_func and not callable(text_get_func):
-            raise TypeError("text_get_func is not callable!")
-        elif text_get_func:
-            self._text_get_func = text_get_func
+        if text_get_func is not None:
+            if callable(text_get_func):
+                self._text_get_func = text_get_func
+            else:
+                raise TypeError("text_get_func is not callable!")
         else:
             self._text_get_func = self.text_get
 
-        if content_get_func and not callable(content_get_func):
-            raise TypeError("content_get_func is not callable!")
-        elif content_get_func:
-            self._content_get_func = content_get_func
+        if content_get_func is not None:
+            if callable(content_get_func):
+                self._content_get_func = content_get_func
+            else:
+                raise TypeError("content_get_func is not callable!")
         else:
             self._content_get_func = self.content_get
 
-        if state_get_func and not callable(state_get_func):
-            raise TypeError("state_get_func is not callable!")
-        elif state_get_func:
-            self._state_get_func = state_get_func
+        if state_get_func is not None:
+            if callable(state_get_func):
+                self._state_get_func = state_get_func
+            else:
+                raise TypeError("state_get_func is not callable!")
         else:
             self._state_get_func = self.state_get
 
-        if del_func and not callable(del_func):
-            raise TypeError("del_func is not callable!")
-        elif del_func:
-            self._del_func = del_func
+        if del_func is not None:
+            if callable(del_func):
+                self._del_func = del_func
+            else:
+                raise TypeError("del_func is not callable!")
         else:
             try:
                 self._del_func = self.delete
@@ -560,7 +567,7 @@ cdef class GenlistItem(ObjectItem):
                 raise TypeError("func is not None or callable")
             self.cb = _py_elm_genlist_item_func
 
-        if len(args) == 1:
+        if len(args) is 1:
             args = args[0]
 
         self.params = (item_class, args, func)
@@ -593,7 +600,7 @@ cdef class GenlistItem(ObjectItem):
                 self.params[2],
                 self.params[1])
 
-    def append_to(self, Genlist genlist):
+    def append_to(self, Genlist genlist not None):
         """append_to(Genlist genlist) -> GenlistItem
 
         Append a new item (add as last row) to this genlist.
@@ -613,14 +620,14 @@ cdef class GenlistItem(ObjectItem):
                                         self.cb,
                                         <void*>self)
 
-        if item != NULL:
+        if item is not NULL:
             self._set_obj(item)
             return self
         else:
             Py_DECREF(self)
             return None
 
-    def prepend_to(self, Genlist genlist):
+    def prepend_to(self, Genlist genlist not None):
         """prepend_to(Genlist genlist) -> GenlistItem
 
         Prepend a new item (add as first row) to this Genlist.
@@ -640,7 +647,7 @@ cdef class GenlistItem(ObjectItem):
                                         self.cb,
                                         <void*>self)
 
-        if item != NULL:
+        if item is not NULL:
             self._set_obj(item)
             return self
         else:
@@ -673,7 +680,7 @@ cdef class GenlistItem(ObjectItem):
                                                 self.cb,
                                                 <void*>self)
 
-        if item != NULL:
+        if item is not NULL:
             self._set_obj(item)
             return self
         else:
@@ -706,14 +713,14 @@ cdef class GenlistItem(ObjectItem):
                                                 self.cb,
                                                 <void*>self)
 
-        if item != NULL:
+        if item is not NULL:
             self._set_obj(item)
             return self
         else:
             Py_DECREF(self)
             return None
 
-    def sorted_insert(self, Genlist genlist, comparison_func):
+    def sorted_insert(self, Genlist genlist not None, comparison_func):
         """sorted_insert(Genlist genlist, comparison_func) -> GenlistItem
 
         Insert a new item into the sorted genlist object
@@ -744,7 +751,7 @@ cdef class GenlistItem(ObjectItem):
                                                 self.cb,
                                                 <void*>self)
 
-        if item != NULL:
+        if item is not NULL:
             self._set_obj(item)
             return self
         else:
@@ -1570,7 +1577,7 @@ cdef class Genlist(Object):
 
     """
 
-    def __init__(self, evasObject parent):
+    def __init__(self, evasObject parent not None):
         self._set_obj(elm_genlist_add(parent.obj))
 
     def clear(self):
