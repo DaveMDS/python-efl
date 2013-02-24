@@ -33,7 +33,7 @@ from test_flip import flip_clicked, flip_interactive_clicked
 from test_flipselector import flipselector_clicked
 from test_frame import frame_clicked
 from test_gengrid import gengrid_clicked
-from test_genlist import genlist_clicked, genlist2_clicked, genlist3_clicked
+from test_genlist import genlist_clicked, genlist2_clicked, genlist3_clicked, genlist4_clicked
 from test_grid import grid_clicked
 from test_hover import hover_clicked, hover2_clicked
 from test_hoversel import hoversel_clicked
