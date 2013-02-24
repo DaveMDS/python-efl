@@ -190,7 +190,8 @@ if __name__ == "__main__":
         cmdclass = {'build_ext': build_ext, 'build_sphinx': BuildDoc, 'build_doc': BuildDoc},
         command_options = {
             "build_doc": {
-                "builder": (None, "coverage"),
+                "builder": (None, "html"),
+                #"builder": (None, "coverage"),
             },
         },
         ext_modules = cythonize(modules, include_path=["include",], compiler_directives={"embedsignature": False}),
