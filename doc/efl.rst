@@ -5,6 +5,7 @@ efl Package
 
     evas/evas
     ecore/ecore
+    edje/edje
     module-emotion
     elementary/elementary
 

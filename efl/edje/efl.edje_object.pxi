@@ -85,6 +85,38 @@ class EdjeLoadError(Exception):
 
 
 cdef class Edje(Object):
+    """Edje evas object.
+
+    This is a high level `efl.evas.SmartObject` that is defined as a group of
+    parts (`efl.evas.Object`, usually written in text files (.edc) and
+    compiled as a package using EET to store resources (.edj).
+
+    Edje is an important EFL component because it makes easy to split logic
+    and UI, usually used as theme engine but can be much more powerful than
+    just changing some random images or text fonts.
+
+    Edje also provides scripting through Embryo and communication can be
+    done using messages and signals.
+
+    .. warning:: although Edje provides part_object_get(), you should **NOT**
+        mess with these objects states or you'll screw the given Edje. The
+        objects you get with this function should be handled as "read-only".
+    .. attention:: messages are one way only! If you emit a message from Python
+        you will just get it from your Embryo script, if you emit from Embryo
+        you just get it in Python. If you want to emit events and capture
+        them on the same side, use signals.
+    .. note:: You can debug messages and signals by capturing all of them,
+        example::
+            >>> def sig_dbg(obj, emission, source):
+            ...     print "%s: %s %s" % (obj, emission, source)
+            ...
+            >>> my_edje.signal_callback_add("*", "*", sig_dbg)
+            >>> def msg_dbg(obj, msg):
+            ...     print "%s: %s" % (obj, msg)
+            ...
+            >>> my_edje.message_handler_set(msg_dbg)
+
+    """
     def __cinit__(self, *a, **ka):
         self._signal_callbacks = {}
 
@@ -134,25 +166,67 @@ cdef class Edje(Object):
                 self.layer_get(), clip, self.visible_get())
 
     def data_get(self, key):
+        """Get data from Edje data collection (defined in .edj).
+
+        Data collection is defined inside an Edje file as::
+
+           collections {
+              group {
+                 name: "a_group";
+                 data {
+                    item: "key1" "value1";
+                    item: "key2" "value2";
+                 }
+              }
+           }
+
+        .. attention:: this differs from Edje.data! Edje.data is a
+            Python specific utility provided as a dictionary. This function
+            returns data stored on the Edje (.edj), stored inside a
+            *data* section inside the *group* that defines this object.
+
+        """
         return _ctouni(edje_object_data_get(self.obj, _cfruni(key)))
 
     def file_set(self, file, group):
+        """Set the file (.edj) and the group to load the Edje object from.
+
+        :param file: the name of the file to load
+        :param group: the name of the group inside the edj to load
+        
+        :raise EdjeLoadError: if error occurred during load.
+
+        """
         if edje_object_file_set(self.obj, _cfruni(file), _cfruni(group)) == 0:
             raise EdjeLoadError(edje_object_load_error_get(self.obj),
                                 _cfruni(file), _cfruni(group))
 
     def file_get(self):
+        """Get the file and group used to load the object.
+
+        :return: the tuple (file, group)
+        :rtype: tuple for str
+        
+        """
         cdef const_char_ptr file, group
         edje_object_file_get(self.obj, &file, &group)
         return (_ctouni(file), _ctouni(group))
 
     def load_error_get(self):
+        ":rtype: int"
         return edje_object_load_error_get(self.obj)
 
     def play_get(self):
+        ":rtype: bool"
         return bool(edje_object_play_get(self.obj))
 
     def play_set(self, int value):
+        """Set the Edje to play or pause.
+
+        :param value: True to play or False to pause
+        :type value: int
+        
+        """
         edje_object_play_set(self.obj, value)
 
     property play:
@@ -163,9 +237,11 @@ cdef class Edje(Object):
             self.play_set(value)
 
     def animation_get(self):
+        ":rtype: bool"
         return bool(edje_object_animation_get(self.obj))
 
     def animation_set(self, int value):
+        "Set animation state."
         edje_object_animation_set(self.obj, value)
 
     property animation:
@@ -176,21 +252,52 @@ cdef class Edje(Object):
             self.animation_set(value)
 
     def freeze(self):
+        """This puts all changes on hold.
+
+        Successive freezes will nest, requiring an equal number of thaws.
+
+        :rtype: int
+        """
         return edje_object_freeze(self.obj)
 
     def thaw(self):
+        "Thaw (unfreeze) the object."
         return edje_object_thaw(self.obj)
 
     def color_class_set(self, color_class,
                         int r, int g, int b, int a,
                         int r2, int g2, int b2, int a2,
                         int r3, int g3, int b3, int a3):
+        """Set color class.
+
+        :parm color_class: color class name
+        :parm r:
+        :parm g:
+        :parm b:
+        :parm a:
+        :parm r2:
+        :parm g2:
+        :parm b2:
+        :parm a2:
+        :parm r3:
+        :parm g3:
+        :parm b3:
+        :parm a3:
+
+        """
         edje_object_color_class_set(self.obj, _cfruni(color_class),
                                     r, g, b, a,
                                     r2, g2, b2, a2,
                                     r3, g3, b3, a3)
 
     def color_class_get(self, color_class):
+        """Get a specific color class.
+
+        :param color_class: the name of the color class to query
+        :return: the tuple (r, g, b, a, r2, g2, b2, a2, r3, g3, b3, a3)
+        :rtype: tuple of int
+        
+        """
         cdef int r, g, b, a
         cdef int r2, g2, b2, a2
         cdef int r3, g3, b3, a3
@@ -201,13 +308,21 @@ cdef class Edje(Object):
         return (r, g, b, a, r2, g2, b2, a2, r3, g3, b3, a3)
 
     def color_class_del(self, color_class):
+        "Delete a specific color class."
         edje_object_color_class_del(self.obj, _cfruni(color_class))
 
     def text_class_set(self, text_class, font, int size):
+        """Set text class.
+
+        :param text_class: text class name
+        :param font: the font name
+        :param size: the font size
+        """
         edje_object_text_class_set(self.obj, _cfruni(text_class),
                                    _cfruni(font), size)
 
     def size_min_get(self):
+        ":rtype: tuple of int"
         cdef int w, h
         edje_object_size_min_get(self.obj, &w, &h)
         return (w, h)
@@ -217,6 +332,7 @@ cdef class Edje(Object):
             return self.size_min_get()
 
     def size_max_get(self):
+        ":rtype: tuple of int"
         cdef int w, h
         edje_object_size_max_get(self.obj, &w, &h)
         return (w, h)
@@ -226,9 +342,11 @@ cdef class Edje(Object):
             return self.size_max_get()
 
     def calc_force(self):
+        "Force recalculation of parts state (geometry, position, ...)"
         edje_object_calc_force(self.obj)
 
     def size_min_calc(self):
+        "Request object to calculate minimum size."
         cdef int w, h
         edje_object_size_min_calc(self.obj, &w, &h)
         return (w, h)
@@ -239,29 +357,46 @@ cdef class Edje(Object):
         return (x, y, w, h)
 
     def part_exists(self, part):
+        ":rtype: bool"
         return bool(edje_object_part_exists(self.obj, _cfruni(part)))
 
     def part_object_get(self, part):
+        """Get the efl.evas.Object that represents this part.
+
+        .. warning:: You should never modify the state of the returned object
+          (with Edje.move() or Edje.hide() for example),
+          but you can safely query info about its current state
+          (with Edje.visible_get() or Edje.color_get() for example).
+        """
         cdef Evas_Object *obj
         obj = <Evas_Object*>edje_object_part_object_get(self.obj, _cfruni(part))
         return object_from_instance(obj)
 
     def part_geometry_get(self, part):
+        ":rtype: tuple of int"
         cdef int x, y, w, h
         edje_object_part_geometry_get(self.obj, _cfruni(part), &x, &y, &w, &h)
         return (x, y, w, h)
 
     def part_size_get(self, part):
+        ":rtype: tuple of int"
         cdef int w, h
         edje_object_part_geometry_get(self.obj, _cfruni(part), NULL, NULL, &w, &h)
         return (w, h)
 
     def part_pos_get(self, part):
+        ":rtype: tuple of int"
         cdef int x, y
         edje_object_part_geometry_get(self.obj, _cfruni(part), &x, &y, NULL, NULL)
         return (x, y)
 
     def text_change_cb_set(self, func, *args, **kargs):
+        """Set function to callback on text changes.
+
+        :param func: the function to call when text change
+                     Expected signature::
+                        function(object, part, *args, **kargs)
+        """
         if func is None:
             self._text_change_cb = None
             edje_object_text_change_cb_set(self.obj, NULL, NULL)
@@ -272,24 +407,55 @@ cdef class Edje(Object):
             raise TypeError("func must be callable or None")
 
     def part_text_set(self, part, text):
+        """Set the text of a given part.
+
+        :param part: name of the text part to edit
+        :param text: the new text to set
+
+        """
         edje_object_part_text_set(self.obj, _cfruni(part), _cfruni(text))
 
     def part_text_get(self, part):
+        """Get the text of a given part.
+        
+        :return: the text of part
+        :rtype: str
+
+        """
         cdef const_char_ptr s
         return _ctouni(edje_object_part_text_get(self.obj, _cfruni(part)))
         
 
     def part_text_select_all(self, part):
+        "Select all the text of the given TEXT or TEXTBLOCK part"
         edje_object_part_text_select_all(self.obj, _cfruni(part))
 
     def part_text_select_none(self, part):
+        "Deselect all the text of the given TEXT or TEXTBLOCK part"
         edje_object_part_text_select_none(self.obj, _cfruni(part))
 
     def part_text_unescaped_set(self, part, text_to_escape):
+        """Automatically escapes text if using TEXTBLOCK.
+
+        Similar to part_text_set(), but if it is a textblock contents
+        will be escaped automatically so it is displayed without any
+        formatting.
+
+        :see: part_text_set()
+        :see: part_text_unescaped_get()
+        """
         edje_object_part_text_unescaped_set(self.obj, _cfruni(part),
                                             _cfruni(text_to_escape))
 
     def part_text_unescaped_get(self, part):
+        """Automatically removes escape from text if using TEXTBLOCK.
+
+        Similar to part_text_get(), but if it is a textblock contents
+        will be unescaped automatically.
+
+        :see: part_text_get()
+        :see: part_text_unescaped_set()
+        """
         cdef char *s
         s = edje_object_part_text_unescaped_get(self.obj, _cfruni(part))
         if s == NULL:
@@ -300,20 +466,46 @@ cdef class Edje(Object):
             return str
 
     def part_swallow(self, part, Object obj):
+        """Swallows an object into the edje
+
+        Swallows the object into the edje part so that all geometry changes
+        for the part affect the swallowed object. (e.g. resize, move, show,
+        raise/lower, etc.).
+
+        If an object has already been swallowed into this part, then it will
+        first be unswallowed before the new object is swallowed.
+
+        :param part: the name of the SWALLOW part
+        :type part: str
+        :param obj: the efl.evas.Object to swallow inside part
+        :type obj: efl.evas.Object
+        
+        """
         edje_object_part_swallow(self.obj, _cfruni(part), obj.obj)
 
     def part_unswallow(self, Object obj):
+        "Unswallow the given object from the edje"
         edje_object_part_unswallow(self.obj, obj.obj)
 
     def part_swallow_get(self, part):
+        ":rtype: efl.evas.Object"
         return object_from_instance(edje_object_part_swallow_get(
                                     self.obj, _cfruni(part)))
 
     def part_external_object_get(self, part):
+        ":rtype: efl.evas.Object"
         return object_from_instance(edje_object_part_external_object_get(
                                     self.obj, _cfruni(part)))
 
     def part_external_param_set(self, part, param, value):
+        """Set a parameter of the external part.
+
+        :param part: EXTERNAL part to set parameter.
+        :param param: EXTERNAL parameter name.
+        :param value: value to set, type is guessed from it, so must
+               be of types bool, int, float or str.
+        :rtype: bool
+        """
         cdef Edje_External_Param p
         cdef const_char_ptr c_part
         cdef const_char_ptr c_param
@@ -359,6 +551,13 @@ cdef class Edje(Object):
         return bool(edje_object_part_external_param_set(self.obj, c_part, &p))
 
     def part_external_param_get(self, part, param):
+        """Get a parameter of the external part.
+
+        :param part: EXTERNAL part to set parameter.
+        :param param: EXTERNAL parameter name.
+
+        :return: *None* for errors, other values depending on the parameter type.
+        """
         cdef Edje_External_Param p
         cdef const_char_ptr c_part
         cdef const_char_ptr c_param
@@ -399,81 +598,204 @@ cdef class Edje(Object):
             return _ctouni(p.s)
 
     def part_box_append(self, part, Object obj):
+        """Adds an item to a BOX part.
+
+        Appends an item to the BOX edje part, where some box's properties
+        inherited. Like the color properties has some nice effect on the
+        box's childrens.
+
+        :param part: the name of the BOX part
+        :param obj: the efl.evas.Object to append
+        :rtype: bool
+        """
         return bool(edje_object_part_box_append(self.obj, _cfruni(part), obj.obj))
 
     def part_box_prepend(self, part, Object obj):
+        """Prepend an item to a BOX part.
+
+        Prepends an item to the BOX edje part, where some box's properties
+        inherited. Like the color properties has some nice effect on the
+        box's childrens.
+
+        :param part: the name of the BOX part
+        :param obj: the efl.evas.Object to append
+        :rtype: bool
+        """
         return bool(edje_object_part_box_prepend(self.obj, _cfruni(part), obj.obj))
 
     def part_box_insert_at(self, part, Object obj,
                            unsigned int pos):
+        """Inserts an item at the given position in a BOX part.
+
+        :param part: the name of the BOX part
+        :param obj: the efl.evas.Object to append
+        :param pos: the position to append the object
+        :rtype: bool
+        """
         return bool(edje_object_part_box_insert_at(self.obj, _cfruni(part),
                                                    obj.obj, pos))
 
     def part_box_insert_before(self, part, Object obj, Object reference):
+        """Inserts an item in a BOX part before the reference object.
+
+        :param part: the name of the BOX part
+        :param obj: the efl.evas.Object to append
+        :param reference: the efl.evas.Object used as reference
+        :rtype: bool
+        """
         return bool(edje_object_part_box_insert_before(self.obj, _cfruni(part),
                                                     obj.obj, reference.obj))
 
     def part_box_remove(self, part, Object obj):
+        """Removes the object given from a BOX part.
+
+        Returns the object removed, or *None* if it wasn't found or is
+        internal to Edje.
+
+        :param part: the name of the BOX part
+        :param obj: the efl.evas.Object to remove
+        :return: the removed object
+        :rtype: efl.evas.Object or *None*
+
+        """
         return object_from_instance(edje_object_part_box_remove(self.obj,
                                                         _cfruni(part), obj.obj))
 
     def part_box_remove_at(self, part, unsigned int pos):
+        """Removes the object at the given position in a BOX part.
+
+        Returns the object removed, or None nothing was found at the
+        given position, or if the object was internal to Edje.
+
+        :param part: the name of the BOX part
+        :param pos: the position to remove from
+        :return: the removed object
+        :rtype: efl.evas.Object or None
+        """
         return object_from_instance(edje_object_part_box_remove_at(self.obj,
                                                             _cfruni(part), pos))
 
     def part_box_remove_all(self, part, int clear):
+        """Removes all objects from a BOX part.
+
+        :param part: the name of the BOX part to remove from.
+        :param clear: if 1, it will delete the objects it removes.
+
+        Note: this function doesn't remove items created from the theme.
+
+        :rtype: bool
+        """
         return bool(edje_object_part_box_remove_all(self.obj,
                                                     _cfruni(part), clear))
 
     def part_table_pack(self, part, Object child, short col, short row, short colspan, short rowspan):
+        """Pack an object inside a TABLE part.
+
+        :param part: name of the TABLE part to pack in.
+        :param child: efl.evas.Object to pack into the table.
+        :param col:
+        :param row:
+        :param colspan:
+        :param rowspan:
+
+        :rtype: bool
+        """
         return bool(edje_object_part_table_pack(self.obj, _cfruni(part),
                                         child.obj, col, row, colspan, rowspan))
 
     def part_table_unpack(self, part, Object child):
+        """Remove an object from a TABLE part.
+
+        :param part: the name of the TABLE part to remove from.
+        :param child: the efl.evas.Object to remove.
+
+        :rtype: bool
+        """
         return bool(edje_object_part_table_unpack(self.obj, _cfruni(part),
                                                   child.obj))
 
     def part_table_col_row_size_get(self, part):
+        """Returns the size in columns/rows of the TABLE part.
+
+        :param part: the anme of the TABLE part to get the size of.
+        :return: the tuple (cols, rows)
+        :rtype: tuple of int
+        """
         cdef int c, r
         edje_object_part_table_col_row_size_get(self.obj, _cfruni(part), &c, &r)
         return (c, r)
 
     def part_table_clear(self, part, int clear):
+        """Clears a TABLE part.
+
+        :param part: the name of the TABLE part to clear all its elements from.
+        :param clear: Delete objects when removed from the table.
+
+        .. note:: This function will not remove the elements defined by the theme.
+
+        :rtype: bool
+        """
         return bool(edje_object_part_table_clear(self.obj, _cfruni(part), clear))
 
     def part_table_child_get(self, part, int row, int column):
+        """Retrieve a child from a table.
+
+        :param part: the name of the TABLE part to get child from.
+        :param row: row index of the child.
+        :param column: column index of the child.
+
+        :return: the object ath the given position
+        :rtype: efl.evas.Object
+        """
         return object_from_instance(edje_object_part_table_child_get(self.obj,
                                                     _cfruni(part), row, column))
 
     def part_state_get(self, part):
+        ":rtype: (name, value)"
         cdef double sv
         cdef const_char_ptr sn
         sn = edje_object_part_state_get(self.obj, _cfruni(part), &sv)
         return (_ctouni(sn), sv)
 
     def part_drag_dir_get(self, part):
+        ":rtype: int"
         return edje_object_part_drag_dir_get(self.obj, _cfruni(part))
 
     def part_drag_value_set(self, part, double dx, double dy):
+        """Set the drag value of part
+        :param dx:
+        :param dy:
+        """
         edje_object_part_drag_value_set(self.obj, _cfruni(part), dx, dy)
 
     def part_drag_value_get(self, part):
+        ":rtype: tuple of float"
         cdef double dx, dy
         edje_object_part_drag_value_get(self.obj, _cfruni(part), &dx, &dy)
         return (dx, dy)
 
     def part_drag_size_set(self, part, double dw, double dh):
+        """Set the drag size of part
+        :param dw:
+        :param dh:
+        """
         edje_object_part_drag_size_set(self.obj, _cfruni(part), dw, dh)
 
     def part_drag_size_get(self, part):
+        ":rtype: tuple of float"
         cdef double dw, dh
         edje_object_part_drag_size_get(self.obj, _cfruni(part), &dw, &dh)
         return (dw, dh)
 
     def part_drag_step_set(self, part, double dx, double dy):
+        """Set the drag step of part
+        :param dx:
+        :param dy:
+        """
         edje_object_part_drag_step_set(self.obj, _cfruni(part), dx, dy)
 
     def part_drag_step_get(self, part):
+        ":rtype: tuple of float"
         cdef double dx, dy
         edje_object_part_drag_step_get(self.obj, _cfruni(part), &dx, &dy)
         return (dx, dy)
@@ -485,6 +807,7 @@ cdef class Edje(Object):
         edje_object_part_drag_page_set(self.obj, _cfruni(part), dx, dy)
 
     def part_drag_page_get(self, part):
+        "@rtype: tuple of float"
         cdef double dx, dy
         edje_object_part_drag_page_get(self.obj, _cfruni(part), &dx, &dy)
         return (dx, dy)
@@ -641,6 +964,20 @@ cdef class Edje(Object):
                     self.message_send_str_float_set(id, head, data[2:])
 
     def message_send(self, int id, data):
+        """Send message with given id and data.
+
+        Data should be pure-python types that will be converted to
+        the Message subclass that better fits it. Supported are:
+         - long, int, float, str
+         - list of long, int, float, str
+         - str and one of long, int, float
+         - str and a list of one of long, int, float
+
+        Messages sent will **NOT** be available at Python-side (ie:
+        message_handler_set()), but just at Embryo-side.
+
+        :raise TypeError: if data has no supported EdjeMessage counterpart.
+        """
         if isinstance(data, (long, int)):
             self.message_send_int(id, data)
         elif isinstance(data, float):
@@ -663,6 +1000,14 @@ cdef class Edje(Object):
             raise TypeError("invalid message type '%s'" % type(data).__name__)
 
     def message_handler_set(self, func, *args, **kargs):
+        """Set the handler of messages coming from Embryo.
+
+        Signature::
+            function(object, message, *args, **kargs)
+
+        .. note:: this just handle messages sent from Embryo.
+        :raise TypeError: if func is not callable or None.
+        """
         if func is None:
             self._message_handler_cb = None
             edje_object_message_handler_set(self.obj, NULL, NULL)
@@ -674,10 +1019,25 @@ cdef class Edje(Object):
             raise TypeError("func must be callable or None")
 
     def message_signal_process(self):
+        "Manually iterate message signal system."
         edje_object_message_signal_process(self.obj)
 
     def signal_callback_add(self, emission, source, func,
                             *args, **kargs):
+        """Add callback to given signal (emission, source).
+
+        Signature::
+            function(object, emission, source, *args, **kargs)
+
+        :param emission: the emission to listen, may be or contain '*' to
+                         match multiple.
+        :param source: the emission's source to listen, may be or contain
+                       '*' to match multiple.
+        :param func: the callable to use. Will get any further arguments
+                     you gave to signal_callback_add().
+
+        :raise TypeError: if func is not callable.
+        """
         if not callable(func):
             raise TypeError("func must be callable")
 
@@ -689,6 +1049,7 @@ cdef class Edje(Object):
         lst.append((func, args, kargs))
 
     def signal_callback_del(self, emission, source, func):
+        "Remove the callable associated with given emission and source."
         try:
             d = self._signal_callbacks[emission]
             lst = d[source]
@@ -716,6 +1077,7 @@ cdef class Edje(Object):
                                         _cfruni(source), signal_cb)
 
     def signal_emit(self, emission, source):
+        "Emit signal with ``emission`` and ``source``"
         edje_object_signal_emit(self.obj, _cfruni(emission), _cfruni(source))
 
 
