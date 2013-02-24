@@ -165,6 +165,123 @@ cdef void _ecore_exe_pre_free_cb(void *data, const_Ecore_Exe *exe) with gil:
 
 
 cdef class Exe(object):
+    """Spawns a child process with its stdin/out available for communication.
+
+    This function forks and runs the given command using C{/bin/sh}.
+
+    Note that the process handle is only valid until a child process
+    terminated event is received.  After all handlers for the child
+    process terminated event have been called, the handle will be
+    freed by Ecore. In this case the Python wrapper becames "shallow"
+    and all operations will fail or return bogus/dummy values,
+    although it should not crash.
+
+    This class behavior is configurable by means of given constructor
+    *flags*, that will make Ecore monitor process' stdout and stderr,
+    emitting events on main loop.
+
+    To write use ``send()``.  To read listen to ``ECORE_EXE_EVENT_DATA``
+    or ``ECORE_EXE_EVENT_ERROR`` events (see below). Ecore may
+    buffer read and error data until a newline character if asked for
+    with the `*flags*.  All data will be included in the events
+    (newlines will be replaced with NULLS if line is buffered).
+
+    ``ECORE_EXE_EVENT_DATA`` events will only happen if the process is
+    run with ``ECORE_EXE_PIPE_READ`` enabled in the *flags*.  The same
+    with the error version.  Writing will only be allowed with
+    ``ECORE_EXE_PIPE_WRITE`` enabled in the *flags*.
+
+    Instance Event Handling
+    =======================
+
+    To make use easier, there are methods that automatically filter
+    events for this instance and deletes them when the ``Exe`` is
+    deleted:
+
+     - on_add_event_add()
+     - on_add_event_del()
+     - on_del_event_add()
+     - on_del_event_del()
+     - on_data_event_add()
+     - on_data_event_del()
+     - on_error_event_add()
+     - on_error_event_del()
+
+    The callback signatures are::
+
+        func(exe, event, *args, **kargs)
+
+    In contrast with C-api conformant functions. This only receives
+    the events from this exact exe instance. The signature is also
+    very different, the first parameter is the ``Exe`` reference and
+    the return value does **not** removes the event listener!
+
+    Using this method is likely more efficient than the C-api since it
+    will not convert from C to Python lots of times, possibly useless.
+
+    However, there are C-api conformat functions as well.
+
+    Event Handling (C-api conformant)
+    =================================
+
+    Getting data from executed processed is done by means of event
+    handling, which is also used to notify whenever this process
+    really started or died.
+
+    One should listen to events in the main loop, such as:
+
+     - ``EventExeAdd`` listen with ``on_exe_add_event_add()`` to know
+       when sub processes were started and ready to be used.
+
+     - ``EventExeDel`` listen with ``on_exe_del_event_add()`` to know
+       when sub processes died.
+
+     - ``EventExeData`` listen with ``on_exe_data_event_add()`` to know
+       when sub processes output data to their stdout.
+
+     - ``EventExeError`` listen with ``on_exe_error_event_add()`` to
+       know when sub processes output data to their stderr.
+
+    Events will have the following signature, as explained in
+    ``EventHandler``::
+
+       func(event, *args, **kargs): bool
+
+    That mean once registered, your callback ``func`` will be called
+    for all known ``Exe`` instances (that were created from
+    Python!). You can query which instance created such event with
+    ``event.exe`` property. Thus you often need to filter if the event
+    you got is from the instance you need! (This is designed to match
+    C-api).
+
+    Once your function returns evaluates to *False* (note: not returning
+    means returning *None*, that evaluates to *False*!), your callback
+    will not be called anymore and your handler is deleted.
+
+    One may delete handlers explicitly with ``EventHandler.delete()``
+    method.
+
+
+    :param exe_cmd: command to execute as subprocess.
+    :type exe_cmd: str
+    :param flags: if given (!= 0), should be bitwise OR of
+    
+         - ECORE_EXE_PIPE_READ: Exe Pipe Read mask
+         - ECORE_EXE_PIPE_WRITE: Exe Pipe Write mask
+         - ECORE_EXE_PIPE_ERROR: Exe Pipe error mask
+         - ECORE_EXE_PIPE_READ_LINE_BUFFERED: Reads are buffered until
+           a newline and delivered 1 event per line.
+         - ECORE_EXE_PIPE_ERROR_LINE_BUFFERED: Errors are buffered
+           until a newline and delivered 1 event per line
+         - ECORE_EXE_PIPE_AUTO: stdout and stderr are buffered automatically
+         - ECORE_EXE_RESPAWN: Exe is restarted if it dies
+         - ECORE_EXE_USE_SH: Use /bin/sh to run the command.
+         - ECORE_EXE_NOT_LEADER Do not use setsid() to have the
+           executed process be its own session leader
+    :type flags: int
+    :param data: extra data to be associated and available with ``data_get()``
+
+    """
     def __cinit__(self, *a, **ka):
         self.exe = NULL
         self.__data = None
@@ -240,14 +357,39 @@ cdef class Exe(object):
                  pid, cmd, flags, data)
 
     def delete(self):
+        """Forcefully frees the given process handle.
+
+        Note that the process that the handle represents is unaffected
+        by this function, this just stops monitoring the stdout/stderr
+        and emitting related events.
+
+        To finish the process call ``terminate()`` or ``kill()``.
+        """
         if self.exe == NULL:
             raise ValueError("%s already deleted" % self.__class__.__name__)
         ecore_exe_free(self.exe)
 
     def free(self):
+        "Alias for ``delete()`` to keep compatibility with C-api."
         self.delete()
 
     def send(self, buf, long size=0):
+        """Sends data to the executed process, which it receives on stdin.
+
+        This function writes to a child processes standard in, with
+        unlimited buffering. This call will never block. It may fail
+        if the system runs out of memory.
+
+        :param buffer: object that implements buffer interface, such
+               as strings (str).
+        :param size: if greater than zero, then this will limit the
+               size of given buffer. If None, then the exact buffer
+               size is used.
+
+        :raise ValueError: if size is larger than buffer size.
+        :return: success or failure.
+        :rtype: bool
+        """
         cdef Py_buffer buf_view
 
         if isinstance(buf, (str, unicode)):
@@ -267,10 +409,24 @@ cdef class Exe(object):
         return ret
     
     def close_stdin(self):
+        """Close executed process' stdin.
+
+        The stdin of the given child process will not be closed
+        immediately. Instead it will be closed when the write buffer
+        is empty.
+        """
         ecore_exe_close_stdin(self.exe)
 
     def auto_limits_set(self, int start_bytes, int end_bytes,
                         int start_lines, int end_lines):
+        """Sets the auto pipe limits for the given process handle
+
+        :param start_bytes: limit of bytes at start of output to buffer.
+        :param end_bytes: limit of bytes at end of output to buffer.
+        :param start_lines: limit of lines at start of output to buffer.
+        :param end_lines: limit of lines at end of output to buffer.
+
+        """
         ecore_exe_auto_limits_set(self.exe, start_bytes, end_bytes,
                                   start_lines, end_lines)
 
@@ -281,6 +437,12 @@ cdef class Exe(object):
         #void ecore_exe_event_data_free(Ecore_Exe_Event_Data *data)
 
     def cmd_get(self):
+        """Retrieves the command of the executed process.
+
+        :return: the command line string if execution succeeded, None otherwise.
+        :rtype: str or None
+
+        """
         cdef const_char_ptr cmd = ecore_exe_cmd_get(self.exe)
         if cmd != NULL:
             return cmd
@@ -291,6 +453,11 @@ cdef class Exe(object):
             return self.cmd_get()
 
     def pid_get(self):
+        """Retrieves the process ID of the executed process.
+
+        :rtype: int
+
+        """
         return ecore_exe_pid_get(self.exe)
 
     property pid:
@@ -298,6 +465,16 @@ cdef class Exe(object):
             return self.pid_get()
 
     def tag_set(self, char *tag):
+        """Sets the string tag for the given process.
+
+
+        This is a string that is attached to this handle and may serve
+        as further information.
+
+        .. note:: not much useful in Python, but kept for compatibility
+                  with C-api.
+
+        """
         cdef char *s
         if tag is None:
             s = NULL
@@ -306,6 +483,17 @@ cdef class Exe(object):
         ecore_exe_tag_set(self.exe, s)
 
     def tag_get(self):
+        """Retrieves the tag attached to the given process.
+
+        This is a string that is attached to this handle and may serve
+        as further information.
+
+        .. note:: not much useful in Python, but kept for compatibility
+                  with C-api.
+
+        :rtype: str or None
+
+        """
         cdef const_char_ptr tag = ecore_exe_tag_get(self.exe)
         if tag != NULL:
             return tag
@@ -326,6 +514,24 @@ cdef class Exe(object):
             return self.data_get()
 
     def flags_get(self):
+        """Retrieves the flags attached to the given process handle.
+
+         - ECORE_EXE_PIPE_READ: Exe Pipe Read mask
+         - ECORE_EXE_PIPE_WRITE: Exe Pipe Write mask
+         - ECORE_EXE_PIPE_ERROR: Exe Pipe error mask
+         - ECORE_EXE_PIPE_READ_LINE_BUFFERED: Reads are buffered until
+           a newline and delivered 1 event per line.
+         - ECORE_EXE_PIPE_ERROR_LINE_BUFFERED: Errors are buffered
+           until a newline and delivered 1 event per line
+         - ECORE_EXE_PIPE_AUTO: stdout and stderr are buffered automatically
+         - ECORE_EXE_RESPAWN: Exe is restarted if it dies
+         - ECORE_EXE_USE_SH: Use /bin/sh to run the command.
+         - ECORE_EXE_NOT_LEADER Do not use setsid() to have the
+           executed process be its own session leader
+
+        :return: set of masks, ORed.
+
+        """
         return ecore_exe_flags_get(self.exe)
 
     property flags:
@@ -333,38 +539,93 @@ cdef class Exe(object):
             return self.flags_get()
 
     def signal(self, int num):
+        """Send SIGUSR1 or SIGUSR2 to executed process.
+
+        :parm num: user signal number, either 1 or 2.
+
+        :see: POSIX kill(2) and kill(1) man pages.
+        :raise ValueError: if num is not 1 or 2.
+
+        """
         if num != 1 or num != 2:
             raise ValueError("num must be either 1 or 2. Got %d." % num)
         ecore_exe_signal(self.exe, num)
 
     def pause(self):
+        """Send pause signal (SIGSTOP) to executed process.
+
+        In order to resume application execution, use ``continue_()``
+        """
         ecore_exe_pause(self.exe)
 
     def stop(self):
+        """Alias for ``pause``"""
         self.pause()
 
     def continue_(self):
+        """Send contine signal (SIGCONT) to executed process.
+
+        This resumes application previously paused with L{pause()}
+
+        :see: pause()
+
+        """
         ecore_exe_continue(self.exe)
 
     def resume(self):
+        """Alias for ``continue_()``"""
         self.continue_()
 
     def interrupt(self):
+        """Send interrupt signal (SIGINT) to executed process.
+
+        .. note:: Python usually installs SIGINT hanlder to generate
+                  *KeyboardInterrupt*, however Ecore will *override*
+                  this handler with its own that generates
+                  *ECORE_EVENT_SIGNAL_EXIT* in its main loop for the
+                  application to handle. Pay attention to this detail if
+                  your *child* process is also using Ecore.
+        """
         ecore_exe_interrupt(self.exe)
 
     def quit(self):
+        """Send quit signal (SIGQUIT) to executed process."""
         ecore_exe_quit(self.exe)
 
     def terminate(self):
+        """Send terminate signal (SIGTERM) to executed process."""
         ecore_exe_terminate(self.exe)
 
     def kill(self):
+        """Send kill signal (SIGKILL) to executed process.
+
+        This signal is fatal and will exit the application as it
+        cannot be blocked.
+
+        """
         ecore_exe_kill(self.exe)
 
     def hup(self):
+        """Send hup signal (SIGHUP) to executed process."""
         ecore_exe_hup(self.exe)
 
     def on_add_event_add(self, func, *args, **kargs):
+        """Adds event listener to know when this Exe was actually started.
+
+        The given function will be called with the following signature
+        every time this Exe receives an ``ECORE_EXE_EVENT_ADD`` signal::
+
+            func(exe, event, *args, **kargs)
+
+        In contrast with on_exe_add_event_add(), this only receives
+        the events from this exact exe instance. The signature is also
+        very different, the first parameter is the ``Exe`` reference
+        and the return value does **not** removes the event listener!
+
+        :see: on_add_event_del()
+        :see: on_exe_add_event_add()
+
+        """
         filter = self.__callbacks.get(ECORE_EXE_EVENT_ADD)
         if filter is None:
             filter = ExeEventFilter(self, ECORE_EXE_EVENT_ADD)
@@ -372,6 +633,13 @@ cdef class Exe(object):
         filter.callback_add(func, args, kargs)
 
     def on_add_event_del(self, func, *args, **kargs):
+        """Removes the event listener registered with ``on_add_event_add()``.
+
+        Parameters must be exactly the same.
+
+        :raise ValueError: if parameters don't match an already
+                           registered callback.
+        """
         filter = self.__callbacks.get(ECORE_EXE_EVENT_ADD)
         if filter is None:
             raise ValueError("callback not registered %s, args=%s, kargs=%s" %
@@ -379,6 +647,21 @@ cdef class Exe(object):
         filter.callback_del(func, args, kargs)
 
     def on_del_event_add(self, func, *args, **kargs):
+        """Adds event listener to know when this Exe was actually started.
+
+        The given function will be called with the following signature
+        every time this Exe receives an ``ECORE_EXE_EVENT_DEL`` signal::
+
+            func(exe, event, *args, **kargs)
+
+        In contrast with ``on_exe_del_event_add()``, this only receives
+        the events from this exact exe instance. The signature is also
+        very different, the first parameter is the ``Exe`` reference
+        and the return value does **not** removes the event listener!
+
+        :see: on_del_event_del()
+        :see: on_exe_del_event_add()
+        """
         filter = self.__callbacks.get(ECORE_EXE_EVENT_DEL)
         if filter is None:
             filter = ExeEventFilter(self, ECORE_EXE_EVENT_DEL)
@@ -386,6 +669,13 @@ cdef class Exe(object):
         filter.callback_add(func, args, kargs)
 
     def on_del_event_del(self, func, *args, **kargs):
+        """Removes the event listener registered with L{on_del_event_add()}.
+
+        Parameters must be exactly the same.
+
+        :raise ValueError: if parameters don't match an already
+                           registered callback.
+        """
         filter = self.__callbacks.get(ECORE_EXE_EVENT_DEL)
         if filter is None:
             raise ValueError("callback not registered %s, args=%s, kargs=%s" %
@@ -393,6 +683,21 @@ cdef class Exe(object):
         filter.callback_del(func, args, kargs)
 
     def on_data_event_add(self, func, *args, **kargs):
+        """Adds event listener to know when this Exe was actually started.
+
+        The given function will be called with the following signature
+        every time this Exe receives an ``ECORE_EXE_EVENT_DATA`` signal::
+
+            func(exe, event, *args, **kargs)
+
+        In contrast with ``on_exe_data_event_add()``, this only receives
+        the events from this exact exe instance. The signature is also
+        very different, the first parameter is the ``Exe`` reference
+        and the return value does **not** removes the event listener!
+
+        :see: on_data_event_del()
+        :see: on_exe_data_event_add()
+        """
         filter = self.__callbacks.get(ECORE_EXE_EVENT_DATA)
         if filter is None:
             filter = ExeEventFilter(self, ECORE_EXE_EVENT_DATA)
@@ -400,6 +705,13 @@ cdef class Exe(object):
         filter.callback_add(func, args, kargs)
 
     def on_data_event_del(self, func, *args, **kargs):
+        """Removes the event listener registered with L{on_data_event_add()}.
+
+        Parameters must be exactly the same.
+
+        :raise ValueError: if parameters don't match an already
+                           registered callback.
+        """
         filter = self.__callbacks.get(ECORE_EXE_EVENT_DATA)
         if filter is None:
             raise ValueError("callback not registered %s, args=%s, kargs=%s" %
@@ -407,6 +719,21 @@ cdef class Exe(object):
         filter.callback_del(func, args, kargs)
 
     def on_error_event_add(self, func, *args, **kargs):
+        """Adds event listener to know when this Exe was actually started.
+
+        The given function will be called with the following signature
+        every time this Exe receives an ``ECORE_EXE_EVENT_ERROR`` signal::
+
+            func(exe, event, *args, **kargs)
+
+        In contrast with ``on_exe_error_event_add()``, this only receives
+        the events from this exact exe instance. The signature is also
+        very different, the first parameter is the ``Exe`` reference
+        and the return value does B{not} removes the event listener!
+
+        :see: on_error_event_del()
+        :see: on_exe_error_event_add()
+        """
         filter = self.__callbacks.get(ECORE_EXE_EVENT_ERROR)
         if filter is None:
             filter = ExeEventFilter(self, ECORE_EXE_EVENT_ERROR)
@@ -414,6 +741,13 @@ cdef class Exe(object):
         filter.callback_add(func, args, kargs)
 
     def on_error_event_del(self, func, *args, **kargs):
+        """Removes the event listener registered with L{on_error_event_add()}.
+
+        Parameters must be exactly the same.
+
+        :raise ValueError: if parameters don't match an already
+                           registered callback.
+        """
         filter = self.__callbacks.get(ECORE_EXE_EVENT_ERROR)
         if filter is None:
             raise ValueError("callback not registered %s, args=%s, kargs=%s" %
@@ -422,14 +756,22 @@ cdef class Exe(object):
 
 
 def exe_run(exe_cmd, data=None):
+    """`efl.ecore.Exe` factory, for C-api compatibility."""
     return Exe(exe_cmd, data=data)
 
 
 def exe_pipe_run(exe_cmd, int flags=0, data=None):
+    """`efl.ecore.Exe` factory, for C-api compatibility."""
     return Exe(exe_cmd, flags, data)
 
 
 cdef class EventExeAdd(Event):
+    """"Represents Ecore_Exe_Event_Add event from C-api.
+
+    This event notifies the process created with L{Exe} was started.
+
+    See property ``exe`` for ``Exe`` instance.
+    """
     cdef int _set_obj(self, void *o) except 0:
         cdef Ecore_Exe_Event_Add *obj
         obj = <Ecore_Exe_Event_Add*>o
@@ -446,6 +788,12 @@ cdef class EventExeAdd(Event):
 
 
 cdef class EventExeDel(Event):
+    """"Represents Ecore_Exe_Event_Del from C-api.
+
+    This event notifies the process created with ``Exe`` is now dead.
+
+    See property ``exe`` for ``Exe`` instance.
+    """
     cdef int _set_obj(self, void *o) except 0:
         cdef Ecore_Exe_Event_Del *obj
         obj = <Ecore_Exe_Event_Del*>o
@@ -473,6 +821,18 @@ cdef class EventExeDel(Event):
 
 
 cdef class EventExeData(Event):
+    """Represents Ecore_Exe_Event_Data from C-api.
+
+    This event is issued by L{Exe} instances created with flags that
+    allow reading from either stdout or stderr.
+
+    See properties:
+
+      - **exe** instance of L{Exe} that created this event.
+      - **data** the raw string buffer with binary data from child process.
+      - **size** the size of B{data} (same as C{len(data)})
+      - **lines** list of strings with all text lines
+    """
     cdef int _set_obj(self, void *o) except 0:
         cdef Ecore_Exe_Event_Data *obj
         cdef int i
@@ -512,6 +872,11 @@ cdef class EventExeData(Event):
 
 
 cdef class EventHandlerExe(EventHandler):
+    """Specialized event handler that creates specialized event instances.
+
+    This class is responsible by filtering out the events created from
+    C without associated Python wrappers.
+    """
     cdef Eina_Bool _exec(self, void *event) except 2:
         cdef Event e
         e = self.event_cls()
@@ -521,16 +886,36 @@ cdef class EventHandlerExe(EventHandler):
 
 
 def on_exe_add_event_add(func, *args, **kargs):
+    """Create an ecore event handler for ECORE_EXE_EVENT_ADD
+
+       :see: EventHandler
+       :see: EventHandlerExe
+    """
     return EventHandlerExe(ECORE_EXE_EVENT_ADD, func, *args, **kargs)
 
 
 def on_exe_del_event_add(func, *args, **kargs):
+    """Create an ecore event handler for ECORE_EXE_EVENT_DEL
+
+       :see: EventHandler
+       :see: EventHandlerExe
+    """
     return EventHandlerExe(ECORE_EXE_EVENT_DEL, func, *args, **kargs)
 
 
 def on_exe_data_event_add(func, *args, **kargs):
+    """Create an ecore event handler for ECORE_EXE_EVENT_DATA
+
+       :see: EventHandler
+       :see: EventHandlerExe
+    """
     return EventHandlerExe(ECORE_EXE_EVENT_DATA, func, *args, **kargs)
 
 
 def on_exe_error_event_add(func, *args, **kargs):
+    """Create an ecore event handler for ECORE_EXE_EVENT_ERROR
+
+       :see: L{EventHandler}
+       :see: L{EventHandlerExe}
+    """
     return EventHandlerExe(ECORE_EXE_EVENT_ERROR, func, *args, **kargs)

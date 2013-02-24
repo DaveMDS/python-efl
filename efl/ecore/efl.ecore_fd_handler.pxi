@@ -56,6 +56,30 @@ cdef Eina_Bool fd_handler_cb(void *data, Ecore_Fd_Handler *fdh) with gil:
 
 
 cdef class FdHandler(object):
+    """Adds a callback for activity on the given file descriptor.
+
+    ``func`` will be called during the execution of ``main_loop_begin()``
+    when the file descriptor is available for reading, or writing, or both.
+
+    When the handler ``func`` is called, it must return a value of
+    either *True* or *False* (remember that Python returns *None* if no value
+    is explicitly returned and *None* evaluates to *False*). If it returns
+    *True*, it will continue to montior the given file descriptor, or if
+    it returns *False* it will be deleted automatically making any
+    references/handles for it invalid.
+
+    FdHandler use includes:
+     - handle multiple socket connections using a single process;
+     - thread wake-up and synchronization;
+     - non-blocking file description operations.
+
+    :param fd: file descriptor or object with fileno() method.
+    :param flags: bitwise OR of ECORE_FD_READ, ECORE_FD_WRITE...
+    :param func: function to call when file descriptor state changes.
+                 Expected signature::
+                    func(fd_handler, *args, **kargs): bool
+
+    """
     def __init__(self, fd, int flags, func, *args, **kargs):
         if not callable(func):
             raise TypeError("Parameter 'func' must be callable")
@@ -113,15 +137,22 @@ cdef class FdHandler(object):
         return self.func(self, *self.args, **self.kargs)
 
     def delete(self):
+        "Stop callback emission and free internal resources."
         if self.obj != NULL:
             ecore_main_fd_handler_del(self.obj)
             self.obj = NULL
             Py_DECREF(self)
 
     def stop(self):
+        "Alias for ``delete``."
         self.delete()
 
     def fd_get(self):
+        """ Get the file descriptor number
+
+        :rtype: int
+
+        """
         return ecore_main_fd_handler_fd_get(self.obj)
 
     property fd:
@@ -129,23 +160,43 @@ cdef class FdHandler(object):
             return self.fd_get()
 
     def active_get(self, int flags):
+        """Return if read, write or error, or a combination thereof, is
+        active on the file descriptor of the given FD handler.
+
+        :rtype: bool
+        """
         cdef Ecore_Fd_Handler_Flags v = <Ecore_Fd_Handler_Flags>flags
         return bool(ecore_main_fd_handler_active_get(self.obj, v))
 
     def active_set(self, int flags):
+        """Set what active streams the given FdHandler should be monitoring.
+
+        :param flags: one of ECORE_FD_NONE - ECORE_FD_READ - ECORE_FD_WRITE
+                        - ECORE_FD_ERROR - ECORE_FD_ALL
+
+        """
         cdef Ecore_Fd_Handler_Flags v = <Ecore_Fd_Handler_Flags>flags
         ecore_main_fd_handler_active_set(self.obj, v)
 
     def can_read(self):
+        ":rtype: bool"
         return bool(ecore_main_fd_handler_active_get(self.obj, ECORE_FD_READ))
 
     def can_write(self):
+        ":rtype: bool"
         return bool(ecore_main_fd_handler_active_get(self.obj, ECORE_FD_WRITE))
 
     def has_error(self):
+        ":rtype: bool"
         return bool(ecore_main_fd_handler_active_get(self.obj, ECORE_FD_ERROR))
 
     def prepare_callback_set(self, func, *args, **kargs):
+        """Set a function to call becore doing the select() on the fd.
+
+           Expected signature::
+            function(object, *args, **kargs)
+
+        """
         if func is None:
             self._prepare_callback = None
             ecore_main_fd_handler_prepare_callback_set(self.obj, NULL, NULL)
@@ -159,4 +210,15 @@ cdef class FdHandler(object):
 
 
 def fd_handler_add(fd, int flags, func, *args, **kargs):
+    """L{FdHandler} factory, for C-api compatibility.
+
+       ``func`` signature::
+            func(fd_handler, *args, **kargs): bool
+
+       :param fd: file descriptor or object with C{fileno()} method.
+       :param flags: bitwise OR of ECORE_FD_READ, ECORE_FD_WRITE...
+       :param func: function to call when file descriptor state changes.
+
+       :rtype: `efl.ecore.FdHandler`
+    """
     return FdHandler(fd, flags, func, *args, **kargs)

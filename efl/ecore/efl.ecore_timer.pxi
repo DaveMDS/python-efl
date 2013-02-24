@@ -17,6 +17,32 @@
 
 
 cdef class Timer(Eo):
+    """
+
+    Creates a timer to call the given function in the given period of time.
+
+    This class represents a timer that will call the given ``func`` every
+    ``interval`` seconds. The function will be passed any extra
+    parameters given to constructor.
+
+    When the timer ``func`` is called, it must return a value of either
+    *True* or *False* (remember that Python returns *None* if no value is
+    explicitly returned and *None* evaluates to *False*). If it returns
+    *True*, it will be called again at the next interval, or if it returns
+    *False* it will be deleted automatically making any references/handles
+    for it invalid.
+
+    Timers should be stopped/deleted by means of ``delete()`` or
+    returning *False* from ``func``, otherwise they'll continue alive, even
+    if the current python context delete it's reference to it.
+
+    :param interval: interval in seconds.
+    :type interval: float
+    :param func: function to callback when timer expires.
+                 The function signature is::
+                    func(*args, **kargs): bool
+
+    """
     def __init__(self, double interval, func, *args, **kargs):
         if not callable(func):
             raise TypeError("Parameter 'func' must be callable")
@@ -38,42 +64,63 @@ cdef class Timer(Eo):
         return self.func(*self.args, **self.kargs)
 
     def delete(self):
+        "Stop callback emission and free internal resources."
         ecore_timer_del(self.obj)
     
     def stop(self):
+        "Alias for ``delete()``"
         self.delete()
 
     def freeze(self):
+        "Pauses a running timer."
         ecore_timer_freeze(self.obj)
 
     def thaw(self):
+        "Resumes a frozen (paused) timer."
         ecore_timer_thaw(self.obj)
 
-    def interval_set(self, double t):
-        ecore_timer_interval_set(self.obj, t)
+    def delay(self, double add):
+        """ Delay the execution of the timer by the given amount
 
-    def interval_get(self):
-        return ecore_timer_interval_get(self.obj)
+        :param add: seconds to add to the timer
+        :type add: double
+        
+        """
+        ecore_timer_delay(self.obj, add)
+
+    def reset(self):
+        "Reset the counter of the timer"
+        ecore_timer_reset(self.obj)
 
     property interval:
+        """ The interval (in seconds) between each call of the timer
+
+        :type: double
+
+        """
         def __get__(self):
             return ecore_timer_interval_get(self.obj)
 
         def __set__(self, double t):
             ecore_timer_interval_set(self.obj, t)
 
-    def delay(self, double add):
-        ecore_timer_delay(self.obj, add)
+    def interval_set(self, double t):
+        ecore_timer_interval_set(self.obj, t)
+    def interval_get(self):
+        return ecore_timer_interval_get(self.obj)
 
-    def reset(self):
-        ecore_timer_reset(self.obj)
+    property pending:
+        """ The pending time for the timer to expire
+
+        :type: double
+
+        """
+
+        def __get__(self):
+            return ecore_timer_pending_get(self.obj)
 
     def ecore_timer_pending_get(self):
         ecore_timer_pending_get(self.obj)
-
-    property pending:
-        def __get__(self):
-            return ecore_timer_pending_get(self.obj)
 
 
 def timer_add(double t, func, *args, **kargs):
