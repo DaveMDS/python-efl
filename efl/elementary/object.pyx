@@ -159,7 +159,7 @@ cdef class Object(evasObject):
         :type text: string
 
         """
-        elm_object_part_text_set(self.obj, _cfruni(part) if part is not None else NULL, _cfruni(text))
+        elm_object_part_text_set(self.obj, _cfruni(part), _cfruni(text))
 
     def part_text_get(self, part):
         """part_text_get(unicode part) -> unicode
@@ -174,7 +174,7 @@ cdef class Object(evasObject):
         :rtype: string
 
         """
-        return _ctouni(elm_object_part_text_get(self.obj, _cfruni(part) if part is not None else NULL))
+        return _ctouni(elm_object_part_text_get(self.obj, _cfruni(part)))
 
     property text:
         """The main text for this object.
@@ -193,7 +193,7 @@ cdef class Object(evasObject):
     def text_get(self):
         return _ctouni(elm_object_text_get(self.obj))
 
-    def part_content_set(self, part, evasObject content):
+    def part_content_set(self, part, evasObject content not None):
         """part_content_set(unicode part, evas.Object content)
 
         Set a content of an object
@@ -210,7 +210,7 @@ cdef class Object(evasObject):
         :type content: :py:class:`evas.object.Object`
 
         """
-        elm_object_part_content_set(self.obj, _cfruni(part) if part is not None else NULL, content.obj)
+        elm_object_part_content_set(self.obj, _cfruni(part), content.obj)
 
     def part_content_get(self, part):
         """part_content_get(unicode part) -> evas.Object
@@ -225,7 +225,7 @@ cdef class Object(evasObject):
         :rtype: :py:class:`evas.object.Object`
 
         """
-        return object_from_instance(elm_object_part_content_get(self.obj, _cfruni(part) if part is not None else NULL))
+        return object_from_instance(elm_object_part_content_get(self.obj, _cfruni(part)))
 
     def part_content_unset(self, part):
         """part_content_unset(unicode part)
@@ -239,7 +239,7 @@ cdef class Object(evasObject):
         :type part: string
 
         """
-        return object_from_instance(elm_object_part_content_unset(self.obj, _cfruni(part) if part is not None else NULL))
+        return object_from_instance(elm_object_part_content_unset(self.obj, _cfruni(part)))
 
     property content:
         def __get__(self):
@@ -251,7 +251,7 @@ cdef class Object(evasObject):
         def __del__(self):
             elm_object_content_unset(self.obj)
 
-    def content_set(self, evasObject obj):
+    def content_set(self, evasObject obj not None):
         elm_object_part_content_set(self.obj, NULL, obj.obj)
     def content_get(self):
         return object_from_instance(elm_object_content_get(self.obj))
@@ -535,10 +535,10 @@ cdef class Object(evasObject):
             return _ctouni(elm_object_cursor_style_get(self.obj))
 
         def __set__(self, style):
-            elm_object_cursor_style_set(self.obj, _cfruni(style) if style is not None else NULL)
+            elm_object_cursor_style_set(self.obj, _cfruni(style))
 
     def cursor_style_set(self, style=None):
-        elm_object_cursor_style_set(self.obj, _cfruni(style) if style is not None else NULL)
+        elm_object_cursor_style_set(self.obj, _cfruni(style))
     def cursor_style_get(self):
         return _ctouni(elm_object_cursor_style_get(self.obj))
 
@@ -635,7 +635,7 @@ cdef class Object(evasObject):
     def focus_custom_chain_get(self):
         return _object_list_to_python(elm_object_focus_custom_chain_get(self.obj))
 
-    def focus_custom_chain_append(self, Object child, Object relative_child=None):
+    def focus_custom_chain_append(self, Object child not None, Object relative_child=None):
         """focus_custom_chain_append(Object child, Object relative_child=None)
 
         Append object to custom focus chain.
@@ -653,11 +653,11 @@ cdef class Object(evasObject):
 
         """
         cdef Evas_Object *rel = NULL
-        if relative_child:
+        if relative_child is not None:
             rel = relative_child.obj
         elm_object_focus_custom_chain_append(self.obj, child.obj, rel)
 
-    def focus_custom_chain_prepend(self, Object child, Object relative_child=None):
+    def focus_custom_chain_prepend(self, Object child not None, Object relative_child=None):
         """focus_custom_chain_prepend(Object child, Object relative_child=None)
 
         Prepend object to custom focus chain.
@@ -675,7 +675,7 @@ cdef class Object(evasObject):
 
         """
         cdef Evas_Object *rel = NULL
-        if relative_child:
+        if relative_child is not None:
             rel = relative_child.obj
         elm_object_focus_custom_chain_prepend(self.obj, child.obj, rel)
 
@@ -857,8 +857,9 @@ cdef class Object(evasObject):
         :type: :py:class:`Theme`
 
         """
-        def __set__(self, Theme th):
+        def __set__(self, Theme th not None):
             elm_object_theme_set(self.obj, th.th)
+
         def __get__(self):
             cdef Theme th = Theme()
             th.th = elm_object_theme_get(self.obj)
@@ -952,10 +953,10 @@ cdef class Object(evasObject):
         def __get__(self):
             return _ctouni(elm_object_tooltip_style_get(self.obj))
         def __set__(self, style):
-            elm_object_tooltip_style_set(self.obj, _cfruni(style) if style is not None else NULL)
+            elm_object_tooltip_style_set(self.obj, _cfruni(style))
 
     def tooltip_style_set(self, style=None):
-        elm_object_tooltip_style_set(self.obj, _cfruni(style) if style is not None else NULL)
+        elm_object_tooltip_style_set(self.obj, _cfruni(style))
     def tooltip_style_get(self):
         return _ctouni(elm_object_tooltip_style_get(self.obj))
 

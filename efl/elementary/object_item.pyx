@@ -140,7 +140,7 @@ cdef class ObjectItem(object):
         :param content: The new content of the object item
 
         """
-        elm_object_item_part_content_set(self.item, _cfruni(part) if part is not None else NULL, content.obj)
+        elm_object_item_part_content_set(self.item, _cfruni(part), content.obj)
 
     def part_content_get(self, part):
         """part_content_get(unicode part) -> Object
@@ -156,7 +156,7 @@ cdef class ObjectItem(object):
         :rtype: :py:class:`evas.object.Object`
 
         """
-        return object_from_instance(elm_object_item_part_content_get(self.item, _cfruni(part) if part is not None else NULL))
+        return object_from_instance(elm_object_item_part_content_get(self.item, _cfruni(part)))
 
     def part_content_unset(self, part):
         """part_content_unset(unicode part)
@@ -170,11 +170,11 @@ cdef class ObjectItem(object):
         :type part: string
 
         """
-        return object_from_instance(elm_object_item_part_content_unset(self.item, _cfruni(part) if part is not None else NULL))
+        return object_from_instance(elm_object_item_part_content_unset(self.item, _cfruni(part)))
 
     property content:
         """The default content part of this ObjectItem."""
-        def __set__(self, evasObject content):
+        def __set__(self, evasObject content not None):
             elm_object_item_content_set(self.item, content.obj)
 
         def __get__(self):
@@ -203,7 +203,7 @@ cdef class ObjectItem(object):
         :type text: string
 
         """
-        elm_object_item_part_text_set(self.item, _cfruni(part) if part is not None else NULL, _cfruni(text))
+        elm_object_item_part_text_set(self.item, _cfruni(part), _cfruni(text))
 
     def part_text_get(self, part):
         """part_text_set(unicode part) -> unicode text
@@ -218,7 +218,7 @@ cdef class ObjectItem(object):
         :rtype: string
 
         """
-        return _ctouni(elm_object_item_part_text_get(self.item, _cfruni(part) if part is not None else NULL))
+        return _ctouni(elm_object_item_part_text_get(self.item, _cfruni(part)))
 
     property text:
         """The main text for this object.
@@ -403,7 +403,7 @@ cdef class ObjectItem(object):
             elm_object_item_tooltip_style_set(self.item, NULL)
 
     def tooltip_style_set(self, style=None):
-        elm_object_item_tooltip_style_set(self.item, _cfruni(style) if style is not None else NULL)
+        elm_object_item_tooltip_style_set(self.item, _cfruni(style))
     def tooltip_style_get(self):
         return _ctouni(elm_object_item_tooltip_style_get(self.item))
 
@@ -422,7 +422,7 @@ cdef class ObjectItem(object):
         def __del__(self):
             elm_object_item_cursor_unset(self.item)
 
-    def cursor_set(self, char *cursor):
+    def cursor_set(self, cursor):
         elm_object_item_cursor_set(self.item, _cfruni(cursor))
     def cursor_get(self):
         return _ctouni(elm_object_item_cursor_get(self.item))
@@ -446,7 +446,7 @@ cdef class ObjectItem(object):
             elm_object_item_cursor_style_set(self.item, NULL)
 
     def cursor_style_set(self, style=None):
-        elm_object_item_cursor_style_set(self.item, _cfruni(style) if style is not None else NULL)
+        elm_object_item_cursor_style_set(self.item, _cfruni(style))
     def cursor_style_get(self):
         return _ctouni(elm_object_item_cursor_style_get(self.item))
 
