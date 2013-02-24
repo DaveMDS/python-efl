@@ -2,3 +2,7 @@
 ---------------------------
 
 .. automodule:: efl.elementary.gesture_layer
+
+.. inheritance-diagram::
+    efl.elementary.gesture_layer
+    :parts: 2

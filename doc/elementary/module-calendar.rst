@@ -2,3 +2,7 @@
 --------------------------
 
 .. automodule:: efl.elementary.calendar_elm
+
+.. inheritance-diagram::
+    efl.elementary.calendar_elm
+    :parts: 2

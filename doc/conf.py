@@ -32,6 +32,7 @@ sys.path.insert(0, os.path.abspath("../build/"+d))
 extensions = [
     'sphinx.ext.autodoc',
     'sphinx.ext.coverage',
+    'sphinx.ext.inheritance_diagram',
 ]
 
 autodoc_default_flags = [

@@ -214,5 +214,10 @@ Reference
    class-object-box
    class-object-smart
 
+Inheritance diagram
+-------------------
 
+.. inheritance-diagram::
+    efl.evas
+    :parts: 2
 

@@ -2,4 +2,7 @@
 --------------------
 
 .. automodule:: efl.elementary.object
-    :inherited-members:
+
+.. inheritance-diagram::
+    efl.elementary.object
+    :parts: 2

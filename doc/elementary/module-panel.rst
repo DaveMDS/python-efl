@@ -2,3 +2,7 @@
 ------------------------
 
 .. automodule:: efl.elementary.panel
+
+.. inheritance-diagram::
+    efl.elementary.panel
+    :parts: 2

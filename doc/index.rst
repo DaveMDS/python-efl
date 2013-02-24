@@ -9,7 +9,6 @@ Contents:
 
    efl
 
-
 Indices and tables
 ==================
 
