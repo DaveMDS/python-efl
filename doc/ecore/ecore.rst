@@ -68,6 +68,7 @@ Reference
    class-idleexiter
    class-exe
    class-fdhandler
+   class-filedownload
 
 
 Inheritance diagram

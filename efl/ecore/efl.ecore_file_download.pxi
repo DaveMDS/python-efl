@@ -33,6 +33,47 @@ cdef int _progress_cb(void *data, const_char_ptr file, long int dltotal,
 
 
 cdef class FileDownload(object):
+    """ Download the given url to destination.
+
+    You must provide the full url, including 'http://', 'ftp://' or 'file://'.
+    If ``dst`` already exist it will not be overwritten and the function will fail.
+    Ecore must be compiled with CURL to download using http and ftp protocols.
+    The ``status`` param in the ``completion_cb`` will be 0 if the download
+    end successfully or 1 in case of failure.
+    The ``progress_cb`` must return 0 to continue normally or 1 to abort
+    the download, note that no *completion_cb* will be called if you abort in
+    this way.
+    The constructor will raise a SystemError exception if the download don't
+    start, this can happen if you don't have CURL compiled, if the destination
+    exists or if the destination path don't exist or isn't writable.
+
+    The callback signatures are::
+
+        completion_cb(file, status, *args, **kargs)
+        progress_cb(file, dltotal, dlnow, uptotal, upnow, *args, **kargs): int
+
+    You can use the download feature as a class instance or you can use
+    the legacy API.
+
+    Instance example::
+    
+        from efl.ecore import FileDownload
+        dl = FileDownload("http://your_url", "/path/to/destination", None, None)
+        dl.abort()
+
+    Legacy example::
+
+        from efl import ecore
+        dl = ecore.file_download("http://your_url",
+                                 "/path/to/destination", None, None)
+        ecore.file_download_abort(dl)
+
+    :param url: The complete url to download
+    :param dst: Where to download the file
+    :param completion_cb: A callback called on download complete
+    :param progress_cb: A callback called during the download operation
+
+    """
     def __init__(self, url, dst, completion_cb, progress_cb, *args, **kargs):
         cdef Ecore_File_Download_Job *job
 
@@ -88,6 +129,7 @@ cdef class FileDownload(object):
         return 0
 
     def abort(self):
+        """Abort the download and free internal resources."""
         if self.job != NULL:
             ecore_file_download_abort(self.job)
             self.job = NULL
@@ -95,13 +137,45 @@ cdef class FileDownload(object):
 
 
 def file_download(url, dst, completion_cb, progress_cb, *args, **kargs):
+    """
+    efl.ecore.FileDownload} factory, for C-api compatibility.
+
+    :param url: The complete url to download
+    :param dst: Where to download the file
+    :param completion_cb: The function called when the download end
+                          Expected signature::
+                            completion_cb(file, status, *args, **kargs)
+    :param progress_cb: The function to called while the download progress
+                        advance. Ecpected signature::
+                            progress_cb(file, dltotal, dlnow, uptotal, upnow, *args, **kargs): int
+
+    :return: a new FileDownload instance
+    :rtype: `efl.ecore.Download`
+    """
     return FileDownload(url, dst, completion_cb, progress_cb, *args, **kargs)
 
 def file_download_abort(instance):
+    """
+    C-api compatibility
+    Abort the given download an free internal resources
+    """
     instance.abort()
 
 def file_download_abort_all():
+    """
+    This will abort all the download currently in progrss, use with caution.
+    """
     ecore_file_download_abort_all()
 
 def file_download_protocol_available(protocol):
+    """
+    Check if the given download protocol is available, available protocols
+    are: "http://", "ftp://" and "file://". Note that ecore can be
+    compiled without CURL support and thus http and ftp could not be available
+
+    :param protocol: The protocol to check, ex: "http://"
+    :type protocol: str
+    :return: True if the protocol is supported
+    :rtype: bool
+    """
     return bool(ecore_file_download_protocol_available(protocol))
