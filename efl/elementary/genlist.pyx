@@ -336,27 +336,27 @@ cdef class GenlistItemClass(object):
 
     """
     cdef Elm_Genlist_Item_Class obj
-    cdef readonly object _item_style
-    cdef readonly object _text_get_func
-    cdef readonly object _content_get_func
-    cdef readonly object _state_get_func
-    cdef readonly object _del_func
+    cdef unicode _item_style
+    cdef unicode _decorate_item_style
+    cdef unicode _decorate_all_item_style
+    cdef object _text_get_func
+    cdef object _content_get_func
+    cdef object _state_get_func
+    cdef object _del_func
 
     def __cinit__(self, *a, **ka):
-        self._item_style = "default"
-        self._text_get_func = None
-        self._content_get_func = None
-        self._state_get_func = None
-        self._del_func = None
-
         self.obj.item_style = NULL
+        self.obj.decorate_item_style = NULL
+        self.obj.decorate_all_item_style = NULL
         self.obj.func.text_get = _py_elm_genlist_item_text_get
         self.obj.func.content_get = _py_elm_genlist_item_content_get
         self.obj.func.state_get = _py_elm_genlist_item_state_get
         self.obj.func.del_ = _py_elm_genlist_object_item_del
 
     def __init__(self, item_style=None, text_get_func=None,
-                 content_get_func=None, state_get_func=None, del_func=None):
+                 content_get_func=None, state_get_func=None, del_func=None,
+                 decorate_item_style=None, decorate_all_item_style=None):
+
         """GenlistItemClass constructor.
 
         :param item_style: the string that defines the genlist item
@@ -394,8 +394,6 @@ cdef class GenlistItemClass(object):
             'item_data' is the value given to Genlist item append/prepend
             methods, it should represent your row model as you want.
         """
-        if item_style is not None:
-            self._item_style = item_style
 
         if text_get_func is not None:
             if callable(text_get_func):
@@ -432,13 +430,15 @@ cdef class GenlistItemClass(object):
             except AttributeError:
                 pass
 
-        self.obj.item_style = _fruni(self._item_style)
+        self.obj.item_style = _cfruni(item_style) if item_style is not None else _cfruni(u"default")
+        self.obj.decorate_item_style = _cfruni(decorate_item_style) if decorate_item_style is not None else NULL
+        self.obj.decorate_all_item_style = _cfruni(decorate_all_item_style) if decorate_all_item_style is not None else NULL
 
     def __str__(self):
         return ("%s(item_style=%r, text_get_func=%s, content_get_func=%s, "
                 "state_get_func=%s, del_func=%s)") % \
                (self.__class__.__name__,
-                self._item_style,
+                _ctouni(self.obj.item_style),
                 self._text_get_func,
                 self._content_get_func,
                 self._state_get_func,
@@ -452,7 +452,7 @@ cdef class GenlistItemClass(object):
                 <unsigned long><void *>self,
                 PY_REFCOUNT(self),
                 <unsigned long>&self.obj,
-                self._item_style,
+                _ctouni(self.obj.item_style),
                 self._text_get_func,
                 self._content_get_func,
                 self._state_get_func,

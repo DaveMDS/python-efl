@@ -23,7 +23,9 @@ cdef extern from "Elementary.h":
         GenlistItemDelFunc del_ "del"
 
     ctypedef struct Elm_Genlist_Item_Class:
-        char *item_style
+        const_char *item_style
+        const_char *decorate_item_style
+        const_char *decorate_all_item_style
         Elm_Genlist_Item_Class_Func func
 
     # Generic List          (api:TODO  cb:DONE  test:DONE  doc:TODO  py3:TODO)
