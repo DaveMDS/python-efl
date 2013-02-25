@@ -49,8 +49,8 @@ cdef class Video(LayoutClass):
 
         """
         def __set__(self, filename):
-            # TODO: check return value
-            elm_video_file_set(self.obj, _cfruni(filename))
+            if not bool(elm_video_file_set(self.obj, _cfruni(filename))):
+                raise RuntimeError("Could not set file.")
 
     def file_set(self, filename):
         return bool(elm_video_file_set(self.obj, _cfruni(filename)))

@@ -136,12 +136,13 @@ cdef class ToolbarItem(ObjectItem):
 
     """
 
-    def __init__(self, evasObject toolbar, icon, label,
-                 callback, *args, **kargs):
+    def __init__(self, evasObject toolbar not None, icon = None, label = None,
+                 callback = None, *args, **kargs):
+
         cdef Evas_Object *ic = NULL
         cdef Evas_Smart_Cb cb = NULL
 
-        if callback:
+        if callback is not None:
             if not callable(callback):
                 raise TypeError("callback is not callable")
             cb = _object_item_callback
@@ -328,8 +329,8 @@ cdef class ToolbarItem(ObjectItem):
             else:
                 file = value
                 key = None
-            # TODO: check return status
-            elm_toolbar_item_icon_file_set(self.item, _cfruni(file), _cfruni(key))
+            if not bool(elm_toolbar_item_icon_file_set(self.item, _cfruni(file), _cfruni(key))):
+                raise RuntimeError("Could not set icon_file.")
 
     def icon_file_set(self, file, key):
         return bool(elm_toolbar_item_icon_file_set(self.item, _cfruni(file), _cfruni(key)))

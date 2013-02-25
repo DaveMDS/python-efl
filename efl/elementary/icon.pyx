@@ -169,7 +169,6 @@ cdef class Icon(Image):
             else:
                 filename = value
                 group = None
-            # TODO: check return value
             elm_icon_thumb_set(self.obj, _cfruni(filename) if filename is not None else NULL, _cfruni(group) if group is not None else NULL)
 
     def thumb_set(self, filename, group = None):
@@ -198,8 +197,8 @@ cdef class Icon(Image):
         def __get__(self):
             return _ctouni(elm_icon_standard_get(self.obj))
         def __set__(self, name):
-            # TODO: check return value
-            elm_icon_standard_set(self.obj, _cfruni(name) if name is not None else NULL)
+            if not bool(elm_icon_standard_set(self.obj, _cfruni(name) if name is not None else NULL)):
+                raise RuntimeError("Setting standard icon failed")
 
     def standard_set(self, name):
         return bool(elm_icon_standard_set(self.obj, _cfruni(name) if name is not None else NULL))

@@ -333,8 +333,8 @@ cdef class ObjectItem(object):
 
     property tooltip_window_mode:
         def __set__(self, disable):
-            #TODO: check rval
-            elm_object_item_tooltip_window_mode_set(self.item, disable)
+            if not bool(elm_object_item_tooltip_window_mode_set(self.item, disable)):
+                raise RuntimeError("Could not set tooltip_window_mode.")
 
         def __get__(self):
             return bool(elm_object_item_tooltip_window_mode_get(self.item))

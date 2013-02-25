@@ -289,7 +289,7 @@ def _entryanchorhover_conv(long addr):
     cdef Elm_Entry_Anchor_Hover_Info *ehi = <Elm_Entry_Anchor_Hover_Info *>addr
     eahi = EntryAnchorHoverInfo()
     eahi.anchor_info = _entryanchor_conv(<long><void *>ehi.anchor_info)
-    eahi.hover = Hover(None, <object>ehi.hover)
+    eahi.hover = object_from_instance(ehi.hover)
     eahi.hover_parent = (ehi.hover_parent.x, ehi.hover_parent.y,
                        ehi.hover_parent.w, ehi.hover_parent.h)
     eahi.hover_left = ehi.hover_left
@@ -925,9 +925,10 @@ cdef class Entry(Object):
 
         """
         cdef Evas_Coord x, y, w, h
-        #TODO: Check return status for success
-        elm_entry_cursor_geometry_get(self.obj, &x, &y, &w, &h)
-        return (x, y, w, h)
+        if bool(elm_entry_cursor_geometry_get(self.obj, &x, &y, &w, &h)):
+            return (x, y, w, h)
+        else:
+            raise RuntimeError("Fetching cursor geometry failed")
 
     property cursor_pos:
         """The cursor position in the entry

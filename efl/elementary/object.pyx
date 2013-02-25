@@ -964,8 +964,8 @@ cdef class Object(evasObject):
         def __get__(self):
             return bool(elm_object_tooltip_window_mode_get(self.obj))
         def __set__(self, disable):
-            #TODO: check rval
-            elm_object_tooltip_window_mode_set(self.obj, disable)
+            if not bool(elm_object_tooltip_window_mode_set(self.obj, disable)):
+                raise RuntimeError("Could not set tooltip_window_mode.")
 
     def tooltip_window_mode_set(self, disable):
         return bool(elm_object_tooltip_window_mode_set(self.obj, disable))

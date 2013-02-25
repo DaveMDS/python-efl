@@ -107,12 +107,8 @@ cdef class Hover(LayoutClass):
 
     """
 
-    def __init__(self, evasObject parent, obj = None):
-        # TODO is this right ??
-        if obj is None:
-            self._set_obj(elm_hover_add(parent.obj))
-        else:
-            self._set_obj(<Evas_Object*>obj)
+    def __init__(self, evasObject parent):
+        self._set_obj(elm_hover_add(parent.obj))
 
     def target_set(self, evasObject target):
         elm_hover_target_set(self.obj, target.obj)

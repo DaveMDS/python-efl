@@ -56,8 +56,8 @@ cdef class LayoutClass(Object):
         """
         def __set__(self, value):
             filename, group = value
-            # TODO: check return value
-            elm_layout_file_set(self.obj, _cfruni(filename), _cfruni(group))
+            if not bool(elm_layout_file_set(self.obj, _cfruni(filename), _cfruni(group))):
+                raise RuntimeError("Could not set file.")
 
     def file_set(self, filename, group):
         return bool(elm_layout_file_set(self.obj, _cfruni(filename), _cfruni(group)))
@@ -74,8 +74,8 @@ cdef class LayoutClass(Object):
         """
         def __set__(self, theme):
             clas, group, style = theme
-            # TODO: check return value
-            elm_layout_theme_set(self.obj, _cfruni(clas), _cfruni(group), _cfruni(style))
+            if not bool(elm_layout_theme_set(self.obj, _cfruni(clas), _cfruni(group), _cfruni(style))):
+                raise RuntimeError("Could not set theme.")
 
     def theme_set(self, clas, group, style):
         return bool(elm_layout_theme_set(self.obj, _cfruni(clas), _cfruni(group), _cfruni(style)))

@@ -335,16 +335,15 @@ cdef class GenlistItemClass(object):
     constructor parameters.
 
     """
-    cdef Elm_Genlist_Item_Class obj
-    cdef unicode _item_style
-    cdef unicode _decorate_item_style
-    cdef unicode _decorate_all_item_style
+    cdef Elm_Genlist_Item_Class cls
+    cdef Elm_Genlist_Item_Class *obj
     cdef object _text_get_func
     cdef object _content_get_func
     cdef object _state_get_func
     cdef object _del_func
 
     def __cinit__(self, *a, **ka):
+        self.obj = &self.cls
         self.obj.item_style = NULL
         self.obj.decorate_item_style = NULL
         self.obj.decorate_all_item_style = NULL
@@ -511,7 +510,7 @@ cdef class GenlistItem(ObjectItem):
     cdef Elm_Object_Item *parent_item
     cdef int flags
     cdef Evas_Smart_Cb cb
-    cdef public object comparison_func
+    cdef object comparison_func
 
     def __cinit__(self):
         self.item_class = NULL
@@ -556,7 +555,7 @@ cdef class GenlistItem(ObjectItem):
 
         """
 
-        self.item_class = &item_class.obj
+        self.item_class = item_class.obj
 
         self.parent_item = _object_item_from_python(parent_item) if parent_item is not None else NULL
 
@@ -854,15 +853,15 @@ cdef class GenlistItem(ObjectItem):
         """
         elm_genlist_item_update(self.item)
 
-    #def item_class_update(self, Elm_Genlist_Item_Class itc):
+    def item_class_update(self, GenlistItemClass itc not None):
         """This sets another class of the item, changing the way that it is
         displayed. After changing the item class, elm_genlist_item_update() is
         called on the item.
 
         """
-        #elm_genlist_item_item_class_update(self.item, itc)
+        elm_genlist_item_item_class_update(self.item, itc.obj)
 
-    #def item_class_get(self):
+    #TODO: def item_class_get(self):
         """This returns the Genlist_Item_Class for the given item. It can be
         used to examine the function pointers and item_style.
 
@@ -965,8 +964,8 @@ cdef class GenlistItem(ObjectItem):
 
         """
         def __set__(self, disable):
-            #TODO: check rval
-            elm_genlist_item_tooltip_window_mode_set(self.item, disable)
+            if not bool(elm_genlist_item_tooltip_window_mode_set(self.item, disable)):
+                raise RuntimeError("Setting tooltip_window_mode failed")
 
         def __get__(self):
             return bool(elm_genlist_item_tooltip_window_mode_get(self.item))

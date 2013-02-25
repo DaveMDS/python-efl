@@ -165,6 +165,11 @@ cdef class Slider(LayoutClass):
         return _ctouni(elm_slider_indicator_format_get(self.obj))
 
     #TODO: def indicator_format_function_set(self, func, free_func)
+    #
+    # Since we can't use a custom python function in the callback,
+    # make a list of common formatting functions and allow to select
+    # one of them.
+    #
 #~         """Set the format function pointer for the indicator label
 #~
 #~         Set the callback function to format the indicator string.
@@ -180,6 +185,11 @@ cdef class Slider(LayoutClass):
         #elm_slider_indicator_format_function_set(self.obj, char(*func)(double val), void (*free_func)(charstr))
 
     #TODO: def units_format_function_set(self, func, free_func)
+    #
+    # Since we can't use a custom python function in the callback,
+    # make a list of common formatting functions and allow to select
+    # one of them.
+    #
 #~         """Set the format function pointer for the units label
 #~
 #~         Set the callback function to format the units string.

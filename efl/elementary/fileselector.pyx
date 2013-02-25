@@ -85,8 +85,6 @@ cdef class Fileselector(LayoutClass):
 
     def __init__(self, evasObject parent):
         self._set_obj(elm_fileselector_add(parent.obj))
-
-
         self._cbs = {}
 
     property is_save:
@@ -211,8 +209,8 @@ cdef class Fileselector(LayoutClass):
             return _ctouni(elm_fileselector_selected_get(self.obj))
 
         def __set__(self, path):
-            #TODO: Check return value for success
-            elm_fileselector_selected_set(self.obj, _cfruni(path))
+            if not bool(elm_fileselector_selected_set(self.obj, _cfruni(path))):
+                raise RuntimeError("Setting the selected path failed")
 
     def selected_set(self, path):
         return elm_fileselector_selected_set(self.obj, _cfruni(path))

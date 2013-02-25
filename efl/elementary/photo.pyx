@@ -52,8 +52,8 @@ cdef class Photo(Object):
 
         """
         def __set__(self, filename):
-            # TODO: check return status
-            elm_photo_file_set(self.obj, _cfruni(filename) if filename is not None else NULL)
+            if not bool(elm_photo_file_set(self.obj, _cfruni(filename) if filename is not None else NULL)):
+                raise RuntimeError("Could not set file.")
 
     def file_set(self, filename):
         return bool(elm_photo_file_set(self.obj, _cfruni(filename) if filename is not None else NULL))

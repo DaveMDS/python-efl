@@ -121,8 +121,8 @@ cdef class Image(Object):
             else:
                 filename = value
                 group = None
-            # TODO: check return value
-            elm_image_file_set(self.obj, _cfruni(filename) if filename is not None else NULL, _cfruni(group) if group is not None else NULL)
+            if not bool(elm_image_file_set(self.obj, _cfruni(filename) if filename is not None else NULL, _cfruni(group) if group is not None else NULL)):
+                raise RuntimeError("Could not set file.")
 
         def __get__(self):
             cdef const_char *filename, *group
