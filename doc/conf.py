@@ -35,6 +35,13 @@ extensions = [
     'sphinx.ext.inheritance_diagram',
 ]
 
+try:
+    import sphinxcontrib.youtube
+except ImportError:
+    pass
+else:
+    extensions.append('sphinxcontrib.youtube')
+
 autodoc_default_flags = [
     'members',
     #'inherited-members',
