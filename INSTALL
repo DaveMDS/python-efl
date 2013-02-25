@@ -1,56 +1,79 @@
 
 1. REQUIREMENTS:
+----------------
 
-1. Python 2.7 or higher (http://www.python.org/)
+ * Python 2.7 or higher (http://www.python.org/)
    - Tested with Python 2.7 / 3.2
-2. Cython 0.17.3 or higher (http://cython.org/)
+
+ * Cython 0.17.3 or higher (http://cython.org/)
    - Tested with Cython 0.17.3
-3. EFL core library
-   - eo, evas, ecore, edje, elementary and, optionally, emotion
-4. pkg-config (http://www.freedesktop.org/wiki/Software/pkg-config)
+
+ * EFL core library
+   - eo, evas, ecore, edje, elementary and emotion
+
+ * pkg-config (http://www.freedesktop.org/wiki/Software/pkg-config)
    - Windows executable (and GLib dependency) can be downloaded from
      http://www.gtk.org/download/win32.php
 
+ * To build the DOCS you will also need:
+   - python-sphinx, graphviz
 
 
-2. BUILDING EFL
+
+2. BUILDING PYTHON-EFL:
+-----------------------
 
  Once EFL is built and installed in your desired destination, proceed with
  building the wrapper.
 
 
-
-2a. BUILDING WITH GCC/G++ (Linux, OS X, etc.)
-
-   python setup.py build_ext
-
-2b. BUILDING WITH Visual Studio (Windows)
+ * BUILDING WITH GCC/G++ (Linux, OS X, etc.)
 
    python setup.py build_ext
 
-2c. BUILDING WITH MINGW (Windows)
+ * BUILDING WITH Visual Studio (Windows)
+
+   python setup.py build_ext
+
+ * BUILDING WITH MINGW (Windows)
 
    python setup.py build_ext -c mingw32
 
 
 
-4. INSTALLATION
+3. INSTALLATION:
+----------------
 
-4a. For system-wide installation (needs administrator privileges):
+ * For system-wide installation (needs administrator privileges):
 
     python setup.py install
 
-4b. For user installation:
+ * For user installation:
 
     python setup.py install --user
 
-4c. To install for python3:
+ * To install for python3:
 
     python3 setup.py install (also cython need to be installed with py3)
 
 
 
-5. TESTS and EXAMPLES
+4. DOCUMENTATION:
+-----------------
+
+ To build the docs for the bindings you need Sphinx and Graphvix installed.
+ packages: python-sphinx, graphviz
+
+ Once installed run:
+ python setup.py build_doc
+
+ You will find the generated html docs under the folder:
+ build/sphinx/html
+ 
+
+
+5. TESTS and EXAMPLES:
+----------------------
 
  The tests/ folder contain all the unit tests available, you can run individual
  tests or use the 00_run_all_tests.py in each folder or even in the tests/ base
@@ -58,3 +81,15 @@
 
  The examples/ folder instead contain scripts that must be run by the user
  as they need some sort of interaction.
+
+
+
+6. UNINSTALL:
+-------------
+
+ Unfortunatly setup.py do not provide a way to remove the installed packages,
+
+ To completly remove the installed stuff just remove the 'efl' folder in
+ your python installation, usually /usr/(local/)lib/pythonX.X/dist-packages/efl
+
+
