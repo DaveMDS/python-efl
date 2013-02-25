@@ -109,6 +109,20 @@ def shutdown():
 
 
 cdef class Emotion(evasObject):
+    """
+
+    The emotion object
+    
+    :param evas: The canvas where the object will be added to.
+    :return: The emotion object just created.
+    
+    The object can be manipulated as any other Evas object, using the
+    default efl.evas.Object manipulation functions.
+
+    The next step is to open the desired file with file_set(), and
+    start playing it with play_set().
+
+    """
     def __cinit__(self, *a, **ka):
         self._emotion_callbacks = {}
 
