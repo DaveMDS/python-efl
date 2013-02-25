@@ -129,8 +129,6 @@ cdef extern from "Elementary.h":
     const_char *            elm_object_translatable_text_part_get(Evas_Object *obj, const_char *part)
     const_char *            elm_object_translatable_text_get(Evas_Object *obj)
 
-cdef _object_list_to_python(const_Eina_List *lst)
-
 cdef class Canvas(evasCanvas):
     pass
 

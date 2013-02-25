@@ -44,7 +44,9 @@ from efl.evas import EVAS_CALLBACK_KEY_DOWN
 from efl.evas import EVAS_CALLBACK_KEY_UP
 from efl.evas import EVAS_CALLBACK_MOUSE_WHEEL
 
-from efl.evas cimport eina_list_append
+from efl.eo cimport _object_list_to_python
+
+#from efl.evas cimport eina_list_append
 #from efl.evas import _extended_object_mapping_register
 #from efl.evas import _object_mapping_register
 #from efl.evas import _object_mapping_unregister
@@ -79,6 +81,7 @@ cdef void _object_callback(void *data,
         except Exception, e:
             traceback.print_exc()
 
+# TODO: cimport this from evas
 cdef Eina_Bool _event_dispatcher(o, src, Evas_Callback_Type t, event_info):
     cdef Object obj = o
     cdef object ret
@@ -98,6 +101,7 @@ cdef Eina_Bool _event_callback(void *data, Evas_Object *o, Evas_Object *src, Eva
     cdef Eina_Bool ret = False
     cdef EventKeyDown down_event
     cdef EventKeyUp up_event
+
     if t == EVAS_CALLBACK_KEY_DOWN:
         down_event = EventKeyDown()
         down_event._set_obj(event_info)
@@ -116,21 +120,11 @@ cdef Eina_Bool _event_callback(void *data, Evas_Object *o, Evas_Object *src, Eva
     else:
         log.debug("Unhandled elm input event of type %i" % (t))
 
+    return bool(ret)
 
 cdef void _event_data_del_cb(void *data, Evas_Object *o, void *event_info) with gil:
     pass
 #     Py_DECREF(<object>data)
-
-
-cdef _object_list_to_python(const_Eina_List *lst):
-    cdef Evas_Object *o
-    ret = []
-    while lst:
-        o = <Evas_Object *>lst.data
-        obj = object_from_instance(o)
-        ret.append(obj)
-        lst = lst.next
-    return ret
 
 cdef class Canvas(evasCanvas):
     def __init__(self):

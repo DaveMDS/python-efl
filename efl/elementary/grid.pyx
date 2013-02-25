@@ -17,7 +17,7 @@
 
 include "widget_header.pxi"
 from object cimport Object
-from object cimport _object_list_to_python
+from efl.eo cimport _object_list_to_python
 
 cdef class Grid(Object):
 
