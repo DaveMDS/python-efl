@@ -26,8 +26,6 @@ from efl.c_eo cimport Eo_Event_Description, const_Eo_Event_Description
 from efl.c_eo cimport eo_parent_get
 from efl.c_eo cimport EO_EV_DEL
 
-from libc.string cimport strdup
-
 import traceback
 
 ######################################################################
@@ -35,7 +33,7 @@ import traceback
 cdef int PY_REFCOUNT(object o):
     cdef PyObject *obj = <PyObject *>o
     return obj.ob_refcnt
-
+ 
 
 cdef unicode _touni(char* s):
     return s.decode('UTF-8', 'strict') if s else None
@@ -51,9 +49,9 @@ cdef char *_fruni(s):
         return NULL
     if isinstance(s, unicode):
         string = s.encode('UTF-8')
-        c_string = strdup(string)
+        c_string = string
     elif isinstance(s, str):
-        c_string = strdup(s)
+        c_string = s
     else:
         raise TypeError("Expected str or unicode object, got %s" % (type(s).__name__))
     return c_string
@@ -65,9 +63,9 @@ cdef const_char_ptr _cfruni(s):
         return NULL
     if isinstance(s, unicode):
         string = s.encode('UTF-8')
-        c_string = strdup(string)
+        c_string = string
     elif isinstance(s, str):
-        c_string = strdup(s)
+        c_string = s
     else:
         raise TypeError("Expected str or unicode object, got %s" % (type(s).__name__))
     return c_string
@@ -238,7 +236,7 @@ cdef class Eo(object):
                 (self.__class__.__name__, <unsigned long>self.obj,
                  <unsigned long>eo_parent_get(self.obj) if self.obj else 0,
                  PY_REFCOUNT(self))
-
+        
 
     def __repr__(self):
         return ("Eo(class=%s, obj=%#x, parent=%#x, refcount=%d)") % \
@@ -271,7 +269,7 @@ cdef class Eo(object):
 #     def delete(self):
 #         """
 #         Delete object and free it's internal (wrapped) resources.
-#
+# 
 #         @note: after this operation the object will be still alive in
 #             Python, but it will be shallow and every operation
 #             will have no effect (and may raise exceptions).
