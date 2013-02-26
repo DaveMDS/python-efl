@@ -1,6 +1,7 @@
 :mod:`efl.edje` Module
 =======================
 
+.. module:: efl.edje
 
 What is Edje?
 --------------

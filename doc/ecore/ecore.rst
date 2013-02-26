@@ -1,6 +1,7 @@
 :mod:`efl.ecore` Module
 =======================
 
+.. module:: efl.ecore
 
 What is Ecore?
 --------------

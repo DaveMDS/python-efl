@@ -1,6 +1,7 @@
 :mod:`efl.evas` Module
 ======================
 
+.. module:: efl.evas
 
 What is Evas?
 -------------

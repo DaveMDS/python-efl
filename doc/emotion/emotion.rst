@@ -1,7 +1,7 @@
 :mod:`efl.emotion` Module
-=========================
+============================
 
-.. automodule:: efl.emotion
+.. module:: efl.emotion
 
 What is Emotion?
 ----------------
@@ -56,14 +56,24 @@ being sent, like "playback_started" or "open_done".
 .. rubric:: Available signals
 
 The Evas_Object returned by emotion_object_add() has a number of signals that
-can be listened to using evas' smart callbacks mechanism. All signals have
-NULL as event info. The following is a list of interesting signals:
+can be listened to using evas' smart callbacks mechanism. The following is
+a list of interesting signals:
+
  - ``playback_started`` Emitted when the playback starts
  - ``playback_finished`` Emitted when the playback finishes
  - ``frame_decode`` Emitted every time a frame is decoded
+ - ``frame_resize`` Emitted when the frame change its size
  - ``open_done`` Emitted when the media file is opened
  - ``position_update`` Emitted when emotion_object_position_set is called
+ - ``audio_level_change`` Emitted when the volume change it's value
  - ``decode_stop`` Emitted after the last frame is decoded
+ - ``length_change`` Emitted if the media change it's size
+ - ``channels_change`` Emitted when the number of channels change
+ - ``title_change`` Emitted when the title change (?)
+ - ``progress_change`` 
+ - ``ref_change``
+ - ``button_num_change``
+ - ``button_change``
 
 
 Reference
@@ -81,4 +91,5 @@ Inheritance diagram
 .. inheritance-diagram::
     efl.emotion
     :parts: 2
+
 
