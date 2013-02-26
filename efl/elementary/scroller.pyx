@@ -44,48 +44,18 @@ ELM_SCROLLER_POLICY_AUTO = enums.ELM_SCROLLER_POLICY_AUTO
 ELM_SCROLLER_POLICY_ON = enums.ELM_SCROLLER_POLICY_ON
 ELM_SCROLLER_POLICY_OFF = enums.ELM_SCROLLER_POLICY_OFF
 
-cdef class Scroller(Object):
+cdef class ScrollableInterface(Object):
 
     """
 
-    A scroller holds a single object and "scrolls it around".
-
-    This means that it allows the user to use a scrollbar (or a finger) to
-    drag the viewable region around, allowing to move through a much larger
-    object that is contained in the scroller. The scroller will always have
-    a small minimum size by default as it won't be limited by the contents
-    of the scroller.
-
-    Signals that you can add callbacks for are:
-
-    - "edge,left" - the left edge of the content has been reached
-    - "edge,right" - the right edge of the content has been reached
-    - "edge,top" - the top edge of the content has been reached
-    - "edge,bottom" - the bottom edge of the content has been reached
-    - "scroll" - the content has been scrolled (moved)
-    - "scroll,anim,start" - scrolling animation has started
-    - "scroll,anim,stop" - scrolling animation has stopped
-    - "scroll,drag,start" - dragging the contents around has started
-    - "scroll,drag,stop" - dragging the contents around has stopped
-
-    Default content parts of the scroller widget that you can use for are:
-
-    - "default" - A content of the scroller
-
-    .. note:: The "scroll,anim,*" and "scroll,drag,*" signals are only emitted by
-        user intervention.
-
-    .. note:: When Elementary is in embedded mode the scrollbars will not be
-        draggable, they appear merely as indicators of how much has been
-        scrolled.
-
-    .. note:: When Elementary is in desktop mode the thumbscroll(a.k.a.
-        fingerscroll) won't work.
+    An Elementary scrollable interface will handle an internal **panning**
+    object. It has the function of clipping and moving the actual scrollable
+    content around, by the command of the scrollable interface calls.
 
     """
 
-    def __init__(self, evasObject parent):
-        self._set_obj(elm_scroller_add(parent.obj))
+    # TODO: Use the scrollable interface functions? Need to base on
+    #   evas.SmartObject?
 
     def custom_widget_base_theme_set(self, widget, base):
         """custom_widget_base_theme_set(unicode widget, unicode base)
@@ -541,5 +511,47 @@ cdef class Scroller(Object):
     def callback_scroll_drag_stop_del(self, func):
         self._callback_del("scroll,drag,stop", func)
 
+cdef class ScrollerWidget(Object):
+    def __init__(self, evasObject parent):
+        self._set_obj(elm_scroller_add(parent.obj))
+
+class Scroller(ScrollableInterface, ScrollerWidget):
+    """
+
+    A scroller holds a single object and "scrolls it around".
+
+    This means that it allows the user to use a scrollbar (or a finger) to
+    drag the viewable region around, allowing to move through a much larger
+    object that is contained in the scroller. The scroller will always have
+    a small minimum size by default as it won't be limited by the contents
+    of the scroller.
+
+    Signals that you can add callbacks for are:
+
+    - "edge,left" - the left edge of the content has been reached
+    - "edge,right" - the right edge of the content has been reached
+    - "edge,top" - the top edge of the content has been reached
+    - "edge,bottom" - the bottom edge of the content has been reached
+    - "scroll" - the content has been scrolled (moved)
+    - "scroll,anim,start" - scrolling animation has started
+    - "scroll,anim,stop" - scrolling animation has stopped
+    - "scroll,drag,start" - dragging the contents around has started
+    - "scroll,drag,stop" - dragging the contents around has stopped
+
+    Default content parts of the scroller widget that you can use for are:
+
+    - "default" - A content of the scroller
+
+    .. note:: The "scroll,anim,*" and "scroll,drag,*" signals are only emitted by
+        user intervention.
+
+    .. note:: When Elementary is in embedded mode the scrollbars will not be
+        draggable, they appear merely as indicators of how much has been
+        scrolled.
+
+    .. note:: When Elementary is in desktop mode the thumbscroll(a.k.a.
+        fingerscroll) won't work.
+
+    """
 
 _object_mapping_register("elm_scroller", Scroller)

@@ -1,6 +1,7 @@
 from efl.evas cimport Eina_Bool, Evas_Object, Evas_Coord
 from enums cimport Elm_Scroller_Policy
 from libc.string cimport const_char
+from object cimport Object
 
 cdef extern from "Elementary.h":
     Evas_Object             *elm_scroller_add(Evas_Object *parent)
@@ -26,3 +27,5 @@ cdef extern from "Elementary.h":
     void                     elm_scroller_gravity_set(Evas_Object *obj, double x, double y)
     void                     elm_scroller_gravity_get(Evas_Object *obj, double *x, double *y)
 
+cdef class ScrollableInterface(Object):
+    pass
