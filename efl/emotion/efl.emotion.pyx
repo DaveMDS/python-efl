@@ -17,8 +17,7 @@
 
 from efl.eo cimport const_char_ptr, _ctouni, _cfruni
 from efl.eo cimport object_from_instance, _object_mapping_register
-from efl.evas cimport Evas_Object, Canvas
-from efl.evas cimport Object as evasObject
+from efl.evas cimport Canvas
 from efl.evas cimport evas_object_smart_callback_add
 from efl.evas cimport evas_object_smart_callback_del
 
@@ -108,6 +107,26 @@ def shutdown():
     return emotion_shutdown()
 
 
+def webcams_get():
+    """ Get a list of active and available webcam.
+    :return: the list of tuple (webcam name, webcam device)
+    """
+    cdef Eina_List *lst, *itr
+    cdef Emotion_Webcam *cam
+    cdef const_char_ptr name, device
+
+    ret = []
+    lst = emotion_webcams_get()
+    itr = lst
+    while itr:
+        cam = <Emotion_Webcam*>itr.data
+        name = emotion_webcam_name_get(cam)
+        device = emotion_webcam_device_get(cam)
+        ret.append((_ctouni(name), _ctouni(device)))
+        itr = itr.next
+    return ret
+
+
 cdef class Emotion(evasObject):
     """ The emotion object
 
@@ -131,13 +150,12 @@ cdef class Emotion(evasObject):
         self._set_obj(emotion_object_add(canvas.obj))
         self._set_common_params(**kargs)
 
-    def _set_common_params(self,
-                           char *module_name="gstreamer",
+    def _set_common_params(self, module_name="gstreamer",
                            module_params=None, size=None, pos=None,
                            geometry=None, color=None, name=None):
         evasObject._set_common_params(self, size=size, pos=pos, name=name,
                                       geometry=geometry, color=color)
-        if emotion_object_init(self.obj, module_name) == 0:
+        if emotion_object_init(self.obj, _cfruni(module_name)) == 0:
             raise EmotionModuleInitError("failed to initialize module '%s'" %
                                          module_name)
 
@@ -192,12 +210,12 @@ cdef class Emotion(evasObject):
         def __get__(self):
             return _ctouni(emotion_object_file_get(self.obj))
 
-        def __set__(self, char *value):
+        def __set__(self, value):
             emotion_object_file_set(self.obj, _cfruni(value))
 
     def file_get(self):
         return _ctouni(emotion_object_file_get(self.obj))
-    def file_set(self, char *file_name):
+    def file_set(self, file_name):
         emotion_object_file_set(self.obj, _cfruni(file_name))
 
     property play:
@@ -235,6 +253,196 @@ cdef class Emotion(evasObject):
         return emotion_object_position_get(self.obj)
     def position_set(self, double value):
         emotion_object_position_set(self.obj, value)
+
+    property border:
+        """ The borders for the emotion object.
+
+        This represent the borders for the emotion video object (just when a video is
+        present). The value is a tuple of 4 int: (left, right, top, bottom).
+
+        When positive values are given to one of the parameters, a border
+        will be added to the respective position of the object, representing that
+        size on the original video size. However, if the video is scaled up or down
+        (i.e. the emotion object size is different from the video size), the borders
+        will be scaled respectively too.
+        
+        If a negative value is given to one of the parameters, instead of a border,
+        that respective side of the video will be cropped.
+
+        .. note:: It's possible to set a color for the added borders (default is
+                  transparent) with the :py:attr:`bg_color` attribute. By
+                  default, an Emotion object doesn't have any border.
+
+        :type: tuple of int (l, r, t, b)
+        """
+        def __get__(self):
+            cdef int l, r, t, b
+            emotion_object_border_get(self.obj, &l, &r, &t, &b)
+            return  (l, r, t, b)
+
+        def __set__(self, value):
+            cdef int l, r, t, b
+            l, r, t, b = value
+            emotion_object_border_set(self.obj, l, r, t, b)
+
+    def border_get(self):
+        cdef int l, r, t, b
+        emotion_object_border_get(self.obj, &l, &r, &t, &b)
+        return  (l, r, t, b)
+    def border_set(self, int l, int r, int t, int b):
+        emotion_object_border_set(self.obj, l, r, t, b)
+
+    property bg_color:
+        """ The color for the background of this emotion object.
+
+        This is useful when a border is added to any side of the Emotion object.
+        The area between the edge of the video and the edge of the object
+        will be filled with the specified color.
+
+        The default color is (0, 0, 0, 0)
+
+        :type: tuple of int (r, g, b, a)
+        """
+        def __get__(self):
+            cdef int r, g, b, a
+            emotion_object_bg_color_get(self.obj, &r, &g, &b, &a)
+            return  (r, g, b, a)
+
+        def __set__(self, value):
+            cdef int r, g, b, a
+            r, g, b, a = value
+            emotion_object_bg_color_set(self.obj, r, g, b, a)
+
+    def bg_color_get(self):
+        cdef int r, g, b, a
+        emotion_object_bg_color_get(self.obj, &r, &g, &b, &a)
+        return  (r, g, b, a)
+    def bg_color_set(self, int r, int g, int b, int a):
+        emotion_object_bg_color_set(self.obj, r, g, b, a)
+
+    property keep_aspect:
+        """ Whether emotion should keep the aspect ratio of the video.
+
+        Instead of manually calculating the required border to set with
+        emotion_object_border_set(), and using this to fix the aspect ratio of the
+        video when the emotion object has a different aspect, it's possible to just
+        set the policy to be used.
+
+        The options are:
+        
+        - ``EMOTION_ASPECT_KEEP_NONE`` ignore the video aspect ratio, and reset any
+          border set to 0, stretching the video inside the emotion object area. This
+          option is similar to EVAS_ASPECT_CONTROL_NONE size hint.
+        - ``EMOTION_ASPECT_KEEP_WIDTH`` respect the video aspect ratio, fitting the
+          video width inside the object width. This option is similar to
+          EVAS_ASPECT_CONTROL_HORIZONTAL size hint.
+        - ``EMOTION_ASPECT_KEEP_HEIGHT`` respect the video aspect ratio, fitting
+          the video height inside the object height. This option is similar to
+          EVAS_ASPECT_CONTROL_VERTIAL size hint.
+        - ``EMOTION_ASPECT_KEEP_BOTH`` respect the video aspect ratio, fitting both
+          its width and height inside the object area. This option is similar to
+          EVAS_ASPECT_CONTROL_BOTH size hint. It's the effect called letterboxing.
+        - ``EMOTION_ASPECT_CROP`` respect the video aspect ratio, fitting the width
+          or height inside the object area, and cropping the exceding areas of the
+          video in height or width. It's the effect called pan-and-scan.
+        - ``EMOTION_ASPECT_CUSTOM`` ignore the video aspect ratio, and use the
+          current set from emotion_object_border_set().
+
+        .. note:: Calling this function with any value except
+                  EMOTION_ASPECT_CUSTOM will invalidate the borders set with
+                  the :py:attr:`border` attribute
+
+        .. note:: Using the :py:attr:`border` attribute will automatically
+                  set the aspect policy to #EMOTION_ASPECT_CUSTOM.
+
+        :type: Emotion_Aspect
+        """
+        def __get__(self):
+            return emotion_object_keep_aspect_get(self.obj)
+        def __set__(self, value):
+            emotion_object_keep_aspect_set(self.obj, <Emotion_Aspect>value)
+
+    def keep_aspect_get(self):
+        return emotion_object_keep_aspect_get(self.obj)
+    def keep_aspect_set(self, Emotion_Aspect a):
+        emotion_object_keep_aspect_set(self.obj, a)
+
+    property video_subtitle_file:
+        """ The video's subtitle file path (i.e an .srt file)
+
+        For supported subtitle formats consult the backend's documentation.
+
+        :type: str
+        """
+        def __get__(self):
+            return _ctouni(emotion_object_video_subtitle_file_get(self.obj))
+
+        def __set__(self, value):
+            emotion_object_video_subtitle_file_set(self.obj, _cfruni(value))
+
+    def video_subtitle_file_get(self):
+        return _ctouni(emotion_object_video_subtitle_file_get(self.obj))
+    def video_subtitle_file_set(self, file_name):
+        emotion_object_video_subtitle_file_set(self.obj, _cfruni(file_name))
+
+    property priority:
+        """ Raise the priority of an object so it will have a priviledged
+        access to hardware resource.
+
+        Hardware have a few dedicated hardware pipeline that process the video
+        at no cost for the CPU. Especially on SoC, you mostly have one (on
+        mobile phone SoC) or two (on Set Top Box SoC) when Picture in Picture
+        is needed. And most application just have a few video stream that really
+        deserve high frame rate, hiogh quality output. That's why this call is for.
+        
+        .. note:: If Emotion can't acquire a priviledged hardware ressource,
+                  it will fallback to the no-priority path. This work on the
+                  first asking first get basis system.
+
+        *True* means high priority.
+
+        :type: bool
+        """
+        def __get__(self):
+            return bool(emotion_object_priority_get(self.obj))
+
+        def __set__(self, value):
+            emotion_object_priority_set(self.obj, bool(value))
+
+    def priority_get(self):
+        return bool(emotion_object_priority_get(self.obj))
+    def priority_set(self, value):
+        emotion_object_priority_set(self.obj, bool(value))
+
+    property suspend:
+        """ The state of an object pipeline.
+
+        Changing the state of a pipeline should help preserve the battery of
+        an embedded device. But it will only work sanely if the pipeline
+        is not playing at the time you change its state. Depending on the
+        engine all state may be not implemented.
+
+        The options are:
+
+        - ``EMOTION_WAKEUP`` pipeline is up and running
+        - ``EMOTION_SLEEP`` turn off hardware resource usage like overlay
+        - ``EMOTION_DEEP_SLEEP`` destroy the pipeline, but keep full resolution
+          pixels output around
+        - ``EMOTION_HIBERNATE`` destroy the pipeline, and keep half resolution
+          or object resolution if lower
+
+        :type: Emotion_Suspend
+        """
+        def __get__(self):
+            return emotion_object_suspend_get(self.obj)
+        def __set__(self, value):
+            emotion_object_suspend_set(self.obj, <Emotion_Suspend>value)
+
+    def suspend_get(self):
+        return emotion_object_suspend_get(self.obj)
+    def suspend_set(self, Emotion_Suspend a):
+        emotion_object_suspend_set(self.obj, a)
+
 
     property buffer_size:
         """ The percentual size of the buffering cache.
@@ -758,6 +966,47 @@ cdef class Emotion(evasObject):
         def __get__(self):
             return self.meta_info_dict_get()
 
+    def last_position_load(self):
+        """ Load the last known position if available
+
+        By using Xattr, Emotion is able, if the system permitt it, to store
+        and retrieve the latest position. It should trigger some smart
+        callback to let the application know when it succeed or fail.
+        Every operation is fully asynchronous and not linked to the actual
+        engine used to play the video.
+        
+        """
+        emotion_object_last_position_load(self.obj)
+
+    def last_position_save(self):
+        """ Save the lastest position if possible
+
+        :see: :py:meth:`last_position_load`
+
+        """
+        emotion_object_last_position_save(self.obj)
+
+    def extension_may_play_get(self, filename):
+        """ Do we have a chance to play that file?
+
+        This just actually look at the extention of the file, it doesn't check
+        the mime-type nor if the file is actually sane. So this is just an
+        hint for your application.
+
+        :param filename: A filename that we want to know if Emotion can play.
+        :type filename: str
+        
+        """
+        return bool(emotion_object_extension_may_play_get(_cfruni(filename)))
+
+    def image_get(self):
+        """ Get the actual image object (:py:class:`efl.evas.Object`) of the
+        emotion object.
+
+        This function is usefull when you want to get a direct access to the pixels.
+        """
+        return object_from_instance(emotion_object_image_get(self.obj))
+        
     def event_simple_send(self, int event_id):
         """ Send a named signal to the object.
 
@@ -768,8 +1017,7 @@ cdef class Emotion(evasObject):
         """
         emotion_object_event_simple_send(self.obj, <Emotion_Event>event_id)
 
-
-    def callback_add(self, char *event, func, *args, **kargs):
+    def callback_add(self, event, func, *args, **kargs):
         """ Add a new function (**func**) to be called on the specific **event**.
 
         The expected signature for **func** is::
@@ -791,11 +1039,11 @@ cdef class Emotion(evasObject):
         e = intern(event)
         lst = self._emotion_callbacks.setdefault(e, [])
         if not lst:
-            evas_object_smart_callback_add(self.obj, event,
+            evas_object_smart_callback_add(self.obj, _cfruni(event),
                                            _emotion_callback, <void *>e)
         lst.append((func, args, kargs))
 
-    def callback_del(self, char *event, func):
+    def callback_del(self, event, func):
         """ Stop the given function **func** to be called on **event**
 
         :see also: all the on_*_add() shortcut functions
@@ -823,7 +1071,7 @@ cdef class Emotion(evasObject):
         if lst:
             return
         self._emotion_callbacks.pop(event)
-        evas_object_smart_callback_del(self.obj, event, _emotion_callback)
+        evas_object_smart_callback_del(self.obj, _cfruni(event), _emotion_callback)
 
     def on_frame_decode_add(self, func, *args, **kargs):
         "Same as calling: callback_add('frame_decode', func, ...)"

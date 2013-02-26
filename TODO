@@ -19,7 +19,6 @@ TODO:
 * elm.Conformant need a test
 * include python-ethumb
 * include python-e_dbus (or make edbus2 ??)
-* check emotion api completness
 * elm.Notify align_set/get/prop
 * cleanup elementary_object
 
