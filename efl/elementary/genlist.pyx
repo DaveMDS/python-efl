@@ -599,7 +599,7 @@ cdef class GenlistItem(ObjectItem):
                 self.params[2],
                 self.params[1])
 
-    def append_to(self, Genlist genlist not None):
+    def append_to(self, GenlistWidget genlist not None):
         """append_to(Genlist genlist) -> GenlistItem
 
         Append a new item (add as last row) to this genlist.
@@ -626,7 +626,7 @@ cdef class GenlistItem(ObjectItem):
             Py_DECREF(self)
             return None
 
-    def prepend_to(self, Genlist genlist not None):
+    def prepend_to(self, GenlistWidget genlist not None):
         """prepend_to(Genlist genlist) -> GenlistItem
 
         Prepend a new item (add as first row) to this Genlist.
@@ -664,13 +664,12 @@ cdef class GenlistItem(ObjectItem):
         :rtype: :py:class:`GenlistItem`
 
         """
-        cdef Genlist genlist
         cdef Elm_Object_Item *item, *before
 
         genlist = before_item.widget
         before = _object_item_from_python(before_item)
 
-        item = elm_genlist_item_insert_before(  genlist.obj,
+        item = elm_genlist_item_insert_before(  <Evas_Object *>genlist.obj,
                                                 self.item_class,
                                                 <void*>self,
                                                 self.parent_item,
@@ -697,13 +696,12 @@ cdef class GenlistItem(ObjectItem):
         :rtype: :py:class:`GenlistItem`
 
         """
-        cdef Genlist genlist
         cdef Elm_Object_Item *item, *after
 
         genlist = after_item.widget
         after = _object_item_from_python(after_item)
 
-        item = elm_genlist_item_insert_after(   genlist.obj,
+        item = elm_genlist_item_insert_after(   <Evas_Object *>genlist.obj,
                                                 self.item_class,
                                                 <void*>self,
                                                 self.parent_item,
@@ -719,7 +717,7 @@ cdef class GenlistItem(ObjectItem):
             Py_DECREF(self)
             return None
 
-    def sorted_insert(self, Genlist genlist not None, comparison_func):
+    def sorted_insert(self, genlist not None, comparison_func):
         """sorted_insert(Genlist genlist, comparison_func) -> GenlistItem
 
         Insert a new item into the sorted genlist object
@@ -741,7 +739,7 @@ cdef class GenlistItem(ObjectItem):
                 raise TypeError("func is not None or callable")
             self.comparison_func = comparison_func
 
-        item = elm_genlist_item_sorted_insert(  genlist.obj,
+        item = elm_genlist_item_sorted_insert(  <Evas_Object *>genlist.obj,
                                                 self.item_class,
                                                 <void*>self,
                                                 self.parent_item,
@@ -1251,7 +1249,7 @@ cdef class GenlistItem(ObjectItem):
     def select_mode_get(self):
         return elm_genlist_item_select_mode_get(self.item)
 
-cdef class Genlist(Object):
+cdef class GenlistWidget(Object):
 
     """
 
@@ -1787,33 +1785,6 @@ cdef class Genlist(Object):
     def last_item_get(self):
         return _object_item_to_python(elm_genlist_last_item_get(self.obj))
 
-    property scroller_policy:
-        """This sets the scrollbar visibility policy for the given genlist
-        scroller. #ELM_SCROLLER_POLICY_AUTO means the scrollbar is made
-        visible if it is needed, and otherwise kept hidden.
-        #ELM_SCROLLER_POLICY_ON turns it on all the time, and
-        #ELM_SCROLLER_POLICY_OFF always keeps it off. This applies
-        respectively for the horizontal and vertical scrollbars. Default is
-        #ELM_SCROLLER_POLICY_AUTO
-
-        :type: Elm_Scroller_Policy
-
-        """
-        def __set__(self, value):
-            policy_h, policy_v = value
-            elm_scroller_policy_set(self.obj, policy_h, policy_v)
-
-        def __get__(self):
-            cdef Elm_Scroller_Policy policy_h, policy_v
-            elm_scroller_policy_get(self.obj, &policy_h, &policy_v)
-            return (policy_h, policy_v)
-
-    def scroller_policy_set(self, policy_h, policy_v):
-        elm_scroller_policy_set(self.obj, policy_h, policy_v)
-    def scroller_policy_get(self):
-        cdef Elm_Scroller_Policy policy_h, policy_v
-        elm_scroller_policy_get(self.obj, &policy_h, &policy_v)
-        return (policy_h, policy_v)
 
     def realized_items_update(self):
         """realized_items_update()
@@ -2165,53 +2136,6 @@ cdef class Genlist(Object):
     def callback_longpressed_del(self, func):
         self._callback_del_full("longpressed", _cb_object_item_conv, func)
 
-    def callback_scroll_anim_start_add(self, func, *args, **kwargs):
-        self._callback_add("scroll,anim,start", func, *args, **kwargs)
-
-    def callback_scroll_anim_start_del(self, func):
-        self._callback_del("scroll,anim,start", func)
-
-    def callback_scroll_anim_stop_add(self, func, *args, **kwargs):
-        self._callback_add("scroll,anim,stop", func, *args, **kwargs)
-
-    def callback_scroll_anim_stop_del(self, func):
-        self._callback_del("scroll,anim,stop", func)
-
-    def callback_scroll_drag_start_add(self, func, *args, **kwargs):
-        self._callback_add("scroll,drag,start", func, *args, **kwargs)
-
-    def callback_scroll_drag_start_del(self, func):
-        self._callback_del("scroll,drag,start", func)
-
-    def callback_scroll_drag_stop_add(self, func, *args, **kwargs):
-        self._callback_add("scroll,drag,stop", func, *args, **kwargs)
-
-    def callback_scroll_drag_stop_del(self, func):
-        self._callback_del("scroll,drag,stop", func)
-
-    def callback_edge_top_add(self, func, *args, **kwargs):
-        self._callback_add("edge,top", func, *args, **kwargs)
-
-    def callback_edge_top_del(self, func):
-        self._callback_del("edge,top", func)
-
-    def callback_edge_bottom_add(self, func, *args, **kwargs):
-        self._callback_add("edge,bottom", func, *args, **kwargs)
-
-    def callback_edge_bottom_del(self, func):
-        self._callback_del("edge,bottom", func)
-
-    def callback_edge_left_add(self, func, *args, **kwargs):
-        self._callback_add("edge,left", func, *args, **kwargs)
-
-    def callback_edge_left_del(self, func):
-        self._callback_del("edge,left", func)
-
-    def callback_edge_right_add(self, func, *args, **kwargs):
-        self._callback_add("edge,right", func, *args, **kwargs)
-
-    def callback_edge_right_del(self, func):
-        self._callback_del("edge,right", func)
 
     def callback_multi_swipe_left_add(self, func, *args, **kwargs):
         self._callback_add("multi,swipe,left", func, *args, **kwargs)
@@ -2288,5 +2212,7 @@ cdef class Genlist(Object):
     def callback_tree_effect_finished_del(self, func):
         self._callback_del("tree,effect,finished", func)
 
+class Genlist(GenlistWidget, ScrollableInterface):
+    pass
 
 _object_mapping_register("elm_genlist", Genlist)
