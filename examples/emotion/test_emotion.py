@@ -96,7 +96,8 @@ class MovieWindow(edje.Edje):
         pf = pos * 100 - (ps * 100) - (pm * 60 * 100) - (ph * 60 * 60 * 100)
         buf = "%i:%02i:%02i.%02i / %i:%02i:%02i" % (ph, pm, ps, pf, lh, lm, ls)
         self.part_text_set("video_progress_txt", buf)
-        self.part_drag_value_set("video_progress", pos / length, 0.0)
+        if length > 0:
+            self.part_drag_value_set("video_progress", pos / length, 0.0)
 
     # frame callbacks
     def frame_signal_play_cb(self, frame, emission, source):
@@ -314,9 +315,12 @@ def cmdline_parse():
                       choices=("xine", "gstreamer", "vlc"), default="gstreamer",
                       help=("multimedia engine to use (xine, gstreamer or vlc) "
                             "default=%default") )
+    parser.add_option("-w", "--webcams", action="store_true",
+                      default=False,
+                      help=("show all the available webcams streams") )
     options, args = parser.parse_args()
-    if not args:
-        parser.error("missing filename")
+    if not args and not options.webcams:
+        parser.error("missing filename or the -w option")
     return options, args
 
 
@@ -337,16 +341,28 @@ if __name__ == "__main__"or True:
     win.resize_object_add(scene)
     scene.show()
 
+    win.data["movie_windows"] = objects = []
+
     # one edje frame for each file passed
-    i = 0
-    objects = []
     for fname in args:
+        print("Playing url: '%s'" % (fname))
         mw = MovieWindow(win.evas, media_module=options.engine, media_file=fname)
+        objects.append(mw)
+
+    # one edje frame for each webcams found
+    if options.webcams:
+        for webcam in emotion.webcams_get():
+            print("Found webcam: '%s'  url: '%s'" % (webcam))
+            name, url = webcam
+            mw = MovieWindow(win.evas, media_module=options.engine, media_file=url)
+            objects.append(mw)
+
+    # show each frame
+    i = 0
+    for mw in objects:
         mw.pos = (i, i)
         mw.show()
-        objects.append(mw)
         i += 40
-    win.data["movie_windows"] = objects
 
     # show the win and enter elm main loop
     win.resize(*options.geometry)
