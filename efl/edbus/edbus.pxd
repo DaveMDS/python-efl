@@ -22,7 +22,7 @@ cdef extern from "Ecore.h":
 cdef extern from "EDBus.h":
     ctypedef struct EDBus_Connection
 
-    EDBus_Connection *edbus_connection_get(EDBus_Connection_Type type)
+    EDBus_Connection *edbus_connection_from_dbus_connection(EDBus_Connection_Type type, void *conn)
     void edbus_connection_unref(EDBus_Connection *conn)
     int edbus_init()
     void edbus_shutdown()

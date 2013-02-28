@@ -15,10 +15,7 @@ import atexit
 
 import_dbus_bindings("edbus")
 
-cdef EDBus_Connection *edbc
-
 def module_cleanup():
-    edbus_connection_unref(edbc)
     edbus_shutdown()
     ecore_shutdown()
 
@@ -28,7 +25,7 @@ atexit.register(module_cleanup)
 
 cdef dbus_bool_t dbus_py_ecore_setup_conn(DBusConnection *conn, void* data):
     cdef EDBus_Connection_Type ctype = enums.EDBUS_CONNECTION_TYPE_SESSION
-    edbc = edbus_connection_get(ctype)
+    edbus_connection_from_dbus_connection(ctype, <void *>conn)
     return True
 
 cdef object dbus_ecore_native_mainloop():
@@ -41,10 +38,10 @@ def DBusEcoreMainLoop(set_as_default=False):
 
     ml = dbus_ecore_native_mainloop()
 
-    if ml and set_as_default:
-        res = dbus.set_default_main_loop(ml)
-
-        if res is None:
-            raise RuntimeError("Could not set up main loop")
+    if ml is not None:
+        if set_as_default:
+            dbus.set_default_main_loop(ml)
+    else:
+        raise RuntimeError("Could not get a main loop object.")
 
     return ml
