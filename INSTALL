@@ -9,14 +9,16 @@
    - Tested with Cython 0.17.3
 
  * EFL core library
-   - eo, evas, ecore, edje, elementary and emotion
+   - eo, evas, ecore, edje, elementary, edbus and emotion
 
  * pkg-config (http://www.freedesktop.org/wiki/Software/pkg-config)
    - Windows executable (and GLib dependency) can be downloaded from
      http://www.gtk.org/download/win32.php
 
  * To build the DOCS you will also need:
-   - python-sphinx, graphviz
+   - python-sphinx
+   - [optional] graphviz
+   - [optional] youtube module from the sphinx contrib repository.
 
 
 
@@ -61,7 +63,9 @@
 4. DOCUMENTATION:
 -----------------
 
- To build the docs for the bindings you need Sphinx and Graphvix installed.
+ To build the docs for the bindings you need to have Sphinx installed, for
+ (optional) graphs you need Graphviz, for (optional) Youtube demonstration
+ videos you need the YouTube module from sphinx contrib repository.
  packages: python-sphinx, graphviz
 
  Once installed run:
@@ -69,27 +73,27 @@
 
  You will find the generated html docs under the folder:
  build/sphinx/html
- 
+
 
 
 5. TESTS and EXAMPLES:
 ----------------------
 
- The tests/ folder contain all the unit tests available, you can run individual
+ The tests/ folder contains all the unit tests available, you can run individual
  tests or use the 00_run_all_tests.py in each folder or even in the tests/ base
  dir to run all the tests at once.
 
- The examples/ folder instead contain scripts that must be run by the user
- as they need some sort of interaction.
+ The scripts in examples/ folder must be run by the user as they require
+ user interaction.
 
 
 
 6. UNINSTALL:
 -------------
 
- Unfortunatly setup.py do not provide a way to remove the installed packages,
+ Unfortunately setup.py does not provide a way to remove the installed packages,
 
- To completly remove the installed stuff just remove the 'efl' folder in
+ To completely remove the installed stuff just remove the 'efl' folder in
  your python installation, usually /usr/(local/)lib/pythonX.X/dist-packages/efl
 
 

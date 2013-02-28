@@ -1,0 +1,7 @@
+cdef extern from "EDBus.h":
+    ctypedef enum EDBus_Connection_Type:
+        EDBUS_CONNECTION_TYPE_UNKNOWN
+        EDBUS_CONNECTION_TYPE_SESSION
+        EDBUS_CONNECTION_TYPE_SYSTEM
+        EDBUS_CONNECTION_TYPE_STARTER
+        EDBUS_CONNECTION_TYPE_LAST
