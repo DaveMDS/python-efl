@@ -32,8 +32,14 @@ sys.path.insert(0, os.path.abspath("../build/"+d))
 extensions = [
     'sphinx.ext.autodoc',
     'sphinx.ext.coverage',
-    'sphinx.ext.inheritance_diagram',
 ]
+
+try:
+    import gv
+except ImportError:
+    pass
+else:
+    extensions.append('sphinx.ext.inheritance_diagram')
 
 try:
     import sphinxcontrib.youtube
