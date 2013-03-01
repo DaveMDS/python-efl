@@ -59,7 +59,7 @@ cdef void obj_free_cb(void *data, Evas *e,
 # cdef _object_register_decorated_callbacks(obj):
 #     if not hasattr(obj, "__evas_event_callbacks__"):
 #         return
-# 
+#
 #     for attr_name, evt in obj.__evas_event_callbacks__:
 #         attr_value = getattr(obj, attr_name)
 #         obj.event_callback_add(evt, attr_value)
@@ -125,9 +125,11 @@ cdef class Object(Eo):
     (:py:attr:`clip`), usually done by use of
     :py:class:`Rectangle <efl.evas.Rectangle>` as clipper. Clip objects will
     affect the drawing behavior:
-     - Limiting visibility
-     - Limiting geometry
-     - Modulating color
+
+    - Limiting visibility
+    - Limiting geometry
+    - Modulating color
+
     Clips respects the hierarchy: the minimum area and the composed color
     will be used used at the end, if one object is not visible, othe lower
     objects (clipped by it) will not be visible as well. Clipping is the
@@ -137,10 +139,10 @@ cdef class Object(Eo):
     work for :py:class:`Images <efl.evas.Image>`
 
     As with every evas component, colors should be specified in
-    **pre-multiplied** format, see L{evas.color_parse()} and
-    L{evas.color_argb_premul()}.
+    **pre-multiplied** format, see :py:func:`color_parse` and
+    :py:func:`evas.color_argb_premul`.
 
-    Objects can be grouped by means of L{SmartObject}, a virtual class
+    Objects can be grouped by means of :py:class:`SmartObject`, a virtual class
     that can have it's methods implemented in order to apply methods to
     its children.
 
@@ -220,9 +222,9 @@ cdef class Object(Eo):
 
     property evas:
         """ The evas Canvas that owns this object.
-        
+
         :type: :py:class:`efl.evas.Canvas`
-        
+
         """
         def __get__(self):
             return object_from_instance(evas_object_evas_get(self.obj))
@@ -233,19 +235,19 @@ cdef class Object(Eo):
 # TODO move to Eo
 #     def type_get(self):
 #         """type_get()
-# 
+#
 #         Get the Evas object's type
-# 
-#         @rtype: string
+#
+#         :rtype: string
 #         """
 #         if self.obj:
 #             return _ctouni(evas_object_type_get(self.obj))
 
 #     property type:
 #         """Type name, ie: "rectangle".
-# 
-#         @type: string
-# 
+#
+#         :type: string
+#
 #         """
 #         def __get__(self):
 #             return self.type_get()
@@ -1580,4 +1582,4 @@ cdef class Object(Eo):
         # TODO dunno how to do this in a sane way
         #return evas_object_map_get(self.obj)
         return None
-    
+

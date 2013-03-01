@@ -98,15 +98,21 @@ cdef class Edje(Object):
     Edje also provides scripting through Embryo and communication can be
     done using messages and signals.
 
-    .. warning:: although Edje provides part_object_get(), you should **NOT**
+    .. warning::
+        although Edje provides part_object_get(), you should **NOT**
         mess with these objects states or you'll screw the given Edje. The
         objects you get with this function should be handled as "read-only".
-    .. attention:: messages are one way only! If you emit a message from Python
+
+    .. attention::
+        messages are one way only! If you emit a message from Python
         you will just get it from your Embryo script, if you emit from Embryo
         you just get it in Python. If you want to emit events and capture
         them on the same side, use signals.
-    .. note:: You can debug messages and signals by capturing all of them,
+
+    .. note::
+        You can debug messages and signals by capturing all of them,
         example::
+
             >>> def sig_dbg(obj, emission, source):
             ...     print "%s: %s %s" % (obj, emission, source)
             ...
@@ -193,7 +199,7 @@ cdef class Edje(Object):
 
         :param file: the name of the file to load
         :param group: the name of the group inside the edj to load
-        
+
         :raise EdjeLoadError: if error occurred during load.
 
         """
@@ -206,7 +212,7 @@ cdef class Edje(Object):
 
         :return: the tuple (file, group)
         :rtype: tuple for str
-        
+
         """
         cdef const_char_ptr file, group
         edje_object_file_get(self.obj, &file, &group)
@@ -225,7 +231,7 @@ cdef class Edje(Object):
 
         :param value: True to play or False to pause
         :type value: int
-        
+
         """
         edje_object_play_set(self.obj, value)
 
@@ -296,7 +302,7 @@ cdef class Edje(Object):
         :param color_class: the name of the color class to query
         :return: the tuple (r, g, b, a, r2, g2, b2, a2, r3, g3, b3, a3)
         :rtype: tuple of int
-        
+
         """
         cdef int r, g, b, a
         cdef int r2, g2, b2, a2
@@ -361,12 +367,15 @@ cdef class Edje(Object):
         return bool(edje_object_part_exists(self.obj, _cfruni(part)))
 
     def part_object_get(self, part):
-        """Get the efl.evas.Object that represents this part.
+        """
+        Get the efl.evas.Object that represents this part.
 
-        .. warning:: You should never modify the state of the returned object
-          (with Edje.move() or Edje.hide() for example),
-          but you can safely query info about its current state
-          (with Edje.visible_get() or Edje.color_get() for example).
+        .. warning::
+            You should never modify the state of the returned object
+            (with Edje.move() or Edje.hide() for example),
+            but you can safely query info about its current state
+            (with Edje.visible_get() or Edje.color_get() for example).
+
         """
         cdef Evas_Object *obj
         obj = <Evas_Object*>edje_object_part_object_get(self.obj, _cfruni(part))
@@ -393,9 +402,12 @@ cdef class Edje(Object):
     def text_change_cb_set(self, func, *args, **kargs):
         """Set function to callback on text changes.
 
-        :param func: the function to call when text change
-                     Expected signature::
-                        function(object, part, *args, **kargs)
+        :param func:
+            The function to call when text change
+            Expected signature::
+
+                function(object, part, *args, **kargs)
+
         """
         if func is None:
             self._text_change_cb = None
@@ -417,14 +429,14 @@ cdef class Edje(Object):
 
     def part_text_get(self, part):
         """Get the text of a given part.
-        
+
         :return: the text of part
         :rtype: str
 
         """
         cdef const_char_ptr s
         return _ctouni(edje_object_part_text_get(self.obj, _cfruni(part)))
-        
+
 
     def part_text_select_all(self, part):
         "Select all the text of the given TEXT or TEXTBLOCK part"
@@ -479,7 +491,7 @@ cdef class Edje(Object):
         :type part: str
         :param obj: the efl.evas.Object to swallow inside part
         :type obj: efl.evas.Object
-        
+
         """
         edje_object_part_swallow(self.obj, _cfruni(part), obj.obj)
 
@@ -968,10 +980,10 @@ cdef class Edje(Object):
 
         Data should be pure-python types that will be converted to
         the Message subclass that better fits it. Supported are:
-         - long, int, float, str
-         - list of long, int, float, str
-         - str and one of long, int, float
-         - str and a list of one of long, int, float
+        - long, int, float, str
+        - list of long, int, float, str
+        - str and one of long, int, float
+        - str and a list of one of long, int, float
 
         Messages sent will **NOT** be available at Python-side (ie:
         message_handler_set()), but just at Embryo-side.
@@ -1003,9 +1015,11 @@ cdef class Edje(Object):
         """Set the handler of messages coming from Embryo.
 
         Signature::
+
             function(object, message, *args, **kargs)
 
         .. note:: this just handle messages sent from Embryo.
+
         :raise TypeError: if func is not callable or None.
         """
         if func is None:
@@ -1027,14 +1041,17 @@ cdef class Edje(Object):
         """Add callback to given signal (emission, source).
 
         Signature::
+
             function(object, emission, source, *args, **kargs)
 
-        :param emission: the emission to listen, may be or contain '*' to
-                         match multiple.
-        :param source: the emission's source to listen, may be or contain
-                       '*' to match multiple.
-        :param func: the callable to use. Will get any further arguments
-                     you gave to signal_callback_add().
+        :param emission:
+            the emission to listen, may be or contain '*' to match multiple.
+        :param source:
+            the emission's source to listen, may be or contain '*' to match
+            multiple.
+        :param func:
+            the callable to use. Will get any further arguments you gave to
+            signal_callback_add().
 
         :raise TypeError: if func is not callable.
         """

@@ -167,7 +167,7 @@ cdef void _ecore_exe_pre_free_cb(void *data, const_Ecore_Exe *exe) with gil:
 cdef class Exe(object):
     """Spawns a child process with its stdin/out available for communication.
 
-    This function forks and runs the given command using C{/bin/sh}.
+    This function forks and runs the given command using ``/bin/sh``.
 
     Note that the process handle is only valid until a child process
     terminated event is received.  After all handlers for the child
@@ -180,10 +180,10 @@ cdef class Exe(object):
     *flags*, that will make Ecore monitor process' stdout and stderr,
     emitting events on main loop.
 
-    To write use ``send()``.  To read listen to ``ECORE_EXE_EVENT_DATA``
+    To write use :py:func:`send`.  To read listen to ``ECORE_EXE_EVENT_DATA``
     or ``ECORE_EXE_EVENT_ERROR`` events (see below). Ecore may
     buffer read and error data until a newline character if asked for
-    with the `*flags*.  All data will be included in the events
+    with the *flags*.  All data will be included in the events
     (newlines will be replaced with NULLS if line is buffered).
 
     ``ECORE_EXE_EVENT_DATA`` events will only happen if the process is
@@ -191,21 +191,20 @@ cdef class Exe(object):
     with the error version.  Writing will only be allowed with
     ``ECORE_EXE_PIPE_WRITE`` enabled in the *flags*.
 
-    Instance Event Handling
-    =======================
+    .. rubric:: Instance Event Handling
 
     To make use easier, there are methods that automatically filter
     events for this instance and deletes them when the ``Exe`` is
     deleted:
 
-     - on_add_event_add()
-     - on_add_event_del()
-     - on_del_event_add()
-     - on_del_event_del()
-     - on_data_event_add()
-     - on_data_event_del()
-     - on_error_event_add()
-     - on_error_event_del()
+    - on_add_event_add()
+    - on_add_event_del()
+    - on_del_event_add()
+    - on_del_event_del()
+    - on_data_event_add()
+    - on_data_event_del()
+    - on_error_event_add()
+    - on_error_event_del()
 
     The callback signatures are::
 
@@ -221,8 +220,7 @@ cdef class Exe(object):
 
     However, there are C-api conformat functions as well.
 
-    Event Handling (C-api conformant)
-    =================================
+    .. rubric:: Event Handling (C-api conformant)
 
     Getting data from executed processed is done by means of event
     handling, which is also used to notify whenever this process
@@ -230,29 +228,31 @@ cdef class Exe(object):
 
     One should listen to events in the main loop, such as:
 
-     - ``EventExeAdd`` listen with ``on_exe_add_event_add()`` to know
-       when sub processes were started and ready to be used.
+    EventExeAdd
+        listen with ``on_exe_add_event_add()`` to know when sub processes
+        were started and ready to be used.
 
-     - ``EventExeDel`` listen with ``on_exe_del_event_add()`` to know
-       when sub processes died.
+    EventExeDel
+        listen with ``on_exe_del_event_add()`` to know when sub processes died.
 
-     - ``EventExeData`` listen with ``on_exe_data_event_add()`` to know
-       when sub processes output data to their stdout.
+    EventExeData
+        listen with ``on_exe_data_event_add()`` to know when sub processes
+        output data to their stdout.
 
-     - ``EventExeError`` listen with ``on_exe_error_event_add()`` to
-       know when sub processes output data to their stderr.
+    EventExeError
+        listen with ``on_exe_error_event_add()`` to know when sub processes
+        output data to their stderr.
 
     Events will have the following signature, as explained in
     ``EventHandler``::
 
        func(event, *args, **kargs): bool
 
-    That mean once registered, your callback ``func`` will be called
-    for all known ``Exe`` instances (that were created from
-    Python!). You can query which instance created such event with
-    ``event.exe`` property. Thus you often need to filter if the event
-    you got is from the instance you need! (This is designed to match
-    C-api).
+    That mean once registered, your callback ``func`` will be called for all
+    known ``Exe`` instances (that were created from Python!). You can query
+    which instance created such event with ``event.exe`` property. Thus you
+    often need to filter if the event you got is from the instance you need!
+    (This is designed to match C-api).
 
     Once your function returns evaluates to *False* (note: not returning
     means returning *None*, that evaluates to *False*!), your callback
@@ -264,20 +264,37 @@ cdef class Exe(object):
 
     :param exe_cmd: command to execute as subprocess.
     :type exe_cmd: str
-    :param flags: if given (!= 0), should be bitwise OR of
-    
-         - ECORE_EXE_PIPE_READ: Exe Pipe Read mask
-         - ECORE_EXE_PIPE_WRITE: Exe Pipe Write mask
-         - ECORE_EXE_PIPE_ERROR: Exe Pipe error mask
-         - ECORE_EXE_PIPE_READ_LINE_BUFFERED: Reads are buffered until
-           a newline and delivered 1 event per line.
-         - ECORE_EXE_PIPE_ERROR_LINE_BUFFERED: Errors are buffered
-           until a newline and delivered 1 event per line
-         - ECORE_EXE_PIPE_AUTO: stdout and stderr are buffered automatically
-         - ECORE_EXE_RESPAWN: Exe is restarted if it dies
-         - ECORE_EXE_USE_SH: Use /bin/sh to run the command.
-         - ECORE_EXE_NOT_LEADER Do not use setsid() to have the
-           executed process be its own session leader
+    :param flags:
+        if given (!= 0), should be bitwise OR of
+
+        ECORE_EXE_PIPE_READ
+            Exe Pipe Read mask
+
+        ECORE_EXE_PIPE_WRITE
+            Exe Pipe Write mask
+
+        ECORE_EXE_PIPE_ERROR
+            Exe Pipe error mask
+
+        ECORE_EXE_PIPE_READ_LINE_BUFFERED
+            Reads are buffered until a newline and delivered 1 event per line.
+
+        ECORE_EXE_PIPE_ERROR_LINE_BUFFERED
+            Errors are buffered until a newline and delivered 1 event per line.
+
+        ECORE_EXE_PIPE_AUTO
+            stdout and stderr are buffered automatically
+
+        ECORE_EXE_RESPAWN
+            Exe is restarted if it dies
+
+        ECORE_EXE_USE_SH
+            Use /bin/sh to run the command.
+
+        ECORE_EXE_NOT_LEADER
+            Do not use setsid() to have the executed process be its own
+            session leader
+
     :type flags: int
     :param data: extra data to be associated and available with ``data_get()``
 
@@ -407,7 +424,7 @@ cdef class Exe(object):
         ret = bool(ecore_exe_send(self.exe, <const_void *>buf_view.buf, buf_view.len))
         PyBuffer_Release(&buf_view)
         return ret
-    
+
     def close_stdin(self):
         """Close executed process' stdin.
 

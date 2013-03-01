@@ -114,7 +114,7 @@ EVAS_COLORSPACE_RGB565_A5P = 3
 EVAS_PIXEL_FORMAT_NONE        = 0
 EVAS_PIXEL_FORMAT_ARGB32      = 1
 EVAS_PIXEL_FORMAT_YUV420P_601 = 2
-        
+
 EVAS_FONT_HINTING_NONE = 0
 EVAS_FONT_HINTING_AUTO = 1
 EVAS_FONT_HINTING_BYTECODE = 2
@@ -171,10 +171,10 @@ def render_method_lookup(name):
 
     Lookup render method and return its id (> 0 if found).
 
-    @param name: Render method
-    @type name: string
-    @return: ID
-    @rtype: int
+    :param name: Render method
+    :type name: string
+    :return: ID
+    :rtype: int
 
     """
     return evas_render_method_lookup(_cfruni(name))
@@ -185,7 +185,7 @@ def render_method_list():
 
     Returns a list of render method names.
 
-    @rtype: list of str
+    :rtype: list of str
 
     """
     cdef Eina_List *lst

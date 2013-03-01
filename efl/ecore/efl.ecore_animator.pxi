@@ -17,28 +17,32 @@
 
 
 cdef class Animator(Eo):
-    """Creates an animator to tick off at every animaton tick during main loop
-       execution.
 
-       This class represents an animator that will call the given ``func``
-       every N seconds where N is the frametime interval set by
-       animator_frametime_set(). The function will be passed any extra
-       parameters given to constructor.
+    """
 
-       When the animator ``func`` is called, it must return a value of either
-       *True* or *False* (remember that Python returns *None* if no value is
-       explicitly returned and *None* evaluates to *False*). If it returns
-       *True*, it will be called again at the next tick, or if it returns
-       *False* it will be deleted automatically making any references/handles
-       for it invalid.
+    Creates an animator to tick off at every animaton tick during main loop
+    execution.
 
-       Animators should be stopped/deleted by means delete() or
-       returning *False* from ``func``, otherwise they'll continue alive, even
-       if the current python context delete it's reference to it.
+    This class represents an animator that will call the given ``func``
+    every N seconds where N is the frametime interval set by
+    animator_frametime_set(). The function will be passed any extra
+    parameters given to constructor.
 
-       :param func: function to call every frame.
-                    Expected signature::
-                        func(*args, **kargs): bool
+    When the animator ``func`` is called, it must return a value of either
+    *True* or *False* (remember that Python returns *None* if no value is
+    explicitly returned and *None* evaluates to *False*). If it returns
+    *True*, it will be called again at the next tick, or if it returns
+    *False* it will be deleted automatically making any references/handles
+    for it invalid.
+
+    Animators should be stopped/deleted by means delete() or
+    returning *False* from ``func``, otherwise they'll continue alive, even
+    if the current python context delete it's reference to it.
+
+    :param func:
+        function to call every frame. Expected signature::
+
+            func(*args, **kargs) -> bool
 
     """
     def __init__(self, func, *args, **kargs):
@@ -70,15 +74,18 @@ cdef class Animator(Eo):
 
 
 def animator_add(func, *args, **kargs):
-    """Animator factory, for C-api compatibility.
+    """
 
-       func signature::
-         func(*args, **kargs): bool
+    Animator factory, for C-api compatibility.
 
-       :param func: function to call every frame.
+    func signature::
 
-       :return: a new Animator instance
-       :rtype: ``efl.ecore.Animator``
+        func(*args, **kargs): bool
+
+    :param func: function to call every frame.
+
+    :return: a new Animator instance
+    :rtype: ``efl.ecore.Animator``
 
     """
     return Animator(func, *args, **kargs)

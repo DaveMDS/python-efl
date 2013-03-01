@@ -261,11 +261,11 @@ cdef long _smart_object_class_new(char *name) except 0:
 #     def __init__(cls, name, bases, dict_):
 #         EvasObjectMeta.__init__(cls, name, bases, dict_)
 #         cls._setup_smart_class()
-# 
+#
 #     def _setup_smart_class(cls):
 #         if "__evas_smart_class__" in cls.__dict__:
 #             return
-# 
+#
 #         cdef long addr
 #         addr = _smart_object_class_new(cls.__name__)
 #         cls.__evas_smart_class__ = addr
@@ -297,79 +297,95 @@ cdef class SmartObject(Object):
     multiple basic elements, associate an object with a clip and deal with
     them as an unit. See evas documentation for more details.
 
-    Recommended use is to create an B{clipper} object and clip every other
+    Recommended use is to create an **clipper** object and clip every other
     member to it, then you can have all your other members to be always
-    visible and implement L{hide()}, L{show()}, L{color_set()}, L{clip_set()}
-    and L{clip_unset()} to just affect the B{clipper}. See
-    L{ClippedSmartObject}.
+    visible and implement :py:func:`hide`, :py:func:`show`,
+    :py:func:`color_set`, :py:func:`clip_set` and :py:func:`clip_unset` to
+    just affect the **clipper**. See :py:class:`ClippedSmartObject`.
 
-    B{Pay attention that just creating an object within the SmartObject
-    doesn't make it a member!} You must do L{member_add()} or use one of
+    **Pay attention that just creating an object within the SmartObject
+    doesn't make it a member!** You must do :py:func:`member_add` or use one of
     the provided factories to ensure that. Failing to do so will leave
     created objects on different layer and no stacking will be done for you.
 
     Behavior is defined by defining the following methods:
-        - L{delete()}: called in order to remove object from canvas and
-            deallocate its resources. Usually you delete object's children
-            here. I{Default implementation delete all registered children.}
-        - L{move()}: called in order to move object to given position.
-            Usually you move children here. I{Default implementation
-            calculates offset and move registered children by it.}
-        - L{resize()}: called in order to resize object. I{No default
-            implementation.}
-        - L{show()}: called in order to show the given element. Usually you
-            call the same function on children. I{No default implementation.}
-        - L{hide()}: called in order to hide the given element. Usually you
-            call the same function on children. I{No default implementation.}
-        - L{color_set()}: called in order to change object color. I{No default
-            implementation.}
-        - L{clip_set()}: called in order to limit object's visible area.
-            I{No default implementation.}
-        - L{clip_unset()}: called in order to unlimit object's visible area.
-            I{No default implementation.}
-        - L{calculate()}: called before object is used for rendering and it
-            is marked as dirty/changed with L{changed()}. I{Default
-            implementation does nothing.}
-        - L{member_add()}: called when children is added to object. I{Default
-            implementation does nothing.}
-        - L{member_del()}: called when children is removed from object.
-            I{Default implementation does nothing.}
 
-    @note: You should never instantiate the SmartObject base class directly,
+    :py:func:`delete`
+        called in order to remove object from canvas and deallocate its
+        resources. Usually you delete object's children here. *Default
+        implementation deletes all registered children.*
+
+    :py:func:`move`
+        called in order to move object to given position. Usually you move
+        children here. *Default implementation calculates offset and move
+        registered children by it.*
+
+    :py:func:`resize`
+        called in order to resize object. *No default implementation.*
+
+    :py:func:`show`
+        called in order to show the given element. Usually you call the same
+        function on children. *No default implementation.*
+
+    :py:func:`hide`
+        called in order to hide the given element. Usually you call the same
+        function on children. *No default implementation.*
+
+    :py:func:`color_set`
+        called in order to change object color. *No default implementation.*
+
+    :py:func:`clip_set`
+        called in order to limit object's visible area. *No default
+        implementation.*
+
+    :py:func:`clip_unset`
+        called in order to unlimit object's visible area. *No default
+        implementation.*
+
+    :py:func:`calculate`
+        called before object is used for rendering and it is marked as
+        dirty/changed with :py:func:`changed`. *Default implementation does
+        nothing.*
+
+    :py:func:`member_add`
+        called when children is added to object. *Default implementation
+        does nothing.*
+
+    :py:func:`member_del`
+        called when children is removed from object. *Default implementation
+        does nothing.*
+
+    .. note::
+        You should never instantiate the SmartObject base class directly,
         but inherit and implement methods, then instantiate this new subclass.
-    @note: If you redefine object's __init__(), you MUST call your parent!
-        Failing to do so will result in objects that just work from
-        Python and not from C, for instance, adding your object to Edje
-        swallow that clips or set color it will not behave as expected.
-    @note: Do not call your parent on methods you want to replace the behavior
+
+    .. note::
+        If you redefine object's __init__(), you MUST call your parent!
+        Failing to do so will result in objects that just work from Python
+        and not from C, for instance, adding your object to Edje swallow
+        that clips or set color it will not behave as expected.
+
+    ..note::
+        Do not call your parent on methods you want to replace the behavior
         instead of extending it. For example, some methods have default
         implementation, you may want to remove and replace it with something
         else.
 
-    @group Children manipulation: member_add, member_del, members_get,
-        members
-    @group Factories: Rectangle, Line, Image, FilledImage,
-        Polygon, Text
-    @group Default implementations: delete, move, calculate, member_add,
-        member_del
-    @group Missing implementations: resize, show, hide, color_set,
-        clip_set, clip_unset
-    @group Event system: callback_add, callback_del, callback_call
 
-    @see: L{ClippedSmartObject}
+    :seealso: :py:class:`ClippedSmartObject`
 
-    @param canvas: Evas canvas for this object
-    @type canvas: Canvas
-    @keyword size: Width and height
-    @type size: tuple of ints
-    @keyword pos: X and Y
-    @type pos: tuple of ints
-    @keyword geometry: X, Y, width, height
-    @type geometry: tuple of ints
-    @keyword color: R, G, B, A
-    @type color: tuple of ints
-    @keyword name: Object name
-    @type name: string
+    :param canvas: Evas canvas for this object
+    :type canvas: Canvas
+    :keyword size: Width and height
+    :type size: tuple of ints
+    :keyword pos: X and Y
+    :type pos: tuple of ints
+    :keyword geometry: X, Y, width, height
+    :type geometry: tuple of ints
+    :keyword color: R, G, B, A
+    :type color: tuple of ints
+    :keyword name: Object name
+    :type name: string
 
     """
     def __cinit__(self, *a, **ka):
@@ -437,7 +453,7 @@ cdef class SmartObject(Object):
 
         Non-member objects can not interleave a smart object's members.
 
-        @note: if B{child} is already member of another SmartObject, it
+        :note: if **child** is already member of another SmartObject, it
            will be deleted from that membership and added to this object.
         """
         evas_object_smart_member_add(child.obj, self.obj)
@@ -445,14 +461,14 @@ cdef class SmartObject(Object):
     def member_del(self, Object child):
         """Removes a member object from a smart object.
 
-        @attention: this will actually map to C API as
-            C{evas_object_smart_member_del(child)}, so the object will loose
-            it's parent B{event if the object is not part of this object}.
+        .. attention:: this will actually map to C API as
+            ``evas_object_smart_member_del(child)``, so the object will loose
+            it's parent **event if the object is not part of this object**.
         """
         evas_object_smart_member_del(child.obj)
 
     def members_get(self):
-        """@rtype: tuple of L{Object}"""
+        """:rtype: tuple of :py:class:`Object`"""
         cdef Eina_List *lst, *itr
         cdef Object o
         ret = []
@@ -472,13 +488,19 @@ cdef class SmartObject(Object):
     def callback_add(self, char *event, func, *args, **kargs):
         """Add a callback for the smart event specified by event.
 
-        @param event: event name
-        @param func: what to callback. Should have the signature:
-           C{function(object, event_info, *args, **kargs)}
+        :param event: Event name
+        :param func:
+            What to callback.
+            Should have the signature::
 
-        @raise TypeError: if B{func} is not callable.
-        @warning: B{event_info} will always be a python object, if the
-           signal is provided by a C-only class, it will crash.
+                function(object, event_info, *args, **kargs)
+
+        :raise TypeError: if **func** is not callable.
+
+        .. warning::
+            **event_info** will always be a python object, if the
+            signal is provided by a C-only class, it will crash.
+
         """
         if not callable(func):
             raise TypeError("func must be callable")
@@ -495,12 +517,12 @@ cdef class SmartObject(Object):
 
         Removes a callback that was added by L{callback_add()}.
 
-        @param event: event name
-        @param func: what to callback, should have be previously registered.
-        @precond: B{event} and B{func} must be used as parameter for
-           L{callback_add()}.
+        :param event: event name
+        :param func: what to callback, should have be previously registered.
+        :precond: **event** and **func** must be used as parameter for
+           :py:func:`callback_add`.
 
-        @raise ValueError: if there was no B{func} connected with this event.
+        :raise ValueError: if there was no **func** connected with this event.
         """
         try:
             lst = self._smart_callbacks[event]
@@ -525,20 +547,25 @@ cdef class SmartObject(Object):
     def callback_call(self, char *event, event_info=None):
         """Call any smart callbacks for event.
 
-        @param event: the event name
-        @param event_info: an event specific info to pass to the callback.
+        :param event: the event name
+        :param event_info: an event specific info to pass to the callback.
 
         This should be called internally in the smart object when some
         specific event has occurred. The documentation for the smart object
-        should include a list of possible events and what type of B{event_info}
-        to expect.
+        should include a list of possible events and what type of
+        **event_info** to expect.
 
-        @attention: B{event_info} will always be a python object.
+        .. attention::
+            **event_info** will always be a python object.
         """
         evas_object_smart_callback_call(self.obj, event, <void*>event_info)
 
     def delete(self):
-        """Default implementation to delete all children."""
+        """delete()
+
+        Default implementation to delete all children.
+
+        """
         cdef Eina_List *lst, *itr
         lst = evas_object_smart_members_get(self.obj)
         itr = lst
@@ -548,11 +575,19 @@ cdef class SmartObject(Object):
         eina_list_free(lst)
 
     def move_children_relative(self, int dx, int dy):
-        """Move all children relatively."""
+        """move_children_relative(int dx, int dy)
+
+        Move all children relatively.
+
+        """
         evas_object_smart_move_children_relative(self.obj, dx, dy)
 
     def move(self, int x, int y):
-        """Default implementation to move all children."""
+        """move(int x, int y)
+
+        Default implementation to move all children.
+
+        """
         cdef int orig_x, orig_y, dx, dy
         evas_object_geometry_get(self.obj, &orig_x, &orig_y, NULL, NULL)
         dx = x - orig_x
@@ -560,29 +595,59 @@ cdef class SmartObject(Object):
         self.move_children_relative(dx, dy)
 
     def resize(self, int w, int h):
-        """Virtual method resize(w, h) of SmartObject"""
-        print "%s.resize(w, h) not implemented." % self.__class__.__name__
+        """resize(int w, int h)
+
+        Abstract method.
+
+        """
+        raise NotImplementedError
+        #print "%s.resize(w, h) not implemented." % self.__class__.__name__
 
     def show(self):
-        """Virtual method show() of SmartObject"""
-        print "%s.show() not implemented." % self.__class__.__name__
+        """show()
+
+        Abstract method.
+
+        """
+        raise NotImplementedError
+        #print "%s.show() not implemented." % self.__class__.__name__
 
     def hide(self):
-        """Virtual method hide() of SmartObject"""
-        print "%s.hide() not implemented." % self.__class__.__name__
+        """hide()
+
+        Abstract method.
+
+        """
+        raise NotImplementedError
+        #print "%s.hide() not implemented." % self.__class__.__name__
 
     def color_set(self, int r, int g, int b, int a):
-        """Virtual method color_set(r, g, b, a) of SmartObject"""
-        print "%s.color_set(r, g, b, a) not implemented." % \
-              self.__class__.__name__
+        """color_set(int r, int g, int b, int a)
+
+        Abstract method.
+
+        """
+        raise NotImplementedError
+        #print "%s.color_set(r, g, b, a) not implemented." % \
+              #self.__class__.__name__
 
     def clip_set(self, Object clip):
-        """Virtual method clip(object) of SmartObject"""
-        print "%s.clip_set(object) not implemented." % self.__class__.__name__
+        """clip(Object clip)
+
+        Abstract method.
+
+        """
+        raise NotImplementedError
+        #print "%s.clip_set(object) not implemented." % self.__class__.__name__
 
     def clip_unset(self):
-        """Virtual method clip_unset() of SmartObject"""
-        print "%s.clip_unset() not implemented." % self.__class__.__name__
+        """clip_unset()
+
+        Abstract method.
+
+        """
+        raise NotImplementedError
+        #print "%s.clip_unset() not implemented." % self.__class__.__name__
 
     def calculate(self):
         """Request object to recalculate it's internal state."""
@@ -612,10 +677,11 @@ cdef class SmartObject(Object):
 
         If no calculate() is provided, this flag will be left unchanged.
 
-        @note: just setting this flag will not make scene dirty and
-        evas_render() will have no effect. To do that, use
-        evas_object_smart_changed(), that will automatically call this
-        function with 1 as parameter.
+        .. note::
+            Just setting this flag will not make scene dirty and
+            evas_render() will have no effect. To do that, use
+            evas_object_smart_changed(), that will automatically call this
+            function with 1 as parameter.
 
         """
         evas_object_smart_need_recalculate_set(self.obj, value)
@@ -623,10 +689,10 @@ cdef class SmartObject(Object):
     def need_recalculate_get(self):
         """Get the current value of need_recalculate flag.
 
-        @note: this flag will be unset during the render phase, after
-        calculate() is called if one is provided.  If no calculate()
-        is provided, then the flag will be left unchanged after render
-        phase.
+        .. note:: this flag will be unset during the render phase, after
+            calculate() is called if one is provided.  If no calculate()
+            is provided, then the flag will be left unchanged after render
+            phase.
         """
         return evas_object_smart_need_recalculate_get(self.obj)
 
@@ -640,7 +706,7 @@ cdef class SmartObject(Object):
     # Factory
     def Rectangle(self, **kargs):
         """Factory of children L{evas.Rectangle}.
-        @rtype: L{Rectangle<evas.Rectangle>}
+        :rtype: L{Rectangle<evas.Rectangle>}
         """
         obj = Rectangle(self.evas, **kargs)
         self.member_add(obj)
@@ -648,7 +714,7 @@ cdef class SmartObject(Object):
 
     def Line(self, **kargs):
         """Factory of children L{evas.Line}.
-        @rtype: L{Line<evas.Line>}
+        :rtype: L{Line<evas.Line>}
         """
         obj = Line(self.evas, **kargs)
         self.member_add(obj)
@@ -656,7 +722,7 @@ cdef class SmartObject(Object):
 
 #     def Image(self, **kargs):
 #         """Factory of children L{evas.Image}.
-#         @rtype: L{Image<evas.Image>}
+#         :rtype: L{Image<evas.Image>}
 #         """
 #         obj = Image(self.evas, **kargs)
 #         self.member_add(obj)
@@ -664,31 +730,31 @@ cdef class SmartObject(Object):
 
 #     def FilledImage(self, **kargs):
 #         """Factory of L{evas.FilledImage} associated with this canvas.
-#         @rtype: L{FilledImage<evas.FilledImage>}
+#         :rtype: L{FilledImage<evas.FilledImage>}
 #         """
 #         obj = FilledImage(self.evas, **kargs)
 #         self.member_add(obj)
 #         return obj
-# 
+#
 #     def Polygon(self, **kargs):
 #         """Factory of children L{evas.Polygon}.
-#         @rtype: L{Polygon<evas.Polygon>}
+#         :rtype: L{Polygon<evas.Polygon>}
 #         """
 #         obj = Polygon(self.evas, **kargs)
 #         self.member_add(obj)
 #         return obj
-# 
+#
 #     def Text(self, **kargs):
 #         """Factory of children L{evas.Text}.
-#         @rtype: L{Text<evas.Text>}
+#         :rtype: L{Text<evas.Text>}
 #         """
 #         obj = Text(self.evas, **kargs)
 #         self.member_add(obj)
 #         return obj
-# 
+#
 #     def Textblock(self, **kargs):
 #         """Factory of children L{evas.Textblock}.
-#         @rtype: L{Textblock<evas.Textblock>}
+#         :rtype: L{Textblock<evas.Textblock>}
 #         """
 #         obj = Textblock(self.evas, **kargs)
 #         self.member_add(obj)
@@ -715,28 +781,25 @@ cdef class ClippedSmartObject(SmartObject):
     because many times what we want are contents that can overflow SmartObject
     boudaries (ie: members with animations coming in from outside).
 
-    @group Children manipulation: member_add, member_del
-    @group Default implementations: delete, move, show, hide, color_set,
-       clip_set, clip_unset, calculate
-    @ivar clipper: the internal object used for clipping. You shouldn't
+    :ivar clipper: the internal object used for clipping. You shouldn't
        mess with it.
 
-    @todo: remove current code and wrap C version (now it's in evas).
+    :todo: remove current code and wrap C version (now it's in evas).
 
-    @param canvas: Evas canvas for this object
-    @type canvas: Canvas
-    @keyword size: Width and height
-    @type size: tuple of ints
-    @keyword pos: X and Y
-    @type pos: tuple of ints
-    @keyword geometry: X, Y, width, height
-    @type geometry: tuple of ints
-    @keyword color: R, G, B, A
-    @type color: tuple of ints
-    @keyword name: Object name
-    @type name: string
-    @keyword file: File name
-    @type file: string
+    :param canvas: Evas canvas for this object
+    :type canvas: Canvas
+    :keyword size: Width and height
+    :type size: tuple of ints
+    :keyword pos: X and Y
+    :type pos: tuple of ints
+    :keyword geometry: X, Y, width, height
+    :type geometry: tuple of ints
+    :keyword color: R, G, B, A
+    :type color: tuple of ints
+    :keyword name: Object name
+    :type name: string
+    :keyword file: File name
+    :type file: string
 
     """
     def __init__(self, Canvas canvas not None, **kargs):

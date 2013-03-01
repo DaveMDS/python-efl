@@ -26,8 +26,8 @@ cdef class Idler(Eo):
     When the idler ``func`` is called, it must return a value of either
     True or False (remember that Python returns None if no value is
     explicitly returned and None evaluates to False). If it returns
-    B{True}, it will be called again when system become idle, or if it
-    returns B{False} it will be deleted automatically making any
+    **True**, it will be called again when system become idle, or if it
+    returns **False** it will be deleted automatically making any
     references/handles for it invalid.
 
     Idlers should be stopped/deleted by means of delete()or
@@ -36,9 +36,11 @@ cdef class Idler(Eo):
 
     Idlers are useful for progressively prossessing data without blocking.
 
-    :param func: function to call when system is idle.
-                 Expected signature::
-                    func(*args, **kargs): bool
+    :param func:
+        Function to call when system is idle.
+        Expected signature::
+
+            func(*args, **kargs): bool
 
     """
     def __init__(self, func, *args, **kargs):
@@ -89,11 +91,12 @@ cdef class IdleEnterer(Idler):
 
     Idle enterer are useful for post-work jobs, like garbage collection.
 
+    :param func:
+        Function to call when system enters idle.
+        Expected signature::
 
-    :param func: function to call when system enters idle.
-                Expected signature::
-                    func(*args, **kargs): bool
-   
+            func(*args, **kargs): bool
+
     """
     def __init__(self, func, *args, **kargs):
         if not callable(func):
@@ -126,9 +129,11 @@ cdef class IdleExiter(Idler):
     returning *False* from ``func``, otherwise they'll continue alive, even
     if the current python context delete it's reference to it.
 
-    :param func: function to call when system exits idle.
-                 Expected signature::
-                    func(*args, **kargs): bool
+    :param func:
+        Function to call when system exits idle.
+        Expected signature::
+
+            func(*args, **kargs): bool
 
     """
     def __init__(self, func, *args, **kargs):
@@ -160,9 +165,11 @@ def idler_add(func, *args, **kargs):
 def idle_enterer_add(func, *args, **kargs):
     """efl.ecore.IdleEnterer factory, for C-api compatibility.
 
-    :param func: function to call when system enters idle.
-                 Expected signature::
-                    func(*args, **kargs): bool
+    :param func:
+        Function to call when system enters idle.
+        Expected signature::
+
+            func(*args, **kargs): bool
 
     :return: a new IdleEnterer instance
     :rtype: efl.ecore.IdleEnterer
@@ -173,9 +180,11 @@ def idle_enterer_add(func, *args, **kargs):
 def idle_exiter_add(func, *args, **kargs):
     """efl.ecore.IdleExiter factory, for C-api compatibility.
 
-    :param func: function to call when system exits idle.
-                 Expected signature::
-                    func(*args, **kargs): bool
+    :param func:
+        Function to call when system exits idle.
+        Expected signature::
+
+            func(*args, **kargs): bool
 
     :return: a new IdleExiter instance
     :rtype: efl.ecore.IdleExiter

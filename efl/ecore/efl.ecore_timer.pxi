@@ -38,9 +38,11 @@ cdef class Timer(Eo):
 
     :param interval: interval in seconds.
     :type interval: float
-    :param func: function to callback when timer expires.
-                 The function signature is::
-                    func(*args, **kargs): bool
+    :param func:
+        function to callback when timer expires.
+        The function signature is::
+
+            func(*args, **kargs): bool
 
     """
     def __init__(self, double interval, func, *args, **kargs):
@@ -66,7 +68,7 @@ cdef class Timer(Eo):
     def delete(self):
         "Stop callback emission and free internal resources."
         ecore_timer_del(self.obj)
-    
+
     def stop(self):
         "Alias for ``delete()``"
         self.delete()
@@ -84,7 +86,7 @@ cdef class Timer(Eo):
 
         :param add: seconds to add to the timer
         :type add: double
-        
+
         """
         ecore_timer_delay(self.obj, add)
 

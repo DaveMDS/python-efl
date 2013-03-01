@@ -21,8 +21,8 @@
 #     for i from 0 <= i < evas_canvas_event_callbacks_len:
 #         canvas._callbacks[i] = None
 #     return 1
-# 
-# 
+#
+#
 cdef int _canvas_unregister_callbacks(Canvas canvas) except 0:
     cdef Evas *e
     cdef Evas_Event_Cb cb
@@ -153,7 +153,7 @@ cdef class Canvas(Eo):
         """Set the engine information pointer.
 
         Note that given value is a pointer, usually acquired with
-        :py:func:`engine_info_get() and is totally engine and platform
+        :py:func:`engine_info_get` and is totally engine and platform
         dependent.
 
         This call is very low level and is meant for extension to use,
@@ -229,7 +229,7 @@ cdef class Canvas(Eo):
         :param y:
         :param w:
         :param h:
-        
+
         The output viewport is the area of the evas that will be visible to
         the viewer. The viewport will be stretched to fit the output target
         of the evas when rendering is performed.
@@ -559,8 +559,15 @@ cdef class Canvas(Eo):
                                                <Evas_Font_Hinting_Flags>flags))
 
     def font_hinting_set(self, int flags):
-        """:param flags: one of EVAS_FONT_HINTING_NONE,
-                EVAS_FONT_HINTING_AUTO or EVAS_FONT_HINTING_BYTECODE
+        """
+
+        :param flags:
+            One of
+
+            * EVAS_FONT_HINTING_NONE
+            * EVAS_FONT_HINTING_AUTO
+            * EVAS_FONT_HINTING_BYTECODE
+
         """
         evas_font_hinting_set(self.obj, <Evas_Font_Hinting_Flags>flags)
 

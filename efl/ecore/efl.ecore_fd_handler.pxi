@@ -69,15 +69,18 @@ cdef class FdHandler(object):
     references/handles for it invalid.
 
     FdHandler use includes:
-     - handle multiple socket connections using a single process;
-     - thread wake-up and synchronization;
-     - non-blocking file description operations.
+
+    - handle multiple socket connections using a single process;
+    - thread wake-up and synchronization;
+    - non-blocking file description operations.
 
     :param fd: file descriptor or object with fileno() method.
     :param flags: bitwise OR of ECORE_FD_READ, ECORE_FD_WRITE...
-    :param func: function to call when file descriptor state changes.
-                 Expected signature::
-                    func(fd_handler, *args, **kargs): bool
+    :param func:
+        function to call when file descriptor state changes.
+        Expected signature::
+
+            func(fd_handler, *args, **kargs): bool
 
     """
     def __init__(self, fd, int flags, func, *args, **kargs):
@@ -171,8 +174,13 @@ cdef class FdHandler(object):
     def active_set(self, int flags):
         """Set what active streams the given FdHandler should be monitoring.
 
-        :param flags: one of ECORE_FD_NONE - ECORE_FD_READ - ECORE_FD_WRITE
-                        - ECORE_FD_ERROR - ECORE_FD_ALL
+        :param flags:
+            one of
+            - ECORE_FD_NONE
+            - ECORE_FD_READ
+            - ECORE_FD_WRITE
+            - ECORE_FD_ERROR
+            - ECORE_FD_ALL
 
         """
         cdef Ecore_Fd_Handler_Flags v = <Ecore_Fd_Handler_Flags>flags
@@ -191,9 +199,11 @@ cdef class FdHandler(object):
         return bool(ecore_main_fd_handler_active_get(self.obj, ECORE_FD_ERROR))
 
     def prepare_callback_set(self, func, *args, **kargs):
-        """Set a function to call becore doing the select() on the fd.
+        """
+        Set a function to call becore doing the select() on the fd.
 
-           Expected signature::
+        Expected signature::
+
             function(object, *args, **kargs)
 
         """
@@ -210,15 +220,18 @@ cdef class FdHandler(object):
 
 
 def fd_handler_add(fd, int flags, func, *args, **kargs):
-    """L{FdHandler} factory, for C-api compatibility.
+    """
+    :py:class:`FdHandler` factory, for C-api compatibility.
 
-       ``func`` signature::
-            func(fd_handler, *args, **kargs): bool
+    ``func`` signature::
 
-       :param fd: file descriptor or object with C{fileno()} method.
-       :param flags: bitwise OR of ECORE_FD_READ, ECORE_FD_WRITE...
-       :param func: function to call when file descriptor state changes.
+        func(fd_handler, *args, **kargs): bool
 
-       :rtype: `efl.ecore.FdHandler`
+    :param fd: file descriptor or object with C{fileno()} method.
+    :param flags: bitwise OR of ECORE_FD_READ, ECORE_FD_WRITE...
+    :param func: function to call when file descriptor state changes.
+
+    :rtype: `efl.ecore.FdHandler`
+
     """
     return FdHandler(fd, flags, func, *args, **kargs)
