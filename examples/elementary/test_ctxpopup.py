@@ -1,16 +1,23 @@
 #!/usr/bin/env python
 # encoding: utf-8
 
-from efl import elementary
 from efl import evas
-
+from efl import elementary
+from efl.elementary.window import Window
+from efl.elementary.background import Background
+from efl.elementary.box import Box
+from efl.elementary.icon import Icon
+from efl.elementary.button import Button
+from efl.elementary.list import List
+from efl.elementary.ctxpopup import Ctxpopup
+from efl.elementary.scroller import Scroller
 
 def cb_items(li, item):
     print(("ctxpopup item selected: %s" % (item.text)))
 
 def item_new(cp, label, icon = None):
     if icon:
-        ic = elementary.Icon(cp)
+        ic = Icon(cp)
         ic.standard_set(icon)
         ic.resizable_set(False, False)
         return cp.item_append(label, ic, cb_items)
@@ -37,7 +44,7 @@ def cb_dismissed(cp):
         cp.data["img"].delete()
 
 def cb_item1(li, item):
-    cp = elementary.Ctxpopup(li)
+    cp = Ctxpopup(li)
     it = item_new(cp, "Go to home folder", "home")
     it = item_new(cp, "Save file", "file")
     it = item_new(cp, "Delete file", "delete")
@@ -52,7 +59,7 @@ def cb_item1(li, item):
     cp.show()
 
 def cb_item2(li, item):
-    cp = elementary.Ctxpopup(li)
+    cp = Ctxpopup(li)
     it = item_new(cp, "", "home")
     it = item_new(cp, "", "file")
     it = item_new(cp, "", "delete")
@@ -66,7 +73,7 @@ def cb_item2(li, item):
     cp.show()
 
 def cb_item3(li, item):
-    cp = elementary.Ctxpopup(li)
+    cp = Ctxpopup(li)
     it = item_new(cp, "Eina")
     it = item_new(cp, "Eet")
     it = item_new(cp, "Evas")
@@ -80,7 +87,7 @@ def cb_item3(li, item):
     cp.show()
 
 def cb_item4(li, item):
-    cp = elementary.Ctxpopup(li)
+    cp = Ctxpopup(li)
     cp.horizontal = True
     it = item_new(cp, "", "home")
     it = item_new(cp, "", "file")
@@ -94,39 +101,39 @@ def cb_item4(li, item):
     cp.show()
 
 def cb_item5(li, item):
-    box = elementary.Box(li)
+    box = Box(li)
     box.size_hint_min = (150, 150)
 
-    sc = elementary.Scroller(li)
+    sc = Scroller(li)
     sc.bounce = (False, True)
     sc.size_hint_align = (evas.EVAS_HINT_FILL, evas.EVAS_HINT_FILL)
     sc.size_hint_weight = (evas.EVAS_HINT_EXPAND, evas.EVAS_HINT_EXPAND)
     sc.show()
 
-    bt = elementary.Button(li)
+    bt = Button(li)
     bt.text = "Enlightenment"
     bt.size_hint_min = (140, 140)
 
     sc.content = bt
     box.pack_end(sc)
 
-    cp = elementary.Ctxpopup(li)
+    cp = Ctxpopup(li)
     cp.content = box
     (x, y) = li.evas.pointer_canvas_xy_get()
     cp.move(x, y)
     cp.show()
 
 def cb_item6(li, item):
-    box = elementary.Box(li)
+    box = Box(li)
     box.size_hint_min = (200, 150)
 
-    sc = elementary.Scroller(li)
+    sc = Scroller(li)
     sc.bounce = (False, True)
     sc.size_hint_align = (evas.EVAS_HINT_FILL, evas.EVAS_HINT_FILL)
     sc.size_hint_weight = (evas.EVAS_HINT_EXPAND, evas.EVAS_HINT_EXPAND)
     sc.show()
 
-    bt = elementary.Button(li)
+    bt = Button(li)
     bt.text = "Ctxpop will be on the top of layer"
     bt.callback_clicked_add(cb_btn)
     bt.size_hint_min = (190, 140)
@@ -134,7 +141,7 @@ def cb_item6(li, item):
     sc.content = bt
     box.pack_end(sc)
 
-    cp = elementary.Ctxpopup(li)
+    cp = Ctxpopup(li)
     cp.callback_dismissed_add(cb_dismissed)
     cp.content = box
     (x, y) = li.evas.pointer_canvas_xy_get()
@@ -143,18 +150,18 @@ def cb_item6(li, item):
     bt.data["ctxpopup"] = cp
 
 def ctxpopup_clicked(obj):
-    win = elementary.Window("ctxpopup", elementary.ELM_WIN_BASIC)
+    win = Window("ctxpopup", elementary.ELM_WIN_BASIC)
     win.title = "Context popup test"
     win.autodel = True
     if obj is None:
         win.callback_delete_request_add(lambda o: elementary.exit())
 
-    bg = elementary.Background(win)
+    bg = Background(win)
     win.resize_object_add(bg)
     bg.size_hint_weight = (evas.EVAS_HINT_EXPAND, evas.EVAS_HINT_EXPAND)
     bg.show()
 
-    li = elementary.List(win)
+    li = List(win)
     win.resize_object_add(li)
     li.size_hint_weight = (evas.EVAS_HINT_EXPAND, evas.EVAS_HINT_EXPAND)
     li.mode = elementary.ELM_LIST_COMPRESS

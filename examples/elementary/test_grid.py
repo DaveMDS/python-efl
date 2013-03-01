@@ -1,8 +1,14 @@
 #!/usr/bin/env python
 # encoding: utf-8
 
-from efl import elementary
 from efl import evas
+from efl import elementary
+from efl.elementary.window import Window
+from efl.elementary.background import Background
+from efl.elementary.box import Box
+from efl.elementary.button import Button
+from efl.elementary.entry import Entry
+from efl.elementary.grid import Grid
 
 
 def cb_change(bt, grid):
@@ -10,57 +16,57 @@ def cb_change(bt, grid):
     grid.pack_set(bt, x - 2, y - 2, w + 4, h + 4)
     
 def grid_clicked(obj):
-    win = elementary.Window("grid", elementary.ELM_WIN_BASIC)
+    win = Window("grid", elementary.ELM_WIN_BASIC)
     win.title = "Grid test"
     win.autodel = True
     if obj is None:
         win.callback_delete_request_add(lambda o: elementary.exit())
 
-    bg = elementary.Background(win)
+    bg = Background(win)
     win.resize_object_add(bg)
     bg.size_hint_weight = (evas.EVAS_HINT_EXPAND, evas.EVAS_HINT_EXPAND)
     bg.show()
 
-    gd = elementary.Grid(win)
+    gd = Grid(win)
     gd.size = (100, 100)
     win.resize_object_add(gd)
     gd.size_hint_weight = (evas.EVAS_HINT_EXPAND, evas.EVAS_HINT_EXPAND)
     gd.show()
 
-    en = elementary.Entry(win)
+    en = Entry(win)
     en.scrollable = True
     en.text = "Entry text 2"
     en.single_line = True
     gd.pack(en, 60, 20, 30, 10)
     en.show()
 
-    bt = elementary.Button(win)
+    bt = Button(win)
     bt.text = "Next API function"
     gd.pack(bt, 30, 0, 40, 10)
     bt.disabled = True
     bt.show()
 
-    bt = elementary.Button(win)
+    bt = Button(win)
     bt.text = "Button"
     gd.pack(bt,  0,  0, 20, 20)
     bt.show()
 
-    bt = elementary.Button(win);
+    bt = Button(win);
     bt.text = "Button"
     gd.pack(bt, 10, 10, 40, 20)
     bt.show()
 
-    bt = elementary.Button(win);
+    bt = Button(win);
     bt.text = "Button"
     gd.pack(bt, 10, 30, 20, 50)
     bt.show()
 
-    bt = elementary.Button(win);
+    bt = Button(win);
     bt.text = "Button"
     gd.pack(bt, 80, 80, 20, 20)
     bt.show()
 
-    bt = elementary.Button(win);
+    bt = Button(win);
     bt.text = "Change"
     bt.callback_clicked_add(cb_change, gd)
     gd.pack(bt, 40, 40, 20, 20)

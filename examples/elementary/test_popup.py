@@ -1,8 +1,14 @@
 #!/usr/bin/env python
 # encoding: utf-8
 
-from efl import elementary
 from efl import evas
+from efl import elementary
+from efl.elementary.window import Window
+from efl.elementary.background import Background
+from efl.elementary.button import Button
+from efl.elementary.list import List
+from efl.elementary.icon import Icon
+from efl.elementary.popup import Popup
 
 
 def cb_bnt_close(btn, popup):
@@ -21,37 +27,37 @@ def cb_btn_restack(btn, popup):
     popup.raise_()
 
 def cb_popup_center_text(li, item, win):
-    popup = elementary.Popup(win)
+    popup = Popup(win)
     popup.size_hint_weight = (evas.EVAS_HINT_EXPAND, evas.EVAS_HINT_EXPAND)
     popup.text = "This Popup has content area and timeout value is 3 seconds"
     popup.timeout = 3.0
     popup.show()
 
 def cb_popup_center_title_text_1button(li, item, win):
-    popup = elementary.Popup(win)
+    popup = Popup(win)
     popup.size_hint_weight = (evas.EVAS_HINT_EXPAND, evas.EVAS_HINT_EXPAND)
     popup.text = "This Popup has content area and " \
                  "action area set, action area has one button Close"
-    bt = elementary.Button(win)
+    bt = Button(win)
     bt.text = "Close"
     bt.callback_clicked_add(cb_bnt_close, popup)
     popup.part_content_set("button1", bt)
     popup.show()
 
 def cb_popup_center_title_text_1button(li, item, win):
-    popup = elementary.Popup(win)
+    popup = Popup(win)
     popup.size_hint_weight = (evas.EVAS_HINT_EXPAND, evas.EVAS_HINT_EXPAND)
     popup.text = "This Popup has title area, content area and " \
                  "action area set, action area has one button Close"
     popup.part_text_set("title,text", "Title")
-    bt = elementary.Button(win)
+    bt = Button(win)
     bt.text = "Close"
     bt.callback_clicked_add(cb_bnt_close, popup)
     popup.part_content_set("button1", bt)
     popup.show()
 
 def cb_popup_center_title_text_block_clicked_event(li, item, win):
-    popup = elementary.Popup(win)
+    popup = Popup(win)
     popup.size_hint_weight = (evas.EVAS_HINT_EXPAND, evas.EVAS_HINT_EXPAND)
     popup.text = "This Popup has title area and content area. " \
                  "When clicked on blocked event region, popup gets deleted"
@@ -60,7 +66,7 @@ def cb_popup_center_title_text_block_clicked_event(li, item, win):
     popup.show()
 
 def cb_popup_bottom_title_text_3button(li, item, win):
-    popup = elementary.Popup(win)
+    popup = Popup(win)
     popup.size_hint_weight = (evas.EVAS_HINT_EXPAND, evas.EVAS_HINT_EXPAND)
     popup.text = "This Popup has title area, content area and " \
                  "action area set with content being character wrapped. " \
@@ -68,19 +74,19 @@ def cb_popup_bottom_title_text_3button(li, item, win):
     popup.content_text_wrap_type = elementary.ELM_WRAP_CHAR
     popup.part_text_set("title,text", "Title")
 
-    ic = elementary.Icon(win)
+    ic = Icon(win)
     ic.file = "images/logo_small.png"
     popup.part_content_set("title,icon", ic)
 
-    bt = elementary.Button(win)
+    bt = Button(win)
     bt.text = "OK"
     popup.part_content_set("button1", bt)
 
-    bt = elementary.Button(win)
+    bt = Button(win)
     bt.text = "Cancel"
     popup.part_content_set("button2", bt)
 
-    bt = elementary.Button(win)
+    bt = Button(win)
     bt.text = "Close"
     bt.callback_clicked_add(cb_bnt_close, popup)
     popup.part_content_set("button3", bt)
@@ -88,26 +94,26 @@ def cb_popup_bottom_title_text_3button(li, item, win):
     popup.show()
 
 def cb_popup_center_title_content_3button(li, item, win):
-    popup = elementary.Popup(win)
+    popup = Popup(win)
     popup.size_hint_weight = (evas.EVAS_HINT_EXPAND, evas.EVAS_HINT_EXPAND)
     popup.part_text_set("title,text", "Title")
     
-    ic = elementary.Icon(win)
+    ic = Icon(win)
     ic.file = "images/logo_small.png"
-    bt = elementary.Button(win)
+    bt = Button(win)
     bt.text = "Content"
     bt.content = ic
     popup.content = bt
 
-    bt = elementary.Button(win)
+    bt = Button(win)
     bt.text = "OK"
     popup.part_content_set("button1", bt)
 
-    bt = elementary.Button(win)
+    bt = Button(win)
     bt.text = "Cancel"
     popup.part_content_set("button2", bt)
 
-    bt = elementary.Button(win)
+    bt = Button(win)
     bt.text = "Close"
     bt.callback_clicked_add(cb_bnt_close, popup)
     popup.part_content_set("button3", bt)
@@ -115,27 +121,27 @@ def cb_popup_center_title_content_3button(li, item, win):
     popup.show()
 
 def cb_popup_center_title_item_3button(li, item, win):
-    popup = elementary.Popup(win)
+    popup = Popup(win)
     popup.size_hint_weight = (evas.EVAS_HINT_EXPAND, evas.EVAS_HINT_EXPAND)
     popup.part_text_set("title,text", "Title")
 
     for i in range(1, 11):
         if i in [3, 5, 6]:
-            ic = elementary.Icon(win)
+            ic = Icon(win)
             ic.file = "images/logo_small.png"
             popup.item_append("item"+str(i), ic)
         else:
             popup.item_append("item"+str(i))
 
-    bt = elementary.Button(win)
+    bt = Button(win)
     bt.text = "OK"
     popup.part_content_set("button1", bt)
 
-    bt = elementary.Button(win)
+    bt = Button(win)
     bt.text = "Cancel"
     popup.part_content_set("button2", bt)
 
-    bt = elementary.Button(win)
+    bt = Button(win)
     bt.text = "Close"
     bt.callback_clicked_add(cb_bnt_close, popup)
     popup.part_content_set("button3", bt)
@@ -143,18 +149,18 @@ def cb_popup_center_title_item_3button(li, item, win):
     popup.show()
 
 def cb_popup_center_title_text_2button_restack(li, item, win):
-    popup = elementary.Popup(win)
+    popup = Popup(win)
     popup.size_hint_weight = (evas.EVAS_HINT_EXPAND, evas.EVAS_HINT_EXPAND)
     popup.text = "When you click the 'Restack' button, " \
                  "an image will be located under this popup"
     popup.part_text_set("title,text", "Title")
 
-    bt = elementary.Button(win)
+    bt = Button(win)
     bt.text = "Restack"
     bt.callback_clicked_add(cb_btn_restack, popup)
     popup.part_content_set("button1", bt)
 
-    bt = elementary.Button(win)
+    bt = Button(win)
     bt.text = "Close"
     bt.callback_clicked_add(cb_bnt_close, popup)
     popup.part_content_set("button3", bt)
@@ -174,12 +180,12 @@ def cb_popup_center_text_1button_hide_show(li, item, win):
         g_popup.show()
         return
 
-    g_popup = elementary.Popup(win)
+    g_popup = Popup(win)
     g_popup.size_hint_weight = (evas.EVAS_HINT_EXPAND, evas.EVAS_HINT_EXPAND)
     g_popup.text = "Hide this popup by using the button." \
                    "When you click list item again, you will see this popup again."
 
-    bt = elementary.Button(win)
+    bt = Button(win)
     bt.text = "Hide"
     bt.callback_clicked_add(lambda b: g_popup.hide())
     g_popup.part_content_set("button1", bt)
@@ -188,18 +194,18 @@ def cb_popup_center_text_1button_hide_show(li, item, win):
 
 
 def popup_clicked(obj):
-    win = elementary.Window("popup", elementary.ELM_WIN_BASIC)
+    win = Window("popup", elementary.ELM_WIN_BASIC)
     win.title_set("Popup test")
     win.autodel_set(True)
     if obj is None:
         win.callback_delete_request_add(lambda o: elementary.exit())
 
-    bg = elementary.Background(win)
+    bg = Background(win)
     win.resize_object_add(bg)
     bg.size_hint_weight = (evas.EVAS_HINT_EXPAND, evas.EVAS_HINT_EXPAND)
     bg.show()
 
-    li = elementary.List(win)
+    li = List(win)
     li.mode = elementary.ELM_LIST_LIMIT
     li.size_hint_weight = (evas.EVAS_HINT_EXPAND, evas.EVAS_HINT_EXPAND)
     li.callback_selected_add(lambda li, it: it.selected_set(False))

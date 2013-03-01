@@ -1,8 +1,17 @@
 #!/usr/bin/env python
 # encoding: utf-8
 
-from efl import elementary
 from efl import evas
+from efl import elementary
+from efl.elementary.window import StandardWindow
+from efl.elementary.background import Background
+from efl.elementary.box import Box
+from efl.elementary.button import Button
+from efl.elementary.hoversel import Hoversel
+from efl.elementary.notify import Notify
+from efl.elementary.photo import Photo
+from efl.elementary.spinner import Spinner
+from efl.elementary.slideshow import Slideshow, SlideshowItemClass
 
 
 img1 = "images/logo.png"
@@ -60,9 +69,9 @@ def slide_transition(ss, slide_it, slide_last_it):
     if (slide_last_it == slide_it):
         print("Reaches to End of slides\n")
 
-class ssClass(elementary.SlideshowItemClass):
+class ssClass(SlideshowItemClass):
     def get(self, obj, *args, **kwargs):
-        photo = elementary.Photo(obj)
+        photo = Photo(obj)
         photo.file = args[0]
         photo.fill_inside = True
         photo.style = "shadow"
@@ -70,10 +79,10 @@ class ssClass(elementary.SlideshowItemClass):
         return photo
 
 def slideshow_clicked(obj):
-    win = elementary.StandardWindow("slideshow", "Slideshow")
+    win = StandardWindow("slideshow", "Slideshow")
     win.autodel = True
 
-    ss = elementary.Slideshow(win)
+    ss = Slideshow(win)
     ss.loop = True
     win.resize_object_add(ss)
     ss.size_hint_weight_set(evas.EVAS_HINT_EXPAND, evas.EVAS_HINT_EXPAND)
@@ -91,13 +100,13 @@ def slideshow_clicked(obj):
     slide_last_it = ss.item_add(ssc, img8)
     ss.callback_transition_end_add(slide_transition, slide_last_it)
 
-    no = elementary.Notify(win)
+    no = Notify(win)
     no.orient = elementary.ELM_NOTIFY_ORIENT_BOTTOM
     no.size_hint_weight_set(evas.EVAS_HINT_EXPAND, evas.EVAS_HINT_EXPAND)
     win.resize_object_add(no)
     no.timeout = 3.0
 
-    bx = elementary.Box(win)
+    bx = Box(win)
     bx.horizontal = True
     no.content = bx
     bx.show()
@@ -105,19 +114,19 @@ def slideshow_clicked(obj):
     bx.event_callback_add(evas.EVAS_CALLBACK_MOUSE_IN, mouse_in, no)
     bx.event_callback_add(evas.EVAS_CALLBACK_MOUSE_OUT, mouse_out, no)
 
-    bt = elementary.Button(win)
+    bt = Button(win)
     bt.text = "Previous"
     bt.callback_clicked_add(previous, ss)
     bx.pack_end(bt)
     bt.show()
 
-    bt = elementary.Button(win)
+    bt = Button(win)
     bt.text = "Next"
     bt.callback_clicked_add(next, ss)
     bx.pack_end(bt)
     bt.show()
 
-    hv = elementary.Hoversel(win)
+    hv = Hoversel(win)
     bx.pack_end(hv)
     hv.hover_parent = win
     for transition in ss.transitions:
@@ -126,7 +135,7 @@ def slideshow_clicked(obj):
     hv.text_set(ss.transitions[0])
     hv.show()
 
-    hv = elementary.Hoversel(win)
+    hv = Hoversel(win)
     bx.pack_end(hv)
     hv.hover_parent = win
     for layout in ss.layouts:
@@ -134,7 +143,7 @@ def slideshow_clicked(obj):
     hv.text = ss.layout
     hv.show()
 
-    sp = elementary.Spinner(win)
+    sp = Spinner(win)
     sp.label_format = "%2.0f secs."
     sp.callback_changed_add(spin, ss)
     sp.step = 1
@@ -143,8 +152,8 @@ def slideshow_clicked(obj):
     bx.pack_end(sp)
     sp.show()
 
-    bt_start = elementary.Button(win)
-    bt_stop = elementary.Button(win)
+    bt_start = Button(win)
+    bt_stop = Button(win)
 
     bt = bt_start
     bt.text = "Start"

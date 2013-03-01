@@ -1,28 +1,33 @@
 #!/usr/bin/env python
 # encoding: utf-8
 
-from efl import elementary
 from efl import evas
+from efl import elementary
+from efl.elementary.window import Window
+from efl.elementary.background import Background
+from efl.elementary.box import Box
+from efl.elementary.hoversel import Hoversel
+from efl.elementary.icon import Icon
 
 
 def hoversel_clicked(obj):
-    win = elementary.Window("hoversel", elementary.ELM_WIN_BASIC)
+    win = Window("hoversel", elementary.ELM_WIN_BASIC)
     win.title_set("Hoversel")
     win.autodel_set(True)
     if obj is None:
         win.callback_delete_request_add(lambda o: elementary.exit())
 
-    bg = elementary.Background(win)
+    bg = Background(win)
     win.resize_object_add(bg)
     bg.size_hint_weight_set(evas.EVAS_HINT_EXPAND, evas.EVAS_HINT_EXPAND)
     bg.show()
 
-    bx = elementary.Box(win)
+    bx = Box(win)
     win.resize_object_add(bx)
     bx.size_hint_weight_set(evas.EVAS_HINT_EXPAND, evas.EVAS_HINT_EXPAND)
     bx.show()
 
-    bt = elementary.Hoversel(win)
+    bt = Hoversel(win)
     bt.hover_parent_set(win)
     bt.text_set("Labels")
     bt.item_add("Item 1")
@@ -34,7 +39,7 @@ def hoversel_clicked(obj):
     bx.pack_end(bt)
     bt.show()
 
-    bt = elementary.Hoversel(win)
+    bt = Hoversel(win)
     bt.hover_parent_set(win)
     bt.text_set("Some Icons")
     bt.item_add("Item 1")
@@ -46,7 +51,7 @@ def hoversel_clicked(obj):
     bx.pack_end(bt)
     bt.show()
 
-    bt = elementary.Hoversel(win)
+    bt = Hoversel(win)
     bt.hover_parent_set(win)
     bt.text_set("All Icons")
     bt.item_add("Item 1", "apps", elementary.ELM_ICON_STANDARD)
@@ -58,7 +63,7 @@ def hoversel_clicked(obj):
     bx.pack_end(bt)
     bt.show()
 
-    bt = elementary.Hoversel(win)
+    bt = Hoversel(win)
     bt.hover_parent_set(win)
     bt.text_set("All Icons")
     bt.item_add("Item 1", "apps", elementary.ELM_ICON_STANDARD)
@@ -70,7 +75,7 @@ def hoversel_clicked(obj):
     bx.pack_end(bt)
     bt.show()
 
-    bt = elementary.Hoversel(win)
+    bt = Hoversel(win)
     bt.hover_parent_set(win)
     bt.text_set("Disabled Hoversel")
     bt.item_add("Item 1", "apps", elementary.ELM_ICON_STANDARD)
@@ -81,11 +86,11 @@ def hoversel_clicked(obj):
     bx.pack_end(bt)
     bt.show()
 
-    bt = elementary.Hoversel(win)
+    bt = Hoversel(win)
     bt.hover_parent_set(win)
     bt.text_set("Icon + Label")
 
-    ic = elementary.Icon(win)
+    ic = Icon(win)
     ic.file_set("images/sky_03.jpg")
     bt.content_set(ic)
     ic.show()

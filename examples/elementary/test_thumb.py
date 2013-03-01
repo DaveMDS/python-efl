@@ -1,8 +1,13 @@
 #!/usr/bin/env python
 # encoding: utf-8
 
-from efl import elementary
 from efl import evas
+from efl import elementary
+from efl.elementary.window import StandardWindow
+from efl.elementary.background import Background
+from efl.elementary.scroller import Scroller
+from efl.elementary.table import Table
+from efl.elementary.thumb import Thumb
 
 
 def thumb_clicked(obj):
@@ -24,18 +29,18 @@ def thumb_clicked(obj):
         "mystrale_2.jpg"
     )
 
-    win = elementary.StandardWindow("thumb", "Thumb")
+    win = StandardWindow("thumb", "Thumb")
     win.autodel_set(True)
     if obj is None:
         win.callback_delete_request_add(lambda o: elementary.exit())
 
-    tb = elementary.Table(win)
+    tb = Table(win)
     tb.size_hint_weight_set(evas.EVAS_HINT_EXPAND, evas.EVAS_HINT_EXPAND)
 
     n = 0
     for j in range(12):
         for i in range(12):
-            th = elementary.Thumb(win)
+            th = Thumb(win)
             n = (n + 1) % 11
             th.file = "images/%s" % (images[n])
             th.size_hint_weight_set(evas.EVAS_HINT_EXPAND, evas.EVAS_HINT_EXPAND)
@@ -44,7 +49,7 @@ def thumb_clicked(obj):
             th.editable = True
             th.show()
 
-    sc = elementary.Scroller(win)
+    sc = Scroller(win)
     sc.size_hint_weight_set(evas.EVAS_HINT_EXPAND, evas.EVAS_HINT_EXPAND)
     win.resize_object_add(sc)
 

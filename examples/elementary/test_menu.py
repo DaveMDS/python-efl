@@ -1,8 +1,11 @@
 #!/usr/bin/env python
 # encoding: utf-8
 
-from efl import elementary
 from efl import evas
+from efl import elementary
+from efl.elementary.window import Window
+from efl.elementary.background import Background
+from efl.elementary.menu import Menu
 
 
 def menu_show(rect, evtinfo, menu):
@@ -60,13 +63,13 @@ def menu_populate_1(menu, item):
     menu_populate_2(menu, item2)
 
 def menu_clicked(obj):
-    win = elementary.Window("menu", elementary.ELM_WIN_BASIC)
+    win = Window("menu", elementary.ELM_WIN_BASIC)
     win.title_set("Menu test")
     win.autodel_set(True)
     if obj is None:
         win.callback_delete_request_add(lambda o: elementary.exit())
 
-    bg = elementary.Background(win)
+    bg = Background(win)
     win.resize_object_add(bg)
     bg.size_hint_weight_set(evas.EVAS_HINT_EXPAND, evas.EVAS_HINT_EXPAND)
     bg.show()
@@ -77,7 +80,7 @@ def menu_clicked(obj):
     rect.color_set(0, 0, 0, 0)
     rect.show()
 
-    menu = elementary.Menu(win)
+    menu = Menu(win)
     item = menu.item_add(None, "first item", "clock")
 
     item = menu.item_add(None, "second item", "mail-send")

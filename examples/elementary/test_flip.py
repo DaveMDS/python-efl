@@ -1,8 +1,18 @@
 #!/usr/bin/env python
 # encoding: utf-8
 
-from efl import elementary
 from efl import evas
+from efl import elementary
+from efl.elementary.window import Window
+from efl.elementary.background import Background
+from efl.elementary.box import Box
+from efl.elementary.frame import Frame
+from efl.elementary.label import Label
+from efl.elementary.button import Button
+from efl.elementary.layout import Layout
+from efl.elementary.list import List
+from efl.elementary.radio import Radio
+from efl.elementary.flip import Flip
 
 
 def my_flip_go(bt, fl, mode):
@@ -16,24 +26,24 @@ def my_flip_animate_done(fl):
 
 def flip_clicked(obj, item=None):
     # window
-    win = elementary.Window("flip", elementary.ELM_WIN_BASIC)
+    win = Window("flip", elementary.ELM_WIN_BASIC)
     win.autodel_set(True)
     win.title_set("Flip")
 
     # background
-    bg = elementary.Background(win)
+    bg = Background(win)
     win.resize_object_add(bg)
     bg.size_hint_weight_set(evas.EVAS_HINT_EXPAND, evas.EVAS_HINT_EXPAND)
     bg.show()
 
     # main vertical box
-    box = elementary.Box(win)
+    box = Box(win)
     box.size_hint_weight_set(evas.EVAS_HINT_EXPAND, evas.EVAS_HINT_EXPAND)
     win.resize_object_add(box)
     box.show()
 
     # flip object
-    fl = elementary.Flip(win)
+    fl = Flip(win)
     fl.size_hint_weight_set(evas.EVAS_HINT_EXPAND, evas.EVAS_HINT_EXPAND)
     fl.size_hint_align_set(evas.EVAS_HINT_FILL, evas.EVAS_HINT_FILL)
     fl.callback_animate_begin_add(my_flip_animate_begin)
@@ -43,36 +53,36 @@ def flip_clicked(obj, item=None):
 
 
     # front content (image)
-    o = elementary.Background(win)
+    o = Background(win)
     o.size_hint_weight_set(evas.EVAS_HINT_EXPAND, evas.EVAS_HINT_EXPAND)
     o.file_set("images/sky_01.jpg")
     fl.part_content_set("front", o)
     o.show()
 
     # back content (layout)
-    ly = elementary.Layout(win)
+    ly = Layout(win)
     ly.file_set("test.edj", "layout")
     ly.size_hint_weight_set(evas.EVAS_HINT_EXPAND, evas.EVAS_HINT_EXPAND)
     fl.part_content_set("back", ly)
     ly.show()
 
-    bt = elementary.Button(win)
+    bt = Button(win)
     bt.text_set("Button 1")
     ly.part_content_set("element1", bt)
     bt.show()
 
-    bt = elementary.Button(win)
+    bt = Button(win)
     bt.text_set("Button 2")
     ly.part_content_set("element2", bt)
     bt.show()
 
-    bt = elementary.Button(win)
+    bt = Button(win)
     bt.text_set("Button 3")
     ly.part_content_set("element3", bt)
     bt.show()
 
     # flip buttons (first row)
-    hbox = elementary.Box(win)
+    hbox = Box(win)
     hbox.size_hint_weight_set(evas.EVAS_HINT_EXPAND, 0.0)
     hbox.size_hint_align_set(evas.EVAS_HINT_FILL, 0.0)
     hbox.horizontal_set(True)
@@ -84,7 +94,7 @@ def flip_clicked(obj, item=None):
                  elementary.ELM_FLIP_ROTATE_Y_CENTER_AXIS,
                  elementary.ELM_FLIP_ROTATE_XZ_CENTER_AXIS,
                  elementary.ELM_FLIP_ROTATE_YZ_CENTER_AXIS]:
-        bt = elementary.Button(win)
+        bt = Button(win)
         bt.size_hint_weight_set(evas.EVAS_HINT_EXPAND, evas.EVAS_HINT_EXPAND)
         bt.size_hint_align_set(evas.EVAS_HINT_FILL, evas.EVAS_HINT_FILL)
         bt.text_set(str(count))
@@ -94,7 +104,7 @@ def flip_clicked(obj, item=None):
         count += 1
 
     # flip buttons (second row)
-    hbox = elementary.Box(win)
+    hbox = Box(win)
     hbox.size_hint_weight_set(evas.EVAS_HINT_EXPAND, 0.0)
     hbox.size_hint_align_set(evas.EVAS_HINT_FILL, 0.0)
     hbox.horizontal_set(True)
@@ -105,7 +115,7 @@ def flip_clicked(obj, item=None):
                  elementary.ELM_FLIP_CUBE_RIGHT,
                  elementary.ELM_FLIP_CUBE_UP,
                  elementary.ELM_FLIP_CUBE_DOWN]:
-        bt = elementary.Button(win)
+        bt = Button(win)
         bt.size_hint_weight_set(evas.EVAS_HINT_EXPAND, evas.EVAS_HINT_EXPAND)
         bt.size_hint_align_set(evas.EVAS_HINT_FILL, evas.EVAS_HINT_FILL)
         bt.text_set(str(count))
@@ -115,7 +125,7 @@ def flip_clicked(obj, item=None):
         count += 1
 
     # flip buttons (third row)
-    hbox = elementary.Box(win)
+    hbox = Box(win)
     hbox.size_hint_weight_set(evas.EVAS_HINT_EXPAND, 0.0)
     hbox.size_hint_align_set(evas.EVAS_HINT_FILL, 0.0)
     hbox.horizontal_set(True)
@@ -126,7 +136,7 @@ def flip_clicked(obj, item=None):
                  elementary.ELM_FLIP_PAGE_RIGHT,
                  elementary.ELM_FLIP_PAGE_UP,
                  elementary.ELM_FLIP_PAGE_DOWN]:
-        bt = elementary.Button(win)
+        bt = Button(win)
         bt.size_hint_weight_set(evas.EVAS_HINT_EXPAND, evas.EVAS_HINT_EXPAND)
         bt.size_hint_align_set(evas.EVAS_HINT_FILL, evas.EVAS_HINT_FILL)
         bt.text_set(str(count))
@@ -146,24 +156,24 @@ def my_cb_radios (rd, fl):
 
 def flip_interactive_clicked(obj, item=None):
     # window
-    win = elementary.Window("flip", elementary.ELM_WIN_BASIC)
+    win = Window("flip", elementary.ELM_WIN_BASIC)
     win.autodel_set(True)
     win.title_set("Flip")
 
     # background
-    bg = elementary.Background(win)
+    bg = Background(win)
     win.resize_object_add(bg)
     bg.size_hint_weight_set(evas.EVAS_HINT_EXPAND, evas.EVAS_HINT_EXPAND)
     bg.show()
 
     # main vertical box
-    box = elementary.Box(win)
+    box = Box(win)
     box.size_hint_weight_set(evas.EVAS_HINT_EXPAND, evas.EVAS_HINT_EXPAND)
     win.resize_object_add(box)
     box.show()
 
     # flip object
-    fl = elementary.Flip(win)
+    fl = Flip(win)
     fl.size_hint_weight_set(evas.EVAS_HINT_EXPAND, evas.EVAS_HINT_EXPAND)
     fl.size_hint_align_set(evas.EVAS_HINT_FILL, evas.EVAS_HINT_FILL)
     fl.interaction_set(elementary.ELM_FLIP_INTERACTION_NONE);
@@ -181,37 +191,37 @@ def flip_interactive_clicked(obj, item=None):
     fl.show()
 
     # front content (image)
-    o = elementary.Background(win)
+    o = Background(win)
     o.size_hint_weight_set(evas.EVAS_HINT_EXPAND, evas.EVAS_HINT_EXPAND)
     o.file_set("images/sky_01.jpg")
     fl.part_content_set("front", o)
     o.show()
 
     # back content (layout)
-    ly = elementary.Layout(win)
+    ly = Layout(win)
     ly.file_set("test.edj", "layout")
     ly.size_hint_weight_set(evas.EVAS_HINT_EXPAND, evas.EVAS_HINT_EXPAND)
     fl.part_content_set("back", ly)
     ly.show()
 
-    bt = elementary.Button(win)
+    bt = Button(win)
     bt.text_set("Button 1")
     ly.part_content_set("element1", bt)
     bt.show()
 
-    bt = elementary.Button(win)
+    bt = Button(win)
     bt.text_set("Button 2")
     ly.part_content_set("element2", bt)
     bt.show()
 
-    bt = elementary.Button(win)
+    bt = Button(win)
     bt.text_set("Button 3")
     ly.part_content_set("element3", bt)
     bt.show()
 
 
     # radio buttons
-    rd = elementary.Radio(win)
+    rd = Radio(win)
     rd.state_value_set(elementary.ELM_FLIP_INTERACTION_NONE)
     rd.text_set("None")
     rd.callback_changed_add(my_cb_radios, fl)
@@ -219,7 +229,7 @@ def flip_interactive_clicked(obj, item=None):
     rd.show()
     rdg = rd
 
-    rd = elementary.Radio(win)
+    rd = Radio(win)
     rd.state_value_set(elementary.ELM_FLIP_INTERACTION_ROTATE)
     rd.text_set("Rotate")
     rd.callback_changed_add(my_cb_radios, fl)
@@ -227,7 +237,7 @@ def flip_interactive_clicked(obj, item=None):
     box.pack_end(rd)
     rd.show()
 
-    rd = elementary.Radio(win)
+    rd = Radio(win)
     rd.state_value_set(elementary.ELM_FLIP_INTERACTION_CUBE)
     rd.text_set("Cube")
     rd.callback_changed_add(my_cb_radios, fl)
@@ -235,7 +245,7 @@ def flip_interactive_clicked(obj, item=None):
     box.pack_end(rd)
     rd.show()
 
-    rd = elementary.Radio(win)
+    rd = Radio(win)
     rd.state_value_set(elementary.ELM_FLIP_INTERACTION_PAGE)
     rd.text_set("Page")
     rd.callback_changed_add(my_cb_radios, fl)
@@ -253,26 +263,26 @@ if __name__ == "__main__":
         elementary.exit()
 
     elementary.init()
-    win = elementary.Window("test", elementary.ELM_WIN_BASIC)
+    win = Window("test", elementary.ELM_WIN_BASIC)
     win.title_set("python-elementary test application")
     win.callback_delete_request_add(destroy)
 
-    bg = elementary.Background(win)
+    bg = Background(win)
     win.resize_object_add(bg)
     bg.size_hint_weight_set(evas.EVAS_HINT_EXPAND, evas.EVAS_HINT_EXPAND)
     bg.show()
 
-    box0 = elementary.Box(win)
+    box0 = Box(win)
     box0.size_hint_weight_set(evas.EVAS_HINT_EXPAND, evas.EVAS_HINT_EXPAND)
     win.resize_object_add(box0)
     box0.show()
 
-    fr = elementary.Frame(win)
+    fr = Frame(win)
     fr.text_set("Information")
     box0.pack_end(fr)
     fr.show()
 
-    lb = elementary.Label(win)
+    lb = Label(win)
     lb.text_set("Please select a test from the list below<br>"
                  "by clicking the test button to show the<br>"
                  "test window.")
@@ -283,7 +293,7 @@ if __name__ == "__main__":
              ("Flip Interactive", flip_interactive_clicked),
             ]
 
-    li = elementary.List(win)
+    li = List(win)
     li.size_hint_weight_set(evas.EVAS_HINT_EXPAND, evas.EVAS_HINT_EXPAND)
     li.size_hint_align_set(evas.EVAS_HINT_FILL, evas.EVAS_HINT_FILL)
     box0.pack_end(li)

@@ -1,50 +1,53 @@
 #!/usr/bin/env python
 # encoding: utf-8
 
-from efl import elementary
 from efl import evas
-
+from efl import elementary
+from efl.elementary.window import Window
+from efl.elementary.background import Background
+from efl.elementary.box import Box
+from efl.elementary.clock import Clock
 
 def clock_clicked(obj):
-    win = elementary.Window("clock", elementary.ELM_WIN_BASIC)
+    win = Window("clock", elementary.ELM_WIN_BASIC)
     win.title_set("Clock")
     win.autodel_set(True)
     if obj is None:
         win.callback_delete_request_add(lambda o: elementary.exit())
 
-    bg = elementary.Background(win)
+    bg = Background(win)
     win.resize_object_add(bg)
     bg.size_hint_weight_set(evas.EVAS_HINT_EXPAND, evas.EVAS_HINT_EXPAND)
     bg.show()
 
-    bx = elementary.Box(win)
+    bx = Box(win)
     win.resize_object_add(bx)
     bx.size_hint_weight_set(evas.EVAS_HINT_EXPAND, evas.EVAS_HINT_EXPAND)
     bx.show()
 
-    ck = elementary.Clock(win)
+    ck = Clock(win)
     bx.pack_end(ck)
     ck.show()
 
-    ck = elementary.Clock(win)
+    ck = Clock(win)
     ck.show_am_pm_set(True)
     bx.pack_end(ck)
     ck.show()
 
     print((ck.time_get()))
 
-    ck = elementary.Clock(win)
+    ck = Clock(win)
     ck.show_seconds_set(True)
     bx.pack_end(ck)
     ck.show()
 
-    ck = elementary.Clock(win)
+    ck = Clock(win)
     ck.show_seconds_set(True)
     ck.show_am_pm_set(True)
     bx.pack_end(ck)
     ck.show()
 
-    ck = elementary.Clock(win)
+    ck = Clock(win)
     ck.edit_set(True)
     ck.show_seconds_set(True)
     ck.show_am_pm_set(True)
@@ -52,7 +55,7 @@ def clock_clicked(obj):
     bx.pack_end(ck)
     ck.show()
 
-    ck = elementary.Clock(win)
+    ck = Clock(win)
     ck.edit_set(True)
     ck.show_seconds_set(True)
     ck.edit_mode = elementary.ELM_CLOCK_EDIT_HOUR_DECIMAL | \

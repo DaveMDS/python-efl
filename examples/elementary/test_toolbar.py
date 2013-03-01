@@ -1,8 +1,14 @@
 #!/usr/bin/env python
 # encoding: utf-8
 
-from efl import elementary
 from efl import evas
+from efl import elementary
+from efl.elementary.window import Window
+from efl.elementary.background import Background
+from efl.elementary.box import Box
+from efl.elementary.photo import Photo
+from efl.elementary.table import Table
+from efl.elementary.toolbar import Toolbar
 
 
 def tb_1(obj, it, ph):
@@ -21,31 +27,31 @@ def tb_5(obj, it, ph):
     ph.file_set(None)
 
 def toolbar_clicked(obj):
-    win = elementary.Window("toolbar", elementary.ELM_WIN_BASIC)
+    win = Window("toolbar", elementary.ELM_WIN_BASIC)
     win.title_set("Toolbar")
     win.autodel_set(True)
     if obj is None:
         win.callback_delete_request_add(lambda o: elementary.exit())
 
-    bg = elementary.Background(win)
+    bg = Background(win)
     win.resize_object_add(bg)
     bg.size_hint_weight_set(evas.EVAS_HINT_EXPAND, evas.EVAS_HINT_EXPAND)
     bg.show()
 
-    bx = elementary.Box(win)
+    bx = Box(win)
     win.resize_object_add(bx)
     bx.size_hint_weight_set(evas.EVAS_HINT_EXPAND, evas.EVAS_HINT_EXPAND)
     bx.show()
 
-    tb = elementary.Toolbar(win)
+    tb = Toolbar(win)
     tb.homogeneous = False
     tb.size_hint_weight_set(0.0, 0.0)
     tb.size_hint_align_set(evas.EVAS_HINT_FILL, 0.0)
 
-    ph1 = elementary.Photo(win)
-    ph2 = elementary.Photo(win)
-    ph3 = elementary.Photo(win)
-    ph4 = elementary.Photo(win)
+    ph1 = Photo(win)
+    ph2 = Photo(win)
+    ph3 = Photo(win)
+    ph4 = Photo(win)
 
     item = tb.item_append("document-print", "Hello", tb_1)
     item.disabled = True
@@ -75,7 +81,7 @@ def toolbar_clicked(obj):
     bx.pack_end(tb)
     tb.show()
 
-    tb = elementary.Table(win)
+    tb = Table(win)
     tb.size_hint_weight_set(0.0, evas.EVAS_HINT_EXPAND)
     tb.size_hint_align_set(evas.EVAS_HINT_FILL, evas.EVAS_HINT_FILL)
 

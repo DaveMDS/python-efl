@@ -3,8 +3,16 @@
 
 import random
 
-from efl import elementary
 from efl import evas
+from efl import elementary
+from efl.elementary.window import Window
+from efl.elementary.background import Background
+from efl.elementary.button import Button
+from efl.elementary.check import Check
+from efl.elementary.image import Image
+from efl.elementary.gengrid import Gengrid, GengridItemClass
+from efl.elementary.slider import Slider
+from efl.elementary.table import Table
 
 
 images = ["panel_01.jpg", "plant_01.jpg", "rock_01.jpg", "rock_02.jpg",
@@ -16,7 +24,7 @@ def gg_text_get(obj, part, item_data):
 
 def gg_content_get(obj, part, data):
     if part == "elm.swallow.icon":
-        im = elementary.Image(obj)
+        im = Image(obj)
         im.file_set("images/" + random.choice(images))
         im.size_hint_aspect_set(evas.EVAS_ASPECT_CONTROL_BOTH, 1, 1)
         return im
@@ -47,32 +55,32 @@ def gengrid_clicked(obj):
     item_count = 5#25
 
     # window
-    win = elementary.Window("gengrid", elementary.ELM_WIN_BASIC)
+    win = Window("gengrid", elementary.ELM_WIN_BASIC)
     win.title_set("Gengrid")
     win.autodel_set(True)
     if obj is None:
         win.callback_delete_request_add(lambda o: elementary.exit())
 
     # background
-    bg = elementary.Background(win)
+    bg = Background(win)
     win.resize_object_add(bg)
     bg.size_hint_weight_set(evas.EVAS_HINT_EXPAND, evas.EVAS_HINT_EXPAND)
     bg.show()
 
     # main table
-    tb = elementary.Table(win)
+    tb = Table(win)
     win.resize_object_add(tb)
     tb.homogeneous_set(0)
     tb.size_hint_weight_set(evas.EVAS_HINT_EXPAND, evas.EVAS_HINT_EXPAND)
     tb.show()
 
     # gengrid
-    itc = elementary.GengridItemClass(item_style="default",
+    itc = GengridItemClass(item_style="default",
                                        text_get_func=gg_text_get,
                                        content_get_func=gg_content_get,
                                        state_get_func=gg_state_get,
                                        del_func=gg_del)
-    gg = elementary.Gengrid(win)
+    gg = Gengrid(win)
     gg.size_hint_weight_set(evas.EVAS_HINT_EXPAND, evas.EVAS_HINT_EXPAND)
     gg.size_hint_align_set(evas.EVAS_HINT_FILL, evas.EVAS_HINT_FILL)
     gg.horizontal_set(False)
@@ -95,7 +103,7 @@ def gengrid_clicked(obj):
         gg.multi_select_set(bt.state)
         print((gg.multi_select_get()))
 
-    bt = elementary.Check(win)
+    bt = Check(win)
     bt.text = "MultiSelect"
     bt.state = gg.multi_select_get()
     bt.callback_changed_add(multi_select_changed, gg)
@@ -106,7 +114,7 @@ def gengrid_clicked(obj):
     def horizontal_changed(bt, gg):
         gg.horizontal_set(bt.state)
 
-    bt = elementary.Check(win)
+    bt = Check(win)
     bt.text_set("Horizontal")
     bt.callback_changed_add(horizontal_changed, gg)
     tb.pack(bt, 1, 1, 1, 1)
@@ -118,7 +126,7 @@ def gengrid_clicked(obj):
         gg.bounce_set(bt.state, v_bounce)
         print((gg.bounce_get()))
 
-    bt = elementary.Check(win)
+    bt = Check(win)
     bt.text_set("BounceH")
     (h_bounce, v_bounce) = gg.bounce_get()
     bt.state = h_bounce
@@ -132,7 +140,7 @@ def gengrid_clicked(obj):
         gg.bounce_set(h_bounce, bt.state)
         print((gg.bounce_get()))
 
-    bt = elementary.Check(win)
+    bt = Check(win)
     bt.text_set("BounceV")
     (h_bounce, v_bounce) = gg.bounce_get()
     bt.state = v_bounce
@@ -151,7 +159,7 @@ def gengrid_clicked(obj):
         gg.item_size_set(w, sl.value)
         print((gg.item_size_get()))
 
-    sl = elementary.Slider(win)
+    sl = Slider(win)
     sl.text_set("ItemSizeW")
     sl.min_max_set(0, 500)
     sl.indicator_format_set("%.0f")
@@ -163,7 +171,7 @@ def gengrid_clicked(obj):
     tb.pack(sl, 0, 2, 2, 1)
     sl.show()
 
-    sl = elementary.Slider(win)
+    sl = Slider(win)
     sl.text_set("ItemSizeH")
     sl.min_max_set(0, 500)
     sl.indicator_format_set("%.0f")
@@ -186,7 +194,7 @@ def gengrid_clicked(obj):
         gg.align_set(ax, sl.value)
         print((gg.align_get()))
 
-    sl = elementary.Slider(win)
+    sl = Slider(win)
     sl.text_set("AlignX")
     sl.min_max_set(0.0, 1.0)
     sl.indicator_format_set("%.2f")
@@ -198,7 +206,7 @@ def gengrid_clicked(obj):
     tb.pack(sl, 0, 4, 2, 1)
     sl.show()
 
-    sl = elementary.Slider(win)
+    sl = Slider(win)
     sl.text_set("AlignY")
     sl.min_max_set(0.0, 1.0)
     sl.indicator_format_set("%.2f")
@@ -215,7 +223,7 @@ def gengrid_clicked(obj):
         ggi = gg.first_item
         ggi.selected = not ggi.selected
 
-    bt = elementary.Button(win)
+    bt = Button(win)
     bt.size_hint_align_set(evas.EVAS_HINT_FILL, 0)
     bt.text_set("Select first")
     bt.callback_clicked_add(select_first_clicked, gg)
@@ -227,7 +235,7 @@ def gengrid_clicked(obj):
         ggi = gg.last_item
         ggi.selected = not ggi.selected
 
-    bt = elementary.Button(win)
+    bt = Button(win)
     bt.size_hint_align_set(evas.EVAS_HINT_FILL, 0)
     bt.text_set("Select last")
     bt.callback_clicked_add(select_last_clicked, gg)
@@ -239,7 +247,7 @@ def gengrid_clicked(obj):
         for ggi in gg.selected_items_get():
             ggi.delete()
 
-    bt = elementary.Button(win)
+    bt = Button(win)
     bt.size_hint_align_set(evas.EVAS_HINT_FILL, 0)
     bt.text_set("Sel del")
     bt.callback_clicked_add(seldel_clicked, gg)
@@ -252,7 +260,7 @@ def gengrid_clicked(obj):
         item_count = 0
         gg.clear()
 
-    bt = elementary.Button(win)
+    bt = Button(win)
     bt.size_hint_align_set(evas.EVAS_HINT_FILL, 0)
     bt.text_set("Clear")
     bt.callback_clicked_add(clear_clicked, gg)
@@ -264,14 +272,14 @@ def gengrid_clicked(obj):
         ggi = gg.first_item if first else gg.last_item
         ggi.show()
 
-    bt = elementary.Button(win)
+    bt = Button(win)
     bt.size_hint_align_set(evas.EVAS_HINT_FILL, 0)
     bt.text_set("Show first")
     bt.callback_clicked_add(show_clicked, gg, True)
     tb.pack(bt, 2, 3, 1, 1)
     bt.show()
 
-    bt = elementary.Button(win)
+    bt = Button(win)
     bt.size_hint_align_set(evas.EVAS_HINT_FILL, 0)
     bt.text_set("Show last")
     bt.callback_clicked_add(show_clicked, gg, False)
@@ -283,14 +291,14 @@ def gengrid_clicked(obj):
         ggi = gg.first_item if first else gg.last_item
         ggi.bring_in()
 
-    bt = elementary.Button(win)
+    bt = Button(win)
     bt.size_hint_align_set(evas.EVAS_HINT_FILL, 0)
     bt.text_set("BringIn first")
     bt.callback_clicked_add(bring_in_clicked, gg, True)
     tb.pack(bt, 4, 3, 1, 1)
     bt.show()
 
-    bt = elementary.Button(win)
+    bt = Button(win)
     bt.size_hint_align_set(evas.EVAS_HINT_FILL, 0)
     bt.text_set("BringIn last")
     bt.callback_clicked_add(bring_in_clicked, gg, False)
@@ -305,28 +313,28 @@ def gengrid_clicked(obj):
             gg.item_append(itc, item_count, None)
             n -= 1
 
-    bt = elementary.Button(win)
+    bt = Button(win)
     bt.size_hint_align_set(evas.EVAS_HINT_FILL, 0)
     bt.text_set("Append 1")
     bt.callback_clicked_add(append_clicked, gg, 1)
     tb.pack(bt, 2, 4, 1, 1)
     bt.show()
 
-    bt = elementary.Button(win)
+    bt = Button(win)
     bt.size_hint_align_set(evas.EVAS_HINT_FILL, 0)
     bt.text_set("Append 100")
     bt.callback_clicked_add(append_clicked, gg, 100)
     tb.pack(bt, 3, 4, 1, 1)
     bt.show()
 
-    bt = elementary.Button(win)
+    bt = Button(win)
     bt.size_hint_align_set(evas.EVAS_HINT_FILL, 0)
     bt.text_set("Append 1000")
     bt.callback_clicked_add(append_clicked, gg, 1000)
     tb.pack(bt, 4, 4, 1, 1)
     bt.show()
 
-    bt = elementary.Button(win)
+    bt = Button(win)
     bt.size_hint_align_set(evas.EVAS_HINT_FILL, 0)
     bt.text_set("Append 10000 :)")
     bt.callback_clicked_add(append_clicked, gg, 10000)
@@ -339,7 +347,7 @@ def gengrid_clicked(obj):
         item_count += 1
         gg.item_prepend(itc, item_count)
 
-    bt = elementary.Button(win)
+    bt = Button(win)
     bt.size_hint_align_set(evas.EVAS_HINT_FILL, 0)
     bt.text_set("Prepend")
     bt.callback_clicked_add(prepend_clicked, gg)
@@ -356,7 +364,7 @@ def gengrid_clicked(obj):
         else:
             print("nothing selected")
 
-    bt = elementary.Button(win)
+    bt = Button(win)
     bt.size_hint_align_set(evas.EVAS_HINT_FILL, 0)
     bt.text_set("Ins before")
     bt.callback_clicked_add(ins_before_clicked, gg)
@@ -373,7 +381,7 @@ def gengrid_clicked(obj):
         else:
             print("nothing selected")
 
-    bt = elementary.Button(win)
+    bt = Button(win)
     bt.size_hint_align_set(evas.EVAS_HINT_FILL, 0)
     bt.text_set("Ins after")
     bt.callback_clicked_add(ins_after_clicked, gg)

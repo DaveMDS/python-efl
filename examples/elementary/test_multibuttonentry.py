@@ -1,8 +1,15 @@
 #!/usr/bin/env python
 # encoding: utf-8
 
-from efl import elementary
 from efl import evas
+from efl import elementary
+from efl.elementary.window import Window
+from efl.elementary.background import Background
+from efl.elementary.box import Box
+from efl.elementary.button import Button
+from efl.elementary.entry import Entry
+from efl.elementary.multibuttonentry import MultiButtonEntry
+from efl.elementary.scroller import Scroller
 
 
 counter = 0
@@ -46,23 +53,23 @@ def cb_filter1(mbe, text):
     return True
 
 def multibuttonentry_clicked(obj, item=None):
-    win = elementary.Window("multibuttonentry", elementary.ELM_WIN_BASIC)
+    win = Window("multibuttonentry", elementary.ELM_WIN_BASIC)
     win.title_set("MultiButtonEntry test")
     win.autodel_set(True)
     if obj is None:
         win.callback_delete_request_add(lambda o: elementary.exit())
 
-    bg = elementary.Background(win)
+    bg = Background(win)
     win.resize_object_add(bg)
     bg.size_hint_weight_set(evas.EVAS_HINT_EXPAND, evas.EVAS_HINT_EXPAND)
     bg.show()
 
-    vbox = elementary.Box(win)
+    vbox = Box(win)
     vbox.size_hint_weight = (evas.EVAS_HINT_EXPAND, evas.EVAS_HINT_EXPAND)
     win.resize_object_add(vbox)
     vbox.show()
 
-    sc = elementary.Scroller(win)
+    sc = Scroller(win)
     sc.bounce = (False, True)
     sc.policy = (elementary.ELM_SCROLLER_POLICY_OFF, elementary.ELM_SCROLLER_POLICY_AUTO)
     sc.size_hint_align = (evas.EVAS_HINT_FILL, evas.EVAS_HINT_FILL)
@@ -70,7 +77,7 @@ def multibuttonentry_clicked(obj, item=None):
     vbox.pack_end(sc)
     sc.show()
 
-    mbe = elementary.MultiButtonEntry(win)
+    mbe = MultiButtonEntry(win)
     mbe.size_hint_align = (evas.EVAS_HINT_FILL, evas.EVAS_HINT_FILL)
     mbe.size_hint_weight = (evas.EVAS_HINT_EXPAND, evas.EVAS_HINT_EXPAND)
     mbe.text = "To: "
@@ -81,13 +88,13 @@ def multibuttonentry_clicked(obj, item=None):
 
     print mbe.entry
 
-    hbox = elementary.Box(win)
+    hbox = Box(win)
     hbox.horizontal = True
     hbox.size_hint_weight = (evas.EVAS_HINT_EXPAND, 0.0)
     vbox.pack_end(hbox)
     hbox.show()
 
-    bt = elementary.Button(win)
+    bt = Button(win)
     bt.text = "item_append"
     bt.size_hint_align = (evas.EVAS_HINT_FILL, 0.0)
     bt.size_hint_weight = (evas.EVAS_HINT_EXPAND, 0.0)
@@ -95,7 +102,7 @@ def multibuttonentry_clicked(obj, item=None):
     hbox.pack_end(bt)
     bt.show()
 
-    bt = elementary.Button(win)
+    bt = Button(win)
     bt.text = "item_prepend"
     bt.size_hint_align = (evas.EVAS_HINT_FILL, 0.0)
     bt.size_hint_weight = (evas.EVAS_HINT_EXPAND, 0.0)
@@ -103,7 +110,7 @@ def multibuttonentry_clicked(obj, item=None):
     hbox.pack_end(bt)
     bt.show()
 
-    bt = elementary.Button(win)
+    bt = Button(win)
     bt.text = "item_insert_after"
     bt.size_hint_align = (evas.EVAS_HINT_FILL, 0.0)
     bt.size_hint_weight = (evas.EVAS_HINT_EXPAND, 0.0)
@@ -111,7 +118,7 @@ def multibuttonentry_clicked(obj, item=None):
     hbox.pack_end(bt)
     bt.show()
 
-    bt = elementary.Button(win)
+    bt = Button(win)
     bt.text = "item_insert_before"
     bt.size_hint_align = (evas.EVAS_HINT_FILL, 0.0)
     bt.size_hint_weight = (evas.EVAS_HINT_EXPAND, 0.0)
@@ -120,13 +127,13 @@ def multibuttonentry_clicked(obj, item=None):
     bt.show()
 
 
-    hbox = elementary.Box(win)
+    hbox = Box(win)
     hbox.horizontal = True
     hbox.size_hint_weight = (evas.EVAS_HINT_EXPAND, 0.0)
     vbox.pack_end(hbox)
     hbox.show()
 
-    bt = elementary.Button(win)
+    bt = Button(win)
     bt.text = "delete selected item"
     bt.size_hint_align = (evas.EVAS_HINT_FILL, 0.0)
     bt.size_hint_weight = (evas.EVAS_HINT_EXPAND, 0.0)
@@ -134,7 +141,7 @@ def multibuttonentry_clicked(obj, item=None):
     hbox.pack_end(bt)
     bt.show()
 
-    bt = elementary.Button(win)
+    bt = Button(win)
     bt.text = "clear"
     bt.size_hint_align = (evas.EVAS_HINT_FILL, 0.0)
     bt.size_hint_weight = (evas.EVAS_HINT_EXPAND, 0.0)
@@ -142,7 +149,7 @@ def multibuttonentry_clicked(obj, item=None):
     hbox.pack_end(bt)
     bt.show()
 
-    bt = elementary.Button(win)
+    bt = Button(win)
     bt.text = "clear2"
     bt.size_hint_align = (evas.EVAS_HINT_FILL, 0.0)
     bt.size_hint_weight = (evas.EVAS_HINT_EXPAND, 0.0)
@@ -150,7 +157,7 @@ def multibuttonentry_clicked(obj, item=None):
     hbox.pack_end(bt)
     bt.show()
 
-    bt = elementary.Button(win)
+    bt = Button(win)
     bt.text = "toggle expand"
     bt.size_hint_align = (evas.EVAS_HINT_FILL, 0.0)
     bt.size_hint_weight = (evas.EVAS_HINT_EXPAND, 0.0)

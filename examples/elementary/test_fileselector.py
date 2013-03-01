@@ -2,9 +2,20 @@
 # encoding: utf-8
 
 import os
-from efl import elementary
 from efl import evas
-
+from efl import elementary
+from efl.elementary.window import Window
+from efl.elementary.background import Background
+from efl.elementary.box import Box
+from efl.elementary.frame import Frame
+from efl.elementary.label import Label
+from efl.elementary.button import Button
+from efl.elementary.check import Check
+from efl.elementary.list import List
+from efl.elementary.fileselector import Fileselector
+from efl.elementary.fileselector_button import FileselectorButton
+from efl.elementary.fileselector_entry import FileselectorEntry
+from efl.elementary.separator import Separator
 
 
 def fs_cb_done(fs, selected, win):
@@ -45,21 +56,21 @@ def bt_cb_mode_cycle(bt, fs):
 
 
 def fileselector_clicked(obj, item=None):
-    win = elementary.Window("fileselector", elementary.ELM_WIN_BASIC)
+    win = Window("fileselector", elementary.ELM_WIN_BASIC)
     win.title_set("File selector test")
     win.autodel_set(True)
 
-    bg = elementary.Background(win)
+    bg = Background(win)
     win.resize_object_add(bg)
     bg.size_hint_weight_set(evas.EVAS_HINT_EXPAND, evas.EVAS_HINT_EXPAND)
     bg.show()
 
-    vbox = elementary.Box(win)
+    vbox = Box(win)
     win.resize_object_add(vbox)
     vbox.size_hint_weight_set(evas.EVAS_HINT_EXPAND, evas.EVAS_HINT_EXPAND)
     vbox.show()
 
-    fs = elementary.Fileselector(win)
+    fs = Fileselector(win)
     fs.is_save_set(True)
     fs.expandable_set(False)
     fs.folder_only_set(False)
@@ -72,62 +83,62 @@ def fileselector_clicked(obj, item=None):
     vbox.pack_end(fs)
     fs.show()
 
-    sep = elementary.Separator(win)
+    sep = Separator(win)
     sep.horizontal_set(True)
     vbox.pack_end(sep)
     sep.show()
     
-    hbox = elementary.Box(win)
+    hbox = Box(win)
     hbox.horizontal_set(True)
     vbox.pack_end(hbox)
     hbox.show()
 
-    ck = elementary.Check(win)
+    ck = Check(win)
     ck.text_set("is_save")
     ck.state_set(fs.is_save)
     ck.callback_changed_add(ck_cb_is_save, fs)
     hbox.pack_end(ck)
     ck.show()
 
-    ck = elementary.Check(win)
+    ck = Check(win)
     ck.text_set("folder_only")
     ck.state_set(fs.folder_only)
     ck.callback_changed_add(ck_cb_folder_only, fs)
     hbox.pack_end(ck)
     ck.show()
 
-    ck = elementary.Check(win)
+    ck = Check(win)
     ck.text_set("expandable")
     ck.state_set(fs.expandable)
     ck.callback_changed_add(ck_cb_expandable, fs)
     hbox.pack_end(ck)
     ck.show()
     
-    ck = elementary.Check(win)
+    ck = Check(win)
     ck.text_set("buttons")
     ck.state_set(fs.buttons_ok_cancel)
     ck.callback_changed_add(ck_cb_buttons, fs)
     hbox.pack_end(ck)
     ck.show()
     
-    hbox = elementary.Box(win)
+    hbox = Box(win)
     hbox.horizontal_set(True)
     vbox.pack_end(hbox)
     hbox.show()
 
-    bt = elementary.Button(win)
+    bt = Button(win)
     bt.text_set("selected_get")
     bt.callback_clicked_add(bt_cb_sel_get, fs)
     hbox.pack_end(bt)
     bt.show()
 
-    bt = elementary.Button(win)
+    bt = Button(win)
     bt.text_set("path_get")
     bt.callback_clicked_add(bt_cb_path_get, fs)
     hbox.pack_end(bt)
     bt.show()
 
-    bt = elementary.Button(win)
+    bt = Button(win)
     bt.text_set("mode cycle")
     bt.callback_clicked_add(bt_cb_mode_cycle, fs)
     hbox.pack_end(bt)
@@ -138,21 +149,21 @@ def fileselector_clicked(obj, item=None):
 
 
 def fileselector_button_clicked(obj, item=None):
-    win = elementary.Window("fileselector", elementary.ELM_WIN_BASIC)
+    win = Window("fileselector", elementary.ELM_WIN_BASIC)
     win.title_set("File selector test")
     win.autodel_set(True)
 
-    bg = elementary.Background(win)
+    bg = Background(win)
     win.resize_object_add(bg)
     bg.size_hint_weight_set(evas.EVAS_HINT_EXPAND, evas.EVAS_HINT_EXPAND)
     bg.show()
 
-    vbox = elementary.Box(win)
+    vbox = Box(win)
     win.resize_object_add(vbox)
     vbox.size_hint_weight_set(evas.EVAS_HINT_EXPAND, evas.EVAS_HINT_EXPAND)
     vbox.show()
 
-    fse = elementary.FileselectorButton(win)
+    fse = FileselectorButton(win)
     fse.text_set("Select a file")
     fse.inwin_mode_set(False)
     fse.size_hint_align_set(evas.EVAS_HINT_FILL, evas.EVAS_HINT_FILL)
@@ -160,39 +171,39 @@ def fileselector_button_clicked(obj, item=None):
     vbox.pack_end(fse)
     fse.show()
 
-    sep = elementary.Separator(win)
+    sep = Separator(win)
     sep.horizontal_set(True)
     vbox.pack_end(sep)
     sep.show()
 
-    hbox = elementary.Box(win)
+    hbox = Box(win)
     hbox.horizontal_set(True)
     hbox.size_hint_weight_set(evas.EVAS_HINT_EXPAND, evas.EVAS_HINT_EXPAND)
     vbox.pack_end(hbox)
     hbox.show()
 
-    ck = elementary.Check(win)
+    ck = Check(win)
     ck.text_set("inwin")
     ck.state_set(fse.inwin_mode)
     ck.callback_changed_add(ck_entry_cb_inwin, fse)
     hbox.pack_end(ck)
     ck.show()
 
-    ck = elementary.Check(win)
+    ck = Check(win)
     ck.text_set("folder_only")
     ck.state_set(fse.folder_only)
     ck.callback_changed_add(ck_entry_cb_folder_only, fse)
     hbox.pack_end(ck)
     ck.show()
 
-    ck = elementary.Check(win)
+    ck = Check(win)
     ck.text_set("is_save")
     ck.state_set(fse.is_save)
     ck.callback_changed_add(ck_entry_cb_is_save, fse)
     hbox.pack_end(ck)
     ck.show()
 
-    ck = elementary.Check(win)
+    ck = Check(win)
     ck.text_set("expandable")
     ck.state_set(fse.expandable)
     ck.callback_changed_add(ck_entry_cb_expandable, fse)
@@ -221,21 +232,21 @@ def ck_entry_cb_expandable(bt, fse):
 
 
 def fileselector_entry_clicked(obj, item=None):
-    win = elementary.Window("fileselector", elementary.ELM_WIN_BASIC)
+    win = Window("fileselector", elementary.ELM_WIN_BASIC)
     win.title_set("File selector test")
     win.autodel_set(True)
 
-    bg = elementary.Background(win)
+    bg = Background(win)
     win.resize_object_add(bg)
     bg.size_hint_weight_set(evas.EVAS_HINT_EXPAND, evas.EVAS_HINT_EXPAND)
     bg.show()
 
-    vbox = elementary.Box(win)
+    vbox = Box(win)
     win.resize_object_add(vbox)
     vbox.size_hint_weight_set(evas.EVAS_HINT_EXPAND, evas.EVAS_HINT_EXPAND)
     vbox.show()
 
-    fse = elementary.FileselectorEntry(win)
+    fse = FileselectorEntry(win)
     fse.text_set("Select a file")
     fse.inwin_mode_set(False)
     fse.size_hint_align_set(evas.EVAS_HINT_FILL, evas.EVAS_HINT_FILL)
@@ -243,39 +254,39 @@ def fileselector_entry_clicked(obj, item=None):
     vbox.pack_end(fse)
     fse.show()
 
-    sep = elementary.Separator(win)
+    sep = Separator(win)
     sep.horizontal_set(True)
     vbox.pack_end(sep)
     sep.show()
 
-    hbox = elementary.Box(win)
+    hbox = Box(win)
     hbox.horizontal_set(True)
     hbox.size_hint_weight_set(evas.EVAS_HINT_EXPAND, evas.EVAS_HINT_EXPAND)
     vbox.pack_end(hbox)
     hbox.show()
 
-    ck = elementary.Check(win)
+    ck = Check(win)
     ck.text_set("inwin")
     ck.state_set(fse.inwin_mode)
     ck.callback_changed_add(ck_entry_cb_inwin, fse)
     hbox.pack_end(ck)
     ck.show()
 
-    ck = elementary.Check(win)
+    ck = Check(win)
     ck.text_set("folder_only")
     ck.state_set(fse.folder_only)
     ck.callback_changed_add(ck_entry_cb_folder_only, fse)
     hbox.pack_end(ck)
     ck.show()
 
-    ck = elementary.Check(win)
+    ck = Check(win)
     ck.text_set("is_save")
     ck.state_set(fse.is_save)
     ck.callback_changed_add(ck_entry_cb_is_save, fse)
     hbox.pack_end(ck)
     ck.show()
 
-    ck = elementary.Check(win)
+    ck = Check(win)
     ck.text_set("expandable")
     ck.state_set(fse.expandable)
     ck.callback_changed_add(ck_entry_cb_expandable, fse)
@@ -291,26 +302,26 @@ if __name__ == "__main__":
         elementary.exit()
 
     elementary.init()
-    win = elementary.Window("test", elementary.ELM_WIN_BASIC)
+    win = Window("test", elementary.ELM_WIN_BASIC)
     win.title_set("python-elementary test application")
     win.callback_delete_request_add(destroy)
 
-    bg = elementary.Background(win)
+    bg = Background(win)
     win.resize_object_add(bg)
     bg.size_hint_weight_set(evas.EVAS_HINT_EXPAND, evas.EVAS_HINT_EXPAND)
     bg.show()
 
-    box0 = elementary.Box(win)
+    box0 = Box(win)
     box0.size_hint_weight_set(evas.EVAS_HINT_EXPAND, evas.EVAS_HINT_EXPAND)
     win.resize_object_add(box0)
     box0.show()
 
-    fr = elementary.Frame(win)
+    fr = Frame(win)
     fr.text_set("Information")
     box0.pack_end(fr)
     fr.show()
 
-    lb = elementary.Label(win)
+    lb = Label(win)
     lb.text_set("Please select a test from the list below<br>"
                  "by clicking the test button to show the<br>"
                  "test window.")
@@ -322,7 +333,7 @@ if __name__ == "__main__":
              ("Fileselector Entry", fileselector_entry_clicked),
             ]
 
-    li = elementary.List(win)
+    li = List(win)
     li.size_hint_weight_set(evas.EVAS_HINT_EXPAND, evas.EVAS_HINT_EXPAND)
     li.size_hint_align_set(evas.EVAS_HINT_FILL, evas.EVAS_HINT_FILL)
     box0.pack_end(li)

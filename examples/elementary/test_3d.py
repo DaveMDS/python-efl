@@ -1,8 +1,17 @@
 #!/usr/bin/env python
 # encoding: utf-8
 
-from efl import elementary
 from efl import evas
+from efl import elementary
+from efl.elementary.window import Window
+from efl.elementary.background import Background
+from efl.elementary.box import Box
+# from efl.elementary.button import Button
+# from efl.elementary.frame import Frame
+# from efl.elementary.label import Label
+# from efl.elementary.check import Check
+# from efl.elementary.entry import Entry
+from efl.elementary.slider import Slider
 
 
 class Point(object):
@@ -42,7 +51,7 @@ class Cube(object):
         self.z0v = 0.0
 
         for i in range(6):
-            self.sides.append(Side(win.evas_get()))
+            self.sides.append(Side(win.evas))
 
         w -= (w / 2)
         h -= (h / 2)
@@ -149,25 +158,25 @@ def ch_z0(sl, cube):
     cube.update()
 
 def evas3d_clicked(obj, item=None):
-    win = elementary.Window("evas3d", elementary.ELM_WIN_BASIC)
+    win = Window("evas3d", elementary.ELM_WIN_BASIC)
     win.title_set("Evas 3d test")
     win.autodel_set(True)
     if obj is None:
         win.callback_delete_request_add(lambda o: elementary.exit())
 
-    bg = elementary.Background(win)
+    bg = Background(win)
     win.resize_object_add(bg)
     bg.size_hint_weight_set(evas.EVAS_HINT_EXPAND, evas.EVAS_HINT_EXPAND)
     bg.show()
 
     cube = Cube(win, 240, 240, 240)
  
-    vbox = elementary.Box(win)
+    vbox = Box(win)
     vbox.size_hint_weight = (evas.EVAS_HINT_EXPAND, evas.EVAS_HINT_EXPAND)
     win.resize_object_add(vbox)
     vbox.show()
 
-    sl = elementary.Slider(win)
+    sl = Slider(win)
     sl.text = "Rot X"
     sl.unit_format = "%1.0f units"
     sl.span_size = 360
@@ -178,7 +187,7 @@ def evas3d_clicked(obj, item=None):
     sl.callback_changed_add(ch_rot_x, cube)
     sl.show()
 
-    sl = elementary.Slider(win)
+    sl = Slider(win)
     sl.text = "Rot Y"
     sl.unit_format = "%1.0f units"
     sl.span_size = 360
@@ -189,7 +198,7 @@ def evas3d_clicked(obj, item=None):
     sl.callback_changed_add(ch_rot_y, cube)
     sl.show()
 
-    sl = elementary.Slider(win)
+    sl = Slider(win)
     sl.text = "Rot Z"
     sl.unit_format = "%1.0f units"
     sl.span_size = 360
@@ -200,7 +209,7 @@ def evas3d_clicked(obj, item=None):
     sl.callback_changed_add(ch_rot_z, cube)
     sl.show()
 
-    sl = elementary.Slider(win)
+    sl = Slider(win)
     sl.text = "CX Off"
     sl.unit_format = "%1.0f units"
     sl.span_size = 360
@@ -212,7 +221,7 @@ def evas3d_clicked(obj, item=None):
     sl.callback_changed_add(ch_cx, cube)
     sl.show()
 
-    sl = elementary.Slider(win)
+    sl = Slider(win)
     sl.text = "CY Off"
     sl.unit_format = "%1.0f units"
     sl.span_size = 360
@@ -224,7 +233,7 @@ def evas3d_clicked(obj, item=None):
     sl.callback_changed_add(ch_cy, cube)
     sl.show()
 
-    sl = elementary.Slider(win)
+    sl = Slider(win)
     sl.text = "Foc"
     sl.unit_format = "%1.0f units"
     sl.span_size = 360
@@ -236,7 +245,7 @@ def evas3d_clicked(obj, item=None):
     sl.callback_changed_add(ch_foc, cube)
     sl.show()
 
-    sl = elementary.Slider(win)
+    sl = Slider(win)
     sl.text = "Z0"
     sl.unit_format = "%1.0f units"
     sl.span_size = 360

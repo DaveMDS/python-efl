@@ -1,9 +1,12 @@
 #!/usr/bin/env python
 # encoding: utf-8
 
-from efl import elementary
 from efl import evas
-
+from efl import elementary
+from efl.elementary.window import Window
+from efl.elementary.background import Background
+from efl.elementary.box import Box
+from efl.elementary.dayselector import Dayselector
 
 def cb_changed(ds):
     print("\nSelected Days:")
@@ -17,25 +20,25 @@ def cb_changed(ds):
 
 
 def dayselector_clicked(obj):
-    win = elementary.Window("dayselector", elementary.ELM_WIN_BASIC)
+    win = Window("dayselector", elementary.ELM_WIN_BASIC)
     win.title = "Dayselector test"
     win.autodel = True
     if obj is None:
         win.callback_delete_request_add(lambda o: elementary.exit())
 
-    bg = elementary.Background(win)
+    bg = Background(win)
     win.resize_object_add(bg)
     bg.size_hint_weight = (evas.EVAS_HINT_EXPAND, evas.EVAS_HINT_EXPAND)
     bg.show()
 
-    box = elementary.Box(win)
+    box = Box(win)
     box.size_hint_weight = (evas.EVAS_HINT_EXPAND, evas.EVAS_HINT_EXPAND)
     box.size_hint_align = (evas.EVAS_HINT_FILL, evas.EVAS_HINT_FILL)
     win.resize_object_add(box)
     box.show()
     
     # default
-    ds = elementary.Dayselector(win)
+    ds = Dayselector(win)
     ds.size_hint_weight = (evas.EVAS_HINT_EXPAND, evas.EVAS_HINT_EXPAND)
     ds.size_hint_align = (evas.EVAS_HINT_FILL, 0.5)
     box.pack_end(ds)
@@ -43,7 +46,7 @@ def dayselector_clicked(obj):
     ds.callback_dayselector_changed_add(cb_changed)
 
     # Sunday first
-    ds = elementary.Dayselector(win)
+    ds = Dayselector(win)
     ds.size_hint_weight = (evas.EVAS_HINT_EXPAND, evas.EVAS_HINT_EXPAND)
     ds.size_hint_align = (evas.EVAS_HINT_FILL, 0.5)
     box.pack_end(ds)
@@ -56,7 +59,7 @@ def dayselector_clicked(obj):
         print("BUG HERE !!!")
 
     # Monday first
-    ds = elementary.Dayselector(win)
+    ds = Dayselector(win)
     ds.size_hint_weight = (evas.EVAS_HINT_EXPAND, evas.EVAS_HINT_EXPAND)
     ds.size_hint_align = (evas.EVAS_HINT_FILL, 0.5)
     ds.callback_dayselector_changed_add(cb_changed)

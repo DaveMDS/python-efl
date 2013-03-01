@@ -1,8 +1,17 @@
 #!/usr/bin/env python
 # encoding: utf-8
 
-from efl import elementary
 from efl import evas
+from efl import ecore
+from efl import elementary
+from efl.elementary.window import Window
+from efl.elementary.background import Background
+from efl.elementary.box import Box
+from efl.elementary.button import Button
+from efl.elementary.notify import Notify
+from efl.elementary.fileselector_button import FileselectorButton
+from efl.elementary.table import Table
+from efl.elementary.video import Video, Player
 
 
 def my_bt_open(bt, file, video):
@@ -22,35 +31,35 @@ def notify_unblock(video, event, no):
     no.show()
 
 def video_clicked(obj):
-    win = elementary.Window("video", elementary.ELM_WIN_BASIC)
+    win = Window("video", elementary.ELM_WIN_BASIC)
     win.title = "video"
     win.autodel = True
     win.alpha = True # Needed to turn video fast path on
 
-    bg = elementary.Background(win)
+    bg = Background(win)
     bg.size_hint_weight_set(evas.EVAS_HINT_EXPAND, evas.EVAS_HINT_EXPAND)
     win.resize_object_add(bg)
     bg.show()
 
-    video = elementary.Video(win)
+    video = Video(win)
     video.size_hint_weight_set(evas.EVAS_HINT_EXPAND, evas.EVAS_HINT_EXPAND)
     win.resize_object_add(video)
     video.show()
 
-    notify = elementary.Notify(win)
+    notify = Notify(win)
     notify.orient = elementary.ELM_NOTIFY_ORIENT_BOTTOM
     notify.timeout = 3.0
 
-    player = elementary.Player(win)
+    player = Player(win)
     player.content = video
     notify.content = player
     player.show()
 
-    tb = elementary.Table(win)
+    tb = Table(win)
     tb.size_hint_weight_set(evas.EVAS_HINT_EXPAND, evas.EVAS_HINT_EXPAND)
     win.resize_object_add(tb)
 
-    bt = elementary.FileselectorButton(win)
+    bt = FileselectorButton(win)
     bt.text = "Select Video"
     bt.callback_file_chosen_add(my_bt_open, video)
     bt.size_hint_weight_set(evas.EVAS_HINT_EXPAND, evas.EVAS_HINT_EXPAND)

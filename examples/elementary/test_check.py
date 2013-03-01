@@ -1,9 +1,13 @@
 #!/usr/bin/env python
 # encoding: utf-8
 
-from efl import elementary
 from efl import evas
-
+from efl import elementary
+from efl.elementary.window import Window
+from efl.elementary.background import Background
+from efl.elementary.box import Box
+from efl.elementary.icon import Icon
+from efl.elementary.check import Check
 
 def ck_1(obj):
     print(("test check 1 state:", obj.state))
@@ -21,26 +25,26 @@ def ck_4(obj):
     print(("test check 4 state:", obj.state))
 
 def check_clicked(obj):
-    win = elementary.Window("check", elementary.ELM_WIN_BASIC)
+    win = Window("check", elementary.ELM_WIN_BASIC)
     win.title_set("Check test")
     win.autodel_set(True)
     if obj is None:
         win.callback_delete_request_add(lambda o: elementary.exit())
 
-    bg = elementary.Background(win)
+    bg = Background(win)
     win.resize_object_add(bg)
     bg.size_hint_weight_set(evas.EVAS_HINT_EXPAND, evas.EVAS_HINT_EXPAND)
     bg.show()
 
-    bx = elementary.Box(win)
+    bx = Box(win)
     bx.size_hint_weight_set(evas.EVAS_HINT_EXPAND, evas.EVAS_HINT_EXPAND)
     win.resize_object_add(bx)
     bx.show()
 
-    ic = elementary.Icon(win)
+    ic = Icon(win)
     ic.file_set('images/logo_small.png')
     ic.size_hint_aspect_set(evas.EVAS_ASPECT_CONTROL_VERTICAL, 1, 1)
-    ck = elementary.Check(win)
+    ck = Check(win)
     ck.size_hint_weight_set(evas.EVAS_HINT_EXPAND, evas.EVAS_HINT_EXPAND)
     ck.size_hint_align_set(evas.EVAS_HINT_FILL, 0.5)
     ck.text_set("Icon sized to check")
@@ -51,10 +55,10 @@ def check_clicked(obj):
     ck.show()
     ic.show()
 
-    ic = elementary.Icon(win)
+    ic = Icon(win)
     ic.file_set('images/logo_small.png')
     ic.resizable_set(0, 0)
-    ck = elementary.Check(win)
+    ck = Check(win)
     ck.text_set("Icon no scale")
     ck.content_set(ic)
     ck.callback_changed_add(ck_2)
@@ -62,16 +66,16 @@ def check_clicked(obj):
     ck.show()
     ic.show()
 
-    ck = elementary.Check(win)
+    ck = Check(win)
     ck.text_set("Label Only")
     ck.callback_changed_add(ck_3)
     bx.pack_end(ck)
     ck.show()
 
-    ic = elementary.Icon(win)
+    ic = Icon(win)
     ic.file_set('images/logo_small.png')
     ic.size_hint_aspect_set(evas.EVAS_ASPECT_CONTROL_VERTICAL, 1, 1)
-    ck = elementary.Check(win)
+    ck = Check(win)
     ck.size_hint_weight_set(evas.EVAS_HINT_EXPAND, evas.EVAS_HINT_EXPAND)
     ck.size_hint_align_set(evas.EVAS_HINT_FILL, 0.5)
     ck.text_set("Disabled check")
@@ -83,11 +87,11 @@ def check_clicked(obj):
     ck.show()
     ic.show()
 
-    ic = elementary.Icon(win)
+    ic = Icon(win)
     ic.file_set('images/logo_small.png')
     ic.size_hint_aspect_set(evas.EVAS_ASPECT_CONTROL_VERTICAL, 1, 1)
     ic.resizable_set(0, 0)
-    ck = elementary.Check(win)
+    ck = Check(win)
     ck.content_set(ic)
     ck.callback_changed_add(ck_4)
     bx.pack_end(ck)

@@ -1,12 +1,19 @@
 #!/usr/bin/env python
 # encoding: utf-8
 
-from efl import elementary
 from efl import evas
+from efl import elementary
+from efl.elementary.window import Window
+from efl.elementary.background import Background
+from efl.elementary.box import Box
+from efl.elementary.button import Button
+from efl.elementary.icon import Icon
+from efl.elementary.naviframe import Naviframe
+from efl.elementary.photo import Photo
 
 
 def content_new(parent, img):
-    photo = elementary.Photo(parent)
+    photo = Photo(parent)
     photo.file_set(img)
     photo.fill_inside_set(True)
     photo.style_set("shadow")
@@ -22,9 +29,9 @@ def title_visible(obj, item):
     item.title_visible = not item.title_visible
 
 def page2(bt, nf):
-    ic = elementary.Icon(nf)
+    ic = Icon(nf)
     ic.file_set("images/icon_right_arrow.png")
-    bt = elementary.Button(nf)
+    bt = Button(nf)
     bt.callback_clicked_add(page3, nf)
     bt.content_set(ic)
 
@@ -33,30 +40,30 @@ def page2(bt, nf):
     item.part_text_set("subtitle", "Here is sub-title part!")
 
 def page3(bt, nf):
-    bt = elementary.Button(nf)
+    bt = Button(nf)
     bt.callback_clicked_add(navi_pop, nf)
     bt.text_set("Prev")
 
-    bt2 = elementary.Button(nf)
+    bt2 = Button(nf)
     bt2.callback_clicked_add(page4, nf)
     bt2.text_set("Next")
 
     content = content_new(nf, "images/rock_01.jpg");
     item = nf.item_push("Page 3", bt, bt2, content, "basic")
-    ic = elementary.Icon(nf)
+    ic = Icon(nf)
     ic.file_set("images/logo_small.png")
     item.part_content_set("icon", ic)
 
 def page4(bt, nf):
-    ic = elementary.Icon(nf)
+    ic = Icon(nf)
     ic.file_set("images/icon_right_arrow.png")
-    bt = elementary.Button(nf)
+    bt = Button(nf)
     bt.callback_clicked_add(page5, nf)
     bt.content_set(ic)
 
     content = content_new(nf, "images/rock_02.jpg");
     item = nf.item_push("Page 4", None, bt, content, "basic")
-    ic = elementary.Icon(nf)
+    ic = Icon(nf)
     ic.file_set("images/logo_small.png")
     item.part_content_set("icon", ic)
     item.part_text_set("subtitle", "Title area visibility test")
@@ -64,11 +71,11 @@ def page4(bt, nf):
     content.callback_clicked_add(title_visible, item)
 
 def page5(bt, nf):
-    bt = elementary.Button(nf)
+    bt = Button(nf)
     bt.callback_clicked_add(navi_pop, nf)
     bt.text_set("Page 4")
 
-    bt2 = elementary.Button(nf)
+    bt2 = Button(nf)
     bt2.callback_clicked_add(page6, nf)
     bt2.text_set("Page 6")
 
@@ -77,11 +84,11 @@ def page5(bt, nf):
     item.part_text_set("subtitle", "This page is inserted without transition (TODO)")
 
 def page6(bt, nf):
-    bt = elementary.Button(nf)
+    bt = Button(nf)
     bt.callback_clicked_add(navi_pop, nf)
     bt.text_set("Page 5")
 
-    bt2 = elementary.Button(nf)
+    bt2 = Button(nf)
     bt2.callback_clicked_add(page7, nf)
     bt2.text_set("Page 7")
 
@@ -90,11 +97,11 @@ def page6(bt, nf):
     item.part_text_set("subtitle", "Overlap style!")
 
 def page7(bt, nf):
-    bt = elementary.Button(nf)
+    bt = Button(nf)
     bt.callback_clicked_add(navi_pop, nf)
     bt.text_set("Page 6")
 
-    bt2 = elementary.Button(nf)
+    bt2 = Button(nf)
     bt2.callback_clicked_add(navi_promote, nf, nf.data["page1"])
     bt2.text_set("Page 1")
 
@@ -104,25 +111,25 @@ def page7(bt, nf):
 
 
 def naviframe_clicked(obj):
-    win = elementary.Window("naviframe", elementary.ELM_WIN_BASIC)
+    win = Window("naviframe", elementary.ELM_WIN_BASIC)
     win.title_set("Naviframe test")
     win.autodel_set(True)
     if obj is None:
         win.callback_delete_request_add(lambda o: elementary.exit())
 
-    bg = elementary.Background(win)
+    bg = Background(win)
     bg.size_hint_weight = (evas.EVAS_HINT_EXPAND, evas.EVAS_HINT_EXPAND)
     bg.size_hint_align = (evas.EVAS_HINT_FILL, evas.EVAS_HINT_FILL)
     win.resize_object_add(bg)
     bg.show()
 
-    nf = elementary.Naviframe(win)
+    nf = Naviframe(win)
     nf.size_hint_weight = (evas.EVAS_HINT_EXPAND, evas.EVAS_HINT_EXPAND)
     nf.size_hint_align = (evas.EVAS_HINT_FILL, evas.EVAS_HINT_FILL)
     win.resize_object_add(nf)
     nf.show()
 
-    bt = elementary.Button(win)
+    bt = Button(win)
     bt.callback_clicked_add(page2, nf)
     bt.text_set("Next")
 

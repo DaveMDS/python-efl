@@ -17,444 +17,439 @@
 # along with python-elementary.  If not, see <http://www.gnu.org/licenses/>.
 #
 
-from efl.elementary.actionslider import Actionslider
-from efl.elementary.background import Background
-from efl.elementary.box import Box
-from efl.elementary.bubble import Bubble
-from efl.elementary.button import Button
-from efl.elementary.calendar_elm import Calendar, CalendarMark
-from efl.elementary.check import Check
-from efl.elementary.clock import Clock
-from efl.elementary.colorselector import Colorselector, ColorselectorPaletteItem
-from efl.elementary.configuration import Configuration, \
-    config_finger_size_get, config_finger_size_set, \
-    config_tooltip_delay_get, config_tooltip_delay_set, \
-    focus_highlight_animate_get, focus_highlight_animate_set, \
-    focus_highlight_enabled_get, focus_highlight_enabled_set, \
-    preferred_engine_get, preferred_engine_set, \
-    engine_get, engine_set, scale_get, scale_set, \
-    cursor_engine_only_get, cursor_engine_only_set
-from efl.elementary.conformant import Conformant
-from efl.elementary.ctxpopup import Ctxpopup, CtxpopupItem
-from efl.elementary.datetime_elm import Datetime
-from efl.elementary.dayselector import Dayselector
-from efl.elementary.diskselector import Diskselector, DiskselectorItem
-from efl.elementary.entry import Entry
-from efl.elementary.fileselector import Fileselector
-from efl.elementary.fileselector_button import FileselectorButton
-from efl.elementary.fileselector_entry import FileselectorEntry
-from efl.elementary.flip import Flip
-from efl.elementary.flipselector import FlipSelector, FlipSelectorItem
-from efl.elementary.frame import Frame
-from efl.elementary.general import init, shutdown, run, exit, coords_finger_size_adjust, policy_set, policy_get
-from efl.elementary.gengrid import Gengrid, GengridItem, GengridItemClass
-from efl.elementary.genlist import Genlist, GenlistItem, GenlistItemClass
-from efl.elementary.gesture_layer import GestureLayer
-from efl.elementary.grid import Grid
-from efl.elementary.hover import Hover
-from efl.elementary.hoversel import Hoversel, HoverselItem
-from efl.elementary.icon import Icon
-from efl.elementary.image import Image
-from efl.elementary.index import Index, IndexItem
-from efl.elementary.innerwindow import InnerWindow
-from efl.elementary.label import Label
-from efl.elementary.layout import Layout
-from efl.elementary.layout_class import LayoutClass
-from efl.elementary.list import List, ListItem
-from efl.elementary.map import Map, MapName, MapOverlay, MapOverlayBubble, MapOverlayCircle, MapOverlayClass, MapOverlayLine, MapOverlayPolygon, MapOverlayRoute, MapOverlayScale
-from efl.elementary.mapbuf import Mapbuf
-from efl.elementary.menu import Menu, MenuItem, MenuSeparatorItem
-from efl.elementary.multibuttonentry import MultiButtonEntry, MultiButtonEntryItem
-from efl.elementary.naviframe import Naviframe, NaviframeItem
-from efl.elementary.need import *
-from efl.elementary.notify import Notify
-from efl.elementary.object import Object
-from efl.elementary.object_item import ObjectItem
-from efl.elementary.panel import Panel
-from efl.elementary.panes import Panes
-from efl.elementary.photo import Photo
-from efl.elementary.photocam import Photocam
-from efl.elementary.plug import Plug
-from efl.elementary.popup import Popup, PopupItem
-from efl.elementary.progressbar import Progressbar
-from efl.elementary.radio import Radio
-from efl.elementary.scroller import Scroller
-from efl.elementary.segment_control import SegmentControl, SegmentControlItem
-from efl.elementary.separator import Separator
-from efl.elementary.slider import Slider
-from efl.elementary.slideshow import Slideshow, SlideshowItem, SlideshowItemClass
-from efl.elementary.spinner import Spinner
-from efl.elementary.table import Table
-from efl.elementary.theme import Theme, theme_overlay_add, theme_extension_add
-from efl.elementary.thumb import Thumb
-from efl.elementary.toolbar import Toolbar, ToolbarItem
-from efl.elementary.transit import Transit
-from efl.elementary.video import Video, Player
-from efl.elementary.web import Web
-from efl.elementary.window import Window, StandardWindow
-
-from efl.elementary.actionslider import \
-    ELM_ACTIONSLIDER_NONE, \
-    ELM_ACTIONSLIDER_LEFT, \
-    ELM_ACTIONSLIDER_CENTER, \
-    ELM_ACTIONSLIDER_RIGHT, \
-    ELM_ACTIONSLIDER_ALL
-
-from efl.elementary.background import \
-    ELM_BG_OPTION_CENTER, \
-    ELM_BG_OPTION_SCALE, \
-    ELM_BG_OPTION_STRETCH, \
-    ELM_BG_OPTION_TILE, \
-    ELM_BG_OPTION_LAST
-
-from efl.elementary.box import \
-    ELM_BOX_LAYOUT_HORIZONTAL, \
-    ELM_BOX_LAYOUT_VERTICAL, \
-    ELM_BOX_LAYOUT_HOMOGENEOUS_VERTICAL, \
-    ELM_BOX_LAYOUT_HOMOGENEOUS_HORIZONTAL, \
-    ELM_BOX_LAYOUT_HOMOGENEOUS_MAX_SIZE_HORIZONTAL, \
-    ELM_BOX_LAYOUT_HOMOGENEOUS_MAX_SIZE_VERTICAL, \
-    ELM_BOX_LAYOUT_FLOW_HORIZONTAL, \
-    ELM_BOX_LAYOUT_FLOW_VERTICAL, \
-    ELM_BOX_LAYOUT_STACK
-
-from efl.elementary.bubble import \
-    ELM_BUBBLE_POS_TOP_LEFT, \
-    ELM_BUBBLE_POS_TOP_RIGHT, \
-    ELM_BUBBLE_POS_BOTTOM_LEFT, \
-    ELM_BUBBLE_POS_BOTTOM_RIGHT
-
-from efl.elementary.calendar_elm import \
-    ELM_CALENDAR_UNIQUE, \
-    ELM_CALENDAR_DAILY, \
-    ELM_CALENDAR_WEEKLY, \
-    ELM_CALENDAR_MONTHLY, \
-    ELM_CALENDAR_ANNUALLY, \
-    ELM_CALENDAR_LAST_DAY_OF_MONTH, \
-    ELM_CALENDAR_SELECT_MODE_DEFAULT, \
-    ELM_CALENDAR_SELECT_MODE_ALWAYS, \
-    ELM_CALENDAR_SELECT_MODE_NONE, \
-    ELM_CALENDAR_SELECT_MODE_ONDEMAND
-
-from efl.elementary.clock import \
-    ELM_CLOCK_EDIT_DEFAULT, \
-    ELM_CLOCK_EDIT_HOUR_DECIMAL, \
-    ELM_CLOCK_EDIT_HOUR_UNIT, \
-    ELM_CLOCK_EDIT_MIN_DECIMAL, \
-    ELM_CLOCK_EDIT_MIN_UNIT, \
-    ELM_CLOCK_EDIT_SEC_DECIMAL, \
-    ELM_CLOCK_EDIT_SEC_UNIT, \
-    ELM_CLOCK_EDIT_ALL
-
-from efl.elementary.entry import \
-    ELM_CNP_MODE_MARKUP, \
-    ELM_CNP_MODE_NO_IMAGE, \
-    ELM_CNP_MODE_PLAINTEXT
-
-from efl.elementary.colorselector import \
-    ELM_COLORSELECTOR_PALETTE, \
-    ELM_COLORSELECTOR_COMPONENTS, \
-    ELM_COLORSELECTOR_BOTH
-
-from efl.elementary.ctxpopup import \
-    ELM_CTXPOPUP_DIRECTION_DOWN, \
-    ELM_CTXPOPUP_DIRECTION_RIGHT, \
-    ELM_CTXPOPUP_DIRECTION_LEFT, \
-    ELM_CTXPOPUP_DIRECTION_UP, \
-    ELM_CTXPOPUP_DIRECTION_UNKNOWN
-
-from efl.elementary.datetime_elm import \
-    ELM_DATETIME_YEAR, \
-    ELM_DATETIME_MONTH, \
-    ELM_DATETIME_DATE, \
-    ELM_DATETIME_HOUR, \
-    ELM_DATETIME_MINUTE, \
-    ELM_DATETIME_AMPM
-
-from efl.elementary.calendar_elm import \
-    ELM_DAY_SUNDAY, \
-    ELM_DAY_MONDAY, \
-    ELM_DAY_TUESDAY, \
-    ELM_DAY_WEDNESDAY, \
-    ELM_DAY_THURSDAY, \
-    ELM_DAY_FRIDAY, \
-    ELM_DAY_SATURDAY, \
-    ELM_DAY_LAST
-
-from efl.elementary.dayselector import \
-    ELM_DAYSELECTOR_SUN, \
-    ELM_DAYSELECTOR_MON, \
-    ELM_DAYSELECTOR_TUE, \
-    ELM_DAYSELECTOR_WED, \
-    ELM_DAYSELECTOR_THU, \
-    ELM_DAYSELECTOR_FRI, \
-    ELM_DAYSELECTOR_SAT
-
-from efl.elementary.fileselector import \
-    ELM_FILESELECTOR_LIST, \
-    ELM_FILESELECTOR_GRID
-
-from efl.elementary.flip import \
-    ELM_FLIP_DIRECTION_UP, \
-    ELM_FLIP_DIRECTION_DOWN, \
-    ELM_FLIP_DIRECTION_LEFT, \
-    ELM_FLIP_DIRECTION_RIGHT, \
-    ELM_FLIP_INTERACTION_NONE, \
-    ELM_FLIP_INTERACTION_ROTATE, \
-    ELM_FLIP_INTERACTION_CUBE, \
-    ELM_FLIP_INTERACTION_PAGE, \
-    ELM_FLIP_ROTATE_Y_CENTER_AXIS, \
-    ELM_FLIP_ROTATE_X_CENTER_AXIS, \
-    ELM_FLIP_ROTATE_XZ_CENTER_AXIS, \
-    ELM_FLIP_ROTATE_YZ_CENTER_AXIS, \
-    ELM_FLIP_CUBE_LEFT, \
-    ELM_FLIP_CUBE_RIGHT, \
-    ELM_FLIP_CUBE_UP, \
-    ELM_FLIP_CUBE_DOWN, \
-    ELM_FLIP_PAGE_LEFT, \
-    ELM_FLIP_PAGE_RIGHT, \
-    ELM_FLIP_PAGE_UP, \
-    ELM_FLIP_PAGE_DOWN
-
-from efl.elementary.object import \
-    ELM_FOCUS_PREVIOUS, \
-    ELM_FOCUS_NEXT
-
-from efl.elementary.genlist import \
-    ELM_GENLIST_ITEM_NONE, \
-    ELM_GENLIST_ITEM_TREE, \
-    ELM_GENLIST_ITEM_GROUP, \
-    ELM_GENLIST_ITEM_MAX, \
-    ELM_GENLIST_ITEM_FIELD_ALL, \
-    ELM_GENLIST_ITEM_FIELD_TEXT, \
-    ELM_GENLIST_ITEM_FIELD_CONTENT, \
-    ELM_GENLIST_ITEM_FIELD_STATE
-
-from efl.elementary.gesture_layer import \
-    ELM_GESTURE_STATE_UNDEFINED, \
-    ELM_GESTURE_STATE_START, \
-    ELM_GESTURE_STATE_MOVE, \
-    ELM_GESTURE_STATE_END, \
-    ELM_GESTURE_STATE_ABORT, \
-    ELM_GESTURE_FIRST, \
-    ELM_GESTURE_N_TAPS, \
-    ELM_GESTURE_N_LONG_TAPS, \
-    ELM_GESTURE_N_DOUBLE_TAPS, \
-    ELM_GESTURE_N_TRIPLE_TAPS, \
-    ELM_GESTURE_MOMENTUM, \
-    ELM_GESTURE_N_LINES, \
-    ELM_GESTURE_N_FLICKS, \
-    ELM_GESTURE_ZOOM, \
-    ELM_GESTURE_ROTATE
-
-from efl.elementary.hover import \
-    ELM_HOVER_AXIS_NONE, \
-    ELM_HOVER_AXIS_HORIZONTAL, \
-    ELM_HOVER_AXIS_VERTICAL, \
-    ELM_HOVER_AXIS_BOTH
-
-from efl.elementary.icon import \
-    ELM_ICON_NONE, \
-    ELM_ICON_FILE, \
-    ELM_ICON_STANDARD
-
-#~ from object import \
-    #~ ELM_ILLUME_COMMAND_FOCUS_BACK, \
-    #~ ELM_ILLUME_COMMAND_FOCUS_FORWARD, \
-    #~ ELM_ILLUME_COMMAND_FOCUS_HOME, \
-    #~ ELM_ILLUME_COMMAND_CLOSE
-
-from efl.elementary.image import \
-    ELM_IMAGE_ORIENT_NONE, \
-    ELM_IMAGE_ROTATE_90, \
-    ELM_IMAGE_ROTATE_180, \
-    ELM_IMAGE_ROTATE_270, \
-    ELM_IMAGE_FLIP_HORIZONTAL, \
-    ELM_IMAGE_FLIP_VERTICAL, \
-    ELM_IMAGE_FLIP_TRANSPOSE, \
-    ELM_IMAGE_FLIP_TRANSVERSE
-
-from efl.elementary.entry import \
-    ELM_INPUT_PANEL_LANG_AUTOMATIC, \
-    ELM_INPUT_PANEL_LANG_ALPHABET, \
-    ELM_INPUT_PANEL_LAYOUT_NORMAL, \
-    ELM_INPUT_PANEL_LAYOUT_NUMBER, \
-    ELM_INPUT_PANEL_LAYOUT_EMAIL, \
-    ELM_INPUT_PANEL_LAYOUT_URL, \
-    ELM_INPUT_PANEL_LAYOUT_PHONENUMBER, \
-    ELM_INPUT_PANEL_LAYOUT_IP, \
-    ELM_INPUT_PANEL_LAYOUT_MONTH, \
-    ELM_INPUT_PANEL_LAYOUT_NUMBERONLY, \
-    ELM_INPUT_PANEL_LAYOUT_INVALID, \
-    ELM_INPUT_PANEL_LAYOUT_HEX, \
-    ELM_INPUT_PANEL_LAYOUT_TERMINAL, \
-    ELM_INPUT_PANEL_LAYOUT_PASSWORD, \
-    ELM_INPUT_PANEL_RETURN_KEY_TYPE_DEFAULT, \
-    ELM_INPUT_PANEL_RETURN_KEY_TYPE_DONE, \
-    ELM_INPUT_PANEL_RETURN_KEY_TYPE_GO, \
-    ELM_INPUT_PANEL_RETURN_KEY_TYPE_JOIN, \
-    ELM_INPUT_PANEL_RETURN_KEY_TYPE_LOGIN, \
-    ELM_INPUT_PANEL_RETURN_KEY_TYPE_NEXT, \
-    ELM_INPUT_PANEL_RETURN_KEY_TYPE_SEARCH, \
-    ELM_INPUT_PANEL_RETURN_KEY_TYPE_SEND
-
-from efl.elementary.label import \
-    ELM_LABEL_SLIDE_MODE_NONE, \
-    ELM_LABEL_SLIDE_MODE_AUTO, \
-    ELM_LABEL_SLIDE_MODE_ALWAYS
-
-from efl.elementary.list import \
-    ELM_LIST_COMPRESS, \
-    ELM_LIST_SCROLL, \
-    ELM_LIST_LIMIT
-
-from efl.elementary.map import \
-    ELM_MAP_OVERLAY_TYPE_NONE, \
-    ELM_MAP_OVERLAY_TYPE_DEFAULT, \
-    ELM_MAP_OVERLAY_TYPE_CLASS, \
-    ELM_MAP_OVERLAY_TYPE_GROUP, \
-    ELM_MAP_OVERLAY_TYPE_BUBBLE, \
-    ELM_MAP_OVERLAY_TYPE_ROUTE, \
-    ELM_MAP_OVERLAY_TYPE_LINE, \
-    ELM_MAP_OVERLAY_TYPE_POLYGON, \
-    ELM_MAP_OVERLAY_TYPE_CIRCLE, \
-    ELM_MAP_OVERLAY_TYPE_SCALE, \
-    ELM_MAP_ROUTE_METHOD_FASTEST, \
-    ELM_MAP_ROUTE_METHOD_SHORTEST, \
-    ELM_MAP_ROUTE_METHOD_LAST, \
-    ELM_MAP_ROUTE_TYPE_MOTOCAR, \
-    ELM_MAP_ROUTE_TYPE_BICYCLE, \
-    ELM_MAP_ROUTE_TYPE_FOOT, \
-    ELM_MAP_ROUTE_TYPE_LAST, \
-    ELM_MAP_SOURCE_TYPE_TILE, \
-    ELM_MAP_SOURCE_TYPE_ROUTE, \
-    ELM_MAP_SOURCE_TYPE_NAME, \
-    ELM_MAP_SOURCE_TYPE_LAST, \
-    ELM_MAP_ZOOM_MODE_MANUAL, \
-    ELM_MAP_ZOOM_MODE_AUTO_FIT, \
-    ELM_MAP_ZOOM_MODE_AUTO_FILL, \
-    ELM_MAP_ZOOM_MODE_LAST
-
-from efl.elementary.notify import \
-    ELM_NOTIFY_ORIENT_TOP, \
-    ELM_NOTIFY_ORIENT_CENTER, \
-    ELM_NOTIFY_ORIENT_BOTTOM, \
-    ELM_NOTIFY_ORIENT_LEFT, \
-    ELM_NOTIFY_ORIENT_RIGHT, \
-    ELM_NOTIFY_ORIENT_TOP_LEFT, \
-    ELM_NOTIFY_ORIENT_TOP_RIGHT, \
-    ELM_NOTIFY_ORIENT_BOTTOM_LEFT, \
-    ELM_NOTIFY_ORIENT_BOTTOM_RIGHT
-
-from efl.elementary.list import \
-    ELM_OBJECT_SELECT_MODE_DEFAULT, \
-    ELM_OBJECT_SELECT_MODE_ALWAYS, \
-    ELM_OBJECT_SELECT_MODE_NONE, \
-    ELM_OBJECT_SELECT_MODE_DISPLAY_ONLY, \
-    ELM_OBJECT_SELECT_MODE_MAX
-
-from efl.elementary.panel import \
-    ELM_PANEL_ORIENT_TOP, \
-    ELM_PANEL_ORIENT_BOTTOM, \
-    ELM_PANEL_ORIENT_LEFT, \
-    ELM_PANEL_ORIENT_RIGHT
-
-from efl.elementary.photocam import \
-    ELM_PHOTOCAM_ZOOM_MODE_MANUAL, \
-    ELM_PHOTOCAM_ZOOM_MODE_AUTO_FIT, \
-    ELM_PHOTOCAM_ZOOM_MODE_AUTO_FILL, \
-    ELM_PHOTOCAM_ZOOM_MODE_AUTO_FIT_IN
+from efl.elementary.configuration import \
+    Configuration, \
+    config_finger_size_get, \
+    config_finger_size_set, \
+    config_tooltip_delay_get, \
+    config_tooltip_delay_set, \
+    focus_highlight_animate_get, \
+    focus_highlight_animate_set, \
+    focus_highlight_enabled_get, \
+    focus_highlight_enabled_set, \
+    preferred_engine_get, \
+    preferred_engine_set, \
+    engine_get, \
+    engine_set, \
+    scale_get, \
+    scale_set, \
+    cursor_engine_only_get, \
+    cursor_engine_only_set
 
 from efl.elementary.general import \
-    ELM_POLICY_QUIT, \
-    ELM_POLICY_QUIT_NONE, \
-    ELM_POLICY_QUIT_LAST_WINDOW_CLOSED
+    init, \
+    shutdown,\
+    run, \
+    exit, \
+    coords_finger_size_adjust, \
+    policy_set, \
+    policy_get
 
-from efl.elementary.popup import \
-    ELM_POPUP_ORIENT_TOP, \
-    ELM_POPUP_ORIENT_CENTER, \
-    ELM_POPUP_ORIENT_BOTTOM, \
-    ELM_POPUP_ORIENT_LEFT, \
-    ELM_POPUP_ORIENT_RIGHT, \
-    ELM_POPUP_ORIENT_TOP_LEFT, \
-    ELM_POPUP_ORIENT_TOP_RIGHT, \
-    ELM_POPUP_ORIENT_BOTTOM_LEFT, \
-    ELM_POPUP_ORIENT_BOTTOM_RIGHT
+from efl.elementary.theme import \
+    Theme, \
+    theme_overlay_add, \
+    theme_extension_add
 
-from efl.elementary.scroller import \
-    ELM_SCROLLER_POLICY_AUTO, \
-    ELM_SCROLLER_POLICY_ON, \
-    ELM_SCROLLER_POLICY_OFF
+from efl.elementary.need import \
+    need_efreet, \
+    need_systray, \
+    need_sys_notify, \
+    need_e_dbus, \
+    need_edbus, \
+    need_elocation, \
+    need_ethumb, \
+    need_web
 
-from efl.elementary.entry import \
-    ELM_TEXT_FORMAT_PLAIN_UTF8, \
-    ELM_TEXT_FORMAT_MARKUP_UTF8
+    
+# from efl.elementary.object import Object
+# from efl.elementary.object_item import ObjectItem
+# from efl.elementary.layout import Layout
+# from efl.elementary.layout_class import LayoutClass
 
-from efl.elementary.toolbar import \
-    ELM_TOOLBAR_SHRINK_NONE, \
-    ELM_TOOLBAR_SHRINK_HIDE, \
-    ELM_TOOLBAR_SHRINK_SCROLL, \
-    ELM_TOOLBAR_SHRINK_MENU, \
-    ELM_TOOLBAR_SHRINK_EXPAND, \
-    ELM_TOOLBAR_SHRINK_LAST
 
-from efl.elementary.web import \
-    ELM_WEB_WINDOW_FEATURE_TOOLBAR, \
-    ELM_WEB_WINDOW_FEATURE_STATUSBAR, \
-    ELM_WEB_WINDOW_FEATURE_SCROLLBARS, \
-    ELM_WEB_WINDOW_FEATURE_MENUBAR, \
-    ELM_WEB_WINDOW_FEATURE_LOCATIONBAR, \
-    ELM_WEB_WINDOW_FEATURE_FULLSCREEN, \
-    ELM_WEB_ZOOM_MODE_MANUAL, \
-    ELM_WEB_ZOOM_MODE_AUTO_FIT, \
-    ELM_WEB_ZOOM_MODE_AUTO_FILL
+# from efl.elementary.actionslider
+ELM_ACTIONSLIDER_NONE = 0
+ELM_ACTIONSLIDER_LEFT = 1 << 0
+ELM_ACTIONSLIDER_CENTER = 1 << 1
+ELM_ACTIONSLIDER_RIGHT = 1 << 2
+ELM_ACTIONSLIDER_ALL = (1 << 3) - 1
 
-from efl.elementary.window import \
-    ELM_WIN_BASIC, \
-    ELM_WIN_DIALOG_BASIC, \
-    ELM_WIN_DESKTOP, \
-    ELM_WIN_DOCK, \
-    ELM_WIN_TOOLBAR, \
-    ELM_WIN_MENU, \
-    ELM_WIN_UTILITY, \
-    ELM_WIN_SPLASH, \
-    ELM_WIN_DROPDOWN_MENU, \
-    ELM_WIN_POPUP_MENU, \
-    ELM_WIN_TOOLTIP, \
-    ELM_WIN_NOTIFICATION, \
-    ELM_WIN_COMBO, \
-    ELM_WIN_DND, \
-    ELM_WIN_INLINED_IMAGE, \
-    ELM_WIN_SOCKET_IMAGE, \
-    ELM_WIN_INDICATOR_UNKNOWN, \
-    ELM_WIN_INDICATOR_HIDE, \
-    ELM_WIN_INDICATOR_SHOW, \
-    ELM_WIN_INDICATOR_OPACITY_UNKNOWN, \
-    ELM_WIN_INDICATOR_OPAQUE, \
-    ELM_WIN_INDICATOR_TRANSLUCENT, \
-    ELM_WIN_INDICATOR_TRANSPARENT, \
-    ELM_WIN_KEYBOARD_UNKNOWN, \
-    ELM_WIN_KEYBOARD_OFF, \
-    ELM_WIN_KEYBOARD_ON, \
-    ELM_WIN_KEYBOARD_ALPHA, \
-    ELM_WIN_KEYBOARD_NUMERIC, \
-    ELM_WIN_KEYBOARD_PIN, \
-    ELM_WIN_KEYBOARD_PHONE_NUMBER, \
-    ELM_WIN_KEYBOARD_HEX, \
-    ELM_WIN_KEYBOARD_TERMINAL, \
-    ELM_WIN_KEYBOARD_PASSWORD, \
-    ELM_WIN_KEYBOARD_IP, \
-    ELM_WIN_KEYBOARD_HOST, \
-    ELM_WIN_KEYBOARD_FILE, \
-    ELM_WIN_KEYBOARD_URL, \
-    ELM_WIN_KEYBOARD_KEYPAD, \
-    ELM_WIN_KEYBOARD_J2ME
+# from efl.elementary.background
+ELM_BG_OPTION_CENTER = 0
+ELM_BG_OPTION_SCALE = 1
+ELM_BG_OPTION_STRETCH = 2
+ELM_BG_OPTION_TILE = 3
+ELM_BG_OPTION_LAST = 4
 
-from efl.elementary.label import \
-    ELM_WRAP_NONE, \
-    ELM_WRAP_CHAR, \
-    ELM_WRAP_WORD, \
-    ELM_WRAP_MIXED
+# from efl.elementary.box
+ELM_BOX_LAYOUT_HORIZONTAL = 0
+ELM_BOX_LAYOUT_VERTICAL = 1
+ELM_BOX_LAYOUT_HOMOGENEOUS_VERTICAL = 2
+ELM_BOX_LAYOUT_HOMOGENEOUS_HORIZONTAL = 3
+ELM_BOX_LAYOUT_HOMOGENEOUS_MAX_SIZE_HORIZONTAL = 4
+ELM_BOX_LAYOUT_HOMOGENEOUS_MAX_SIZE_VERTICAL = 5
+ELM_BOX_LAYOUT_FLOW_HORIZONTAL = 6
+ELM_BOX_LAYOUT_FLOW_VERTICAL = 7
+ELM_BOX_LAYOUT_STACK = 8
+
+# from efl.elementary.bubble
+ELM_BUBBLE_POS_TOP_LEFT = 0
+ELM_BUBBLE_POS_TOP_RIGHT = 1
+ELM_BUBBLE_POS_BOTTOM_LEFT = 2
+ELM_BUBBLE_POS_BOTTOM_RIGHT = 3
+
+# from efl.elementary.calendar_elm
+ELM_CALENDAR_UNIQUE = 0
+ELM_CALENDAR_DAILY = 1
+ELM_CALENDAR_WEEKLY = 2
+ELM_CALENDAR_MONTHLY = 3
+ELM_CALENDAR_ANNUALLY = 4
+ELM_CALENDAR_LAST_DAY_OF_MONTH = 5
+
+ELM_CALENDAR_SELECT_MODE_DEFAULT = 0
+ELM_CALENDAR_SELECT_MODE_ALWAYS = 1
+ELM_CALENDAR_SELECT_MODE_NONE = 2
+ELM_CALENDAR_SELECT_MODE_ONDEMAND = 3
+
+# from efl.elementary.clock
+ELM_CLOCK_EDIT_DEFAULT = 0
+ELM_CLOCK_EDIT_HOUR_DECIMAL = 1 << 0
+ELM_CLOCK_EDIT_HOUR_UNIT = 1 << 1
+ELM_CLOCK_EDIT_MIN_DECIMAL = 1 << 2
+ELM_CLOCK_EDIT_MIN_UNIT = 1 << 3
+ELM_CLOCK_EDIT_SEC_DECIMAL = 1 << 4
+ELM_CLOCK_EDIT_SEC_UNIT = 1 << 5
+ELM_CLOCK_EDIT_ALL = (1 << 6) - 1
+
+# from efl.elementary.entry
+ELM_CNP_MODE_MARKUP = 0
+ELM_CNP_MODE_NO_IMAGE = 1
+ELM_CNP_MODE_PLAINTEXT = 2
+
+# from efl.elementary.colorselector
+ELM_COLORSELECTOR_PALETTE = 0
+ELM_COLORSELECTOR_COMPONENTS = 1
+ELM_COLORSELECTOR_BOTH = 2
+
+# from efl.elementary.ctxpopup
+ELM_CTXPOPUP_DIRECTION_DOWN = 0
+ELM_CTXPOPUP_DIRECTION_RIGHT = 1
+ELM_CTXPOPUP_DIRECTION_LEFT = 2
+ELM_CTXPOPUP_DIRECTION_UP = 3
+ELM_CTXPOPUP_DIRECTION_UNKNOWN = 4
+
+# from efl.elementary.datetime_elm
+ELM_DATETIME_YEAR    = 0
+ELM_DATETIME_MONTH   = 1
+ELM_DATETIME_DATE    = 2
+ELM_DATETIME_HOUR    = 3
+ELM_DATETIME_MINUTE  = 4
+ELM_DATETIME_AMPM    = 5
+
+# from efl.elementary.calendar_elm
+ELM_DAY_SUNDAY = 0
+ELM_DAY_MONDAY = 1
+ELM_DAY_TUESDAY = 2
+ELM_DAY_WEDNESDAY = 3
+ELM_DAY_THURSDAY = 4
+ELM_DAY_FRIDAY = 5
+ELM_DAY_SATURDAY = 6
+ELM_DAY_LAST = 7
+
+# from efl.elementary.dayselector
+ELM_DAYSELECTOR_SUN = 0
+ELM_DAYSELECTOR_MON = 1
+ELM_DAYSELECTOR_TUE = 2
+ELM_DAYSELECTOR_WED = 3
+ELM_DAYSELECTOR_THU = 4
+ELM_DAYSELECTOR_FRI = 5
+ELM_DAYSELECTOR_SAT = 6
+
+# from efl.elementary.fileselector
+ELM_FILESELECTOR_LIST = 0
+ELM_FILESELECTOR_GRID = 1
+
+# from efl.elementary.flip
+ELM_FLIP_DIRECTION_UP = 0
+ELM_FLIP_DIRECTION_DOWN = 1
+ELM_FLIP_DIRECTION_LEFT = 2
+ELM_FLIP_DIRECTION_RIGHT = 3
+
+ELM_FLIP_INTERACTION_NONE = 0
+ELM_FLIP_INTERACTION_ROTATE = 1
+ELM_FLIP_INTERACTION_CUBE = 2
+ELM_FLIP_INTERACTION_PAGE = 3
+    
+ELM_FLIP_ROTATE_Y_CENTER_AXIS = 0
+ELM_FLIP_ROTATE_X_CENTER_AXIS = 1
+ELM_FLIP_ROTATE_XZ_CENTER_AXIS = 2
+ELM_FLIP_ROTATE_YZ_CENTER_AXIS = 3
+
+ELM_FLIP_CUBE_LEFT = 4
+ELM_FLIP_CUBE_RIGHT = 5
+ELM_FLIP_CUBE_UP = 6
+ELM_FLIP_CUBE_DOWN = 7
+
+ELM_FLIP_PAGE_LEFT = 8
+ELM_FLIP_PAGE_RIGHT = 9
+ELM_FLIP_PAGE_UP = 10
+ELM_FLIP_PAGE_DOWN = 11
+
+# from efl.elementary.object
+ELM_FOCUS_PREVIOUS = 0
+ELM_FOCUS_NEXT = 1
+
+# from efl.elementary.genlist
+ELM_GENLIST_ITEM_NONE = 0
+ELM_GENLIST_ITEM_TREE = 1
+ELM_GENLIST_ITEM_GROUP = 2
+ELM_GENLIST_ITEM_MAX = 3
+
+ELM_GENLIST_ITEM_FIELD_ALL = 0
+ELM_GENLIST_ITEM_FIELD_TEXT = 1
+ELM_GENLIST_ITEM_FIELD_CONTENT = 2
+ELM_GENLIST_ITEM_FIELD_STATE = 3
+
+# from efl.elementary.gesture_layer
+ELM_GESTURE_STATE_UNDEFINED = -1
+ELM_GESTURE_STATE_START = 0
+ELM_GESTURE_STATE_MOVE = 1
+ELM_GESTURE_STATE_END = 2
+ELM_GESTURE_STATE_ABORT = 3
+
+ELM_GESTURE_FIRST = 0
+ELM_GESTURE_N_TAPS = 1
+ELM_GESTURE_N_LONG_TAPS = 2
+ELM_GESTURE_N_DOUBLE_TAPS = 3
+ELM_GESTURE_N_TRIPLE_TAPS = 4
+ELM_GESTURE_MOMENTUM = 5
+ELM_GESTURE_N_LINES = 6
+ELM_GESTURE_N_FLICKS = 7
+ELM_GESTURE_ZOOM = 8
+ELM_GESTURE_ROTATE = 9
+
+# from efl.elementary.hover
+ELM_HOVER_AXIS_NONE = 0
+ELM_HOVER_AXIS_HORIZONTAL = 1
+ELM_HOVER_AXIS_VERTICAL = 2
+ELM_HOVER_AXIS_BOTH = 3
+
+# from efl.elementary.icon
+ELM_ICON_NONE = 0
+ELM_ICON_FILE = 1
+ELM_ICON_STANDARD = 2
+
+# from object
+# ELM_ILLUME_COMMAND_FOCUS_BACK = 0
+# ELM_ILLUME_COMMAND_FOCUS_FORWARD = 1
+# ELM_ILLUME_COMMAND_FOCUS_HOME = 2
+# ELM_ILLUME_COMMAND_CLOSE = 3
+
+# from efl.elementary.image
+ELM_IMAGE_ORIENT_NONE = 0
+ELM_IMAGE_ORIENT_0 = 0
+ELM_IMAGE_ROTATE_90 = 1
+ELM_IMAGE_ROTATE_180 = 2
+ELM_IMAGE_ROTATE_270 = 3
+ELM_IMAGE_FLIP_HORIZONTAL = 4
+ELM_IMAGE_FLIP_VERTICAL = 5
+ELM_IMAGE_FLIP_TRANSPOSE = 6
+ELM_IMAGE_FLIP_TRANSVERSE = 7
+
+# from efl.elementary.entry
+ELM_INPUT_PANEL_LANG_AUTOMATIC = 0
+ELM_INPUT_PANEL_LANG_ALPHABET = 1
+
+ELM_INPUT_PANEL_LAYOUT_NORMAL = 0
+ELM_INPUT_PANEL_LAYOUT_NUMBER = 1
+ELM_INPUT_PANEL_LAYOUT_EMAIL = 2
+ELM_INPUT_PANEL_LAYOUT_URL = 3
+ELM_INPUT_PANEL_LAYOUT_PHONENUMBER = 4
+ELM_INPUT_PANEL_LAYOUT_IP = 5
+ELM_INPUT_PANEL_LAYOUT_MONTH = 6
+ELM_INPUT_PANEL_LAYOUT_NUMBERONLY = 7
+ELM_INPUT_PANEL_LAYOUT_INVALID = 8
+ELM_INPUT_PANEL_LAYOUT_HEX = 9
+ELM_INPUT_PANEL_LAYOUT_TERMINAL = 10
+ELM_INPUT_PANEL_LAYOUT_PASSWORD = 11
+
+ELM_INPUT_PANEL_RETURN_KEY_TYPE_DEFAULT = 0
+ELM_INPUT_PANEL_RETURN_KEY_TYPE_DONE = 1
+ELM_INPUT_PANEL_RETURN_KEY_TYPE_GO = 2
+ELM_INPUT_PANEL_RETURN_KEY_TYPE_JOIN = 3
+ELM_INPUT_PANEL_RETURN_KEY_TYPE_LOGIN = 4
+ELM_INPUT_PANEL_RETURN_KEY_TYPE_NEXT = 5
+ELM_INPUT_PANEL_RETURN_KEY_TYPE_SEARCH = 6
+ELM_INPUT_PANEL_RETURN_KEY_TYPE_SEND = 7
+
+# from efl.elementary.label
+ELM_LABEL_SLIDE_MODE_NONE = 0
+ELM_LABEL_SLIDE_MODE_AUTO = 1
+ELM_LABEL_SLIDE_MODE_ALWAYS = 2
+
+# from efl.elementary.list
+ELM_LIST_COMPRESS = 0
+ELM_LIST_SCROLL = 1
+ELM_LIST_LIMIT = 2
+
+# from efl.elementary.map
+ELM_MAP_OVERLAY_TYPE_NONE = 0
+ELM_MAP_OVERLAY_TYPE_DEFAULT = 1
+ELM_MAP_OVERLAY_TYPE_CLASS = 2
+ELM_MAP_OVERLAY_TYPE_GROUP = 3
+ELM_MAP_OVERLAY_TYPE_BUBBLE = 4
+ELM_MAP_OVERLAY_TYPE_ROUTE = 5
+ELM_MAP_OVERLAY_TYPE_LINE = 6
+ELM_MAP_OVERLAY_TYPE_POLYGON = 7
+ELM_MAP_OVERLAY_TYPE_CIRCLE = 8
+ELM_MAP_OVERLAY_TYPE_SCALE = 9
+
+ELM_MAP_ROUTE_METHOD_FASTEST = 0
+ELM_MAP_ROUTE_METHOD_SHORTEST = 1
+ELM_MAP_ROUTE_METHOD_LAST = 2
+
+ELM_MAP_ROUTE_TYPE_MOTOCAR = 0
+ELM_MAP_ROUTE_TYPE_BICYCLE = 1
+ELM_MAP_ROUTE_TYPE_FOOT = 2
+ELM_MAP_ROUTE_TYPE_LAST = 3
+
+ELM_MAP_SOURCE_TYPE_TILE = 0
+ELM_MAP_SOURCE_TYPE_ROUTE = 1
+ELM_MAP_SOURCE_TYPE_NAME = 2
+ELM_MAP_SOURCE_TYPE_LAST = 3
+
+ELM_MAP_ZOOM_MODE_MANUAL = 0
+ELM_MAP_ZOOM_MODE_AUTO_FIT = 1
+ELM_MAP_ZOOM_MODE_AUTO_FILL = 2
+ELM_MAP_ZOOM_MODE_LAST = 3
+
+# from efl.elementary.notify
+ELM_NOTIFY_ORIENT_TOP = 0
+ELM_NOTIFY_ORIENT_CENTER = 1
+ELM_NOTIFY_ORIENT_BOTTOM = 2
+ELM_NOTIFY_ORIENT_LEFT = 3
+ELM_NOTIFY_ORIENT_RIGHT = 4
+ELM_NOTIFY_ORIENT_TOP_LEFT = 5
+ELM_NOTIFY_ORIENT_TOP_RIGHT = 6
+ELM_NOTIFY_ORIENT_BOTTOM_LEFT = 7
+ELM_NOTIFY_ORIENT_BOTTOM_RIGHT = 8
+
+# from efl.elementary.list
+ELM_OBJECT_SELECT_MODE_DEFAULT = 0
+ELM_OBJECT_SELECT_MODE_ALWAYS = 1
+ELM_OBJECT_SELECT_MODE_NONE = 2
+ELM_OBJECT_SELECT_MODE_DISPLAY_ONLY = 3
+ELM_OBJECT_SELECT_MODE_MAX = 4
+
+# from efl.elementary.panel
+ELM_PANEL_ORIENT_TOP = 0
+ELM_PANEL_ORIENT_BOTTOM = 1
+ELM_PANEL_ORIENT_LEFT = 2
+ELM_PANEL_ORIENT_RIGHT = 3
+
+# from efl.elementary.photocam
+ELM_PHOTOCAM_ZOOM_MODE_MANUAL = 0
+ELM_PHOTOCAM_ZOOM_MODE_AUTO_FIT = 1
+ELM_PHOTOCAM_ZOOM_MODE_AUTO_FILL = 2
+ELM_PHOTOCAM_ZOOM_MODE_AUTO_FIT_IN = 3
+
+# from efl.elementary.general
+ELM_POLICY_QUIT = 0
+ELM_POLICY_EXIT = 1
+ELM_POLICY_LAST = 2
+
+ELM_POLICY_QUIT_NONE = 0
+ELM_POLICY_QUIT_LAST_WINDOW_CLOSED = 1
+
+# from efl.elementary.popup
+ELM_POPUP_ORIENT_TOP = 0
+ELM_POPUP_ORIENT_CENTER = 1
+ELM_POPUP_ORIENT_BOTTOM = 2
+ELM_POPUP_ORIENT_LEFT = 3
+ELM_POPUP_ORIENT_RIGHT = 4
+ELM_POPUP_ORIENT_TOP_LEFT = 5
+ELM_POPUP_ORIENT_TOP_RIGHT = 6
+ELM_POPUP_ORIENT_BOTTOM_LEFT = 7
+ELM_POPUP_ORIENT_BOTTOM_RIGHT = 8
+
+# from efl.elementary.scroller
+ELM_SCROLLER_POLICY_AUTO = 0
+ELM_SCROLLER_POLICY_ON = 1
+ELM_SCROLLER_POLICY_OFF = 2
+
+# from efl.elementary.entry
+ELM_TEXT_FORMAT_PLAIN_UTF8 = 0
+ELM_TEXT_FORMAT_MARKUP_UTF8 = 1
+
+# from efl.elementary.toolbar
+ELM_TOOLBAR_SHRINK_NONE = 0
+ELM_TOOLBAR_SHRINK_HIDE = 1
+ELM_TOOLBAR_SHRINK_SCROLL = 2
+ELM_TOOLBAR_SHRINK_MENU = 3
+ELM_TOOLBAR_SHRINK_EXPAND = 4
+ELM_TOOLBAR_SHRINK_LAST = 5
+
+# from efl.elementary.web
+ELM_WEB_WINDOW_FEATURE_TOOLBAR = 0
+ELM_WEB_WINDOW_FEATURE_STATUSBAR = 1
+ELM_WEB_WINDOW_FEATURE_SCROLLBARS = 2
+ELM_WEB_WINDOW_FEATURE_MENUBAR = 3
+ELM_WEB_WINDOW_FEATURE_LOCATIONBAR = 4
+ELM_WEB_WINDOW_FEATURE_FULLSCREEN = 5
+
+ELM_WEB_ZOOM_MODE_MANUAL = 0
+ELM_WEB_ZOOM_MODE_AUTO_FIT = 1
+ELM_WEB_ZOOM_MODE_AUTO_FILL = 2
+
+# from efl.elementary.window
+ELM_WIN_BASIC = 0
+ELM_WIN_DIALOG_BASIC = 1
+ELM_WIN_DESKTOP = 2
+ELM_WIN_DOCK = 3
+ELM_WIN_TOOLBAR = 4
+ELM_WIN_MENU = 5
+ELM_WIN_UTILITY = 6
+ELM_WIN_SPLASH = 7
+ELM_WIN_DROPDOWN_MENU = 8
+ELM_WIN_POPUP_MENU = 9
+ELM_WIN_TOOLTIP = 10
+ELM_WIN_NOTIFICATION = 11
+ELM_WIN_COMBO = 12
+ELM_WIN_DND = 13
+ELM_WIN_INLINED_IMAGE = 14
+ELM_WIN_SOCKET_IMAGE = 15
+
+ELM_WIN_INDICATOR_UNKNOWN = 0
+ELM_WIN_INDICATOR_HIDE = 1
+ELM_WIN_INDICATOR_SHOW = 2
+
+ELM_WIN_INDICATOR_OPACITY_UNKNOWN = 0
+ELM_WIN_INDICATOR_OPAQUE = 1
+ELM_WIN_INDICATOR_TRANSLUCENT = 2
+ELM_WIN_INDICATOR_TRANSPARENT = 3
+
+ELM_WIN_KEYBOARD_UNKNOWN = 0
+ELM_WIN_KEYBOARD_OFF = 1
+ELM_WIN_KEYBOARD_ON = 2
+ELM_WIN_KEYBOARD_ALPHA = 3
+ELM_WIN_KEYBOARD_NUMERIC = 4
+ELM_WIN_KEYBOARD_PIN = 5
+ELM_WIN_KEYBOARD_PHONE_NUMBER = 6
+ELM_WIN_KEYBOARD_HEX = 7
+ELM_WIN_KEYBOARD_TERMINAL = 8
+ELM_WIN_KEYBOARD_PASSWORD = 9
+ELM_WIN_KEYBOARD_IP = 10
+ELM_WIN_KEYBOARD_HOST = 11
+ELM_WIN_KEYBOARD_FILE = 12
+ELM_WIN_KEYBOARD_URL = 13
+ELM_WIN_KEYBOARD_KEYPAD = 14
+ELM_WIN_KEYBOARD_J2ME = 15
+
+# from efl.elementary.label
+ELM_WRAP_NONE = 0
+ELM_WRAP_CHAR = 1
+ELM_WRAP_WORD = 2
+ELM_WRAP_MIXED = 3
 
 #init()
 

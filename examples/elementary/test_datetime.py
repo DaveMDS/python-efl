@@ -2,8 +2,13 @@
 # encoding: utf-8
 
 
-from efl import elementary
 from efl import evas
+from efl import elementary
+from efl.elementary.window import StandardWindow
+from efl.elementary.background import Background
+from efl.elementary.box import Box
+from efl.elementary.datetime_elm import Datetime
+
 
 from datetime import datetime
 
@@ -12,17 +17,17 @@ def changed_cb(obj):
     printf("Datetime value is changed\n")
 
 def datetime_clicked(obj):
-    win = elementary.StandardWindow("dt", "DateTime")
+    win = StandardWindow("dt", "DateTime")
     win.autodel = True
 
-    bx = elementary.Box(win)
+    bx = Box(win)
     bx.size_hint_weight_set(evas.EVAS_HINT_EXPAND, evas.EVAS_HINT_EXPAND)
     win.resize_object_add(bx)
     bx.horizontal = False
     bx.show()
     bx.size_hint_min_set(360, 240)
 
-    dt = elementary.Datetime(bx)
+    dt = Datetime(bx)
     dt.size_hint_weight_set(evas.EVAS_HINT_EXPAND, evas.EVAS_HINT_EXPAND)
     dt.size_hint_align_set(evas.EVAS_HINT_FILL, 0.5)
     dt.field_visible_set(elementary.ELM_DATETIME_HOUR, False)
@@ -31,7 +36,7 @@ def datetime_clicked(obj):
     bx.pack_end(dt)
     dt.show()
 
-    dt = elementary.Datetime(bx)
+    dt = Datetime(bx)
     dt.size_hint_weight_set(evas.EVAS_HINT_EXPAND, evas.EVAS_HINT_EXPAND)
     dt.size_hint_align_set(evas.EVAS_HINT_FILL, 0.5)
     dt.field_visible_set(elementary.ELM_DATETIME_YEAR, False)
@@ -40,7 +45,7 @@ def datetime_clicked(obj):
     bx.pack_end(dt)
     dt.show()
 
-    dt = elementary.Datetime(bx)
+    dt = Datetime(bx)
     dt.size_hint_weight_set(evas.EVAS_HINT_EXPAND, evas.EVAS_HINT_EXPAND)
     dt.size_hint_align_set(evas.EVAS_HINT_FILL, 0.5)
 

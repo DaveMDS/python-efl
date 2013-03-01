@@ -1,9 +1,12 @@
 #!/usr/bin/env python
 # encoding: utf-8
 
-from efl import elementary
 from efl import evas
-
+from efl import elementary
+from efl.elementary.window import StandardWindow
+from efl.elementary.box import Box
+from efl.elementary.button import Button
+from efl.elementary.calendar_elm import Calendar
 
 from datetime import datetime
 
@@ -71,20 +74,20 @@ def api_bt_clicked(bt, a):
 
 # A simple test, just displaying calendar in it's default state
 def calendar_clicked(obj):
-    win = elementary.StandardWindow("calendar", "Calendar")
+    win = StandardWindow("calendar", "Calendar")
     win.autodel = True
 
-    bxx = elementary.Box(win)
+    bxx = Box(win)
     win.resize_object_add(bxx)
     bxx.size_hint_weight_set(evas.EVAS_HINT_EXPAND, evas.EVAS_HINT_EXPAND)
     bxx.show()
 
-    bx = elementary.Box(win)
+    bx = Box(win)
     bx.size_hint_weight_set(evas.EVAS_HINT_EXPAND, evas.EVAS_HINT_EXPAND)
     api["box"] = bx
     bx.show()
 
-    bt = elementary.Button(win)
+    bt = Button(win)
     bt.text = "Next API function"
     bt.callback_clicked_add(api_bt_clicked, api)
     bxx.pack_end(bt)
@@ -94,7 +97,7 @@ def calendar_clicked(obj):
 
     bxx.pack_end(bx)
 
-    cal = elementary.Calendar(win)
+    cal = Calendar(win)
     cal.first_day_of_week = elementary.ELM_DAY_MONDAY
     cal.size_hint_weight_set(evas.EVAS_HINT_EXPAND, evas.EVAS_HINT_EXPAND)
     bx.pack_end(cal)

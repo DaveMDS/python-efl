@@ -1,8 +1,15 @@
 #!/usr/bin/env python
 # encoding: utf-8
 
-from efl import elementary
 from efl import evas
+from efl import ecore
+from efl import elementary
+from efl.elementary.window import Window
+from efl.elementary.background import Background
+from efl.elementary.box import Box
+from efl.elementary.button import Button
+from efl.elementary.entry import Entry
+from efl.elementary.web import Web
 
 
 def web_clicked(obj):
@@ -10,23 +17,23 @@ def web_clicked(obj):
         print("EFL-webkit not available!")
         return
 
-    win = elementary.Window("web", elementary.ELM_WIN_BASIC)
+    win = Window("web", elementary.ELM_WIN_BASIC)
     win.title_set("Web")
     win.autodel_set(True)
     if obj is None:
         win.callback_delete_request_add(lambda o: elementary.exit())
 
-    bg = elementary.Background(win)
+    bg = Background(win)
     win.resize_object_add(bg)
     bg.size_hint_weight_set(evas.EVAS_HINT_EXPAND, evas.EVAS_HINT_EXPAND)
     bg.show()
 
-    vbx = elementary.Box(win)
+    vbx = Box(win)
     win.resize_object_add(vbx)
     vbx.size_hint_weight_set(evas.EVAS_HINT_EXPAND, evas.EVAS_HINT_EXPAND)
     vbx.show()
 
-    web = elementary.Web(win)
+    web = Web(win)
     web.uri_set("http://enlightenment.org/")
     web.size_hint_weight_set(evas.EVAS_HINT_EXPAND, evas.EVAS_HINT_EXPAND)
     web.size_hint_align_set(evas.EVAS_HINT_FILL, evas.EVAS_HINT_FILL)
@@ -54,38 +61,38 @@ def web_clicked(obj):
     web.console_message_hook_set(console_msg)
 
     # navigation bar:
-    hbx = elementary.Box(win)
+    hbx = Box(win)
     hbx.horizontal_set(True)
     hbx.size_hint_weight_set(evas.EVAS_HINT_EXPAND, 0.0)
     hbx.size_hint_align_set(evas.EVAS_HINT_FILL, 0.0)
     vbx.pack_start(hbx)
     hbx.show()
 
-    bt = elementary.Button(win)
+    bt = Button(win)
     bt.text_set("Back")
     bt.callback_clicked_add(lambda x: web.back())
     hbx.pack_end(bt)
     bt.show()
 
-    bt = elementary.Button(win)
+    bt = Button(win)
     bt.text_set("Forward")
     bt.callback_clicked_add(lambda x: web.forward())
     hbx.pack_end(bt)
     bt.show()
 
-    bt = elementary.Button(win)
+    bt = Button(win)
     bt.text_set("Reload")
     bt.callback_clicked_add(lambda x: web.reload())
     hbx.pack_end(bt)
     bt.show()
 
-    bt = elementary.Button(win)
+    bt = Button(win)
     bt.text_set("Stop")
     bt.callback_clicked_add(lambda x: web.stop())
     hbx.pack_end(bt)
     bt.show()
 
-    en = elementary.Entry(win)
+    en = Entry(win)
     en.scrollable_set(True)
     en.editable_set(True)
     en.single_line_set(True)

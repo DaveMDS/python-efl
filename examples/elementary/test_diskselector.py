@@ -1,16 +1,20 @@
 #!/usr/bin/env python
 # encoding: utf-8
 
-from efl import elementary
 from efl import evas
-
+from efl import elementary
+from efl.elementary.window import Window
+from efl.elementary.background import Background
+from efl.elementary.box import Box
+from efl.elementary.icon import Icon
+from efl.elementary.diskselector import Diskselector
 
 months=["January", "February", "March", "April", "May", "June", "August", "September", "October", "November", "December"]
 weekdays=["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"]
 months_short=["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"]
 
 def disk_create(win, rnd):
-    di = elementary.Diskselector(win)
+    di = Diskselector(win)
     for m in months:
         if m == "August":
             it = di.item_append(m)
@@ -27,18 +31,18 @@ def cb_sel(ds, item):
 
 
 def diskselector_clicked(obj):
-    win = elementary.Window("diskselector", elementary.ELM_WIN_BASIC)
+    win = Window("diskselector", elementary.ELM_WIN_BASIC)
     win.title = "Diskselector test"
     win.autodel = True
     if obj is None:
         win.callback_delete_request_add(lambda o: elementary.exit())
 
-    bg = elementary.Background(win)
+    bg = Background(win)
     win.resize_object_add(bg)
     bg.size_hint_weight = (evas.EVAS_HINT_EXPAND, evas.EVAS_HINT_EXPAND)
     bg.show()
 
-    vbox = elementary.Box(win)
+    vbox = Box(win)
     vbox.size_hint_weight = (evas.EVAS_HINT_EXPAND, evas.EVAS_HINT_EXPAND)
     win.resize_object_add(vbox)
     vbox.show()
@@ -67,9 +71,9 @@ def diskselector_clicked(obj):
     di.show()
     di.side_text_max_length = 4
 
-    ic = elementary.Icon(win)
+    ic = Icon(win)
     ic.file = "images/logo_small.png"
-    di = elementary.Diskselector(win)
+    di = Diskselector(win)
     di.item_append("Sunday", ic)
     for day in weekdays:
         di.item_append(day)
@@ -79,9 +83,9 @@ def diskselector_clicked(obj):
     vbox.pack_end(di)
     di.show()
 
-    ic = elementary.Icon(win)
+    ic = Icon(win)
     ic.file = "images/logo_small.png"
-    di = elementary.Diskselector(win)
+    di = Diskselector(win)
     di.item_append("머리스타일", ic)
     for lan in ["プロが伝授する", "生上访要求政府", "English", "والشريعة", "עִבְרִית", "Grüßen"]:
         di.item_append(lan)
@@ -92,7 +96,7 @@ def diskselector_clicked(obj):
     vbox.pack_end(di)
     di.show()
 
-    di = elementary.Diskselector(win)
+    di = Diskselector(win)
     di.display_item_num = 5
     for m in months_short:
         di.item_append(m)
@@ -104,7 +108,7 @@ def diskselector_clicked(obj):
     di.show()
     di.last_item.selected = True
 
-    di = elementary.Diskselector(win)
+    di = Diskselector(win)
     di.display_item_num = 7
     for i in range(31):
         di.item_append(str(i))

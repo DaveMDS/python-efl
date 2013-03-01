@@ -2,8 +2,19 @@
 # encoding: utf-8
 
 import os
-from efl import elementary
+
 from efl import evas
+from efl import elementary
+from efl.elementary.window import Window
+from efl.elementary.background import Background
+from efl.elementary.box import Box
+from efl.elementary.button import Button
+from efl.elementary.frame import Frame
+from efl.elementary.label import Label
+from efl.elementary.check import Check
+from efl.elementary.entry import Entry
+from efl.elementary.scroller import Scroller
+
 
 from test_3d import evas3d_clicked
 from test_actionslider import actionslider_clicked
@@ -213,14 +224,14 @@ items = [
 def menu_create(search, win):
     tbx.clear()
     for category in items:
-        frame = elementary.Frame(win)
+        frame = Frame(win)
         frame.size_hint_weight_set(evas.EVAS_HINT_EXPAND, evas.EVAS_HINT_EXPAND)
         frame.size_hint_align_set(evas.EVAS_HINT_FILL, evas.EVAS_HINT_FILL)
         frame.text = category[0]
         frame.show()
         tbx.pack_end(frame)
 
-        tbx2 = elementary.Box(win)
+        tbx2 = Box(win)
         tbx2.layout_set(elementary.ELM_BOX_LAYOUT_FLOW_HORIZONTAL)
         tbx2.size_hint_weight_set(evas.EVAS_HINT_EXPAND, 0.0)
         tbx2.size_hint_align_set(evas.EVAS_HINT_FILL, 0.0)
@@ -230,7 +241,7 @@ def menu_create(search, win):
         cnt = 0
         for test in category[1]:
             if (search == None) or (test[0].lower().find(search.lower()) > -1):
-                bt = elementary.Button(win)
+                bt = Button(win)
                 bt.text = test[0]
                 bt.callback_clicked_add(test[1])
                 bt.show()
@@ -254,52 +265,52 @@ def cb_filter(en, win):
 
 if __name__ == "__main__":
     elementary.init()
-    win = elementary.Window("test", elementary.ELM_WIN_BASIC)
+    win = Window("test", elementary.ELM_WIN_BASIC)
     win.title_set("python-elementary test application")
     win.callback_delete_request_add(destroy, "test1", "test2", str3="test3", str4="test4")
 
-    bg = elementary.Background(win)
+    bg = Background(win)
     win.resize_object_add(bg)
     bg.size_hint_weight_set(evas.EVAS_HINT_EXPAND, evas.EVAS_HINT_EXPAND)
     bg.show()
 
-    box0 = elementary.Box(win)
+    box0 = Box(win)
     box0.size_hint_weight_set(evas.EVAS_HINT_EXPAND, evas.EVAS_HINT_EXPAND)
     win.resize_object_add(box0)
     box0.show()
 
-    fr = elementary.Frame(win)
+    fr = Frame(win)
     fr.text_set("Information")
     box0.pack_end(fr)
     fr.show()
 
-    lb = elementary.Label(win)
+    lb = Label(win)
     lb.text_set("Please select a test from the list below<br>"
                  "by clicking the test button to show the<br>"
                  "test window.")
     fr.content_set(lb)
     lb.show()
 
-    tg = elementary.Check(win)
+    tg = Check(win)
     tg.style = "toggle"
     tg.text = "UI-Mirroring:"
     tg.callback_changed_add(cb_mirroring)
     box0.pack_end(tg)
     tg.show()
 
-    bx1 = elementary.Box(win)
+    bx1 = Box(win)
     bx1.size_hint_weight_set(evas.EVAS_HINT_EXPAND, 0.0)
     bx1.size_hint_align_set(evas.EVAS_HINT_FILL, 0.0)
     bx1.horizontal_set(True)
     box0.pack_end(bx1)
     bx1.show()
 
-    lb = elementary.Label(win)
+    lb = Label(win)
     lb.text_set("Filter:")
     bx1.pack_end(lb)
     lb.show()
 
-    en = elementary.Entry(win)
+    en = Entry(win)
     en.single_line_set(True)
     en.scrollable_set(True)
     en.size_hint_weight_set(evas.EVAS_HINT_EXPAND, evas.EVAS_HINT_EXPAND)
@@ -309,14 +320,14 @@ if __name__ == "__main__":
     en.show()
     en.focus_set(True)
 
-    sc = elementary.Scroller(win)
+    sc = Scroller(win)
     sc.size_hint_weight_set(evas.EVAS_HINT_EXPAND, evas.EVAS_HINT_EXPAND)
     sc.size_hint_align_set(evas.EVAS_HINT_FILL, evas.EVAS_HINT_FILL)
     sc.bounce_set(False, True)
     sc.show()
     box0.pack_end(sc)
 
-    tbx = elementary.Box(win)
+    tbx = Box(win)
     tbx.size_hint_weight_set(evas.EVAS_HINT_EXPAND, 0.0)
     tbx.size_hint_align_set(evas.EVAS_HINT_FILL, 0.0)
     sc.content_set(tbx)

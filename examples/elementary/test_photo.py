@@ -1,8 +1,13 @@
 #!/usr/bin/env python
 # encoding: utf-8
 
-from efl import elementary
 from efl import evas
+from efl import elementary
+from efl.elementary.window import Window
+from efl.elementary.background import Background
+from efl.elementary.photo import Photo
+from efl.elementary.scroller import Scroller
+from efl.elementary.table import Table
 
 
 images = ["panel_01.jpg",
@@ -16,25 +21,25 @@ images = ["panel_01.jpg",
           "wood_01.jpg"]
 
 def photo_clicked(obj):
-    win = elementary.Window("photo", elementary.ELM_WIN_BASIC)
+    win = Window("photo", elementary.ELM_WIN_BASIC)
     win.title_set("Photo test")
     win.autodel_set(True)
     if obj is None:
         win.callback_delete_request_add(lambda o: elementary.exit())
 
-    bg = elementary.Background(win)
+    bg = Background(win)
     win.resize_object_add(bg)
     bg.size_hint_weight_set(evas.EVAS_HINT_EXPAND, evas.EVAS_HINT_EXPAND)
     bg.show()
 
-    sc = elementary.Scroller(win)
+    sc = Scroller(win)
     sc.size_hint_weight = (evas.EVAS_HINT_EXPAND, evas.EVAS_HINT_EXPAND)
     win.resize_object_add(sc)
     sc.show()
 
     elementary.need_ethumb()
 
-    tb = elementary.Table(win)
+    tb = Table(win)
     tb.size_hint_weight = (evas.EVAS_HINT_EXPAND, evas.EVAS_HINT_EXPAND)
     sc.content = tb
     tb.show()
@@ -42,7 +47,7 @@ def photo_clicked(obj):
     n = 0
     for j in range(12):
         for i in range(12):
-            ph = elementary.Photo(win)
+            ph = Photo(win)
             name = "images/%s" % (images[n])
             n += 1
             if n >= 9: n = 0

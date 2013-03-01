@@ -1,8 +1,40 @@
 #!/usr/bin/env python
 # encoding: utf-8
 
-from efl import elementary
+import random
+
 from efl import evas
+from efl import elementary
+from efl.elementary.window import Window
+from efl.elementary.background import Background
+from efl.elementary.box import Box
+from efl.elementary.button import Button
+from efl.elementary.check import Check
+from efl.elementary.ctxpopup import Ctxpopup
+# from efl.elementary.entry import Entry
+# from efl.elementary.frame import Frame
+# from efl.elementary.grid import Grid
+# from efl.elementary.hover import Hover
+# from efl.elementary.hoversel import Hoversel
+# from efl.elementary.label import Label
+# from efl.elementary.layout import Layout
+# from efl.elementary.list import List
+from efl.elementary.icon import Icon
+# from efl.elementary.index import Index
+# from efl.elementary.innerwindow import InnerWindow
+# from efl.elementary.image import Image
+from efl.elementary.map import Map
+# from efl.elementary.fileselector import Fileselector
+# from efl.elementary.fileselector_button import FileselectorButton
+# from efl.elementary.fileselector_entry import FileselectorEntry
+# from efl.elementary.flip import Flip
+# from efl.elementary.gengrid import Gengrid, GengridItemClass
+# from efl.elementary.genlist import Genlist, GenlistItem, GenlistItemClass
+# from efl.elementary.radio import Radio
+# from efl.elementary.separator import Separator
+# from efl.elementary.slider import Slider
+# from efl.elementary.table import Table
+# from efl.elementary.flipselector import FlipSelector
 
 
 def cb_btn_clear_overlays(bt, Map):
@@ -13,7 +45,7 @@ def cb_btn_clear_overlays(bt, Map):
 
 def cb_btn_ungroup_overlays(bt, Map):
     for ov in Map.overlays:
-        if isinstance(ov, elementary.MapOverlayClass):
+        if isinstance(ov, MapOverlayClass):
             print ov
             # TODO ungroup instead
             for ov2 in ov.members:
@@ -45,7 +77,7 @@ def cb_ctx_overlay_add(li, item, Map, lon, lat, min_zoom = 0, icon = None):
 
 def cb_ctx_overlay_add_custom(li, item, Map, lon, lat):
     item.widget_get().dismiss()
-    cont = elementary.Icon(Map)
+    cont = Icon(Map)
     cont.file_set("images/sky_01.jpg")
     cont.size_hint_min = (50, 50)
     cont.show()
@@ -74,18 +106,18 @@ def cb_ctx_overlay_bubble(li, item, Map, lon, lat):
     bub = Map.overlay_bubble_add()
     bub.follow(ov)
 
-    lb = elementary.Label(Map)
+    lb = Label(Map)
     lb.text = "You can push contents here"
     bub.content_append(lb)
     lb.show()
 
-    ic = elementary.Icon(Map)
+    ic = Icon(Map)
     ic.file_set("images/sky_01.jpg")
     ic.size_hint_min = (50, 50)
     bub.content_append(ic)
     ic.show()
 
-    bt = elementary.Button(Map)
+    bt = Button(Map)
     bt.text = "clear me"
     bt.callback_clicked_add(lambda bt:bub.content_clear())
     bub.content_append(bt)
@@ -121,10 +153,10 @@ def test(li, item, Map, lon, lat):
 def cb_map_clicked(Map):
     (x, y) = Map.evas.pointer_canvas_xy_get()
     (lon, lat) = Map.canvas_to_region_convert(x, y)
-    cp = elementary.Ctxpopup(Map)
+    cp = Ctxpopup(Map)
     cp.item_append("%f  %f" % (lon, lat), None, None).disabled = True
     cp.item_append("Add Overlay here", None, cb_ctx_overlay_add, Map, lon, lat)
-    ic = elementary.Icon(Map)
+    ic = Icon(Map)
     ic.file_set("images/logo.png")
     cp.item_append("Add Overlay with icon", None, cb_ctx_overlay_add, Map, lon, lat, 0, ic)
     cp.item_append("Add Overlay custom content", None, cb_ctx_overlay_add_custom, Map, lon, lat)
@@ -140,66 +172,66 @@ def cb_map_clicked(Map):
     cp.show()
 
 def map_overlays_clicked(obj):
-    win = elementary.Window("map2", elementary.ELM_WIN_BASIC)
+    win = Window("map2", elementary.ELM_WIN_BASIC)
     win.title = "Map Overlay test"
     win.autodel = True
     if obj is None:
         win.callback_delete_request_add(lambda o: elementary.exit())
 
-    bg = elementary.Background(win)
+    bg = Background(win)
     win.resize_object_add(bg)
     bg.size_hint_weight = (evas.EVAS_HINT_EXPAND, evas.EVAS_HINT_EXPAND)
     bg.show()
 
-    vbox = elementary.Box(win)
+    vbox = Box(win)
     vbox.size_hint_weight = (evas.EVAS_HINT_EXPAND, evas.EVAS_HINT_EXPAND)
     vbox.size_hint_align = (evas.EVAS_HINT_FILL, evas.EVAS_HINT_FILL)
     win.resize_object_add(vbox)
     vbox.show()
 
-    Map = elementary.Map(win)
-    Map.zoom = 2
-    Map.size_hint_weight = (evas.EVAS_HINT_EXPAND, evas.EVAS_HINT_EXPAND)
-    Map.size_hint_align = (evas.EVAS_HINT_FILL, evas.EVAS_HINT_FILL)
-    Map.callback_clicked_add(cb_map_clicked)
-    vbox.pack_end(Map)
-    Map.show()
+    map_obj = Map(win)
+    map_obj.zoom = 2
+    map_obj.size_hint_weight = (evas.EVAS_HINT_EXPAND, evas.EVAS_HINT_EXPAND)
+    map_obj.size_hint_align = (evas.EVAS_HINT_FILL, evas.EVAS_HINT_FILL)
+    map_obj.callback_clicked_add(cb_map_clicked)
+    vbox.pack_end(map_obj)
+    map_obj.show()
 
     # overlays
-    hbox = elementary.Box(win)
+    hbox = Box(win)
     hbox.horizontal = True
     hbox.size_hint_weight = (evas.EVAS_HINT_EXPAND, 0.0)
     hbox.size_hint_align = (evas.EVAS_HINT_FILL, 0.0)
     vbox.pack_end(hbox)
     hbox.show()
 
-    ck = elementary.Check(win)
+    ck = Check(win)
     ck.text = "overlays hidden"
-    ck.callback_changed_add(cb_chk_overlays_hidden, Map)
+    ck.callback_changed_add(cb_chk_overlays_hidden, map_obj)
     hbox.pack_end(ck)
     ck.show()
 
-    ck = elementary.Check(win)
+    ck = Check(win)
     ck.text = "overlays paused"
-    ck.callback_changed_add(cb_chk_overlays_paused, Map)
+    ck.callback_changed_add(cb_chk_overlays_paused, map_obj)
     hbox.pack_end(ck)
     ck.show()
 
-    bt = elementary.Button(win)
+    bt = Button(win)
     bt.text = "clear overlays"
-    bt.callback_clicked_add(cb_btn_clear_overlays, Map)
+    bt.callback_clicked_add(cb_btn_clear_overlays, map_obj)
     hbox.pack_end(bt)
     bt.show()
 
-    bt = elementary.Button(win)
+    bt = Button(win)
     bt.text = "ungroup (BROKEN)"
-    bt.callback_clicked_add(cb_btn_ungroup_overlays, Map)
+    bt.callback_clicked_add(cb_btn_ungroup_overlays, map_obj)
     hbox.pack_end(bt)
     bt.show()
 
-    bt = elementary.Button(win)
+    bt = Button(win)
     bt.text = "overlays_show()"
-    bt.callback_clicked_add(cb_btn_show_overlays, Map)
+    bt.callback_clicked_add(cb_btn_show_overlays, map_obj)
     hbox.pack_end(bt)
     bt.show()
 

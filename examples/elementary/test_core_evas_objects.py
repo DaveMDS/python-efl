@@ -1,9 +1,10 @@
 #!/usr/bin/env python
 # encoding: utf-8
 
-from efl import elementary
 from efl import evas
-
+from efl import elementary
+from efl.elementary.window import Window
+from efl.elementary.background import Background
 
 
 def events_cb1(rect, event_name):
@@ -15,18 +16,17 @@ def events_cb2(rect, evtinfo, event_name):
 
 def core_evas_objects_clicked(obj, item=None):
 
-    win = elementary.Window("evasobjects", elementary.ELM_WIN_BASIC)
+    win = Window("evasobjects", elementary.ELM_WIN_BASIC)
     win.title_set("Evas Objects Test")
     win.autodel_set(True)
     if obj is None:
         win.callback_delete_request_add(lambda o: elementary.exit())
 
-    bg = elementary.Background(win)
+    bg = Background(win)
     win.resize_object_add(bg)
     bg.size_hint_weight_set(evas.EVAS_HINT_EXPAND, evas.EVAS_HINT_EXPAND)
     bg.size_hint_align_set(evas.EVAS_HINT_FILL, evas.EVAS_HINT_FILL)
     bg.show()
-
 
     rect = evas.Rectangle(win.evas, size=(120,70), color=(0,100,0,100), pos=(70,70))
     rect.show()

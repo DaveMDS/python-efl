@@ -4,17 +4,23 @@
 from efl import evas
 from efl import ecore
 from efl import elementary
-
+from efl.elementary.window import Window
+from efl.elementary.background import Background
+from efl.elementary.layout import Layout
+from efl.elementary.box import Box
+from efl.elementary.frame import Frame
+from efl.elementary.label import Label
+from efl.elementary.list import List
 
 
 def edje_external_button_clicked(obj, item=None):
-    win = elementary.Window("edje-external-button", elementary.ELM_WIN_BASIC)
+    win = Window("edje-external-button", elementary.ELM_WIN_BASIC)
     win.title_set("Edje External Button")
     win.autodel_set(True)
     if obj is None:
         win.callback_delete_request_add(lambda o: elementary.exit())
 
-    ly = elementary.Layout(win)
+    ly = Layout(win)
     ly.file_set("test_external.edj", "external/button")
     ly.size_hint_weight_set(evas.EVAS_HINT_EXPAND, evas.EVAS_HINT_EXPAND)
     win.resize_object_add(ly)
@@ -52,13 +58,13 @@ def cb_btn3_clicked(bt, ly):
     ecore.timer_add(0.1, animate, ly)
 
 def edje_external_pbar_clicked(obj, item=None):
-    win = elementary.Window("edje-external-pbar", elementary.ELM_WIN_BASIC)
+    win = Window("edje-external-pbar", elementary.ELM_WIN_BASIC)
     win.title_set("Edje External Progress Bar")
     win.autodel_set(True)
     if obj is None:
         win.callback_delete_request_add(lambda o: elementary.exit())
 
-    ly = elementary.Layout(win)
+    ly = Layout(win)
     ly.file_set("test_external.edj", "external/pbar")
     ly.size_hint_weight_set(evas.EVAS_HINT_EXPAND, evas.EVAS_HINT_EXPAND)
     win.resize_object_add(ly)
@@ -73,13 +79,13 @@ def edje_external_pbar_clicked(obj, item=None):
 
 
 def edje_external_scroller_clicked(obj, item=None):
-    win = elementary.Window("edje-external-scroller", elementary.ELM_WIN_BASIC)
+    win = Window("edje-external-scroller", elementary.ELM_WIN_BASIC)
     win.title_set("Edje External Scroller")
     win.autodel_set(True)
     if obj is None:
         win.callback_delete_request_add(lambda o: elementary.exit())
 
-    ly = elementary.Layout(win)
+    ly = Layout(win)
     ly.file_set("test_external.edj", "external/scroller")
     ly.size_hint_weight_set(evas.EVAS_HINT_EXPAND, evas.EVAS_HINT_EXPAND)
     win.resize_object_add(ly)
@@ -90,13 +96,13 @@ def edje_external_scroller_clicked(obj, item=None):
 
 
 def edje_external_slider_clicked(obj, item=None):
-    win = elementary.Window("edje-external-slider", elementary.ELM_WIN_BASIC)
+    win = Window("edje-external-slider", elementary.ELM_WIN_BASIC)
     win.title_set("Edje External Slider")
     win.autodel_set(True)
     if obj is None:
         win.callback_delete_request_add(lambda o: elementary.exit())
 
-    ly = elementary.Layout(win)
+    ly = Layout(win)
     ly.file_set("test_external.edj", "external/slider")
     ly.size_hint_weight_set(evas.EVAS_HINT_EXPAND, evas.EVAS_HINT_EXPAND)
     win.resize_object_add(ly)
@@ -107,13 +113,13 @@ def edje_external_slider_clicked(obj, item=None):
 
 
 def edje_external_video_clicked(obj, item=None):
-    win = elementary.Window("edje-external-video", elementary.ELM_WIN_BASIC)
+    win = Window("edje-external-video", elementary.ELM_WIN_BASIC)
     win.title_set("Edje External Video")
     win.autodel_set(True)
     if obj is None:
         win.callback_delete_request_add(lambda o: elementary.exit())
 
-    ly = elementary.Layout(win)
+    ly = Layout(win)
     ly.file_set("test_external.edj", "external/video")
     ly.size_hint_weight_set(evas.EVAS_HINT_EXPAND, evas.EVAS_HINT_EXPAND)
     win.resize_object_add(ly)
@@ -129,26 +135,26 @@ if __name__ == "__main__":
         elementary.exit()
 
     elementary.init()
-    win = elementary.Window("test", elementary.ELM_WIN_BASIC)
+    win = Window("test", elementary.ELM_WIN_BASIC)
     win.title_set("python-elementary test application")
     win.callback_delete_request_add(destroy)
 
-    bg = elementary.Background(win)
+    bg = Background(win)
     win.resize_object_add(bg)
     bg.size_hint_weight_set(evas.EVAS_HINT_EXPAND, evas.EVAS_HINT_EXPAND)
     bg.show()
 
-    box0 = elementary.Box(win)
+    box0 = Box(win)
     box0.size_hint_weight_set(evas.EVAS_HINT_EXPAND, evas.EVAS_HINT_EXPAND)
     win.resize_object_add(box0)
     box0.show()
 
-    fr = elementary.Frame(win)
+    fr = Frame(win)
     fr.text_set("Information")
     box0.pack_end(fr)
     fr.show()
 
-    lb = elementary.Label(win)
+    lb = Label(win)
     lb.text_set("Please select a test from the list below<br>"
                  "by clicking the test button to show the<br>"
                  "test window.")
@@ -161,7 +167,7 @@ if __name__ == "__main__":
             ("Ext Slider", edje_external_slider_clicked),
             ("Ext Video", edje_external_video_clicked)]
  
-    li = elementary.List(win)
+    li = List(win)
     li.size_hint_weight_set(evas.EVAS_HINT_EXPAND, evas.EVAS_HINT_EXPAND)
     li.size_hint_align_set(evas.EVAS_HINT_FILL, evas.EVAS_HINT_FILL)
     box0.pack_end(li)

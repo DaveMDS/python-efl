@@ -1,8 +1,16 @@
 #!/usr/bin/env python
 # encoding: utf-8
 
-from efl import elementary
 from efl import evas
+from efl import elementary
+from efl.elementary.window import Window
+from efl.elementary.background import Background
+from efl.elementary.box import Box
+from efl.elementary.grid import Grid
+from efl.elementary.label import Label
+from efl.elementary.radio import Radio
+from efl.elementary.separator import Separator
+from efl.elementary.slider import Slider
 
 
 def cb_slide_radio(radio, lb):
@@ -14,30 +22,30 @@ def cb_slider_duration(slider, lb):
     lb.slide = True
 
 def label_clicked(obj):
-    win = elementary.Window("label", elementary.ELM_WIN_BASIC)
+    win = Window("label", elementary.ELM_WIN_BASIC)
     win.title = "Label test"
     win.autodel = True
     if obj is None:
         win.callback_delete_request_add(lambda o: elementary.exit())
 
-    bg = elementary.Background(win)
+    bg = Background(win)
     win.resize_object_add(bg)
     bg.size_hint_weight = (evas.EVAS_HINT_EXPAND, evas.EVAS_HINT_EXPAND)
     bg.show()
 
-    vbox = elementary.Box(win)
+    vbox = Box(win)
     vbox.size_hint_weight = (evas.EVAS_HINT_EXPAND, evas.EVAS_HINT_EXPAND)
     vbox.size_hint_align = (evas.EVAS_HINT_FILL, evas.EVAS_HINT_FILL)
     win.resize_object_add(vbox)
     vbox.show()
 
-    lb = elementary.Label(win)
+    lb = Label(win)
     lb.text = "<b>This is a small label</b>"
     lb.size_hint_align = (0.0, 0.5)
     vbox.pack_end(lb)
     lb.show()
 
-    lb = elementary.Label(win)
+    lb = Label(win)
     lb.text = "This is a larger label with newlines<br/>" \
               "to make it bigger, bit it won't expand or wrap<br/>" \
               "just be a block of text that can't change its<br/>" \
@@ -46,7 +54,7 @@ def label_clicked(obj):
     vbox.pack_end(lb)
     lb.show()
 
-    lb = elementary.Label(win)
+    lb = Label(win)
     lb.line_wrap_set(elementary.ELM_WRAP_CHAR)
     lb.text =  "<b>This is more text designed to line-wrap here as " \
                "This object is resized horizontally. As it is " \
@@ -58,26 +66,26 @@ def label_clicked(obj):
     vbox.pack_end(lb)
     lb.show()
 
-    lb = elementary.Label(win)
+    lb = Label(win)
     lb.text = "This small label set to wrap"
     lb.size_hint_weight = (evas.EVAS_HINT_EXPAND, 0.0)
     lb.size_hint_align = (evas.EVAS_HINT_FILL, evas.EVAS_HINT_FILL)
     vbox.pack_end(lb)
     lb.show()
 
-    sp = elementary.Separator(win)
+    sp = Separator(win)
     sp.horizontal = True
     vbox.pack_end(sp)
     sp.show()
 
-    gd = elementary.Grid(win)
+    gd = Grid(win)
     gd.size = (100, 100)
     gd.size_hint_weight = (evas.EVAS_HINT_EXPAND, evas.EVAS_HINT_EXPAND)
     gd.size_hint_align = (evas.EVAS_HINT_FILL, evas.EVAS_HINT_FILL)
     vbox.pack_end(gd)
     gd.show()
     
-    lb = elementary.Label(win)
+    lb = Label(win)
     lb.text = "Test Label Ellipsis:"
     lb.size_hint_align = (0.0, 0.5)
     gd.pack(lb, 5, 5, 90, 15)
@@ -88,7 +96,7 @@ def label_clicked(obj):
     gd.pack(rect, 5, 15, 90, 15)
     rect.show()
 
-    lb = elementary.Label(win)
+    lb = Label(win)
     lb.text = "This is a label set to ellipsis. " \
               "If set ellipsis to true and the text doesn't fit " \
               "in the label an ellipsis(\"...\") will be shown " \
@@ -98,7 +106,7 @@ def label_clicked(obj):
     gd.pack(lb, 5, 15, 90, 15)
     lb.show()
 
-    lb = elementary.Label(win)
+    lb = Label(win)
     lb.text = "Test Label Slide:"
     lb.size_hint_align = (0.0, 0.5)
     gd.pack(lb, 5, 40, 90, 15)
@@ -109,7 +117,7 @@ def label_clicked(obj):
     gd.pack(rect, 5, 50, 90, 15)
     rect.show()
 
-    lb = elementary.Label(win)
+    lb = Label(win)
     lb.text = "This is a label set to slide. " \
               "If set slide to true the text of the label " \
               "will slide/scroll through the length of label." \
@@ -121,7 +129,7 @@ def label_clicked(obj):
     gd.pack(lb, 5, 50, 90, 15)
     lb.show()
 
-    rd = elementary.Radio(win)
+    rd = Radio(win)
     rd.state_value = 1
     rd.text = "slide_short"
     gd.pack(rd, 5, 65, 30, 15)
@@ -129,7 +137,7 @@ def label_clicked(obj):
     rd.show()
     rdg = rd
 
-    rd = elementary.Radio(win)
+    rd = Radio(win)
     rd.group_add(rdg)
     rd.state_value = 2
     rd.text = "slide_long"
@@ -137,7 +145,7 @@ def label_clicked(obj):
     rd.callback_changed_add(cb_slide_radio, lb)
     rd.show()
 
-    rd = elementary.Radio(win)
+    rd = Radio(win)
     rd.group_add(rdg)
     rd.state_value = 3
     rd.text = "slide_bounce"
@@ -145,7 +153,7 @@ def label_clicked(obj):
     rd.callback_changed_add(cb_slide_radio, lb)
     rd.show()
 
-    sl = elementary.Slider(win)
+    sl = Slider(win)
     sl.text = "Slide Duration"
     sl.unit_format = "%1.1f units"
     sl.min_max = (1, 20)

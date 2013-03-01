@@ -1,12 +1,20 @@
 #!/usr/bin/env python
 # encoding: utf-8
 
-from efl import elementary
 from efl import evas
+from efl import ecore
+from efl import elementary
+from efl.elementary.window import Window
+from efl.elementary.background import Background
+from efl.elementary.box import Box
+from efl.elementary.button import Button
+from efl.elementary.entry import Entry
+from efl.elementary.list import List
+from efl.elementary.toolbar import Toolbar
 
 
 def _tt_icon(obj, *args, **kargs):
-    ic = elementary.Icon(obj)
+    ic = Icon(obj)
     ic.file_set("images/logo_small.png")
     ic.resizable_set(0, 0)
     ic.resize(64, 64)
@@ -16,7 +24,7 @@ def _tt_item_icon(obj, item, *args, **kargs):
     return _tt_icon(obj,item, *args, **kargs)
 
 def _tt_icon2(obj, *args, **kargs):
-    ic = elementary.Icon(obj)
+    ic = Icon(obj)
     ic.file_set("images/icon_00.png")
     ic.resizable_set(0, 0)
     ic.resize(64, 64)
@@ -30,23 +38,23 @@ def _tt_timer_del(obj, data, *args):
 
 
 def tooltip_clicked(obj):
-    win = elementary.Window("tooltips", elementary.ELM_WIN_BASIC)
+    win = Window("tooltips", elementary.ELM_WIN_BASIC)
     win.title_set("Tooltips")
     win.autodel_set(True)
     if obj is None:
         win.callback_delete_request_add(lambda o: elementary.exit())
 
-    bg = elementary.Background(win)
+    bg = Background(win)
     win.resize_object_add(bg)
     bg.size_hint_weight_set(evas.EVAS_HINT_EXPAND, evas.EVAS_HINT_EXPAND)
     bg.show()
 
-    bx = elementary.Box(win)
+    bx = Box(win)
     win.resize_object_add(bx)
     bx.size_hint_weight_set(evas.EVAS_HINT_EXPAND, evas.EVAS_HINT_EXPAND)
     bx.show()
 
-    tb = elementary.Toolbar(win)
+    tb = Toolbar(win)
     tb.homogeneous_set(False)
     tb.size_hint_weight_set(evas.EVAS_HINT_EXPAND, 0.0)
     tb.size_hint_align_set(evas.EVAS_HINT_FILL, 0.0)
@@ -60,7 +68,7 @@ def tooltip_clicked(obj):
     ti.tooltip_content_cb_set(_tt_item_icon, None)
     ti.tooltip_style_set("transparent")
 
-    bt = elementary.Button(win)
+    bt = Button(win)
     bt.text_set("Simple text tooltip");
     bt.tooltip_text_set("Simple text tooltip")
     bx.pack_end(bt)
@@ -74,7 +82,7 @@ def tooltip_clicked(obj):
         value += 1
         data["value"] = value
 
-    bt = elementary.Button(win)
+    bt = Button(win)
     bt.text_set("Simple text tooltip, click to change");
     bt.tooltip_text_set("Initial")
     data = dict()
@@ -97,7 +105,7 @@ def tooltip_clicked(obj):
                                         data)
         obj.text_set("Simple text tooltip, click to stop changed timed")
 
-    bt = elementary.Button(win)
+    bt = Button(win)
     bt.text_set("Simple text tooltip, click to start changed timed");
     bt.tooltip_text_set("Initial")
     data = dict()
@@ -106,7 +114,7 @@ def tooltip_clicked(obj):
     bt.show()
     bt.on_del_add(_tt_timer_del, data)
 
-    bt = elementary.Button(win)
+    bt = Button(win)
     bt.text_set("Icon tooltip");
     bt.tooltip_content_cb_set(_tt_icon, None)
     bx.pack_end(bt)
@@ -132,7 +140,7 @@ def tooltip_clicked(obj):
                                         data)
         obj.text_set("Icon tooltip, click to stop changed timed")
 
-    bt = elementary.Button(win)
+    bt = Button(win)
     bt.text_set("Icon tooltip, click to start changed timed");
     bt.tooltip_content_cb_set(_tt_icon)
     data = dict()
@@ -141,7 +149,7 @@ def tooltip_clicked(obj):
     bt.show()
     bt.on_del_add(_tt_timer_del, data)
 
-    bt = elementary.Button(win)
+    bt = Button(win)
     bt.text_set("Transparent Icon tooltip");
     bt.tooltip_content_cb_set(_tt_icon, None)
     bt.tooltip_style_set("transparent")
@@ -168,7 +176,7 @@ def tooltip_clicked(obj):
                                         data)
         obj.text_set("Icon tooltip, click to stop changed timed")
 
-    bt = elementary.Button(win)
+    bt = Button(win)
     bt.text_set("Icon tooltip style, click to start changed timed");
     bt.tooltip_content_cb_set(_tt_icon, None)
     data = dict()
@@ -187,7 +195,7 @@ def tooltip_clicked(obj):
             obj.text_set("Locked tooltip visibility");
             obj.tooltip_show()
 
-    bt = elementary.Button(win)
+    bt = Button(win)
     bt.text_set("Unlocked tooltip visibility");
     bt.tooltip_text_set("This tooltip is unlocked visible,<br> clock the button to lock!")
     data = dict()
@@ -195,7 +203,7 @@ def tooltip_clicked(obj):
     bx.pack_end(bt)
     bt.show()
 
-    en = elementary.Entry(win)
+    en = Entry(win)
     en.scrollable_set(True)
     en.single_line_set(True)
     en.entry_set("Hello, some scrolled entry here!")
@@ -205,7 +213,7 @@ def tooltip_clicked(obj):
     bx.pack_end(en)
     en.show()
 
-    lst = elementary.List(win)
+    lst = List(win)
     li = lst.item_append("Hello")
     li.tooltip_text_set("Something useful here?")
     li = lst.item_append("Icon Tooltip")

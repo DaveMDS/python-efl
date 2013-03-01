@@ -1,8 +1,18 @@
 #!/usr/bin/env python
 # encoding: utf-8
 
-from efl import elementary
 from efl import evas
+from efl import elementary
+from efl.elementary.window import Window
+from efl.elementary.background import Background
+from efl.elementary.box import Box
+from efl.elementary.button import Button
+from efl.elementary.check import Check
+from efl.elementary.label import Label
+from efl.elementary.icon import Icon
+from efl.elementary.mapbuf import Mapbuf
+from efl.elementary.scroller import Scroller
+from efl.elementary.table import Table
 
 
 names = [ "Hello", "World", "Spam", "Egg", "Ham", "Good", "Bad", "Milk",
@@ -32,39 +42,39 @@ def cb_ck_fs(ck, win):
 def mapbuf_clicked(obj, item=None):
     global mb_list
 
-    win = elementary.Window("mapbuf", elementary.ELM_WIN_BASIC)
+    win = Window("mapbuf", elementary.ELM_WIN_BASIC)
     win.title_set("Mapbuf test")
     win.autodel_set(True)
     if obj is None:
         win.callback_delete_request_add(lambda o: elementary.exit())
 
-    bg = elementary.Background(win)
+    bg = Background(win)
     bg.file = "images/sky_04.jpg"
     win.resize_object_add(bg)
     bg.size_hint_weight_set(evas.EVAS_HINT_EXPAND, evas.EVAS_HINT_EXPAND)
     bg.show()
 
-    vbox = elementary.Box(win)
+    vbox = Box(win)
     vbox.size_hint_weight = (evas.EVAS_HINT_EXPAND, evas.EVAS_HINT_EXPAND)
     vbox.size_hint_align = (evas.EVAS_HINT_FILL, evas.EVAS_HINT_FILL)
     win.resize_object_add(vbox)
     vbox.show()
 
     # launcher
-    sc = elementary.Scroller(win);
+    sc = Scroller(win);
     sc.bounce = (True, False)
     sc.policy = (elementary.ELM_SCROLLER_POLICY_OFF, elementary.ELM_SCROLLER_POLICY_OFF)
     sc.size_hint_align = (evas.EVAS_HINT_FILL, evas.EVAS_HINT_FILL)
     sc.size_hint_weight = (evas.EVAS_HINT_EXPAND, evas.EVAS_HINT_EXPAND)
     vbox.pack_end(sc)
 
-    bx = elementary.Box(win)
+    bx = Box(win)
     bx.horizontal = True
     bx.homogeneous = True
     bx.show()
 
     for k in range(8):
-        tb = elementary.Table(win)
+        tb = Table(win)
         tb.size_hint_align = (0.5, 0.5)
         tb.size_hint_weight = (0.0, 0.0)
         tb.show()
@@ -101,7 +111,7 @@ def mapbuf_clicked(obj, item=None):
         pad.show()
         tb.pack(pad, 6, 1, 1, 10)
 
-        mb = elementary.Mapbuf(win)
+        mb = Mapbuf(win)
         mb_list.append(mb)
         mb.content = tb
         bx.pack_end(mb)
@@ -110,7 +120,7 @@ def mapbuf_clicked(obj, item=None):
         n = m = 0
         for j in range(5):
             for i in range(5):
-                ic = elementary.Icon(win)
+                ic = Icon(win)
                 ic.scale_set(0.5)
                 ic.file_set("images/icon_%02d.png" % (n));
                 ic.resizable_set(0, 0)
@@ -119,7 +129,7 @@ def mapbuf_clicked(obj, item=None):
                 tb.pack(ic, 1 + i, 1 + (j * 2), 1, 1)
                 ic.show()
 
-                lb = elementary.Label(win)
+                lb = Label(win)
                 lb.style = "marker"
                 lb.text = names[m]
                 tb.pack(lb, 1 + i, 1 + (j * 2) + 1, 1, 1)
@@ -133,7 +143,7 @@ def mapbuf_clicked(obj, item=None):
     sc.show()
 
     # controls
-    hbox = elementary.Box(win)
+    hbox = Box(win)
     hbox.horizontal = True
     hbox.homogeneous = True
     hbox.size_hint_weight = (evas.EVAS_HINT_EXPAND, 0.0)
@@ -141,35 +151,35 @@ def mapbuf_clicked(obj, item=None):
     vbox.pack_start(hbox)
     hbox.show()
 
-    ck = elementary.Check(win)
+    ck = Check(win)
     ck.text = "Map"
     ck.state = False
     ck.callback_changed_add(cb_ck_map)
     hbox.pack_end(ck)
     ck.show()
 
-    ck = elementary.Check(win)
+    ck = Check(win)
     ck.callback_changed_add(cb_ck_alpha)
     ck.text = "Alpha"
     ck.state = True
     hbox.pack_end(ck)
     ck.show()
 
-    ck = elementary.Check(win)
+    ck = Check(win)
     ck.callback_changed_add(cb_ck_smooth)
     ck.text = "Smooth"
     ck.state = True
     hbox.pack_end(ck)
     ck.show()
 
-    ck = elementary.Check(win)
+    ck = Check(win)
     ck.callback_changed_add(cb_ck_fs, win)
     ck.text = "FS"
     ck.state = False
     hbox.pack_end(ck)
     ck.show()
 
-    bt = elementary.Button(win)
+    bt = Button(win)
     bt.text = "Close"
     bt.callback_clicked_add(cb_btn_close, win)
     bt.size_hint_align = (evas.EVAS_HINT_FILL, evas.EVAS_HINT_FILL)

@@ -1,8 +1,10 @@
 #!/usr/bin/env python
 # encoding: utf-8
 
-from efl import elementary
 from efl import evas
+from efl import elementary
+from efl.elementary.actionslider import Actionslider
+
 
 def _pos_selected_cb(obj, event_info):
     print(("Selection: %s" % (event_info)))
@@ -82,7 +84,7 @@ def actionslider_clicked(obj):
     win.resize_object_add(bx)
     bx.show()
 
-    acts = elementary.Actionslider(win)
+    acts = Actionslider(win)
     acts.size_hint_weight_set(evas.EVAS_HINT_EXPAND, 0.0)
     acts.size_hint_align_set(evas.EVAS_HINT_FILL, 0.0)
     acts.indicator_pos_set(elementary.ELM_ACTIONSLIDER_RIGHT)
@@ -96,7 +98,7 @@ def actionslider_clicked(obj):
     bx.pack_end(acts)
     acts.show()
 
-    acts = elementary.Actionslider(win)
+    acts = Actionslider(win)
     acts.size_hint_weight_set(evas.EVAS_HINT_EXPAND, 0.0)
     acts.size_hint_align_set(evas.EVAS_HINT_FILL, 0.0)
     acts.indicator_pos_set(elementary.ELM_ACTIONSLIDER_CENTER)
@@ -109,7 +111,7 @@ def actionslider_clicked(obj):
     bx.pack_end(acts)
     acts.show()
 
-    acts = elementary.Actionslider(win)
+    acts = Actionslider(win)
     acts.style_set("bar")
     acts.size_hint_weight_set(evas.EVAS_HINT_EXPAND, 0.0)
     acts.size_hint_align_set(evas.EVAS_HINT_FILL, 0.0)
@@ -123,7 +125,7 @@ def actionslider_clicked(obj):
     bx.pack_end(acts)
     acts.show()
 
-    acts = elementary.Actionslider(win)
+    acts = Actionslider(win)
     acts.style_set("bar")
     acts.size_hint_weight_set(evas.EVAS_HINT_EXPAND, 0.0)
     acts.size_hint_align_set(evas.EVAS_HINT_FILL, 0.0)
@@ -138,7 +140,7 @@ def actionslider_clicked(obj):
     bx.pack_end(acts)
     acts.show()
 
-    acts = elementary.Actionslider(win)
+    acts = Actionslider(win)
     acts.size_hint_weight_set(evas.EVAS_HINT_EXPAND, 0.0)
     acts.size_hint_align_set(evas.EVAS_HINT_FILL, 0.0)
     acts.indicator_pos_set(elementary.ELM_ACTIONSLIDER_LEFT)
@@ -151,7 +153,7 @@ def actionslider_clicked(obj):
     bx.pack_end(acts)
     acts.show()
 
-    acts = elementary.Actionslider(win)
+    acts = Actionslider(win)
     acts.size_hint_weight_set(evas.EVAS_HINT_EXPAND, 0.0)
     acts.size_hint_align_set(evas.EVAS_HINT_FILL, 0.0)
     acts.indicator_pos_set(elementary.ELM_ACTIONSLIDER_CENTER)

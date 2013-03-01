@@ -1,8 +1,15 @@
 #!/usr/bin/env python
 # encoding: utf-8
 
-from efl import elementary
 from efl import evas
+from efl import elementary
+from efl.elementary.window import Window
+from efl.elementary.background import Background
+from efl.elementary.box import Box
+from efl.elementary.check import Check
+from efl.elementary.index import Index
+from efl.elementary.genlist import Genlist, GenlistItem, GenlistItemClass
+from efl.elementary.separator import Separator
 
 
 def gl_text_get(gl, part, data):
@@ -26,24 +33,24 @@ def cb_idx_selected(idx, item):
     
 
 def index_clicked(obj):
-    win = elementary.Window("index", elementary.ELM_WIN_BASIC)
+    win = Window("index", elementary.ELM_WIN_BASIC)
     win.title_set("Index test")
     win.autodel_set(True)
     if obj is None:
         win.callback_delete_request_add(lambda o: elementary.exit())
 
-    bg = elementary.Background(win)
+    bg = Background(win)
     win.resize_object_add(bg)
     bg.size_hint_weight_set(evas.EVAS_HINT_EXPAND, evas.EVAS_HINT_EXPAND)
     bg.show()
 
-    vbox = elementary.Box(win)
+    vbox = Box(win)
     vbox.size_hint_weight_set(evas.EVAS_HINT_EXPAND, evas.EVAS_HINT_EXPAND)
     win.resize_object_add(vbox)
     vbox.show()
 
     # index
-    idx = elementary.Index(win)
+    idx = Index(win)
     idx.size_hint_align_set(evas.EVAS_HINT_FILL, evas.EVAS_HINT_FILL)
     idx.size_hint_weight_set(evas.EVAS_HINT_EXPAND, evas.EVAS_HINT_EXPAND)
     idx.callback_delay_changed_add(cb_idx_delay_changed)
@@ -53,11 +60,11 @@ def index_clicked(obj):
     idx.show()
     
     # genlist
-    itc = elementary.GenlistItemClass(item_style="default",
-                                      text_get_func=gl_text_get)
-                                      # content_get_func=gl_content_get,
-                                      # state_get_func=gl_state_get)
-    gl = elementary.Genlist(win)
+    itc = GenlistItemClass(item_style="default",
+                           text_get_func=gl_text_get)
+                           # content_get_func=gl_content_get,
+                           # state_get_func=gl_state_get)
+    gl = Genlist(win)
     gl.size_hint_align_set(evas.EVAS_HINT_FILL, evas.EVAS_HINT_FILL)
     gl.size_hint_weight_set(evas.EVAS_HINT_EXPAND, evas.EVAS_HINT_EXPAND)
     vbox.pack_end(gl)
@@ -77,30 +84,30 @@ def index_clicked(obj):
 
     idx.level_go(0)
 
-    sep = elementary.Separator(win)
+    sep = Separator(win)
     sep.horizontal = True
     vbox.pack_end(sep)
     sep.show()
 
-    hbox = elementary.Box(win)
+    hbox = Box(win)
     hbox.horizontal = True
     hbox.size_hint_weight_set(evas.EVAS_HINT_EXPAND, 0.0)
     vbox.pack_end(hbox)
     hbox.show()
 
-    ck = elementary.Check(win)
+    ck = Check(win)
     ck.text = "autohide_disabled"
     ck.callback_changed_add(lambda ck: idx.autohide_disabled_set(ck.state))
     hbox.pack_end(ck)
     ck.show()
 
-    ck = elementary.Check(win)
+    ck = Check(win)
     ck.text = "indicator_disabled"
     ck.callback_changed_add(lambda ck: idx.indicator_disabled_set(ck.state))
     hbox.pack_end(ck)
     ck.show()
 
-    ck = elementary.Check(win)
+    ck = Check(win)
     ck.text = "horizontal"
     ck.callback_changed_add(lambda ck: idx.horizontal_set(ck.state))
     hbox.pack_end(ck)

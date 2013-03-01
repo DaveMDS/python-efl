@@ -1,9 +1,16 @@
 #!/usr/bin/env python
 # encoding: utf-8
 
-from efl import elementary
 from efl import evas
-
+from efl import elementary
+from efl.elementary.window import Window
+from efl.elementary.background import Background
+from efl.elementary.box import Box
+from efl.elementary.button import Button
+from efl.elementary.entry import Entry
+from efl.elementary.list import List
+from efl.elementary.frame import Frame
+from efl.elementary.label import Label
 
 def my_entry_bt_1(bt, en):
     en.entry_set("")
@@ -24,21 +31,21 @@ def my_entry_anchor_test(obj, anchor, en, *args, **kwargs):
 
 
 def entry_clicked(obj, item=None):
-    win = elementary.Window("entry", elementary.ELM_WIN_BASIC)
+    win = Window("entry", elementary.ELM_WIN_BASIC)
     win.title_set("Entry")
     win.autodel_set(True)
 
-    bg = elementary.Background(win)
+    bg = Background(win)
     win.resize_object_add(bg)
     bg.size_hint_weight_set(evas.EVAS_HINT_EXPAND, evas.EVAS_HINT_EXPAND)
     bg.show()
 
-    bx = elementary.Box(win)
+    bx = Box(win)
     win.resize_object_add(bx)
     bx.size_hint_weight_set(evas.EVAS_HINT_EXPAND, evas.EVAS_HINT_EXPAND)
     bx.show()
 
-    en = elementary.Entry(win)
+    en = Entry(win)
     en.line_wrap_set(False)
     en.entry_set("This is an entry widget in this window that<br>"
                  "uses markup <b>like this</> for styling and<br>"
@@ -53,12 +60,12 @@ def entry_clicked(obj, item=None):
     bx.pack_end(en)
     en.show()
 
-    bx2 = elementary.Box(win)
+    bx2 = Box(win)
     bx2.horizontal_set(True)
     bx2.size_hint_weight_set(evas.EVAS_HINT_EXPAND, 0.0)
     bx2.size_hint_align_set(evas.EVAS_HINT_FILL, evas.EVAS_HINT_FILL)
 
-    bt = elementary.Button(win)
+    bt = Button(win)
     bt.text_set("Clear")
     bt.callback_clicked_add(my_entry_bt_1, en)
     bt.size_hint_align_set(evas.EVAS_HINT_FILL, evas.EVAS_HINT_FILL)
@@ -66,7 +73,7 @@ def entry_clicked(obj, item=None):
     bx2.pack_end(bt)
     bt.show()
 
-    bt = elementary.Button(win)
+    bt = Button(win)
     bt.text_set("Print")
     bt.callback_clicked_add(my_entry_bt_2, en)
     bt.size_hint_align_set(evas.EVAS_HINT_FILL, evas.EVAS_HINT_FILL)
@@ -74,7 +81,7 @@ def entry_clicked(obj, item=None):
     bx2.pack_end(bt)
     bt.show()
 
-    bt = elementary.Button(win)
+    bt = Button(win)
     bt.text_set("Selection")
     bt.callback_clicked_add(my_entry_bt_3, en)
     bt.size_hint_align_set(evas.EVAS_HINT_FILL, evas.EVAS_HINT_FILL)
@@ -82,7 +89,7 @@ def entry_clicked(obj, item=None):
     bx2.pack_end(bt)
     bt.show()
 
-    bt = elementary.Button(win)
+    bt = Button(win)
     bt.text_set("Insert")
     bt.callback_clicked_add(my_entry_bt_4, en)
     bt.size_hint_align_set(evas.EVAS_HINT_FILL, evas.EVAS_HINT_FILL)
@@ -98,16 +105,16 @@ def entry_clicked(obj, item=None):
 
 
 def entry_scrolled_clicked(obj, item=None):
-    win = elementary.Window("entry", elementary.ELM_WIN_BASIC)
+    win = Window("entry", elementary.ELM_WIN_BASIC)
     win.title_set("Scrolled Entry")
     win.autodel_set(True)
 
-    bg = elementary.Background(win)
+    bg = Background(win)
     win.resize_object_add(bg)
     bg.size_hint_weight_set(evas.EVAS_HINT_EXPAND, evas.EVAS_HINT_EXPAND)
     bg.show()
 
-    en = elementary.Entry(win)
+    en = Entry(win)
     win.resize_object_add(en)
     en.scrollable_set(True)
     en.line_wrap_set(False)
@@ -137,26 +144,26 @@ def anchor_hover_opened(obj, event_info):
     print(("We should have EntryAnchorHoverInfo here: %s" % (event_info)))
     print(("EntryAnchorHoverInfo has the following properties and methods: %s" % (dir(event_info))))
     print(event_info.anchor_info.name)
-    btn = elementary.Button(obj)
+    btn = Button(obj)
     btn.text_set("Testing entry anchor")
     event_info.hover.part_content_set("middle", btn)
     btn.show()
 
 def entry_anchor_clicked(obj, item=None):
-    win = elementary.Window("entry", elementary.ELM_WIN_BASIC)
+    win = Window("entry", elementary.ELM_WIN_BASIC)
     win.title_set("Entry Anchor")
     win.autodel_set(True)
 
-    bg = elementary.Background(win)
+    bg = Background(win)
     bg.size_hint_weight_set(1.0, 1.0)
     win.resize_object_add(bg)
     bg.show()
 
-    box = elementary.Box(win)
+    box = Box(win)
     box.size_hint_weight_set(1.0, 1.0)
     win.resize_object_add(box)
 
-    entry = elementary.Entry(win)
+    entry = Entry(win)
     entry.text_set("<a href=url:http://www.enlightenment.org/>Enlightenment</a>")
     entry.callback_anchor_clicked_add(anchor_clicked)
     entry.anchor_hover_style_set("popout")
@@ -164,7 +171,7 @@ def entry_anchor_clicked(obj, item=None):
     entry.callback_anchor_hover_opened_add(anchor_hover_opened)
     entry.show()
 
-    frame = elementary.Frame(win)
+    frame = Frame(win)
     frame.size_hint_align_set(-1.0, -1.0)
     frame.text_set("Entry test")
     frame.content_set(entry)
@@ -182,26 +189,26 @@ if __name__ == "__main__":
         elementary.exit()
 
     elementary.init()
-    win = elementary.Window("test", elementary.ELM_WIN_BASIC)
+    win = Window("test", elementary.ELM_WIN_BASIC)
     win.title_set("python-elementary test application")
     win.callback_delete_request_add(destroy)
 
-    bg = elementary.Background(win)
+    bg = Background(win)
     win.resize_object_add(bg)
     bg.size_hint_weight_set(evas.EVAS_HINT_EXPAND, evas.EVAS_HINT_EXPAND)
     bg.show()
 
-    box0 = elementary.Box(win)
+    box0 = Box(win)
     box0.size_hint_weight_set(evas.EVAS_HINT_EXPAND, evas.EVAS_HINT_EXPAND)
     win.resize_object_add(box0)
     box0.show()
 
-    fr = elementary.Frame(win)
+    fr = Frame(win)
     fr.text_set("Information")
     box0.pack_end(fr)
     fr.show()
 
-    lb = elementary.Label(win)
+    lb = Label(win)
     lb.text_set("Please select a test from the list below<br>"
                  "by clicking the test button to show the<br>"
                  "test window.")
@@ -213,7 +220,7 @@ if __name__ == "__main__":
              ("Entry Anchor", entry_anchor_clicked)
             ]
 
-    li = elementary.List(win)
+    li = List(win)
     li.size_hint_weight_set(evas.EVAS_HINT_EXPAND, evas.EVAS_HINT_EXPAND)
     li.size_hint_align_set(evas.EVAS_HINT_FILL, evas.EVAS_HINT_FILL)
     box0.pack_end(li)
