@@ -717,7 +717,7 @@ cdef class GenlistItem(ObjectItem):
             Py_DECREF(self)
             return None
 
-    def sorted_insert(self, genlist not None, comparison_func):
+    def sorted_insert(self, GenlistWidget genlist not None, comparison_func):
         """sorted_insert(Genlist genlist, comparison_func) -> GenlistItem
 
         Insert a new item into the sorted genlist object
