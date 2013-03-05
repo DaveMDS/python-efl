@@ -11,9 +11,9 @@ from efl.elementary.entry import Entry
 from efl.elementary.grid import Grid
 
 
-def cb_change(bt, grid):
-    (x, y, w, h) = grid.pack_get(bt)
-    grid.pack_set(bt, x - 2, y - 2, w + 4, h + 4)
+def cb_change(bt):
+    (x, y, w, h) = grid_pack_get(bt)
+    grid_pack_set(bt, x - 2, y - 2, w + 4, h + 4)
     
 def grid_clicked(obj):
     win = Window("grid", elementary.ELM_WIN_BASIC)
@@ -68,7 +68,7 @@ def grid_clicked(obj):
 
     bt = Button(win);
     bt.text = "Change"
-    bt.callback_clicked_add(cb_change, gd)
+    bt.callback_clicked_add(cb_change)
     gd.pack(bt, 40, 40, 20, 20)
     bt.show()
 

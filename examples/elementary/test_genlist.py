@@ -15,6 +15,7 @@ from efl.elementary.button import Button
 from efl.elementary.list import List
 from efl.elementary.icon import Icon
 from efl.elementary.genlist import Genlist, GenlistItem, GenlistItemClass
+from efl.elementary.general import cache_all_flush
 
 
 def gl_text_get(obj, part, item_data):
@@ -364,7 +365,7 @@ def genlist2_clicked(obj, item=None):
 
     def my_gl_flush(bt, gl):
         def my_gl_flush_delay():
-            elm_cache_all_flush()
+            cache_all_flush()
         ecore.timer_add(1.2, my_gl_flush_delay)
     bt = Button(win)
     bt.text_set("Flush")

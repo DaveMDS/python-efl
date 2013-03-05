@@ -2,9 +2,6 @@
 BUGS:
 
 * Evas: smart object doesn't work
-* Elm: test genlist 2 -> Flush ('elm_cache_all_flush' not defined)
-* Elm: test genlist Sorted ('Genlist' object has no attribute 'obj')
-* Elm: test grid -> click 'Change' btn ('Grid' object has no attribute 'pack_get')
 * Elm: remove tooltips.pxi
 
 TODO:

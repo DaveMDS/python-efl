@@ -206,3 +206,13 @@ def coords_finger_size_adjust(times_w, w, times_h, h):
     height = h
     elm_coords_finger_size_adjust(times_w, &width, times_h, &height)
 
+def cache_all_flush():
+    """cache_all_flush()
+    
+    Frees all data that was in cache and is not currently being used to reduce
+    memory usage. This frees Edje's, Evas' and Eet's cache.
+
+    .. note:: Evas caches are flushed for every canvas associated with a window.
+
+    """
+    elm_cache_all_flush()
