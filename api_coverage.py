@@ -28,7 +28,7 @@ def get_capis(inc_path, prefix):
         for f in files:
             with open(os.path.join(path, f), "r") as header:
                 capi = header.read()
-                matches = re.finditer("^ *EAPI [A-Za-z_ *\n]+(" + prefix + "_\w+)\(", capi, re.S|re.M)
+                matches = re.finditer("^ *EAPI [A-Za-z_ *\n]+ +\**(" + prefix + "_\w+)\(", capi, re.S|re.M)
                 for match in matches:
                     func = match.group(1)
                     #print(func)
@@ -55,6 +55,8 @@ def get_pyapis(pxd_path, header_name, prefix):
     return pyapis
 
 parser = argparse.ArgumentParser()
+parser.add_argument("--python", action="store_true", default=False, help="Show Python API coverage")
+parser.add_argument("--c", action="store_true", default=False, help="Show C API coverage")
 parser.add_argument("libs", nargs="+", help="Possible values are eo, evas, ecore, efile, edje, emotion, edbus, elementary and all.")
 args = parser.parse_args()
 
@@ -81,12 +83,32 @@ for key in args.libs:
                             
     ecs = set(capis)
     eps = set(pyapis)
-    differences = sorted(ecs.union(eps) - ecs.intersection(eps))
-    for d in differences:
-        if d in ecs:
-            print("{0} is missing from py api".format(d))
-        else:
-            pass#print("{0} is missing from c api".format(d))
+    differences = ecs.union(eps) - ecs.intersection(eps)
+    
+    for d in sorted(differences):
+        if args.python and d in ecs:
+            print("{0} is missing from Python API".format(d))
+        if args.c and d in eps:
+            print("{0} is missing from C API".format(d))
+            
+    if args.python or args.c: print("\n---")
+    
+    if args.python:
+        print("Number of functions missing from Python API: {0}".format(len(ecs - ecs.intersection(eps))))
+    if args.c:
+        print("Number of functions missing from C API: {0}".format(len(eps - ecs.intersection(eps))))
+
+    if args.python or args.c: print("---")
+    
+    if args.python:
+        print("Python API functions: {0}".format(len(eps)))
+    if args.c:
+        print("C API functions: {0}".format(len(ecs)))
+    
+    if args.python:
+        percentage = float(len(ecs.intersection(eps))) / float(len(ecs)) * 100.0
+        print("===")
+        print("Bindings coverage {0:.2f}%".format(percentage))
         
-    print(header_name + " C api functions: {0}".format(len(ecs)))
-    print(header_name + " py api functions: {0}".format(len(eps)))
+    if args.python or args.c: print("---\n")
+    
