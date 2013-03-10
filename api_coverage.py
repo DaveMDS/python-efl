@@ -6,6 +6,9 @@ import re
 import subprocess
 import argparse
 
+c_excludes = "app|widget|prefs"
+py_excludes = "naviframe_item_simple_push|object_item_content|object_item_text|object_content|object_text"
+
 def pkg_config(require, min_vers=None):
     name = require.capitalize()
     try:
@@ -28,10 +31,9 @@ def get_capis(inc_path, prefix):
         for f in files:
             with open(os.path.join(path, f), "r") as header:
                 capi = header.read()
-                matches = re.finditer("^ *EAPI [A-Za-z_ *\n]+ +\**(" + prefix + "_\w+) *\(", capi, re.S|re.M)
+                matches = re.finditer("^ *EAPI [A-Za-z_ *\n]+ +\**(" + prefix + "_(?!" + c_excludes + ")\w+) *\(", capi, re.S|re.M)
                 for match in matches:
                     func = match.group(1)
-                    #print(func)
                     capis.append(func)
 
     return capis
@@ -46,10 +48,9 @@ def get_pyapis(pxd_path, header_name, prefix):
                     pyapi = pxd.read()
                     cdef = re.search('(cdef extern from "' + header_name + '\.h":\n)(.+)', pyapi, re.S)
                     if cdef:
-                        matches = re.finditer("^    [a-zA-Z _*]+?(" + prefix + "_\w+)\(", cdef.group(2), re.M)
+                        matches = re.finditer("^    [a-zA-Z _*]+?(" + prefix + "_(?!" + py_excludes + ")\w+)\(", cdef.group(2), re.M)
                         for match in matches:
                             func = match.group(1)
-                            #print(func)
                             pyapis.append(func)
 
     return pyapis
