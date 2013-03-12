@@ -6,8 +6,8 @@ import re
 import subprocess
 import argparse
 
-c_excludes = "app|widget|prefs"
-py_excludes = "naviframe_item_simple_push|object_item_content|object_item_text|object_content|object_text"
+c_excludes = "elm_app|elm_widget|elm_prefs"
+py_excludes = "elm_naviframe_item_simple_push|elm_object_item_content|elm_object_item_text|elm_object_content|elm_object_text"
 
 def pkg_config(require, min_vers=None):
     name = require.capitalize()
@@ -31,7 +31,7 @@ def get_capis(inc_path, prefix):
         for f in files:
             with open(os.path.join(path, f), "r") as header:
                 capi = header.read()
-                matches = re.finditer("^ *EAPI [A-Za-z_ *\n]+ +\**(" + prefix + "_(?!" + c_excludes + ")\w+) *\(", capi, re.S|re.M)
+                matches = re.finditer("^ *EAPI [A-Za-z_ *\n]+ +\**(?!" + c_excludes + ")(" + prefix + "_\w+) *\(", capi, re.S|re.M)
                 for match in matches:
                     func = match.group(1)
                     capis.append(func)
@@ -48,7 +48,7 @@ def get_pyapis(pxd_path, header_name, prefix):
                     pyapi = pxd.read()
                     cdef = re.search('(cdef extern from "' + header_name + '\.h":\n)(.+)', pyapi, re.S)
                     if cdef:
-                        matches = re.finditer("^    [a-zA-Z _*]+?(" + prefix + "_(?!" + py_excludes + ")\w+)\(", cdef.group(2), re.M)
+                        matches = re.finditer("^    [a-zA-Z _*]+?(?!" + py_excludes + ")(" + prefix + "_\w+)\(", cdef.group(2), re.M)
                         for match in matches:
                             func = match.group(1)
                             pyapis.append(func)
@@ -58,15 +58,16 @@ def get_pyapis(pxd_path, header_name, prefix):
 parser = argparse.ArgumentParser()
 parser.add_argument("--python", action="store_true", default=False, help="Show Python API coverage")
 parser.add_argument("--c", action="store_true", default=False, help="Show C API coverage")
-parser.add_argument("libs", nargs="+", help="Possible values are eo, evas, ecore, ecore-file, edje, emotion, edbus, elementary and all.")
+parser.add_argument("libs", nargs="+", help="Possible values are eo, evas, efreet, ecore, ecore-file, edje, emotion, edbus, elementary and all.")
 args = parser.parse_args()
 
 if args.libs is "all":
-    args.libs = ["eo", "evas", "ecore", "efile", "edje", "emotion", "edbus", "elementary"]
+    args.libs = ["eo", "evas", "efreet", "ecore", "efile", "edje", "emotion", "edbus", "elementary"]
 
 params = {
     "eo": ("include", "Eo", "eo"),
     "evas": ("include", "Evas", "evas"),
+    "efreet": ("efl/efreet", "Efreet", "efreet"),
     "ecore": ("include", "Ecore", "ecore"),
     "ecore-file": ("include", "Ecore_File", "ecore_file"),
     "edje": ("include", "Edje", "edje"),
