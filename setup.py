@@ -72,6 +72,14 @@ else:
                             extra_link_args = evas_libs)
     modules.append(evas_ext)
 
+    # Efreet
+    efreet_cflags, efreet_libs = pkg_config('Efreet', 'efreet', "1.7.99")
+    efreet_ext = Extension("efl.efreet", ["efl/efreet/efreet.pyx"],
+                            include_dirs = ['include/'],
+                            extra_compile_args = efreet_cflags + evas_cflags + eo_cflags,
+                            extra_link_args = efreet_libs)
+    modules.append(efreet_ext)
+
     # Ecore
     ecore_cflags, ecore_libs = pkg_config('Ecore', 'ecore', "1.7.99")
     efile_cflags, efile_libs = pkg_config('EcoreFile', 'ecore-file', "1.7.99")
