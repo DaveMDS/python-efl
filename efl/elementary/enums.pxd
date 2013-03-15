@@ -45,6 +45,12 @@ cdef extern from "Elementary.h":
         ELM_CALENDAR_SELECT_MODE_NONE
         ELM_CALENDAR_SELECT_MODE_ONDEMAND
 
+    ctypedef enum Elm_Calendar_Selectable:
+        ELM_CALENDAR_SELECTABLE_NONE
+        ELM_CALENDAR_SELECTABLE_YEAR
+        ELM_CALENDAR_SELECTABLE_MONTH
+        ELM_CALENDAR_SELECTABLE_DAY
+
     ctypedef enum Elm_Calendar_Weekday:
         ELM_DAY_SUNDAY
         ELM_DAY_MONDAY
