@@ -73,6 +73,25 @@
     Select on demand
 
 
+.. rubric:: Selectable
+
+.. data:: ELM_CALENDAR_SELECTABLE_NONE
+
+    None selectable
+
+.. data:: ELM_CALENDAR_SELECTABLE_YEAR
+
+    Year is selectable
+
+.. data:: ELM_CALENDAR_SELECTABLE_MONTH
+
+    Month is selectable
+
+.. data:: ELM_CALENDAR_SELECTABLE_DAY
+
+    Day is selectable
+
+
 .. rubric:: Days
 
 .. data:: ELM_DAY_SUNDAY
@@ -333,7 +352,7 @@ cdef class Calendar(LayoutClass):
         """
         def __set__(self, format_func):
             pass
-            #elm_calendar_format_function_set(self.obj, format_func)
+            #TODO: elm_calendar_format_function_set(self.obj, format_func)
 
     def mark_add(self, mark_type, mark_time, repeat):
         """mark_add(mark_type, mark_time, repeat) -> CalendarMark
@@ -393,9 +412,9 @@ cdef class Calendar(LayoutClass):
         :type: tuple of :py:class:`CalendarMark`
 
         """
-        #def __get__(self):
+        #TODO: def __get__(self):
             #const_Eina_List         *elm_calendar_marks_get(self.obj)
-        #def __set__(self, value):
+        #TODO: def __set__(self, value):
         def __del__(self):
             elm_calendar_marks_clear(self.obj)
 
@@ -456,6 +475,32 @@ cdef class Calendar(LayoutClass):
             return elm_calendar_first_day_of_week_get(self.obj)
         def __set__(self, day):
             elm_calendar_first_day_of_week_set(self.obj, day)
+
+    property selectable:
+        """How selected_time manages a date
+
+        :type: Selectable
+
+        """
+        def __set__(self, Elm_Calendar_Selectable selectable):
+            elm_calendar_selectable_set(self.obj, selectable)
+
+        def __get__(self):
+            return int(elm_calendar_selectable_get(self.obj))
+
+    property displayed_time:
+        """Get the current time displayed in the widget
+
+        :type: datetime.date
+
+        """
+        def __get__(self):
+            cdef tm time
+            elm_calendar_displayed_time_get(self.obj, &time)
+            ret = date( time.tm_year + 1900,
+                        time.tm_mon + 1,
+                        time.tm_mday)
+            return ret
 
     def callback_changed_add(self, func, *args, **kwargs):
         """Emitted when the date in the calendar is changed."""
