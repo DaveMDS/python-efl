@@ -540,7 +540,7 @@ cdef class GenlistItem(ObjectItem):
         :param flags: defines special behavior of this item:
 
             - ELM_GENLIST_ITEM_NONE = 0
-            - ELM_GENLIST_ITEM_SUBITEMS = 1
+            - ELM_GENLIST_ITEM_TREE = 1
             - ELM_GENLIST_ITEM_GROUP = 2
 
         :param func: if not None, this must be a callable to be
