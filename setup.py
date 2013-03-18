@@ -106,13 +106,13 @@ else:
     modules.append(emotion_ext)
 
     # EDBus
-    edbus_cflags, edbus_libs = pkg_config('EDBus', 'edbus2', "1.7.99")
-    pydbus_cflags, pydbus_libs = pkg_config('dbus-python', 'dbus-python')
-    edbus_ext = Extension("efl.edbus", ["efl/edbus/edbus.pyx"],
-                            include_dirs = ['include/'],
-                            extra_compile_args = edbus_cflags + pydbus_cflags + ecore_cflags,
-                            extra_link_args = edbus_libs)
-    modules.append(edbus_ext)
+    #edbus_cflags, edbus_libs = pkg_config('EDBus', 'edbus2', "1.7.99")
+    #pydbus_cflags, pydbus_libs = pkg_config('dbus-python', 'dbus-python')
+    #edbus_ext = Extension("efl.edbus", ["efl/edbus/edbus.pyx"],
+                            #include_dirs = ['include/'],
+                            #extra_compile_args = edbus_cflags + pydbus_cflags + ecore_cflags,
+                            #extra_link_args = edbus_libs)
+    #modules.append(edbus_ext)
 
     # Elementary
     elm_cflags, elm_libs = pkg_config('Elementary', 'elementary', "1.7.99")
