@@ -36,6 +36,7 @@ cdef extern from "Elementary.h":
     Eina_Bool                elm_win_override_get(Evas_Object *obj)
     void                     elm_win_fullscreen_set(Evas_Object *obj, Eina_Bool fullscreen)
     Eina_Bool                elm_win_fullscreen_get(Evas_Object *obj)
+    Evas_Object          *elm_win_main_menu_get(const_Evas_Object *obj)
     void                     elm_win_maximized_set(Evas_Object *obj, Eina_Bool maximized)
     Eina_Bool                elm_win_maximized_get(Evas_Object *obj)
     void                     elm_win_iconified_set(Evas_Object *obj, Eina_Bool iconified)
@@ -45,7 +46,7 @@ cdef extern from "Elementary.h":
 
     void                  elm_win_available_profiles_set(Evas_Object *obj, const_char **profiles, unsigned int count)
     Eina_Bool             elm_win_available_profiles_get(Evas_Object *obj, char ***profiles, unsigned int *count)
-    void                  elm_win_profile_set(Evas_Object *obj, const char *profile)
+    void                  elm_win_profile_set(Evas_Object *obj, const_char *profile)
     const_char           *elm_win_profile_get(const_Evas_Object *obj)
 
     void                     elm_win_urgent_set(Evas_Object *obj, Eina_Bool urgent)
@@ -62,6 +63,10 @@ cdef extern from "Elementary.h":
     void                     elm_win_size_step_get(Evas_Object *obj, int *w, int *h)
     void                     elm_win_layer_set(Evas_Object *obj, int layer)
     int                      elm_win_layer_get(Evas_Object *obj)
+    void                  elm_win_norender_push(Evas_Object *obj)
+    void                  elm_win_norender_pop(Evas_Object *obj)
+    int                   elm_win_norender_get(Evas_Object *obj)
+    void                  elm_win_render(Evas_Object *obj)
     void                     elm_win_rotation_set(Evas_Object *obj, int rotation)
     void                     elm_win_rotation_with_resize_set(Evas_Object *obj, int rotation)
     int                      elm_win_rotation_get(Evas_Object *obj)
@@ -86,6 +91,7 @@ cdef extern from "Elementary.h":
     void                     elm_win_screen_constrain_set(Evas_Object *obj, Eina_Bool constrain)
     Eina_Bool                elm_win_screen_constrain_get(Evas_Object *obj)
     void                     elm_win_screen_size_get(Evas_Object *obj, int *x, int *y, int *w, int *h)
+    void                  elm_win_screen_dpi_get(const_Evas_Object *obj, int *xdpi, int *ydpi)
 
     void                     elm_win_focus_highlight_enabled_set(Evas_Object *obj, Eina_Bool enabled)
     Eina_Bool                elm_win_focus_highlight_enabled_get(Evas_Object *obj)
@@ -108,3 +114,5 @@ cdef extern from "Elementary.h":
     # X specific call - wont't work on non-x engines (return 0)
     Ecore_X_Window           elm_win_xwindow_get(Evas_Object *obj)
 
+    void                  elm_win_floating_mode_set(Evas_Object *obj, Eina_Bool floating)
+    Eina_Bool             elm_win_floating_mode_get(const_Evas_Object *obj)

@@ -61,7 +61,7 @@
 
     The window is a dropdown menu, as when an entry in a menubar is clicked.
 
-    Typically used with elm_win_override_set(). This hint exists for
+    Typically used with :py:attr:`override`. This hint exists for
     completion only, as the EFL way of implementing a menu would not
     normally use a separate window for its contents.
 
@@ -76,7 +76,7 @@
 
     A short piece of explanatory text that typically appear after the mouse
     cursor hovers over an object for a while. Typically used with
-    elm_win_override_set() and also not very commonly used in the EFL.
+    :py:attr:`override` and also not very commonly used in the EFL.
 
 .. data:: ELM_WIN_NOTIFICATION
 
@@ -94,7 +94,7 @@
     Used to indicate the window is a representation of an object being
     dragged across different windows, or even applications.
 
-    Typically used with elm_win_override_set().
+    Typically used with :py:attr:`override`.
 
 .. data:: ELM_WIN_INLINED_IMAGE
 
@@ -104,8 +104,8 @@
     its contents will be rendered to an image buffer. This allows to have
     children window inside a parent one just like any other object would be,
     and do other things like applying Evas_Map effects to it. This is the
-    only type of window that requires the parent parameter of elm_win_add()
-    to be a valid Evas_Object.
+    only type of window that requires the ``parent`` parameter
+    to be a valid :py:class:`efl.evas.Object`.
 
 .. data:: ELM_WIN_SOCKET_IMAGE
 
@@ -362,11 +362,13 @@ cdef class Window(Object):
     :type name: string
     :param type: A type for the new window:
     :type type: Elm_Win_Type
+    :keyword parent: Parent object to add the window to, defaults to None
+    :type parent: :py:class:`efl.evas.Object`
 
     """
 
-    def __init__(self, name, type):
-        self._set_obj(elm_win_add(NULL, _cfruni(name), type))
+    def __init__(self, name, type, evasObject parent=None):
+        self._set_obj(elm_win_add(parent.obj if parent is not None else NULL, _cfruni(name), type))
 
     def resize_object_add(self, evasObject subobj):
         """resize_object_add(evas.Object subobj)
@@ -394,7 +396,7 @@ cdef class Window(Object):
         as soon as the object is added to the window).
 
         :param subobj: The resize object to add
-        :type subobj: :py:class:`elementary.object.Object`
+        :type subobj: :py:class:`efl.elementary.object.Object`
 
         """
         elm_win_resize_object_add(self.obj, subobj.obj)
@@ -410,7 +412,7 @@ cdef class Window(Object):
         or set as child of some other container.
 
         :param subobj: The resize object to add
-        :type subobj: :py:class:`elementary.object.Object`
+        :type subobj: :py:class:`efl.elementary.object.Object`
 
         """
         elm_win_resize_object_del(self.obj, subobj.obj)
@@ -474,7 +476,7 @@ cdef class Window(Object):
         window's icon. This has limitations as only image objects allowed at
         this stage. This may be lifted in future.
 
-        :type: :py:class:`elementary.image.Image`
+        :type: :py:class:`efl.elementary.image.Image`
 
         """
         def __get__(self):
@@ -605,7 +607,7 @@ cdef class Window(Object):
         background object or cover the entire window in any other way, or the
         parts of the canvas that have no data will show framebuffer artifacts.
 
-        .. seealso:: alpha
+        .. seealso:: :py:attr:`alpha`
 
         :type: bool
 
@@ -628,7 +630,7 @@ cdef class Window(Object):
         transparent. This is also subject to the underlying system
         supporting it, like for example, running under a compositing
         manager. If no compositing is available, enabling this option will
-        instead fallback to using shaped windows, with :py::`shaped`.
+        instead fallback to using shaped windows, with :py:attr:`shaped`.
 
         :type: bool
 
@@ -685,6 +687,18 @@ cdef class Window(Object):
     def fullscreen_get(self):
         return bool(elm_win_fullscreen_get(self.obj))
 
+    property main_menu:
+        """Get the Main Menu of a window.
+
+        :type: :py:class:`efl.evas.Object`
+
+        """
+        def __get__(self):
+            return object_from_instance(elm_win_main_menu_get(self.obj))
+
+    def main_menu_get(self):
+        return object_from_instance(elm_win_main_menu_get(self.obj))
+
     property maximized:
         """The maximized state of a window.
 
@@ -736,7 +750,7 @@ cdef class Window(Object):
     property available_profiles:
         """The array of available profiles to a window.
 
-        :type: List of strings
+        :type: list of strings
 
         """
         def __set__(self, list profiles):
@@ -754,6 +768,18 @@ cdef class Window(Object):
 
             return convert_array_of_strings_to_python_list(profiles, count)
 
+    def available_profiles_set(self, list profiles):
+        cdef unsigned int count = len(profiles)
+        elm_win_available_profiles_set(self.obj, convert_python_list_strings_to_array_of_strings(profiles), count)
+    def available_profiles_get(self):
+        cdef:
+            char **profiles
+            unsigned int count
+        ret = elm_win_available_profiles_get(self.obj, &profiles, &count)
+        if ret is 0:
+            raise RuntimeError("No available profiles")
+        return convert_array_of_strings_to_python_list(profiles, count)
+
     property profile:
         """The profile of a window.
 
@@ -765,6 +791,11 @@ cdef class Window(Object):
 
         def __get__(self):
             return _ctouni(elm_win_profile_get(self.obj))
+
+    def profile_set(self, profile):
+        elm_win_profile_set(self.obj, _cfruni(profile))
+    def profile_get(self):
+        return _ctouni(elm_win_profile_get(self.obj))
 
     property urgent:
         """The urgent state of the window.
@@ -838,9 +869,9 @@ cdef class Window(Object):
 
         Base size + stepping is what is calculated for window sizing restrictions.
 
-        :type: tuple(int w, int h)
+        :type: (int w, int h)
 
-        .. seealso:: size_step
+        .. seealso:: :py:attr:`size_step`
 
         """
         def __set__(self, value):
@@ -857,9 +888,9 @@ cdef class Window(Object):
 
         Base size + stepping is what is calculated for window sizing restrictions.
 
-        :type: tuple(int w, int h)
+        :type: (int w, int h)
 
-        .. seealso:: size_base
+        .. seealso:: :py:attr:`size_base`
 
         """
         def __set__(self, value):
@@ -870,6 +901,13 @@ cdef class Window(Object):
             cdef int w, h
             elm_win_size_step_get(self.obj, &w, &h)
             return (w, h)
+
+    def size_step_set(self, int w, int h):
+        elm_win_size_step_set(self.obj, w, h)
+    def size_step_get(self):
+        cdef int w, h
+        elm_win_size_step_get(self.obj, &w, &h)
+        return (w, h)
 
     property layer:
         """The layer of the window.
@@ -895,6 +933,83 @@ cdef class Window(Object):
         elm_win_layer_set(self.obj, layer)
     def layer_get(self):
         return elm_win_layer_get(self.obj)
+
+    def norender_push(self):
+        """norender_push()
+
+        This pushes (incriments) the norender counter on the window
+
+        There are some occasions where you wish to suspend rendering on a window.
+        You may be "sleeping" and have nothing to update and do not want animations
+        or other theme side-effects causing rendering to the window while "asleep".
+        You can push (and pop) the norender mode to have this work.
+
+        If combined with evas_render_dump(), evas_image_cache_flush() and
+        evas_font_cache_flush() (and maybe edje_file_cache_flush() and
+        edje_collection_cache_flush()), you can minimize memory footprint
+        significantly while "asleep", and the pausing of rendering ensures
+        evas does not re-load data into memory until needed. When rendering is
+        resumed, data will be re-loaded as needed, which may result in some
+        lag, but does save memory.
+
+        .. seealso::
+            :py:func:`norender_pop`
+            :py:attr:`norender`
+            :py:func:`render`
+
+        """
+        elm_win_norender_push(self.obj)
+
+    def norender_pop(self):
+        """norender_pop()
+        This pops (decrements) the norender counter on the window
+
+        Once norender has gone back to 0, then automatic rendering will continue
+        in the given window. If it is already at 0, this will have no effect.
+
+        .. seealso::
+            :py:func:`norender_push`
+            :py:attr:`norender`
+            :py:func:`render`
+
+        """
+        elm_win_norender_pop(self.obj)
+
+    property norender:
+        """How many times norender has been pushed on the window
+
+        :type: int
+
+        .. seealso::
+            :py:func:`norender_push`
+            :py:func:`norender_pop`
+            :py:func:`render`
+
+        """
+        def __get__(self):
+            return elm_win_norender_get(self.obj)
+
+    def norender_get(self):
+        return elm_win_norender_get(self.obj)
+
+    def render(self):
+        """render()
+
+        This manually asks evas to render the window now
+
+        You should NEVER call this unless you really know what you are doing and
+        why. Never call this unless you are asking for performance degredation
+        and possibly weird behavior. Windows get automatically rendered when the
+        application goes idle so there is never a need to call this UNLESS you
+        have enabled "norender" mode.
+
+        .. seealso::
+            :py:func:`norender_push`
+            :py:func:`norender_pop`
+            :py:attr:`norender`
+
+        """
+        elm_win_render(self.obj)
 
     property rotation:
         """The rotation of the window.
@@ -1085,7 +1200,7 @@ cdef class Window(Object):
         under control of elementary), and use it to do things like get pixel
         data, save the image to a file, etc.
 
-        :type: evasObject
+        :type: :py:class:`efl.evas.Image`
 
         """
         def __get__(self):
@@ -1129,7 +1244,7 @@ cdef class Window(Object):
     property screen_size:
         """Get screen geometry details for the screen that a window is on
 
-        :type: tuple of ints
+        :type: (int X, int Y, int W, int H)
 
         """
         def __get__(self):
@@ -1141,6 +1256,22 @@ cdef class Window(Object):
         cdef int x, y, w, h
         elm_win_screen_size_get(self.obj, &x, &y, &w, &h)
         return (x, y, w, h)
+
+    property screen_dpi:
+        """Get screen DPI for the screen that a window is on
+
+        :type: (int X_DPI, int Y_DPI)
+
+        """
+        def __get__(self):
+            cdef int xdpi, ydpi
+            elm_win_screen_dpi_get(self.obj, &xdpi, &ydpi)
+            return (xdpi, ydpi)
+
+    def screen_dpi_get(self):
+        cdef int xdpi, ydpi
+        elm_win_screen_dpi_get(self.obj, &xdpi, &ydpi)
+        return (xdpi, ydpi)
 
     property focus_highlight_enabled:
         """The enabled status of the focus highlight in a window
@@ -1247,7 +1378,7 @@ cdef class Window(Object):
     property screen_position:
         """Get the screen position of a window.
 
-        :type: tuple of ints
+        :type: (int X, int Y)
 
         """
         def __get__(self):
@@ -1285,11 +1416,12 @@ cdef class Window(Object):
         X Window id is a value of type long int which can be used in
         combination with some functions/objects in the ecore.x module.
 
-        For example you can hide the mouse cursor with:
-        import ecore.x
-        xid = your_elm_win.xwindow_xid_get()
-        xwin = ecore.x.Window_from_xid(xid)
-        xwin.cursor_hide()
+        For example you can hide the mouse cursor with::
+
+            import ecore.x
+            xid = your_elm_win.xwindow_xid
+            xwin = ecore.x.Window_from_xid(xid)
+            xwin.cursor_hide()
 
         .. note:: This is not portable at all. Works only under the X window
             system.
@@ -1306,6 +1438,23 @@ cdef class Window(Object):
         cdef Ecore_X_Window xwin
         xwin = elm_win_xwindow_get(self.obj)
         return xwin
+
+    property floating:
+        """Floating mode of a window.
+
+        :type: bool
+
+        """
+        def __set__(self, floating):
+            elm_win_floating_mode_set(self.obj, floating)
+
+        def __get__(self):
+            return bool(elm_win_floating_mode_get(self.obj))
+
+    def floating_set(self, floating):
+        elm_win_floating_mode_set(self.obj, floating)
+    def floating_get(self):
+        return bool(elm_win_floating_mode_get(self.obj))
 
     def callback_delete_request_add(self, func, *args, **kwargs):
         """The user requested to close the window. See :py:attr:`autodel`."""
