@@ -25,10 +25,8 @@ from efl.evas cimport Evas_Font_Size
 from efl.evas cimport Evas_Load_Error
 from efl.evas cimport Evas_Event_Flags
 from enums cimport Elm_Policy, Elm_Policy_Quit
-
-cdef extern from *:
-    ctypedef char* const_char_ptr "const char *"
-    ctypedef void const_void "const void"
+from libc.string cimport const_char
+from libc.stdlib cimport const_void
 
 cdef extern from "stdlib.h":
     void free(void *ptr)
@@ -50,7 +48,7 @@ cdef extern from "time.h":
         int tm_isdst
 
         long int tm_gmtoff
-        const_char_ptr tm_zone
+        const_char *tm_zone
 
 cdef extern from "Python.h":
     ctypedef struct PyTypeObject:
@@ -60,7 +58,7 @@ cdef extern from "Ecore.h":
     ctypedef void (*Ecore_Cb)(void *data)
 
 cdef extern from "Edje.h":
-    ctypedef void (*Edje_Signal_Cb)(void *data, Evas_Object *obj, const_char_ptr emission, const_char_ptr source)
+    ctypedef void (*Edje_Signal_Cb)(void *data, Evas_Object *obj, const_char *emission, const_char *source)
 
 cdef extern from "Elementary.h":
 
@@ -74,7 +72,7 @@ cdef extern from "Elementary.h":
         unsigned int a
 
     ctypedef struct _Elm_Custom_Palette:
-        const_char_ptr palette_name
+        const_char *palette_name
         Eina_List *color_list
 
     #event
@@ -82,14 +80,14 @@ cdef extern from "Elementary.h":
 
     #font
     ctypedef struct Elm_Font_Overlay:
-        const_char_ptr text_class
-        const_char_ptr font
+        const_char *text_class
+        const_char *font
         Evas_Font_Size size
 
     #text
     ctypedef struct Elm_Text_Class:
-        const_char_ptr name
-        const_char_ptr desc
+        const_char *name
+        const_char *desc
 
     #tooltip
     ctypedef Evas_Object    *(*Elm_Tooltip_Content_Cb)      (void *data, Evas_Object *obj, Evas_Object *tooltip)
@@ -119,10 +117,10 @@ cdef extern from "Elementary.h":
     int                      elm_policy_get(unsigned int policy)
 
     # General - Language    (py3: TODO)
-    void                     elm_language_set(const_char_ptr lang)
-    
+    void                     elm_language_set(const_char *lang)
+
     # Cache
-    void					elm_cache_all_flush()
+    void                    elm_cache_all_flush()
 
     # Finger
     void                     elm_coords_finger_size_adjust(int times_w, Evas_Coord *w, int times_h, Evas_Coord *h)
@@ -130,6 +128,6 @@ cdef extern from "Elementary.h":
 #cdef int PY_REFCOUNT(object o)
 #cdef _METHOD_DEPRECATED(self, replacement=*, message=*)
 #cdef inline unicode _touni(char* s)
-#cdef inline unicode _ctouni(const_char_ptr s)
+#cdef inline unicode _ctouni(const_char *s)
 #cdef inline char* _fruni(s)
-#cdef inline const_char_ptr _cfruni(s)
+#cdef inline const_char *_cfruni(s)

@@ -77,7 +77,7 @@
 """
 
 include "widget_header.pxi"
-from efl.eo cimport _object_list_to_python, _strings_from_python
+from efl.eo cimport _object_list_to_python, convert_python_list_strings_to_eina_list
 
 cimport enums
 
@@ -778,4 +778,4 @@ cdef class Transit(object):
 
         """
         #TODO: can the return value Elm_Transit_Effect be used somehow?
-        elm_transit_effect_image_animation_add(self.obj, _strings_from_python(images))
+        elm_transit_effect_image_animation_add(self.obj, convert_python_list_strings_to_eina_list(images))

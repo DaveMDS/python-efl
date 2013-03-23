@@ -223,6 +223,8 @@ include "widget_header.pxi"
 
 from object cimport Object
 
+from efl.eo cimport convert_python_list_strings_to_array_of_strings, convert_array_of_strings_to_python_list
+
 from efl.evas cimport Evas
 from efl.evas cimport evas_object_evas_get
 #from efl.evas cimport Canvas_from_instance
@@ -730,6 +732,39 @@ cdef class Window(Object):
         elm_win_withdrawn_set(self.obj, withdrawn)
     def withdrawn_get(self):
         return bool(elm_win_withdrawn_get(self.obj))
+
+    property available_profiles:
+        """The array of available profiles to a window.
+
+        :type: List of strings
+
+        """
+        def __set__(self, list profiles):
+            cdef unsigned int count = len(profiles)
+            elm_win_available_profiles_set(self.obj, convert_python_list_strings_to_array_of_strings(profiles), count)
+
+        def __get__(self):
+            cdef:
+                char **profiles
+                unsigned int count
+
+            ret = elm_win_available_profiles_get(self.obj, &profiles, &count)
+            if ret is 0:
+                raise RuntimeError("No available profiles")
+
+            return convert_array_of_strings_to_python_list(profiles, count)
+
+    property profile:
+        """The profile of a window.
+
+        :type: unicode
+
+        """
+        def __set__(self, profile):
+            elm_win_profile_set(self.obj, _cfruni(profile))
+
+        def __get__(self):
+            return _ctouni(elm_win_profile_get(self.obj))
 
     property urgent:
         """The urgent state of the window.

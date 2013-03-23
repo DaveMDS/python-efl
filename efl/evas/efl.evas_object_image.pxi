@@ -173,7 +173,7 @@ cdef class Image(Object):
         :rtype: tuple of str
 
         """
-        cdef const_char_ptr file, key
+        cdef const_char *file, *key
         evas_object_image_file_get(self.obj, &file, &key)
         return (_ctouni(file), _ctouni(key))
 
@@ -565,7 +565,7 @@ cdef class Image(Object):
         """Force reload of image data."""
         evas_object_image_reload(self.obj)
 
-    def save(self, const_char_ptr filename, key=None, flags=None):
+    def save(self, const_char *filename, key=None, flags=None):
         """Save image to file.
 
         :param filename: where to save.
@@ -577,7 +577,7 @@ cdef class Image(Object):
         :type flags: string
 
         """
-        cdef const_char_ptr k, f
+        cdef const_char *k, *f
         if key:
             k = key
         else:

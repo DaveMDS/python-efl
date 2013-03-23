@@ -153,7 +153,7 @@ cdef extern from "Edje.h":
 
 
     ctypedef Edje_External_Type const_Edje_External_Type "const Edje_External_Type"
-    ctypedef void (*Edje_Signal_Cb)(void *data, Evas_Object *obj, const_char_ptr emission, const_char_ptr source)
+    ctypedef void (*Edje_Signal_Cb)(void *data, Evas_Object *obj, const_char *emission, const_char_ptr source)
 
     ####################################################################
     # Engine

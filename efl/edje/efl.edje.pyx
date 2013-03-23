@@ -22,7 +22,7 @@ from cpython cimport PyMem_Malloc, PyMem_Free
 cimport libc.stdlib
 
 from efl.eo cimport _object_mapping_register, object_from_instance
-from efl.eo cimport _ctouni, _cfruni, _touni, _fruni, _strings_to_python
+from efl.eo cimport _ctouni, _cfruni, _touni, _fruni, convert_eina_list_strings_to_python_list
 
 
 # Edje_Message_Type:
@@ -162,7 +162,7 @@ def fontset_append_get():
 def file_collection_list(file):
     cdef Eina_List *lst
     lst = edje_file_collection_list(_cfruni(file))
-    ret = _strings_to_python(lst)
+    ret = convert_eina_list_strings_to_python_list(lst)
     edje_file_collection_list_free(lst)
     return ret
 

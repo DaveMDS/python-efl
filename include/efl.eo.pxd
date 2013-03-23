@@ -17,8 +17,12 @@
 
 from efl.c_eo cimport Eo as cEo
 from efl.c_eo cimport Eo_Class
-from efl cimport const_char_ptr, Eina_List, const_Eina_List
+from efl cimport Eina_List, const_Eina_List
+from libc.string cimport const_char
 
+cdef extern from "string.h":
+    void *memcpy(void *dst, void *src, int n)
+    char *strdup(char *str)
 
 cdef class Eo(object):
     cdef cEo *obj
@@ -37,9 +41,11 @@ cdef _object_mapping_unregister(char*name)
 
 cdef unicode _touni(char* s)
 cdef char* _fruni(s)
-cdef unicode _ctouni(const_char_ptr s)
-cdef const_char_ptr _cfruni(s)
+cdef unicode _ctouni(const_char *s)
+cdef const_char *_cfruni(s)
 
-cdef _strings_to_python(const_Eina_List *lst)
-cdef Eina_List * _strings_from_python(strings)
+cdef convert_array_of_strings_to_python_list(char **array, int array_length)
+cdef const_char ** convert_python_list_strings_to_array_of_strings(list strings)
+cdef convert_eina_list_strings_to_python_list(const_Eina_List *lst)
+cdef Eina_List * convert_python_list_strings_to_eina_list(strings)
 cdef _object_list_to_python(const_Eina_List *lst)

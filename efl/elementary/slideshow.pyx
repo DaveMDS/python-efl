@@ -18,7 +18,7 @@
 
 include "widget_header.pxi"
 include "callback_conversions.pxi"
-from efl.eo cimport _strings_to_python
+from efl.eo cimport convert_eina_list_strings_to_python_list
 
 from layout_class cimport LayoutClass
 
@@ -444,7 +444,7 @@ cdef class Slideshow(LayoutClass):
 
         """
         def __get__(self):
-            return tuple(_strings_to_python(elm_slideshow_transitions_get(self.obj)))
+            return tuple(convert_eina_list_strings_to_python_list(elm_slideshow_transitions_get(self.obj)))
 
     property transition:
         """The slide transition/effect in use for a given slideshow widget
@@ -598,7 +598,7 @@ cdef class Slideshow(LayoutClass):
 
         """
         def __get__(self):
-            return tuple(_strings_to_python(elm_slideshow_layouts_get(self.obj)))
+            return tuple(convert_eina_list_strings_to_python_list(elm_slideshow_layouts_get(self.obj)))
 
     property cache_before:
         """The number of items to cache, on a given slideshow widget,

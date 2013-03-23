@@ -146,8 +146,8 @@ cdef extern from "Evas.h":
     ctypedef Evas_Textblock_Cursor const_Evas_Textblock_Cursor "const Evas_Textblock_Cursor"
 
     ctypedef struct Evas_Smart_Cb_Description:
-        const_char_ptr name
-        const_char_ptr type
+        const_char *name
+        const_char *type
     ctypedef Evas_Smart_Cb_Description const_Evas_Smart_Cb_Description "const Evas_Smart_Cb_Description"
 
     ctypedef struct Evas_Smart_Interface
@@ -156,7 +156,7 @@ cdef extern from "Evas.h":
     ctypedef struct Evas_Smart_Class
     ctypedef Evas_Smart_Class const_Evas_Smart_Class "const Evas_Smart_Class"
     ctypedef struct Evas_Smart_Class:
-        const_char_ptr name
+        const_char *name
         int version
         void (*add)(Evas_Object *o)
         void (*delete "del")(Evas_Object *o)
@@ -300,9 +300,9 @@ cdef extern from "Evas.h":
         void *data
         Evas_Modifier *modifiers
         Evas_Lock *locks
-        const_char_ptr key
-        const_char_ptr string
-        const_char_ptr compose
+        const_char *key
+        const_char *string
+        const_char *compose
         unsigned int timestamp
         Evas_Event_Flags event_flags
         Evas_Device *dev
@@ -312,9 +312,9 @@ cdef extern from "Evas.h":
         void *data
         Evas_Modifier *modifiers
         Evas_Lock *locks
-        const_char_ptr key
-        const_char_ptr string
-        const_char_ptr compose
+        const_char *key
+        const_char *string
+        const_char *compose
         unsigned int timestamp
         Evas_Event_Flags event_flags
         Evas_Device *dev
@@ -358,7 +358,7 @@ cdef extern from "Evas.h":
     void evas_free(Evas *e)
     const_Eo_Class *evas_class_get()
     
-    int evas_render_method_lookup(const_char_ptr name)
+    int evas_render_method_lookup(const_char *name)
     Eina_List *evas_render_method_list()
     void evas_render_method_list_free(Eina_List *list)
 
@@ -402,7 +402,7 @@ cdef extern from "Evas.h":
     Evas_Object *evas_focus_get(const_Evas *e)
 
     Evas_Modifier *evas_key_modifier_get(Evas *e)
-    Eina_Bool evas_key_modifier_is_set(Evas_Modifier *m, const_char_ptr keyname)
+    Eina_Bool evas_key_modifier_is_set(Evas_Modifier *m, const_char *keyname)
 
     void evas_event_freeze(Evas *e)
     void evas_event_thaw(Evas *e)
@@ -418,13 +418,13 @@ cdef extern from "Evas.h":
     void evas_event_feed_multi_down(Evas *e, int d, int x, int y, double rad, double radx, double rady, double pres, double ang, double fx, double fy, Evas_Button_Flags flags, unsigned int timestamp, const_void *data)
     void evas_event_feed_multi_up(Evas *e, int d, int x, int y, double rad, double radx, double rady, double pres, double ang, double fx, double fy, Evas_Button_Flags flags, unsigned int timestamp, const_void *data)
     void evas_event_feed_multi_move(Evas *e, int d, int x, int y, double rad, double radx, double rady, double pres, double ang, double fx, double fy, unsigned int timestamp, const_void *data)
-    void evas_event_feed_key_down(Evas *e, const_char_ptr keyname, const_char_ptr key, const_char_ptr string, const_char_ptr compose, unsigned int timestamp, const_void *data)
-    void evas_event_feed_key_up(Evas *e, const_char_ptr keyname, const_char_ptr key, const_char_ptr string, const_char_ptr compose, unsigned int timestamp, const_void *data)
+    void evas_event_feed_key_down(Evas *e, const_char *keyname, const_char_ptr key, const_char_ptr string, const_char_ptr compose, unsigned int timestamp, const_void *data)
+    void evas_event_feed_key_up(Evas *e, const_char *keyname, const_char_ptr key, const_char_ptr string, const_char_ptr compose, unsigned int timestamp, const_void *data)
     void evas_event_feed_hold(Evas *e, int hold, unsigned int timestamp, const_void *data)
 
     void evas_font_path_clear(Evas *e)
-    void evas_font_path_append(Evas *e, const_char_ptr path)
-    void evas_font_path_prepend(Evas *e, const_char_ptr path)
+    void evas_font_path_append(Evas *e, const_char *path)
+    void evas_font_path_prepend(Evas *e, const_char *path)
     const_Eina_List *evas_font_path_list(const_Evas *e)
 
     void evas_font_hinting_set(Evas *e, Evas_Font_Hinting_Flags hinting)
@@ -450,11 +450,11 @@ cdef extern from "Evas.h":
     void evas_object_del(Evas_Object *obj)
     Evas *evas_object_evas_get(const_Evas_Object *obj)
 
-    void evas_object_data_set(Evas_Object *obj, const_char_ptr key, const_void *data)
-    void *evas_object_data_get(const_Evas_Object *obj, const_char_ptr key)
-    void *evas_object_data_del(Evas_Object *obj, const_char_ptr key)
+    void evas_object_data_set(Evas_Object *obj, const_char *key, const_void *data)
+    void *evas_object_data_get(const_Evas_Object *obj, const_char *key)
+    void *evas_object_data_del(Evas_Object *obj, const_char *key)
 
-    const_char_ptr evas_object_type_get(const_Evas_Object *obj)
+    const_char *evas_object_type_get(const_Evas_Object *obj)
 
     void evas_object_layer_set(Evas_Object *obj, int l)
     int evas_object_layer_get(const_Evas_Object *obj)
@@ -514,9 +514,9 @@ cdef extern from "Evas.h":
     void evas_object_clip_unset(Evas_Object *obj)
     const_Eina_List *evas_object_clipees_get(const_Evas_Object *obj)
 
-    void evas_object_name_set(Evas_Object *obj, const_char_ptr name)
-    const_char_ptr evas_object_name_get(const_Evas_Object *obj)
-    Evas_Object *evas_object_name_find(const_Evas *e, const_char_ptr name)
+    void evas_object_name_set(Evas_Object *obj, const_char *name)
+    const_char *evas_object_name_get(const_Evas_Object *obj)
+    Evas_Object *evas_object_name_find(const_Evas *e, const_char *name)
 
     int evas_async_events_fd_get()
     int evas_async_events_process()
@@ -558,9 +558,9 @@ cdef extern from "Evas.h":
     Evas_Smart *evas_object_smart_smart_get(const_Evas_Object *obj)
     void *evas_object_smart_data_get(const_Evas_Object *obj)
     void evas_object_smart_data_set(Evas_Object *obj, void *data)
-    void evas_object_smart_callback_add(Evas_Object *obj, const_char_ptr event, Evas_Smart_Cb func, const_void *data)
-    void *evas_object_smart_callback_del(Evas_Object *obj, const_char_ptr event, Evas_Smart_Cb func)
-    void evas_object_smart_callback_call(Evas_Object *obj, const_char_ptr event, void *event_info)
+    void evas_object_smart_callback_add(Evas_Object *obj, const_char *event, Evas_Smart_Cb func, const_void *data)
+    void *evas_object_smart_callback_del(Evas_Object *obj, const_char *event, Evas_Smart_Cb func)
+    void evas_object_smart_callback_call(Evas_Object *obj, const_char *event, void *event_info)
     void evas_object_smart_changed(Evas_Object *obj)
     void evas_object_smart_need_recalculate_set(Evas_Object *obj, int value)
     int evas_object_smart_need_recalculate_get(const_Evas_Object *obj)
@@ -589,8 +589,8 @@ cdef extern from "Evas.h":
     #
     Evas_Object *evas_object_image_add(Evas *e)
     const_Eo_Class *evas_object_image_class_get()
-    void evas_object_image_file_set(Evas_Object *obj, const_char_ptr file, const_char_ptr key)
-    void evas_object_image_file_get(const_Evas_Object *obj, const_char_ptr *file, const_char_ptr *key)
+    void evas_object_image_file_set(Evas_Object *obj, const_char *file, const_char_ptr key)
+    void evas_object_image_file_get(const_Evas_Object *obj, const_char **file, const_char_ptr *key)
     void evas_object_image_border_set(Evas_Object *obj, int l, int r, int t, int b)
     void evas_object_image_border_get(const_Evas_Object *obj, int *l, int *r, int *t, int *b)
     void evas_object_image_border_center_fill_set(Evas_Object *obj, Eina_Bool fill)
@@ -611,7 +611,7 @@ cdef extern from "Evas.h":
     Eina_Bool evas_object_image_smooth_scale_get(const_Evas_Object *obj)
     void evas_object_image_preload(Evas_Object *obj, Eina_Bool cancel)
     void evas_object_image_reload(Evas_Object *obj)
-    Eina_Bool evas_object_image_save(const_Evas_Object *obj, const_char_ptr file, const_char_ptr key, const_char_ptr flags)
+    Eina_Bool evas_object_image_save(const_Evas_Object *obj, const_char *file, const_char_ptr key, const_char_ptr flags)
     #Eina_Bool evas_object_image_pixels_import(Evas_Object *obj, Evas_Pixel_Import_Source *pixels)
     void evas_object_image_pixels_get_callback_set(Evas_Object *obj, void (*func) (void *data, Evas_Object *o), void *data)
     void evas_object_image_pixels_dirty_set(Evas_Object *obj, Eina_Bool dirty)
@@ -642,12 +642,12 @@ cdef extern from "Evas.h":
     #
     Evas_Object *evas_object_text_add(Evas *e)
     const_Eo_Class *evas_object_text_class_get()
-    void evas_object_text_font_source_set(Evas_Object *obj, const_char_ptr font)
-    const_char_ptr evas_object_text_font_source_get(const_Evas_Object *obj)
-    void evas_object_text_font_set(Evas_Object *obj, const_char_ptr font, Evas_Font_Size size)
-    void evas_object_text_font_get(const_Evas_Object *obj, const_char_ptr *font, Evas_Font_Size *size)
-    void evas_object_text_text_set(Evas_Object *obj, const_char_ptr text)
-    const_char_ptr evas_object_text_text_get(const_Evas_Object *obj)
+    void evas_object_text_font_source_set(Evas_Object *obj, const_char *font)
+    const_char *evas_object_text_font_source_get(const_Evas_Object *obj)
+    void evas_object_text_font_set(Evas_Object *obj, const_char *font, Evas_Font_Size size)
+    void evas_object_text_font_get(const_Evas_Object *obj, const_char **font, Evas_Font_Size *size)
+    void evas_object_text_text_set(Evas_Object *obj, const_char *text)
+    const_char *evas_object_text_text_get(const_Evas_Object *obj)
     Evas_Coord evas_object_text_ascent_get(const_Evas_Object *obj)
     Evas_Coord evas_object_text_descent_get(const_Evas_Object *obj)
     Evas_Coord evas_object_text_max_ascent_get(const_Evas_Object *obj)
@@ -677,17 +677,17 @@ cdef extern from "Evas.h":
     const_Eo_Class *evas_object_textblock_class_get()
     Evas_Textblock_Style *evas_textblock_style_new()
     void evas_textblock_style_free(Evas_Textblock_Style *ts)
-    void evas_textblock_style_set(Evas_Textblock_Style *ts, const_char_ptr text)
-    const_char_ptr evas_textblock_style_get(const_Evas_Textblock_Style *ts)
+    void evas_textblock_style_set(Evas_Textblock_Style *ts, const_char *text)
+    const_char *evas_textblock_style_get(const_Evas_Textblock_Style *ts)
     void evas_object_textblock_style_set(Evas_Object *obj, Evas_Textblock_Style *ts)
     Evas_Textblock_Style *evas_object_textblock_style_get(const_Evas_Object *obj)
-    void evas_object_textblock_replace_char_set(Evas_Object *obj, const_char_ptr ch)
-    const_char_ptr evas_object_textblock_replace_char_get(const_Evas_Object *obj)
-    const_char_ptr evas_textblock_escape_string_get(const_char_ptr escape)
-    const_char_ptr evas_textblock_string_escape_get(const_char_ptr string, int *len_ret)
-    void evas_object_textblock_text_markup_set(Evas_Object *obj, const_char_ptr text)
-    void evas_object_textblock_text_markup_prepend(Evas_Textblock_Cursor *cur, const_char_ptr text)
-    const_char_ptr evas_object_textblock_text_markup_get(const_Evas_Object *obj)
+    void evas_object_textblock_replace_char_set(Evas_Object *obj, const_char *ch)
+    const_char *evas_object_textblock_replace_char_get(const_Evas_Object *obj)
+    const_char *evas_textblock_escape_string_get(const_char_ptr escape)
+    const_char *evas_textblock_string_escape_get(const_char_ptr string, int *len_ret)
+    void evas_object_textblock_text_markup_set(Evas_Object *obj, const_char *text)
+    void evas_object_textblock_text_markup_prepend(Evas_Textblock_Cursor *cur, const_char *text)
+    const_char *evas_object_textblock_text_markup_get(const_Evas_Object *obj)
     Evas_Textblock_Cursor *evas_object_textblock_cursor_get(const_Evas_Object *obj)
     Evas_Textblock_Cursor *evas_object_textblock_cursor_new(Evas_Object *obj)
     void evas_textblock_cursor_free(Evas_Textblock_Cursor *cur)
@@ -706,18 +706,18 @@ cdef extern from "Evas.h":
     Eina_Bool evas_textblock_cursor_line_set(Evas_Textblock_Cursor *cur, int line)
     int evas_textblock_cursor_compare(Evas_Textblock_Cursor *cur1, Evas_Textblock_Cursor *cur2)
     void evas_textblock_cursor_copy(Evas_Textblock_Cursor *cur, Evas_Textblock_Cursor *cur_dest)
-    void evas_textblock_cursor_text_append(Evas_Textblock_Cursor *cur, const_char_ptr text)
-    void evas_textblock_cursor_text_prepend(Evas_Textblock_Cursor *cur, const_char_ptr text)
-    void evas_textblock_cursor_format_append(Evas_Textblock_Cursor *cur, const_char_ptr format)
-    void evas_textblock_cursor_format_prepend(Evas_Textblock_Cursor *cur, const_char_ptr format)
+    void evas_textblock_cursor_text_append(Evas_Textblock_Cursor *cur, const_char *text)
+    void evas_textblock_cursor_text_prepend(Evas_Textblock_Cursor *cur, const_char *text)
+    void evas_textblock_cursor_format_append(Evas_Textblock_Cursor *cur, const_char *format)
+    void evas_textblock_cursor_format_prepend(Evas_Textblock_Cursor *cur, const_char *format)
     void evas_textblock_cursor_node_delete(Evas_Textblock_Cursor *cur)
     void evas_textblock_cursor_char_delete(Evas_Textblock_Cursor *cur)
     void evas_textblock_cursor_range_delete(Evas_Textblock_Cursor *cur1, Evas_Textblock_Cursor *cur2)
-    const_char_ptr evas_textblock_cursor_node_text_get(const_Evas_Textblock_Cursor *cur)
+    const_char *evas_textblock_cursor_node_text_get(const_Evas_Textblock_Cursor *cur)
     int evas_textblock_cursor_node_text_length_get(const_Evas_Textblock_Cursor *cur)
-    const_char_ptr evas_textblock_cursor_node_format_get(const_Evas_Textblock_Cursor *cur)
+    const_char *evas_textblock_cursor_node_format_get(const_Evas_Textblock_Cursor *cur)
     Eina_Bool evas_textblock_cursor_node_format_is_visible_get(const_Evas_Textblock_Cursor *cur)
-    const_char_ptr evas_textblock_cursor_range_text_get(const_Evas_Textblock_Cursor *cur1, Evas_Textblock_Cursor *cur2, Evas_Textblock_Text_Type format)
+    const_char *evas_textblock_cursor_range_text_get(const_Evas_Textblock_Cursor *cur1, Evas_Textblock_Cursor *cur2, Evas_Textblock_Text_Type format)
     int evas_textblock_cursor_char_geometry_get(const_Evas_Textblock_Cursor *cur, Evas_Coord *cx, Evas_Coord *cy, Evas_Coord *cw, Evas_Coord *ch)
     int evas_textblock_cursor_line_geometry_get(const_Evas_Textblock_Cursor *cur, Evas_Coord *cx, Evas_Coord *cy, Evas_Coord *cw, Evas_Coord *ch)
     Eina_Bool evas_textblock_cursor_char_coord_set(Evas_Textblock_Cursor *cur, Evas_Coord x, Evas_Coord y)

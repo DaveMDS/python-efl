@@ -42,6 +42,12 @@ cdef extern from "Elementary.h":
     Eina_Bool                elm_win_iconified_get(Evas_Object *obj)
     void                     elm_win_withdrawn_set(Evas_Object *obj, Eina_Bool withdrawn)
     Eina_Bool                elm_win_withdrawn_get(Evas_Object *obj)
+
+    void                  elm_win_available_profiles_set(Evas_Object *obj, const_char **profiles, unsigned int count)
+    Eina_Bool             elm_win_available_profiles_get(Evas_Object *obj, char ***profiles, unsigned int *count)
+    void                  elm_win_profile_set(Evas_Object *obj, const char *profile)
+    const_char           *elm_win_profile_get(const_Evas_Object *obj)
+
     void                     elm_win_urgent_set(Evas_Object *obj, Eina_Bool urgent)
     Eina_Bool                elm_win_urgent_get(Evas_Object *obj)
     void                     elm_win_demand_attention_set(Evas_Object *obj, Eina_Bool demand_attention)

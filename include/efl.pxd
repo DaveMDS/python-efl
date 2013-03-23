@@ -45,7 +45,7 @@ cdef extern from "time.h":
         int tm_isdst
 
         long int tm_gmtoff
-        const_char_ptr tm_zone
+        const_char *tm_zone
 
 
 cdef extern from "Eina.h":
@@ -97,17 +97,17 @@ cdef extern from "Eina.h":
     #
     Eina_Error eina_error_get()
     void eina_error_set(Eina_Error err)
-    const_char_ptr eina_error_msg_get(Eina_Error error)
+    const_char *eina_error_msg_get(Eina_Error error)
 
     Eina_Bool eina_iterator_next(Eina_Iterator *iterator, void **data)
     void eina_iterator_free(Eina_Iterator *iterator)
 
-    Eina_Stringshare *eina_stringshare_add_length(const_char_ptr str, unsigned int slen)
-    Eina_Stringshare *eina_stringshare_add(const_char_ptr str)
+    Eina_Stringshare *eina_stringshare_add_length(const_char *str, unsigned int slen)
+    Eina_Stringshare *eina_stringshare_add(const_char *str)
     void              eina_stringshare_del(Eina_Stringshare *str)
     Eina_Stringshare *eina_stringshare_ref(Eina_Stringshare *str)
     int               eina_stringshare_strlen(Eina_Stringshare *str)
-    
+
     Eina_List *eina_list_free(Eina_List *list)
     Eina_List *eina_list_append(Eina_List *list, void *data)
     Eina_List *eina_list_prepend(Eina_List *list, void *data)

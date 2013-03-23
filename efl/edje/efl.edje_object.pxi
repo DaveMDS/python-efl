@@ -18,7 +18,7 @@
 
 cdef void text_change_cb(void *data,
                          Evas_Object *obj,
-                         const_char_ptr part) with gil:
+                         const_char *part) with gil:
     cdef Edje self
     self = <Edje>data
     if self._text_change_cb is None:
@@ -46,7 +46,7 @@ cdef void message_handler_cb(void *data,
 
 
 cdef void signal_cb(void *data, Evas_Object *obj,
-                    const_char_ptr emission, const_char_ptr source) with gil:
+                    const_char *emission, const_char_ptr source) with gil:
     cdef Edje self
     self = object_from_instance(obj)
     lst = tuple(<object>data)
@@ -214,7 +214,7 @@ cdef class Edje(Object):
         :rtype: tuple for str
 
         """
-        cdef const_char_ptr file, group
+        cdef const_char *file, *group
         edje_object_file_get(self.obj, &file, &group)
         return (_ctouni(file), _ctouni(group))
 
@@ -434,7 +434,7 @@ cdef class Edje(Object):
         :rtype: str
 
         """
-        cdef const_char_ptr s
+        cdef const_char *s
         return _ctouni(edje_object_part_text_get(self.obj, _cfruni(part)))
 
 
@@ -519,8 +519,8 @@ cdef class Edje(Object):
         :rtype: bool
         """
         cdef Edje_External_Param p
-        cdef const_char_ptr c_part
-        cdef const_char_ptr c_param
+        cdef const_char *c_part
+        cdef const_char *c_param
 
         if isinstance(part, unicode):
             str1 = part.encode('UTF-8')
@@ -571,8 +571,8 @@ cdef class Edje(Object):
         :return: *None* for errors, other values depending on the parameter type.
         """
         cdef Edje_External_Param p
-        cdef const_char_ptr c_part
-        cdef const_char_ptr c_param
+        cdef const_char *c_part
+        cdef const_char *c_param
 
         if isinstance(part, unicode):
             str1 = part.encode('UTF-8')
@@ -765,7 +765,7 @@ cdef class Edje(Object):
     def part_state_get(self, part):
         ":rtype: (name, value)"
         cdef double sv
-        cdef const_char_ptr sn
+        cdef const_char *sn
         sn = edje_object_part_state_get(self.obj, _cfruni(part), &sv)
         return (_ctouni(sn), sv)
 

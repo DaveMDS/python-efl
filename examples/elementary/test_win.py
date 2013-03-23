@@ -37,6 +37,8 @@ def window_states_clicked(obj):
     if obj is None:
         win.callback_delete_request_add(lambda o: elementary.exit())
 
+    print(win.available_profiles)
+
     bg = Background(win)
     win.resize_object_add(bg)
     bg.size_hint_weight = (evas.EVAS_HINT_EXPAND, evas.EVAS_HINT_EXPAND)

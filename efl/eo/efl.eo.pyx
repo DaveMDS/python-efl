@@ -15,7 +15,7 @@
 # You should have received a copy of the GNU Lesser General Public License
 # along with this Python-EFL.  If not, see <http://www.gnu.org/licenses/>.
 
-from cpython cimport PyObject, Py_INCREF, Py_DECREF
+from cpython cimport PyObject, Py_INCREF, Py_DECREF, PyMem_Malloc, PyMem_Free
 from efl cimport Eina_Bool, const_Eina_List, eina_list_append, const_void
 from efl.c_eo cimport Eo as cEo
 from efl.c_eo cimport eo_init, eo_shutdown, eo_del, eo_unref, eo_wref_add, eo_add, Eo_Class
@@ -33,13 +33,13 @@ import traceback
 cdef int PY_REFCOUNT(object o):
     cdef PyObject *obj = <PyObject *>o
     return obj.ob_refcnt
- 
+
 
 cdef unicode _touni(char* s):
     return s.decode('UTF-8', 'strict') if s else None
 
 
-cdef unicode _ctouni(const_char_ptr s):
+cdef unicode _ctouni(const_char *s):
     return s.decode('UTF-8', 'strict') if s else None
 
 
@@ -57,8 +57,8 @@ cdef char *_fruni(s):
     return c_string
 
 
-cdef const_char_ptr _cfruni(s):
-    cdef const_char_ptr c_string
+cdef const_char *_cfruni(s):
+    cdef const_char *c_string
     if s is None:
         return NULL
     if isinstance(s, unicode):
@@ -71,18 +71,46 @@ cdef const_char_ptr _cfruni(s):
     return c_string
 
 
-cdef _strings_to_python(const_Eina_List *lst):
-    cdef const_char_ptr s
+cdef convert_array_of_strings_to_python_list(char **array, int array_length):
+    cdef char *string
+
+    ret = []
+    for i from 0 <= i < array_length:
+        string = array[i]
+        if string != NULL:
+            ret.append(_touni(string))
+        #FIXME: if it's null we could append None and log.warn
+    return ret
+
+
+cdef const_char ** convert_python_list_strings_to_array_of_strings(list strings):
+    cdef:
+        const_char **lst
+        const_char *string
+        int count = len(strings)
+
+    lst = <const_char **>PyMem_Malloc(count * sizeof(const_char*))
+    for i from 0 <= i < count:
+        string = _cfruni(strings[i])
+        str_len = len(strings[i])
+        lst[i] = <const_char *>PyMem_Malloc(str_len + 1)
+        memcpy(lst[i], string, str_len + 1)
+
+    return lst
+
+
+cdef convert_eina_list_strings_to_python_list(const_Eina_List *lst):
+    cdef const_char *s
     ret = []
     while lst:
-        s = <const_char_ptr>lst.data
+        s = <const_char *>lst.data
         if s != NULL:
             ret.append(_ctouni(s))
         lst = lst.next
     return ret
 
 
-cdef Eina_List * _strings_from_python(strings):
+cdef Eina_List * convert_python_list_strings_to_eina_list(strings):
     cdef Eina_List *lst = NULL
     for s in strings:
         lst = eina_list_append(lst, _cfruni(s))
@@ -236,7 +264,7 @@ cdef class Eo(object):
                 (self.__class__.__name__, <unsigned long>self.obj,
                  <unsigned long>eo_parent_get(self.obj) if self.obj else 0,
                  PY_REFCOUNT(self))
-        
+
 
     def __repr__(self):
         return ("Eo(class=%s, obj=%#x, parent=%#x, refcount=%d)") % \
@@ -269,7 +297,7 @@ cdef class Eo(object):
 #     def delete(self):
 #         """
 #         Delete object and free it's internal (wrapped) resources.
-# 
+#
 #         @note: after this operation the object will be still alive in
 #             Python, but it will be shallow and every operation
 #             will have no effect (and may raise exceptions).

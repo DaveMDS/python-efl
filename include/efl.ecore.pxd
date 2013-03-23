@@ -168,8 +168,8 @@ cdef extern from "Ecore.h":
     void                 *ecore_exe_free(Ecore_Exe *exe)
     int                   ecore_exe_pid_get(Ecore_Exe *exe)
     void                  ecore_exe_tag_set(Ecore_Exe *exe, char *tag)
-    const_char_ptr        ecore_exe_tag_get(Ecore_Exe *exe)
-    const_char_ptr        ecore_exe_cmd_get(Ecore_Exe *exe)
+    const_char *       ecore_exe_tag_get(Ecore_Exe *exe)
+    const_char *       ecore_exe_cmd_get(Ecore_Exe *exe)
     void                 *ecore_exe_data_get(Ecore_Exe *exe)
     Ecore_Exe_Flags       ecore_exe_flags_get(Ecore_Exe *exe)
     void                  ecore_exe_pause(Ecore_Exe *exe)
@@ -186,15 +186,15 @@ cdef extern from "Ecore_File.h":
 
     ctypedef struct Ecore_File_Download_Job
 
-    ctypedef void (*Ecore_File_Download_Completion_Cb)(void *data, const_char_ptr file, int status)
-    ctypedef int  (*Ecore_File_Download_Progress_Cb)(void *data, const_char_ptr file, long int dltotal, long int dlnow, long int ultotal, long int ulnow)
+    ctypedef void (*Ecore_File_Download_Completion_Cb)(void *data, const_char *file, int status)
+    ctypedef int  (*Ecore_File_Download_Progress_Cb)(void *data, const_char *file, long int dltotal, long int dlnow, long int ultotal, long int ulnow)
 
     int       ecore_file_init()
     int       ecore_file_shutdown()
     void      ecore_file_download_abort(Ecore_File_Download_Job *job)
     void      ecore_file_download_abort_all()
-    Eina_Bool ecore_file_download_protocol_available(const_char_ptr protocol)
-    Eina_Bool ecore_file_download(const_char_ptr url, const_char_ptr dst,
+    Eina_Bool ecore_file_download_protocol_available(const_char *protocol)
+    Eina_Bool ecore_file_download(const_char *url, const_char_ptr dst,
                                   Ecore_File_Download_Completion_Cb completion_cb,
                                   Ecore_File_Download_Progress_Cb progress_cb,
                                   void *data,
@@ -329,8 +329,8 @@ cdef class FileDownload:
     cdef readonly object args
     cdef readonly object kargs
 
-    cdef object _exec_completion(self, const_char_ptr file, int status)
-    cdef object _exec_progress(self, const_char_ptr file,
+    cdef object _exec_completion(self, const_char *file, int status)
+    cdef object _exec_progress(self, const_char *file,
                                long int dltotal, long int dlnow,
                                long int ultotal, long int ulnow)
 

@@ -18,7 +18,7 @@
 
 include "widget_header.pxi"
 
-from efl.eo cimport _strings_to_python
+from efl.eo cimport convert_eina_list_strings_to_python_list
 
 cdef class Configuration(object):
 
@@ -158,7 +158,7 @@ cdef class Configuration(object):
         """
         def __get__(self):
             cdef Eina_List *lst = elm_config_profile_list_get()
-            return tuple(_strings_to_python(lst))
+            return tuple(convert_eina_list_strings_to_python_list(lst))
 
     property scroll_bounce_enabled:
         """Whether scrollers should bounce when they reach their

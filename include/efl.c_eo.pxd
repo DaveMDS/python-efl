@@ -38,8 +38,8 @@ cdef extern from "Eo.h":
     ctypedef Eo_Class const_Eo_Class "const Eo_Class"
 
     ctypedef struct Eo_Event_Description:
-        const_char_ptr name
-        const_char_ptr doc
+        const_char *name
+        const_char *doc
 
     ctypedef Eo_Event_Description const_Eo_Event_Description "const Eo_Event_Description"
 
@@ -71,12 +71,12 @@ cdef extern from "Eo.h":
     void eo_wref_add(Eo *obj)
 
     Eina_Bool eo_do(Eo *obj, ...)
-    void eo_base_data_set(const_char_ptr key, const_void *data, eo_base_data_free_func free_func)
-    void eo_base_data_get(const_char_ptr key, void **data)
-    void eo_base_data_del(const_char_ptr key)
+    void eo_base_data_set(const_char *key, const_void *data, eo_base_data_free_func free_func)
+    void eo_base_data_get(const_char *key, void **data)
+    void eo_base_data_del(const_char *key)
 
     const_Eo_Class *eo_class_get(const_Eo *obj)
-    const_char_ptr eo_class_name_get(const_Eo_Class *klass)
+    const_char *eo_class_name_get(const_Eo_Class *klass)
 
     Eo *eo_parent_get(const_Eo *obj)
 

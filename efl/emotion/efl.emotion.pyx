@@ -15,7 +15,7 @@
 # You should have received a copy of the GNU Lesser General Public License
 # along with this Python-EFL.  If not, see <http://www.gnu.org/licenses/>.
 
-from efl.eo cimport const_char_ptr, _ctouni, _cfruni
+from efl.eo cimport _ctouni, _cfruni
 from efl.eo cimport object_from_instance, _object_mapping_register
 from efl.evas cimport Canvas
 from efl.evas cimport evas_object_smart_callback_add
@@ -113,7 +113,7 @@ def webcams_get():
     """
     cdef Eina_List *lst, *itr
     cdef Emotion_Webcam *cam
-    cdef const_char_ptr name, device
+    cdef const_char *name, *device
 
     ret = []
     lst = emotion_webcams_get()
@@ -198,7 +198,7 @@ cdef class Emotion(evasObject):
         object already has another file set, this file will be unset and unloaded,
         and the new file will be loaded to this emotion object. The seek position
         will be set to 0, and the emotion object will be paused, instead of playing.
-    
+
         If there was already a filename set, and it's the same as the one being set
         now, setting the property does nothing
 
@@ -265,7 +265,7 @@ cdef class Emotion(evasObject):
         size on the original video size. However, if the video is scaled up or down
         (i.e. the emotion object size is different from the video size), the borders
         will be scaled respectively too.
-        
+
         If a negative value is given to one of the parameters, instead of a border,
         that respective side of the video will be cropped.
 
@@ -329,7 +329,7 @@ cdef class Emotion(evasObject):
         set the policy to be used.
 
         The options are:
-        
+
         - ``EMOTION_ASPECT_KEEP_NONE`` ignore the video aspect ratio, and reset any
           border set to 0, stretching the video inside the emotion object area. This
           option is similar to EVAS_ASPECT_CONTROL_NONE size hint.
@@ -394,7 +394,7 @@ cdef class Emotion(evasObject):
         mobile phone SoC) or two (on Set Top Box SoC) when Picture in Picture
         is needed. And most application just have a few video stream that really
         deserve high frame rate, hiogh quality output. That's why this call is for.
-        
+
         .. note:: If Emotion can't acquire a priviledged hardware ressource,
                   it will fallback to the no-priority path. This work on the
                   first asking first get basis system.
@@ -635,7 +635,7 @@ cdef class Emotion(evasObject):
         """ The audio volume.
 
         The current value for the audio volume level. Range is from 0.0 to 1.0.
-        
+
         Sets the audio volume of the stream being played. This has nothing to do with
         the system volume. This volume will be multiplied by the system volume. e.g.:
         if the current volume level is 0.5, and the system volume is 50%, it will be
@@ -945,7 +945,7 @@ cdef class Emotion(evasObject):
         :return: all the know meta info for the media file
         :rtype: dict
         """
-        cdef const_char_ptr info
+        cdef const_char *info
         ret = dict()
         lst = (("title", EMOTION_META_INFO_TRACK_TITLE),
                ("artist", EMOTION_META_INFO_TRACK_ARTIST),
@@ -974,7 +974,7 @@ cdef class Emotion(evasObject):
         callback to let the application know when it succeed or fail.
         Every operation is fully asynchronous and not linked to the actual
         engine used to play the video.
-        
+
         """
         emotion_object_last_position_load(self.obj)
 
@@ -995,7 +995,7 @@ cdef class Emotion(evasObject):
 
         :param filename: A filename that we want to know if Emotion can play.
         :type filename: str
-        
+
         """
         return bool(emotion_object_extension_may_play_get(_cfruni(filename)))
 
@@ -1006,7 +1006,7 @@ cdef class Emotion(evasObject):
         This function is usefull when you want to get a direct access to the pixels.
         """
         return object_from_instance(emotion_object_image_get(self.obj))
-        
+
     def event_simple_send(self, int event_id):
         """ Send a named signal to the object.
 

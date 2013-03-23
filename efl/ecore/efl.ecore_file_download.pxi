@@ -16,14 +16,14 @@
 # along with this Python-EFL.  If not, see <http://www.gnu.org/licenses/>.
 
 
-cdef void _completion_cb(void *data, const_char_ptr file, int status) with gil:
+cdef void _completion_cb(void *data, const_char *file, int status) with gil:
     obj = <FileDownload>data
     try:
         obj._exec_completion(file, status)
     except Exception, e:
         traceback.print_exc()
 
-cdef int _progress_cb(void *data, const_char_ptr file, long int dltotal,
+cdef int _progress_cb(void *data, const_char *file, long int dltotal,
                     long int dlnow, long int ultotal, long int ulnow) with gil:
     obj = <FileDownload>data
     try:
@@ -117,11 +117,11 @@ cdef class FileDownload(object):
         self.args = None
         self.kargs = None
 
-    cdef object _exec_completion(self, const_char_ptr file, int status):
+    cdef object _exec_completion(self, const_char *file, int status):
         if self.completion_cb:
             self.completion_cb(file, status, *self.args, **self.kargs)
 
-    cdef object _exec_progress(self, const_char_ptr file, long int dltotal,
+    cdef object _exec_progress(self, const_char *file, long int dltotal,
                             long int dlnow, long int ultotal, long int ulnow):
         if self.progress_cb:
             return self.progress_cb(file, dltotal, dlnow, ultotal, ulnow,

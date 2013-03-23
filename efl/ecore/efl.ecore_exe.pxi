@@ -460,7 +460,7 @@ cdef class Exe(object):
         :rtype: str or None
 
         """
-        cdef const_char_ptr cmd = ecore_exe_cmd_get(self.exe)
+        cdef const_char *cmd = ecore_exe_cmd_get(self.exe)
         if cmd != NULL:
             return cmd
         return None
@@ -511,7 +511,7 @@ cdef class Exe(object):
         :rtype: str or None
 
         """
-        cdef const_char_ptr tag = ecore_exe_tag_get(self.exe)
+        cdef const_char *tag = ecore_exe_tag_get(self.exe)
         if tag != NULL:
             return tag
         return None

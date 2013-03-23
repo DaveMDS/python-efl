@@ -1,4 +1,4 @@
-from efl.eo cimport _ctouni, _strings_to_python
+from efl.eo cimport _ctouni, convert_eina_list_strings_to_python_list
 
 def data_home_get():
     """
@@ -20,7 +20,7 @@ def data_dirs_get():
     modified values. DO NOT free this list.
 
     """
-    return _strings_to_python(efreet_data_dirs_get())
+    return convert_eina_list_strings_to_python_list(efreet_data_dirs_get())
 
 def config_home_get():
     """
@@ -156,7 +156,7 @@ def config_dirs_get():
     modified values. DO NOT free this list.
 
     """
-    return _strings_to_python(efreet_config_dirs_get())
+    return convert_eina_list_strings_to_python_list(efreet_config_dirs_get())
 
 def cache_home_get():
     """

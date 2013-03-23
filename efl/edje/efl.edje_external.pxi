@@ -91,7 +91,7 @@ cdef class ExternalParamInfo:
 
     property translated_name:
         def __get__(self):
-            cdef const_char_ptr t
+            cdef const_char *t
             if self._external_type_obj == NULL or \
                self._external_type_obj.translate == NULL:
                 return self.name
@@ -195,7 +195,7 @@ cdef class ExternalParamInfoString(ExternalParamInfo):
 
     property translated_default:
         def __get__(self):
-            cdef const_char_ptr t
+            cdef const_char *t
             if self._external_type_obj == NULL or \
                self._external_type_obj.translate == NULL:
                 return self.default
@@ -231,7 +231,7 @@ cdef class ExternalParamInfoBool(ExternalParamInfo):
 
     property translated_false_string:
         def __get__(self):
-            cdef const_char_ptr t
+            cdef const_char *t
             if self._external_type_obj == NULL or \
                self._external_type_obj.translate == NULL:
                 return self.false_string
@@ -249,7 +249,7 @@ cdef class ExternalParamInfoBool(ExternalParamInfo):
 
     property translated_true_string:
         def __get__(self):
-            cdef const_char_ptr t
+            cdef const_char *t
             if self._external_type_obj == NULL or \
                self._external_type_obj.translate == NULL:
                 return self.true_string
@@ -269,7 +269,7 @@ cdef class ExternalParamInfoChoice(ExternalParamInfo):
 
     property translated_default:
         def __get__(self):
-            cdef const_char_ptr t
+            cdef const_char *t
             if self._external_type_obj == NULL or \
                self._external_type_obj.translate == NULL:
                 return self.default
@@ -295,7 +295,7 @@ cdef class ExternalParamInfoChoice(ExternalParamInfo):
 
     property translated_choices:
         def __get__(self):
-            cdef const_char_ptr t
+            cdef const_char *t
             if self._external_type_obj == NULL or \
                self._external_type_obj.translate == NULL:
                 return self.choices
@@ -365,7 +365,7 @@ cdef class ExternalType:
             return self._obj.module_name
 
     def label_get(self):
-        cdef const_char_ptr l
+        cdef const_char *l
         if self._obj.label_get == NULL:
             return None
         l = self._obj.label_get(self._obj.data)
@@ -375,7 +375,7 @@ cdef class ExternalType:
         return ret
 
     def description_get(self):
-        cdef const_char_ptr l
+        cdef const_char *l
         if self._obj.description_get == NULL:
             return None
         l = self._obj.description_get(self._obj.data)
@@ -395,7 +395,7 @@ cdef class ExternalType:
         It will always return a string, on errors the parameter text
         is returned untranslated.
         """
-        cdef const_char_ptr l
+        cdef const_char *l
         if self._obj.translate == NULL:
             return text
         l = self._obj.translate(self._obj.data, text)

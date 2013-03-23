@@ -18,7 +18,7 @@
 from efl cimport Eina_Bool, Eina_List, const_Eina_List
 from efl.evas cimport Evas, Evas_Object, const_Evas_Object, const_char_ptr
 from efl.evas cimport Object as evasObject
-
+from libc.string cimport const_char
 
 cdef extern from "Emotion.h":
 
@@ -39,7 +39,7 @@ cdef extern from "Emotion.h":
 
     Eina_Bool emotion_init()
     Eina_Bool emotion_shutdown()
-    
+
     Evas_Object *emotion_object_add(Evas *e)
     void emotion_object_module_option_set(Evas_Object *obj, char *opt, char *val)
     Eina_Bool emotion_object_init(Evas_Object *obj, char *module_filename)
@@ -109,20 +109,20 @@ cdef extern from "Emotion.h":
     void emotion_object_bg_color_get(const_Evas_Object *obj, int *r, int *g, int *b, int *a)
     void emotion_object_keep_aspect_set(Evas_Object *obj, Emotion_Aspect a)
     Emotion_Aspect emotion_object_keep_aspect_get(const_Evas_Object *obj)
-    void emotion_object_video_subtitle_file_set(Evas_Object *obj, const_char_ptr filepath)
-    const_char_ptr emotion_object_video_subtitle_file_get(const_Evas_Object *obj)
+    void emotion_object_video_subtitle_file_set(Evas_Object *obj, const_char *filepath)
+    const_char *emotion_object_video_subtitle_file_get(const_Evas_Object *obj)
     void  emotion_object_priority_set(Evas_Object *obj, Eina_Bool priority)
     Eina_Bool emotion_object_priority_get(const_Evas_Object *obj)
     Emotion_Suspend emotion_object_suspend_get(Evas_Object *obj)
     void emotion_object_suspend_set(Evas_Object *obj, Emotion_Suspend state)
     void emotion_object_last_position_load(Evas_Object *obj)
     void emotion_object_last_position_save(Evas_Object *obj)
-    Eina_Bool emotion_object_extension_may_play_get(const_char_ptr file)
+    Eina_Bool emotion_object_extension_may_play_get(const_char *file)
     Evas_Object *emotion_object_image_get(const_Evas_Object *obj)
 
     const_Eina_List *emotion_webcams_get()
-    const_char_ptr emotion_webcam_name_get(Emotion_Webcam *ew)
-    const_char_ptr emotion_webcam_device_get(Emotion_Webcam *ew)
+    const_char *emotion_webcam_name_get(Emotion_Webcam *ew)
+    const_char *emotion_webcam_device_get(Emotion_Webcam *ew)
 
 
 cdef class Emotion(evasObject):

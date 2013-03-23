@@ -97,7 +97,7 @@ cdef class Text(Object):
 
     def font_get(self):
         """:rtype: (str, int)"""
-        cdef const_char_ptr f
+        cdef const_char *f
         cdef int size
         evas_object_text_font_get(self.obj, &f, &size)
         return (_ctouni(f), size)
