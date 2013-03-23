@@ -61,7 +61,7 @@ else:
     eina_cflags, eina_libs = pkg_config('Eina', 'eina', "1.7.99")
     eo_ext = Extension("efl.eo", ["efl/eo/efl.eo.pyx"],
                             include_dirs = ['include/'],
-                            extra_compile_args = eo_cflags + eina_cflags,
+                            extra_compile_args = eo_cflags,
                             extra_link_args = eo_libs + eina_libs)
     modules.append(eo_ext)
 
@@ -69,7 +69,7 @@ else:
     evas_cflags, evas_libs = pkg_config('Evas', 'evas', "1.7.99")
     evas_ext = Extension("efl.evas", ["efl/evas/efl.evas.pyx"],
                             include_dirs = ['include/'],
-                            extra_compile_args = evas_cflags + eo_cflags + eina_cflags,
+                            extra_compile_args = evas_cflags,
                             extra_link_args = evas_libs + eina_libs)
     modules.append(evas_ext)
 
@@ -77,7 +77,7 @@ else:
     efreet_cflags, efreet_libs = pkg_config('Efreet', 'efreet', "1.7.99")
     efreet_ext = Extension("efl.efreet", ["efl/efreet/efreet.pyx"],
                             include_dirs = ['include/'],
-                            extra_compile_args = efreet_cflags + evas_cflags + eo_cflags + eina_cflags,
+                            extra_compile_args = efreet_cflags,
                             extra_link_args = efreet_libs + eina_libs)
     modules.append(efreet_ext)
 
@@ -86,7 +86,7 @@ else:
     efile_cflags, efile_libs = pkg_config('EcoreFile', 'ecore-file', "1.7.99")
     ecore_ext = Extension("efl.ecore", ["efl/ecore/efl.ecore.pyx"],
                             include_dirs = ['include/'],
-                            extra_compile_args = ecore_cflags + efile_cflags + eo_cflags + eina_cflags + evas_cflags,
+                            extra_compile_args = ecore_cflags + efile_cflags,
                             extra_link_args = ecore_libs + efile_libs + eina_libs + evas_libs)
     modules.append(ecore_ext)
 
@@ -94,7 +94,7 @@ else:
     edje_cflags, edje_libs = pkg_config('Edje', 'edje', "1.7.99")
     edje_ext = Extension("efl.edje", ["efl/edje/efl.edje.pyx"],
                             include_dirs = ['include/'],
-                            extra_compile_args = edje_cflags + eo_cflags + eina_cflags + evas_cflags,
+                            extra_compile_args = edje_cflags,
                             extra_link_args = edje_libs + eina_libs + evas_libs)
     modules.append(edje_ext)
 
@@ -102,7 +102,7 @@ else:
     emotion_cflags, emotion_libs = pkg_config('Emotion', 'emotion', "1.7.99")
     emotion_ext = Extension("efl.emotion", ["efl/emotion/efl.emotion.pyx"],
                             include_dirs = ['include/'],
-                            extra_compile_args = emotion_cflags + eo_cflags + eina_cflags + evas_cflags,
+                            extra_compile_args = emotion_cflags,
                             extra_link_args = emotion_libs + eina_libs + evas_libs)
     modules.append(emotion_ext)
 
@@ -190,7 +190,7 @@ else:
 
     for e in elm_exts:
         e.include_dirs = ['include/']
-        e.extra_compile_args = elm_cflags + eo_cflags + eina_cflags + evas_cflags
+        e.extra_compile_args = elm_cflags
         e.extra_link_args = elm_libs + eina_libs + evas_libs
 
     modules = modules + elm_exts
