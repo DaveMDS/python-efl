@@ -58,10 +58,11 @@ else:
 
     # Eo
     eo_cflags, eo_libs = pkg_config('Eo', 'eo', "1.7.99")
+    eina_cflags, eina_libs = pkg_config('Eina', 'eina', "1.7.99")
     eo_ext = Extension("efl.eo", ["efl/eo/efl.eo.pyx"],
                             include_dirs = ['include/'],
-                            extra_compile_args = eo_cflags,
-                            extra_link_args = eo_libs)
+                            extra_compile_args = eo_cflags + eina_cflags,
+                            extra_link_args = eo_libs + eina_libs)
     modules.append(eo_ext)
 
     # Evas
