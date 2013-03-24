@@ -3,6 +3,8 @@ BUGS:
 
 * Evas: smart object doesn't work
 * Elm: remove tooltips.pxi
+* Using the string conversion functions will leave dangling a pointer if
+  reference to the python string object is lost.
 
 TODO:
 
@@ -21,9 +23,16 @@ TODO:
 * include python-e_dbus (or make edbus2 ??)
 * elm.Notify align_set/get/prop
 * cleanup elementary_object
+* Investigate the string reference problem.
 
+  Possible solutions:
+   - memcpy the string, can we reliably prevent it from leaking?
+   - incref the string object, can we reliably decref after use?
+   - use eina stringshare, some APIs actually seem to expect this instead of a
+     normal char array and call eina_stringshare_del when freeing
+     the object/struct.
 
-STUFF LEAVED OUT:
+STUFF LEFT OUT:
 
 * EcoreEvas
 * EcoreImf
