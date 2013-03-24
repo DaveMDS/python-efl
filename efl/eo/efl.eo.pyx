@@ -49,9 +49,11 @@ cdef char *_fruni(s):
         return NULL
     if isinstance(s, unicode):
         string = s.encode('UTF-8')
+        # XXX: We lose reference here
         c_string = string
     elif isinstance(s, str):
         c_string = s
+        # XXX: Reference is lost unless the user keeps the string object around
     else:
         raise TypeError("Expected str or unicode object, got %s" % (type(s).__name__))
     return c_string
@@ -63,9 +65,11 @@ cdef const_char *_cfruni(s):
         return NULL
     if isinstance(s, unicode):
         string = s.encode('UTF-8')
+        # XXX: We lose reference here
         c_string = string
     elif isinstance(s, str):
         c_string = s
+        # XXX: Reference is lost unless the user keeps the string object around
     else:
         raise TypeError("Expected str or unicode object, got %s" % (type(s).__name__))
     return c_string
