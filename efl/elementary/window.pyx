@@ -221,6 +221,8 @@
 
 include "widget_header.pxi"
 
+from libc.stdlib cimport free
+
 from object cimport Object
 
 from efl.eo cimport convert_python_list_strings_to_array_of_strings, convert_array_of_strings_to_python_list
@@ -769,8 +771,15 @@ cdef class Window(Object):
             return convert_array_of_strings_to_python_list(profiles, count)
 
     def available_profiles_set(self, list profiles):
-        cdef unsigned int count = len(profiles)
-        elm_win_available_profiles_set(self.obj, convert_python_list_strings_to_array_of_strings(profiles), count)
+        cdef:
+            unsigned int count = len(profiles)
+            const_char **lst = convert_python_list_strings_to_array_of_strings(profiles)
+
+        elm_win_available_profiles_set(self.obj, lst, count)
+        for i in range(count):
+            free(<void *>lst[i])
+        free(lst)
+
     def available_profiles_get(self):
         cdef:
             char **profiles

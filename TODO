@@ -5,8 +5,6 @@ BUGS:
 * Elm: remove tooltips.pxi
 * Using the string conversion functions will leave dangling a pointer if
   reference to the python string object is lost.
-* convert_python_list_strings_to_array_of_strings does not free the data
-  and we cannot always rely on C API to clean it up.
 
 TODO:
 
@@ -33,7 +31,6 @@ TODO:
    - use eina stringshare, some APIs actually seem to expect this instead of a
      normal char array and call eina_stringshare_del when freeing
      the object/struct.
-* Investigate convert_python_list_strings_to_array_of_strings
 * Review the internal functions and name them consistently
 * Find out the minimum Cython version required
 

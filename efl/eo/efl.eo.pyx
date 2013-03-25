@@ -15,7 +15,8 @@
 # You should have received a copy of the GNU Lesser General Public License
 # along with this Python-EFL.  If not, see <http://www.gnu.org/licenses/>.
 
-from cpython cimport PyObject, Py_INCREF, Py_DECREF, PyMem_Malloc, PyMem_Free
+from cpython cimport PyObject, Py_INCREF, Py_DECREF#, PyMem_Malloc, PyMem_Free
+from libc.stdlib cimport malloc, free
 from efl cimport Eina_Bool, const_Eina_List, eina_list_append, const_void
 from efl.c_eo cimport Eo as cEo
 from efl.c_eo cimport eo_init, eo_shutdown, eo_del, eo_unref, eo_wref_add, eo_add, Eo_Class
@@ -79,7 +80,7 @@ cdef convert_array_of_strings_to_python_list(char **array, int array_length):
     cdef char *string
 
     ret = []
-    for i from 0 <= i < array_length:
+    for i in range(array_length):
         string = array[i]
         if string != NULL:
             ret.append(_touni(string))
@@ -93,13 +94,13 @@ cdef const_char ** convert_python_list_strings_to_array_of_strings(list strings)
         const_char *string
         int count = len(strings)
 
-    lst = <const_char **>PyMem_Malloc(count * sizeof(const_char*))
-    for i from 0 <= i < count:
+    lst = <const_char **>malloc(count * sizeof(const_char*))
+    for i in range(count):
         string = _cfruni(strings[i])
         str_len = len(strings[i])
-        lst[i] = <const_char *>PyMem_Malloc(str_len + 1)
+        lst[i] = <const_char *>malloc(str_len + 1)
         memcpy(lst[i], string, str_len + 1)
-
+    # Note: Always make sure that the array is freed at the other end.
     return lst
 
 
