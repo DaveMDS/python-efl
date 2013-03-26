@@ -221,7 +221,8 @@
 
 include "widget_header.pxi"
 
-from libc.stdlib cimport free
+from libc.stdlib cimport malloc, free
+from libc.string cimport memcpy
 
 from object cimport Object
 
@@ -756,31 +757,26 @@ cdef class Window(Object):
 
         """
         def __set__(self, list profiles):
-            cdef unsigned int count = len(profiles)
-            elm_win_available_profiles_set(self.obj, convert_python_list_strings_to_array_of_strings(profiles), count)
+            self.available_profiles_set(profiles)
 
         def __get__(self):
-            cdef:
-                char **profiles
-                unsigned int count
+            return self.available_profiles_get()
 
-            ret = elm_win_available_profiles_get(self.obj, &profiles, &count)
-            if ret is 0:
-                raise RuntimeError("No available profiles")
-
-            return convert_array_of_strings_to_python_list(profiles, count)
-
-    def available_profiles_set(self, list profiles):
+    cpdef available_profiles_set(self, list profiles):
         cdef:
-            unsigned int count = len(profiles)
-            const_char **lst = convert_python_list_strings_to_array_of_strings(profiles)
+            const_char **array
+            unsigned int arr_len = len(profiles)
+            unsigned int i
 
-        elm_win_available_profiles_set(self.obj, lst, count)
-        for i in range(count):
-            free(<void *>lst[i])
-        free(lst)
+        try:
+            array = convert_python_list_strings_to_array_of_strings(profiles)
+            elm_win_available_profiles_set(self.obj, array, arr_len)
+        finally:
+            for i in range(arr_len):
+                free(<void *>array[i])
+            free(array)
 
-    def available_profiles_get(self):
+    cpdef available_profiles_get(self):
         cdef:
             char **profiles
             unsigned int count

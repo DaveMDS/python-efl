@@ -17,6 +17,7 @@
 
 from cpython cimport PyObject, Py_INCREF, Py_DECREF#, PyMem_Malloc, PyMem_Free
 from libc.stdlib cimport malloc, free
+from libc.string cimport memcpy, strdup
 from efl cimport Eina_Bool, const_Eina_List, eina_list_append, const_void
 from efl.c_eo cimport Eo as cEo
 from efl.c_eo cimport eo_init, eo_shutdown, eo_del, eo_unref, eo_wref_add, eo_add, Eo_Class
@@ -37,46 +38,85 @@ cdef int PY_REFCOUNT(object o):
 
 
 cdef unicode _touni(char* s):
+    """
+
+    Converts a char * to a python string object
+
+    Note: Remember to free the char * when it's no longer needed.
+
+    """
     return s.decode('UTF-8', 'strict') if s else None
 
 
 cdef unicode _ctouni(const_char *s):
+    """
+
+    Converts a const_char * to a python string object
+
+    Note: Remember to free the const_char * when it's no longer needed.
+
+    """
     return s.decode('UTF-8', 'strict') if s else None
 
 
-cdef char *_fruni(s):
-    cdef char *c_string
+cdef char *_fruni(object s):
+    """
+
+    Converts a python string object to a char *
+
+    Note: Remember to free the char * when it's no longer needed.
+
+    """
+    cdef:
+        char *c_string
+        str string
+        unicode unistr
+
     if s is None:
         return NULL
     if isinstance(s, unicode):
-        string = s.encode('UTF-8')
-        # XXX: We lose reference here
-        c_string = string
+        unistr = s
+        string = unistr.encode('UTF-8')
+        return strdup(string)
     elif isinstance(s, str):
-        c_string = s
-        # XXX: Reference is lost unless the user keeps the string object around
+        return strdup(s)
     else:
         raise TypeError("Expected str or unicode object, got %s" % (type(s).__name__))
-    return c_string
 
 
-cdef const_char *_cfruni(s):
-    cdef const_char *c_string
+cdef const_char *_cfruni(object s):
+    """
+
+    Converts a python string object to a const_char *
+
+    Note: Remember to free the const_char * when it's no longer needed.
+
+    """
+    cdef:
+        const_char *c_string
+        str string
+        unicode unistr
+
     if s is None:
         return NULL
     if isinstance(s, unicode):
-        string = s.encode('UTF-8')
-        # XXX: We lose reference here
-        c_string = string
+        unistr = s
+        string = unistr.encode('UTF-8')
+        return strdup(string)
     elif isinstance(s, str):
-        c_string = s
-        # XXX: Reference is lost unless the user keeps the string object around
+        return strdup(s)
     else:
         raise TypeError("Expected str or unicode object, got %s" % (type(s).__name__))
-    return c_string
 
 
-cdef convert_array_of_strings_to_python_list(char **array, int array_length):
+cdef list convert_array_of_strings_to_python_list(char **array, int array_length):
+    """
+
+    Converts an array of strings to a python list.
+
+    Note: Remember to free the array when it's no longer needed.
+
+    """
     cdef char *string
 
     ret = []
@@ -89,24 +129,37 @@ cdef convert_array_of_strings_to_python_list(char **array, int array_length):
 
 
 cdef const_char ** convert_python_list_strings_to_array_of_strings(list strings):
+    """
+
+    Converts a python list to an array of strings.
+
+    Note: Remember to free the array when it's no longer needed.
+
+    """
     cdef:
-        const_char **lst
+        const_char **array
+        unsigned int arr_len = len(strings)
         const_char *string
-        int count = len(strings)
+        unsigned int str_len
+        unsigned int i
 
-    lst = <const_char **>malloc(count * sizeof(const_char*))
-    for i in range(count):
+    array = <const_char **>malloc(arr_len * sizeof(const_char*))
+    if not array:
+        raise MemoryError()
+
+    for i in range(arr_len):
         string = _cfruni(strings[i])
-        str_len = len(strings[i])
-        lst[i] = <const_char *>malloc(str_len + 1)
-        memcpy(lst[i], string, str_len + 1)
-    # Note: Always make sure that the array is freed at the other end.
-    return lst
+        str_len = len(string)
+        array[i] = <const_char *>malloc(str_len + 1)
+        memcpy(array[i], string, str_len + 1)
+    # Note: Always make sure that the array is freed at the other end
+    return array
 
 
-cdef convert_eina_list_strings_to_python_list(const_Eina_List *lst):
-    cdef const_char *s
-    ret = []
+cdef list convert_eina_list_strings_to_python_list(const_Eina_List *lst):
+    cdef:
+        const_char *s
+        list ret = []
     while lst:
         s = <const_char *>lst.data
         if s != NULL:
@@ -122,7 +175,7 @@ cdef Eina_List * convert_python_list_strings_to_eina_list(strings):
     return lst
 
 
-cdef _object_list_to_python(const_Eina_List *lst):
+cdef list _object_list_to_python(const_Eina_List *lst):
     ret = []
     while lst:
         ret.append(object_from_instance(<cEo *>lst.data))
