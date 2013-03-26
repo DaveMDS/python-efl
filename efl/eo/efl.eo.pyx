@@ -42,8 +42,6 @@ cdef unicode _touni(char* s):
 
     Converts a char * to a python string object
 
-    Note: Remember to free the char * when it's no longer needed.
-
     """
     return s.decode('UTF-8', 'strict') if s else None
 
@@ -52,8 +50,6 @@ cdef unicode _ctouni(const_char *s):
     """
 
     Converts a const_char * to a python string object
-
-    Note: Remember to free the const_char * when it's no longer needed.
 
     """
     return s.decode('UTF-8', 'strict') if s else None
@@ -64,12 +60,10 @@ cdef char *_fruni(object s):
 
     Converts a python string object to a char *
 
-    Note: Remember to free the char * when it's no longer needed.
-
     """
     cdef:
         char *c_string
-        str string
+        bytes string
         unicode unistr
 
     if s is None:
@@ -77,9 +71,10 @@ cdef char *_fruni(object s):
     if isinstance(s, unicode):
         unistr = s
         string = unistr.encode('UTF-8')
-        return strdup(string)
+        c_string = string
+        return c_string
     elif isinstance(s, str):
-        return strdup(s)
+        return s
     else:
         raise TypeError("Expected str or unicode object, got %s" % (type(s).__name__))
 
@@ -88,8 +83,6 @@ cdef const_char *_cfruni(object s):
     """
 
     Converts a python string object to a const_char *
-
-    Note: Remember to free the const_char * when it's no longer needed.
 
     """
     cdef:
@@ -102,9 +95,10 @@ cdef const_char *_cfruni(object s):
     if isinstance(s, unicode):
         unistr = s
         string = unistr.encode('UTF-8')
-        return strdup(string)
+        c_string = string
+        return c_string
     elif isinstance(s, str):
-        return strdup(s)
+        return s
     else:
         raise TypeError("Expected str or unicode object, got %s" % (type(s).__name__))
 
@@ -114,17 +108,13 @@ cdef list convert_array_of_strings_to_python_list(char **array, int array_length
 
     Converts an array of strings to a python list.
 
-    Note: Remember to free the array when it's no longer needed.
-
     """
     cdef char *string
 
     ret = []
     for i in range(array_length):
         string = array[i]
-        if string != NULL:
-            ret.append(_touni(string))
-        #FIXME: if it's null we could append None and log.warn
+        ret.append(_touni(string))
     return ret
 
 
@@ -143,16 +133,20 @@ cdef const_char ** convert_python_list_strings_to_array_of_strings(list strings)
         unsigned int str_len
         unsigned int i
 
+    if len(strings) is 0:
+        array = <const_char **>malloc(sizeof(const_char*))
+        if not array:
+            raise MemoryError()
+        array[0] = NULL
+        return array
+
     array = <const_char **>malloc(arr_len * sizeof(const_char*))
     if not array:
         raise MemoryError()
 
     for i in range(arr_len):
-        string = _cfruni(strings[i])
-        str_len = len(string)
-        array[i] = <const_char *>malloc(str_len + 1)
-        memcpy(array[i], string, str_len + 1)
-    # Note: Always make sure that the array is freed at the other end
+        array[i] = <const_char *>strdup(_cfruni(strings[i]))
+
     return array
 
 
@@ -160,18 +154,18 @@ cdef list convert_eina_list_strings_to_python_list(const_Eina_List *lst):
     cdef:
         const_char *s
         list ret = []
-    while lst:
-        s = <const_char *>lst.data
-        if s != NULL:
-            ret.append(_ctouni(s))
-        lst = lst.next
+        Eina_List *itr = <Eina_List *>lst
+    while itr:
+        s = <const_char *>itr.data
+        ret.append(_ctouni(s))
+        itr = itr.next
     return ret
 
 
 cdef Eina_List * convert_python_list_strings_to_eina_list(strings):
     cdef Eina_List *lst = NULL
     for s in strings:
-        lst = eina_list_append(lst, _cfruni(s))
+        lst = eina_list_append(lst, strdup(_cfruni(s)))
     return lst
 
 
