@@ -455,6 +455,7 @@ def genlist5_clicked(obj, item=None):
     bg.show()
 
     gl = Genlist(win)
+    gl.homogeneous = True
     win.resize_object_add(gl)
     gl.size_hint_align_set(evas.EVAS_HINT_FILL, evas.EVAS_HINT_FILL)
     gl.size_hint_weight_set(evas.EVAS_HINT_EXPAND, evas.EVAS_HINT_EXPAND)
@@ -472,13 +473,14 @@ def genlist5_clicked(obj, item=None):
         GenlistItem(itc_i, None, 0, None, i).append_to(gl)
     t2 = time.time()
 
-    j = gl.first_item
+    it = gl.first_item
     t3 = time.time()
-    while j:
-        d = j.data
-        j = j.next
+    while it:
+        d = it.data
+        it = it.next
     t4 = time.time()
 
+    assert(d == 9999)
     print("Time to add {0} items:".format(item_count))
     print(t2-t1)
     print("Time to iterate item data over {0} items:".format(item_count))
