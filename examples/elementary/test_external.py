@@ -3,9 +3,12 @@
 
 from efl import evas
 from efl import ecore
+from efl import edje
 from efl import elementary
 from efl.elementary.window import Window
 from efl.elementary.background import Background
+from efl.elementary.progressbar import Progressbar
+from efl.elementary.button import Button
 from efl.elementary.layout import Layout
 from efl.elementary.box import Box
 from efl.elementary.frame import Frame
