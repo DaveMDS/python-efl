@@ -3,8 +3,7 @@ BUGS:
 
 * Evas: smart object doesn't work
 * Elm: remove tooltips.pxi
-* Using the string conversion functions will leave dangling a pointer if
-  reference to the python string object is lost.
+
 
 TODO:
 
@@ -23,16 +22,8 @@ TODO:
 * include python-e_dbus (or make edbus2 ??)
 * elm.Notify align_set/get/prop
 * cleanup elementary_object
-* Investigate the string reference problem.
-
-  Possible solutions:
-   - memcpy the string, can we reliably prevent it from leaking?
-   - incref the string object, can we reliably decref after use?
-   - use eina stringshare, some APIs actually seem to expect this instead of a
-     normal char array and call eina_stringshare_del when freeing
-     the object/struct.
 * Review the internal functions and name them consistently
-* Find out the minimum Cython version required
+
 
 STUFF LEFT OUT:
 
@@ -52,7 +43,7 @@ CHANGES FROM 1.7 to 1.8:
 * added efl container package
 * ecore.file.Download => efl.ecore.FileDownload
 * Emotion(module_filename="xxx") => Emotion(module_name="xxx")
-* elementary.need_e_dbus => elementary.need_e_dbus
+* elementary.need_e_dbus => elementary.need_edbus
 * elm.domain_translatable_text_part_set => elm.domain_translatable_part_text_set
 * elm.Scroller.custom_widget_base_theme_set =>  elm.Layout.theme_set             TODO is this right?
 * elm.notify.orient_set/get/prop removed  =>  align_set (TODO)

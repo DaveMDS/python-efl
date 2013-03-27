@@ -5,6 +5,8 @@ import subprocess
 from distutils.core import setup, Command
 from distutils.extension import Extension
 
+
+# Cython
 try:
     from Cython.Distutils import build_ext
     from Cython.Build import cythonize
@@ -14,6 +16,8 @@ try:
 except ImportError:
     raise SystemExit("Requires Cython (http://cython.org/)")
 
+
+# Sphinx
 try:
     from sphinx.setup_command import BuildDoc
 except ImportError:
@@ -24,26 +28,27 @@ except ImportError:
         def finalize_options(self): pass
         def run(self): print("Error: sphinx not found")
 
-if len(sys.argv) is 2 and "build_doc" in sys.argv:
-    modules = []
-else:
-    def pkg_config(name, require, min_vers=None):
-        try:
-            sys.stdout.write("Checking for " + name + ": ")
-            ver = subprocess.check_output(["pkg-config", "--modversion", require]).decode("utf-8").strip()
-            if min_vers is not None:
-                assert 0 == subprocess.call(["pkg-config", "--atleast-version", min_vers, require])
-            cflags = subprocess.check_output(["pkg-config", "--cflags", require]).decode("utf-8").split()
-            libs = subprocess.check_output(["pkg-config", "--libs", require]).decode("utf-8").split()
-            sys.stdout.write("OK, found " + ver + "\n")
-            return (cflags, libs)
-        except (OSError, subprocess.CalledProcessError):
-            raise SystemExit("Failed to find Evas with 'pkg-config'.  Please make sure that it is installed and available on your system path.")
-        except (AssertionError):
-            raise SystemExit("Failed to match version. Found: " + ver + "  Needed: " + min_vers)
+
+# pkg-config
+def pkg_config(name, require, min_vers=None):
+    try:
+        sys.stdout.write("Checking for " + name + ": ")
+        ver = subprocess.check_output(["pkg-config", "--modversion", require]).decode("utf-8").strip()
+        if min_vers is not None:
+            assert 0 == subprocess.call(["pkg-config", "--atleast-version", min_vers, require])
+        cflags = subprocess.check_output(["pkg-config", "--cflags", require]).decode("utf-8").split()
+        libs = subprocess.check_output(["pkg-config", "--libs", require]).decode("utf-8").split()
+        sys.stdout.write("OK, found " + ver + "\n")
+        return (cflags, libs)
+    except (OSError, subprocess.CalledProcessError):
+        raise SystemExit("Failed to find Evas with 'pkg-config'.  Please make sure that it is installed and available on your system path.")
+    except (AssertionError):
+        raise SystemExit("Failed to match version. Found: " + ver + "  Needed: " + min_vers)
 
 
+modules = []
 
+if not "build_doc" in sys.argv:
     ## This is usefull while working on the source, to force the rebuild of modules.
     # subprocess.call("rm -rfv efl/*/*.c", shell=True)
     # subprocess.call("rm -rfv efl/eo/*.c", shell=True)
@@ -52,9 +57,6 @@ else:
     # subprocess.call("rm -rfv efl/edje/*.c", shell=True)
     # subprocess.call("rm -rfv efl/emotion/*.c", shell=True)
     # subprocess.call("rm -rfv efl/elementary/*.c", shell=True)
-
-
-    modules = []
 
     # Eo
     eo_cflags, eo_libs = pkg_config('Eo', 'eo', "1.7.99")
@@ -116,7 +118,6 @@ else:
     #modules.append(edbus_ext)
 
     # Elementary
-    elm_cflags, elm_libs = pkg_config('Elementary', 'elementary', "1.7.99")
     elm_exts = [
         Extension("efl.elementary.actionslider", ["efl/elementary/actionslider.pyx"]),
         Extension("efl.elementary.background", ["efl/elementary/background.pyx"]),
@@ -188,6 +189,7 @@ else:
         Extension("efl.elementary.window", ["efl/elementary/window.pyx"]),
     ]
 
+    elm_cflags, elm_libs = pkg_config('Elementary', 'elementary', "1.7.99")
     for e in elm_exts:
         e.include_dirs = ['include/']
         e.extra_compile_args = elm_cflags
@@ -215,5 +217,7 @@ if __name__ == "__main__":
                 #"builder": (None, "coverage"),
             },
         },
-        ext_modules = cythonize(modules, include_path=["include",], compiler_directives={"embedsignature": False}),
+        ext_modules = cythonize(modules,
+                                include_path=["include",],
+                                compiler_directives={"embedsignature": False}),
     )

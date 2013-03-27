@@ -68,12 +68,14 @@
  videos you need the YouTube module from sphinx contrib repository.
  packages: python-sphinx, graphviz
 
- Once installed run:
+ To build the docs just run:
  python setup.py build_doc
 
  You will find the generated html docs under the folder:
  build/sphinx/html
 
+ Note: you must build the bindings before building the docs, or you will end
+       up with empty documentation.
 
 
 5. TESTS and EXAMPLES:
