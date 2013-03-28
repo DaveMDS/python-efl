@@ -56,7 +56,7 @@
 include "widget_header.pxi"
 
 from layout_class cimport LayoutClass
-from efl.eo import _METHOD_DEPRECATED
+from efl.eo cimport _METHOD_DEPRECATED
 
 cimport enums
 
@@ -188,18 +188,18 @@ cdef class Label(LayoutClass):
 
         """
         def __get__(self):
-            _METHOD_DEPRECATED(self, replacement="slide_mode")
+            _METHOD_DEPRECATED(self, "Use slide_mode instead.")
             return elm_label_slide_get(self.obj)
 
         def __set__(self, slide):
-            _METHOD_DEPRECATED(self, replacement="slide_mode")
+            _METHOD_DEPRECATED(self, "Use slide_mode instead.")
             elm_label_slide_set(self.obj, slide)
 
     def slide_set(self, bint slide):
-        _METHOD_DEPRECATED(self, replacement="slide_mode")
+        _METHOD_DEPRECATED(self, "Use slide_mode instead.")
         elm_label_slide_set(self.obj, slide)
     def slide_get(self):
-        _METHOD_DEPRECATED(self, replacement="slide_mode")
+        _METHOD_DEPRECATED(self, "Use slide_mode instead.")
         return elm_label_slide_get(self.obj)
 
     property slide_duration:

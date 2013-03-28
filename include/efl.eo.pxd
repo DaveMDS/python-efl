@@ -22,18 +22,18 @@ from libc.string cimport const_char
 
 cdef class Eo(object):
     cdef cEo *obj
-    cdef readonly data
+    cdef readonly dict data
 
-    cdef _set_obj(self, cEo *obj)
-#    cdef _unset_obj(self)
+    cdef void _set_obj(self, cEo *obj) except *
+#    cdef void *_unset_obj(self)
 #    cdef _add_obj(self, Eo_Class *klass, cEo *parent)
 
 
 cdef int PY_REFCOUNT(object o)
 
 cdef object object_from_instance(cEo *obj)
-cdef _object_mapping_register(char *name, klass)
-cdef _object_mapping_unregister(char*name)
+cdef void _object_mapping_register(str name, object cls) except *
+cdef void _object_mapping_unregister(str name)
 
 cdef unicode _touni(char* s)
 cdef char* _fruni(s)
@@ -41,7 +41,8 @@ cdef unicode _ctouni(const_char *s)
 cdef const_char *_cfruni(s)
 
 cdef list convert_array_of_strings_to_python_list(char **array, int array_length)
-cdef const_char ** convert_python_list_strings_to_array_of_strings(list strings)
+cdef const_char ** convert_python_list_strings_to_array_of_strings(list strings) except NULL
 cdef list convert_eina_list_strings_to_python_list(const_Eina_List *lst)
 cdef Eina_List * convert_python_list_strings_to_eina_list(strings)
 cdef list _object_list_to_python(const_Eina_List *lst)
+cdef void _METHOD_DEPRECATED(object self, char *message)

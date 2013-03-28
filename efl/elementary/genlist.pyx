@@ -149,7 +149,7 @@ include "widget_header.pxi"
 include "callback_conversions.pxi"
 include "tooltips.pxi"
 
-from efl.eo import _METHOD_DEPRECATED
+from efl.eo cimport _METHOD_DEPRECATED
 
 from object_item cimport    ObjectItem, \
                             _object_item_to_python, \
@@ -317,7 +317,7 @@ class GenlistItemsCount(int):
         self.obj = obj
 
     def __call__(self):
-        _METHOD_DEPRECATED(self.obj, None, "Use items_count instead")
+        _METHOD_DEPRECATED(self.obj, "Use items_count instead.")
         return self.obj._items_count()
 
 cdef class GenlistItemClass(object):

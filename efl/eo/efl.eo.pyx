@@ -68,13 +68,15 @@ cdef char *_fruni(object s):
 
     if s is None:
         return NULL
+
     if isinstance(s, unicode):
         unistr = s
         string = unistr.encode('UTF-8')
         c_string = string
         return c_string
     elif isinstance(s, str):
-        return s
+        c_string = s
+        return c_string
     else:
         raise TypeError("Expected str or unicode object, got %s" % (type(s).__name__))
 
@@ -87,18 +89,20 @@ cdef const_char *_cfruni(object s):
     """
     cdef:
         const_char *c_string
-        str string
+        bytes string
         unicode unistr
 
     if s is None:
         return NULL
+
     if isinstance(s, unicode):
         unistr = s
         string = unistr.encode('UTF-8')
         c_string = string
         return c_string
     elif isinstance(s, str):
-        return s
+        c_string = s
+        return c_string
     else:
         raise TypeError("Expected str or unicode object, got %s" % (type(s).__name__))
 
@@ -109,16 +113,17 @@ cdef list convert_array_of_strings_to_python_list(char **array, int array_length
     Converts an array of strings to a python list.
 
     """
-    cdef char *string
+    cdef:
+        char *string
+        list ret = list()
 
-    ret = []
     for i in range(array_length):
         string = array[i]
         ret.append(_touni(string))
     return ret
 
 
-cdef const_char ** convert_python_list_strings_to_array_of_strings(list strings):
+cdef const_char ** convert_python_list_strings_to_array_of_strings(list strings) except NULL:
     """
 
     Converts a python list to an array of strings.
@@ -127,12 +132,13 @@ cdef const_char ** convert_python_list_strings_to_array_of_strings(list strings)
 
     """
     cdef:
-        const_char **array
+        const_char **array = NULL
         unsigned int arr_len = len(strings)
         const_char *string
         unsigned int str_len
         unsigned int i
 
+    # TODO: Should we just return NULL in this case?
     if len(strings) is 0:
         array = <const_char **>malloc(sizeof(const_char*))
         if not array:
@@ -162,7 +168,7 @@ cdef list convert_eina_list_strings_to_python_list(const_Eina_List *lst):
     return ret
 
 
-cdef Eina_List * convert_python_list_strings_to_eina_list(strings):
+cdef Eina_List *convert_python_list_strings_to_eina_list(strings):
     cdef Eina_List *lst = NULL
     for s in strings:
         lst = eina_list_append(lst, strdup(_cfruni(s)))
@@ -170,29 +176,30 @@ cdef Eina_List * convert_python_list_strings_to_eina_list(strings):
 
 
 cdef list _object_list_to_python(const_Eina_List *lst):
-    ret = []
+    cdef list ret = list()
     while lst:
         ret.append(object_from_instance(<cEo *>lst.data))
         lst = lst.next
     return ret
 
 
-def _METHOD_DEPRECATED(self, replacement=None, message=None):
+cdef void _METHOD_DEPRECATED(object self, char *message):
+    cdef:
+        object stack
+        tuple caller
+        str msg
+
     stack = traceback.extract_stack()
     caller = stack[-1]
     caller_module, caller_line, caller_name, caller_code = caller
-    if caller_code:
-        msg = "%s:%s %s (class %s) is deprecated." % \
+    if caller_code is not None:
+        msg = "%s:%s %s (class %s) is deprecated. %s" % \
             (caller_module, caller_line, caller_code,
-            self.__class__.__name__ if self else 'None')
+            type(self).__name__, message)
     else:
-        msg = "%s:%s %s.%s() is deprecated." % \
+        msg = "%s:%s %s.%s() is deprecated. %s" % \
             (caller_module, caller_line,
-            self.__class__.__name__ if self else 'None', caller_name)
-    if replacement:
-        msg += " Use %s() instead." % (replacement,)
-    if message:
-        msg += " " + message
+            type(self).__name__, caller_name, message)
 #     log.warn(msg)
     print(msg)
 
@@ -200,56 +207,59 @@ def _METHOD_DEPRECATED(self, replacement=None, message=None):
 ######################################################################
 
 
-cdef object object_mapping
 """Object mapping is a dictionary into which object type names can be
 registered. These can be used to find a bindings class for an object using
 the object_from_instance function."""
-object_mapping = dict()
+# TODO: As a further optimization, make this C only, probably Eina Hash table.
+cdef dict object_mapping = dict()
 
 
-cdef _object_mapping_register(char *name, cls):
-#     print("REGISTER: %s => %s" % (name, cls))
+cdef void _object_mapping_register(str name, object cls) except *:
+#    print("REGISTER: %s => %s" % (name, cls))
     if name in object_mapping:
-        raise ValueError("object type name '%s' already registered." % name)
+        raise ValueError("Object type name '%s' already registered." % name)
     object_mapping[name] = cls
 
 
-cdef _object_mapping_unregister(char *name):
+cdef void _object_mapping_unregister(str name):
     object_mapping.pop(name)
 
 
 cdef object object_from_instance(cEo *obj):
     """ Create a python object from a C Eo object pointer. """
-    cdef void *data
-    cdef Eo o
+    cdef:
+        void *data
+        Eo o
+        const_char *cls_name
+        object cls
 
-    if obj == NULL:
+    if obj is NULL:
         return None
 
     eo_do(obj, eo_base_data_get("python-eo", &data))
-    if data != NULL:
+    if data is not NULL:
 #         print("Found: %s" % Eo.__repr__(<Eo>data))
         return <Eo>data
 
-    klass_name = eo_class_name_get(eo_class_get(obj))
-    if klass_name == NULL:
+    cls_name = eo_class_name_get(eo_class_get(obj))
+    if cls_name is NULL:
         raise ValueError("Eo object %#x does not have a type!" % <long>obj)
-#     print("Klass name: %s" % klass_name)
+#     print("Class name: %s" % cls_name)
 
-    klass = object_mapping.get(klass_name, None)
-    if klass == None:
+    cls = object_mapping.get(cls_name, None)
+    if cls is None:
         raise ValueError("Eo object %#x of type %s does not have a mapping!" %
-                         (<long>obj, klass_name))
+                         (<long>obj, cls_name))
 
-#     print "MAPPING OBJECT:", klass_name, "=>", klass
-    o = klass.__new__(klass)
+#     print "MAPPING OBJECT:", cls_name, "=>", cls
+    o = cls.__new__(cls)
     o._set_obj(obj)
     return o
 #
 # TODO extended object mapping (for SmartObject, EdjeExternal, etc)
 #
 #         t = evas_object_type_get(obj)
-#         if t == NULL:
+#         if t is NULL:
 #             raise ValueError("Evas object %#x does not have a type!" %
 #                              <long>obj)
 #         ot = _ctouni(t)
@@ -272,8 +282,13 @@ cdef object object_from_instance(cEo *obj):
 ######################################################################
 
 
-EO_CALLBACK_STOP = 0
-EO_CALLBACK_CONTINUE = 1
+# TODO: Move these to enums.pxd
+cdef:
+    int C_EO_CALLBACK_STOP = 0
+    int C_EO_CALLBACK_CONTINUE = 1
+
+EO_CALLBACK_STOP = C_EO_CALLBACK_STOP
+EO_CALLBACK_CONTINUE = C_EO_CALLBACK_CONTINUE
 
 
 ######################################################################
@@ -288,7 +303,7 @@ cdef Eina_Bool _eo_event_del_cb(void *data, cEo *obj, const_Eo_Event_Description
     self.obj = NULL
     Py_DECREF(self)
 
-    return EO_CALLBACK_STOP
+    return C_EO_CALLBACK_STOP
 
 
 cdef class Eo(object):
@@ -303,27 +318,29 @@ cdef class Eo(object):
         self.obj = NULL
         self.data = dict()
 
-    def __init__(self):
-#         print("Eo __init__()")
-        pass
+#    def __init__(self):
+#        print("Eo __init__()")
 
     def __dealloc__(self):
-#         print("Eo __dealloc__(): %s" % Eo.__repr__(self))
+#         print("Eo __dealloc__(): %s" % self.__repr__())
         self.data.clear()
 
     def __str__(self):
         return ("Eo(class=%s, obj=%#x, parent=%#x, refcount=%d)") % \
-                (self.__class__.__name__, <unsigned long>self.obj,
-                 <unsigned long>eo_parent_get(self.obj) if self.obj else 0,
+                (type(self).__name__, <unsigned long>self.obj,
+                 <unsigned long>eo_parent_get(self.obj) if self.obj is not NULL else 0,
                  PY_REFCOUNT(self))
 
 
     def __repr__(self):
         return ("Eo(class=%s, obj=%#x, parent=%#x, refcount=%d)") % \
-                (self.__class__.__name__, <unsigned long>self.obj,
-                 <unsigned long>eo_parent_get(self.obj) if self.obj else 0,
+                (type(self).__name__, <unsigned long>self.obj,
+                 <unsigned long>eo_parent_get(self.obj) if self.obj is not NULL else 0,
                  PY_REFCOUNT(self))
 
+#
+# TODO
+#
 #     cdef _add_obj(self, Eo_Class *klass, cEo *parent):
 #         cdef cEo *obj
 #         assert self.obj == NULL, "Object must be clean"
@@ -331,49 +348,59 @@ cdef class Eo(object):
 #         self._set_obj(obj)
 #         eo_unref(obj)
 
-    cdef _set_obj(self, cEo *obj):
-        assert self.obj == NULL, "Object must be clean"
-        assert obj != NULL, "Cannot set a NULL object"
+    cdef void _set_obj(self, cEo *obj) except *:
+        assert self.obj is NULL, "Object must be clean"
+        assert obj is not NULL, "Cannot set a NULL object"
 
         self.obj = obj
         eo_do(self.obj, eo_base_data_set("python-eo", <void *>self, NULL))
         eo_do(self.obj, eo_event_callback_add(EO_EV_DEL, _eo_event_del_cb, <const_void *>self))
         Py_INCREF(self)
 
-#     cdef _unset_obj(self): # __UNUSED__
-#         if self.obj != NULL:
-#             self.obj = NULL
-#             Py_DECREF(self) ????????????????????'
-        # TODO evas_object_data_del("python-eo") ??
-
-#     def delete(self):
-#         """
-#         Delete object and free it's internal (wrapped) resources.
 #
-#         @note: after this operation the object will be still alive in
-#             Python, but it will be shallow and every operation
-#             will have no effect (and may raise exceptions).
-#         @raise ValueError: if object already deleted.
-#         """
-#         if self.obj == NULL:
-#             raise ValueError("Object already deleted")
-#         print("Eo delete: %s" % Eo.__repr__(self))
-#         eo_del(self.obj)
+# TODO: Are these two functions broken somehow?
+#
+#    cdef void _unset_obj(self):
+#        if self.obj is not NULL:
+#            self.obj = NULL
+#        Py_DECREF(self)
+#        eo_do(self.obj, eo_base_data_del("python-eo"))
+#
+#    def delete(self):
+#        """
+#        Delete object and free it's internal (wrapped) resources.
+#
+#        @note: after this operation the object will be still alive in
+#        Python, but it will be shallow and every operation
+#        will have no effect (and may raise exceptions).
+#        @raise ValueError: if object already deleted.
+#        """
+#        if self.obj is NULL:
+#            raise ValueError("Object already deleted")
+#        print("Eo delete: %s" % self.__repr__())
+#        eo_del(self.obj)
 
+    property is_valid:
+        """Whether the Eo C object associated with this python object is valid."""
+        def __get__(self):
+            return self.obj is not NULL
+
+    # TODO: Remove this if not needed
     def is_deleted(self):
-        """
-        Check if the Eo object associated with this python object has been
-        deleted, thus leaving the object as shallow.
-        """
         return bool(self.obj == NULL)
 
-
+#
+# TODO: Automate these
+#
+# Call eo_init and put eo_shutdown to atexit, and don't expose in our API.
+#
+# Do the same in other packages as well, making sure the packages main
+# module is always imported.
+#
 def init():
     return eo_init()
 
-
 def shutdown():
     return eo_shutdown()
-
 
 init()

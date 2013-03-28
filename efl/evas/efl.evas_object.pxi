@@ -188,7 +188,7 @@ cdef class Object(Eo):
                  self.__class__.__name__, name_str, x, y, w, h,
                  r, g, b, a, self.layer_get(), clip, self.visible_get())
 
-    cdef _set_obj(self, Evas_Object *obj):
+    cdef void _set_obj(self, Evas_Object *obj) except *:
         Eo._set_obj(self, obj)
         evas_object_event_callback_add(obj, EVAS_CALLBACK_FREE,
                                        obj_free_cb, <void *>self)
