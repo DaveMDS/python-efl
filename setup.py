@@ -28,27 +28,36 @@ except ImportError:
         def finalize_options(self): pass
         def run(self): print("Error: sphinx not found")
 
-
-# pkg-config
-def pkg_config(name, require, min_vers=None):
-    try:
-        sys.stdout.write("Checking for " + name + ": ")
-        ver = subprocess.check_output(["pkg-config", "--modversion", require]).decode("utf-8").strip()
-        if min_vers is not None:
-            assert 0 == subprocess.call(["pkg-config", "--atleast-version", min_vers, require])
-        cflags = subprocess.check_output(["pkg-config", "--cflags", require]).decode("utf-8").split()
-        libs = subprocess.check_output(["pkg-config", "--libs", require]).decode("utf-8").split()
-        sys.stdout.write("OK, found " + ver + "\n")
-        return (cflags, libs)
-    except (OSError, subprocess.CalledProcessError):
-        raise SystemExit("Failed to find Evas with 'pkg-config'.  Please make sure that it is installed and available on your system path.")
-    except (AssertionError):
-        raise SystemExit("Failed to match version. Found: " + ver + "  Needed: " + min_vers)
-
-
 modules = []
 
-if not "build_doc" in sys.argv:
+if len(sys.argv) is 2 and "build_doc" in sys.argv:
+    #
+    # The idea here is that we *don't need* the version checks or extensions
+    # when *only* building the documentation:
+    # ./setup.py build_doc
+    #
+    # If we *both* build the extensions *and* docs, they *are* needed:
+    # ./setup.py build build_doc
+    #
+    pass
+else:
+    # pkg-config
+    def pkg_config(name, require, min_vers=None):
+        try:
+            sys.stdout.write("Checking for " + name + ": ")
+            ver = subprocess.check_output(["pkg-config", "--modversion", require]).decode("utf-8").strip()
+            if min_vers is not None:
+                assert 0 == subprocess.call(["pkg-config", "--atleast-version", min_vers, require])
+            cflags = subprocess.check_output(["pkg-config", "--cflags", require]).decode("utf-8").split()
+            libs = subprocess.check_output(["pkg-config", "--libs", require]).decode("utf-8").split()
+            sys.stdout.write("OK, found " + ver + "\n")
+            return (cflags, libs)
+        except (OSError, subprocess.CalledProcessError):
+            raise SystemExit("Failed to find Evas with 'pkg-config'.  Please make sure that it is installed and available on your system path.")
+        except (AssertionError):
+            raise SystemExit("Failed to match version. Found: " + ver + "  Needed: " + min_vers)
+
+
     ## This is usefull while working on the source, to force the rebuild of modules.
     # subprocess.call("rm -rfv efl/*/*.c", shell=True)
     # subprocess.call("rm -rfv efl/eo/*.c", shell=True)
