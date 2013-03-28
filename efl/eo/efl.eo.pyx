@@ -233,16 +233,16 @@ cdef object object_from_instance(cEo *obj):
         const_char *cls_name
         object cls
 
-    if obj is NULL:
+    if obj == NULL:
         return None
 
     eo_do(obj, eo_base_data_get("python-eo", &data))
-    if data is not NULL:
+    if data != NULL:
 #         print("Found: %s" % Eo.__repr__(<Eo>data))
         return <Eo>data
 
     cls_name = eo_class_name_get(eo_class_get(obj))
-    if cls_name is NULL:
+    if cls_name == NULL:
         raise ValueError("Eo object %#x does not have a type!" % <long>obj)
 #     print("Class name: %s" % cls_name)
 
@@ -259,7 +259,7 @@ cdef object object_from_instance(cEo *obj):
 # TODO extended object mapping (for SmartObject, EdjeExternal, etc)
 #
 #         t = evas_object_type_get(obj)
-#         if t is NULL:
+#         if t == NULL:
 #             raise ValueError("Evas object %#x does not have a type!" %
 #                              <long>obj)
 #         ot = _ctouni(t)
@@ -322,20 +322,20 @@ cdef class Eo(object):
 #        print("Eo __init__()")
 
     def __dealloc__(self):
-#         print("Eo __dealloc__(): %s" % self.__repr__())
+#         print("Eo __dealloc__(): %s" % Eo.__repr__(self))
         self.data.clear()
 
     def __str__(self):
         return ("Eo(class=%s, obj=%#x, parent=%#x, refcount=%d)") % \
                 (type(self).__name__, <unsigned long>self.obj,
-                 <unsigned long>eo_parent_get(self.obj) if self.obj is not NULL else 0,
+                 <unsigned long>eo_parent_get(self.obj) if self.obj != NULL else 0,
                  PY_REFCOUNT(self))
 
 
     def __repr__(self):
         return ("Eo(class=%s, obj=%#x, parent=%#x, refcount=%d)") % \
                 (type(self).__name__, <unsigned long>self.obj,
-                 <unsigned long>eo_parent_get(self.obj) if self.obj is not NULL else 0,
+                 <unsigned long>eo_parent_get(self.obj) if self.obj != NULL else 0,
                  PY_REFCOUNT(self))
 
 #
@@ -349,8 +349,8 @@ cdef class Eo(object):
 #         eo_unref(obj)
 
     cdef void _set_obj(self, cEo *obj) except *:
-        assert self.obj is NULL, "Object must be clean"
-        assert obj is not NULL, "Cannot set a NULL object"
+        assert self.obj == NULL, "Object must be clean"
+        assert obj != NULL, "Cannot set a NULL object"
 
         self.obj = obj
         eo_do(self.obj, eo_base_data_set("python-eo", <void *>self, NULL))
@@ -361,7 +361,7 @@ cdef class Eo(object):
 # TODO: Are these two functions broken somehow?
 #
 #    cdef void _unset_obj(self):
-#        if self.obj is not NULL:
+#        if self.obj != NULL:
 #            self.obj = NULL
 #        Py_DECREF(self)
 #        eo_do(self.obj, eo_base_data_del("python-eo"))
@@ -383,7 +383,7 @@ cdef class Eo(object):
     property is_valid:
         """Whether the Eo C object associated with this python object is valid."""
         def __get__(self):
-            return self.obj is not NULL
+            return self.obj != NULL
 
     # TODO: Remove this if not needed
     def is_deleted(self):
