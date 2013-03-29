@@ -23,6 +23,7 @@ TODO:
 * elm.Notify align_set/get/prop
 * cleanup elementary_object
 * Review the internal functions and name them consistently
+* Bindings for Efreet (kuuko)
 
 
 STUFF LEFT OUT:

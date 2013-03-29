@@ -1,3 +1,20 @@
-Style:
-When comparing C pointers, use == and != . This makes a visual distinction.
 
+Style
+=====
+
+* For indentation, use *four space characters* per level of indentation.
+
+* When comparing C pointers, use == and != . This makes a visual distinction.
+
+Tips
+====
+
+* cython -a will generate a report that shows your cython code, and each line
+  can be expanded by clicking to show the generated C code.
+
+* cython does automatic dict <-> struct conversion with basic struct members
+
+Ideas
+=====
+
+* Use a decorator for _METHOD_DEPRECATED
