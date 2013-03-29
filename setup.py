@@ -86,11 +86,16 @@ else:
 
     # Efreet
     efreet_cflags, efreet_libs = pkg_config('Efreet', 'efreet', "1.7.99")
-    efreet_ext = Extension("efl.efreet", ["efl/efreet/efreet.pyx"],
-                            include_dirs = ['include/'],
-                            extra_compile_args = efreet_cflags,
-                            extra_link_args = efreet_libs + eina_libs)
-    modules.append(efreet_ext)
+    efreet_trash_cflags, efreet_trash_libs = pkg_config('EfreetTrash', 'efreet-trash', "1.7.99")
+    efreet_exts = [
+        Extension("efl.efreet.efreet", ["efl/efreet/efreet.pyx"]),
+        Extension("efl.efreet.trash", ["efl/efreet/trash.pyx"], extra_link_args = efreet_trash_libs),
+    ]
+    for ext in efreet_exts:
+        ext.include_dirs = ['include/']
+        ext.extra_compile_args += efreet_cflags + eina_cflags
+        ext.extra_link_args += efreet_libs + eina_libs
+    modules += efreet_exts
 
     # Ecore
     ecore_cflags, ecore_libs = pkg_config('Ecore', 'ecore', "1.7.99")
@@ -218,7 +223,7 @@ if __name__ == "__main__":
         url = "http://www.enlightenment.org",
         description = "Python bindings for the EFL stack",
         license = "GNU Lesser General Public License (LGPL)",
-        packages = ["efl", "efl.elementary"],
+        packages = ["efl", "efl.elementary", "efl.efreet"],
         cmdclass = {'build_ext': build_ext, 'build_sphinx': BuildDoc, 'build_doc': BuildDoc},
         command_options = {
             "build_doc": {

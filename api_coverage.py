@@ -68,6 +68,7 @@ params = {
     "eo": ("include", "Eo", "eo"),
     "evas": ("include", "Evas", "evas"),
     "efreet": ("efl/efreet", "Efreet", "efreet"),
+    "efreet-trash": ("efl/efreet", "Efreet_Trash", "efreet_trash"),
     "ecore": ("include", "Ecore", "ecore"),
     "ecore-file": ("include", "Ecore_File", "ecore_file"),
     "edje": ("include", "Edje", "edje"),

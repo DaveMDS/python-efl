@@ -19,42 +19,27 @@ that end it implements the following specifications:
 
 """
 
-def init():
-    """
+import atexit
 
-    Initializes the Efreet system.
+efreet_init()
 
-    :return: Value > ``0`` if the initialization was successful, ``0`` otherwise.
-
-    """
-    return efreet_init()
-
-def shutdown():
-    """
-
-    Shuts down Efreet if a balanced number of init/shutdown calls have
-    been made
-
-    :return: The number of times the init function has been called minus the
-    corresponding init call.
-
-    """
+def _shutdown():
     return efreet_shutdown()
 
+atexit.register(_shutdown)
+
 def lang_reset():
-    """
+    """lang_reset()
 
     Resets language dependent variables and resets language dependent
-    caches This must be called whenever the locale is changed.
+    caches. This must be called whenever the locale is changed.
 
     """
     efreet_lang_reset()
 
 include "base.pxi"
-#include "desktop.pxi"
-#include "icon.pxi
+include "desktop.pxi"
+include "icon.pxi"
 include "ini.pxi"
-#include "menu.pxi"
-#include "mime.pxi"
-#include "trash.pxi"
-#include "uri.pxi"
+include "menu.pxi"
+include "uri.pxi"
