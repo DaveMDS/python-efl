@@ -24,5 +24,6 @@ pip-log.txt
 *.mo
 
 # Cython generated files
-*.c
-*.h
+efl/*/*.c
+efl/*/*.h
+efl/*/*.html
