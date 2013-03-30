@@ -4,7 +4,9 @@ Style
 
 * For indentation, use *four space characters* per level of indentation.
 
-* When comparing C pointers, use == and != . This makes a visual distinction.
+* When comparing C pointers, use == and != instead of the python operator "is".
+  This makes a visual distinction between C and py code and don't confuse the
+  reader as "==" and "is" has different meaning in python.
 
 Tips
 ====
