@@ -207,10 +207,11 @@ cdef void _METHOD_DEPRECATED(object self, char *message):
 ######################################################################
 
 
-"""Object mapping is a dictionary into which object type names can be
+"""
+Object mapping is a dictionary into which object type names can be
 registered. These can be used to find a bindings class for an object using
-the object_from_instance function."""
-# TODO: As a further optimization, make this C only, probably Eina Hash table.
+the object_from_instance function.
+"""
 cdef dict object_mapping = dict()
 
 
@@ -255,28 +256,6 @@ cdef object object_from_instance(cEo *obj):
     o = cls.__new__(cls)
     o._set_obj(obj)
     return o
-#
-# TODO extended object mapping (for SmartObject, EdjeExternal, etc)
-#
-#         t = evas_object_type_get(obj)
-#         if t == NULL:
-#             raise ValueError("Evas object %#x does not have a type!" %
-#                              <long>obj)
-#         ot = _ctouni(t)
-#         c = Canvas_from_instance(evas_object_evas_get(obj))
-#         cls = object_mapping.get(ot, None)
-#         if cls is None:
-#             cls_resolver = extended_object_mapping.get(ot, None)
-#             if cls_resolver is None:
-#                 warnings.warn(
-#                     ("Evas_Object %#x of type %s has no direct or "
-#                      "extended mapping! Using generic wrapper.") %
-#                     (<unsigned long>obj, ot))
-#                 cls = Object
-#             else:
-#                 cls = cls_resolver(<unsigned long>obj)
-#         o = cls.__new__(cls)
-#         o._set_evas(c)
 
 
 ######################################################################
@@ -380,13 +359,8 @@ cdef class Eo(object):
 #        print("Eo delete: %s" % self.__repr__())
 #        eo_del(self.obj)
 
-    property is_valid:
-        """Whether the Eo C object associated with this python object is valid."""
-        def __get__(self):
-            return self.obj != NULL
-
-    # TODO: Remove this if not needed
     def is_deleted(self):
+        "Check if the object has been deleted thus leaving the object shallow"
         return bool(self.obj == NULL)
 
 #
