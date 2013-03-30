@@ -157,35 +157,55 @@ cdef class Object(Eo):
 
     """
     def __cinit__(self):
+        #
+        # TODO: Make this C only if possible
+        #
         self._callbacks = [None] * evas_object_event_callbacks_len
 
-
+    #
+    # TODO: make the funcs used here and in _set_common_params cpdef
+    #       so they'll generate C calls instead of python calls
+    #
     def __str__(self):
+        cdef:
+            int x, y, w, h
+            int r, g, b, a
+            str name = self.name_get()
+            bint clip
+
         x, y, w, h = self.geometry_get()
         r, g, b, a = self.color_get()
-        name = self.name_get()
-        if name:
+
+        if name is not None:
             name_str = "name=%s, " % name
         else:
             name_str = ""
-        clip = bool(self.clip_get() is not None)
+
+        clip = self.clip_get() is not None
         return ("%s(%sgeometry=(%d, %d, %d, %d), color=(%d, %d, %d, %d), "
                 "layer=%s, clip=%s, visible=%s)") % \
-                (self.__class__.__name__, name_str, x, y, w, h,
+                (type(self).__name__, name_str, x, y, w, h,
                  r, g, b, a, self.layer_get(), clip, self.visible_get())
 
     def __repr__(self):
+        cdef:
+            int x, y, w, h
+            int r, g, b, a
+            str name = self.name_get()
+            bint clip
+
         x, y, w, h = self.geometry_get()
         r, g, b, a = self.color_get()
-        name = self.name_get()
+
         if name:
             name_str = "name=%s, " % name
         else:
             name_str = ""
+
         clip = bool(self.clip_get() is not None)
         return ("%s %s(%sgeometry=(%d, %d, %d, %d), color=(%d, %d, %d, %d), "
                 "layer=%s, clip=%s, visible=%s)") % (Eo.__str__(self),
-                 self.__class__.__name__, name_str, x, y, w, h,
+                 type(self).__name__, name_str, x, y, w, h,
                  r, g, b, a, self.layer_get(), clip, self.visible_get())
 
     cdef void _set_obj(self, Evas_Object *obj) except *:
@@ -196,15 +216,15 @@ cdef class Object(Eo):
 
     def _set_common_params(self, size=None, pos=None, geometry=None,
                            color=None, name=None):
-        if size:
+        if size is not None:
             self.size_set(*size)
-        if pos:
+        if pos is not None:
             self.pos_set(*pos)
-        if geometry:
+        if geometry is not None:
             self.geometry_set(*geometry)
-        if color:
+        if color is not None:
             self.color_set(*color_parse(color))
-        if name:
+        if name is not None:
             self.name_set(name)
 
     def delete(self):
@@ -303,14 +323,10 @@ cdef class Object(Eo):
 
         """
         def __get__(self):
-            cdef Evas_Object *other
-            other = evas_object_above_get(self.obj)
-            return object_from_instance(other)
+            return object_from_instance(evas_object_above_get(self.obj))
 
     def above_get(self):
-        cdef Evas_Object *other
-        other = evas_object_above_get(self.obj)
-        return object_from_instance(other)
+        return object_from_instance(evas_object_above_get(self.obj))
 
     property below:
         """ The object below this.
@@ -319,14 +335,10 @@ cdef class Object(Eo):
 
         """
         def __get__(self):
-            cdef Evas_Object *other
-            other = evas_object_below_get(self.obj)
-            return object_from_instance(other)
+            return object_from_instance(evas_object_below_get(self.obj))
 
     def below_get(self):
-        cdef Evas_Object *other
-        other = evas_object_below_get(self.obj)
-        return object_from_instance(other)
+        return object_from_instance(evas_object_below_get(self.obj))
 
     property top:
         """The topmost object. (Same as self.evas.top_get()).

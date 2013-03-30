@@ -21,7 +21,12 @@ from efl cimport *
 from efl.eo cimport Eo, object_from_instance, _object_mapping_register
 from efl.eo cimport _ctouni, _cfruni, _touni, _fruni
 
-
+#
+# TODO: Put these in enums.pxd and cimport + assign them here, for exposing
+#       to Python API.
+#
+#       Use the C values (enums.VALUE) internally.
+#
 EVAS_LAYER_MIN = -32768
 EVAS_LAYER_MAX =  32767
 
