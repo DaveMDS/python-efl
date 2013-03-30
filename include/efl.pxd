@@ -76,6 +76,8 @@ cdef extern from "Eina.h":
         void      *accounting
     ctypedef Eina_List const_Eina_List "const Eina_List"
 
+    ctypedef struct Eina_Hash
+
     ctypedef struct Eina_Hash_Tuple:
         void *key
         void *data
@@ -91,6 +93,7 @@ cdef extern from "Eina.h":
     # Other typedefs
     #
     ctypedef int (*Eina_Compare_Cb)(const_void *data1, const_void *data2)
+    ctypedef void (*Eina_Free_Cb)(void *data)
 
     ####################################################################
     # Functions
@@ -144,3 +147,8 @@ cdef extern from "Eina.h":
     Eina_List *eina_list_prev(Eina_List *list)
     void *eina_list_data_get(Eina_List *list)
     unsigned int eina_list_count(Eina_List *list)
+
+    Eina_Hash *eina_hash_string_superfast_new(Eina_Free_Cb data_free_cb)
+    Eina_Bool  eina_hash_add(Eina_Hash *hash, const_void *key, const_void *data)
+    Eina_Bool eina_hash_del(Eina_Hash  *hash, const_void *key, const_void *data)
+    void *eina_hash_find(Eina_Hash *hash, const_void *key)

@@ -32,8 +32,8 @@ cdef class Eo(object):
 cdef int PY_REFCOUNT(object o)
 
 cdef object object_from_instance(cEo *obj)
-cdef void _object_mapping_register(str name, object cls) except *
-cdef void _object_mapping_unregister(str name)
+cdef void _object_mapping_register(char *name, object cls) except *
+cdef void _object_mapping_unregister(char *name)
 
 cdef unicode _touni(char* s)
 cdef char* _fruni(s)

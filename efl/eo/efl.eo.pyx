@@ -15,10 +15,12 @@
 # You should have received a copy of the GNU Lesser General Public License
 # along with this Python-EFL.  If not, see <http://www.gnu.org/licenses/>.
 
-from cpython cimport PyObject, Py_INCREF, Py_DECREF#, PyMem_Malloc, PyMem_Free
+from cpython cimport PyObject, Py_INCREF, Py_DECREF
 from libc.stdlib cimport malloc, free
 from libc.string cimport memcpy, strdup
-from efl cimport Eina_Bool, const_Eina_List, eina_list_append, const_void
+from efl cimport Eina_Bool, const_Eina_List, eina_list_append, const_void, \
+    Eina_Hash, eina_hash_string_superfast_new, eina_hash_add, eina_hash_del, \
+    eina_hash_find
 from efl.c_eo cimport Eo as cEo
 from efl.c_eo cimport eo_init, eo_shutdown, eo_del, eo_unref, eo_wref_add, eo_add, Eo_Class
 from efl.c_eo cimport eo_do, eo_class_name_get, eo_class_get
@@ -208,22 +210,27 @@ cdef void _METHOD_DEPRECATED(object self, char *message):
 
 
 """
-Object mapping is a dictionary into which object type names can be
+Object mapping is an Eina Hash table into which object type names can be
 registered. These can be used to find a bindings class for an object using
-the object_from_instance function.
-"""
-cdef dict object_mapping = dict()
+the object_from_instance function."""
+cdef Eina_Hash *object_mapping = eina_hash_string_superfast_new(NULL)
 
 
-cdef void _object_mapping_register(str name, object cls) except *:
-#    print("REGISTER: %s => %s" % (name, cls))
-    if name in object_mapping:
+cdef void _object_mapping_register(char *name, object cls) except *:
+    cdef void *value
+
+    #print("REGISTER: %s => %s" % (name, cls))
+
+    value = eina_hash_find(object_mapping, name)
+
+    if value == NULL:
+        eina_hash_add(object_mapping, name, <PyObject *>cls)
+    else:
         raise ValueError("Object type name '%s' already registered." % name)
-    object_mapping[name] = cls
 
 
-cdef void _object_mapping_unregister(str name):
-    object_mapping.pop(name)
+cdef void _object_mapping_unregister(char *name):
+    eina_hash_del(object_mapping, name, NULL)
 
 
 cdef object object_from_instance(cEo *obj):
@@ -232,27 +239,28 @@ cdef object object_from_instance(cEo *obj):
         void *data
         Eo o
         const_char *cls_name
-        object cls
+        type cls
 
     if obj == NULL:
         return None
 
     eo_do(obj, eo_base_data_get("python-eo", &data))
     if data != NULL:
-#         print("Found: %s" % Eo.__repr__(<Eo>data))
+        #print("Found: %s" % Eo.__repr__(<Eo>data))
         return <Eo>data
 
     cls_name = eo_class_name_get(eo_class_get(obj))
     if cls_name == NULL:
         raise ValueError("Eo object %#x does not have a type!" % <long>obj)
-#     print("Class name: %s" % cls_name)
+    #print("Class name: %s" % cls_name)
 
-    cls = object_mapping.get(cls_name, None)
+    cls = <type>eina_hash_find(object_mapping, cls_name)
+
     if cls is None:
         raise ValueError("Eo object %#x of type %s does not have a mapping!" %
                          (<long>obj, cls_name))
 
-#     print "MAPPING OBJECT:", cls_name, "=>", cls
+    #print "MAPPING OBJECT:", cls_name, "=>", cls
     o = cls.__new__(cls)
     o._set_obj(obj)
     return o
