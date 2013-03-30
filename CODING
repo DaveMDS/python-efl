@@ -5,11 +5,7 @@ Style
 * For indentation, use *four space characters* per level of indentation.
 
 * When comparing C pointers, use == and != instead of the python operator "is".
-  This makes a visual distinction between C and py code and don't confuse the
-  reader as "==" and "is" has different meaning in python.
-
-* Internal utility functions used in the bindings must start with an
-  underscore and must have the shortest name as possible.
+  This makes a visual distinction.
 
 Design patterns
 ===============
@@ -47,3 +43,43 @@ Ideas
 =====
 
 * Use a decorator for _METHOD_DEPRECATED
+
+Discussion
+==========
+
+* When comparing C pointers, use == and != instead of the python operator "is".
+  This makes a visual distinction between C and py code and don't confuse the
+  reader as "==" and "is" has different meaning in python.
+  ^
+  This last clarification is not true. We're actually comparing whether two
+  references are the same (pointer comparison) which is what the operator
+  "is" does in Python, not whether their value is the same, which is what
+  "==" does in Python.
+
+  This is a direct quote from Cython developer Stefan Behnel:
+  "If a user wants pointer comparison, "is" is the most explicit operator
+  w.r.t. Python semantics."
+
+  I don't mind if it's "==" for visual difference, but confusing everyone
+  by first telling them the operators' meaning in Python and then using them
+  in reverse is absolutely not acceptable.
+
+  / kuuko
+
+* Internal utility functions used in the bindings must start with an
+  underscore and must have the shortest name as possible.
+  ^
+  This needs further discussion/expansion.
+
+  When we define a function with cdef it is not exposed to Python API.
+  This should be explicit enough to not need the underscore prefix, which
+  at best looks ugly, and at worst just plain confusing.
+
+  A function name should summarize its functionality in one clear text,
+  short sentence. We have both too long and too short names. And I admit to
+  being guilty of adding many of both.
+
+  Let's build up a short review so we can see where we stand with this and
+  make necessary corrections.
+
+  / kuuko
