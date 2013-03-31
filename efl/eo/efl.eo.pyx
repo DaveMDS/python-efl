@@ -21,14 +21,11 @@ from libc.string cimport memcpy, strdup
 from efl cimport Eina_Bool, const_Eina_List, eina_list_append, const_void, \
     Eina_Hash, eina_hash_string_superfast_new, eina_hash_add, eina_hash_del, \
     eina_hash_find
-from efl.c_eo cimport Eo as cEo
-from efl.c_eo cimport eo_init, eo_shutdown, eo_del, eo_unref, eo_wref_add, eo_add, Eo_Class
-from efl.c_eo cimport eo_do, eo_class_name_get, eo_class_get
-from efl.c_eo cimport eo_base_data_set, eo_base_data_get, eo_base_data_del
-from efl.c_eo cimport eo_event_callback_add, eo_event_callback_del
-from efl.c_eo cimport Eo_Event_Description, const_Eo_Event_Description
-from efl.c_eo cimport eo_parent_get
-from efl.c_eo cimport EO_EV_DEL
+from efl.c_eo cimport Eo as cEo, eo_init, eo_shutdown, eo_del, eo_do, \
+    eo_class_name_get, eo_class_get, eo_base_data_set, eo_base_data_get, \
+    eo_base_data_del, eo_event_callback_add, eo_event_callback_del, \
+    Eo_Event_Description, const_Eo_Event_Description, \
+    eo_parent_get, EO_EV_DEL
 
 import traceback
 
@@ -266,7 +263,6 @@ cdef object object_from_instance(cEo *obj):
     #print("Class name: %s" % cls_name)
 
     cls = <type>eina_hash_find(object_mapping, cls_name)
-
     if cls is None:
         raise ValueError("Eo object %#x of type %s does not have a mapping!" %
                          (<long>obj, cls_name))
@@ -316,11 +312,7 @@ cdef class Eo(object):
         self.obj = NULL
         self.data = dict()
 
-#    def __init__(self):
-#        print("Eo __init__()")
-
     def __dealloc__(self):
-#         print("Eo __dealloc__(): %s" % Eo.__repr__(self))
         self.data.clear()
 
     def __str__(self):
@@ -329,22 +321,11 @@ cdef class Eo(object):
                  <unsigned long>eo_parent_get(self.obj) if self.obj != NULL else 0,
                  PY_REFCOUNT(self))
 
-
     def __repr__(self):
         return ("Eo(class=%s, obj=%#x, parent=%#x, refcount=%d)") % \
                 (type(self).__name__, <unsigned long>self.obj,
                  <unsigned long>eo_parent_get(self.obj) if self.obj != NULL else 0,
                  PY_REFCOUNT(self))
-
-#
-# TODO
-#
-#     cdef _add_obj(self, Eo_Class *klass, cEo *parent):
-#         cdef cEo *obj
-#         assert self.obj == NULL, "Object must be clean"
-#         obj = eo_add(klass, parent)
-#         self._set_obj(obj)
-#         eo_unref(obj)
 
     cdef void _set_obj(self, cEo *obj) except *:
         assert self.obj == NULL, "Object must be clean"
@@ -354,29 +335,6 @@ cdef class Eo(object):
         eo_do(self.obj, eo_base_data_set("python-eo", <void *>self, NULL))
         eo_do(self.obj, eo_event_callback_add(EO_EV_DEL, _eo_event_del_cb, <const_void *>self))
         Py_INCREF(self)
-
-#
-# TODO: Are these two functions broken somehow?
-#
-#    cdef void _unset_obj(self):
-#        if self.obj != NULL:
-#            self.obj = NULL
-#        Py_DECREF(self)
-#        eo_do(self.obj, eo_base_data_del("python-eo"))
-#
-#    def delete(self):
-#        """
-#        Delete object and free it's internal (wrapped) resources.
-#
-#        @note: after this operation the object will be still alive in
-#        Python, but it will be shallow and every operation
-#        will have no effect (and may raise exceptions).
-#        @raise ValueError: if object already deleted.
-#        """
-#        if self.obj is NULL:
-#            raise ValueError("Object already deleted")
-#        print("Eo delete: %s" % self.__repr__())
-#        eo_del(self.obj)
 
     def is_deleted(self):
         "Check if the object has been deleted thus leaving the object shallow"
