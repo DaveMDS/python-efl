@@ -7,6 +7,7 @@ from efl import evas
 from efl import edje
 from efl import emotion
 from efl import elementary
+from efl.elementary.window import Window
 
 
 def pkgconfig_variable(pkg, var):
@@ -330,7 +331,7 @@ if __name__ == "__main__"or True:
     elementary.init()
 
     # elementary window
-    win = elementary.Window("test-emotion", elementary.ELM_WIN_BASIC)
+    win = Window("test-emotion", elementary.ELM_WIN_BASIC)
     win.title_set("python-emotion test application")
     win.callback_delete_request_add(lambda o: elementary.exit())
     win.on_key_down_add(AppKeyboardEvents())
