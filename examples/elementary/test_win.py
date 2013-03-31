@@ -15,10 +15,15 @@ from efl.elementary.slider import Slider
 
 def cb_alpha(bt, win, bg, on):
     win.alpha = on
+    print("alpha: %s" % win.alpha)
     if on:
         bg.hide()
     else:
         bg.show()
+
+def cb_fullscreen(bt, win, fs):
+    win.fullscreen = fs
+    print("fullscreen: %s" % win.fullscreen)
 
 def cb_rot(bt, win, ck, rot):
     if ck.state:
@@ -62,6 +67,15 @@ def window_states_clicked(obj):
         bt.size_hint_align = (evas.EVAS_HINT_FILL, 0.0)
         bt.size_hint_weight = (evas.EVAS_HINT_EXPAND, 0.0)
         bt.callback_clicked_add(cb_alpha, win, bg, state)
+        hbox.pack_end(bt)
+        bt.show()
+
+    for state in [True, False]:
+        bt = Button(win)
+        bt.text = "FS " + ("On" if state else "Off")
+        bt.size_hint_align = (evas.EVAS_HINT_FILL, 0.0)
+        bt.size_hint_weight = (evas.EVAS_HINT_EXPAND, 0.0)
+        bt.callback_clicked_add(cb_fullscreen, win, state)
         hbox.pack_end(bt)
         bt.show()
 
