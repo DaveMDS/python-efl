@@ -232,16 +232,12 @@ cdef Eina_Hash *object_mapping = eina_hash_string_superfast_new(NULL)
 
 
 cdef void _object_mapping_register(char *name, object cls) except *:
-    cdef void *value
+
+    if eina_hash_find(object_mapping, name) != NULL:
+        raise ValueError("Object type name '%s' already registered." % name)
 
     #print("REGISTER: %s => %s" % (name, cls))
-
-    value = eina_hash_find(object_mapping, name)
-
-    if value == NULL:
-        eina_hash_add(object_mapping, name, <PyObject *>cls)
-    else:
-        raise ValueError("Object type name '%s' already registered." % name)
+    eina_hash_add(object_mapping, name, <PyObject *>cls)
 
 
 cdef void _object_mapping_unregister(char *name):
