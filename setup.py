@@ -53,7 +53,7 @@ else:
             sys.stdout.write("OK, found " + ver + "\n")
             return (cflags, libs)
         except (OSError, subprocess.CalledProcessError):
-            raise SystemExit("Failed to find Evas with 'pkg-config'.  Please make sure that it is installed and available on your system path.")
+            raise SystemExit("Failed to find " + name + " with 'pkg-config'.  Please make sure that it is installed and available on your system path.")
         except (AssertionError):
             raise SystemExit("Failed to match version. Found: " + ver + "  Needed: " + min_vers)
 
