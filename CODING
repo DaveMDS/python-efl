@@ -2,13 +2,16 @@
 Style
 =====
 
-* For indentation, use *four space characters* per level of indentation.
+* For indentation, use *four space characters* per level of indentation. Keep
+  lines under the 80 chars limit (only exception are the functions definition)
 
-* When comparing C pointers, use == and != instead of the python operator "is".
-  This makes a visual distinction.
+* When comparing C pointers with NULL, use == and != instead of the python
+  operator "is". This makes a visual distinction between python and C code.
+
 
 Design patterns
 ===============
+
  * From "The Zen of Python":
 
     Beautiful is better than ugly.
@@ -31,6 +34,7 @@ Design patterns
     If the implementation is easy to explain, it may be a good idea.
     Namespaces are one honking great idea -- let's do more of those!
 
+
 Tips
 ====
 
@@ -39,32 +43,15 @@ Tips
 
 * cython does automatic dict <-> struct conversion with basic struct members
 
+
 Ideas
 =====
 
 * Use a decorator for _METHOD_DEPRECATED
 
+
 Discussion
 ==========
-
-* When comparing C pointers, use == and != instead of the python operator "is".
-  This makes a visual distinction between C and py code and don't confuse the
-  reader as "==" and "is" has different meaning in python.
-  ^
-  This last clarification is not true. We're actually comparing whether two
-  references are the same (pointer comparison) which is what the operator
-  "is" does in Python, not whether their value is the same, which is what
-  "==" does in Python.
-
-  This is a direct quote from Cython developer Stefan Behnel:
-  "If a user wants pointer comparison, "is" is the most explicit operator
-  w.r.t. Python semantics."
-
-  I don't mind if it's "==" for visual difference, but confusing everyone
-  by first telling them the operators' meaning in Python and then using them
-  in reverse is absolutely not acceptable.
-
-  / kuuko
 
 * Internal utility functions used in the bindings must start with an
   underscore and must have the shortest name as possible.
@@ -83,3 +70,9 @@ Discussion
   make necessary corrections.
 
   / kuuko
+
+
+  The underscore usage is a coding standard in all the EFL, we should try
+  to follow the efl style also here (where is possible and make sense)
+
+  / davemds
