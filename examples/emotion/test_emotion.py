@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 
 import optparse
-import commands
+import subprocess
 
 from efl import evas
 from efl import edje
@@ -11,11 +11,8 @@ from efl.elementary.window import Window
 
 
 def pkgconfig_variable(pkg, var):
-    cmdline = "pkg-config --variable=%s %s" % (var, pkg)
-    status, output = commands.getstatusoutput(cmdline)
-    if status != 0:
-        raise ValueError("could not find pkg-config module: %s" % pkg)
-    return output
+    output = subprocess.check_output(["pkg-config", "--variable=" + var, pkg])
+    return output.decode("utf-8").strip()
 
 
 prefix_dir = pkgconfig_variable("emotion", "prefix")
@@ -176,25 +173,25 @@ class MovieWindow(edje.Edje):
         vid.play = True
 
     def vid_channels_change_cb(self, vid):
-        print "Channels: %d audio, %d video, %d spu" % \
+        print("Channels: %d audio, %d video, %d spu" % \
               (self.vid.audio_channel_count(),
                self.vid.video_channel_count(),
-               self.vid.spu_channel_count())
+               self.vid.spu_channel_count()))
 
     def vid_title_change_cb(self, vid):
-        print "title:", vid.title
+        print("title: %s" % vid.title)
 
     def vid_progress_change_cb(self, vid):
-        print "progress:", vid.progress_info, vid.progress_status
+        print("progress: %f %f" % (vid.progress_info, vid.progress_status))
 
     def vid_ref_change_cb(self, vid):
-        print "ref_change:", vid.ref_file, vid.ref_num
+        print("ref_change: %s %s" % vid.ref_file, vid.ref_num)
 
     def vid_button_num_change_cb(self, vid):
-        print "spu button num:", vid.spu_button_count
+        print("spu button num: %d" % vid.spu_button_count)
 
     def vid_button_change_cb(self, vid):
-        print "spu button:", vid.spu_button
+        print ("spu button: %s" % vid.spu_button)
 
 
 class AppKeyboardEvents(object):
@@ -205,13 +202,13 @@ class AppKeyboardEvents(object):
     def lower_volume(win):
         for mw in win.data["movie_windows"]:
             v = mw.vid.audio_volume
-            print "lower:", v
+            print("lower: %f" % v)
             mw.vid.audio_volume = max(0.0, v - 0.1)
 
     def raise_volume(win):
         for mw in win.data["movie_windows"]:
             v = mw.vid.audio_volume
-            print "raise:", v
+            print("raise: %f" % v)
             mw.vid.audio_volume = min(1.0, v + 0.1)
 
     def mute_audio(win):
@@ -224,30 +221,30 @@ class AppKeyboardEvents(object):
 
     def media_info(win):
         for mw in win.data["movie_windows"]:
-            print "Info for:", mw.vid
-            print "\taudio channels:", mw.vid.audio_channel_count()
-            print "\tvideo channels:", mw.vid.video_channel_count()
-            print "\tspu channels:", mw.vid.spu_channel_count()
-            print "\tseekable:", mw.vid.seekable
+            print("Info for: %s" % mw.vid)
+            print("\taudio channels: %d" % mw.vid.audio_channel_count())
+            print("\tvideo channels: %d" % mw.vid.video_channel_count())
+            print("\tspu channels: %d" % mw.vid.spu_channel_count())
+            print("\tseekable: %s" % mw.vid.seekable)
 
     def fullscreen_change(win):
         win.fullscreen = not win.fullscreen
-        print "fullscreen is now", win.fullscreen
+        print("fullscreen is now %s" % win.fullscreen)
 
     # def avoid_damage_change(win):
         # win.avoid_damage = not win.avoid_damage
         # print "avoid_damage is now", win.avoid_damage
 
     def shaped_change(win):
-        win.shaped = False if win.shaped else True
-        print "shaped is now", win.shaped
+        win.shaped = not win.shaped
+        print("shaped is now %s" % win.shaped)
 
     def bordless_change(win):
-        win.borderless = False if win.borderless else True
-        print "borderless is now", win.borderless
+        win.borderless = not win.borderless
+        print("borderless is now %s" % win.borderless)
 
     def main_delete_request(win):
-        print "quit main loop"
+        print("quit main loop")
         elementary.exit()
 
     key_dispatcher = {
@@ -271,8 +268,8 @@ class AppKeyboardEvents(object):
         "8": (broadcast_event, emotion.EMOTION_EVENT_8),
         "9": (broadcast_event, emotion.EMOTION_EVENT_9),
         "-": (broadcast_event, emotion.EMOTION_EVENT_10),
-        "bracketleft": (lower_volume,),
-        "bracketright": (raise_volume,),
+        "minus": (lower_volume,),
+        "plus": (raise_volume,),
         "v": (mute_video,),
         "a": (mute_audio,),
         "i": (media_info,),
@@ -284,14 +281,14 @@ class AppKeyboardEvents(object):
         }
     def __call__(self, win, info):
         try:
-            params = self.key_dispatcher[info.keyname]
+            params = self.key_dispatcher[info.keyname.decode("ASCII")] # TODO FIXME ?
             f = params[0]
             args = params[1:]
             f(win, *args)
-        except KeyError, e:
+        except KeyError as e:
             pass
-        except Exception, e:
-            print "%s ignored exception: %s" % (self.__class__.__name__, e)
+        except Exception as e:
+            print("%s ignored exception: %s" % (self.__class__.__name__, e))
 
 
 
@@ -300,7 +297,7 @@ def parse_geometry(option, opt, value, parser):
         w, h = value.split("x")
         w = int(w)
         h = int(h)
-    except Exception, e:
+    except Exception as e:
         raise optparse.OptionValueError("Invalid format for %s" % option)
     parser.values.geometry = (w, h)
 
