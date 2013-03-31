@@ -33,11 +33,26 @@ from efl.c_eo cimport EO_EV_DEL
 import traceback
 
 ######################################################################
+#
+# TODO: Automate these
+#
+# Call eo_init and put eo_shutdown to atexit, and don't expose in our API.
+#
+# Do the same in other packages as well, making sure the packages main
+# module is always imported.
+#
+def init():
+    return eo_init()
+
+def shutdown():
+    return eo_shutdown()
+
+init()
+
 
 cdef int PY_REFCOUNT(object o):
     cdef PyObject *obj = <PyObject *>o
     return obj.ob_refcnt
-
 
 cdef unicode _touni(char* s):
     """
@@ -371,18 +386,3 @@ cdef class Eo(object):
         "Check if the object has been deleted thus leaving the object shallow"
         return bool(self.obj == NULL)
 
-#
-# TODO: Automate these
-#
-# Call eo_init and put eo_shutdown to atexit, and don't expose in our API.
-#
-# Do the same in other packages as well, making sure the packages main
-# module is always imported.
-#
-def init():
-    return eo_init()
-
-def shutdown():
-    return eo_shutdown()
-
-init()
