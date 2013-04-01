@@ -165,7 +165,8 @@ cdef const_char ** convert_python_list_strings_to_array_of_strings(list strings)
         raise MemoryError()
 
     for i in range(arr_len):
-        array[i] = <const_char *>strdup(_cfruni(strings[i]))
+        if isinstance(strings[i], unicode): s = strings[i].encode("UTF-8")
+        array[i] = <const_char *>strdup(s)
 
     return array
 
@@ -185,7 +186,8 @@ cdef list convert_eina_list_strings_to_python_list(const_Eina_List *lst):
 cdef Eina_List *convert_python_list_strings_to_eina_list(strings):
     cdef Eina_List *lst = NULL
     for s in strings:
-        lst = eina_list_append(lst, strdup(_cfruni(s)))
+        if isinstance(s, unicode): s = s.encode("UTF-8")
+        lst = eina_list_append(lst, strdup(s))
     return lst
 
 
