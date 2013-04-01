@@ -311,7 +311,8 @@ cdef class Exe(object):
         if flags is None:
             flags = 0
 
-        self._set_obj(_fruni(exe_cmd), flags)
+        if isinstance(exe_cmd, unicode): exe_cmd = exe_cmd.encode("UTF-8")
+        self._set_obj(exe_cmd, flags)
         self.__data = data
         self.__callbacks = {}
 

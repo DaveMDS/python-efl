@@ -56,7 +56,7 @@ cdef class FileDownload(object):
     the legacy API.
 
     Instance example::
-    
+
         from efl.ecore import FileDownload
         dl = FileDownload("http://your_url", "/path/to/destination", None, None)
         dl.abort()
@@ -88,11 +88,15 @@ cdef class FileDownload(object):
         self.args = args
         self.kargs = kargs
 
-        if not ecore_file_download(_cfruni(url), _cfruni(dst),
-                                   _completion_cb, _progress_cb,
-                                   <void *>self, &job):
-            raise SystemError("could not download '%s' to %s" % (url, dst))
-            
+        if isinstance(url, unicode): url = url.encode("UTF-8")
+        if isinstance(dst, unicode): dst = dst.encode("UTF-8")
+        if not ecore_file_download(
+            <const_char *>url if url is not None else NULL,
+            <const_char *>dst if dst is not None else NULL,
+            _completion_cb, _progress_cb,
+            <void *>self, &job):
+                raise SystemError("could not download '%s' to %s" % (url, dst))
+
         self.job = job
         Py_INCREF(self)
 

@@ -17,7 +17,6 @@
 
 import traceback
 from efl.eo cimport Eo
-from efl.eo cimport _fruni, _cfruni
 from efl.eo cimport PY_REFCOUNT
 from cpython cimport Py_INCREF, Py_DECREF
 
@@ -75,7 +74,7 @@ def init():
     global _ecore_events_registered
 
     r = ecore_init()
-    
+
     if r > 0 and _ecore_events_registered == 0:
         _ecore_events_registered = 1
 
