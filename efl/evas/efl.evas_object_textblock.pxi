@@ -66,7 +66,9 @@ cdef class Textblock(Object):
         :param value:
         """
         cdef Evas_Textblock_Style *style = evas_textblock_style_new()
-        evas_textblock_style_set(style, _cfruni(value))
+        if isinstance(value, unicode): value = value.encode("UTF-8")
+        evas_textblock_style_set(style,
+            <const_char *>value if value is not None else NULL)
         evas_object_textblock_style_set(self.obj, style)
         evas_textblock_style_free(style)
 
@@ -89,7 +91,9 @@ cdef class Textblock(Object):
 
         :param value:
         """
-        evas_object_textblock_text_markup_set(self.obj, _cfruni(value))
+        if isinstance(value, unicode): value = value.encode("UTF-8")
+        evas_object_textblock_text_markup_set(self.obj,
+            <const_char *>value if value is not None else NULL)
 
     property text_markup:
         def __get__(self):
@@ -102,7 +106,9 @@ cdef class Textblock(Object):
         return _ctouni(evas_object_textblock_replace_char_get(self.obj))
 
     def replace_char_set(self, value):
-        evas_object_textblock_replace_char_set(self.obj, _cfruni(value))
+        if isinstance(value, unicode): value = value.encode("UTF-8")
+        evas_object_textblock_replace_char_set(self.obj,
+            <const_char *>value if value is not None else NULL)
 
     property replace_char:
         def __get__(self):

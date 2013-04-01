@@ -163,7 +163,11 @@ cdef class Image(Object):
 
         """
         cdef int err
-        evas_object_image_file_set(self.obj, _cfruni(filename), _cfruni(key))
+        if isinstance(filename, unicode): filename = filename.encode("UTF-8")
+        if isinstance(key, unicode): key = key.encode("UTF-8")
+        evas_object_image_file_set(self.obj,
+            <const_char *>filename if filename is not None else NULL,
+            <const_char *>key if key is not None else NULL)
         err = evas_object_image_load_error_get(self.obj)
         if err != EVAS_LOAD_ERROR_NONE:
             raise EvasLoadError(err, filename, key)

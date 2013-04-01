@@ -1122,12 +1122,16 @@ cdef class Object(Eo):
             return _ctouni(evas_object_name_get(self.obj))
 
         def __set__(self, value):
-            evas_object_name_set(self.obj, _cfruni(value))
+            if isinstance(value, unicode): value = value.encode("UTF-8")
+            evas_object_name_set(self.obj,
+                <const_char *>value if value is not None else NULL)
 
     def name_get(self):
         return _ctouni(evas_object_name_get(self.obj))
     def name_set(self, value):
-        evas_object_name_set(self.obj, _cfruni(value))
+        if isinstance(value, unicode): value = value.encode("UTF-8")
+        evas_object_name_set(self.obj,
+            <const_char *>value if value is not None else NULL)
 
     property focus:
         """Whenever object currently have the focus.

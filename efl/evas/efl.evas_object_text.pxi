@@ -86,7 +86,9 @@ cdef class Text(Object):
 
     def font_source_set(self, value):
         """Set where to find the font (ie: EET/Edje)."""
-        evas_object_text_font_source_set(self.obj, _cfruni(value))
+        if isinstance(value, unicode): value = value.encode("UTF-8")
+        evas_object_text_font_source_set(self.obj,
+            <const_char *>value if value is not None else NULL)
 
     property font_source:
         def __get__(self):
@@ -108,7 +110,10 @@ cdef class Text(Object):
         :param font:.
         :param size:.
         """
-        evas_object_text_font_set(self.obj, _cfruni(font), size)
+        if isinstance(font, unicode): font = font.encode("UTF-8")
+        evas_object_text_font_set(self.obj,
+            <const_char *>font if font is not None else NULL,
+            size)
 
     property font:
         def __get__(self):
@@ -125,7 +130,9 @@ cdef class Text(Object):
 
     def text_set(self, value):
         """Change text to be used"""
-        evas_object_text_text_set(self.obj, _cfruni(value))
+        if isinstance(value, unicode): value = value.encode("UTF-8")
+        evas_object_text_text_set(self.obj,
+            <const_char *>value if value is not None else NULL)
 
     property text:
         def __get__(self):

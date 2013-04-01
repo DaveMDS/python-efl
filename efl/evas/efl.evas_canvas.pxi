@@ -132,8 +132,13 @@ cdef class Canvas(Eo):
 
         if isinstance(method, (int, long)):
             engine_id = method
+        elif isinstance(method, unicode):
+            method = method.encode("UTF-8")
+            engine_id = evas_render_method_lookup(
+                <const_char *>method if method is not None else NULL)
         elif isinstance(method, str):
-            engine_id = evas_render_method_lookup(_cfruni(method))
+            engine_id = evas_render_method_lookup(
+                <const_char *>method if method is not None else NULL)
         else:
             raise TypeError("method must be integer or string")
 
@@ -481,7 +486,9 @@ cdef class Canvas(Eo):
         :rtype: :py:class:`efl.evas.Object`
 
         """
-        return object_from_instance(evas_object_name_find(self.obj, _cfruni(name)))
+        if isinstance(name, unicode): name = name.encode("UTF-8")
+        return object_from_instance(evas_object_name_find(self.obj,
+            <const_char *>name if name is not None else NULL))
 
     def image_cache_flush(self):
         evas_image_cache_flush(self.obj)
@@ -524,13 +531,18 @@ cdef class Canvas(Eo):
         evas_font_path_clear(self.obj)
 
     def font_path_append(self, path):
-        evas_font_path_append(self.obj, _cfruni(path))
+        if isinstance(path, unicode): path = path.encode("UTF-8")
+        evas_font_path_append(self.obj,
+            <const_char *>path if path is not None else NULL)
 
     def font_path_prepend(self, path):
-        evas_font_path_prepend(self.obj, _cfruni(path))
+        if isinstance(path, unicode): path = path.encode("UTF-8")
+        evas_font_path_prepend(self.obj,
+            <const_char *>path if path is not None else NULL)
 
     def font_path_list(self):
         """:rtype: list of str"""
+        # TODO: use list conv func
         cdef const_Eina_List *itr
         lst = []
         itr = evas_font_path_list(self.obj)
@@ -541,6 +553,7 @@ cdef class Canvas(Eo):
 
     def font_available_list(self):
         """:rtype: list of str"""
+        # TODO: use list conv func
         cdef void *p
         cdef Eina_List *itr, *head
         lst = []
