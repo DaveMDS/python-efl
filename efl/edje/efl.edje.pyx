@@ -179,11 +179,15 @@ def file_group_exists(file, group):
 
 
 def file_data_get(file, key):
+    cdef char *s
     if isinstance(file, unicode): file = file.encode("UTF-8")
     if isinstance(key, unicode): key = key.encode("UTF-8")
-    return _ctouni(edje_file_data_get(
+    s = edje_file_data_get(
                 <const_char *>file if file is not None else NULL,
-                <const_char *>key if key is not None else NULL))
+                <const_char *>key if key is not None else NULL)
+    ret = _touni(s)
+    libc.stdlib.free(s)
+    return ret
 
 
 def file_cache_set(int count):
