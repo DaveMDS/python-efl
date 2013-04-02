@@ -49,10 +49,10 @@ cdef class HoverselItem(ObjectItem):
     An item for the :py:class:`Hoversel` widget.
 
     """
-
-    cdef const_char *label, *icon_file
-    cdef Elm_Icon_Type icon_type
-    cdef Evas_Smart_Cb cb
+    cdef:
+        object label, icon_file, icon_group
+        Elm_Icon_Type icon_type
+        Evas_Smart_Cb cb
 
     def __cinit__(self):
         self.cb = NULL
@@ -74,8 +74,10 @@ cdef class HoverselItem(ObjectItem):
         :type callback: function
 
         """
-        self.label = _cfruni(label) if label is not None else NULL
-        self.icon_file = _cfruni(icon_file) if icon_file is not None else NULL
+        if isinstance(label, unicode): label = label.encode("UTF-8")
+        if isinstance(icon_file, unicode): icon_file = icon_file.encode("UTF-8")
+        self.label = label
+        self.icon_file = icon_file
         self.icon_type = icon_type
 
         if callback:
@@ -101,11 +103,11 @@ cdef class HoverselItem(ObjectItem):
 
         """
         item = elm_hoversel_item_add(   hoversel.obj,
-                                        self.label,
-                                        self.icon_file,
-                                        self.icon_type,
-                                        self.cb,
-                                        <void*>self)
+            <const_char *>self.label if self.label is not None else NULL,
+            <const_char *>self.icon_file if self.icon_file is not None else NULL,
+            self.icon_type,
+            self.cb,
+            <void*>self)
 
         if item != NULL:
             self._set_obj(item)
@@ -124,30 +126,35 @@ cdef class HoverselItem(ObjectItem):
         """
         def __set__(self, value):
             icon_file, icon_group, icon_type = value
-            if self.item == NULL:
-                self.icon_file = _cfruni(icon_file)
-                self.icon_type = icon_type
-            else:
-                elm_hoversel_item_icon_set(self.item, _cfruni(icon_file), _cfruni(icon_group), icon_type)
+            self.icon_set(icon_file, icon_group, icon_type)
 
         def __get__(self):
-            cdef const_char *icon_file, *icon_group
-            cdef Elm_Icon_Type icon_type
-            if self.item == NULL:
-                icon_file = self.icon_file
-                icon_group = NULL
-                icon_type = self.icon_type
-            else:
-                elm_hoversel_item_icon_get(self.item, &icon_file, &icon_group, &icon_type)
-            return (_ctouni(icon_file), _ctouni(icon_group), icon_type)
+            return self.icon_get()
 
-    def icon_set(self, icon_file, icon_group, icon_type):
-        elm_hoversel_item_icon_set(self.item, _cfruni(icon_file), _cfruni(icon_group), icon_type)
-    def icon_get(self):
-        cdef const_char *cicon_file, *cicon_group
-        cdef Elm_Icon_Type cicon_type
-        elm_hoversel_item_icon_get(self.item, &cicon_file, &cicon_group, &cicon_type)
-        return (_ctouni(cicon_file), _ctouni(cicon_group), cicon_type)
+    cpdef icon_set(self, icon_file, icon_group, icon_type):
+        a1, a2, a3 = icon_file, icon_group, icon_type
+        if isinstance(a1, unicode): a1 = a1.encode("UTF-8")
+        if isinstance(a2, unicode): a2 = a2.encode("UTF-8")
+        if self.item == NULL:
+            self.icon_file = a1
+            self.icon_group = a2
+            self.icon_type = a3
+        else:
+            elm_hoversel_item_icon_set(self.item,
+                <const_char *>a1 if a1 is not None else NULL,
+                <const_char *>a2 if a2 is not None else NULL,
+                a3)
+    cpdef icon_get(self):
+        cdef const_char *icon_file, *icon_group
+        cdef Elm_Icon_Type icon_type
+        if self.item == NULL:
+            a1 = self.icon_file.decode("UTF-8")
+            a2 = self.icon_group.decode("UTF-8")
+            a3 = self.icon_type
+            return (a1, a2, a3)
+        else:
+            elm_hoversel_item_icon_get(self.item, &icon_file, &icon_group, &icon_type)
+            return (_ctouni(icon_file), _ctouni(icon_group), icon_type)
 
 cdef class Hoversel(Button):
 

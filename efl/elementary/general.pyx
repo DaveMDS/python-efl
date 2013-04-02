@@ -146,10 +146,13 @@ def init():
     # FIXME: Why pass the cl args to elm_init?
     cdef int argc, i, arg_len
     cdef char **argv, *arg
+
     argc = len(sys.argv)
     argv = <char **>PyMem_Malloc(argc * sizeof(char *))
-    for i from 0 <= i < argc:
-        arg = sys.argv[i]
+    for i in range(argc):
+        t = sys.argv[i]
+        if isinstance(t, unicode): t = t.encode("UTF-8")
+        arg = t
         arg_len = len(arg)
         argv[i] = <char *>PyMem_Malloc(arg_len + 1)
         memcpy(argv[i], arg, arg_len + 1)

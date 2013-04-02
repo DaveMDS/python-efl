@@ -541,17 +541,20 @@ cdef class GengridItem(ObjectItem):
 
         """
         def __get__(self):
-            return _ctouni(elm_gengrid_item_tooltip_style_get(self.item))
+            return self.tooltip_style_get()
 
         def __set__(self, style):
-            elm_gengrid_item_tooltip_style_set(self.item, _cfruni(style) if style is not None else NULL)
+            self.tooltip_style_set(style)
 
-    def tooltip_style_set(self, style=None):
-        elm_gengrid_item_tooltip_style_set(self.item, _cfruni(style) if style is not None else NULL)
-    def tooltip_style_get(self):
+    cpdef tooltip_style_set(self, style=None):
+        if isinstance(style, unicode): style = style.encode("UTF-8")
+        elm_gengrid_item_tooltip_style_set(self.item,
+            <const_char *>style if style is not None else NULL)
+    cpdef tooltip_style_get(self):
         return _ctouni(elm_gengrid_item_tooltip_style_get(self.item))
 
     property tooltip_window_mode:
+        # TODO: document this
         def __get__(self):
             return bool(elm_gengrid_item_tooltip_window_mode_get(self.item))
 
@@ -570,34 +573,40 @@ cdef class GengridItem(ObjectItem):
 
         """
         def __get__(self):
-            return _ctouni(elm_gengrid_item_cursor_get(self.item))
+            return self.cursor_get()
 
         def __set__(self, cursor):
-            elm_gengrid_item_cursor_set(self.item, _cfruni(cursor))
+            self.cursor_set(cursor)
 
         def __del__(self):
-            elm_gengrid_item_cursor_unset(self.item)
+            self.cursor_unset()
 
-    def cursor_set(self, char *cursor):
-        elm_gengrid_item_cursor_set(self.item, _cfruni(cursor))
+    def cursor_set(self, cursor):
+        if isinstance(cursor, unicode): cursor = cursor.encode("UTF-8")
+        elm_gengrid_item_cursor_set(self.item,
+            <const_char *>cursor if cursor is not None else NULL)
     def cursor_get(self):
         return _ctouni(elm_gengrid_item_cursor_get(self.item))
     def cursor_unset(self):
         elm_gengrid_item_cursor_unset(self.item)
 
     property cursor_style:
+        # TODO: document this
         def __get__(self):
-            return _ctouni(elm_gengrid_item_cursor_style_get(self.item))
+            return self.cursor_style_get()
 
         def __set__(self, style):
-            elm_gengrid_item_cursor_style_set(self.item, _cfruni(style) if style is not None else NULL)
+            self.cursor_style_set(style)
 
     def cursor_style_set(self, style=None):
-        elm_gengrid_item_cursor_style_set(self.item, _cfruni(style) if style is not None else NULL)
+        if isinstance(style, unicode): style = style.encode("UTF-8")
+        elm_gengrid_item_cursor_style_set(self.item,
+            <const_char *>style if style is not None else NULL)
     def cursor_style_get(self):
         return _ctouni(elm_gengrid_item_cursor_style_get(self.item))
 
     property cursor_engine_only:
+        # TODO: document this
         def __get__(self):
             return elm_gengrid_item_cursor_engine_only_get(self.item)
 
@@ -610,6 +619,7 @@ cdef class GengridItem(ObjectItem):
         return elm_gengrid_item_cursor_engine_only_get(self.item)
 
     property select_mode:
+        # TODO: document this
         def __get__(self):
             return elm_gengrid_item_select_mode_get(self.item)
 
