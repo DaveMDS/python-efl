@@ -22,7 +22,7 @@ from cpython cimport PyMem_Malloc, PyMem_Free
 cimport libc.stdlib
 
 from efl.eo cimport _object_mapping_register, object_from_instance
-from efl.eo cimport _ctouni, _cfruni, _touni, _fruni, convert_eina_list_strings_to_python_list
+from efl.eo cimport _ctouni, _touni, convert_eina_list_strings_to_python_list
 
 
 # Edje_Message_Type:
@@ -152,7 +152,8 @@ def thaw():
 
 
 def fontset_append_set(fonts):
-    edje_fontset_append_set(_cfruni(fonts))
+    if isinstance(fonts, unicode): fonts = fonts.encode("UTF-8")
+    edje_fontset_append_set(<const_char *>fonts if fonts is not None else NULL)
 
 
 def fontset_append_get():
@@ -161,19 +162,28 @@ def fontset_append_get():
 
 def file_collection_list(file):
     cdef Eina_List *lst
-    lst = edje_file_collection_list(_cfruni(file))
+    if isinstance(file, unicode): file = file.encode("UTF-8")
+    lst = edje_file_collection_list(
+                <const_char *>file if file is not None else NULL)
     ret = convert_eina_list_strings_to_python_list(lst)
     edje_file_collection_list_free(lst)
     return ret
 
 
 def file_group_exists(file, group):
-    return bool(edje_file_group_exists(_cfruni(file), _cfruni(group)))
+    if isinstance(file, unicode): file = file.encode("UTF-8")
+    if isinstance(group, unicode): group = group.encode("UTF-8")
+    return bool(edje_file_group_exists(
+            <const_char *>file if file is not None else NULL,
+            <const_char *>group if group is not None else NULL))
 
 
 def file_data_get(file, key):
-    cdef char *s
-    return _ctouni(edje_file_data_get(_cfruni(file), _cfruni(key)))
+    if isinstance(file, unicode): file = file.encode("UTF-8")
+    if isinstance(key, unicode): key = key.encode("UTF-8")
+    return _ctouni(edje_file_data_get(
+                <const_char *>file if file is not None else NULL,
+                <const_char *>key if key is not None else NULL))
 
 
 def file_cache_set(int count):
@@ -204,25 +214,30 @@ def color_class_set(color_class,
                     int r, int g, int b, int a,
                     int r2, int g2, int b2, int a2,
                     int r3, int g3, int b3, int a3):
-    edje_color_class_set(_cfruni(color_class),
-                         r, g, b, a,
-                         r2, g2, b2, a2,
-                         r3, g3, b3, a3)
+    if isinstance(color_class, unicode):
+        color_class = color_class.encode("UTF-8")
+    edje_color_class_set(
+            <const_char *>color_class if color_class is not None else NULL,
+            r, g, b, a, r2, g2, b2, a2, r3, g3, b3, a3)
 
 
 def color_class_get(color_class):
     cdef int r, g, b, a
     cdef int r2, g2, b2, a2
     cdef int r3, g3, b3, a3
-    edje_color_class_get(_cfruni(color_class),
-                         &r, &g, &b, &a,
-                         &r2, &g2, &b2, &a2,
-                         &r3, &g3, &b3, &a3)
+    if isinstance(color_class, unicode):
+        color_class = color_class.encode("UTF-8")
+    edje_color_class_get(
+            <const_char *>color_class if color_class is not None else NULL,
+            &r, &g, &b, &a, &r2, &g2, &b2, &a2, &r3, &g3, &b3, &a3)
     return (r, g, b, a, r2, g2, b2, a2, r3, g3, b3, a3)
 
 
 def color_class_del(color_class):
-    edje_color_class_del(_cfruni(color_class))
+    if isinstance(color_class, unicode):
+        color_class = color_class.encode("UTF-8")
+    edje_color_class_del(
+        <const_char *>color_class if color_class is not None else NULL)
 
 
 def color_class_list():
@@ -239,11 +254,20 @@ def color_class_list():
 
 
 def text_class_set(text_class, font, int size):
-    edje_text_class_set(_cfruni(text_class), _cfruni(font), size)
+    if isinstance(text_class, unicode):
+        text_class = text_class.encode("UTF-8")
+    if isinstance(font, unicode):
+        font = font.encode("UTF-8")
+    edje_text_class_set(
+        <const_char *>text_class if text_class is not None else NULL,
+        <const_char *>font if font is not None else NULL,
+        size)
 
 
 def text_class_del(text_class):
-    edje_text_class_del(_cfruni(text_class))
+    if isinstance(text_class, unicode): text_class = text_class.encode("UTF-8")
+    edje_text_class_del(
+        <const_char *>text_class if text_class is not None else NULL)
 
 
 def text_class_list():
@@ -286,7 +310,9 @@ def available_modules_get():
 
 
 def module_load(name):
-    return bool(edje_module_load(_cfruni(name)))
+    if isinstance(name, unicode): name = name.encode("UTF-8")
+    return bool(edje_module_load(
+                    <const_char *>name if name is not None else NULL))
 
 # class EdjeObjectMeta(evas.c_evas.EvasObjectMeta):
 #     def __init__(cls, name, bases, dict_):
