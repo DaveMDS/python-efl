@@ -15,9 +15,9 @@ from efl.elementary.scroller import Scroller
 counter = 0
 
 def cb_item_selected(mbe, item):
-    print "cb!!!!!!!!!!!" # TODO this is never called
-    print mbe
-    print item
+    print("cb!!!!!!!!!!!") # TODO this is never called
+    print(mbe)
+    print(item)
 
 def cb_btn_item_prepend(btn, mbe):
     global counter
@@ -86,7 +86,7 @@ def multibuttonentry_clicked(obj, item=None):
     sc.content = mbe
     mbe.show()
 
-    print mbe.entry
+    print(mbe.entry)
 
     hbox = Box(win)
     hbox.horizontal = True

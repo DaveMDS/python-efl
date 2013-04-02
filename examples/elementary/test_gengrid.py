@@ -388,7 +388,7 @@ def gengrid_clicked(obj):
     tb.pack(bt, 4, 5, 1, 1)
     bt.show()
 
-    print gg
+    print(gg)
     win.resize(480, 800)
     win.show()
 

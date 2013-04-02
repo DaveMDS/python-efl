@@ -11,9 +11,9 @@ from efl.elementary.segment_control import SegmentControl
 
 
 def cb_seg_changed(seg, item):
-    print seg
-    print item
-    
+    print(seg)
+    print(item)
+
 def segment_control_clicked(obj):
     win = Window("segment-control", elementary.ELM_WIN_BASIC)
     win.title_set("Segment Control test")
@@ -60,7 +60,7 @@ def segment_control_clicked(obj):
     seg.item_add(None, "SegmentItem")
     seg.item_add(None, "SegmentItem")
 
-    print it
+    print(it)
     # it.selected_set(True)
     vbox.pack_end(seg)
     seg.show()
@@ -84,7 +84,7 @@ def segment_control_clicked(obj):
 
     # segment 4
     seg = SegmentControl(win)
-   
+
     seg.size_hint_weight = (evas.EVAS_HINT_EXPAND, evas.EVAS_HINT_EXPAND)
     seg.size_hint_align = (evas.EVAS_HINT_FILL, 0.5)
 

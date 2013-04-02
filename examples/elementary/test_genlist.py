@@ -2,6 +2,8 @@
 # encoding: utf-8
 
 import time
+import sys
+if sys.version_info < (3,): range = xrange
 
 from efl import evas
 from efl import ecore
@@ -469,7 +471,7 @@ def genlist5_clicked(obj, item=None):
     item_count = 10000
 
     t1 = time.time()
-    for i in xrange(item_count):
+    for i in range(item_count):
         GenlistItem(itc_i, None, 0, None, i).append_to(gl)
     t2 = time.time()
 

@@ -39,14 +39,14 @@ from efl.elementary.map import Map
 
 def cb_btn_clear_overlays(bt, Map):
     for ov in Map.overlays:
-        print ov, ov.type
+        print(ov, ov.type)
         if (ov.type != elementary.ELM_MAP_OVERLAY_TYPE_CLASS):
             ov.delete()
 
 def cb_btn_ungroup_overlays(bt, Map):
     for ov in Map.overlays:
         if isinstance(ov, MapOverlayClass):
-            print ov
+            print(ov)
             # TODO ungroup instead
             for ov2 in ov.members:
                 ov.delete()
@@ -144,9 +144,9 @@ def cb_ctx_overlay_scale(li, item, Map, x, y):
     Map.overlay_scale_add(x, y)
 
 def test(li, item, Map, lon, lat):
-    print li
-    print item
-    print Map
+    print(li)
+    print(item)
+    print(Map)
     # ctx.dismiss()
     ov = Map.overlay_add(lon, lat)
 

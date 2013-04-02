@@ -50,12 +50,12 @@ def set_api_state(api):
         cal.selected_time = the_time
     elif api["state"] == STATE_SELECT_DATE_DISABLED_WITH_MARKS:
         cal = items[0]
-        the_time = datetime(2011, 01, 01)
+        the_time = datetime(2011, 1, 1)
         cal.select_mode = elementary.ELM_CALENDAR_SELECT_MODE_NONE
         cal.selected_time = the_time
     elif api["state"] == STATE_SELECT_DATE_DISABLED_NO_MARKS:
         cal = items[0]
-        the_time = datetime(2011, 02, 01)
+        the_time = datetime(2011, 2, 1)
         del cal.marks
         cal.select_mode = elementary.ELM_CALENDAR_SELECT_MODE_NONE
         cal.selected_time = the_time
