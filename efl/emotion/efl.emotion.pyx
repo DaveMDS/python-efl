@@ -15,7 +15,7 @@
 # You should have received a copy of the GNU Lesser General Public License
 # along with this Python-EFL.  If not, see <http://www.gnu.org/licenses/>.
 
-from efl.eo cimport _ctouni, _cfruni
+from efl.eo cimport _ctouni
 from efl.eo cimport object_from_instance, _object_mapping_register
 from efl.evas cimport Canvas
 from efl.evas cimport evas_object_smart_callback_add
@@ -155,7 +155,10 @@ cdef class Emotion(evasObject):
                            geometry=None, color=None, name=None):
         evasObject._set_common_params(self, size=size, pos=pos, name=name,
                                       geometry=geometry, color=color)
-        if emotion_object_init(self.obj, _cfruni(module_name)) == 0:
+        if isinstance(module_name, unicode):
+            module_name = module_name.encode("UTF-8")
+        if emotion_object_init(self.obj,
+            <const_char *>module_name if module_name is not None else NULL) == 0:
             raise EmotionModuleInitError("failed to initialize module '%s'" %
                                          module_name)
 
@@ -211,12 +214,16 @@ cdef class Emotion(evasObject):
             return _ctouni(emotion_object_file_get(self.obj))
 
         def __set__(self, value):
-            emotion_object_file_set(self.obj, _cfruni(value))
+            if isinstance(value, unicode): value = value.encode("UTF-8")
+            emotion_object_file_set(self.obj,
+                <const_char *> value if value is not None else NULL)
 
     def file_get(self):
         return _ctouni(emotion_object_file_get(self.obj))
     def file_set(self, file_name):
-        emotion_object_file_set(self.obj, _cfruni(file_name))
+        if isinstance(file_name, unicode): file_name = file_name.encode("UTF-8")
+        emotion_object_file_set(self.obj,
+            <const_char *> file_name if file_name is not None else NULL)
 
     property play:
         """ The play/pause state of the emotion object.
@@ -378,12 +385,16 @@ cdef class Emotion(evasObject):
             return _ctouni(emotion_object_video_subtitle_file_get(self.obj))
 
         def __set__(self, value):
-            emotion_object_video_subtitle_file_set(self.obj, _cfruni(value))
+            if isinstance(value, unicode): value = value.encode("UTF-8")
+            emotion_object_video_subtitle_file_set(self.obj,
+                <const_char *>value if value is not None else NULL)
 
     def video_subtitle_file_get(self):
         return _ctouni(emotion_object_video_subtitle_file_get(self.obj))
     def video_subtitle_file_set(self, file_name):
-        emotion_object_video_subtitle_file_set(self.obj, _cfruni(file_name))
+        if isinstance(file_name, unicode): file_name = file_name.encode("UTF-8")
+        emotion_object_video_subtitle_file_set(self.obj,
+            <const_char *>file_name if file_name is not None else NULL)
 
     property priority:
         """ Raise the priority of an object so it will have a priviledged
@@ -997,7 +1008,9 @@ cdef class Emotion(evasObject):
         :type filename: str
 
         """
-        return bool(emotion_object_extension_may_play_get(_cfruni(filename)))
+        if isinstance(filename, unicode): filename = filename.encode("UTF-8")
+        return bool(emotion_object_extension_may_play_get(
+            <const_char *>filename if filename is not None else NULL))
 
     def image_get(self):
         """ Get the actual image object (:py:class:`efl.evas.Object`) of the
@@ -1039,8 +1052,10 @@ cdef class Emotion(evasObject):
         e = intern(event)
         lst = self._emotion_callbacks.setdefault(e, [])
         if not lst:
-            evas_object_smart_callback_add(self.obj, _cfruni(event),
-                                           _emotion_callback, <void *>e)
+            if isinstance(event, unicode): event = event.encode("UTF-8")
+            evas_object_smart_callback_add(self.obj,
+                <const_char *>event if event is not None else NULL,
+                _emotion_callback, <void *>e)
         lst.append((func, args, kargs))
 
     def callback_del(self, event, func):
@@ -1071,7 +1086,10 @@ cdef class Emotion(evasObject):
         if lst:
             return
         self._emotion_callbacks.pop(event)
-        evas_object_smart_callback_del(self.obj, _cfruni(event), _emotion_callback)
+        if isinstance(event, unicode): event = event.encode("UTF-8")
+        evas_object_smart_callback_del(self.obj,
+            <const_char *>event if event is not None else NULL,
+            _emotion_callback)
 
     def on_frame_decode_add(self, func, *args, **kargs):
         "Same as calling: callback_add('frame_decode', func, ...)"
