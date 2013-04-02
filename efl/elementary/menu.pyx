@@ -47,12 +47,14 @@ cdef class MenuItem(ObjectItem):
             cb = _object_item_callback
 
         self.params = (callback, args, kargs)
-        item = elm_menu_item_add(   menu.obj,
-                                    parent_obj,
-                                    _cfruni(icon) if icon is not None else NULL,
-                                    _cfruni(label) if label is not None else NULL,
-                                    cb,
-                                    <void*>self)
+        if isinstance(icon, unicode): icon = icon.encode("UTF-8")
+        if isinstance(label, unicode): label = label.encode("UTF-8")
+        item = elm_menu_item_add(menu.obj,
+            parent_obj,
+            <const_char *>icon if icon is not None else NULL,
+            <const_char *>label if label is not None else NULL,
+            cb,
+            <void*>self)
 
         if item != NULL:
             self._set_obj(item)
@@ -82,14 +84,16 @@ cdef class MenuItem(ObjectItem):
 
         """
         def __get__(self):
-            return _ctouni(elm_menu_item_icon_name_get(self.item))
+            return self.icon_name_get()
 
         def __set__(self, icon):
-            elm_menu_item_icon_name_set(self.item, _cfruni(icon))
+            self.icon_name_set(icon)
 
-    def icon_name_set(self, icon):
-        elm_menu_item_icon_name_set(self.item, _cfruni(icon))
-    def icon_name_get(self):
+    cpdef icon_name_set(self, icon):
+        if isinstance(icon, unicode): icon = icon.encode("UTF-8")
+        elm_menu_item_icon_name_set(self.item,
+            <const_char *>icon if icon is not None else NULL)
+    cpdef icon_name_get(self):
         return _ctouni(elm_menu_item_icon_name_get(self.item))
 
     property selected:

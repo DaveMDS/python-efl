@@ -106,8 +106,10 @@ cdef class Photocam(Object):
 
         """
         def __set__(self, file):
-            elm_photocam_file_set(self.obj, _cfruni(file))
-            #TODO: handle errors from return status
+            if isinstance(file, unicode): file = file.encode("UTF-8")
+            if not elm_photocam_file_set(self.obj,
+                <const_char *>file if file is not None else NULL):
+                    raise RuntimeError("Could not set file")
         def __get__(self):
             return _ctouni(elm_photocam_file_get(self.obj))
 

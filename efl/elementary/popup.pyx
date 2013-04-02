@@ -116,7 +116,7 @@ cdef class PopupItem(ObjectItem):
     - "default" - Item's label
 
     """
-
+    # TODO: change API
     def __init__(self, evasObject popup, label = None, evasObject icon = None, func = None, *args, **kwargs):
         cdef Elm_Object_Item *item
         cdef Evas_Smart_Cb cb
@@ -129,8 +129,9 @@ cdef class PopupItem(ObjectItem):
             raise TypeError("func is not None or callable")
 
         self.params = (func, args, kwargs)
+        if isinstance(label, unicode): label = label.encode("UTF-8")
         item = elm_popup_item_append(   popup.obj,
-                                        _cfruni(label) if not None else NULL,
+                                        <const_char *>label if not None else NULL,
                                         icon.obj if not None else NULL,
                                         cb if not None else NULL,
                                         <void *>self)

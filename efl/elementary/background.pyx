@@ -109,7 +109,7 @@ cdef class Background(LayoutClass):
                 group = ""
             self.file_set(filename, group)
 
-    cpdef file_set(self, filename, group = ""):
+    cpdef file_set(self, filename, group = None):
         if isinstance(filename, unicode): filename = filename.encode("UTF-8")
         if isinstance(group, unicode): group = group.encode("UTF-8")
         if not elm_bg_file_set(self.obj,

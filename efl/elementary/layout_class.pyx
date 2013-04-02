@@ -56,11 +56,15 @@ cdef class LayoutClass(Object):
         """
         def __set__(self, value):
             filename, group = value
-            if not bool(elm_layout_file_set(self.obj, _cfruni(filename), _cfruni(group))):
-                raise RuntimeError("Could not set file.")
+            self.file_set(filename, group)
 
-    def file_set(self, filename, group):
-        return bool(elm_layout_file_set(self.obj, _cfruni(filename), _cfruni(group)))
+    cpdef file_set(self, filename, group = None):
+        if isinstance(filename, unicode): filename = filename.encode("UTF-8")
+        if isinstance(group, unicode): group = group.encode("UTF-8")
+        if not elm_layout_file_set(self.obj,
+            <const_char *>filename if filename is not None else NULL,
+            <const_char *>group if group is not None else NULL):
+                raise RuntimeError("Could not set file.")
 
     property theme:
         """Set the edje group class, group name and style from the elementary
@@ -74,11 +78,17 @@ cdef class LayoutClass(Object):
         """
         def __set__(self, theme):
             clas, group, style = theme
-            if not bool(elm_layout_theme_set(self.obj, _cfruni(clas), _cfruni(group), _cfruni(style))):
-                raise RuntimeError("Could not set theme.")
+            self.theme_set(clas, group, style)
 
-    def theme_set(self, clas, group, style):
-        return bool(elm_layout_theme_set(self.obj, _cfruni(clas), _cfruni(group), _cfruni(style)))
+    cpdef theme_set(self, clas, group, style):
+        if isinstance(clas, unicode): clas = clas.encode("UTF-8")
+        if isinstance(group, unicode): group = group.encode("UTF-8")
+        if isinstance(style, unicode): style = style.encode("UTF-8")
+        if not elm_layout_theme_set(self.obj,
+            <const_char *>clas if clas is not None else NULL,
+            <const_char *>group if group is not None else NULL,
+            <const_char *>style if style is not None else NULL):
+                raise RuntimeError("Could not set theme.")
 
     def signal_emit(self, emission, source):
         """signal_emit(unicode emission, unicode source)
@@ -96,7 +106,11 @@ cdef class LayoutClass(Object):
         :type source: string
 
         """
-        elm_layout_signal_emit(self.obj, _cfruni(emission), _cfruni(source))
+        if isinstance(emission, unicode): emission = emission.encode("UTF-8")
+        if isinstance(source, unicode): source = source.encode("UTF-8")
+        elm_layout_signal_emit(self.obj,
+            <const_char *>emission if emission is not None else NULL,
+            <const_char *>source if source is not None else NULL)
 
     #def signal_callback_add(self, emission, source, func, data):
         """Add a callback for a (Edje) signal emitted by a layout widget's
@@ -116,6 +130,7 @@ cdef class LayoutClass(Object):
         :type func: function
 
         """
+        # TODO: remove _cfruni if implementing this
         #elm_layout_signal_callback_add(self.obj, _cfruni(emission), _cfruni(source), Edje_Signal_Cb func, voiddata)
 
     #def signal_callback_del(self, emission, source, func):
@@ -136,6 +151,7 @@ cdef class LayoutClass(Object):
         :type func: function
 
         """
+        # TODO: remove _cfruni if implementing this
         #elm_layout_signal_callback_del(self.obj, _cfruni(emission), _cfruni(source), Edje_Signal_Cb func)
 
     def box_append(self, part, evasObject child):
@@ -163,7 +179,11 @@ cdef class LayoutClass(Object):
         :rtype: bool
 
         """
-        return bool(elm_layout_box_append(self.obj, _cfruni(part), child.obj))
+        if isinstance(part, unicode): part = part.encode("UTF-8")
+        if not elm_layout_box_append(self.obj,
+            <const_char *>part if part is not None else NULL,
+            child.obj):
+                raise RuntimeError("Could not add to box")
 
     def box_prepend(self, part, evasObject child):
         """box_prepend(unicode part, evas.Object child) -> bool
@@ -190,7 +210,11 @@ cdef class LayoutClass(Object):
         :rtype: bool
 
         """
-        return bool(elm_layout_box_prepend(self.obj, _cfruni(part), child.obj))
+        if isinstance(part, unicode): part = part.encode("UTF-8")
+        if not elm_layout_box_prepend(self.obj,
+            <const_char *>part if part is not None else NULL,
+            child.obj):
+                raise RuntimeError("Could not add to box")
 
     def box_insert_before(self, part, evasObject child, evasObject reference):
         """box_insert_before(unicode part, evas.Object child, evas.Object reference) -> bool
@@ -219,7 +243,11 @@ cdef class LayoutClass(Object):
         :rtype: bool
 
         """
-        return bool(elm_layout_box_insert_before(self.obj, _cfruni(part), child.obj, reference.obj))
+        if isinstance(part, unicode): part = part.encode("UTF-8")
+        if not elm_layout_box_insert_before(self.obj,
+            <const_char *>part if part is not None else NULL,
+            child.obj, reference.obj):
+                raise RuntimeError("Could not add to box")
 
     def box_insert_at(self, part, evasObject child, pos):
         """box_insert_at(unicode part, evas.Object child, int pos) -> bool
@@ -248,7 +276,11 @@ cdef class LayoutClass(Object):
         :rtype: bool
 
         """
-        return bool(elm_layout_box_insert_at(self.obj, _cfruni(part), child.obj, pos))
+        if isinstance(part, unicode): part = part.encode("UTF-8")
+        if not elm_layout_box_insert_at(self.obj,
+            <const_char *>part if part is not None else NULL,
+            child.obj, pos):
+                raise RuntimeError("Could not add to box")
 
     def box_remove(self, part, evasObject child):
         """box_remove(unicode part, evas.Object child) -> evas.Object
@@ -272,7 +304,10 @@ cdef class LayoutClass(Object):
         :rtype: :py:class:`evas.object.Object`
 
         """
-        return object_from_instance(elm_layout_box_remove(self.obj, _cfruni(part), child.obj))
+        if isinstance(part, unicode): part = part.encode("UTF-8")
+        return object_from_instance(elm_layout_box_remove(self.obj,
+            <const_char *>part if part is not None else NULL,
+            child.obj))
 
     def box_remove_all(self, part, clear):
         """box_remove_all(unicode part, bool clear) -> bool
@@ -298,7 +333,11 @@ cdef class LayoutClass(Object):
         :rtype: bool
 
         """
-        return bool(elm_layout_box_remove_all(self.obj, _cfruni(part), clear))
+        if isinstance(part, unicode): part = part.encode("UTF-8")
+        if not elm_layout_box_remove_all(self.obj,
+            <const_char *>part if part is not None else NULL,
+            clear):
+                raise RuntimeError("Could not remove all items from box")
 
     def table_pack(self, part, evasObject child_obj, col, row, colspan, rowspan):
         """table_pack(unicode part, evas.Object child_obj, int col, int row, int colspan, int rowspan) -> bool
@@ -335,7 +374,11 @@ cdef class LayoutClass(Object):
         :rtype: bool
 
         """
-        return bool(elm_layout_table_pack(self.obj, _cfruni(part), child_obj.obj, col, row, colspan, rowspan))
+        if isinstance(part, unicode): part = part.encode("UTF-8")
+        if not elm_layout_table_pack(self.obj,
+            <const_char *>part if part is not None else NULL,
+            child_obj.obj, col, row, colspan, rowspan):
+                raise RuntimeError("Could not pack an item to the table")
 
     def table_unpack(self, part, evasObject child_obj):
         """table_unpack(unicode part, evas.Object child_obj) -> evas.Object
@@ -359,7 +402,10 @@ cdef class LayoutClass(Object):
         :rtype: :py:class:`evas.object.Object`
 
         """
-        return object_from_instance(elm_layout_table_unpack(self.obj, _cfruni(part), child_obj.obj))
+        if isinstance(part, unicode): part = part.encode("UTF-8")
+        return object_from_instance(elm_layout_table_unpack(self.obj,
+            <const_char *>part if part is not None else NULL,
+            child_obj.obj))
 
     def table_clear(self, part, clear):
         """table_clear(unicode part, bool clear) -> bool
@@ -385,7 +431,11 @@ cdef class LayoutClass(Object):
         :rtype: bool
 
         """
-        return bool(elm_layout_table_clear(self.obj, _cfruni(part), clear))
+        if isinstance(part, unicode): part = part.encode("UTF-8")
+        if not elm_layout_table_clear(self.obj,
+            <const_char *>part if part is not None else NULL,
+            clear):
+                raise RuntimeError("Could not clear the table")
 
     property edje:
         """Get the edje layout
@@ -446,7 +496,9 @@ cdef class LayoutClass(Object):
         :rtype: string
 
         """
-        return _ctouni(elm_layout_data_get(self.obj, _cfruni(key)))
+        if isinstance(key, unicode): key = key.encode("UTF-8")
+        return _ctouni(elm_layout_data_get(self.obj,
+            <const_char *>key if key is not None else NULL))
 
     def sizing_eval(self):
         """sizing_eval()
@@ -486,7 +538,12 @@ cdef class LayoutClass(Object):
         :rtype: bool
 
         """
-        return bool(elm_layout_part_cursor_set(self.obj, _cfruni(part_name), _cfruni(cursor)))
+        if isinstance(part_name, unicode): part_name = part_name.encode("UTF-8")
+        if isinstance(cursor, unicode): cursor = cursor.encode("UTF-8")
+        if not elm_layout_part_cursor_set(self.obj,
+            <const_char *>part_name if part_name is not None else NULL,
+            <const_char *>cursor if cursor is not None else NULL):
+                raise RuntimeError("Could not set cursor to part")
 
     def part_cursor_get(self, part_name):
         """part_cursor_get(unicode part_name) -> unicode
@@ -499,7 +556,9 @@ cdef class LayoutClass(Object):
         :rtype: string
 
         """
-        return _ctouni(elm_layout_part_cursor_get(self.obj, _cfruni(part_name)))
+        if isinstance(part_name, unicode): part_name = part_name.encode("UTF-8")
+        return _ctouni(elm_layout_part_cursor_get(self.obj,
+            <const_char *>part_name if part_name is not None else NULL))
 
     def part_cursor_unset(self, part_name):
         """part_cursor_unset(unicode part_name) -> bool
@@ -513,7 +572,10 @@ cdef class LayoutClass(Object):
         :rtype: bool
 
         """
-        return bool(elm_layout_part_cursor_unset(self.obj, _cfruni(part_name)))
+        if isinstance(part_name, unicode): part_name = part_name.encode("UTF-8")
+        if not elm_layout_part_cursor_unset(self.obj,
+            <const_char *>part_name if part_name is not None else NULL):
+                raise RuntimeError("Could not unset part cursor")
 
     def part_cursor_style_set(self, part_name, style):
         """part_cursor_style_set(unicode part_name, unicode style) -> bool
@@ -530,7 +592,12 @@ cdef class LayoutClass(Object):
         :rtype: bool
 
         """
-        return bool(elm_layout_part_cursor_style_set(self.obj, _cfruni(part_name), _cfruni(style)))
+        if isinstance(part_name, unicode): part_name = part_name.encode("UTF-8")
+        if isinstance(style, unicode): style = style.encode("UTF-8")
+        if not elm_layout_part_cursor_style_set(self.obj,
+            <const_char *>part_name if part_name is not None else NULL,
+            <const_char *>style if style is not None else NULL):
+                raise RuntimeError("Could not set cursor style to part")
 
     def part_cursor_style_get(self, part_name):
         """part_cursor_get(unicode part_name) -> unicode
@@ -545,7 +612,9 @@ cdef class LayoutClass(Object):
         :rtype: string
 
         """
-        return _ctouni(elm_layout_part_cursor_style_get(self.obj, _cfruni(part_name)))
+        if isinstance(part_name, unicode): part_name = part_name.encode("UTF-8")
+        return _ctouni(elm_layout_part_cursor_style_get(self.obj,
+            <const_char *>part_name if part_name is not None else NULL))
 
     def part_cursor_engine_only_set(self, part_name, engine_only):
         """part_cursor_engine_only_set(unicode part_name, bool engine_only) -> bool
@@ -568,7 +637,11 @@ cdef class LayoutClass(Object):
         :rtype: bool
 
         """
-        return bool(elm_layout_part_cursor_engine_only_set(self.obj, _cfruni(part_name), engine_only))
+        if isinstance(part_name, unicode): part_name = part_name.encode("UTF-8")
+        if not elm_layout_part_cursor_engine_only_set(self.obj,
+            <const_char *>part_name if part_name is not None else NULL,
+            engine_only):
+                raise RuntimeError("Could not set cursor engine_only to part")
 
     def part_cursor_engine_only_get(self, part_name):
         """part_cursor_engine_only_get(unicode part_name) -> bool
@@ -582,7 +655,9 @@ cdef class LayoutClass(Object):
         :rtype: bool
 
         """
-        return bool(elm_layout_part_cursor_engine_only_get(self.obj, _cfruni(part_name)))
+        if isinstance(part_name, unicode): part_name = part_name.encode("UTF-8")
+        return bool(elm_layout_part_cursor_engine_only_get(self.obj,
+            <const_char *>part_name if part_name is not None else NULL))
 
     property icon:
         """The icon object in a layout that follows the Elementary naming

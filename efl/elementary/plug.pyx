@@ -51,7 +51,9 @@ cdef class Plug(Object):
         :rtype: bool
 
         """
-        return bool(elm_plug_connect(self.obj, _cfruni(svcname), svcnum, svcsys))
+        if isinstance(svcname, unicode): svcname = svcname.encode("UTF-8")
+        return bool(elm_plug_connect(self.obj,
+            <const_char *>svcname if svcname is not None else NULL, svcnum, svcsys))
 
     property image_object:
         """Get the basic Evas_Image object from this object (widget).

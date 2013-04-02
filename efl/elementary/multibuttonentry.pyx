@@ -52,6 +52,7 @@ cdef class MultiButtonEntryItem(ObjectItem):
     def __init__(self, kind, evasObject mbe, label,
                        MultiButtonEntryItem before_after = None,
                        callback = None, *args, **kargs):
+        # TODO: fix this horrible API
         cdef Evas_Smart_Cb cb = NULL
 
         if callback:
@@ -60,19 +61,25 @@ cdef class MultiButtonEntryItem(ObjectItem):
             cb = _object_item_callback
 
         self.params = (callback, args, kargs)
-
+        if isinstance(label, unicode): label = label.encode("UTF-8")
         if kind == ELM_MULTIBUTTONENTRY_INSERT_PREPEND:
             item = elm_multibuttonentry_item_prepend(mbe.obj,
-                                                    _cfruni(label), cb, <void*>self)
+                <const_char *>label if label is not None else NULL,
+                cb, <void*>self)
         elif kind == ELM_MULTIBUTTONENTRY_INSERT_APPEND:
             item = elm_multibuttonentry_item_append(mbe.obj,
-                                                    _cfruni(label), cb, <void*>self)
+                <const_char *>label if label is not None else NULL,
+                cb, <void*>self)
         elif kind == ELM_MULTIBUTTONENTRY_INSERT_BEFORE:
             item = elm_multibuttonentry_item_insert_before(mbe.obj,
-                                 before_after.item, _cfruni(label), cb, <void*>self)
+                before_after.item,
+                <const_char *>label if label is not None else NULL,
+                cb, <void*>self)
         elif kind == ELM_MULTIBUTTONENTRY_INSERT_AFTER:
             item = elm_multibuttonentry_item_insert_after(mbe.obj,
-                                 before_after.item, _cfruni(label), cb, <void*>self)
+                before_after.item,
+                <const_char *>label if label is not None else NULL,
+                cb, <void*>self)
 
         if item != NULL:
             self._set_obj(item)

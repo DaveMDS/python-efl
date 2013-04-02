@@ -102,6 +102,7 @@ cdef class Image(Object):
         self._set_obj(elm_image_add(parent.obj))
 
     #def memfile_set(self, img, size, format, key):
+        # NOTE: remove _cfruni if this is implemented
         #return bool(elm_image_memfile_set(self.obj, img, size, _cfruni(format), _cfruni(key)))
 
     property file:
@@ -121,17 +122,19 @@ cdef class Image(Object):
             else:
                 filename = value
                 group = None
-            if not bool(elm_image_file_set(self.obj, _cfruni(filename) if filename is not None else NULL, _cfruni(group) if group is not None else NULL)):
-                raise RuntimeError("Could not set file.")
+            self.file_set(filename, group)
 
         def __get__(self):
-            cdef const_char *filename, *group
-            elm_image_file_get(self.obj, &filename, &group)
-            return (_ctouni(filename), _ctouni(group))
+            return self.file_get()
 
-    def file_set(self, filename, group = None):
-        elm_image_file_set(self.obj, _cfruni(filename) if filename is not None else NULL, _cfruni(group) if group is not None else NULL)
-    def file_get(self):
+    cpdef file_set(self, filename, group = None):
+        if isinstance(filename, unicode): filename = filename.encode("UTF-8")
+        if isinstance(group, unicode): group = group.encode("UTF-8")
+        if not elm_image_file_set(self.obj,
+            <const_char *>filename if filename is not None else NULL,
+            <const_char *>group if group is not None else NULL):
+                raise RuntimeError("Could not set file.")
+    cpdef file_get(self):
         cdef const_char *filename, *group
         elm_image_file_get(self.obj, &filename, &group)
         return (_ctouni(filename), _ctouni(group))

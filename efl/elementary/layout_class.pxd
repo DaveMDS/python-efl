@@ -56,4 +56,5 @@ cdef extern from "Elementary.h":
     Evas_Object             *elm_layout_end_get(Evas_Object *obj)
 
 cdef class LayoutClass(Object):
-    pass
+    cpdef file_set(self, filename, group = *)
+    cpdef theme_set(self, clas, group, style)

@@ -32,6 +32,7 @@ cdef enum Elm_Index_Item_Insert_Kind:
 cdef class IndexItem(ObjectItem):
     def __init__(self, kind, evasObject index, letter, IndexItem before_after = None,
                  callback = None, *args, **kargs):
+        # TODO: Fix this horrible API
         cdef Evas_Smart_Cb cb = NULL
 
         if callback is not None:
@@ -41,19 +42,30 @@ cdef class IndexItem(ObjectItem):
 
         self.params = (callback, args, kargs)
 
+        if isinstance(letter, unicode): letter = letter.encode("UTF-8")
+
         if kind == ELM_INDEX_ITEM_INSERT_APPEND:
-            item = elm_index_item_append(index.obj, _cfruni(letter), cb, <void*>self)
+            item = elm_index_item_append(index.obj,
+                <const_char *>letter if letter is not None else NULL,
+                cb, <void*>self)
         elif kind == ELM_INDEX_ITEM_INSERT_PREPEND:
-            item = elm_index_item_prepend(index.obj, _cfruni(letter), cb, <void*>self)
+            item = elm_index_item_prepend(index.obj,
+                <const_char *>letter if letter is not None else NULL,
+                cb, <void*>self)
         #elif kind == ELM_INDEX_ITEM_INSERT_SORTED:
+            # TODO: remove _cfruni when implementing this
             #item = elm_index_item_sorted_insert(index.obj, _cfruni(letter), cb, <void*>self, cmp_f, cmp_data_f)
         else:
             if before_after == None:
                 raise ValueError("need a valid after object to add an item before/after another item")
             if kind == ELM_INDEX_ITEM_INSERT_BEFORE:
-                item = elm_index_item_insert_before(index.obj, before_after.item, _cfruni(letter), cb, <void*>self)
+                item = elm_index_item_insert_before(index.obj, before_after.item,
+                    <const_char *>letter if letter is not None else NULL,
+                    cb, <void*>self)
             else:
-                item = elm_index_item_insert_after(index.obj, before_after.item, _cfruni(letter), cb, <void*>self)
+                item = elm_index_item_insert_after(index.obj, before_after.item,
+                    <const_char *>letter if letter is not None else NULL,
+                    cb, <void*>self)
 
         if item != NULL:
             self._set_obj(item)

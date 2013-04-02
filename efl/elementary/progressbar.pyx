@@ -178,14 +178,16 @@ cdef class Progressbar(LayoutClass):
 
         """
         def __get__(self):
-            return _ctouni(elm_progressbar_unit_format_get(self.obj))
+            return self.unit_format_get()
 
-        def __set__(self, format):
-            elm_progressbar_unit_format_set(self.obj, _cfruni(format) if format is not None else NULL)
+        def __set__(self, unit_format):
+            self.unit_format_set(unit_format)
 
-    def unit_format_set(self, format):
-        elm_progressbar_unit_format_set(self.obj, _cfruni(format) if format is not None else NULL)
-    def unit_format_get(self):
+    cpdef unit_format_set(self, unit_format):
+        if isinstance(unit_format, unicode): unit_format = unit_format.encode("UTF-8")
+        elm_progressbar_unit_format_set(self.obj,
+            <const_char *>unit_format if unit_format is not None else NULL)
+    cpdef unit_format_get(self):
         return _ctouni(elm_progressbar_unit_format_get(self.obj))
 
     property unit_format_function:

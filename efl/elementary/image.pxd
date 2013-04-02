@@ -37,4 +37,5 @@ cdef extern from "Elementary.h":
     Eina_Bool                elm_image_animated_play_get(Evas_Object *obj)
 
 cdef class Image(Object):
-    pass
+    cpdef file_set(self, filename, group = *)
+    cpdef file_get(self)

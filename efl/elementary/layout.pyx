@@ -166,12 +166,10 @@ cdef class Layout(LayoutClass):
         :rtype: bool
 
         """
-        cdef Evas_Object *o
-        if content is not None:
-            o = content.obj
-        else:
-            o = NULL
-        elm_layout_content_set(self.obj, _cfruni(swallow), o)
+        if isinstance(swallow, unicode): swallow = swallow.encode("UTF-8")
+        elm_layout_content_set(self.obj,
+            <const_char *>swallow if swallow is not None else NULL,
+            content.obj if content is not None else NULL)
 
     def content_get(self, swallow):
         """content_get(unicode swallow) -> evas.Object
@@ -184,7 +182,9 @@ cdef class Layout(LayoutClass):
         :return: The swallowed object or None if none or an error occurred
 
         """
-        return object_from_instance(elm_layout_content_get(self.obj, _cfruni(swallow)))
+        if isinstance(swallow, unicode): swallow = swallow.encode("UTF-8")
+        return object_from_instance(elm_layout_content_get(self.obj,
+            <const_char *>swallow if swallow is not None else NULL))
 
     def content_unset(self, swallow):
         """content_unset(unicode swallow)
@@ -199,7 +199,9 @@ cdef class Layout(LayoutClass):
         :rtype: :py:class:`elementary.object.Object`
 
         """
-        return object_from_instance(elm_layout_content_unset(self.obj, _cfruni(swallow)))
+        if isinstance(swallow, unicode): swallow = swallow.encode("UTF-8")
+        return object_from_instance(elm_layout_content_unset(self.obj,
+            <const_char *>swallow if swallow is not None else NULL))
 
     def text_set(self, part, text):
         """text_set(unicode part, unicode text)
@@ -213,7 +215,11 @@ cdef class Layout(LayoutClass):
         :return: ``True`` on success, ``False`` otherwise
 
         """
-        elm_layout_text_set(self.obj, _cfruni(part), _cfruni(text))
+        if isinstance(part, unicode): part = part.encode("UTF-8")
+        if isinstance(text, unicode): text = text.encode("UTF-8")
+        elm_layout_text_set(self.obj,
+            <const_char *>part if part is not None else NULL,
+            <const_char *>text if text is not None else NULL)
 
     def text_get(self, part):
         """text_get(unicode part) -> unicode
@@ -227,7 +233,9 @@ cdef class Layout(LayoutClass):
         :rtype: string
 
         """
-        return _ctouni(elm_layout_text_get(self.obj, _cfruni(part)))
+        if isinstance(part, unicode): part = part.encode("UTF-8")
+        return _ctouni(elm_layout_text_get(self.obj,
+            <const_char *>part if part is not None else NULL))
 
 
 _object_mapping_register("elm_layout", Layout)

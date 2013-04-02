@@ -63,7 +63,6 @@ cimport enums
 ELM_FOCUS_PREVIOUS = enums.ELM_FOCUS_PREVIOUS
 ELM_FOCUS_NEXT = enums.ELM_FOCUS_NEXT
 
-#API XXX: Callbacks!
 cdef void _object_callback(void *data,
                            Evas_Object *o, void *event_info) with gil:
     cdef Object obj
@@ -153,7 +152,11 @@ cdef class Object(evasObject):
         :type text: string
 
         """
-        elm_object_part_text_set(self.obj, _cfruni(part), _cfruni(text))
+        if isinstance(part, unicode): part = part.encode("UTF-8")
+        if isinstance(text, unicode): text = text.encode("UTF-8")
+        elm_object_part_text_set(self.obj,
+            <const_char *>part if part is not None else NULL,
+            <const_char *>text if text is not None else NULL)
 
     def part_text_get(self, part):
         """part_text_get(unicode part) -> unicode
@@ -168,7 +171,9 @@ cdef class Object(evasObject):
         :rtype: string
 
         """
-        return _ctouni(elm_object_part_text_get(self.obj, _cfruni(part)))
+        if isinstance(part, unicode): part = part.encode("UTF-8")
+        return _ctouni(elm_object_part_text_get(self.obj,
+            <const_char *>part if part is not None else NULL))
 
     property text:
         """The main text for this object.
@@ -177,14 +182,16 @@ cdef class Object(evasObject):
 
         """
         def __get__(self):
-            return _ctouni(elm_object_text_get(self.obj))
+            return self.text_get()
 
         def __set__(self, text):
-            elm_object_text_set(self.obj, _cfruni(text))
+            self.text_set(text)
 
-    def text_set(self, text):
-        elm_object_text_set(self.obj, _cfruni(text))
-    def text_get(self):
+    cpdef text_set(self, text):
+        if isinstance(text, unicode): text = text.encode("UTF-8")
+        elm_object_text_set(self.obj,
+            <const_char *>text if text is not None else NULL)
+    cpdef text_get(self):
         return _ctouni(elm_object_text_get(self.obj))
 
     def part_content_set(self, part, evasObject content not None):
@@ -204,7 +211,9 @@ cdef class Object(evasObject):
         :type content: :py:class:`evas.object.Object`
 
         """
-        elm_object_part_content_set(self.obj, _cfruni(part), content.obj)
+        if isinstance(part, unicode): part = part.encode("UTF-8")
+        elm_object_part_content_set(self.obj,
+            <const_char *>part if part is not None else NULL, content.obj)
 
     def part_content_get(self, part):
         """part_content_get(unicode part) -> evas.Object
@@ -219,7 +228,9 @@ cdef class Object(evasObject):
         :rtype: :py:class:`evas.object.Object`
 
         """
-        return object_from_instance(elm_object_part_content_get(self.obj, _cfruni(part)))
+        if isinstance(part, unicode): part = part.encode("UTF-8")
+        return object_from_instance(elm_object_part_content_get(self.obj,
+            <const_char *>part if part is not None else NULL))
 
     def part_content_unset(self, part):
         """part_content_unset(unicode part)
@@ -233,9 +244,12 @@ cdef class Object(evasObject):
         :type part: string
 
         """
-        return object_from_instance(elm_object_part_content_unset(self.obj, _cfruni(part)))
+        if isinstance(part, unicode): part = part.encode("UTF-8")
+        return object_from_instance(elm_object_part_content_unset(self.obj,
+            <const_char *>part if part is not None else NULL))
 
     property content:
+        # TODO: document this
         def __get__(self):
             return object_from_instance(elm_object_content_get(self.obj))
 
@@ -262,7 +276,9 @@ cdef class Object(evasObject):
         :type txt: string
 
         """
-        elm_object_access_info_set(self.obj, _cfruni(txt))
+        if isinstance(txt, unicode): txt = txt.encode("UTF-8")
+        elm_object_access_info_set(self.obj,
+            <const_char *>txt if txt is not None else NULL)
 
     def name_find(self, name not None, int recurse = 0):
         """name_find(unicode name, int recurse = 0) -> evas.Object
@@ -288,7 +304,10 @@ cdef class Object(evasObject):
         :rtype: :py:class:`elementary.object.Object`
 
         """
-        return object_from_instance(elm_object_name_find(self.obj, _cfruni(name), recurse))
+        if isinstance(name, unicode): name = name.encode("UTF-8")
+        return object_from_instance(elm_object_name_find(self.obj,
+            <const_char *>name if name is not None else NULL,
+            recurse))
 
     property style:
         """The style to be used by the widget
@@ -297,14 +316,16 @@ cdef class Object(evasObject):
 
         """
         def __get__(self):
-            return _ctouni(elm_object_style_get(self.obj))
+            return self.style_get()
 
         def __set__(self, style):
-            elm_object_style_set(self.obj, _cfruni(style))
+            self.style_set(style)
 
-    def style_set(self, style):
-        elm_object_style_set(self.obj, _cfruni(style))
-    def style_get(self):
+    cpdef style_set(self, style):
+        if isinstance(style, unicode): style = style.encode("UTF-8")
+        elm_object_style_set(self.obj,
+            <const_char *>style if style is not None else NULL)
+    cpdef style_get(self):
         return _ctouni(elm_object_style_get(self.obj))
 
     property disabled:
@@ -405,7 +426,11 @@ cdef class Object(evasObject):
         :type source: string
 
         """
-        elm_object_signal_emit(self.obj, _cfruni(emission), _cfruni(source))
+        if isinstance(emission, unicode): emission = emission.encode("UTF-8")
+        if isinstance(source, unicode): source = source.encode("UTF-8")
+        elm_object_signal_emit(self.obj,
+            <const_char *>emission if emission is not None else NULL,
+            <const_char *>source if source is not None else NULL)
 
     #def signal_callback_add(self, emission, source, func, data):
         #elm_object_signal_callback_add(self.obj, emission, source, func, data)
@@ -508,32 +533,36 @@ cdef class Object(evasObject):
 
         """
         def __get__(self):
-            return _ctouni(elm_object_cursor_get(self.obj))
+            return self.cursor_get()
 
         def __set__(self, cursor):
-            elm_object_cursor_set(self.obj, _cfruni(cursor))
+            self.cursor_set(cursor)
 
         def __del__(self):
-            elm_object_cursor_unset(self.obj)
+            self.cursor_unset()
 
-    def cursor_set(self, cursor):
-        elm_object_cursor_set(self.obj, _cfruni(cursor))
-    def cursor_get(self):
+    cpdef cursor_set(self, cursor):
+        if isinstance(cursor, unicode): cursor = cursor.encode("UTF-8")
+        elm_object_cursor_set(self.obj,
+            <const_char *>cursor if cursor is not None else NULL)
+    cpdef cursor_get(self):
         return _ctouni(elm_object_cursor_get(self.obj))
-    def cursor_unset(self):
+    cpdef cursor_unset(self):
         elm_object_cursor_unset(self.obj)
 
     property cursor_style:
         """The style for this object cursor."""
         def __get__(self):
-            return _ctouni(elm_object_cursor_style_get(self.obj))
+            return self.cursor_style_get()
 
         def __set__(self, style):
-            elm_object_cursor_style_set(self.obj, _cfruni(style))
+            self.cursor_style_set(style)
 
-    def cursor_style_set(self, style=None):
-        elm_object_cursor_style_set(self.obj, _cfruni(style))
-    def cursor_style_get(self):
+    cpdef cursor_style_set(self, style=None):
+        if isinstance(style, unicode): style = style.encode("UTF-8")
+        elm_object_cursor_style_set(self.obj,
+            <const_char *>style if style is not None else NULL)
+    cpdef cursor_style_get(self):
         return _ctouni(elm_object_cursor_style_get(self.obj))
 
     property cursor_theme_search_enabled:
@@ -891,13 +920,21 @@ cdef class Object(evasObject):
         method calls :py:func:`tooltip_content_cb_set`
 
         """
-        elm_object_tooltip_text_set(self.obj, _cfruni(text))
+        if isinstance(text, unicode): text = text.encode("UTF-8")
+        elm_object_tooltip_text_set(self.obj,
+            <const_char *>text if text is not None else NULL)
 
     def tooltip_domain_translatable_text_set(self, domain, text):
-        elm_object_tooltip_domain_translatable_text_set(self.obj, _cfruni(domain), _cfruni(text))
+        if isinstance(domain, unicode): domain = domain.encode("UTF-8")
+        if isinstance(text, unicode): text = text.encode("UTF-8")
+        elm_object_tooltip_domain_translatable_text_set(self.obj,
+            <const_char *>domain if domain is not None else NULL,
+            <const_char *>text if text is not None else NULL)
 
     def tooltip_translatable_text_set(self, text):
-        elm_object_tooltip_translatable_text_set(self.obj, _cfruni(text))
+        if isinstance(text, unicode): text = text.encode("UTF-8")
+        elm_object_tooltip_translatable_text_set(self.obj,
+            <const_char *>text if text is not None else NULL)
 
     def tooltip_content_cb_set(self, func, *args, **kargs):
         """tooltip_content_cb_set(func, *args, **kargs)
@@ -945,20 +982,22 @@ cdef class Object(evasObject):
 
         """
         def __get__(self):
-            return _ctouni(elm_object_tooltip_style_get(self.obj))
+            return self.tooltip_style_get()
         def __set__(self, style):
-            elm_object_tooltip_style_set(self.obj, _cfruni(style))
+            self.tooltip_style_set(style)
 
-    def tooltip_style_set(self, style=None):
-        elm_object_tooltip_style_set(self.obj, _cfruni(style))
-    def tooltip_style_get(self):
+    cpdef tooltip_style_set(self, style=None):
+        if isinstance(style, unicode): style = style.encode("UTF-8")
+        elm_object_tooltip_style_set(self.obj,
+            <const_char *>style if style is not None else NULL)
+    cpdef tooltip_style_get(self):
         return _ctouni(elm_object_tooltip_style_get(self.obj))
 
     property tooltip_window_mode:
         def __get__(self):
             return bool(elm_object_tooltip_window_mode_get(self.obj))
         def __set__(self, disable):
-            if not bool(elm_object_tooltip_window_mode_set(self.obj, disable)):
+            if not elm_object_tooltip_window_mode_set(self.obj, disable):
                 raise RuntimeError("Could not set tooltip_window_mode.")
 
     def tooltip_window_mode_set(self, disable):
@@ -993,13 +1032,23 @@ cdef class Object(evasObject):
         :type text: string
 
         """
-        elm_object_domain_translatable_text_part_set(self.obj, _cfruni(part), _cfruni(domain), _cfruni(text))
+        if isinstance(part, unicode): part = part.encode("UTF-8")
+        if isinstance(domain, unicode): domain = domain.encode("UTF-8")
+        if isinstance(text, unicode): text = text.encode("UTF-8")
+        elm_object_domain_translatable_text_part_set(self.obj,
+            <const_char *>part if part is not None else NULL,
+            <const_char *>domain if domain is not None else NULL,
+            <const_char *>text if text is not None else NULL)
 
     def domain_translatable_text_set(self, domain, text):
         """domain_translatable_text_set(unicode domain, unicode text)
 
         Convenience function"""
-        elm_object_domain_translatable_text_set(self.obj, _cfruni(domain), _cfruni(text))
+        if isinstance(domain, unicode): domain = domain.encode("UTF-8")
+        if isinstance(text, unicode): text = text.encode("UTF-8")
+        elm_object_domain_translatable_text_set(self.obj,
+            <const_char *>domain if domain is not None else NULL,
+            <const_char *>text if text is not None else NULL)
 
     def translatable_text_part_get(self, part):
         """domain_translatable_text_part_get(unicode part) -> unicode
@@ -1017,16 +1066,20 @@ cdef class Object(evasObject):
         :rtype: string
 
         """
-        return _ctouni(elm_object_translatable_text_part_get(self.obj, _cfruni(part)))
+        if isinstance(part, unicode): part = part.encode("UTF-8")
+        return _ctouni(elm_object_translatable_text_part_get(self.obj,
+            <const_char *>part if part is not None else NULL))
 
     property translatable_text:
         def __get__(self):
-            return _ctouni(elm_object_translatable_text_get(self.obj))
+            return self.translatable_text_get()
         def __set__(self, text):
-            elm_object_translatable_text_set(self.obj, _cfruni(text))
+            self.translatable_text_set(text)
 
     def translatable_text_set(self, text):
-        elm_object_translatable_text_set(self.obj, _cfruni(text))
+        if isinstance(text, unicode): text = text.encode("UTF-8")
+        elm_object_translatable_text_set(self.obj,
+            <const_char *>text if text is not None else NULL)
     def translatable_text_get(self):
         return _ctouni(elm_object_translatable_text_get(self.obj))
 
@@ -1066,9 +1119,11 @@ cdef class Object(evasObject):
 
         e = intern(event)
         lst = self._elmcallbacks.setdefault(e, [])
+        if isinstance(event, unicode): event = event.encode("UTF-8")
         if not lst:
-            evas_object_smart_callback_add(self.obj, _fruni(event),
-                                                  _object_callback, <void *>e)
+            evas_object_smart_callback_add(self.obj,
+                <const_char *>event if event is not None else NULL,
+                _object_callback, <void *>e)
         lst.append((event_conv, func, args, kargs))
 
     def _callback_del_full(self, event, event_conv, func):
@@ -1109,7 +1164,10 @@ cdef class Object(evasObject):
         if lst:
             return
         self._elmcallbacks.pop(event)
-        evas_object_smart_callback_del(self.obj, _fruni(event), _object_callback)
+        if isinstance(event, unicode): event = event.encode("UTF-8")
+        evas_object_smart_callback_del(self.obj,
+            <const_char *>event if event is not None else NULL,
+            _object_callback)
 
     def _callback_add(self, event, func, *args, **kargs):
         """Add a callback for the smart event specified by event.

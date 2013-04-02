@@ -203,12 +203,12 @@ cdef class Icon(Image):
         def __set__(self, name):
             self.standard_set(name)
 
-    def standard_set(self, name):
+    cpdef standard_set(self, name):
         if isinstance(name, unicode): name = name.encode("UTF-8")
         if not elm_icon_standard_set(self.obj,
             <const_char *>name if name is not None else NULL):
                 raise RuntimeError("Setting standard icon failed")
-    def standard_get(self):
+    cpdef standard_get(self):
         return _ctouni(elm_icon_standard_get(self.obj))
 
     property order_lookup:

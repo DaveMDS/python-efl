@@ -135,3 +135,15 @@ cdef class Canvas(evasCanvas):
 cdef class Object(evasObject):
     cdef object _elmcallbacks
     cdef object _elm_event_cbs
+
+    cpdef text_set(self, text)
+    cpdef text_get(self)
+    cpdef style_set(self, style)
+    cpdef style_get(self)
+    cpdef cursor_set(self, cursor)
+    cpdef cursor_get(self)
+    cpdef cursor_unset(self)
+    cpdef cursor_style_set(self, style=*)
+    cpdef cursor_style_get(self)
+    cpdef tooltip_style_set(self, style=*)
+    cpdef tooltip_style_get(self)

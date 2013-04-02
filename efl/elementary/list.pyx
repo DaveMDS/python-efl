@@ -127,11 +127,10 @@ cdef class ListItem(ObjectItem):
     An item for the list widget.
 
     """
-
-    cdef const_char *label
-    cdef Evas_Object *icon_obj
-    cdef Evas_Object *end_obj
-    cdef Evas_Smart_Cb cb
+    cdef:
+        object label
+        Evas_Object *icon_obj, *end_obj
+        Evas_Smart_Cb cb
 
     def __cinit__(self):
         self.icon_obj = NULL
@@ -154,7 +153,8 @@ cdef class ListItem(ObjectItem):
         :type   callback: function
 
         """
-        self.label = _cfruni(label) if label is not None else NULL
+        if isinstance(label, unicode): label = label.encode("UTF-8")
+        self.label = label
 
         if icon is not None:
             self.icon_obj = icon.obj
@@ -222,11 +222,11 @@ cdef class ListItem(ObjectItem):
         cdef Elm_Object_Item *item
 
         item = elm_list_item_append(list.obj,
-                                    self.label,
-                                    self.icon_obj,
-                                    self.end_obj,
-                                    self.cb,
-                                    <void*>self)
+            <const_char *>self.label if self.label is not None else NULL,
+            self.icon_obj,
+            self.end_obj,
+            self.cb,
+            <void*>self)
 
         if item != NULL:
             self._set_obj(item)
@@ -256,11 +256,11 @@ cdef class ListItem(ObjectItem):
         cdef Elm_Object_Item *item
 
         item = elm_list_item_prepend(   list.obj,
-                                        self.label,
-                                        self.icon_obj,
-                                        self.end_obj,
-                                        self.cb,
-                                        <void*>self)
+            <const_char *>self.label if self.label is not None else NULL,
+            self.icon_obj,
+            self.end_obj,
+            self.cb,
+            <void*>self)
 
         if item != NULL:
             self._set_obj(item)
@@ -291,12 +291,12 @@ cdef class ListItem(ObjectItem):
 
         cdef List list = before.widget
         item = elm_list_item_insert_before( list.obj,
-                                            before.item,
-                                            self.label,
-                                            self.icon_obj,
-                                            self.end_obj,
-                                            self.cb,
-                                            <void*>self)
+            before.item,
+            <const_char *>self.label if self.label is not None else NULL,
+            self.icon_obj,
+            self.end_obj,
+            self.cb,
+            <void*>self)
 
         if item != NULL:
             self._set_obj(item)
@@ -327,12 +327,12 @@ cdef class ListItem(ObjectItem):
 
         cdef List list = after.widget
         item = elm_list_item_insert_after(  list.obj,
-                                            after.item,
-                                            self.label,
-                                            self.icon_obj,
-                                            self.end_obj,
-                                            self.cb,
-                                            <void*>self)
+            after.item,
+            <const_char *>self.label if self.label is not None else NULL,
+            self.icon_obj,
+            self.end_obj,
+            self.cb,
+            <void*>self)
 
         if item != NULL:
             self._set_obj(item)
@@ -368,12 +368,12 @@ cdef class ListItem(ObjectItem):
         #cdef Elm_Object_Item *item
 
         #item = elm_list_item_sorted_insert(list.obj,
-                                            #self.label,
-                                            #icon_obj,
-                                            #end_obj,
-                                            #cb,
-                                            #<void*>self,
-                                            #cmp_f)
+            #<const_char *>self.label if self.label is not None else NULL,
+            #icon_obj,
+            #end_obj,
+            #cb,
+            #<void*>self,
+            #cmp_f)
 
         #if item != NULL:
             #self._set_obj(item)

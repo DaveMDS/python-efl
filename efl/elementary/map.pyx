@@ -271,13 +271,12 @@ cdef class MapName(object):
             raise TypeError("func must be callable")
 
         data = (self, func, args, kwargs)
-        if address:
-            self.name = elm_map_name_add(map.obj, _cfruni(address), lon, lat,
-                                         _map_name_callback, <void *>data)
-        else:
-            self.name = elm_map_name_add(map.obj, NULL, lon, lat,
-                                         _map_name_callback, <void *>data)
+        if isinstance(address, unicode): address = address.encode("UTF-8")
+        self.name = elm_map_name_add(map.obj,
+            <const_char *>address if address is not None else NULL,
+            lon, lat, _map_name_callback, <void *>data)
         Py_INCREF(data)
+        # XXX: why incref self in __init__?
         Py_INCREF(self)
 
     def delete(self):
@@ -813,11 +812,14 @@ cdef public class Map(Object)[object PyElementaryMap, type PyElementaryMap_Type]
 
         return ret
 
-    def source_set(self, type, source_name):
-        elm_map_source_set(self.obj, type, _cfruni(source_name))
+    def source_set(self, source_type, source_name):
+        a1, a2 = source_type, source_name
+        if isinstance(a2, unicode): a2 = a2.encode("UTF-8")
+        elm_map_source_set(self.obj, a1,
+            <const_char *>a2 if a2 is not None else NULL)
 
-    def source_get(self, type):
-        return _ctouni(elm_map_source_get(self.obj, type))
+    def source_get(self, source_type):
+        return _ctouni(elm_map_source_get(self.obj, source_type))
 
     def route_add(self, Elm_Map_Route_Type type, Elm_Map_Route_Method method,
                         double flon, double flat, double tlon, double tlat,

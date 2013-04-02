@@ -30,7 +30,7 @@ cdef class NaviframeItem(ObjectItem):
 
     """
 
-    cdef unicode label, item_style
+    cdef object label, item_style
     cdef Evas_Object *prev_btn, *next_btn, *item_content
 
     def __cinit__(self):
@@ -65,7 +65,8 @@ cdef class NaviframeItem(ObjectItem):
         :type item_style: string
 
         """
-        self.label = unicode(title_label)
+        if isinstance(title_label, unicode): title_label = title_label.encode("UTF-8")
+        self.label = title_label
 
         if prev_btn is not None:
             self.prev_btn = prev_btn.obj
@@ -93,11 +94,11 @@ cdef class NaviframeItem(ObjectItem):
         """
         cdef Elm_Object_Item *item = elm_naviframe_item_push(
             naviframe.obj,
-            _cfruni(self.label) if self.label else NULL,
+            <const_char *>self.label if self.label is not None else NULL,
             self.prev_btn,
             self.next_btn,
             self.item_content,
-            _cfruni(self.item_style) if self.item_style else NULL)
+            <const_char *>self.item_style if self.item_style is not None else NULL)
 
         if item != NULL:
             self._set_obj(item)
@@ -131,11 +132,11 @@ cdef class NaviframeItem(ObjectItem):
         item = elm_naviframe_item_insert_before(
             naviframe.obj,
             before.item,
-            _cfruni(self.label) if self.label else NULL,
+            <const_char *>self.label if self.label is not None else NULL,
             self.prev_btn,
             self.next_btn,
             self.item_content,
-            _cfruni(self.item_style) if self.item_style else NULL)
+            <const_char *>self.item_style if self.item_style is not None else NULL)
 
         if item != NULL:
             self._set_obj(item)
@@ -169,11 +170,11 @@ cdef class NaviframeItem(ObjectItem):
         item = elm_naviframe_item_insert_after(
             naviframe.obj,
             after.item,
-            _cfruni(self.label) if self.label else NULL,
+            <const_char *>self.label if self.label is not None else NULL,
             self.prev_btn,
             self.next_btn,
             self.item_content,
-            _cfruni(self.item_style) if self.item_style else NULL)
+            <const_char *>self.item_style if self.item_style is not None else NULL)
 
         if item != NULL:
             self._set_obj(item)
@@ -221,14 +222,16 @@ cdef class NaviframeItem(ObjectItem):
 
         """
         def __get__(self):
-            return _ctouni(elm_naviframe_item_style_get(self.item))
+            return self.style_get()
 
         def __set__(self, style):
-            elm_naviframe_item_style_set(self.item, _cfruni(style))
+            self.style_set(style)
 
-    def style_set(self, style):
-        elm_naviframe_item_style_set(self.item, _cfruni(style))
-    def style_get(self):
+    cpdef style_set(self, style):
+        if isinstance(style, unicode): style = style.encode("UTF-8")
+        elm_naviframe_item_style_set(self.item,
+            <const_char *>style if style is not None else NULL)
+    cpdef style_get(self):
         return _ctouni(elm_naviframe_item_style_get(self.item))
 
     property title_visible:

@@ -52,11 +52,13 @@ cdef class Photo(Object):
 
         """
         def __set__(self, filename):
-            if not bool(elm_photo_file_set(self.obj, _cfruni(filename) if filename is not None else NULL)):
-                raise RuntimeError("Could not set file.")
+            self.file_set(filename)
 
-    def file_set(self, filename):
-        return bool(elm_photo_file_set(self.obj, _cfruni(filename) if filename is not None else NULL))
+    cpdef file_set(self, filename):
+        if isinstance(filename, unicode): filename = filename.encode("UTF-8")
+        if not elm_photo_file_set(self.obj,
+            <const_char *>filename if filename is not None else NULL):
+                raise RuntimeError("Could not set file.")
 
     property thumb:
         """Set the file that will be used as thumbnail in the photo.
@@ -70,10 +72,14 @@ cdef class Photo(Object):
             else:
                 filename = value
                 group = None
-            elm_photo_thumb_set(self.obj, _cfruni(filename) if filename is not None else NULL, _cfruni(group) if group is not None else NULL)
+            self.thumb_set(filename, group)
 
-    def thumb_set(self, filename, group):
-        elm_photo_thumb_set(self.obj, _cfruni(filename) if filename is not None else NULL, _cfruni(group) if group is not None else NULL)
+    cpdef thumb_set(self, filename, group = None):
+        if isinstance(filename, unicode): filename = filename.encode("UTF-8")
+        if isinstance(group, unicode): group = group.encode("UTF-8")
+        elm_photo_thumb_set(self.obj,
+            <const_char *>filename if filename is not None else NULL,
+            <const_char *>group if group is not None else NULL)
 
     property size:
         """Set the size that will be used on the photo.
