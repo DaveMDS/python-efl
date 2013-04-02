@@ -223,9 +223,6 @@ cdef class GengridItemClass:
             'item_data' is the value given to Gengrid item append/prepend
             methods, it should represent your item model as you want.
         """
-        if item_style:
-            self._item_style = item_style
-
         if text_get_func and not callable(text_get_func):
             raise TypeError("text_get_func is not callable!")
         elif text_get_func:
@@ -257,7 +254,11 @@ cdef class GengridItemClass:
             except AttributeError:
                 pass
 
-        self.obj.item_style = _cfruni(self._item_style)
+        a1 = item_style
+        if isinstance(a1, unicode): a1 = a1.encode("UTF-8")
+        if a1 is not None:
+            self._item_style = a1
+        self.obj.item_style = <char *>self._item_style
 
     def __str__(self):
         return ("%s(item_style=%r, text_get_func=%s, content_get_func=%s, "
@@ -474,9 +475,6 @@ cdef class GengridItem(ObjectItem):
 
     # XXX TODO elm_gengrid_item_item_class_get
 
-    def tooltip_text_set(self, text):
-        elm_gengrid_item_tooltip_text_set(self.item, _cfruni(text))
-
     property tooltip_text:
         """Set the text to be shown in the tooltip object
 
@@ -485,8 +483,13 @@ cdef class GengridItem(ObjectItem):
         Internally, this method calls :py:func:`tooltip_content_cb_set`
 
         """
-        def __get__(self):
-            return self.tooltip_text_get()
+        def __set__(self, value):
+            self.tooltip_text_set(value)
+
+    cpdef tooltip_text_set(self, text):
+        if isinstance(text, unicode): text = text.encode("UTF-8")
+        elm_gengrid_item_tooltip_text_set(self.item,
+            <const_char *>text if text is not None else NULL)
 
     def tooltip_content_cb_set(self, func, *args, **kargs):
         """tooltip_content_cb_set(func, *args, **kargs)

@@ -65,8 +65,9 @@ cdef class CtxpopupItem(ObjectItem):
             cb = _object_item_callback
 
         self.params = (callback, args, kargs)
+        if isinstance(label, unicode): label = label.encode("UTF-8")
         item = elm_ctxpopup_item_append(ctxpopup.obj,
-                                        _cfruni(label) if label is not None else NULL,
+                                        <const_char *>label if label is not None else NULL,
                                         icon.obj if icon is not None else NULL,
                                         cb,
                                         <void*>self)

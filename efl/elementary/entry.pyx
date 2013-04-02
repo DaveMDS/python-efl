@@ -587,14 +587,16 @@ cdef class Entry(Object):
 
         """
         def __get__(self):
-            return _ctouni(elm_entry_entry_get(self.obj))
+            return self.entry_get()
 
         def __set__(self, entry):
-            elm_entry_entry_set(self.obj, _cfruni(entry))
+            self.entry_set(entry)
 
-    def entry_set(self, entry):
-        elm_entry_entry_set(self.obj, _cfruni(entry))
-    def entry_get(self):
+    cpdef entry_set(self, entry):
+        if isinstance(entry, unicode): entry = entry.encode("UTF-8")
+        elm_entry_entry_set(self.obj,
+            <const_char *>entry if entry is not None else NULL)
+    cpdef entry_get(self):
         return _ctouni(elm_entry_entry_get(self.obj))
 
     def entry_append(self, text):
@@ -613,7 +615,9 @@ cdef class Entry(Object):
         :type entry: string
 
         """
-        elm_entry_entry_append(self.obj, _cfruni(text))
+        if isinstance(text, unicode): text = text.encode("UTF-8")
+        elm_entry_entry_append(self.obj,
+            <const_char *>text if text is not None else NULL)
 
     property is_empty:
         """Gets whether the entry is empty.
@@ -715,7 +719,9 @@ cdef class Entry(Object):
         :type entry: string
 
         """
-        elm_entry_entry_insert(self.obj, _cfruni(entry))
+        if isinstance(entry, unicode): entry = entry.encode("UTF-8")
+        elm_entry_entry_insert(self.obj,
+            <const_char *>entry if entry is not None else NULL)
 
     property line_wrap:
         """The line wrap type to use on multi-line entries.
@@ -1050,18 +1056,23 @@ cdef class Entry(Object):
 
         """
         def __get__(self):
-            cdef const_char *file
-            cdef Elm_Text_Format format
-            elm_entry_file_get(self.obj, &file, &format)
-            return (_ctouni(file), format)
+            return self.file_get()
 
         def __set__(self, value):
             file, format = value
-            elm_entry_file_set(self.obj, _cfruni(file), format)
+            self.file_set(file, format)
 
-    def file_set(self, file, format):
-        return bool(elm_entry_file_set(self.obj, _cfruni(file), format))
-    def file_get(self):
+    cpdef file_set(self, file_name, file_format):
+        # TODO: Check that Elm_Text_Format is being used correctly here
+        a1 = file_name
+        a2 = file_format
+        if isinstance(a1, unicode): a1 = a1.encode("UTF-8")
+        if isinstance(a2, unicode): a2 = a2.encode("UTF-8")
+        if not elm_entry_file_set(self.obj,
+            <const_char *>a1 if a1 is not None else NULL,
+            <Elm_Text_Format>a2 if a2 is not None else ""):
+            raise RuntimeError
+    cpdef file_get(self):
         cdef const_char *file
         cdef Elm_Text_Format format
         elm_entry_file_get(self.obj, &file, &format)
@@ -1402,14 +1413,16 @@ cdef class Entry(Object):
 
         """
         def __get__(self):
-            return _ctouni(elm_entry_anchor_hover_style_get(self.obj))
+            return self.anchor_hover_style_get()
 
         def __set__(self, style):
-            elm_entry_anchor_hover_style_set(self.obj, _cfruni(style))
+            self.anchor_hover_style_set(style)
 
-    def anchor_hover_style_set(self, style):
-        elm_entry_anchor_hover_style_set(self.obj, _cfruni(style))
-    def anchor_hover_style_get(self):
+    cpdef anchor_hover_style_set(self, style):
+        if isinstance(style, unicode): style = style.encode("UTF-8")
+        elm_entry_anchor_hover_style_set(self.obj,
+            <const_char *>style if style is not None else NULL)
+    cpdef anchor_hover_style_get(self):
         return _ctouni(elm_entry_anchor_hover_style_get(self.obj))
 
     def anchor_hover_end(self):

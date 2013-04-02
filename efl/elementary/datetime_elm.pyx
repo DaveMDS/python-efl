@@ -313,7 +313,9 @@ cdef class Datetime(Object):
         def __get__(self):
             return _ctouni(elm_datetime_format_get(self.obj))
         def __set__(self, fmt):
-            elm_datetime_format_set(self.obj, _cfruni(fmt))
+            if isinstance(fmt, unicode): fmt = fmt.encode("UTF-8")
+            elm_datetime_format_set(self.obj,
+                <const_char *>fmt if fmt is not None else NULL)
 
     property value_max:
         """The upper boundary of a field.

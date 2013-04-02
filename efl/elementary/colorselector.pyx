@@ -187,13 +187,16 @@ cdef class Colorselector(LayoutClass):
 
         """
         def __get__(self):
-            return _ctouni(elm_colorselector_palette_name_get(self.obj))
+            return self.palette_name_get()
         def __set__(self, palette_name):
-            elm_colorselector_palette_name_set(self.obj, _cfruni(palette_name))
+            self.palette_name_set(palette_name)
 
-    def palette_name_set(self, palette_name):
-        elm_colorselector_palette_name_set(self.obj, _cfruni(palette_name))
-    def palette_name_get(self):
+    cpdef palette_name_set(self, palette_name):
+        s = palette_name
+        if isinstance(s, unicode): s = s.encode("UTF-8")
+        elm_colorselector_palette_name_set(self.obj,
+            <const_char *>s if s is not None else NULL)
+    cpdef palette_name_get(self):
         return _ctouni(elm_colorselector_palette_name_get(self.obj))
 
     def callback_changed_add(self, func, *args, **kwargs):

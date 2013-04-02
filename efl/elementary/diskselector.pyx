@@ -45,7 +45,10 @@ cdef class DiskselectorItem(ObjectItem):
 
         self.params = (callback, args, kargs)
 
-        item = elm_diskselector_item_append(diskselector.obj, _cfruni(label) if label is not None else NULL, icon_obj, cb, <void*>self)
+        if isinstance(label, unicode): label = label.encode("UTF-8")
+        item = elm_diskselector_item_append(diskselector.obj,
+            <const_char *>label if label is not None else NULL,
+            icon_obj, cb, <void*>self)
 
         if item != NULL:
             self._set_obj(item)

@@ -100,14 +100,16 @@ cdef class FileselectorButton(Button):
 
         """
         def __get__(self):
-            return _ctouni(elm_fileselector_button_window_title_get(self.obj))
+            return self.window_title_get()
 
         def __set__(self, title):
-            elm_fileselector_button_window_title_set(self.obj, _cfruni(title))
+            self.window_title_set(title)
 
-    def window_title_set(self, title):
-        elm_fileselector_button_window_title_set(self.obj, _cfruni(title))
-    def window_title_get(self):
+    cpdef window_title_set(self, title):
+        if isinstance(title, unicode): title = title.encode("UTF-8")
+        elm_fileselector_button_window_title_set(self.obj,
+            <const_char *>title if title is not None else NULL)
+    cpdef window_title_get(self):
         return _ctouni(elm_fileselector_button_window_title_get(self.obj))
 
     property window_size:
@@ -150,14 +152,16 @@ cdef class FileselectorButton(Button):
 
         """
         def __get__(self):
-            return _ctouni(elm_fileselector_button_path_get(self.obj))
+            return self.path_get()
 
         def __set__(self, path):
-            elm_fileselector_button_path_set(self.obj, _cfruni(path))
+            self.path_set(path)
 
-    def path_set(self, path):
-        elm_fileselector_button_path_set(self.obj, _cfruni(path))
-    def path_get(self):
+    cpdef path_set(self, path):
+        if isinstance(path, unicode): path = path.encode("UTF-8")
+        elm_fileselector_button_path_set(self.obj,
+            <const_char *>path if path is not None else NULL)
+    cpdef path_get(self):
         return _ctouni(elm_fileselector_button_path_get(self.obj))
 
     property expandable:

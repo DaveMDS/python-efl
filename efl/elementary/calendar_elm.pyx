@@ -174,7 +174,10 @@ cdef class CalendarMark(object):
         time.tm_wday = tmtup.tm_wday
         time.tm_yday = tmtup.tm_yday
         time.tm_isdst = tmtup.tm_isdst
-        self.obj = elm_calendar_mark_add(cal.obj, _cfruni(mark_type), &time, repeat)
+        if isinstance(mark_type, unicode): mark_type = mark_type.encode("UTF-8")
+        self.obj = elm_calendar_mark_add(cal.obj,
+            <const_char *>mark_type if mark_type is not None else NULL,
+            &time, repeat)
 
     def delete(self):
         """delete()

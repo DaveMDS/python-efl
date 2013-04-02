@@ -209,12 +209,14 @@ cdef char *_py_elm_genlist_item_text_get(void *data, Evas_Object *obj, const_cha
     cdef GenlistItemClass itc = params[0]
 
     func = itc._text_get_func
+
     if func is None:
         return NULL
 
     ret = _py_elm_genlist_item_call(func, obj, part, params[1])
     if ret is not None:
-        return strdup(_fruni(ret))
+        if isinstance(ret, unicode): ret = ret.encode("UTF-8")
+        return strdup(ret)
     else:
         return NULL
 
@@ -335,14 +337,18 @@ cdef class GenlistItemClass(object):
     constructor parameters.
 
     """
-    cdef Elm_Genlist_Item_Class cls
-    cdef Elm_Genlist_Item_Class *obj
-    cdef object _text_get_func
-    cdef object _content_get_func
-    cdef object _state_get_func
-    cdef object _del_func
+    cdef:
+        Elm_Genlist_Item_Class cls
+        Elm_Genlist_Item_Class *obj
+        object _text_get_func
+        object _content_get_func
+        object _state_get_func
+        object _del_func
+        object _item_style
+        object _decorate_item_style
+        object _decorate_all_item_style
 
-    def __cinit__(self, *a, **ka):
+    def __cinit__(self):
         self.obj = &self.cls
         self.obj.item_style = NULL
         self.obj.decorate_item_style = NULL
@@ -350,6 +356,7 @@ cdef class GenlistItemClass(object):
         self.obj.func.text_get = _py_elm_genlist_item_text_get
         self.obj.func.content_get = _py_elm_genlist_item_content_get
         self.obj.func.state_get = _py_elm_genlist_item_state_get
+        # TODO: Check if the struct member is named del_
         self.obj.func.del_ = _py_elm_genlist_object_item_del
 
     def __init__(self, item_style=None, text_get_func=None,
@@ -394,6 +401,10 @@ cdef class GenlistItemClass(object):
             methods, it should represent your row model as you want.
         """
 
+        #
+        # Use argument if found, else a function that was defined by child
+        # class, or finally the fallback function defined in this class.
+        #
         if text_get_func is not None:
             if callable(text_get_func):
                 self._text_get_func = text_get_func
@@ -429,9 +440,21 @@ cdef class GenlistItemClass(object):
             except AttributeError:
                 pass
 
-        self.obj.item_style = _cfruni(item_style) if item_style is not None else _cfruni(u"default")
-        self.obj.decorate_item_style = _cfruni(decorate_item_style) if decorate_item_style is not None else NULL
-        self.obj.decorate_all_item_style = _cfruni(decorate_all_item_style) if decorate_all_item_style is not None else NULL
+        a1 = item_style
+        a2 = decorate_item_style
+        a3 = decorate_all_item_style
+
+        if isinstance(a1, unicode): a1 = a1.encode("UTF-8")
+        if isinstance(a2, unicode): a2 = a2.encode("UTF-8")
+        if isinstance(a3, unicode): a3 = a3.encode("UTF-8")
+
+        self._item_style = a1
+        self._decorate_item_style = a2
+        self._decorate_all_item_style = a3
+
+        self.obj.item_style = <char *>self._item_style if self._item_style is not None else NULL
+        self.obj.decorate_item_style = <char *>self._decorate_item_style if self._decorate_item_style is not None else NULL
+        self.obj.decorate_all_item_style = <char *>self._decorate_all_item_style if self._decorate_all_item_style is not None else NULL
 
     def __str__(self):
         return ("%s(item_style=%r, text_get_func=%s, content_get_func=%s, "
@@ -460,7 +483,32 @@ cdef class GenlistItemClass(object):
     property item_style:
         """The style of this item class."""
         def __get__(self):
-            return self._item_style
+            return self._item_style.decode("UTF-8")
+
+        def __set__(self, style):
+            if isinstance(style, unicode): style = style.encode("UTF-8")
+            self._item_style = style
+            self.obj.item_style = <char *>style if style is not None else NULL
+
+    property decorate_item_style:
+        """The decoration style of this item class."""
+        def __get__(self):
+            return self._decorate_item_style.decode("UTF-8")
+
+        def __set__(self, style):
+            if isinstance(style, unicode): style = style.encode("UTF-8")
+            self._decorate_item_style = style
+            self.obj.decorate_item_style = <char *>style if style is not None else NULL
+
+    property decorate_all_item_style:
+        """Decorate all style of this item class."""
+        def __get__(self):
+            return self._decorate_all_item_style.decode("UTF-8")
+
+        def __set__(self, style):
+            if isinstance(style, unicode): style = style.encode("UTF-8")
+            self._decorate_all_item_style = style
+            self.obj.decorate_all_item_style = <char *>style if style is not None else NULL
 
     def text_get(self, evasObject obj, part, item_data):
         """To be called by Genlist for each row to get its label.
@@ -888,7 +936,9 @@ cdef class GenlistItem(ObjectItem):
         Internally, this method calls :py:func:`tooltip_content_cb_set`
 
         """
-        elm_genlist_item_tooltip_text_set(self.item, _cfruni(text))
+        if isinstance(text, unicode): text = text.encode("UTF-8")
+        elm_genlist_item_tooltip_text_set(self.item,
+            <const_char *>text if text is not None else NULL)
 
     def tooltip_content_cb_set(self, func, *args, **kargs):
         """tooltip_content_cb_set(func, *args, **kargs)
@@ -946,31 +996,35 @@ cdef class GenlistItem(ObjectItem):
 
         """
         def __set__(self, style):
-            elm_genlist_item_tooltip_style_set(self.item, _cfruni(style) if style is not None else NULL)
+            self.tooltip_style_set(style)
 
         def __get__(self):
-            return _ctouni(elm_genlist_item_tooltip_style_get(self.item))
+            return self.tooltip_style_get()
 
-    def tooltip_style_set(self, style=None):
-        elm_genlist_item_tooltip_style_set(self.item, _cfruni(style) if style is not None else NULL)
-    def tooltip_style_get(self):
+    cpdef tooltip_style_set(self, style=None):
+        if isinstance(style, unicode): style = style.encode("UTF-8")
+        elm_genlist_item_tooltip_style_set(self.item,
+            <const_char *>style if style is not None else NULL)
+    cpdef tooltip_style_get(self):
         return _ctouni(elm_genlist_item_tooltip_style_get(self.item))
 
     property tooltip_window_mode:
         """This property allows a tooltip to expand beyond its parent window's canvas.
         It will instead be limited only by the size of the display.
 
+        :type: bool
+
         """
         def __set__(self, disable):
-            if not bool(elm_genlist_item_tooltip_window_mode_set(self.item, disable)):
-                raise RuntimeError("Setting tooltip_window_mode failed")
+            self.tooltip_window_mode_set(disable)
 
         def __get__(self):
-            return bool(elm_genlist_item_tooltip_window_mode_get(self.item))
+            return self.tooltip_window_mode_get()
 
-    def tooltip_window_mode_set(self, disable):
-        return bool(elm_genlist_item_tooltip_window_mode_set(self.item, disable))
-    def tooltip_window_mode_get(self):
+    cpdef tooltip_window_mode_set(self, disable):
+        if not elm_genlist_item_tooltip_window_mode_set(self.item, disable):
+            raise RuntimeError("Setting tooltip_window_mode failed")
+    cpdef tooltip_window_mode_get(self):
         return bool(elm_genlist_item_tooltip_window_mode_get(self.item))
 
     property cursor:
@@ -981,19 +1035,21 @@ cdef class GenlistItem(ObjectItem):
 
         """
         def __set__(self, cursor):
-            elm_genlist_item_cursor_set(self.item, _cfruni(cursor))
+            self.cursor_set(cursor)
 
         def __get__(self):
-            return _ctouni(elm_genlist_item_cursor_get(self.item))
+            return self.cursor_get()
 
         def __del__(self):
-            elm_genlist_item_cursor_unset(self.item)
+            self.cursor_unset()
 
-    def cursor_set(self, cursor):
-        elm_genlist_item_cursor_set(self.item, _cfruni(cursor))
-    def cursor_get(self):
+    cpdef cursor_set(self, cursor):
+        if isinstance(cursor, unicode): cursor = cursor.encode("UTF-8")
+        elm_genlist_item_cursor_set(self.item,
+            <const_char *>cursor if cursor is not None else NULL)
+    cpdef cursor_get(self):
         return _ctouni(elm_genlist_item_cursor_get(self.item))
-    def cursor_unset(self):
+    cpdef cursor_unset(self):
         elm_genlist_item_cursor_unset(self.item)
 
     property cursor_style:
@@ -1004,17 +1060,16 @@ cdef class GenlistItem(ObjectItem):
 
         """
         def __set__(self, style):
-            elm_genlist_item_cursor_style_set(self.item, _cfruni(style) if style is not None else NULL)
+            self.cursor_style_set(style)
 
         def __get__(self):
-            return _ctouni(elm_genlist_item_cursor_style_get(self.item))
+            return self.cursor_style_get()
 
-    def cursor_style_set(self, style=None):
-        if style:
-            elm_genlist_item_cursor_style_set(self.item, _cfruni(style))
-        else:
-            elm_genlist_item_cursor_style_set(self.item, NULL)
-    def cursor_style_get(self):
+    cpdef cursor_style_set(self, style=None):
+        if isinstance(style, unicode): style = style.encode("UTF-8")
+        elm_genlist_item_cursor_style_set(self.item,
+            <const_char *>style if style is not None else NULL)
+    cpdef cursor_style_get(self):
         return _ctouni(elm_genlist_item_cursor_style_get(self.item))
 
     property cursor_engine_only:
@@ -1138,7 +1193,11 @@ cdef class GenlistItem(ObjectItem):
         .. seealso:: :py:func:`update()`
 
         """
-        elm_genlist_item_fields_update(self.item, _cfruni(parts), itf)
+        # TODO: itf type?
+        if isinstance(parts, unicode): parts = parts.encode("UTF-8")
+        elm_genlist_item_fields_update(self.item,
+            <const_char *>parts if parts is not None else NULL,
+            itf)
 
     property decorate_mode:
         """A genlist mode is a different way of selecting an item. Once a
@@ -1176,13 +1235,17 @@ cdef class GenlistItem(ObjectItem):
         """
         def __set__(self, value):
             decorate_it_type, decorate_it_set = value
-            elm_genlist_item_decorate_mode_set(self.item, _cfruni(decorate_it_type), decorate_it_set)
+            self.decorate_mode_set(decorate_it_type, decorate_it_set)
 
         def __get__(self):
-            return _ctouni(elm_genlist_item_decorate_mode_get(self.item))
+            return self.decorate_mode_get()
 
     def decorate_mode_set(self, decorate_it_type, decorate_it_set):
-        elm_genlist_item_decorate_mode_set(self.item, _cfruni(decorate_it_type), decorate_it_set)
+        a1 = decorate_it_type
+        if isinstance(a1, unicode): a1 = a1.encode("UTF-8")
+        elm_genlist_item_decorate_mode_set(self.item,
+            <const_char *>a1 if a1 is not None else NULL,
+            decorate_it_set)
     def decorate_mode_get(self):
         return _ctouni(elm_genlist_item_decorate_mode_get(self.item))
 

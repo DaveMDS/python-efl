@@ -42,7 +42,7 @@ from cpython cimport PyObject, Py_INCREF, Py_DECREF
 from cpython cimport PyMem_Malloc, PyMem_Free
 from cpython cimport bool
 
-from efl.eo cimport _touni, _fruni, _ctouni, _cfruni
+from efl.eo cimport _touni, _ctouni
 
 import sys
 import traceback
@@ -143,13 +143,13 @@ def init():
     log.propagate = False
     log.addHandler(logging.NullHandler())
 
-    # NOTE: Why pass the cl args to elm_init?
+    # FIXME: Why pass the cl args to elm_init?
     cdef int argc, i, arg_len
     cdef char **argv, *arg
     argc = len(sys.argv)
     argv = <char **>PyMem_Malloc(argc * sizeof(char *))
     for i from 0 <= i < argc:
-        arg = _fruni(sys.argv[i])
+        arg = sys.argv[i]
         arg_len = len(arg)
         argv[i] = <char *>PyMem_Malloc(arg_len + 1)
         memcpy(argv[i], arg, arg_len + 1)
@@ -208,7 +208,7 @@ def coords_finger_size_adjust(times_w, w, times_h, h):
 
 def cache_all_flush():
     """cache_all_flush()
-    
+
     Frees all data that was in cache and is not currently being used to reduce
     memory usage. This frees Edje's, Evas' and Eet's cache.
 

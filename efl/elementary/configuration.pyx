@@ -130,7 +130,8 @@ cdef class Configuration(object):
         def __get__(self):
             return _ctouni(elm_config_profile_get())
         def __set__(self, profile):
-            elm_config_profile_set(_cfruni(profile))
+            if isinstance(profile, unicode): profile = profile.encode("UTF-8")
+            elm_config_profile_set(<const_char *>profile if profile is not None else NULL)
 
     def profile_dir_get(self, profile, is_user):
         """profile_dir_get(unicode profile, bool is_user)
@@ -148,7 +149,10 @@ cdef class Configuration(object):
         :rtype: string
 
         """
-        return _ctouni(elm_config_profile_dir_get(_cfruni(profile), is_user))
+        if isinstance(profile, unicode): profile = profile.encode("UTF-8")
+        return _ctouni(elm_config_profile_dir_get(
+            <const_char *>profile if profile is not None else NULL,
+            is_user))
 
     property profile_list:
         """Get Elementary's list of available profiles.
@@ -391,7 +395,9 @@ cdef class Configuration(object):
         def __get__(self):
             return _ctouni(elm_config_engine_get())
         def __set__(self, engine):
-            elm_config_engine_set(_cfruni(engine))
+            if isinstance(engine, unicode): engine = engine.encode("UTF-8")
+            elm_config_engine_set(
+                <const_char *>engine if engine is not None else NULL)
 
     property preferred_engine:
         """Get Elementary's preferred engine to use.
@@ -409,7 +415,9 @@ cdef class Configuration(object):
         def __get__(self):
             return _ctouni(elm_config_preferred_engine_get())
         def __set__(self, engine):
-            elm_config_preferred_engine_set(_cfruni(engine))
+            if isinstance(engine, unicode): engine = engine.encode("UTF-8")
+            elm_config_preferred_engine_set(
+                <const_char *>engine if engine is not None else NULL)
 
     property text_classes_list:
         """Get Elementary's list of supported text classes.
@@ -481,7 +489,14 @@ cdef class Configuration(object):
         :type size: Evas_Font_Size
 
         """
-        elm_config_font_overlay_set(_cfruni(text_class), _cfruni(font), size)
+        a1 = text_class
+        a2 = font
+        if isinstance(a1, unicode): a1 = a1.encode("UTF-8")
+        if isinstance(a2, unicode): a2 = a2.encode("UTF-8")
+        elm_config_font_overlay_set(
+            <const_char *>a1 if a1 is not None else NULL,
+            <const_char *>a2 if a2 is not None else NULL,
+            size)
 
     def font_overlay_unset(self, text_class):
         """font_overlay_unset(unicode text_class)
@@ -495,7 +510,10 @@ cdef class Configuration(object):
         :type text_class: string
 
         """
-        elm_config_font_overlay_unset(_cfruni(text_class))
+        a1 = text_class
+        if isinstance(a1, unicode): a1 = a1.encode("UTF-8")
+        elm_config_font_overlay_unset(
+            <const_char *>a1 if a1 is not None else NULL)
 
     def font_overlay_apply(self):
         """font_overlay_apply()
@@ -673,12 +691,16 @@ def focus_highlight_animate_set(animate):
 def preferred_engine_get():
     return _ctouni(elm_config_preferred_engine_get())
 def preferred_engine_set(engine):
-    elm_config_preferred_engine_set(_cfruni(engine))
+    if isinstance(engine, unicode): engine = engine.encode("UTF-8")
+    elm_config_preferred_engine_set(
+        <const_char *>engine if engine is not None else NULL)
 
 def engine_get():
     return _ctouni(elm_config_engine_get())
 def engine_set(engine):
-    elm_config_engine_set(_cfruni(engine))
+    if isinstance(engine, unicode): engine = engine.encode("UTF-8")
+    elm_config_engine_set(
+        <const_char *>engine if engine is not None else NULL)
 
 def scale_get():
     return elm_config_scale_get()

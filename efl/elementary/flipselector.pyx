@@ -169,10 +169,10 @@ cdef class FlipSelector(Object):
             cb = _object_item_callback
 
         ret.params = (callback, args, kwargs)
+        if isinstance(label, unicode): label = label.encode("UTF-8")
         item = elm_flipselector_item_append(self.obj,
-                                            _cfruni(label),
-                                            cb,
-                                            <void *>self)
+            <const_char *>label if label is not None else NULL,
+            cb, <void *>self)
 
         if item != NULL:
             ret._set_obj(item)
@@ -217,10 +217,10 @@ cdef class FlipSelector(Object):
             cb = _object_item_callback
 
         ret.params = (callback, args, kwargs)
-        item = elm_flipselector_item_append(self.obj,
-                                            _cfruni(label),
-                                            cb,
-                                            <void *>self)
+        if isinstance(label, unicode): label = label.encode("UTF-8")
+        item = elm_flipselector_item_prepend(self.obj,
+            <const_char *>label if label is not None else NULL,
+            cb, <void *>self)
 
         if item != NULL:
             ret._set_obj(item)
