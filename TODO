@@ -28,6 +28,7 @@ TODO
 * cleanup elementary_object
 * Review the internal functions and name them consistently
 * Add more documentation for the use of callbacks
+* Document our use of exceptions
 
 
 STUFF LEFT OUT
@@ -54,4 +55,5 @@ CHANGES FROM 1.7 to 1.8
 * elm.domain_translatable_text_part_set => elm.domain_translatable_part_text_set
 * elm.Scroller.custom_widget_base_theme_set =>  elm.Layout.theme_set             TODO is this right?
 * elm.notify.orient_set/get/prop removed  =>  align_set (TODO)
-
+* Many _set functions that would previously return status now instead raise
+  an exception when the C function returns failure
