@@ -212,7 +212,7 @@ if __name__ == "__main__":
         url = "http://www.enlightenment.org",
         description = "Python bindings for the EFL stack",
         license = "GNU Lesser General Public License (LGPL)",
-        packages = ["efl", "efl.elementary", "efl.efreet"],
+        packages = ["efl", "efl.elementary"],
         cmdclass = {'build_ext': build_ext, 'build_doc': BuildDoc},
         command_options = {
             "build_doc": {
