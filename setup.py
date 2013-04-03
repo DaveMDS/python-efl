@@ -13,6 +13,7 @@ try:
     import Cython.Compiler.Options
 
     Cython.Compiler.Options.fast_fail = True # stop compilation on first error
+    Cython.Compiler.Options.annotate = False # HTML file annotation generation
 except ImportError:
     raise SystemExit("Requires Cython (http://cython.org/)")
 
@@ -28,6 +29,24 @@ except ImportError:
         def finalize_options(self): pass
         def run(self): print("Error: sphinx not found")
 
+
+# pkg-config
+def pkg_config(name, require, min_vers=None):
+    try:
+        sys.stdout.write("Checking for " + name + ": ")
+        ver = subprocess.check_output(["pkg-config", "--modversion", require]).decode("utf-8").strip()
+        if min_vers is not None:
+            assert 0 == subprocess.call(["pkg-config", "--atleast-version", min_vers, require])
+        cflags = subprocess.check_output(["pkg-config", "--cflags", require]).decode("utf-8").split()
+        libs = subprocess.check_output(["pkg-config", "--libs", require]).decode("utf-8").split()
+        sys.stdout.write("OK, found " + ver + "\n")
+        return (cflags, libs)
+    except (OSError, subprocess.CalledProcessError):
+        raise SystemExit("Failed to find " + name + " with 'pkg-config'.  Please make sure that it is installed and available on your system path.")
+    except (AssertionError):
+        raise SystemExit("Failed to match version. Found: " + ver + "  Needed: " + min_vers)
+
+
 modules = []
 
 if len(sys.argv) is 2 and "build_doc" in sys.argv:
@@ -41,23 +60,6 @@ if len(sys.argv) is 2 and "build_doc" in sys.argv:
     #
     pass
 else:
-    # pkg-config
-    def pkg_config(name, require, min_vers=None):
-        try:
-            sys.stdout.write("Checking for " + name + ": ")
-            ver = subprocess.check_output(["pkg-config", "--modversion", require]).decode("utf-8").strip()
-            if min_vers is not None:
-                assert 0 == subprocess.call(["pkg-config", "--atleast-version", min_vers, require])
-            cflags = subprocess.check_output(["pkg-config", "--cflags", require]).decode("utf-8").split()
-            libs = subprocess.check_output(["pkg-config", "--libs", require]).decode("utf-8").split()
-            sys.stdout.write("OK, found " + ver + "\n")
-            return (cflags, libs)
-        except (OSError, subprocess.CalledProcessError):
-            raise SystemExit("Failed to find " + name + " with 'pkg-config'.  Please make sure that it is installed and available on your system path.")
-        except (AssertionError):
-            raise SystemExit("Failed to match version. Found: " + ver + "  Needed: " + min_vers)
-
-
     ## This is usefull while working on the source, to force the rebuild of modules.
     # subprocess.call("rm -rfv efl/*/*.c", shell=True)
     # subprocess.call("rm -rfv efl/eo/*.c", shell=True)
@@ -224,14 +226,12 @@ if __name__ == "__main__":
         description = "Python bindings for the EFL stack",
         license = "GNU Lesser General Public License (LGPL)",
         packages = ["efl", "efl.elementary", "efl.efreet"],
-        cmdclass = {'build_ext': build_ext, 'build_sphinx': BuildDoc, 'build_doc': BuildDoc},
+        cmdclass = {'build_ext': build_ext, 'build_doc': BuildDoc},
         command_options = {
             "build_doc": {
                 "builder": (None, "html"),
                 #"builder": (None, "coverage"),
             },
         },
-        ext_modules = cythonize(modules,
-                                include_path=["include",],
-                                compiler_directives={"embedsignature": False}),
+        ext_modules = cythonize(modules, include_path=["include"]),
     )
