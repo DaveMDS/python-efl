@@ -181,7 +181,9 @@ cdef class Theme(object):
         :type item: string
 
         """
-        elm_theme_overlay_add(self.th, _cfruni(item))
+        if isinstance(item, unicode): item = item.encode("UTF-8")
+        elm_theme_overlay_add(self.th,
+            <const_char *>item if item is not None else NULL)
 
     def overlay_del(self, item):
         """overlay_del(unicode item)
@@ -194,7 +196,9 @@ cdef class Theme(object):
         :type item: string
 
         """
-        elm_theme_overlay_del(self.th, _cfruni(item))
+        if isinstance(item, unicode): item = item.encode("UTF-8")
+        elm_theme_overlay_del(self.th,
+            <const_char *>item if item is not None else NULL)
 
     property overlay_list:
         """Get the list of registered overlays for the given theme
@@ -230,7 +234,9 @@ cdef class Theme(object):
         :type item: string
 
         """
-        elm_theme_extension_add(self.th, _cfruni(item))
+        if isinstance(item, unicode): item = item.encode("UTF-8")
+        elm_theme_extension_add(self.th,
+            <const_char *>item if item is not None else NULL)
 
     def extension_del(self, item):
         """extension_del(unicode item)
@@ -243,7 +249,9 @@ cdef class Theme(object):
         :type item: string
 
         """
-        elm_theme_extension_del(self.th, _cfruni(item))
+        if isinstance(item, unicode): item = item.encode("UTF-8")
+        elm_theme_extension_del(self.th,
+            <const_char *>item if item is not None else NULL)
 
     property extension_list:
         """Get the list of registered extensions for the given theme
@@ -272,7 +280,9 @@ cdef class Theme(object):
 
         """
         def __set__(self, theme):
-            elm_theme_set(self.th, _cfruni(theme))
+            if isinstance(theme, unicode): theme = theme.encode("UTF-8")
+            elm_theme_set(self.th,
+                <const_char *>theme if theme is not None else NULL)
 
         def __get__(self):
             return _ctouni(elm_theme_get(self.th))
@@ -327,7 +337,9 @@ cdef class Theme(object):
         :rtype: string
 
         """
-        return _ctouni(elm_theme_data_get(self.th, _cfruni(key)))
+        if isinstance(key, unicode): key = key.encode("UTF-8")
+        return _ctouni(elm_theme_data_get(self.th,
+            <const_char *>key if key is not None else NULL))
 
 def theme_list_item_path_get(f, in_search_path):
     """theme_list_item_path_get(unicode f, bool in_search_path) -> unicode
@@ -353,7 +365,9 @@ def theme_list_item_path_get(f, in_search_path):
 
     """
     cdef Eina_Bool path = in_search_path
-    return _ctouni(elm_theme_list_item_path_get(_cfruni(f), &path))
+    if isinstance(f, unicode): f = f.encode("UTF-8")
+    return _ctouni(elm_theme_list_item_path_get(
+        <const_char *>f if f is not None else NULL, &path))
 
 def theme_full_flush():
     """theme_full_flush()
@@ -387,7 +401,11 @@ def theme_name_available_list():
 
 # for compatibility
 def theme_overlay_add(item):
-    elm_theme_overlay_add(NULL, _cfruni(item))
+    if isinstance(item, unicode): item = item.encode("UTF-8")
+    elm_theme_overlay_add(NULL,
+        <const_char *>item if item is not None else NULL)
 
 def theme_extension_add(item):
-    elm_theme_extension_add(NULL, _cfruni(item))
+    if isinstance(item, unicode): item = item.encode("UTF-8")
+    elm_theme_extension_add(NULL,
+        <const_char *>item if item is not None else NULL)

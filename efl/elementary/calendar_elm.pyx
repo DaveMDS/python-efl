@@ -244,11 +244,11 @@ cdef class Calendar(LayoutClass):
 
         """
         def __get__(self):
-            cdef const_char **lst
-            cdef const_char *weekday
+            cdef const_char **lst, *weekday
+            cdef int i
             ret = []
             lst = elm_calendar_weekdays_names_get(self.obj)
-            for i from 0 <= i < 7:
+            for i in range(7):
                 weekday = lst[i]
                 if weekday != NULL:
                     ret.append(_ctouni(weekday))
@@ -256,13 +256,13 @@ cdef class Calendar(LayoutClass):
 
         def __set__(self, weekdays):
             cdef int i, day_len
-            cdef char **days, *weekday
-            days = <char **>PyMem_Malloc(7 * sizeof(char*))
-            for i from 0 <= i < 7:
-                weekday = _fruni(weekdays[i])
-                day_len = len(weekday)
-                days[i] = <char *>PyMem_Malloc(day_len + 1)
-                memcpy(days[i], weekday, day_len + 1)
+            cdef const_char **days, *day
+            days = <const_char **>PyMem_Malloc(7 * sizeof(const_char *))
+            for i in range(7):
+                weekday = weekdays[i]
+                if isinstance(weekday, unicode): weekday = weekday.encode("UTF-8")
+                day = <const_char *>weekday if weekday is not None else NULL
+                days[i] = <const_char *>strdup(day)
             elm_calendar_weekdays_names_set(self.obj, <const_char **>days)
 
     property min_max_year:

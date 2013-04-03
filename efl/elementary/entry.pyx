@@ -225,10 +225,14 @@ ELM_WRAP_WORD = enums.ELM_WRAP_WORD
 ELM_WRAP_MIXED = enums.ELM_WRAP_MIXED
 
 def Entry_markup_to_utf8(string):
-    return _ctouni(elm_entry_markup_to_utf8(_fruni(str)))
+    if isinstance(string, unicode): string = string.encode("UTF-8")
+    return _touni(elm_entry_markup_to_utf8(
+        <const_char *>string if string is not None else NULL))
 
 def Entry_utf8_to_markup(string):
-    return _ctouni(elm_entry_utf8_to_markup(_fruni(str)))
+    if isinstance(string, unicode): string = string.encode("UTF-8")
+    return _touni(elm_entry_utf8_to_markup(
+        <const_char *>string if string is not None else NULL))
 
 class EntryAnchorInfo(object):
     """

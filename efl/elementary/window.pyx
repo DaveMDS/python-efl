@@ -371,7 +371,10 @@ cdef class Window(Object):
     """
 
     def __init__(self, name, type, evasObject parent=None):
-        self._set_obj(elm_win_add(parent.obj if parent is not None else NULL, _cfruni(name), type))
+        if isinstance(name, unicode): name = name.encode("UTF-8")
+        self._set_obj(elm_win_add(parent.obj if parent is not None else NULL,
+            <const_char *>name if name is not None else NULL,
+            type))
 
     def resize_object_add(self, evasObject subobj):
         """resize_object_add(evas.Object subobj)
@@ -427,13 +430,15 @@ cdef class Window(Object):
 
         """
         def __get__(self):
-            return _ctouni(elm_win_title_get(self.obj))
+            return self.title_get()
         def __set__(self, title):
-            elm_win_title_set(self.obj, _cfruni(title))
+            self.title_set(title)
 
-    def title_set(self, title):
-        elm_win_title_set(self.obj, _cfruni(title))
-    def title_get(self):
+    cpdef title_set(self, title):
+        if isinstance(title, unicode): title = title.encode("UTF-8")
+        elm_win_title_set(self.obj,
+            <const_char *>title if title is not None else NULL)
+    cpdef title_get(self):
         return _ctouni(elm_win_title_get(self.obj))
 
     property icon_name:
@@ -443,12 +448,14 @@ cdef class Window(Object):
 
         """
         def __get__(self):
-            return _ctouni(elm_win_icon_name_get(self.obj))
+            return self.icon_name_get()
         def __set__(self, icon_name):
-            elm_win_icon_name_set(self.obj, _cfruni(icon_name))
+            self.icon_name_set(icon_name)
 
     def icon_name_set(self, icon_name):
-        elm_win_icon_name_set(self.obj, _cfruni(icon_name))
+        if isinstance(icon_name, unicode): icon_name = icon_name.encode("UTF-8")
+        elm_win_icon_name_set(self.obj,
+            <const_char *>icon_name if icon_name is not None else NULL)
     def icon_name_get(self):
         return _ctouni(elm_win_icon_name_get(self.obj))
 
@@ -459,12 +466,14 @@ cdef class Window(Object):
 
         """
         def __get__(self):
-            return _ctouni(elm_win_role_get(self.obj))
+            return self.role_get()
         def __set__(self, role):
-            elm_win_role_set(self.obj, _cfruni(role))
+            self.role_set(role)
 
     def role_set(self, role):
-        elm_win_role_set(self.obj, _cfruni(role))
+        if isinstance(role, unicode): role = role.encode("UTF-8")
+        elm_win_role_set(self.obj,
+            <const_char *>role if role is not None else NULL)
     def role_get(self):
         return _ctouni(elm_win_role_get(self.obj))
 
@@ -792,14 +801,16 @@ cdef class Window(Object):
 
         """
         def __set__(self, profile):
-            elm_win_profile_set(self.obj, _cfruni(profile))
+            self.profile_set(profile)
 
         def __get__(self):
-            return _ctouni(elm_win_profile_get(self.obj))
+            return self.profile_get()
 
-    def profile_set(self, profile):
-        elm_win_profile_set(self.obj, _cfruni(profile))
-    def profile_get(self):
+    cpdef profile_set(self, profile):
+        if isinstance(profile, unicode): profile = profile.encode("UTF-8")
+        elm_win_profile_set(self.obj,
+            <const_char *>profile if profile is not None else NULL)
+    cpdef profile_get(self):
         return _ctouni(elm_win_profile_get(self.obj))
 
     property urgent:
@@ -1307,13 +1318,15 @@ cdef class Window(Object):
 
         """
         def __get__(self):
-            return _ctouni(elm_win_focus_highlight_style_get(self.obj))
+            return self.focus_highlight_style_get()
         def __set__(self, style):
-            elm_win_focus_highlight_style_set(self.obj, _cfruni(style))
+            self.focus_highlight_style_set(style)
 
-    def focus_highlight_style_set(self, style):
-        elm_win_focus_highlight_style_set(self.obj, _cfruni(style))
-    def focus_highlight_style_get(self):
+    cpdef focus_highlight_style_set(self, style):
+        if isinstance(style, unicode): style = style.encode("UTF-8")
+        elm_win_focus_highlight_style_set(self.obj,
+            <const_char *>style if style is not None else NULL)
+    cpdef focus_highlight_style_get(self):
         return _ctouni(elm_win_focus_highlight_style_get(self.obj))
 
     property keyboard_mode:
@@ -1413,7 +1426,10 @@ cdef class Window(Object):
         :type svcsys: bool
 
         """
-        return bool(elm_win_socket_listen(self.obj, _cfruni(svcname), svcnum, svcsys))
+        if isinstance(svcname, unicode): svcname = svcname.encode("UTF-8")
+        return bool(elm_win_socket_listen(self.obj,
+            <const_char *>svcname if svcname is not None else NULL,
+            svcnum, svcsys))
 
     property xwindow_xid:
         """Returns the X Window id.
@@ -1567,7 +1583,8 @@ cdef class StandardWindow(Window):
     """
 
     def __init__(self, name, title):
-        self._set_obj(elm_win_util_standard_add(_cfruni(name), _cfruni(title)))
-
-
-_object_mapping_register("elm_standardwin", StandardWindow)
+        if isinstance(name, unicode): name = name.encode("UTF-8")
+        if isinstance(title, unicode): title = title.encode("UTF-8")
+        self._set_obj(elm_win_util_standard_add(
+            <const_char *>name if name is not None else NULL,
+            <const_char *>title if title is not None else NULL))

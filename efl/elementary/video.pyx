@@ -49,11 +49,14 @@ cdef class Video(LayoutClass):
 
         """
         def __set__(self, filename):
-            if not bool(elm_video_file_set(self.obj, _cfruni(filename))):
-                raise RuntimeError("Could not set file.")
+            self.file_set(filename)
 
-    def file_set(self, filename):
-        return bool(elm_video_file_set(self.obj, _cfruni(filename)))
+    # NOTE: clash with layout.file_set
+    cpdef file_set(self, filename, group = None):
+        if isinstance(filename, unicode): filename = filename.encode("UTF-8")
+        if not elm_video_file_set(self.obj,
+            <const_char *>filename if filename is not None else NULL):
+                raise RuntimeError("Could not set file.")
 
     property emotion:
         """The underlying Emotion object.

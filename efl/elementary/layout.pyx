@@ -203,6 +203,7 @@ cdef class Layout(LayoutClass):
         return object_from_instance(elm_layout_content_unset(self.obj,
             <const_char *>swallow if swallow is not None else NULL))
 
+    # XXX: clash with object.text_set
     def text_set(self, part, text):
         """text_set(unicode part, unicode text)
 
@@ -221,6 +222,7 @@ cdef class Layout(LayoutClass):
             <const_char *>part if part is not None else NULL,
             <const_char *>text if text is not None else NULL)
 
+    # XXX: clash with object.text_get
     def text_get(self, part):
         """text_get(unicode part) -> unicode
 

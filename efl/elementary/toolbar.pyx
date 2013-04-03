@@ -124,7 +124,12 @@ cdef class ToolbarItemState(object):
 
         self.params = (callback, args, kwargs)
 
-        self.obj = elm_toolbar_item_state_add(it.item, _cfruni(icon), _cfruni(label), cb, <void*>self)
+        if isinstance(icon, unicode): icon = icon.encode("UTF-8")
+        if isinstance(label, unicode): label = label.encode("UTF-8")
+        self.obj = elm_toolbar_item_state_add(it.item,
+            <const_char *>icon if icon is not None else NULL,
+            <const_char *>label if label is not None else NULL,
+            cb, <void*>self)
         if self.obj == NULL:
             Py_DECREF(self)
 
@@ -149,7 +154,12 @@ cdef class ToolbarItem(ObjectItem):
 
         self.params = (callback, args, kargs)
 
-        item = elm_toolbar_item_append(toolbar.obj, _cfruni(icon), _cfruni(label), cb, <void*>self)
+        if isinstance(icon, unicode): icon = icon.encode("UTF-8")
+        if isinstance(label, unicode): label = label.encode("UTF-8")
+        item = elm_toolbar_item_append(toolbar.obj,
+            <const_char *>icon if icon is not None else NULL,
+            <const_char *>label if label is not None else NULL,
+            cb, <void*>self)
 
         if item != NULL:
             self._set_obj(item)
@@ -253,14 +263,16 @@ cdef class ToolbarItem(ObjectItem):
 
         """
         def __get__(self):
-            return _ctouni(elm_toolbar_item_icon_get(self.item))
+            return self.icon_get()
 
         def __set__(self, ic):
-            elm_toolbar_item_icon_set(self.item, _cfruni(ic))
+            self.icon_set(ic)
 
-    def icon_set(self, ic):
-        elm_toolbar_item_icon_set(self.item, _cfruni(ic))
-    def icon_get(self):
+    cpdef icon_set(self, ic):
+        if isinstance(ic, unicode): ic = ic.encode("UTF-8")
+        elm_toolbar_item_icon_set(self.item,
+            <const_char *>ic if ic is not None else NULL)
+    cpdef icon_get(self):
         return _ctouni(elm_toolbar_item_icon_get(self.item))
 
     property object:
@@ -325,15 +337,19 @@ cdef class ToolbarItem(ObjectItem):
         """
         def __set__(self, value):
             if isinstance(value, tuple):
-                file, key = value
+                file_name, key = value
             else:
-                file = value
+                file_name = value
                 key = None
-            if not bool(elm_toolbar_item_icon_file_set(self.item, _cfruni(file), _cfruni(key))):
-                raise RuntimeError("Could not set icon_file.")
+            self.icon_file_set(file_name, key)
 
-    def icon_file_set(self, file, key):
-        return bool(elm_toolbar_item_icon_file_set(self.item, _cfruni(file), _cfruni(key)))
+    def icon_file_set(self, file_name, key):
+        if isinstance(file_name, unicode): file_name = file_name.encode("UTF-8")
+        if isinstance(key, unicode): key = key.encode("UTF-8")
+        if not elm_toolbar_item_icon_file_set(self.item,
+            <const_char *>file_name if file_name is not None else NULL,
+            <const_char *>key if key is not None else NULL):
+                raise RuntimeError("Could not set icon_file.")
 
     property separator:
         """Whether item is a separator or not.
@@ -387,19 +403,15 @@ cdef class ToolbarItem(ObjectItem):
 
         """
         def __get__(self):
-            cdef Evas_Object *menu
-            menu = elm_toolbar_item_menu_get(self.item)
-            if menu == NULL:
-                return None
-            else:
-                return Menu(None, <object>menu)
+            return self.menu_get()
 
         def __set__(self, menu):
-            elm_toolbar_item_menu_set(self.item, menu)
+            self.menu_set(menu)
 
-    def menu_set(self, menu):
+    cpdef menu_set(self, menu):
         elm_toolbar_item_menu_set(self.item, menu)
-    def menu_get(self):
+    cpdef menu_get(self):
+        # TODO: Improve this
         cdef Evas_Object *menu
         menu = elm_toolbar_item_menu_get(self.item)
         if menu == NULL:
@@ -678,7 +690,9 @@ cdef class Toolbar(Object):
         :rtype: :py:class:`ToolbarItem`
 
         """
-        return _object_item_to_python(elm_toolbar_item_find_by_label(self.obj, _cfruni(label)))
+        if isinstance(label, unicode): label = label.encode("UTF-8")
+        return _object_item_to_python(elm_toolbar_item_find_by_label(self.obj,
+            <const_char *>label if label is not None else NULL))
 
     property selected_item:
         """The selected item.

@@ -68,7 +68,11 @@ cdef class ScrollableInterface(Object):
         :type base: string
 
         """
-        elm_scroller_custom_widget_base_theme_set(self.obj, _cfruni(widget), _cfruni(base))
+        if isinstance(widget, unicode): widget = widget.encode("UTF-8")
+        if isinstance(base, unicode): base = base.encode("UTF-8")
+        elm_scroller_custom_widget_base_theme_set(self.obj,
+            <const_char *>widget if widget is not None else NULL,
+            <const_char *>base if base is not None else NULL)
 
     def content_min_limit(self, w, h):
         """content_min_limit(bool w, bool h)

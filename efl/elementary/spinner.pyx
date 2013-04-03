@@ -72,14 +72,16 @@ cdef class Spinner(LayoutClass):
 
         """
         def __get__(self):
-            return _ctouni(elm_spinner_label_format_get(self.obj))
+            return self.label_format_get()
 
-        def __set__(self, format):
-            elm_spinner_label_format_set(self.obj, _cfruni(format))
+        def __set__(self, label_format):
+            self.label_format_set(label_format)
 
-    def label_format_set(self, format):
-        elm_spinner_label_format_set(self.obj, _cfruni(format))
-    def label_format_get(self):
+    cpdef label_format_set(self, label_format):
+        if isinstance(label_format, unicode): label_format = label_format.encode("UTF-8")
+        elm_spinner_label_format_set(self.obj,
+            <const_char *>label_format if label_format is not None else NULL)
+    cpdef label_format_get(self):
         return _ctouni(elm_spinner_label_format_get(self.obj))
 
     property min_max:
@@ -246,7 +248,9 @@ cdef class Spinner(LayoutClass):
         :type label: string
 
         """
-        elm_spinner_special_value_add(self.obj, value, _cfruni(label))
+        if isinstance(label, unicode): label = label.encode("UTF-8")
+        elm_spinner_special_value_add(self.obj, value,
+            <const_char *>label if label is not None else NULL)
 
     property interval:
         """The interval on time updates for an user mouse button hold

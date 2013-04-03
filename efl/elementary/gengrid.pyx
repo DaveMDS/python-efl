@@ -77,10 +77,8 @@ cdef char *_py_elm_gengrid_item_text_get(void *data, Evas_Object *obj, const_cha
         return NULL
 
     ret = _py_elm_gengrid_item_call(func, obj, part, params[1])
-    if ret is not None:
-        return strdup(_fruni(ret))
-    else:
-        return NULL
+    if isinstance(ret, unicode): ret = ret.encode("UTF-8")
+    return strdup(ret) if ret is not None else NULL
 
 cdef Evas_Object *_py_elm_gengrid_item_content_get(void *data, Evas_Object *obj, const_char *part) with gil:
     cdef GengridItem item = <object>data
@@ -581,13 +579,13 @@ cdef class GengridItem(ObjectItem):
         def __del__(self):
             self.cursor_unset()
 
-    def cursor_set(self, cursor):
+    cpdef cursor_set(self, cursor):
         if isinstance(cursor, unicode): cursor = cursor.encode("UTF-8")
         elm_gengrid_item_cursor_set(self.item,
             <const_char *>cursor if cursor is not None else NULL)
-    def cursor_get(self):
+    cpdef cursor_get(self):
         return _ctouni(elm_gengrid_item_cursor_get(self.item))
-    def cursor_unset(self):
+    cpdef cursor_unset(self):
         elm_gengrid_item_cursor_unset(self.item)
 
     property cursor_style:
@@ -598,11 +596,11 @@ cdef class GengridItem(ObjectItem):
         def __set__(self, style):
             self.cursor_style_set(style)
 
-    def cursor_style_set(self, style=None):
+    cpdef cursor_style_set(self, style=None):
         if isinstance(style, unicode): style = style.encode("UTF-8")
         elm_gengrid_item_cursor_style_set(self.item,
             <const_char *>style if style is not None else NULL)
-    def cursor_style_get(self):
+    cpdef cursor_style_get(self):
         return _ctouni(elm_gengrid_item_cursor_style_get(self.item))
 
     property cursor_engine_only:

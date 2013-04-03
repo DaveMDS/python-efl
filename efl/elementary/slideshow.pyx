@@ -457,7 +457,9 @@ cdef class Slideshow(LayoutClass):
 
         """
         def __set__(self, transition):
-            elm_slideshow_transition_set(self.obj, _cfruni(transition))
+            if isinstance(transition, unicode): transition = transition.encode("UTF-8")
+            elm_slideshow_transition_set(self.obj,
+                <const_char *>transition if transition is not None else NULL)
         def __get__(self):
             return _ctouni(elm_slideshow_transition_get(self.obj))
 
@@ -567,7 +569,9 @@ cdef class Slideshow(LayoutClass):
 
         """
         def __set__(self, layout):
-            elm_slideshow_layout_set(self.obj, _cfruni(layout))
+            if isinstance(layout, unicode): layout = layout.encode("UTF-8")
+            elm_slideshow_layout_set(self.obj,
+                <const_char *>layout if layout is not None else NULL)
         def __get__(self):
             return _ctouni(elm_slideshow_layout_get(self.obj))
 
