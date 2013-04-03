@@ -28,6 +28,7 @@ TODO
 * cleanup elementary_object
 * Review the internal functions and name them consistently
 * Bindings for Efreet (kuuko)
+* Add more documentation for the use of callbacks
 
 
 STUFF LEFT OUT

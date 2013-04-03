@@ -39,7 +39,8 @@ Tips
 ====
 
 * cython -a will generate a report that shows your cython code, and each line
-  can be expanded by clicking to show the generated C code.
+  can be expanded by clicking to show the generated C code. This cannot be done
+  from the setup script, it has to be called manually on a .pyx file.
 
 * cython does automatic dict <-> struct conversion with basic struct members
 
