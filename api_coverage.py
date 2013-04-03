@@ -58,7 +58,7 @@ def get_pyapis(pxd_path, header_name, prefix):
 parser = argparse.ArgumentParser()
 parser.add_argument("--python", action="store_true", default=False, help="Show Python API coverage")
 parser.add_argument("--c", action="store_true", default=False, help="Show C API coverage")
-parser.add_argument("libs", nargs="+", help="Possible values are eo, evas, efreet, ecore, ecore-file, edje, emotion, edbus, elementary and all.")
+parser.add_argument("libs", nargs="+", help="Possible values are eo, evas, ecore, ecore-file, edje, emotion, edbus, elementary and all.")
 args = parser.parse_args()
 
 if args.libs is "all":
@@ -67,8 +67,6 @@ if args.libs is "all":
 params = {
     "eo": ("include", "Eo", "eo"),
     "evas": ("include", "Evas", "evas"),
-    "efreet": ("efl/efreet", "Efreet", "efreet"),
-    "efreet-trash": ("efl/efreet", "Efreet_Trash", "efreet_trash"),
     "ecore": ("include", "Ecore", "ecore"),
     "ecore-file": ("include", "Ecore_File", "ecore_file"),
     "edje": ("include", "Edje", "edje"),
