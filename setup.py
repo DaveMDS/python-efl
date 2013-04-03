@@ -86,19 +86,6 @@ else:
                             extra_link_args = evas_libs + eina_libs)
     modules.append(evas_ext)
 
-    # Efreet
-    efreet_cflags, efreet_libs = pkg_config('Efreet', 'efreet', "1.7.99")
-    efreet_trash_cflags, efreet_trash_libs = pkg_config('EfreetTrash', 'efreet-trash', "1.7.99")
-    efreet_exts = [
-        Extension("efl.efreet.efreet", ["efl/efreet/efreet.pyx"]),
-        Extension("efl.efreet.trash", ["efl/efreet/trash.pyx"], extra_link_args = efreet_trash_libs),
-    ]
-    for ext in efreet_exts:
-        ext.include_dirs = ['include/']
-        ext.extra_compile_args += efreet_cflags + eina_cflags
-        ext.extra_link_args += efreet_libs + eina_libs
-    modules += efreet_exts
-
     # Ecore
     ecore_cflags, ecore_libs = pkg_config('Ecore', 'ecore', "1.7.99")
     efile_cflags, efile_libs = pkg_config('EcoreFile', 'ecore-file', "1.7.99")
