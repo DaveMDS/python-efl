@@ -21,6 +21,8 @@ class TestFileDownload(unittest.TestCase):
         if os.path.exists(dst):
             os.remove(dst)
 
+        self.assertEqual(ecore.file_download_protocol_available('http://'), True)
+
         ecore.FileDownload("http://www.google.com", dst,
                             completion_cb = _completion_cb,
                             progress_cb = _progress_cb)

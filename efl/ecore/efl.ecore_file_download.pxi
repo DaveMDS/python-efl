@@ -182,4 +182,6 @@ def file_download_protocol_available(protocol):
     :return: True if the protocol is supported
     :rtype: bool
     """
-    return bool(ecore_file_download_protocol_available(protocol))
+    if isinstance(protocol, unicode): protocol = protocol.encode("UTF-8")
+    return bool(ecore_file_download_protocol_available(
+                    <const_char *>protocol if protocol is not None else NULL))
