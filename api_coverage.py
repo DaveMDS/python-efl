@@ -29,7 +29,7 @@ def get_capis(inc_path, prefix):
 
     for path, dirs, files in os.walk(inc_path):
         for f in files:
-            with open(os.path.join(path, f), "r") as header:
+            with open(os.path.join(path, f), encoding="UTF-8", mode="r") as header:
                 capi = header.read()
                 matches = re.finditer("^ *EAPI [A-Za-z_ *\n]+ +\**(?!" + c_excludes + ")(" + prefix + "_\w+) *\(", capi, re.S|re.M)
                 for match in matches:
