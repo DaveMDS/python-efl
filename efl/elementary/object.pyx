@@ -67,8 +67,11 @@ EVAS_CALLBACK_MOUSE_WHEEL = evasenums.EVAS_CALLBACK_MOUSE_WHEEL
 
 cdef void _object_callback(void *data,
                            Evas_Object *o, void *event_info) with gil:
-    cdef Object obj
-    cdef object event, ei
+    cdef:
+        Object obj
+        object event, ei, event_conv, func, args, kargs
+        tuple lst
+
     obj = object_from_instance(o)
     event = <object>data
     lst = tuple(obj._elmcallbacks[event])
@@ -82,24 +85,21 @@ cdef void _object_callback(void *data,
         except Exception, e:
             traceback.print_exc()
 
-# TODO: cimport this from evas
-cdef Eina_Bool _event_dispatcher(o, src, Evas_Callback_Type t, event_info):
-    cdef Object obj = o
-    cdef object ret
+cdef bint _event_dispatcher(Object obj, Object src, Evas_Callback_Type t, event_info):
+    cdef bint ret
     for func, args, kargs in obj._elm_event_cbs:
         try:
             ret = func(obj, src, t, event_info, *args, **kargs)
         except Exception, e:
             traceback.print_exc()
         else:
-            if ret:
-                return True
+            return ret
     return False
 
 cdef Eina_Bool _event_callback(void *data, Evas_Object *o, Evas_Object *src, Evas_Callback_Type t, void *event_info) with gil:
     cdef Object obj = object_from_instance(o)
     cdef Object src_obj = object_from_instance(src)
-    cdef Eina_Bool ret = False
+    cdef bint ret = False
     cdef EventKeyDown down_event
     cdef EventKeyUp up_event
 
@@ -121,7 +121,7 @@ cdef Eina_Bool _event_callback(void *data, Evas_Object *o, Evas_Object *src, Eva
     else:
         log.debug("Unhandled elm input event of type %i" % (t))
 
-    return bool(ret)
+    return ret
 
 cdef void _event_data_del_cb(void *data, Evas_Object *o, void *event_info) with gil:
     pass
