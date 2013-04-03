@@ -35,7 +35,7 @@ cdef int _object_unregister_callbacks(Object obj) except 0:
                 cb = evas_object_event_callbacks[i]
                 evas_object_event_callback_del(o, i, cb)
 
-    evas_object_event_callback_del(o, EVAS_CALLBACK_FREE, obj_free_cb)
+    evas_object_event_callback_del(o, enums.EVAS_CALLBACK_FREE, obj_free_cb)
     return 1
 
 
@@ -43,7 +43,7 @@ cdef void obj_free_cb(void *data, Evas *e,
                       Evas_Object *obj, void *event_info) with gil:
     cdef Object self = <Object>data
 
-    lst = self._callbacks[EVAS_CALLBACK_FREE]
+    lst = self._callbacks[enums.EVAS_CALLBACK_FREE]
     if lst is not None:
         for func, args, kargs in lst:
             try:
@@ -168,49 +168,41 @@ cdef class Object(Eo):
     #
     def __str__(self):
         cdef:
-            int x, y, w, h
-            int r, g, b, a
             str name = self.name_get()
             bint clip
+            tuple g = self.geometry_get()
+            tuple c = self.color_get()
 
-        x, y, w, h = self.geometry_get()
-        r, g, b, a = self.color_get()
-
-        if name is not None:
-            name_str = "name=%s, " % name
-        else:
-            name_str = ""
+        name_str = "name=%s, " % name if name is not None else ""
 
         clip = self.clip_get() is not None
         return ("%s(%sgeometry=(%d, %d, %d, %d), color=(%d, %d, %d, %d), "
                 "layer=%s, clip=%s, visible=%s)") % \
-                (type(self).__name__, name_str, x, y, w, h,
-                 r, g, b, a, self.layer_get(), clip, self.visible_get())
+                (type(self).__name__, name_str,
+                g[0], g[1], g[2], g[3],
+                c[0], c[1], c[2], c[3],
+                self.layer_get(), clip, self.visible_get())
 
     def __repr__(self):
         cdef:
-            int x, y, w, h
-            int r, g, b, a
             str name = self.name_get()
             bint clip
+            tuple g = self.geometry_get()
+            tuple c = self.color_get()
 
-        x, y, w, h = self.geometry_get()
-        r, g, b, a = self.color_get()
+        name_str = "name=%s, " % name if name is not None else ""
 
-        if name:
-            name_str = "name=%s, " % name
-        else:
-            name_str = ""
-
-        clip = bool(self.clip_get() is not None)
+        clip = self.clip_get() is not None
         return ("%s %s(%sgeometry=(%d, %d, %d, %d), color=(%d, %d, %d, %d), "
                 "layer=%s, clip=%s, visible=%s)") % (Eo.__str__(self),
-                 type(self).__name__, name_str, x, y, w, h,
-                 r, g, b, a, self.layer_get(), clip, self.visible_get())
+                 type(self).__name__, name_str,
+                 g[0], g[1], g[2], g[3],
+                 c[0], c[1], c[2], c[3],
+                 self.layer_get(), clip, self.visible_get())
 
     cdef void _set_obj(self, Evas_Object *obj) except *:
         Eo._set_obj(self, obj)
-        evas_object_event_callback_add(obj, EVAS_CALLBACK_FREE,
+        evas_object_event_callback_add(obj, enums.EVAS_CALLBACK_FREE,
                                        obj_free_cb, <void *>self)
         Py_INCREF(self)
 
@@ -279,14 +271,14 @@ cdef class Object(Eo):
 
         """
         def __set__(self, int l):
-            evas_object_layer_set(self.obj, l)
+            self.layer_set(l)
 
         def __get__(self):
-            return evas_object_layer_get(self.obj)
+            return self.layer_get()
 
-    def layer_set(self, int layer):
+    cpdef layer_set(self, int layer):
         evas_object_layer_set(self.obj, layer)
-    def layer_get(self):
+    cpdef layer_get(self):
         return evas_object_layer_get(self.obj)
 
 
@@ -370,22 +362,19 @@ cdef class Object(Eo):
         :type: tuple of ints
 
         """
-        def __get__(self): # replicated to avoid performance hit
-            cdef int x, y, w, h
-            evas_object_geometry_get(self.obj, &x, &y, &w, &h)
-            return (x, y, w, h)
+        def __get__(self):
+            return self.geometry_get()
 
         def __set__(self, spec):
             cdef int x, y, w, h
             x, y, w, h = spec
-            evas_object_move(self.obj, x, y)
-            evas_object_resize(self.obj, w, h)
+            self.geometry_set(x, y, w, h)
 
-    def geometry_get(self):
+    cpdef geometry_get(self):
         cdef int x, y, w, h
         evas_object_geometry_get(self.obj, &x, &y, &w, &h)
         return (x, y, w, h)
-    def geometry_set(self, int x, int y, int w, int h):
+    cpdef geometry_set(self, int x, int y, int w, int h):
         evas_object_move(self.obj, x, y)
         evas_object_resize(self.obj, w, h)
 
@@ -395,21 +384,19 @@ cdef class Object(Eo):
         :type: tuple of ints
 
         """
-        def __get__(self): # replicated to avoid performance hit
-            cdef int w, h
-            evas_object_geometry_get(self.obj, NULL, NULL, &w, &h)
-            return (w, h)
+        def __get__(self):
+            return self.size_get()
 
         def __set__(self, spec):
             cdef int w, h
             w, h = spec
-            evas_object_resize(self.obj, w, h)
+            self.size_set(w, h)
 
-    def size_get(self):
+    cpdef size_get(self):
         cdef int w, h
         evas_object_geometry_get(self.obj, NULL, NULL, &w, &h)
         return (w, h)
-    def size_set(self, int w, int h):
+    cpdef size_set(self, int w, int h):
         evas_object_resize(self.obj, w, h)
 
     def resize(self, int w, int h):
@@ -660,24 +647,32 @@ cdef class Object(Eo):
 
         """
         def __get__(self): # replicated to avoid performance hit
-            cdef int x, y, w, h
+            cdef int x, y, w, h, x2, y2
             evas_object_geometry_get(self.obj, &x, &y, &w, &h)
-            return (x + w/2, y + h/2)
+            x2 = x + w/2
+            y2 = y + h/2
+            return (x2, y2)
 
         def __set__(self, spec):
-            cdef int x, y, w, h
+            cdef int x, y, w, h, x2, y2
             x, y = spec
             evas_object_geometry_get(self.obj, NULL, NULL, &w, &h)
-            evas_object_move(self.obj, x - w/2, y - h/2)
+            x2 = x - w/2
+            y2 = y - h/2
+            evas_object_move(self.obj, x2, y2)
 
     def center_get(self):
-        cdef int x, y, w, h
+        cdef int x, y, w, h, x2, y2
         evas_object_geometry_get(self.obj, &x, &y, &w, &h)
-        return (x + w/2, y + h/2)
+        x2 = x + w/2
+        y2 = y + h/2
+        return (x2, y2)
     def center_set(self, int x, int y):
-        cdef int w, h
+        cdef int w, h, x2, y2
         evas_object_geometry_get(self.obj, NULL, NULL, &w, &h)
-        evas_object_move(self.obj, x - w/2, y - h/2)
+        x2 = x - w/2
+        y2 = y - h/2
+        evas_object_move(self.obj, x2, y2)
 
     property rect:
         """A rectangle representing the object's geometry.
@@ -934,9 +929,11 @@ cdef class Object(Eo):
         Move relatively to current position.
 
         """
-        cdef int x, y
+        cdef int x, y, x2, y2
         evas_object_geometry_get(self.obj, &x, &y, NULL, NULL)
-        evas_object_move(self.obj, x + dx, y + dy)
+        x2 = x + dx
+        y2 = y + dy
+        evas_object_move(self.obj, x2, y2)
 
     def show(self):
         """Show the object."""
@@ -953,17 +950,14 @@ cdef class Object(Eo):
 
         """
         def __get__(self):
-            return bool(evas_object_visible_get(self.obj))
+            return self.visible_get()
 
         def __set__(self, spec):
-            if spec:
-                self.show()
-            else:
-                self.hide()
+            self.visible_set(spec)
 
-    def visible_get(self):
+    cpdef visible_get(self):
         return bool(evas_object_visible_get(self.obj))
-    def visible_set(self, spec):
+    cpdef visible_set(self, spec):
         if spec:
             self.show()
         else:
@@ -1029,17 +1023,16 @@ cdef class Object(Eo):
         """
 
         def __get__(self):
-            cdef int r, g, b, a
-            evas_object_color_get(self.obj, &r, &g, &b, &a)
-            return (r, g, b, a)
+            return self.color_get()
 
         def __set__(self, color):
+            cdef int r, g, b, a
             r, g, b, a = color
             evas_object_color_set(self.obj, r, g, b, a)
 
     def color_set(self, int r, int g, int b, int a):
         evas_object_color_set(self.obj, r, g, b, a)
-    def color_get(self):
+    cpdef color_get(self):
         cdef int r, g, b, a
         evas_object_color_get(self.obj, &r, &g, &b, &a)
         return (r, g, b, a)
@@ -1051,9 +1044,7 @@ cdef class Object(Eo):
 
         """
         def __get__(self):
-            cdef Evas_Object *clip
-            clip = evas_object_clip_get(self.obj)
-            return object_from_instance(clip)
+            return self.clip_get()
 
         def __set__(self, value):
             cdef Evas_Object *clip
@@ -1070,10 +1061,9 @@ cdef class Object(Eo):
         def __del__(self):
             evas_object_clip_unset(self.obj)
 
-    def clip_get(self):
-        cdef Evas_Object *clip
-        clip = evas_object_clip_get(self.obj)
-        return object_from_instance(clip)
+    cpdef clip_get(self):
+        return object_from_instance(evas_object_clip_get(self.obj))
+
     def clip_set(self, value):
         cdef Evas_Object *clip
         cdef Object o
@@ -1085,11 +1075,9 @@ cdef class Object(Eo):
             evas_object_clip_set(self.obj, clip)
         else:
             raise ValueError("clip must be evas.Object or None")
+
     def clip_unset(self):
         evas_object_clip_unset(self.obj)
-
-
-
 
 
     property clipees:
@@ -1101,7 +1089,8 @@ cdef class Object(Eo):
         def __get__(self):
             return self.clipees_get()
 
-    def clipees_get(self):
+    cpdef clipees_get(self):
+        # TODO: objects to python
         cdef const_Eina_List *itr
         cdef Object o
         ret = []
@@ -1119,16 +1108,14 @@ cdef class Object(Eo):
 
         """
         def __get__(self):
-            return _ctouni(evas_object_name_get(self.obj))
+            return self.name_get()
 
         def __set__(self, value):
-            if isinstance(value, unicode): value = value.encode("UTF-8")
-            evas_object_name_set(self.obj,
-                <const_char *>value if value is not None else NULL)
+            self.name_set(value)
 
-    def name_get(self):
+    cpdef name_get(self):
         return _ctouni(evas_object_name_get(self.obj))
-    def name_set(self, value):
+    cpdef name_set(self, value):
         if isinstance(value, unicode): value = value.encode("UTF-8")
         evas_object_name_set(self.obj,
             <const_char *>value if value is not None else NULL)
@@ -1140,14 +1127,14 @@ cdef class Object(Eo):
 
         """
         def __get__(self):
-            return bool(evas_object_focus_get(self.obj))
+            return self.focus_get()
 
-        def __set__(self, int value):
-            evas_object_focus_set(self.obj, value)
+        def __set__(self, value):
+            self.focus_set(value)
 
-    def focus_get(self):
+    cpdef focus_get(self):
         return bool(evas_object_focus_get(self.obj))
-    def focus_set(self, value):
+    cpdef focus_set(self, value):
         evas_object_focus_set(self.obj, value)
 
     def event_callback_add(self, Evas_Callback_Type type, func, *args, **kargs):
@@ -1183,7 +1170,7 @@ cdef class Object(Eo):
             raise TypeError("func must be callable")
 
         if _object_add_callback_to_list(self, type, func, args, kargs):
-            if type != EVAS_CALLBACK_FREE:
+            if type != enums.EVAS_CALLBACK_FREE:
                 cb = evas_object_event_callbacks[<int>type]
                 evas_object_event_callback_add(self.obj, type, cb, <void*>self)
 
@@ -1205,7 +1192,7 @@ cdef class Object(Eo):
         """
         cdef Evas_Object_Event_Cb cb
         if _object_del_callback_from_list(self, type, func):
-            if type != EVAS_CALLBACK_FREE:
+            if type != enums.EVAS_CALLBACK_FREE:
                 cb = evas_object_event_callbacks[<int>type]
                 evas_object_event_callback_del(self.obj, type, cb)
 
@@ -1216,11 +1203,11 @@ cdef class Object(Eo):
 
             function(object, event_info, *args, **kargs)
         """
-        self.event_callback_add(EVAS_CALLBACK_MOUSE_IN, func, *a, **k)
+        self.event_callback_add(enums.EVAS_CALLBACK_MOUSE_IN, func, *a, **k)
 
     def on_mouse_in_del(self, func):
         """Same as event_callback_del(EVAS_CALLBACK_MOUSE_IN, ...)"""
-        self.event_callback_del(EVAS_CALLBACK_MOUSE_IN, func)
+        self.event_callback_del(enums.EVAS_CALLBACK_MOUSE_IN, func)
 
     def on_mouse_out_add(self, func, *a, **k):
         """Same as event_callback_add(EVAS_CALLBACK_MOUSE_OUT, ...)
@@ -1229,11 +1216,11 @@ cdef class Object(Eo):
 
             function(object, event_info, *args, **kargs)
         """
-        self.event_callback_add(EVAS_CALLBACK_MOUSE_OUT, func, *a, **k)
+        self.event_callback_add(enums.EVAS_CALLBACK_MOUSE_OUT, func, *a, **k)
 
     def on_mouse_out_del(self, func):
         """Same as event_callback_del(EVAS_CALLBACK_MOUSE_OUT, ...)"""
-        self.event_callback_del(EVAS_CALLBACK_MOUSE_OUT, func)
+        self.event_callback_del(enums.EVAS_CALLBACK_MOUSE_OUT, func)
 
     def on_mouse_down_add(self, func, *a, **k):
         """Same as event_callback_add(EVAS_CALLBACK_MOUSE_DOWN, ...)
@@ -1242,11 +1229,11 @@ cdef class Object(Eo):
 
             function(object, event_info, *args, **kargs)
         """
-        self.event_callback_add(EVAS_CALLBACK_MOUSE_DOWN, func, *a, **k)
+        self.event_callback_add(enums.EVAS_CALLBACK_MOUSE_DOWN, func, *a, **k)
 
     def on_mouse_down_del(self, func):
         """Same as event_callback_del(EVAS_CALLBACK_MOUSE_DOWN, ...)"""
-        self.event_callback_del(EVAS_CALLBACK_MOUSE_DOWN, func)
+        self.event_callback_del(enums.EVAS_CALLBACK_MOUSE_DOWN, func)
 
     def on_mouse_up_add(self, func, *a, **k):
         """Same as event_callback_add(EVAS_CALLBACK_MOUSE_UP, ...)
@@ -1255,11 +1242,11 @@ cdef class Object(Eo):
 
             function(object, event_info, *args, **kargs)
         """
-        self.event_callback_add(EVAS_CALLBACK_MOUSE_UP, func, *a, **k)
+        self.event_callback_add(enums.EVAS_CALLBACK_MOUSE_UP, func, *a, **k)
 
     def on_mouse_up_del(self, func):
         """Same as event_callback_del(EVAS_CALLBACK_MOUSE_UP, ...)"""
-        self.event_callback_del(EVAS_CALLBACK_MOUSE_UP, func)
+        self.event_callback_del(enums.EVAS_CALLBACK_MOUSE_UP, func)
 
     def on_mouse_move_add(self, func, *a, **k):
         """Same as event_callback_add(EVAS_CALLBACK_MOUSE_MOVE, ...)
@@ -1268,11 +1255,11 @@ cdef class Object(Eo):
 
             function(object, event_info, *args, **kargs)
         """
-        self.event_callback_add(EVAS_CALLBACK_MOUSE_MOVE, func, *a, **k)
+        self.event_callback_add(enums.EVAS_CALLBACK_MOUSE_MOVE, func, *a, **k)
 
     def on_mouse_move_del(self, func):
         """Same as event_callback_del(EVAS_CALLBACK_MOUSE_MOVE, ...)"""
-        self.event_callback_del(EVAS_CALLBACK_MOUSE_MOVE, func)
+        self.event_callback_del(enums.EVAS_CALLBACK_MOUSE_MOVE, func)
 
     def on_mouse_wheel_add(self, func, *a, **k):
         """Same as event_callback_add(EVAS_CALLBACK_MOUSE_WHEEL, ...)
@@ -1281,11 +1268,11 @@ cdef class Object(Eo):
 
             function(object, event_info, *args, **kargs)
         """
-        self.event_callback_add(EVAS_CALLBACK_MOUSE_WHEEL, func, *a, **k)
+        self.event_callback_add(enums.EVAS_CALLBACK_MOUSE_WHEEL, func, *a, **k)
 
     def on_mouse_wheel_del(self, func):
         """Same as event_callback_del(EVAS_CALLBACK_MOUSE_WHEEL, ...)"""
-        self.event_callback_del(EVAS_CALLBACK_MOUSE_WHEEL, func)
+        self.event_callback_del(enums.EVAS_CALLBACK_MOUSE_WHEEL, func)
 
     def on_free_add(self, func, *a, **k):
         """Same as event_callback_add(EVAS_CALLBACK_FREE, ...)
@@ -1297,11 +1284,11 @@ cdef class Object(Eo):
 
             function(object, *args, **kargs)
         """
-        self.event_callback_add(EVAS_CALLBACK_FREE, func, *a, **k)
+        self.event_callback_add(enums.EVAS_CALLBACK_FREE, func, *a, **k)
 
     def on_free_del(self, func):
         """Same as event_callback_del(EVAS_CALLBACK_FREE, ...)"""
-        self.event_callback_del(EVAS_CALLBACK_FREE, func)
+        self.event_callback_del(enums.EVAS_CALLBACK_FREE, func)
 
     def on_key_down_add(self, func, *a, **k):
         """Same as event_callback_add(EVAS_CALLBACK_KEY_DOWN, ...)
@@ -1310,11 +1297,11 @@ cdef class Object(Eo):
 
             function(object, event_info, *args, **kargs)
         """
-        self.event_callback_add(EVAS_CALLBACK_KEY_DOWN, func, *a, **k)
+        self.event_callback_add(enums.EVAS_CALLBACK_KEY_DOWN, func, *a, **k)
 
     def on_key_down_del(self, func):
         """Same as event_callback_del(EVAS_CALLBACK_KEY_DOWN, ...)"""
-        self.event_callback_del(EVAS_CALLBACK_KEY_DOWN, func)
+        self.event_callback_del(enums.EVAS_CALLBACK_KEY_DOWN, func)
 
     def on_key_up_add(self, func, *a, **k):
         """Same as event_callback_add(EVAS_CALLBACK_KEY_UP, ...)
@@ -1323,11 +1310,11 @@ cdef class Object(Eo):
 
             function(object, event_info, *args, **kargs)
         """
-        self.event_callback_add(EVAS_CALLBACK_KEY_UP, func, *a, **k)
+        self.event_callback_add(enums.EVAS_CALLBACK_KEY_UP, func, *a, **k)
 
     def on_key_up_del(self, func):
         """Same as event_callback_del(EVAS_CALLBACK_KEY_UP, ...)"""
-        self.event_callback_del(EVAS_CALLBACK_KEY_UP, func)
+        self.event_callback_del(enums.EVAS_CALLBACK_KEY_UP, func)
 
     def on_focus_in_add(self, func, *a, **k):
         """Same as event_callback_add(EVAS_CALLBACK_FOCUS_IN, ...)
@@ -1336,11 +1323,11 @@ cdef class Object(Eo):
 
             function(object, *args, **kargs)
         """
-        self.event_callback_add(EVAS_CALLBACK_FOCUS_IN, func, *a, **k)
+        self.event_callback_add(enums.EVAS_CALLBACK_FOCUS_IN, func, *a, **k)
 
     def on_focus_in_del(self, func):
         """Same as event_callback_del(EVAS_CALLBACK_FOCUS_IN, ...)"""
-        self.event_callback_del(EVAS_CALLBACK_FOCUS_IN, func)
+        self.event_callback_del(enums.EVAS_CALLBACK_FOCUS_IN, func)
 
     def on_focus_out_add(self, func, *a, **k):
         """Same as event_callback_add(EVAS_CALLBACK_FOCUS_OUT, ...)
@@ -1349,11 +1336,11 @@ cdef class Object(Eo):
 
             function(object, *args, **kargs)
         """
-        self.event_callback_add(EVAS_CALLBACK_FOCUS_OUT, func, *a, **k)
+        self.event_callback_add(enums.EVAS_CALLBACK_FOCUS_OUT, func, *a, **k)
 
     def on_focus_out_del(self, func):
         """Same as event_callback_del(EVAS_CALLBACK_FOCUS_OUT, ...)"""
-        self.event_callback_del(EVAS_CALLBACK_FOCUS_OUT, func)
+        self.event_callback_del(enums.EVAS_CALLBACK_FOCUS_OUT, func)
 
     def on_show_add(self, func, *a, **k):
         """Same as event_callback_add(EVAS_CALLBACK_SHOW, ...)
@@ -1362,11 +1349,11 @@ cdef class Object(Eo):
 
             function(object, *args, **kargs)
         """
-        self.event_callback_add(EVAS_CALLBACK_SHOW, func, *a, **k)
+        self.event_callback_add(enums.EVAS_CALLBACK_SHOW, func, *a, **k)
 
     def on_show_del(self, func):
         """Same as event_callback_del(EVAS_CALLBACK_SHOW, ...)"""
-        self.event_callback_del(EVAS_CALLBACK_SHOW, func)
+        self.event_callback_del(enums.EVAS_CALLBACK_SHOW, func)
 
     def on_hide_add(self, func, *a, **k):
         """Same as event_callback_add(EVAS_CALLBACK_HIDE, ...)
@@ -1375,11 +1362,11 @@ cdef class Object(Eo):
 
             function(object, *args, **kargs)
         """
-        self.event_callback_add(EVAS_CALLBACK_HIDE, func, *a, **k)
+        self.event_callback_add(enums.EVAS_CALLBACK_HIDE, func, *a, **k)
 
     def on_hide_del(self, func):
         """Same as event_callback_del(EVAS_CALLBACK_HIDE, ...)"""
-        self.event_callback_del(EVAS_CALLBACK_HIDE, func)
+        self.event_callback_del(enums.EVAS_CALLBACK_HIDE, func)
 
     def on_move_add(self, func, *a, **k):
         """Same as event_callback_add(EVAS_CALLBACK_MOVE, ...)
@@ -1388,11 +1375,11 @@ cdef class Object(Eo):
 
             function(object, *args, **kargs)
         """
-        self.event_callback_add(EVAS_CALLBACK_MOVE, func, *a, **k)
+        self.event_callback_add(enums.EVAS_CALLBACK_MOVE, func, *a, **k)
 
     def on_move_del(self, func):
         """Same as event_callback_del(EVAS_CALLBACK_MOVE, ...)"""
-        self.event_callback_del(EVAS_CALLBACK_MOVE, func)
+        self.event_callback_del(enums.EVAS_CALLBACK_MOVE, func)
 
     def on_resize_add(self, func, *a, **k):
         """Same as event_callback_add(EVAS_CALLBACK_RESIZE, ...)
@@ -1401,11 +1388,11 @@ cdef class Object(Eo):
 
             function(object, *args, **kargs)
         """
-        self.event_callback_add(EVAS_CALLBACK_RESIZE, func, *a, **k)
+        self.event_callback_add(enums.EVAS_CALLBACK_RESIZE, func, *a, **k)
 
     def on_resize_del(self, func):
         """Same as event_callback_del(EVAS_CALLBACK_RESIZE, ...)"""
-        self.event_callback_del(EVAS_CALLBACK_RESIZE, func)
+        self.event_callback_del(enums.EVAS_CALLBACK_RESIZE, func)
 
     def on_restack_add(self, func, *a, **k):
         """Same as event_callback_add(EVAS_CALLBACK_RESTACK, ...)
@@ -1414,11 +1401,11 @@ cdef class Object(Eo):
 
             function(object, *args, **kargs)
         """
-        self.event_callback_add(EVAS_CALLBACK_RESTACK, func, *a, **k)
+        self.event_callback_add(enums.EVAS_CALLBACK_RESTACK, func, *a, **k)
 
     def on_restack_del(self, func):
         """Same as event_callback_del(EVAS_CALLBACK_RESTACK, ...)"""
-        self.event_callback_del(EVAS_CALLBACK_RESTACK, func)
+        self.event_callback_del(enums.EVAS_CALLBACK_RESTACK, func)
 
     def on_del_add(self, func, *a, **k):
         """Same as event_callback_add(EVAS_CALLBACK_DEL, ...)
@@ -1430,27 +1417,27 @@ cdef class Object(Eo):
 
             function(object, *args, **kargs)
         """
-        self.event_callback_add(EVAS_CALLBACK_DEL, func, *a, **k)
+        self.event_callback_add(enums.EVAS_CALLBACK_DEL, func, *a, **k)
 
     def on_del_del(self, func):
         """Same as event_callback_del(EVAS_CALLBACK_DEL, ...)"""
-        self.event_callback_del(EVAS_CALLBACK_DEL, func)
+        self.event_callback_del(enums.EVAS_CALLBACK_DEL, func)
 
     def on_hold_add(self, func, *a, **k):
         """Same as event_callback_add(EVAS_CALLBACK_HOLD, ...)"""
-        self.event_callback_add(EVAS_CALLBACK_HOLD, func, *a, **k)
+        self.event_callback_add(enums.EVAS_CALLBACK_HOLD, func, *a, **k)
 
     def on_hold_del(self, func):
         """Same as event_callback_del(EVAS_CALLBACK_HOLD, ...)"""
-        self.event_callback_del(EVAS_CALLBACK_HOLD, func)
+        self.event_callback_del(enums.EVAS_CALLBACK_HOLD, func)
 
     def on_changed_size_hints_add(self, func, *a, **k):
         """Same as event_callback_add(EVAS_CALLBACK_CHANGED_SIZE_HINTS, ...)"""
-        self.event_callback_add(EVAS_CALLBACK_CHANGED_SIZE_HINTS, func, *a, **k)
+        self.event_callback_add(enums.EVAS_CALLBACK_CHANGED_SIZE_HINTS, func, *a, **k)
 
     def on_changed_size_hints_del(self, func):
         """Same as event_callback_del(EVAS_CALLBACK_CHANGED_SIZE_HINTS, ...)"""
-        self.event_callback_del(EVAS_CALLBACK_CHANGED_SIZE_HINTS, func)
+        self.event_callback_del(enums.EVAS_CALLBACK_CHANGED_SIZE_HINTS, func)
 
     property pass_events:
         """Whenever object should ignore and pass events.

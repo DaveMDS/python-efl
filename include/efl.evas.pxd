@@ -824,6 +824,21 @@ cdef class Object(Eo):
     cdef object _callbacks
     #     cdef int _unset_obj(self) except 0
     #     cdef int _set_obj(self, Evas_Object *obj) except 0
+    cpdef layer_set(self, int layer)
+    cpdef layer_get(self)
+    cpdef geometry_get(self)
+    cpdef geometry_set(self, int x, int y, int w, int h)
+    cpdef size_get(self)
+    cpdef size_set(self, int w, int h)
+    cpdef visible_get(self)
+    cpdef visible_set(self, spec)
+    cpdef color_get(self)
+    cpdef clip_get(self)
+    cpdef clipees_get(self)
+    cpdef name_get(self)
+    cpdef name_set(self, value)
+    cpdef focus_get(self)
+    cpdef focus_set(self, value)
 
 
 cdef class Rectangle(Object):
