@@ -770,34 +770,22 @@ cdef class EventKeyDown:
     property keyname:
         def __get__(self):
             self._check_validity()
-            if self.obj.keyname == NULL:
-                return None
-            else:
-                return self.obj.keyname
+            return _ctouni(self.obj.keyname)
 
     property key:
         def __get__(self):
             self._check_validity()
-            if self.obj.key == NULL:
-                return None
-            else:
-                return self.obj.key
+            return _ctouni(self.obj.key)
 
     property string:
         def __get__(self):
             self._check_validity()
-            if self.obj.string == NULL:
-                return None
-            else:
-                return self.obj.string
+            return _ctouni(self.obj.string)
 
     property compose:
         def __get__(self):
             self._check_validity()
-            if self.obj.compose == NULL:
-                return None
-            else:
-                return self.obj.compose
+            return _ctouni(self.obj.compose)
 
     property timestamp:
         def __get__(self):
@@ -840,34 +828,22 @@ cdef class EventKeyUp:
     property keyname:
         def __get__(self):
             self._check_validity()
-            if self.obj.keyname == NULL:
-                return None
-            else:
-                return self.obj.keyname
+            return _ctouni(self.obj.keyname)
 
     property key:
         def __get__(self):
             self._check_validity()
-            if self.obj.key == NULL:
-                return None
-            else:
-                return self.obj.key
+            return _ctouni(self.obj.key)
 
     property string:
         def __get__(self):
             self._check_validity()
-            if self.obj.string == NULL:
-                return None
-            else:
-                return self.obj.string
+            return _ctouni(self.obj.string)
 
     property compose:
         def __get__(self):
             self._check_validity()
-            if self.obj.compose == NULL:
-                return None
-            else:
-                return self.obj.compose
+            return _ctouni(self.obj.compose)
 
     property timestamp:
         def __get__(self):

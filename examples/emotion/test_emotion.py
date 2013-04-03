@@ -281,7 +281,7 @@ class AppKeyboardEvents(object):
         }
     def __call__(self, win, info):
         try:
-            params = self.key_dispatcher[info.keyname.decode("ASCII")] # TODO FIXME ?
+            params = self.key_dispatcher[info.keyname]
             f = params[0]
             args = params[1:]
             f(win, *args)
