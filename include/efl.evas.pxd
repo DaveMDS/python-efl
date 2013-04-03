@@ -20,7 +20,10 @@ from efl.eo cimport Eo
 # cimport efl.c_eo as c_eo
 from efl.c_eo cimport Eo as cEo
 from efl.c_eo cimport const_Eo_Class
-
+from efl.evas.enums cimport Evas_Event_Flags, Evas_Button_Flags, \
+    Evas_Font_Hinting_Flags, Evas_Aspect_Control, Evas_Render_Op, \
+    Evas_Callback_Type, Evas_Object_Pointer_Mode, Evas_Colorspace, \
+    Evas_Text_Style_Type, Evas_Textblock_Text_Type
 
 cdef extern from "Evas.h":
     ####################################################################
@@ -34,75 +37,75 @@ cdef extern from "Evas.h":
     ####################################################################
     # Enumerations
     #
-    ctypedef enum Evas_Layer:
-        pass
-
-    ctypedef enum Evas_Text:
-        pass
-
-    ctypedef enum Evas_Callback_Type:
-        pass
-
-
-    ctypedef enum Evas_Pixel_Format:
-        pass
-
-
-    ctypedef enum Evas_Color_Space:
-        pass
-
-
-    ctypedef enum Evas_Texture:
-        pass
-
-
-    cdef enum Evas_Alloc_Error:
-        pass
-
-
-    cdef enum Evas_Load_Error:
-        pass
-
-
-    ctypedef enum Evas_Button_Flags:
-        pass
-
-
-    ctypedef enum Evas_Event_Flags:
-        pass
-
-
-    ctypedef enum Evas_Font_Hinting_Flags:
-        pass
-
-
-    ctypedef enum Evas_Colorspace:
-        pass
-
-
-    ctypedef enum Evas_Render_Op:
-        pass
-
-
-    ctypedef enum Evas_Text_Style_Type:
-        pass
-
-
-    ctypedef enum Evas_Textblock_Text_Type:
-        pass
-
-
-    ctypedef enum Evas_Smart_Class_Version:
-        EVAS_SMART_CLASS_VERSION
-
-
-    ctypedef enum Evas_Object_Pointer_Mode:
-        pass
-
-
-    ctypedef enum Evas_Aspect_Control:
-        pass
-
+#    ctypedef enum Evas_Layer:
+#        pass
+#
+#    ctypedef enum Evas_Text:
+#        pass
+#
+#    ctypedef enum Evas_Callback_Type:
+#        pass
+#
+#
+#    ctypedef enum Evas_Pixel_Format:
+#        pass
+#
+#
+#    ctypedef enum Evas_Color_Space:
+#        pass
+#
+#
+#    ctypedef enum Evas_Texture:
+#        pass
+#
+#
+#    cdef enum Evas_Alloc_Error:
+#        pass
+#
+#
+#    cdef enum Evas_Load_Error:
+#        pass
+#
+#
+#    ctypedef enum Evas_Button_Flags:
+#        pass
+#
+#
+#    ctypedef enum Evas_Event_Flags:
+#        pass
+#
+#
+#    ctypedef enum Evas_Font_Hinting_Flags:
+#        pass
+#
+#
+#    ctypedef enum Evas_Colorspace:
+#        pass
+#
+#
+#    ctypedef enum Evas_Render_Op:
+#        pass
+#
+#
+#    ctypedef enum Evas_Text_Style_Type:
+#        pass
+#
+#
+#    ctypedef enum Evas_Textblock_Text_Type:
+#        pass
+#
+#
+#    ctypedef enum Evas_Smart_Class_Version:
+#        EVAS_SMART_CLASS_VERSION
+#
+#
+#    ctypedef enum Evas_Object_Pointer_Mode:
+#        pass
+#
+#
+#    ctypedef enum Evas_Aspect_Control:
+#        pass
+#
     ####################################################################
     # Structures
     #
@@ -357,7 +360,7 @@ cdef extern from "Evas.h":
     Evas *evas_new()
     void evas_free(Evas *e)
     const_Eo_Class *evas_class_get()
-    
+
     int evas_render_method_lookup(const_char *name)
     Eina_List *evas_render_method_list()
     void evas_render_method_list_free(Eina_List *list)
@@ -811,7 +814,7 @@ cdef class Rect:
 cdef class Canvas(Eo):
 #     cdef Evas *obj
     cdef object _callbacks
-# 
+#
 #     cdef int _set_obj(self, Evas *obj) except 0
 #     cdef int _unset_obj(self) except 0
 

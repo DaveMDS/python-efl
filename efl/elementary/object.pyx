@@ -40,9 +40,7 @@ from efl.evas cimport EventKeyDown, EventKeyUp, EventMouseWheel
 from efl.evas cimport evas_object_smart_callback_add
 from efl.evas cimport evas_object_smart_callback_del
 
-from efl.evas import EVAS_CALLBACK_KEY_DOWN
-from efl.evas import EVAS_CALLBACK_KEY_UP
-from efl.evas import EVAS_CALLBACK_MOUSE_WHEEL
+cimport efl.evas.enums as evasenums
 
 from efl.eo cimport _object_list_to_python
 
@@ -62,6 +60,10 @@ cimport enums
 
 ELM_FOCUS_PREVIOUS = enums.ELM_FOCUS_PREVIOUS
 ELM_FOCUS_NEXT = enums.ELM_FOCUS_NEXT
+
+EVAS_CALLBACK_KEY_DOWN = evasenums.EVAS_CALLBACK_KEY_DOWN
+EVAS_CALLBACK_KEY_UP = evasenums.EVAS_CALLBACK_KEY_UP
+EVAS_CALLBACK_MOUSE_WHEEL = evasenums.EVAS_CALLBACK_MOUSE_WHEEL
 
 cdef void _object_callback(void *data,
                            Evas_Object *o, void *event_info) with gil:
@@ -101,17 +103,17 @@ cdef Eina_Bool _event_callback(void *data, Evas_Object *o, Evas_Object *src, Eva
     cdef EventKeyDown down_event
     cdef EventKeyUp up_event
 
-    if t == EVAS_CALLBACK_KEY_DOWN:
+    if t == evasenums.EVAS_CALLBACK_KEY_DOWN:
         down_event = EventKeyDown()
         down_event._set_obj(event_info)
         ret = _event_dispatcher(obj, src_obj, t, down_event)
         down_event._unset_obj()
-    elif t == EVAS_CALLBACK_KEY_UP:
+    elif t == evasenums.EVAS_CALLBACK_KEY_UP:
         up_event = EventKeyUp()
         up_event._set_obj(event_info)
         ret = _event_dispatcher(obj, src_obj, t, up_event)
         up_event._unset_obj()
-    elif t == EVAS_CALLBACK_MOUSE_WHEEL:
+    elif t == evasenums.EVAS_CALLBACK_MOUSE_WHEEL:
         wheel_event = EventMouseWheel()
         wheel_event._set_obj(event_info)
         ret = _event_dispatcher(obj, src_obj, t, wheel_event)

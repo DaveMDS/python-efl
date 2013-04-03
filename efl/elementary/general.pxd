@@ -17,23 +17,15 @@
 #
 
 from efl.evas cimport Eina_List, Eina_Bool, const_Eina_List
-from efl.evas cimport Eina_Rectangle, Eina_Compare_Cb
-from efl.evas cimport Evas_Object, const_Evas_Object
-from efl.evas cimport Evas_Coord
-from efl.evas cimport Evas_Callback_Type, Evas_Smart_Cb
-from efl.evas cimport Evas_Font_Size
-from efl.evas cimport Evas_Load_Error
-from efl.evas cimport Evas_Event_Flags
+#from efl.evas cimport Eina_Rectangle, Eina_Compare_Cb
+from efl.evas cimport Evas_Object, const_Evas_Object, Evas_Smart_Cb, \
+    Evas_Font_Size, Evas_Coord
+from efl.evas.enums cimport Evas_Callback_Type
+#from efl.evas cimport Evas_Load_Error
+#from efl.evas cimport Evas_Event_Flags
 from enums cimport Elm_Policy, Elm_Policy_Quit
-from libc.string cimport const_char
-from libc.stdlib cimport const_void
-
-cdef extern from "stdlib.h":
-    void free(void *ptr)
-
-cdef extern from "string.h":
-    void *memcpy(void *dst, void *src, int n)
-    char *strdup(char *str)
+from libc.string cimport const_char, memcpy, strdup
+from libc.stdlib cimport const_void, free
 
 cdef extern from "time.h":
     struct tm:

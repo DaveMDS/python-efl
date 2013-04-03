@@ -17,7 +17,8 @@
 
 from cpython cimport PyObject, Py_INCREF, Py_DECREF
 from efl.evas cimport Eina_Bool, Eina_List, const_Eina_List
-from efl.evas cimport Evas_Object, Evas_Callback_Type, Evas_Smart_Cb
+from efl.evas cimport Evas_Object, Evas_Smart_Cb
+from efl.evas.enums cimport Evas_Callback_Type
 from efl.evas cimport Object as evasObject
 from efl.evas cimport Canvas as evasCanvas
 from enums cimport Elm_Focus_Direction

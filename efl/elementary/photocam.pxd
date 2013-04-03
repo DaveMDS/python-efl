@@ -1,4 +1,5 @@
-from efl.evas cimport Eina_Bool, Evas_Object, Evas_Load_Error
+from efl.evas cimport Eina_Bool, Evas_Object
+from efl.evas.enums cimport Evas_Load_Error
 from enums cimport Elm_Photocam_Zoom_Mode
 from libc.string cimport const_char
 

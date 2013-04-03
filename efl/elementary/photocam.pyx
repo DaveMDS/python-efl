@@ -108,6 +108,7 @@ cdef class Photocam(Object):
         """
         def __set__(self, file):
             if isinstance(file, unicode): file = file.encode("UTF-8")
+            # TODO: Check if Evas_Load_Error is being used correctly here
             if not elm_photocam_file_set(self.obj,
                 <const_char *>file if file is not None else NULL):
                     raise RuntimeError("Could not set file")
