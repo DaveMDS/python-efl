@@ -57,3 +57,22 @@ CHANGES FROM 1.7 to 1.8
 * elm.notify.orient_set/get/prop removed  =>  align_set (TODO)
 * Many _set functions that would previously return status now instead raise
   an exception when the C function returns failure
+   - efl.elementary.entry.Entry.file_set
+   - efl.elementary.fileselector.Fileselector.selected_set
+   - efl.elementary.genlist.GenlistItem.tooltip_window_mode_set
+   - efl.elementary.icon.Icon.standard_set
+   - efl.elementary.image.Image.file_set
+   - efl.elementary.layout_class.LayoutClass.box_append
+   - efl.elementary.layout_class.LayoutClass.box_prepend
+   - efl.elementary.layout_class.LayoutClass.box_insert_before
+   - efl.elementary.layout_class.LayoutClass.box_insert_at
+   - efl.elementary.layout_class.LayoutClass.box_remove_all
+   - efl.elementary.layout_class.LayoutClass.table_pack
+   - efl.elementary.layout_class.LayoutClass.table_clear
+   - efl.elementary.layout_class.LayoutClass.part_cursor_set
+   - efl.elementary.layout_class.LayoutClass.part_cursor_unset
+   - efl.elementary.layout_class.LayoutClass.part_cursor_style_set
+   - efl.elementary.layout_class.LayoutClass.part_cursor_engine_only_set
+   - efl.elementary.photo.Photo.file_set
+   - efl.elementary.photocam.Photocam.file_set
+   - efl.elementary.video.Video.file_set
