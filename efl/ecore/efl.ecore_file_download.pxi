@@ -123,12 +123,12 @@ cdef class FileDownload(object):
 
     cdef object _exec_completion(self, const_char *file, int status):
         if self.completion_cb:
-            self.completion_cb(file, status, *self.args, **self.kargs)
+            self.completion_cb(_ctouni(file), status, *self.args, **self.kargs)
 
     cdef object _exec_progress(self, const_char *file, long int dltotal,
                             long int dlnow, long int ultotal, long int ulnow):
         if self.progress_cb:
-            return self.progress_cb(file, dltotal, dlnow, ultotal, ulnow,
+            return self.progress_cb(_ctouni(file), dltotal, dlnow, ultotal, ulnow,
                                     *self.args, **self.kargs)
         return 0
 

@@ -16,8 +16,7 @@
 # along with this Python-EFL.  If not, see <http://www.gnu.org/licenses/>.
 
 import traceback
-from efl.eo cimport Eo
-from efl.eo cimport PY_REFCOUNT
+from efl.eo cimport Eo, PY_REFCOUNT, _ctouni
 from cpython cimport Py_INCREF, Py_DECREF
 
 
