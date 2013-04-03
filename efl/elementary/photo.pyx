@@ -49,6 +49,7 @@ cdef class Photo(Object):
         """Set the file that will be used as photo
 
         :type: string
+        :raise RuntimeError: when setting the file fails
 
         """
         def __set__(self, filename):

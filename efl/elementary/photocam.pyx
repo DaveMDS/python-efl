@@ -103,6 +103,7 @@ cdef class Photocam(Object):
         displayed at the full quality needed.
 
         :type: string
+        :raise RuntimeError: when setting the file fails
 
         """
         def __set__(self, file):

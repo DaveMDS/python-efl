@@ -1013,6 +1013,7 @@ cdef class GenlistItem(ObjectItem):
         It will instead be limited only by the size of the display.
 
         :type: bool
+        :raise RuntimeError: when setting the mode fails
 
         """
         def __set__(self, disable):

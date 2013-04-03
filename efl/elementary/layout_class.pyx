@@ -52,6 +52,7 @@ cdef class LayoutClass(Object):
         layout.
 
         :type: tuple of string
+        :raise RuntimeError: when setting the file fails
 
         """
         def __set__(self, value):
@@ -74,6 +75,7 @@ cdef class LayoutClass(Object):
         :py:attr:`style`.
 
         :type: tuple of strings
+        :raise RuntimeError: when setting the theme fails
 
         """
         def __set__(self, theme):
@@ -175,8 +177,7 @@ cdef class LayoutClass(Object):
         :param child: the child object to append to box.
         :type child: :py:class:`evas.object.Object`
 
-        :return: ``True`` on success, ``False`` otherwise
-        :rtype: bool
+        :raise RuntimeError: when adding the box fails
 
         """
         if isinstance(part, unicode): part = part.encode("UTF-8")
@@ -206,8 +207,7 @@ cdef class LayoutClass(Object):
         :param child: the child object to prepend to box.
         :type child: :py:class:`evas.object.Object`
 
-        :return: ``True`` on success, ``False`` otherwise
-        :rtype: bool
+        :raise RuntimeError: when adding to box fails
 
         """
         if isinstance(part, unicode): part = part.encode("UTF-8")
@@ -239,8 +239,7 @@ cdef class LayoutClass(Object):
         :param reference: another reference object to insert before in box.
         :type reference: :py:class:`evas.object.Object`
 
-        :return: ``True`` on success, ``False`` otherwise
-        :rtype: bool
+        :raise RuntimeError: when inserting to box fails
 
         """
         if isinstance(part, unicode): part = part.encode("UTF-8")
@@ -272,8 +271,7 @@ cdef class LayoutClass(Object):
         :param pos: the numeric position >=0 to insert the child.
         :type pos: int
 
-        :return: ``True`` on success, ``False`` otherwise
-        :rtype: bool
+        :raise RuntimeError: when inserting to box fails
 
         """
         if isinstance(part, unicode): part = part.encode("UTF-8")
@@ -329,8 +327,7 @@ cdef class LayoutClass(Object):
             dangling on the canvas.
         :type clear: bool
 
-        :return: ``True`` on success, ``False`` otherwise
-        :rtype: bool
+        :raise RuntimeError: when removing all items fails
 
         """
         if isinstance(part, unicode): part = part.encode("UTF-8")
@@ -370,8 +367,7 @@ cdef class LayoutClass(Object):
         :param rowspan: how many rows should be used to store this object. (>= 1)
         :type rowspan: int
 
-        :return: ``True`` on success, ``False`` otherwise
-        :rtype: bool
+        :raise RuntimeError: when packing an item fails
 
         """
         if isinstance(part, unicode): part = part.encode("UTF-8")
@@ -427,8 +423,7 @@ cdef class LayoutClass(Object):
             dangling on the canvas.
         :type clear: bool
 
-        :return: ``True`` on success, ``False`` otherwise
-        :rtype: bool
+        :raise RuntimeError: when clearing the table fails
 
         """
         if isinstance(part, unicode): part = part.encode("UTF-8")
@@ -533,9 +528,7 @@ cdef class LayoutClass(Object):
         :param cursor: cursor name to use, see Elementary_Cursor.h
         :type cursor: string
 
-        :return: True on success or False on failure, that may be
-            part not exists or it has "mouse_events: 0".
-        :rtype: bool
+        :raise RuntimeError: when setting the parts cursor fails
 
         """
         if isinstance(part_name, unicode): part_name = part_name.encode("UTF-8")
@@ -568,8 +561,8 @@ cdef class LayoutClass(Object):
         :param part_name: a part from loaded edje group, that had a cursor set
             with :py:func:`part_cursor_set()`.
         :type part_name: string
-        :return: ``True`` on success, ``False`` otherwise
-        :rtype: bool
+
+        :raise RuntimeError: when unsetting the part cursor fails
 
         """
         if isinstance(part_name, unicode): part_name = part_name.encode("UTF-8")
@@ -587,9 +580,7 @@ cdef class LayoutClass(Object):
         :param style: the theme style to use (default, transparent, ...)
         :type style: string
 
-        :return: True on success or False on failure, that may be
-            part not exists or it did not had a cursor set.
-        :rtype: bool
+        :raise RuntimeError: when setting the part cursor style fails
 
         """
         if isinstance(part_name, unicode): part_name = part_name.encode("UTF-8")
@@ -635,6 +626,9 @@ cdef class LayoutClass(Object):
         :return: True on success or False on failure, that may be
             part not exists or it did not had a cursor set.
         :rtype: bool
+
+        :raise RuntimeError: when setting the engine_only setting fails,
+            when part does not exist or has no cursor set.
 
         """
         if isinstance(part_name, unicode): part_name = part_name.encode("UTF-8")

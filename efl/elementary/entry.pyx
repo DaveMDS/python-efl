@@ -1057,6 +1057,7 @@ cdef class Entry(Object):
         will be silently discarded and any non-saved changes will be lost.
 
         :type: tuple of strings (file, format)
+        :raise RuntimeError: when setting the file fails
 
         """
         def __get__(self):
@@ -1075,7 +1076,7 @@ cdef class Entry(Object):
         if not elm_entry_file_set(self.obj,
             <const_char *>a1 if a1 is not None else NULL,
             <Elm_Text_Format>a2 if a2 is not None else ""):
-            raise RuntimeError
+            raise RuntimeError("Could not set file")
     cpdef file_get(self):
         cdef const_char *file
         cdef Elm_Text_Format format

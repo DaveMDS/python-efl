@@ -196,6 +196,7 @@ cdef class Icon(Image):
         .. seealso:: Image.file
 
         :type: string
+        :raise RuntimeError: when setting the standard icon fails
 
         """
         def __get__(self):

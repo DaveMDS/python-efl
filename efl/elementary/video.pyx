@@ -46,6 +46,7 @@ cdef class Video(LayoutClass):
         request and list the available Webcam on your system).
 
         :type: string
+        :raise RuntimeError: when setting the file/uri fails
 
         """
         def __set__(self, filename):

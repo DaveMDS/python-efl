@@ -205,6 +205,7 @@ cdef class Fileselector(LayoutClass):
         widget
 
         :type: string
+        :raise RuntimeError: when setting the selected file path fails
 
         """
         def __get__(self):

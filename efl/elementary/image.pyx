@@ -114,6 +114,7 @@ cdef class Image(Object):
             the extension, :py:attr:`file_edje` must be used, instead.
 
         :type: string or tuple of strings
+        :raise RuntimeError: when setting the file fails
 
         """
         def __set__(self, value):
