@@ -36,9 +36,7 @@ cdef void _object_mapping_register(char *name, object cls) except *
 cdef void _object_mapping_unregister(char *name)
 
 cdef unicode _touni(char* s)
-cdef char* _fruni(s)
 cdef unicode _ctouni(const_char *s)
-cdef const_char *_cfruni(s)
 
 cdef list convert_array_of_strings_to_python_list(char **array, int array_length)
 cdef const_char ** convert_python_list_strings_to_array_of_strings(list strings) except NULL

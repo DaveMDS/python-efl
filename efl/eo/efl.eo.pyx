@@ -69,58 +69,6 @@ cdef unicode _ctouni(const_char *s):
     return s.decode('UTF-8', 'strict') if s else None
 
 
-cdef char *_fruni(object s):
-    """
-
-    Converts a python string object to a char *
-
-    """
-    cdef:
-        char *c_string
-        bytes string
-        unicode unistr
-
-    if s is None:
-        return NULL
-
-    if isinstance(s, unicode):
-        unistr = s
-        string = unistr.encode('UTF-8')
-        c_string = string
-        return c_string
-    elif isinstance(s, str):
-        c_string = s
-        return c_string
-    else:
-        raise TypeError("Expected str or unicode object, got %s" % (type(s).__name__))
-
-
-cdef const_char *_cfruni(object s):
-    """
-
-    Converts a python string object to a const_char *
-
-    """
-    cdef:
-        const_char *c_string
-        bytes string
-        unicode unistr
-
-    if s is None:
-        return NULL
-
-    if isinstance(s, unicode):
-        unistr = s
-        string = unistr.encode('UTF-8')
-        c_string = string
-        return c_string
-    elif isinstance(s, str):
-        c_string = s
-        return c_string
-    else:
-        raise TypeError("Expected str or unicode object, got %s" % (type(s).__name__))
-
-
 cdef list convert_array_of_strings_to_python_list(char **array, int array_length):
     """
 
@@ -147,10 +95,9 @@ cdef const_char ** convert_python_list_strings_to_array_of_strings(list strings)
     """
     cdef:
         const_char **array = NULL
-        unsigned int arr_len = len(strings)
         const_char *string
-        unsigned int str_len
-        unsigned int i
+        unsigned int str_len, i
+        unsigned int arr_len = len(strings)
 
     # TODO: Should we just return NULL in this case?
     if len(strings) is 0:
@@ -165,7 +112,8 @@ cdef const_char ** convert_python_list_strings_to_array_of_strings(list strings)
         raise MemoryError()
 
     for i in range(arr_len):
-        if isinstance(strings[i], unicode): s = strings[i].encode("UTF-8")
+        s = strings[i]
+        if isinstance(s, unicode): s = s.encode("UTF-8")
         array[i] = <const_char *>strdup(s)
 
     return array
