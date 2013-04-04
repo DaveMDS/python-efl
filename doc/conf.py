@@ -123,6 +123,7 @@ pygments_style = 'sphinx'
 #
 # html_theme = 'default'   # Classic python style
 html_theme = 'sphinxdoc' # Much modern sphinx style
+# html_theme = 'sphinx13'  # The latest one from the sphinx site
 # html_theme = 'efldoc'    # EFL dark style
 
 # Theme options are theme-specific and customize the look and feel of a theme
