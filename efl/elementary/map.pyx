@@ -18,6 +18,52 @@
 
 """
 
+.. rubric:: Widget description
+
+The *Map* is a widget specifically for displaying a geographic map.
+It uses `OpenStreetMap <http://www.openstreetmap.org/>`_ as map tile provider,
+`YOURS <http://www.yournavigation.org/>`_ for routing calculation and
+`Nominatim <http://nominatim.openstreetmap.org/>`_ to convert geographic
+coordinates to/from address names. But custom providers can be added.
+
+It supports some basic but yet nice features:
+
+- zooming and scrolling
+- markers with content to be displayed when user clicks over them
+- automatic grouping of markers based on zoom level
+- routes calculation
+- names/coordinates conversion (and viceversa)
+
+
+.. rubric:: Signals you can listen to
+
+- "clicked" - Called when a user has clicked the map without dragging around.
+- "clicked,double" - Called when a user has double-clicked the map.
+- "press" - This is called when a user has pressed down on the map.
+- "longpressed" - This is called when a user has pressed down on the map
+  for a long time without dragging around.
+- "scroll" - the content has been scrolled (moved).
+- "scroll,drag,start" - dragging the contents around has started.
+- "scroll,drag,stop" - dragging the contents around has stopped.
+- "scroll,anim,start" - scrolling animation has started.
+- "scroll,anim,stop" - scrolling animation has stopped.
+- "zoom,start" - Zoom animation started.
+- "zoom,stop" - Zoom animation stopped.
+- "zoom,change" - Zoom changed when using an auto zoom mode.
+- "tile,load" - A map tile image load begins.
+- "tile,loaded" -  A map tile image load ends.
+- "tile,loaded,fail" -  A map tile image load fails.
+- "route,load" - Route request begins.
+- "route,loaded" - Route request ends.
+- "route,loaded,fail" - Route request fails.
+- "name,load" - Name request begins.
+- "name,loaded" - Name request ends.
+- "name,loaded,fail" - Name request fails.
+- "overlay,clicked" - A overlay is clicked.
+- "loaded" - when a map is finally loaded.
+- "language,changed" - the program's language changed
+
+
 .. rubric:: Map overlay types
 
 .. data:: ELM_MAP_OVERLAY_TYPE_NONE
@@ -26,39 +72,39 @@
 
 .. data:: ELM_MAP_OVERLAY_TYPE_DEFAULT
 
-    Default
+    The default overlay type.
 
 .. data:: ELM_MAP_OVERLAY_TYPE_CLASS
 
-    Class
+    The Class overlay is used to group marker together.
 
 .. data:: ELM_MAP_OVERLAY_TYPE_GROUP
 
-    Group
+    A group of overlays.
 
 .. data:: ELM_MAP_OVERLAY_TYPE_BUBBLE
 
-    Bubble
+    This class can *follow* another overlay.
 
 .. data:: ELM_MAP_OVERLAY_TYPE_ROUTE
 
-    Route
+    This is used to draw a route result on the map.
 
 .. data:: ELM_MAP_OVERLAY_TYPE_LINE
 
-    Line
+    Simply draw a line on the map.
 
 .. data:: ELM_MAP_OVERLAY_TYPE_POLYGON
 
-    Polygon
+    Simply draw a polygon on the map.
 
 .. data:: ELM_MAP_OVERLAY_TYPE_CIRCLE
 
-    Circle
+    Simply draw a circle on the map.
 
 .. data:: ELM_MAP_OVERLAY_TYPE_SCALE
 
-    Scale
+    This will draw a dinamic scale on the map.
 
 
 .. rubric:: Map route methods
@@ -125,7 +171,7 @@ include "widget_header.pxi"
 
 from object cimport Object
 
-from efl.evas cimport eina_list_free, eina_list_append, evas_object_data_get
+from efl.evas cimport eina_list_free, eina_list_append
 import traceback
 
 cimport enums
@@ -159,6 +205,7 @@ ELM_MAP_ZOOM_MODE_MANUAL = enums.ELM_MAP_ZOOM_MODE_MANUAL
 ELM_MAP_ZOOM_MODE_AUTO_FIT = enums.ELM_MAP_ZOOM_MODE_AUTO_FIT
 ELM_MAP_ZOOM_MODE_AUTO_FILL = enums.ELM_MAP_ZOOM_MODE_AUTO_FILL
 ELM_MAP_ZOOM_MODE_LAST = enums.ELM_MAP_ZOOM_MODE_LAST
+
 
 cdef object _elm_map_overlay_to_python(Elm_Map_Overlay *ov):
     cdef void *data
@@ -855,16 +902,7 @@ cdef class MapOverlayRoute(MapOverlay):
 cdef public class Map(Object)[object PyElementaryMap, type PyElementaryMap_Type]:
     """
 
-    This is a widget specifically for displaying a map. It uses basically
-    OpenStreetMap provider http://www.openstreetmap.org/,
-    but custom providers can be added.
-    
-    It supports some basic but yet nice features:
-    
-    - zooming and scrolling
-    - markers with content to be displayed when user clicks over them
-    - automatic grouping of markers based on zoom level
-    - routes
+    This is the class that represent the map (the actual widget)
 
     """
     def __init__(self, evasObject parent):
@@ -1551,172 +1589,204 @@ cdef public class Map(Object)[object PyElementaryMap, type PyElementaryMap_Type]
     # TODO elm_map_name_search
 
     def callback_clicked_add(self, func, *args, **kwargs):
-        """ Add a callback to be called when the user *click* the map """
+        """ Add a callback to be called on the "clicked" signal. """
         self._callback_add("clicked", func, *args, **kwargs)
 
     def callback_clicked_del(self, func):
+        """ Delete a previuosly attached callback """
         self._callback_del("clicked", func)
 
     def callback_clicked_double_add(self, func, *args, **kwargs):
-        """ Add a callback to be called when the user *double-click* the map """
+        """ Add a callback to be called on the "clicked,double" signal. """
         self._callback_add("clicked,double", func, *args, **kwargs)
 
     def callback_clicked_double_del(self, func):
+        """ Delete a previuosly attached callback """
         self._callback_del("clicked,double", func)
 
     def callback_press_add(self, func, *args, **kwargs):
-        """ Add a callback to be called when the user *press* the map """
+        """ Add a callback to be called on the "press" signal. """
         self._callback_add("press", func, *args, **kwargs)
 
     def callback_press_del(self, func):
+        """ Delete a previuosly attached callback """
         self._callback_del("press", func)
 
     def callback_longpressed_add(self, func, *args, **kwargs):
-        """ Add a callback to be called when the user *longpress* the map """
+        """ Add a callback to be called on the "longpressed" signal. """
         self._callback_add("longpressed", func, *args, **kwargs)
 
     def callback_longpressed_del(self, func):
+        """ Delete a previuosly attached callback """
         self._callback_del("longpressed", func)
 
     def callback_scroll_add(self, func, *args, **kwargs):
-        """ Add a callback to be called when the user *scroll* the map """
+        """ Add a callback to be called on the "scroll" signal. """
         self._callback_add("scroll", func, *args, **kwargs)
 
     def callback_scroll_del(self, func):
+        """ Delete a previuosly attached callback """
         self._callback_del("scroll", func)
 
     def callback_scroll_drag_start_add(self, func, *args, **kwargs):
-        """ Add a callback to be called when the user *start dragging* the map """
+        """ Add a callback to be called on the "scroll,drag,start" signal. """
         self._callback_add("scroll,drag,start", func, *args, **kwargs)
 
     def callback_scroll_drag_start_del(self, func):
+        """ Delete a previuosly attached callback """
         self._callback_del("scroll,drag,start", func)
 
     def callback_scroll_drag_stop_add(self, func, *args, **kwargs):
-        """ Add a callback to be called when the user *stop dragging* the map """
+        """ Add a callback to be called on the "scroll,drag,stop" signal. """
         self._callback_add("scroll,drag,stop", func, *args, **kwargs)
 
     def callback_scroll_drag_stop_del(self, func):
+        """ Delete a previuosly attached callback """
         self._callback_del("scroll,drag,stop", func)
 
     def callback_scroll_anim_start_add(self, func, *args, **kwargs):
-        """ Add a callback to be called when a scrolling animation start on the map """
+        """ Add a callback to be called on the "scroll,anim,start" signal. """
         self._callback_add("scroll,anim,start", func, *args, **kwargs)
 
     def callback_scroll_anim_start_del(self, func):
+        """ Delete a previuosly attached callback """
         self._callback_del("scroll,anim,start", func)
 
     def callback_scroll_anim_stop_add(self, func, *args, **kwargs):
-        """ Add a callback to be called when a scrolling animation end on the map """
+        """ Add a callback to be called on the "scroll,anim,stop" signal. """
         self._callback_add("scroll,anim,stop", func, *args, **kwargs)
 
     def callback_scroll_anim_stop_del(self, func):
+        """ Delete a previuosly attached callback """
         self._callback_del("scroll,anim,stop", func)
 
     def callback_zoom_start_add(self, func, *args, **kwargs):
-        """ Add a callback to be called when a zooming animation start on the map """
+        """ Add a callback to be called on the "zoom,start" signal. """
         self._callback_add("zoom,start", func, *args, **kwargs)
 
     def callback_zoom_start_del(self, func):
+        """ Delete a previuosly attached callback """
         self._callback_del("zoom,start", func)
 
     def callback_zoom_stop_add(self, func, *args, **kwargs):
-        """ Add a callback to be called when a zooming animation end on the map """
+        """ Add a callback to be called on the "zoom,stop" signal. """
         self._callback_add("zoom,stop", func, *args, **kwargs)
 
     def callback_zoom_stop_del(self, func):
+        """ Delete a previuosly attached callback """
         self._callback_del("zoom,stop", func)
 
     def callback_zoom_change_add(self, func, *args, **kwargs):
-        """ Add a callback to be called when the zoom changes on the map """
+        """ Add a callback to be called on the "zoom,change" signal. """
         self._callback_add("zoom,change", func, *args, **kwargs)
 
     def callback_zoom_change_del(self, func):
+        """ Delete a previuosly attached callback """
         self._callback_del("zoom,change", func)
 
     def callback_tile_load_add(self, func, *args, **kwargs):
-        """ Add a callback to be called when a tile start to load """
+        """ Add a callback to be called on the "tile,load" signal. """
         self._callback_add("tile,load", func, *args, **kwargs)
 
     def callback_tile_load_del(self, func):
+        """ Delete a previuosly attached callback """
         self._callback_del("tile,load", func)
 
     def callback_tile_loaded_add(self, func, *args, **kwargs):
-        """ Add a callback to be called when a tile finished to load """
+        """ Add a callback to be called on the "tile,loaded" signal. """
         self._callback_add("tile,loaded", func, *args, **kwargs)
 
     def callback_tile_loaded_del(self, func):
+        """ Delete a previuosly attached callback """
         self._callback_del("tile,loaded", func)
 
     def callback_tile_loaded_fail_add(self, func, *args, **kwargs):
-        """ Add a callback to be called when a tile failed to load """
+        """ Add a callback to be called on the "tile,loaded,fail" signal. """
         self._callback_add("tile,loaded,fail", func, *args, **kwargs)
 
     def callback_tile_loaded_fail_del(self, func):
+        """ Delete a previuosly attached callback """
         self._callback_del("tile,loaded,fail", func)
 
     def callback_route_load_add(self, func, *args, **kwargs):
-        """ Add a callback to be called when a route start to load """
+        """ Add a callback to be called on the "route,load" signal. """
         self._callback_add("route,load", func, *args, **kwargs)
 
     def callback_route_load_del(self, func):
+        """ Delete a previuosly attached callback """
         self._callback_del("route,load", func)
 
     def callback_route_loaded_add(self, func, *args, **kwargs):
-        """ Add a callback to be called when a route has loaded """
+        """ Add a callback to be called on the "route,loaded" signal. """
         self._callback_add("route,loaded", func, *args, **kwargs)
 
     def callback_route_loaded_del(self, func):
+        """ Delete a previuosly attached callback """
         self._callback_del("route,loaded", func)
 
     def callback_route_loaded_fail_add(self, func, *args, **kwargs):
-        """ Add a callback to be called when a route request fail """
+        """ Add a callback to be called on the "route,loaded,fail" signal. """
         self._callback_add("route,loaded,fail", func, *args, **kwargs)
 
     def callback_route_loaded_fail_del(self, func):
+        """ Delete a previuosly attached callback """
         self._callback_del("route,loaded,fail", func)
 
     def callback_name_load_add(self, func, *args, **kwargs):
-        """ Add a callback to be called when a name start to load """
+        """ Add a callback to be called on the "name,load" signal. """
         self._callback_add("name,load", func, *args, **kwargs)
 
     def callback_name_load_del(self, func):
+        """ Delete a previuosly attached callback """
         self._callback_del("name,load", func)
 
     def callback_name_loaded_add(self, func, *args, **kwargs):
-        """ Add a callback to be called when a name finish to load """
+        """ Add a callback to be called on the "name,loaded" signal. """
         self._callback_add("name,loaded", func, *args, **kwargs)
 
     def callback_name_loaded_del(self, func):
+        """ Delete a previuosly attached callback """
         self._callback_del("name,loaded", func)
 
     def callback_name_loaded_fail_add(self, func, *args, **kwargs):
-        """ Add a callback to be called when a name failed to load """
+        """ Add a callback to be called on the "name,loaded,fail" signal. """
         self._callback_add("name,loaded,fail", func, *args, **kwargs)
 
     def callback_name_loaded_fail_del(self, func):
+        """ Delete a previuosly attached callback """
         self._callback_del("name,loaded,fail", func)
 
     def callback_overlay_clicked_add(self, func, *args, **kwargs):
-        """ Add a callback to be called when an overlay is clicked """
+        """ Add a callback to be called on the "overlay,clicked" signal. """
         self._callback_add("overlay,clicked", func, *args, **kwargs)
 
     def callback_overlay_clicked_del(self, func):
+        """ Delete a previuosly attached callback """
         self._callback_del("overlay,clicked", func)
 
     def callback_overlay_del_add(self, func, *args, **kwargs):
-        """ Add a callback to be called when an overlay is deleted """
+        """ Add a callback to be called on the "overlay,del" signal. """
         self._callback_add("overlay,del", func, *args, **kwargs)
 
     def callback_overlay_del_del(self, func):
+        """ Delete a previuosly attached callback """
         self._callback_del("overlay,del", func)
 
     def callback_loaded_add(self, func, *args, **kwargs):
-        """ Add a callback to be called when the map is loaded """
+        """ Add a callback to be called on the "loaded" signal. """
         self._callback_add("loaded", func, *args, **kwargs)
 
     def callback_loaded_del(self, func):
+        """ Delete a previuosly attached callback """
         self._callback_del("loaded", func)
+
+    def callback_language_changed_add(self, func, *args, **kwargs):
+        """ Add a callback to be called on the "language,changed" signal. """
+        self._callback_add("language,changed", func, *args, **kwargs)
+
+    def callback_language_changed_del(self, func):
+        """ Delete a previuosly attached callback """
+        self._callback_del("language,changed", func)
 
 
 _object_mapping_register("elm_map", Map)
