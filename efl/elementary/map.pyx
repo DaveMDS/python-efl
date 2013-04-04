@@ -20,6 +20,9 @@
 
 .. rubric:: Widget description
 
+.. image:: /images/map-preview.png
+    :width: 100%
+
 The *Map* is a widget specifically for displaying a geographic map.
 It uses `OpenStreetMap <http://www.openstreetmap.org/>`_ as map tile provider,
 `YOURS <http://www.yournavigation.org/>`_ for routing calculation and
