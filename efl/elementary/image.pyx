@@ -18,6 +18,36 @@
 
 """
 
+.. rubric:: Widget description
+
+.. image:: /images/image-preview.png
+
+
+An Elementary image object allows one to load and display an image
+file on it, be it from a disk file or from a memory region.
+
+Exceptionally, one may also load an Edje group as the contents of the
+image. In this case, though, most of the functions of the image API will
+act as a no-op.
+
+One can tune various properties of the image, like:
+
+- pre-scaling,
+- smooth scaling,
+- orientation,
+- aspect ratio during resizes, etc.
+
+An image object may also be made valid source and destination for drag
+and drop actions by setting :py:attr:`editable`.
+
+Signals that you can add callbacks for are:
+
+- ``"drop"`` - This is called when a user has dropped an image
+    typed object onto the object in question -- the
+    event info argument is the path to that image file
+- ``"clicked"`` - This is called when a user has clicked the image
+
+
 .. rubric:: Image manipulation types
 
 .. data:: ELM_IMAGE_ORIENT_NONE
@@ -72,29 +102,7 @@ cdef class Image(Object):
 
     """
 
-    An Elementary image object allows one to load and display an image
-    file on it, be it from a disk file or from a memory region.
-
-    Exceptionally, one may also load an Edje group as the contents of the
-    image. In this case, though, most of the functions of the image API will
-    act as a no-op.
-
-    One can tune various properties of the image, like:
-
-    - pre-scaling,
-    - smooth scaling,
-    - orientation,
-    - aspect ratio during resizes, etc.
-
-    An image object may also be made valid source and destination for drag
-    and drop actions by setting :py:attr:`editable`.
-
-    Signals that you can add callbacks for are:
-
-    - ``"drop"`` - This is called when a user has dropped an image
-        typed object onto the object in question -- the
-        event info argument is the path to that image file
-    - ``"clicked"`` - This is called when a user has clicked the image
+    This is the class that actually implement the widget.
 
     """
 

@@ -18,6 +18,42 @@
 
 """
 
+.. rubric:: Widget description
+
+.. image:: /images/photocam-preview.png
+
+
+This is a widget specifically for displaying high-resolution digital
+camera photos giving speedy feedback (fast load), low memory footprint
+and zooming and panning as well as fitting logic. It is entirely focused
+on jpeg images, and takes advantage of properties of the jpeg format (via
+evas loader features in the jpeg loader).
+
+Signals that you can add callbacks for are:
+
+- "clicked" - This is called when a user has clicked the photo without
+    dragging around.
+- "press" - This is called when a user has pressed down on the photo.
+- "longpressed" - This is called when a user has pressed down on the
+    photo for a long time without dragging around.
+- "clicked,double" - This is called when a user has double-clicked the
+    photo.
+- "load" - Photo load begins.
+- "loaded" - This is called when the image file load is complete for
+    the first view (low resolution blurry version).
+- "load,detail" - Photo detailed data load begins.
+- "loaded,detail" - This is called when the image file load is
+    complete for the detailed image data (full resolution needed).
+- "zoom,start" - Zoom animation started.
+- "zoom,stop" - Zoom animation stopped.
+- "zoom,change" - Zoom changed when using an auto zoom mode.
+- "scroll" - the content has been scrolled (moved)
+- "scroll,anim,start" - scrolling animation has started
+- "scroll,anim,stop" - scrolling animation has stopped
+- "scroll,drag,start" - dragging the contents around has started
+- "scroll,drag,stop" - dragging the contents around has stopped
+
+
 .. rubric:: Photocam zoom modes
 
 .. data:: ELM_PHOTOCAM_ZOOM_MODE_MANUAL
@@ -57,35 +93,7 @@ cdef class Photocam(Object):
 
     """
 
-    This is a widget specifically for displaying high-resolution digital
-    camera photos giving speedy feedback (fast load), low memory footprint
-    and zooming and panning as well as fitting logic. It is entirely focused
-    on jpeg images, and takes advantage of properties of the jpeg format (via
-    evas loader features in the jpeg loader).
-
-    Signals that you can add callbacks for are:
-
-    - "clicked" - This is called when a user has clicked the photo without
-        dragging around.
-    - "press" - This is called when a user has pressed down on the photo.
-    - "longpressed" - This is called when a user has pressed down on the
-        photo for a long time without dragging around.
-    - "clicked,double" - This is called when a user has double-clicked the
-        photo.
-    - "load" - Photo load begins.
-    - "loaded" - This is called when the image file load is complete for
-        the first view (low resolution blurry version).
-    - "load,detail" - Photo detailed data load begins.
-    - "loaded,detail" - This is called when the image file load is
-        complete for the detailed image data (full resolution needed).
-    - "zoom,start" - Zoom animation started.
-    - "zoom,stop" - Zoom animation stopped.
-    - "zoom,change" - Zoom changed when using an auto zoom mode.
-    - "scroll" - the content has been scrolled (moved)
-    - "scroll,anim,start" - scrolling animation has started
-    - "scroll,anim,stop" - scrolling animation has stopped
-    - "scroll,drag,start" - dragging the contents around has started
-    - "scroll,drag,stop" - dragging the contents around has stopped
+    This is the class that actually implement the widget.
 
     """
 

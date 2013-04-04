@@ -18,6 +18,31 @@
 
 """
 
+.. rubric:: Widget description
+
+.. image:: /images/colorselector-preview.png
+
+
+A Colorselector is a color selection widget.
+
+It allows application to set a series of colors. It also allows to
+load/save colors from/to config with a unique identifier, by default,
+the colors are loaded/saved from/to config using "default" identifier.
+The colors can be picked by user from the color set by clicking on
+individual color item on the palette or by selecting it from selector.
+
+This widget emits the following signals, besides the ones sent from
+:py:class:`elementary.layout.Layout`:
+
+- ``"changed"`` - When the color value changes on selector
+- ``"color,item,selected"`` - When user clicks on color item.
+    The event_info parameter of the callback will be the selected
+    color item.
+- ``"color,item,longpressed"`` - When user long presses on color item.
+    The event_info parameter of the callback will be the selected
+    color item.
+
+
 .. rubric:: Colorselector modes
 
 .. data:: ELM_COLORSELECTOR_PALETTE
@@ -87,24 +112,7 @@ cdef class Colorselector(LayoutClass):
 
     """
 
-    A Colorselector is a color selection widget.
-
-    It allows application to set a series of colors. It also allows to
-    load/save colors from/to config with a unique identifier, by default,
-    the colors are loaded/saved from/to config using "default" identifier.
-    The colors can be picked by user from the color set by clicking on
-    individual color item on the palette or by selecting it from selector.
-
-    This widget emits the following signals, besides the ones sent from
-    :py:class:`elementary.layout.Layout`:
-
-    - ``"changed"`` - When the color value changes on selector
-    - ``"color,item,selected"`` - When user clicks on color item.
-        The event_info parameter of the callback will be the selected
-        color item.
-    - ``"color,item,longpressed"`` - When user long presses on color item.
-        The event_info parameter of the callback will be the selected
-        color item.
+    This is the class that actually implement the widget.
 
     """
 

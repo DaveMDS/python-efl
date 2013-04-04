@@ -18,6 +18,39 @@
 
 """
 
+.. rubric:: Widget description
+
+.. image:: /images/ctxpopup-preview.png
+
+
+Context popup widget.
+
+A ctxpopup is a widget that, when shown, pops up a list of items. It
+automatically chooses an area inside its parent object's view to
+optimally fit into it. In the default theme, it will also point an arrow
+to it's top left position at the time one shows it. Ctxpopup items have
+a label and/or an icon. It is intended for a small number of items
+(hence the use of list, not genlist).
+
+Signals that you can add callbacks for are:
+
+- "dismissed" - the ctxpopup was dismissed
+
+Default content parts of the ctxpopup widget that you can use for are:
+
+- "default" - A content of the ctxpopup
+
+Default content parts of the ctxpopup items that you can use for are:
+
+- "icon" - An icon in the title area
+
+Default text parts of the ctxpopup items that you can use for are:
+
+- "default" - Title label in the title area
+
+.. note:: Ctxpopup is a specialization of :py:class:`elementary.hover.Hover`.
+
+
 .. rubric:: Ctxpopup arrow directions
 
 .. data:: ELM_CTXPOPUP_DIRECTION_DOWN
@@ -81,32 +114,7 @@ cdef class Ctxpopup(Object):
 
     """
 
-    Context popup widget.
-
-    A ctxpopup is a widget that, when shown, pops up a list of items. It
-    automatically chooses an area inside its parent object's view to
-    optimally fit into it. In the default theme, it will also point an arrow
-    to it's top left position at the time one shows it. Ctxpopup items have
-    a label and/or an icon. It is intended for a small number of items
-    (hence the use of list, not genlist).
-
-    Signals that you can add callbacks for are:
-
-    - "dismissed" - the ctxpopup was dismissed
-
-    Default content parts of the ctxpopup widget that you can use for are:
-
-    - "default" - A content of the ctxpopup
-
-    Default content parts of the ctxpopup items that you can use for are:
-
-    - "icon" - An icon in the title area
-
-    Default text parts of the ctxpopup items that you can use for are:
-
-    - "default" - Title label in the title area
-
-    .. note:: Ctxpopup is a specialization of :py:class:`elementary.hover.Hover`.
+    This is the class that actually implement the widget.
 
     """
 

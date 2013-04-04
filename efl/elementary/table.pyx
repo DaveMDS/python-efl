@@ -15,6 +15,30 @@
 # You should have received a copy of the GNU Lesser General Public License
 # along with this Python-EFL.  If not, see <http://www.gnu.org/licenses/>.
 
+"""
+
+.. rubric:: Widget description
+
+.. image:: /images/table-preview.png
+
+A container widget to arrange other widgets in a table where items can
+span multiple columns or rows - even overlap (and then be raised or
+lowered accordingly to adjust stacking if they do overlap).
+
+The row and column count is not fixed. The table widget adjusts itself
+when subobjects are added to it dynamically.
+
+The most common way to use a table is::
+
+    table = Table(win)
+    table.show()
+    table.padding = (space_between_columns, space_between_rows)
+    table.pack(table_content_object, x_coord, y_coord, colspan, rowspan)
+    table.pack(table_content_object, next_x_coord, next_y_coord, colspan, rowspan)
+    table.pack(table_content_object, other_x_coord, other_y_coord, colspan, rowspan)
+
+"""
+
 include "widget_header.pxi"
 
 from object cimport Object
@@ -23,21 +47,7 @@ cdef class Table(Object):
 
     """
 
-    A container widget to arrange other widgets in a table where items can
-    span multiple columns or rows - even overlap (and then be raised or
-    lowered accordingly to adjust stacking if they do overlap).
-
-    The row and column count is not fixed. The table widget adjusts itself
-    when subobjects are added to it dynamically.
-
-    The most common way to use a table is::
-
-        table = Table(win)
-        table.show()
-        table.padding = (space_between_columns, space_between_rows)
-        table.pack(table_content_object, x_coord, y_coord, colspan, rowspan)
-        table.pack(table_content_object, next_x_coord, next_y_coord, colspan, rowspan)
-        table.pack(table_content_object, other_x_coord, other_y_coord, colspan, rowspan)
+    This is the class that actually implement the widget.
 
     """
 

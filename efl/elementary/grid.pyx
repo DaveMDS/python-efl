@@ -15,6 +15,27 @@
 # You should have received a copy of the GNU Lesser General Public License
 # along with this Python-EFL.  If not, see <http://www.gnu.org/licenses/>.
 
+
+"""
+
+.. rubric:: Widget description
+
+.. image:: /images/grid-preview.png
+
+
+A grid layout widget.
+
+The grid is a grid layout widget that lays out a series of children as a
+fixed "grid" of widgets using a given percentage of the grid width and
+height each using the child object.
+
+The Grid uses a "Virtual resolution" that is stretched to fill the grid
+widgets size itself. The default is 100 x 100, so that means the
+position and sizes of children will effectively be percentages (0 to 100)
+of the width or height of the grid widget.
+
+"""
+
 include "widget_header.pxi"
 from object cimport Object
 from efl.eo cimport _object_list_to_python
@@ -23,16 +44,7 @@ cdef class Grid(Object):
 
     """
 
-    A grid layout widget.
-
-    The grid is a grid layout widget that lays out a series of children as a
-    fixed "grid" of widgets using a given percentage of the grid width and
-    height each using the child object.
-
-    The Grid uses a "Virtual resolution" that is stretched to fill the grid
-    widgets size itself. The default is 100 x 100, so that means the
-    position and sizes of children will effectively be percentages (0 to 100)
-    of the width or height of the grid widget.
+    This is the class that actually implement the widget.
 
     """
 

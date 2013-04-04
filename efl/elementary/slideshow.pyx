@@ -16,15 +16,73 @@
 # along with this Python-EFL.  If not, see <http://www.gnu.org/licenses/>.
 #
 
+"""
+
+.. rubric:: Widget description
+
+.. image:: /images/slideshow-preview.png
+
+
+This widget, as the name indicates, is a pre-made image
+slideshow panel, with API functions acting on (child) image
+items presentation. Between those actions, are:
+
+- advance to next/previous image
+- select the style of image transition animation
+- set the exhibition time for each image
+- start/stop the slideshow
+
+The transition animations are defined in the widget's theme,
+consequently new animations can be added without having to
+update the widget's code.
+
+.. rubric:: Slideshow items
+
+For slideshow items, just like for :py:class:`Genlist` "genlist" ones,
+the user defines a **classes**, specifying functions that will be
+called on the item's creation and deletion times.
+
+The Elm_Slideshow_Item_Class structure contains the following
+members:
+
+- ``func.get`` - When an item is displayed, this function is
+  called, and it's where one should create the item object, de
+  facto. For example, the object can be a pure Evas image object
+  or an Elementary :py:class:`Photocam` "photocam" widget.
+  See #SlideshowItemGetFunc.
+- ``func.del`` - When an item is no more displayed, this function
+  is called, where the user must delete any data associated to
+  the item. See #SlideshowItemDelFunc.
+
+.. rubric:: Slideshow caching
+
+The slideshow provides facilities to have items adjacent to the
+one being displayed **already "realized"** (i.e. loaded) for
+you, so that the system does not have to decode image data
+anymore at the time it has to actually switch images on its
+viewport. The user is able to set the numbers of items to be
+cached **before** and **after** the current item, in the widget's
+item list.
+
+This widget emits the following signals, besides the ones sent from
+:py:class:`elementary.layout.Layout`:
+
+- ``"changed"`` - when the slideshow switches its view to a new item.
+    event_info parameter in callback contains the current visible item
+- ``"transition,end"`` - when a slide transition ends. event_info
+    parameter in callback contains the current visible item
+
+"""
+
 include "widget_header.pxi"
 include "callback_conversions.pxi"
+
 from efl.eo cimport convert_eina_list_strings_to_python_list
 
 from layout_class cimport LayoutClass
 
 import traceback
-from object_item cimport    _object_item_to_python, \
-                            _object_item_list_to_python
+from object_item cimport _object_item_to_python, _object_item_list_to_python
 
 cdef _py_elm_slideshow_item_call(func, Evas_Object *obj, data) with gil:
     try:
@@ -252,54 +310,7 @@ cdef class Slideshow(LayoutClass):
 
     """
 
-    This widget, as the name indicates, is a pre-made image
-    slideshow panel, with API functions acting on (child) image
-    items presentation. Between those actions, are:
-
-    - advance to next/previous image
-    - select the style of image transition animation
-    - set the exhibition time for each image
-    - start/stop the slideshow
-
-    The transition animations are defined in the widget's theme,
-    consequently new animations can be added without having to
-    update the widget's code.
-
-    .. rubric:: Slideshow items
-
-    For slideshow items, just like for :py:class:`Genlist` "genlist" ones,
-    the user defines a **classes**, specifying functions that will be
-    called on the item's creation and deletion times.
-
-    The Elm_Slideshow_Item_Class structure contains the following
-    members:
-
-    - ``func.get`` - When an item is displayed, this function is
-      called, and it's where one should create the item object, de
-      facto. For example, the object can be a pure Evas image object
-      or an Elementary :py:class:`Photocam` "photocam" widget.
-      See #SlideshowItemGetFunc.
-    - ``func.del`` - When an item is no more displayed, this function
-      is called, where the user must delete any data associated to
-      the item. See #SlideshowItemDelFunc.
-
-    .. rubric:: Slideshow caching
-
-    The slideshow provides facilities to have items adjacent to the
-    one being displayed **already "realized"** (i.e. loaded) for
-    you, so that the system does not have to decode image data
-    anymore at the time it has to actually switch images on its
-    viewport. The user is able to set the numbers of items to be
-    cached **before** and **after** the current item, in the widget's
-    item list.
-
-    This widget emits the following signals, besides the ones sent from
-    :py:class:`elementary.layout.Layout`:
-
-    - ``"changed"`` - when the slideshow switches its view to a new item.
-        event_info parameter in callback contains the current visible item
-    - ``"transition,end"`` - when a slide transition ends. event_info
-        parameter in callback contains the current visible item
+    This is the class that actually implement the widget.
 
     """
 

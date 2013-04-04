@@ -15,6 +15,54 @@
 # You should have received a copy of the GNU Lesser General Public License
 # along with this Python-EFL.  If not, see <http://www.gnu.org/licenses/>.
 
+"""
+
+.. rubric:: Widget description
+
+.. image:: /images/radio-preview.png
+
+
+Radio is a widget that allows for one or more options to be displayed
+and have the user choose only one of them.
+
+A radio object contains an indicator, an optional Label and an optional
+icon object. While it's possible to have a group of only one radio they,
+are normally used in groups of two or more.
+
+Radio objects are grouped in a slightly different, compared to other UI
+toolkits. There is no seperate group name/id to remember or manage. The
+members represent the group, there are the group. To make a group, use
+:py:func:`group_add()` and pass existing radio object and the new radio
+object.
+
+The radio object(s) will select from one of a set of integer values, so
+any value they are configuring needs to be mapped to a set of integers.
+To configure what value that radio object represents, use
+elm_radio_state_value_set() to set the integer it represents. The
+value of the whole group (which one is currently selected) is
+represented by the property :py:attr:`value` on any group member. For
+convenience the radio objects are also able to directly set an
+integer(int) to the value that is selected. To specify the pointer to
+this integer to modify, use :py:attr:`value_pointer`. The radio objects
+will modify this directly. That implies the pointer must point to valid
+memory for as long as the radio objects exist.
+
+This widget emits the following signals, besides the ones sent from
+:py:class:`elementary.layout_class.LayoutClass`:
+
+- changed - This is called whenever the user changes the state of one of
+    the radio objects within the group of radio objects that work together.
+
+Default text parts of the radio widget that you can use for are:
+
+- "default" - Label of the radio
+
+Default content parts of the radio widget that you can use for are:
+
+- "icon" - An icon of the radio
+
+"""
+
 include "widget_header.pxi"
 
 from layout_class cimport LayoutClass
@@ -23,44 +71,7 @@ cdef class Radio(LayoutClass):
 
     """
 
-    Radio is a widget that allows for one or more options to be displayed
-    and have the user choose only one of them.
-
-    A radio object contains an indicator, an optional Label and an optional
-    icon object. While it's possible to have a group of only one radio they,
-    are normally used in groups of two or more.
-
-    Radio objects are grouped in a slightly different, compared to other UI
-    toolkits. There is no seperate group name/id to remember or manage. The
-    members represent the group, there are the group. To make a group, use
-    :py:func:`group_add()` and pass existing radio object and the new radio
-    object.
-
-    The radio object(s) will select from one of a set of integer values, so
-    any value they are configuring needs to be mapped to a set of integers.
-    To configure what value that radio object represents, use
-    elm_radio_state_value_set() to set the integer it represents. The
-    value of the whole group (which one is currently selected) is
-    represented by the property :py:attr:`value` on any group member. For
-    convenience the radio objects are also able to directly set an
-    integer(int) to the value that is selected. To specify the pointer to
-    this integer to modify, use :py:attr:`value_pointer`. The radio objects
-    will modify this directly. That implies the pointer must point to valid
-    memory for as long as the radio objects exist.
-
-    This widget emits the following signals, besides the ones sent from
-    :py:class:`elementary.layout_class.LayoutClass`:
-
-    - changed - This is called whenever the user changes the state of one of
-        the radio objects within the group of radio objects that work together.
-
-    Default text parts of the radio widget that you can use for are:
-
-    - "default" - Label of the radio
-
-    Default content parts of the radio widget that you can use for are:
-
-    - "icon" - An icon of the radio
+    This is the class that actually implement the widget.
 
     """
 

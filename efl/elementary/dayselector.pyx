@@ -18,6 +18,57 @@
 
 """
 
+.. rubric:: Widget description
+
+.. image:: /images/dayselector-preview.png
+
+
+Dayselector displays all seven days of the week and allows the user to
+select multiple days.
+
+The selection can be toggle by just clicking on the day.
+
+Dayselector also provides the functionality to check whether a day is
+selected or not.
+
+First day of the week is taken from config settings by default. It can be
+altered by using the API :py:attr:`week_start` API.
+
+APIs are provided for setting the duration of weekend
+:py:attr:`weekend_start` and :py:attr:`weekend_length` does this job.
+
+Two styles of weekdays and weekends are supported in Dayselector.
+Application can emit signals on individual check objects for setting the
+weekday, weekend styles.
+
+Once the weekend start day or weekend length changes, all the weekday &
+weekend styles will be reset to default style. It's the application's
+responsibility to set the styles again by sending corresponding signals.
+
+"day0" indicates Sunday, "day1" indicates Monday etc. continues and so,
+"day6" indicates the Saturday part name.
+
+Application can change individual day display string by using the API
+:py:func:`elementary.object.Object.part_text_set()`.
+
+:py:func:`elementary.object.Object.part_content_set()` API sets the
+individual day object only if the passed one is a Check widget.
+
+Check object representing a day can be set/get by the application by using
+the elm_object_part_content_set/get APIs thus providing a way to handle
+the different check styles for individual days.
+
+This widget emits the following signals, besides the ones sent from
+:py:class:`elementary.layout.Layout`:
+
+- ``"dayselector,changed"`` - when the user changes the state of a day.
+- ``"language,changed"`` - the program's language changed
+
+Available styles for dayselector are:
+
+- default
+
+
 .. rubric:: Dayselector days
 
 .. data:: ELM_DAYSELECTOR_SUN
@@ -69,50 +120,7 @@ cdef class Dayselector(LayoutClass):
 
     """
 
-    Dayselector displays all seven days of the week and allows the user to
-    select multiple days.
-
-    The selection can be toggle by just clicking on the day.
-
-    Dayselector also provides the functionality to check whether a day is
-    selected or not.
-
-    First day of the week is taken from config settings by default. It can be
-    altered by using the API :py:attr:`week_start` API.
-
-    APIs are provided for setting the duration of weekend
-    :py:attr:`weekend_start` and :py:attr:`weekend_length` does this job.
-
-    Two styles of weekdays and weekends are supported in Dayselector.
-    Application can emit signals on individual check objects for setting the
-    weekday, weekend styles.
-
-    Once the weekend start day or weekend length changes, all the weekday &
-    weekend styles will be reset to default style. It's the application's
-    responsibility to set the styles again by sending corresponding signals.
-
-    "day0" indicates Sunday, "day1" indicates Monday etc. continues and so,
-    "day6" indicates the Saturday part name.
-
-    Application can change individual day display string by using the API
-    :py:func:`elementary.object.Object.part_text_set()`.
-
-    :py:func:`elementary.object.Object.part_content_set()` API sets the
-    individual day object only if the passed one is a Check widget.
-
-    Check object representing a day can be set/get by the application by using
-    the elm_object_part_content_set/get APIs thus providing a way to handle
-    the different check styles for individual days.
-
-    This widget emits the following signals, besides the ones sent from
-    :py:class:`elementary.layout.Layout`:
-
-    - ``"dayselector,changed"`` - when the user changes the state of a day.
-    - ``"language,changed"`` - the program's language changed
-
-    Available styles for dayselector are:
-
-    - default
+    This is the class that actually implement the widget.
 
     """
     def __init__(self, evasObject parent):

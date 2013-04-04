@@ -18,6 +18,85 @@
 
 """
 
+.. rubric:: Widget description
+
+.. image:: /images/icon-preview.png
+
+
+An icon object is used to display standard icon images ("delete",
+"edit", "arrows", etc.) or images coming from a custom file (PNG, JPG,
+EDJE, etc.), on icon contexts.
+
+The icon image requested can be in the Elementary theme in use, or in
+the ``freedesktop.org`` theme paths. It's possible to set the order of
+preference from where an image will be fetched.
+
+This widget inherits from the :py:class:`elementary.image.Image` one, so
+that all the functions acting on it also work for icon objects.
+
+You should be using an icon, instead of an image, whenever one of the
+following apply:
+
+- you need a **thumbnail** version of an original image
+- you need freedesktop.org provided icon images
+- you need theme provided icon images (Edje groups)
+
+Default images provided by Elementary's default theme are described below.
+
+These are names for icons that were first intended to be used in
+toolbars, but can be used in many other places too:
+
+- ``"home"``
+- ``"close"``
+- ``"apps"``
+- ``"arrow_up"``
+- ``"arrow_down"``
+- ``"arrow_left"``
+- ``"arrow_right"``
+- ``"chat"``
+- ``"clock"``
+- ``"delete"``
+- ``"edit"``
+- ``"refresh"``
+- ``"folder"``
+- ``"file"``
+
+These are names for icons that were designed to be used in menus
+(but again, you can use them anywhere else):
+
+- ``"menu/home"``
+- ``"menu/close"``
+- ``"menu/apps"``
+- ``"menu/arrow_up"``
+- ``"menu/arrow_down"``
+- ``"menu/arrow_left"``
+- ``"menu/arrow_right"``
+- ``"menu/chat"``
+- ``"menu/clock"``
+- ``"menu/delete"``
+- ``"menu/edit"``
+- ``"menu/refresh"``
+- ``"menu/folder"``
+- ``"menu/file"``
+
+And these are names for some media player specific icons:
+
+- ``"media_player/forward"``
+- ``"media_player/info"``
+- ``"media_player/next"``
+- ``"media_player/pause"``
+- ``"media_player/play"``
+- ``"media_player/prev"``
+- ``"media_player/rewind"``
+- ``"media_player/stop"``
+
+This widget emits the following signals, besides the ones sent from
+:py:class:`elementary.image.Image`:
+
+- ``"thumb,done"`` - Setting :py:attr:`thumb` has completed with success
+- ``"thumb,error"`` - Setting :py:attr:`thumb` has failed
+
+
 .. rubric:: Icon lookup modes
 
 .. data:: ELM_ICON_LOOKUP_FDO_THEME
@@ -70,78 +149,7 @@ cdef class Icon(Image):
 
     """
 
-    An icon object is used to display standard icon images ("delete",
-    "edit", "arrows", etc.) or images coming from a custom file (PNG, JPG,
-    EDJE, etc.), on icon contexts.
-
-    The icon image requested can be in the Elementary theme in use, or in
-    the ``freedesktop.org`` theme paths. It's possible to set the order of
-    preference from where an image will be fetched.
-
-    This widget inherits from the :py:class:`elementary.image.Image` one, so
-    that all the functions acting on it also work for icon objects.
-
-    You should be using an icon, instead of an image, whenever one of the
-    following apply:
-
-    - you need a **thumbnail** version of an original image
-    - you need freedesktop.org provided icon images
-    - you need theme provided icon images (Edje groups)
-
-    Default images provided by Elementary's default theme are described below.
-
-    These are names for icons that were first intended to be used in
-    toolbars, but can be used in many other places too:
-
-    - ``"home"``
-    - ``"close"``
-    - ``"apps"``
-    - ``"arrow_up"``
-    - ``"arrow_down"``
-    - ``"arrow_left"``
-    - ``"arrow_right"``
-    - ``"chat"``
-    - ``"clock"``
-    - ``"delete"``
-    - ``"edit"``
-    - ``"refresh"``
-    - ``"folder"``
-    - ``"file"``
-
-    These are names for icons that were designed to be used in menus
-    (but again, you can use them anywhere else):
-
-    - ``"menu/home"``
-    - ``"menu/close"``
-    - ``"menu/apps"``
-    - ``"menu/arrow_up"``
-    - ``"menu/arrow_down"``
-    - ``"menu/arrow_left"``
-    - ``"menu/arrow_right"``
-    - ``"menu/chat"``
-    - ``"menu/clock"``
-    - ``"menu/delete"``
-    - ``"menu/edit"``
-    - ``"menu/refresh"``
-    - ``"menu/folder"``
-    - ``"menu/file"``
-
-    And these are names for some media player specific icons:
-
-    - ``"media_player/forward"``
-    - ``"media_player/info"``
-    - ``"media_player/next"``
-    - ``"media_player/pause"``
-    - ``"media_player/play"``
-    - ``"media_player/prev"``
-    - ``"media_player/rewind"``
-    - ``"media_player/stop"``
-
-    This widget emits the following signals, besides the ones sent from
-    :py:class:`elementary.image.Image`:
-
-    - ``"thumb,done"`` - Setting :py:attr:`thumb` has completed with success
-    - ``"thumb,error"`` - Setting :py:attr:`thumb` has failed
+    This is the class that actually implement the widget.
 
     """
 

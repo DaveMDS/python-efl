@@ -15,6 +15,51 @@
 # You should have received a copy of the GNU Lesser General Public License
 # along with this Python-EFL.  If not, see <http://www.gnu.org/licenses/>.
 
+"""
+
+.. rubric:: Widget description
+
+.. image:: /images/button-preview.png
+
+
+This is a push-button. Press it and run some function. It can contain
+a simple label and icon object and it also has an autorepeat feature.
+
+This widget emits the following signals, besides the ones sent from
+:py:class:`elementary.layout.Layout`:
+
+- "clicked": the user clicked the button (press/release).
+- "repeated": the user pressed the button without releasing it.
+- "pressed": button was pressed.
+- "unpressed": button was released after being pressed.
+
+Also, defined in the default theme, the button has the following styles
+available:
+
+- default: a normal button.
+- anchor: Like default, but the button fades away when the mouse is not
+      over it, leaving only the text or icon.
+- hoversel_vertical: Internally used by
+    :py:class:`elementary.hoversel.Hoversel` to give a continuous look
+    across its options.
+- hoversel_vertical_entry: Another internal for
+    :py:class:`elementary.hoversel.Hoversel`.
+- naviframe: Internally used by
+    :py:class:`elementary.naviframe.Naviframe` for its back button.
+- colorselector: Internally used by
+    :py:class:`elementary.colorselector.Colorselector` for its left and
+    right buttons.
+
+Default content parts of the button widget that you can use for are:
+
+- "icon" - An icon of the button
+
+Default text parts of the button widget that you can use for are:
+
+- "default" - Label of the button
+
+"""
+
 include "widget_header.pxi"
 
 from layout_class cimport LayoutClass
@@ -23,41 +68,7 @@ cdef class Button(LayoutClass):
 
     """
 
-    This is a push-button. Press it and run some function. It can contain
-    a simple label and icon object and it also has an autorepeat feature.
-
-    This widget emits the following signals, besides the ones sent from
-    :py:class:`elementary.layout.Layout`:
-
-    - "clicked": the user clicked the button (press/release).
-    - "repeated": the user pressed the button without releasing it.
-    - "pressed": button was pressed.
-    - "unpressed": button was released after being pressed.
-
-    Also, defined in the default theme, the button has the following styles
-    available:
-
-    - default: a normal button.
-    - anchor: Like default, but the button fades away when the mouse is not
-          over it, leaving only the text or icon.
-    - hoversel_vertical: Internally used by
-        :py:class:`elementary.hoversel.Hoversel` to give a continuous look
-        across its options.
-    - hoversel_vertical_entry: Another internal for
-        :py:class:`elementary.hoversel.Hoversel`.
-    - naviframe: Internally used by
-        :py:class:`elementary.naviframe.Naviframe` for its back button.
-    - colorselector: Internally used by
-        :py:class:`elementary.colorselector.Colorselector` for its left and
-        right buttons.
-
-    Default content parts of the button widget that you can use for are:
-
-    - "icon" - An icon of the button
-
-    Default text parts of the button widget that you can use for are:
-
-    - "default" - Label of the button
+    This is the class that actually implement the widget.
 
     """
 

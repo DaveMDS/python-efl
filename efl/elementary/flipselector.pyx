@@ -16,6 +16,45 @@
 # along with this Python-EFL.  If not, see <http://www.gnu.org/licenses/>.
 #
 
+"""
+.. rubric:: Widget description
+
+.. image:: /images/flipselector-preview.png
+
+
+A flip selector is a widget to show a set of *text* items, one
+at a time, with the same sheet switching style as the :py:class:`Clock`
+widget, when one changes the current displaying sheet
+(thus, the "flip" in the name).
+
+User clicks to flip sheets which are *held* for some time will
+make the flip selector to flip continuously and automatically for
+the user. The interval between flips will keep growing in time,
+so that it helps the user to reach an item which is distant from
+the current selection.
+
+This widget inherits from the :py:class:`Layout` one, so that all the
+functions acting on it also work for flip selector objects.
+
+This widget emits the following signals, besides the ones sent from
+:py:class:`Layout`:
+
+- ``"selected"`` - when the widget's selected text item is changed
+- ``"overflowed"`` - when the widget's current selection is changed
+  from the first item in its list to the last
+- ``"underflowed"`` - when the widget's current selection is changed
+  from the last item in its list to the first
+
+Available styles for it:
+
+- ``"default"``
+
+Default text parts of the flipselector items that you can use for are:
+
+- "default" - label of the flipselector item
+
+"""
+
 include "widget_header.pxi"
 include "callback_conversions.pxi"
 
@@ -71,36 +110,9 @@ cdef class FlipSelectorItem(ObjectItem):
 
 cdef class FlipSelector(Object):
 
-    """A flip selector is a widget to show a set of *text* items, one
-    at a time, with the same sheet switching style as the :py:class:`Clock`
-    widget, when one changes the current displaying sheet
-    (thus, the "flip" in the name).
+    """
 
-    User clicks to flip sheets which are *held* for some time will
-    make the flip selector to flip continuously and automatically for
-    the user. The interval between flips will keep growing in time,
-    so that it helps the user to reach an item which is distant from
-    the current selection.
-
-    This widget inherits from the :py:class:`Layout` one, so that all the
-    functions acting on it also work for flip selector objects.
-
-    This widget emits the following signals, besides the ones sent from
-    :py:class:`Layout`:
-
-    - ``"selected"`` - when the widget's selected text item is changed
-    - ``"overflowed"`` - when the widget's current selection is changed
-      from the first item in its list to the last
-    - ``"underflowed"`` - when the widget's current selection is changed
-      from the last item in its list to the first
-
-    Available styles for it:
-
-    - ``"default"``
-
-    Default text parts of the flipselector items that you can use for are:
-
-    - "default" - label of the flipselector item
+    This is the class that actually implement the widget.
 
     """
 

@@ -18,6 +18,38 @@
 
 """
 
+.. rubric:: Widget description
+
+.. image:: /images/label-preview.png
+
+
+Widget to display text, with simple html-like markup.
+
+The Label widget **doesn't** allow text to overflow its boundaries, if the
+text doesn't fit the geometry of the label it will be ellipsized or be
+cut. Elementary provides several styles for this widget:
+
+- default - No animation
+- marker - Centers the text in the label and makes it bold by default
+- slide_long - The entire text appears from the right of the screen and
+    slides until it disappears in the left of the screen(reappearing on
+    the right again).
+- slide_short - The text appears in the left of the label and slides to
+    the right to show the overflow. When all of the text has been shown
+    the position is reset.
+- slide_bounce - The text appears in the left of the label and slides to
+    the right to show the overflow. When all of the text has been shown
+    the animation reverses, moving the text to the left.
+
+Custom themes can of course invent new markup tags and style them any way
+they like.
+
+This widget emits the following signals, besides the ones sent from
+:py:class:`elementary.layout.Layout`:
+
+- *"language,changed"*: The program's language changed.
+
+
 .. rubric:: Wrap modes
 
 .. data:: ELM_WRAP_NONE
@@ -74,31 +106,7 @@ cdef class Label(LayoutClass):
 
     """
 
-    Widget to display text, with simple html-like markup.
-
-    The Label widget **doesn't** allow text to overflow its boundaries, if the
-    text doesn't fit the geometry of the label it will be ellipsized or be
-    cut. Elementary provides several styles for this widget:
-
-    - default - No animation
-    - marker - Centers the text in the label and makes it bold by default
-    - slide_long - The entire text appears from the right of the screen and
-        slides until it disappears in the left of the screen(reappearing on
-        the right again).
-    - slide_short - The text appears in the left of the label and slides to
-        the right to show the overflow. When all of the text has been shown
-        the position is reset.
-    - slide_bounce - The text appears in the left of the label and slides to
-        the right to show the overflow. When all of the text has been shown
-        the animation reverses, moving the text to the left.
-
-    Custom themes can of course invent new markup tags and style them any way
-    they like.
-
-    This widget emits the following signals, besides the ones sent from
-    :py:class:`elementary.layout.Layout`:
-
-    - *"language,changed"*: The program's language changed.
+    This is the class that actually implement the widget.
 
     """
 

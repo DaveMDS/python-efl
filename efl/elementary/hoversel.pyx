@@ -17,6 +17,38 @@
 #
 
 """
+
+.. rubric:: Widget description
+
+.. image:: /images/hoversel-preview.png
+
+
+A hoversel is a button that pops up a list of items (automatically
+choosing the direction to display) that have a label and, optionally, an
+icon to select from.
+
+It is a convenience widget to avoid the need to do all the piecing
+together yourself. It is intended for a small number of items in the
+hoversel menu (no more than 8), though is capable of many more.
+
+This widget emits the following signals, besides the ones sent from
+:py:class:`elementary.button.Button`:
+
+- ``"clicked"`` - the user clicked the hoversel button and popped up
+    the sel
+- ``"selected"`` - an item in the hoversel list is selected. event_info
+    is the item
+- ``"dismissed"`` - the hover is dismissed
+
+Default content parts of the hoversel widget that you can use for are:
+
+- "icon" - An icon of the hoversel
+
+Default text parts of the hoversel widget that you can use for are:
+
+- "default" - Label of the hoversel
+
+
 .. data:: ELM_ICON_NONE
 
     No icon
@@ -160,30 +192,7 @@ cdef class Hoversel(Button):
 
     """
 
-    A hoversel is a button that pops up a list of items (automatically
-    choosing the direction to display) that have a label and, optionally, an
-    icon to select from.
-
-    It is a convenience widget to avoid the need to do all the piecing
-    together yourself. It is intended for a small number of items in the
-    hoversel menu (no more than 8), though is capable of many more.
-
-    This widget emits the following signals, besides the ones sent from
-    :py:class:`elementary.button.Button`:
-
-    - ``"clicked"`` - the user clicked the hoversel button and popped up
-        the sel
-    - ``"selected"`` - an item in the hoversel list is selected. event_info
-        is the item
-    - ``"dismissed"`` - the hover is dismissed
-
-    Default content parts of the hoversel widget that you can use for are:
-
-    - "icon" - An icon of the hoversel
-
-    Default text parts of the hoversel widget that you can use for are:
-
-    - "default" - Label of the hoversel
+    This is the class that actually implement the widget.
 
     """
 

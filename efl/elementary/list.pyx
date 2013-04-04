@@ -18,6 +18,49 @@
 
 """
 
+.. rubric:: Widget description
+
+.. image:: /images/list-preview.png
+
+
+A list widget is a container whose children are displayed vertically or
+horizontally, in order, and can be selected.
+The list can accept only one or multiple items selection. Also has many
+modes of items displaying.
+
+A list is a very simple type of list widget.  For more robust
+lists, :py:class:`genlist.Genlist` should probably be used.
+
+Smart callbacks one can listen to:
+
+- ``"activated"`` - The user has double-clicked or pressed
+    (enter|return|spacebar) on an item. The ``event_info`` parameter
+    is the item that was activated.
+- ``"clicked,double"`` - The user has double-clicked an item.
+    The ``event_info`` parameter is the item that was double-clicked.
+- "selected" - when the user selected an item
+- "unselected" - when the user unselected an item
+- "longpressed" - an item in the list is long-pressed
+- "edge,top" - the list is scrolled until the top edge
+- "edge,bottom" - the list is scrolled until the bottom edge
+- "edge,left" - the list is scrolled until the left edge
+- "edge,right" - the list is scrolled until the right edge
+- "language,changed" - the program's language changed
+
+Available styles for it:
+
+- ``"default"``
+
+Default content parts of the list items that you can use for are:
+
+- "start" - A start position object in the list item
+- "end" - A end position object in the list item
+
+Default text parts of the list items that you can use for are:
+
+- "default" - label in the list item
+
+
 .. rubric:: List sizing modes
 
 .. data:: ELM_LIST_COMPRESS
@@ -118,7 +161,6 @@ ELM_SCROLLER_POLICY_AUTO = enums.ELM_SCROLLER_POLICY_AUTO
 ELM_SCROLLER_POLICY_ON = enums.ELM_SCROLLER_POLICY_ON
 ELM_SCROLLER_POLICY_OFF = enums.ELM_SCROLLER_POLICY_OFF
 
-cdef class List(Object)
 
 cdef class ListItem(ObjectItem):
 
@@ -513,46 +555,12 @@ cdef class ListItem(ObjectItem):
     def next_get(self):
         return _object_item_to_python(elm_list_item_next(self.item))
 
+
 cdef class List(Object):
 
     """
 
-    A list widget is a container whose children are displayed vertically or
-    horizontally, in order, and can be selected.
-    The list can accept only one or multiple items selection. Also has many
-    modes of items displaying.
-
-    A list is a very simple type of list widget.  For more robust
-    lists, :py:class:`genlist.Genlist` should probably be used.
-
-    Smart callbacks one can listen to:
-
-    - ``"activated"`` - The user has double-clicked or pressed
-        (enter|return|spacebar) on an item. The ``event_info`` parameter
-        is the item that was activated.
-    - ``"clicked,double"`` - The user has double-clicked an item.
-        The ``event_info`` parameter is the item that was double-clicked.
-    - "selected" - when the user selected an item
-    - "unselected" - when the user unselected an item
-    - "longpressed" - an item in the list is long-pressed
-    - "edge,top" - the list is scrolled until the top edge
-    - "edge,bottom" - the list is scrolled until the bottom edge
-    - "edge,left" - the list is scrolled until the left edge
-    - "edge,right" - the list is scrolled until the right edge
-    - "language,changed" - the program's language changed
-
-    Available styles for it:
-
-    - ``"default"``
-
-    Default content parts of the list items that you can use for are:
-
-    - "start" - A start position object in the list item
-    - "end" - A end position object in the list item
-
-    Default text parts of the list items that you can use for are:
-
-    - "default" - label in the list item
+    This is the class that actually implement the widget.
 
     """
 

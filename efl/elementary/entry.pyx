@@ -18,6 +18,225 @@
 
 """
 
+.. rubric:: Widget description
+
+.. image:: /images/entry-preview.png
+
+
+An entry is a convenience widget which shows a box that the user can
+enter text into.
+
+Entries by default don't scroll, so they grow to
+accommodate the entire text, resizing the parent window as needed. This
+can be changed with the :py:attr:`scrollable` function.
+
+They can also be single line or multi line (the default) and when set
+to multi line mode they support text wrapping in any of the modes
+indicated by *Elm_Wrap_Type*.
+
+Other features include password mode, filtering of inserted text with
+:py:func:`markup_filter_append()` and related functions, inline "items" and
+formatted markup text.
+
+.. rubric:: Formatted text
+
+The markup tags supported by the Entry are defined by the theme, but
+even when writing new themes or extensions it's a good idea to stick to
+a sane default, to maintain coherency and avoid application breakages.
+Currently defined by the default theme are the following tags:
+
+- <br>: Inserts a line break.
+- <ps>: Inserts a paragraph separator. This is preferred over line
+  breaks.
+- <tab>: Inserts a tab.
+- <em>...</em>: Emphasis. Sets the *oblique* style for the
+  enclosed text.
+- <b>...</b>: Sets the **bold** style for the enclosed text.
+- <link>...</link>: Underlines the enclosed text.
+- <hilight>...</hilight>: Highlights the enclosed text.
+
+.. rubric:: Special markups
+
+Besides those used to format text, entries support two special markup
+tags used to insert click-able portions of text or items inlined within
+the text.
+
+.. rubric:: Anchors
+
+Anchors are similar to HTML anchors. Text can be surrounded by <a> and
+</a> tags and an event will be generated when this text is clicked,
+like this::
+
+    This text is outside <a href=anc-01>but this one is an anchor</a>
+
+The ``href`` attribute in the opening tag gives the name that will be
+used to identify the anchor and it can be any valid utf8 string.
+
+When an anchor is clicked, an ``"anchor,clicked"`` signal is emitted with
+an ``Elm_Entry_Anchor_Info`` in the ``event_info`` parameter for the
+callback function. The same applies for "anchor,in" (mouse in),
+"anchor,out" (mouse out), "anchor,down" (mouse down), and "anchor,up"
+(mouse up) events on an anchor.
+
+.. rubric:: Items
+
+Inlined in the text, any other :py:class:`elementary.object.Object` can
+be inserted by using <item> tags this way::
+
+    <item size=16x16 vsize=full href=emoticon/haha></item>
+
+Just like with anchors, the ``href`` identifies each item, but these need,
+in addition, to indicate their size, which is done using any one of
+``size``, ``absize`` or ``relsize`` attributes. These attributes take their
+value in the WxH format, where W is the width and H the height of the
+item.
+
+- absize: Absolute pixel size for the item. Whatever value is set will
+  be the item's size regardless of any scale value the object may have
+  been set to. The final line height will be adjusted to fit larger items.
+- size: Similar to *absize*, but it's adjusted to the scale value set
+  for the object.
+- relsize: Size is adjusted for the item to fit within the current
+  line height.
+
+Besides their size, items are specified a ``vsize`` value that affects
+how their final size and position are calculated. The possible values
+are:
+
+- ascent: Item will be placed within the line's baseline and its
+  ascent. That is, the height between the line where all characters are
+  positioned and the highest point in the line. For ``size`` and
+  ``absize`` items, the descent value will be added to the total line
+  height to make them fit. ``relsize`` items will be adjusted to fit
+  within this space.
+- full: Items will be placed between the descent and ascent, or the
+  lowest point in the line and its highest.
+
+After the size for an item is calculated, the entry will request an
+object to place in its space. For this, the functions set with
+:py:func:`item_provider_append()` and related functions will be called
+in order until one of them returns a non-*None* value. If no providers
+are available, or all of them return *None*, then the entry falls back
+to one of the internal defaults, provided the name matches with one of
+them.
+
+All of the following are currently supported:
+
+- emoticon/angry
+- emoticon/angry-shout
+- emoticon/crazy-laugh
+- emoticon/evil-laugh
+- emoticon/evil
+- emoticon/goggle-smile
+- emoticon/grumpy
+- emoticon/grumpy-smile
+- emoticon/guilty
+- emoticon/guilty-smile
+- emoticon/haha
+- emoticon/half-smile
+- emoticon/happy-panting
+- emoticon/happy
+- emoticon/indifferent
+- emoticon/kiss
+- emoticon/knowing-grin
+- emoticon/laugh
+- emoticon/little-bit-sorry
+- emoticon/love-lots
+- emoticon/love
+- emoticon/minimal-smile
+- emoticon/not-happy
+- emoticon/not-impressed
+- emoticon/omg
+- emoticon/opensmile
+- emoticon/smile
+- emoticon/sorry
+- emoticon/squint-laugh
+- emoticon/surprised
+- emoticon/suspicious
+- emoticon/tongue-dangling
+- emoticon/tongue-poke
+- emoticon/uh
+- emoticon/unhappy
+- emoticon/very-sorry
+- emoticon/what
+- emoticon/wink
+- emoticon/worried
+- emoticon/wtf
+
+Alternatively, an item may reference an image by its path, using
+the URI form ``file:///path/to/an/image.png`` and the entry will then
+use that image for the item.
+
+.. rubric:: Setting entry's style
+
+There are 2 major ways to change the entry's style:
+
+- Theme - set the "base" field to the desired style.
+- User style - Pushing overrides to the theme style to the textblock object
+  by using evas_object_textblock_style_user_push().
+
+You should modify the theme when you would like to change the style for
+aesthetic reasons. While the user style should be changed when you would
+like to change the style to something specific defined at run-time, e.g,
+setting font or font size in a text editor.
+
+.. rubric:: Loading and saving files
+
+Entries have convenience functions to load text from a file and save
+changes back to it after a short delay. The automatic saving is enabled
+by default, but can be disabled with :py:attr:`autosave` and files
+can be loaded directly as plain text or have any markup in them
+recognized. See :py:attr:`file` for more details.
+
+.. rubric:: Emitted signals
+
+This widget emits the following signals:
+
+- "changed": The text within the entry was changed.
+- "changed,user": The text within the entry was changed because of user
+  interaction.
+- "activated": The enter key was pressed on a single line entry.
+- "press": A mouse button has been pressed on the entry.
+- "longpressed": A mouse button has been pressed and held for a couple
+  seconds.
+- "clicked": The entry has been clicked (mouse press and release).
+- "clicked,double": The entry has been double clicked.
+- "clicked,triple": The entry has been triple clicked.
+- "focused": The entry has received focus.
+- "unfocused": The entry has lost focus.
+- "selection,paste": A paste of the clipboard contents was requested.
+- "selection,copy": A copy of the selected text into the clipboard was
+  requested.
+- "selection,cut": A cut of the selected text into the clipboard was
+  requested.
+- "selection,start": A selection has begun and no previous selection
+  existed.
+- "selection,changed": The current selection has changed.
+- "selection,cleared": The current selection has been cleared.
+- "cursor,changed": The cursor has changed position.
+- "anchor,clicked": An anchor has been clicked. The event_info
+  parameter for the callback will be an *Elm_Entry_Anchor_Info*.
+- "anchor,in": Mouse cursor has moved into an anchor. The event_info
+  parameter for the callback will be an *Elm_Entry_Anchor_Info*.
+- "anchor,out": Mouse cursor has moved out of an anchor. The event_info
+  parameter for the callback will be an *Elm_Entry_Anchor_Info*.
+- "anchor,up": Mouse button has been unpressed on an anchor. The event_info
+  parameter for the callback will be an *Elm_Entry_Anchor_Info*.
+- "anchor,down": Mouse button has been pressed on an anchor. The event_info
+  parameter for the callback will be an *Elm_Entry_Anchor_Info*.
+- "preedit,changed": The preedit string has changed.
+- "language,changed": Program language changed.
+
+Default content parts of the entry items that you can use for are:
+
+- "icon" - An icon in the entry
+- "end" - A content in the end of the entry
+
+Default text parts of the entry that you can use for are:
+
+- "default" - text of the entry
+
+
 .. rubric:: Copy & paste modes
 
 .. data:: ELM_CNP_MODE_MARKUP
@@ -306,218 +525,7 @@ cdef class Entry(Object):
 
     """
 
-    An entry is a convenience widget which shows a box that the user can
-    enter text into.
-
-    Entries by default don't scroll, so they grow to
-    accommodate the entire text, resizing the parent window as needed. This
-    can be changed with the :py:attr:`scrollable` function.
-
-    They can also be single line or multi line (the default) and when set
-    to multi line mode they support text wrapping in any of the modes
-    indicated by *Elm_Wrap_Type*.
-
-    Other features include password mode, filtering of inserted text with
-    :py:func:`markup_filter_append()` and related functions, inline "items" and
-    formatted markup text.
-
-    .. rubric:: Formatted text
-
-    The markup tags supported by the Entry are defined by the theme, but
-    even when writing new themes or extensions it's a good idea to stick to
-    a sane default, to maintain coherency and avoid application breakages.
-    Currently defined by the default theme are the following tags:
-
-    - <br>: Inserts a line break.
-    - <ps>: Inserts a paragraph separator. This is preferred over line
-      breaks.
-    - <tab>: Inserts a tab.
-    - <em>...</em>: Emphasis. Sets the *oblique* style for the
-      enclosed text.
-    - <b>...</b>: Sets the **bold** style for the enclosed text.
-    - <link>...</link>: Underlines the enclosed text.
-    - <hilight>...</hilight>: Highlights the enclosed text.
-
-    .. rubric:: Special markups
-
-    Besides those used to format text, entries support two special markup
-    tags used to insert click-able portions of text or items inlined within
-    the text.
-
-    .. rubric:: Anchors
-
-    Anchors are similar to HTML anchors. Text can be surrounded by <a> and
-    </a> tags and an event will be generated when this text is clicked,
-    like this::
-
-        This text is outside <a href=anc-01>but this one is an anchor</a>
-
-    The ``href`` attribute in the opening tag gives the name that will be
-    used to identify the anchor and it can be any valid utf8 string.
-
-    When an anchor is clicked, an ``"anchor,clicked"`` signal is emitted with
-    an ``Elm_Entry_Anchor_Info`` in the ``event_info`` parameter for the
-    callback function. The same applies for "anchor,in" (mouse in),
-    "anchor,out" (mouse out), "anchor,down" (mouse down), and "anchor,up"
-    (mouse up) events on an anchor.
-
-    .. rubric:: Items
-
-    Inlined in the text, any other :py:class:`elementary.object.Object` can
-    be inserted by using <item> tags this way::
-
-        <item size=16x16 vsize=full href=emoticon/haha></item>
-
-    Just like with anchors, the ``href`` identifies each item, but these need,
-    in addition, to indicate their size, which is done using any one of
-    ``size``, ``absize`` or ``relsize`` attributes. These attributes take their
-    value in the WxH format, where W is the width and H the height of the
-    item.
-
-    - absize: Absolute pixel size for the item. Whatever value is set will
-      be the item's size regardless of any scale value the object may have
-      been set to. The final line height will be adjusted to fit larger items.
-    - size: Similar to *absize*, but it's adjusted to the scale value set
-      for the object.
-    - relsize: Size is adjusted for the item to fit within the current
-      line height.
-
-    Besides their size, items are specified a ``vsize`` value that affects
-    how their final size and position are calculated. The possible values
-    are:
-
-    - ascent: Item will be placed within the line's baseline and its
-      ascent. That is, the height between the line where all characters are
-      positioned and the highest point in the line. For ``size`` and
-      ``absize`` items, the descent value will be added to the total line
-      height to make them fit. ``relsize`` items will be adjusted to fit
-      within this space.
-    - full: Items will be placed between the descent and ascent, or the
-      lowest point in the line and its highest.
-
-    After the size for an item is calculated, the entry will request an
-    object to place in its space. For this, the functions set with
-    :py:func:`item_provider_append()` and related functions will be called
-    in order until one of them returns a non-*None* value. If no providers
-    are available, or all of them return *None*, then the entry falls back
-    to one of the internal defaults, provided the name matches with one of
-    them.
-
-    All of the following are currently supported:
-
-    - emoticon/angry
-    - emoticon/angry-shout
-    - emoticon/crazy-laugh
-    - emoticon/evil-laugh
-    - emoticon/evil
-    - emoticon/goggle-smile
-    - emoticon/grumpy
-    - emoticon/grumpy-smile
-    - emoticon/guilty
-    - emoticon/guilty-smile
-    - emoticon/haha
-    - emoticon/half-smile
-    - emoticon/happy-panting
-    - emoticon/happy
-    - emoticon/indifferent
-    - emoticon/kiss
-    - emoticon/knowing-grin
-    - emoticon/laugh
-    - emoticon/little-bit-sorry
-    - emoticon/love-lots
-    - emoticon/love
-    - emoticon/minimal-smile
-    - emoticon/not-happy
-    - emoticon/not-impressed
-    - emoticon/omg
-    - emoticon/opensmile
-    - emoticon/smile
-    - emoticon/sorry
-    - emoticon/squint-laugh
-    - emoticon/surprised
-    - emoticon/suspicious
-    - emoticon/tongue-dangling
-    - emoticon/tongue-poke
-    - emoticon/uh
-    - emoticon/unhappy
-    - emoticon/very-sorry
-    - emoticon/what
-    - emoticon/wink
-    - emoticon/worried
-    - emoticon/wtf
-
-    Alternatively, an item may reference an image by its path, using
-    the URI form ``file:///path/to/an/image.png`` and the entry will then
-    use that image for the item.
-
-    .. rubric:: Setting entry's style
-
-    There are 2 major ways to change the entry's style:
-
-    - Theme - set the "base" field to the desired style.
-    - User style - Pushing overrides to the theme style to the textblock object
-      by using evas_object_textblock_style_user_push().
-
-    You should modify the theme when you would like to change the style for
-    aesthetic reasons. While the user style should be changed when you would
-    like to change the style to something specific defined at run-time, e.g,
-    setting font or font size in a text editor.
-
-    .. rubric:: Loading and saving files
-
-    Entries have convenience functions to load text from a file and save
-    changes back to it after a short delay. The automatic saving is enabled
-    by default, but can be disabled with :py:attr:`autosave` and files
-    can be loaded directly as plain text or have any markup in them
-    recognized. See :py:attr:`file` for more details.
-
-    .. rubric:: Emitted signals
-
-    This widget emits the following signals:
-
-    - "changed": The text within the entry was changed.
-    - "changed,user": The text within the entry was changed because of user
-      interaction.
-    - "activated": The enter key was pressed on a single line entry.
-    - "press": A mouse button has been pressed on the entry.
-    - "longpressed": A mouse button has been pressed and held for a couple
-      seconds.
-    - "clicked": The entry has been clicked (mouse press and release).
-    - "clicked,double": The entry has been double clicked.
-    - "clicked,triple": The entry has been triple clicked.
-    - "focused": The entry has received focus.
-    - "unfocused": The entry has lost focus.
-    - "selection,paste": A paste of the clipboard contents was requested.
-    - "selection,copy": A copy of the selected text into the clipboard was
-      requested.
-    - "selection,cut": A cut of the selected text into the clipboard was
-      requested.
-    - "selection,start": A selection has begun and no previous selection
-      existed.
-    - "selection,changed": The current selection has changed.
-    - "selection,cleared": The current selection has been cleared.
-    - "cursor,changed": The cursor has changed position.
-    - "anchor,clicked": An anchor has been clicked. The event_info
-      parameter for the callback will be an *Elm_Entry_Anchor_Info*.
-    - "anchor,in": Mouse cursor has moved into an anchor. The event_info
-      parameter for the callback will be an *Elm_Entry_Anchor_Info*.
-    - "anchor,out": Mouse cursor has moved out of an anchor. The event_info
-      parameter for the callback will be an *Elm_Entry_Anchor_Info*.
-    - "anchor,up": Mouse button has been unpressed on an anchor. The event_info
-      parameter for the callback will be an *Elm_Entry_Anchor_Info*.
-    - "anchor,down": Mouse button has been pressed on an anchor. The event_info
-      parameter for the callback will be an *Elm_Entry_Anchor_Info*.
-    - "preedit,changed": The preedit string has changed.
-    - "language,changed": Program language changed.
-
-    Default content parts of the entry items that you can use for are:
-
-    - "icon" - An icon in the entry
-    - "end" - A content in the end of the entry
-
-    Default text parts of the entry that you can use for are:
-
-    - "default" - text of the entry
+    This is the class that actually implement the widget.
 
     """
 

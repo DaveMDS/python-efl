@@ -15,6 +15,32 @@
 # You should have received a copy of the GNU Lesser General Public License
 # along with this Python-EFL.  If not, see <http://www.gnu.org/licenses/>.
 
+"""
+
+.. rubric:: Widget description
+
+.. image:: /images/photo-preview.png
+
+
+An Elementary photo widget is intended for displaying a photo, for
+ex., a person's image (contact).
+
+Simple, yet with a very specific purpose. It has a decorative frame
+around the inner image itself, on the default theme.
+
+This widget relies on an internal :py:class:`Icon`, so that the APIs of
+these two widgets are similar (drag and drop is also possible here, for
+example).
+
+Signals that you can add callbacks for are:
+
+- ``"clicked"`` - This is called when a user has clicked the photo
+- ``"drag,start"`` - One has started dragging the inner image out of the
+                    photo's frame
+- ``"drag,end"`` - One has dropped the dragged image somewhere
+
+"""
+
 include "widget_header.pxi"
 
 from object cimport Object
@@ -23,22 +49,7 @@ cdef class Photo(Object):
 
     """
 
-    An Elementary photo widget is intended for displaying a photo, for
-    ex., a person's image (contact).
-
-    Simple, yet with a very specific purpose. It has a decorative frame
-    around the inner image itself, on the default theme.
-
-    This widget relies on an internal :py:class:`Icon`, so that the APIs of
-    these two widgets are similar (drag and drop is also possible here, for
-    example).
-
-    Signals that you can add callbacks for are:
-
-    - ``"clicked"`` - This is called when a user has clicked the photo
-    - ``"drag,start"`` - One has started dragging the inner image out of the
-                        photo's frame
-    - ``"drag,end"`` - One has dropped the dragged image somewhere
+    This is the class that actually implement the widget.
 
     """
 

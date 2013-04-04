@@ -18,6 +18,26 @@
 
 """
 
+.. rubric:: Widget description
+
+.. image:: /images/panel-preview.png
+
+
+A panel is a type of animated container that contains subobjects.
+
+It can be expanded or contracted by clicking the button on it's edge.
+
+Orientations are as follows:
+
+- ELM_PANEL_ORIENT_TOP
+- ELM_PANEL_ORIENT_LEFT
+- ELM_PANEL_ORIENT_RIGHT
+
+Default content parts of the panel widget that you can use for are:
+
+- "default" - A content of the panel
+
+
 .. rubric:: Panel orientation types
 
 .. data:: ELM_PANEL_ORIENT_TOP
@@ -53,19 +73,7 @@ cdef class Panel(Object):
 
     """
 
-    A panel is a type of animated container that contains subobjects.
-
-    It can be expanded or contracted by clicking the button on it's edge.
-
-    Orientations are as follows:
-
-    - ELM_PANEL_ORIENT_TOP
-    - ELM_PANEL_ORIENT_LEFT
-    - ELM_PANEL_ORIENT_RIGHT
-
-    Default content parts of the panel widget that you can use for are:
-
-    - "default" - A content of the panel
+    This is the class that actually implement the widget.
 
     """
 

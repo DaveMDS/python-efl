@@ -15,36 +15,49 @@
 # You should have received a copy of the GNU Lesser General Public License
 # along with this Python-EFL.  If not, see <http://www.gnu.org/licenses/>.
 
+"""
+
+.. rubric:: Widget description
+
+.. image:: /images/panes-preview.png
+
+
+The panes widget adds a draggable bar between two contents. When
+dragged this bar will resize contents' size.
+
+Panes can be displayed vertically or horizontally, and contents size
+proportion can be customized (homogeneous by default).
+
+This widget emits the following signals, besides the ones sent from
+:py:class:`elementary.layout.Layout`:
+
+- ``"press"`` - The panes has been pressed (button wasn't released yet).
+- ``"unpressed"`` - The panes was released after being pressed.
+- ``"clicked"`` - The panes has been clicked.
+- ``"clicked,double"`` - The panes has been double clicked.
+
+Available styles for it:
+
+- ``"default"``
+
+Default content parts of the panes widget that you can use are:
+
+- "left" - A leftside content of the panes
+- "right" - A rightside content of the panes
+
+If panes are displayed vertically, left content will be displayed on top.
+
+"""
+
 include "widget_header.pxi"
 
 from layout_class cimport LayoutClass
 
 cdef class Panes(LayoutClass):
 
-    """The panes widget adds a draggable bar between two contents. When
-    dragged this bar will resize contents' size.
+    """
 
-    Panes can be displayed vertically or horizontally, and contents size
-    proportion can be customized (homogeneous by default).
-
-    This widget emits the following signals, besides the ones sent from
-    :py:class:`elementary.layout.Layout`:
-
-    - ``"press"`` - The panes has been pressed (button wasn't released yet).
-    - ``"unpressed"`` - The panes was released after being pressed.
-    - ``"clicked"`` - The panes has been clicked.
-    - ``"clicked,double"`` - The panes has been double clicked.
-
-    Available styles for it:
-
-    - ``"default"``
-
-    Default content parts of the panes widget that you can use are:
-
-    - "left" - A leftside content of the panes
-    - "right" - A rightside content of the panes
-
-    If panes are displayed vertically, left content will be displayed on top.
+    This is the class that actually implement the widget.
 
     """
 

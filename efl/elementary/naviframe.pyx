@@ -15,6 +15,85 @@
 # You should have received a copy of the GNU Lesser General Public License
 # along with this Python-EFL.  If not, see <http://www.gnu.org/licenses/>.
 
+"""
+
+.. rubric:: Widget description
+
+.. image:: /images/naviframe-preview.png
+
+
+Naviframe stands for navigation frame. It's a views manager
+for applications.
+
+A naviframe holds views (or pages) as its items. Those items are
+organized in a stack, so that new items get pushed on top of the
+old, and only the topmost view is displayed at one time. The
+transition between views is animated, depending on the theme
+applied to the widget.
+
+Naviframe views hold spaces to various elements, which are:
+
+- back button, used to navigate to previous views,
+- next button, used to navigate to next views in the stack,
+- title label,
+- sub-title label,
+- title icon and
+- content area.
+
+Becase this widget is a layout, one places content on those areas
+by using :py:func:`content_set()` on the right swallow part names
+expected for each, which are:
+
+- ``"default"`` - The main content of the current page
+- ``"icon"`` - An icon in the title area of the current page
+- ``"prev_btn"`` - A button of the current page to go to the
+                 previous page
+- ``"next_btn"`` - A button of the current page to go to the next
+                 page
+
+For text, :py:func:`text_set()` will work here on:
+
+- ``"default"`` - Title label in the title area of the current
+                page
+- ``"subtitle"`` - Sub-title label in the title area of the
+                 current page
+
+Most of those content objects can be passed at the time of an item
+creation (see :py:func:`item_push()`).
+
+Naviframe items can have different styles, which affect the
+transition between views, for example. On the default theme, two of
+them are supported:
+
+- ``"basic"``   - views are switched sliding horizontally, one after
+              the other
+- ``"overlap"`` - like the previous one, but the previous view stays
+              at its place and is ovelapped by the new
+
+
+This widget emits the following signals, besides the ones sent from
+:py:class:`elementary.layout_class.LayoutClass`:
+
+- ``"transition,finished"`` - When the transition is finished in
+                            changing the item
+- ``"title,clicked"`` - User clicked title area
+
+All the parts, for content and text, described here will also be
+reachable by naviframe **items** direct calls:
+
+- :py:func:`part_text_set()`
+- :py:func:`part_text_get()`
+- :py:func:`part_content_set()`
+- :py:func:`part_content_get()`
+- :py:func:`part_content_unset()`
+- :py:func:`signal_emit()`
+
+What happens is that the topmost item of a naviframe will be the
+widget's target layout, when accessed directly. Items lying below
+the top one can be interacted with this way.
+
+"""
+
 include "widget_header.pxi"
 
 from layout_class cimport LayoutClass
@@ -258,75 +337,7 @@ cdef class Naviframe(LayoutClass):
 
     """
 
-    Naviframe stands for navigation frame. It's a views manager
-    for applications.
-
-    A naviframe holds views (or pages) as its items. Those items are
-    organized in a stack, so that new items get pushed on top of the
-    old, and only the topmost view is displayed at one time. The
-    transition between views is animated, depending on the theme
-    applied to the widget.
-
-    Naviframe views hold spaces to various elements, which are:
-
-    - back button, used to navigate to previous views,
-    - next button, used to navigate to next views in the stack,
-    - title label,
-    - sub-title label,
-    - title icon and
-    - content area.
-
-    Becase this widget is a layout, one places content on those areas
-    by using :py:func:`content_set()` on the right swallow part names
-    expected for each, which are:
-
-    - ``"default"`` - The main content of the current page
-    - ``"icon"`` - An icon in the title area of the current page
-    - ``"prev_btn"`` - A button of the current page to go to the
-                     previous page
-    - ``"next_btn"`` - A button of the current page to go to the next
-                     page
-
-    For text, :py:func:`text_set()` will work here on:
-
-    - ``"default"`` - Title label in the title area of the current
-                    page
-    - ``"subtitle"`` - Sub-title label in the title area of the
-                     current page
-
-    Most of those content objects can be passed at the time of an item
-    creation (see :py:func:`item_push()`).
-
-    Naviframe items can have different styles, which affect the
-    transition between views, for example. On the default theme, two of
-    them are supported:
-
-    - ``"basic"``   - views are switched sliding horizontally, one after
-                  the other
-    - ``"overlap"`` - like the previous one, but the previous view stays
-                  at its place and is ovelapped by the new
-
-
-    This widget emits the following signals, besides the ones sent from
-    :py:class:`elementary.layout_class.LayoutClass`:
-
-    - ``"transition,finished"`` - When the transition is finished in
-                                changing the item
-    - ``"title,clicked"`` - User clicked title area
-
-    All the parts, for content and text, described here will also be
-    reachable by naviframe **items** direct calls:
-
-    - :py:func:`part_text_set()`
-    - :py:func:`part_text_get()`
-    - :py:func:`part_content_set()`
-    - :py:func:`part_content_get()`
-    - :py:func:`part_content_unset()`
-    - :py:func:`signal_emit()`
-
-    What happens is that the topmost item of a naviframe will be the
-    widget's target layout, when accessed directly. Items lying below
-    the top one can be interacted with this way.
+    This is the class that actually implement the widget.
 
     """
 

@@ -18,6 +18,50 @@
 
 """
 
+.. rubric:: Widget description
+
+.. image:: /images/bubble-preview.png
+
+
+The Bubble is a widget to show text similar to how speech is
+represented in comics.
+
+The bubble widget contains 5 important visual elements:
+
+- The frame is a rectangle with rounded edjes and an "arrow".
+- The ``icon`` is an image to which the frame's arrow points to.
+- The ``label`` is a text which appears to the right of the icon if the
+    corner is **top_left** or **bottom_left** and is right aligned to
+    the frame otherwise.
+- The ``info`` is a text which appears to the right of the label. Info's
+    font is of a lighter color than label.
+- The ``content`` is an evas object that is shown inside the frame.
+
+The position of the arrow, icon, label and info depends on which corner is
+selected. The four available corners are:
+
+- **top_left** - Default
+- **top_right**
+- **bottom_left**
+- **bottom_right**
+
+This widget emits the following signals, besides the ones sent from
+:py:class:`elementary.layout.Layout`:
+
+- ``clicked`` - This is called when a user has clicked the bubble.
+
+Default content parts of the bubble that you can use for are:
+
+- **default** - A content of the bubble
+- **icon** - An icon of the bubble
+
+Default text parts of the button widget that you can use for are:
+
+- **default** - Label of the bubble
+- **info** - info of the bubble
+
+
+
 .. rubric:: Bubble arrow positions
 
 .. data:: ELM_BUBBLE_POS_TOP_LEFT
@@ -53,42 +97,7 @@ cdef class Bubble(LayoutClass):
 
     """
 
-    The Bubble is a widget to show text similar to how speech is
-    represented in comics.
-
-    The bubble widget contains 5 important visual elements:
-
-    - The frame is a rectangle with rounded edjes and an "arrow".
-    - The ``icon`` is an image to which the frame's arrow points to.
-    - The ``label`` is a text which appears to the right of the icon if the
-        corner is **top_left** or **bottom_left** and is right aligned to
-        the frame otherwise.
-    - The ``info`` is a text which appears to the right of the label. Info's
-        font is of a lighter color than label.
-    - The ``content`` is an evas object that is shown inside the frame.
-
-    The position of the arrow, icon, label and info depends on which corner is
-    selected. The four available corners are:
-
-    - **top_left** - Default
-    - **top_right**
-    - **bottom_left**
-    - **bottom_right**
-
-    This widget emits the following signals, besides the ones sent from
-    :py:class:`elementary.layout.Layout`:
-
-    - ``clicked`` - This is called when a user has clicked the bubble.
-
-    Default content parts of the bubble that you can use for are:
-
-    - **default** - A content of the bubble
-    - **icon** - An icon of the bubble
-
-    Default text parts of the button widget that you can use for are:
-
-    - **default** - Label of the bubble
-    - **info** - info of the bubble
+    This is the class that actually implement the widget.
 
     """
 

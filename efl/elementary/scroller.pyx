@@ -18,6 +18,45 @@
 
 """
 
+.. rubric:: Widget description
+
+.. image:: /images/scroller-preview.png
+
+
+A scroller holds a single object and "scrolls it around".
+
+This means that it allows the user to use a scrollbar (or a finger) to
+drag the viewable region around, allowing to move through a much larger
+object that is contained in the scroller. The scroller will always have
+a small minimum size by default as it won't be limited by the contents
+of the scroller.
+
+Signals that you can add callbacks for are:
+
+- "edge,left" - the left edge of the content has been reached
+- "edge,right" - the right edge of the content has been reached
+- "edge,top" - the top edge of the content has been reached
+- "edge,bottom" - the bottom edge of the content has been reached
+- "scroll" - the content has been scrolled (moved)
+- "scroll,anim,start" - scrolling animation has started
+- "scroll,anim,stop" - scrolling animation has stopped
+- "scroll,drag,start" - dragging the contents around has started
+- "scroll,drag,stop" - dragging the contents around has stopped
+
+Default content parts of the scroller widget that you can use for are:
+
+- "default" - A content of the scroller
+
+.. note:: The "scroll,anim,*" and "scroll,drag,*" signals are only emitted by
+    user intervention.
+
+.. note:: When Elementary is in embedded mode the scrollbars will not be
+    draggable, they appear merely as indicators of how much has been
+    scrolled.
+
+.. note:: When Elementary is in desktop mode the thumbscroll(a.k.a.
+    fingerscroll) won't work.
+
 .. rubric:: Scrollbar visibility
 
 .. data:: ELM_SCROLLER_POLICY_AUTO
@@ -520,41 +559,10 @@ cdef class ScrollerWidget(Object):
         self._set_obj(elm_scroller_add(parent.obj))
 
 class Scroller(ScrollableInterface, ScrollerWidget):
+
     """
 
-    A scroller holds a single object and "scrolls it around".
-
-    This means that it allows the user to use a scrollbar (or a finger) to
-    drag the viewable region around, allowing to move through a much larger
-    object that is contained in the scroller. The scroller will always have
-    a small minimum size by default as it won't be limited by the contents
-    of the scroller.
-
-    Signals that you can add callbacks for are:
-
-    - "edge,left" - the left edge of the content has been reached
-    - "edge,right" - the right edge of the content has been reached
-    - "edge,top" - the top edge of the content has been reached
-    - "edge,bottom" - the bottom edge of the content has been reached
-    - "scroll" - the content has been scrolled (moved)
-    - "scroll,anim,start" - scrolling animation has started
-    - "scroll,anim,stop" - scrolling animation has stopped
-    - "scroll,drag,start" - dragging the contents around has started
-    - "scroll,drag,stop" - dragging the contents around has stopped
-
-    Default content parts of the scroller widget that you can use for are:
-
-    - "default" - A content of the scroller
-
-    .. note:: The "scroll,anim,*" and "scroll,drag,*" signals are only emitted by
-        user intervention.
-
-    .. note:: When Elementary is in embedded mode the scrollbars will not be
-        draggable, they appear merely as indicators of how much has been
-        scrolled.
-
-    .. note:: When Elementary is in desktop mode the thumbscroll(a.k.a.
-        fingerscroll) won't work.
+    This is the class that actually implement the widget.
 
     """
 

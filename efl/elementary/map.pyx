@@ -23,6 +23,7 @@
 .. image:: /images/map-preview.png
     :width: 100%
 
+
 The *Map* is a widget specifically for displaying a geographic map.
 It uses `OpenStreetMap <http://www.openstreetmap.org/>`_ as map tile provider,
 `YOURS <http://www.yournavigation.org/>`_ for routing calculation and
@@ -905,7 +906,7 @@ cdef class MapOverlayRoute(MapOverlay):
 cdef public class Map(Object)[object PyElementaryMap, type PyElementaryMap_Type]:
     """
 
-    This is the class that represent the map (the actual widget)
+    This is the class that actually implement the widget.
 
     """
     def __init__(self, evasObject parent):

@@ -15,6 +15,22 @@
 # You should have received a copy of the GNU Lesser General Public License
 # along with this Python-EFL.  If not, see <http://www.gnu.org/licenses/>.
 
+"""
+
+.. rubric:: Widget description
+
+.. image:: /images/mapbuf-preview.png
+
+
+This holds one content object and uses an Evas Map of transformation
+points to be later used with this content. So the content will be
+moved, resized, etc as a single image. So it will improve performance
+when you have a complex interface, with a lot of elements, and will
+need to resize or move it frequently (the content object and its
+children).
+
+"""
+
 include "widget_header.pxi"
 
 from object cimport Object
@@ -23,12 +39,7 @@ cdef class Mapbuf(Object):
 
     """
 
-    This holds one content object and uses an Evas Map of transformation
-    points to be later used with this content. So the content will be
-    moved, resized, etc as a single image. So it will improve performance
-    when you have a complex interface, with a lot of elements, and will
-    need to resize or move it frequently (the content object and its
-    children).
+    This is the class that actually implement the widget.
 
     """
 

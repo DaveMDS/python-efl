@@ -18,6 +18,35 @@
 
 """
 
+.. rubric:: Widget description
+
+.. image:: /images/toolbar-preview.png
+
+
+A toolbar is a widget that displays a list of items inside a box. It
+can be scrollable, show a menu with items that don't fit to toolbar size
+or even crop them.
+
+Only one item can be selected at a time.
+
+Items can have multiple states, or show menus when selected by the user.
+
+Smart callbacks one can listen to:
+
+- "clicked" - when the user clicks on a toolbar item and becomes selected.
+- "longpressed" - when the toolbar is pressed for a certain amount of time.
+- "language,changed" - when the program language changes.
+
+Available styles for it:
+
+- ``"default"``
+- ``"transparent"`` - no background or shadow, just show the content
+
+Default text parts of the toolbar items that you can use for are:
+
+- "default" - label of the toolbar item
+
+
 .. rubric:: Icon lookup modes
 
 .. data:: ELM_ICON_LOOKUP_FDO_THEME
@@ -83,8 +112,7 @@
 include "widget_header.pxi"
 
 from object cimport Object
-from object_item cimport    _object_item_callback, \
-                            _object_item_to_python
+from object_item cimport _object_item_callback, _object_item_to_python
 from menu cimport Menu
 
 cimport enums
@@ -445,28 +473,7 @@ cdef class Toolbar(Object):
 
     """
 
-    A toolbar is a widget that displays a list of items inside a box. It
-    can be scrollable, show a menu with items that don't fit to toolbar size
-    or even crop them.
-
-    Only one item can be selected at a time.
-
-    Items can have multiple states, or show menus when selected by the user.
-
-    Smart callbacks one can listen to:
-
-    - "clicked" - when the user clicks on a toolbar item and becomes selected.
-    - "longpressed" - when the toolbar is pressed for a certain amount of time.
-    - "language,changed" - when the program language changes.
-
-    Available styles for it:
-
-    - ``"default"``
-    - ``"transparent"`` - no background or shadow, just show the content
-
-    Default text parts of the toolbar items that you can use for are:
-
-    - "default" - label of the toolbar item
+    This is the class that actually implement the widget.
 
     """
 

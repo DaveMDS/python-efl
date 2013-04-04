@@ -18,6 +18,47 @@
 
 """
 
+.. rubric:: Widget description
+
+.. image:: /images/thumb-preview.png
+
+
+A thumbnail object is used for displaying the thumbnail of an image
+or video. You must have compiled Elementary with ``Ethumb_Client``
+support. Also, Ethumb's DBus service must be present and
+auto-activated in order to have thumbnails generated. You must also
+have a **session** bus, not a **system** one.
+
+Once the thumbnail object becomes visible, it will check if there
+is a previously generated thumbnail image for the file set on
+it. If not, it will start generating this thumbnail.
+
+Different configuration settings will cause different thumbnails to
+be generated even on the same file.
+
+Generated thumbnails are stored under ``$HOME/.thumbnails/``. Check
+Ethumb's documentation to change this path, and to see other
+configuration options.
+
+This widget emits the following signals:
+
+- ``"clicked"`` - This is called when a user has clicked the
+                 thumbnail object without dragging it around.
+- ``"clicked,double"`` - This is called when a user has double-clicked
+                        the thumbnail object.
+- ``"press"`` - This is called when a user has pressed down over the
+               thumbnail object.
+- ``"generate,start"`` - The thumbnail generation has started.
+- ``"generate,stop"`` - The generation process has stopped.
+- ``"generate,error"`` - The thumbnail generation failed.
+- ``"load,error"`` - The thumbnail image loading failed.
+
+Available styles:
+
+- ``"default"``
+- ``"noframe"``
+
+
 .. rubric:: Thumb animation modes
 
 .. data:: ELM_THUMB_ANIMATION_START
@@ -49,40 +90,7 @@ cdef class Thumb(Object):
 
     """
 
-    A thumbnail object is used for displaying the thumbnail of an image
-    or video. You must have compiled Elementary with ``Ethumb_Client``
-    support. Also, Ethumb's DBus service must be present and
-    auto-activated in order to have thumbnails generated. You must also
-    have a **session** bus, not a **system** one.
-
-    Once the thumbnail object becomes visible, it will check if there
-    is a previously generated thumbnail image for the file set on
-    it. If not, it will start generating this thumbnail.
-
-    Different configuration settings will cause different thumbnails to
-    be generated even on the same file.
-
-    Generated thumbnails are stored under ``$HOME/.thumbnails/``. Check
-    Ethumb's documentation to change this path, and to see other
-    configuration options.
-
-    This widget emits the following signals:
-
-    - ``"clicked"`` - This is called when a user has clicked the
-                     thumbnail object without dragging it around.
-    - ``"clicked,double"`` - This is called when a user has double-clicked
-                            the thumbnail object.
-    - ``"press"`` - This is called when a user has pressed down over the
-                   thumbnail object.
-    - ``"generate,start"`` - The thumbnail generation has started.
-    - ``"generate,stop"`` - The generation process has stopped.
-    - ``"generate,error"`` - The thumbnail generation failed.
-    - ``"load,error"`` - The thumbnail image loading failed.
-
-    Available styles:
-
-    - ``"default"``
-    - ``"noframe"``
+    This is the class that actually implement the widget.
 
     """
 

@@ -18,6 +18,60 @@
 
 """
 
+.. rubric:: Widget description
+
+.. image:: /images/fileselector-entry-preview.png
+
+
+This is an entry made to be filled with or display a file
+system path string.
+
+Besides the entry itself, the widget has a :py:class:`FileselectorButton`
+on its side, which will raise an internal :py:class:`Fileselector`,
+when clicked, for path selection aided by file system navigation.
+
+This file selector may appear in an Elementary window or in an
+inner window. When a file is chosen from it, the (inner) window
+is closed and the selected file's path string is exposed both as
+a smart event and as the new text on the entry.
+
+This widget encapsulates operations on its internal file
+selector on its own API. There is less control over its file
+selector than that one would have instantiating one directly.
+
+Smart callbacks one can register to:
+
+- ``"changed"`` - The text within the entry was changed
+- ``"activated"`` - The entry has had editing finished and
+  changes are to be "committed"
+- ``"press"`` - The entry has been clicked
+- ``"longpressed"`` - The entry has been clicked (and held) for a
+  couple seconds
+- ``"clicked"`` - The entry has been clicked
+- ``"clicked,double"`` - The entry has been double clicked
+- ``"focused"`` - The entry has received focus
+- ``"unfocused"`` - The entry has lost focus
+- ``"selection,paste"`` - A paste action has occurred on the
+  entry
+- ``"selection,copy"`` - A copy action has occurred on the entry
+- ``"selection,cut"`` - A cut action has occurred on the entry
+- ``"unpressed"`` - The file selector entry's button was released
+  after being pressed.
+- ``"file,chosen"`` - The user has selected a path via the file
+  selector entry's internal file selector, whose string
+  comes as the ``event_info`` data.
+
+Default text parts of the fileselector_button widget that you can use for
+are:
+
+- "default" - Label of the fileselector_button
+
+Default content parts of the fileselector_entry widget that you can use for
+are:
+
+- "button icon" - Button icon of the fileselector_entry
+
+
 .. rubric:: Fileselector modes
 
 .. data:: ELM_FILESELECTOR_LIST
@@ -44,53 +98,7 @@ cdef class FileselectorEntry(Object):
 
     """
 
-    This is an entry made to be filled with or display a file
-    system path string.
-
-    Besides the entry itself, the widget has a :py:class:`FileselectorButton`
-    on its side, which will raise an internal :py:class:`Fileselector`,
-    when clicked, for path selection aided by file system navigation.
-
-    This file selector may appear in an Elementary window or in an
-    inner window. When a file is chosen from it, the (inner) window
-    is closed and the selected file's path string is exposed both as
-    a smart event and as the new text on the entry.
-
-    This widget encapsulates operations on its internal file
-    selector on its own API. There is less control over its file
-    selector than that one would have instantiating one directly.
-
-    Smart callbacks one can register to:
-
-    - ``"changed"`` - The text within the entry was changed
-    - ``"activated"`` - The entry has had editing finished and
-      changes are to be "committed"
-    - ``"press"`` - The entry has been clicked
-    - ``"longpressed"`` - The entry has been clicked (and held) for a
-      couple seconds
-    - ``"clicked"`` - The entry has been clicked
-    - ``"clicked,double"`` - The entry has been double clicked
-    - ``"focused"`` - The entry has received focus
-    - ``"unfocused"`` - The entry has lost focus
-    - ``"selection,paste"`` - A paste action has occurred on the
-      entry
-    - ``"selection,copy"`` - A copy action has occurred on the entry
-    - ``"selection,cut"`` - A cut action has occurred on the entry
-    - ``"unpressed"`` - The file selector entry's button was released
-      after being pressed.
-    - ``"file,chosen"`` - The user has selected a path via the file
-      selector entry's internal file selector, whose string
-      comes as the ``event_info`` data.
-
-    Default text parts of the fileselector_button widget that you can use for
-    are:
-
-    - "default" - Label of the fileselector_button
-
-    Default content parts of the fileselector_entry widget that you can use for
-    are:
-
-    - "button icon" - Button icon of the fileselector_entry
+    This is the class that actually implement the widget.
 
     """
 

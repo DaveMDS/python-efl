@@ -15,6 +15,34 @@
 # You should have received a copy of the GNU Lesser General Public License
 # along with this Python-EFL.  If not, see <http://www.gnu.org/licenses/>.
 
+
+"""
+
+.. rubric:: Widget description
+
+.. image:: /images/menu-preview.png
+
+
+A menu is a list of items displayed above its parent.
+
+When the menu is showing its parent is darkened. Each item can have a
+sub-menu. The menu object can be used to display a menu on a right click
+event, in a toolbar, anywhere.
+
+Signals that you can add callbacks for are:
+
+- "clicked" - the user clicked the empty space in the menu to dismiss.
+
+Default content parts of the menu items that you can use for are:
+
+- "default" - A main content of the menu item
+
+Default text parts of the menu items that you can use for are:
+
+- "default" - label in the menu item
+
+"""
+
 include "widget_header.pxi"
 from object_item cimport    _object_item_callback, \
                             _object_item_list_to_python, \
@@ -241,23 +269,7 @@ cdef class Menu(Object):
 
     """
 
-    A menu is a list of items displayed above its parent.
-
-    When the menu is showing its parent is darkened. Each item can have a
-    sub-menu. The menu object can be used to display a menu on a right click
-    event, in a toolbar, anywhere.
-
-    Signals that you can add callbacks for are:
-
-    - "clicked" - the user clicked the empty space in the menu to dismiss.
-
-    Default content parts of the menu items that you can use for are:
-
-    - "default" - A main content of the menu item
-
-    Default text parts of the menu items that you can use for are:
-
-    - "default" - label in the menu item
+    This is the class that actually implement the widget.
 
     """
 

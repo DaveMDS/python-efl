@@ -18,6 +18,53 @@
 
 """
 
+.. rubric:: Widget description
+
+
+Transit is designed to apply various animated transition effects to
+``Evas_Object``, such like translation, rotation, etc. For using these
+effects, create a :py:class:`Transit` and add the desired transition effects.
+
+Once the effects are added into transit, they will be automatically managed
+(their callback will be called for the set duration and they will be deleted
+upon completion).
+
+Example::
+
+    t = elementary.Transit()
+    t.object_add(obj)
+    t.effect_translation_add(0, 0, 280, 280)
+    t.duration = 1
+    t.auto_reverse = True
+    t.tween_mode = elementary.ELM_TRANSIT_TWEEN_MODE_DECELERATE
+    t.repeat_times = 3
+
+Some transition effects are used to change the properties of objects. They
+are:
+
+- :py:func:`effect_translation_add`
+- :py:func:`effect_color_add`
+- :py:func:`effect_rotation_add`
+- :py:func:`effect_wipe_add`
+- :py:func:`effect_zoom_add`
+- :py:func:`effect_resizing_add`
+
+Other transition effects are used to make one object disappear and another
+object appear on its place. These effects are:
+
+- :py:func:`effect_flip_add`
+- :py:func:`effect_resizable_flip_add`
+- :py:func:`effect_fade_add`
+- :py:func:`effect_blend_add`
+
+It's also possible to make a transition chain with :py:func:`chain_transit_add`.
+
+.. warning:: We strongly recommend to use elm_transit just when edje can
+    not do the trick. Edje is better at handling transitions than
+    Elm_Transit. Edje has more flexibility and animations can be
+    manipulated inside the theme.
+
+
 .. rubric:: Flip effects
 
 .. data:: ELM_TRANSIT_EFFECT_FLIP_AXIS_X
@@ -101,48 +148,7 @@ cdef class Transit(object):
 
     """
 
-    Transit is designed to apply various animated transition effects to
-    ``Evas_Object``, such like translation, rotation, etc. For using these
-    effects, create a :py:class:`Transit` and add the desired transition effects.
-
-    Once the effects are added into transit, they will be automatically managed
-    (their callback will be called for the set duration and they will be deleted
-    upon completion).
-
-    Example::
-
-        t = elementary.Transit()
-        t.object_add(obj)
-        t.effect_translation_add(0, 0, 280, 280)
-        t.duration = 1
-        t.auto_reverse = True
-        t.tween_mode = elementary.ELM_TRANSIT_TWEEN_MODE_DECELERATE
-        t.repeat_times = 3
-
-    Some transition effects are used to change the properties of objects. They
-    are:
-
-    - :py:func:`effect_translation_add`
-    - :py:func:`effect_color_add`
-    - :py:func:`effect_rotation_add`
-    - :py:func:`effect_wipe_add`
-    - :py:func:`effect_zoom_add`
-    - :py:func:`effect_resizing_add`
-
-    Other transition effects are used to make one object disappear and another
-    object appear on its place. These effects are:
-
-    - :py:func:`effect_flip_add`
-    - :py:func:`effect_resizable_flip_add`
-    - :py:func:`effect_fade_add`
-    - :py:func:`effect_blend_add`
-
-    It's also possible to make a transition chain with :py:func:`chain_transit_add`.
-
-    .. warning:: We strongly recommend to use elm_transit just when edje can
-        not do the trick. Edje is better at handling transitions than
-        Elm_Transit. Edje has more flexibility and animations can be
-        manipulated inside the theme.
+    This is the class that actually implement the widget.
 
     """
 

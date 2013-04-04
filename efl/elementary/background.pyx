@@ -18,6 +18,25 @@
 
 """
 
+.. rubric:: Widget description
+
+.. image:: /images/background-preview.png
+
+
+The background widget is used for setting a solid color, image or Edje group
+as a background to a window or any container object.
+
+The background widget is used for setting (solid) background decorations
+to a window (unless it has transparency enabled) or to any container
+object. It works just like an image, but has some properties useful to a
+background, like setting it to tiled, centered, scaled or stretched.
+
+
+Default content parts of the bg widget that you can use for are:
+
+- **overlay** - overlay of the bg
+
+
 .. _Elm_Bg_Option:
 
 .. rubric:: Background display modes
@@ -56,19 +75,7 @@ cdef class Background(LayoutClass):
 
     """
 
-    Background widget object
-
-    Used for setting a solid color, image or Edje group as a background to a
-    window or any container object.
-
-    The background widget is used for setting (solid) background decorations
-    to a window (unless it has transparency enabled) or to any container
-    object. It works just like an image, but has some properties useful to a
-    background, like setting it to tiled, centered, scaled or stretched.
-
-    Default content parts of the bg widget that you can use for are:
-
-    - **overlay** - overlay of the bg
+    This is the class that actually implement the widget.
 
     """
 

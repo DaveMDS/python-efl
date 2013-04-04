@@ -18,6 +18,201 @@
 
 """
 
+.. rubric:: Widget description
+
+.. image:: /images/gengrid-preview.png
+
+
+This widget aims to position objects in a grid layout while actually
+creating and rendering only the visible ones, using the same idea as the
+:py:class:`efl.elementary.genlist.Genlist`: the user defines a **class** for
+each item, specifying functions that will be called at object creation,
+deletion, etc. When those items are selected by the user, a callback
+function is issued. Users may interact with a gengrid via the mouse (by
+clicking on items to select them and clicking on the grid's viewport and
+swiping to pan the whole view) or via the keyboard, navigating through
+item with the arrow keys.
+
+.. rubric:: Gengrid layouts
+
+Gengrid may layout its items in one of two possible layouts:
+
+- horizontal or
+- vertical.
+
+When in "horizontal mode", items will be placed in **columns**, from top
+to bottom and, when the space for a column is filled, another one is
+started on the right, thus expanding the grid horizontally, making for
+horizontal scrolling. When in "vertical mode" , though, items will be
+placed in **rows**, from left to right and, when the space for a row is
+filled, another one is started below, thus expanding the grid vertically
+(and making for vertical scrolling).
+
+.. rubric:: Gengrid items
+
+An item in a gengrid can have 0 or more texts (they can be regular text
+or textblock Evas objects - that's up to the style to determine), 0 or
+more contents (which are simply objects swallowed into the gengrid
+item's theming Edje object) and 0 or more **boolean states**, which
+have the behavior left to the user to define. The Edje part names for
+each of these properties will be looked up, in the theme file for the
+gengrid, under the Edje (string) data items named ``"texts"``,
+``"contents"`` and ``"states"``, respectively. For each of those
+properties, if more than one part is provided, they must have names
+listed separated by spaces in the data fields. For the default gengrid
+item theme, we have **one** text part (``"elm.text"``), **two** content
+parts (``"elm.swalllow.icon"`` and ``"elm.swallow.end"``) and **no**
+state parts.
+
+A gengrid item may be at one of several styles. Elementary provides one
+by default - "default", but this can be extended by system or
+application custom themes/overlays/extensions (see
+:py:class:`elementary.theme.Theme` for more details).
+
+.. rubric:: Gengrid item classes
+
+In order to have the ability to add and delete items on the fly, gengrid
+implements a class (callback) system where the application provides a
+structure with information about that type of item (gengrid may contain
+multiple different items with different classes, states and styles).
+Gengrid will call the functions in this struct (methods) when an item is
+"realized" (i.e., created dynamically, while the user is scrolling the
+grid). All objects will simply be deleted when no longer needed with
+evas_object_del(). The #Elm_Gengrid_Item_Class structure contains the
+following members:
+
+- ``item_style`` - This is a constant string and simply defines the name
+  of the item style. It **must** be specified and the default should be
+  ``"default".``
+- ``func.text_get`` - This function is called when an item object is
+  actually created. The ``data`` parameter will point to the same data
+  passed to elm_gengrid_item_append() and related item creation
+  functions. The ``obj`` parameter is the gengrid object itself, while
+  the ``part`` one is the name string of one of the existing text parts
+  in the Edje group implementing the item's theme. This function
+  **must** return a strdup'()ed string, as the caller will free() it
+  when done. See #Elm_Gengrid_Item_Text_Get_Cb.
+- ``func.content_get`` - This function is called when an item object is
+  actually created. The ``data`` parameter will point to the same data
+  passed to elm_gengrid_item_append() and related item creation
+  functions. The ``obj`` parameter is the gengrid object itself, while
+  the ``part`` one is the name string of one of the existing (content)
+  swallow parts in the Edje group implementing the item's theme. It must
+  return ``None,`` when no content is desired, or a valid object handle,
+  otherwise. The object will be deleted by the gengrid on its deletion
+  or when the item is "unrealized". See #Elm_Gengrid_Item_Content_Get_Cb.
+- ``func.state_get`` - This function is called when an item object is
+  actually created. The ``data`` parameter will point to the same data
+  passed to elm_gengrid_item_append() and related item creation
+  functions. The ``obj`` parameter is the gengrid object itself, while
+  the ``part`` one is the name string of one of the state parts in the
+  Edje group implementing the item's theme. Return ``False`` for
+  false/off or ``True`` for true/on. Gengrids will emit a signal to
+  its theming Edje object with ``"elm,state,xxx,active"`` and ``"elm"``
+  as "emission" and "source" arguments, respectively, when the state is
+  true (the default is false), where ``xxx`` is the name of the (state)
+  part. See #Elm_Gengrid_Item_State_Get_Cb.
+- ``func.del`` - This is called when elm_object_item_del() is called on
+  an item or elm_gengrid_clear() is called on the gengrid. This is
+  intended for use when gengrid items are deleted, so any data attached
+  to the item (e.g. its data parameter on creation) can be deleted. See
+  #Elm_Gengrid_Item_Del_Cb.
+
+.. rubric:: Usage hints
+
+If the user wants to have multiple items selected at the same time,
+elm_gengrid_multi_select_set() will permit it. If the gengrid is
+single-selection only (the default), then elm_gengrid_select_item_get()
+will return the selected item or ``None``, if none is selected. If the
+gengrid is under multi-selection, then elm_gengrid_selected_items_get()
+will return a list (that is only valid as long as no items are modified
+(added, deleted, selected or unselected) of child items on a gengrid.
+
+If an item changes (internal (boolean) state, text or content changes),
+then use elm_gengrid_item_update() to have gengrid update the item with
+the new state. A gengrid will re-"realize" the item, thus calling the
+functions in the #Elm_Gengrid_Item_Class set for that item.
+
+To programmatically (un)select an item, use
+elm_gengrid_item_selected_set(). To get its selected state use
+elm_gengrid_item_selected_get(). To make an item disabled (unable to be
+selected and appear differently) use elm_object_item_disabled_set() to
+set this and elm_object_item_disabled_get() to get the disabled state.
+
+Grid cells will only have their selection smart callbacks called when
+firstly getting selected. Any further clicks will do nothing, unless you
+enable the "always select mode", with elm_gengrid_select_mode_set() as
+ELM_OBJECT_SELECT_MODE_ALWAYS, thus making every click to issue
+selection callbacks. elm_gengrid_select_mode_set() as
+ELM_OBJECT_SELECT_MODE_NONE will turn off the ability to select items
+entirely in the widget and they will neither appear selected nor call
+the selection smart callbacks.
+
+Remember that you can create new styles and add your own theme
+augmentation per application with elm_theme_extension_add(). If you
+absolutely must have a specific style that overrides any theme the user
+or system sets up you can use elm_theme_overlay_add() to add such a file.
+
+.. rubric:: Gengrid smart events
+
+Smart events that you can add callbacks for are:
+
+- ``"activated"`` - The user has double-clicked or pressed
+  (enter|return|spacebar) on an item. The ``event_info`` parameter
+  is the gengrid item that was activated.
+- ``"clicked,double"`` - The user has double-clicked an item.
+  The ``event_info`` parameter is the gengrid item that was double-clicked.
+- ``"longpressed"`` - This is called when the item is pressed for a certain
+  amount of time. By default it's 1 second.
+- ``"selected"`` - The user has made an item selected. The
+  ``event_info`` parameter is the gengrid item that was selected.
+- ``"unselected"`` - The user has made an item unselected. The
+  ``event_info`` parameter is the gengrid item that was unselected.
+- ``"realized"`` - This is called when the item in the gengrid
+  has its implementing Evas object instantiated, de facto. @c
+  event_info is the gengrid item that was created. The object
+  may be deleted at any time, so it is highly advised to the
+  caller **not** to use the object pointer returned from
+  elm_gengrid_item_object_get(), because it may point to freed
+  objects.
+- ``"unrealized"`` - This is called when the implementing Evas
+  object for this item is deleted. ``event_info`` is the gengrid
+  item that was deleted.
+- ``"changed"`` - Called when an item is added, removed, resized
+  or moved and when the gengrid is resized or gets "horizontal"
+  property changes.
+- ``"scroll,anim,start"`` - This is called when scrolling animation has
+  started.
+- ``"scroll,anim,stop"`` - This is called when scrolling animation has
+  stopped.
+- ``"drag,start,up"`` - Called when the item in the gengrid has
+  been dragged (not scrolled) up.
+- ``"drag,start,down"`` - Called when the item in the gengrid has
+  been dragged (not scrolled) down.
+- ``"drag,start,left"`` - Called when the item in the gengrid has
+  been dragged (not scrolled) left.
+- ``"drag,start,right"`` - Called when the item in the gengrid has
+  been dragged (not scrolled) right.
+- ``"drag,stop"`` - Called when the item in the gengrid has
+  stopped being dragged.
+- ``"drag"`` - Called when the item in the gengrid is being
+  dragged.
+- ``"scroll"`` - called when the content has been scrolled
+  (moved).
+- ``"scroll,drag,start"`` - called when dragging the content has
+  started.
+- ``"scroll,drag,stop"`` - called when dragging the content has
+  stopped.
+- ``"edge,top"`` - This is called when the gengrid is scrolled until
+  the top edge.
+- ``"edge,bottom"`` - This is called when the gengrid is scrolled
+  until the bottom edge.
+- ``"edge,left"`` - This is called when the gengrid is scrolled
+  until the left edge.
+- ``"edge,right"`` - This is called when the gengrid is scrolled
+  until the right edge.
+
+
 .. rubric:: Items' scroll to types
 
 .. data:: ELM_GENLIST_ITEM_SCROLLTO_NONE
@@ -633,194 +828,7 @@ cdef class Gengrid(Object):
 
     """
 
-    This widget aims to position objects in a grid layout while actually
-    creating and rendering only the visible ones, using the same idea as the
-    :py:class:`elementary.genlist.Genlist`: the user defines a **class** for
-    each item, specifying functions that will be called at object creation,
-    deletion, etc. When those items are selected by the user, a callback
-    function is issued. Users may interact with a gengrid via the mouse (by
-    clicking on items to select them and clicking on the grid's viewport and
-    swiping to pan the whole view) or via the keyboard, navigating through
-    item with the arrow keys.
-
-    .. rubric:: Gengrid layouts
-
-    Gengrid may layout its items in one of two possible layouts:
-
-    - horizontal or
-    - vertical.
-
-    When in "horizontal mode", items will be placed in **columns**, from top
-    to bottom and, when the space for a column is filled, another one is
-    started on the right, thus expanding the grid horizontally, making for
-    horizontal scrolling. When in "vertical mode" , though, items will be
-    placed in **rows**, from left to right and, when the space for a row is
-    filled, another one is started below, thus expanding the grid vertically
-    (and making for vertical scrolling).
-
-    .. rubric:: Gengrid items
-
-    An item in a gengrid can have 0 or more texts (they can be regular text
-    or textblock Evas objects - that's up to the style to determine), 0 or
-    more contents (which are simply objects swallowed into the gengrid
-    item's theming Edje object) and 0 or more **boolean states**, which
-    have the behavior left to the user to define. The Edje part names for
-    each of these properties will be looked up, in the theme file for the
-    gengrid, under the Edje (string) data items named ``"texts"``,
-    ``"contents"`` and ``"states"``, respectively. For each of those
-    properties, if more than one part is provided, they must have names
-    listed separated by spaces in the data fields. For the default gengrid
-    item theme, we have **one** text part (``"elm.text"``), **two** content
-    parts (``"elm.swalllow.icon"`` and ``"elm.swallow.end"``) and **no**
-    state parts.
-
-    A gengrid item may be at one of several styles. Elementary provides one
-    by default - "default", but this can be extended by system or
-    application custom themes/overlays/extensions (see
-    :py:class:`elementary.theme.Theme` for more details).
-
-    .. rubric:: Gengrid item classes
-
-    In order to have the ability to add and delete items on the fly, gengrid
-    implements a class (callback) system where the application provides a
-    structure with information about that type of item (gengrid may contain
-    multiple different items with different classes, states and styles).
-    Gengrid will call the functions in this struct (methods) when an item is
-    "realized" (i.e., created dynamically, while the user is scrolling the
-    grid). All objects will simply be deleted when no longer needed with
-    evas_object_del(). The #Elm_Gengrid_Item_Class structure contains the
-    following members:
-
-    - ``item_style`` - This is a constant string and simply defines the name
-      of the item style. It **must** be specified and the default should be
-      ``"default".``
-    - ``func.text_get`` - This function is called when an item object is
-      actually created. The ``data`` parameter will point to the same data
-      passed to elm_gengrid_item_append() and related item creation
-      functions. The ``obj`` parameter is the gengrid object itself, while
-      the ``part`` one is the name string of one of the existing text parts
-      in the Edje group implementing the item's theme. This function
-      **must** return a strdup'()ed string, as the caller will free() it
-      when done. See #Elm_Gengrid_Item_Text_Get_Cb.
-    - ``func.content_get`` - This function is called when an item object is
-      actually created. The ``data`` parameter will point to the same data
-      passed to elm_gengrid_item_append() and related item creation
-      functions. The ``obj`` parameter is the gengrid object itself, while
-      the ``part`` one is the name string of one of the existing (content)
-      swallow parts in the Edje group implementing the item's theme. It must
-      return ``None,`` when no content is desired, or a valid object handle,
-      otherwise. The object will be deleted by the gengrid on its deletion
-      or when the item is "unrealized". See #Elm_Gengrid_Item_Content_Get_Cb.
-    - ``func.state_get`` - This function is called when an item object is
-      actually created. The ``data`` parameter will point to the same data
-      passed to elm_gengrid_item_append() and related item creation
-      functions. The ``obj`` parameter is the gengrid object itself, while
-      the ``part`` one is the name string of one of the state parts in the
-      Edje group implementing the item's theme. Return ``False`` for
-      false/off or ``True`` for true/on. Gengrids will emit a signal to
-      its theming Edje object with ``"elm,state,xxx,active"`` and ``"elm"``
-      as "emission" and "source" arguments, respectively, when the state is
-      true (the default is false), where ``xxx`` is the name of the (state)
-      part. See #Elm_Gengrid_Item_State_Get_Cb.
-    - ``func.del`` - This is called when elm_object_item_del() is called on
-      an item or elm_gengrid_clear() is called on the gengrid. This is
-      intended for use when gengrid items are deleted, so any data attached
-      to the item (e.g. its data parameter on creation) can be deleted. See
-      #Elm_Gengrid_Item_Del_Cb.
-
-    .. rubric:: Usage hints
-
-    If the user wants to have multiple items selected at the same time,
-    elm_gengrid_multi_select_set() will permit it. If the gengrid is
-    single-selection only (the default), then elm_gengrid_select_item_get()
-    will return the selected item or ``None``, if none is selected. If the
-    gengrid is under multi-selection, then elm_gengrid_selected_items_get()
-    will return a list (that is only valid as long as no items are modified
-    (added, deleted, selected or unselected) of child items on a gengrid.
-
-    If an item changes (internal (boolean) state, text or content changes),
-    then use elm_gengrid_item_update() to have gengrid update the item with
-    the new state. A gengrid will re-"realize" the item, thus calling the
-    functions in the #Elm_Gengrid_Item_Class set for that item.
-
-    To programmatically (un)select an item, use
-    elm_gengrid_item_selected_set(). To get its selected state use
-    elm_gengrid_item_selected_get(). To make an item disabled (unable to be
-    selected and appear differently) use elm_object_item_disabled_set() to
-    set this and elm_object_item_disabled_get() to get the disabled state.
-
-    Grid cells will only have their selection smart callbacks called when
-    firstly getting selected. Any further clicks will do nothing, unless you
-    enable the "always select mode", with elm_gengrid_select_mode_set() as
-    ELM_OBJECT_SELECT_MODE_ALWAYS, thus making every click to issue
-    selection callbacks. elm_gengrid_select_mode_set() as
-    ELM_OBJECT_SELECT_MODE_NONE will turn off the ability to select items
-    entirely in the widget and they will neither appear selected nor call
-    the selection smart callbacks.
-
-    Remember that you can create new styles and add your own theme
-    augmentation per application with elm_theme_extension_add(). If you
-    absolutely must have a specific style that overrides any theme the user
-    or system sets up you can use elm_theme_overlay_add() to add such a file.
-
-    .. rubric:: Gengrid smart events
-
-    Smart events that you can add callbacks for are:
-
-    - ``"activated"`` - The user has double-clicked or pressed
-      (enter|return|spacebar) on an item. The ``event_info`` parameter
-      is the gengrid item that was activated.
-    - ``"clicked,double"`` - The user has double-clicked an item.
-      The ``event_info`` parameter is the gengrid item that was double-clicked.
-    - ``"longpressed"`` - This is called when the item is pressed for a certain
-      amount of time. By default it's 1 second.
-    - ``"selected"`` - The user has made an item selected. The
-      ``event_info`` parameter is the gengrid item that was selected.
-    - ``"unselected"`` - The user has made an item unselected. The
-      ``event_info`` parameter is the gengrid item that was unselected.
-    - ``"realized"`` - This is called when the item in the gengrid
-      has its implementing Evas object instantiated, de facto. @c
-      event_info is the gengrid item that was created. The object
-      may be deleted at any time, so it is highly advised to the
-      caller **not** to use the object pointer returned from
-      elm_gengrid_item_object_get(), because it may point to freed
-      objects.
-    - ``"unrealized"`` - This is called when the implementing Evas
-      object for this item is deleted. ``event_info`` is the gengrid
-      item that was deleted.
-    - ``"changed"`` - Called when an item is added, removed, resized
-      or moved and when the gengrid is resized or gets "horizontal"
-      property changes.
-    - ``"scroll,anim,start"`` - This is called when scrolling animation has
-      started.
-    - ``"scroll,anim,stop"`` - This is called when scrolling animation has
-      stopped.
-    - ``"drag,start,up"`` - Called when the item in the gengrid has
-      been dragged (not scrolled) up.
-    - ``"drag,start,down"`` - Called when the item in the gengrid has
-      been dragged (not scrolled) down.
-    - ``"drag,start,left"`` - Called when the item in the gengrid has
-      been dragged (not scrolled) left.
-    - ``"drag,start,right"`` - Called when the item in the gengrid has
-      been dragged (not scrolled) right.
-    - ``"drag,stop"`` - Called when the item in the gengrid has
-      stopped being dragged.
-    - ``"drag"`` - Called when the item in the gengrid is being
-      dragged.
-    - ``"scroll"`` - called when the content has been scrolled
-      (moved).
-    - ``"scroll,drag,start"`` - called when dragging the content has
-      started.
-    - ``"scroll,drag,stop"`` - called when dragging the content has
-      stopped.
-    - ``"edge,top"`` - This is called when the gengrid is scrolled until
-      the top edge.
-    - ``"edge,bottom"`` - This is called when the gengrid is scrolled
-      until the bottom edge.
-    - ``"edge,left"`` - This is called when the gengrid is scrolled
-      until the left edge.
-    - ``"edge,right"`` - This is called when the gengrid is scrolled
-      until the right edge.
+    This is the class that actually implement the widget.
 
     """
 

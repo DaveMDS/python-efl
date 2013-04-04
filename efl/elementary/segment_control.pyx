@@ -15,6 +15,43 @@
 # You should have received a copy of the GNU Lesser General Public License
 # along with this Python-EFL.  If not, see <http://www.gnu.org/licenses/>.
 
+"""
+.. rubric:: Widget description
+
+.. image:: /images/segmentcontrol-preview.png
+
+
+Segment control widget is a horizontal control made of multiple
+segment items, each segment item functioning similar to discrete two
+state button. A segment control groups the items together and provides
+compact single button with multiple equal size segments.
+
+Segment item size is determined by base widget size and the number of
+items added. Only one segment item can be at selected state. A segment
+item can display combination of Text and any Evas_Object like Images or
+other widget.
+
+This widget emits the following signals, besides the ones sent from
+:py:class:`elementary.layout.Layout`:
+
+- ``"changed"`` - When the user clicks on a segment item which is not
+  previously selected and get selected. The event_info parameter is the
+  segment item pointer.
+
+Available styles for it:
+
+- ``"default"``
+
+Default content parts of the segment control items that you can use for are:
+
+- "icon" - An icon in a segment control item
+
+Default text parts of the segment control items that you can use for are:
+
+- "default" - Title label in a segment control item
+
+"""
+
 include "widget_header.pxi"
 include "callback_conversions.pxi"
 
@@ -75,34 +112,7 @@ cdef class SegmentControl(LayoutClass):
 
     """
 
-    Segment control widget is a horizontal control made of multiple
-    segment items, each segment item functioning similar to discrete two
-    state button. A segment control groups the items together and provides
-    compact single button with multiple equal size segments.
-
-    Segment item size is determined by base widget size and the number of
-    items added. Only one segment item can be at selected state. A segment
-    item can display combination of Text and any Evas_Object like Images or
-    other widget.
-
-    This widget emits the following signals, besides the ones sent from
-    :py:class:`elementary.layout.Layout`:
-
-    - ``"changed"`` - When the user clicks on a segment item which is not
-      previously selected and get selected. The event_info parameter is the
-      segment item pointer.
-
-    Available styles for it:
-
-    - ``"default"``
-
-    Default content parts of the segment control items that you can use for are:
-
-    - "icon" - An icon in a segment control item
-
-    Default text parts of the segment control items that you can use for are:
-
-    - "default" - Title label in a segment control item
+    This is the class that actually implement the widget.
 
     """
 

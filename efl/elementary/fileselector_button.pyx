@@ -18,6 +18,46 @@
 
 """
 
+.. rubric:: Widget description
+
+.. image:: /images/fileselector-button-preview.png
+
+
+This is a button that, when clicked, creates an Elementary window (or
+inner window) with a :py:class:`elementary.fileselector.Fileselector`
+within.
+
+When a file is chosen, the (inner) window is closed and the button emits
+a signal having the selected file as it's ``event_info``.
+
+This widget encapsulates operations on its internal file selector on its
+own API. There is less control over its file selector than that one
+would have instantiating one directly.
+
+The following styles are available for this button:
+
+- ``"default"``
+- ``"anchor"``
+- ``"hoversel_vertical"``
+- ``"hoversel_vertical_entry"``
+
+This widget emits the following signals, besides the ones sent from
+:py:class:`elementary.button.Button`:
+
+- ``"file,chosen"`` - the user has selected a path which comes as the
+  ``event_info`` data
+
+Default text parts of the fileselector_button widget that you can use for
+are:
+
+- "default" - Label of the fileselector_button
+
+Default content parts of the fileselector_button widget that you can use
+for are:
+
+- "icon" - Icon of the fileselector_button
+
+
 .. rubric:: Fileselector modes
 
 .. data:: ELM_FILESELECTOR_LIST
@@ -42,39 +82,7 @@ cdef class FileselectorButton(Button):
 
     """
 
-    This is a button that, when clicked, creates an Elementary window (or
-    inner window) with a :py:class:`elementary.fileselector.Fileselector`
-    within.
-
-    When a file is chosen, the (inner) window is closed and the button emits
-    a signal having the selected file as it's ``event_info``.
-
-    This widget encapsulates operations on its internal file selector on its
-    own API. There is less control over its file selector than that one
-    would have instantiating one directly.
-
-    The following styles are available for this button:
-
-    - ``"default"``
-    - ``"anchor"``
-    - ``"hoversel_vertical"``
-    - ``"hoversel_vertical_entry"``
-
-    This widget emits the following signals, besides the ones sent from
-    :py:class:`elementary.button.Button`:
-
-    - ``"file,chosen"`` - the user has selected a path which comes as the
-      ``event_info`` data
-
-    Default text parts of the fileselector_button widget that you can use for
-    are:
-
-    - "default" - Label of the fileselector_button
-
-    Default content parts of the fileselector_button widget that you can use
-    for are:
-
-    - "icon" - Icon of the fileselector_button
+    This is the class that actually implement the widget.
 
     """
 

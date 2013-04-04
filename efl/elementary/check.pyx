@@ -15,6 +15,39 @@
 # You should have received a copy of the GNU Lesser General Public License
 # along with this Python-EFL.  If not, see <http://www.gnu.org/licenses/>.
 
+
+"""
+
+.. rubric:: Widget description
+
+.. image:: /images/check-preview.png
+
+
+The check widget allows for toggling a value between true and false.
+
+Check objects are a lot like radio objects in layout and functionality,
+except they do not work as a group, but independently, and only toggle
+the value of a boolean between false and true. :py:attr:`state` sets the
+boolean state and :py:attr:`state` returns the current state.
+
+This widget emits the following signals, besides the ones sent from
+:py:class:`elementary.layout.Layout`:
+
+- ``changed`` - This is called whenever the user changes the state of
+  the check objects.
+
+Default content parts of the check widget that you can use for are:
+
+- "icon" - An icon of the check
+
+Default text parts of the check widget that you can use for are:
+
+- "default" - A label of the check
+- "on" - On state label of the check
+- "off" - Off state label of the check
+
+"""
+
 include "widget_header.pxi"
 
 from layout_class cimport LayoutClass
@@ -23,28 +56,7 @@ cdef class Check(LayoutClass):
 
     """
 
-    The check widget allows for toggling a value between true and false.
-
-    Check objects are a lot like radio objects in layout and functionality,
-    except they do not work as a group, but independently, and only toggle
-    the value of a boolean between false and true. :py:attr:`state` sets the
-    boolean state and :py:attr:`state` returns the current state.
-
-    This widget emits the following signals, besides the ones sent from
-    :py:class:`elementary.layout.Layout`:
-
-    - ``changed`` - This is called whenever the user changes the state of
-      the check objects.
-
-    Default content parts of the check widget that you can use for are:
-
-    - "icon" - An icon of the check
-
-    Default text parts of the check widget that you can use for are:
-
-    - "default" - A label of the check
-    - "on" - On state label of the check
-    - "off" - Off state label of the check
+    This is the class that actually implement the widget.
 
     """
 

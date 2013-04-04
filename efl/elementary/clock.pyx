@@ -18,6 +18,42 @@
 
 """
 
+.. rubric:: Widget description
+
+.. image:: /images/clock-preview.png
+
+
+This is a digital clock widget.
+
+In its default theme, it has a vintage "flipping numbers clock" appearance,
+which will animate sheets of individual algarisms individually as time goes
+by.
+
+A newly created clock will fetch system's time (already considering
+local time adjustments) to start with, and will tick accordingly. It may
+or may not show seconds.
+
+Clocks have an **edition** mode. When in it, the sheets will display
+extra arrow indications on the top and bottom and the user may click on
+them to raise or lower the time values. After it's told to exit edition
+mode, it will keep ticking with that new time set (it keeps the
+difference from local time).
+
+Also, when under edition mode, user clicks on the cited arrows which are
+**held** for some time will make the clock to flip the sheet, thus
+editing the time, continuously and automatically for the user. The
+interval between sheet flips will keep growing in time, so that it helps
+the user to reach a time which is distant from the one set.
+
+The time display is, by default, in military mode (24h), but an am/pm
+indicator may be optionally shown, too, when it will switch to 12h.
+
+This widget emits the following signals, besides the ones sent from
+:py:class:`elementary.layout.Layout`:
+
+- ``changed`` - the clock's user changed the time
+
+
 .. rubric:: Clock edit modes
 
 .. data:: ELM_CLOCK_EDIT_DEFAULT
@@ -73,35 +109,7 @@ cdef class Clock(LayoutClass):
 
     """
 
-    This is a digital clock widget.
-
-    In its default theme, it has a vintage "flipping numbers clock" appearance,
-    which will animate sheets of individual algarisms individually as time goes
-    by.
-
-    A newly created clock will fetch system's time (already considering
-    local time adjustments) to start with, and will tick accordingly. It may
-    or may not show seconds.
-
-    Clocks have an **edition** mode. When in it, the sheets will display
-    extra arrow indications on the top and bottom and the user may click on
-    them to raise or lower the time values. After it's told to exit edition
-    mode, it will keep ticking with that new time set (it keeps the
-    difference from local time).
-
-    Also, when under edition mode, user clicks on the cited arrows which are
-    **held** for some time will make the clock to flip the sheet, thus
-    editing the time, continuously and automatically for the user. The
-    interval between sheet flips will keep growing in time, so that it helps
-    the user to reach a time which is distant from the one set.
-
-    The time display is, by default, in military mode (24h), but an am/pm
-    indicator may be optionally shown, too, when it will switch to 12h.
-
-    This widget emits the following signals, besides the ones sent from
-    :py:class:`elementary.layout.Layout`:
-
-    - ``changed`` - the clock's user changed the time
+    This is the class that actually implement the widget.
 
     """
 

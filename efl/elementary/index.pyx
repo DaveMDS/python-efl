@@ -15,6 +15,54 @@
 # You should have received a copy of the GNU Lesser General Public License
 # along with this Python-EFL.  If not, see <http://www.gnu.org/licenses/>.
 
+
+"""
+
+.. rubric:: Widget description
+
+.. image:: /images/index-preview.png
+
+
+An index widget gives you an index for fast access to whichever
+group of other UI items one might have.
+
+It's a list of text items (usually letters, for alphabetically ordered
+access).
+
+Index widgets are by default hidden and just appear when the
+user clicks over it's reserved area in the canvas. In its
+default theme, it's an area one ``finger`` wide on
+the right side of the index widget's container.
+
+When items on the index are selected, smart callbacks get
+called, so that its user can make other container objects to
+show a given area or child object depending on the index item
+selected. You'd probably be using an index together with :py:class:`List`,
+:py:class:`Genlist` or :py:class:`Gengrid`.
+
+This widget emits the following signals, besides the ones sent from
+:py:class:`elementary.layout.Layout`:
+
+- ``"changed"`` - When the selected index item changes. ``event_info``
+  is the selected item's data pointer.
+- ``"delay,changed"`` - When the selected index item changes, but
+  after a small idling period. ``event_info`` is the selected
+  item's data pointer.
+- ``"selected"`` - When the user releases a mouse button and
+  selects an item. ``event_info`` is the selected item's data
+  pointer.
+- ``"level,up"`` - when the user moves a finger from the first
+  level to the second level
+- ``"level,down"`` - when the user moves a finger from the second
+  level to the first level
+
+The ``"delay,changed"`` event is so that it'll wait a small time
+before actually reporting those events and, moreover, just the
+last event happening on those time frames will actually be
+reported.
+
+"""
+
 include "widget_header.pxi"
 include "callback_conversions.pxi"
 
@@ -117,43 +165,7 @@ cdef class Index(LayoutClass):
 
     """
 
-    An index widget gives you an index for fast access to whichever
-    group of other UI items one might have.
-
-    It's a list of text items (usually letters, for alphabetically ordered
-    access).
-
-    Index widgets are by default hidden and just appear when the
-    user clicks over it's reserved area in the canvas. In its
-    default theme, it's an area one ``finger`` wide on
-    the right side of the index widget's container.
-
-    When items on the index are selected, smart callbacks get
-    called, so that its user can make other container objects to
-    show a given area or child object depending on the index item
-    selected. You'd probably be using an index together with :py:class:`List`,
-    :py:class:`Genlist` or :py:class:`Gengrid`.
-
-    This widget emits the following signals, besides the ones sent from
-    :py:class:`elementary.layout.Layout`:
-
-    - ``"changed"`` - When the selected index item changes. ``event_info``
-      is the selected item's data pointer.
-    - ``"delay,changed"`` - When the selected index item changes, but
-      after a small idling period. ``event_info`` is the selected
-      item's data pointer.
-    - ``"selected"`` - When the user releases a mouse button and
-      selects an item. ``event_info`` is the selected item's data
-      pointer.
-    - ``"level,up"`` - when the user moves a finger from the first
-      level to the second level
-    - ``"level,down"`` - when the user moves a finger from the second
-      level to the first level
-
-    The ``"delay,changed"`` event is so that it'll wait a small time
-    before actually reporting those events and, moreover, just the
-    last event happening on those time frames will actually be
-    reported.
+    This is the class that actually implement the widget.
 
     """
 

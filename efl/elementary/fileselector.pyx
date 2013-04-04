@@ -18,6 +18,47 @@
 
 """
 
+.. rubric:: Widget description
+
+.. image:: /images/fileselector-preview.png
+
+
+A file selector is a widget that allows a user to navigate through a
+file system, reporting file selections back via its API.
+
+It contains shortcut buttons for home directory (*~*) and to jump one
+directory upwards (..), as well as cancel/ok buttons to confirm/cancel a
+given selection. After either one of those two former actions, the file
+selector will issue its ``"done"`` smart callback.
+
+There's a text entry on it, too, showing the name of the current
+selection. There's the possibility of making it editable, so it is
+useful on file saving dialogs on applications, where one gives a file
+name to save contents to, in a given directory in the system. This
+custom file name will be reported on the ``"done"`` smart callback
+(explained in sequence).
+
+Finally, it has a view to display file system items into in two possible
+forms:
+
+- list
+- grid
+
+If Elementary is built with support of the Ethumb thumbnailing library,
+the second form of view will display preview thumbnails of files which
+it supports.
+
+This widget emits the following signals, besides the ones sent from
+:py:class:`elementary.layout.Layout`:
+
+- ``"selected"`` - the user has clicked on a file (when not in
+    folders-only mode) or directory (when in folders-only mode)
+- ``"directory,open"`` - the list has been populated with new
+  content (*event_info* is the directory's path)
+- ``"done"`` - the user has clicked on the "ok" or "cancel"
+  buttons (*event_info* is the selection's path)
+
+
 .. rubric:: Fileselector modes
 
 .. data:: ELM_FILESELECTOR_LIST
@@ -44,40 +85,7 @@ cdef class Fileselector(LayoutClass):
 
     """
 
-    A file selector is a widget that allows a user to navigate through a
-    file system, reporting file selections back via its API.
-
-    It contains shortcut buttons for home directory (*~*) and to jump one
-    directory upwards (..), as well as cancel/ok buttons to confirm/cancel a
-    given selection. After either one of those two former actions, the file
-    selector will issue its ``"done"`` smart callback.
-
-    There's a text entry on it, too, showing the name of the current
-    selection. There's the possibility of making it editable, so it is
-    useful on file saving dialogs on applications, where one gives a file
-    name to save contents to, in a given directory in the system. This
-    custom file name will be reported on the ``"done"`` smart callback
-    (explained in sequence).
-
-    Finally, it has a view to display file system items into in two possible
-    forms:
-
-    - list
-    - grid
-
-    If Elementary is built with support of the Ethumb thumbnailing library,
-    the second form of view will display preview thumbnails of files which
-    it supports.
-
-    This widget emits the following signals, besides the ones sent from
-    :py:class:`elementary.layout.Layout`:
-
-    - ``"selected"`` - the user has clicked on a file (when not in
-        folders-only mode) or directory (when in folders-only mode)
-    - ``"directory,open"`` - the list has been populated with new
-      content (*event_info* is the directory's path)
-    - ``"done"`` - the user has clicked on the "ok" or "cancel"
-      buttons (*event_info* is the selection's path)
+    This is the class that actually implement the widget.
 
     """
 

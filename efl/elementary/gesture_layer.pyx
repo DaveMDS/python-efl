@@ -17,6 +17,72 @@
 #
 
 """
+.. rubric:: Widget description
+
+.. image:: /images/gesturelayer-preview.png
+
+
+Use the GestureLayer to detect gestures. The advantage is that you don't
+have to implement gesture detection, just set callbacks for gesture states.
+
+In order to use Gesture Layer you start with instantiating this class
+with a parent object parameter. Next 'activate' gesture layer with a
+:py:func:`attach()` call. Usually with same object as target (2nd
+parameter).
+
+Now you need to tell gesture layer what gestures you follow. This is
+done with :py:func:`cb_set()` call. By setting the callback you actually
+saying to gesture layer: I would like to know when the gesture
+``Elm_Gesture_Type`` switches to state ``Elm_Gesture_State``.
+
+Next, you need to implement the actual action that follows the input in
+your callback.
+
+Note that if you like to stop being reported about a gesture, just set
+all callbacks referring this gesture to None. (again with
+:py:func:`cb_set()`)
+
+The information reported by gesture layer to your callback is depending
+on ``Elm_Gesture_Type``:
+
+- ``Elm_Gesture_Taps_Info`` is the info reported for tap gestures:
+
+    - ``ELM_GESTURE_N_TAPS``
+    - ``ELM_GESTURE_N_LONG_TAPS``
+    - ``ELM_GESTURE_N_DOUBLE_TAPS``
+    - ``ELM_GESTURE_N_TRIPLE_TAPS``
+
+- ``Elm_Gesture_Momentum_Info`` is info reported for momentum gestures:
+
+    - ``ELM_GESTURE_MOMENTUM``
+
+- ``Elm_Gesture_Line_Info`` is the info reported for line gestures
+  (this also contains ``Elm_Gesture_Momentum_Info`` internal structure):
+
+    - ``ELM_GESTURE_N_LINES``
+    - ``ELM_GESTURE_N_FLICKS``
+
+Note that we consider a flick as a line-gesture that should be completed
+in flick-time-limit as defined in
+:py:class:`elementary.configuration.Configuration`.
+
+``Elm_Gesture_Zoom_Info`` is the info reported for ``ELM_GESTURE_ZOOM``
+gesture.
+
+``Elm_Gesture_Rotate_Info`` is the info reported for
+``ELM_GESTURE_ROTATE`` gesture.
+
+Gesture Layer Tweaks:
+
+Note that line, flick, gestures can start without the need to remove
+fingers from surface. When user fingers rests on same-spot gesture is
+ended and starts again when fingers moved.
+
+Setting glayer_continues_enable to false in
+:py:class:`elementary.configuration.Configuration` will change this
+behavior so gesture starts when user touches (a *DOWN* event)
+touch-surface and ends when no fingers touches surface (a *UP* event).
+
 
 .. rubric:: Gesture states
 
@@ -123,66 +189,7 @@ cdef class GestureLayer(Object):
 
     """
 
-    Use the GestureLayer to detect gestures. The advantage is that you don't
-    have to implement gesture detection, just set callbacks for gesture states.
-
-    In order to use Gesture Layer you start with instantiating this class
-    with a parent object parameter. Next 'activate' gesture layer with a
-    :py:func:`attach()` call. Usually with same object as target (2nd
-    parameter).
-
-    Now you need to tell gesture layer what gestures you follow. This is
-    done with :py:func:`cb_set()` call. By setting the callback you actually
-    saying to gesture layer: I would like to know when the gesture
-    ``Elm_Gesture_Type`` switches to state ``Elm_Gesture_State``.
-
-    Next, you need to implement the actual action that follows the input in
-    your callback.
-
-    Note that if you like to stop being reported about a gesture, just set
-    all callbacks referring this gesture to None. (again with
-    :py:func:`cb_set()`)
-
-    The information reported by gesture layer to your callback is depending
-    on ``Elm_Gesture_Type``:
-
-    - ``Elm_Gesture_Taps_Info`` is the info reported for tap gestures:
-
-        - ``ELM_GESTURE_N_TAPS``
-        - ``ELM_GESTURE_N_LONG_TAPS``
-        - ``ELM_GESTURE_N_DOUBLE_TAPS``
-        - ``ELM_GESTURE_N_TRIPLE_TAPS``
-
-    - ``Elm_Gesture_Momentum_Info`` is info reported for momentum gestures:
-
-        - ``ELM_GESTURE_MOMENTUM``
-
-    - ``Elm_Gesture_Line_Info`` is the info reported for line gestures
-      (this also contains ``Elm_Gesture_Momentum_Info`` internal structure):
-
-        - ``ELM_GESTURE_N_LINES``
-        - ``ELM_GESTURE_N_FLICKS``
-
-    Note that we consider a flick as a line-gesture that should be completed
-    in flick-time-limit as defined in
-    :py:class:`elementary.configuration.Configuration`.
-
-    ``Elm_Gesture_Zoom_Info`` is the info reported for ``ELM_GESTURE_ZOOM``
-    gesture.
-
-    ``Elm_Gesture_Rotate_Info`` is the info reported for
-    ``ELM_GESTURE_ROTATE`` gesture.
-
-    Gesture Layer Tweaks:
-
-    Note that line, flick, gestures can start without the need to remove
-    fingers from surface. When user fingers rests on same-spot gesture is
-    ended and starts again when fingers moved.
-
-    Setting glayer_continues_enable to false in
-    :py:class:`elementary.configuration.Configuration` will change this
-    behavior so gesture starts when user touches (a *DOWN* event)
-    touch-surface and ends when no fingers touches surface (a *UP* event).
+    This is the class that actually implement the widget.
 
     """
 

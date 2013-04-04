@@ -15,6 +15,42 @@
 # You should have received a copy of the GNU Lesser General Public License
 # along with this Python-EFL.  If not, see <http://www.gnu.org/licenses/>.
 
+"""
+
+.. rubric:: Widget description
+
+.. image:: /images/spinner-preview.png
+
+
+A spinner is a widget which allows the user to increase or decrease
+numeric values using arrow buttons, or edit values directly, clicking
+over it and typing the new value.
+
+By default the spinner will not wrap and has a label
+of "%.0f" (just showing the integer value of the double).
+
+A spinner has a label that is formatted with floating
+point values and thus accepts a printf-style format string, like
+"%1.2f units".
+
+It also allows specific values to be replaced by pre-defined labels.
+
+This widget emits the following signals, besides the ones sent from
+:py:class:`elementary.layout.Layout`:
+
+- ``"changed"`` - Whenever the spinner value is changed.
+- ``"delay,changed"`` - A short time after the value is changed by
+    the user.  This will be called only when the user stops dragging
+    for a very short period or when they release their finger/mouse,
+    so it avoids possibly expensive reactions to the value change.
+
+Available styles for it:
+
+- ``"default"``: Default style
+- ``"vertical"``: up/down buttons at the right side and text left aligned.
+
+"""
+
 include "widget_header.pxi"
 
 from layout_class cimport LayoutClass
@@ -23,32 +59,7 @@ cdef class Spinner(LayoutClass):
 
     """
 
-    A spinner is a widget which allows the user to increase or decrease
-    numeric values using arrow buttons, or edit values directly, clicking
-    over it and typing the new value.
-
-    By default the spinner will not wrap and has a label
-    of "%.0f" (just showing the integer value of the double).
-
-    A spinner has a label that is formatted with floating
-    point values and thus accepts a printf-style format string, like
-    "%1.2f units".
-
-    It also allows specific values to be replaced by pre-defined labels.
-
-    This widget emits the following signals, besides the ones sent from
-    :py:class:`elementary.layout.Layout`:
-
-    - ``"changed"`` - Whenever the spinner value is changed.
-    - ``"delay,changed"`` - A short time after the value is changed by
-        the user.  This will be called only when the user stops dragging
-        for a very short period or when they release their finger/mouse,
-        so it avoids possibly expensive reactions to the value change.
-
-    Available styles for it:
-
-    - ``"default"``: Default style
-    - ``"vertical"``: up/down buttons at the right side and text left aligned.
+    This is the class that actually implement the widget.
 
     """
 

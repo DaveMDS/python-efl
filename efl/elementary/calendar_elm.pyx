@@ -18,6 +18,29 @@
 
 """
 
+.. rubric:: Widget description
+
+.. image:: /images/calendar-preview.png
+
+
+This is a calendar widget.
+
+It helps applications to flexibly display a calender with day of the week,
+date, year and month. Applications are able to set specific dates to be
+reported back, when selected, in the smart callbacks of the calendar widget.
+The API of this widget lets the applications perform other functions, like:
+
+- placing marks on specific dates
+- setting the bounds for the calendar (minimum and maximum years)
+- setting the day names of the week (e.g. "Thu" or "Thursday")
+- setting the year and month format.
+
+This widget emits the following signals, besides the ones sent from
+:py:class:`elementary.layout.Layout`:
+
+- ``changed`` - emitted when the date in the calendar is changed.
+
+
 .. rubric:: Calendar mark types
 
 .. data:: ELM_CALENDAR_UNIQUE
@@ -199,22 +222,7 @@ cdef class Calendar(LayoutClass):
 
     """
 
-    This is a calendar widget.
-
-    It helps applications to flexibly display a calender with day of the week,
-    date, year and month. Applications are able to set specific dates to be
-    reported back, when selected, in the smart callbacks of the calendar widget.
-    The API of this widget lets the applications perform other functions, like:
-
-    - placing marks on specific dates
-    - setting the bounds for the calendar (minimum and maximum years)
-    - setting the day names of the week (e.g. "Thu" or "Thursday")
-    - setting the year and month format.
-
-    This widget emits the following signals, besides the ones sent from
-    :py:class:`elementary.layout.Layout`:
-
-    - ``changed`` - emitted when the date in the calendar is changed.
+    This is the class that actually implement the widget.
 
     """
 

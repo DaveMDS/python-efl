@@ -15,6 +15,21 @@
 # You should have received a copy of the GNU Lesser General Public License
 # along with this Python-EFL.  If not, see <http://www.gnu.org/licenses/>.
 
+"""
+
+.. rubric:: Widget description
+
+.. image:: /images/video-preview.png
+
+
+Display a video by using Emotion.
+
+It embeds the video inside an Edje object, so you can do some
+animation depending on the video state change. It also implements a
+resource management policy to remove this burden from the application.
+
+"""
+
 include "widget_header.pxi"
 
 from layout_class cimport LayoutClass
@@ -23,11 +38,7 @@ cdef class Video(LayoutClass):
 
     """
 
-    Display a video by using Emotion.
-
-    It embeds the video inside an Edje object, so you can do some
-    animation depending on the video state change. It also implements a
-    resource management policy to remove this burden from the application.
+    This is the class that actually implement the widget.
 
     """
 

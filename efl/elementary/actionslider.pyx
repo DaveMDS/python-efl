@@ -16,7 +16,47 @@
 # along with this Python-EFL.  If not, see <http://www.gnu.org/licenses/>.
 #
 
+
 """
+
+.. rubric:: Widget description
+
+.. image:: /images/actionslider-preview.png
+
+An actionslider is a switcher for two or three labels with
+customizable magnet properties.
+
+The user drags and releases the indicator, to choose a label.
+
+Labels can occupy the following positions.
+
+- Left
+- Right
+- Center
+
+Positions can be enabled or disabled.
+
+Magnets can be set on the above positions.
+
+When the indicator is released, it will move to its nearest "enabled and
+magnetized" position.
+
+This widget emits the following signals, besides the ones sent from
+:py:class:`efl.elementary.layout_class.LayoutClass`:
+
+- **selected** - when user selects an enabled position (the label is
+  passed as event info)".
+- **pos_changed** - when the indicator reaches any of the
+  positions("left", "right" or "center").
+
+Default text parts of the actionslider widget that you can use for are:
+
+- **indicator** - An indicator label of the actionslider
+- **left** - A left label of the actionslider
+- **right** - A right label of the actionslider
+- **center** - A center label of the actionslider
+
+
 
 .. _Elm_Actionslider_Pos:
 
@@ -60,38 +100,7 @@ cdef class Actionslider(LayoutClass):
 
     """
 
-    An actionslider is a switcher for two or three labels with
-    customizable magnet properties.
-
-    The user drags and releases the indicator, to choose a label.
-
-    Labels can occupy the following positions.
-
-    - Left
-    - Right
-    - Center
-
-    Positions can be enabled or disabled.
-
-    Magnets can be set on the above positions.
-
-    When the indicator is released, it will move to its nearest "enabled and
-    magnetized" position.
-
-    This widget emits the following signals, besides the ones sent from
-    :py:class:`efl.elementary.layout_class.LayoutClass`:
-
-    - **selected** - when user selects an enabled position (the label is
-      passed as event info)".
-    - **pos_changed** - when the indicator reaches any of the
-      positions("left", "right" or "center").
-
-    Default text parts of the actionslider widget that you can use for are:
-
-    - **indicator** - An indicator label of the actionslider
-    - **left** - A left label of the actionslider
-    - **right** - A right label of the actionslider
-    - **center** - A center label of the actionslider
+    This is the class that actually implement the widget.
 
     """
 

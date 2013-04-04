@@ -18,6 +18,88 @@
 
 """
 
+.. rubric:: Widget description
+
+.. image:: /images/popup-preview.png
+
+
+This widget is an enhancement of :py:class:`Notify`.
+In addition to Content area, there are two optional sections namely Title
+area and Action area.
+
+Popup Widget displays its content with a particular orientation in the
+parent area. This orientation can be one among top, center, bottom,
+left, top-left, top-right, bottom-left and bottom-right. Content part of
+Popup can be an Evas Object set by application or it can be Text set by
+application or set of items containing an icon and/or text. The
+content/item-list can be removed using elm_object_content_set with second
+parameter passed as None.
+
+Following figures shows the textual layouts of popup in which Title Area
+and Action area area are optional ones. Action area can have up to 3
+buttons handled using elm_object common APIs mentioned below. If user
+wants to have more than 3 buttons then these buttons can be put inside
+the items of a list as content. User needs to handle the clicked signal
+of these action buttons if required. No event is processed by the widget
+automatically when clicked on these action buttons.
+
+Figure::
+
+    |---------------------|    |---------------------|    |---------------------|
+    |     Title Area      |    |     Title Area      |    |     Title Area      |
+    |Icon|    Text        |    |Icon|    Text        |    |Icon|    Text        |
+    |---------------------|    |---------------------|    |---------------------|
+    |       Item 1        |    |                     |    |                     |
+    |---------------------|    |                     |    |                     |
+    |       Item 2        |    |                     |    |    Description      |
+    |---------------------|    |       Content       |    |                     |
+    |       Item 3        |    |                     |    |                     |
+    |---------------------|    |                     |    |                     |
+    |         .           |    |---------------------|    |---------------------|
+    |         .           |    |     Action Area     |    |     Action Area     |
+    |         .           |    | Btn1  |Btn2|. |Btn3 |    | Btn1  |Btn2|  |Btn3 |
+    |---------------------|    |---------------------|    |---------------------|
+    |       Item N        |     Content Based Layout     Description based Layout
+    |---------------------|
+    |     Action Area     |
+    | Btn1  |Btn2|. |Btn3 |
+    |---------------------|
+       Item Based Layout
+
+Timeout can be set on expiry of which popup instance hides and sends a
+smart signal "timeout" to the user. The visible region of popup is
+surrounded by a translucent region called Blocked Event area. By
+clicking on Blocked Event area, the signal "block,clicked" is sent to
+the application. This block event area can be avoided by using API
+elm_popup_allow_events_set. When gets hidden, popup does not get
+destroyed automatically, application should destroy the popup instance
+after use. To control the maximum height of the internal scroller for
+item, we use the height of the action area which is passed by theme
+based on the number of buttons currently set to popup.
+
+Signals that you can add callbacks for are:
+
+- "timeout" - when ever popup is closed as a result of timeout.
+- "block,clicked" - when ever user taps on Blocked Event area.
+
+Styles available for Popup
+
+- "default"
+
+Default contents parts of the popup widget that you can use for are:
+
+- "default" - The content of the popup
+- "title,icon" - Title area's icon
+- "button1" - 1st button of the action area
+- "button2" - 2nd button of the action area
+- "button3" - 3rd button of the action area
+
+Default text parts of the popup widget that you can use for are:
+
+- "title,text" - This operates on Title area's label
+- "default" - content-text set in the content area of the widget
+
+
 .. rubric:: Popup orientation types
 
 .. data:: ELM_POPUP_ORIENT_TOP
@@ -161,81 +243,7 @@ cdef class Popup(Object):
 
     """
 
-    This widget is an enhancement of :py:class:`Notify`.
-    In addition to Content area, there are two optional sections namely Title
-    area and Action area.
-
-    Popup Widget displays its content with a particular orientation in the
-    parent area. This orientation can be one among top, center, bottom,
-    left, top-left, top-right, bottom-left and bottom-right. Content part of
-    Popup can be an Evas Object set by application or it can be Text set by
-    application or set of items containing an icon and/or text. The
-    content/item-list can be removed using elm_object_content_set with second
-    parameter passed as None.
-
-    Following figures shows the textual layouts of popup in which Title Area
-    and Action area area are optional ones. Action area can have up to 3
-    buttons handled using elm_object common APIs mentioned below. If user
-    wants to have more than 3 buttons then these buttons can be put inside
-    the items of a list as content. User needs to handle the clicked signal
-    of these action buttons if required. No event is processed by the widget
-    automatically when clicked on these action buttons.
-
-    Figure::
-
-        |---------------------|    |---------------------|    |---------------------|
-        |     Title Area      |    |     Title Area      |    |     Title Area      |
-        |Icon|    Text        |    |Icon|    Text        |    |Icon|    Text        |
-        |---------------------|    |---------------------|    |---------------------|
-        |       Item 1        |    |                     |    |                     |
-        |---------------------|    |                     |    |                     |
-        |       Item 2        |    |                     |    |    Description      |
-        |---------------------|    |       Content       |    |                     |
-        |       Item 3        |    |                     |    |                     |
-        |---------------------|    |                     |    |                     |
-        |         .           |    |---------------------|    |---------------------|
-        |         .           |    |     Action Area     |    |     Action Area     |
-        |         .           |    | Btn1  |Btn2|. |Btn3 |    | Btn1  |Btn2|  |Btn3 |
-        |---------------------|    |---------------------|    |---------------------|
-        |       Item N        |     Content Based Layout     Description based Layout
-        |---------------------|
-        |     Action Area     |
-        | Btn1  |Btn2|. |Btn3 |
-        |---------------------|
-           Item Based Layout
-
-    Timeout can be set on expiry of which popup instance hides and sends a
-    smart signal "timeout" to the user. The visible region of popup is
-    surrounded by a translucent region called Blocked Event area. By
-    clicking on Blocked Event area, the signal "block,clicked" is sent to
-    the application. This block event area can be avoided by using API
-    elm_popup_allow_events_set. When gets hidden, popup does not get
-    destroyed automatically, application should destroy the popup instance
-    after use. To control the maximum height of the internal scroller for
-    item, we use the height of the action area which is passed by theme
-    based on the number of buttons currently set to popup.
-
-    Signals that you can add callbacks for are:
-
-    - "timeout" - when ever popup is closed as a result of timeout.
-    - "block,clicked" - when ever user taps on Blocked Event area.
-
-    Styles available for Popup
-
-    - "default"
-
-    Default contents parts of the popup widget that you can use for are:
-
-    - "default" - The content of the popup
-    - "title,icon" - Title area's icon
-    - "button1" - 1st button of the action area
-    - "button2" - 2nd button of the action area
-    - "button3" - 3rd button of the action area
-
-    Default text parts of the popup widget that you can use for are:
-
-    - "title,text" - This operates on Title area's label
-    - "default" - content-text set in the content area of the widget
+    This is the class that actually implement the widget.
 
     """
 

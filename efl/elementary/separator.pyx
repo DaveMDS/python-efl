@@ -15,6 +15,22 @@
 # You should have received a copy of the GNU Lesser General Public License
 # along with this Python-EFL.  If not, see <http://www.gnu.org/licenses/>.
 
+"""
+
+.. rubric:: Widget description
+
+.. image:: /images/separator-preview.png
+
+
+Separator is a very thin object used to separate other objects.
+
+A separator can be vertical or horizontal.
+
+This widget emits the signals coming from
+:py:class:`elementary.layout_class.LayoutClass`.
+
+"""
+
 include "widget_header.pxi"
 
 from layout_class cimport LayoutClass
@@ -23,12 +39,7 @@ cdef class Separator(LayoutClass):
 
     """
 
-    Separator is a very thin object used to separate other objects.
-
-    A separator can be vertical or horizontal.
-
-    This widget emits the signals coming from
-    :py:class:`elementary.layout_class.LayoutClass`.
+    This is the class that actually implement the widget.
 
     """
 

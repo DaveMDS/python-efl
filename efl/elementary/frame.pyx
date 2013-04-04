@@ -15,6 +15,44 @@
 # You should have received a copy of the GNU Lesser General Public License
 # along with this Python-EFL.  If not, see <http://www.gnu.org/licenses/>.
 
+
+"""
+
+.. rubric:: Widget description
+
+.. image:: /images/frame-preview.png
+
+
+Frame is a widget that holds some content and has a title.
+
+The default look is a frame with a title, but Frame supports multiple
+styles:
+
+- default
+- pad_small
+- pad_medium
+- pad_large
+- pad_huge
+- outdent_top
+- outdent_bottom
+
+Of all this styles only default shows the title.
+
+This widget emits the following signals, besides the ones sent from
+:py:class:`elementary.layout.Layout`:
+
+- ``"clicked"`` - The user has clicked the frame's label
+
+Default content parts of the frame widget that you can use for are:
+
+- "default" - A content of the frame
+
+Default text parts of the frame widget that you can use for are:
+
+- "default" - Label of the frame
+
+"""
+
 include "widget_header.pxi"
 
 from layout_class cimport LayoutClass
@@ -23,33 +61,7 @@ cdef class Frame(LayoutClass):
 
     """
 
-    Frame is a widget that holds some content and has a title.
-
-    The default look is a frame with a title, but Frame supports multiple
-    styles:
-
-    - default
-    - pad_small
-    - pad_medium
-    - pad_large
-    - pad_huge
-    - outdent_top
-    - outdent_bottom
-
-    Of all this styles only default shows the title.
-
-    This widget emits the following signals, besides the ones sent from
-    :py:class:`elementary.layout.Layout`:
-
-    - ``"clicked"`` - The user has clicked the frame's label
-
-    Default content parts of the frame widget that you can use for are:
-
-    - "default" - A content of the frame
-
-    Default text parts of the frame widget that you can use for are:
-
-    - "default" - Label of the frame
+    This is the class that actually implement the widget.
 
     """
 
