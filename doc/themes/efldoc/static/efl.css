@@ -21,11 +21,11 @@ body {
     font-size: 14px;
     text-align: center;
     /* background-image: url(bodybg.png); */
-    background-color: rgb(64,64,64); /* */
-    color: white; /*black*/
+    background-color: rgb(64,64,64);
+    color: white;
     padding: 0;
-    border-right: 1px solid rgb(111,111,111); /*#0a507a*/
-    border-left: 1px solid rgb(111,111,111); /*#0a507a*/
+    border-right: 1px solid rgb(111,111,111);
+    border-left: 1px solid rgb(111,111,111);
 
     margin: 0 auto;
     min-width: 780px;
@@ -55,13 +55,13 @@ body {
 .pageheader li a {
     border-radius: 1px;
     padding: 8px 12px;
-    color: #f9f9f0;
+    color: rgb(249,249,240);
     text-shadow: 0 0 5px rgba(0, 0, 0, 0.5);
 }
 
 .pageheader li a:hover {
-    background-color: #f9f9f0;
-    color: #0a507a;
+    background-color: rgb(249,249,240);
+    color: rgb(10,80,122);
     text-shadow: none;
 }
 
@@ -72,7 +72,7 @@ div.document {
 
 div.bodywrapper {
     margin: 0 240px 0 0;
-    border-right: 1px solid rgb(111,111,111); /*#0a507a*/
+    border-right: 1px solid rgb(111,111,111);
 }
 
 div.body {
@@ -88,8 +88,8 @@ div.related {
 div.related ul {
     background-image: url(rel_background.png); /*url(relbg.png)*/
     height: 1.9em;
-    border-top: 1px solid rgb(32,32,32); /*#002e50*/
-    border-bottom: 1px solid rgb(32,32,32); /*#002e50*/
+    border-top: 1px solid rgb(32,32,32);
+    border-bottom: 1px solid rgb(32,32,32);
 }
 
 div.related ul li {
@@ -107,7 +107,7 @@ div.related ul li a {
     margin: 0;
     padding: 0 5px 0 5px;
     line-height: 1.75em;
-    color: #f9f9f0;
+    color: rgb(249,249,240);
     text-shadow: 0px 0px 1px rgba(0, 0, 0, 0.5);
 }
 
@@ -136,7 +136,7 @@ div.sphinxsidebar {
 
 div.sphinxsidebar .logo {
     font-size: 1.8em;
-    color: #0A507A;
+    color: rgb(10,80,122);
     font-weight: 300;
     text-align: center;
 }
@@ -146,7 +146,7 @@ div.sphinxsidebar .logo img {
 }
 
 div.sphinxsidebar input {
-    border: 1px solid #aaa;
+    border: 1px solid rgb(170,170,170);
     font-family: 'Open Sans', 'Lucida Grande', 'Lucida Sans Unicode', 'Geneva',
                  'Verdana', sans-serif;
     font-size: 1em;
@@ -154,7 +154,7 @@ div.sphinxsidebar input {
 
 div.sphinxsidebar h3 {
     font-size: 1.5em;
-    border-top: 1px solid rgb(111,111,111); /*#0a507a;*/
+    border-top: 1px solid rgb(111,111,111);
     margin-top: 1em;
     margin-bottom: 0.5em;
     padding-top: 0.5em;
@@ -170,7 +170,7 @@ div.sphinxsidebar h3, div.sphinxsidebar h4 {
     margin-left: -15px;
     padding-right: 14px;
     padding-left: 14px;
-    color: rgb(51, 153, 255); /*#333*/
+    color: rgb(51, 153, 255);
     font-weight: 300;
     /*text-shadow: 0px 0px 0.5px rgba(0, 0, 0, 0.4);*/
 }
@@ -181,11 +181,11 @@ div.sphinxsidebarwrapper > h3:first-child {
 }
 
 div.sphinxsidebar h3 a {
-    color: rgb(51, 153, 255); /*#333*/
+    color: rgb(51, 153, 255);
 }
 
 div.sphinxsidebar ul {
-    color: #444;
+    color: rgb(68,68,68);
     margin-top: 7px;
     padding: 0;
     line-height: 130%;
@@ -198,7 +198,7 @@ div.sphinxsidebar ul ul {
 
 div.footer {
     background-image: url(footer_background.png); /*url(footerbg.png)*/
-    color: #ccc;
+    color: rgb(204,204,204);
     text-shadow: 0 0 .2px rgba(255, 255, 255, 0.8);
     padding: 3px 8px 3px 0;
     clear: both;
@@ -211,23 +211,23 @@ div.footer {
 
 /* no need to make a visible link to Sphinx on the Sphinx page */
 div.footer a {
-    color: #ccc;
+    color: rgb(204,204,204);
 }
 
 /* -- body styles ----------------------------------------------------------- */
 
-p {    
+p {
     margin: 0.8em 0 0.5em 0;
 }
 
 a {
-    color: #A2881D;
+    color: rgb(162,136,29);
     text-decoration: none;
 }
 
 a:hover {
-    color: #E1C13F;
-    text-shadow: rgb(51, 153, 255) 0px 0px 10px; /* */
+    color: rgb(225,193,63);
+    text-shadow: rgb(51, 153, 255) 0px 0px 10px;
 }
 
 div.body a {
@@ -237,7 +237,7 @@ div.body a {
 h1 {
     margin: 10px 0 0 0;
     font-size: 2.4em;
-    color: rgb(51, 153, 255); /*#0A507A*/
+    color: rgb(51, 153, 255);
     font-weight: 300;
 }
 
@@ -246,8 +246,8 @@ h2 {
     font-size: 1.5em;
     font-weight: 300;
     padding: 0;
-    color: rgb(51, 153, 255); /*#174967*/
-    text-shadow: rgb(51, 153, 255) 0px 0px 10px; /* */
+    color: rgb(51, 153, 255);
+    text-shadow: rgb(51, 153, 255) 0px 0px 10px;
 }
 
 h3 {
@@ -261,12 +261,12 @@ div.body h1 a, div.body h2 a, div.body h3 a, div.body h4 a, div.body h5 a, div.b
 }
 
 div.body h1 a tt, div.body h2 a tt, div.body h3 a tt, div.body h4 a tt, div.body h5 a tt, div.body h6 a tt {
-    color: rgb(51, 153, 255) !important;  /*#0A507A*/
+    color: rgb(51, 153, 255) !important;
     font-size: inherit !important;
 }
 
 a.headerlink {
-    color: #0A507A !important;
+    color: rgb(10,80,122) !important;
     font-size: 12px;
     margin-left: 6px;
     padding: 0 4px 0 4px;
@@ -275,7 +275,7 @@ a.headerlink {
 }
 
 a.headerlink:hover {
-    background-color: #ccc;
+    background-color: rgb(204,204,204);
     color: white!important;
 }
 
@@ -287,10 +287,10 @@ cite, code, tt {
 }
 
 tt {
-    background-color: rgb(51,51,51); /*#f2f2f2*/
-    border: 1px solid rgb(32,32,32); /*#ddd*/
+    background-color: rgb(51,51,51);
+    border: 1px solid rgb(32,32,32);
     border-radius: 2px;
-    color: white; /*#333*/
+    color: white;
     padding: 1px;
 }
 
@@ -299,17 +299,17 @@ tt.descname, tt.descclassname, tt.xref {
 }
 
 hr {
-    border: 1px solid #abc;
+    border: 1px solid rgb(170,187,204);
     margin: 2em;
 }
 
 a tt {
     border: 0;
-    color: #a2881d;
+    color: rgb(162,136,29);
 }
 
 a tt:hover {
-    color: #e1c13f;
+    color: rgb(225,193,63);
 }
 
 pre {
@@ -320,8 +320,8 @@ pre {
     line-height: 120%;
     padding: 0.5em;
     border-radius: 4px; /*2px*/
-    background-color: rgb(51,51,51); /*#f8f8f8*/
-    border: 1px solid rgb(32,32,32); /*#ccc*/
+    background-color: rgb(51,51,51);
+    border: 1px solid rgb(32,32,32);
 }
 
 pre a {
@@ -334,16 +334,16 @@ td.linenos pre {
 }
 
 div.quotebar {
-    background-color: #f8f8f8;
+    background-color: rgb(248,248,248);
     max-width: 250px;
     float: right;
     padding: 0px 7px;
-    border: 1px solid #ccc;
+    border: 1px solid rgb(204,204,204);
     margin-left: 1em;
 }
 
 div.topic {
-    background-color: #f8f8f8;
+    background-color: rgb(248,248,248);
 }
 
 table {
@@ -358,9 +358,9 @@ table td, table th {
 div.admonition, div.warning {
     font-size: 0.9em;
     margin: 1em 0 1em 0;
-    border: 1px solid rgb(32,32,32); /*#86989B*/
+    border: 1px solid rgb(32,32,32);
     border-radius: 2px;
-    background-color: rgb(51,51,51); /*#f7f7f7*/
+    background-color: rgb(51,51,51);
     padding: 0;
 }
 
@@ -381,8 +381,8 @@ div.warning p.admonition-title {
 }
 
 div.warning {
-    border: 1px solid rgb(101,16,16); /*#940000*/
-    background-color: rgb(101,51,51); /*#FFCCCF*/
+    border: 1px solid rgb(101,16,16);
+    background-color: rgb(101,51,51);
 }
 
 div.warning p.admonition-title {
@@ -400,13 +400,13 @@ div.warning ul, div.warning ol {
 }
 
 div.viewcode-block:target {
-    background-color: #f4debf;
-    border-top: 1px solid #ac9;
-    border-bottom: 1px solid #ac9;
+    background-color: rgb(244,222,191);
+    border-top: 1px solid rgb(170,204,153);
+    border-bottom: 1px solid rgb(170,204,153);
 }
 
-dt:target, .highlighted { /* */
-    background-color: #fbe54e;
+dt:target, .highlighted {
+    background-color: rgb(251,229,78);
     background-image: url(hilight_background.png);
     border-top: 1px solid rgb(32,32,32);
     border-bottom: 1px solid rgb(32,32,32);
