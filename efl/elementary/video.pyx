@@ -19,8 +19,6 @@
 
 .. rubric:: Widget description
 
-.. image:: /images/video-preview.png
-
 
 Display a video by using Emotion.
 

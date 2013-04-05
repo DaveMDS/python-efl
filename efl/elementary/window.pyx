@@ -20,8 +20,6 @@
 
 .. rubric:: Widget description
 
-.. image:: /images/window-preview.png
-
 
 The window class of Elementary.
 

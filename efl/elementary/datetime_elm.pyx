@@ -20,8 +20,6 @@
 
 .. rubric:: Widget description
 
-.. image:: /images/datetime-preview.png
-
 
 Datetime widget is used to display and input date & time values.
 

@@ -20,8 +20,6 @@
 
 .. rubric:: Widget description
 
-.. image:: /images/photocam-preview.png
-
 
 This is a widget specifically for displaying high-resolution digital
 camera photos giving speedy feedback (fast load), low memory footprint
