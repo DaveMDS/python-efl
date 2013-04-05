@@ -1,6 +1,28 @@
+# Copyright (C) 2007-2013 various contributors (see AUTHORS)
+#
+# This file is part of Python-EFL.
+#
+# Python-EFL is free software; you can redistribute it and/or
+# modify it under the terms of the GNU Lesser General Public
+# License as published by the Free Software Foundation; either
+# version 2.1 of the License, or (at your option) any later version.
+#
+# Python-EFL is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+# Lesser General Public License for more details.
+#
+# You should have received a copy of the GNU Lesser General Public License
+# along with this Python-EFL.  If not, see <http://www.gnu.org/licenses/>.
 
-"""D-Bus python integration for Ecore main loop."""
+"""
 
+EDBus is a wrapper around the
+`dbus <http://www.freedesktop.org/wiki/Software/dbus>`_
+library, which is a message bus system. It also implements a set of
+specifications using dbus as interprocess communication.
+
+"""
 cimport enums
 
 EDBUS_CONNECTION_TYPE_UNKNOWN = enums.EDBUS_CONNECTION_TYPE_UNKNOWN
@@ -9,39 +31,9 @@ EDBUS_CONNECTION_TYPE_SYSTEM = enums.EDBUS_CONNECTION_TYPE_SYSTEM
 EDBUS_CONNECTION_TYPE_STARTER = enums.EDBUS_CONNECTION_TYPE_STARTER
 EDBUS_CONNECTION_TYPE_LAST = enums.EDBUS_CONNECTION_TYPE_LAST
 
-import dbus
-import dbus.mainloop
-import atexit
-
-import_dbus_bindings("edbus")
-
 def module_cleanup():
     edbus_shutdown()
-    ecore_shutdown()
 
-ecore_init()
 edbus_init()
 atexit.register(module_cleanup)
 
-cdef dbus_bool_t dbus_py_ecore_setup_conn(DBusConnection *conn, void* data):
-    cdef EDBus_Connection_Type ctype = enums.EDBUS_CONNECTION_TYPE_SESSION
-    edbus_connection_from_dbus_connection(ctype, <void *>conn)
-    return True
-
-cdef object dbus_ecore_native_mainloop():
-    cdef PyObject *ml = DBusPyNativeMainLoop_New4(dbus_py_ecore_setup_conn, NULL, NULL, NULL)
-    return <object>ml
-
-def DBusEcoreMainLoop(set_as_default=False):
-    """Returns a NativeMainLoop to attach the Ecore main loop to D-Bus from
-    within Python."""
-
-    ml = dbus_ecore_native_mainloop()
-
-    if ml is not None:
-        if set_as_default:
-            dbus.set_default_main_loop(ml)
-    else:
-        raise RuntimeError("Could not get a main loop object.")
-
-    return ml
