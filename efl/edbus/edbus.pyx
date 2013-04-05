@@ -23,13 +23,6 @@ library, which is a message bus system. It also implements a set of
 specifications using dbus as interprocess communication.
 
 """
-cimport enums
-
-EDBUS_CONNECTION_TYPE_UNKNOWN = enums.EDBUS_CONNECTION_TYPE_UNKNOWN
-EDBUS_CONNECTION_TYPE_SESSION = enums.EDBUS_CONNECTION_TYPE_SESSION
-EDBUS_CONNECTION_TYPE_SYSTEM = enums.EDBUS_CONNECTION_TYPE_SYSTEM
-EDBUS_CONNECTION_TYPE_STARTER = enums.EDBUS_CONNECTION_TYPE_STARTER
-EDBUS_CONNECTION_TYPE_LAST = enums.EDBUS_CONNECTION_TYPE_LAST
 
 def module_cleanup():
     edbus_shutdown()
@@ -37,3 +30,6 @@ def module_cleanup():
 edbus_init()
 atexit.register(module_cleanup)
 
+include "connection.pxi"
+include "message.pxi"
+include "signal_handler.pxi"

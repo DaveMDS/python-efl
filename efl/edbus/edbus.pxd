@@ -13,6 +13,11 @@ cdef extern from "EDBus.h":
     #define EDBUS_FDO_INTEFACE_PEER "org.freedesktop.DBus.Peer"
     #define EDBUS_ERROR_PENDING_CANCELED "org.enlightenment.DBus.Canceled"
 
+    int edbus_init()
+    int edbus_shutdown()
+
+    ctypedef void                       (*EDBus_Free_Cb)(void *data, const void *deadptr)
+
     ctypedef struct _EDBus_Connection       EDBus_Connection
     ctypedef struct _EDBus_Object           EDBus_Object
     ctypedef struct _EDBus_Proxy            EDBus_Proxy
@@ -23,9 +28,6 @@ cdef extern from "EDBus.h":
 
     ctypedef void (*EDBus_Message_Cb)(void *data, const EDBus_Message *msg, EDBus_Pending *pending)
     ctypedef void (*EDBus_Signal_Cb)(void *data, const EDBus_Message *msg)
-
-    int edbus_init()
-    int edbus_shutdown()
 
     # edbus_connection.h
 
