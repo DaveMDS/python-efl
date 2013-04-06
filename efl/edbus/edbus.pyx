@@ -33,3 +33,8 @@ atexit.register(module_cleanup)
 include "connection.pxi"
 include "message.pxi"
 include "signal_handler.pxi"
+include "pending.pxi"
+include "object.pxi"
+include "proxy.pxi"
+include "freedesktop.pxi"
+include "service.pxi"
