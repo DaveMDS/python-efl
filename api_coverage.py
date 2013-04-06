@@ -123,7 +123,7 @@ for key in args.libs:
     if args.c:
         print("C API functions: {0}".format(len(ecs)))
 
-    if args.python:
+    if args.python and len(ecs) > 0:
         percentage = float(len(ecs.intersection(eps))) / float(len(ecs)) * 100.0
         print("===")
         print("Bindings coverage {0:.2f}%".format(percentage))
