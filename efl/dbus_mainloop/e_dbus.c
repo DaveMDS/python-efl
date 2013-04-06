@@ -21,6 +21,15 @@
 #include "e_dbus.h"
 
 
+#ifndef E_DBUS_COLOR_DEFAULT
+#define E_DBUS_COLOR_DEFAULT EINA_COLOR_CYAN
+#endif
+static int _e_dbus_log_dom = -1;
+#define DBG(...)   EINA_LOG_DOM_DBG(_e_dbus_log_dom, __VA_ARGS__)
+#define INFO(...)    EINA_LOG_DOM_INFO(_e_dbus_log_dom, __VA_ARGS__)
+#define WARN(...) EINA_LOG_DOM_WARN(_e_dbus_log_dom, __VA_ARGS__)
+#define ERR(...)   EINA_LOG_DOM_ERR(_e_dbus_log_dom, __VA_ARGS__)
+
 int E_DBUS_EVENT_SIGNAL = 0;
 static int connection_slot = -1;
 static int e_dbus_idler_active = 0;
@@ -33,7 +42,7 @@ e_dbus_fd_handler_del(E_DBus_Handler_Data *hd)
 {
   if (!hd->fd_handler) return;
 
-  printf("handler disabled\n");
+  DBG("handler disabled");
   hd->cd->fd_handlers = eina_list_remove(hd->cd->fd_handlers, hd->fd_handler);
   ecore_main_fd_handler_del(hd->fd_handler);
   hd->fd_handler = NULL;
@@ -45,7 +54,7 @@ e_dbus_fd_handler(void *data, Ecore_Fd_Handler *fd_handler)
   E_DBus_Handler_Data *hd;
   unsigned int condition = 0;
 
-  printf("fd handler (%p)!\n", fd_handler);
+  DBG("fd handler (%p)!", fd_handler);
 
   hd = data;
 
@@ -57,11 +66,11 @@ e_dbus_fd_handler(void *data, Ecore_Fd_Handler *fd_handler)
   if (ecore_main_fd_handler_active_get(fd_handler, ECORE_FD_READ)) condition |= DBUS_WATCH_READABLE;
   if (ecore_main_fd_handler_active_get(fd_handler, ECORE_FD_WRITE)) condition |= DBUS_WATCH_WRITABLE;
   if (ecore_main_fd_handler_active_get(fd_handler, ECORE_FD_ERROR)) condition |= DBUS_WATCH_ERROR;
-  printf("fdh || READ: %d, WRITE: %d\n",
+  DBG("fdh || READ: %d, WRITE: %d",
       (condition & DBUS_WATCH_READABLE) == DBUS_WATCH_READABLE,
       (condition & DBUS_WATCH_WRITABLE) == DBUS_WATCH_WRITABLE);
 
-  if (condition & DBUS_WATCH_ERROR) printf("DBUS watch error\n");
+  if (condition & DBUS_WATCH_ERROR) DBG("DBUS watch error");
   dbus_watch_handle(hd->watch, condition);
   hd = NULL;
 
@@ -87,7 +96,7 @@ e_dbus_fd_handler_add(E_DBus_Handler_Data *hd)
        if (ecore_main_fd_handler_fd_get(fdh) == hd->fd) return;
     }
 
-  printf("fd handler add (%d)\n", hd->fd);
+  DBG("fd handler add (%d)", hd->fd);
   hd->fd_handler = ecore_main_fd_handler_add(hd->fd,
                                              eflags,
                                              e_dbus_fd_handler,
@@ -102,8 +111,8 @@ static void
 e_dbus_handler_data_free(void *data)
 {
   E_DBus_Handler_Data *hd = data;
-  
-  printf("e_dbus_handler_data_free\n");
+
+  DBG("e_dbus_handler_data_free");
   if (hd->fd_handler)
   {
     hd->cd->fd_handlers = eina_list_remove(hd->cd->fd_handlers, hd->fd_handler);
@@ -128,7 +137,7 @@ e_dbus_connection_data_watch_add(E_DBus_Connection *cd, DBusWatch *watch)
 // #else
   // hd->fd = dbus_watch_get_fd(hd->watch);
 // #endif
-  printf("watch add (enabled: %d)\n", hd->enabled);
+  DBG("watch add (enabled: %d)", hd->enabled);
   if (hd->enabled) e_dbus_fd_handler_add(hd);
 }
 
@@ -142,25 +151,25 @@ static DBusHandlerResult
 e_dbus_filter(DBusConnection *conn, DBusMessage *message, void *user_data)
 {
   E_DBus_Connection *cd = user_data;
-  printf("-----------------\n");
-  printf("Message!\n");
+  DBG("-----------------");
+  DBG("Message!");
 
-  printf("type: %s\n", dbus_message_type_to_string(dbus_message_get_type(message)));
-  printf("path: %s\n", dbus_message_get_path(message));
-  printf("interface: %s\n", dbus_message_get_interface(message));
-  printf("member: %s\n", dbus_message_get_member(message));
-  printf("sender: %s\n", dbus_message_get_sender(message));
+  DBG("type: %s", dbus_message_type_to_string(dbus_message_get_type(message)));
+  DBG("path: %s", dbus_message_get_path(message));
+  DBG("interface: %s", dbus_message_get_interface(message));
+  DBG("member: %s", dbus_message_get_member(message));
+  DBG("sender: %s", dbus_message_get_sender(message));
 
   switch (dbus_message_get_type(message))
   {
     case DBUS_MESSAGE_TYPE_METHOD_CALL:
-      printf("signature: %s\n", dbus_message_get_signature(message));
+      DBG("signature: %s", dbus_message_get_signature(message));
       break;
     case DBUS_MESSAGE_TYPE_METHOD_RETURN:
-      printf("reply serial %d\n", dbus_message_get_reply_serial(message));
+      DBG("reply serial %d", dbus_message_get_reply_serial(message));
       break;
     case DBUS_MESSAGE_TYPE_ERROR:
-      printf("error: %s\n", dbus_message_get_error_name(message));
+      DBG("error: %s", dbus_message_get_error_name(message));
       break;
     case DBUS_MESSAGE_TYPE_SIGNAL:
       dbus_message_ref(message);
@@ -170,7 +179,7 @@ e_dbus_filter(DBusConnection *conn, DBusMessage *message, void *user_data)
     default:
       break;
   }
-  printf("-----------------\n");
+  DBG("-----------------");
 
   return DBUS_HANDLER_RESULT_NOT_YET_HANDLED;
 }
@@ -183,13 +192,13 @@ e_dbus_idler(void *data)
 
   if (DBUS_DISPATCH_COMPLETE == dbus_connection_get_dispatch_status(cd->conn))
   {
-    printf("done dispatching!\n");
+    DBG("done dispatching!");
     cd->idler = NULL;
     return ECORE_CALLBACK_CANCEL;
   }
   e_dbus_idler_active++;
   dbus_connection_ref(cd->conn);
-  printf("dispatch()\n");
+  DBG("dispatch()");
   dbus_connection_dispatch(cd->conn);
   dbus_connection_unref(cd->conn);
   e_dbus_idler_active--;
@@ -209,7 +218,7 @@ cb_dispatch_status(DBusConnection *conn, DBusDispatchStatus new_status, void *da
 {
   E_DBus_Connection *cd;
 
-  printf("dispatch status: %d!\n", new_status);
+  DBG("dispatch status: %d!", new_status);
   cd = data;
 
   if (new_status == DBUS_DISPATCH_DATA_REMAINS && !cd->idler)
@@ -229,7 +238,7 @@ cb_watch_add(DBusWatch *watch, void *data)
   E_DBus_Connection *cd;
   cd = data;
 
-  printf("cb_watch_add\n");
+  DBG("cb_watch_add");
   e_dbus_connection_data_watch_add(cd, watch);
 
   return true;
@@ -240,7 +249,7 @@ cb_watch_del(DBusWatch *watch, void *data)
 {
   E_DBus_Handler_Data *hd;
 
-  printf("cb_watch_del\n");
+  DBG("cb_watch_del");
   hd = (E_DBus_Handler_Data *)dbus_watch_get_data(watch);
   e_dbus_fd_handler_del(hd);
 }
@@ -250,14 +259,14 @@ cb_watch_toggle(DBusWatch *watch, void *data)
 {
   E_DBus_Handler_Data *hd;
 
-  printf("cb_watch_toggle\n");
+  DBG("cb_watch_toggle");
   hd = dbus_watch_get_data(watch);
 
   if (!hd) return;
 
   hd->enabled = dbus_watch_get_enabled(watch);
 
-  printf("watch %p is %sabled\n", hd, hd->enabled ? "en" : "dis");
+  INFO("watch %p is %sabled", hd, hd->enabled ? "en" : "dis");
   if (hd->enabled) e_dbus_fd_handler_add(hd);
   else e_dbus_fd_handler_del(hd);
 }
@@ -273,12 +282,12 @@ e_dbus_timeout_handler(void *data)
 
   if (!dbus_timeout_get_enabled(td->timeout))
   {
-    printf("timeout_handler (not enabled, ending)\n");
+    DBG("timeout_handler (not enabled, ending)");
     td->handler = NULL;
     return ECORE_CALLBACK_CANCEL;
   }
 
-  printf("timeout handler!\n");
+  DBG("timeout handler!");
   dbus_timeout_handle(td->timeout);
   return ECORE_CALLBACK_CANCEL;
 }
@@ -287,7 +296,7 @@ static void
 e_dbus_timeout_data_free(void *timeout_data)
 {
   E_DBus_Timeout_Data *td = timeout_data;
-  printf("e_dbus_timeout_data_free\n");
+  DBG("e_dbus_timeout_data_free");
   if (td->handler) ecore_timer_del(td->handler);
   free(td);
 }
@@ -299,7 +308,7 @@ cb_timeout_add(DBusTimeout *timeout, void *data)
   E_DBus_Timeout_Data *td;
   
   cd = data;
-  printf("timeout add!\n");
+  DBG("timeout add!");
   td = calloc(1, sizeof(E_DBus_Timeout_Data));
   td->cd = cd;
   dbus_timeout_set_data(timeout, (void *)td, e_dbus_timeout_data_free);
@@ -318,7 +327,7 @@ static void
 cb_timeout_del(DBusTimeout *timeout, void *data)
 {
   E_DBus_Timeout_Data *td;
-  printf("timeout del!\n");
+  DBG("timeout del!");
 
   td = (E_DBus_Timeout_Data *)dbus_timeout_get_data(timeout);
 
@@ -336,7 +345,7 @@ static void
 cb_timeout_toggle(DBusTimeout *timeout, void *data)
 {
   E_DBus_Timeout_Data *td;
-  printf("timeout toggle!\n");
+  DBG("timeout toggle!");
 
   td = (E_DBus_Timeout_Data *)dbus_timeout_get_data(timeout);
 
@@ -367,11 +376,11 @@ e_dbus_connection_new(DBusConnection *conn)
   conn_name = dbus_bus_get_unique_name(conn);
   if (conn_name)
   {
-    printf("Connected! Name: %s\n", conn_name);
+    DBG("Connected! Name: %s", conn_name);
     cd->conn_name = strdup(conn_name);
   }
   else
-    printf("Not connected\n");
+    DBG("Not connected");
 
   cd->shared_type = (unsigned int)-1;
   cd->fd_handlers = NULL;
@@ -386,7 +395,7 @@ e_dbus_connection_free(void *data)
   E_DBus_Connection *cd = data;
   Ecore_Fd_Handler *fd_handler;
   Ecore_Timer *timer;
-  printf("e_dbus_connection free!\n");
+  DBG("e_dbus_connection free!");
 
   EINA_LIST_FREE(cd->fd_handlers, fd_handler)
     ecore_main_fd_handler_del(fd_handler);
@@ -420,9 +429,17 @@ e_dbus_init(void)
       return --_edbus_init_count;
     }
 
+  _e_dbus_log_dom = eina_log_domain_register("e_dbus", E_DBUS_COLOR_DEFAULT);
+  if (_e_dbus_log_dom < 0)
+    {
+      EINA_LOG_ERR("Unable to create an 'e_dbus' log domain");
+      eina_shutdown();
+      return --_edbus_init_count;
+    }
+
   if (!ecore_init())
     {
-      fprintf(stderr, "E-dbus: Unable to initialize ecore\n");
+      ERR("E-dbus: Unable to initialize ecore");
       eina_shutdown();
       return --_edbus_init_count;
     }
@@ -438,7 +455,7 @@ e_dbus_shutdown(void)
 {
   if (_edbus_init_count <= 0)
      {
-        fprintf(stderr, "Init count not greater than 0 in shutdown.\n");
+        EINA_LOG_ERR("Init count not greater than 0 in shutdown.");
         return 0;
      }
   if (--_edbus_init_count)
@@ -446,6 +463,8 @@ e_dbus_shutdown(void)
 
   // e_dbus_object_shutdown();
   ecore_shutdown();
+  eina_log_domain_unregister(_e_dbus_log_dom);
+  _e_dbus_log_dom = -1;
   eina_shutdown();
 
   return _edbus_init_count;
@@ -490,7 +509,7 @@ void
 e_dbus_connection_close(E_DBus_Connection *conn)
 {
   if (!conn) return;
-  printf("e_dbus_connection_close\n");
+  DBG("e_dbus_connection_close");
 
   if (e_dbus_idler_active)
   {
