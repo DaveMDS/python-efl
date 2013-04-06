@@ -120,6 +120,14 @@ else:
                             #extra_link_args = edbus_libs)
     #modules.append(edbus_ext)
 
+    # dbus mainloop integration
+    dbus_cflags, dbus_libs = pkg_config('DBus', 'dbus-python', "0.83.0")
+    dbus_ml_ext = Extension("efl.dbus_mainloop",
+                            ["efl/dbus_mainloop/module.c",
+                             "efl/dbus_mainloop/e_dbus.c"],
+                            extra_compile_args = dbus_cflags + ecore_cflags,
+                            extra_link_args = dbus_libs + ecore_libs)
+
     # Elementary
     elm_exts = [
         Extension("efl.elementary.actionslider", ["efl/elementary/actionslider.pyx"]),
@@ -220,5 +228,5 @@ if __name__ == "__main__":
                 #"builder": (None, "coverage"),
             },
         },
-        ext_modules = cythonize(modules, include_path=["include"]),
+        ext_modules = cythonize(modules, include_path=["include"]) + [dbus_ml_ext],
     )
