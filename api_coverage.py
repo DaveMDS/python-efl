@@ -26,32 +26,49 @@ def pkg_config(require, min_vers=None):
 
 def get_capis(inc_path, prefix):
     capis = []
+    capi_pattern = re.compile("^ *EAPI [A-Za-z_ *\n]+ +\**(?!" + c_excludes + ")(" + prefix + "_\w+) *\(", flags = re.S|re.M)
 
     for path, dirs, files in os.walk(inc_path):
         for f in files:
-            with open(os.path.join(path, f), encoding="UTF-8", mode="r") as header:
-                capi = header.read()
-                matches = re.finditer("^ *EAPI [A-Za-z_ *\n]+ +\**(?!" + c_excludes + ")(" + prefix + "_\w+) *\(", capi, re.S|re.M)
-                for match in matches:
-                    func = match.group(1)
-                    capis.append(func)
+            if sys.version_info[0] < 3:
+                header = open(os.path.join(path, f), mode="r")
+            else:
+                header = open(os.path.join(path, f), encoding="UTF-8", mode="r")
+
+            capi = header.read()
+
+            matches = re.finditer(capi_pattern, capi)
+            for match in matches:
+                func = match.group(1)
+                capis.append(func)
+
+            header.close()
 
     return capis
 
 def get_pyapis(pxd_path, header_name, prefix):
     pyapis = []
+    pyapi_pattern1 = re.compile('(cdef extern from "' + header_name + '\.h":\n)(.+)', flags = re.S)
+    pyapi_pattern2 = re.compile("^    [a-zA-Z _*]+?(?!" + py_excludes + ")(" + prefix + "_\w+)\(", flags = re.M)
 
     for path, dirs, files in os.walk(pxd_path):
         for f in files:
             if f.endswith(".pxd"):
-                with open(os.path.join(path, f), "r") as pxd:
-                    pyapi = pxd.read()
-                    cdef = re.search('(cdef extern from "' + header_name + '\.h":\n)(.+)', pyapi, re.S)
-                    if cdef:
-                        matches = re.finditer("^    [a-zA-Z _*]+?(?!" + py_excludes + ")(" + prefix + "_\w+)\(", cdef.group(2), re.M)
-                        for match in matches:
-                            func = match.group(1)
-                            pyapis.append(func)
+                if sys.version_info[0] < 3:
+                    pxd = open(os.path.join(path, f), mode="r")
+                else:
+                    pxd = open(os.path.join(path, f), encoding="UTF-8", mode="r")
+
+                pyapi = pxd.read()
+
+                cdef = re.search(pyapi_pattern1, pyapi)
+                if cdef:
+                    matches = re.finditer(pyapi_pattern2, cdef.group(2))
+                    for match in matches:
+                        func = match.group(1)
+                        pyapis.append(func)
+
+                pxd.close()
 
     return pyapis
 
