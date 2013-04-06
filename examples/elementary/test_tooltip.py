@@ -11,6 +11,7 @@ from efl.elementary.button import Button
 from efl.elementary.entry import Entry
 from efl.elementary.list import List
 from efl.elementary.toolbar import Toolbar
+from efl.elementary.icon import Icon
 
 
 def _tt_icon(obj, *args, **kargs):

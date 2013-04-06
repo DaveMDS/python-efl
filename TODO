@@ -3,9 +3,6 @@ BUGS
 ====
 
 * Evas: smart object doesn't work
-* Elm: remove tooltips.pxi
-* _fruni() and _cfruni() are buggy when used with py3 (because they return the
-  internal buffer of the 'string' object declared inside the function)
 
 
 TODO
@@ -29,6 +26,7 @@ TODO
 * Review the internal functions and name them consistently
 * Add more documentation for the use of callbacks
 * Document our use of exceptions
+* evas.TextGrid
 
 
 IMAGES
