@@ -7,18 +7,18 @@ import subprocess
 import argparse
 
 c_exclude_list = [
-    "elm_app",
-    "elm_widget",
-    "elm_prefs",
+    "elm_app", # These are only useful for C apps
+    "elm_widget", # Custom widgets, probably not feasible for us to provide
+    "elm_prefs", # Intended for configuration dialogs
 ]
 c_excludes = "|".join(c_exclude_list)
 
 py_exclude_list = [
-    "elm_naviframe_item_simple_push",
-    "elm_object_item_content",
-    "elm_object_item_text",
-    "elm_object_content",
-    "elm_object_text",
+    "elm_naviframe_item_simple_push", # macro
+    "elm_object_item_content", # macro
+    "elm_object_item_text", # macro
+    "elm_object_content", # macro
+    "elm_object_text", # macro
 ]
 py_excludes = "|".join(py_exclude_list)
 
