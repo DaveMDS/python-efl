@@ -6,8 +6,17 @@ import re
 import subprocess
 import argparse
 
-c_excludes = "elm_app|elm_widget|elm_prefs"
-py_excludes = "elm_naviframe_item_simple_push|elm_object_item_content|elm_object_item_text|elm_object_content|elm_object_text"
+c_excludes = "\
+elm_app|\
+elm_widget|\
+elm_prefs"
+
+py_excludes = "\
+elm_naviframe_item_simple_push|\
+elm_object_item_content|\
+elm_object_item_text|\
+elm_object_content|\
+elm_object_text"
 
 def pkg_config(require, min_vers=None):
     name = require.capitalize()
