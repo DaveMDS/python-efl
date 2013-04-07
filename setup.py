@@ -123,10 +123,11 @@ else:
     # dbus mainloop integration
     dbus_cflags, dbus_libs = pkg_config('DBus', 'dbus-python', "0.83.0")
     dbus_ml_ext = Extension("efl.dbus_mainloop",
-                            ["efl/dbus_mainloop/module.c",
+                            ["efl/dbus_mainloop/dbus_mainloop.pyx",
                              "efl/dbus_mainloop/e_dbus.c"],
                             extra_compile_args = dbus_cflags + ecore_cflags,
                             extra_link_args = dbus_libs + ecore_libs)
+    modules.append(dbus_ml_ext)
 
     # Elementary
     elm_exts = [
@@ -228,5 +229,5 @@ if __name__ == "__main__":
                 #"builder": (None, "coverage"),
             },
         },
-        ext_modules = cythonize(modules, include_path=["include"]) + [dbus_ml_ext],
+        ext_modules = cythonize(modules, include_path=["include"]),
     )
