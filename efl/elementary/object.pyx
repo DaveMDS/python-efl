@@ -35,27 +35,18 @@ from cpython cimport PyObject, Py_INCREF, Py_DECREF, PyObject_GetAttr
 include "widget_header.pxi"
 include "tooltips.pxi"
 
-from efl.evas cimport EventKeyDown, EventKeyUp, EventMouseWheel
-#from efl.evas cimport evas_object_data_get
-from efl.evas cimport evas_object_smart_callback_add
-from efl.evas cimport evas_object_smart_callback_del
-
-cimport efl.evas.enums as evasenums
-
 from efl.eo cimport _object_list_to_python
 
-#from efl.evas cimport eina_list_append
-#from efl.evas import _extended_object_mapping_register
-#from efl.evas import _object_mapping_register
-#from efl.evas import _object_mapping_unregister
+from efl.evas cimport EventKeyDown, EventKeyUp, EventMouseWheel
+from efl.evas cimport evas_object_smart_callback_add
+from efl.evas cimport evas_object_smart_callback_del
+cimport efl.evas.enums as evasenums
 
 import logging
 log = logging.getLogger("elementary")
-
-from theme cimport Theme
-
 import traceback
 
+from theme cimport Theme
 cimport enums
 
 ELM_FOCUS_PREVIOUS = enums.ELM_FOCUS_PREVIOUS
@@ -74,6 +65,7 @@ cdef void _object_callback(void *data,
 
     obj = object_from_instance(o)
     event = <object>data
+    # XXX: This is expensive code
     lst = tuple(obj._elmcallbacks[event])
     for event_conv, func, args, kargs in lst:
         try:
@@ -87,6 +79,7 @@ cdef void _object_callback(void *data,
 
 cdef bint _event_dispatcher(Object obj, Object src, Evas_Callback_Type t, event_info):
     cdef bint ret
+    # XXX: This is expensive code
     for func, args, kargs in obj._elm_event_cbs:
         try:
             ret = func(obj, src, t, event_info, *args, **kargs)
@@ -123,6 +116,7 @@ cdef Eina_Bool _event_callback(void *data, Evas_Object *o, Evas_Object *src, Eva
 
     return ret
 
+# TODO: Is this handled in Eo now?
 cdef void _event_data_del_cb(void *data, Evas_Object *o, void *event_info) with gil:
     pass
 #     Py_DECREF(<object>data)
@@ -434,13 +428,13 @@ cdef class Object(evasObject):
             <const_char *>emission if emission is not None else NULL,
             <const_char *>source if source is not None else NULL)
 
-    #def signal_callback_add(self, emission, source, func, data):
+    #TODO: def signal_callback_add(self, emission, source, func, data):
         #elm_object_signal_callback_add(self.obj, emission, source, func, data)
 
-    #def signal_callback_del(self, emission, source, func):
+    #TODO: def signal_callback_del(self, emission, source, func):
         #elm_object_signal_callback_del(self.obj, emission, source, func)
 
-    # XXX: Clashes badly with evas event_callback_*
+    # NOTE: name clash with evas event_callback_*
     def elm_event_callback_add(self, func, *args, **kargs):
         """elm_event_callback_add(func, *args, **kargs)
 
@@ -704,7 +698,7 @@ cdef class Object(evasObject):
             rel = relative_child.obj
         elm_object_focus_custom_chain_prepend(self.obj, child.obj, rel)
 
-    #def focus_next(self, direction):
+    def focus_next(self, direction):
         """Give focus to next object in object tree.
 
         Give focus to next object in focus chain of one object sub-tree. If
@@ -715,7 +709,7 @@ cdef class Object(evasObject):
         :type dir: Elm_Focus_Direction
 
         """
-        #elm_object_focus_next(self.obj, direction)
+        elm_object_focus_next(self.obj, direction)
 
     property tree_focus_allow:
         """Whether the Elementary object and its children are focusable
@@ -1087,8 +1081,9 @@ cdef class Object(evasObject):
 
     # Callbacks
     #
-    # XXX: Should these be internal only? (cdef)
-    #      Or remove the individual widget callback_*_add/del methods and use just these.
+    # TODO: Should these be internal only? (cdef)
+    #       Or remove the individual widget callback_*_add/del methods and
+    #       use just these.
     #
     def _callback_add_full(self, event, event_conv, func, *args, **kargs):
         """Add a callback for the smart event specified by event.
