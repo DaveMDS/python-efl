@@ -819,6 +819,9 @@ cdef class Canvas(Eo):
 #     cdef int _unset_obj(self) except 0
 
 
+cdef class Map(object):
+    cdef Evas_Map *map
+
 cdef class Object(Eo):
 #     cdef readonly Canvas evas
     cdef object _callbacks
@@ -839,6 +842,8 @@ cdef class Object(Eo):
     cpdef name_set(self, value)
     cpdef focus_get(self)
     cpdef focus_set(self, value)
+    cpdef map_get(self)
+    cpdef map_set(self, Map map)
 
 
 cdef class Rectangle(Object):

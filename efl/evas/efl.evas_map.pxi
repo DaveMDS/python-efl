@@ -21,21 +21,21 @@ cdef class Map(object):
 
     Evas allows different transformations to be applied to all kinds of
     objects. These are applied by means of UV mapping.
-    
+
     With UV mapping, one maps points in the source object to a 3D space
     positioning at target. This allows rotation, perspective, scale and
     lots of other effects, depending on the map that is used.
-    
+
     Each map point may carry a multiplier color. If properly
     calculated, these can do shading effects on the object, producing
     3D effects.
-    
+
     As usual, Evas provides both the raw and easy to use methods. The
     raw methods allow developers to create their maps somewhere else,
     possibly loading them from some file format. The easy to use methods
     calculate the points given some high-level parameters such as
     rotation angle, ambient light, and so on.
-    
+
     .. note: applying mapping will reduce performance, so use with
         care. The impact on performance depends on engine in
         use. Software is quite optimized, but not as fast as OpenGL.
@@ -47,10 +47,10 @@ cdef class Map(object):
     does not normally affect the map, but it's used by several of the utility
     functions to calculate the right position of the point given other
     parameters.
-    
+
     The coordinates for each point are set with evas_map_point_coord_set().
     """
-    cdef Evas_Map *map
+    # In pxd: cdef Evas_Map *map
 
     def __cinit__(self, *a, **ka):
         self.map = NULL
@@ -66,25 +66,25 @@ cdef class Map(object):
     def util_points_populate_from_object_full(self, Object obj, Evas_Coord z):
         """
         Populate source and destination map points to match exactly object.
- 
+
         Usually one initialize map of an object to match it's original
         position and size, then transform these with evas_map_util_*
         functions, such as evas_map_util_rotate() or
         evas_map_util_3d_rotate(). The original set is done by this
         function, avoiding code duplication all around.
-         
+
 
         :param obj: object to use unmapped geometry to populate map coordinates.
         :param z: Point Z Coordinate hint (pre-perspective transform). This value
                   will be used for all four points.
- 
+
         """
         evas_map_util_points_populate_from_object_full(self.map, obj.obj, z)
 
     def util_points_populate_from_object(self, Object obj):
         """
         Populate source and destination map points to match exactly object.
-        
+
         Usually one initialize map of an object to match it's original
         position and size, then transform these with evas_map_util_*
         functions, such as evas_map_util_rotate() or
@@ -167,11 +167,11 @@ cdef class Map(object):
 
         """
         evas_map_util_zoom(self.map, zoomx, zoomy, cx, cy)
-    
+
     def util_3d_rotate(self, double dx, double dy, double dz, Evas_Coord cx, Evas_Coord cy, Evas_Coord cz):
         """
         Rotate the map around 3 axes in 3D
-        
+
         This will rotate not just around the "Z" axis as in evas_map_util_rotate()
         (which is a convenience call for those only wanting 2D). This will rotate
         around the X, Y and Z axes. The Z axis points "into" the screen with low
@@ -194,7 +194,7 @@ cdef class Map(object):
         Rotate the map in 3D using a unit quaternion.
 
         This will rotate in 3D using a unit quaternion. Like with
-        evas_map_util_3d_rotate() you provide a center point 
+        evas_map_util_3d_rotate() you provide a center point
         to rotate around (in 3D).
 
         :param qx: the x component of the imaginary part of the quaternion.
@@ -204,11 +204,11 @@ cdef class Map(object):
         :param cx: rotation's center x.
         :param cy: rotation's center y.
         :param cz: rotation's center z.
-        
+
         .. attention:: Rotations can be done using a unit quaternion. Thus, this
             function expects a unit quaternion (i.e. qx² + qy² + qz² + qw² == 1).
             If this is not the case the behavior is undefined.
- 
+
         """
         evas_map_util_quat_rotate(self.map, qx, qy, qz, qw, cx, cy, cz)
 
@@ -297,7 +297,7 @@ cdef class Map(object):
     def smooth_get(self):
         """
         Get the smoothing for map rendering
-        
+
         :rtype: bool
 
         """
@@ -332,7 +332,7 @@ cdef class Map(object):
         :rtype: bool
         """
         return bool(evas_map_alpha_get(self.map))
-        
+
 
     property alpha:
         def __get__(self):
@@ -353,7 +353,7 @@ cdef class Map(object):
     property count:
         def __get__(self):
             return self.count_get()
-    
+
     def point_coord_set(self, int idx, Evas_Coord x, Evas_Coord y, Evas_Coord z):
         """
         Change the map point's coordinate.
@@ -403,7 +403,7 @@ cdef class Map(object):
 
     def point_image_uv_set(self, int idx, double u, double v):
         """ Change the map point's U and V texture source point
-        
+
         This sets the U and V coordinates for the point. This determines which
         coordinate in the source image is mapped to the given point, much like
         OpenGL and textures. Notes that these points do select the pixel, but
@@ -420,7 +420,7 @@ cdef class Map(object):
         """ Get the map point's U and V texture source points
 
         This returns the texture points set by evas_map_point_image_uv_set().
- 
+
         :param idx: index of point to query. Must be smaller than map size.
         :return: the tuple (u, v)
         :rtype: tuple of double

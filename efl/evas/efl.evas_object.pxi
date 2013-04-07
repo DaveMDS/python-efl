@@ -1578,15 +1578,15 @@ cdef class Object(Eo):
 
         """
         def __get__(self):
-            return None # TODO
-        def __set__(self, Map map):
-            evas_object_map_set(self.obj, map.map)
+            return self.map_get()
+        def __set__(self, map):
+            self.map_set(map)
 
-    def map_set(self, Map map):
+    cpdef map_set(self, Map map):
         evas_object_map_set(self.obj, map.map)
 
-    def map_get(self):
-        # TODO dunno how to do this in a sane way
-        #return evas_object_map_get(self.obj)
-        return None
+    cpdef map_get(self):
+        cdef Map ret = Map.__new__(Map)
+        ret.map = <Evas_Map *>evas_object_map_get(self.obj)
+        return ret
 
