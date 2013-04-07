@@ -162,43 +162,47 @@ cdef class Object(Eo):
         #
         self._callbacks = [None] * evas_object_event_callbacks_len
 
-    #
-    # TODO: make the funcs used here and in _set_common_params cpdef
-    #       so they'll generate C calls instead of python calls
-    #
     def __str__(self):
         cdef:
-            str name = self.name_get()
-            bint clip
-            tuple g = self.geometry_get()
-            tuple c = self.color_get()
+            const_char *name = evas_object_name_get(self.obj)
+            bint clipped = evas_object_clip_get(self.obj) is not NULL
+            int layer = evas_object_layer_get(self.obj)
+            bint visible = evas_object_visible_get(self.obj)
+            int x, y, w, h
+            int r, g, b, a
 
-        name_str = "name=%s, " % name if name is not None else ""
+        evas_object_geometry_get(self.obj, &x, &y, &w, &h)
+        evas_object_color_get(self.obj, &r, &g, &b, &a)
 
-        clip = self.clip_get() is not None
+        name_str = "name=%s, " % name if name is not NULL else ""
+
         return ("%s(%sgeometry=(%d, %d, %d, %d), color=(%d, %d, %d, %d), "
-                "layer=%s, clip=%s, visible=%s)") % \
+                "layer=%s, clipped=%s, visible=%s)") % \
                 (type(self).__name__, name_str,
-                g[0], g[1], g[2], g[3],
-                c[0], c[1], c[2], c[3],
-                self.layer_get(), clip, self.visible_get())
+                x, y, w, h,
+                r, g, b, a,
+                layer, clipped, visible)
 
     def __repr__(self):
         cdef:
-            str name = self.name_get()
-            bint clip
-            tuple g = self.geometry_get()
-            tuple c = self.color_get()
+            const_char *name = evas_object_name_get(self.obj)
+            bint clipped = evas_object_clip_get(self.obj) is not NULL
+            int layer = evas_object_layer_get(self.obj)
+            bint visible = evas_object_visible_get(self.obj)
+            int x, y, w, h
+            int r, g, b, a
 
-        name_str = "name=%s, " % name if name is not None else ""
+        evas_object_geometry_get(self.obj, &x, &y, &w, &h)
+        evas_object_color_get(self.obj, &r, &g, &b, &a)
 
-        clip = self.clip_get() is not None
+        name_str = "name=%s, " % name if name is not NULL else ""
+
         return ("%s %s(%sgeometry=(%d, %d, %d, %d), color=(%d, %d, %d, %d), "
                 "layer=%s, clip=%s, visible=%s)") % (Eo.__str__(self),
-                 type(self).__name__, name_str,
-                 g[0], g[1], g[2], g[3],
-                 c[0], c[1], c[2], c[3],
-                 self.layer_get(), clip, self.visible_get())
+                type(self).__name__, name_str,
+                x, y, w, h,
+                r, g, b, a,
+                layer, clipped, visible)
 
     cdef void _set_obj(self, Evas_Object *obj) except *:
         Eo._set_obj(self, obj)
