@@ -32,12 +32,11 @@ TODO
 * include python-ethumb
 * include python-e_dbus (or make edbus2 ??)
 * elm.Notify align_set/get/prop
-* cleanup elementary_object
 * Review the internal functions and name them consistently
 * Add more documentation for the use of callbacks
 * Document our use of exceptions
-* evas.TextGrid
-* Split Evas to individual modules
+* Split Evas to individual modules?
+* Tests for evas.Textgrid
 
 
 IMAGES
