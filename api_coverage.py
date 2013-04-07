@@ -6,17 +6,42 @@ import re
 import subprocess
 import argparse
 
-c_excludes = "\
-elm_app|\
-elm_widget|\
-elm_prefs"
+c_exclude_list = [
+    "elm_app",
+    "elm_widget",
+    "elm_prefs",
+]
+c_excludes = "|".join(c_exclude_list)
 
-py_excludes = "\
-elm_naviframe_item_simple_push|\
-elm_object_item_content|\
-elm_object_item_text|\
-elm_object_content|\
-elm_object_text"
+py_exclude_list = [
+    "elm_naviframe_item_simple_push",
+    "elm_object_item_content",
+    "elm_object_item_text",
+    "elm_object_content",
+    "elm_object_text",
+]
+py_excludes = "|".join(py_exclude_list)
+
+parser = argparse.ArgumentParser()
+parser.add_argument("--python", action="store_true", default=False, help="Show Python API coverage")
+parser.add_argument("--c", action="store_true", default=False, help="Show C API coverage")
+parser.add_argument("libs", nargs="+", help="Possible values are eo, evas, ecore, ecore-file, edje, emotion, elementary and all.")
+args = parser.parse_args()
+
+libs = args.libs[:]
+
+if libs == ["all"]:
+    libs = ["eo", "evas", "ecore", "ecore-file", "edje", "emotion", "elementary"]
+
+params = {
+    "eo": ("include", "Eo", "eo"),
+    "evas": ("include", "Evas", "evas"),
+    "ecore": ("include", "Ecore", "ecore"),
+    "ecore-file": ("include", "Ecore_File", "ecore_file"),
+    "edje": ("include", "Edje", "edje"),
+    "emotion": ("include", "Emotion", "emotion"),
+    "elementary": ("efl/elementary", "Elementary", "elm"),
+}
 
 def pkg_config(require, min_vers=None):
     name = require.capitalize()
@@ -81,29 +106,10 @@ def get_pyapis(pxd_path, header_name, prefix):
 
     return pyapis
 
-parser = argparse.ArgumentParser()
-parser.add_argument("--python", action="store_true", default=False, help="Show Python API coverage")
-parser.add_argument("--c", action="store_true", default=False, help="Show C API coverage")
-parser.add_argument("libs", nargs="+", help="Possible values are eo, evas, ecore, ecore-file, edje, emotion, edbus, elementary and all.")
-args = parser.parse_args()
 
-if args.libs is "all":
-    args.libs = ["eo", "evas", "efreet", "ecore", "efile", "edje", "emotion", "edbus", "elementary"]
-
-params = {
-    "eo": ("include", "Eo", "eo"),
-    "evas": ("include", "Evas", "evas"),
-    "ecore": ("include", "Ecore", "ecore"),
-    "ecore-file": ("include", "Ecore_File", "ecore_file"),
-    "edje": ("include", "Edje", "edje"),
-    "emotion": ("include", "Emotion", "emotion"),
-    "edbus2": ("efl/edbus", "EDBus", "edbus"),
-    "elementary": ("efl/elementary", "Elementary", "elm"),
-}
-
-for key in args.libs:
-    inc_path = pkg_config(key, "1.7.99")[0][2:]
-    pxd_path, header_name, prefix = params[key]
+for lib in libs:
+    inc_path = pkg_config(lib, "1.7.99")[0][2:]
+    pxd_path, header_name, prefix = params[lib]
 
     capis = get_capis(inc_path, prefix)
     pyapis = get_pyapis(pxd_path, header_name, prefix)
