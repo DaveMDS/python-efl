@@ -3,6 +3,8 @@ BUGS
 ====
 
 * Evas: smart object doesn't work
+* Docs: GenlistWidget is documented instead of Genlist
+        (all the scrollable are affected)
 
 
 TODO
