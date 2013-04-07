@@ -23,7 +23,8 @@ from efl.c_eo cimport const_Eo_Class
 from efl.evas.enums cimport Evas_Event_Flags, Evas_Button_Flags, \
     Evas_Font_Hinting_Flags, Evas_Aspect_Control, Evas_Render_Op, \
     Evas_Callback_Type, Evas_Object_Pointer_Mode, Evas_Colorspace, \
-    Evas_Text_Style_Type, Evas_Textblock_Text_Type
+    Evas_Text_Style_Type, Evas_Textblock_Text_Type, \
+    Evas_Textgrid_Palette, Evas_Textgrid_Font_Style
 
 cdef extern from "Evas.h":
     ####################################################################
@@ -802,6 +803,42 @@ cdef extern from "Evas.h":
     void            evas_map_point_image_uv_get(const_Evas_Map *m, int idx, double *u, double *v)
     void            evas_map_point_color_set(Evas_Map *m, int idx, int r, int g, int b, int a)
     void            evas_map_point_color_get(const_Evas_Map *m, int idx, int *r, int *g, int *b, int *a)
+
+
+    ####################################################################
+    # Textgrid
+    #
+
+    # The values that describes each cell.
+    ctypedef struct Evas_Textgrid_Cell:
+        Eina_Unicode   codepoint      # the UNICODE value of the character */
+        unsigned char  fg             # the index of the palette for the foreground color */
+        unsigned char  bg             # the index of the palette for the background color */
+        unsigned short bold           # whether the character is bold */
+        unsigned short italic         # whether the character is oblique */
+        unsigned short underline      # whether the character is underlined */
+        unsigned short strikethrough  # whether the character is strikethrough'ed */
+        unsigned short fg_extended    # whether the extended palette is used for the foreground color */
+        unsigned short bg_extended    # whether the extended palette is used for the background color */
+        unsigned short double_width   # if the codepoint is merged with the following cell to the right visually (cells must be in pairs with 2nd cell being a duplicate in all ways except codepoint is 0) */
+
+    Evas_Object *evas_object_textgrid_add(Evas *e)
+    void evas_object_textgrid_size_set(Evas_Object *obj, int w, int h)
+    void evas_object_textgrid_size_get(const_Evas_Object *obj, int *w, int *h)
+    void evas_object_textgrid_font_source_set(Evas_Object *obj, const char *font_source)
+    const char *evas_object_textgrid_font_source_get(const_Evas_Object *obj)
+    void evas_object_textgrid_font_set(Evas_Object *obj, const char *font_name, Evas_Font_Size font_size)
+    void evas_object_textgrid_font_get(const_Evas_Object *obj, const char **font_name, Evas_Font_Size *font_size)
+    void evas_object_textgrid_cell_size_get(const_Evas_Object *obj, Evas_Coord *w, Evas_Coord *h)
+    void evas_object_textgrid_palette_set(Evas_Object *obj, Evas_Textgrid_Palette pal, int idx, int r, int g, int b, int a)
+    void evas_object_textgrid_palette_get(const_Evas_Object *obj, Evas_Textgrid_Palette pal, int idx, int *r, int *g, int *b, int *a)
+
+    void evas_object_textgrid_supported_font_styles_set(Evas_Object *obj, Evas_Textgrid_Font_Style styles)
+    Evas_Textgrid_Font_Style evas_object_textgrid_supported_font_styles_get(const_Evas_Object *obj)
+
+    void evas_object_textgrid_cellrow_set(Evas_Object *obj, int y, const Evas_Textgrid_Cell *row)
+    Evas_Textgrid_Cell *evas_object_textgrid_cellrow_get(const_Evas_Object *obj, int y)
+    void evas_object_textgrid_update_add(Evas_Object *obj, int x, int y, int w, int h)
 
 
 ####################################################################

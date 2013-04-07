@@ -37,6 +37,7 @@ TODO
 * Add more documentation for the use of callbacks
 * Document our use of exceptions
 * evas.TextGrid
+* Split Evas to individual modules
 
 
 IMAGES

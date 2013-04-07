@@ -59,6 +59,9 @@ cdef extern from "Eina.h":
     ctypedef unsigned char Eina_Bool
     ctypedef int Eina_Error
     ctypedef const_char Eina_Stringshare
+    # This is actually either wchar_t or uint32_t, Cython
+    # should use an appropriate integer automatically
+    ctypedef int Eina_Unicode
 
     ####################################################################
     # Structures
