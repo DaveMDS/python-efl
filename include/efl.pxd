@@ -61,7 +61,7 @@ cdef extern from "Eina.h":
     ctypedef const_char Eina_Stringshare
     # This is actually either wchar_t or uint32_t, Cython
     # should use an appropriate integer automatically
-    ctypedef int Eina_Unicode
+    ctypedef Py_UCS4 Eina_Unicode
 
     ####################################################################
     # Structures

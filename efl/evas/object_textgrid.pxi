@@ -59,18 +59,31 @@ cdef class TextgridCell(object):
 
     """
 
-    cdef Evas_Textgrid_Cell cell
+    cdef Evas_Textgrid_Cell *cell
 
-    def __cinit__(self, Evas_Textgrid_Cell cell):
-        self.cell = cell
+    def __str__(self):
+        return "%s" % (self.codepoint,)
+
+    def __repr__(self):
+        return "%s(codepoint = %s, fg = %s, bg = %s, bold = %s, \
+            italic = %s, underline = %s, strikethrough = %s, \
+            fg_extended = %s, bg_extended = %s, double_width = %s)" % (
+            type(self).__name__, self.codepoint,
+            self.fg, self.bg, self.bold, self.italic,
+            self.underline, self.strikethrough,
+            self.fg_extended, self.bg_extended,
+            self.double_width)
 
     property codepoint:
         """the UNICODE value of the character"""
-        def __set__(self, Eina_Unicode value):
-            self.cell.codepoint = value
+        def __set__(self, value):
+            if not isinstance(value, unicode):
+                value = value.decode("UTF-8")
+
+            self.cell.codepoint = <Py_UCS4>value
 
         def __get__(self):
-            return self.cell.codepoint
+            return <unicode><Py_UCS4>self.cell.codepoint
 
     property fg:
         """the index of the palette for the foreground color"""
@@ -94,7 +107,7 @@ cdef class TextgridCell(object):
             self.cell.bold = value
 
         def __get__(self):
-            return self.cell.bold
+            return <bint>self.cell.bold
 
     property italic:
         """whether the character is oblique"""
@@ -102,7 +115,7 @@ cdef class TextgridCell(object):
             self.cell.italic = value
 
         def __get__(self):
-            return self.cell.italic
+            return <bint>self.cell.italic
 
     property underline:
         """whether the character is underlined"""
@@ -110,7 +123,7 @@ cdef class TextgridCell(object):
             self.cell.underline = value
 
         def __get__(self):
-            return self.cell.underline
+            return <bint>self.cell.underline
 
     property strikethrough:
         """whether the character is strikethrough'ed"""
@@ -118,7 +131,7 @@ cdef class TextgridCell(object):
             self.cell.strikethrough = value
 
         def __get__(self):
-            return self.cell.strikethrough
+            return <bint>self.cell.strikethrough
 
     property fg_extended:
         """whether the extended palette is used for the foreground color"""
@@ -126,7 +139,7 @@ cdef class TextgridCell(object):
             self.cell.fg_extended = value
 
         def __get__(self):
-            return self.cell.fg_extended
+            return <bint>self.cell.fg_extended
 
     property bg_extended:
         """whether the extended palette is used for the background color"""
@@ -134,7 +147,7 @@ cdef class TextgridCell(object):
             self.cell.bg_extended = value
 
         def __get__(self):
-            return self.cell.bg_extended
+            return <bint>self.cell.bg_extended
 
     property double_width:
         """if the codepoint is merged with the following cell to the right visually (cells must be in pairs with 2nd cell being a duplicate in all ways except codepoint is 0)"""
@@ -142,9 +155,7 @@ cdef class TextgridCell(object):
             self.cell.double_width = value
 
         def __get__(self):
-            return self.cell.double_width
-
-
+            return <bint>self.cell.double_width
 
 cdef class Textgrid(Object):
 
@@ -239,7 +250,7 @@ cdef class Textgrid(Object):
 
         """
         def __set__(self, value):
-            cdef Evas_Font_Size font_size
+            cdef int font_size
             font_name, font_size = value
             a1 = font_name
             if isinstance(a1, unicode): a1 = a1.encode("UTF-8")
@@ -372,10 +383,21 @@ cdef class Textgrid(Object):
         @since 1.7
 
         """
-        cdef TextgridCell cell = row[0]
-        evas_object_textgrid_cellrow_set(self.obj, y, &cell.cell)
+        cdef:
+            TextgridCell cell
+            Evas_Textgrid_Cell **crow
+            int rlen = len(row)
+            int i
 
-    def cellrow_get(self, int y, int w):
+        crow = <Evas_Textgrid_Cell **>malloc(rlen * sizeof(Evas_Textgrid_Cell *))
+
+        for i in range(rlen):
+            cell = row[i]
+            crow[i] = cell.cell
+
+        evas_object_textgrid_cellrow_set(self.obj, y, crow[0])
+
+    def cellrow_get(self, int y):
         """
 
         Get the string at the given row of the given textgrid object.
@@ -398,10 +420,14 @@ cdef class Textgrid(Object):
             Evas_Textgrid_Cell *row = evas_object_textgrid_cellrow_get(self.obj, y)
             int i
             list ret = []
+            TextgridCell cell
 
-        for i in range(w):
+        if row == NULL:
+            return None
+
+        for i in range(self.size[0]):
             cell = TextgridCell.__new__(TextgridCell)
-            cell.cell = row[i]
+            cell.cell = &row[i]
             ret.append(cell)
 
         return ret
@@ -421,7 +447,7 @@ cdef class Textgrid(Object):
         as an example::
 
             cells = tg.cellrow_get(row)
-            for i in range(0, width):
+            for i in range(width):
                 cells[i].codepoint = 'E'
             tg.cellrow_set(row, cells)
             tg.update_add(0, row, width, 1)
