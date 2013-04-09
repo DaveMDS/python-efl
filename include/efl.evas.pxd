@@ -822,13 +822,15 @@ cdef extern from "Evas.h":
         unsigned short bg_extended    # whether the extended palette is used for the background color */
         unsigned short double_width   # if the codepoint is merged with the following cell to the right visually (cells must be in pairs with 2nd cell being a duplicate in all ways except codepoint is 0) */
 
+    ctypedef Evas_Textgrid_Cell const_Evas_Textgrid_Cell "const Evas_Textgrid_Cell"
+
     Evas_Object *evas_object_textgrid_add(Evas *e)
     void evas_object_textgrid_size_set(Evas_Object *obj, int w, int h)
     void evas_object_textgrid_size_get(const_Evas_Object *obj, int *w, int *h)
-    void evas_object_textgrid_font_source_set(Evas_Object *obj, const char *font_source)
-    const char *evas_object_textgrid_font_source_get(const_Evas_Object *obj)
-    void evas_object_textgrid_font_set(Evas_Object *obj, const char *font_name, Evas_Font_Size font_size)
-    void evas_object_textgrid_font_get(const_Evas_Object *obj, const char **font_name, Evas_Font_Size *font_size)
+    void evas_object_textgrid_font_source_set(Evas_Object *obj, const_char *font_source)
+    const_char *evas_object_textgrid_font_source_get(const_Evas_Object *obj)
+    void evas_object_textgrid_font_set(Evas_Object *obj, const_char *font_name, Evas_Font_Size font_size)
+    void evas_object_textgrid_font_get(const_Evas_Object *obj, const_char **font_name, Evas_Font_Size *font_size)
     void evas_object_textgrid_cell_size_get(const_Evas_Object *obj, Evas_Coord *w, Evas_Coord *h)
     void evas_object_textgrid_palette_set(Evas_Object *obj, Evas_Textgrid_Palette pal, int idx, int r, int g, int b, int a)
     void evas_object_textgrid_palette_get(const_Evas_Object *obj, Evas_Textgrid_Palette pal, int idx, int *r, int *g, int *b, int *a)
@@ -836,7 +838,7 @@ cdef extern from "Evas.h":
     void evas_object_textgrid_supported_font_styles_set(Evas_Object *obj, Evas_Textgrid_Font_Style styles)
     Evas_Textgrid_Font_Style evas_object_textgrid_supported_font_styles_get(const_Evas_Object *obj)
 
-    void evas_object_textgrid_cellrow_set(Evas_Object *obj, int y, const Evas_Textgrid_Cell *row)
+    void evas_object_textgrid_cellrow_set(Evas_Object *obj, int y, const_Evas_Textgrid_Cell *row)
     Evas_Textgrid_Cell *evas_object_textgrid_cellrow_get(const_Evas_Object *obj, int y)
     void evas_object_textgrid_update_add(Evas_Object *obj, int x, int y, int w, int h)
 
