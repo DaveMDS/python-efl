@@ -61,13 +61,13 @@ if len(sys.argv) is 2 and "build_doc" in sys.argv:
     pass
 else:
     ## This is usefull while working on the source, to force the rebuild of modules.
-    # subprocess.call("rm -rfv efl/*/*.c", shell=True)
     # subprocess.call("rm -rfv efl/eo/*.c", shell=True)
     # subprocess.call("rm -rfv efl/evas/*.c", shell=True)
     # subprocess.call("rm -rfv efl/ecore/*.c", shell=True)
     # subprocess.call("rm -rfv efl/edje/*.c", shell=True)
     # subprocess.call("rm -rfv efl/emotion/*.c", shell=True)
     # subprocess.call("rm -rfv efl/elementary/*.c", shell=True)
+    # subprocess.call("rm -rfv efl/dbus_mainloop/dbus_mainloop.c", shell=True)
 
     # Eo
     eo_cflags, eo_libs = pkg_config('Eo', 'eo', "1.7.99")
@@ -223,11 +223,11 @@ if __name__ == "__main__":
         license = "GNU Lesser General Public License (LGPL)",
         packages = ["efl", "efl.elementary"],
         cmdclass = {'build_ext': build_ext, 'build_doc': BuildDoc},
-        command_options = {
-            "build_doc": {
-                "builder": (None, "html"),
-                #"builder": (None, "coverage"),
-            },
-        },
+        # command_options = {
+        #     "build_doc": {
+        #        "builder": (None, "html"),
+        #        "builder": (None, "coverage"),
+        #     },
+        # },
         ext_modules = cythonize(modules, include_path=["include"]),
     )
