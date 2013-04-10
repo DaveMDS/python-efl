@@ -1093,7 +1093,16 @@ cdef class GenlistItem(ObjectItem):
 
         :param genlist: The Genlist object
         :type genlist: :py:class:`Genlist`
-        :param comparison_func: The function called for the sort
+        :param comparison_func: The function called for the sort.
+            This must be a callable and will be called
+            to insert the item in the right position. The two arguments passed
+            are two :py:class:`GenlistItem` to compare. The function must return
+            1 if ``item1`` comes before ``item2``, 0 if the two items
+            are equal or -1 otherwise.
+            Signature is::
+
+                func(item1, item2)->int
+
         :rtype: :py:class:`GenlistItem`
 
         This inserts an item in the genlist based on user defined comparison
@@ -1736,7 +1745,39 @@ cdef class GenlistWidget(Object):
                     GenlistItem parent_item=None,
                     int flags=ELM_GENLIST_ITEM_NONE,
                     func=None):
-        return GenlistItem(item_class, parent_item, flags, func, item_data).append_to(self)
+        """item_append(item_class not None, item_data, parent_item=None, flags=ELM_GENLIST_ITEM_NONE, func=None) -> GenlistItem
+
+        Append a new item (add as last row) to this genlist.
+
+        :param item_class: a valid instance that defines the
+            behavior of this row. See :py:class:`GenlistItemClass`.
+        :param item_data: some data that defines the model of this
+            row. This value will be given to methods of
+            ``item_class`` such as
+            :py:func:`GenlistItemClass.text_get()`. It will also be
+            provided to ``func`` as its last parameter.
+        :param parent_item: if this is a tree child, then the
+            parent item must be given here, otherwise it may be
+            None. The parent must have the flag
+            ``ELM_GENLIST_ITEM_SUBITEMS`` set.
+        :param flags: defines special behavior of this item, can be one of:
+            ELM_GENLIST_ITEM_NONE, ELM_GENLIST_ITEM_TREE or
+            ELM_GENLIST_ITEM_GROUP
+        :param func: if not None, this must be a callable to be
+            called back when the item is selected. The function
+            signature is::
+
+                func(item, obj, item_data)
+
+            Where ``item`` is the handle, ``obj`` is the Evas object
+            that represents this item, and ``item_data`` is the
+            value given as parameter to this function.
+
+        :rtype: :py:class:`GenlistItem`
+
+        """
+        return GenlistItem(item_class, parent_item, flags, func, item_data)\
+                          .append_to(self)
 
     def item_prepend(   self,
                         GenlistItemClass item_class not None,
@@ -1744,7 +1785,39 @@ cdef class GenlistWidget(Object):
                         GenlistItem parent_item=None,
                         int flags=ELM_GENLIST_ITEM_NONE,
                         func=None):
-        return GenlistItem(item_class, parent_item, flags, func, item_data).prepend_to(self)
+        """item_prepend(item_class not None, item_data, parent_item=None, flags=ELM_GENLIST_ITEM_NONE, func=None) -> GenlistItem
+
+        Prepend a new item (add as first row) to this genlist.
+
+        :param item_class: a valid instance that defines the
+            behavior of this row. See :py:class:`GenlistItemClass`.
+        :param item_data: some data that defines the model of this
+            row. This value will be given to methods of
+            ``item_class`` such as
+            :py:func:`GenlistItemClass.text_get()`. It will also be
+            provided to ``func`` as its last parameter.
+        :param parent_item: if this is a tree child, then the
+            parent item must be given here, otherwise it may be
+            None. The parent must have the flag
+            ``ELM_GENLIST_ITEM_SUBITEMS`` set.
+        :param flags: defines special behavior of this item, can be one of:
+            ELM_GENLIST_ITEM_NONE, ELM_GENLIST_ITEM_TREE or
+            ELM_GENLIST_ITEM_GROUP
+        :param func: if not None, this must be a callable to be
+            called back when the item is selected. The function
+            signature is::
+
+                func(item, obj, item_data)
+
+            Where ``item`` is the handle, ``obj`` is the Evas object
+            that represents this item, and ``item_data`` is the
+            value given as parameter to this function.
+
+        :rtype: :py:class:`GenlistItem`
+
+        """
+        return GenlistItem(item_class, parent_item, flags, func, item_data)\
+                          .prepend_to(self)
 
     def item_insert_before( self,
                             GenlistItemClass item_class not None,
@@ -1755,7 +1828,36 @@ cdef class GenlistWidget(Object):
                             func=None
                             #API XXX: *args, **kwargs
                             ):
-        return GenlistItem(item_class, None, flags, func, item_data).insert_before(before_item)
+        """item_insert_before(item_class not None, item_data, before_item=None, flags=ELM_GENLIST_ITEM_NONE, func=None) -> GenlistItem
+
+        Insert a new item before another item to this genlist.
+
+        :param item_class: a valid instance that defines the
+            behavior of this row. See :py:class:`GenlistItemClass`.
+        :param item_data: some data that defines the model of this
+            row. This value will be given to methods of
+            ``item_class`` such as
+            :py:func:`GenlistItemClass.text_get()`. It will also be
+            provided to ``func`` as its last parameter.
+        :param before_item: the new item will be inserted before this one.
+        :param flags: defines special behavior of this item, can be one of:
+            ELM_GENLIST_ITEM_NONE, ELM_GENLIST_ITEM_TREE or
+            ELM_GENLIST_ITEM_GROUP
+        :param func: if not None, this must be a callable to be
+            called back when the item is selected. The function
+            signature is::
+
+                func(item, obj, item_data)
+
+            Where ``item`` is the handle, ``obj`` is the Evas object
+            that represents this item, and ``item_data`` is the
+            value given as parameter to this function.
+
+        :rtype: :py:class:`GenlistItem`
+
+        """
+        return GenlistItem(item_class, None, flags, func, item_data)\
+                          .insert_before(before_item)
 
     def item_insert_after(  self,
                             GenlistItemClass item_class not None,
@@ -1766,9 +1868,90 @@ cdef class GenlistWidget(Object):
                             func=None
                             #API XXX: *args, **kwargs
                             ):
-        return GenlistItem(item_class, None, flags, func, item_data).insert_after(after_item)
+        """item_insert_after(item_class not None, item_data, after_item=None, flags=ELM_GENLIST_ITEM_NONE, func=None) -> GenlistItem
 
-    #Elm_Object_Item         *elm_genlist_item_sorted_insert(self.obj, Elm_Genlist_Item_Class *itc, void *data, Elm_Object_Item *parent, Elm_Genlist_Item_Type flags, Eina_Compare_Cb comp, Evas_Smart_Cb func, void *func_data)
+        Insert a new item after another item to this genlist.
+
+        :param item_class: a valid instance that defines the
+            behavior of this row. See :py:class:`GenlistItemClass`.
+        :param item_data: some data that defines the model of this
+            row. This value will be given to methods of
+            ``item_class`` such as
+            :py:func:`GenlistItemClass.text_get()`. It will also be
+            provided to ``func`` as its last parameter.
+        :param after_item: the new item will be inserted after this one.
+        :param flags: defines special behavior of this item, can be one of:
+            ELM_GENLIST_ITEM_NONE, ELM_GENLIST_ITEM_TREE or
+            ELM_GENLIST_ITEM_GROUP
+        :param func: if not None, this must be a callable to be
+            called back when the item is selected. The function
+            signature is::
+
+                func(item, obj, item_data)
+
+            Where ``item`` is the handle, ``obj`` is the Evas object
+            that represents this item, and ``item_data`` is the
+            value given as parameter to this function.
+
+        :rtype: :py:class:`GenlistItem`
+
+        """
+        return GenlistItem(item_class, None, flags, func, item_data)\
+                          .insert_after(after_item)
+
+    def item_sorted_insert( self,
+                            GenlistItemClass item_class not None,
+                            item_data,
+                            comparison_func not None,
+                            GenlistItem parent_item=None,
+                            int flags=ELM_GENLIST_ITEM_NONE,
+                            func=None
+                            #API XXX: *args, **kwargs
+                            ):
+        """item_sorted_insert(item_class not None, item_data, comparison_func not None, parent_item=None, flags=ELM_GENLIST_ITEM_NONE, func=None) -> GenlistItem
+
+        This inserts a new item in the genlist based on a user defined
+        comparison function.
+
+        :param item_class: a valid instance that defines the
+            behavior of this row. See :py:class:`GenlistItemClass`.
+        :param item_data: some data that defines the model of this
+            row. This value will be given to methods of
+            ``item_class`` such as
+            :py:func:`GenlistItemClass.text_get()`. It will also be
+            provided to ``func`` as its last parameter.
+        :param comparison_func: The function called for the sort.
+            this must be a callable and will be called
+            to insert the item in the right position. The two arguments passed
+            are two :py:class:`GenlistItem` to compare. The function must return
+            1 if ``item1`` comes before ``item2``, 0 if the two items
+            are equal or -1 otherwise.
+            Signature is::
+
+                func(item1, item2)->int
+
+        :param parent_item: if this is a tree child, then the
+            parent item must be given here, otherwise it may be
+            None. The parent must have the flag
+            ``ELM_GENLIST_ITEM_SUBITEMS`` set.
+        :param flags: defines special behavior of this item, can be one of:
+            ELM_GENLIST_ITEM_NONE, ELM_GENLIST_ITEM_TREE or
+            ELM_GENLIST_ITEM_GROUP
+        :param func: if not None, this must be a callable to be
+            called back when the item is selected. The function
+            signature is::
+
+                func(item, obj, item_data)
+
+            Where ``item`` is the handle, ``obj`` is the Evas object
+            that represents this item, and ``item_data`` is the
+            value given as parameter to this function.
+
+        :rtype: :py:class:`GenlistItem`
+
+        """
+        return GenlistItem(item_class, parent_item, flags, func, item_data)\
+                          .sorted_insert(self, comparison_func)
 
     property selected_item:
         """This gets the selected item in the list (if multi-selection is
