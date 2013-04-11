@@ -117,6 +117,8 @@ def main_loop_glib_integrate():
     if not ecore_main_loop_glib_integrate():
         raise SystemError("failed to integrate GLib main loop into ecore.")
 
+def main_loop_glib_always_integrate_disable():
+    ecore_main_loop_glib_always_integrate_disable()
 
 def time_get():
     return ecore_time_get()

@@ -67,7 +67,7 @@ cdef extern from "Ecore.h":
     ctypedef struct Ecore_Exe_Event_Data_Line:
         char *line
         int   size
-    
+
     ctypedef struct Ecore_Fd_Handler
     ctypedef struct Ecore_Exe
     ctypedef Ecore_Exe const_Ecore_Exe "const Ecore_Exe"
@@ -115,6 +115,7 @@ cdef extern from "Ecore.h":
     void ecore_main_loop_quit()
 
     int ecore_main_loop_glib_integrate()
+    void ecore_main_loop_glib_always_integrate_disable()
 
     double ecore_time_get()
     double ecore_loop_time_get()
