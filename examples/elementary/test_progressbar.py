@@ -4,7 +4,7 @@
 from efl import evas
 from efl import ecore
 from efl import elementary
-from efl.elementary.window import Window
+from efl.elementary.window import StandardWindow
 from efl.elementary.background import Background
 from efl.elementary.box import Box
 from efl.elementary.button import Button
@@ -15,7 +15,7 @@ from efl.elementary.progressbar import Progressbar
 my_progressbar_run = False
 my_progressbar_timer = None
 
-def my_progressbar_value_set(pb1, pb2, pb3, pb4, pb5, pb6, pb7):
+def pb_timer_cb(pb1, pb2, pb3, pb4, pb5, pb6, pb7):
     progress = pb1.value_get()
     if progress < 1.0:
         progress += 0.0123
@@ -31,7 +31,7 @@ def my_progressbar_value_set(pb1, pb2, pb3, pb4, pb5, pb6, pb7):
     my_progressbar_run = False
     return ecore.ECORE_CALLBACK_CANCEL
 
-def my_progressbar_test_start(obj, *args, **kwargs):
+def begin_test(obj, *args, **kwargs):
     (pb1, pb2, pb3, pb4, pb5, pb6, pb7) = args
     pb2.pulse(True)
     pb5.pulse(True)
@@ -39,11 +39,11 @@ def my_progressbar_test_start(obj, *args, **kwargs):
     global my_progressbar_run
     global my_progressbar_timer
     if not my_progressbar_run:
-        my_progressbar_timer = ecore.timer_add(0.1, my_progressbar_value_set,
+        my_progressbar_timer = ecore.timer_add(0.1, pb_timer_cb,
                                                *args)
         my_progressbar_run = True
 
-def my_progressbar_test_stop(obj, pb1, pb2, pb3, pb4, pb5, pb6, pb7):
+def end_test(obj, pb1, pb2, pb3, pb4, pb5, pb6, pb7):
     pb2.pulse(False)
     pb5.pulse(False)
     pb7.pulse(False)
@@ -53,129 +53,124 @@ def my_progressbar_test_stop(obj, pb1, pb2, pb3, pb4, pb5, pb6, pb7):
         my_progressbar_timer.delete()
         my_progressbar_run = False
 
-def my_progressbar_destroy(obj, *args):
-    my_progressbar_test_stop(None, *args)
+def clean_up(obj, *args):
+    end_test(None, *args)
     obj.delete()
 
 def progressbar_clicked(obj):
-    win = Window("progressbar", elementary.ELM_WIN_BASIC)
-    win.title_set("Progressbar test")
+    win = StandardWindow("progressbar", "Progressbar test")
     if obj is None:
         win.callback_delete_request_add(lambda o: elementary.exit())
 
-    bg = Background(win)
-    win.resize_object_add(bg)
-    bg.size_hint_weight_set(evas.EVAS_HINT_EXPAND, evas.EVAS_HINT_EXPAND)
-    bg.show()
-
     bx = Box(win)
     win.resize_object_add(bx)
-    bx.size_hint_weight_set(evas.EVAS_HINT_EXPAND, evas.EVAS_HINT_EXPAND)
+    bx.size_hint_weight = evas.EVAS_HINT_EXPAND, evas.EVAS_HINT_EXPAND
     bx.show()
 
     pb1 = Progressbar(win)
-    pb1.size_hint_weight_set(evas.EVAS_HINT_EXPAND, evas.EVAS_HINT_EXPAND)
-    pb1.size_hint_align_set(evas.EVAS_HINT_FILL, 0.5)
+    pb1.size_hint_weight = evas.EVAS_HINT_EXPAND, evas.EVAS_HINT_EXPAND
+    pb1.size_hint_align = evas.EVAS_HINT_FILL, 0.5
     bx.pack_end(pb1)
     pb1.show()
 
     pb2 = Progressbar(win)
-    pb2.size_hint_weight_set(evas.EVAS_HINT_EXPAND, evas.EVAS_HINT_EXPAND)
-    pb2.size_hint_align_set(evas.EVAS_HINT_FILL, 0.5)
-    pb2.text_set("Infinite bounce")
-    pb2.pulse_set(True)
+    pb2.size_hint_weight = evas.EVAS_HINT_EXPAND, evas.EVAS_HINT_EXPAND
+    pb2.size_hint_align = evas.EVAS_HINT_FILL, 0.5
+    pb2.text = "Infinite bounce"
+    pb2.pulse = True
     bx.pack_end(pb2)
     pb2.show()
 
     ic1 = Icon(win)
-    ic1.file_set('images/logo_small.png')
-    ic1.size_hint_aspect_set(evas.EVAS_ASPECT_CONTROL_VERTICAL, 1, 1)
+    ic1.file = 'images/logo_small.png'
+    ic1.size_hint_aspect = evas.EVAS_ASPECT_CONTROL_VERTICAL, 1, 1
 
     pb3 = Progressbar(win)
-    pb3.text_set("Label")
-    pb3.content_set(ic1)
-    pb3.inverted_set(True)
-    pb3.unit_format_set("%1.1f units")
-    pb3.span_size_set(200)
-    pb3.size_hint_align_set(evas.EVAS_HINT_FILL, 0.5)
-    pb3.size_hint_weight_set(evas.EVAS_HINT_EXPAND, evas.EVAS_HINT_EXPAND)
+    pb3.text = "Label"
+    pb3.content = ic1
+    pb3.inverted = True
+    pb3.unit_format = "%1.1f units"
+    pb3.span_size = 200
+    pb3.size_hint_align = evas.EVAS_HINT_FILL, 0.5
+    pb3.size_hint_weight = evas.EVAS_HINT_EXPAND, evas.EVAS_HINT_EXPAND
     bx.pack_end(pb3)
     ic1.show()
     pb3.show()
 
     hbx = Box(win)
-    hbx.horizontal_set(True)
-    hbx.size_hint_weight_set(evas.EVAS_HINT_EXPAND, evas.EVAS_HINT_EXPAND)
-    hbx.size_hint_align_set(evas.EVAS_HINT_FILL, evas.EVAS_HINT_FILL)
+    hbx.horizontal = True
+    hbx.size_hint_weight = evas.EVAS_HINT_EXPAND, evas.EVAS_HINT_EXPAND
+    hbx.size_hint_align = evas.EVAS_HINT_FILL, evas.EVAS_HINT_FILL
     bx.pack_end(hbx)
     hbx.show()
 
     pb4 = Progressbar(win)
-    pb4.horizontal_set(False)
-    pb4.size_hint_align_set(evas.EVAS_HINT_FILL, evas.EVAS_HINT_FILL)
-    pb4.size_hint_weight_set(evas.EVAS_HINT_EXPAND, evas.EVAS_HINT_EXPAND)
+    pb4.horizontal = False
+    pb4.size_hint_align = evas.EVAS_HINT_FILL, evas.EVAS_HINT_FILL
+    pb4.size_hint_weight = evas.EVAS_HINT_EXPAND, evas.EVAS_HINT_EXPAND
     hbx.pack_end(pb4)
-    pb4.span_size_set(60)
-    pb4.text_set("percent")
+    pb4.span_size = 60
+    pb4.text = "percent"
     pb4.show()
 
     pb5 = Progressbar(win)
-    pb5.horizontal_set(False)
-    pb5.size_hint_align_set(evas.EVAS_HINT_FILL, 0.5)
-    pb5.size_hint_weight_set(evas.EVAS_HINT_EXPAND, evas.EVAS_HINT_EXPAND)
-    pb5.span_size_set(80)
-    pb5.pulse_set(True)
-    pb5.unit_format_set(None)
-    pb5.text_set("Infinite bounce")
+    pb5.horizontal = False
+    pb5.size_hint_align = evas.EVAS_HINT_FILL, 0.5
+    pb5.size_hint_weight = evas.EVAS_HINT_EXPAND, evas.EVAS_HINT_EXPAND
+    pb5.span_size = 80
+    pb5.pulse = True
+    pb5.unit_format = None
+    pb5.text = "Infinite bounce"
     hbx.pack_end(pb5)
     pb5.show()
 
     ic2 = Icon(win)
-    ic2.file_set('images/logo_small.png')
-    ic2.size_hint_aspect_set(evas.EVAS_ASPECT_CONTROL_HORIZONTAL, 1, 1)
+    ic2.file = 'images/logo_small.png'
+    ic2.size_hint_aspect = evas.EVAS_ASPECT_CONTROL_HORIZONTAL, 1, 1
 
     pb6 = Progressbar(win)
-    pb6.horizontal_set(False)
-    pb6.text_set("Label")
-    pb6.content_set(ic2)
-    pb6.inverted_set(True)
-    pb6.unit_format_set("%1.2f%%")
-    pb6.span_size_set(200)
-    pb6.size_hint_align_set(evas.EVAS_HINT_FILL, 0.5)
-    pb6.size_hint_weight_set(evas.EVAS_HINT_EXPAND, evas.EVAS_HINT_EXPAND)
+    pb6.horizontal = False
+    pb6.text = "Label"
+    pb6.content = ic2
+    pb6.inverted = True
+    pb6.unit_format = "%1.2f%%"
+    pb6.span_size = 200
+    pb6.size_hint_align = evas.EVAS_HINT_FILL, 0.5
+    pb6.size_hint_weight = evas.EVAS_HINT_EXPAND, evas.EVAS_HINT_EXPAND
     hbx.pack_end(pb6)
     ic2.show()
     pb6.show()
 
     pb7 = Progressbar(win)
-    pb7.style_set("wheel")
-    pb7.text_set("Style: wheel")
-    pb7.size_hint_align_set(evas.EVAS_HINT_FILL, 0.5)
-    pb7.size_hint_weight_set(evas.EVAS_HINT_EXPAND, evas.EVAS_HINT_EXPAND)
+    pb7.style = "wheel"
+    pb7.text = "Style: wheel"
+    pb7.pulse = True
+    pb7.size_hint_align = evas.EVAS_HINT_FILL, 0.5
+    pb7.size_hint_weight = evas.EVAS_HINT_EXPAND, evas.EVAS_HINT_EXPAND
     bx.pack_end(pb7)
     pb7.show()
 
     bt_bx = Box(win)
-    bt_bx.horizontal_set(True)
-    bt_bx.size_hint_weight_set(evas.EVAS_HINT_EXPAND, evas.EVAS_HINT_EXPAND)
+    bt_bx.horizontal = True
+    bt_bx.size_hint_weight = evas.EVAS_HINT_EXPAND, evas.EVAS_HINT_EXPAND
     bx.pack_end(bt_bx)
     bt_bx.show()
 
     pbt = (pb1, pb2, pb3, pb4, pb5, pb6, pb7)
 
     bt = Button(win)
-    bt.text_set("Start")
-    bt.callback_clicked_add(my_progressbar_test_start, *pbt)
+    bt.text = "Start"
+    bt.callback_clicked_add(begin_test, *pbt)
     bt_bx.pack_end(bt)
     bt.show()
 
     bt = Button(win)
-    bt.text_set("Stop")
-    bt.callback_clicked_add(my_progressbar_test_stop, *pbt)
+    bt.text = "Stop"
+    bt.callback_clicked_add(end_test, *pbt)
     bt_bx.pack_end(bt)
     bt.show()
 
-    win.callback_delete_request_add(my_progressbar_destroy, *pbt)
+    win.callback_delete_request_add(clean_up, *pbt)
     win.show()
 
 
