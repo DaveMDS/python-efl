@@ -17,7 +17,6 @@
 
 from efl cimport *
 from efl.eo cimport Eo
-# cimport efl.c_eo as c_eo
 from efl.c_eo cimport Eo as cEo
 from efl.c_eo cimport const_Eo_Class
 from efl.evas.enums cimport Evas_Event_Flags, Evas_Button_Flags, \
@@ -35,78 +34,6 @@ cdef extern from "Evas.h":
     ctypedef int Evas_Font_Size
 
 
-    ####################################################################
-    # Enumerations
-    #
-#    ctypedef enum Evas_Layer:
-#        pass
-#
-#    ctypedef enum Evas_Text:
-#        pass
-#
-#    ctypedef enum Evas_Callback_Type:
-#        pass
-#
-#
-#    ctypedef enum Evas_Pixel_Format:
-#        pass
-#
-#
-#    ctypedef enum Evas_Color_Space:
-#        pass
-#
-#
-#    ctypedef enum Evas_Texture:
-#        pass
-#
-#
-#    cdef enum Evas_Alloc_Error:
-#        pass
-#
-#
-#    cdef enum Evas_Load_Error:
-#        pass
-#
-#
-#    ctypedef enum Evas_Button_Flags:
-#        pass
-#
-#
-#    ctypedef enum Evas_Event_Flags:
-#        pass
-#
-#
-#    ctypedef enum Evas_Font_Hinting_Flags:
-#        pass
-#
-#
-#    ctypedef enum Evas_Colorspace:
-#        pass
-#
-#
-#    ctypedef enum Evas_Render_Op:
-#        pass
-#
-#
-#    ctypedef enum Evas_Text_Style_Type:
-#        pass
-#
-#
-#    ctypedef enum Evas_Textblock_Text_Type:
-#        pass
-#
-#
-#    ctypedef enum Evas_Smart_Class_Version:
-#        EVAS_SMART_CLASS_VERSION
-#
-#
-#    ctypedef enum Evas_Object_Pointer_Mode:
-#        pass
-#
-#
-#    ctypedef enum Evas_Aspect_Control:
-#        pass
-#
     ####################################################################
     # Structures
     #
