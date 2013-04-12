@@ -69,6 +69,8 @@ Available styles for dayselector are:
 - default
 
 
+.. _Elm_Dayselector_Day:
+
 .. rubric:: Dayselector days
 
 .. data:: ELM_DAYSELECTOR_SUN
@@ -131,11 +133,8 @@ cdef class Dayselector(LayoutClass):
 
         Set the state of given Dayselector_Day.
 
-        .. seealso:: Elm_Dayselector_Day
-        .. seealso:: :py:func:`day_selected_get()`
-
         :param day: The day that the user want to set state.
-        :type day: Elm_Dayselector_Day
+        :type day: :ref:`Day <Elm_Dayselector_Day>`
         :param selected: state of the day. ``True`` is selected.
         :type selected: bool
 
@@ -143,15 +142,12 @@ cdef class Dayselector(LayoutClass):
         elm_dayselector_day_selected_set(self.obj, day, selected)
 
     def day_selected_get(self, day):
-        """day_selected_get(int day):
+        """day_selected_get(int day) -> bool
 
         Get the state of given Dayselector_Day.
 
-        .. seealso:: Elm_Dayselector_Day
-        .. seealso:: :py:func:`day_selected_set()`
-
         :param day: The day that the user want to know state.
-        :type day: Elm_Dayselector_Day
+        :type day: :ref:`Day <Elm_Dayselector_Day>`
         :return: ``True``, if the Day is selected
         :rtype: bool
 
@@ -161,7 +157,7 @@ cdef class Dayselector(LayoutClass):
     property week_start:
         """The starting day of Dayselector.
 
-        :type: Elm_Dayselector_Day
+        :type: :ref:`Day <Elm_Dayselector_Day>`
 
         """
         def __get__(self):
@@ -172,7 +168,7 @@ cdef class Dayselector(LayoutClass):
     property weekend_start:
         """The weekend starting day of Dayselector.
 
-        :type: Elm_Dayselector_Day
+        :type: :ref:`Day <Elm_Dayselector_Day>`
 
         """
         def __get__(self):

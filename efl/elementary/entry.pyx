@@ -215,15 +215,15 @@ This widget emits the following signals:
 - "selection,cleared": The current selection has been cleared.
 - "cursor,changed": The cursor has changed position.
 - "anchor,clicked": An anchor has been clicked. The event_info
-  parameter for the callback will be an *Elm_Entry_Anchor_Info*.
+  parameter for the callback will be an :py:class:`EntryAnchorInfo`.
 - "anchor,in": Mouse cursor has moved into an anchor. The event_info
-  parameter for the callback will be an *Elm_Entry_Anchor_Info*.
+  parameter for the callback will be an :py:class:`EntryAnchorInfo`.
 - "anchor,out": Mouse cursor has moved out of an anchor. The event_info
-  parameter for the callback will be an *Elm_Entry_Anchor_Info*.
+  parameter for the callback will be an :py:class:`EntryAnchorInfo`.
 - "anchor,up": Mouse button has been unpressed on an anchor. The event_info
-  parameter for the callback will be an *Elm_Entry_Anchor_Info*.
+  parameter for the callback will be an :py:class:`EntryAnchorInfo`.
 - "anchor,down": Mouse button has been pressed on an anchor. The event_info
-  parameter for the callback will be an *Elm_Entry_Anchor_Info*.
+  parameter for the callback will be an :py:class:`EntryAnchorInfo`.
 - "preedit,changed": The preedit string has changed.
 - "language,changed": Program language changed.
 
@@ -236,6 +236,8 @@ Default text parts of the entry that you can use for are:
 
 - "default" - text of the entry
 
+
+.. _Elm_Cnp_Mode:
 
 .. rubric:: Copy & paste modes
 
@@ -252,6 +254,8 @@ Default text parts of the entry that you can use for are:
     Copy & paste text without markup tags
 
 
+.. _Elm_Input_Panel_Lang:
+
 .. rubric:: Input panel language sort order
 
 .. data:: ELM_INPUT_PANEL_LANG_AUTOMATIC
@@ -262,6 +266,8 @@ Default text parts of the entry that you can use for are:
 
     Alphabetic
 
+
+.. _Elm_Input_Panel_Layout:
 
 .. rubric:: Input panel layouts
 
@@ -314,6 +320,8 @@ Default text parts of the entry that you can use for are:
     Like normal, but no auto-correct, no auto-capitalization etc.
 
 
+.. _Elm_Input_Panel_Return_Key_Type:
+
 .. rubric:: Input panel return key modes
 
 .. data:: ELM_INPUT_PANEL_RETURN_KEY_TYPE_DEFAULT
@@ -349,6 +357,8 @@ Default text parts of the entry that you can use for are:
     Send
 
 
+.. _Elm_Scroller_Policy:
+
 .. rubric:: Scrollbar visibility
 
 .. data:: ELM_SCROLLER_POLICY_AUTO
@@ -364,6 +374,8 @@ Default text parts of the entry that you can use for are:
     Scrollbars are never visible
 
 
+.. _Elm_Text_Format:
+
 .. rubric:: Text format
 
 .. data:: ELM_TEXT_FORMAT_PLAIN_UTF8
@@ -374,6 +386,8 @@ Default text parts of the entry that you can use for are:
 
     UTF-8 with markup
 
+
+.. _Elm_Wrap_Type:
 
 .. rubric:: Wrap mode
 
@@ -745,7 +759,7 @@ cdef class Entry(Object):
         Note that this only makes sense for multi-line entries. A widget set
         to be single line will never wrap.
 
-        :type: Elm_Wrap_Type
+        :type: :ref:`Line wrapping mode <Elm_Wrap_Type>`
 
         """
         def __get__(self):
@@ -1157,7 +1171,7 @@ cdef class Entry(Object):
         will automatically disable the display of scrollbars when the entry
         moves inside its scroller.
 
-        :type: tuple of Elm_Scroller_Policy (h, v)
+        :type: (:ref:`Scroll policy <Elm_Scroller_Policy>` **h**, :ref:`Scroll policy <Elm_Scroller_Policy>` **v**)
 
         """
         def __set__(self, value):
@@ -1172,7 +1186,7 @@ cdef class Entry(Object):
         """Whether the entry will bounce when scrolling reaches
         the end of the contained entry.
 
-        :type: tuple of bools (h_bounce, v_bounce)
+        :type: (bool **h_bounce**, bool **v_bounce**)
 
         """
         def __get__(self):
@@ -1195,7 +1209,7 @@ cdef class Entry(Object):
     property input_panel_layout:
         """The input panel layout of the entry
 
-        :type: Elm_Input_Panel_Layout
+        :type: :ref:`Input panel layout <Elm_Input_Panel_Layout>`
 
         """
         def __get__(self):
@@ -1258,7 +1272,7 @@ cdef class Entry(Object):
 
         This API can be used if you want to show the alphabet keyboard mode.
 
-        :type: Elm_Input_Panel_Lang
+        :type: :ref:`Input panel language <Elm_Input_Panel_Lang>`
 
         """
         def __get__(self):
@@ -1282,7 +1296,7 @@ cdef class Entry(Object):
 
         An input panel displays the string or icon associated with this type
 
-        :type: Elm_Input_Panel_Return_Key_Type
+        :type: :ref:`Input panel return key type <Elm_Input_Panel_Return_Key_Type>`
 
         """
         def __get__(self):
@@ -1373,7 +1387,7 @@ cdef class Entry(Object):
 
         .. note:: This only changes the behaviour of text.
 
-        :type: Elm_Cnp_Mode
+        :type: :ref:`Copy and paste mode <Elm_Cnp_Mode>`
 
         """
         def __get__(self):

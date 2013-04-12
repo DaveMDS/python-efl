@@ -61,6 +61,8 @@ Default text parts of the list items that you can use for are:
 - "default" - label in the list item
 
 
+.. _Elm_List_Mode:
+
 .. rubric:: List sizing modes
 
 .. data:: ELM_LIST_COMPRESS
@@ -100,24 +102,33 @@ Default text parts of the list items that you can use for are:
     externally.
 
 
+.. _Elm_Object_Select_Mode:
+
 .. rubric:: Selection modes
 
 .. data:: ELM_OBJECT_SELECT_MODE_DEFAULT
 
-    Default select mode
+    Items will only call their selection func and callback when
+    first becoming selected. Any further clicks will do nothing,
+    unless you set always select mode.
 
 .. data:: ELM_OBJECT_SELECT_MODE_ALWAYS
 
-    Always select mode
+    This means that, even if selected, every click will make the
+    selected callbacks be called.
 
 .. data:: ELM_OBJECT_SELECT_MODE_NONE
 
-    No select mode
+    This will turn off the ability to select items entirely and
+    they will neither appear selected nor call selected callback
+    functions.
 
 .. data:: ELM_OBJECT_SELECT_MODE_DISPLAY_ONLY
 
     No select mode with no finger size rule
 
+
+.. _Elm_Scroller_Policy:
 
 .. rubric:: Scrollbar visibility
 
@@ -253,9 +264,9 @@ cdef class ListItem(ObjectItem):
 
         .. seealso::
             :py:attr:`List.select_mode`
-            :py:func:`elementary.object_item.ObjectItem.delete()`
+            :py:func:`efl.elementary.object_item.ObjectItem.delete()`
             :py:func:`List.clear()`
-            :py:class:`elementary.icon.Icon`
+            :py:class:`Icon <efl.elementary.icon.Icon>`
 
         :return:        The created item or ``None`` upon failure.
         :rtype:         :py:class:`ListItem`
@@ -284,9 +295,9 @@ cdef class ListItem(ObjectItem):
         .. seealso::
             :py:func:`append_to()`
             :py:attr:`List.select_mode`
-            :py:func:`elementary.object_item.ObjectItem.delete()`
+            :py:func:`efl.elementary.object_item.ObjectItem.delete()`
             :py:func:`List.clear()`
-            :py:class:`elementary.icon.Icon`
+            :py:class:`Icon <efl.elementary.icon.Icon>`
 
         :param list: The list
         :type  list: List
@@ -318,9 +329,9 @@ cdef class ListItem(ObjectItem):
         .. seealso::
             :py:func:`append_to()`
             :py:attr:`List.select_mode`
-            :py:func:`elementary.object_item.ObjectItem.delete()`
+            :py:func:`efl.elementary.object_item.ObjectItem.delete()`
             :py:func:`List.clear()`
-            :py:class:`elementary.icon.Icon`
+            :py:class:`Icon <efl.elementary.icon.Icon>`
 
         :param before: The list item to insert before.
         :type  before: :py:class:`ListItem`
@@ -354,9 +365,9 @@ cdef class ListItem(ObjectItem):
         .. seealso::
             :py:func:`append_to()`
             :py:attr:`List.select_mode`
-            :py:func:`elementary.object_item.ObjectItem.delete()`
+            :py:func:`efl.elementary.object_item.ObjectItem.delete()`
             :py:func:`List.clear()`
-            :py:class:`elementary.icon.Icon`
+            :py:class:`Icon <efl.elementary.icon.Icon>`
 
         :param after: The list item to insert after.
         :type after: :py:class:`ListItem`
@@ -388,9 +399,9 @@ cdef class ListItem(ObjectItem):
         .. seealso::
             :py:func:`append_to()`
             :py:attr:`List.select_mode`
-            :py:func:`elementary.object_item.ObjectItem.delete()`
+            :py:func:`efl.elementary.object_item.ObjectItem.delete()`
             :py:func:`List.clear()`
-            :py:class:`elementary.icon.Icon`
+            :py:class:`Icon <efl.elementary.icon.Icon>`
 
         .. note:: This function inserts values into a list object assuming
             it was sorted and the result will be sorted.
@@ -580,7 +591,7 @@ cdef class List(Object):
             li.go()
             li.show()
 
-        .. note:: Call before running show() on the list object.
+        .. note:: Call before running :py:func:`show() <efl.evas.Object.show>` on the list object.
         .. warning:: If not called, it won't display the list properly.
 
         """
@@ -620,7 +631,7 @@ cdef class List(Object):
 
         .. note:: Default value is ELM_LIST_SCROLL.
 
-        :type: Elm_List_Mode
+        :type: :ref:`List mode <Elm_List_Mode>`
 
         """
         def __get__(self):
@@ -656,21 +667,7 @@ cdef class List(Object):
     property select_mode:
         """The list select mode.
 
-        Possible modes are:
-
-        ELM_OBJECT_SELECT_MODE_DEFAULT
-            Items will only call their selection func and callback when
-            first becoming selected. Any further clicks will do nothing,
-            unless you set always select mode.
-        ELM_OBJECT_SELECT_MODE_ALWAYS
-            This means that, even if selected, every click will make the
-            selected callbacks be called.
-        ELM_OBJECT_SELECT_MODE_NONE
-            This will turn off the ability to select items entirely and
-            they will neither appear selected nor call selected callback
-            functions.
-
-        :type: Elm_Object_Select_Mode
+        :type: :ref:`Selection mode <Elm_Object_Select_Mode>`
 
         """
         def __set__(self, mode):
@@ -690,7 +687,7 @@ cdef class List(Object):
         Whether the internal scroller object should bounce or not when it
         reaches the respective edges for each axis.
 
-        :type: tuple of bools
+        :type: (bool **h**, bool **v**)
 
         """
         def __set__(self, value):
@@ -721,7 +718,7 @@ cdef class List(Object):
         The both are disabled by default, i.e., are set to
         ELM_SCROLLER_POLICY_OFF.
 
-        :type: Elm_Scroller_Policy
+        :type: :ref:`Scrolling policy <Elm_Scroller_Policy>`
 
         """
         def __set__(self, value):
@@ -763,8 +760,8 @@ cdef class List(Object):
         Remove all list's items.
 
         .. seealso::
-            :py:func:`object_item.ObjectItem.delete()`
-            :py:func:`ListItem.append()`
+            :py:func:`efl.elementary.object_item.ObjectItem.delete`
+            :py:func:`ListItem.append_to`
 
         """
         elm_list_clear(self.obj)
@@ -774,10 +771,10 @@ cdef class List(Object):
 
         .. seealso::
             :py:func:`ListItem.append_to()`
-            :py:func:`elementary.object_item.ObjectItem.delete()`
+            :py:func:`efl.elementary.object_item.ObjectItem.delete`
             :py:func:`clear()`
 
-        :type: tuple of :py:class:`ListItem`
+        :type: tuple of :py:class:`List items <ListItem>`
 
         """
         def __get__(self):

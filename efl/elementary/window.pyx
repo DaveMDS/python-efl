@@ -100,6 +100,7 @@ Signals that you can add callbacks for are:
 - "maximized": window has been maximized
 - "unmaximized": window has stopped being maximized
 
+.. _Elm_Win_Type:
 
 .. rubric:: Window types
 
@@ -200,6 +201,8 @@ Signals that you can add callbacks for are:
     process's plug image object
 
 
+.. _Elm_Win_Indicator_Mode:
+
 .. rubric:: Indicator states
 
 .. data:: ELM_WIN_INDICATOR_UNKNOWN
@@ -214,6 +217,8 @@ Signals that you can add callbacks for are:
 
     Shows the indicator.
 
+
+.. _Elm_Win_Indicator_Opacity_Mode:
 
 .. rubric:: Indicator opacity
 
@@ -233,6 +238,8 @@ Signals that you can add callbacks for are:
 
     Transparentizes the indicator.
 
+
+.. _Elm_Win_Keyboard_Mode:
 
 .. rubric:: Keyboard virtual keyboard modes
 
@@ -371,7 +378,7 @@ cdef class Window(Object):
         :param name: A name for the new window.
         :type name: string
         :param type: A type for the new window:
-        :type type: Elm_Win_Type
+        :type type: :ref:`Window type <Elm_Win_Type>`
         :keyword parent: Parent object to add the window to, defaults to None
         :type parent: :py:class:`efl.evas.Object`
 
@@ -1337,7 +1344,7 @@ cdef class Window(Object):
     property keyboard_mode:
         """The keyboard mode of the window.
 
-        :type: Elm_Win_Keyboard_Mode
+        :type: :ref:`Window keyboard mode <Elm_Win_Keyboard_Mode>`
 
         """
         def __get__(self):
@@ -1369,7 +1376,7 @@ cdef class Window(Object):
     property indicator_mode:
         """The indicator mode of the window.
 
-        :type: Elm_Win_Indicator_Mode
+        :type: :ref:`Window indicator mode <Elm_Win_Indicator_Mode>`
 
         """
         def __get__(self):
@@ -1385,7 +1392,7 @@ cdef class Window(Object):
     property indicator_opacity:
         """The indicator opacity mode of the window.
 
-        :type: Elm_Win_Indicator_Opacity_Mode
+        :type: :ref:`Window indicator opacity <Elm_Win_Indicator_Opacity_Mode>`
 
         """
         def __get__(self):

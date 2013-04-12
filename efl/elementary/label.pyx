@@ -50,6 +50,8 @@ This widget emits the following signals, besides the ones sent from
 - *"language,changed"*: The program's language changed.
 
 
+.. _Elm_Wrap_Type:
+
 .. rubric:: Wrap modes
 
 .. data:: ELM_WRAP_NONE
@@ -68,6 +70,8 @@ This widget emits the following signals, besides the ones sent from
 
     Word wrap, and if that fails, char wrap.
 
+
+.. _Elm_Label_Slide_Mode:
 
 .. rubric:: Slide modes
 
@@ -123,7 +127,7 @@ cdef class Label(LayoutClass):
         - ELM_WRAP_WORD - wrap between words
         - ELM_WRAP_MIXED - Word wrap, and if that fails, char wrap
 
-        :type: Elm_Wrap_Type
+        :type: :ref:`Line wrapping mode <Elm_Wrap_Type>`
 
         """
         def __get__(self):
@@ -238,7 +242,7 @@ cdef class Label(LayoutClass):
             the text width length
         - ELM_LABEL_SLIDE_MODE_ALWAYS - slide always
 
-        :type: Elm_Label_Slide_Mode
+        :type: :ref:`Label slide mode <Elm_Label_Slide_Mode>`
 
         """
         def __get__(self):
