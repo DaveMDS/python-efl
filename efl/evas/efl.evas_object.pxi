@@ -112,11 +112,11 @@ cdef class Object(Eo):
     all operations, like moving, resizing, changing the color, etc will
     not trigger immediate repainting, instead it will save the new state
     and mark both this object and its Canvas as "dirty" so can be redrawn
-    on Canvas.render() (usually called by the underlying system, when
+    on :py:func:`Canvas.render() <efl.evas.Canvas.render>` (usually called by the underlying system, when
     you're entering idle. This means that doesn't matter how many times
     you're moving an object between frame updates: just the last state
     will be used, that's why you really should do animations
-    using L{efl.ecore.animator_add()} instead of L{efl.ecore.timer_add()}, since
+    using :py:func:`efl.ecore.animator_add` instead of :py:func:`efl.ecore.timer_add`, since
     it will call registered functions in one batch and then trigger redraw,
     instead of calling one function, then redraw, then the next function,
     and redraw...
@@ -139,21 +139,27 @@ cdef class Object(Eo):
     work for :py:class:`Images <efl.evas.Image>`
 
     As with every evas component, colors should be specified in
-    **pre-multiplied** format, see :py:func:`color_parse` and
-    :py:func:`evas.color_argb_premul`.
+    **pre-multiplied** format, see :py:func:`efl.evas.color_parse` and
+    :py:func:`efl.evas.color_argb_premul`.
 
     Objects can be grouped by means of :py:class:`SmartObject`, a virtual class
-    that can have it's methods implemented in order to apply methods to
-    its children.
+    that can have it's methods implemented in order to apply methods to its
+    children.
 
-    .. attention:: since we have two systems controlling object's life (Evas
-        and Python) objects need to be explicitly deleted using L{delete()}
-        call. If this call is not issued, the Python object will not be
-        released, but if the object is deleted by Evas (ie: due parent
-        deletion), the object will become "shallow" and all operations
-        will either have no effect or raise exceptions. You can be notified
-        of object deletion by the C{EVAS_CALLBACK_FREE} (see L{on_free_add()}
-        or L{event_callback_add()}.
+    .. attention::
+
+        Since we have two systems controlling object's life (Evas and Python)
+        objects need to be explicitly deleted using :py:func:`delete` call. If
+        this call is not issued, the Python object will not be released, but if
+        the object is deleted by Evas (ie: due parent deletion), the object will
+        become "shallow" and all operations will either have no effect or raise
+        exceptions. You can be notified of object deletion by
+        ``EVAS_CALLBACK_FREE``
+
+    .. seealso::
+
+        :py:func:`efl.evas.Object.on_free_add`
+        :py:func:`efl.evas.Object.event_callback_add`
 
     """
     def __cinit__(self):
@@ -224,7 +230,9 @@ cdef class Object(Eo):
             self.name_set(name)
 
     def delete(self):
-        """ Delete object and free it's internal (wrapped) resources.
+        """delete()
+
+        Delete object and free it's internal (wrapped) resources.
 
         .. note:: after this operation the object will be still alive in
             Python, but it will be shallow and every operation
@@ -287,15 +295,25 @@ cdef class Object(Eo):
 
 
     def raise_(self):
-        """ Raise to the top of its layer."""
+        """raise_()
+
+        Raise to the top of its layer.
+
+        """
         evas_object_raise(self.obj)
 
     def lower(self):
-        """ Lower to the bottom of its layer."""
+        """lower()
+
+        Lower to the bottom of its layer.
+
+        """
         evas_object_lower(self.obj)
 
     def stack_above(self, Object above):
-        """ Reorder to be above the given one.
+        """stack_above(Object above)
+
+        Reorder to be above the given one.
 
         :param above:
         :type above: :py:class:`efl.evas.Object`
@@ -304,7 +322,9 @@ cdef class Object(Eo):
         evas_object_stack_above(self.obj, above.obj)
 
     def stack_below(self, Object below):
-        """ Reorder to be below the given one.
+        """stack_below(Object below)
+
+        Reorder to be below the given one.
 
         :param below:
         :type below: :py:class:`efl.evas.Object`
@@ -337,7 +357,7 @@ cdef class Object(Eo):
         return object_from_instance(evas_object_below_get(self.obj))
 
     property top:
-        """The topmost object. (Same as self.evas.top_get()).
+        """The topmost object.
 
         :type: :py:class:`efl.evas.Object`
 
@@ -349,7 +369,7 @@ cdef class Object(Eo):
         return self.evas.top_get()
 
     property bottom:
-        """The bottommost object. (Same as self.evas.bottom_get()).
+        """The bottommost object.
 
         :type: :py:class:`efl.evas.Object`
 
@@ -361,9 +381,9 @@ cdef class Object(Eo):
         return self.evas.bottom_get()
 
     property geometry:
-        """Object's position and size (X, Y, W, H).
+        """Object's position and size.
 
-        :type: tuple of ints
+        :type: (int **x**, int **y**, int **w**, int **h**)
 
         """
         def __get__(self):
@@ -385,7 +405,7 @@ cdef class Object(Eo):
     property size:
         """Object's size (width and height).
 
-        :type: tuple of ints
+        :type: (int **w**, int **h**)
 
         """
         def __get__(self):
@@ -406,7 +426,7 @@ cdef class Object(Eo):
     def resize(self, int w, int h):
         """resize(int w, int h)
 
-        Same as L{size_set()}.
+        Same as assigning to :py:attr:`size`.
 
         :param w: Width.
         :type w: int
@@ -419,7 +439,7 @@ cdef class Object(Eo):
     property pos:
         """Object's position on the X and Y coordinates.
 
-        :type: tuple of ints
+        :type: (int **x**, int **y**)
 
         """
         def __get__(self): # replicated to avoid performance hit
@@ -442,7 +462,7 @@ cdef class Object(Eo):
     property top_left:
         """Object's top-left corner coordinates.
 
-        :type: tuple of ints
+        :type: (int **x**, int **y**)
 
         """
         def __get__(self): # replicated to avoid performance hit
@@ -465,7 +485,7 @@ cdef class Object(Eo):
     property top_center:
         """The coordinates of the top-center position.
 
-        :type: tuple of ints
+        :type: (int **x**, int **y**)
 
         """
         def __get__(self): # replicated to avoid performance hit
@@ -491,7 +511,7 @@ cdef class Object(Eo):
     property top_right:
         """Object's top-right corner coordinates.
 
-        :type: tuple of ints
+        :type: (int **x**, int **y**)
 
         """
         def __get__(self): # replicated to avoid performance hit
@@ -517,7 +537,7 @@ cdef class Object(Eo):
     property left_center:
         """The coordinates of the left-center position.
 
-        :type: tuple of ints
+        :type: (int **x**, int **y**)
 
         """
         def __get__(self): # replicated to avoid performance hit
@@ -543,7 +563,7 @@ cdef class Object(Eo):
     property right_center:
         """The coordinates of the right-center position.
 
-        :type: tuple of ints
+        :type: (int **x**, int **y**)
 
         """
         def __get__(self): # replicated to avoid performance hit
@@ -569,7 +589,7 @@ cdef class Object(Eo):
     property bottom_left:
         """Object's bottom-left corner coordinates.
 
-        :type: tuple of ints
+        :type: (int **x**, int **y**)
 
         """
         def __get__(self): # replicated to avoid performance hit
@@ -595,7 +615,7 @@ cdef class Object(Eo):
     property bottom_center:
         """Object's bottom-center coordinates.
 
-        :type: tuple of ints
+        :type: (int **x**, int **y**)
 
         """
         def __get__(self): # replicated to avoid performance hit
@@ -621,7 +641,7 @@ cdef class Object(Eo):
     property bottom_right:
         """Object's bottom-right corner coordinates.
 
-        :type: tuple of ints
+        :type: (int **x**, int **y**)
 
         """
         def __get__(self): # replicated to avoid performance hit
@@ -647,7 +667,7 @@ cdef class Object(Eo):
     property center:
         """Object's center coordinates.
 
-        :type: tuple of ints
+        :type: (int **x**, int **y**)
 
         """
         def __get__(self): # replicated to avoid performance hit
@@ -684,10 +704,12 @@ cdef class Object(Eo):
         Rectangles have useful operations like clip, clamp, union and
         also provides various attributes like top_left, center_x, ...
 
-        Note that changing rectangle is a snapshot of current state, it
-        is not synchronized to the object, so modifying attributes DO NOT
-        change the object itself! You must set the Object.rect property
-        to update object information.
+        .. note::
+
+            The rectangle you receive is a snapshot of current state, it
+            is not synchronized to the object, so modifying attributes WILL NOT
+            change the object itself! You must assign it back to this property
+            to update object information.
 
         :type: :py:class:`efl.evas.Rect`
 
@@ -717,7 +739,7 @@ cdef class Object(Eo):
         When this property changes, EVAS_CALLBACK_CHANGED_SIZE_HINTS
         will be emitted.
 
-        :type: tuple of ints
+        :type: (int **w**, int **h**)
 
         """
         def __get__(self):
@@ -747,7 +769,7 @@ cdef class Object(Eo):
         When this property changes, EVAS_CALLBACK_CHANGED_SIZE_HINTS
         will be emitted.
 
-        :type: tuple of ints
+        :type: (int **w**, int **h**)
 
         """
         def __get__(self):
@@ -777,7 +799,7 @@ cdef class Object(Eo):
         When this property changes, EVAS_CALLBACK_CHANGED_SIZE_HINTS
         will be emitted.
 
-        :type: tuple of ints
+        :type: (int **w**, int **h**)
 
         """
         def __get__(self):
@@ -807,7 +829,7 @@ cdef class Object(Eo):
         When this property changes, EVAS_CALLBACK_CHANGED_SIZE_HINTS
         will be emitted.
 
-        :type: tuple of ints
+        :type: (Evas_Aspect_Control **aspect**, int **w**, int **h**)
 
         """
         def __get__(self):
@@ -844,7 +866,7 @@ cdef class Object(Eo):
         When this property changes, EVAS_CALLBACK_CHANGED_SIZE_HINTS
         will be emitted.
 
-        :type: tuple of floats
+        :type: (double **x**, double **y**)
 
         """
         def __get__(self):
@@ -874,7 +896,7 @@ cdef class Object(Eo):
         When this property changes, EVAS_CALLBACK_CHANGED_SIZE_HINTS
         will be emitted.
 
-        :type: tuple of floats
+        :type: (double **x**, double **y**)
 
         """
         def __get__(self):
@@ -902,6 +924,8 @@ cdef class Object(Eo):
         When this property changes, EVAS_CALLBACK_CHANGED_SIZE_HINTS
         will be emitted.
 
+        :type: (int **l**, int **r**, int **t**, int **b**)
+
         """
         def __get__(self):
             cdef int l, r, t, b
@@ -922,15 +946,25 @@ cdef class Object(Eo):
     def move(self, int x, int y):
         """move(int x, int y)
 
-        Same as L{pos_set()}.
+        Same as assigning to :py:attr:`pos`.
+
+        :param x:
+        :type x: int
+        :param y:
+        :type y: int
 
         """
         evas_object_move(self.obj, x, y)
 
     def move_relative(self, int dx, int dy):
-        """move(int dx, int dy)
+        """move_relative(int dx, int dy)
 
-        Move relatively to current position.
+        Move relatively to objects current position.
+
+        :param dx:
+        :type dx: int
+        :param dy:
+        :type dy: int
 
         """
         cdef int x, y, x2, y2
@@ -940,11 +974,19 @@ cdef class Object(Eo):
         evas_object_move(self.obj, x2, y2)
 
     def show(self):
-        """Show the object."""
+        """show()
+
+        Show the object.
+
+        """
         evas_object_show(self.obj)
 
     def hide(self):
-        """Hide the object."""
+        """hide()
+
+        Hide the object.
+
+        """
         evas_object_hide(self.obj)
 
     property visible:
@@ -1022,7 +1064,7 @@ cdef class Object(Eo):
     property color:
         """Object's (r, g, b, a) color, in pre-multiply colorspace.
 
-        :type: tuple of ints
+        :type: (int **r**, int **g**, int **b**, int **a**)
 
         """
 
@@ -1142,7 +1184,7 @@ cdef class Object(Eo):
         evas_object_focus_set(self.obj, value)
 
     def event_callback_add(self, Evas_Callback_Type type, func, *args, **kargs):
-        """event_callback_add(int type, func, *args, **kargs)
+        """event_callback_add(Evas_Callback_Type type, func, *args, **kargs)
 
         Add a new callback for the given event.
 
@@ -1179,7 +1221,7 @@ cdef class Object(Eo):
                 evas_object_event_callback_add(self.obj, type, cb, <void*>self)
 
     def event_callback_del(self, Evas_Callback_Type type, func):
-        """event_callback_add(int type, func)
+        """event_callback_del(Evas_Callback_Type type, func)
 
         Remove callback for the given event.
 
@@ -1452,10 +1494,10 @@ cdef class Object(Eo):
 
         Objects that pass events will also not be accounted in some operations
         unless explicitly required, like
-        :py:func:`evas.canvas.Canvas.top_at_xy_get()`,
-        :py:func:`evas.canvas.Canvas.top_in_rectangle_get()`,
-        :py:func:`evas.canvas.Canvas.objects_at_xy_get()`,
-        :py:func:`evas.canvas.Canvas.objects_in_rectangle_get()`.
+        :py:func:`efl.evas.Canvas.top_at_xy_get`,
+        :py:func:`efl.evas.Canvas.top_in_rectangle_get`,
+        :py:func:`efl.evas.Canvas.objects_at_xy_get`,
+        :py:func:`efl.evas.Canvas.objects_in_rectangle_get`.
 
         :type: bool
 
@@ -1496,7 +1538,7 @@ cdef class Object(Eo):
         """Whenever object should propagate events to its parent.
 
         If True, this will cause events on this object to propagate to its
-        :py:class:`evas.object_smart.SmartObject` parent, if it's a member
+        :py:class:`efl.evas.SmartObject` parent, if it's a member
         of one.
 
         :type: bool
@@ -1574,7 +1616,7 @@ cdef class Object(Eo):
     property map:
         """Map
 
-        :type: Map
+        :type: :py:class:`Map`
 
         """
         def __get__(self):
