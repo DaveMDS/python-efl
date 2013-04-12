@@ -704,7 +704,7 @@ cdef extern from "Evas.h":
     #
     Evas_Object *evas_object_box_add(Evas *e)
     Evas_Object *evas_object_box_add_to(Evas_Object *parent)
-    const_Eo_Class *evas_object_box_class_get()
+    # FIXME: Is this needed?: const_Eo_Class *evas_object_box_class_get()
 
     void evas_object_box_align_set(Evas_Object  *o, double horizontal, double vertical)
     void evas_object_box_align_get(const_Evas_Object *o, double *horizontal, double *vertical)

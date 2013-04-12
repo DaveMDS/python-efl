@@ -51,20 +51,24 @@ cdef class Textblock(Object):
         if text_markup is not None:
             self.text_markup_set(text_markup)
 
-    def style_get(self):
-        """get the current style
+    property style:
+        """Style
 
-        :rtype: str
+        :type: unicode
+
         """
+        def __get__(self):
+            return self.style_get()
+
+        def __set__(self, value):
+            self.style_set(value)
+
+    def style_get(self):
         cdef const_Evas_Textblock_Style *style
         style = evas_object_textblock_style_get(self.obj)
         return _ctouni(evas_textblock_style_get(style))
 
     def style_set(self, value):
-        """set the textblock style information
-
-        :param value:
-        """
         cdef Evas_Textblock_Style *style = evas_textblock_style_new()
         if isinstance(value, unicode): value = value.encode("UTF-8")
         evas_textblock_style_set(style,
@@ -72,35 +76,37 @@ cdef class Textblock(Object):
         evas_object_textblock_style_set(self.obj, style)
         evas_textblock_style_free(style)
 
-    property style:
-        def __get__(self):
-            return self.style_get()
-
-        def __set__(self, value):
-            self.style_set(value)
-
-    def text_markup_get(self):
-        """get the current markup text
-
-        :rtype: str
-        """
-        return _ctouni(evas_object_textblock_text_markup_get(self.obj))
-
-    def text_markup_set(self, value):
-        """set the textblock markup information
-
-        :param value:
-        """
-        if isinstance(value, unicode): value = value.encode("UTF-8")
-        evas_object_textblock_text_markup_set(self.obj,
-            <const_char *>value if value is not None else NULL)
-
     property text_markup:
+        """Markup text
+
+        :type: unicode
+
+        """
         def __get__(self):
             return self.text_markup_get()
 
         def __set__(self, value):
             self.text_markup_set(value)
+
+    def text_markup_get(self):
+        return _ctouni(evas_object_textblock_text_markup_get(self.obj))
+
+    def text_markup_set(self, value):
+        if isinstance(value, unicode): value = value.encode("UTF-8")
+        evas_object_textblock_text_markup_set(self.obj,
+            <const_char *>value if value is not None else NULL)
+
+    property replace_char:
+        """Replacement character
+
+        :type: unicode
+
+        """
+        def __get__(self):
+            return self.replace_char_get()
+
+        def __set__(self, value):
+            self.replace_char_set(value)
 
     def replace_char_get(self):
         return _ctouni(evas_object_textblock_replace_char_get(self.obj))
@@ -110,58 +116,93 @@ cdef class Textblock(Object):
         evas_object_textblock_replace_char_set(self.obj,
             <const_char *>value if value is not None else NULL)
 
-    property replace_char:
-        def __get__(self):
-            return self.replace_char_get()
-
-        def __set__(self, value):
-            self.replace_char_set(value)
-
     def line_number_geometry_get(self, int index):
-        """Retrieve position and dimension information of a specific line.
+        """line_number_geometry_get(int index) -> (int x, int y, int w, int h)
+
+        Retrieve position and dimension information of a specific line.
 
         This function is used to obtain the **x**, **y**, **width** and **height**
         of a the line located at **index** within this object.
 
         :param index: index of desired line
-        :rtype: tuple of int
+        :rtype: (int **x**, int **y**, int **w**, int **h**)
         """
-        cdef int cx, cy, cw, ch, r
-        r = evas_object_textblock_line_number_geometry_get(self.obj, index, &cx, &cy, &cw, &ch)
+        cdef int x, y, w, h, r
+        r = evas_object_textblock_line_number_geometry_get(self.obj, index, &x, &y, &w, &h)
         if r == 0:
             return None
         else:
-            return (cx, cy, cw, ch)
+            return (x, y, w, h)
 
     def clear(self):
+        """clear()
+
+        Clear the Textblock
+
+        """
         evas_object_textblock_clear(self.obj)
+
+    property size_formatted:
+        """Get the formatted width and height. This calculates the actual size
+        after restricting the textblock to the current size of the object. The
+        main difference between this and :py:attr:`size_native` is that the
+        "native" function does not wrapping into account it just calculates the
+        real width of the object if it was placed on an infinite canvas, while
+        this function gives the size after wrapping according to the size
+        restrictions of the object.
+
+        For example for a textblock containing the text: "You shall not pass!"
+        with no margins or padding and assuming a monospace font and a size of
+        7x10 char widths (for simplicity) has a native size of 19x1
+        and a formatted size of 5x4.
+
+        :type: (int **w**, int **h**)
+
+        :see: :py:attr:`size_native_get`
+
+        """
+        def __get__(self):
+            return self.size_formatted_get()
 
     def size_formatted_get(self):
         cdef int w, h
         evas_object_textblock_size_formatted_get(self.obj, &w, &h)
         return (w, h)
 
-    property size_formatted:
+    property size_native:
+        """Get the native width and height. This calculates the actual size without
+        taking account the current size of the object. The main difference
+        between this and :py:attr:`size_formatted` is that the "native" function
+        does not take wrapping into account it just calculates the real width of
+        the object if it was placed on an infinite canvas, while the "formatted"
+        function gives the size after wrapping text according to the size
+        restrictions of the object.
+
+        For example for a textblock containing the text: "You shall not pass!"
+        with no margins or padding and assuming a monospace font and a size of
+        7x10 char widths (for simplicity) has a native size of 19x1
+        and a formatted size of 5x4.
+
+        :type: (int **w**, int **h**)
+
+        """
         def __get__(self):
-            return self.size_formatted_get()
+            return self.size_native_get()
 
     def size_native_get(self):
         cdef int w, h
         evas_object_textblock_size_native_get(self.obj, &w, &h)
         return (w, h)
 
-    property size_native:
+    property style_insets:
+        """Style insets"""
         def __get__(self):
-            return self.size_native_get()
+            return self.style_insets_get()
 
     def style_insets_get(self):
         cdef int l, r, t, b
         evas_object_textblock_style_insets_get(self.obj, &l, &r, &t, &b)
         return (l, r, t, b)
-
-    property style_insets:
-        def __get__(self):
-            return self.style_insets_get()
 
 
 _object_mapping_register("Evas_Object_Textblock", Textblock)

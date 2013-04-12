@@ -64,7 +64,8 @@ cdef class Map(object):
         self.map = NULL
 
     def util_points_populate_from_object_full(self, Object obj, Evas_Coord z):
-        """
+        """util_points_populate_from_object_full(Object obj, Evas_Coord z)
+
         Populate source and destination map points to match exactly object.
 
         Usually one initialize map of an object to match it's original
@@ -82,7 +83,8 @@ cdef class Map(object):
         evas_map_util_points_populate_from_object_full(self.map, obj.obj, z)
 
     def util_points_populate_from_object(self, Object obj):
-        """
+        """util_points_populate_from_object(Object obj)
+
         Populate source and destination map points to match exactly object.
 
         Usually one initialize map of an object to match it's original
@@ -99,7 +101,8 @@ cdef class Map(object):
         evas_map_util_points_populate_from_object(self.map, obj.obj)
 
     def util_points_populate_from_geometry(self, Evas_Coord x, Evas_Coord y, Evas_Coord w, Evas_Coord h, Evas_Coord z):
-        """
+        """util_points_populate_from_geometry(Evas_Coord x, Evas_Coord y, Evas_Coord w, Evas_Coord h, Evas_Coord z)
+
         Populate source and destination map points to match given geometry.
 
         Similar to evas_map_util_points_populate_from_object_full(), this
@@ -119,7 +122,7 @@ cdef class Map(object):
         evas_map_util_points_populate_from_geometry(self.map, x, y, w, h, z)
 
     def util_points_color_set(self, int r, int g, int b, int a):
-        """
+        """util_points_color_set(int r, int g, int b, int a)
         Set color of all points to given color.
 
         This call is useful to reuse maps after they had 3d lightning or
@@ -134,7 +137,8 @@ cdef class Map(object):
         evas_map_util_points_color_set(self.map, r, g, b, a)
 
     def util_rotate(self, double degrees, Evas_Coord cx, Evas_Coord cy):
-        """
+        """util_rotate(double degrees, Evas_Coord cx, Evas_Coord cy)
+
         Change the map to apply the given rotation.
 
         This rotates the indicated map's coordinates around the center coordinate
@@ -151,7 +155,8 @@ cdef class Map(object):
         evas_map_util_rotate(self.map, degrees, cx, cy)
 
     def util_zoom(self, double zoomx, double zoomy, Evas_Coord cx, Evas_Coord cy):
-        """
+        """util_zoom(double zoomx, double zoomy, Evas_Coord cx, Evas_Coord cy)
+
         Change the map to apply the given zooming.
 
         Like evas_map_util_rotate(), this zooms the points of the map from a center
@@ -169,7 +174,8 @@ cdef class Map(object):
         evas_map_util_zoom(self.map, zoomx, zoomy, cx, cy)
 
     def util_3d_rotate(self, double dx, double dy, double dz, Evas_Coord cx, Evas_Coord cy, Evas_Coord cz):
-        """
+        """util_3d_rotate(double dx, double dy, double dz, Evas_Coord cx, Evas_Coord cy, Evas_Coord cz)
+
         Rotate the map around 3 axes in 3D
 
         This will rotate not just around the "Z" axis as in evas_map_util_rotate()
@@ -190,7 +196,8 @@ cdef class Map(object):
         evas_map_util_3d_rotate(self.map, dx, dy, dz, cx, cy, cz)
 
     def util_quat_rotate(self, double qx, double qy, double qz, double qw, double cx, double cy, double cz):
-        """
+        """util_quat_rotate(double qx, double qy, double qz, double qw, double cx, double cy, double cz)
+
         Rotate the map in 3D using a unit quaternion.
 
         This will rotate in 3D using a unit quaternion. Like with
@@ -213,7 +220,8 @@ cdef class Map(object):
         evas_map_util_quat_rotate(self.map, qx, qy, qz, qw, cx, cy, cz)
 
     def util_3d_lighting(self, Evas_Coord lx, Evas_Coord ly, Evas_Coord lz, int lr, int lg, int lb, int ar, int ag, int ab):
-        """
+        """util_3d_lighting(Evas_Coord lx, Evas_Coord ly, Evas_Coord lz, int lr, int lg, int lb, int ar, int ag, int ab)
+
         Perform lighting calculations on the given Map
 
         This is used to apply lighting calculations (from a single light source)
@@ -238,7 +246,8 @@ cdef class Map(object):
         evas_map_util_3d_lighting(self.map, lx, ly, lz, lr, lg, lb, ar, ag, ab)
 
     def util_3d_perspective(self, Evas_Coord px, Evas_Coord py, Evas_Coord z0, Evas_Coord foc):
-        """
+        """util_3d_perspective(Evas_Coord px, Evas_Coord py, Evas_Coord z0, Evas_Coord foc)
+
         Apply a perspective transform to the map
 
         This applies a given perspective (3D) to the map coordinates. X, Y and Z
@@ -263,9 +272,8 @@ cdef class Map(object):
         """
         evas_map_util_3d_perspective(self.map, px, py, z0, foc)
 
-    def util_clockwise_get(self):
-        """
-        Get the clockwise state of a map
+    property util_clockwise:
+        """Get the clockwise state of a map
 
         This determines if the output points (X and Y. Z is not used) are
         clockwise or counter-clockwise. This can be used for "back-face culling". This
@@ -275,87 +283,74 @@ cdef class Map(object):
         :return: 1 if clockwise, 0 otherwise
 
         """
-        return bool(evas_map_util_clockwise_get(self.map))
-
-    property util_clockwise:
         def __get__(self):
             return self.util_clockwise_get()
 
-    def smooth_set(self, bool smooth):
-        """
-        Set the smoothing for map rendering
-
-        This sets smoothing for map rendering. If the object is a type that has
-        its own smoothing settings, then both the smooth settings for this object
-        and the map must be turned off. By default smooth maps are enabled.
-
-        :param enabled: enable or disable smooth map rendering
-
-        """
-        evas_map_smooth_set(self.map, smooth)
-
-    def smooth_get(self):
-        """
-        Get the smoothing for map rendering
-
-        :rtype: bool
-
-        """
-        return bool(evas_map_smooth_get(self.map))
+    def util_clockwise_get(self):
+        return bool(evas_map_util_clockwise_get(self.map))
 
     property smooth:
+        """The smoothing state for map rendering
+
+        If the object is a type that has its own smoothing settings, then both
+        the smooth settings for this object and the map must be turned off. By
+        default smooth maps are enabled.
+
+        :type: bool
+
+        """
         def __get__(self):
             return self.smooth_get()
+
         def __set__(self, value):
             self.smooth_set(value)
 
-    def alpha_set(self, bool alpha):
-        """
-        Set the alpha flag for map rendering
+    def smooth_set(self, bool smooth):
+        evas_map_smooth_set(self.map, smooth)
 
-        This sets alpha flag for map rendering. If the object is a type that has
-        its own alpha settings, then this will take precedence. Only image objects
-        have this currently.
-        Setting this off stops alpha blending of the map area, and is
-        useful if you know the object and/or all sub-objects is 100% solid.
-
-        :param enabled: enable or disable alpha map rendering
-
-        """
-        evas_map_alpha_set(self.map, alpha)
-
-    def alpha_get(self):
-        """
-        Get the alpha flag for map rendering
-
-        :return: tha alpha flag
-        :rtype: bool
-        """
-        return bool(evas_map_alpha_get(self.map))
-
+    def smooth_get(self):
+        return bool(evas_map_smooth_get(self.map))
 
     property alpha:
+        """The alpha flag for map rendering
+
+        If the object is a type that has its own alpha settings, then this will
+        take precedence. Only image objects have this currently. Setting this
+        off stops alpha blending of the map area, and is useful if you know the
+        object and/or all sub-objects is 100% solid.
+
+        :type: bool
+
+        """
         def __get__(self):
             return self.alpha_get()
+
         def __set__(self, value):
             self.alpha_set(value)
 
-    def count_get(self):
-        """ Get a maps size.
+    def alpha_set(self, bool alpha):
+        evas_map_alpha_set(self.map, alpha)
+
+    def alpha_get(self):
+        return bool(evas_map_alpha_get(self.map))
+
+    property count:
+        """Get a maps size.
 
         Returns the number of points in a map.  Should be at least 4.
 
-        :return: -1 on error, points otherwise.
-        :rtype: int
-        """
-        return evas_map_count_get(self.map)
+        :type: int (-1 on error)
 
-    property count:
+        """
         def __get__(self):
             return self.count_get()
 
+    def count_get(self):
+        return evas_map_count_get(self.map)
+
     def point_coord_set(self, int idx, Evas_Coord x, Evas_Coord y, Evas_Coord z):
-        """
+        """point_coord_set(int idx, Evas_Coord x, Evas_Coord y, Evas_Coord z)
+
         Change the map point's coordinate.
 
         This sets the fixed point's coordinate in the map. Note that points
@@ -382,7 +377,9 @@ cdef class Map(object):
         evas_map_point_coord_set(self.map, idx, x, y, z)
 
     def point_coord_get(self, int idx):
-        """ Get the map point's coordinate.
+        """point_coord_get(int idx)
+
+        Get the map point's coordinate.
 
         This returns the coordinates of the given point in the map.
 
@@ -395,14 +392,19 @@ cdef class Map(object):
         evas_map_point_coord_get(self.map, idx, &x, &y, &z)
         return (x, y, z)
 
-    property point_coord:
-        def __get__(self):
-            return self.point_coord_get()
-        def __set__(self, value):
-            self.point_coord_set(*value)
+    #
+    # XXX:  Can't use property here since getter has an argument.
+    #
+    # property point_coord:
+    #     def __get__(self):
+    #         return self.point_coord_get()
+    #     def __set__(self, value):
+    #         self.point_coord_set(*value)
 
     def point_image_uv_set(self, int idx, double u, double v):
-        """ Change the map point's U and V texture source point
+        """point_image_uv_set(int idx, double u, double v)
+
+        Change the map point's U and V texture source point
 
         This sets the U and V coordinates for the point. This determines which
         coordinate in the source image is mapped to the given point, much like
@@ -416,8 +418,10 @@ cdef class Map(object):
         """
         evas_map_point_image_uv_set(self.map, idx, u, v)
 
-    def point_image_uv_get(self,  int idx):
-        """ Get the map point's U and V texture source points
+    def point_image_uv_get(self, int idx):
+        """point_image_uv_get(int idx)
+
+        Get the map point's U and V texture source points
 
         This returns the texture points set by evas_map_point_image_uv_set().
 
@@ -430,14 +434,19 @@ cdef class Map(object):
         evas_map_point_image_uv_get(self.map, idx, &u, &v)
         return (u, v)
 
-    property point_image_uv:
-        def __get__(self):
-            return self.point_image_uv_get()
-        def __set__(self, value):
-            self.point_image_uv_set(*value)
+    #
+    # XXX:  Can't use property here since getter has an argument.
+    #
+    # property point_image_uv:
+    #     def __get__(self):
+    #         return self.point_image_uv_get()
+    #     def __set__(self, value):
+    #         self.point_image_uv_set(*value)
 
     def point_color_set(self, int idx, int r, int g, int b, int a):
-        """ Set the color of a vertex in the map
+        """point_color_set(int idx, int r, int g, int b, int a)
+
+        Set the color of a vertex in the map
 
         This sets the color of the vertex in the map. Colors will be linearly
         interpolated between vertex points through the map. Color will multiply
@@ -455,7 +464,9 @@ cdef class Map(object):
         evas_map_point_color_set(self.map, idx, r, g, b, a)
 
     def point_color_get(self, int idx):
-        """ Get the color set on a vertex in the map
+        """point_color_get(int idx)
+
+        Get the color set on a vertex in the map
 
         This gets the color set by point_color_set() on the given vertex
         of the map.
@@ -469,9 +480,12 @@ cdef class Map(object):
         evas_map_point_color_get(self.map, idx, &r, &g, &b, &a)
         return (r, g, b, a)
 
-    property point_color:
-        def __get__(self):
-            return self.point_color_get()
-        def __set__(self, value):
-            self.point_color_set(*value)
+    #
+    # XXX:  Can't use property here since getter has an argument.
+    #
+    # property point_color:
+    #     def __get__(self):
+    #         return self.point_color_get()
+    #     def __set__(self, value):
+    #         self.point_color_set(*value)
 

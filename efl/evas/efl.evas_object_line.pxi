@@ -80,28 +80,13 @@ cdef class Line(Object):
         Object._set_common_params(self, geometry=geometry, size=size,
                                   pos=pos, **kargs)
 
-    def xy_set(self, int x1, int y1, int x2, int y2):
-        """Set the two points of the line.
-
-        :param x1:
-        :param y1:
-        :param x2:
-        :param y2:
-
-        """
-        evas_object_line_xy_set(self.obj, x1, y1, x2, y2)
-
-    def xy_get(self):
-        """Get the two points of the line.
-
-        :return: the tuple of int (x1, y1, x2, y2)
-
-        """
-        cdef int x1, y1, x2, y2
-        evas_object_line_xy_get(self.obj, &x1, &y1, &x2, &y2)
-        return (x1, y1, x2, y2)
-
     property xy:
+        """Two points of the line.
+
+        :type: (int **x0**, int **y0**, int **x1**, int **y1**)
+
+        """
+
         def __set__(self, spec):
             cdef int x1, y1, x2, y2
             x1, y1, x2, y2 = spec
@@ -112,28 +97,20 @@ cdef class Line(Object):
             evas_object_line_xy_get(self.obj, &x1, &y1, &x2, &y2)
             return (x1, y1, x2, y2)
 
-    def start_set(self, x1, y1):
-        """Set starting point
-
-        :param x1:
-        :param y1:
-
-        """
-        cdef int x2, y2
-        evas_object_line_xy_get(self.obj, NULL, NULL, &x2, &y2)
+    def xy_set(self, int x1, int y1, int x2, int y2):
         evas_object_line_xy_set(self.obj, x1, y1, x2, y2)
 
-    def start_get(self):
-        """Get the starting point
-
-        :return: the tuple of int (x1, y1)
-
-        """
-        cdef int x1, y1
-        evas_object_line_xy_get(self.obj, &x1, &y1, NULL, NULL)
-        return (x1, y1)
+    def xy_get(self):
+        cdef int x1, y1, x2, y2
+        evas_object_line_xy_get(self.obj, &x1, &y1, &x2, &y2)
+        return (x1, y1, x2, y2)
 
     property start:
+        """The starting point of the line.
+
+        :type: (int **x**, int **y**)
+
+        """
         def __set__(self, spec):
             cdef int x1, y1, x2, y2
             x1, y1 = spec
@@ -145,28 +122,22 @@ cdef class Line(Object):
             evas_object_line_xy_get(self.obj, &x1, &y1, NULL, NULL)
             return (x1, y1)
 
-    def end_set(self, x2, y2):
-        """Set the ending point
-
-        :param x2:
-        :param y2:
-
-        """
-        cdef int x1, y1
-        evas_object_line_xy_get(self.obj, &x1, &y1, NULL, NULL)
-        evas_object_line_xy_set(self.obj, x1, y1, x2, y2)
-
-    def end_get(self):
-        """Get the ending point
-
-        :return: the tuple of int (x2, y2)
-
-        """
+    def start_set(self, x1, y1):
         cdef int x2, y2
         evas_object_line_xy_get(self.obj, NULL, NULL, &x2, &y2)
-        return (x2, y2)
+        evas_object_line_xy_set(self.obj, x1, y1, x2, y2)
+
+    def start_get(self):
+        cdef int x1, y1
+        evas_object_line_xy_get(self.obj, &x1, &y1, NULL, NULL)
+        return (x1, y1)
 
     property end:
+        """The end point of the line.
+
+        :type: (int **x**, int **y**)
+
+        """
         def __set__(self, spec):
             cdef int x1, y1, x2, y2
             x2, y2 = spec
@@ -177,6 +148,16 @@ cdef class Line(Object):
             cdef int x2, y2
             evas_object_line_xy_get(self.obj, NULL, NULL, &x2, &y2)
             return (x2, y2)
+
+    def end_set(self, x2, y2):
+        cdef int x1, y1
+        evas_object_line_xy_get(self.obj, &x1, &y1, NULL, NULL)
+        evas_object_line_xy_set(self.obj, x1, y1, x2, y2)
+
+    def end_get(self):
+        cdef int x2, y2
+        evas_object_line_xy_get(self.obj, NULL, NULL, &x2, &y2)
+        return (x2, y2)
 
 
 _object_mapping_register("Evas_Object_Line", Line)

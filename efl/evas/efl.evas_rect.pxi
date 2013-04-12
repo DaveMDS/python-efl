@@ -24,36 +24,6 @@ cdef class Rect(object):
     This class provides the description of a rectangle and means to
     access and modify its properties in an easy way.
 
-    Useful properties are:
-
-    - left (or "x")
-    - right
-    - top (or "y")
-    - bottom
-    - center_x
-    - center_y
-    - width (or "w")
-    - height (or "h")
-    - top_left
-    - top_right
-    - bottom_left
-    - bottom_right
-    - center
-    - pos
-    - size
-    - area
-
-    Useful methods are:
-
-    - normalize
-    - contains
-    - intercepts
-    - clip
-    - union
-    - clamp
-    - move_by
-    - inflate
-
     Usage example:
 
      >>> r1 = Rect(10, 20, 30, 40)
@@ -71,7 +41,7 @@ cdef class Rect(object):
      >>> r1.intercepts(r2)
      True
 
-    .. attention:: this is not a graphical object! Do not confuse with
+    .. attention:: This is not a graphical object! Do not confuse with
        :py:class:`efl.evas.Rectangle`.
 
     """
@@ -163,6 +133,7 @@ cdef class Rect(object):
                (self.__class__.__name__, self.x0, self.y0, self._w, self._h)
 
     property x:
+        ":type: int"
         def __get__(self):
             return self.x0
 
@@ -172,6 +143,7 @@ cdef class Rect(object):
             self.cx = x + self._w/2
 
     property left: # same as "x"
+        ":type: int"
         def __get__(self):
             return self.x0
 
@@ -181,6 +153,7 @@ cdef class Rect(object):
             self.cx = x + self._w/2
 
     property right:
+        ":type: int"
         def __get__(self):
             return self.x1
 
@@ -190,6 +163,7 @@ cdef class Rect(object):
             self.cx = self.x0 + self._w/2
 
     property center_x:
+        ":type: int"
         def __get__(self):
             return self.cx
 
@@ -199,6 +173,7 @@ cdef class Rect(object):
             self.cx = cx
 
     property y:
+        ":type: int"
         def __get__(self):
             return self.y0
 
@@ -208,6 +183,7 @@ cdef class Rect(object):
             self.cy = y + self._h/2
 
     property top: # same as "y"
+        ":type: int"
         def __get__(self):
             return self.y0
 
@@ -217,6 +193,7 @@ cdef class Rect(object):
             self.cy = y + self._h/2
 
     property bottom:
+        ":type: int"
         def __get__(self):
             return self.y1
 
@@ -226,6 +203,7 @@ cdef class Rect(object):
             self.cy = self.y0 + self._h/2
 
     property center_y:
+        ":type: int"
         def __get__(self):
             return self.cy
 
@@ -235,6 +213,7 @@ cdef class Rect(object):
             self.cy = cy
 
     property w:
+        ":type: int"
         def __get__(self):
             return self._w
 
@@ -244,6 +223,7 @@ cdef class Rect(object):
             self.cx = self.x0 + w/2
 
     property width:
+        ":type: int"
         def __get__(self):
             return self._w
 
@@ -253,6 +233,7 @@ cdef class Rect(object):
             self.cx = self.x0 + w/2
 
     property h:
+        ":type: int"
         def __get__(self):
             return self._h
 
@@ -262,6 +243,7 @@ cdef class Rect(object):
             self.cy = self.y0 + h/2
 
     property height:
+        ":type: int"
         def __get__(self):
             return self._h
 
@@ -271,6 +253,7 @@ cdef class Rect(object):
             self.cy = self.y0 + h/2
 
     property center:
+        ":type: (int **x**, int **y**)"
         def __get__(self):
             return (self.cx, self.cy)
 
@@ -288,6 +271,7 @@ cdef class Rect(object):
             self.cy = cy
 
     property top_left:
+        ":type: (int **x**, int **y**)"
         def __get__(self):
             return (self.x0, self.y0)
 
@@ -304,6 +288,7 @@ cdef class Rect(object):
             self.cy = y + self._h/2
 
     property top_right:
+        ":type: (int **x**, int **y**)"
         def __get__(self):
             return (self.x1, self.y0)
 
@@ -320,6 +305,7 @@ cdef class Rect(object):
             self.cy = y + self._h/2
 
     property bottom_left:
+        ":type: (int **x**, int **y**)"
         def __get__(self):
             return (self.x0, self.y1)
 
@@ -336,6 +322,7 @@ cdef class Rect(object):
             self.cy = self.y0 + self._h/2
 
     property bottom_right:
+        ":type: (int **x**, int **y**)"
         def __get__(self):
             return (self.x1, self.y1)
 
@@ -352,6 +339,7 @@ cdef class Rect(object):
             self.cy = self.y0 + self._h/2
 
     property pos:
+        ":type: (int **x**, int **y**)"
         def __get__(self):
             return (self.x0, self.y0)
 
@@ -368,6 +356,7 @@ cdef class Rect(object):
             self.cy = y + self._h/2
 
     property size:
+        ":type: (int **w**, int **h**)"
         def __get__(self):
             return (self._w, self._h)
 
@@ -384,6 +373,7 @@ cdef class Rect(object):
             self.cy = self.y0 + h/2
 
     property area:
+        ":type: (int **w**, int **h**)"
         def __get__(self):
             return self._w * self._h
 
@@ -447,16 +437,40 @@ cdef class Rect(object):
                     self.y0 <= o.top and o.bottom <= self.y1)
 
     def contains(self, obj):
-        "Checks if contains given rectangle."
+        """contains(obj) -> bool
+
+        Checks if contains given rectangle.
+
+        :param obj:
+        :rtype: bool
+
+        """
         return obj in self
 
     def contains_point(self, x, y):
-        "Checks if contains the given point."
+        """contains_point(x, y) -> bool
+
+        Checks if contains the given point.
+
+        :param x:
+        :type x: int
+        :param y:
+        :type y: int
+        :rtype: bool
+
+        """
         return bool(self.x0 <= x <= self.x1 and \
                     self.y0 <= y <= self.y1)
 
     def intercepts(self, obj):
-        "Checks if intercepts given rectangle."
+        """intercepts(obj) -> bool
+
+        Checks if intercepts given rectangle.
+
+        :param obj:
+        :rtype: bool
+
+        """
         cdef Rect o
         cdef int left, right, top, bottom, a, b, c, d
         if isinstance(obj, Rect):
@@ -485,7 +499,14 @@ cdef class Rect(object):
         return bool((a or b) and (c or d))
 
     def clip(self, obj):
-        "Returns a new Rect that represents current cropped inside parameter."
+        """clip(obj) -> Rect
+
+        Returns a new Rect that represents current cropped inside parameter.
+
+        :param obj:
+        :rtype: Rect
+
+        """
         cdef Rect o
         cdef int left, right, top, bottom, width, height
         if isinstance(obj, Rect):
@@ -515,7 +536,14 @@ cdef class Rect(object):
             return Rect(0, 0, 0, 0)
 
     def union(self, obj):
-        "Returns a new Rect that covers both rectangles."
+        """union(obj) -> Rect
+
+        Returns a new Rect that covers both rectangles.
+
+        :param obj:
+        :rtype: Rect
+
+        """
         cdef Rect o
         cdef int left, right, top, bottom
         if isinstance(obj, Rect):
@@ -540,10 +568,15 @@ cdef class Rect(object):
         return Rect(left, top, right - left, bottom - top)
 
     def clamp(self, obj):
-        """Returns a new Rect that represents current moved inside given
-           parameter.
+        """clamp(obj) -> Rect
 
-           If given rectangle is smaller, it'll be centered.
+        Returns a new Rect that represents current moved inside given
+        parameter.
+
+        If given rectangle is smaller, it'll be centered.
+
+        :param obj:
+        :rtype: Rect
 
         """
         cdef Rect o, ret
@@ -581,9 +614,29 @@ cdef class Rect(object):
         return ret
 
     def move_by(self, int offset_x, int offset_y):
-        "Returns a new Rect that represents current moved by given offsets."
+        """move_by(int offset_x, int offset_y) -> Rect
+
+        Returns a new Rect that represents current moved by given offsets.
+
+        :param offset_x:
+        :type offset_x: int
+        :param offset_y:
+        :type offset_y: int
+        :rtype: Rect
+
+        """
         return Rect(self.x0 + offset_x, self.y0 + offset_y, self._w, self._h)
 
     def inflate(self, int amount_w, int amount_h):
-        "Returns a new Rect that represents current inflated by given amount."
+        """inflate(int amount_w, int amount_h)
+
+        Returns a new Rect that represents current inflated by given amount.
+
+        :param amount_x:
+        :type amount_x: int
+        :param amount_y:
+        :type amount_y: int
+        :rtype: Rect
+
+        """
         return Rect(self.x0, self.y0, self._w + amount_w, self._h + amount_h)

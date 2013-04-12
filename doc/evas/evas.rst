@@ -214,6 +214,7 @@ Reference
    class-object-textblock
    class-object-box
    class-object-smart
+   class-textgrid
    class-map
 
 Inheritance diagram
