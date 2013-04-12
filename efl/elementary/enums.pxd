@@ -343,6 +343,11 @@ cdef extern from "Elementary.h":
         ELM_SCROLLER_POLICY_ON
         ELM_SCROLLER_POLICY_OFF
 
+    ctypedef enum Elm_Softcursor_Mode:
+        ELM_SOFTCURSOR_MODE_AUTO
+        ELM_SOFTCURSOR_MODE_ON
+        ELM_SOFTCURSOR_MODE_OFF
+
     ctypedef enum Elm_Text_Format:
         ELM_TEXT_FORMAT_PLAIN_UTF8
         ELM_TEXT_FORMAT_MARKUP_UTF8

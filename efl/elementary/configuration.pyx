@@ -16,9 +16,36 @@
 # along with this Python-EFL.  If not, see <http://www.gnu.org/licenses/>.
 #
 
+"""
+
+.. _Elm_Softcursor_Mode:
+
+.. rubric:: Elm_Softcursor_Mode
+
+.. data:: ELM_SOFTCURSOR_MODE_AUTO
+
+    Auto-detect if a software cursor should be used (default)
+
+.. data:: ELM_SOFTCURSOR_MODE_ON
+
+    Always use a softcursor
+
+.. data:: ELM_SOFTCURSOR_MODE_OFF
+
+    Never use a softcursor
+
+"""
+
 include "widget_header.pxi"
 
 from efl.eo cimport convert_eina_list_strings_to_python_list
+
+cimport enums
+
+ELM_SOFTCURSOR_MODE_AUTO = enums.ELM_SOFTCURSOR_MODE_AUTO
+ELM_SOFTCURSOR_MODE_ON = enums.ELM_SOFTCURSOR_MODE_ON
+ELM_SOFTCURSOR_MODE_OFF = enums.ELM_SOFTCURSOR_MODE_OFF
+
 
 cdef class Configuration(object):
 
@@ -253,6 +280,19 @@ cdef class Configuration(object):
         def __set__(self, threshold):
             elm_config_scroll_thumbscroll_threshold_set(threshold)
 
+
+    property scroll_thumbscroll_hold_threshold:
+        """The number of pixels the range which can be scrolled,
+        while the scroller is holded.
+
+        :type: int
+
+        """
+        def __get__(self):
+            return elm_config_scroll_thumbscroll_hold_threshold_get()
+        def __set__(self, threshold):
+            elm_config_scroll_thumbscroll_hold_threshold_set(threshold)
+
     property scroll_thumbscroll_momentum_threshold:
         """The minimum speed of mouse cursor movement which will trigger list
         self scrolling animation after a mouse up event (pixels/second).
@@ -317,6 +357,24 @@ cdef class Configuration(object):
             return elm_config_longpress_timeout_get()
         def __set__(self, longpress_timeout):
             elm_config_longpress_timeout_set(longpress_timeout)
+
+    property softcursor_mode:
+        """The mode used for software provided mouse cursors inline in the window
+        canvas.
+
+        A software rendered cursor can be provided for rendering inline inside the
+        canvas windows in the event the native display system does not provide one
+        or the native oneis not wanted.
+
+        :type: Elm_Softcursor_Mode
+
+        """
+        def __set__(self, mode):
+            elm_config_softcursor_mode_set(mode)
+
+        def __get__(self):
+            return elm_config_softcursor_mode_get()
+
 
     property tooltip_delay:
         """The duration after which tooltip will be shown.
@@ -498,6 +556,35 @@ cdef class Configuration(object):
             <const_char *>a2 if a2 is not None else NULL,
             size)
 
+
+    property access:
+        """Access mode
+
+        :type: bool
+
+        .. note::
+
+            Elementary objects may have information (e.g. label on the
+            elm_button) to be read. This information is read by access module
+            when an object receives EVAS_CALLBACK_MOUSE_IN event
+
+        """
+        def __get__(self):
+            return bool(elm_config_access_get())
+        def __set__(self, is_access):
+            elm_config_access_set(is_access)
+
+    property selection_unfocused_clear:
+        """Whether selection should be cleared when entry widget is unfocused.
+
+        :type: bool
+
+        """
+        def __get__(self):
+            return bool(elm_config_selection_unfocused_clear_get())
+        def __set__(self, enabled):
+            elm_config_selection_unfocused_clear_set(enabled)
+
     def font_overlay_unset(self, text_class):
         """font_overlay_unset(unicode text_class)
 
@@ -665,6 +752,18 @@ cdef class Configuration(object):
             return bool(elm_config_mirrored_get())
         def __set__(self, mirrored):
             elm_config_mirrored_set(mirrored)
+
+    def indicator_service_get(self, int rotation):
+        """indicator_service_get(int rotation) -> unicode
+
+        Get the indicator service name according to the rotation degree.
+
+        :param rotation: The rotation which is related with the indicator service name, in degrees (0-360),
+
+        :return: The indicator service name according to the rotation degree.
+
+        """
+        return _ctouni(elm_config_indicator_service_get(rotation))
 
 
 #For compatibility
