@@ -9,8 +9,6 @@ from libc.string cimport const_char
 from libc.stdlib cimport const_void
 
 cdef extern from "Elementary.h":
-
-    #genlist
     ctypedef char           *(*GenlistItemLabelGetFunc)     (void *data, Evas_Object *obj, const_char *part)
     ctypedef Evas_Object    *(*GenlistItemIconGetFunc)      (void *data, Evas_Object *obj, const_char *part)
     ctypedef Eina_Bool       (*GenlistItemStateGetFunc)     (void *data, Evas_Object *obj, const_char *part)
@@ -28,15 +26,12 @@ cdef extern from "Elementary.h":
         const_char *decorate_all_item_style
         Elm_Genlist_Item_Class_Func func
 
-    # Generic List          (api:TODO  cb:DONE  test:DONE  doc:TODO  py3:TODO)
     Evas_Object *           elm_genlist_add(Evas_Object *parent)
     void                    elm_genlist_clear(Evas_Object *obj)
     void                    elm_genlist_multi_select_set(Evas_Object *obj, Eina_Bool multi)
     Eina_Bool               elm_genlist_multi_select_get(Evas_Object *obj)
     void                    elm_genlist_mode_set(Evas_Object *obj, Elm_List_Mode mode)
     Elm_List_Mode           elm_genlist_mode_get(Evas_Object *obj)
-    void                    elm_genlist_bounce_set(Evas_Object *obj, Eina_Bool h_bounce, Eina_Bool v_bounce)
-    void                    elm_genlist_bounce_get(Evas_Object *obj, Eina_Bool *h_bounce, Eina_Bool *v_bounce)
     Elm_Object_Item *       elm_genlist_item_append(Evas_Object *obj, Elm_Genlist_Item_Class *itc, void *data, Elm_Object_Item *parent, Elm_Genlist_Item_Type flags, Evas_Smart_Cb func, void *func_data)
     Elm_Object_Item *       elm_genlist_item_prepend(Evas_Object *obj, Elm_Genlist_Item_Class *itc, void *data, Elm_Object_Item *parent, Elm_Genlist_Item_Type flags, Evas_Smart_Cb func, void *func_data)
     Elm_Object_Item *       elm_genlist_item_insert_before(Evas_Object *obj, Elm_Genlist_Item_Class *itc, void *data, Elm_Object_Item *parent, Elm_Object_Item *before, Elm_Genlist_Item_Type flags, Evas_Smart_Cb func, void *func_data)
@@ -47,8 +42,6 @@ cdef extern from "Elementary.h":
     Eina_List *             elm_genlist_realized_items_get(Evas_Object *obj)
     Elm_Object_Item *       elm_genlist_first_item_get(Evas_Object *obj)
     Elm_Object_Item *       elm_genlist_last_item_get(Evas_Object *obj)
-    void                    elm_genlist_scroller_policy_set(Evas_Object *obj, Elm_Scroller_Policy policy_h, Elm_Scroller_Policy policy_v)
-    void                    elm_genlist_scroller_policy_get(Evas_Object *obj, Elm_Scroller_Policy *policy_h, Elm_Scroller_Policy *policy_v)
 
     Elm_Object_Item *       elm_genlist_item_next_get(Elm_Object_Item *item)
     Elm_Object_Item *       elm_genlist_item_prev_get(Elm_Object_Item *item)
