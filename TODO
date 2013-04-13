@@ -37,7 +37,7 @@ TODO
 * Document our use of exceptions
 * Split Evas to individual modules?
 * Tests for evas.Textgrid
-
+* update links and text on: http://www.freedesktop.org/wiki/Software/DBusBindings
 
 IMAGES
 ======
