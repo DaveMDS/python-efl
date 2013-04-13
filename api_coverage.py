@@ -10,6 +10,9 @@ c_exclude_list = [
     "elm_app", # These are only useful for C apps
     "elm_widget", # Custom widgets, probably not feasible for us to provide
     "elm_prefs", # Intended for configuration dialogs
+    "elm_route", # Useless API?
+    "elm_glview", # Is there an OpenGL API for Python that can be used with this?
+    "evas_gl_", # ditto
 ]
 c_excludes = "|".join(c_exclude_list)
 
