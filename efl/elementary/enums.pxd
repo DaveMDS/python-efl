@@ -18,6 +18,12 @@ cdef extern from "Elementary.h":
         ELM_ACTIONSLIDER_RIGHT
         ELM_ACTIONSLIDER_ALL
 
+    ctypedef enum Elm_Autocapital_Type:
+        ELM_AUTOCAPITAL_TYPE_NONE
+        ELM_AUTOCAPITAL_TYPE_WORD
+        ELM_AUTOCAPITAL_TYPE_SENTENCE
+        ELM_AUTOCAPITAL_TYPE_ALLCHARACTER
+
     ctypedef enum Elm_Bg_Option:
         ELM_BG_OPTION_CENTER
         ELM_BG_OPTION_SCALE

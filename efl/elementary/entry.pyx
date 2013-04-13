@@ -237,6 +237,27 @@ Default text parts of the entry that you can use for are:
 - "default" - text of the entry
 
 
+.. _Elm_Autocapital_Type:
+
+.. rubric:: Autocapitalization types
+
+.. data:: ELM_AUTOCAPITAL_TYPE_NONE
+
+    No auto-capitalization when typing
+
+.. data:: ELM_AUTOCAPITAL_TYPE_WORD
+
+    Autocapitalize each word typed
+
+.. data:: ELM_AUTOCAPITAL_TYPE_SENTENCE
+
+    Autocapitalize the start of each sentence
+
+.. data:: ELM_AUTOCAPITAL_TYPE_ALLCHARACTER
+
+    Autocapitalize all letters
+
+
 .. _Elm_Cnp_Mode:
 
 .. rubric:: Copy & paste modes
@@ -416,6 +437,11 @@ from scroller cimport *
 
 cimport enums
 
+ELM_AUTOCAPITAL_TYPE_NONE = enums.ELM_AUTOCAPITAL_TYPE_NONE
+ELM_AUTOCAPITAL_TYPE_WORD = enums.ELM_AUTOCAPITAL_TYPE_WORD
+ELM_AUTOCAPITAL_TYPE_SENTENCE = enums.ELM_AUTOCAPITAL_TYPE_SENTENCE
+ELM_AUTOCAPITAL_TYPE_ALLCHARACTER = enums.ELM_AUTOCAPITAL_TYPE_ALLCHARACTER
+
 ELM_CNP_MODE_MARKUP = enums.ELM_CNP_MODE_MARKUP
 ELM_CNP_MODE_NO_IMAGE = enums.ELM_CNP_MODE_NO_IMAGE
 ELM_CNP_MODE_PLAINTEXT = enums.ELM_CNP_MODE_PLAINTEXT
@@ -559,6 +585,37 @@ cdef class Entry(Object):
         """
         self._set_obj(elm_entry_add(parent.obj))
 
+    def text_style_user_push(self, style):
+        """Push the style to the top of user style stack.
+        If there is styles in the user style stack, the properties in the top style
+        of user style stack will replace the properties in current theme.
+        The input style is specified in format tag='property=value' (i.e. DEFAULT='font=Sans font_size=60'hilight=' + font_weight=Bold').
+
+        :param style: The style user to push
+
+        """
+        if isinstance(style, unicode): style = style.encode("UTF-8")
+        elm_entry_text_style_user_push(self.obj,
+            <const_char *>style if style is not None else NULL)
+
+    def text_style_user_pop(self):
+        """Remove the style in the top of user style stack.
+
+        :see: :py:func:`text_style_user_push`
+
+        """
+        elm_entry_text_style_user_pop(self.obj)
+
+    def text_style_user_peek(self):
+        """Retrieve the style on the top of user style stack.
+
+        :return: style on the top of user style stack if exist, otherwise None.
+
+        :see: :py:func:`text_style_user_push`
+
+        """
+        return _ctouni(elm_entry_text_style_user_peek(self.obj))
+
     property single_line:
         """Single line mode.
 
@@ -690,7 +747,7 @@ cdef class Entry(Object):
         done to the textblock returned by this function should be followed by
         a call to :py:func:`calc_force()`.
 
-        The return value is marked as const as an additional warning.
+        The return value is marked as const_as an additional warning.
         One should not use the returned object with any of the generic evas
         functions (geometry_get/resize/move and etc), but only with the textblock
         functions; The former will either not work at all, or break the correct
@@ -1010,7 +1067,7 @@ cdef class Entry(Object):
         """
         elm_entry_context_menu_clear(self.obj)
 
-    # TODO XXX
+    # TODO:
     # def context_menu_item_add(self, label, icon_file, icon_type, cb, data):
         """This adds an item to the entry's contextual menu.
 
@@ -1052,17 +1109,93 @@ cdef class Entry(Object):
     def context_menu_disabled_get(self):
         return elm_entry_context_menu_disabled_get(self.obj)
 
-    # elm_entry_item_provider_append() # TODO XXX
+    # TODO:
+    # def item_provide_append(self, func, data):
+    #     """This appends a custom item provider to the list for that entry
 
-    # elm_entry_item_provider_prepend() # TODO XXX
+    #     This appends the given callback. The list is walked from beginning to end
+    #     with each function called given the item href string in the text. If the
+    #     function returns an object handle other than NULL (it should create an
+    #     object to do this), then this object is used to replace that item. If
+    #     not the next provider is called until one provides an item object, or the
+    #     default provider in entry does.
 
-    # elm_entry_item_provider_remove() # TODO XXX
+    #     :param func: The function called to provide the item object
+    #     :param data: The data passed to @p func
 
-    # elm_entry_markup_filter_append() # TODO XXX
+    #     """
+    #     elm_entry_item_provider_append(self.obj, Elm_Entry_Item_Provider_Cb func, void *data)
 
-    # elm_entry_markup_filter_prepend() # TODO XXX
+    # TODO:
+    # def item_provider_prepend(self, func, data):
+    #     """This prepends a custom item provider to the list for that entry
 
-    # elm_entry_markup_filter_remove() # TODO XXX
+    #     This prepends the given callback. See elm_entry_item_provider_append() for
+    #     more information
+
+    #     :param func: The function called to provide the item object
+    #     :param data: The data passed to @p func
+
+    #     """
+    #     elm_entry_item_provider_prepend(self.obj, Elm_Entry_Item_Provider_Cb func, void *data)
+
+    # TODO:
+    # def item_provider_remove(self, func, data):
+    #     """This removes a custom item provider to the list for that entry
+
+    #     This removes the given callback. See elm_entry_item_provider_append() for
+    #     more information
+
+    #     :param func: The function called to provide the item object
+    #     :param data: The data passed to @p func
+
+    #     """
+    #     elm_entry_item_provider_remove(self.obj, Elm_Entry_Item_Provider_Cb func, void *data)
+
+    # TODO:
+    # def markup_filter_append(self, func, data):
+    #     """Append a markup filter function for text inserted in the entry
+
+    #     Append the given callback to the list. This functions will be called
+    #     whenever any text is inserted into the entry, with the text to be inserted
+    #     as a parameter. The type of given text is always markup.
+    #     The callback function is free to alter the text in any way it wants, but
+    #     it must remember to free the given pointer and update it.
+    #     If the new text is to be discarded, the function can free it and set its
+    #     text parameter to NULL. This will also prevent any following filters from
+    #     being called.
+
+    #     :param func: The function to use as text filter
+    #     :param data: User data to pass to @p func
+
+    #     """
+    #     elm_entry_markup_filter_append(self.obj, Elm_Entry_Filter_Cb func, void *data)
+
+    # TODO:
+    # def markup_filter_prepend(self, func, data):
+    #     """Prepend a markup filter function for text inserted in the entry
+
+    #     Prepend the given callback to the list. See elm_entry_markup_filter_append()
+    #     for more information
+
+    #     :param func: The function to use as text filter
+    #     :param data: User data to pass to @p func
+
+    #     """
+    #     elm_entry_markup_filter_prepend(self.obj, Elm_Entry_Filter_Cb func, void *data)
+
+    # TODO:
+    # def markup_filter_remove(self, func, data):
+    #     """Remove a markup filter from the list
+
+    #     Removes the given callback from the filter list. See
+    #     elm_entry_markup_filter_append() for more information.
+
+    #     :param func: The filter function to remove
+    #     :param data: The user data passed when adding the function
+
+    #     """
+    #     elm_entry_markup_filter_remove(self.obj, Elm_Entry_Filter_Cb func, void *data)
 
     markup_to_utf8 = staticmethod(Entry_markup_to_utf8)
 
@@ -1152,16 +1285,29 @@ cdef class Entry(Object):
 
     property icon_visible:
         """Sets the visibility of the end widget of the entry, set by
-        *Object.part_content_set("end", content)*.
+        ``Entry.part_content_set("icon", content)``.
 
         :type: bool
 
         """
-        def __set__(self, visible):
-            elm_entry_icon_visible_set(self.obj, visible)
+        def __set__(self, value):
+            self.icon_visible_set(value)
 
-    def icon_visible_set(self, visible):
+    cpdef icon_visible_set(self, visible):
         elm_entry_icon_visible_set(self.obj, visible)
+
+    property end_visible:
+        """Sets the visibility of the end widget of the entry, set by
+        ``Entry.part_content_set("end", content)``.
+
+        :type: bool
+
+        """
+        def __set__(self, value):
+            self.end_visible_set(value)
+
+    cpdef end_visible_set(self, setting):
+        elm_entry_end_visible_set(self.obj, setting)
 
     property scrollbar_policy:
         """This sets the entry's scrollbar policy (i.e. enabling/disabling
@@ -1222,6 +1368,44 @@ cdef class Entry(Object):
         elm_entry_input_panel_layout_set(self.obj, layout)
     def input_panel_layout_get(self):
         return elm_entry_input_panel_layout_get(self.obj)
+
+    property input_panel_layout_variation:
+        """Input panel layout variation of the entry
+
+        :type: int
+
+        :since: 1.8
+
+        """
+        def __set__(self, value):
+            self.input_panel_layout_variation_set(value)
+
+        def __get__(self):
+            return self.input_panel_layout_variation_get()
+
+    cpdef input_panel_layout_variation_set(self, int variation):
+        elm_entry_input_panel_layout_variation_set(self.obj, variation)
+
+    cpdef input_panel_layout_variation_get(self):
+        return elm_entry_input_panel_layout_variation_get(self.obj)
+
+    property autocapital_type:
+        """Autocapitalization type on the immodule.
+
+        :type: :ref:`Autocapitalization type <Elm_Autocapital_Type>`
+
+        """
+        def __set__(self, value):
+            self.autocapital_type_set(value)
+
+        def __get__(self):
+            return self.autocapital_type_get()
+
+    cpdef autocapital_type_set(self, Elm_Autocapital_Type autocapital_type):
+        elm_entry_autocapital_type_set(self.obj, autocapital_type)
+
+    cpdef autocapital_type_get(self):
+        return elm_entry_autocapital_type_get(self.obj)
 
     property input_panel_enabled:
         """Whether to show the input panel automatically or not.
@@ -1286,9 +1470,31 @@ cdef class Entry(Object):
     def input_panel_language_get(self):
         return elm_entry_input_panel_language_get(self.obj)
 
-    # TODO XXX elm_entry_input_panel_imdata_set() ??
+    # TODO:
+    # def input_panel_imdata_set(self, data, length):
+    #     """Set the input panel-specific data to deliver to the input panel.
 
-    # TODO XXX elm_entry_input_panel_imdata_get() ??
+    #     This API is used by applications to deliver specific data to the input panel.
+    #     The data format MUST be negotiated by both application and the input panel.
+    #     The size and format of data are defined by the input panel.
+
+    #     :param data: The specific data to be set to the input panel.
+    #     :param len: the length of data, in bytes, to send to the input panel
+
+    #     """
+    #     elm_entry_input_panel_imdata_set(self.obj, const_void *data, int len)
+
+    # TODO:
+    # def input_panel_imdata_get(self, data, length):
+    #     """Get the specific data of the current input panel.
+
+    #     See :py:func:`input_panel_imdata_set` for more details.
+
+    #     :param data: The specific data to be got from the input panel
+    #     :param len: The length of data
+
+    #     """
+    #     elm_entry_input_panel_imdata_get(self.obj, void *data, int *len)
 
     property input_panel_return_key_type:
         """The "return" key type. This type is used to set string or icon on
@@ -1374,8 +1580,72 @@ cdef class Entry(Object):
     def prediction_allow_get(self):
         return elm_entry_prediction_allow_get(self.obj)
 
-    # TODO XXX elm_entry_filter_accept_set()
-    # TODO XXX elm_entry_imf_context_get() ??
+    # TODO:
+    # def filter_limit_size(self, data, text):
+    #     """Filter inserted text based on user defined character and byte limits
+
+    #     Add this filter to an entry to limit the characters that it will accept
+    #     based the contents of the provided #Elm_Entry_Filter_Limit_Size.
+    #     The function works on the UTF-8 representation of the string, converting
+    #     it from the set markup, thus not accounting for any format in it.
+
+    #     The user must create an #Elm_Entry_Filter_Limit_Size structure and pass
+    #     it as data when setting the filter. In it, it's possible to set limits
+    #     by character count or bytes (any of them is disabled if 0), and both can
+    #     be set at the same time. In that case, it first checks for characters,
+    #     then bytes. The #Elm_Entry_Filter_Limit_Size structure must be alive and
+    #     valid for as long as the entry is alive AND the elm_entry_filter_limit_size
+    #     filter is set.
+
+    #     The function will cut the inserted text in order to allow only the first
+    #     number of characters that are still allowed. The cut is made in
+    #     characters, even when limiting by bytes, in order to always contain
+    #     valid ones and avoid half unicode characters making it in.
+
+    #     This filter, like any others, does not apply when setting the entry text
+    #     directly with elm_object_text_set().
+
+    #     """
+    #     elm_entry_filter_limit_size(void *data, Evas_Object *entry, char **text)
+
+    # TODO:
+    # def filter_accept_set(self, data, text):
+    #     """Filter inserted text based on accepted or rejected sets of characters
+
+    #     Add this filter to an entry to restrict the set of accepted characters
+    #     based on the sets in the provided #Elm_Entry_Filter_Accept_Set.
+    #     This structure contains both accepted and rejected sets, but they are
+    #     mutually exclusive. This structure must be available for as long as
+    #     the entry is alive AND the elm_entry_filter_accept_set is being used.
+
+    #     The @c accepted set takes preference, so if it is set, the filter will
+    #     only work based on the accepted characters, ignoring anything in the
+    #     @c rejected value. If @c accepted is @c NULL, then @c rejected is used.
+
+    #     In both cases, the function filters by matching utf8 characters to the
+    #     raw markup text, so it can be used to remove formatting tags.
+
+    #     This filter, like any others, does not apply when setting the entry text
+    #     directly with elm_object_text_set()
+
+    #     """
+    #     elm_entry_filter_accept_set(void *data, Evas_Object *entry, char **text)
+
+    # TODO:
+    # property imf_context:
+    #     """Input method context of the entry.
+
+    #     IMPORTANT: Many functions may change (i.e delete and create a new one)
+    #     the internal input method context. Do NOT cache the returned object.
+
+    #     :return: The input method context (Ecore_IMF_Context *) in entry.
+
+    #     """
+    #     def __get__(self):
+    #         return self.imf_context_get()
+
+    # cpdef imf_context_get(self):
+    #     void *elm_entry_imf_context_get(self.obj)
 
     property cnp_mode:
         """Control pasting of text and images for the widget.
@@ -1463,6 +1733,7 @@ cdef class Entry(Object):
 
         """
         elm_entry_anchor_hover_end(self.obj)
+
 
     def callback_changed_add(self, func, *args, **kwargs):
         """The text within the entry was changed."""
@@ -1667,3 +1938,41 @@ cdef class Entry(Object):
 
 
 _object_mapping_register("elm_entry", Entry)
+
+
+# TODO:
+# def context_menu_item_label_get(menu_item):
+#     """Get the text of the contextual menu item.
+
+#     Gets the text of the contextual menu item of entry.
+
+#     :param item: The item to get the label
+#     :return: The text of contextual menu item
+
+#     :see: :py:func:`Entry.context_menu_item_add`
+
+#     :since: 1.8
+
+#     """
+#     return _ctouni(elm_entry_context_menu_item_label_get(const_Elm_Entry_Context_Menu_Item *item))
+
+# TODO:
+# def context_menu_item_icon_get(menu_item):
+#     """Get the icon object of the contextual menu item.
+
+#     Gets the icon object packed in the contextual menu item of entry.
+
+#     :param item: The item to get the icon from
+#     :param icon_file: The image file path on disk used for the icon or standard
+#         icon name
+#     :param icon_group: The edje group used if @p icon_file is an edje file. NULL
+#         if the icon is not an edje file
+#     :param icon_type: The icon type
+
+#     :see: :py:func:`Entry.context_menu_item_add`
+
+#     :since: 1.8
+
+#     """
+#     elm_entry_context_menu_item_icon_get(const_Elm_Entry_Context_Menu_Item *item, const_char **icon_file, const_char **icon_group, Elm_Icon_Type *icon_type);
+
