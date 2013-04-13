@@ -84,6 +84,8 @@ behavior so gesture starts when user touches (a *DOWN* event)
 touch-surface and ends when no fingers touches surface (a *UP* event).
 
 
+.. _Elm_Gesture_State:
+
 .. rubric:: Gesture states
 
 .. data:: ELM_GESTURE_STATE_UNDEFINED
@@ -106,6 +108,8 @@ touch-surface and ends when no fingers touches surface (a *UP* event).
 
     Ongoing gesture was aborted
 
+
+.. _Elm_Gesture_Type:
 
 .. rubric:: Gesture types
 
@@ -174,14 +178,328 @@ ELM_GESTURE_ZOOM = enums.ELM_GESTURE_ZOOM
 ELM_GESTURE_ROTATE = enums.ELM_GESTURE_ROTATE
 ELM_GESTURE_LAST = enums.ELM_GESTURE_LAST
 
-cdef Evas_Event_Flags _gesture_layer_event_cb(void *data, void *event_info) with gil:
-    (callback, args, kwargs) = <object>data
+
+cdef class GestureTapsInfo(object):
+
+    """Holds taps info for user"""
+
+    cdef Elm_Gesture_Taps_Info *info
+
+    property x:
+        """Holds center point between fingers
+
+        :type: int
+
+        """
+        def __get__(self):
+            return self.info.x
+
+    property y:
+        """Holds center point between fingers
+
+        :type: int
+
+        """
+        def __get__(self):
+            return self.info.y
+
+    property n:
+        """Number of fingers tapped
+
+        :type: int
+
+        """
+        def __get__(self):
+            return self.info.n
+
+    property timestamp:
+        """Event timestamp
+
+        :type: int
+
+        """
+        def __get__(self):
+            return self.info.timestamp
+
+cdef class GestureMomentumInfo(object):
+
+    """
+
+    Holds momentum info for user
+    x1 and y1 are not necessarily in sync
+    x1 holds x value of x direction starting point
+    and same holds for y1.
+    This is noticeable when doing V-shape movement
+
+    """
+
+    cdef Elm_Gesture_Momentum_Info *info
+
+    property x1:
+        """Final-swipe direction starting point on X
+
+        :type: int
+
+        """
+        def __get__(self):
+            return self.info.x1
+
+    property y1:
+        """Final-swipe direction starting point on Y
+
+        :type: int
+
+        """
+        def __get__(self):
+            return self.info.y1
+
+    property x2:
+        """Final-swipe direction ending point on X
+
+        :type: int
+
+        """
+        def __get__(self):
+            return self.info.x2
+
+    property y2:
+        """Final-swipe direction ending point on Y
+
+        :type: int
+
+        """
+        def __get__(self):
+            return self.info.y2
+
+    property tx:
+        """Timestamp of start of final x-swipe
+
+        :type: int
+
+        """
+        def __get__(self):
+            return self.info.tx
+
+    property ty:
+        """Timestamp of start of final y-swipe
+
+        :type: int
+
+        """
+        def __get__(self):
+            return self.info.ty
+
+    property mx:
+        """Momentum on X
+
+        :type: int
+
+        """
+        def __get__(self):
+            return self.info.mx
+
+    property my:
+        """Momentum on Y
+
+        :type: int
+
+        """
+        def __get__(self):
+            return self.info.my
+
+    property n:
+        """Number of fingers
+
+        :type: int
+
+        """
+        def __get__(self):
+            return self.info.n
+
+cdef class GestureLineInfo(object):
+
+    """Holds line info for user"""
+
+    cdef Elm_Gesture_Line_Info *info
+
+    property momentum:
+        """Line momentum info
+
+        :type: GestureMomentumInfo
+
+        """
+        def __get__(self):
+            cdef GestureMomentumInfo ret = GestureMomentumInfo.__new__(GestureMomentumInfo)
+            ret.info = &self.info.momentum
+            return ret
+
+    property angle:
+        """Angle (direction) of lines
+
+        :type: double
+
+        """
+        def __get__(self):
+            return self.info.angle
+
+cdef class GestureZoomInfo(object):
+
+    """Holds zoom info for user"""
+
+    cdef Elm_Gesture_Zoom_Info *info
+
+    property x:
+        """Holds zoom center point reported to user
+
+        :type: int
+
+        """
+        def __get__(self):
+            return self.info.x
+
+    property y:
+        """Holds zoom center point reported to user
+
+        :type: int
+
+        """
+        def __get__(self):
+            return self.info.y
+
+    property radius:
+        """Holds radius between fingers reported to user
+
+        :type: int
+
+        """
+        def __get__(self):
+            return self.info.radius
+
+    property zoom:
+        """Zoom value: 1.0 means no zoom
+
+        :type: double
+
+        """
+        def __get__(self):
+            return self.info.zoom
+
+    property momentum:
+        """Zoom momentum: zoom growth per second (NOT YET SUPPORTED)
+
+        :type: double
+
+        """
+        def __get__(self):
+            return self.info.momentum
+
+cdef class GestureRotateInfo(object):
+
+    """Holds rotation info for user"""
+
+    cdef Elm_Gesture_Rotate_Info *info
+
+    property x:
+        """Holds zoom center point reported to user
+
+        :type: int
+
+        """
+        def __get__(self):
+            return self.info.x
+
+    property y:
+        """Holds zoom center point reported to user
+
+        :type: int
+
+        """
+        def __get__(self):
+            return self.info.y
+
+    property radius:
+        """Holds radius between fingers reported to user
+
+        :type: int
+
+        """
+        def __get__(self):
+            return self.info.radius
+
+    property base_angle:
+        """Holds start-angle
+
+        :type: double
+
+        """
+        def __get__(self):
+            return self.info.base_angle
+
+    property angle:
+        """Rotation value: 0.0 means no rotation
+
+        :type: double
+
+        """
+        def __get__(self):
+            return self.info.angle
+
+    property momentum:
+        """Rotation momentum: rotation done per second (NOT YET SUPPORTED)
+
+        :type: double
+
+        """
+        def __get__(self):
+            return self.info.momentum
+
+cdef Evas_Event_Flags _gesture_layer_taps_event_cb(void *data, void *event_info) with gil:
+    callback, args, kwargs = <object>data
+    cdef GestureTapsInfo ei = GestureTapsInfo.__new__(GestureTapsInfo)
+    ei.info = <Elm_Gesture_Taps_Info *>event_info
     try:
-        ret = callback(args, kwargs)
-        if ret is not None:
-            return <Evas_Event_Flags>ret
-        else:
-            return EVAS_EVENT_FLAG_NONE
+        ret = callback(ei, *args, **kwargs)
+        return <Evas_Event_Flags>ret if ret is not None else EVAS_EVENT_FLAG_NONE
+    except Exception as e:
+        traceback.print_exc()
+
+cdef Evas_Event_Flags _gesture_layer_momentum_event_cb(void *data, void *event_info) with gil:
+    callback, args, kwargs = <object>data
+    cdef GestureMomentumInfo ei = GestureMomentumInfo.__new__(GestureMomentumInfo)
+    ei.info = <Elm_Gesture_Momentum_Info *>event_info
+    try:
+        ret = callback(ei, *args, **kwargs)
+        return <Evas_Event_Flags>ret if ret is not None else EVAS_EVENT_FLAG_NONE
+    except Exception as e:
+        traceback.print_exc()
+
+cdef Evas_Event_Flags _gesture_layer_line_event_cb(void *data, void *event_info) with gil:
+    callback, args, kwargs = <object>data
+    cdef GestureLineInfo ei = GestureLineInfo.__new__(GestureLineInfo)
+    ei.info = <Elm_Gesture_Line_Info *>event_info
+    try:
+        ret = callback(ei, *args, **kwargs)
+        return <Evas_Event_Flags>ret if ret is not None else EVAS_EVENT_FLAG_NONE
+    except Exception as e:
+        traceback.print_exc()
+
+cdef Evas_Event_Flags _gesture_layer_zoom_event_cb(void *data, void *event_info) with gil:
+    callback, args, kwargs = <object>data
+    cdef GestureZoomInfo ei = GestureZoomInfo.__new__(GestureZoomInfo)
+    ei.info = <Elm_Gesture_Zoom_Info *>event_info
+    try:
+        ret = callback(ei, *args, **kwargs)
+        return <Evas_Event_Flags>ret if ret is not None else EVAS_EVENT_FLAG_NONE
+    except Exception as e:
+        traceback.print_exc()
+
+cdef Evas_Event_Flags _gesture_layer_rotate_event_cb(void *data, void *event_info) with gil:
+    callback, args, kwargs = <object>data
+    cdef GestureRotateInfo ei = GestureRotateInfo.__new__(GestureRotateInfo)
+    ei.info = <Elm_Gesture_Rotate_Info *>event_info
+    try:
+        ret = callback(ei, *args, **kwargs)
+        return <Evas_Event_Flags>ret if ret is not None else EVAS_EVENT_FLAG_NONE
     except Exception as e:
         traceback.print_exc()
 
@@ -208,8 +526,8 @@ cdef class GestureLayer(Object):
         """
         self._set_obj(elm_gesture_layer_add(parent.obj))
 
-    def cb_set(self, Elm_Gesture_Type idx, callback, Elm_Gesture_State cb_type, *args, **kwargs):
-        """cb_set(Elm_Gesture_Type idx, callback, Elm_Gesture_State cb_type, *args, **kwargs)
+    def cb_set(self, Elm_Gesture_Type idx, Elm_Gesture_State cb_type, callback, *args, **kwargs):
+        """cb_set(Elm_Gesture_Type idx, Elm_Gesture_State cb_type, callback, *args, **kwargs)
 
         Use this function to set callbacks to be notified about change of
         state of gesture. When a user registers a callback with this function
@@ -218,15 +536,19 @@ cdef class GestureLayer(Object):
         When ALL callbacks for a gesture are set to None it means user isn't
         interested in gesture-state and it will not be tested.
 
+        The signature for the callbacks is::
+
+            func(event_info, *args, **kwargs)
+
         .. note:: You should return either EVAS_EVENT_FLAG_NONE or
             EVAS_EVENT_FLAG_ON_HOLD from this callback.
 
         :param idx: The gesture you would like to track its state.
-        :type idx: Elm_Gesture_Type
+        :type idx: :ref:`Gesture type <Elm_Gesture_Type>`
+        :param cb_type: what event this callback tracks: START, MOVE, END, ABORT.
+        :type cb_type: :ref:`Gesture state <Elm_Gesture_State>`
         :param callback: Callback function.
         :type callback: function
-        :param cb_type: what event this callback tracks: START, MOVE, END, ABORT.
-        :type cb_type: Elm_Gesture_State
 
         """
         cdef Elm_Gesture_Event_Cb cb = NULL
@@ -234,9 +556,26 @@ cdef class GestureLayer(Object):
         if callback:
             if not callable(callback):
                 raise TypeError("callback is not callable")
-            cb = _gesture_layer_event_cb
+
+        if  idx == enums.ELM_GESTURE_N_TAPS or \
+            idx == enums.ELM_GESTURE_N_LONG_TAPS or \
+            idx == enums.ELM_GESTURE_N_DOUBLE_TAPS or \
+            idx == enums.ELM_GESTURE_N_TRIPLE_TAPS:
+            cb = _gesture_layer_taps_event_cb
+        elif idx == enums.ELM_GESTURE_MOMENTUM:
+            cb = _gesture_layer_momentum_event_cb
+        elif idx == enums.ELM_GESTURE_N_LINES or \
+            idx == enums.ELM_GESTURE_N_FLICKS:
+            cb = _gesture_layer_line_event_cb
+        elif idx == enums.ELM_GESTURE_ZOOM:
+            cb = _gesture_layer_zoom_event_cb
+        elif idx == enums.ELM_GESTURE_ROTATE:
+            cb = _gesture_layer_rotate_event_cb
+        else:
+            raise TypeError("Unknown gesture type")
 
         data = (callback, args, kwargs)
+        Py_INCREF(data)
 
         elm_gesture_layer_cb_set(   self.obj,
                                     idx,
@@ -302,6 +641,150 @@ cdef class GestureLayer(Object):
 
         """
         return bool(elm_gesture_layer_attach(self.obj, target.obj))
+
+
+    property line_min_length:
+        """Gesture layer line min length of an object
+
+        :type: int
+        :since: 1.8
+
+        """
+        def __set__(self, int line_min_length):
+            elm_gesture_layer_line_min_length_set(self.obj, line_min_length)
+
+        def __get__(self):
+            return elm_gesture_layer_line_min_length_get(self.obj)
+
+    property zoom_distance_tolerance:
+        """Gesture layer zoom distance tolerance of an object
+
+        :type: int
+        :since: 1.8
+
+        """
+        def __set__(self, int zoom_distance_tolerance):
+            elm_gesture_layer_zoom_distance_tolerance_set(self.obj, zoom_distance_tolerance)
+
+        def __get__(self):
+            return elm_gesture_layer_zoom_distance_tolerance_get(self.obj)
+
+    property line_distance_tolerance:
+        """Gesture layer line distance tolerance of an object
+
+        :type: int
+        :since: 1.8
+
+        """
+        def __set__(self, int line_distance_tolerance):
+            elm_gesture_layer_line_distance_tolerance_set(self.obj, line_distance_tolerance)
+
+        def __get__(self):
+            return elm_gesture_layer_line_distance_tolerance_get(self.obj)
+
+    property line_angular_tolerance:
+        """Gesture layer line angular tolerance of an object
+
+        :since: 1.8
+        :type: double
+
+        """
+        def __set__(self, double line_angular_tolerance):
+            elm_gesture_layer_line_angular_tolerance_set(self.obj, line_angular_tolerance)
+
+        def __get__(self):
+            return elm_gesture_layer_line_angular_tolerance_get(self.obj)
+
+    property zoom_wheel_factor:
+        """Gesture layer zoom wheel factor of an object
+
+        :type: double
+        :since: 1.8
+
+        """
+        def __set__(self, double zoom_wheel_factor):
+            elm_gesture_layer_zoom_wheel_factor_set(self.obj, zoom_wheel_factor)
+
+        def __get__(self):
+            return elm_gesture_layer_zoom_wheel_factor_get(self.obj)
+
+    property zoom_finger_factor:
+        """Gesture layer zoom finger factor of an object
+
+        :type: double
+        :since: 1.8
+
+        """
+        def __set__(self, double zoom_finger_factor):
+            elm_gesture_layer_zoom_finger_factor_set(self.obj, zoom_finger_factor)
+
+        def __get__(self):
+            return elm_gesture_layer_zoom_finger_factor_get(self.obj)
+
+    property rotate_angular_tolerance:
+        """Gesture layer rotate angular tolerance of an object
+
+        :type: double
+        :since: 1.8
+
+        """
+        def __set__(self, double rotate_angular_tolerance):
+            elm_gesture_layer_rotate_angular_tolerance_set(self.obj, rotate_angular_tolerance)
+
+        def __get__(self):
+            return elm_gesture_layer_rotate_angular_tolerance_get(self.obj)
+
+    property flick_time_limit_ms:
+        """Gesture layer flick time limit (in ms) of an object
+
+        :type: int
+        :since: 1.8
+
+        """
+        def __set__(self, unsigned int flick_time_limit_ms):
+            elm_gesture_layer_flick_time_limit_ms_set(self.obj, flick_time_limit_ms)
+
+        def __get__(self):
+            return elm_gesture_layer_flick_time_limit_ms_get(self.obj)
+
+    property long_tap_start_timeout:
+        """Gesture layer long tap start timeout of an object
+
+        :type: double
+        :since: 1.8
+
+        """
+        def __set__(self, double long_tap_start_timeout):
+            elm_gesture_layer_long_tap_start_timeout_set(self.obj, long_tap_start_timeout)
+
+        def __get__(self):
+            return elm_gesture_layer_long_tap_start_timeout_get(self.obj)
+
+    property continues_enable:
+        """Gesture layer continues enable of an object
+
+        :type: bool
+        :since: 1.8
+
+        """
+        def __set__(self, continues_enable):
+            elm_gesture_layer_continues_enable_set(self.obj, continues_enable)
+
+        def __get__(self):
+            return bool(elm_gesture_layer_continues_enable_get(self.obj))
+
+    property double_tap_timeout:
+        """Gesture layer double tap timeout of an object
+
+        :type: double
+        :since: 1.8
+
+        """
+        def __set__(self, double double_tap_timeout):
+            elm_gesture_layer_double_tap_timeout_set(self.obj, double_tap_timeout)
+
+        def __get__(self):
+            return elm_gesture_layer_double_tap_timeout_get(self.obj)
 
 
 _object_mapping_register("elm_gesture_layer", GestureLayer)

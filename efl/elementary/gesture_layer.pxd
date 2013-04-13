@@ -1,4 +1,4 @@
-from efl.evas cimport Eina_Bool, Evas_Object, Evas_Coord, Evas_Event_Flags
+from efl.evas cimport Eina_Bool, Evas_Object, const_Evas_Object, Evas_Coord, Evas_Event_Flags
 from enums cimport Elm_Gesture_State, Elm_Gesture_Type
 
 cdef extern from "Elementary.h":
@@ -21,17 +21,17 @@ cdef extern from "Elementary.h":
 
         unsigned int n
 
-    ctypedef struct _Elm_Gesture_Line_Info:
+    ctypedef struct Elm_Gesture_Line_Info:
         Elm_Gesture_Momentum_Info momentum
         double                    angle
 
-    ctypedef struct _Elm_Gesture_Zoom_Info:
+    ctypedef struct Elm_Gesture_Zoom_Info:
         Evas_Coord x, y
         Evas_Coord radius
         double     zoom
         double     momentum
 
-    ctypedef struct _Elm_Gesture_Rotate_Info:
+    ctypedef struct Elm_Gesture_Rotate_Info:
         Evas_Coord x, y
         Evas_Coord radius
         double     base_angle
@@ -51,3 +51,25 @@ cdef extern from "Elementary.h":
     Eina_Bool                elm_gesture_layer_attach(Evas_Object *obj, Evas_Object *target)
     Evas_Object             *elm_gesture_layer_add(Evas_Object *parent)
 
+    void elm_gesture_layer_line_min_length_set(Evas_Object *obj, int line_min_length)
+    int elm_gesture_layer_line_min_length_get(const_Evas_Object *obj)
+    void elm_gesture_layer_zoom_distance_tolerance_set(Evas_Object *obj, Evas_Coord zoom_distance_tolerance)
+    Evas_Coord elm_gesture_layer_zoom_distance_tolerance_get(const_Evas_Object *obj)
+    void elm_gesture_layer_line_distance_tolerance_set(Evas_Object *obj, Evas_Coord line_distance_tolerance)
+    Evas_Coord elm_gesture_layer_line_distance_tolerance_get(const_Evas_Object *obj)
+    void elm_gesture_layer_line_angular_tolerance_set(Evas_Object *obj, double line_angular_tolerance)
+    double elm_gesture_layer_line_angular_tolerance_get(const_Evas_Object *obj)
+    void elm_gesture_layer_zoom_wheel_factor_set(Evas_Object *obj, double zoom_wheel_factor)
+    double elm_gesture_layer_zoom_wheel_factor_get(const_Evas_Object *obj)
+    void elm_gesture_layer_zoom_finger_factor_set(Evas_Object *obj, double zoom_finger_factor)
+    double elm_gesture_layer_zoom_finger_factor_get(const_Evas_Object *obj)
+    void elm_gesture_layer_rotate_angular_tolerance_set(Evas_Object *obj, double rotate_angular_tolerance)
+    double elm_gesture_layer_rotate_angular_tolerance_get(const_Evas_Object *obj)
+    void elm_gesture_layer_flick_time_limit_ms_set(Evas_Object *obj, unsigned int flick_time_limit_ms)
+    unsigned int elm_gesture_layer_flick_time_limit_ms_get(const_Evas_Object *obj)
+    void elm_gesture_layer_long_tap_start_timeout_set(Evas_Object *obj, double long_tap_start_timeout)
+    double elm_gesture_layer_long_tap_start_timeout_get(const_Evas_Object *obj)
+    void elm_gesture_layer_continues_enable_set(Evas_Object *obj, Eina_Bool continues_enable)
+    Eina_Bool elm_gesture_layer_continues_enable_get(const_Evas_Object *obj)
+    void elm_gesture_layer_double_tap_timeout_set(Evas_Object *obj, double double_tap_timeout)
+    double elm_gesture_layer_double_tap_timeout_get(const_Evas_Object *obj)
