@@ -214,6 +214,7 @@ Reference
    class-object-textblock
    class-object-box
    class-object-smart
+   class-table
    class-textgrid
    class-map
 

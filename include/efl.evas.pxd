@@ -25,7 +25,7 @@ from efl.evas.enums cimport Evas_Event_Flags, Evas_Button_Flags, \
     Evas_Text_Style_Type, Evas_Textblock_Text_Type, \
     Evas_Textgrid_Palette, Evas_Textgrid_Font_Style, \
     Evas_Fill_Spread, Evas_Image_Scale_Hint, Evas_Image_Content_Hint, \
-    Evas_Image_Animated_Loop_Hint
+    Evas_Image_Animated_Loop_Hint, Evas_Object_Table_Homogeneous_Mode
 
 cdef extern from "Evas.h":
     ####################################################################
@@ -806,6 +806,30 @@ cdef extern from "Evas.h":
     void evas_object_textgrid_cellrow_set(Evas_Object *obj, int y, const_Evas_Textgrid_Cell *row)
     Evas_Textgrid_Cell *evas_object_textgrid_cellrow_get(const_Evas_Object *obj, int y)
     void evas_object_textgrid_update_add(Evas_Object *obj, int x, int y, int w, int h)
+
+    ####################################################################
+    # Table
+    #
+
+    Evas_Object                       *evas_object_table_add(Evas *evas)
+    Evas_Object                       *evas_object_table_add_to(Evas_Object *parent)
+    void                               evas_object_table_homogeneous_set(Evas_Object *o, Evas_Object_Table_Homogeneous_Mode homogeneous)
+    Evas_Object_Table_Homogeneous_Mode evas_object_table_homogeneous_get(const_Evas_Object *o)
+    void                               evas_object_table_padding_set(Evas_Object *o, Evas_Coord horizontal, Evas_Coord vertical)
+    void                               evas_object_table_padding_get(const_Evas_Object *o, Evas_Coord *horizontal, Evas_Coord *vertical)
+    void                               evas_object_table_align_set(Evas_Object *o, double horizontal, double vertical)
+    void                               evas_object_table_align_get(const_Evas_Object *o, double *horizontal, double *vertical)
+    void                               evas_object_table_mirrored_set(Evas_Object *o, Eina_Bool mirrored)
+    Eina_Bool                          evas_object_table_mirrored_get(const_Evas_Object *o)
+    Eina_Bool                          evas_object_table_pack_get(const_Evas_Object *o, Evas_Object *child, unsigned short *col, unsigned short *row, unsigned short *colspan, unsigned short *rowspan)
+    Eina_Bool                          evas_object_table_pack(Evas_Object *o, Evas_Object *child, unsigned short col, unsigned short row, unsigned short colspan, unsigned short rowspan)
+    Eina_Bool                          evas_object_table_unpack(Evas_Object *o, Evas_Object *child)
+    void                               evas_object_table_clear(Evas_Object *o, Eina_Bool clear)
+    void                               evas_object_table_col_row_size_get(const_Evas_Object *o, int *cols, int *rows)
+    # FIXME: Not needed?: Eina_Iterator                     *evas_object_table_iterator_new(const_Evas_Object *o)
+    # FIXME: Not needed?: Eina_Accessor                     *evas_object_table_accessor_new(const_Evas_Object *o)
+    Eina_List                         *evas_object_table_children_get(const_Evas_Object *o)
+    Evas_Object                       *evas_object_table_child_get(const_Evas_Object *o, unsigned short col, unsigned short row)
 
 
 ####################################################################
