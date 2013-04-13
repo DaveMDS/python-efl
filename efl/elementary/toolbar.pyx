@@ -107,6 +107,33 @@ Default text parts of the toolbar items that you can use for are:
 
     Expand all items according the size of the toolbar.
 
+
+.. _Elm_Toolbar_Item_Scrollto_Type:
+
+.. rubric:: Toolbar item scrollto types
+
+    Where to position the item in the toolbar.
+
+.. data:: ELM_TOOLBAR_ITEM_SCROLLTO_NONE
+
+    No scrollto
+
+.. data:: ELM_TOOLBAR_ITEM_SCROLLTO_IN
+
+    To the nearest viewport
+
+.. data:: ELM_TOOLBAR_ITEM_SCROLLTO_FIRST
+
+    To the first of viewport
+
+.. data:: ELM_TOOLBAR_ITEM_SCROLLTO_MIDDLE
+
+    To the middle of viewport
+
+.. data:: ELM_TOOLBAR_ITEM_SCROLLTO_LAST
+
+    To the last of viewport
+
 """
 
 include "widget_header.pxi"
@@ -134,6 +161,12 @@ ELM_TOOLBAR_SHRINK_SCROLL = enums.ELM_TOOLBAR_SHRINK_SCROLL
 ELM_TOOLBAR_SHRINK_MENU = enums.ELM_TOOLBAR_SHRINK_MENU
 ELM_TOOLBAR_SHRINK_EXPAND = enums.ELM_TOOLBAR_SHRINK_EXPAND
 ELM_TOOLBAR_SHRINK_LAST = enums.ELM_TOOLBAR_SHRINK_LAST
+
+ELM_TOOLBAR_ITEM_SCROLLTO_NONE = enums.ELM_TOOLBAR_ITEM_SCROLLTO_NONE
+ELM_TOOLBAR_ITEM_SCROLLTO_IN = enums.ELM_TOOLBAR_ITEM_SCROLLTO_IN
+ELM_TOOLBAR_ITEM_SCROLLTO_FIRST = enums.ELM_TOOLBAR_ITEM_SCROLLTO_FIRST
+ELM_TOOLBAR_ITEM_SCROLLTO_MIDDLE = enums.ELM_TOOLBAR_ITEM_SCROLLTO_MIDDLE
+ELM_TOOLBAR_ITEM_SCROLLTO_LAST = enums.ELM_TOOLBAR_ITEM_SCROLLTO_LAST
 
 cdef class ToolbarItemState(object):
 
@@ -332,27 +365,27 @@ cdef class ToolbarItem(ObjectItem):
     def icon_object_get(self):
         return object_from_instance(elm_toolbar_item_icon_object_get(self.item))
 
-    def icon_memfile_set(self, img, size, format, key):
-        """Set the icon associated with item to an image in a binary buffer.
+    # TODO:
+    # def icon_memfile_set(self, img, size, format, key):
+    #     """Set the icon associated with item to an image in a binary buffer.
 
-        .. note:: The icon image set by this function can be changed
-            by :py:attr:`icon`.
+    #     .. note:: The icon image set by this function can be changed
+    #         by :py:attr:`icon`.
 
-        :param img: The binary data that will be used as an image
-        :param size: The size of binary data ``img``
-        :type size: int
-        :param format: Optional format of ``img`` to pass to the image loader
-        :type format: string
-        :param key: Optional key of ``img`` to pass to the image loader (eg.
-            if ``img`` is an edje file)
-        :type key: string
+    #     :param img: The binary data that will be used as an image
+    #     :param size: The size of binary data ``img``
+    #     :type size: int
+    #     :param format: Optional format of ``img`` to pass to the image loader
+    #     :type format: string
+    #     :param key: Optional key of ``img`` to pass to the image loader (eg.
+    #         if ``img`` is an edje file)
+    #     :type key: string
 
-        :return: (``True`` = success, ``False`` = error)
-        :rtype: bool
+    #     :return: (``True`` = success, ``False`` = error)
+    #     :rtype: bool
 
-        """
-        return False
-        #TODO: return bool(elm_toolbar_item_icon_memfile_set(self.item, img, size, format, key))
+    #     """
+    #     return bool(elm_toolbar_item_icon_memfile_set(self.item, img, size, format, key))
 
     property icon_file:
         """Set the icon associated with item to an image in a binary buffer.
@@ -468,6 +501,27 @@ cdef class ToolbarItem(ObjectItem):
 
     #TODO def state_prev(self):
         #return elm_toolbar_item_state_prev(self.item)
+
+    def show(self, Elm_Toolbar_Item_Scrollto_Type scrollto_type):
+        """Show this item, when the toolbar can be scrolled.
+
+        :see: :py:func:`bring_in`
+
+        :since: 1.8
+
+        """
+        elm_toolbar_item_show(self.item, scrollto_type)
+
+    def bring_in(self, Elm_Toolbar_Item_Scrollto_Type scrollto_type):
+        """Show this item with scroll animation, when the toolbar can be scrolled.
+
+        :see: :py:func:`show`
+
+        :since: 1.8
+
+        """
+        elm_toolbar_item_bring_in(self.item, scrollto_type)
+
 
 cdef class Toolbar(Object):
 
@@ -757,6 +811,28 @@ cdef class Toolbar(Object):
     def shrink_mode_get(self):
         return elm_toolbar_shrink_mode_get(self.obj)
 
+    property transverse_expanded:
+        """Item's transverse expansion.
+
+        :type: bool
+
+        This will expand the transverse length of the item according the
+        transverse length of the toolbar. The default is what the transverse
+        length of the item is set according its min value (this property is False).
+
+        """
+        def __set__(self, value):
+            self.transverse_expanded_set(value)
+
+        def __get__(self):
+            return self.transverse_expanded_get()
+
+    cpdef transverse_expanded_set(self, transverse_expanded):
+        elm_toolbar_transverse_expanded_set(self.obj, transverse_expanded)
+
+    cpdef transverse_expanded_get(self):
+        return bool(elm_toolbar_transverse_expanded_get(self.obj))
+
     property homogeneous:
         """Homogeneous mode.
 
@@ -899,6 +975,24 @@ cdef class Toolbar(Object):
         elm_toolbar_select_mode_set(self.obj, mode)
     def select_mode_get(self):
         return elm_toolbar_select_mode_get(self.obj)
+
+    property reorder_mode:
+        """Reorder mode
+
+        :type: bool
+
+        """
+        def __set__(self, value):
+            self.reorder_mode_set(value)
+
+        def __get__(self):
+            return self.reorder_mode_get()
+
+    cpdef reorder_mode_set(self, reorder_mode):
+        elm_toolbar_reorder_mode_set(self.obj, reorder_mode)
+
+    cpdef reorder_mode_get(self):
+        return bool(elm_toolbar_reorder_mode_get(self.obj))
 
     def callback_clicked_add(self, func, *args, **kwargs):
         """When the user clicks on a toolbar item and becomes selected."""

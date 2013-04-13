@@ -364,6 +364,13 @@ cdef extern from "Elementary.h":
         ELM_THUMB_ANIMATION_STOP
         ELM_THUMB_ANIMATION_LAST
 
+    ctypedef enum Elm_Toolbar_Item_Scrollto_Type:
+        ELM_TOOLBAR_ITEM_SCROLLTO_NONE
+        ELM_TOOLBAR_ITEM_SCROLLTO_IN
+        ELM_TOOLBAR_ITEM_SCROLLTO_FIRST
+        ELM_TOOLBAR_ITEM_SCROLLTO_MIDDLE
+        ELM_TOOLBAR_ITEM_SCROLLTO_LAST
+
     ctypedef enum Elm_Toolbar_Shrink_Mode:
         ELM_TOOLBAR_SHRINK_NONE
         ELM_TOOLBAR_SHRINK_HIDE
