@@ -65,6 +65,8 @@ It's also possible to make a transition chain with :py:func:`chain_transit_add`.
     manipulated inside the theme.
 
 
+.. _Elm_Transit_Effect_Flip_Axis:
+
 .. rubric:: Flip effects
 
 .. data:: ELM_TRANSIT_EFFECT_FLIP_AXIS_X
@@ -74,6 +76,9 @@ It's also possible to make a transition chain with :py:func:`chain_transit_add`.
 .. data:: ELM_TRANSIT_EFFECT_FLIP_AXIS_Y
 
     Flip on Y axis
+
+
+.. _Elm_Transit_Effect_Wipe_Dir:
 
 .. rubric:: Wipe effects
 
@@ -93,6 +98,9 @@ It's also possible to make a transition chain with :py:func:`chain_transit_add`.
 
     Wipe down
 
+
+.. _Elm_Transit_Effect_Wipe_Type:
+
 .. rubric:: Wipe types
 
 .. data:: ELM_TRANSIT_EFFECT_WIPE_TYPE_HIDE
@@ -102,6 +110,9 @@ It's also possible to make a transition chain with :py:func:`chain_transit_add`.
 .. data:: ELM_TRANSIT_EFFECT_WIPE_TYPE_SHOW
 
     Show the object during the animation.
+
+
+.. _Elm_Transit_Tween_Mode:
 
 .. rubric:: Tween modes
 
@@ -323,23 +334,23 @@ cdef class Transit(object):
         def __get__(self):
             return bool(elm_transit_event_enabled_get(self.obj))
 
-    def del_cb_set(self, cb, *args, **kwargs):
-        """del_cb_set(cb, *args, **kwargs)
+    # TODO:
+    # def del_cb_set(self, cb, *args, **kwargs):
+    #     """del_cb_set(cb, *args, **kwargs)
 
-        Set the user-callback function when the transit is deleted.
+    #     Set the user-callback function when the transit is deleted.
 
-        .. note:: Using this function twice will overwrite the first
-            function set.
-        .. note:: the ``transit`` object will be deleted after call ``cb``
-            function.
+    #     .. note:: Using this function twice will overwrite the first
+    #         function set.
+    #     .. note:: the ``transit`` object will be deleted after call ``cb``
+    #         function.
 
-        :param cb: Callback function pointer. This function will be called
-            before the deletion of the transit.
-        :param data: Callback function user data. It is the ``op`` parameter.
+    #     :param cb: Callback function pointer. This function will be called
+    #         before the deletion of the transit.
+    #     :param data: Callback function user data. It is the ``op`` parameter.
 
-        """
-        pass
-        #elm_transit_del_cb_set(self.obj, cb, data)
+    #     """
+    #     elm_transit_del_cb_set(self.obj, cb, data)
 
     property auto_reverse:
         """If auto reverse is set, after running the effects with the
@@ -381,23 +392,63 @@ cdef class Transit(object):
     property tween_mode:
         """The transit animation acceleration type.
 
-        This property reflects the tween mode of the transit that can be:
-
-        - ELM_TRANSIT_TWEEN_MODE_LINEAR - The default mode.
-        - ELM_TRANSIT_TWEEN_MODE_SINUSOIDAL - Starts in accelerate mode
-            and ends decelerating.
-        - ELM_TRANSIT_TWEEN_MODE_DECELERATE - The animation will be
-            slowed over time.
-        - ELM_TRANSIT_TWEEN_MODE_ACCELERATE - The animation will
-            accelerate over time.
-
-        :type: Elm_Transit_Tween_Mode
+        :type: :ref:`Transit tween mode <Elm_Transit_Tween_Mode>`
 
         """
         def __set__(self, tween_mode):
             elm_transit_tween_mode_set(self.obj, tween_mode)
         def __get__(self):
             return elm_transit_tween_mode_get(self.obj)
+
+
+    property tween_mode_factor:
+        """Transit animation acceleration factor.
+
+        If you use the below tween modes, you have to set the factor using this API.
+
+        ELM_TRANSIT_TWEEN_MODE_SINUSOIDAL
+            Start slow, speed up then slow down at end, v1 being a power factor,
+            0.0 being linear, 1.0 being default, 2.0 being much more pronounced
+            sinusoidal(squared), 3.0 being cubed, etc.
+
+        ELM_TRANSIT_TWEEN_MODE_DECELERATE
+            Start fast then slow down, v1 being a power factor, 0.0 being
+            linear, 1.0 being ELM_TRANSIT_TWEEN_MODE_DECELERATE default, 2.0
+            being much more pronounced decelerate (squared), 3.0 being cubed,
+            etc.
+
+        ELM_TRANSIT_TWEEN_MODE_ACCELERATE
+            Start slow then speed up, v1 being a power factor, 0.0 being linear,
+            1.0 being ELM_TRANSIT_TWEEN_MODE_ACCELERATE default, 2.0 being much
+            more pronounced accelerate (squared), 3.0 being cubed, etc.
+
+        ELM_TRANSIT_TWEEN_MODE_DIVISOR_INTERP
+            Start at gradient * v1, interpolated via power of v2 curve
+
+        ELM_TRANSIT_TWEEN_MODE_BOUNCE
+            Start at 0.0 then "drop" like a ball bouncing to the ground at 1.0,
+            and bounce v2 times, with decay factor of v1
+
+        ELM_TRANSIT_TWEEN_MODE_SPRING
+            Start at 0.0 then "wobble" like a spring rest position 1.0, and
+            wobble v2 times, with decay factor of v1
+
+        :type: (double **v1**, double **v2**) (defaults are 1.0, 0.0)
+
+        """
+        def __set__(self, value):
+            self.tween_mode_factor_set(*value)
+
+        def __get__(self):
+            return self.tween_mode_factor_get()
+
+    cpdef tween_mode_factor_set(self, double v1, double v2):
+        elm_transit_tween_mode_factor_set(self.obj, v1, v2)
+
+    cpdef tween_mode_factor_get(self):
+        cdef double v1, v2
+        elm_transit_tween_mode_factor_get(self.obj, &v1, &v2)
+        return (v1, v2)
 
     property duration:
         """Set the transit animation time
@@ -486,13 +537,39 @@ cdef class Transit(object):
         def __get__(self):
             return _object_list_to_python(elm_transit_chain_transits_get(self.obj))
 
+    property smooth:
+        """Smooth effect for a transit.
+
+        This sets smoothing for transit map rendering. If the object added in a
+        transit is a type that has its own smoothing settings, then both the smooth
+        settings for this object and the map must be turned off. By default smooth
+        maps are enabled.
+
+        :type: bool
+
+        :see: :py:attr:`efl.evas.Map.smooth`
+        :since: 1.8
+
+        """
+        def __set__(self, value):
+            self.smooth_set(value)
+
+        def __get__(self):
+            return self.smooth_get()
+
+    cpdef smooth_set(self, smooth):
+        elm_transit_smooth_set(self.obj, smooth)
+
+    cpdef smooth_get(self):
+        return bool(elm_transit_smooth_get(self.obj))
+
     def effect_resizing_add(self, Evas_Coord from_w, Evas_Coord from_h, Evas_Coord to_w, Evas_Coord to_h):
         """effect_resizing_add(int from_w, int from_h, int to_w, int to_h)
 
         Add the Resizing Effect to Elm_Transit.
 
         .. note:: This API is one of the facades. It creates resizing effect
-            context and add it's required APIs to elm_transit_effect_add.
+            context and adds its required APIs to elm_transit_effect_add.
 
         .. seealso:: :py:func:`effect_add()`
 
@@ -517,7 +594,7 @@ cdef class Transit(object):
         Add the Translation Effect to Elm_Transit.
 
         .. note:: This API is one of the facades. It creates translation effect
-            context and add it's required APIs to elm_transit_effect_add.
+            context and adds its required APIs to elm_transit_effect_add.
 
         .. seealso:: :py:func:`effect_add()`
 
@@ -544,7 +621,7 @@ cdef class Transit(object):
         Add the Zoom Effect to Elm_Transit.
 
         .. note:: This API is one of the facades. It creates zoom effect context
-            and add it's required APIs to elm_transit_effect_add.
+            and adds its required APIs to elm_transit_effect_add.
 
         .. seealso:: :py:func:`effect_add()`
 
@@ -563,7 +640,7 @@ cdef class Transit(object):
         #TODO: can the return value Elm_Transit_Effect be used somehow?
         elm_transit_effect_zoom_add(self.obj, from_rate, to_rate)
 
-    def effect_flip_add(self, Elm_Transit_Effect_Flip_Axis axis, int cw):
+    def effect_flip_add(self, Elm_Transit_Effect_Flip_Axis axis, cw):
         """effect_flip_add(int axis, bool cw)
 
         Add the Flip Effect to Elm_Transit.
@@ -578,7 +655,9 @@ cdef class Transit(object):
         .. seealso:: :py:func:`effect_add()`
 
         :param axis: Flipping Axis(X or Y).
+        :type axis: :ref:`Flip axis <Elm_Transit_Effect_Flip_Axis>`
         :param cw: Flipping Direction. True is clock-wise.
+        :type cw: bool
         :return: Flip effect context data.
         :rtype: Elm_Transit_Effect
 
@@ -592,7 +671,7 @@ cdef class Transit(object):
         #TODO: can the return value Elm_Transit_Effect be used somehow?
         elm_transit_effect_flip_add(self.obj, axis, cw)
 
-    def effect_resizable_flip_add(self, Elm_Transit_Effect_Flip_Axis axis, int cw):
+    def effect_resizable_flip_add(self, Elm_Transit_Effect_Flip_Axis axis, cw):
         """effect_resizable_flip_add(int axis, bool cw)
 
         Add the Resizeable Flip Effect to Elm_Transit.
@@ -608,7 +687,9 @@ cdef class Transit(object):
         .. seealso:: :py:func:`effect_add()`
 
         :param axis: Flipping Axis(X or Y).
+        :type axis: :ref:`Flip axis <Elm_Transit_Effect_Flip_Axis>`
         :param cw: Flipping Direction. True is clock-wise.
+        :type cw: bool
         :return: Resizeable flip effect context data.
         :rtype: Elm_Transit_Effect
 
@@ -622,7 +703,7 @@ cdef class Transit(object):
         #TODO: can the return value Elm_Transit_Effect be used somehow?
         elm_transit_effect_resizable_flip_add(self.obj, axis, cw)
 
-    def effect_wipe_add(self, Elm_Transit_Effect_Wipe_Type type, Elm_Transit_Effect_Wipe_Dir dir):
+    def effect_wipe_add(self, Elm_Transit_Effect_Wipe_Type wipe_type, Elm_Transit_Effect_Wipe_Dir wipe_dir):
         """effect_wipe_add(int type, int dir)
 
         Add the Wipe Effect to Elm_Transit.
@@ -632,8 +713,10 @@ cdef class Transit(object):
 
         .. seealso:: :py:func:`effect_add()`
 
-        :param type: Wipe type. Hide or show.
-        :param dir: Wipe Direction.
+        :param wipe_type: Wipe type. Hide or show.
+        :type wipe_type: :ref:`Wipe type <Elm_Transit_Effect_Wipe_Type>`
+        :param wipe_dir: Wipe Direction.
+        :type wipe_dir: :ref:`Wipe direction <Elm_Transit_Effect_Wipe_Dir>`
         :return: Wipe effect context data.
         :rtype: Elm_Transit_Effect
 
@@ -645,7 +728,7 @@ cdef class Transit(object):
 
         """
         #TODO: can the return value Elm_Transit_Effect be used somehow?
-        elm_transit_effect_wipe_add(self.obj, type, dir)
+        elm_transit_effect_wipe_add(self.obj, wipe_type, wipe_dir)
 
     def effect_color_add(self, unsigned int from_r, unsigned int from_g, unsigned int from_b, unsigned int from_a, unsigned int to_r, unsigned int to_g, unsigned int to_b, unsigned int to_a):
         """effect_color_add(int from_r, int from_g, int from_b, int from_a, int to_r, int to_g, int to_b, int to_a)

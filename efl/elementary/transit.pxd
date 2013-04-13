@@ -5,6 +5,7 @@ from enums cimport Elm_Transit_Effect_Flip_Axis, Elm_Transit_Effect_Wipe_Dir, \
 cdef extern from "Elementary.h":
 
     ctypedef struct Elm_Transit
+    ctypedef Elm_Transit const_Elm_Transit "const Elm_Transit"
     ctypedef struct Elm_Transit_Effect
 
     ctypedef void            (*Elm_Transit_Effect_Transition_Cb)(Elm_Transit_Effect *effect, Elm_Transit *transit, double progress)
@@ -13,8 +14,8 @@ cdef extern from "Elementary.h":
 
     Elm_Transit             *elm_transit_add()
     void                     elm_transit_del(Elm_Transit *transit)
-    void                     elm_transit_effect_add(Elm_Transit *transit, Elm_Transit_Effect_Transition_Cb transition_cb, Elm_Transit_Effect *effect, Elm_Transit_Effect_End_Cb end_cb)
-    void                     elm_transit_effect_del(Elm_Transit *transit, Elm_Transit_Effect_Transition_Cb transition_cb, Elm_Transit_Effect *effect)
+    # TODO: void                     elm_transit_effect_add(Elm_Transit *transit, Elm_Transit_Effect_Transition_Cb transition_cb, Elm_Transit_Effect *effect, Elm_Transit_Effect_End_Cb end_cb)
+    # TODO: void                     elm_transit_effect_del(Elm_Transit *transit, Elm_Transit_Effect_Transition_Cb transition_cb, Elm_Transit_Effect *effect)
     void                     elm_transit_object_add(Elm_Transit *transit, Evas_Object *obj)
     void                     elm_transit_object_remove(Elm_Transit *transit, Evas_Object *obj)
     const_Eina_List         *elm_transit_objects_get(Elm_Transit *transit)
@@ -22,13 +23,15 @@ cdef extern from "Elementary.h":
     Eina_Bool                elm_transit_objects_final_state_keep_get(Elm_Transit *transit)
     void                     elm_transit_event_enabled_set(Elm_Transit *transit, Eina_Bool enabled)
     Eina_Bool                elm_transit_event_enabled_get(Elm_Transit *transit)
-    void                     elm_transit_del_cb_set(Elm_Transit *transit, Elm_Transit_Del_Cb cb, void *data)
+    # TODO: void                     elm_transit_del_cb_set(Elm_Transit *transit, Elm_Transit_Del_Cb cb, void *data)
     void                     elm_transit_auto_reverse_set(Elm_Transit *transit, Eina_Bool reverse)
     Eina_Bool                elm_transit_auto_reverse_get(Elm_Transit *transit)
     void                     elm_transit_repeat_times_set(Elm_Transit *transit, int repeat)
     int                      elm_transit_repeat_times_get(Elm_Transit *transit)
     void                     elm_transit_tween_mode_set(Elm_Transit *transit, Elm_Transit_Tween_Mode tween_mode)
     Elm_Transit_Tween_Mode   elm_transit_tween_mode_get(Elm_Transit *transit)
+    void                     elm_transit_tween_mode_factor_set(Elm_Transit *transit, double v1, double v2)
+    void                     elm_transit_tween_mode_factor_get(const_Elm_Transit *transit, double *v1, double *v2)
     void                     elm_transit_duration_set(Elm_Transit *transit, double duration)
     double                   elm_transit_duration_get(Elm_Transit *transit)
     void                     elm_transit_go(Elm_Transit *transit)
@@ -38,6 +41,8 @@ cdef extern from "Elementary.h":
     void                     elm_transit_chain_transit_add(Elm_Transit *transit, Elm_Transit *chain_transit)
     void                     elm_transit_chain_transit_del(Elm_Transit *transit, Elm_Transit *chain_transit)
     Eina_List               *elm_transit_chain_transits_get(Elm_Transit *transit)
+    void                     elm_transit_smooth_set(Elm_Transit *transit, Eina_Bool smooth)
+    Eina_Bool                elm_transit_smooth_get(const_Elm_Transit *transit)
     Elm_Transit_Effect      *elm_transit_effect_resizing_add(Elm_Transit *transit, Evas_Coord from_w, Evas_Coord from_h, Evas_Coord to_w, Evas_Coord to_h)
     Elm_Transit_Effect      *elm_transit_effect_translation_add(Elm_Transit *transit, Evas_Coord from_dx, Evas_Coord from_dy, Evas_Coord to_dx, Evas_Coord to_dy)
     Elm_Transit_Effect      *elm_transit_effect_zoom_add(Elm_Transit *transit, float from_rate, float to_rate)
