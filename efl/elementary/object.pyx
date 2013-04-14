@@ -18,6 +18,45 @@
 
 """
 
+.. rubric:: Copy and Paste
+
+Implements the following functionality
+   a. select, copy/cut and paste
+   b. clipboard
+   c. drag and drop
+in order to share data across application windows.
+
+Contains functions to select text or a portion of data,
+send it to a buffer, and paste the data into a target.
+
+elm_cnp provides a generic copy and paste facility based on its windowing system.
+It is not necessary to know the details of each windowing system,
+but some terms and behavior are common.
+Currently the X11 window system is widely used, and only X11 functionality is implemented.
+
+In X11R6 window system, CopyPaste works like a peer-to-peer communication.
+Copying is an operation on an object in an X server.
+X11 calls those objects 'selections' which have names.
+Generally, two selection types are needed for copy and paste:
+The Primary selection and the Clipboard selection.
+Primary selection is for selecting text (that means highlighted text).
+Clipboard selection is for explicit copying behavior
+(such as ctrl+c, or 'copy' in a menu).
+Thus, in applications most cases only use the clipboard selection.
+As stated before, taking ownership of a selection doesn't move any actual data.
+Copying and Pasting is described as follows:
+ 1. Copy text in Program A : Program A takes ownership of the selection
+ 2. Paste text in Program B : Program B notes that Program A owns the selection
+ 3. Program B asks A for the text
+ 4. Program A responds and sends the text to program B
+ 5. Program B pastes the response
+More information is on
+ - http://www.jwz.org/doc/x-cut-and-paste.html
+ - X11R6 Inter-Client Communication Conventions Manual, section 2
+
+
+.. _Elm_Focus_Direction:
+
 .. rubric:: Focus direction
 
 .. data:: ELM_FOCUS_PREVIOUS
@@ -27,6 +66,108 @@
 .. data:: ELM_FOCUS_NEXT
 
     Focus next
+
+
+.. _Elm_Sel_Type:
+
+.. rubric:: Selection type
+
+Defines the types of selection property names.
+:see: `http://www.x.org/docs/X11/xlib.pdf`_ for more details.
+
+.. data:: ELM_SEL_TYPE_PRIMARY
+
+    Primary text selection (highlighted or selected text)
+
+.. data:: ELM_SEL_TYPE_SECONDARY
+
+    Used when primary selection is in use
+
+.. data:: ELM_SEL_TYPE_XDND
+
+    Drag 'n' Drop
+
+.. data:: ELM_SEL_TYPE_CLIPBOARD
+
+    Clipboard selection (ctrl+C)
+
+
+
+.. _Elm_Sel_Format:
+
+.. rubric:: Selection format
+
+Defines the types of content.
+
+.. data:: ELM_SEL_FORMAT_TARGETS
+
+    For matching every possible atom
+
+.. data:: ELM_SEL_FORMAT_NONE
+
+    Content is from outside of Elementary
+
+.. data:: ELM_SEL_FORMAT_TEXT
+
+    Plain unformatted text: Used for things that don't want rich markup
+
+.. data:: ELM_SEL_FORMAT_MARKUP
+
+    Edje textblock markup, including inline images
+
+.. data:: ELM_SEL_FORMAT_IMAGE
+
+    Images
+
+.. data:: ELM_SEL_FORMAT_VCARD
+
+    Vcards
+
+.. data:: ELM_SEL_FORMAT_HTML
+
+    Raw HTML-like data (eg. webkit)
+
+
+
+.. _Elm_Xdnd_Action:
+
+.. rubric:: XDND action
+
+Defines the kind of action associated with the drop data if for XDND
+:since: 1.8
+
+.. data:: ELM_XDND_ACTION_UNKNOWN
+
+    Action type is unknown
+
+.. data:: ELM_XDND_ACTION_COPY
+
+    Copy the data
+
+.. data:: ELM_XDND_ACTION_MOVE
+
+    Move the data
+
+.. data:: ELM_XDND_ACTION_PRIVATE
+
+    Pricate action type
+
+.. data:: ELM_XDND_ACTION_ASK
+
+    Ask the user what to do
+
+.. data:: ELM_XDND_ACTION_LIST
+
+    List the data
+
+.. data:: ELM_XDND_ACTION_LINK
+
+    Link the data
+
+.. data:: ELM_XDND_ACTION_DESCRIPTION
+
+    Describe the data
+
 
 """
 
@@ -55,6 +196,28 @@ ELM_FOCUS_NEXT = enums.ELM_FOCUS_NEXT
 EVAS_CALLBACK_KEY_DOWN = evasenums.EVAS_CALLBACK_KEY_DOWN
 EVAS_CALLBACK_KEY_UP = evasenums.EVAS_CALLBACK_KEY_UP
 EVAS_CALLBACK_MOUSE_WHEEL = evasenums.EVAS_CALLBACK_MOUSE_WHEEL
+
+ELM_SEL_TYPE_PRIMARY = enums.ELM_SEL_TYPE_PRIMARY
+ELM_SEL_TYPE_SECONDARY = enums.ELM_SEL_TYPE_SECONDARY
+ELM_SEL_TYPE_XDND = enums.ELM_SEL_TYPE_XDND
+ELM_SEL_TYPE_CLIPBOARD = enums.ELM_SEL_TYPE_CLIPBOARD
+
+ELM_SEL_FORMAT_TARGETS = enums.ELM_SEL_FORMAT_TARGETS
+ELM_SEL_FORMAT_NONE = enums.ELM_SEL_FORMAT_NONE
+ELM_SEL_FORMAT_TEXT = enums.ELM_SEL_FORMAT_TEXT
+ELM_SEL_FORMAT_MARKUP = enums.ELM_SEL_FORMAT_MARKUP
+ELM_SEL_FORMAT_IMAGE = enums.ELM_SEL_FORMAT_IMAGE
+ELM_SEL_FORMAT_VCARD = enums.ELM_SEL_FORMAT_VCARD
+ELM_SEL_FORMAT_HTML = enums.ELM_SEL_FORMAT_HTML
+
+ELM_XDND_ACTION_UNKNOWN = enums.ELM_XDND_ACTION_UNKNOWN
+ELM_XDND_ACTION_COPY = enums.ELM_XDND_ACTION_COPY
+ELM_XDND_ACTION_MOVE = enums.ELM_XDND_ACTION_MOVE
+ELM_XDND_ACTION_PRIVATE = enums.ELM_XDND_ACTION_PRIVATE
+ELM_XDND_ACTION_ASK = enums.ELM_XDND_ACTION_ASK
+ELM_XDND_ACTION_LIST = enums.ELM_XDND_ACTION_LIST
+ELM_XDND_ACTION_LINK = enums.ELM_XDND_ACTION_LINK
+ELM_XDND_ACTION_DESCRIPTION = enums.ELM_XDND_ACTION_DESCRIPTION
 
 cdef void _object_callback(void *data,
                            Evas_Object *o, void *event_info) with gil:
@@ -116,10 +279,13 @@ cdef Eina_Bool _event_callback(void *data, Evas_Object *o, Evas_Object *src, Eva
 
     return ret
 
+# TODO: include "cnp_callbacks.pxi"
+
 # TODO: Is this handled in Eo now?
 cdef void _event_data_del_cb(void *data, Evas_Object *o, void *event_info) with gil:
     pass
 #     Py_DECREF(<object>data)
+
 
 cdef class Canvas(evasCanvas):
     def __init__(self):
@@ -1102,8 +1268,8 @@ cdef class Object(evasObject):
 
         :type func: function
 
-        @raise TypeError: if **func** is not callable.
-        @raise TypeError: if **event_conv** is not callable or None.
+        :raise TypeError: if **func** is not callable.
+        :raise TypeError: if **event_conv** is not callable or None.
 
         """
         if not callable(func):
@@ -1135,10 +1301,10 @@ cdef class Object(evasObject):
         :param func: what to callback, should have be previously registered.
         :type func: function
 
-        @precond: **event**, **event_conv** and **func** must be used as
+        :precond: **event**, **event_conv** and **func** must be used as
            parameter for :py:func:`_callback_add_full()`.
 
-        @raise ValueError: if there was no **func** connected with this event.
+        :raise ValueError: if there was no **func** connected with this event.
 
         """
         try:
@@ -1175,7 +1341,7 @@ cdef class Object(evasObject):
             *function(object, *args, **kargs)*
         :type func: function
 
-        @raise TypeError: if **func** is not callable.
+        :raise TypeError: if **func** is not callable.
 
         """
         return self._callback_add_full(event, None, func, *args, **kargs)
@@ -1190,10 +1356,10 @@ cdef class Object(evasObject):
         :param func: what to callback, should have be previously registered.
         :type func: function
 
-        @precond: **event** and **func** must be used as parameter for
+        :precond: **event** and **func** must be used as parameter for
             :py:func:`_callback_add()`.
 
-        @raise ValueError: if there was no **func** connected with this event.
+        :raise ValueError: if there was no **func** connected with this event.
 
         """
         return self._callback_del_full(event, None, func)
@@ -1205,4 +1371,158 @@ cdef class Object(evasObject):
 
         """
         return <long>self.obj
+
+
+
+    # TODO:
+    # def cnp_selection_set(self, Elm_Sel_Type selection, Elm_Sel_Format format, buf, buflen):
+    #     """Set copy data for a widget.
+
+    #     Set copy data and take ownership of selection. Format is used for specifying the selection type,
+    #     and this is used during pasting.
+
+    #     :param selection: Selection type for copying and pasting
+    #     :param format: Selection format
+    #     :param buf: The data selected
+    #     :param buflen: The size of @p buf
+    #     :raise RuntimeError: if setting cnp data fails.
+
+    #     """
+    #     if not elm_cnp_selection_set(self.obj, selection, format, const_void *buf, size_t buflen):
+    #         raise RuntimeError("Could not set cnp data for widget.")
+
+    # def cnp_selection_get(self, selection, format, datacb, udata):
+    #     """Retrieve data from a widget that has a selection.
+
+    #     Gets the current selection data from a widget.
+    #     The widget input here will usually be elm_entry,
+    #     in which case @p datacb and @p udata can be NULL.
+    #     If a different widget is passed, @p datacb and @p udata are used for retrieving data.
+
+    #     @see also elm_cnp_selection_set()
+
+    #     :param selection: Selection type for copying and pasting
+    #     :param format: Selection format
+    #     :param datacb: The user data callback if the target widget isn't elm_entry
+    #     :param udata: The user data pointer for @p datacb
+    #     :raise RuntimeError: if getting cnp data fails.
+
+    #     """
+    #     if not elm_cnp_selection_get(self.obj, selection, format, Elm_Drop_Cb datacb, void *udata):
+    #         raise RuntimeError("Could not get cnp data from widget.")
+
+    # def cnp_selection_clear(self, Elm_Sel_Type selection):
+    #     """Clear the selection data of a widget.
+
+    #     Clear all data from the selection which is owned by a widget.
+
+    #     @see also elm_cnp_selection_set()
+
+    #     :param selection: Selection type for copying and pasting
+    #     :raise RuntimeError: if clearing cnp data fails.
+
+    #     """
+    #     if not elm_object_cnp_selection_clear(self.obj, selection):
+    #         raise RuntimeError("Could not clear cnp data from widget.")
+
+
+    # def cnp_selection_loss_callback_set(self, Elm_Sel_Type selection, func, data):
+    #     """Set a function to be called when a selection is lost
+
+    #     The function @p func is set of be called when selection @p selection is lost
+    #     to another process or when elm_cnp_selection_set() is called. If @p func
+    #     is NULL then it is not called. @p data is passed as the data parameter to
+    #     the callback functions and selection is passed in as the selection that
+    #     has been lost.
+
+    #     elm_cnp_selection_set() and elm_object_cnp_selection_clear() automatically
+    #     set this los callback to NULL when called. If you wish to take the selection
+    #     and then be notified of loss please do this (for example)::
+
+    #         elm_cnp_selection_set(obj, ELM_SEL_TYPE_PRIMARY, ELM_SEL_FORMAT_TEXT, "hello", strlen(hello));
+    #         elm_cnp_selection_loss_callback_set(obj, ELM_SEL_TYPE_PRIMARY, loss_cb, NULL);
+
+    #     @see also elm_cnp_selection_set()
+
+    #     :param selection: Selection to be notified of for loss
+    #     :param func: The function to call
+    #     :param data: The data pointer passed to the function.
+
+    #     """
+    #     elm_cnp_selection_loss_callback_set(self.obj, selection, Elm_Selection_Loss_Cb func, const void *data)
+
+    # def drop_target_add(self, Elm_Sel_Format format, entercb, enterdata, leavecb, leavedata, poscb, posdata, dropcb, dropdata):
+    #     """Set the given object as a target for drops for drag-and-drop
+
+    #     :param format: The formats supported for dropping
+    #     :param entercb: The function to call when the object is entered with a drag
+    #     :param enterdata: The application data to pass to enterdata
+    #     :param leavecb: The function to call when the object is left with a drag
+    #     :param leavedata: The application data to pass to leavedata
+    #     :param poscb: The function to call when the object has a drag over it
+    #     :param posdata: The application data to pass to posdata
+    #     :param dropcb: The function to call when a drop has occurred
+    #     :param cbdata: The application data to pass to dropcb
+    #     :raise RuntimeError: if adding as drop target fails.
+
+    #     :since: 1.8
+
+    #     """
+    #     if not elm_drop_target_add(self.obj, format,
+    #                                        Elm_Drag_State entercb, void *enterdata,
+    #                                        Elm_Drag_State leavecb, void *leavedata,
+    #                                        Elm_Drag_Pos poscb, void *posdata,
+    #                                        Elm_Drop_Cb dropcb, void *cbdata):
+    #         raise RuntimeError("Could not add drop target.")
+
+    # def drop_target_del(self):
+    #     """Deletes the drop target status of an object
+
+    #     :raise RuntimeError: if removing drop status fails.
+
+    #     @since 1.8
+
+    #     """
+    #     if not elm_drop_target_del(self.obj):
+    #         raise RuntimeError("Could not delete drop target status.")
+
+    # def drag_start(self, Elm_Sel_Format format, data, Elm_Xdnd_Action action, createicon, createdata, dragpos, dragdata, acceptcb, acceptdata, dragdone, donecbdata):
+    #     """Begins a drag given a source object
+
+    #     :param format: The drag formats supported by the data
+    #     :param data: The drag data itself (a string)
+    #     :param action: The drag action to be done
+    #     :param createicon: Function to call to create a drag object, or NULL if not wanted
+    #     :param createdata: Application data passed to @p createicon
+    #     :param dragpos: Function called with each position of the drag, x, y being screen coordinates if possible, and action being the current action.
+    #     :param dragdata: Application data passed to @p dragpos
+    #     :param acceptcb: Function called indicating if drop target accepts (or does not) the drop data while dragging
+
+    #     :param acceptdata: Application data passed to @p acceptcb
+    #     :param dragdone: Function to call when drag is done
+    #     :param donecbdata: Application data to pass to @p dragdone
+    #     :raise RuntimeError: if starting drag fails.
+
+    #     :since: 1.8
+
+    #     """
+    #     if not elm_drag_start(Evas_Object *obj, format,
+    #                                   <const_char *>data, action,
+    #                                   Elm_Drag_Icon_Create_Cb createicon, void *createdata,
+    #                                   Elm_Drag_Pos dragpos, void *dragdata,
+    #                                   Elm_Drag_Accept acceptcb, void *acceptdata,
+    #                                   Elm_Drag_State dragdone, void *donecbdata):
+    #         raise RuntimeError("Could not start drag.")
+
+    # def drag_action_set(self, Elm_Xdnd_Action action):
+    #     """Changes the current drag action
+
+    #     :param action: The drag action to be done
+    #     :raise RuntimeError: if changing drag action fails.
+
+    #     :since: 1.8
+
+    #     """
+    #     if not elm_drag_action_set(Evas_Object *obj, action):
+    #         raise RuntimeError("Could not set cnp xdnd action.")
 

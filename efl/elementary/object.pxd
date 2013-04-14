@@ -16,12 +16,13 @@
 # along with this Python-EFL.  If not, see <http://www.gnu.org/licenses/>.
 
 from cpython cimport PyObject, Py_INCREF, Py_DECREF
-from efl.evas cimport Eina_Bool, Eina_List, const_Eina_List
-from efl.evas cimport Evas_Object, Evas_Smart_Cb
+from efl.evas cimport Eina_Bool, Eina_List, const_Eina_List, \
+    Evas_Object, Evas_Smart_Cb, Evas_Coord
 from efl.evas.enums cimport Evas_Callback_Type
 from efl.evas cimport Object as evasObject
 from efl.evas cimport Canvas as evasCanvas
-from enums cimport Elm_Focus_Direction
+from enums cimport Elm_Focus_Direction, Elm_Sel_Format, Elm_Sel_Type, \
+    Elm_Xdnd_Action
 from libc.string cimport const_char
 from libc.stdlib cimport const_void
 
@@ -32,9 +33,23 @@ cdef extern from "Elementary.h":
 
     ctypedef struct Elm_Theme
 
+    ctypedef struct Elm_Selection_Data:
+        Evas_Coord       x, y
+        Elm_Sel_Format   format
+        void            *data
+        size_t           len
+        Elm_Xdnd_Action  action
+
     ctypedef Eina_Bool       (*Elm_Event_Cb)                (void *data, Evas_Object *obj, Evas_Object *src, Evas_Callback_Type t, void *event_info)
     ctypedef Evas_Object    *(*Elm_Tooltip_Content_Cb)      (void *data, Evas_Object *obj, Evas_Object *tooltip)
     ctypedef Evas_Object    *(*Elm_Tooltip_Item_Content_Cb) (void *data, Evas_Object *obj, Evas_Object *tooltip, void *item)
+
+    ctypedef Eina_Bool       (*Elm_Drop_Cb)                 (void *data, Evas_Object *obj, Elm_Selection_Data *ev)
+    ctypedef void            (*Elm_Selection_Loss_Cb)       (void *data, Elm_Sel_Type selection)
+    ctypedef Evas_Object    *(*Elm_Drag_Icon_Create_Cb)     (void *data, Evas_Object *win, Evas_Coord *xoff, Evas_Coord *yoff)
+    ctypedef void            (*Elm_Drag_State)              (void *data, Evas_Object *obj)
+    ctypedef void            (*Elm_Drag_Accept)             (void *data, Evas_Object *obj, Eina_Bool doaccept)
+    ctypedef void            (*Elm_Drag_Pos)                (void *data, Evas_Object *obj, Evas_Coord x, Evas_Coord y, Elm_Xdnd_Action action)
 
     # Object handling       (py3: DONE)
     void                    elm_object_part_text_set(Evas_Object *obj, const_char *part, const_char *label)
@@ -58,8 +73,8 @@ cdef extern from "Elementary.h":
     Evas_Object            *elm_object_top_widget_get(Evas_Object *obj)
     const_char *            elm_object_widget_type_get(Evas_Object *obj)
     void                    elm_object_signal_emit(Evas_Object *obj, const_char *emission, const_char *source)
-    void                    elm_object_signal_callback_add(Evas_Object *obj, const_char *emission, const_char *source, Edje_Signal_Cb func, void *data)
-    void *                  elm_object_signal_callback_del(Evas_Object *obj, const_char *emission, const_char *source, Edje_Signal_Cb func)
+    # TODO: void                    elm_object_signal_callback_add(Evas_Object *obj, const_char *emission, const_char *source, Edje_Signal_Cb func, void *data)
+    # TODO: void *                  elm_object_signal_callback_del(Evas_Object *obj, const_char *emission, const_char *source, Edje_Signal_Cb func)
     void                    elm_object_event_callback_add(Evas_Object *obj, Elm_Event_Cb func, const_void *data)
     void *                  elm_object_event_callback_del(Evas_Object *obj, Elm_Event_Cb func, const_void *data)
 
@@ -129,6 +144,17 @@ cdef extern from "Elementary.h":
     void                    elm_object_translatable_text_set(Evas_Object *obj, const_char *text)
     const_char *            elm_object_translatable_text_part_get(Evas_Object *obj, const_char *part)
     const_char *            elm_object_translatable_text_get(Evas_Object *obj)
+
+    # TODO: CnP
+    # Eina_Bool               elm_cnp_selection_set(Evas_Object *obj, Elm_Sel_Type selection, Elm_Sel_Format format, const_void *buf, size_t buflen)
+    # Eina_Bool               elm_cnp_selection_get(Evas_Object *obj, Elm_Sel_Type selection, Elm_Sel_Format format, Elm_Drop_Cb datacb, void *udata)
+    # Eina_Bool               elm_object_cnp_selection_clear(Evas_Object *obj, Elm_Sel_Type selection)
+    # void                    elm_cnp_selection_loss_callback_set(Evas_Object *obj, Elm_Sel_Type selection, Elm_Selection_Loss_Cb func, const_void *data)
+    # Eina_Bool               elm_drop_target_add(Evas_Object *obj, Elm_Sel_Format format, Elm_Drag_State entercb, void *enterdata, Elm_Drag_State leavecb, void *leavedata, Elm_Drag_Pos poscb, void *posdata, Elm_Drop_Cb dropcb, void *cbdata)
+    # Eina_Bool               elm_drop_target_del(Evas_Object *obj)
+    # Eina_Bool               elm_drag_start(Evas_Object *obj, Elm_Sel_Format format, const_char *data, Elm_Xdnd_Action action, Elm_Drag_Icon_Create_Cb createicon, void *createdata, Elm_Drag_Pos dragpos, void *dragdata, Elm_Drag_Accept acceptcb, void *acceptdata, Elm_Drag_State dragdone, void *donecbdata)
+    # Eina_Bool               elm_drag_action_set(Evas_Object *obj, Elm_Xdnd_Action action)
+
 
 cdef class Canvas(evasCanvas):
     pass

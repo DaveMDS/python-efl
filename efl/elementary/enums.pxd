@@ -349,6 +349,21 @@ cdef extern from "Elementary.h":
         ELM_SCROLLER_POLICY_ON
         ELM_SCROLLER_POLICY_OFF
 
+    ctypedef enum Elm_Sel_Format:
+        ELM_SEL_FORMAT_TARGETS
+        ELM_SEL_FORMAT_NONE
+        ELM_SEL_FORMAT_TEXT
+        ELM_SEL_FORMAT_MARKUP
+        ELM_SEL_FORMAT_IMAGE
+        ELM_SEL_FORMAT_VCARD
+        ELM_SEL_FORMAT_HTML
+
+    ctypedef enum Elm_Sel_Type:
+        ELM_SEL_TYPE_PRIMARY
+        ELM_SEL_TYPE_SECONDARY
+        ELM_SEL_TYPE_XDND
+        ELM_SEL_TYPE_CLIPBOARD
+
     ctypedef enum Elm_Softcursor_Mode:
         ELM_SOFTCURSOR_MODE_AUTO
         ELM_SOFTCURSOR_MODE_ON
@@ -464,3 +479,13 @@ cdef extern from "Elementary.h":
         ELM_WRAP_CHAR
         ELM_WRAP_WORD
         ELM_WRAP_MIXED
+
+    ctypedef enum Elm_Xdnd_Action:
+        ELM_XDND_ACTION_UNKNOWN
+        ELM_XDND_ACTION_COPY
+        ELM_XDND_ACTION_MOVE
+        ELM_XDND_ACTION_PRIVATE
+        ELM_XDND_ACTION_ASK
+        ELM_XDND_ACTION_LIST
+        ELM_XDND_ACTION_LINK
+        ELM_XDND_ACTION_DESCRIPTION
