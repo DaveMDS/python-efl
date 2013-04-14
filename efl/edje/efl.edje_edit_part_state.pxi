@@ -19,21 +19,26 @@
 cdef class State:
     cdef EdjeEdit edje
     cdef object part
-    cdef object name
+    cdef const_char *name
     cdef object part_obj
     cdef object value
 
-    def __init__(self, Part part, name, double value=0.0):
+    def __init__(self, Part part not None, name not None, double value=0.0):
         if isinstance(name, unicode): name = name.encode("UTF-8")
+        self.name = eina_stringshare_add(name)
         self.part_obj = part
         self.edje = part.edje
         self.part = part.name
-        self.name = name
         self.value = value
+
+    def __dealloc__(self):
+        eina_stringshare_del(self.name)
 
     property name:
         def __get__(self):
-            return self.name
+            return _ctouni(self.name)
+        def __set__(self, name):
+            self.name_set(name)
 
     property value:
         def __get__(self):
@@ -42,12 +47,16 @@ cdef class State:
     def part_get(self):
         return self.part_obj
 
-    def name_set(self, new_name, new_value=None):
-        if new_value == None:
-            new_value = self.value
-        return bool(edje_edit_state_name_set(self.edje.obj, self.part,
-                                             self.name, self.value, new_name,
-                                             new_value))
+    def name_set(self, new_name not None, new_value=None):
+        if isinstance(new_name, unicode): new_name = new_name.encode("UTF-8")
+        ret = edje_edit_state_name_set(self.edje.obj, self.part,
+                        self.name, self.value,
+                        <const_char *>new_name if new_name is not None else NULL,
+                        new_value if new_value is not None else self.value)
+        if ret == 0:
+            return False
+        eina_stringshare_replace(&self.name, <const_char *>new_name)
+        return True
     """
     def copy_from(self, from_state, from_value=0.0):
         return bool(edje_edit_state_copy(self.edje.obj, self.part,

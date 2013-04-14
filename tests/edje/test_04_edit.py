@@ -466,10 +466,8 @@ class TestEdjeEditPartStates(unittest.TestCase):
         s = p.state_get("state1", 0.0)
         print(s)
         print(s.rel1_to_get())
-        
 
 
-        
 if __name__ == '__main__':
     unittest.main(verbosity=2)
     edje.shutdown()

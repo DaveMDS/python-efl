@@ -49,8 +49,7 @@ cdef class Group(object):
         def __set__(self, value):
             edje_edit_group_max_h_set(self.edje.obj, value)
 
-    def rename(self, name):
+    def rename(self, name not None):
         if isinstance(name, unicode): name = name.encode("UTF-8")
-        return bool(edje_edit_group_name_set(self.edje.obj,
-                            <const_char *>name if name is not None else NULL))
+        return bool(edje_edit_group_name_set(self.edje.obj, <const_char *>name))
 

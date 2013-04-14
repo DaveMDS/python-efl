@@ -113,6 +113,7 @@ cdef extern from "Eina.h":
     void              eina_stringshare_del(Eina_Stringshare *str)
     Eina_Stringshare *eina_stringshare_ref(Eina_Stringshare *str)
     int               eina_stringshare_strlen(Eina_Stringshare *str)
+    Eina_Bool         eina_stringshare_replace(Eina_Stringshare **p_str, const_char *news)
 
     Eina_List *eina_list_free(Eina_List *list)
     Eina_List *eina_list_append(Eina_List *list, void *data)

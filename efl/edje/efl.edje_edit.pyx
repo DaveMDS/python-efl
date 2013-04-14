@@ -383,52 +383,70 @@ cdef class EdjeEdit(Edje):
 
 cdef class Text_Style(object):
     cdef EdjeEdit edje
-    cdef object name
+    cdef const_char *name
 
-    def __init__(self, EdjeEdit e, name):
+    def __init__(self, EdjeEdit e not None, name not None):
         if isinstance(name, unicode): name = name.encode("UTF-8")
         self.edje = e
-        self.name = name
+        self.name = eina_stringshare_add(name)
+
+    def __dealloc__(self):
+        eina_stringshare_del(self.name)
 
     property tags:
         def __get__(self):
             cdef Eina_List *lst
-            lst = edje_edit_style_tags_list_get(self.edje.obj,
-                    <const_char *>self.name if self.name is not None else NULL)
+            lst = edje_edit_style_tags_list_get(self.edje.obj, self.name)
             ret = convert_eina_list_strings_to_python_list(lst)
             edje_edit_string_list_free(lst)
             return ret
 
-    def tag_get(self, name):
+    def tag_get(self, name not None):
         return Text_Style_Tag(self, name)
 
-    def tag_add(self, name):
+    def tag_add(self, name not None):
         if isinstance(name, unicode): name = name.encode("UTF-8")
         return bool(edje_edit_style_tag_add(self.edje.obj, self.name,
-                              <const_char *>name if name is not None else NULL))
+                                            <const_char *>name))
 
-    def tag_del(self, name):
+    def tag_del(self, name not None):
         if isinstance(name, unicode): name = name.encode("UTF-8")
-        edje_edit_style_tag_del(self.edje.obj, self.name,
-                               <const_char *>name if name is not None else NULL)
+        edje_edit_style_tag_del(self.edje.obj, self.name, <const_char *>name)
         return True
 
 
 cdef class Text_Style_Tag(object):
     cdef Text_Style text_style
-    cdef object name
+    cdef const_char *name
 
-    def __init__(self, Text_Style text_style, name):
+    def __init__(self, Text_Style text_style not None, name not None):
         if isinstance(name, unicode): name = name.encode("UTF-8")
         self.text_style = text_style
-        self.name = name
+        self.name = eina_stringshare_add(name)
+
+    def __dealloc__(self):
+        eina_stringshare_del(self.name)
+
+    property name:
+        def __get__(self):
+            return _ctouni(self.name)
+
+        def __set__(self, newname):
+            self.rename(newname)
+
+    def rename(self, newname not None):
+        if isinstance(newname, unicode): newname = newname.encode("UTF-8")
+        edje_edit_style_tag_name_set(self.text_style.edje.obj,
+                        self.text_style.name, self.name,
+                        <const_char *>newname)
+        eina_stringshare_replace(&self.name, <const_char *>newname)
+        return True
 
     property value:
         def __get__(self):
             cdef const_char *val
             val =  edje_edit_style_tag_value_get(self.text_style.edje.obj,
-                    self.text_style.name,
-                    <const_char *>self.name if self.name is not None else NULL)
+                                                self.text_style.name, self.name)
             ret = _ctouni(val)
             edje_edit_string_free(val)
             return ret
@@ -438,41 +456,35 @@ cdef class Text_Style_Tag(object):
                             self.text_style.name, self.name,
                             <const_char *>value if value is not None else NULL)
 
-    def rename(self, newname):
-        if isinstance(newname, unicode): newname = newname.encode("UTF-8")
-        edje_edit_style_tag_name_set(self.text_style.edje.obj,
-                        self.text_style.name,
-                        <const_char *>self.name if self.name is not None else NULL,
-                        <const_char *>newname if newname is not None else NULL)
-        self.name = <const_char *>newname if newname is not None else NULL
-        return True
 
 
 cdef class Color_Class(object):
     cdef EdjeEdit edje
-    cdef object name
+    cdef const_char *name
 
-    def __init__(self, EdjeEdit e, name):
+    def __init__(self, EdjeEdit e not None, name not None):
         if isinstance(name, unicode): name = name.encode("UTF-8")
         self.edje = e
-        self.name = name
+        self.name = eina_stringshare_add(name)
+
+    def __dealloc__(self):
+        eina_stringshare_del(self.name)
 
     property name:
         def __get__(self):
-            return self.name.decode('UTF-8', 'strict')
+            return _ctouni(self.name)
 
         def __set__(self, newname):
             self.rename(newname)
 
-    def rename(self, newname):
+    def rename(self, newname not None):
         cdef Eina_Bool ret
         if isinstance(newname, unicode): newname = newname.encode("UTF-8")
-        ret = edje_edit_color_class_name_set(self.edje.obj,
-                        <const_char *>self.name if self.name is not None else NULL,
-                        <const_char *>newname if newname is not None else NULL)
+        ret = edje_edit_color_class_name_set(self.edje.obj, self.name,
+                                             <const_char *>newname)
         if ret == 0:
             return False
-        self.name = newname
+        eina_stringshare_replace(&self.name, <const_char *>newname)
         return True
 
     def colors_get(self):
