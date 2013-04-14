@@ -42,6 +42,7 @@ from test_fileselector import fileselector_clicked, fileselector_button_clicked,
     fileselector_entry_clicked
 from test_flip import flip_clicked, flip_interactive_clicked
 from test_flipselector import flipselector_clicked
+from test_floating import floating_clicked
 from test_frame import frame_clicked
 from test_gengrid import gengrid_clicked
 from test_genlist import genlist_clicked, genlist2_clicked, genlist3_clicked, genlist4_clicked, genlist5_clicked
@@ -162,6 +163,9 @@ items = [
             ("Genlist Sorted", genlist4_clicked),
             ("Genlist Iteration", genlist5_clicked),
             ("Gengrid", gengrid_clicked),
+        ]),
+         ("Miscellaneous", [
+            ("Floating Objects", floating_clicked),
         ]),
          ("Naviframe", [
             ("Naviframe", naviframe_clicked),
