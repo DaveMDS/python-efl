@@ -25,7 +25,8 @@ from efl.evas.enums cimport Evas_Event_Flags, Evas_Button_Flags, \
     Evas_Text_Style_Type, Evas_Textblock_Text_Type, \
     Evas_Textgrid_Palette, Evas_Textgrid_Font_Style, \
     Evas_Fill_Spread, Evas_Image_Scale_Hint, Evas_Image_Content_Hint, \
-    Evas_Image_Animated_Loop_Hint, Evas_Object_Table_Homogeneous_Mode
+    Evas_Image_Animated_Loop_Hint, Evas_Object_Table_Homogeneous_Mode, \
+    Evas_Display_Mode
 
 cdef extern from "Evas.h":
     ####################################################################
@@ -34,7 +35,7 @@ cdef extern from "Evas.h":
     ctypedef int Evas_Coord
     ctypedef int Evas_Angle
     ctypedef int Evas_Font_Size
-
+    ctypedef unsigned long long Evas_Modifier_Mask
 
     ####################################################################
     # Structures
@@ -409,6 +410,8 @@ cdef extern from "Evas.h":
     void evas_object_size_hint_min_set(Evas_Object *obj, Evas_Coord w, Evas_Coord h)
     void evas_object_size_hint_max_get(const_Evas_Object *obj, Evas_Coord *w, Evas_Coord *h)
     void evas_object_size_hint_max_set(Evas_Object *obj, Evas_Coord w, Evas_Coord h)
+    Evas_Display_Mode evas_object_size_hint_display_mode_get(const_Evas_Object *obj)
+    void evas_object_size_hint_display_mode_set(Evas_Object *obj, Evas_Display_Mode dispmode)
     void evas_object_size_hint_request_get(const_Evas_Object *obj, Evas_Coord *w, Evas_Coord *h)
     void evas_object_size_hint_request_set(Evas_Object *obj, Evas_Coord w, Evas_Coord h)
     void evas_object_size_hint_aspect_get(const_Evas_Object *obj, Evas_Aspect_Control *aspect, Evas_Coord *w, Evas_Coord *h)
@@ -424,6 +427,9 @@ cdef extern from "Evas.h":
     void evas_object_hide(Evas_Object *obj)
     Eina_Bool evas_object_visible_get(const_Evas_Object *obj)
 
+    void                     evas_object_precise_is_inside_set(Evas_Object *obj, Eina_Bool precise)
+    Eina_Bool                evas_object_precise_is_inside_get(const_Evas_Object *obj)
+
     void evas_object_static_clip_set(Evas_Object *obj, Eina_Bool is_static_clip)
     Eina_Bool evas_object_static_clip_get(Evas_Object *obj)
 
@@ -432,6 +438,9 @@ cdef extern from "Evas.h":
 
     void evas_object_anti_alias_set(Evas_Object *obj, Eina_Bool antialias)
     Eina_Bool evas_object_anti_alias_get(const_Evas_Object *obj)
+
+    void                     evas_object_scale_set(Evas_Object *obj, double scale)
+    double                   evas_object_scale_get(const_Evas_Object *obj)
 
     void evas_object_color_set(Evas_Object *obj, int r, int g, int b, int a)
     void evas_object_color_get(const_Evas_Object *obj, int *r, int *g, int *b, int *a)
@@ -466,11 +475,19 @@ cdef extern from "Evas.h":
     Eina_Bool evas_object_repeat_events_get(const_Evas_Object *obj)
     void evas_object_propagate_events_set(Evas_Object *obj, Eina_Bool prop)
     Eina_Bool evas_object_propagate_events_get(const_Evas_Object *obj)
+    void      evas_object_freeze_events_set(Evas_Object *obj, Eina_Bool freeze)
+    Eina_Bool evas_object_freeze_events_get(const_Evas_Object *obj)
+
     void evas_object_pointer_mode_set(Evas_Object *obj, Evas_Object_Pointer_Mode setting)
     Evas_Object_Pointer_Mode evas_object_pointer_mode_get(const_Evas_Object *obj)
 
     void evas_object_focus_set(Evas_Object *obj, Eina_Bool focus)
     Eina_Bool evas_object_focus_get(const_Evas_Object *obj)
+
+    Eina_Bool            evas_object_key_grab(Evas_Object *obj, const_char *keyname, Evas_Modifier_Mask modifiers, Evas_Modifier_Mask not_modifiers, Eina_Bool exclusive)
+    void                 evas_object_key_ungrab(Evas_Object *obj, const_char *keyname, Evas_Modifier_Mask modifiers, Evas_Modifier_Mask not_modifiers)
+    void         evas_object_is_frame_object_set(Evas_Object *obj, Eina_Bool is_frame)
+    Eina_Bool    evas_object_is_frame_object_get(Evas_Object *obj)
 
 
     ####################################################################
@@ -861,8 +878,14 @@ cdef class Object(Eo):
     cpdef geometry_set(self, int x, int y, int w, int h)
     cpdef size_get(self)
     cpdef size_set(self, int w, int h)
+    cpdef size_hint_display_mode_get(self)
+    cpdef size_hint_display_mode_set(self, Evas_Display_Mode dispmode)
     cpdef visible_get(self)
     cpdef visible_set(self, spec)
+    cpdef precise_is_inside_set(self, precise)
+    cpdef precise_is_inside_get(self)
+    cpdef scale_set(self, double scale)
+    cpdef scale_get(self)
     cpdef color_get(self)
     cpdef clip_get(self)
     cpdef clipees_get(self)
@@ -870,8 +893,12 @@ cdef class Object(Eo):
     cpdef name_set(self, value)
     cpdef focus_get(self)
     cpdef focus_set(self, value)
+    cpdef freeze_events_set(self, freeze)
+    cpdef freeze_events_get(self)
     cpdef map_get(self)
     cpdef map_set(self, Map map)
+    cpdef is_frame_object_set(self, bint is_frame)
+    cpdef is_frame_object_get(self)
 
 
 cdef class Rectangle(Object):
