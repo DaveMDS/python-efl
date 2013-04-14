@@ -8,6 +8,38 @@ data {
     item: "key2" "value2";
 }
 
+styles {
+    style {
+        name: "style1";
+        base: "font=Sans font_size=13 color=#fff wrap=word";
+        tag:  "br" "\n";
+        tag:  "tab" "\t";
+    }
+    style {
+        name: "style2";
+        base: "font=Sans font_size=9 color=#ccc";
+        tag:  "br" "\n";
+        tag:  "tab" "\t";
+        tag:  "b" "+ font=Sans:style=Bold";
+    }
+}
+
+color_classes {
+    color_class {
+        name: "colorclass1";
+        color: 1 2 3 4;
+        color2: 5 6 7 8;
+        color3: 9 10 11 12;
+    }
+    color_class {
+        name: "colorclass2";
+        color: 13 14 15 16;
+        color2: 17 18 19 20;
+        color3: 21 22 23 24;
+    }
+}
+
+
 collections {
     group {
         name: "main";
@@ -17,6 +49,12 @@ collections {
         data {
             item: "key3" "value3";
             item: "key4" "value4";
+        }
+
+        script {
+            public my_func(val) {
+                set_text(PART:"label", "asd");
+            }
         }
 
         parts {
@@ -68,6 +106,52 @@ collections {
                         size: 12;
                         text: "label test";
                     }
+                }
+            }
+            //// Used to test edje edit
+            part { name: "test_clip";
+                type: RECT;
+                mouse_events: 0;
+                description {
+                    state: "default" 0.0;
+                }
+            }
+            part { name: "edit_test";
+                type: RECT;
+                mouse_events: 0;
+                repeat_events: 0;
+                scale: 1;
+                effect: OUTLINE BOTTOM;
+                ignore_flags: ON_HOLD;
+                clip_to: "test_clip";
+                api: "api_name" "api_description";
+                description {
+                    state: "default" 0.0;
+                }
+                description {
+                    state: "state1" 0.0;
+                }
+                description {
+                    state: "state2" 0.0;
+                }
+                description {
+                    state: "state2" 0.1;
+                }
+                dragable {
+                    confine: "label";
+                    events: "edit_test_drag_event";
+                    x: 1 6 8;
+                    y: 1 7 9;
+                }
+            }
+            part { name: "edit_test_drag_event";
+                type: RECT;
+                description {
+                    state: "default" 0.0;
+                }
+                dragable {
+                    x: 1 0 0;
+                    y: 1 0 0;
                 }
             }
             //// Externals (hiddens, only used for the unittests)
@@ -447,12 +531,28 @@ collections {
             }
         }
         programs {
-            program {
-                name: "emit_back_message";
+            program { name: "emit_back_message";
                 signal: "emit,message";
                 script {
                     send_message(MSG_INT, 1, 1);
                 }
+            }
+            program { name: "prog1";
+                source: "edit_test";
+                signal: "mouse,down,1";
+                in: 1.1 2.2;
+                action: STATE_SET "state2" 0.1;
+                target: "edit_test";
+                target: "test_clip";
+                after: "prog2";
+                after: "prog3";
+                api: "p_api_name" "p_api_desc";
+            }
+            program { name: "prog2";
+            }
+            program { name: "prog3";
+            }
+            program { name: "prog4";
             }
         }
     }

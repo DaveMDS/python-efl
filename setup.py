@@ -65,6 +65,7 @@ else:
     # subprocess.call("rm -rfv efl/evas/*.c", shell=True)
     # subprocess.call("rm -rfv efl/ecore/*.c", shell=True)
     # subprocess.call("rm -rfv efl/edje/*.c", shell=True)
+    # subprocess.call("rm -rfv efl/edje/edit/*.c", shell=True)
     # subprocess.call("rm -rfv efl/emotion/*.c", shell=True)
     # subprocess.call("rm -rfv efl/elementary/*.c", shell=True)
     # subprocess.call("rm -rfv efl/dbus_mainloop/dbus_mainloop.c", shell=True)
@@ -102,6 +103,14 @@ else:
                             extra_compile_args = edje_cflags,
                             extra_link_args = edje_libs + eina_libs + evas_libs)
     modules.append(edje_ext)
+    
+    # Edje_Edit
+    edje_edit_ext = Extension("efl.edje_edit", ["efl/edje/efl.edje_edit.pyx"],
+                            define_macros = [('EDJE_EDIT_IS_UNSTABLE_AND_I_KNOW_ABOUT_IT', None)],
+                            include_dirs = ['include/'],
+                            extra_compile_args = edje_cflags,
+                            extra_link_args = edje_libs + eina_libs + evas_libs)
+    modules.append(edje_edit_ext)
 
     # Emotion
     emotion_cflags, emotion_libs = pkg_config('Emotion', 'emotion', "1.7.99")
