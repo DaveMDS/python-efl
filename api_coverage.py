@@ -13,6 +13,7 @@ c_exclude_list = [
     "elm_route", # Useless API?
     "elm_glview", # Is there an OpenGL API for Python that can be used with this?
     "evas_gl_", # ditto
+    "elm_quicklaunch", # Is quicklaunch relevant for us?
 ]
 c_excludes = "|".join(c_exclude_list)
 
