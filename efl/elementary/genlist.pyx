@@ -897,15 +897,12 @@ cdef class GenlistItem(ObjectItem):
 
         :param item_class: a valid instance that defines the
             behavior of this row. See :py:class:`GenlistItemClass`.
-        :param item_data: some data that defines the model of this
-            row. This value will be given to methods of
-            ``item_class`` such as
-            :py:func:`GenlistItemClass.text_get()`. It will also be
-            provided to ``func`` as its last parameter.
+
         :param parent_item: if this is a tree child, then the
             parent item must be given here, otherwise it may be
             None. The parent must have the flag
             ``ELM_GENLIST_ITEM_SUBITEMS`` set.
+
         :param flags: defines special behavior of this item:
 
             - ELM_GENLIST_ITEM_NONE = 0
@@ -921,6 +918,12 @@ cdef class GenlistItem(ObjectItem):
             Where ``item`` is the handle, ``obj`` is the Evas object
             that represents this item, and ``item_data`` is the
             value given as parameter to this function.
+
+        :param item_data: some data that defines the model of this
+            row. This value will be given to methods of
+            ``item_class`` such as
+            :py:func:`GenlistItemClass.text_get()`. It will also be
+            provided to ``func`` as its last parameter.
 
         """
 
