@@ -119,7 +119,7 @@ cdef class SegmentControl(LayoutClass):
     def __init__(self, evasObject parent):
         self._set_obj(elm_segment_control_add(parent.obj))
 
-    def item_add(self, evasObject icon, label = None):
+    def item_add(self, evasObject icon = None, label = None):
         """item_add(self, evas.Object icon, unicode label = None) -> SegmentControlItem
 
         Append a new item to the segment control object.
@@ -166,7 +166,8 @@ cdef class SegmentControl(LayoutClass):
         cdef Elm_Object_Item *item
 
         if isinstance(label, unicode): label = label.encode("UTF-8")
-        item = elm_segment_control_item_add(self.obj, icon.obj,
+        item = elm_segment_control_item_add(self.obj,
+            icon.obj if icon is not None else NULL,
             <const_char *>label if label is not None else NULL)
         if item != NULL:
             ret._set_obj(item)
@@ -174,7 +175,7 @@ cdef class SegmentControl(LayoutClass):
         else:
             return None
 
-    def item_insert_at(self, evasObject icon, label = None, index = 0):
+    def item_insert_at(self, evasObject icon = None, label = None, index = 0):
         """item_insert_at(self, evas.Object icon, unicode label = None, int index = 0) -> SegmentControlItem
 
         Insert a new item to the segment control object at specified position.
@@ -213,7 +214,8 @@ cdef class SegmentControl(LayoutClass):
         cdef Elm_Object_Item *item
 
         if isinstance(label, unicode): label = label.encode("UTF-8")
-        item = elm_segment_control_item_insert_at(self.obj, icon.obj,
+        item = elm_segment_control_item_insert_at(self.obj,
+            icon.obj if icon is not None else NULL,
             <const_char *>label if label is not None else NULL, index)
         if item != NULL:
             ret._set_obj(item)
