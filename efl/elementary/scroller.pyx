@@ -289,22 +289,52 @@ cdef class ScrollableInterface(Object):
         return (h_pagerel, v_pagerel)
 
     property page_size:
-        """Set scroll page size.
+        """Scroller widget's current page size.
 
-        This sets the page size to an absolute fixed value, with 0 turning
-        it off for that axis.
+        An absolute fixed value, with 0 turning it off for that axis.
 
         .. seealso:: :py:attr:`page_relative`
 
-        :type: tuple of Evas_Coords (int)
+        :type: (int **h_pagesize**, int **v_pagesize**)
 
         """
         def __set__(self, value):
-            h_pagesize, v_pagesize = value
-            elm_scroller_page_size_set(self.obj, h_pagesize, v_pagesize)
+            self.page_size_set(*value)
 
-    def page_size_set(self, h_pagesize, v_pagesize):
+        def __get__(self):
+            return self.page_size_get()
+
+    cpdef page_size_set(self, h_pagesize, v_pagesize):
         elm_scroller_page_size_set(self.obj, h_pagesize, v_pagesize)
+
+    cpdef page_size_get(self):
+        cdef int h_pagesize, v_pagesize
+        elm_scroller_page_size_get(self.obj, &h_pagesize,  &v_pagesize)
+        return (h_pagesize, v_pagesize)
+
+    property page_scroll_limit:
+        """The maximum of the movable page at a flicking.
+
+        The value of maximum movable page should be more than 1.
+
+        :type: (int **page_limit_h**, int **page_limit_v**)
+
+        :since: 1.8
+
+        """
+        def __set__(self, value):
+            self.page_scroll_limit_set(*value)
+
+        def __get__(self):
+            return self.page_scroll_limit_get()
+
+    cpdef page_scroll_limit_set(self, int page_limit_h, int page_limit_v):
+        elm_scroller_page_scroll_limit_set(self.obj, page_limit_h, page_limit_v)
+
+    cpdef page_scroll_limit_get(self):
+        cdef int page_limit_h, page_limit_v
+        elm_scroller_page_scroll_limit_get(self.obj, &page_limit_h, &page_limit_v)
+        return (page_limit_h, page_limit_v)
 
     property current_page:
         """Get scroll current page number.

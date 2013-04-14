@@ -440,6 +440,45 @@ cdef class Index(LayoutClass):
     def horizontal_get(self):
         return bool(elm_index_horizontal_get(self.obj))
 
+
+    property delay_change_time:
+        """Delay change time for index object.
+
+        :type: double
+
+        .. note:: Delay time is 0.2 sec by default.
+
+        """
+        def __set__(self, value):
+            self.delay_change_time_set(value)
+
+        def __get__(self):
+            return self.delay_change_time_get()
+
+    cpdef delay_change_time_set(self, double delay_change_time):
+        elm_index_delay_change_time_set(self.obj, delay_change_time)
+
+    cpdef delay_change_time_get(self):
+        return elm_index_delay_change_time_get(self.obj)
+
+    property omit_enabled:
+        """Enable or disable omit feature for a given index widget.
+
+        :type: bool
+
+        """
+        def __set__(self, value):
+            self.omit_enabled_set(value)
+
+        def __get__(self):
+            return self.omit_enabled_get()
+
+    cpdef omit_enabled_set(self, bint enabled):
+        elm_index_omit_enabled_set(self.obj, enabled)
+
+    cpdef bint omit_enabled_get(self):
+        return elm_index_omit_enabled_get(self.obj)
+
     def callback_changed_add(self, func, *args, **kwargs):
         """When the selected index item changes. ``event_info`` is the selected
         item's data."""

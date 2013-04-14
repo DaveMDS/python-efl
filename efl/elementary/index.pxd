@@ -1,4 +1,5 @@
-from efl.evas cimport Eina_Bool, Eina_Compare_Cb, Evas_Object, Evas_Smart_Cb
+from efl.evas cimport Eina_Bool, Eina_Compare_Cb, Evas_Object, Evas_Smart_Cb, \
+    const_Evas_Object
 from object cimport Object
 from object_item cimport Elm_Object_Item, ObjectItem
 from libc.string cimport const_char
@@ -27,3 +28,7 @@ cdef extern from "Elementary.h":
     Eina_Bool                elm_index_indicator_disabled_get(Evas_Object *obj)
     void                     elm_index_horizontal_set(Evas_Object *obj, Eina_Bool horizontal)
     Eina_Bool                elm_index_horizontal_get(Evas_Object *obj)
+    void                     elm_index_delay_change_time_set(Evas_Object *obj, double delay_change_time)
+    double                   elm_index_delay_change_time_get(const_Evas_Object *obj)
+    void                     elm_index_omit_enabled_set(Evas_Object *obj, Eina_Bool enabled)
+    Eina_Bool                elm_index_omit_enabled_get(const_Evas_Object *obj)
