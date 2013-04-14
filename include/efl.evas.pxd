@@ -848,6 +848,23 @@ cdef extern from "Evas.h":
     Eina_List                         *evas_object_table_children_get(const_Evas_Object *o)
     Evas_Object                       *evas_object_table_child_get(const_Evas_Object *o, unsigned short col, unsigned short row)
 
+    ####################################################################
+    # Grid
+    #
+    Evas_Object   *evas_object_grid_add(Evas *evas)
+    Evas_Object   *evas_object_grid_add_to(Evas_Object *parent)
+    void           evas_object_grid_size_set(Evas_Object *o, int w, int h)
+    void           evas_object_grid_size_get(const_Evas_Object *o, int *w, int *h)
+    void           evas_object_grid_mirrored_set(Evas_Object *o, Eina_Bool mirrored)
+    Eina_Bool      evas_object_grid_mirrored_get(const_Evas_Object *o)
+    Eina_Bool      evas_object_grid_pack(Evas_Object *o, Evas_Object *child, int x, int y, int w, int h)
+    Eina_Bool      evas_object_grid_unpack(Evas_Object *o, Evas_Object *child)
+    void           evas_object_grid_clear(Evas_Object *o, Eina_Bool clear)
+    Eina_Bool      evas_object_grid_pack_get(const_Evas_Object *o, Evas_Object *child, int *x, int *y, int *w, int *h)
+    # FIXME: Is this needed? Eina_Iterator *evas_object_grid_iterator_new(const_Evas_Object *o)
+    # FIXME: Is this needed? Eina_Accessor *evas_object_grid_accessor_new(const_Evas_Object *o)
+    Eina_List     *evas_object_grid_children_get(const_Evas_Object *o)
+
 
 ####################################################################
 # Python classes

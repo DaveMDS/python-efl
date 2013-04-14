@@ -322,6 +322,7 @@ include "efl.evas_object_textblock.pxi"
 include "efl.evas_object_box.pxi"
 include "object_textgrid.pxi"
 include "object_table.pxi"
+include "object_grid.pxi"
 
 
 init()
