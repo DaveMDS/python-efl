@@ -42,17 +42,17 @@ For slideshow items, just like for :py:class:`Genlist` "genlist" ones,
 the user defines a **classes**, specifying functions that will be
 called on the item's creation and deletion times.
 
-The Elm_Slideshow_Item_Class structure contains the following
+The :py:class:`SlideshowItemClass` class contains the following
 members:
 
-- ``func.get`` - When an item is displayed, this function is
+- ``get`` - When an item is displayed, this function is
   called, and it's where one should create the item object, de
   facto. For example, the object can be a pure Evas image object
   or an Elementary :py:class:`Photocam` "photocam" widget.
-  See #SlideshowItemGetFunc.
-- ``func.del`` - When an item is no more displayed, this function
+
+- ``delete`` - When an item is no more displayed, this function
   is called, where the user must delete any data associated to
-  the item. See #SlideshowItemDelFunc.
+  the item.
 
 .. rubric:: Slideshow caching
 
@@ -329,12 +329,13 @@ cdef class Slideshow(LayoutClass):
         parameter is going to be passed to both class functions of the
         item.
 
-        .. seealso:: Elm_Slideshow_Item_Class
-        .. seealso:: :py:func:`item_sorted_insert()`
-        .. seealso:: :py:attr:`ObjectItem.data`
+        .. seealso::
+            :py:class:`SlideshowItemClass`
+            :py:func:`item_sorted_insert()`
+            :py:attr:`efl.elementary.object_item.ObjectItem.data`
 
         :param item_class: The item class for the item
-        :type item_class: SlideshowItemClass
+        :type item_class: :py:class:`SlideshowItemClass`
 
         :return: A handle to the item added or ``None``, on errors
         :rtype: :py:class:`SlideshowItem`
@@ -370,8 +371,9 @@ cdef class Slideshow(LayoutClass):
         than data2, -1 must be returned, if it is 'greater', 1 must be
         returned, and if they are equal, 0 must be returned.
 
-        .. seealso:: :py:class:`SlideshowItemClass`
-        .. seealso:: :py:func:`item_add()`
+        .. seealso::
+            :py:class:`SlideshowItemClass`
+            :py:func:`item_add()`
 
         :param itc: The item class for the item
         :param func: The comparing function to be used to sort slideshow

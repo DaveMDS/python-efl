@@ -37,14 +37,14 @@ on the left or top and low values on the right or bottom (as opposed to
 normally being low on the left or top and high on the bottom and right).
 
 The slider should have its minimum and maximum values set by the
-application with  :py:attr:`min_max_set()` and value should also be set by
-the application before use with  :py:attr:`value_set()`. The span of the
+application with  :py:attr:`Slider.min_max` and value should also be set by
+the application before use with  :py:attr:`Slider.value`. The span of the
 slider is its length (horizontally or vertically). This will be scaled by
 the object or applications scaling factor. At any point code can query the
-slider for its value with :py:attr:`value_get()`.
+slider for its value with :py:attr:`Slider.value`.
 
 This widget emits the following signals, besides the ones sent from
-:py:class:`elementary.layout.Layout`:
+:py:class:`LayoutClass <efl.elementary.layout_class.LayoutClass>`:
 
 - ``"changed"`` - Whenever the slider value is changed by the user.
 - ``"slider,drag,start"`` - dragging the slider indicator around has
@@ -100,7 +100,7 @@ cdef class Slider(LayoutClass):
             will require their own space, which will make the object to
             require more the ``size``, actually.
 
-        :type: Evas_Coord (int)
+        :type: int
 
         """
         def __get__(self):
@@ -130,7 +130,7 @@ cdef class Slider(LayoutClass):
 
         Default is unit label disabled.
 
-        :type: string
+        :type: unicode
 
         """
         def __get__(self):
@@ -163,7 +163,7 @@ cdef class Slider(LayoutClass):
 
         Default is indicator label disabled.
 
-        :type: string
+        :type: unicode
 
         """
         def __get__(self):
@@ -246,7 +246,7 @@ cdef class Slider(LayoutClass):
 
         If actual value is less than ``min``, it will be updated to ``min``. If it
         is bigger then ``max``, will be updated to ``max``. Actual value can be
-        get with :py:attr:`value_get()`.
+        get with :py:attr:`value`.
 
         By default, min is equal to 0.0, and max is equal to 1.0.
 
@@ -282,9 +282,10 @@ cdef class Slider(LayoutClass):
         .. warning:: The value must to be between min and max values. These
             values are set by :py:attr:`min_max`.
 
-        .. seealso:: :py:attr:`unit_format`
-        .. seealso:: :py:attr:`indicator_format`
-        .. seealso:: :py:attr:`min_max`
+        .. seealso::
+            :py:attr:`unit_format`
+            :py:attr:`indicator_format`
+            :py:attr:`min_max`
 
         :type: float
 

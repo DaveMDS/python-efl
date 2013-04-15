@@ -79,7 +79,7 @@ cdef class Spinner(LayoutClass):
 
         Default is "%0.f".
 
-        :type: string
+        :type: unicode
 
         """
         def __get__(self):
@@ -156,13 +156,10 @@ cdef class Spinner(LayoutClass):
         """The value the spinner displays.
 
         Value will be presented on the label following format specified with
-        :py:attr:`format`.
+        :py:attr:`label_format`.
 
         .. warning:: The value must to be between min and max values. This values
             are set by :py:attr:`min_max`.
-
-        .. seealso:: :py:attr:`format`
-        .. seealso:: :py:attr:`min_max`
 
         :type: float
 
@@ -193,14 +190,15 @@ cdef class Spinner(LayoutClass):
         the minimum.
 
         E.g.:
-            - min value = 10
-            - max value = 50
-            - step value = 20
-            - displayed value = 20
+
+        - min value = 10
+        - max value = 50
+        - step value = 20
+        - displayed value = 20
 
         When the user decrement value (using left or bottom arrow), it will
         display ``40``, because max - (min - (displayed - step)) is
-        ``50`` - (``10`` - (``20`` - ``20``)) = ``40``.
+        ``50 - (10 - (20 - 20)) = 40``.
 
         :type: bool
 
@@ -240,12 +238,15 @@ cdef class Spinner(LayoutClass):
         return elm_spinner_editable_get(self.obj)
 
     def special_value_add(self, value, label):
-        """Set a special string to display in the place of the numerical value.
+        """special_value_add(float value, unicode label)
+
+        Set a special string to display in the place of the numerical value.
 
         It's useful for cases when a user should select an item that is
         better indicated by a label than a value. For example, weekdays or months.
 
         E.g.::
+
             sp = Spinner(win)
             sp.min_max_set(1, 3)
             sp.special_value_add(1, "January")
@@ -256,7 +257,7 @@ cdef class Spinner(LayoutClass):
         :param value: The value to be replaced.
         :type value: float
         :param label: The label to be used.
-        :type label: string
+        :type label: unicode
 
         """
         if isinstance(label, unicode): label = label.encode("UTF-8")
