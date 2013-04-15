@@ -28,6 +28,7 @@ from test_check import check_clicked
 from test_clock import clock_clicked
 from test_colorselector import colorselector_clicked
 from test_config import config_clicked
+from test_conform import conformant_clicked, conformant2_clicked
 from test_core_evas_object_callbacks import core_evas_object_callbacks_clicked
 from test_core_evas_canvas_callbacks import core_evas_canvas_callbacks_clicked
 from test_core_evas_objects import core_evas_objects_clicked
@@ -201,6 +202,10 @@ items = [
             ("Menu", menu_clicked),
             ("Radios", radio_clicked),
             ("Segment Control", segment_control_clicked),
+        ]),
+         ("Standardization", [
+            ("Conformant", conformant_clicked),
+            ("Conformant 2", conformant2_clicked),
         ]),
          ("Stored Surface Buffer", [
             ("Launcher", mapbuf_clicked),
