@@ -8,7 +8,7 @@ if sys.version_info < (3,): range = xrange
 from efl import evas
 from efl import ecore
 from efl import elementary
-from efl.elementary.window import Window
+from efl.elementary.window import Window, StandardWindow
 from efl.elementary.background import Background
 from efl.elementary.box import Box
 from efl.elementary.frame import Frame
@@ -16,8 +16,14 @@ from efl.elementary.label import Label
 from efl.elementary.button import Button
 from efl.elementary.list import List
 from efl.elementary.icon import Icon
-from efl.elementary.genlist import Genlist, GenlistItem, GenlistItemClass
+from efl.elementary.genlist import Genlist, GenlistItem, GenlistItemClass, \
+    ELM_GENLIST_ITEM_NONE, ELM_OBJECT_SELECT_MODE_ALWAYS, \
+    ELM_OBJECT_SELECT_MODE_DEFAULT
 from efl.elementary.general import cache_all_flush
+from efl.elementary.radio import Radio
+from efl.elementary.check import Check
+
+from efl.evas import EVAS_HINT_EXPAND, EVAS_HINT_FILL, EVAS_ASPECT_CONTROL_VERTICAL
 
 
 def gl_text_get(obj, part, item_data):
@@ -491,6 +497,227 @@ def genlist5_clicked(obj, item=None):
     win.resize(320, 320)
     win.show()
 
+mode_type = ["slide", "rotate"]
+
+class ItemClass10(GenlistItemClass):
+    def text_get(self, obj, part, data):
+        t = data[0]
+        if part == "elm.text.mode":
+            return "Mode # %i" % (t,)
+        else:
+            return "Item # %i" % (t,)
+
+    def content_get(self, obj, part, data):
+        ic = Icon(obj)
+        if part == "elm.swallow.end":
+            f = "images/bubble.png"
+        else:
+            f = "images/logo_small.png"
+        ic.file = f
+        ic.size_hint_aspect = EVAS_ASPECT_CONTROL_VERTICAL, 1, 1
+        return ic
+
+def gl_sel10(it, gl, data):
+    rd = data[1]
+    v = rd.value
+    if v:
+        it.decorate_mode_set(mode_type[v], True)
+
+def my_gl_mode_right(obj, it, rd):
+    v = rd.value
+    if not v:
+        it.decorate_mode_set(mode_type[v], True)
+
+def my_gl_mode_left(obj, it, rd):
+    v = rd.value
+    if not v:
+        it.decorate_mode_set(mode_type[v], False)
+
+def my_gl_mode_cancel(obj, it, rd):
+    print("drag")
+    v = rd.value
+    glit = obj.decorated_item
+    if glit:
+        glit.decorate_mode_set(mode_type[v], False)
+
+def genlist10_clicked(obj, item=None):
+    win = StandardWindow("genlist-decorate-item-mode", "Genlist Decorate Item Mode");
+    win.autodel = True
+
+    bx = Box(win)
+    bx.size_hint_weight = EVAS_HINT_EXPAND, EVAS_HINT_EXPAND
+    win.resize_object_add(bx)
+    bx.show()
+
+    fr = Frame(win)
+    fr.text = "Decorate Item Mode Type"
+    bx.pack_end(fr)
+    fr.show()
+
+    bx2 = Box(win)
+    fr.content = bx2
+    bx2.show()
+
+    rd = Radio(win)
+    rd.size_hint_weight = EVAS_HINT_EXPAND, EVAS_HINT_EXPAND
+    rd.state_value = 0
+    rd.text = "Slide : Sweep genlist items to the right."
+    rd.show()
+    bx2.pack_end(rd)
+    rdg = rd
+
+    rd = Radio(win)
+    rd.size_hint_weight = EVAS_HINT_EXPAND, EVAS_HINT_EXPAND
+    rd.state_value = 1
+    rd.text = "Rotate : Click each item."
+    rd.group_add(rdg)
+    rd.show()
+    bx2.pack_end(rd)
+
+    gl = Genlist(win)
+    gl.size_hint_align = EVAS_HINT_FILL, EVAS_HINT_FILL
+    gl.size_hint_weight = EVAS_HINT_EXPAND, EVAS_HINT_EXPAND
+    gl.callback_drag_start_right_add(my_gl_mode_right, rdg)
+    gl.callback_drag_start_left_add(my_gl_mode_left, rdg)
+    gl.callback_drag_start_up_add(my_gl_mode_cancel, rdg)
+    gl.callback_drag_start_down_add(my_gl_mode_cancel, rdg)
+    gl.show()
+
+    itc10 = ItemClass10(item_style="default", decorate_item_style="mode")
+    itc10.state_get = gl_state_get
+
+    for i in range(50):
+        GenlistItem(itc10,
+            #1000+i,
+            None,
+            ELM_GENLIST_ITEM_NONE,
+            gl_sel10,
+            (1000+i, rdg)).append_to(gl)
+
+    bx.pack_end(gl)
+
+    win.size = 520, 520
+    win.show()
+
+
+
+def edit_icon_clicked_cb(ic, item):
+    # TODO: get the item here
+    #item.delete()
+    pass
+
+class ItemClass15(GenlistItemClass):
+    def text_get(self, obj, part, data):
+        return "Item #%i" % (data[0])
+
+    def content_get(self, obj, part, data):
+        checked = data[1]
+
+        # "edit" EDC layout is like below. each part is swallow part.
+        # the existing item is swllowed to elm.swallow.edit.content part.
+        # --------------------------------------------------------------------
+        # | elm.edit.icon.1 | elm.swallow.decorate.content | elm.edit.icon,2 |
+        # --------------------------------------------------------------------
+
+        if part == "elm.swallow.end":
+            ic = Icon(obj)
+            ic.file = "images/bubble.png"
+            ic.size_hint_aspect = EVAS_ASPECT_CONTROL_VERTICAL, 1, 1
+            return ic
+        elif part == "elm.edit.icon.1":
+            ck = Check(obj)
+            ck.state = checked
+            ck.propagate_events = False
+            ck.show()
+            return ck
+        elif part == "elm.edit.icon.2":
+            icn = Icon(obj)
+            icn.file = "images/icon_06.png"
+            icn.propagate_events = False
+            icn.size_hint_aspect = EVAS_ASPECT_CONTROL_VERTICAL, 1, 1
+            icn.callback_clicked_add(edit_icon_clicked_cb, obj)
+            return icn
+        else:
+            return
+
+    def delete(obj, *args):
+        print("item deleted.")
+
+def gl15_sel(it, gl, data):
+    checked = data[1]
+    if gl.decorate_mode:
+        if not data[1]:
+            data[1] = True
+        else:
+            data[1] = False
+    it.update()
+
+def gl15_deco_all_mode(obj, gl):
+    gl.decorate_mode = True
+    gl.select_mode = ELM_OBJECT_SELECT_MODE_ALWAYS
+
+def gl15_normal_mode(obj, gl):
+    gl.decorate_mode = False
+    gl.select_mode = ELM_OBJECT_SELECT_MODE_DEFAULT
+
+def genlist15_clicked(obj, item=None):
+    win = StandardWindow("genlist-decorate-all-mode", "Genlist Decorate All Mode")
+    win.autodel = True
+
+    bx = Box(win)
+    bx.size_hint_weight = EVAS_HINT_EXPAND, EVAS_HINT_EXPAND
+    win.resize_object_add(bx)
+    bx.show()
+
+    gl = Genlist(win)
+    gl.size_hint_align = EVAS_HINT_FILL, EVAS_HINT_FILL
+    gl.size_hint_weight = EVAS_HINT_EXPAND, EVAS_HINT_EXPAND
+    gl.show()
+
+    itc15 = ItemClass15(item_style="default", decorate_all_item_style="edit")
+    itc15.state_get = gl_state_get
+
+    for i in range(100):
+        ck = Check(gl)
+        GenlistItem(itc15,
+            # tits[i], # item data
+            None, # parent
+            ELM_GENLIST_ITEM_NONE, # flags
+            gl15_sel, # func
+            [i, False], # func data
+            ).append_to(gl)
+
+    bx.pack_end(gl)
+    bx.show()
+
+    bx2 = Box(win)
+    bx2.horizontal = True
+    bx2.homogeneous = True
+    bx2.size_hint_weight =  EVAS_HINT_EXPAND, 0.0
+    bx2.size_hint_align = EVAS_HINT_FILL, EVAS_HINT_FILL
+
+    bt = Button(win)
+    bt.text = "Decorate All mode"
+    bt.callback_clicked_add(gl15_deco_all_mode, gl)
+    bt.size_hint_align = EVAS_HINT_FILL, EVAS_HINT_FILL
+    bt.size_hint_weight = EVAS_HINT_EXPAND, 0.0
+    bx2.pack_end(bt)
+    bt.show()
+
+    bt = Button(win)
+    bt.text = "Normal mode"
+    bt.callback_clicked_add(gl15_normal_mode, gl)
+    bt.size_hint_align = EVAS_HINT_FILL, EVAS_HINT_FILL
+    bt.size_hint_weight = EVAS_HINT_EXPAND, 0.0
+    bx2.pack_end(bt)
+    bt.show()
+
+    bx.pack_end(bx2)
+    bx2.show()
+
+    win.size = 520, 520
+    win.show()
+
 
 if __name__ == "__main__":
     def destroy(obj):
@@ -529,6 +756,8 @@ if __name__ == "__main__":
         ("Genlist Group", genlist3_clicked),
         ("Genlist Sorted", genlist4_clicked),
         ("Genlist Iteration", genlist5_clicked),
+        ("Genlist Decorate Item Mode", genlist10_clicked),
+        ("Genlist Decorate All Mode", genlist15_clicked),
     ]
 
     li = List(win)

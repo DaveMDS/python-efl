@@ -1564,6 +1564,8 @@ cdef class GenlistItem(ObjectItem):
         active on the item, and will be destroyed after the mode is totally
         deactivated from that item.
 
+        :type: (unicode **decorate_it_type**, bool **decorate_it_set**)
+
         .. seealso:: :py:attr:`mode` :py:attr:`decorated_item`
 
         """
