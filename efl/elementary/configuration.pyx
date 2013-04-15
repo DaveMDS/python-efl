@@ -189,7 +189,9 @@ cdef class Configuration(object):
         """
         def __get__(self):
             cdef Eina_List *lst = elm_config_profile_list_get()
-            return tuple(convert_eina_list_strings_to_python_list(lst))
+            ret = tuple(convert_eina_list_strings_to_python_list(lst))
+            elm_config_profile_list_free(lst)
+            return ret
 
     property scroll_bounce_enabled:
         """Whether scrollers should bounce when they reach their
