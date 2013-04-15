@@ -99,6 +99,10 @@ Signals that you can add callbacks for are:
 - "unfullscreen": window has stopped being fullscreen
 - "maximized": window has been maximized
 - "unmaximized": window has stopped being maximized
+- "ioerr": there has been a low-level I/O error with the display system
+- "indicator,prop,changed": an indicator's property has been changed
+- "rotation,changed": window rotation has been changed
+- "profile,changed": profile of the window has been changed
 
 .. _Elm_Win_Type:
 
@@ -1421,7 +1425,7 @@ cdef class Window(Object):
         elm_win_screen_position_get(self.obj, &x, &y)
         return (x, y)
 
-    def socket_listen(self, svcname, svcnum, svcsys):
+    def socket_listen(self, svcname not None, svcnum, svcsys):
         """socket_listen(unicode svcname, int svcnum, bool svcsys)
 
         Create a socket to provide the service for Plug widget
@@ -1436,12 +1440,12 @@ cdef class Window(Object):
             system-wide service all users can connect to, otherwise the
             service is private to the user id that created the service.
         :type svcsys: bool
+        :raise RuntimeError: if the socket could not be created.
 
         """
         if isinstance(svcname, unicode): svcname = svcname.encode("UTF-8")
-        return bool(elm_win_socket_listen(self.obj,
-            <const_char *>svcname if svcname is not None else NULL,
-            svcnum, svcsys))
+        if not elm_win_socket_listen(self.obj, <const_char *>svcname, svcnum, svcsys):
+            raise RuntimeError("Could not create a socket.")
 
     property xwindow_xid:
         """Returns the X Window id.
@@ -1579,6 +1583,35 @@ cdef class Window(Object):
 
     def callback_unmaximized_del(self, func):
         self._callback_del("unmaximized")
+
+    def callback_ioerr_add(self, func, *args, **kwargs):
+        """there has been a low-level I/O error with the display system"""
+        self._callback_add("ioerr", func, *args, **kwargs)
+
+    def callback_ioerr_del(self, func):
+        self._callback_del("ioerr")
+
+    def callback_indicator_prop_changed_add(self, func, *args, **kwargs):
+        """an indicator's property has been changed"""
+        self._callback_add("indicator,prop,changed", func, *args, **kwargs)
+
+    def callback_indicator_prop_changed_del(self, func):
+        self._callback_del("indicator,prop,changed")
+
+    def callback_rotation_changed_add(self, func, *args, **kwargs):
+        """window rotation has been changed"""
+        self._callback_add("rotation,changed", func, *args, **kwargs)
+
+    def callback_rotation_changed_del(self, func):
+        self._callback_del("rotation,changed")
+
+    def callback_profile_changed_add(self, func, *args, **kwargs):
+        """profile of the window has been changed"""
+        self._callback_add("profile,changed", func, *args, **kwargs)
+
+    def callback_profile_changed_del(self, func):
+        self._callback_del("profile,changed")
+
 
 _object_mapping_register("elm_win", Window)
 
