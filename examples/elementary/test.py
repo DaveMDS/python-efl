@@ -27,6 +27,7 @@ from test_calendar import calendar_clicked
 from test_check import check_clicked
 from test_clock import clock_clicked
 from test_colorselector import colorselector_clicked
+from test_config import config_clicked
 from test_core_evas_object_callbacks import core_evas_object_callbacks_clicked
 from test_core_evas_canvas_callbacks import core_evas_canvas_callbacks_clicked
 from test_core_evas_objects import core_evas_objects_clicked
@@ -165,6 +166,7 @@ items = [
             ("Gengrid", gengrid_clicked),
         ]),
          ("Miscellaneous", [
+            ("Configuration", config_clicked),
             ("Floating Objects", floating_clicked),
         ]),
          ("Naviframe", [
