@@ -472,13 +472,7 @@ cdef class ToolbarItem(ObjectItem):
     cpdef menu_set(self, menu):
         elm_toolbar_item_menu_set(self.item, menu)
     cpdef menu_get(self):
-        # TODO: Improve this
-        cdef Evas_Object *menu
-        menu = elm_toolbar_item_menu_get(self.item)
-        if menu == NULL:
-            return None
-        else:
-            return Menu(None, <object>menu)
+        return object_from_instance(elm_toolbar_item_menu_get(self.item))
 
 
     #TODO def state_add(self, icon, label, func, data):
