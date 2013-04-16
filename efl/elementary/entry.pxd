@@ -1,10 +1,11 @@
 from efl.evas cimport Eina_Bool, Eina_Rectangle, Evas_Object, \
-    const_Evas_Object, Evas_Coord
+    const_Evas_Object, Evas_Coord, Evas_Smart_Cb
 from enums cimport Elm_Wrap_Type, Elm_Text_Format, Elm_Cnp_Mode, \
     Elm_Scroller_Policy, Elm_Input_Panel_Layout, Elm_Input_Panel_Lang, \
     Elm_Input_Panel_Lang, Elm_Input_Panel_Return_Key_Type, \
-    Elm_Autocapital_Type
+    Elm_Autocapital_Type, Elm_Icon_Type
 from libc.string cimport const_char
+from libc.stdlib cimport const_void
 
 cdef extern from "Elementary.h":
     ctypedef struct Elm_Entry_Anchor_Info:
@@ -24,7 +25,8 @@ cdef extern from "Elementary.h":
         Eina_Bool hover_top
         Eina_Bool hover_bottom
 
-
+    ctypedef struct Elm_Entry_Context_Menu_Item:
+        pass
 
     # Data for the elm_entry_filter_limit_size() entry filter.
     ctypedef struct Elm_Entry_Filter_Limit_Size:
@@ -78,7 +80,7 @@ cdef extern from "Elementary.h":
     void                    elm_entry_selection_copy(Evas_Object *obj)
     void                    elm_entry_selection_paste(Evas_Object *obj)
     void                    elm_entry_context_menu_clear(Evas_Object *obj)
-    # TODO: void               elm_entry_context_menu_item_add(Evas_Object *obj, const_char *label, const_char *icon_file, Elm_Icon_Type icon_type, Evas_Smart_Cb func, const_void *data)
+    void                    elm_entry_context_menu_item_add(Evas_Object *obj, const_char *label, const_char *icon_file, Elm_Icon_Type icon_type, Evas_Smart_Cb func, const_void *data)
     void                    elm_entry_context_menu_disabled_set(Evas_Object *obj, Eina_Bool disabled)
     Eina_Bool               elm_entry_context_menu_disabled_get(Evas_Object *obj)
     # TODO: void               elm_entry_item_provider_append(Evas_Object *obj, Elm_Entry_Item_Provider_Cb func, void *data)

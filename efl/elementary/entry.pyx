@@ -428,6 +428,24 @@ Default text parts of the entry that you can use for are:
 
     Word wrap, and if that fails, char wrap
 
+
+.. _Elm_Icon_Type:
+
+.. rubric:: Icon types
+
+.. data:: ELM_ICON_NONE
+
+    No icon
+
+.. data:: ELM_ICON_FILE
+
+    Icon is a file
+
+.. data:: ELM_ICON_STANDARD
+
+    Icon is set with standards names
+
+
 """
 
 include "widget_header.pxi"
@@ -483,6 +501,20 @@ ELM_WRAP_CHAR = enums.ELM_WRAP_CHAR
 ELM_WRAP_WORD = enums.ELM_WRAP_WORD
 ELM_WRAP_MIXED = enums.ELM_WRAP_MIXED
 
+ELM_ICON_NONE = enums.ELM_ICON_NONE
+ELM_ICON_FILE = enums.ELM_ICON_FILE
+ELM_ICON_STANDARD = enums.ELM_ICON_STANDARD
+
+import traceback
+
+cdef void _entry_context_menu_callback(void *data, Evas_Object *obj, void *event_info) with gil:
+    (callback, a, ka) = <object>data
+    try:
+        o = object_from_instance(obj)
+        callback(o, *a, **ka)
+    except Exception as e:
+        traceback.print_exc()
+
 def Entry_markup_to_utf8(string):
     if isinstance(string, unicode): string = string.encode("UTF-8")
     return _touni(elm_entry_markup_to_utf8(
@@ -492,6 +524,16 @@ def Entry_utf8_to_markup(string):
     if isinstance(string, unicode): string = string.encode("UTF-8")
     return _touni(elm_entry_utf8_to_markup(
         <const_char *>string if string is not None else NULL))
+
+
+cdef class EntryContextMenuItem(object):
+    """
+
+    Type of contextual item that can be added in to long press menu.
+    :since: 1.8
+
+    """
+    cdef Elm_Entry_Context_Menu_Item *item
 
 class EntryAnchorInfo(object):
     """
@@ -1067,8 +1109,7 @@ cdef class Entry(Object):
         """
         elm_entry_context_menu_clear(self.obj)
 
-    # TODO:
-    # def context_menu_item_add(self, label, icon_file, icon_type, cb, data):
+    def context_menu_item_add(self, label = None, icon_file = None, Elm_Icon_Type icon_type = enums.ELM_ICON_NONE, func = None, *args, **kwargs):
         """This adds an item to the entry's contextual menu.
 
         A longpress on an entry will make the contextual menu show up, if this
@@ -1090,7 +1131,19 @@ cdef class Entry(Object):
         :type func: function
 
         """
-        #elm_entry_context_menu_item_add(self.obj, label, icon_file, icon_type, func, data);
+        cdef Evas_Smart_Cb cb = NULL
+        if func is not None:
+            if not callable(func):
+                raise TypeError("func is not callable.")
+            cb = _entry_context_menu_callback
+        data = (func, args, kwargs)
+
+        elm_entry_context_menu_item_add(self.obj,
+            <const_char *>label if label is not None else NULL,
+            <const_char *>icon_file if icon_file is not None else NULL,
+            icon_type,
+            cb,
+            <void *>data if func is not None else NULL)
 
     property context_menu_disabled:
         """This disables the entry's contextual (longpress) menu.
