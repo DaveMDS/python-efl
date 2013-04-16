@@ -279,6 +279,16 @@ cdef Eina_Bool _event_callback(void *data, Evas_Object *o, Evas_Object *src, Eva
 
     return ret
 
+cdef void signal_callback(void *data, Evas_Object *obj,
+                    const_char *emission, const_char *source) with gil:
+    cdef Object self = object_from_instance(obj)
+    lst = tuple(<object>data)
+    for func, args, kargs in lst:
+        try:
+            func(self, _ctouni(emission), _ctouni(source), *args, **kargs)
+        except Exception, e:
+            traceback.print_exc()
+
 # TODO: include "cnp_callbacks.pxi"
 
 # TODO: Is this handled in Eo now?
@@ -594,11 +604,81 @@ cdef class Object(evasObject):
             <const_char *>emission if emission is not None else NULL,
             <const_char *>source if source is not None else NULL)
 
-    #TODO: def signal_callback_add(self, emission, source, func, data):
-        #elm_object_signal_callback_add(self.obj, emission, source, func, data)
+    def signal_callback_add(self, emission, source, func, *args, **kwargs):
+        """signal_callback_add(unicode emission, unicode source, func, *args, **kwargs)
 
-    #TODO: def signal_callback_del(self, emission, source, func):
-        #elm_object_signal_callback_del(self.obj, emission, source, func)
+        Add a callback for a signal emitted by widget edje object.
+
+        This function connects a callback function to a signal emitted by the
+        edje object of the obj.
+        Globs can occur in either the emission or source name.
+
+        :param emission: The signal's name.
+        :param source: The signal's source.
+        :param func: The callback function to be executed when the signal is
+            emitted.
+
+        """
+        if not callable(func):
+            raise TypeError("func is not callable.")
+
+        d = self._elm_signal_cbs.setdefault(emission, {})
+        lst = d.setdefault(source, [])
+        if not lst:
+            if isinstance(emission, unicode): emission = emission.encode("UTF-8")
+            if isinstance(source, unicode): source = source.encode("UTF-8")
+            elm_object_signal_callback_add(self.obj,
+                <const_char *>emission if emission is not None else NULL,
+                <const_char *>source if source is not None else NULL,
+                signal_callback, <void*>lst)
+        lst.append((func, args, kwargs))
+
+    def signal_callback_del(self, emission, source, func):
+        """signal_callback_del(unicode emission, unicode source, func)
+
+        Remove a signal-triggered callback from a widget edje object.
+
+        :param emission: The signal's name.
+        :param source: The signal's source.
+        :param func: The callback function to be executed when the signal is
+            emitted.
+
+        This function removes the **last** callback, previously attached to
+        a signal emitted by an underlying Edje object, whose
+        parameters *emission*, *source* and *func* match exactly with
+        those passed to a previous call to
+        :py:func:`signal_callback_add`.
+
+        """
+        try:
+            d = self._elm_signal_cbs[emission]
+            lst = d[source]
+        except KeyError:
+            raise ValueError(("function %s not associated with "
+                              "emission %r, source %r") %
+                             (func, emission, source))
+
+        i = -1
+        for i, (f, a, k) in enumerate(lst):
+            if func == f:
+                break
+        else:
+            raise ValueError(("function %s not associated with "
+                              "emission %r, source %r") %
+                             (func, emission, source))
+
+        lst.pop(i)
+        if lst:
+            return
+        d.pop(source)
+        if not d:
+            self._elm_signal_cbs.pop(emission)
+        if isinstance(emission, unicode): emission = emission.encode("UTF-8")
+        if isinstance(source, unicode): source = source.encode("UTF-8")
+        elm_object_signal_callback_del(self.obj,
+            <const_char *>emission if emission is not None else NULL,
+            <const_char *>source if source is not None else NULL,
+            signal_callback)
 
     # NOTE: name clash with evas event_callback_*
     def elm_event_callback_add(self, func, *args, **kargs):
@@ -686,6 +766,34 @@ cdef class Object(evasObject):
 
         if not self._elm_event_cbs:
             elm_object_event_callback_del(self.obj, _event_callback, NULL)
+
+
+    property orientation_mode_disabled:
+        """For disabling the orientation mode.
+
+        Orientation mode is used by widgets to change their styles or to send
+        signals whenever their window orientation is changed. If the orientation
+        mode is enabled and the widget has different looks and styles for a
+        window orientation (0, 90, 180, 270), it will apply a style that has
+        been prepared for the new orientation, otherwise, it will send
+        signals to its own edje to change its states.
+
+        :type: bool
+
+        :since: 1.8
+
+        """
+        def __set__(self, value):
+            self.orientation_mode_disabled_set(value)
+
+        def __get__(self):
+            return self.orientation_mode_disabled_get()
+
+    cpdef orientation_mode_disabled_set(self, bint disabled):
+        elm_object_orientation_mode_disabled_set(self.obj, disabled)
+
+    cpdef bint orientation_mode_disabled_get(self):
+        return elm_object_orientation_mode_disabled_get(self.obj)
 
     # Cursors
     property cursor:
@@ -864,7 +972,7 @@ cdef class Object(evasObject):
             rel = relative_child.obj
         elm_object_focus_custom_chain_prepend(self.obj, child.obj, rel)
 
-    def focus_next(self, direction):
+    def focus_next(self, Elm_Focus_Direction direction):
         """Give focus to next object in object tree.
 
         Give focus to next object in focus chain of one object sub-tree. If
@@ -872,10 +980,61 @@ cdef class Object(evasObject):
         first object of chain.
 
         :param dir: Direction to move the focus
-        :type dir: Elm_Focus_Direction
+        :type dir: :ref:`Focus direction <Elm_Focus_Direction>`
 
         """
         elm_object_focus_next(self.obj, direction)
+
+    def focus_next_object_get(self, Elm_Focus_Direction direction):
+        """Get next object which was set with specific focus direction.
+
+        Get next object which was set by elm_object_focus_next_object_set
+        with specific focus direction.
+
+        :param dir: Focus direction
+        :type dir: :ref:`Focus direction <Elm_Focus_Direction>`
+        :return: Focus next object or None, if there is no focus next object.
+
+        :see: :py:func:`focus_next`
+
+        :since: 1.8
+
+        """
+        return object_from_instance(elm_object_focus_next_object_get(self.obj, direction))
+
+    def focus_next_object_set(self, evasObject next, Elm_Focus_Direction direction):
+        """Set next object with specific focus direction.
+
+        When focus next object is set with specific focus direction, this object
+        will be the first candidate when finding next focusable object.
+        Focus next object can be registered with six directions that are previous,
+        next, up, down, right, and left.
+
+        :param next: Focus next object
+        :param dir: Focus direction
+        :type dir: :ref:`Focus direction <Elm_Focus_Direction>`
+
+        :see: :py:func:`focus_next`
+
+        :since: 1.8
+
+        """
+        elm_object_focus_next_object_set(self.obj, next.obj, direction)
+
+    property focused_object:
+        """The focused object in an object tree.
+
+        :return: Current focused or None, if there is no focused object.
+
+        :since: 1.8
+
+        """
+        def __get__(self):
+            return self.focused_object_get()
+
+    cpdef focused_object_get(self):
+        return object_from_instance(elm_object_focused_object_get(self.obj))
+
 
     property tree_focus_allow:
         """Whether the Elementary object and its children are focusable
@@ -979,6 +1138,18 @@ cdef class Object(evasObject):
         """
         elm_object_scroll_hold_pop(self.obj)
 
+    property scroll_hold:
+        """The scroll hold count.
+
+        :type: int
+
+        """
+        def __get__(self):
+            return self.scroll_hold_get()
+
+    cpdef int scroll_hold_get(self):
+        return elm_object_scroll_hold_get(self.obj)
+
     def scroll_freeze_push(self):
         """scroll_freeze_push()
 
@@ -1000,6 +1171,18 @@ cdef class Object(evasObject):
 
         """
         elm_object_scroll_freeze_pop(self.obj)
+
+    property scroll_freeze:
+        """The scroll freeze count.
+
+        :type: int
+
+        """
+        def __get__(self):
+            return self.scroll_freeze_get()
+
+    cpdef int scroll_freeze_get(self):
+        return elm_object_scroll_freeze_get(self.obj)
 
     property scroll_lock_x:
         def __get__(self):
@@ -1480,7 +1663,7 @@ cdef class Object(evasObject):
 
     #     :raise RuntimeError: if removing drop status fails.
 
-    #     @since 1.8
+    #     :since: 1.8
 
     #     """
     #     if not elm_drop_target_del(self.obj):

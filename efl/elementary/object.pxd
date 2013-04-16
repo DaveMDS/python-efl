@@ -17,7 +17,7 @@
 
 from cpython cimport PyObject, Py_INCREF, Py_DECREF
 from efl.evas cimport Eina_Bool, Eina_List, const_Eina_List, \
-    Evas_Object, Evas_Smart_Cb, Evas_Coord
+    Evas_Object, const_Evas_Object, Evas_Smart_Cb, Evas_Coord
 from efl.evas.enums cimport Evas_Callback_Type
 from efl.evas cimport Object as evasObject
 from efl.evas cimport Canvas as evasCanvas
@@ -73,10 +73,12 @@ cdef extern from "Elementary.h":
     Evas_Object            *elm_object_top_widget_get(Evas_Object *obj)
     const_char *            elm_object_widget_type_get(Evas_Object *obj)
     void                    elm_object_signal_emit(Evas_Object *obj, const_char *emission, const_char *source)
-    # TODO: void                    elm_object_signal_callback_add(Evas_Object *obj, const_char *emission, const_char *source, Edje_Signal_Cb func, void *data)
-    # TODO: void *                  elm_object_signal_callback_del(Evas_Object *obj, const_char *emission, const_char *source, Edje_Signal_Cb func)
+    void                    elm_object_signal_callback_add(Evas_Object *obj, const_char *emission, const_char *source, Edje_Signal_Cb func, void *data)
+    void *                  elm_object_signal_callback_del(Evas_Object *obj, const_char *emission, const_char *source, Edje_Signal_Cb func)
     void                    elm_object_event_callback_add(Evas_Object *obj, Elm_Event_Cb func, const_void *data)
     void *                  elm_object_event_callback_del(Evas_Object *obj, Elm_Event_Cb func, const_void *data)
+    void                    elm_object_orientation_mode_disabled_set(Evas_Object *obj, Eina_Bool disabled)
+    Eina_Bool               elm_object_orientation_mode_disabled_get(const_Evas_Object *obj)
 
     # Object - Cursors (elm_cursor.h) (py3: DONE)
     void                    elm_object_cursor_set(Evas_Object *obj, const_char *cursor)
@@ -98,6 +100,9 @@ cdef extern from "Elementary.h":
     void                    elm_object_focus_custom_chain_append(Evas_Object *obj, Evas_Object *child, Evas_Object *relative_child)
     void                    elm_object_focus_custom_chain_prepend(Evas_Object *obj, Evas_Object *child, Evas_Object *relative_child)
     void                    elm_object_focus_next(Evas_Object *obj, Elm_Focus_Direction direction)
+    Evas_Object *           elm_object_focus_next_object_get(const_Evas_Object *obj, Elm_Focus_Direction dir)
+    void                    elm_object_focus_next_object_set(Evas_Object *obj, Evas_Object *next, Elm_Focus_Direction dir)
+    Evas_Object *           elm_object_focused_object_get(const_Evas_Object *obj)
     void                    elm_object_tree_focus_allow_set(Evas_Object *obj, Eina_Bool focusable)
     Eina_Bool               elm_object_tree_focus_allow_get(Evas_Object *obj)
 
@@ -114,8 +119,10 @@ cdef extern from "Elementary.h":
     # Object - Scrollhints (elm_scroll.h)
     void                    elm_object_scroll_hold_push(Evas_Object *obj)
     void                    elm_object_scroll_hold_pop(Evas_Object *obj)
+    int                     elm_object_scroll_hold_get(const_Evas_Object *obj)
     void                    elm_object_scroll_freeze_push(Evas_Object *obj)
     void                    elm_object_scroll_freeze_pop(Evas_Object *obj)
+    int                     elm_object_scroll_freeze_get(const_Evas_Object *obj)
     void                    elm_object_scroll_lock_x_set(Evas_Object *obj, Eina_Bool lock)
     void                    elm_object_scroll_lock_y_set(Evas_Object *obj, Eina_Bool lock)
     Eina_Bool               elm_object_scroll_lock_x_get(Evas_Object *obj)
@@ -162,6 +169,7 @@ cdef class Canvas(evasCanvas):
 cdef class Object(evasObject):
     cdef object _elmcallbacks
     cdef object _elm_event_cbs
+    cdef object _elm_signal_cbs
 
     cpdef text_set(self, text)
     cpdef text_get(self)
@@ -174,3 +182,8 @@ cdef class Object(evasObject):
     cpdef cursor_style_get(self)
     cpdef tooltip_style_set(self, style=*)
     cpdef tooltip_style_get(self)
+    cpdef orientation_mode_disabled_set(self, bint disabled)
+    cpdef bint orientation_mode_disabled_get(self)
+    cpdef focused_object_get(self)
+    cpdef int scroll_hold_get(self)
+    cpdef int scroll_freeze_get(self)

@@ -17,6 +17,18 @@
 
 include "widget_header.pxi"
 
+import traceback
+
+cdef void layout_signal_callback(void *data, Evas_Object *obj,
+                    const_char *emission, const_char *source) with gil:
+    cdef Object self = object_from_instance(obj)
+    lst = tuple(<object>data)
+    for func, args, kargs in lst:
+        try:
+            func(self, _ctouni(emission), _ctouni(source), *args, **kargs)
+        except Exception, e:
+            traceback.print_exc()
+
 cdef class LayoutClass(Object):
 
     """
@@ -67,6 +79,35 @@ cdef class LayoutClass(Object):
             <const_char *>group if group is not None else NULL):
                 raise RuntimeError("Could not set file.")
 
+    def freeze(self):
+        """Freezes the Elementary layout object.
+
+        This function puts all changes on hold. Successive freezes will
+        nest, requiring an equal number of thaws.
+
+        :return: The frozen state or 0 on Error
+
+        :see: :py:func:`thaw`
+
+        """
+        return elm_layout_freeze(self.obj)
+
+    def thaw(self):
+        """Thaws the Elementary object.
+
+        This function thaws the given Edje object and the Elementary sizing calc.
+
+        :return: The frozen state or 0 if the object is not frozen or on error.
+
+        .. note::
+            If successive freezes were done, an equal number of
+            thaws will be required.
+
+        :see: :py:func:`freeze`
+
+        """
+        return elm_layout_thaw(self.obj)
+
     property theme:
         """Set the edje group class, group name and style from the elementary
         theme that will be used as layout.
@@ -114,7 +155,7 @@ cdef class LayoutClass(Object):
             <const_char *>emission if emission is not None else NULL,
             <const_char *>source if source is not None else NULL)
 
-    #def signal_callback_add(self, emission, source, func, data):
+    def signal_callback_add(self, emission, source, func, *args, **kwargs):
         """Add a callback for a (Edje) signal emitted by a layout widget's
         underlying Edje object.
 
@@ -132,10 +173,21 @@ cdef class LayoutClass(Object):
         :type func: function
 
         """
-        # TODO: remove _cfruni if implementing this
-        #elm_layout_signal_callback_add(self.obj, _cfruni(emission), _cfruni(source), Edje_Signal_Cb func, voiddata)
+        if not callable(func):
+            raise TypeError("func is not callable.")
 
-    #def signal_callback_del(self, emission, source, func):
+        d = self._elm_layout_signal_cbs.setdefault(emission, {})
+        lst = d.setdefault(source, [])
+        if not lst:
+            if isinstance(emission, unicode): emission = emission.encode("UTF-8")
+            if isinstance(source, unicode): source = source.encode("UTF-8")
+            elm_layout_signal_callback_add(self.obj,
+                <const_char *>emission if emission is not None else NULL,
+                <const_char *>source if source is not None else NULL,
+                layout_signal_callback, <void*>lst)
+        lst.append((func, args, kwargs))
+
+    def signal_callback_del(self, emission, source, func):
         """Remove a signal-triggered callback from a given layout widget.
 
         This function removes the **last** callback attached to a signal
@@ -153,8 +205,35 @@ cdef class LayoutClass(Object):
         :type func: function
 
         """
-        # TODO: remove _cfruni if implementing this
-        #elm_layout_signal_callback_del(self.obj, _cfruni(emission), _cfruni(source), Edje_Signal_Cb func)
+        try:
+            d = self._elm_layout_signal_cbs[emission]
+            lst = d[source]
+        except KeyError:
+            raise ValueError(("function %s not associated with "
+                              "emission %r, source %r") %
+                             (func, emission, source))
+
+        i = -1
+        for i, (f, a, k) in enumerate(lst):
+            if func == f:
+                break
+        else:
+            raise ValueError(("function %s not associated with "
+                              "emission %r, source %r") %
+                             (func, emission, source))
+
+        lst.pop(i)
+        if lst:
+            return
+        d.pop(source)
+        if not d:
+            self._elm_layout_signal_cbs.pop(emission)
+        if isinstance(emission, unicode): emission = emission.encode("UTF-8")
+        if isinstance(source, unicode): source = source.encode("UTF-8")
+        elm_layout_signal_callback_del(self.obj,
+            <const_char *>emission if emission is not None else NULL,
+            <const_char *>source if source is not None else NULL,
+            layout_signal_callback)
 
     def box_append(self, part, evasObject child):
         """box_append(unicode part, evas.Object child) -> bool
@@ -652,6 +731,28 @@ cdef class LayoutClass(Object):
         if isinstance(part_name, unicode): part_name = part_name.encode("UTF-8")
         return bool(elm_layout_part_cursor_engine_only_get(self.obj,
             <const_char *>part_name if part_name is not None else NULL))
+
+    property edje_object_can_access:
+        """Set accessibility to all texblock(text) parts in the layout object
+
+        Makes it possible for all textblock(text) parts in the layout to have
+        accessibility.
+
+        :raise RuntimeError: if accessibility cannot be set.
+
+        """
+        def __set__(self, value):
+            self.edje_object_can_access_set(value)
+
+        def __get__(self):
+            return self.edje_object_can_access_get()
+
+    cpdef edje_object_can_access_set(self, bint can_access):
+        if not elm_layout_edje_object_can_access_set(self.obj, can_access):
+            raise RuntimeError("Could not set accessibility to layout textblock parts.")
+
+    cpdef bint edje_object_can_access_get(self):
+        return elm_layout_edje_object_can_access_get(self.obj)
 
     property icon:
         """The icon object in a layout that follows the Elementary naming
