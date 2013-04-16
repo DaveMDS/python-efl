@@ -201,16 +201,16 @@ cdef class Progressbar(LayoutClass):
     cpdef unit_format_get(self):
         return _ctouni(elm_progressbar_unit_format_get(self.obj))
 
-    property unit_format_function:
-        """Set the callback function to format the unit string.
+    # property unit_format_function:
+    #     """Set the callback function to format the unit string.
 
-        @see: L{unit_format} for more info on how this works.
+    #     @see: L{unit_format} for more info on how this works.
 
-        @type: function
+    #     @type: function
 
-        """
-        def __set__(self, func not None):
-            pass
+    #     """
+    #     def __set__(self, func not None):
+    #         pass
             #if not callable(func):
                 #raise TypeError("func is not callable")
             #TODO: char * func(double value)
