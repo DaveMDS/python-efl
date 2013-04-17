@@ -18,12 +18,16 @@
 
 """
 
+.. _Elm_Policy:
+
 .. rubric:: Policy types
 
 .. data:: ELM_POLICY_QUIT
 
     Under which circumstances the application should quit automatically.
 
+
+.. _Elm_Policy_Quit:
 
 .. rubric:: Quit policy types
 
@@ -42,7 +46,8 @@ from cpython cimport PyObject, Py_INCREF, Py_DECREF
 from cpython cimport PyMem_Malloc, PyMem_Free
 from cpython cimport bool
 
-from efl.eo cimport _touni, _ctouni
+from efl.eo cimport _touni, _ctouni, convert_python_list_strings_to_eina_list, \
+    convert_eina_list_strings_to_python_list
 
 import sys
 import traceback
@@ -135,6 +140,33 @@ ELM_CURSOR_UR_ANGLE            = "ur_angle"
 ELM_CURSOR_WATCH               = "watch"
 ELM_CURSOR_XTERM               = "xterm"
 
+cdef class FontProperties(object):
+
+    """
+
+    Elementary font properties
+
+    """
+
+    cdef Elm_Font_Properties *efp
+
+    property name:
+        """:type: unicode"""
+        def __set__(self, value):
+            if isinstance(value, unicode): value = value.encode("UTF-8")
+            self.efp.name = value
+
+        def __get__(self):
+            return _ctouni(self.efp.name)
+
+    property styles:
+        """:type: list of strings"""
+        def __set__(self, value):
+            self.efp.styles = convert_python_list_strings_to_eina_list(value)
+
+        def __get__(self):
+            return convert_eina_list_strings_to_python_list(self.efp.styles)
+
 
 def init():
     """Initialize Elementary"""
@@ -172,42 +204,76 @@ def exit():
     """Exit main loop"""
     elm_exit()
 
-def policy_set(policy, value):
-    """Set new policy value.
+def policy_set(Elm_Policy policy, value):
+    """policy_set(Elm_Policy policy, value) -> bool
+
+    Set new policy value.
 
     This will emit the ecore event ELM_EVENT_POLICY_CHANGED in the main
     loop giving the event information Elm_Event_Policy_Changed with
     policy identifier, new and old values.
 
     :param policy: policy identifier as in Elm_Policy.
+    :type policy: :ref:`Policy type <Elm_Policy>`
     :param value: policy value, depends on identifiers, usually there is
         an enumeration with the same prefix as the policy name, for
         example: ELM_POLICY_QUIT and Elm_Policy_Quit
         (ELM_POLICY_QUIT_NONE, ELM_POLICY_QUIT_LAST_WINDOW_CLOSED).
+    :type value: :ref:`Quit policy <Elm_Policy_Quit>`
 
     :return: True on success or False on error (right
         now just invalid policy identifier, but in future policy
         value might be enforced).
 
     """
-    return elm_policy_set(policy, value)
+    return bool(elm_policy_set(policy, value))
 
-def policy_get(policy):
-    """Gets the policy value set for given identifier.
+def policy_get(Elm_Policy policy):
+    """policy_get(Elm_Policy policy) -> value
+
+    Gets the policy value set for given identifier.
 
     :param policy: policy identifier as in Elm_Policy.
+    :type policy: :ref:`Policy type <Elm_Policy>`
 
     :return: policy value. Will be 0 if policy identifier is invalid.
+    :rtype: :ref:`Quit policy <Elm_Policy_Quit>`
 
     """
     return elm_policy_get(policy)
 
-def coords_finger_size_adjust(times_w, w, times_h, h):
-    cdef Evas_Coord width
-    cdef Evas_Coord height
-    width = w
-    height = h
+def coords_finger_size_adjust(int times_w, int w, int times_h, int h):
+    """coords_finger_size_adjust(int times_w, int w, int times_h, int h) -> tuple
+
+    Adjust size of an element for finger usage.
+
+    :param times_w: How many fingers should fit horizontally
+    :type times_w: int
+    :param w: Width size to adjust
+    :type w: int
+    :param times_h: How many fingers should fit vertically
+    :type times_h: int
+    :param h: Height size to adjust
+    :type h: int
+
+    :return: The adjusted width and height
+    :rtype: (int **w**, int **h**)
+
+    This takes width and height sizes (in pixels) as input and a
+    size multiple (which is how many fingers you want to place
+    within the area, being "finger" the size set by
+    elm_config_finger_size_set()), and adjusts the size to be large enough
+    to accommodate the resulting size -- if it doesn't already
+    accommodate it.
+
+    .. note:: This is kind of low level Elementary call, most useful
+        on size evaluation times for widgets. An external user wouldn't
+        be calling, most of the time.
+
+    """
+    cdef Evas_Coord width = w, height = h
     elm_coords_finger_size_adjust(times_w, &width, times_h, &height)
+    return (width, height)
 
 def cache_all_flush():
     """cache_all_flush()
@@ -219,3 +285,82 @@ def cache_all_flush():
 
     """
     elm_cache_all_flush()
+
+# XXX: These create some weird parsing error in Cython
+# def font_properties_get(font):
+#     """Translate a font (family) name string in fontconfig's font names
+#     syntax into a FontProperties object.
+
+#     :param font: The font name and styles string
+#     :return: the font properties object
+
+#     .. note:: The reverse translation can be achieved with
+#         :py:func:`font_fontconfig_name_get`, for one style only (single font
+#         instance, not family).
+
+#     """
+#     if isinstance(font, unicode): font = font.encode("UTF-8")
+#     cdef:
+#         Elm_Font_Properties *efp
+#         FontProperties ret = FontProperties.__new__()
+
+    #ret.efp = elm_font_properties_get(<const char *>font if font is not None else NULL)
+
+    # elm_font_properties_free(efp)
+    # return ret
+
+# def font_fontconfig_name_get(font_name, style = None):
+#     """font_fontconfig_name_get(unicode font_name, unicode style = None) -> unicode
+
+#     Translate a font name, bound to a style, into fontconfig's font names
+#     syntax.
+
+#     :param font_name: The font (family) name
+#     :param style: The given style (may be None)
+
+#     :return: the font name and style string
+
+#     .. note:: The reverse translation can be achieved with
+#         :py:func:`font_properties_get`, for one style only (single font
+#         instance, not family).
+
+#     """
+#     cdef:
+#         unicode ret
+#         char *fc_name
+#     if isinstance(font_name, unicode): font_name = font_name.encode("UTF-8")
+#     if isinstance(style, unicode): style = style.encode("UTF-8")
+#     fc_name = elm_font_fontconfig_name_get(<const char *>font_name,
+#         <const char *>style if style is not None else NULL))
+
+#     ret = _touni(fc_name)
+#     elm_font_fontconfig_name_free(fc_name)
+#     return ret
+
+# TODO: Create an Eina_Hash -> dict conversion function for this
+# def font_available_hash_add(list):
+#     """Create a font hash table of available system fonts.
+
+#     One must call it with @p list being the return value of
+#     evas_font_available_list(). The hash will be indexed by font
+#     (family) names, being its values @c Elm_Font_Properties blobs.
+
+#     :param list: The list of available system fonts, as returned by
+#     evas_font_available_list().
+#     :return: the font hash.
+
+#     .. note:: The user is supposed to get it populated at least with 3
+#     default font families (Sans, Serif, Monospace), which should be
+#     present on most systems.
+
+#     """
+#     EAPI Eina_Hash *elm_font_available_hash_add(Eina_List *list)
+
+
+#     """Free the hash returned by elm_font_available_hash_add().
+
+#     :param hash: the hash to be freed.
+
+#     """
+#     elm_font_available_hash_del(Eina_Hash *hash)
+
