@@ -474,6 +474,8 @@ include "widget_header.pxi"
 include "callback_conversions.pxi"
 include "tooltips.pxi"
 
+from cpython cimport PyUnicode_AsUTF8String
+
 from efl.eo cimport _METHOD_DEPRECATED
 
 from object_item cimport ObjectItem, _object_item_to_python, \
@@ -516,42 +518,47 @@ ELM_SCROLLER_POLICY_AUTO = enums.ELM_SCROLLER_POLICY_AUTO
 ELM_SCROLLER_POLICY_ON = enums.ELM_SCROLLER_POLICY_ON
 ELM_SCROLLER_POLICY_OFF = enums.ELM_SCROLLER_POLICY_OFF
 
-cdef _py_elm_genlist_item_call(func, Evas_Object *obj, const_char *part, args) with gil:
-    try:
-        o = object_from_instance(obj)
-        return func(o, _ctouni(part), args)
-    except Exception as e:
-        traceback.print_exc()
-        return None
-
 cdef char *_py_elm_genlist_item_text_get(void *data, Evas_Object *obj, const_char *part) with gil:
-    cdef GenlistItem item = <object>data
-    cdef object params = item.params
-    cdef GenlistItemClass itc = params[0]
+    cdef:
+        GenlistItem item = <object>data
+        GenlistItemClass itc = item.params[0]
+        unicode u = _ctouni(part)
 
     func = itc._text_get_func
-
     if func is None:
         return NULL
 
-    ret = _py_elm_genlist_item_call(func, obj, part, params[1])
+    try:
+        o = object_from_instance(obj)
+        ret = func(o, u, item.params[1])
+    except Exception as e:
+        traceback.print_exc()
+        return NULL
+
     if ret is not None:
-        if isinstance(ret, unicode): ret = ret.encode("UTF-8")
+        if isinstance(ret, unicode): ret = PyUnicode_AsUTF8String(ret)
         return strdup(ret)
     else:
         return NULL
 
 cdef Evas_Object *_py_elm_genlist_item_content_get(void *data, Evas_Object *obj, const_char *part) with gil:
-    cdef GenlistItem item = <object>data
-    cdef object params = item.params
-    cdef evasObject icon
-    cdef GenlistItemClass itc = params[0]
+    cdef:
+        GenlistItem item = <object>data
+        GenlistItemClass itc = item.params[0]
+        unicode u = _ctouni(part)
+        evasObject icon
 
     func = itc._content_get_func
     if func is None:
         return NULL
 
-    ret = _py_elm_genlist_item_call(func, obj, part, params[1])
+    try:
+        o = object_from_instance(obj)
+        ret = func(o, u, item.params[1])
+    except Exception as e:
+        traceback.print_exc()
+        return NULL
+
     if ret is not None:
         try:
             icon = ret
@@ -563,36 +570,38 @@ cdef Evas_Object *_py_elm_genlist_item_content_get(void *data, Evas_Object *obj,
         return NULL
 
 cdef Eina_Bool _py_elm_genlist_item_state_get(void *data, Evas_Object *obj, const_char *part) with gil:
-    cdef GenlistItem item = <object>data
-    cdef object params = item.params
-    cdef GenlistItemClass itc = params[0]
+    cdef:
+        GenlistItem item = <object>data
+        GenlistItemClass itc = item.params[0]
+        unicode u = _ctouni(part)
 
     func = itc._state_get_func
     if func is None:
-        return False
+        return 0
 
-    ret = _py_elm_genlist_item_call(func, obj, part, params[1])
-    if ret is not None:
-        return bool(ret)
-    else:
-        return False
+    try:
+        o = object_from_instance(obj)
+        ret = func(o, u, item.params[1])
+    except Exception as e:
+        traceback.print_exc()
+        return 0
+
+    return ret if ret is not None else 0
 
 cdef void _py_elm_genlist_object_item_del(void *data, Evas_Object *obj) with gil:
     cdef GenlistItem item = <object>data
-    cdef object params
     cdef GenlistItemClass itc
 
     if item is None:
         return
 
-    params = item.params
-    itc = params[0]
+    itc = item.params[0]
 
     func = itc._del_func
     if func is not None:
         try:
             o = object_from_instance(obj)
-            func(o, params[1])
+            func(o, item.params[1])
         except Exception as e:
             traceback.print_exc()
     item._unset_obj()
@@ -605,7 +614,7 @@ cdef void _py_elm_genlist_item_func(void *data, Evas_Object *obj, void *event_in
     if func is not None:
         try:
             o = object_from_instance(obj)
-            func(item, o, item.params[1])
+            func(item, o, item.params[3])
         except Exception as e:
             traceback.print_exc()
 
@@ -870,11 +879,12 @@ cdef class GenlistItem(ObjectItem):
 
     """
 
-    cdef Elm_Genlist_Item_Class *item_class
-    cdef Elm_Object_Item *parent_item
-    cdef int flags
-    cdef Evas_Smart_Cb cb
-    cdef object comparison_func
+    cdef:
+        Elm_Genlist_Item_Class *item_class
+        Elm_Object_Item *parent_item
+        int flags
+        Evas_Smart_Cb cb
+        object comparison_func
 
     def __cinit__(self):
         self.item_class = NULL
@@ -884,10 +894,11 @@ cdef class GenlistItem(ObjectItem):
 
     def __init__(   self,
                     GenlistItemClass item_class not None,
-                    #TODO: item data separate from data?
+                    item_data=None,
                     GenlistItem parent_item=None,
-                    int flags=ELM_GENLIST_ITEM_NONE,
-                    func=None, *args):
+                    int flags=enums.ELM_GENLIST_ITEM_NONE,
+                    func=None,
+                    func_data=None):
         """Create a new GenlistItem.
 
         :param item_class: a valid instance that defines the
@@ -933,10 +944,7 @@ cdef class GenlistItem(ObjectItem):
                 raise TypeError("func is not None or callable")
             self.cb = _py_elm_genlist_item_func
 
-        if len(args) is 1:
-            args = args[0]
-
-        self.params = (item_class, args, func)
+        self.params = (item_class, item_data, func, func_data)
 
     cdef int _set_obj(self, Elm_Object_Item *item, params=None) except 0:
         assert self.item == NULL, "Object must be clean"
@@ -1179,17 +1187,19 @@ cdef class GenlistItem(ObjectItem):
 
         """
         def __get__(self):
-            return bool(elm_genlist_item_selected_get(self.item))
+            cdef bint ret = elm_genlist_item_selected_get(self.item)
+            return ret
 
-        def __set__(self, selected):
-            elm_genlist_item_selected_set(self.item, bool(selected))
+        def __set__(self, bint selected):
+            elm_genlist_item_selected_set(self.item, selected)
 
-    def selected_set(self, selected):
-        elm_genlist_item_selected_set(self.item, bool(selected))
+    def selected_set(self, bint selected):
+        elm_genlist_item_selected_set(self.item, selected)
     def selected_get(self):
-        return bool(elm_genlist_item_selected_get(self.item))
+        cdef bint ret = elm_genlist_item_selected_get(self.item)
+        return ret
 
-    def show(self, scrollto_type = ELM_GENLIST_ITEM_SCROLLTO_IN):
+    def show(self, scrollto_type = enums.ELM_GENLIST_ITEM_SCROLLTO_IN):
         """show(int scrollto_type = ELM_GENLIST_ITEM_SCROLLTO_IN)
 
         This causes genlist to jump to the item and show it (by
@@ -1200,7 +1210,7 @@ cdef class GenlistItem(ObjectItem):
         """
         elm_genlist_item_show(self.item, scrollto_type)
 
-    def bring_in(self, scrollto_type = ELM_GENLIST_ITEM_SCROLLTO_IN):
+    def bring_in(self, scrollto_type = enums.ELM_GENLIST_ITEM_SCROLLTO_IN):
         """bring_in(int scrollto_type = ELM_GENLIST_ITEM_SCROLLTO_IN)
 
         This causes genlist to jump to the item and show it (by
@@ -1408,16 +1418,18 @@ cdef class GenlistItem(ObjectItem):
             cursor with elm_genlist_item_cursor_set()
 
         """
-        def __set__(self, engine_only):
-            elm_genlist_item_cursor_engine_only_set(self.item, bool(engine_only))
+        def __set__(self, bint engine_only):
+            elm_genlist_item_cursor_engine_only_set(self.item, engine_only)
 
         def __get__(self):
-            return elm_genlist_item_cursor_engine_only_get(self.item)
+            cdef bint ret = elm_genlist_item_cursor_engine_only_get(self.item)
+            return ret
 
-    def cursor_engine_only_set(self, engine_only):
-        elm_genlist_item_cursor_engine_only_set(self.item, bool(engine_only))
+    def cursor_engine_only_set(self, bint engine_only):
+        elm_genlist_item_cursor_engine_only_set(self.item, engine_only)
     def cursor_engine_only_get(self):
-        return elm_genlist_item_cursor_engine_only_get(self.item)
+        cdef bint ret = elm_genlist_item_cursor_engine_only_get(self.item)
+        return ret
 
     property parent:
         """This returns the item that was specified as parent of the item
@@ -1457,15 +1469,17 @@ cdef class GenlistItem(ObjectItem):
 
         """
         def __get__(self):
-            return bool(elm_genlist_item_expanded_get(self.item))
+            cdef bint ret = elm_genlist_item_expanded_get(self.item)
+            return ret
 
-        def __set__(self, expanded):
-            elm_genlist_item_expanded_set(self.item, bool(expanded))
+        def __set__(self, bint expanded):
+            elm_genlist_item_expanded_set(self.item, expanded)
 
-    def expanded_set(self, expanded):
-        elm_genlist_item_expanded_set(self.item, bool(expanded))
-    def expanded_get(self, ):
-        return bool(elm_genlist_item_expanded_get(self.item))
+    def expanded_set(self, bint expanded):
+        elm_genlist_item_expanded_set(self.item, expanded)
+    def expanded_get(self):
+        cdef bint ret = elm_genlist_item_expanded_get(self.item)
+        return ret
 
     property expanded_depth:
         """Get the depth of expanded item.
@@ -1605,12 +1619,14 @@ cdef class GenlistItem(ObjectItem):
             elm_genlist_item_flip_set(self.item, flip)
 
         def __get__(self):
-            return bool(elm_genlist_item_flip_get(self.item))
+            cdef bint ret = elm_genlist_item_flip_get(self.item)
+            return ret
 
     def flip_set(self, flip):
         elm_genlist_item_flip_set(self.item, flip)
     def flip_get(self):
-        return bool(elm_genlist_item_flip_get(self.item))
+        cdef bint ret = elm_genlist_item_flip_get(self.item)
+        return ret
 
     property select_mode:
         """Item's select mode. Possible values are:
@@ -1716,29 +1732,6 @@ cdef class GenlistWidget(Object):
     def mode_get(self):
         return elm_genlist_mode_get(self.obj)
 
-    property bounce:
-        """This will enable or disable the scroller bouncing effect for the
-        genlist. See elm_scroller_bounce_set() for details.
-
-        :type: tuple of bools
-
-        """
-        def __set__(self, value):
-            h_bounce, v_bounce = value
-            elm_scroller_bounce_set(self.obj, bool(h_bounce), bool(v_bounce))
-
-        def __get__(self):
-            cdef Eina_Bool h_bounce, v_bounce
-            elm_scroller_bounce_get(self.obj, &h_bounce, &v_bounce)
-            return (h_bounce, v_bounce)
-
-    def bounce_set(self, h_bounce, v_bounce):
-        elm_scroller_bounce_set(self.obj, bool(h_bounce), bool(v_bounce))
-    def bounce_get(self):
-        cdef Eina_Bool h_bounce, v_bounce
-        elm_scroller_bounce_get(self.obj, &h_bounce, &v_bounce)
-        return (h_bounce, v_bounce)
-
     def item_append(self,
                     GenlistItemClass item_class not None,
                     item_data,
@@ -1822,11 +1815,9 @@ cdef class GenlistWidget(Object):
     def item_insert_before( self,
                             GenlistItemClass item_class not None,
                             item_data,
-                            #API XXX: parent
                             GenlistItem before_item=None,
                             int flags=ELM_GENLIST_ITEM_NONE,
                             func=None
-                            #API XXX: *args, **kwargs
                             ):
         """item_insert_before(item_class not None, item_data, before_item=None, flags=ELM_GENLIST_ITEM_NONE, func=None) -> GenlistItem
 
@@ -1862,11 +1853,9 @@ cdef class GenlistWidget(Object):
     def item_insert_after(  self,
                             GenlistItemClass item_class not None,
                             item_data,
-                            #API XXX: parent
                             GenlistItem after_item=None,
                             int flags=ELM_GENLIST_ITEM_NONE,
                             func=None
-                            #API XXX: *args, **kwargs
                             ):
         """item_insert_after(item_class not None, item_data, after_item=None, flags=ELM_GENLIST_ITEM_NONE, func=None) -> GenlistItem
 
@@ -2075,16 +2064,18 @@ cdef class GenlistWidget(Object):
         :type: bool
 
         """
-        def __set__(self, homogeneous):
-            elm_genlist_homogeneous_set(self.obj, bool(homogeneous))
+        def __set__(self, bint homogeneous):
+            elm_genlist_homogeneous_set(self.obj, homogeneous)
 
         def __get__(self):
-            return bool(elm_genlist_homogeneous_get(self.obj))
+            cdef bint ret = elm_genlist_homogeneous_get(self.obj)
+            return ret
 
-    def homogeneous_set(self, homogeneous):
-        elm_genlist_homogeneous_set(self.obj, bool(homogeneous))
+    def homogeneous_set(self, bint homogeneous):
+        elm_genlist_homogeneous_set(self.obj, homogeneous)
     def homogeneous_get(self):
-        return bool(elm_genlist_homogeneous_get(self.obj))
+        cdef bint ret = elm_genlist_homogeneous_get(self.obj)
+        return ret
 
     property block_count:
         """This will configure the block count to tune to the target with
@@ -2177,16 +2168,18 @@ cdef class GenlistWidget(Object):
         :type: bool
 
         """
-        def __set__(self, reorder_mode):
+        def __set__(self, bint reorder_mode):
             elm_genlist_reorder_mode_set(self.obj, reorder_mode)
 
         def __get__(self):
-            return bool(elm_genlist_reorder_mode_get(self.obj))
+            cdef bint ret = elm_genlist_reorder_mode_get(self.obj)
+            return ret
 
-    def reorder_mode_set(self, reorder_mode):
+    def reorder_mode_set(self, bint reorder_mode):
         elm_genlist_reorder_mode_set(self.obj, reorder_mode)
     def reorder_mode_get(self):
-        return bool(elm_genlist_reorder_mode_get(self.obj))
+        cdef bint ret = elm_genlist_reorder_mode_get(self.obj)
+        return ret
 
     property decorate_mode:
         """Genlist decorate mode for all items.
@@ -2194,16 +2187,18 @@ cdef class GenlistWidget(Object):
         :type: bool
 
         """
-        def __set__(self, decorated):
+        def __set__(self, bint decorated):
             elm_genlist_decorate_mode_set(self.obj, decorated)
 
         def __get__(self):
-            return bool(elm_genlist_decorate_mode_get(self.obj))
+            cdef bint ret = elm_genlist_decorate_mode_get(self.obj)
+            return ret
 
-    def decorate_mode_set(self, decorated):
+    def decorate_mode_set(self, bint decorated):
         elm_genlist_decorate_mode_set(self.obj, decorated)
     def decorate_mode_get(self):
-        return bool(elm_genlist_decorate_mode_get(self.obj))
+        cdef bint ret = elm_genlist_decorate_mode_get(self.obj)
+        return ret
 
     property tree_effect_enabled:
         """Genlist tree effect.
@@ -2211,16 +2206,18 @@ cdef class GenlistWidget(Object):
         :type: bool
 
         """
-        def __set__(self, enabled):
+        def __set__(self, bint enabled):
             elm_genlist_tree_effect_enabled_set(self.obj, enabled)
 
         def __get__(self):
-            return bool(elm_genlist_tree_effect_enabled_get(self.obj))
+            cdef bint ret = elm_genlist_tree_effect_enabled_get(self.obj)
+            return ret
 
-    def tree_effect_enabled_set(self, enabled):
+    def tree_effect_enabled_set(self, bint enabled):
         elm_genlist_tree_effect_enabled_set(self.obj, enabled)
     def tree_effect_enabled_get(self):
-        return bool(elm_genlist_tree_effect_enabled_get(self.obj))
+        cdef bint ret = elm_genlist_tree_effect_enabled_get(self.obj)
+        return ret
 
     property highlight_mode:
         """Whether the item will, or will not highlighted on selection. The
@@ -2231,16 +2228,18 @@ cdef class GenlistWidget(Object):
         :type: bool
 
         """
-        def __set__(self, highlight):
+        def __set__(self, bint highlight):
             elm_genlist_highlight_mode_set(self.obj, highlight)
 
         def __get__(self):
-            return bool(elm_genlist_highlight_mode_get(self.obj))
+            cdef bint ret = elm_genlist_highlight_mode_get(self.obj)
+            return ret
 
-    def highlight_mode_set(self, highlight):
+    def highlight_mode_set(self, bint highlight):
         elm_genlist_highlight_mode_set(self.obj, highlight)
     def highlight_mode_get(self):
-        return bool(elm_genlist_highlight_mode_get(self.obj))
+        cdef bint ret = elm_genlist_highlight_mode_get(self.obj)
+        return ret
 
     property select_mode:
         """Selection mode of the Genlist widget.

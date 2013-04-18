@@ -447,7 +447,7 @@ def genlist4_clicked(obj, item=None):
                              state_get_func=gl_state_get)
 
     for i in range(100,-1,-1):
-        GenlistItem(itc_i, None, 0, None, i).sorted_insert(gl, gl_comp_func)
+        GenlistItem(itc_i, i).sorted_insert(gl, gl_comp_func)
 
     win.resize(320, 320)
     win.show()
@@ -478,7 +478,7 @@ def genlist5_clicked(obj, item=None):
 
     t1 = time.time()
     for i in range(item_count):
-        GenlistItem(itc_i, None, 0, None, i).append_to(gl)
+        GenlistItem(itc_i, i).append_to(gl)
     t2 = time.time()
 
     it = gl.first_item
@@ -501,7 +501,7 @@ mode_type = ["slide", "rotate"]
 
 class ItemClass10(GenlistItemClass):
     def text_get(self, obj, part, data):
-        t = data[0]
+        t = data
         if part == "elm.text.mode":
             return "Mode # %i" % (t,)
         else:
@@ -586,13 +586,13 @@ def genlist10_clicked(obj, item=None):
     itc10 = ItemClass10(item_style="default", decorate_item_style="mode")
     itc10.state_get = gl_state_get
 
-    for i in range(50):
+    for i in range(1000, 1050):
         GenlistItem(itc10,
-            #1000+i,
+            i,
             None,
             ELM_GENLIST_ITEM_NONE,
             gl_sel10,
-            (1000+i, rdg)).append_to(gl)
+            (i, rdg)).append_to(gl)
 
     bx.pack_end(gl)
 
@@ -680,7 +680,7 @@ def genlist15_clicked(obj, item=None):
     for i in range(100):
         ck = Check(gl)
         GenlistItem(itc15,
-            # tits[i], # item data
+            [i, False], # item data
             None, # parent
             ELM_GENLIST_ITEM_NONE, # flags
             gl15_sel, # func
