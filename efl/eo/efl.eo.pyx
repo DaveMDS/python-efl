@@ -15,7 +15,7 @@
 # You should have received a copy of the GNU Lesser General Public License
 # along with this Python-EFL.  If not, see <http://www.gnu.org/licenses/>.
 
-from cpython cimport PyObject, Py_INCREF, Py_DECREF
+from cpython cimport PyObject, Py_INCREF, Py_DECREF, PyUnicode_AsUTF8String
 from libc.stdlib cimport malloc, free
 from libc.string cimport memcpy, strdup
 from efl cimport Eina_Bool, const_Eina_List, eina_list_append, const_void, \
@@ -100,7 +100,7 @@ cdef const_char ** convert_python_list_strings_to_array_of_strings(list strings)
         unsigned int arr_len = len(strings)
 
     # TODO: Should we just return NULL in this case?
-    if len(strings) is 0:
+    if arr_len == 0:
         array = <const_char **>malloc(sizeof(const_char*))
         if not array:
             raise MemoryError()
@@ -113,7 +113,7 @@ cdef const_char ** convert_python_list_strings_to_array_of_strings(list strings)
 
     for i in range(arr_len):
         s = strings[i]
-        if isinstance(s, unicode): s = s.encode("UTF-8")
+        if isinstance(s, unicode): s = PyUnicode_AsUTF8String(s)
         array[i] = <const_char *>strdup(s)
 
     return array
@@ -134,7 +134,7 @@ cdef list convert_eina_list_strings_to_python_list(const_Eina_List *lst):
 cdef Eina_List *convert_python_list_strings_to_eina_list(strings):
     cdef Eina_List *lst = NULL
     for s in strings:
-        if isinstance(s, unicode): s = s.encode("UTF-8")
+        if isinstance(s, unicode): s = PyUnicode_AsUTF8String(s)
         lst = eina_list_append(lst, strdup(s))
     return lst
 
