@@ -769,9 +769,9 @@ cdef class GenlistItemClass(object):
         a2 = decorate_item_style
         a3 = decorate_all_item_style
 
-        if isinstance(a1, unicode): a1 = a1.encode("UTF-8")
-        if isinstance(a2, unicode): a2 = a2.encode("UTF-8")
-        if isinstance(a3, unicode): a3 = a3.encode("UTF-8")
+        if isinstance(a1, unicode): a1 = PyUnicode_AsUTF8String(a1)
+        if isinstance(a2, unicode): a2 = PyUnicode_AsUTF8String(a2)
+        if isinstance(a3, unicode): a3 = PyUnicode_AsUTF8String(a3)
 
         self._item_style = a1
         self._decorate_item_style = a2
@@ -811,7 +811,7 @@ cdef class GenlistItemClass(object):
             return self._item_style.decode("UTF-8")
 
         def __set__(self, style):
-            if isinstance(style, unicode): style = style.encode("UTF-8")
+            if isinstance(style, unicode): style = PyUnicode_AsUTF8String(style)
             self._item_style = style
             self.cls.item_style = <char *>style if style is not None else NULL
 
@@ -821,7 +821,7 @@ cdef class GenlistItemClass(object):
             return self._decorate_item_style.decode("UTF-8")
 
         def __set__(self, style):
-            if isinstance(style, unicode): style = style.encode("UTF-8")
+            if isinstance(style, unicode): style = PyUnicode_AsUTF8String(style)
             self._decorate_item_style = style
             self.cls.decorate_item_style = <char *>style if style is not None else NULL
 
@@ -831,7 +831,7 @@ cdef class GenlistItemClass(object):
             return self._decorate_all_item_style.decode("UTF-8")
 
         def __set__(self, style):
-            if isinstance(style, unicode): style = style.encode("UTF-8")
+            if isinstance(style, unicode): style = PyUnicode_AsUTF8String(style)
             self._decorate_all_item_style = style
             self.cls.decorate_all_item_style = <char *>style if style is not None else NULL
 
@@ -1274,7 +1274,7 @@ cdef class GenlistItem(ObjectItem):
         Internally, this method calls :py:func:`tooltip_content_cb_set`
 
         """
-        if isinstance(text, unicode): text = text.encode("UTF-8")
+        if isinstance(text, unicode): text = PyUnicode_AsUTF8String(text)
         elm_genlist_item_tooltip_text_set(self.item,
             <const_char *>text if text is not None else NULL)
 
@@ -1340,7 +1340,7 @@ cdef class GenlistItem(ObjectItem):
             return self.tooltip_style_get()
 
     cpdef tooltip_style_set(self, style=None):
-        if isinstance(style, unicode): style = style.encode("UTF-8")
+        if isinstance(style, unicode): style = PyUnicode_AsUTF8String(style)
         elm_genlist_item_tooltip_style_set(self.item,
             <const_char *>style if style is not None else NULL)
     cpdef tooltip_style_get(self):
@@ -1383,7 +1383,7 @@ cdef class GenlistItem(ObjectItem):
             self.cursor_unset()
 
     cpdef cursor_set(self, cursor):
-        if isinstance(cursor, unicode): cursor = cursor.encode("UTF-8")
+        if isinstance(cursor, unicode): cursor = PyUnicode_AsUTF8String(cursor)
         elm_genlist_item_cursor_set(self.item,
             <const_char *>cursor if cursor is not None else NULL)
     cpdef cursor_get(self):
@@ -1405,7 +1405,7 @@ cdef class GenlistItem(ObjectItem):
             return self.cursor_style_get()
 
     cpdef cursor_style_set(self, style=None):
-        if isinstance(style, unicode): style = style.encode("UTF-8")
+        if isinstance(style, unicode): style = PyUnicode_AsUTF8String(style)
         elm_genlist_item_cursor_style_set(self.item,
             <const_char *>style if style is not None else NULL)
     cpdef cursor_style_get(self):
@@ -1537,7 +1537,7 @@ cdef class GenlistItem(ObjectItem):
 
         """
         # TODO: itf type?
-        if isinstance(parts, unicode): parts = parts.encode("UTF-8")
+        if isinstance(parts, unicode): parts = PyUnicode_AsUTF8String(parts)
         elm_genlist_item_fields_update(self.item,
             <const_char *>parts if parts is not None else NULL,
             itf)
@@ -1587,7 +1587,7 @@ cdef class GenlistItem(ObjectItem):
 
     def decorate_mode_set(self, decorate_it_type, decorate_it_set):
         a1 = decorate_it_type
-        if isinstance(a1, unicode): a1 = a1.encode("UTF-8")
+        if isinstance(a1, unicode): a1 = PyUnicode_AsUTF8String(a1)
         elm_genlist_item_decorate_mode_set(self.item,
             <const_char *>a1 if a1 is not None else NULL,
             decorate_it_set)

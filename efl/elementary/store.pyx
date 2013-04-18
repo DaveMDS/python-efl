@@ -232,7 +232,7 @@ cdef class StoreItemInfo(object):
 
         """
         def __set__(self, value):
-            if isinstance(value, unicode): value = value.encode("UTF-8")
+            if isinstance(value, unicode): value = PyUnicode_AsUTF8String(value)
             self.info.sort_id = strdup(value)
 
         def __get__(self):
@@ -260,7 +260,7 @@ cdef class StoreItemInfoFilesystem(object):
 
         """
         def __set__(self, value):
-            if isinstance(value, unicode): value = value.encode("UTF-8")
+            if isinstance(value, unicode): value = PyUnicode_AsUTF8String(value)
             self.info_fs.path = strdup(value)
 
         def __get__(self):
@@ -315,7 +315,7 @@ cdef class Store(object):
             return self.filesystem_directory_get()
 
     cpdef filesystem_directory_set(self, directory):
-        if isinstance(directory, unicode): directory = directory.encode("UTF-8")
+        if isinstance(directory, unicode): directory = PyUnicode_AsUTF8String(directory)
         elm_store_filesystem_directory_set(self.st,
             <const_char *>directory if directory is not None else NULL)
 

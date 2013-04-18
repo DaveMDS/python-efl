@@ -42,9 +42,8 @@
 
 """
 
-from cpython cimport PyObject, Py_INCREF, Py_DECREF
-from cpython cimport PyMem_Malloc, PyMem_Free
-from cpython cimport bool
+from cpython cimport PyObject, Py_INCREF, Py_DECREF, PyUnicode_AsUTF8String, \
+    PyMem_Malloc, PyMem_Free
 
 from efl.eo cimport _touni, _ctouni, convert_python_list_strings_to_eina_list, \
     convert_eina_list_strings_to_python_list
@@ -153,7 +152,7 @@ cdef class FontProperties(object):
     property name:
         """:type: unicode"""
         def __set__(self, value):
-            if isinstance(value, unicode): value = value.encode("UTF-8")
+            if isinstance(value, unicode): value = PyUnicode_AsUTF8String(value)
             self.efp.name = value
 
         def __get__(self):
@@ -183,7 +182,7 @@ def init():
     argv = <char **>PyMem_Malloc(argc * sizeof(char *))
     for i in range(argc):
         t = sys.argv[i]
-        if isinstance(t, unicode): t = t.encode("UTF-8")
+        if isinstance(t, unicode): t = PyUnicode_AsUTF8String(t)
         arg = t
         arg_len = len(arg)
         argv[i] = <char *>PyMem_Malloc(arg_len + 1)
@@ -299,7 +298,7 @@ def cache_all_flush():
 #         instance, not family).
 
 #     """
-#     if isinstance(font, unicode): font = font.encode("UTF-8")
+#     if isinstance(font, unicode): font = PyUnicode_AsUTF8String(font)
 #     cdef:
 #         Elm_Font_Properties *efp
 #         FontProperties ret = FontProperties.__new__()
@@ -328,8 +327,8 @@ def cache_all_flush():
 #     cdef:
 #         unicode ret
 #         char *fc_name
-#     if isinstance(font_name, unicode): font_name = font_name.encode("UTF-8")
-#     if isinstance(style, unicode): style = style.encode("UTF-8")
+#     if isinstance(font_name, unicode): font_name = PyUnicode_AsUTF8String(font_name)
+#     if isinstance(style, unicode): style = PyUnicode_AsUTF8String(style)
 #     fc_name = elm_font_fontconfig_name_get(<const char *>font_name,
 #         <const char *>style if style is not None else NULL))
 

@@ -132,8 +132,8 @@ cdef class Thumb(Object):
             else:
                 file_name = value
                 key = None
-            if isinstance(file_name, unicode): file_name = file_name.encode("UTF-8")
-            if isinstance(key, unicode): key = key.encode("UTF-8")
+            if isinstance(file_name, unicode): file_name = PyUnicode_AsUTF8String(file_name)
+            if isinstance(key, unicode): key = PyUnicode_AsUTF8String(key)
             elm_thumb_file_set(self.obj,
                 <const_char *>file_name if file_name is not None else NULL,
                 <const_char *>key if key is not None else NULL)

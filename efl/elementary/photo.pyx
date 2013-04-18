@@ -67,7 +67,7 @@ cdef class Photo(Object):
             self.file_set(filename)
 
     cpdef file_set(self, filename):
-        if isinstance(filename, unicode): filename = filename.encode("UTF-8")
+        if isinstance(filename, unicode): filename = PyUnicode_AsUTF8String(filename)
         if not elm_photo_file_set(self.obj,
             <const_char *>filename if filename is not None else NULL):
                 raise RuntimeError("Could not set file.")
@@ -87,8 +87,8 @@ cdef class Photo(Object):
             self.thumb_set(filename, group)
 
     cpdef thumb_set(self, filename, group = None):
-        if isinstance(filename, unicode): filename = filename.encode("UTF-8")
-        if isinstance(group, unicode): group = group.encode("UTF-8")
+        if isinstance(filename, unicode): filename = PyUnicode_AsUTF8String(filename)
+        if isinstance(group, unicode): group = PyUnicode_AsUTF8String(group)
         elm_photo_thumb_set(self.obj,
             <const_char *>filename if filename is not None else NULL,
             <const_char *>group if group is not None else NULL)

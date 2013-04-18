@@ -144,7 +144,7 @@ cdef class NaviframeItem(ObjectItem):
         :type item_style: string
 
         """
-        if isinstance(title_label, unicode): title_label = title_label.encode("UTF-8")
+        if isinstance(title_label, unicode): title_label = PyUnicode_AsUTF8String(title_label)
         self.label = title_label
 
         if prev_btn is not None:
@@ -307,7 +307,7 @@ cdef class NaviframeItem(ObjectItem):
             self.style_set(style)
 
     cpdef style_set(self, style):
-        if isinstance(style, unicode): style = style.encode("UTF-8")
+        if isinstance(style, unicode): style = PyUnicode_AsUTF8String(style)
         elm_naviframe_item_style_set(self.item,
             <const_char *>style if style is not None else NULL)
     cpdef style_get(self):

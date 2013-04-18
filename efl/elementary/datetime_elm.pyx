@@ -365,7 +365,7 @@ cdef class Datetime(Object):
         def __get__(self):
             return _ctouni(elm_datetime_format_get(self.obj))
         def __set__(self, fmt):
-            if isinstance(fmt, unicode): fmt = fmt.encode("UTF-8")
+            if isinstance(fmt, unicode): fmt = PyUnicode_AsUTF8String(fmt)
             elm_datetime_format_set(self.obj,
                 <const_char *>fmt if fmt is not None else NULL)
 

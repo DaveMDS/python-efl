@@ -352,7 +352,7 @@ cdef class MapName(object):
             raise TypeError("func must be callable")
 
         data = (self, func, args, kwargs)
-        if isinstance(address, unicode): address = address.encode("UTF-8")
+        if isinstance(address, unicode): address = PyUnicode_AsUTF8String(address)
         self.name = elm_map_name_add(map.obj,
             <const_char *>address if address is not None else NULL,
             lon, lat, _map_name_callback, <void *>data)
@@ -1186,13 +1186,13 @@ cdef public class Map(Object)[object PyElementaryMap, type PyElementaryMap_Type]
 
         def __set__(self, user_agent):
             if isinstance(user_agent, unicode):
-                user_agent = user_agent.encode("UTF-8")
+                user_agent = PyUnicode_AsUTF8String(user_agent)
             elm_map_user_agent_set(self.obj,
                 <const_char *>user_agent if user_agent is not None else NULL)
 
     def user_agent_set(self, user_agent):
         if isinstance(user_agent, unicode):
-            user_agent = user_agent.encode("UTF-8")
+            user_agent = PyUnicode_AsUTF8String(user_agent)
         elm_map_user_agent_set(self.obj,
             <const_char *>user_agent if user_agent is not None else NULL)
     def user_agent_get(self):
@@ -1494,7 +1494,7 @@ cdef public class Map(Object)[object PyElementaryMap, type PyElementaryMap_Type]
 
         """
         if isinstance(source_name, unicode):
-            source_name = source_name.encode("UTF-8")
+            source_name = PyUnicode_AsUTF8String(source_name)
         elm_map_source_set(self.obj, source_type,
             <const_char *>source_name if source_name is not None else NULL)
 

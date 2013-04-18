@@ -189,7 +189,7 @@ cdef class Theme(object):
         :type item: string
 
         """
-        if isinstance(item, unicode): item = item.encode("UTF-8")
+        if isinstance(item, unicode): item = PyUnicode_AsUTF8String(item)
         elm_theme_overlay_add(self.th,
             <const_char *>item if item is not None else NULL)
 
@@ -204,7 +204,7 @@ cdef class Theme(object):
         :type item: string
 
         """
-        if isinstance(item, unicode): item = item.encode("UTF-8")
+        if isinstance(item, unicode): item = PyUnicode_AsUTF8String(item)
         elm_theme_overlay_del(self.th,
             <const_char *>item if item is not None else NULL)
 
@@ -242,7 +242,7 @@ cdef class Theme(object):
         :type item: string
 
         """
-        if isinstance(item, unicode): item = item.encode("UTF-8")
+        if isinstance(item, unicode): item = PyUnicode_AsUTF8String(item)
         elm_theme_extension_add(self.th,
             <const_char *>item if item is not None else NULL)
 
@@ -257,7 +257,7 @@ cdef class Theme(object):
         :type item: string
 
         """
-        if isinstance(item, unicode): item = item.encode("UTF-8")
+        if isinstance(item, unicode): item = PyUnicode_AsUTF8String(item)
         elm_theme_extension_del(self.th,
             <const_char *>item if item is not None else NULL)
 
@@ -288,7 +288,7 @@ cdef class Theme(object):
 
         """
         def __set__(self, theme):
-            if isinstance(theme, unicode): theme = theme.encode("UTF-8")
+            if isinstance(theme, unicode): theme = PyUnicode_AsUTF8String(theme)
             elm_theme_set(self.th,
                 <const_char *>theme if theme is not None else NULL)
 
@@ -345,7 +345,7 @@ cdef class Theme(object):
         :rtype: string
 
         """
-        if isinstance(key, unicode): key = key.encode("UTF-8")
+        if isinstance(key, unicode): key = PyUnicode_AsUTF8String(key)
         return _ctouni(elm_theme_data_get(self.th,
             <const_char *>key if key is not None else NULL))
 
@@ -373,7 +373,7 @@ def theme_list_item_path_get(f, in_search_path):
 
     """
     cdef Eina_Bool path = in_search_path
-    if isinstance(f, unicode): f = f.encode("UTF-8")
+    if isinstance(f, unicode): f = PyUnicode_AsUTF8String(f)
     return _ctouni(elm_theme_list_item_path_get(
         <const_char *>f if f is not None else NULL, &path))
 
@@ -409,11 +409,11 @@ def theme_name_available_list():
 
 # for compatibility
 def theme_overlay_add(item):
-    if isinstance(item, unicode): item = item.encode("UTF-8")
+    if isinstance(item, unicode): item = PyUnicode_AsUTF8String(item)
     elm_theme_overlay_add(NULL,
         <const_char *>item if item is not None else NULL)
 
 def theme_extension_add(item):
-    if isinstance(item, unicode): item = item.encode("UTF-8")
+    if isinstance(item, unicode): item = PyUnicode_AsUTF8String(item)
     elm_theme_extension_add(NULL,
         <const_char *>item if item is not None else NULL)

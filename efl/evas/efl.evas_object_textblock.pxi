@@ -70,7 +70,7 @@ cdef class Textblock(Object):
 
     def style_set(self, value):
         cdef Evas_Textblock_Style *style = evas_textblock_style_new()
-        if isinstance(value, unicode): value = value.encode("UTF-8")
+        if isinstance(value, unicode): value = PyUnicode_AsUTF8String(value)
         evas_textblock_style_set(style,
             <const_char *>value if value is not None else NULL)
         evas_object_textblock_style_set(self.obj, style)
@@ -92,7 +92,7 @@ cdef class Textblock(Object):
         return _ctouni(evas_object_textblock_text_markup_get(self.obj))
 
     def text_markup_set(self, value):
-        if isinstance(value, unicode): value = value.encode("UTF-8")
+        if isinstance(value, unicode): value = PyUnicode_AsUTF8String(value)
         evas_object_textblock_text_markup_set(self.obj,
             <const_char *>value if value is not None else NULL)
 
@@ -112,7 +112,7 @@ cdef class Textblock(Object):
         return _ctouni(evas_object_textblock_replace_char_get(self.obj))
 
     def replace_char_set(self, value):
-        if isinstance(value, unicode): value = value.encode("UTF-8")
+        if isinstance(value, unicode): value = PyUnicode_AsUTF8String(value)
         evas_object_textblock_replace_char_set(self.obj,
             <const_char *>value if value is not None else NULL)
 

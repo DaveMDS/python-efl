@@ -110,8 +110,8 @@ cdef class HoverselItem(ObjectItem):
         :type callback: function
 
         """
-        if isinstance(label, unicode): label = label.encode("UTF-8")
-        if isinstance(icon_file, unicode): icon_file = icon_file.encode("UTF-8")
+        if isinstance(label, unicode): label = PyUnicode_AsUTF8String(label)
+        if isinstance(icon_file, unicode): icon_file = PyUnicode_AsUTF8String(icon_file)
         self.label = label
         self.icon_file = icon_file
         self.icon_type = icon_type
@@ -169,8 +169,8 @@ cdef class HoverselItem(ObjectItem):
 
     cpdef icon_set(self, icon_file, icon_group, icon_type):
         a1, a2, a3 = icon_file, icon_group, icon_type
-        if isinstance(a1, unicode): a1 = a1.encode("UTF-8")
-        if isinstance(a2, unicode): a2 = a2.encode("UTF-8")
+        if isinstance(a1, unicode): a1 = PyUnicode_AsUTF8String(a1)
+        if isinstance(a2, unicode): a2 = PyUnicode_AsUTF8String(a2)
         if self.item == NULL:
             self.icon_file = a1
             self.icon_group = a2

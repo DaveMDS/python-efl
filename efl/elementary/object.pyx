@@ -324,8 +324,8 @@ cdef class Object(evasObject):
         :type text: string
 
         """
-        if isinstance(part, unicode): part = part.encode("UTF-8")
-        if isinstance(text, unicode): text = text.encode("UTF-8")
+        if isinstance(part, unicode): part = PyUnicode_AsUTF8String(part)
+        if isinstance(text, unicode): text = PyUnicode_AsUTF8String(text)
         elm_object_part_text_set(self.obj,
             <const_char *>part if part is not None else NULL,
             <const_char *>text if text is not None else NULL)
@@ -343,7 +343,7 @@ cdef class Object(evasObject):
         :rtype: string
 
         """
-        if isinstance(part, unicode): part = part.encode("UTF-8")
+        if isinstance(part, unicode): part = PyUnicode_AsUTF8String(part)
         return _ctouni(elm_object_part_text_get(self.obj,
             <const_char *>part if part is not None else NULL))
 
@@ -360,7 +360,7 @@ cdef class Object(evasObject):
             self.text_set(text)
 
     cpdef text_set(self, text):
-        if isinstance(text, unicode): text = text.encode("UTF-8")
+        if isinstance(text, unicode): text = PyUnicode_AsUTF8String(text)
         elm_object_text_set(self.obj,
             <const_char *>text if text is not None else NULL)
     cpdef text_get(self):
@@ -383,7 +383,7 @@ cdef class Object(evasObject):
         :type content: :py:class:`evas.object.Object`
 
         """
-        if isinstance(part, unicode): part = part.encode("UTF-8")
+        if isinstance(part, unicode): part = PyUnicode_AsUTF8String(part)
         elm_object_part_content_set(self.obj,
             <const_char *>part if part is not None else NULL, content.obj)
 
@@ -400,7 +400,7 @@ cdef class Object(evasObject):
         :rtype: :py:class:`evas.object.Object`
 
         """
-        if isinstance(part, unicode): part = part.encode("UTF-8")
+        if isinstance(part, unicode): part = PyUnicode_AsUTF8String(part)
         return object_from_instance(elm_object_part_content_get(self.obj,
             <const_char *>part if part is not None else NULL))
 
@@ -416,7 +416,7 @@ cdef class Object(evasObject):
         :type part: string
 
         """
-        if isinstance(part, unicode): part = part.encode("UTF-8")
+        if isinstance(part, unicode): part = PyUnicode_AsUTF8String(part)
         return object_from_instance(elm_object_part_content_unset(self.obj,
             <const_char *>part if part is not None else NULL))
 
@@ -448,7 +448,7 @@ cdef class Object(evasObject):
         :type txt: string
 
         """
-        if isinstance(txt, unicode): txt = txt.encode("UTF-8")
+        if isinstance(txt, unicode): txt = PyUnicode_AsUTF8String(txt)
         elm_object_access_info_set(self.obj,
             <const_char *>txt if txt is not None else NULL)
 
@@ -476,7 +476,7 @@ cdef class Object(evasObject):
         :rtype: :py:class:`elementary.object.Object`
 
         """
-        if isinstance(name, unicode): name = name.encode("UTF-8")
+        if isinstance(name, unicode): name = PyUnicode_AsUTF8String(name)
         return object_from_instance(elm_object_name_find(self.obj,
             <const_char *>name if name is not None else NULL,
             recurse))
@@ -494,7 +494,7 @@ cdef class Object(evasObject):
             self.style_set(style)
 
     cpdef style_set(self, style):
-        if isinstance(style, unicode): style = style.encode("UTF-8")
+        if isinstance(style, unicode): style = PyUnicode_AsUTF8String(style)
         elm_object_style_set(self.obj,
             <const_char *>style if style is not None else NULL)
     cpdef style_get(self):
@@ -598,8 +598,8 @@ cdef class Object(evasObject):
         :type source: string
 
         """
-        if isinstance(emission, unicode): emission = emission.encode("UTF-8")
-        if isinstance(source, unicode): source = source.encode("UTF-8")
+        if isinstance(emission, unicode): emission = PyUnicode_AsUTF8String(emission)
+        if isinstance(source, unicode): source = PyUnicode_AsUTF8String(source)
         elm_object_signal_emit(self.obj,
             <const_char *>emission if emission is not None else NULL,
             <const_char *>source if source is not None else NULL)
@@ -625,8 +625,8 @@ cdef class Object(evasObject):
         d = self._elm_signal_cbs.setdefault(emission, {})
         lst = d.setdefault(source, [])
         if not lst:
-            if isinstance(emission, unicode): emission = emission.encode("UTF-8")
-            if isinstance(source, unicode): source = source.encode("UTF-8")
+            if isinstance(emission, unicode): emission = PyUnicode_AsUTF8String(emission)
+            if isinstance(source, unicode): source = PyUnicode_AsUTF8String(source)
             elm_object_signal_callback_add(self.obj,
                 <const_char *>emission if emission is not None else NULL,
                 <const_char *>source if source is not None else NULL,
@@ -673,8 +673,8 @@ cdef class Object(evasObject):
         d.pop(source)
         if not d:
             self._elm_signal_cbs.pop(emission)
-        if isinstance(emission, unicode): emission = emission.encode("UTF-8")
-        if isinstance(source, unicode): source = source.encode("UTF-8")
+        if isinstance(emission, unicode): emission = PyUnicode_AsUTF8String(emission)
+        if isinstance(source, unicode): source = PyUnicode_AsUTF8String(source)
         elm_object_signal_callback_del(self.obj,
             <const_char *>emission if emission is not None else NULL,
             <const_char *>source if source is not None else NULL,
@@ -812,7 +812,7 @@ cdef class Object(evasObject):
             self.cursor_unset()
 
     cpdef cursor_set(self, cursor):
-        if isinstance(cursor, unicode): cursor = cursor.encode("UTF-8")
+        if isinstance(cursor, unicode): cursor = PyUnicode_AsUTF8String(cursor)
         elm_object_cursor_set(self.obj,
             <const_char *>cursor if cursor is not None else NULL)
     cpdef cursor_get(self):
@@ -829,7 +829,7 @@ cdef class Object(evasObject):
             self.cursor_style_set(style)
 
     cpdef cursor_style_set(self, style=None):
-        if isinstance(style, unicode): style = style.encode("UTF-8")
+        if isinstance(style, unicode): style = PyUnicode_AsUTF8String(style)
         elm_object_cursor_style_set(self.obj,
             <const_char *>style if style is not None else NULL)
     cpdef cursor_style_get(self):
@@ -1265,19 +1265,19 @@ cdef class Object(evasObject):
         method calls :py:func:`tooltip_content_cb_set`
 
         """
-        if isinstance(text, unicode): text = text.encode("UTF-8")
+        if isinstance(text, unicode): text = PyUnicode_AsUTF8String(text)
         elm_object_tooltip_text_set(self.obj,
             <const_char *>text if text is not None else NULL)
 
     def tooltip_domain_translatable_text_set(self, domain, text):
-        if isinstance(domain, unicode): domain = domain.encode("UTF-8")
-        if isinstance(text, unicode): text = text.encode("UTF-8")
+        if isinstance(domain, unicode): domain = PyUnicode_AsUTF8String(domain)
+        if isinstance(text, unicode): text = PyUnicode_AsUTF8String(text)
         elm_object_tooltip_domain_translatable_text_set(self.obj,
             <const_char *>domain if domain is not None else NULL,
             <const_char *>text if text is not None else NULL)
 
     def tooltip_translatable_text_set(self, text):
-        if isinstance(text, unicode): text = text.encode("UTF-8")
+        if isinstance(text, unicode): text = PyUnicode_AsUTF8String(text)
         elm_object_tooltip_translatable_text_set(self.obj,
             <const_char *>text if text is not None else NULL)
 
@@ -1332,7 +1332,7 @@ cdef class Object(evasObject):
             self.tooltip_style_set(style)
 
     cpdef tooltip_style_set(self, style=None):
-        if isinstance(style, unicode): style = style.encode("UTF-8")
+        if isinstance(style, unicode): style = PyUnicode_AsUTF8String(style)
         elm_object_tooltip_style_set(self.obj,
             <const_char *>style if style is not None else NULL)
     cpdef tooltip_style_get(self):
@@ -1377,9 +1377,9 @@ cdef class Object(evasObject):
         :type text: string
 
         """
-        if isinstance(part, unicode): part = part.encode("UTF-8")
-        if isinstance(domain, unicode): domain = domain.encode("UTF-8")
-        if isinstance(text, unicode): text = text.encode("UTF-8")
+        if isinstance(part, unicode): part = PyUnicode_AsUTF8String(part)
+        if isinstance(domain, unicode): domain = PyUnicode_AsUTF8String(domain)
+        if isinstance(text, unicode): text = PyUnicode_AsUTF8String(text)
         elm_object_domain_translatable_text_part_set(self.obj,
             <const_char *>part if part is not None else NULL,
             <const_char *>domain if domain is not None else NULL,
@@ -1389,8 +1389,8 @@ cdef class Object(evasObject):
         """domain_translatable_text_set(unicode domain, unicode text)
 
         Convenience function"""
-        if isinstance(domain, unicode): domain = domain.encode("UTF-8")
-        if isinstance(text, unicode): text = text.encode("UTF-8")
+        if isinstance(domain, unicode): domain = PyUnicode_AsUTF8String(domain)
+        if isinstance(text, unicode): text = PyUnicode_AsUTF8String(text)
         elm_object_domain_translatable_text_set(self.obj,
             <const_char *>domain if domain is not None else NULL,
             <const_char *>text if text is not None else NULL)
@@ -1411,7 +1411,7 @@ cdef class Object(evasObject):
         :rtype: string
 
         """
-        if isinstance(part, unicode): part = part.encode("UTF-8")
+        if isinstance(part, unicode): part = PyUnicode_AsUTF8String(part)
         return _ctouni(elm_object_translatable_text_part_get(self.obj,
             <const_char *>part if part is not None else NULL))
 
@@ -1422,7 +1422,7 @@ cdef class Object(evasObject):
             self.translatable_text_set(text)
 
     def translatable_text_set(self, text):
-        if isinstance(text, unicode): text = text.encode("UTF-8")
+        if isinstance(text, unicode): text = PyUnicode_AsUTF8String(text)
         elm_object_translatable_text_set(self.obj,
             <const_char *>text if text is not None else NULL)
     def translatable_text_get(self):
@@ -1465,7 +1465,7 @@ cdef class Object(evasObject):
 
         e = intern(event)
         lst = self._elmcallbacks.setdefault(e, [])
-        if isinstance(event, unicode): event = event.encode("UTF-8")
+        if isinstance(event, unicode): event = PyUnicode_AsUTF8String(event)
         if not lst:
             evas_object_smart_callback_add(self.obj,
                 <const_char *>event if event is not None else NULL,
@@ -1510,7 +1510,7 @@ cdef class Object(evasObject):
         if lst:
             return
         self._elmcallbacks.pop(event)
-        if isinstance(event, unicode): event = event.encode("UTF-8")
+        if isinstance(event, unicode): event = PyUnicode_AsUTF8String(event)
         evas_object_smart_callback_del(self.obj,
             <const_char *>event if event is not None else NULL,
             _object_callback)

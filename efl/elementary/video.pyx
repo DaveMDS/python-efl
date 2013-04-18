@@ -63,7 +63,7 @@ cdef class Video(LayoutClass):
 
     # NOTE: clash with layout.file_set
     cpdef file_set(self, filename, group = None):
-        if isinstance(filename, unicode): filename = filename.encode("UTF-8")
+        if isinstance(filename, unicode): filename = PyUnicode_AsUTF8String(filename)
         if not elm_video_file_set(self.obj,
             <const_char *>filename if filename is not None else NULL):
                 raise RuntimeError("Could not set file.")

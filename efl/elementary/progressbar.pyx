@@ -195,7 +195,7 @@ cdef class Progressbar(LayoutClass):
             self.unit_format_set(unit_format)
 
     cpdef unit_format_set(self, unit_format):
-        if isinstance(unit_format, unicode): unit_format = unit_format.encode("UTF-8")
+        if isinstance(unit_format, unicode): unit_format = PyUnicode_AsUTF8String(unit_format)
         elm_progressbar_unit_format_set(self.obj,
             <const_char *>unit_format if unit_format is not None else NULL)
     cpdef unit_format_get(self):

@@ -75,8 +75,8 @@ cdef class MenuItem(ObjectItem):
             cb = _object_item_callback
 
         self.params = (callback, args, kargs)
-        if isinstance(icon, unicode): icon = icon.encode("UTF-8")
-        if isinstance(label, unicode): label = label.encode("UTF-8")
+        if isinstance(icon, unicode): icon = PyUnicode_AsUTF8String(icon)
+        if isinstance(label, unicode): label = PyUnicode_AsUTF8String(label)
         item = elm_menu_item_add(menu.obj,
             parent_obj,
             <const_char *>icon if icon is not None else NULL,
@@ -118,7 +118,7 @@ cdef class MenuItem(ObjectItem):
             self.icon_name_set(icon)
 
     cpdef icon_name_set(self, icon):
-        if isinstance(icon, unicode): icon = icon.encode("UTF-8")
+        if isinstance(icon, unicode): icon = PyUnicode_AsUTF8String(icon)
         elm_menu_item_icon_name_set(self.item,
             <const_char *>icon if icon is not None else NULL)
     cpdef icon_name_get(self):

@@ -272,7 +272,7 @@ cdef char *_py_elm_gengrid_item_text_get(void *data, Evas_Object *obj, const_cha
         return NULL
 
     ret = _py_elm_gengrid_item_call(func, obj, part, params[1])
-    if isinstance(ret, unicode): ret = ret.encode("UTF-8")
+    if isinstance(ret, unicode): ret = PyUnicode_AsUTF8String(ret)
     return strdup(ret) if ret is not None else NULL
 
 cdef Evas_Object *_py_elm_gengrid_item_content_get(void *data, Evas_Object *obj, const_char *part) with gil:
@@ -448,7 +448,7 @@ cdef class GengridItemClass:
                 pass
 
         a1 = item_style
-        if isinstance(a1, unicode): a1 = a1.encode("UTF-8")
+        if isinstance(a1, unicode): a1 = PyUnicode_AsUTF8String(a1)
         if a1 is not None:
             self._item_style = a1
         self.obj.item_style = <char *>self._item_style
@@ -680,7 +680,7 @@ cdef class GengridItem(ObjectItem):
             self.tooltip_text_set(value)
 
     cpdef tooltip_text_set(self, text):
-        if isinstance(text, unicode): text = text.encode("UTF-8")
+        if isinstance(text, unicode): text = PyUnicode_AsUTF8String(text)
         elm_gengrid_item_tooltip_text_set(self.item,
             <const_char *>text if text is not None else NULL)
 
@@ -740,7 +740,7 @@ cdef class GengridItem(ObjectItem):
             self.tooltip_style_set(style)
 
     cpdef tooltip_style_set(self, style=None):
-        if isinstance(style, unicode): style = style.encode("UTF-8")
+        if isinstance(style, unicode): style = PyUnicode_AsUTF8String(style)
         elm_gengrid_item_tooltip_style_set(self.item,
             <const_char *>style if style is not None else NULL)
     cpdef tooltip_style_get(self):
@@ -775,7 +775,7 @@ cdef class GengridItem(ObjectItem):
             self.cursor_unset()
 
     cpdef cursor_set(self, cursor):
-        if isinstance(cursor, unicode): cursor = cursor.encode("UTF-8")
+        if isinstance(cursor, unicode): cursor = PyUnicode_AsUTF8String(cursor)
         elm_gengrid_item_cursor_set(self.item,
             <const_char *>cursor if cursor is not None else NULL)
     cpdef cursor_get(self):
@@ -792,7 +792,7 @@ cdef class GengridItem(ObjectItem):
             self.cursor_style_set(style)
 
     cpdef cursor_style_set(self, style=None):
-        if isinstance(style, unicode): style = style.encode("UTF-8")
+        if isinstance(style, unicode): style = PyUnicode_AsUTF8String(style)
         elm_gengrid_item_cursor_style_set(self.item,
             <const_char *>style if style is not None else NULL)
     cpdef cursor_style_get(self):

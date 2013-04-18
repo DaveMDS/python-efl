@@ -201,7 +201,7 @@ cdef class Colorselector(LayoutClass):
 
     cpdef palette_name_set(self, palette_name):
         s = palette_name
-        if isinstance(s, unicode): s = s.encode("UTF-8")
+        if isinstance(s, unicode): s = PyUnicode_AsUTF8String(s)
         elm_colorselector_palette_name_set(self.obj,
             <const_char *>s if s is not None else NULL)
     cpdef palette_name_get(self):

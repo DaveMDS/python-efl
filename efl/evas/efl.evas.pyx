@@ -16,7 +16,7 @@
 # along with this Python-EFL.  If not, see <http://www.gnu.org/licenses/>.
 
 import traceback
-from cpython cimport bool
+from cpython cimport PyUnicode_AsUTF8String
 from efl cimport *
 from efl.eo cimport Eo, object_from_instance, _object_mapping_register
 from efl.eo cimport _ctouni, _touni
@@ -178,7 +178,7 @@ def render_method_lookup(name):
     :rtype: int
 
     """
-    if isinstance(name, unicode): name = name.encode("UTF-8")
+    if isinstance(name, unicode): name = PyUnicode_AsUTF8String(name)
     return evas_render_method_lookup(
         <const_char *>name if name is not None else NULL)
 

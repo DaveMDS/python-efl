@@ -15,7 +15,6 @@
 # You should have received a copy of the GNU Lesser General Public License
 # along with this Python-EFL.  If not, see <http://www.gnu.org/licenses/>.
 
-
 cdef void text_change_cb(void *data,
                          Evas_Object *obj,
                          const_char *part) with gil:
@@ -192,7 +191,7 @@ cdef class Edje(Object):
             *data* section inside the *group* that defines this object.
 
         """
-        if isinstance(key, unicode): key = key.encode("UTF-8")
+        if isinstance(key, unicode): key = PyUnicode_AsUTF8String(key)
         return _ctouni(edje_object_data_get(self.obj,
                             <const_char *>key if key is not None else NULL))
 
@@ -205,8 +204,8 @@ cdef class Edje(Object):
         :raise EdjeLoadError: if error occurred during load.
 
         """
-        if isinstance(file, unicode): file = file.encode("UTF-8")
-        if isinstance(group, unicode): group = group.encode("UTF-8")
+        if isinstance(file, unicode): file = PyUnicode_AsUTF8String(file)
+        if isinstance(group, unicode): group = PyUnicode_AsUTF8String(group)
         if edje_object_file_set(self.obj,
                 <const_char *>file if file is not None else NULL,
                 <const_char *>group if group is not None else NULL) == 0:
@@ -297,7 +296,7 @@ cdef class Edje(Object):
 
         """
         if isinstance(color_class, unicode):
-            color_class = color_class.encode("UTF-8")
+            color_class = PyUnicode_AsUTF8String(color_class)
         edje_object_color_class_set(self.obj,
             <const_char *>color_class if color_class is not None else NULL,
             r, g, b, a, r2, g2, b2, a2, r3, g3, b3, a3)
@@ -314,7 +313,7 @@ cdef class Edje(Object):
         cdef int r2, g2, b2, a2
         cdef int r3, g3, b3, a3
         if isinstance(color_class, unicode):
-            color_class = color_class.encode("UTF-8")
+            color_class = PyUnicode_AsUTF8String(color_class)
         edje_object_color_class_get(self.obj,
             <const_char *>color_class if color_class is not None else NULL,
             &r, &g, &b, &a, &r2, &g2, &b2, &a2, &r3, &g3, &b3, &a3)
@@ -323,7 +322,7 @@ cdef class Edje(Object):
     def color_class_del(self, color_class):
         "Delete a specific color class."
         if isinstance(color_class, unicode):
-            color_class = color_class.encode("UTF-8")
+            color_class = PyUnicode_AsUTF8String(color_class)
         edje_object_color_class_del(self.obj,
             <const_char *>color_class if color_class is not None else NULL)
 
@@ -335,9 +334,9 @@ cdef class Edje(Object):
         :param size: the font size
         """
         if isinstance(text_class, unicode):
-            text_class = text_class.encode("UTF-8")
+            text_class = PyUnicode_AsUTF8String(text_class)
         if isinstance(font, unicode):
-            font = font.encode("UTF-8")
+            font = PyUnicode_AsUTF8String(font)
         edje_object_text_class_set(self.obj,
             <const_char *>text_class if text_class is not None else NULL,
             <const_char *>font if font is not None else NULL,
@@ -380,7 +379,7 @@ cdef class Edje(Object):
 
     def part_exists(self, part):
         ":rtype: bool"
-        if isinstance(part, unicode): part = part.encode("UTF-8")
+        if isinstance(part, unicode): part = PyUnicode_AsUTF8String(part)
         return bool(edje_object_part_exists(self.obj,
                         <const_char *>part if part is not None else NULL))
 
@@ -396,7 +395,7 @@ cdef class Edje(Object):
 
         """
         cdef Evas_Object *obj
-        if isinstance(part, unicode): part = part.encode("UTF-8")
+        if isinstance(part, unicode): part = PyUnicode_AsUTF8String(part)
         obj = <Evas_Object*>edje_object_part_object_get(self.obj,
                             <const_char *>part if part is not None else NULL)
         return object_from_instance(obj)
@@ -404,7 +403,7 @@ cdef class Edje(Object):
     def part_geometry_get(self, part):
         ":rtype: tuple of int"
         cdef int x, y, w, h
-        if isinstance(part, unicode): part = part.encode("UTF-8")
+        if isinstance(part, unicode): part = PyUnicode_AsUTF8String(part)
         edje_object_part_geometry_get(self.obj,
                             <const_char *>part if part is not None else NULL,
                             &x, &y, &w, &h)
@@ -413,7 +412,7 @@ cdef class Edje(Object):
     def part_size_get(self, part):
         ":rtype: tuple of int"
         cdef int w, h
-        if isinstance(part, unicode): part = part.encode("UTF-8")
+        if isinstance(part, unicode): part = PyUnicode_AsUTF8String(part)
         edje_object_part_geometry_get(self.obj,
             <const_char *>part if part is not None else NULL,
             NULL, NULL, &w, &h)
@@ -422,7 +421,7 @@ cdef class Edje(Object):
     def part_pos_get(self, part):
         ":rtype: tuple of int"
         cdef int x, y
-        if isinstance(part, unicode): part = part.encode("UTF-8")
+        if isinstance(part, unicode): part = PyUnicode_AsUTF8String(part)
         edje_object_part_geometry_get(self.obj,
             <const_char *>part if part is not None else NULL,
             &x, &y, NULL, NULL)
@@ -454,8 +453,8 @@ cdef class Edje(Object):
         :param text: the new text to set
 
         """
-        if isinstance(part, unicode): part = part.encode("UTF-8")
-        if isinstance(text, unicode): text = text.encode("UTF-8")
+        if isinstance(part, unicode): part = PyUnicode_AsUTF8String(part)
+        if isinstance(text, unicode): text = PyUnicode_AsUTF8String(text)
         edje_object_part_text_set(self.obj,
             <const_char *>part if part is not None else NULL,
             <const_char *>text if text is not None else NULL)
@@ -468,20 +467,20 @@ cdef class Edje(Object):
 
         """
         cdef const_char *s
-        if isinstance(part, unicode): part = part.encode("UTF-8")
+        if isinstance(part, unicode): part = PyUnicode_AsUTF8String(part)
         return _ctouni(edje_object_part_text_get(self.obj,
                         <const_char *>part if part is not None else NULL))
 
 
     def part_text_select_all(self, part):
         "Select all the text of the given TEXT or TEXTBLOCK part"
-        if isinstance(part, unicode): part = part.encode("UTF-8")
+        if isinstance(part, unicode): part = PyUnicode_AsUTF8String(part)
         edje_object_part_text_select_all(self.obj,
             <const_char *>part if part is not None else NULL)
 
     def part_text_select_none(self, part):
         "Deselect all the text of the given TEXT or TEXTBLOCK part"
-        if isinstance(part, unicode): part = part.encode("UTF-8")
+        if isinstance(part, unicode): part = PyUnicode_AsUTF8String(part)
         edje_object_part_text_select_none(self.obj,
             <const_char *>part if part is not None else NULL)
 
@@ -495,9 +494,9 @@ cdef class Edje(Object):
         :see: part_text_set()
         :see: part_text_unescaped_get()
         """
-        if isinstance(part, unicode): part = part.encode("UTF-8")
+        if isinstance(part, unicode): part = PyUnicode_AsUTF8String(part)
         if isinstance(text_to_escape, unicode):
-            text_to_escape = text_to_escape.encode("UTF-8")
+            text_to_escape = PyUnicode_AsUTF8String(text_to_escape)
         edje_object_part_text_unescaped_set(self.obj,
             <const_char *>part if part is not None else NULL,
             <const_char *>text_to_escape if text_to_escape is not None else NULL)
@@ -512,7 +511,7 @@ cdef class Edje(Object):
         :see: part_text_unescaped_set()
         """
         cdef char *s
-        if isinstance(part, unicode): part = part.encode("UTF-8")
+        if isinstance(part, unicode): part = PyUnicode_AsUTF8String(part)
         s = edje_object_part_text_unescaped_get(self.obj,
                 <const_char *>part if part is not None else NULL)
         if s == NULL:
@@ -538,7 +537,7 @@ cdef class Edje(Object):
         :type obj: efl.evas.Object
 
         """
-        if isinstance(part, unicode): part = part.encode("UTF-8")
+        if isinstance(part, unicode): part = PyUnicode_AsUTF8String(part)
         edje_object_part_swallow(self.obj,
             <const_char *>part if part is not None else NULL, obj.obj)
 
@@ -548,13 +547,13 @@ cdef class Edje(Object):
 
     def part_swallow_get(self, part):
         ":rtype: efl.evas.Object"
-        if isinstance(part, unicode): part = part.encode("UTF-8")
+        if isinstance(part, unicode): part = PyUnicode_AsUTF8String(part)
         return object_from_instance(edje_object_part_swallow_get(
                     self.obj, <const_char *>part if part is not None else NULL))
 
     def part_external_object_get(self, part):
         ":rtype: efl.evas.Object"
-        if isinstance(part, unicode): part = part.encode("UTF-8")
+        if isinstance(part, unicode): part = PyUnicode_AsUTF8String(part)
         return object_from_instance(edje_object_part_external_object_get(
                     self.obj, <const_char *>part if part is not None else NULL))
 
@@ -572,7 +571,7 @@ cdef class Edje(Object):
         cdef const_char *c_param
 
         if isinstance(part, unicode):
-            str1 = part.encode('UTF-8')
+            str1 = PyUnicode_AsUTF8String(part)
             c_part = str1
         elif isinstance(part, str):
             c_part = part
@@ -581,7 +580,7 @@ cdef class Edje(Object):
                              type(part).__name__)
 
         if isinstance(param, unicode):
-            str2 = param.encode('UTF-8')
+            str2 = PyUnicode_AsUTF8String(param)
             c_param = str2
         elif isinstance(param, str):
             c_param = param
@@ -604,7 +603,7 @@ cdef class Edje(Object):
             p.type = edje_object_part_external_param_type_get(
                         self.obj, c_part, c_param)
             if isinstance(value, unicode):
-                value = value.encode("UTF-8")
+                value = PyUnicode_AsUTF8String(value)
             p.s = value
         else:
             raise TypeError("unsupported type %s" % type(value).__name__)
@@ -624,7 +623,7 @@ cdef class Edje(Object):
         cdef const_char *c_param
 
         if isinstance(part, unicode):
-            str1 = part.encode('UTF-8')
+            str1 = PyUnicode_AsUTF8String(part)
             c_part = str1
         elif isinstance(part, str):
             c_part = part
@@ -633,7 +632,7 @@ cdef class Edje(Object):
                              type(part).__name__)
 
         if isinstance(param, unicode):
-            str2 = param.encode('UTF-8')
+            str2 = PyUnicode_AsUTF8String(param)
             c_param = str2
         elif isinstance(param, str):
             c_param = param
@@ -669,7 +668,7 @@ cdef class Edje(Object):
         :param obj: the efl.evas.Object to append
         :rtype: bool
         """
-        if isinstance(part, unicode): part = part.encode("UTF-8")
+        if isinstance(part, unicode): part = PyUnicode_AsUTF8String(part)
         return bool(edje_object_part_box_append(self.obj,
                      <const_char *>part if part is not None else NULL, obj.obj))
 
@@ -684,7 +683,7 @@ cdef class Edje(Object):
         :param obj: the efl.evas.Object to append
         :rtype: bool
         """
-        if isinstance(part, unicode): part = part.encode("UTF-8")
+        if isinstance(part, unicode): part = PyUnicode_AsUTF8String(part)
         return bool(edje_object_part_box_prepend(self.obj,
                      <const_char *>part if part is not None else NULL, obj.obj))
 
@@ -697,7 +696,7 @@ cdef class Edje(Object):
         :param pos: the position to append the object
         :rtype: bool
         """
-        if isinstance(part, unicode): part = part.encode("UTF-8")
+        if isinstance(part, unicode): part = PyUnicode_AsUTF8String(part)
         return bool(edje_object_part_box_insert_at(self.obj,
             <const_char *>part if part is not None else NULL, obj.obj, pos))
 
@@ -709,7 +708,7 @@ cdef class Edje(Object):
         :param reference: the efl.evas.Object used as reference
         :rtype: bool
         """
-        if isinstance(part, unicode): part = part.encode("UTF-8")
+        if isinstance(part, unicode): part = PyUnicode_AsUTF8String(part)
         return bool(edje_object_part_box_insert_before(self.obj,
                         <const_char *>part if part is not None else NULL,
                         obj.obj, reference.obj))
@@ -726,7 +725,7 @@ cdef class Edje(Object):
         :rtype: efl.evas.Object or *None*
 
         """
-        if isinstance(part, unicode): part = part.encode("UTF-8")
+        if isinstance(part, unicode): part = PyUnicode_AsUTF8String(part)
         return object_from_instance(edje_object_part_box_remove(self.obj,
                     <const_char *>part if part is not None else NULL, obj.obj))
 
@@ -741,7 +740,7 @@ cdef class Edje(Object):
         :return: the removed object
         :rtype: efl.evas.Object or None
         """
-        if isinstance(part, unicode): part = part.encode("UTF-8")
+        if isinstance(part, unicode): part = PyUnicode_AsUTF8String(part)
         return object_from_instance(edje_object_part_box_remove_at(self.obj,
                         <const_char *>part if part is not None else NULL, pos))
 
@@ -755,7 +754,7 @@ cdef class Edje(Object):
 
         :rtype: bool
         """
-        if isinstance(part, unicode): part = part.encode("UTF-8")
+        if isinstance(part, unicode): part = PyUnicode_AsUTF8String(part)
         return bool(edje_object_part_box_remove_all(self.obj,
                      <const_char *>part if part is not None else NULL, clear))
 
@@ -771,7 +770,7 @@ cdef class Edje(Object):
 
         :rtype: bool
         """
-        if isinstance(part, unicode): part = part.encode("UTF-8")
+        if isinstance(part, unicode): part = PyUnicode_AsUTF8String(part)
         return bool(edje_object_part_table_pack(self.obj,
                         <const_char *>part if part is not None else NULL,
                         child.obj, col, row, colspan, rowspan))
@@ -784,7 +783,7 @@ cdef class Edje(Object):
 
         :rtype: bool
         """
-        if isinstance(part, unicode): part = part.encode("UTF-8")
+        if isinstance(part, unicode): part = PyUnicode_AsUTF8String(part)
         return bool(edje_object_part_table_unpack(self.obj,
                         <const_char *>part if part is not None else NULL,
                         child.obj))
@@ -797,7 +796,7 @@ cdef class Edje(Object):
         :rtype: tuple of int
         """
         cdef int c, r
-        if isinstance(part, unicode): part = part.encode("UTF-8")
+        if isinstance(part, unicode): part = PyUnicode_AsUTF8String(part)
         edje_object_part_table_col_row_size_get(self.obj,
             <const_char *>part if part is not None else NULL, &c, &r)
         return (c, r)
@@ -812,7 +811,7 @@ cdef class Edje(Object):
 
         :rtype: bool
         """
-        if isinstance(part, unicode): part = part.encode("UTF-8")
+        if isinstance(part, unicode): part = PyUnicode_AsUTF8String(part)
         return bool(edje_object_part_table_clear(self.obj,
                      <const_char *>part if part is not None else NULL, clear))
 
@@ -826,7 +825,7 @@ cdef class Edje(Object):
         :return: the object ath the given position
         :rtype: efl.evas.Object
         """
-        if isinstance(part, unicode): part = part.encode("UTF-8")
+        if isinstance(part, unicode): part = PyUnicode_AsUTF8String(part)
         return object_from_instance(edje_object_part_table_child_get(self.obj,
                  <const_char *>part if part is not None else NULL, row, column))
 
@@ -834,14 +833,14 @@ cdef class Edje(Object):
         ":rtype: (name, value)"
         cdef double sv
         cdef const_char *sn
-        if isinstance(part, unicode): part = part.encode("UTF-8")
+        if isinstance(part, unicode): part = PyUnicode_AsUTF8String(part)
         sn = edje_object_part_state_get(self.obj,
                  <const_char *>part if part is not None else NULL, &sv)
         return (_ctouni(sn), sv)
 
     def part_drag_dir_get(self, part):
         ":rtype: int"
-        if isinstance(part, unicode): part = part.encode("UTF-8")
+        if isinstance(part, unicode): part = PyUnicode_AsUTF8String(part)
         return edje_object_part_drag_dir_get(self.obj,
                     <const_char *>part if part is not None else NULL)
 
@@ -850,14 +849,14 @@ cdef class Edje(Object):
         :param dx:
         :param dy:
         """
-        if isinstance(part, unicode): part = part.encode("UTF-8")
+        if isinstance(part, unicode): part = PyUnicode_AsUTF8String(part)
         edje_object_part_drag_value_set(self.obj,
             <const_char *>part if part is not None else NULL, dx, dy)
 
     def part_drag_value_get(self, part):
         ":rtype: tuple of float"
         cdef double dx, dy
-        if isinstance(part, unicode): part = part.encode("UTF-8")
+        if isinstance(part, unicode): part = PyUnicode_AsUTF8String(part)
         edje_object_part_drag_value_get(self.obj,
             <const_char *>part if part is not None else NULL, &dx, &dy)
         return (dx, dy)
@@ -867,14 +866,14 @@ cdef class Edje(Object):
         :param dw:
         :param dh:
         """
-        if isinstance(part, unicode): part = part.encode("UTF-8")
+        if isinstance(part, unicode): part = PyUnicode_AsUTF8String(part)
         edje_object_part_drag_size_set(self.obj,
             <const_char *>part if part is not None else NULL, dw, dh)
 
     def part_drag_size_get(self, part):
         ":rtype: tuple of float"
         cdef double dw, dh
-        if isinstance(part, unicode): part = part.encode("UTF-8")
+        if isinstance(part, unicode): part = PyUnicode_AsUTF8String(part)
         edje_object_part_drag_size_get(self.obj,
             <const_char *>part if part is not None else NULL, &dw, &dh)
         return (dw, dh)
@@ -884,38 +883,38 @@ cdef class Edje(Object):
         :param dx:
         :param dy:
         """
-        if isinstance(part, unicode): part = part.encode("UTF-8")
+        if isinstance(part, unicode): part = PyUnicode_AsUTF8String(part)
         edje_object_part_drag_step_set(self.obj,
             <const_char *>part if part is not None else NULL, dx, dy)
 
     def part_drag_step_get(self, part):
         ":rtype: tuple of float"
         cdef double dx, dy
-        if isinstance(part, unicode): part = part.encode("UTF-8")
+        if isinstance(part, unicode): part = PyUnicode_AsUTF8String(part)
         edje_object_part_drag_step_get(self.obj,
             <const_char *>part if part is not None else NULL, &dx, &dy)
         return (dx, dy)
 
     def part_drag_step(self, part, double dx, double dy):
-        if isinstance(part, unicode): part = part.encode("UTF-8")
+        if isinstance(part, unicode): part = PyUnicode_AsUTF8String(part)
         edje_object_part_drag_step(self.obj,
             <const_char *>part if part is not None else NULL, dx, dy)
 
     def part_drag_page_set(self, part, double dx, double dy):
-        if isinstance(part, unicode): part = part.encode("UTF-8")
+        if isinstance(part, unicode): part = PyUnicode_AsUTF8String(part)
         edje_object_part_drag_page_set(self.obj,
             <const_char *>part if part is not None else NULL, dx, dy)
 
     def part_drag_page_get(self, part):
         "@rtype: tuple of float"
         cdef double dx, dy
-        if isinstance(part, unicode): part = part.encode("UTF-8")
+        if isinstance(part, unicode): part = PyUnicode_AsUTF8String(part)
         edje_object_part_drag_page_get(self.obj,
             <const_char *>part if part is not None else NULL, &dx, &dy)
         return (dx, dy)
 
     def part_drag_page(self, part, double dx, double dy):
-        if isinstance(part, unicode): part = part.encode("UTF-8")
+        if isinstance(part, unicode): part = PyUnicode_AsUTF8String(part)
         edje_object_part_drag_page(self.obj,
             <const_char *>part if part is not None else NULL, dx, dy)
 
@@ -931,7 +930,7 @@ cdef class Edje(Object):
 
     cdef void message_send_str(self, int id, data):
         cdef Edje_Message_String m
-        if isinstance(data, unicode): data = data.encode("UTF-8")
+        if isinstance(data, unicode): data = PyUnicode_AsUTF8String(data)
         m.str = <char *>data if data is not None else NULL
         edje_object_message_send(self.obj, EDJE_MESSAGE_STRING, id, <void*>&m)
 
@@ -955,7 +954,7 @@ cdef class Edje(Object):
 
     cdef void message_send_str_int(self, int id, s, int i):
         cdef Edje_Message_String_Int m
-        if isinstance(s, unicode): s = s.encode("UTF-8")
+        if isinstance(s, unicode): s = PyUnicode_AsUTF8String(s)
         m.str = <char *>s if s is not None else NULL
         m.val = i
         edje_object_message_send(self.obj, EDJE_MESSAGE_STRING_INT, id,
@@ -963,7 +962,7 @@ cdef class Edje(Object):
 
     cdef void message_send_str_float(self, int id, s, float f):
         cdef Edje_Message_String_Float m
-        if isinstance(s, unicode): s = s.encode("UTF-8")
+        if isinstance(s, unicode): s = PyUnicode_AsUTF8String(s)
         m.str = <char *>s if s is not None else NULL
         m.val = f
         edje_object_message_send(self.obj, EDJE_MESSAGE_STRING_FLOAT, id,
@@ -977,7 +976,7 @@ cdef class Edje(Object):
         m = <Edje_Message_String_Int_Set*>PyMem_Malloc(
             sizeof(Edje_Message_String_Int_Set) + (count - 1) * sizeof(int))
 
-        if isinstance(s, unicode): s = s.encode("UTF-8")
+        if isinstance(s, unicode): s = PyUnicode_AsUTF8String(s)
         m.str = <char *>s if s is not None else NULL
         m.count = count
         i = 0
@@ -998,7 +997,7 @@ cdef class Edje(Object):
             sizeof(Edje_Message_String_Float_Set) +
             (count - 1) * sizeof(double))
 
-        if isinstance(s, unicode): s = s.encode("UTF-8")
+        if isinstance(s, unicode): s = PyUnicode_AsUTF8String(s)
         m.str = <char *>s if s is not None else NULL
         m.count = count
         i = 0
@@ -1158,8 +1157,8 @@ cdef class Edje(Object):
         d = self._signal_callbacks.setdefault(emission, {})
         lst = d.setdefault(source, [])
         if not lst:
-            if isinstance(emission, unicode): emission = emission.encode("UTF-8")
-            if isinstance(source, unicode): source = source.encode("UTF-8")
+            if isinstance(emission, unicode): emission = PyUnicode_AsUTF8String(emission)
+            if isinstance(source, unicode): source = PyUnicode_AsUTF8String(source)
             edje_object_signal_callback_add(self.obj,
                 <const_char *>emission if emission is not None else NULL,
                 <const_char *>source if source is not None else NULL,
@@ -1191,8 +1190,8 @@ cdef class Edje(Object):
         d.pop(source)
         if not d:
             self._signal_callbacks.pop(emission)
-        if isinstance(emission, unicode): emission = emission.encode("UTF-8")
-        if isinstance(source, unicode): source = source.encode("UTF-8")
+        if isinstance(emission, unicode): emission = PyUnicode_AsUTF8String(emission)
+        if isinstance(source, unicode): source = PyUnicode_AsUTF8String(source)
         edje_object_signal_callback_del(self.obj,
             <const_char *>emission if emission is not None else NULL,
             <const_char *>source if source is not None else NULL,
@@ -1200,8 +1199,8 @@ cdef class Edje(Object):
 
     def signal_emit(self, emission, source):
         "Emit signal with ``emission`` and ``source``"
-        if isinstance(emission, unicode): emission = emission.encode("UTF-8")
-        if isinstance(source, unicode): source = source.encode("UTF-8")
+        if isinstance(emission, unicode): emission = PyUnicode_AsUTF8String(emission)
+        if isinstance(source, unicode): source = PyUnicode_AsUTF8String(source)
         edje_object_signal_emit(self.obj,
             <const_char *>emission if emission is not None else NULL,
             <const_char *>source if source is not None else NULL)

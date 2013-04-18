@@ -180,8 +180,8 @@ cdef class Icon(Image):
             self.thumb_set(filename, group)
 
     cpdef thumb_set(self, filename, group = None):
-        if isinstance(filename, unicode): filename = filename.encode("UTF-8")
-        if isinstance(group, unicode): group = group.encode("UTF-8")
+        if isinstance(filename, unicode): filename = PyUnicode_AsUTF8String(filename)
+        if isinstance(group, unicode): group = PyUnicode_AsUTF8String(group)
         elm_icon_thumb_set(self.obj,
             <const_char *>filename if filename is not None else NULL,
             <const_char *>group if group is not None else NULL)
@@ -213,7 +213,7 @@ cdef class Icon(Image):
             self.standard_set(name)
 
     cpdef standard_set(self, name):
-        if isinstance(name, unicode): name = name.encode("UTF-8")
+        if isinstance(name, unicode): name = PyUnicode_AsUTF8String(name)
         if not elm_icon_standard_set(self.obj,
             <const_char *>name if name is not None else NULL):
                 raise RuntimeError("Setting standard icon failed")

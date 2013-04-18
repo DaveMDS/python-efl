@@ -24,6 +24,8 @@ specifications using dbus as interprocess communication.
 
 """
 
+from cpython cimport PyUnicode_AsUTF8String
+
 def module_cleanup():
     edbus_shutdown()
 

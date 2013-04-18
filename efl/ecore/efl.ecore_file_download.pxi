@@ -15,6 +15,7 @@
 # You should have received a copy of the GNU Lesser General Public License
 # along with this Python-EFL.  If not, see <http://www.gnu.org/licenses/>.
 
+from cpython cimport PyUnicode_AsUTF8String
 
 cdef void _completion_cb(void *data, const_char *file, int status) with gil:
     obj = <FileDownload>data
@@ -88,8 +89,8 @@ cdef class FileDownload(object):
         self.args = args
         self.kargs = kargs
 
-        if isinstance(url, unicode): url = url.encode("UTF-8")
-        if isinstance(dst, unicode): dst = dst.encode("UTF-8")
+        if isinstance(url, unicode): url = PyUnicode_AsUTF8String(url)
+        if isinstance(dst, unicode): dst = PyUnicode_AsUTF8String(dst)
         if not ecore_file_download(
             <const_char *>url if url is not None else NULL,
             <const_char *>dst if dst is not None else NULL,
@@ -182,6 +183,6 @@ def file_download_protocol_available(protocol):
     :return: True if the protocol is supported
     :rtype: bool
     """
-    if isinstance(protocol, unicode): protocol = protocol.encode("UTF-8")
+    if isinstance(protocol, unicode): protocol = PyUnicode_AsUTF8String(protocol)
     return bool(ecore_file_download_protocol_available(
                     <const_char *>protocol if protocol is not None else NULL))

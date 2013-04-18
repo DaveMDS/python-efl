@@ -206,7 +206,7 @@ cdef class ListItem(ObjectItem):
         :type   callback: function
 
         """
-        if isinstance(label, unicode): label = label.encode("UTF-8")
+        if isinstance(label, unicode): label = PyUnicode_AsUTF8String(label)
         self.label = label
 
         if icon is not None:

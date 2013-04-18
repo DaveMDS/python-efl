@@ -130,7 +130,7 @@ cdef class FileselectorEntry(Object):
             self.window_title_set(title)
 
     cpdef window_title_set(self, title):
-        if isinstance(title, unicode): title = title.encode("UTF-8")
+        if isinstance(title, unicode): title = PyUnicode_AsUTF8String(title)
         elm_fileselector_entry_window_title_set(self.obj,
             <const_char *>title if title is not None else NULL)
     cpdef window_title_get(self):
@@ -182,7 +182,7 @@ cdef class FileselectorEntry(Object):
             self.path_set(path)
 
     cpdef path_set(self, path):
-        if isinstance(path, unicode): path = path.encode("UTF-8")
+        if isinstance(path, unicode): path = PyUnicode_AsUTF8String(path)
         elm_fileselector_entry_path_set(self.obj,
             <const_char *>path if path is not None else NULL)
     cpdef path_get(self):
@@ -300,7 +300,7 @@ cdef class FileselectorEntry(Object):
             self.selected_set(path)
 
     cpdef selected_set(self, path):
-        if isinstance(path, unicode): path = path.encode("UTF-8")
+        if isinstance(path, unicode): path = PyUnicode_AsUTF8String(path)
         elm_fileselector_entry_selected_set(self.obj,
             <const_char *>path if path is not None else NULL)
     cpdef selected_get(self):

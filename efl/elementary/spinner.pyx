@@ -89,7 +89,7 @@ cdef class Spinner(LayoutClass):
             self.label_format_set(label_format)
 
     cpdef label_format_set(self, label_format):
-        if isinstance(label_format, unicode): label_format = label_format.encode("UTF-8")
+        if isinstance(label_format, unicode): label_format = PyUnicode_AsUTF8String(label_format)
         elm_spinner_label_format_set(self.obj,
             <const_char *>label_format if label_format is not None else NULL)
     cpdef label_format_get(self):
@@ -260,7 +260,7 @@ cdef class Spinner(LayoutClass):
         :type label: unicode
 
         """
-        if isinstance(label, unicode): label = label.encode("UTF-8")
+        if isinstance(label, unicode): label = PyUnicode_AsUTF8String(label)
         elm_spinner_special_value_add(self.obj, value,
             <const_char *>label if label is not None else NULL)
 

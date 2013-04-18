@@ -516,12 +516,12 @@ cdef void _entry_context_menu_callback(void *data, Evas_Object *obj, void *event
         traceback.print_exc()
 
 def Entry_markup_to_utf8(string):
-    if isinstance(string, unicode): string = string.encode("UTF-8")
+    if isinstance(string, unicode): string = PyUnicode_AsUTF8String(string)
     return _touni(elm_entry_markup_to_utf8(
         <const_char *>string if string is not None else NULL))
 
 def Entry_utf8_to_markup(string):
-    if isinstance(string, unicode): string = string.encode("UTF-8")
+    if isinstance(string, unicode): string = PyUnicode_AsUTF8String(string)
     return _touni(elm_entry_utf8_to_markup(
         <const_char *>string if string is not None else NULL))
 
@@ -636,7 +636,7 @@ cdef class Entry(Object):
         :param style: The style user to push
 
         """
-        if isinstance(style, unicode): style = style.encode("UTF-8")
+        if isinstance(style, unicode): style = PyUnicode_AsUTF8String(style)
         elm_entry_text_style_user_push(self.obj,
             <const_char *>style if style is not None else NULL)
 
@@ -718,7 +718,7 @@ cdef class Entry(Object):
             self.entry_set(entry)
 
     cpdef entry_set(self, entry):
-        if isinstance(entry, unicode): entry = entry.encode("UTF-8")
+        if isinstance(entry, unicode): entry = PyUnicode_AsUTF8String(entry)
         elm_entry_entry_set(self.obj,
             <const_char *>entry if entry is not None else NULL)
     cpdef entry_get(self):
@@ -740,7 +740,7 @@ cdef class Entry(Object):
         :type entry: string
 
         """
-        if isinstance(text, unicode): text = text.encode("UTF-8")
+        if isinstance(text, unicode): text = PyUnicode_AsUTF8String(text)
         elm_entry_entry_append(self.obj,
             <const_char *>text if text is not None else NULL)
 
@@ -844,7 +844,7 @@ cdef class Entry(Object):
         :type entry: string
 
         """
-        if isinstance(entry, unicode): entry = entry.encode("UTF-8")
+        if isinstance(entry, unicode): entry = PyUnicode_AsUTF8String(entry)
         elm_entry_entry_insert(self.obj,
             <const_char *>entry if entry is not None else NULL)
 
@@ -1279,8 +1279,8 @@ cdef class Entry(Object):
         # TODO: Check that Elm_Text_Format is being used correctly here
         a1 = file_name
         a2 = file_format
-        if isinstance(a1, unicode): a1 = a1.encode("UTF-8")
-        if isinstance(a2, unicode): a2 = a2.encode("UTF-8")
+        if isinstance(a1, unicode): a1 = PyUnicode_AsUTF8String(a1)
+        if isinstance(a2, unicode): a2 = PyUnicode_AsUTF8String(a2)
         if not elm_entry_file_set(self.obj,
             <const_char *>a1 if a1 is not None else NULL,
             <Elm_Text_Format>a2 if a2 is not None else ""):
@@ -1769,7 +1769,7 @@ cdef class Entry(Object):
             self.anchor_hover_style_set(style)
 
     cpdef anchor_hover_style_set(self, style):
-        if isinstance(style, unicode): style = style.encode("UTF-8")
+        if isinstance(style, unicode): style = PyUnicode_AsUTF8String(style)
         elm_entry_anchor_hover_style_set(self.obj,
             <const_char *>style if style is not None else NULL)
     cpdef anchor_hover_style_get(self):

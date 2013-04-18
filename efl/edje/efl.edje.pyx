@@ -18,7 +18,7 @@
 import traceback
 import warnings
 
-from cpython cimport PyMem_Malloc, PyMem_Free
+from cpython cimport PyMem_Malloc, PyMem_Free, PyUnicode_AsUTF8String
 cimport libc.stdlib
 
 from efl.eo cimport _object_mapping_register, object_from_instance
@@ -152,7 +152,7 @@ def thaw():
 
 
 def fontset_append_set(fonts):
-    if isinstance(fonts, unicode): fonts = fonts.encode("UTF-8")
+    if isinstance(fonts, unicode): fonts = PyUnicode_AsUTF8String(fonts)
     edje_fontset_append_set(<const_char *>fonts if fonts is not None else NULL)
 
 
@@ -162,7 +162,7 @@ def fontset_append_get():
 
 def file_collection_list(file):
     cdef Eina_List *lst
-    if isinstance(file, unicode): file = file.encode("UTF-8")
+    if isinstance(file, unicode): file = PyUnicode_AsUTF8String(file)
     lst = edje_file_collection_list(
                 <const_char *>file if file is not None else NULL)
     ret = convert_eina_list_strings_to_python_list(lst)
@@ -171,8 +171,8 @@ def file_collection_list(file):
 
 
 def file_group_exists(file, group):
-    if isinstance(file, unicode): file = file.encode("UTF-8")
-    if isinstance(group, unicode): group = group.encode("UTF-8")
+    if isinstance(file, unicode): file = PyUnicode_AsUTF8String(file)
+    if isinstance(group, unicode): group = PyUnicode_AsUTF8String(group)
     return bool(edje_file_group_exists(
             <const_char *>file if file is not None else NULL,
             <const_char *>group if group is not None else NULL))
@@ -180,8 +180,8 @@ def file_group_exists(file, group):
 
 def file_data_get(file, key):
     cdef char *s
-    if isinstance(file, unicode): file = file.encode("UTF-8")
-    if isinstance(key, unicode): key = key.encode("UTF-8")
+    if isinstance(file, unicode): file = PyUnicode_AsUTF8String(file)
+    if isinstance(key, unicode): key = PyUnicode_AsUTF8String(key)
     s = edje_file_data_get(
                 <const_char *>file if file is not None else NULL,
                 <const_char *>key if key is not None else NULL)
@@ -219,7 +219,7 @@ def color_class_set(color_class,
                     int r2, int g2, int b2, int a2,
                     int r3, int g3, int b3, int a3):
     if isinstance(color_class, unicode):
-        color_class = color_class.encode("UTF-8")
+        color_class = PyUnicode_AsUTF8String(color_class)
     edje_color_class_set(
             <const_char *>color_class if color_class is not None else NULL,
             r, g, b, a, r2, g2, b2, a2, r3, g3, b3, a3)
@@ -230,7 +230,7 @@ def color_class_get(color_class):
     cdef int r2, g2, b2, a2
     cdef int r3, g3, b3, a3
     if isinstance(color_class, unicode):
-        color_class = color_class.encode("UTF-8")
+        color_class = PyUnicode_AsUTF8String(color_class)
     edje_color_class_get(
             <const_char *>color_class if color_class is not None else NULL,
             &r, &g, &b, &a, &r2, &g2, &b2, &a2, &r3, &g3, &b3, &a3)
@@ -239,7 +239,7 @@ def color_class_get(color_class):
 
 def color_class_del(color_class):
     if isinstance(color_class, unicode):
-        color_class = color_class.encode("UTF-8")
+        color_class = PyUnicode_AsUTF8String(color_class)
     edje_color_class_del(
         <const_char *>color_class if color_class is not None else NULL)
 
@@ -259,9 +259,9 @@ def color_class_list():
 
 def text_class_set(text_class, font, int size):
     if isinstance(text_class, unicode):
-        text_class = text_class.encode("UTF-8")
+        text_class = PyUnicode_AsUTF8String(text_class)
     if isinstance(font, unicode):
-        font = font.encode("UTF-8")
+        font = PyUnicode_AsUTF8String(font)
     edje_text_class_set(
         <const_char *>text_class if text_class is not None else NULL,
         <const_char *>font if font is not None else NULL,
@@ -269,7 +269,7 @@ def text_class_set(text_class, font, int size):
 
 
 def text_class_del(text_class):
-    if isinstance(text_class, unicode): text_class = text_class.encode("UTF-8")
+    if isinstance(text_class, unicode): text_class = PyUnicode_AsUTF8String(text_class)
     edje_text_class_del(
         <const_char *>text_class if text_class is not None else NULL)
 
@@ -314,7 +314,7 @@ def available_modules_get():
 
 
 def module_load(name):
-    if isinstance(name, unicode): name = name.encode("UTF-8")
+    if isinstance(name, unicode): name = PyUnicode_AsUTF8String(name)
     return bool(edje_module_load(
                     <const_char *>name if name is not None else NULL))
 
@@ -322,24 +322,24 @@ def module_load(name):
 #     def __init__(cls, name, bases, dict_):
 #         evas.c_evas.EvasObjectMeta.__init__(cls, name, bases, dict_)
 #         cls._fetch_callbacks()
-# 
+#
 #     def _fetch_callbacks(cls):
 #         if "__edje_signal_callbacks__" in cls.__dict__:
 #             return
-# 
+#
 #         cls.__edje_signal_callbacks__ = []
 #         cls.__edje_message_callbacks__ = []
 #         cls.__edje_text_callbacks__ = []
-# 
+#
 #         sig_append = cls.__edje_signal_callbacks__.append
 #         msg_append = cls.__edje_message_callbacks__.append
 #         txt_append = cls.__edje_text_callbacks__.append
-# 
+#
 #         for name in dir(cls):
 #             val = getattr(cls, name)
 #             if not callable(val):
 #                 continue
-# 
+#
 #             if hasattr(val, "edje_signal_callback"):
 #                 sig_data = getattr(val, "edje_signal_callback")
 #                 sig_append((name, sig_data))

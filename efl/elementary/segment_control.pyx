@@ -165,7 +165,7 @@ cdef class SegmentControl(LayoutClass):
         cdef SegmentControlItem ret = SegmentControlItem()
         cdef Elm_Object_Item *item
 
-        if isinstance(label, unicode): label = label.encode("UTF-8")
+        if isinstance(label, unicode): label = PyUnicode_AsUTF8String(label)
         item = elm_segment_control_item_add(self.obj,
             icon.obj if icon is not None else NULL,
             <const_char *>label if label is not None else NULL)
@@ -213,7 +213,7 @@ cdef class SegmentControl(LayoutClass):
         cdef SegmentControlItem ret = SegmentControlItem()
         cdef Elm_Object_Item *item
 
-        if isinstance(label, unicode): label = label.encode("UTF-8")
+        if isinstance(label, unicode): label = PyUnicode_AsUTF8String(label)
         item = elm_segment_control_item_insert_at(self.obj,
             icon.obj if icon is not None else NULL,
             <const_char *>label if label is not None else NULL, index)

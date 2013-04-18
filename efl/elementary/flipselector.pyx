@@ -181,7 +181,7 @@ cdef class FlipSelector(Object):
             cb = _object_item_callback
 
         ret.params = (callback, args, kwargs)
-        if isinstance(label, unicode): label = label.encode("UTF-8")
+        if isinstance(label, unicode): label = PyUnicode_AsUTF8String(label)
         item = elm_flipselector_item_append(self.obj,
             <const_char *>label if label is not None else NULL,
             cb, <void *>self)
@@ -229,7 +229,7 @@ cdef class FlipSelector(Object):
             cb = _object_item_callback
 
         ret.params = (callback, args, kwargs)
-        if isinstance(label, unicode): label = label.encode("UTF-8")
+        if isinstance(label, unicode): label = PyUnicode_AsUTF8String(label)
         item = elm_flipselector_item_prepend(self.obj,
             <const_char *>label if label is not None else NULL,
             cb, <void *>self)

@@ -305,7 +305,7 @@ cdef class Map(object):
         def __set__(self, value):
             self.smooth_set(value)
 
-    def smooth_set(self, bool smooth):
+    def smooth_set(self, bint smooth):
         evas_map_smooth_set(self.map, smooth)
 
     def smooth_get(self):
@@ -328,7 +328,7 @@ cdef class Map(object):
         def __set__(self, value):
             self.alpha_set(value)
 
-    def alpha_set(self, bool alpha):
+    def alpha_set(self, bint alpha):
         evas_map_alpha_set(self.map, alpha)
 
     def alpha_get(self):

@@ -185,8 +185,8 @@ cdef class ToolbarItemState(object):
 
         self.params = (callback, args, kwargs)
 
-        if isinstance(icon, unicode): icon = icon.encode("UTF-8")
-        if isinstance(label, unicode): label = label.encode("UTF-8")
+        if isinstance(icon, unicode): icon = PyUnicode_AsUTF8String(icon)
+        if isinstance(label, unicode): label = PyUnicode_AsUTF8String(label)
         self.obj = elm_toolbar_item_state_add(it.item,
             <const_char *>icon if icon is not None else NULL,
             <const_char *>label if label is not None else NULL,
@@ -215,8 +215,8 @@ cdef class ToolbarItem(ObjectItem):
 
         self.params = (callback, args, kargs)
 
-        if isinstance(icon, unicode): icon = icon.encode("UTF-8")
-        if isinstance(label, unicode): label = label.encode("UTF-8")
+        if isinstance(icon, unicode): icon = PyUnicode_AsUTF8String(icon)
+        if isinstance(label, unicode): label = PyUnicode_AsUTF8String(label)
         item = elm_toolbar_item_append(toolbar.obj,
             <const_char *>icon if icon is not None else NULL,
             <const_char *>label if label is not None else NULL,
@@ -330,7 +330,7 @@ cdef class ToolbarItem(ObjectItem):
             self.icon_set(ic)
 
     cpdef icon_set(self, ic):
-        if isinstance(ic, unicode): ic = ic.encode("UTF-8")
+        if isinstance(ic, unicode): ic = PyUnicode_AsUTF8String(ic)
         elm_toolbar_item_icon_set(self.item,
             <const_char *>ic if ic is not None else NULL)
     cpdef icon_get(self):
@@ -405,8 +405,8 @@ cdef class ToolbarItem(ObjectItem):
             self.icon_file_set(file_name, key)
 
     def icon_file_set(self, file_name, key):
-        if isinstance(file_name, unicode): file_name = file_name.encode("UTF-8")
-        if isinstance(key, unicode): key = key.encode("UTF-8")
+        if isinstance(file_name, unicode): file_name = PyUnicode_AsUTF8String(file_name)
+        if isinstance(key, unicode): key = PyUnicode_AsUTF8String(key)
         if not elm_toolbar_item_icon_file_set(self.item,
             <const_char *>file_name if file_name is not None else NULL,
             <const_char *>key if key is not None else NULL):
@@ -745,7 +745,7 @@ cdef class Toolbar(Object):
         :rtype: :py:class:`ToolbarItem`
 
         """
-        if isinstance(label, unicode): label = label.encode("UTF-8")
+        if isinstance(label, unicode): label = PyUnicode_AsUTF8String(label)
         return _object_item_to_python(elm_toolbar_item_find_by_label(self.obj,
             <const_char *>label if label is not None else NULL))
 

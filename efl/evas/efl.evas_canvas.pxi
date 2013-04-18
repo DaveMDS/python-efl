@@ -133,7 +133,7 @@ cdef class Canvas(Eo):
         if isinstance(method, (int, long)):
             engine_id = method
         elif isinstance(method, unicode):
-            method = method.encode("UTF-8")
+            method = PyUnicode_AsUTF8String(method)
             engine_id = evas_render_method_lookup(
                 <const_char *>method if method is not None else NULL)
         elif isinstance(method, str):
@@ -486,7 +486,7 @@ cdef class Canvas(Eo):
         :rtype: :py:class:`efl.evas.Object`
 
         """
-        if isinstance(name, unicode): name = name.encode("UTF-8")
+        if isinstance(name, unicode): name = PyUnicode_AsUTF8String(name)
         return object_from_instance(evas_object_name_find(self.obj,
             <const_char *>name if name is not None else NULL))
 
@@ -531,12 +531,12 @@ cdef class Canvas(Eo):
         evas_font_path_clear(self.obj)
 
     def font_path_append(self, path):
-        if isinstance(path, unicode): path = path.encode("UTF-8")
+        if isinstance(path, unicode): path = PyUnicode_AsUTF8String(path)
         evas_font_path_append(self.obj,
             <const_char *>path if path is not None else NULL)
 
     def font_path_prepend(self, path):
-        if isinstance(path, unicode): path = path.encode("UTF-8")
+        if isinstance(path, unicode): path = PyUnicode_AsUTF8String(path)
         evas_font_path_prepend(self.obj,
             <const_char *>path if path is not None else NULL)
 

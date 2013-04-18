@@ -72,8 +72,8 @@ cdef class LayoutClass(Object):
             self.file_set(filename, group)
 
     cpdef file_set(self, filename, group = None):
-        if isinstance(filename, unicode): filename = filename.encode("UTF-8")
-        if isinstance(group, unicode): group = group.encode("UTF-8")
+        if isinstance(filename, unicode): filename = PyUnicode_AsUTF8String(filename)
+        if isinstance(group, unicode): group = PyUnicode_AsUTF8String(group)
         if not elm_layout_file_set(self.obj,
             <const_char *>filename if filename is not None else NULL,
             <const_char *>group if group is not None else NULL):
@@ -124,9 +124,9 @@ cdef class LayoutClass(Object):
             self.theme_set(clas, group, style)
 
     cpdef theme_set(self, clas, group, style):
-        if isinstance(clas, unicode): clas = clas.encode("UTF-8")
-        if isinstance(group, unicode): group = group.encode("UTF-8")
-        if isinstance(style, unicode): style = style.encode("UTF-8")
+        if isinstance(clas, unicode): clas = PyUnicode_AsUTF8String(clas)
+        if isinstance(group, unicode): group = PyUnicode_AsUTF8String(group)
+        if isinstance(style, unicode): style = PyUnicode_AsUTF8String(style)
         if not elm_layout_theme_set(self.obj,
             <const_char *>clas if clas is not None else NULL,
             <const_char *>group if group is not None else NULL,
@@ -149,8 +149,8 @@ cdef class LayoutClass(Object):
         :type source: string
 
         """
-        if isinstance(emission, unicode): emission = emission.encode("UTF-8")
-        if isinstance(source, unicode): source = source.encode("UTF-8")
+        if isinstance(emission, unicode): emission = PyUnicode_AsUTF8String(emission)
+        if isinstance(source, unicode): source = PyUnicode_AsUTF8String(source)
         elm_layout_signal_emit(self.obj,
             <const_char *>emission if emission is not None else NULL,
             <const_char *>source if source is not None else NULL)
@@ -179,8 +179,8 @@ cdef class LayoutClass(Object):
         d = self._elm_layout_signal_cbs.setdefault(emission, {})
         lst = d.setdefault(source, [])
         if not lst:
-            if isinstance(emission, unicode): emission = emission.encode("UTF-8")
-            if isinstance(source, unicode): source = source.encode("UTF-8")
+            if isinstance(emission, unicode): emission = PyUnicode_AsUTF8String(emission)
+            if isinstance(source, unicode): source = PyUnicode_AsUTF8String(source)
             elm_layout_signal_callback_add(self.obj,
                 <const_char *>emission if emission is not None else NULL,
                 <const_char *>source if source is not None else NULL,
@@ -228,8 +228,8 @@ cdef class LayoutClass(Object):
         d.pop(source)
         if not d:
             self._elm_layout_signal_cbs.pop(emission)
-        if isinstance(emission, unicode): emission = emission.encode("UTF-8")
-        if isinstance(source, unicode): source = source.encode("UTF-8")
+        if isinstance(emission, unicode): emission = PyUnicode_AsUTF8String(emission)
+        if isinstance(source, unicode): source = PyUnicode_AsUTF8String(source)
         elm_layout_signal_callback_del(self.obj,
             <const_char *>emission if emission is not None else NULL,
             <const_char *>source if source is not None else NULL,
@@ -259,7 +259,7 @@ cdef class LayoutClass(Object):
         :raise RuntimeError: when adding the box fails
 
         """
-        if isinstance(part, unicode): part = part.encode("UTF-8")
+        if isinstance(part, unicode): part = PyUnicode_AsUTF8String(part)
         if not elm_layout_box_append(self.obj,
             <const_char *>part if part is not None else NULL,
             child.obj):
@@ -289,7 +289,7 @@ cdef class LayoutClass(Object):
         :raise RuntimeError: when adding to box fails
 
         """
-        if isinstance(part, unicode): part = part.encode("UTF-8")
+        if isinstance(part, unicode): part = PyUnicode_AsUTF8String(part)
         if not elm_layout_box_prepend(self.obj,
             <const_char *>part if part is not None else NULL,
             child.obj):
@@ -321,7 +321,7 @@ cdef class LayoutClass(Object):
         :raise RuntimeError: when inserting to box fails
 
         """
-        if isinstance(part, unicode): part = part.encode("UTF-8")
+        if isinstance(part, unicode): part = PyUnicode_AsUTF8String(part)
         if not elm_layout_box_insert_before(self.obj,
             <const_char *>part if part is not None else NULL,
             child.obj, reference.obj):
@@ -353,7 +353,7 @@ cdef class LayoutClass(Object):
         :raise RuntimeError: when inserting to box fails
 
         """
-        if isinstance(part, unicode): part = part.encode("UTF-8")
+        if isinstance(part, unicode): part = PyUnicode_AsUTF8String(part)
         if not elm_layout_box_insert_at(self.obj,
             <const_char *>part if part is not None else NULL,
             child.obj, pos):
@@ -381,7 +381,7 @@ cdef class LayoutClass(Object):
         :rtype: :py:class:`evas.object.Object`
 
         """
-        if isinstance(part, unicode): part = part.encode("UTF-8")
+        if isinstance(part, unicode): part = PyUnicode_AsUTF8String(part)
         return object_from_instance(elm_layout_box_remove(self.obj,
             <const_char *>part if part is not None else NULL,
             child.obj))
@@ -409,7 +409,7 @@ cdef class LayoutClass(Object):
         :raise RuntimeError: when removing all items fails
 
         """
-        if isinstance(part, unicode): part = part.encode("UTF-8")
+        if isinstance(part, unicode): part = PyUnicode_AsUTF8String(part)
         if not elm_layout_box_remove_all(self.obj,
             <const_char *>part if part is not None else NULL,
             clear):
@@ -449,7 +449,7 @@ cdef class LayoutClass(Object):
         :raise RuntimeError: when packing an item fails
 
         """
-        if isinstance(part, unicode): part = part.encode("UTF-8")
+        if isinstance(part, unicode): part = PyUnicode_AsUTF8String(part)
         if not elm_layout_table_pack(self.obj,
             <const_char *>part if part is not None else NULL,
             child_obj.obj, col, row, colspan, rowspan):
@@ -477,7 +477,7 @@ cdef class LayoutClass(Object):
         :rtype: :py:class:`evas.object.Object`
 
         """
-        if isinstance(part, unicode): part = part.encode("UTF-8")
+        if isinstance(part, unicode): part = PyUnicode_AsUTF8String(part)
         return object_from_instance(elm_layout_table_unpack(self.obj,
             <const_char *>part if part is not None else NULL,
             child_obj.obj))
@@ -505,7 +505,7 @@ cdef class LayoutClass(Object):
         :raise RuntimeError: when clearing the table fails
 
         """
-        if isinstance(part, unicode): part = part.encode("UTF-8")
+        if isinstance(part, unicode): part = PyUnicode_AsUTF8String(part)
         if not elm_layout_table_clear(self.obj,
             <const_char *>part if part is not None else NULL,
             clear):
@@ -570,7 +570,7 @@ cdef class LayoutClass(Object):
         :rtype: string
 
         """
-        if isinstance(key, unicode): key = key.encode("UTF-8")
+        if isinstance(key, unicode): key = PyUnicode_AsUTF8String(key)
         return _ctouni(elm_layout_data_get(self.obj,
             <const_char *>key if key is not None else NULL))
 
@@ -610,8 +610,8 @@ cdef class LayoutClass(Object):
         :raise RuntimeError: when setting the parts cursor fails
 
         """
-        if isinstance(part_name, unicode): part_name = part_name.encode("UTF-8")
-        if isinstance(cursor, unicode): cursor = cursor.encode("UTF-8")
+        if isinstance(part_name, unicode): part_name = PyUnicode_AsUTF8String(part_name)
+        if isinstance(cursor, unicode): cursor = PyUnicode_AsUTF8String(cursor)
         if not elm_layout_part_cursor_set(self.obj,
             <const_char *>part_name if part_name is not None else NULL,
             <const_char *>cursor if cursor is not None else NULL):
@@ -628,7 +628,7 @@ cdef class LayoutClass(Object):
         :rtype: string
 
         """
-        if isinstance(part_name, unicode): part_name = part_name.encode("UTF-8")
+        if isinstance(part_name, unicode): part_name = PyUnicode_AsUTF8String(part_name)
         return _ctouni(elm_layout_part_cursor_get(self.obj,
             <const_char *>part_name if part_name is not None else NULL))
 
@@ -644,7 +644,7 @@ cdef class LayoutClass(Object):
         :raise RuntimeError: when unsetting the part cursor fails
 
         """
-        if isinstance(part_name, unicode): part_name = part_name.encode("UTF-8")
+        if isinstance(part_name, unicode): part_name = PyUnicode_AsUTF8String(part_name)
         if not elm_layout_part_cursor_unset(self.obj,
             <const_char *>part_name if part_name is not None else NULL):
                 raise RuntimeError("Could not unset part cursor")
@@ -662,8 +662,8 @@ cdef class LayoutClass(Object):
         :raise RuntimeError: when setting the part cursor style fails
 
         """
-        if isinstance(part_name, unicode): part_name = part_name.encode("UTF-8")
-        if isinstance(style, unicode): style = style.encode("UTF-8")
+        if isinstance(part_name, unicode): part_name = PyUnicode_AsUTF8String(part_name)
+        if isinstance(style, unicode): style = PyUnicode_AsUTF8String(style)
         if not elm_layout_part_cursor_style_set(self.obj,
             <const_char *>part_name if part_name is not None else NULL,
             <const_char *>style if style is not None else NULL):
@@ -682,7 +682,7 @@ cdef class LayoutClass(Object):
         :rtype: string
 
         """
-        if isinstance(part_name, unicode): part_name = part_name.encode("UTF-8")
+        if isinstance(part_name, unicode): part_name = PyUnicode_AsUTF8String(part_name)
         return _ctouni(elm_layout_part_cursor_style_get(self.obj,
             <const_char *>part_name if part_name is not None else NULL))
 
@@ -710,7 +710,7 @@ cdef class LayoutClass(Object):
             when part does not exist or has no cursor set.
 
         """
-        if isinstance(part_name, unicode): part_name = part_name.encode("UTF-8")
+        if isinstance(part_name, unicode): part_name = PyUnicode_AsUTF8String(part_name)
         if not elm_layout_part_cursor_engine_only_set(self.obj,
             <const_char *>part_name if part_name is not None else NULL,
             engine_only):
@@ -728,7 +728,7 @@ cdef class LayoutClass(Object):
         :rtype: bool
 
         """
-        if isinstance(part_name, unicode): part_name = part_name.encode("UTF-8")
+        if isinstance(part_name, unicode): part_name = PyUnicode_AsUTF8String(part_name)
         return bool(elm_layout_part_cursor_engine_only_get(self.obj,
             <const_char *>part_name if part_name is not None else NULL))
 

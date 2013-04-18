@@ -202,7 +202,7 @@ cdef class Fileselector(LayoutClass):
             self.path_set(path)
 
     cpdef path_set(self, path):
-        if isinstance(path, unicode): path = path.encode("UTF-8")
+        if isinstance(path, unicode): path = PyUnicode_AsUTF8String(path)
         elm_fileselector_path_set(self.obj,
             <const_char *>path if path is not None else NULL)
     cpdef path_get(self):
@@ -223,7 +223,7 @@ cdef class Fileselector(LayoutClass):
             self.selected_set(path)
 
     cpdef selected_set(self, path):
-        if isinstance(path, unicode): path = path.encode("UTF-8")
+        if isinstance(path, unicode): path = PyUnicode_AsUTF8String(path)
         if not elm_fileselector_selected_set(self.obj,
             <const_char *>path if path is not None else NULL):
                 raise RuntimeError("Setting the selected path failed")

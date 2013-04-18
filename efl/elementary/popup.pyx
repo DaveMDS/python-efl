@@ -211,7 +211,7 @@ cdef class PopupItem(ObjectItem):
             raise TypeError("func is not None or callable")
 
         self.params = (func, args, kwargs)
-        if isinstance(label, unicode): label = label.encode("UTF-8")
+        if isinstance(label, unicode): label = PyUnicode_AsUTF8String(label)
         item = elm_popup_item_append(   popup.obj,
                                         <const_char *>label if not None else NULL,
                                         icon.obj if not None else NULL,

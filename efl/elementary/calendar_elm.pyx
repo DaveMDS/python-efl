@@ -197,7 +197,7 @@ cdef class CalendarMark(object):
         time.tm_wday = tmtup.tm_wday
         time.tm_yday = tmtup.tm_yday
         time.tm_isdst = tmtup.tm_isdst
-        if isinstance(mark_type, unicode): mark_type = mark_type.encode("UTF-8")
+        if isinstance(mark_type, unicode): mark_type = PyUnicode_AsUTF8String(mark_type)
         self.obj = elm_calendar_mark_add(cal.obj,
             <const_char *>mark_type if mark_type is not None else NULL,
             &time, repeat)
@@ -268,7 +268,7 @@ cdef class Calendar(LayoutClass):
             days = <const_char **>PyMem_Malloc(7 * sizeof(const_char *))
             for i in range(7):
                 weekday = weekdays[i]
-                if isinstance(weekday, unicode): weekday = weekday.encode("UTF-8")
+                if isinstance(weekday, unicode): weekday = PyUnicode_AsUTF8String(weekday)
                 day = <const_char *>weekday if weekday is not None else NULL
                 days[i] = <const_char *>strdup(day)
             elm_calendar_weekdays_names_set(self.obj, <const_char **>days)

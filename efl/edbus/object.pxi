@@ -15,8 +15,8 @@ cdef class Object(object):
         :param path: object path of this object
 
         """
-        if isinstance(bus, unicode): bus = bus.encode("UTF-8")
-        if isinstance(path, unicode): path = path.encode("UTF-8")
+        if isinstance(bus, unicode): bus = PyUnicode_AsUTF8String(bus)
+        if isinstance(path, unicode): path = PyUnicode_AsUTF8String(path)
         self.obj = edbus_object_get(edbus_conn.conn, bus, path)
 
     def ref(self):

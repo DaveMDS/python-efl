@@ -387,7 +387,7 @@ cdef class Window(Object):
         :type parent: :py:class:`efl.evas.Object`
 
         """
-        if isinstance(name, unicode): name = name.encode("UTF-8")
+        if isinstance(name, unicode): name = PyUnicode_AsUTF8String(name)
         self._set_obj(elm_win_add(parent.obj if parent is not None else NULL,
             <const_char *>name if name is not None else NULL,
             type))
@@ -451,7 +451,7 @@ cdef class Window(Object):
             self.title_set(title)
 
     cpdef title_set(self, title):
-        if isinstance(title, unicode): title = title.encode("UTF-8")
+        if isinstance(title, unicode): title = PyUnicode_AsUTF8String(title)
         elm_win_title_set(self.obj,
             <const_char *>title if title is not None else NULL)
     cpdef title_get(self):
@@ -469,7 +469,7 @@ cdef class Window(Object):
             self.icon_name_set(icon_name)
 
     def icon_name_set(self, icon_name):
-        if isinstance(icon_name, unicode): icon_name = icon_name.encode("UTF-8")
+        if isinstance(icon_name, unicode): icon_name = PyUnicode_AsUTF8String(icon_name)
         elm_win_icon_name_set(self.obj,
             <const_char *>icon_name if icon_name is not None else NULL)
     def icon_name_get(self):
@@ -487,7 +487,7 @@ cdef class Window(Object):
             self.role_set(role)
 
     def role_set(self, role):
-        if isinstance(role, unicode): role = role.encode("UTF-8")
+        if isinstance(role, unicode): role = PyUnicode_AsUTF8String(role)
         elm_win_role_set(self.obj,
             <const_char *>role if role is not None else NULL)
     def role_get(self):
@@ -823,7 +823,7 @@ cdef class Window(Object):
             return self.profile_get()
 
     cpdef profile_set(self, profile):
-        if isinstance(profile, unicode): profile = profile.encode("UTF-8")
+        if isinstance(profile, unicode): profile = PyUnicode_AsUTF8String(profile)
         elm_win_profile_set(self.obj,
             <const_char *>profile if profile is not None else NULL)
     cpdef profile_get(self):
@@ -1339,7 +1339,7 @@ cdef class Window(Object):
             self.focus_highlight_style_set(style)
 
     cpdef focus_highlight_style_set(self, style):
-        if isinstance(style, unicode): style = style.encode("UTF-8")
+        if isinstance(style, unicode): style = PyUnicode_AsUTF8String(style)
         elm_win_focus_highlight_style_set(self.obj,
             <const_char *>style if style is not None else NULL)
     cpdef focus_highlight_style_get(self):
@@ -1443,7 +1443,7 @@ cdef class Window(Object):
         :raise RuntimeError: if the socket could not be created.
 
         """
-        if isinstance(svcname, unicode): svcname = svcname.encode("UTF-8")
+        if isinstance(svcname, unicode): svcname = PyUnicode_AsUTF8String(svcname)
         if not elm_win_socket_listen(self.obj, <const_char *>svcname, svcnum, svcsys):
             raise RuntimeError("Could not create a socket.")
 
@@ -1628,8 +1628,8 @@ cdef class StandardWindow(Window):
     """
 
     def __init__(self, name, title):
-        if isinstance(name, unicode): name = name.encode("UTF-8")
-        if isinstance(title, unicode): title = title.encode("UTF-8")
+        if isinstance(name, unicode): name = PyUnicode_AsUTF8String(name)
+        if isinstance(title, unicode): title = PyUnicode_AsUTF8String(title)
         self._set_obj(elm_win_util_standard_add(
             <const_char *>name if name is not None else NULL,
             <const_char *>title if title is not None else NULL))

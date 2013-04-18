@@ -86,7 +86,7 @@ cdef class MultiButtonEntryItem(ObjectItem):
             cb = _object_item_callback
 
         self.params = (callback, args, kargs)
-        if isinstance(label, unicode): label = label.encode("UTF-8")
+        if isinstance(label, unicode): label = PyUnicode_AsUTF8String(label)
         if kind == ELM_MULTIBUTTONENTRY_INSERT_PREPEND:
             item = elm_multibuttonentry_item_prepend(mbe.obj,
                 <const_char *>label if label is not None else NULL,

@@ -177,7 +177,7 @@ cdef class Layout(LayoutClass):
         :rtype: bool
 
         """
-        if isinstance(swallow, unicode): swallow = swallow.encode("UTF-8")
+        if isinstance(swallow, unicode): swallow = PyUnicode_AsUTF8String(swallow)
         elm_layout_content_set(self.obj,
             <const_char *>swallow if swallow is not None else NULL,
             content.obj if content is not None else NULL)
@@ -193,7 +193,7 @@ cdef class Layout(LayoutClass):
         :return: The swallowed object or None if none or an error occurred
 
         """
-        if isinstance(swallow, unicode): swallow = swallow.encode("UTF-8")
+        if isinstance(swallow, unicode): swallow = PyUnicode_AsUTF8String(swallow)
         return object_from_instance(elm_layout_content_get(self.obj,
             <const_char *>swallow if swallow is not None else NULL))
 
@@ -210,7 +210,7 @@ cdef class Layout(LayoutClass):
         :rtype: :py:class:`elementary.object.Object`
 
         """
-        if isinstance(swallow, unicode): swallow = swallow.encode("UTF-8")
+        if isinstance(swallow, unicode): swallow = PyUnicode_AsUTF8String(swallow)
         return object_from_instance(elm_layout_content_unset(self.obj,
             <const_char *>swallow if swallow is not None else NULL))
 
@@ -227,8 +227,8 @@ cdef class Layout(LayoutClass):
         :return: ``True`` on success, ``False`` otherwise
 
         """
-        if isinstance(part, unicode): part = part.encode("UTF-8")
-        if isinstance(text, unicode): text = text.encode("UTF-8")
+        if isinstance(part, unicode): part = PyUnicode_AsUTF8String(part)
+        if isinstance(text, unicode): text = PyUnicode_AsUTF8String(text)
         elm_layout_text_set(self.obj,
             <const_char *>part if part is not None else NULL,
             <const_char *>text if text is not None else NULL)
@@ -246,7 +246,7 @@ cdef class Layout(LayoutClass):
         :rtype: string
 
         """
-        if isinstance(part, unicode): part = part.encode("UTF-8")
+        if isinstance(part, unicode): part = PyUnicode_AsUTF8String(part)
         return _ctouni(elm_layout_text_get(self.obj,
             <const_char *>part if part is not None else NULL))
 

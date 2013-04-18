@@ -90,7 +90,7 @@ cdef class IndexItem(ObjectItem):
 
         self.params = (callback, args, kargs)
 
-        if isinstance(letter, unicode): letter = letter.encode("UTF-8")
+        if isinstance(letter, unicode): letter = PyUnicode_AsUTF8String(letter)
 
         if kind == ELM_INDEX_ITEM_INSERT_APPEND:
             item = elm_index_item_append(index.obj,
