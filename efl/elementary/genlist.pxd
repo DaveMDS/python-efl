@@ -51,7 +51,7 @@ cdef extern from "Elementary.h":
     void                    elm_genlist_item_bring_in(Elm_Object_Item *item, Elm_Genlist_Item_Scrollto_Type scrollto_type)
     void                    elm_genlist_item_update(Elm_Object_Item *item)
     void                    elm_genlist_item_item_class_update(Elm_Object_Item *it, Elm_Genlist_Item_Class *itc)
-    Elm_Genlist_Item_Class *elm_genlist_item_item_class_get(Elm_Object_Item *it)
+    # TODO: Elm_Genlist_Item_Class *elm_genlist_item_item_class_get(Elm_Object_Item *it)
     int                     elm_genlist_item_index_get(Elm_Object_Item *it)
     void                    elm_genlist_realized_items_update(Evas_Object *obj)
     unsigned int            elm_genlist_items_count(Evas_Object *obj)
@@ -104,3 +104,13 @@ cdef extern from "Elementary.h":
     void                    elm_genlist_select_mode_set(Evas_Object *obj, Elm_Object_Select_Mode mode)
     Elm_Object_Select_Mode  elm_genlist_select_mode_get(Evas_Object *obj)
 
+cdef class GenlistItemClass(object):
+    cdef:
+        Elm_Genlist_Item_Class cls
+        object _text_get_func
+        object _content_get_func
+        object _state_get_func
+        object _del_func
+        object _item_style
+        object _decorate_item_style
+        object _decorate_all_item_style

@@ -200,6 +200,7 @@ else:
         Extension("efl.elementary.slider", ["efl/elementary/slider.pyx"]),
         Extension("efl.elementary.slideshow", ["efl/elementary/slideshow.pyx"]),
         Extension("efl.elementary.spinner", ["efl/elementary/spinner.pyx"]),
+        #Extension("efl.elementary.store", ["efl/elementary/store.pyx"]),
         Extension("efl.elementary.table", ["efl/elementary/table.pyx"]),
         Extension("efl.elementary.theme", ["efl/elementary/theme.pyx"]),
         Extension("efl.elementary.thumb", ["efl/elementary/thumb.pyx"]),

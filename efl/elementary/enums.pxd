@@ -369,6 +369,15 @@ cdef extern from "Elementary.h":
         ELM_SOFTCURSOR_MODE_ON
         ELM_SOFTCURSOR_MODE_OFF
 
+    ctypedef enum Elm_Store_Item_Mapping_Type:
+        ELM_STORE_ITEM_MAPPING_NONE
+        ELM_STORE_ITEM_MAPPING_LABEL
+        ELM_STORE_ITEM_MAPPING_STATE
+        ELM_STORE_ITEM_MAPPING_ICON
+        ELM_STORE_ITEM_MAPPING_PHOTO
+        ELM_STORE_ITEM_MAPPING_CUSTOM
+        ELM_STORE_ITEM_MAPPING_LAST
+
     ctypedef enum Elm_Text_Format:
         ELM_TEXT_FORMAT_PLAIN_UTF8
         ELM_TEXT_FORMAT_MARKUP_UTF8

@@ -658,27 +658,22 @@ cdef class GenlistItemClass(object):
     constructor parameters.
 
     """
-    cdef:
-        Elm_Genlist_Item_Class cls
-        Elm_Genlist_Item_Class *obj
-        object _text_get_func
-        object _content_get_func
-        object _state_get_func
-        object _del_func
-        object _item_style
-        object _decorate_item_style
-        object _decorate_all_item_style
+    # In pxd:
+    # Elm_Genlist_Item_Class cls
+    # object _text_get_func
+    # object _content_get_func
+    # object _state_get_func
+    # object _del_func
+    # object _item_style
+    # object _decorate_item_style
+    # object _decorate_all_item_style
 
     def __cinit__(self):
-        self.obj = &self.cls
-        self.obj.item_style = NULL
-        self.obj.decorate_item_style = NULL
-        self.obj.decorate_all_item_style = NULL
-        self.obj.func.text_get = _py_elm_genlist_item_text_get
-        self.obj.func.content_get = _py_elm_genlist_item_content_get
-        self.obj.func.state_get = _py_elm_genlist_item_state_get
+        self.cls.func.text_get = _py_elm_genlist_item_text_get
+        self.cls.func.content_get = _py_elm_genlist_item_content_get
+        self.cls.func.state_get = _py_elm_genlist_item_state_get
         # TODO: Check if the struct member is named del_
-        self.obj.func.del_ = _py_elm_genlist_object_item_del
+        self.cls.func.del_ = _py_elm_genlist_object_item_del
 
     def __init__(self, item_style=None, text_get_func=None,
                  content_get_func=None, state_get_func=None, del_func=None,
@@ -773,15 +768,15 @@ cdef class GenlistItemClass(object):
         self._decorate_item_style = a2
         self._decorate_all_item_style = a3
 
-        self.obj.item_style = <char *>self._item_style if self._item_style is not None else NULL
-        self.obj.decorate_item_style = <char *>self._decorate_item_style if self._decorate_item_style is not None else NULL
-        self.obj.decorate_all_item_style = <char *>self._decorate_all_item_style if self._decorate_all_item_style is not None else NULL
+        self.cls.item_style = <char *>self._item_style if self._item_style is not None else NULL
+        self.cls.decorate_item_style = <char *>self._decorate_item_style if self._decorate_item_style is not None else NULL
+        self.cls.decorate_all_item_style = <char *>self._decorate_all_item_style if self._decorate_all_item_style is not None else NULL
 
     def __str__(self):
         return ("%s(item_style=%r, text_get_func=%s, content_get_func=%s, "
                 "state_get_func=%s, del_func=%s)") % \
                (self.__class__.__name__,
-                _ctouni(self.obj.item_style),
+                _ctouni(self.cls.item_style),
                 self._text_get_func,
                 self._content_get_func,
                 self._state_get_func,
@@ -794,8 +789,8 @@ cdef class GenlistItemClass(object):
                (self.__class__.__name__,
                 <unsigned long><void *>self,
                 PY_REFCOUNT(self),
-                <unsigned long>&self.obj,
-                _ctouni(self.obj.item_style),
+                <unsigned long>&self.cls,
+                _ctouni(self.cls.item_style),
                 self._text_get_func,
                 self._content_get_func,
                 self._state_get_func,
@@ -809,7 +804,7 @@ cdef class GenlistItemClass(object):
         def __set__(self, style):
             if isinstance(style, unicode): style = style.encode("UTF-8")
             self._item_style = style
-            self.obj.item_style = <char *>style if style is not None else NULL
+            self.cls.item_style = <char *>style if style is not None else NULL
 
     property decorate_item_style:
         """The decoration style of this item class."""
@@ -819,7 +814,7 @@ cdef class GenlistItemClass(object):
         def __set__(self, style):
             if isinstance(style, unicode): style = style.encode("UTF-8")
             self._decorate_item_style = style
-            self.obj.decorate_item_style = <char *>style if style is not None else NULL
+            self.cls.decorate_item_style = <char *>style if style is not None else NULL
 
     property decorate_all_item_style:
         """Decorate all style of this item class."""
@@ -829,7 +824,7 @@ cdef class GenlistItemClass(object):
         def __set__(self, style):
             if isinstance(style, unicode): style = style.encode("UTF-8")
             self._decorate_all_item_style = style
-            self.obj.decorate_all_item_style = <char *>style if style is not None else NULL
+            self.cls.decorate_all_item_style = <char *>style if style is not None else NULL
 
     def text_get(self, evasObject obj, part, item_data):
         """To be called by Genlist for each row to get its label.
@@ -927,7 +922,7 @@ cdef class GenlistItem(ObjectItem):
 
         """
 
-        self.item_class = item_class.obj
+        self.item_class = &item_class.cls
 
         self.parent_item = _object_item_from_python(parent_item) if parent_item is not None else NULL
 
@@ -1238,7 +1233,7 @@ cdef class GenlistItem(ObjectItem):
         called on the item.
 
         """
-        elm_genlist_item_item_class_update(self.item, itc.obj)
+        elm_genlist_item_item_class_update(self.item, &itc.cls)
 
     #TODO: def item_class_get(self):
         """This returns the Genlist_Item_Class for the given item. It can be
