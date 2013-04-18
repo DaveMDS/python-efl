@@ -23,7 +23,7 @@ cdef extern from "Elementary.h":
     Eina_Bool                elm_transit_objects_final_state_keep_get(Elm_Transit *transit)
     void                     elm_transit_event_enabled_set(Elm_Transit *transit, Eina_Bool enabled)
     Eina_Bool                elm_transit_event_enabled_get(Elm_Transit *transit)
-    # TODO: void                     elm_transit_del_cb_set(Elm_Transit *transit, Elm_Transit_Del_Cb cb, void *data)
+    void                     elm_transit_del_cb_set(Elm_Transit *transit, Elm_Transit_Del_Cb cb, void *data)
     void                     elm_transit_auto_reverse_set(Elm_Transit *transit, Eina_Bool reverse)
     Eina_Bool                elm_transit_auto_reverse_get(Elm_Transit *transit)
     void                     elm_transit_repeat_times_set(Elm_Transit *transit, int repeat)

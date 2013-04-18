@@ -155,6 +155,15 @@ ELM_TRANSIT_TWEEN_MODE_SINUSOIDAL = enums.ELM_TRANSIT_TWEEN_MODE_SINUSOIDAL
 ELM_TRANSIT_TWEEN_MODE_DECELERATE = enums.ELM_TRANSIT_TWEEN_MODE_DECELERATE
 ELM_TRANSIT_TWEEN_MODE_ACCELERATE = enums.ELM_TRANSIT_TWEEN_MODE_ACCELERATE
 
+
+cdef void elm_transit_del_cb(void *data, Elm_Transit *transit):
+    cdef:
+        Transit trans = <object>data
+        tuple args = trans.del_cb_args
+        dict kwargs = trans.del_cb_kwargs
+
+    trans.del_cb(trans, *args, **kwargs)
+
 cdef class Transit(object):
 
     """
@@ -163,10 +172,11 @@ cdef class Transit(object):
 
     """
 
-    cdef Elm_Transit* obj
-
-    def __cinit__(self, *a, **ka):
-        self.obj = NULL
+    cdef:
+        Elm_Transit* obj
+        object del_cb
+        tuple del_cb_args
+        dict del_cb_kwargs
 
     def __init__(self):
         """Create new transit.
@@ -334,23 +344,28 @@ cdef class Transit(object):
         def __get__(self):
             return bool(elm_transit_event_enabled_get(self.obj))
 
-    # TODO:
-    # def del_cb_set(self, cb, *args, **kwargs):
-    #     """del_cb_set(cb, *args, **kwargs)
+    def del_cb_set(self, func, *args, **kwargs):
+        """del_cb_set(func, *args, **kwargs)
 
-    #     Set the user-callback function when the transit is deleted.
+        Set the user-callback function when the transit is deleted.
 
-    #     .. note:: Using this function twice will overwrite the first
-    #         function set.
-    #     .. note:: the ``transit`` object will be deleted after call ``cb``
-    #         function.
+        .. note:: Using this function twice will overwrite the first
+            function set.
+        .. note:: the ``transit`` object will be deleted after call ``func``
+            function.
 
-    #     :param cb: Callback function pointer. This function will be called
-    #         before the deletion of the transit.
-    #     :param data: Callback function user data. It is the ``op`` parameter.
+        :param func: Callback function pointer. This function will be called
+            before the deletion of the transit.
+        :param data: Callback function user data. It is the ``op`` parameter.
 
-    #     """
-    #     elm_transit_del_cb_set(self.obj, cb, data)
+        """
+        if not callable(func):
+            raise TypeError("func is not callable.")
+
+        self.del_cb_args = args
+        self.del_cb_kwargs = kwargs
+
+        elm_transit_del_cb_set(self.obj, elm_transit_del_cb, <void *>self)
 
     property auto_reverse:
         """If auto reverse is set, after running the effects with the
@@ -433,7 +448,7 @@ cdef class Transit(object):
             Start at 0.0 then "wobble" like a spring rest position 1.0, and
             wobble v2 times, with decay factor of v1
 
-        :type: (double **v1**, double **v2**) (defaults are 1.0, 0.0)
+        :type: (float **v1**, float **v2**) (defaults are 1.0, 0.0)
 
         """
         def __set__(self, value):
@@ -442,7 +457,7 @@ cdef class Transit(object):
         def __get__(self):
             return self.tween_mode_factor_get()
 
-    cpdef tween_mode_factor_set(self, double v1, double v2):
+    cpdef tween_mode_factor_set(self, float v1, float v2):
         elm_transit_tween_mode_factor_set(self.obj, v1, v2)
 
     cpdef tween_mode_factor_get(self):
@@ -456,7 +471,7 @@ cdef class Transit(object):
         :type: float
 
         """
-        def __set__(self, duration):
+        def __set__(self, float duration):
             elm_transit_duration_set(self.obj, duration)
         def __get__(self):
             return elm_transit_duration_get(self.obj)
@@ -477,7 +492,7 @@ cdef class Transit(object):
         :type: bool
 
         """
-        def __set__(self, paused):
+        def __set__(self, bint paused):
             elm_transit_paused_set(self.obj, paused)
         def __get__(self):
             return bool(elm_transit_paused_get(self.obj))
@@ -557,11 +572,11 @@ cdef class Transit(object):
         def __get__(self):
             return self.smooth_get()
 
-    cpdef smooth_set(self, smooth):
+    cpdef smooth_set(self, bint smooth):
         elm_transit_smooth_set(self.obj, smooth)
 
-    cpdef smooth_get(self):
-        return bool(elm_transit_smooth_get(self.obj))
+    cpdef bint smooth_get(self):
+        return elm_transit_smooth_get(self.obj)
 
     def effect_resizing_add(self, Evas_Coord from_w, Evas_Coord from_h, Evas_Coord to_w, Evas_Coord to_h):
         """effect_resizing_add(int from_w, int from_h, int to_w, int to_h)

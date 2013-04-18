@@ -81,6 +81,9 @@ from test_table import table_clicked
 from test_thumb import thumb_clicked
 from test_toolbar import toolbar_clicked
 from test_tooltip import tooltip_clicked
+from test_transit import transit_clicked, transit2_clicked, transit3_clicked, \
+    transit4_clicked, transit5_clicked, transit6_clicked, transit7_clicked, \
+    transit9_clicked
 from test_video import video_clicked
 from test_web import web_clicked
 from test_win import window_states_clicked
@@ -129,6 +132,14 @@ items = [
          ("Effects", [
             ("Flip", flip_clicked),
             ("Flip Interactive", flip_interactive_clicked),
+            ("Transit", transit_clicked),
+            ("Transit Resize", transit2_clicked),
+            ("Transit Flip", transit3_clicked),
+            ("Transit Zoom", transit4_clicked),
+            ("Transit Blend", transit5_clicked),
+            ("Transit Fade", transit6_clicked),
+            ("Transit Resizable", transit7_clicked),
+            ("Transit Chain", transit9_clicked),
         ]),
          ("Entries", [
             ("Entry", entry_clicked),
