@@ -208,17 +208,19 @@ cdef extern from "Ecore_File.h":
 cdef class Timer(Eo):
     cdef double _interval
     cdef readonly object func, args, kargs
-    cpdef object _task_exec(self)
+    cpdef bint _task_exec(self)
 
 
 cdef class Animator(Eo):
-    cdef readonly object func, args, kargs
-    cpdef object _task_exec(self)
+    cdef readonly object func
+    cdef readonly tuple args
+    cdef readonly dict kargs
+    cpdef bint _task_exec(self)
 
 
 cdef class Idler(Eo):
     cdef readonly object func, args, kargs
-    cpdef object _task_exec(self)
+    cpdef bint _task_exec(self)
 
 
 cdef class IdleEnterer(Idler):

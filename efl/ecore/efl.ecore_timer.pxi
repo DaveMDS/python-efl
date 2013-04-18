@@ -62,7 +62,7 @@ cdef class Timer(Eo):
                 self.interval if self.obj else -1.0,
                 self.func, self.args, self.kargs)
 
-    cpdef object _task_exec(self):
+    cpdef bint _task_exec(self):
         return self.func(*self.args, **self.kargs)
 
     def delete(self):

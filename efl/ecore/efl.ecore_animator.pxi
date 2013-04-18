@@ -61,7 +61,7 @@ cdef class Animator(Eo):
         return "%s Animator(func=%s, args=%s, kargs=%s)" % (Eo.__repr__(self),
                 self.func, self.args, self.kargs)
 
-    cpdef object _task_exec(self):
+    cpdef bint _task_exec(self):
         return self.func(*self.args, **self.kargs)
 
     def delete(self):
