@@ -27,7 +27,7 @@ def disk_create(win, rnd):
     return di
 
 def cb_sel(ds, item):
-    print(("Selected item: %s" % (item.text)))
+    print(("Selected item: %s" % (item.text.encode("UTF-8"))))
 
 
 def diskselector_clicked(obj):
