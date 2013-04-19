@@ -7,10 +7,7 @@ from libc.string cimport const_char
 cdef extern from "Elementary.h":
 
     ctypedef struct Elm_Toolbar_Item_State:
-        char *icon
-        char *label
-        Evas_Smart_Cb func
-        void *data
+        pass
 
     Evas_Object             *elm_toolbar_add(Evas_Object *parent)
     void                     elm_toolbar_icon_size_set(Evas_Object *obj, int icon_size)
@@ -53,12 +50,12 @@ cdef extern from "Elementary.h":
     void                     elm_toolbar_item_menu_set(Elm_Object_Item *item, Eina_Bool menu)
     Evas_Object             *elm_toolbar_item_menu_get(Elm_Object_Item *item)
     Elm_Toolbar_Item_State  *elm_toolbar_item_state_add(Elm_Object_Item *item, const_char *icon, const_char *label, Evas_Smart_Cb func, void *data)
-    # TODO: Eina_Bool                elm_toolbar_item_state_del(Elm_Object_Item *item, Elm_Toolbar_Item_State *state)
-    # TODO: Eina_Bool                elm_toolbar_item_state_set(Elm_Object_Item *item, Elm_Toolbar_Item_State *state)
-    # TODO: void                     elm_toolbar_item_state_unset(Elm_Object_Item *item)
-    # TODO: Elm_Toolbar_Item_State  *elm_toolbar_item_state_get(Elm_Object_Item *item)
-    # TODO: Elm_Toolbar_Item_State  *elm_toolbar_item_state_next(Elm_Object_Item *item)
-    # TODO: Elm_Toolbar_Item_State  *elm_toolbar_item_state_prev(Elm_Object_Item *item)
+    Eina_Bool                elm_toolbar_item_state_del(Elm_Object_Item *item, Elm_Toolbar_Item_State *state)
+    Eina_Bool                elm_toolbar_item_state_set(Elm_Object_Item *item, Elm_Toolbar_Item_State *state)
+    void                     elm_toolbar_item_state_unset(Elm_Object_Item *item)
+    Elm_Toolbar_Item_State  *elm_toolbar_item_state_get(Elm_Object_Item *item)
+    Elm_Toolbar_Item_State  *elm_toolbar_item_state_next(Elm_Object_Item *item)
+    Elm_Toolbar_Item_State  *elm_toolbar_item_state_prev(Elm_Object_Item *item)
     void                     elm_toolbar_horizontal_set(Evas_Object *obj, Eina_Bool horizontal)
     Eina_Bool                elm_toolbar_horizontal_get(Evas_Object *obj)
     unsigned int             elm_toolbar_items_count(Evas_Object *obj)

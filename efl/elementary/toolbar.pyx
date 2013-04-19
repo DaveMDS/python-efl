@@ -172,8 +172,10 @@ cdef class ToolbarItemState(object):
 
     """A state for a :py:class:`ToolbarItem`."""
 
-    cdef Elm_Toolbar_Item_State *obj
+    cdef Elm_Toolbar_Item_State *state
     cdef object params
+
+    # XXX: Item states mess up the item data somehow, making obj_it_del_cb crash.
 
     def __init__(self, ToolbarItem it, icon = None, label = None, callback = None, *args, **kwargs):
         cdef Evas_Smart_Cb cb = NULL
@@ -187,25 +189,20 @@ cdef class ToolbarItemState(object):
 
         if isinstance(icon, unicode): icon = PyUnicode_AsUTF8String(icon)
         if isinstance(label, unicode): label = PyUnicode_AsUTF8String(label)
-        self.obj = elm_toolbar_item_state_add(it.item,
+        self.state = elm_toolbar_item_state_add(it.item,
             <const_char *>icon if icon is not None else NULL,
             <const_char *>label if label is not None else NULL,
             cb, <void*>self)
-        if self.obj == NULL:
+        if self.state == NULL:
             Py_DECREF(self)
+
 
 cdef class ToolbarItem(ObjectItem):
 
-    """
-
-    An item for the toolbar.
-
-    """
+    """An item for the toolbar."""
 
     def __init__(self, evasObject toolbar not None, icon = None, label = None,
                  callback = None, *args, **kargs):
-
-        cdef Evas_Object *ic = NULL
         cdef Evas_Smart_Cb cb = NULL
 
         if callback is not None:
@@ -475,26 +472,45 @@ cdef class ToolbarItem(ObjectItem):
         return object_from_instance(elm_toolbar_item_menu_get(self.item))
 
 
-    #TODO def state_add(self, icon, label, func, data):
-        #return elm_toolbar_item_state_add(self.item, icon, label, func, data)
+    def state_add(self, icon=None, label=None, func=None, *args, **kwargs):
+        return ToolbarItemState(self, icon, label, func, *args, **kwargs)
 
-    #TODO def state_del(self, state):
-        #return bool(elm_toolbar_item_state_del(self.item, state))
+    def state_del(self, ToolbarItemState state):
+        if not elm_toolbar_item_state_del(self.item, state.state):
+            raise RuntimeError("Could not delete state.")
 
-    #TODO def state_set(self, state):
-        #return bool(elm_toolbar_item_state_set(self.item, state))
+    property state:
+        """An item state."""
+        def __set__(self, value):
+            self.state_set(value)
 
-    #TODO def state_unset(self):
-        #elm_toolbar_item_state_unset(self.item)
+        def __del__(self):
+            self.state_unset()
 
-    #TODO def state_get(self):
-        #return elm_toolbar_item_state_get(self.item)
+        def __get__(self):
+            return self.state_get()
 
-    #TODO def state_next(self):
-        #return elm_toolbar_item_state_next(self.item)
+    cpdef state_set(self, ToolbarItemState state):
+        if not elm_toolbar_item_state_set(self.item, state.state):
+            raise RuntimeError("Could not set state")
 
-    #TODO def state_prev(self):
-        #return elm_toolbar_item_state_prev(self.item)
+    cpdef state_unset(self):
+        elm_toolbar_item_state_unset(self.item)
+
+    cpdef state_get(self):
+        cdef ToolbarItemState ret = ToolbarItemState.__new__(ToolbarItemState)
+        ret.state = elm_toolbar_item_state_get(self.item)
+        return ret if ret.state != NULL else None
+
+    def state_next(self):
+        cdef ToolbarItemState ret = ToolbarItemState.__new__(ToolbarItemState)
+        ret.state = elm_toolbar_item_state_next(self.item)
+        return ret if ret.state != NULL else None
+
+    def state_prev(self):
+        cdef ToolbarItemState ret = ToolbarItemState.__new__(ToolbarItemState)
+        ret.state = elm_toolbar_item_state_prev(self.item)
+        return ret if ret.state != NULL else None
 
     def show(self, Elm_Toolbar_Item_Scrollto_Type scrollto_type):
         """Show this item, when the toolbar can be scrolled.
