@@ -30,7 +30,6 @@ cdef extern from "Edje.h":
     ctypedef void (*Edje_Signal_Cb)(void *data, Evas_Object *obj, const_char *emission, const_char *source)
 
 cdef extern from "Elementary.h":
-
     ctypedef struct Elm_Theme
 
     ctypedef struct Elm_Selection_Data:
@@ -161,6 +160,11 @@ cdef extern from "Elementary.h":
     # Eina_Bool               elm_drop_target_del(Evas_Object *obj)
     # Eina_Bool               elm_drag_start(Evas_Object *obj, Elm_Sel_Format format, const_char *data, Elm_Xdnd_Action action, Elm_Drag_Icon_Create_Cb createicon, void *createdata, Elm_Drag_Pos dragpos, void *dragdata, Elm_Drag_Accept acceptcb, void *acceptdata, Elm_Drag_State dragdone, void *donecbdata)
     # Eina_Bool               elm_drag_action_set(Evas_Object *obj, Elm_Xdnd_Action action)
+
+    # Access (elm_access.h)
+    Evas_Object *           elm_access_object_get(const_Evas_Object *obj)
+    void                    elm_access_highlight_set(Evas_Object* obj)
+    void                elm_access_object_unregister(Evas_Object *obj)
 
 
 cdef class Canvas(evasCanvas):

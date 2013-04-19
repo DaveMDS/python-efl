@@ -22,6 +22,8 @@ include "tooltips.pxi"
 # cdef void _tooltip_item_data_del_cb(void *data, Evas_Object *o, void *event_info) with gil:
 #    Py_DECREF(<object>data)
 
+from efl.eo cimport convert_python_list_objects_to_eina_list, \
+    _object_list_to_python
 from object cimport Object
 import traceback
 
@@ -497,4 +499,42 @@ cdef class ObjectItem(object):
         return elm_object_item_cursor_engine_only_get(self.item)
 
 
+    def access_unregister(self):
+        """Unregister accessible object of the object item.
+        :since: 1.8
+
+        """
+        elm_object_item_access_unregister(self.item)
+
+    property access_object:
+        """Get an accessible object of the object item.
+
+        :since: 1.8
+
+        :return: Accessible object of the object item or NULL for any error
+
+        """
+        def __get__(self):
+            return object_from_instance(elm_object_item_access_object_get(self.item))
+
+    property access_order:
+        """Access highlight order
+
+        :since: 1.8
+
+        :type: list of Objects
+
+        """
+        def __set__(self, list value):
+            elm_object_item_access_order_set(self.item,
+                convert_python_list_objects_to_eina_list(value))
+
+        def __get__(self):
+            _object_list_to_python(elm_object_item_access_order_get(self.item))
+
+        def __del__(self):
+            elm_object_item_access_order_unset(self.item)
+
+
 _object_mapping_register("elm_object_item", ObjectItem)
+

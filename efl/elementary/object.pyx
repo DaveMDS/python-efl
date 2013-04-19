@@ -1555,9 +1555,7 @@ cdef class Object(evasObject):
         """
         return <long>self.obj
 
-
-
-    # TODO:
+    # TODO: Copy and Paste
     # def cnp_selection_set(self, Elm_Sel_Type selection, Elm_Sel_Format format, buf, buflen):
     #     """Set copy data for a widget.
 
@@ -1709,3 +1707,32 @@ cdef class Object(evasObject):
     #     if not elm_drag_action_set(Evas_Object *obj, action):
     #         raise RuntimeError("Could not set cnp xdnd action.")
 
+
+    def unregister(self):
+        """Unregister accessible object.
+
+        :since: 1.8
+
+        """
+        elm_access_object_unregister(self.obj)
+
+    property access_object:
+        """Get an accessible object of the evas object.
+
+        :since: 1.8
+
+        :type: Object
+
+        """
+        def __get__(self):
+            return object_from_instance(elm_access_object_get(self.obj))
+
+    def access_highlight_set(self):
+        """Give the highlight to the object directly.
+
+        :since: 1.8
+
+        The object should be an elementary object or an access object.
+
+        """
+        elm_access_highlight_set(self.obj)

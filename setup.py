@@ -140,6 +140,7 @@ else:
 
     # Elementary
     elm_exts = [
+        Extension("efl.elementary.access", ["efl/elementary/access.pyx"]),
         Extension("efl.elementary.actionslider", ["efl/elementary/actionslider.pyx"]),
         Extension("efl.elementary.background", ["efl/elementary/background.pyx"]),
         Extension("efl.elementary.box", ["efl/elementary/box.pyx"]),

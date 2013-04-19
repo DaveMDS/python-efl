@@ -131,7 +131,7 @@ cdef list convert_eina_list_strings_to_python_list(const_Eina_List *lst):
     return ret
 
 
-cdef Eina_List *convert_python_list_strings_to_eina_list(strings):
+cdef Eina_List *convert_python_list_strings_to_eina_list(list strings):
     cdef Eina_List *lst = NULL
     for s in strings:
         if isinstance(s, unicode): s = PyUnicode_AsUTF8String(s)
@@ -145,6 +145,15 @@ cdef list _object_list_to_python(const_Eina_List *lst):
         ret.append(object_from_instance(<cEo *>lst.data))
         lst = lst.next
     return ret
+
+
+cdef Eina_List *convert_python_list_objects_to_eina_list(list objects):
+    cdef:
+        Eina_List *lst
+        Eo o
+    for o in objects:
+        lst = eina_list_append(lst, o.obj)
+    return lst
 
 
 cdef void _METHOD_DEPRECATED(object self, char *message):

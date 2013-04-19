@@ -41,6 +41,7 @@ cdef unicode _ctouni(const_char *s)
 cdef list convert_array_of_strings_to_python_list(char **array, int array_length)
 cdef const_char ** convert_python_list_strings_to_array_of_strings(list strings) except NULL
 cdef list convert_eina_list_strings_to_python_list(const_Eina_List *lst)
-cdef Eina_List * convert_python_list_strings_to_eina_list(strings)
+cdef Eina_List * convert_python_list_strings_to_eina_list(list strings)
 cdef list _object_list_to_python(const_Eina_List *lst)
+cdef Eina_List *convert_python_list_objects_to_eina_list(list objects)
 cdef void _METHOD_DEPRECATED(object self, char *message)
