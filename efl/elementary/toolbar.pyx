@@ -47,6 +47,8 @@ Default text parts of the toolbar items that you can use for are:
 - "default" - label of the toolbar item
 
 
+.. _Elm_Icon_Lookup_Order:
+
 .. rubric:: Icon lookup modes
 
 .. data:: ELM_ICON_LOOKUP_FDO_THEME
@@ -66,6 +68,8 @@ Default text parts of the toolbar items that you can use for are:
     theme
 
 
+.. _Elm_Object_Select_Mode:
+
 .. rubric:: Selection modes
 
 .. data:: ELM_OBJECT_SELECT_MODE_DEFAULT
@@ -84,6 +88,8 @@ Default text parts of the toolbar items that you can use for are:
 
     No select mode with no finger size rule
 
+
+.. _Elm_Toolbar_Shrink_Mode:
 
 .. rubric:: Toolbar shrink modes
 
@@ -112,7 +118,7 @@ Default text parts of the toolbar items that you can use for are:
 
 .. rubric:: Toolbar item scrollto types
 
-    Where to position the item in the toolbar.
+Where to position the item in the toolbar.
 
 .. data:: ELM_TOOLBAR_ITEM_SCROLLTO_NONE
 
@@ -201,26 +207,163 @@ cdef class ToolbarItem(ObjectItem):
 
     """An item for the toolbar."""
 
-    def __init__(self, evasObject toolbar not None, icon = None, label = None,
-                 callback = None, *args, **kargs):
-        cdef Evas_Smart_Cb cb = NULL
+    cdef:
+        object label
+        object icon
+        Evas_Smart_Cb cb
+
+    def __init__(self, icon = None, label = None, callback = None, *args, **kwargs):
+        """
+
+        If a function is passed as argument, it will be called every time
+        this item is selected, i.e., the user clicks over an unselected item.
+        If such function isn't needed, just passing ``None`` as ``func`` is
+        enough. The same should be done for ``data``.
+
+        Toolbar will load icon image from fdo or current theme. This
+        behavior can be set by :py:attr:`icon_order_lookup` function.
+        If an absolute path is provided it will load it direct from a file.
+
+        :param icon: A string with icon name or the absolute path of an
+            image file.
+        :type icon: string
+        :param label: The label of the item.
+        :type label: string
+        :param callback: The function to call when the item is clicked.
+        :type callback: function
+
+        """
+        if isinstance(icon, unicode): icon = PyUnicode_AsUTF8String(icon)
+        if isinstance(label, unicode): label = PyUnicode_AsUTF8String(label)
+        self.icon = icon
+        self.label = label
 
         if callback is not None:
             if not callable(callback):
                 raise TypeError("callback is not callable")
-            cb = _object_item_callback
+            self.cb = _object_item_callback
 
-        self.params = (callback, args, kargs)
+        self.params = (callback, args, kwargs)
 
-        if isinstance(icon, unicode): icon = PyUnicode_AsUTF8String(icon)
-        if isinstance(label, unicode): label = PyUnicode_AsUTF8String(label)
+    def append_to(self, Toolbar toolbar):
+        """append_to(Toolbar toolbar) -> ToolbarItem
+
+        Append item to the toolbar.
+
+        A new item will be created and appended to the toolbar, i.e., will
+        be set as **last** item.
+
+        Items created with this method can be deleted with
+        :py:func:`ObjectItem.delete()`.
+
+        .. seealso:: :py:attr:`ToolbarItem.icon` :py:func:`ObjectItem.delete()`
+
+        :param toolbar: The toolbar this item should be appended to
+        :type toolbar: :py:class:`Toolbar`
+        :return: The created item or ``None`` upon failure.
+        :rtype: ToolbarItem
+
+        """
+        cdef Elm_Object_Item *item
+
         item = elm_toolbar_item_append(toolbar.obj,
-            <const_char *>icon if icon is not None else NULL,
-            <const_char *>label if label is not None else NULL,
-            cb, <void*>self)
+            <const_char *>self.icon if self.icon is not None else NULL,
+            <const_char *>self.label if self.label is not None else NULL,
+            self.cb, <void*>self)
 
         if item != NULL:
             self._set_obj(item)
+            return self
+        else:
+            Py_DECREF(self)
+
+    def prepend_to(self, Toolbar toolbar):
+        """Prepend item to the toolbar.
+
+        A new item will be created and prepended to the toolbar, i.e., will
+        be set as **first** item.
+
+        Items created with this method can be deleted with
+        :py:func:`ObjectItem.delete()`.
+
+        :param toolbar: The toolbar this item should be prepended to
+        :type toolbar: :py:class:`Toolbar`
+        :return: The created item or ``None`` upon failure.
+        :rtype: :py:class:`ToolbarItem`
+
+        """
+        cdef Elm_Object_Item *item
+
+        item = elm_toolbar_item_prepend(toolbar.obj,
+            <const_char *>self.icon if self.icon is not None else NULL,
+            <const_char *>self.label if self.label is not None else NULL,
+            self.cb, <void*>self)
+
+        if item != NULL:
+            self._set_obj(item)
+            return self
+        else:
+            Py_DECREF(self)
+
+    def insert_after(self, ToolbarItem after):
+        """Insert a new item into the toolbar object after item ``after``.
+
+        A new item will be created and added to the toolbar. Its position in
+        this toolbar will be just after item ``after``.
+
+        Items created with this method can be deleted with
+        :py:func:`ObjectItem.delete()`.
+
+        :param after: The toolbar item to insert after.
+        :type after: :py:class:`ToolbarItem`
+        :return: The created item or ``None`` upon failure.
+        :rtype: :py:class:`ToolbarItem`
+
+        """
+        cdef:
+            Elm_Object_Item *item
+            Evas_Object *toolbar = elm_object_item_widget_get(after.item)
+
+        item = elm_toolbar_item_insert_after(toolbar,
+            after.item,
+            <const_char *>self.icon if self.icon is not None else NULL,
+            <const_char *>self.label if self.label is not None else NULL,
+            self.cb, <void*>self)
+
+        if item != NULL:
+            self._set_obj(item)
+            return self
+        else:
+            Py_DECREF(self)
+
+    def insert_before(self, ToolbarItem before):
+        """Insert a new item into the toolbar object before item ``before``.
+
+        A new item will be created and added to the toolbar. Its position in
+        this toolbar will be just before item ``before``.
+
+        Items created with this method can be deleted with
+        :py:func:`ObjectItem.delete()`.
+
+        :param before: The toolbar item to insert before.
+        :type before: :py:class:`ToolbarItem`
+        :return: The created item or ``None`` upon failure.
+        :rtype: :py:class:`ToolbarItem`
+
+        """
+        cdef:
+            Elm_Object_Item *item
+            Evas_Object *toolbar = elm_object_item_widget_get(before.item)
+
+        item = elm_toolbar_item_insert_before(toolbar,
+            before.item,
+            <const_char *>self.icon if self.icon is not None else NULL,
+            <const_char *>self.label if self.label is not None else NULL,
+            self.cb, <void*>self)
+
+        if item != NULL:
+            self._set_obj(item)
+            return self
         else:
             Py_DECREF(self)
 
@@ -569,7 +712,7 @@ cdef class Toolbar(Object):
         Icons added before calling this function will not be affected.
         The default lookup order is ELM_ICON_LOOKUP_THEME_FDO.
 
-        :type: Elm_Icon_Lookup_Order
+        :type: :ref:`Icon lookup order <Elm_Icon_Lookup_Order>`
 
         """
         def __set__(self, order):
@@ -584,142 +727,15 @@ cdef class Toolbar(Object):
         return elm_toolbar_icon_order_lookup_get(self.obj)
 
     def item_append(self, icon, label, callback = None, *args, **kargs):
-        """item_append(unicode icon, unicode label, callback = None, *args, **kargs) -> ToolbarItem
-
-        Append item to the toolbar.
-
-        A new item will be created and appended to the toolbar, i.e., will
-        be set as **last** item.
-
-        Items created with this method can be deleted with
-        :py:func:`ObjectItem.delete()`.
-
-        If a function is passed as argument, it will be called every time
-        this item is selected, i.e., the user clicks over an unselected item.
-        If such function isn't needed, just passing ``None`` as ``func`` is
-        enough. The same should be done for ``data``.
-
-        Toolbar will load icon image from fdo or current theme. This
-        behavior can be set by :py:attr:`icon_order_lookup` function.
-        If an absolute path is provided it will load it direct from a file.
-
-        .. seealso:: :py:attr:`ToolbarItem.icon` :py:func:`ObjectItem.delete()`
-
-        :param icon: A string with icon name or the absolute path of an
-            image file.
-        :type icon: string
-        :param label: The label of the item.
-        :type label: string
-        :param callback: The function to call when the item is clicked.
-        :type callback: function
-
-        :return: The created item or ``None`` upon failure.
-        :rtype: ToolbarItem
-
-        """
-        # Everything is done in the ToolbarItem class, because of wrapping the
-        # C structures in python classes
-        return ToolbarItem(self, icon, label, callback, *args, **kargs)
+        return ToolbarItem(icon, label, callback, *args, **kargs).append_to(self)
 
     #TODO: def item_prepend(self, icon, label, callback = None, *args, **kargs):
-        """Prepend item to the toolbar.
-
-        A new item will be created and prepended to the toolbar, i.e., will
-        be set as **first** item.
-
-        Items created with this method can be deleted with
-        :py:func:`ObjectItem.delete()`.
-
-        If a function is passed as argument, it will be called every time
-        this item is selected, i.e., the user clicks over an unselected item.
-        If such function isn't needed, just passing ``None`` as ``func`` is
-        enough. The same should be done for ``data``.
-
-        Toolbar will load icon image from fdo or current theme. This
-        behavior can be set by :py:attr:`icon_order_lookup` function.
-        If an absolute path is provided it will load it direct from a file.
-
-        .. seealso:: :py:attr:`ToolbarItem.icon` :py:func:`ObjectItem.delete()`
-
-        :param icon: A string with icon name or the absolute path of an
-            image file.
-        :type icon: string
-        :param label: The label of the item.
-        :type label: string
-        :param func: The function to call when the item is clicked.
-        :type func: function
-        :return: The created item or ``None`` upon failure.
-        :rtype: :py:class:`ToolbarItem`
-
-        """
         #return ToolbarItem(self, icon, label, callback, *args, **kargs)
 
     #TODO: def item_insert_before(self, before, icon, label, callback = None, *args, **kargs):
-        """Insert a new item into the toolbar object before item ``before``.
-
-        A new item will be created and added to the toolbar. Its position in
-        this toolbar will be just before item ``before``.
-
-        Items created with this method can be deleted with
-        :py:func:`ObjectItem.delete()`.
-
-        If a function is passed as argument, it will be called every time
-        this item is selected, i.e., the user clicks over an unselected item.
-        If such function isn't needed, just passing ``None`` as ``func`` is
-        enough. The same should be done for ``data``.
-
-        Toolbar will load icon image from fdo or current theme. This
-        behavior can be set by :py:attr:`icon_order_lookup` function.
-        If an absolute path is provided it will load it direct from a file.
-
-        .. seealso:: :py:attr:`ToolbarItem.icon` :py:func:`ObjectItem.delete()`
-
-        :param before: The toolbar item to insert before.
-        :type before: :py:class:`ToolbarItem`
-        :param icon: A string with icon name or the absolute path of an image file.
-        :type icon: string
-        :param label: The label of the item.
-        :type label: string
-        :param func: The function to call when the item is clicked.
-        :type func: function
-        :return: The created item or ``None`` upon failure.
-        :rtype: :py:class:`ToolbarItem`
-
-        """
         #return ToolbarItem(self, icon, label, callback, *args, **kargs)
 
     #TODO: def item_insert_after(self, after, icon, label, callback = None, *args, **kargs):
-        """Insert a new item into the toolbar object after item ``after``.
-
-        A new item will be created and added to the toolbar. Its position in
-        this toolbar will be just after item ``after``.
-
-        Items created with this method can be deleted with
-        :py:func:`ObjectItem.delete()`.
-
-        If a function is passed as argument, it will be called every time
-        this item is selected, i.e., the user clicks over an unselected item.
-        If such function isn't needed, just passing ``None`` as ``func`` is
-        enough. The same should be done for ``data``.
-
-        Toolbar will load icon image from fdo or current theme. This
-        behavior can be set by :py:attr:`icon_order_lookup` function.
-        If an absolute path is provided it will load it direct from a file.
-
-        .. seealso:: :py:attr:`ToolbarItem.icon` :py:func:`ObjectItem.delete()`
-
-        :param after: The toolbar item to insert after.
-        :type after: :py:class:`ToolbarItem`
-        :param icon: A string with icon name or the absolute path of an image file.
-        :type icon: string
-        :param label: The label of the item.
-        :type label: string
-        :param func: The function to call when the item is clicked.
-        :type func: function
-        :return: The created item or ``None`` upon failure.
-        :rtype: :py:class:`ToolbarItem`
-
-        """
         #return ToolbarItem(self, icon, label, callback, *args, **kargs)
 
     property first_item:
@@ -807,7 +823,7 @@ cdef class Toolbar(Object):
         scroll if ELM_TOOLBAR_SHRINK_SCROLL, and will create a button to pop
         up excess elements with ELM_TOOLBAR_SHRINK_MENU.
 
-        :type: Elm_Toolbar_Shrink_Mode
+        :type: :ref:`Toolbar shrink mode <Elm_Toolbar_Shrink_Mode>`
 
         """
         def __get__(self):
@@ -960,19 +976,7 @@ cdef class Toolbar(Object):
     property select_mode:
         """The toolbar select mode.
 
-        The possible modes are:
-
-        - ELM_OBJECT_SELECT_MODE_DEFAULT : Items will only call their
-          selection func and callback when first becoming selected. Any
-          further clicks will do nothing, unless you set always select
-          mode.
-        - ELM_OBJECT_SELECT_MODE_ALWAYS :  This means that, even if
-          selected, every click will make the selected callbacks be called.
-        - ELM_OBJECT_SELECT_MODE_NONE : This will turn off the ability
-          to select items entirely and they will neither appear selected
-          nor call selected callback functions.
-
-        :type: Elm_Object_Select_Mode
+        :type: :ref:`Object select mode <Elm_Object_Select_Mode>`
 
         """
         def __get__(self):

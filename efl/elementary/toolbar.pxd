@@ -9,15 +9,17 @@ cdef extern from "Elementary.h":
     ctypedef struct Elm_Toolbar_Item_State:
         pass
 
+    Evas_Object             *elm_object_item_widget_get(Elm_Object_Item *it)
+
     Evas_Object             *elm_toolbar_add(Evas_Object *parent)
     void                     elm_toolbar_icon_size_set(Evas_Object *obj, int icon_size)
     int                      elm_toolbar_icon_size_get(Evas_Object *obj)
     void                     elm_toolbar_icon_order_lookup_set(Evas_Object *obj, Elm_Icon_Lookup_Order order)
     Elm_Icon_Lookup_Order    elm_toolbar_icon_order_lookup_get(Evas_Object *obj)
     Elm_Object_Item         *elm_toolbar_item_append(Evas_Object *obj, const_char *icon, const_char *label, Evas_Smart_Cb func, void *data)
-    # TODO: Elm_Object_Item         *elm_toolbar_item_prepend(Evas_Object *obj, const_char *icon, const_char *label, Evas_Smart_Cb func, void *data)
-    # TODO: Elm_Object_Item         *elm_toolbar_item_insert_before(Evas_Object *obj, Elm_Object_Item *before, const_char *icon, const_char *label, Evas_Smart_Cb func, void *data)
-    # TODO: Elm_Object_Item         *elm_toolbar_item_insert_after(Evas_Object *obj, Elm_Object_Item *after, const_char *icon, const_char *label, Evas_Smart_Cb func, void *data)
+    Elm_Object_Item         *elm_toolbar_item_prepend(Evas_Object *obj, const_char *icon, const_char *label, Evas_Smart_Cb func, void *data)
+    Elm_Object_Item         *elm_toolbar_item_insert_before(Evas_Object *obj, Elm_Object_Item *before, const_char *icon, const_char *label, Evas_Smart_Cb func, void *data)
+    Elm_Object_Item         *elm_toolbar_item_insert_after(Evas_Object *obj, Elm_Object_Item *after, const_char *icon, const_char *label, Evas_Smart_Cb func, void *data)
     Elm_Object_Item         *elm_toolbar_first_item_get(Evas_Object *obj)
     Elm_Object_Item         *elm_toolbar_last_item_get(Evas_Object *obj)
     Elm_Object_Item         *elm_toolbar_item_next_get(Elm_Object_Item *item)
