@@ -196,6 +196,7 @@ This widget emits the following signals:
 - "changed,user": The text within the entry was changed because of user
   interaction.
 - "activated": The enter key was pressed on a single line entry.
+- "aborted": The escape key was pressed on a single line entry. (since 1.7)
 - "press": A mouse button has been pressed on the entry.
 - "longpressed": A mouse button has been pressed and held for a couple
   seconds.
@@ -530,10 +531,46 @@ cdef class EntryContextMenuItem(object):
     """
 
     Type of contextual item that can be added in to long press menu.
+
     :since: 1.8
 
     """
     cdef Elm_Entry_Context_Menu_Item *item
+
+    property label:
+        """Get the text of the contextual menu item.
+
+        Gets the text of the contextual menu item of entry.
+
+        :type: unicode
+
+        :since: 1.8
+
+        """
+        def __get__(self):
+            return _ctouni(elm_entry_context_menu_item_label_get(self.item))
+
+    property icon:
+        """Get the icon object of the contextual menu item.
+
+        Gets the icon object packed in the contextual menu item of entry.
+
+        :type: (unicode **icon_file**, unicode **icon_group**, :ref:`Icon type <Elm_Icon_Type>` **icon_type**)
+
+        :since: 1.8
+
+        """
+        def __get__(self):
+            cdef:
+                const_char *icon_file, *icon_group
+                Elm_Icon_Type icon_type
+            elm_entry_context_menu_item_icon_get(self.item,
+                &icon_file,
+                &icon_group,
+                &icon_type)
+
+            return (_ctouni(icon_file), _ctouni(icon_group), icon_type)
+
 
 class EntryAnchorInfo(object):
     """
@@ -1808,6 +1845,13 @@ cdef class Entry(Object):
 
     def callback_activated_del(self, func):
         self._callback_del("activated", func)
+
+    def callback_aborted_add(self, func, *args, **kwargs):
+        """The enter key was pressed on a single line entry."""
+        self._callback_add("aborted", func, *args, **kwargs)
+
+    def callback_aborted_del(self, func):
+        self._callback_del("aborted", func)
 
     def callback_press_add(self, func, *args, **kwargs):
         """A mouse button has been pressed on the entry."""

@@ -28,6 +28,8 @@ cdef extern from "Elementary.h":
     ctypedef struct Elm_Entry_Context_Menu_Item:
         pass
 
+    ctypedef Elm_Entry_Context_Menu_Item const_Elm_Entry_Context_Menu_Item "const Elm_Entry_Context_Menu_Item"
+
     # Data for the elm_entry_filter_limit_size() entry filter.
     ctypedef struct Elm_Entry_Filter_Limit_Size:
         int max_char_count      # The maximum number of characters allowed.
@@ -133,5 +135,5 @@ cdef extern from "Elementary.h":
     const_char *            elm_entry_anchor_hover_style_get(Evas_Object *obj)
     void                    elm_entry_anchor_hover_end(Evas_Object *obj)
 
-    # TODO: const_char *            elm_entry_context_menu_item_label_get(const_Elm_Entry_Context_Menu_Item *item)
-    # TODO: void                    elm_entry_context_menu_item_icon_get(const_Elm_Entry_Context_Menu_Item *item, const_char **icon_file, const_char **icon_group, Elm_Icon_Type *icon_type)
+    const_char *            elm_entry_context_menu_item_label_get(const_Elm_Entry_Context_Menu_Item *item)
+    void                    elm_entry_context_menu_item_icon_get(const_Elm_Entry_Context_Menu_Item *item, const_char **icon_file, const_char **icon_group, Elm_Icon_Type *icon_type)
