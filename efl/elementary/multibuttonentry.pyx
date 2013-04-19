@@ -251,6 +251,24 @@ cdef class MultiButtonEntry(Object):
         #TODO
         pass
 
+    property editable:
+        """Whether the multibuttonentry is to be editable or not.
+
+        :type: bool
+
+        """
+        def __set__(self, value):
+            self.editable_set(value)
+
+        def __get__(self):
+            return self.editable_get()
+
+    cpdef editable_set(self, bint editable):
+        elm_multibuttonentry_editable_set(self.obj, editable)
+
+    cpdef bint editable_get(self):
+        return elm_multibuttonentry_editable_get(self.obj)
+
     def callback_item_selected_add(self, func, *args, **kwargs):
         self._callback_add("item,selected", func, *args, **kwargs)
 

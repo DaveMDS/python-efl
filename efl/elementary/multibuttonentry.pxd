@@ -25,4 +25,6 @@ cdef extern from "Elementary.h":
     Elm_Object_Item         *elm_multibuttonentry_item_next_get(const_Elm_Object_Item *it)
     void                     elm_multibuttonentry_item_filter_append(Evas_Object *obj, Elm_Multibuttonentry_Item_Filter_Cb func, void *data)
     void                     elm_multibuttonentry_item_filter_prepend(Evas_Object *obj, Elm_Multibuttonentry_Item_Filter_Cb func, void *data)
-    void                     elm_multibuttonentry_item_filter_remove(Evas_Object *obj, Elm_Multibuttonentry_Item_Filter_Cb func, void *data)
+    # TODO: void                     elm_multibuttonentry_item_filter_remove(Evas_Object *obj, Elm_Multibuttonentry_Item_Filter_Cb func, void *data)
+    void                    elm_multibuttonentry_editable_set(Evas_Object *obj, Eina_Bool editable)
+    Eina_Bool               elm_multibuttonentry_editable_get(const_Evas_Object *obj)

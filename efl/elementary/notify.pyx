@@ -37,6 +37,9 @@ Default content parts of the notify widget that you can use are:
 
 - ``"default"`` - The main content of the notify
 
+
+.. _Elm_Notify_Orient:
+
 .. rubric:: Notify orientation types
 
 .. data:: ELM_NOTIFY_ORIENT_TOP
@@ -75,6 +78,17 @@ Default content parts of the notify widget that you can use are:
 
     Bottom right orientation
 
+
+.. _ELM_NOTIFY_ALIGN_FILL:
+
+.. rubric:: ELM_NOTIFY_ALIGN_FILL
+
+.. data:: ELM_NOTIFY_ALIGN_FILL
+
+    Use with :py:attr:`Notify.align`
+
+    :since: 1.8
+
 """
 
 include "widget_header.pxi"
@@ -93,6 +107,8 @@ ELM_NOTIFY_ORIENT_TOP_RIGHT = enums.ELM_NOTIFY_ORIENT_TOP_RIGHT
 ELM_NOTIFY_ORIENT_BOTTOM_LEFT = enums.ELM_NOTIFY_ORIENT_BOTTOM_LEFT
 ELM_NOTIFY_ORIENT_BOTTOM_RIGHT = enums.ELM_NOTIFY_ORIENT_BOTTOM_RIGHT
 ELM_NOTIFY_ORIENT_LAST = enums.ELM_NOTIFY_ORIENT_LAST
+
+ELM_NOTIFY_ALIGN_FILL = -1.0
 
 cdef class Notify(Object):
 
@@ -128,7 +144,7 @@ cdef class Notify(Object):
     property orient:
         """The position in which the notify will appear in its parent.
 
-        :type: Elm_Notify_Orient
+        :type: :ref:`Notify orientation <Elm_Notify_Orient>`
 
         """
         def __get__(self):
@@ -192,6 +208,34 @@ cdef class Notify(Object):
         elm_notify_allow_events_set(self.obj, repeat)
     def allow_events_get(self):
         return bool(elm_notify_allow_events_get(self.obj))
+
+
+    property align:
+        """Set the alignment of the notify object
+
+        :type: (float **horizontal**, float **vertical**)
+
+        Sets the alignment in which the notify will appear in its parent.
+
+        .. note:: To fill the notify box in the parent area, please pass
+            :ref:`ELM_NOTIFY_ALIGN_FILL <ELM_NOTIFY_ALIGN_FILL>` to ``horizontal``, ``vertical``.
+
+        :since: 1.8
+
+        """
+        def __set__(self, value):
+            self.align_set(*value)
+
+        def __get__(self):
+            return self.align_get()
+
+    cpdef align_set(self, float horizontal, float vertical):
+        elm_notify_align_set(self.obj, horizontal, vertical)
+
+    cpdef align_get(self):
+        cdef double horizontal, vertical
+        elm_notify_align_get(self.obj, &horizontal, &vertical)
+        return (horizontal, vertical)
 
     def callback_timeout_add(self, func, *args, **kwargs):
         """When timeout happens on notify and it's hidden."""

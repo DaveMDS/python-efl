@@ -1,4 +1,4 @@
-from efl.evas cimport Eina_Bool, Evas_Object
+from efl.evas cimport Eina_Bool, Evas_Object, const_Evas_Object
 from enums cimport Elm_Notify_Orient
 
 cdef extern from "Elementary.h":
@@ -11,4 +11,6 @@ cdef extern from "Elementary.h":
     double                   elm_notify_timeout_get(Evas_Object *obj)
     void                     elm_notify_allow_events_set(Evas_Object *obj, Eina_Bool repeat)
     Eina_Bool                elm_notify_allow_events_get(Evas_Object *obj)
+    void                     elm_notify_align_set(Evas_Object *obj, double horizontal, double vertical)
+    void                     elm_notify_align_get(const_Evas_Object *obj, double *horizontal, double *vertical)
 
