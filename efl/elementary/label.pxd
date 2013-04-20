@@ -9,8 +9,6 @@ cdef extern from "Elementary.h":
     Evas_Coord            elm_label_wrap_width_get(Evas_Object *obj)
     void                  elm_label_ellipsis_set(Evas_Object *obj, Eina_Bool ellipsis)
     Eina_Bool             elm_label_ellipsis_get(Evas_Object *obj)
-    void                  elm_label_slide_set(Evas_Object *obj, Eina_Bool slide)#DEP
-    Eina_Bool             elm_label_slide_get(Evas_Object *obj)#DEP
     void                  elm_label_slide_duration_set(Evas_Object *obj, double duration)
     double                elm_label_slide_duration_get(Evas_Object *obj)
     void                    elm_label_slide_area_limit_set(Evas_Object *obj, Eina_Bool limit)

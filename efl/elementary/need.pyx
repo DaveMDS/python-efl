@@ -15,6 +15,8 @@
 # You should have received a copy of the GNU Lesser General Public License
 # along with this Python-EFL.  If not, see <http://www.gnu.org/licenses/>.
 
+from efl.eo cimport _METHOD_DEPRECATED
+
 def need_efreet():
     """need_efreet() -> bool
 
@@ -76,7 +78,8 @@ def need_e_dbus():
         deprecated.
 
     """
-    return bool(elm_need_e_dbus())
+    print("need_e_dbus() is deprecated. Use need_edbus instead.")
+    return bool(elm_need_edbus())
 
 def need_edbus():
     """need_edbus() -> bool

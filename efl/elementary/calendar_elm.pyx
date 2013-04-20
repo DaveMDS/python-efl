@@ -303,7 +303,7 @@ cdef class Calendar(LayoutClass):
         """
         def __get__(self):
             return convert_array_of_strings_to_python_list(
-                elm_calendar_weekdays_names_get(self.obj), 7)
+                <char **>elm_calendar_weekdays_names_get(self.obj), 7)
 
         def __set__(self, weekdays):
             elm_calendar_weekdays_names_set(self.obj,

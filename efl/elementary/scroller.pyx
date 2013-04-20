@@ -31,17 +31,31 @@ object that is contained in the scroller. The scroller will always have
 a small minimum size by default as it won't be limited by the contents
 of the scroller.
 
-Signals that you can add callbacks for are:
+This widget inherits from :py:class:`efl.elementary.layout_class.LayoutClass`,
+so that all the functions acting on it also work for scroller objects.
+
+This widget emits the following signals, besides the ones sent from
+:py:class:`efl.elementary.layout_class.LayoutClass`
 
 - "edge,left" - the left edge of the content has been reached
 - "edge,right" - the right edge of the content has been reached
 - "edge,top" - the top edge of the content has been reached
 - "edge,bottom" - the bottom edge of the content has been reached
 - "scroll" - the content has been scrolled (moved)
+- "scroll,left" - the content has been scrolled (moved) leftwards
+- "scroll,right"  - the content has been scrolled (moved) rightwards
+- "scroll,up"  - the content has been scrolled (moved) upwards
+- "scroll,down" - the content has been scrolled (moved) downwards
 - "scroll,anim,start" - scrolling animation has started
 - "scroll,anim,stop" - scrolling animation has stopped
 - "scroll,drag,start" - dragging the contents around has started
 - "scroll,drag,stop" - dragging the contents around has stopped
+- "vbar,drag" - the vertical scroll bar has been dragged
+- "vbar,press" - the vertical scroll bar has been pressed
+- "vbar,unpress" - the vertical scroll bar has been unpressed
+- "hbar,drag" - the horizontal scroll bar has been dragged
+- "hbar,press" - the horizontal scroll bar has been pressed
+- "hbar,unpress" - the horizontal scroll bar has been unpressed
 
 Default content parts of the scroller widget that you can use for are:
 
@@ -76,6 +90,8 @@ Default content parts of the scroller widget that you can use for are:
 include "widget_header.pxi"
 
 from object cimport Object
+from layout_class cimport LayoutClass
+from efl.eo cimport _METHOD_DEPRECATED
 
 cimport enums
 
@@ -107,6 +123,7 @@ cdef class ScrollableInterface(Object):
         :type base: string
 
         """
+        _METHOD_DEPRECATED(self, "Use the property 'theme' instead.")
         if isinstance(widget, unicode): widget = PyUnicode_AsUTF8String(widget)
         if isinstance(base, unicode): base = PyUnicode_AsUTF8String(base)
         elm_scroller_custom_widget_base_theme_set(self.obj,
@@ -556,6 +573,35 @@ cdef class ScrollableInterface(Object):
     def callback_scroll_del(self, func):
         self._callback_del("scroll", func)
 
+    def callback_scroll_left_add(self, func, *args, **kwargs):
+        """the content has been scrolled (moved) leftwards"""
+        self._callback_add("scroll,left", func, *args, **kwargs)
+
+    def callback_scroll_left_del(self, func):
+        self._callback_del("scroll,left", func)
+
+    def callback_scroll_right_add(self, func, *args, **kwargs):
+        """the content has been scrolled (moved) rightwards"""
+        self._callback_add("scroll,right", func, *args, **kwargs)
+
+    def callback_scroll_right_del(self, func):
+        self._callback_del("scroll,right", func)
+
+    def callback_scroll_up_add(self, func, *args, **kwargs):
+        """the content has been scrolled (moved) upwards"""
+        self._callback_add("scroll,up", func, *args, **kwargs)
+
+    def callback_scroll_up_del(self, func):
+        self._callback_del("scroll,up", func)
+
+    def callback_scroll_down_add(self, func, *args, **kwargs):
+        """the content has been scrolled (moved) downwards"""
+        self._callback_add("scroll,down", func, *args, **kwargs)
+
+    def callback_scroll_down_del(self, func):
+        self._callback_del("scroll,down", func)
+
+
     def callback_scroll_anim_start_add(self, func, *args, **kwargs):
         """Scrolling animation has started."""
         self._callback_add("scroll,anim,start", func, *args, **kwargs)
@@ -584,7 +630,50 @@ cdef class ScrollableInterface(Object):
     def callback_scroll_drag_stop_del(self, func):
         self._callback_del("scroll,drag,stop", func)
 
-cdef class ScrollerWidget(Object):
+    def callback_vbar_drag_add(self, func, *args, **kwargs):
+        """the vertical scroll bar has been dragged"""
+        self._callback_add("vbar,drag", func, *args, **kwargs)
+
+    def callback_vbar_drag_del(self, func):
+        self._callback_del("vbar,drag", func)
+
+    def callback_vbar_press_add(self, func, *args, **kwargs):
+        """the vertical scroll bar has been pressed"""
+        self._callback_add("vbar,press", func, *args, **kwargs)
+
+    def callback_vbar_press_del(self, func):
+        self._callback_del("vbar,press", func)
+
+    def callback_vbar_unpress_add(self, func, *args, **kwargs):
+        """the vertical scroll bar has been unpressed"""
+        self._callback_add("vbar,unpress", func, *args, **kwargs)
+
+    def callback_vbar_unpress_del(self, func):
+        self._callback_del("vbar,unpress", func)
+
+    def callback_hbar_drag_add(self, func, *args, **kwargs):
+        """the horizontal scroll bar has been dragged"""
+        self._callback_add("hbar,drag", func, *args, **kwargs)
+
+    def callback_hbar_drag_del(self, func):
+        self._callback_del("hbar,drag", func)
+
+    def callback_hbar_press_add(self, func, *args, **kwargs):
+        """the horizontal scroll bar has been pressed"""
+        self._callback_add("hbar,press", func, *args, **kwargs)
+
+    def callback_hbar_press_del(self, func):
+        self._callback_del("hbar,press", func)
+
+    def callback_hbar_unpress_add(self, func, *args, **kwargs):
+        """the horizontal scroll bar has been unpressed"""
+        self._callback_add("hbar,unpress", func, *args, **kwargs)
+
+    def callback_hbar_unpress_del(self, func):
+        self._callback_del("hbar,unpress", func)
+
+
+cdef class ScrollerWidget(LayoutClass):
     def __init__(self, evasObject parent):
         self._set_obj(elm_scroller_add(parent.obj))
 

@@ -508,14 +508,14 @@ cdef class Window(Object):
 
         """
         def __get__(self):
-            return object_from_instance(elm_win_icon_object_get(self.obj))
+            return object_from_instance(<Evas_Object *>elm_win_icon_object_get(self.obj))
         def __set__(self, evasObject icon):
             elm_win_icon_object_set(self.obj, icon.obj)
 
     def icon_object_set(self, evasObject icon):
         elm_win_icon_object_set(self.obj, icon.obj)
     def icon_object_get(self):
-        return object_from_instance(elm_win_icon_object_get(self.obj))
+        return object_from_instance(<Evas_Object *>elm_win_icon_object_get(self.obj))
 
     property autodel:
         """The window's autodel state.

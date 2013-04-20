@@ -111,7 +111,7 @@ def webcams_get():
     """ Get a list of active and available webcam.
     :return: the list of tuple (webcam name, webcam device)
     """
-    cdef Eina_List *lst, *itr
+    cdef const_Eina_List *lst, *itr
     cdef Emotion_Webcam *cam
     cdef const_char *name, *device
 

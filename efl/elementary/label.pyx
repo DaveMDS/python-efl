@@ -201,18 +201,20 @@ cdef class Label(LayoutClass):
         """
         def __get__(self):
             _METHOD_DEPRECATED(self, "Use slide_mode instead.")
-            return elm_label_slide_get(self.obj)
+            return bool(elm_label_slide_mode_get(self.obj))
 
         def __set__(self, slide):
             _METHOD_DEPRECATED(self, "Use slide_mode instead.")
-            elm_label_slide_set(self.obj, slide)
+            elm_label_slide_mode_set(self.obj,
+                ELM_LABEL_SLIDE_MODE_ALWAYS if slide else ELM_LABEL_SLIDE_MODE_NONE)
 
     def slide_set(self, bint slide):
         _METHOD_DEPRECATED(self, "Use slide_mode instead.")
-        elm_label_slide_set(self.obj, slide)
+        elm_label_slide_mode_set(self.obj,
+            ELM_LABEL_SLIDE_MODE_ALWAYS if slide else ELM_LABEL_SLIDE_MODE_NONE)
     def slide_get(self):
         _METHOD_DEPRECATED(self, "Use slide_mode instead.")
-        return elm_label_slide_get(self.obj)
+        return bool(elm_label_slide_mode_get(self.obj))
 
     property slide_duration:
         """The duration time in moving text from slide begin position to

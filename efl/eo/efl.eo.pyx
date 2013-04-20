@@ -78,6 +78,7 @@ cdef list convert_array_of_strings_to_python_list(char **array, int array_length
     cdef:
         char *string
         list ret = list()
+        int i
 
     for i in range(array_length):
         string = array[i]
