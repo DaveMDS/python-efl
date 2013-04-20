@@ -41,7 +41,9 @@ This widget emits the following signals, besides the ones sent from
 - ``changed`` - emitted when the date in the calendar is changed.
 
 
-.. rubric:: Calendar mark types
+.. _Elm_Calendar_Mark_Repeat_Type:
+
+.. rubric:: Calendar mark repeat types
 
 .. data:: ELM_CALENDAR_UNIQUE
 
@@ -77,6 +79,8 @@ This widget emits the following signals, besides the ones sent from
     (inclusive).
 
 
+.. _Elm_Calendar_Select_Mode:
+
 .. rubric:: Calendar selection modes
 
 .. data:: ELM_CALENDAR_SELECT_MODE_DEFAULT
@@ -96,6 +100,8 @@ This widget emits the following signals, besides the ones sent from
     Select on demand
 
 
+.. _Elm_Calendar_Selectable:
+
 .. rubric:: Selectable
 
 .. data:: ELM_CALENDAR_SELECTABLE_NONE
@@ -114,6 +120,8 @@ This widget emits the following signals, besides the ones sent from
 
     Day is selectable
 
+
+.. _Elm_Calendar_Weekday:
 
 .. rubric:: Days
 
@@ -150,6 +158,8 @@ This widget emits the following signals, besides the ones sent from
 include "widget_header.pxi"
 from cpython cimport PyMem_Malloc, PyMem_Free
 
+from efl.eo cimport convert_array_of_strings_to_python_list, \
+    convert_python_list_strings_to_array_of_strings
 from layout_class cimport LayoutClass
 
 from datetime import date
@@ -177,18 +187,62 @@ ELM_DAY_FRIDAY = enums.ELM_DAY_FRIDAY
 ELM_DAY_SATURDAY = enums.ELM_DAY_SATURDAY
 ELM_DAY_LAST = enums.ELM_DAY_LAST
 
+
 cdef class CalendarMark(object):
 
-    """
+    """An item for the Calendar widget.
 
-    An item for the Calendar widget.
+    A mark that will be drawn in the calendar respecting the insertion
+    time and periodicity. It will emit the type as signal to the widget theme.
+    Default theme supports "holiday" and "checked", but it can be extended.
+
+    Instantiating it won't immediately update the calendar, drawing the marks.
+    For this, call :py:func:`Calendar.marks_draw`. However, when user selects
+    next or previous month calendar forces marks drawn.
+
+    Marks created with this method can be deleted with :py:func:`delete`.
+
+    Example::
+
+        import time
+        from datetime import date
+
+        cal = Calendar(win)
+
+        current_time = time.time() + 5 * 84600
+        selected_time = date.fromtimestamp(current_time)
+        CalendarMark(cal, "holiday", selected_time, ELM_CALENDAR_ANNUALLY)
+
+        current_time = time.time() + 1 * 84600
+        selected_time = date.fromtimestamp(current_time)
+        CalendarMark(cal, "checked", selected_time, ELM_CALENDAR_UNIQUE)
+
+        cal.marks_draw()
 
     """
 
     cdef Elm_Calendar_Mark *obj
 
-    def __init__(self, evasObject cal, mark_type, mark_time, repeat):
-        """.. seealso:: :py:func:`Calendar.mark_add()`"""
+    def __init__(self, evasObject cal, mark_type, mark_time,
+            Elm_Calendar_Mark_Repeat_Type repeat):
+        """
+
+        :param mark_type: A string used to define the type of mark. It will be
+            emitted to the theme, that should display a related modification on these
+            days representation.
+        :type mark_type: string
+        :param mark_time: A date object to represent the date of inclusion of the
+            mark. For marks that repeats it will just be displayed after the inclusion
+            date in the calendar.
+        :type mark_time: datetime.date
+        :param repeat: Repeat the event following this periodicity. Can be a unique
+            mark (that don't repeat), daily, weekly, monthly or annually.
+        :type repeat: :ref:`Calendar repeat type <Elm_Calendar_Mark_Repeat_Type>`
+
+        :return: The created mark or ``None`` upon failure.
+        :rtype: :py:class:`CalendarMark`
+
+        """
         cdef tm time
         tmtup = mark_time.timetuple()
         time.tm_mday = tmtup.tm_mday
@@ -220,11 +274,7 @@ cdef class CalendarMark(object):
 
 cdef class Calendar(LayoutClass):
 
-    """
-
-    This is the class that actually implement the widget.
-
-    """
+    """This is the class that actually implements the widget."""
 
     def __init__(self, evasObject parent):
         self._set_obj(elm_calendar_add(parent.obj))
@@ -252,26 +302,12 @@ cdef class Calendar(LayoutClass):
 
         """
         def __get__(self):
-            cdef const_char **lst, *weekday
-            cdef int i
-            ret = []
-            lst = elm_calendar_weekdays_names_get(self.obj)
-            for i in range(7):
-                weekday = lst[i]
-                if weekday != NULL:
-                    ret.append(_ctouni(weekday))
-            return ret
+            return convert_array_of_strings_to_python_list(
+                elm_calendar_weekdays_names_get(self.obj), 7)
 
         def __set__(self, weekdays):
-            cdef int i, day_len
-            cdef const_char **days, *day
-            days = <const_char **>PyMem_Malloc(7 * sizeof(const_char *))
-            for i in range(7):
-                weekday = weekdays[i]
-                if isinstance(weekday, unicode): weekday = PyUnicode_AsUTF8String(weekday)
-                day = <const_char *>weekday if weekday is not None else NULL
-                days[i] = <const_char *>strdup(day)
-            elm_calendar_weekdays_names_set(self.obj, <const_char **>days)
+            elm_calendar_weekdays_names_set(self.obj,
+                convert_python_list_strings_to_array_of_strings(weekdays))
 
     property min_max_year:
         """The minimum and maximum values for the year
@@ -298,7 +334,7 @@ cdef class Calendar(LayoutClass):
     property select_mode:
         """The day selection mode used.
 
-        :type: Elm_Calendar_Select_Mode
+        :type: :ref:`Calendar select mode <Elm_Calendar_Select_Mode>`
 
         """
         def __get__(self):
@@ -335,82 +371,52 @@ cdef class Calendar(LayoutClass):
             time.tm_isdst = tmtup.tm_isdst
             elm_calendar_selected_time_set(self.obj, &time)
 
-    property format_function:
-        """Set a function to format the string that will be used to display
-        month and year.
+    # TODO:
+    # property format_function:
+    #     """Set a function to format the string that will be used to display
+    #     month and year.
 
-        By default it uses strftime with "%B %Y" format string.
-        It should allocate the memory that will be used by the string,
-        that will be freed by the widget after usage.
-        A pointer to the string and a pointer to the time struct will be provided.
+    #     By default it uses strftime with "%B %Y" format string.
+    #     It should allocate the memory that will be used by the string,
+    #     that will be freed by the widget after usage.
+    #     A pointer to the string and a pointer to the time struct will be provided.
 
-        Example::
+    #     Example::
 
-            static char *
-            _format_month_year(struct tm selected_time)
-            {
-                char buf[32];
-                if (!strftime(buf, sizeof(buf), "%B %Y", selected_time)) return NULL;
-                return strdup(buf);
-            }
+    #         static char *
+    #         _format_month_year(struct tm selected_time)
+    #         {
+    #             char buf[32];
+    #             if (!strftime(buf, sizeof(buf), "%B %Y", selected_time)) return NULL;
+    #             return strdup(buf);
+    #         }
 
-            elm_calendar_format_function_set(calendar, _format_month_year);
+    #         elm_calendar_format_function_set(calendar, _format_month_year);
 
-        :param format_func: Function to set the month-year string given
-            the selected date
-        :type format_func: function
+    #     :param format_func: Function to set the month-year string given
+    #         the selected date
+    #     :type format_func: function
 
-        """
-        def __set__(self, format_func):
-            pass
-            #TODO: elm_calendar_format_function_set(self.obj, format_func)
+    #     """
+    #     def __set__(self, format_func):
+    #         elm_calendar_format_function_set(self.obj, format_func)
 
-    def mark_add(self, mark_type, mark_time, repeat):
-        """mark_add(mark_type, mark_time, repeat) -> CalendarMark
+    def mark_add(self, mark_type, mark_time, Elm_Calendar_Mark_Repeat_Type repeat):
+        """mark_add(mark_type, mark_time, Elm_Calendar_Mark_Repeat_Type repeat) -> CalendarMark
 
-        Add a new mark to the calendar
-
-        Add a mark that will be drawn in the calendar respecting the insertion
-        time and periodicity. It will emit the type as signal to the widget theme.
-        Default theme supports "holiday" and "checked", but it can be extended.
-
-        It won't immediately update the calendar, drawing the marks.
-        For this, call :py:func:`marks_draw()`. However, when user selects
-        next or previous month calendar forces marks drawn.
-
-        Marks created with this method can be deleted with :py:func:`mark_del()`.
-
-        Example::
-
-            struct tm selected_time;
-            time_t current_time;
-
-            current_time = time(NULL) + 5 84600;
-            localtime_r(&current_time, &selected_time);
-            elm_calendar_mark_add(cal, "holiday", selected_time,
-             ELM_CALENDAR_ANNUALLY);
-
-            current_time = time(NULL) + 1 84600;
-            localtime_r(&current_time, &selected_time);
-            elm_calendar_mark_add(cal, "checked", selected_time, ELM_CALENDAR_UNIQUE);
-
-            elm_calendar_marks_draw(cal);
-
-        .. seealso::
-            :py:func:`marks_draw()`
-            :py:func:`mark_del()`
+        A constructor for a :py:class:`CalendarMark`.
 
         :param mark_type: A string used to define the type of mark. It will be
             emitted to the theme, that should display a related modification on these
             days representation.
         :type mark_type: string
-        :param mark_time: A time struct to represent the date of inclusion of the
+        :param mark_time: A date object to represent the date of inclusion of the
             mark. For marks that repeats it will just be displayed after the inclusion
             date in the calendar.
-        :type mark_time: tm struct
+        :type mark_time: datetime.date
         :param repeat: Repeat the event following this periodicity. Can be a unique
             mark (that don't repeat), daily, weekly, monthly or annually.
-        :type repeat: Elm_Calendar_Mark_Repeat_Type
+        :type repeat: :ref:`Calendar repeat type <Elm_Calendar_Mark_Repeat_Type>`
         :return: The created mark or ``None`` upon failure.
         :rtype: :py:class:`CalendarMark`
 
@@ -423,8 +429,22 @@ cdef class Calendar(LayoutClass):
         :type: tuple of :py:class:`CalendarMark`
 
         """
-        #TODO: def __get__(self):
-            #const_Eina_List         *elm_calendar_marks_get(self.obj)
+        def __get__(self):
+            cdef:
+                Elm_Calendar_Mark *obj
+                const_Eina_List *lst = elm_calendar_marks_get(self.obj)
+                list ret = list()
+                CalendarMark o
+
+            while lst:
+                obj = <Elm_Calendar_Mark *>lst.data
+                lst = lst.next
+                o = CalendarMark.__new__(CalendarMark)
+                o.obj = obj
+                if o is not None:
+                    ret.append(o)
+            return ret
+
         #TODO: def __set__(self, value):
         def __del__(self):
             elm_calendar_marks_clear(self.obj)
@@ -490,7 +510,7 @@ cdef class Calendar(LayoutClass):
     property selectable:
         """How selected_time manages a date
 
-        :type: Selectable
+        :type: :ref:`Calendar selectable <Elm_Calendar_Selectable>`
 
         """
         def __set__(self, Elm_Calendar_Selectable selectable):

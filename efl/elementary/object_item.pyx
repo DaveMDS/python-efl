@@ -325,6 +325,7 @@ cdef class ObjectItem(object):
     def disabled_get(self):
         return bool(elm_object_item_disabled_get(self.item))
 
+    # TODO: ?
     #def delete_cb_set(self, del_cb):
         #elm_object_item_del_cb_set(self.item, del_cb)
 
