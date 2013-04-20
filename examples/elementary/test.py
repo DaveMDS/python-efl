@@ -15,234 +15,160 @@ from efl.elementary.check import Check
 from efl.elementary.entry import Entry
 from efl.elementary.scroller import Scroller
 
-
-from test_3d import evas3d_clicked
-from test_actionslider import actionslider_clicked
-from test_bg import bg_plain_clicked, bg_image_clicked
-from test_box import box_vert_clicked, box_vert2_clicked, box_horiz_clicked
-from test_box import box_layout_clicked, box_transition_clicked
-from test_bubble import bubble_clicked
-from test_button import buttons_clicked
-from test_calendar import calendar_clicked
-from test_check import check_clicked
-from test_clock import clock_clicked
-from test_colorselector import colorselector_clicked
-from test_config import config_clicked
-from test_conform import conformant_clicked, conformant2_clicked
-from test_core_evas_object_callbacks import core_evas_object_callbacks_clicked
-from test_core_evas_canvas_callbacks import core_evas_canvas_callbacks_clicked
-from test_core_evas_objects import core_evas_objects_clicked
-from test_ctxpopup import ctxpopup_clicked
-from test_cursor import cursor_clicked, cursor2_clicked, cursor3_clicked
-from test_datetime import datetime_clicked
-from test_dayselector import dayselector_clicked
-from test_diskselector import diskselector_clicked
-from test_entry import entry_clicked, entry_scrolled_clicked, entry_anchor_clicked
-from test_external import edje_external_button_clicked, edje_external_pbar_clicked, \
-    edje_external_scroller_clicked, edje_external_slider_clicked, edje_external_video_clicked
-from test_fileselector import fileselector_clicked, fileselector_button_clicked, \
-    fileselector_entry_clicked
-from test_flip import flip_clicked, flip_interactive_clicked
-from test_flipselector import flipselector_clicked
-from test_floating import floating_clicked
-from test_frame import frame_clicked
-from test_gengrid import gengrid_clicked
-from test_genlist import genlist_clicked, genlist2_clicked, genlist3_clicked, \
-    genlist4_clicked, genlist5_clicked, genlist10_clicked, genlist15_clicked
-from test_grid import grid_clicked
-from test_hover import hover_clicked, hover2_clicked
-from test_hoversel import hoversel_clicked
-from test_icon import icon_clicked, icon_transparent_clicked
-from test_index import index_clicked
-from test_inwin import inner_window_clicked
-from test_label import label_clicked
-from test_layout import layout_clicked
-from test_list import list_clicked, list2_clicked, list3_clicked
-from test_mapbuf import mapbuf_clicked
-from test_map import map_clicked
-from test_map2 import map_overlays_clicked
-from test_map3 import map_route_clicked
-from test_menu import menu_clicked
-from test_multibuttonentry import multibuttonentry_clicked
-from test_naviframe import naviframe_clicked
-from test_notify import notify_clicked
-from test_panel import panel_clicked
-from test_panes import panes_clicked
-from test_photo import photo_clicked
-from test_popup import popup_clicked
-from test_progressbar import progressbar_clicked
-from test_radio import radio_clicked
-from test_scroller import scroller_clicked
-from test_segment_control import segment_control_clicked
-from test_separator import separator_clicked
-from test_slideshow import slideshow_clicked
-from test_spinner import spinner_clicked
-from test_table import table_clicked
-from test_thumb import thumb_clicked
-from test_toolbar import toolbar_clicked
-from test_tooltip import tooltip_clicked
-from test_transit import transit_clicked, transit2_clicked, transit3_clicked, \
-    transit4_clicked, transit5_clicked, transit6_clicked, transit7_clicked, \
-    transit9_clicked
-from test_video import video_clicked
-from test_web import web_clicked
-from test_win import window_states_clicked
-
-
 items = [
          ("Core Libs", [
-            ("Evas Objects", core_evas_objects_clicked),
-            ("Evas Canvas Callbacks", core_evas_canvas_callbacks_clicked),
-            ("Evas Object Callbacks", core_evas_object_callbacks_clicked),
+            ("Evas Objects", "test_core_evas_objects", "core_evas_objects_clicked"),
+            ("Evas Canvas Callbacks", "test_core_evas_canvas_callbacks", "core_evas_canvas_callbacks_clicked"),
+            ("Evas Object Callbacks", "test_core_evas_object_callbacks", "core_evas_object_callbacks_clicked"),
          ]),
          ("3D", [
-            ("Evas Map 3D", evas3d_clicked),
+            ("Evas Map 3D", "test_3d", "evas3d_clicked"),
          ]),
          ("Booleans", [
-            ("Checks", check_clicked),
+            ("Checks", "test_check", "check_clicked"),
             # ("Toggles", toggles_clicked),TODO make a toggle with check
         ]),
          ("Boundaries", [
-            ("Bubble", bubble_clicked),
-            ("Separator", separator_clicked),
+            ("Bubble", "test_bubble", "bubble_clicked"),
+            ("Separator", "test_separator", "separator_clicked"),
         ]),
          ("Buttons", [
-            ("Buttons", buttons_clicked),
+            ("Buttons", "test_button", "buttons_clicked"),
         ]),
          ("Containers", [
-            ("Box Horiz", box_horiz_clicked),
-            ("Box Vert", box_vert_clicked),
-            ("Box Vert2", box_vert2_clicked),
-            ("Box Layout", box_layout_clicked),
-            ("Box Layout Transition", box_transition_clicked),
-            ("Table", table_clicked),
-            ("Layout", layout_clicked),
-            ("Grid", grid_clicked),
-            ("Frame", frame_clicked),
+            ("Box Horiz", "test_box", "box_horiz_clicked"),
+            ("Box Vert", "test_box", "box_vert_clicked"),
+            ("Box Vert2", "test_box", "box_vert2_clicked"),
+            ("Box Layout", "test_box", "box_layout_clicked"),
+            ("Box Layout Transition", "test_box", "box_transition_clicked"),
+            ("Table", "test_table", "table_clicked"),
+            ("Layout", "test_layout", "layout_clicked"),
+            ("Grid", "test_grid", "grid_clicked"),
+            ("Frame", "test_frame", "frame_clicked"),
         ]),
          ("Cursors", [
-            ("Cursor", cursor_clicked),
-            ("Cursor2", cursor2_clicked),
-            ("Cursor3", cursor3_clicked),
+            ("Cursor", "test_cursor", "cursor_clicked"),
+            ("Cursor2", "test_cursor", "cursor2_clicked"),
+            ("Cursor3", "test_cursor", "cursor3_clicked"),
         ]),
          ("Dividers", [
-            ("Panel", panel_clicked),
-            ("Panes", panes_clicked),
+            ("Panel", "test_panel", "panel_clicked"),
+            ("Panes", "test_panes", "panes_clicked"),
         ]),
          ("Effects", [
-            ("Flip", flip_clicked),
-            ("Flip Interactive", flip_interactive_clicked),
-            ("Transit", transit_clicked),
-            ("Transit Resize", transit2_clicked),
-            ("Transit Flip", transit3_clicked),
-            ("Transit Zoom", transit4_clicked),
-            ("Transit Blend", transit5_clicked),
-            ("Transit Fade", transit6_clicked),
-            ("Transit Resizable", transit7_clicked),
-            ("Transit Chain", transit9_clicked),
+            ("Flip", "test_flip", "flip_clicked"),
+            ("Flip Interactive", "test_flip", "flip_interactive_clicked"),
+            ("Transit", "test_transit", "transit_clicked"),
+            ("Transit Resize", "test_transit", "transit2_clicked"),
+            ("Transit Flip", "test_transit", "transit3_clicked"),
+            ("Transit Zoom", "test_transit", "transit4_clicked"),
+            ("Transit Blend", "test_transit", "transit5_clicked"),
+            ("Transit Fade", "test_transit", "transit6_clicked"),
+            ("Transit Resizable", "test_transit", "transit7_clicked"),
+            ("Transit Chain", "test_transit", "transit9_clicked"),
         ]),
          ("Entries", [
-            ("Entry", entry_clicked),
-            ("Entry Scrolled", entry_scrolled_clicked),
-            ("Entry Anchor", entry_anchor_clicked),
-            ("MultiButtonEntry", multibuttonentry_clicked),
+            ("Entry", "test_entry", "entry_clicked"),
+            ("Entry Scrolled", "test_entry", "entry_scrolled_clicked"),
+            ("Entry Anchor", "test_entry", "entry_anchor_clicked"),
+            ("MultiButtonEntry", "test_multibuttonentry", "multibuttonentry_clicked"),
         ]),
          ("Edje External", [
-            ("Ext Button", edje_external_button_clicked),
-            ("Ext ProgressBar", edje_external_pbar_clicked),
-            ("Ext Scroller", edje_external_scroller_clicked),
-            ("Ext Slider", edje_external_slider_clicked),
-            ("Ext Video", edje_external_video_clicked),
+            ("Ext Button", "test_external", "edje_external_button_clicked"),
+            ("Ext ProgressBar", "test_external", "edje_external_pbar_clicked"),
+            ("Ext Scroller", "test_external", "edje_external_scroller_clicked"),
+            ("Ext Slider", "test_external", "edje_external_slider_clicked"),
+            ("Ext Video", "test_external", "edje_external_video_clicked"),
         ]),
          ("Geographic", [
-            ("Map", map_clicked),
-            ("Map Overlay", map_overlays_clicked),
-            ("Map Route", map_route_clicked),
+            ("Map", "test_map", "map_clicked"),
+            ("Map Overlay", "test_map2", "map_overlays_clicked"),
+            ("Map Route", "test_map3", "map_route_clicked"),
         ]),
          ("Images", [
-            ("Icon", icon_clicked),
-            ("Icon Transparent", icon_transparent_clicked),
-            ("Photo", photo_clicked),
-            ("Slideshow", slideshow_clicked),
-            ("Thumb", thumb_clicked),
-            ("Video", video_clicked),
+            ("Icon", "test_icon", "icon_clicked"),
+            ("Icon Transparent", "test_icon", "icon_transparent_clicked"),
+            ("Photo", "test_photo", "photo_clicked"),
+            ("Slideshow", "test_slideshow", "slideshow_clicked"),
+            ("Thumb", "test_thumb", "thumb_clicked"),
+            ("Video", "test_video", "video_clicked"),
         ]),
          ("Lists", [
-            ("List", list_clicked),
-            ("List 2", list2_clicked),
-            ("List 3", list3_clicked),
-            ("Genlist", genlist_clicked),
-            ("Genlist 2", genlist2_clicked),
-            ("Genlist Group", genlist3_clicked),
-            ("Genlist Sorted", genlist4_clicked),
-            ("Genlist Iteration", genlist5_clicked),
-            ("Genlist Decorate Item Mode", genlist10_clicked),
-            ("Genlist Decorate All Mode", genlist15_clicked),
-            ("Gengrid", gengrid_clicked),
+            ("List", "test_list", "list_clicked"),
+            ("List 2", "test_list", "list2_clicked"),
+            ("List 3", "test_list", "list3_clicked"),
+            ("Genlist", "test_genlist", "genlist_clicked"),
+            ("Genlist 2", "test_genlist", "genlist2_clicked"),
+            ("Genlist Group", "test_genlist", "genlist3_clicked"),
+            ("Genlist Sorted", "test_genlist", "genlist4_clicked"),
+            ("Genlist Iteration", "test_genlist", "genlist5_clicked"),
+            ("Genlist Decorate Item Mode", "test_genlist", "genlist10_clicked"),
+            ("Genlist Decorate All Mode", "test_genlist", "genlist15_clicked"),
+            ("Gengrid", "test_gengrid", "gengrid_clicked"),
         ]),
          ("Miscellaneous", [
-            ("Configuration", config_clicked),
-            ("Floating Objects", floating_clicked),
+            ("Configuration", "test_config", "config_clicked"),
+            ("Floating Objects", "test_floating", "floating_clicked"),
         ]),
          ("Naviframe", [
-            ("Naviframe", naviframe_clicked),
+            ("Naviframe", "test_naviframe", "naviframe_clicked"),
         ]),
          ("Popups", [
-            ("Hover", hover_clicked),
-            ("Hover 2", hover2_clicked),
-            ("Notify", notify_clicked),
-            ("Tooltip", tooltip_clicked),
-            ("Ctxpopup", ctxpopup_clicked),
-            ("Popup", popup_clicked),
+            ("Hover", "test_hover", "hover_clicked"),
+            ("Hover 2", "test_hover", "hover2_clicked"),
+            ("Notify", "test_notify", "notify_clicked"),
+            ("Tooltip", "test_tooltip", "tooltip_clicked"),
+            ("Ctxpopup", "test_ctxpopup", "ctxpopup_clicked"),
+            ("Popup", "test_popup", "popup_clicked"),
         ]),
          ("Range Values", [
-            ("Spinner", spinner_clicked),
-            ("Progressbar", progressbar_clicked),
+            ("Spinner", "test_spinner", "spinner_clicked"),
+            ("Progressbar", "test_progressbar", "progressbar_clicked"),
         ]),
          ("Scroller", [
-            ("Scroller", scroller_clicked),
+            ("Scroller", "test_scroller", "scroller_clicked"),
         ]),
          ("Selectors", [
-            ("Action Slider", actionslider_clicked),
-            ("Color Selector", colorselector_clicked),
-            ("Day Selector", dayselector_clicked),
-            ("Disk Selector", diskselector_clicked),
-            ("Flip Selector", flipselector_clicked),
-            ("File Selector", fileselector_clicked),
-            ("Fileselector button", fileselector_button_clicked),
-            ("Fileselector entry", fileselector_entry_clicked),
-            ("Hoversel", hoversel_clicked),
-            ("Index", index_clicked),
-            ("Menu", menu_clicked),
-            ("Radios", radio_clicked),
-            ("Segment Control", segment_control_clicked),
+            ("Action Slider", "test_actionslider", "actionslider_clicked"),
+            ("Color Selector", "test_colorselector", "colorselector_clicked"),
+            ("Day Selector", "test_dayselector", "dayselector_clicked"),
+            ("Disk Selector", "test_diskselector", "diskselector_clicked"),
+            ("Flip Selector", "test_flipselector", "flipselector_clicked"),
+            ("File Selector", "test_fileselector", "fileselector_clicked"),
+            ("Fileselector button", "test_fileselector", "fileselector_button_clicked"),
+            ("Fileselector entry", "test_fileselector", "fileselector_entry_clicked"),
+            ("Hoversel", "test_hoversel", "hoversel_clicked"),
+            ("Index", "test_index", "index_clicked"),
+            ("Menu", "test_menu", "menu_clicked"),
+            ("Radios", "test_radio", "radio_clicked"),
+            ("Segment Control", "test_segment_control", "segment_control_clicked"),
         ]),
          ("Standardization", [
-            ("Conformant", conformant_clicked),
-            ("Conformant 2", conformant2_clicked),
+            ("Conformant", "test_conform", "conformant_clicked"),
+            ("Conformant 2", "test_conform", "conformant2_clicked"),
         ]),
          ("Stored Surface Buffer", [
-            ("Launcher", mapbuf_clicked),
+            ("Launcher", "test_mapbuf", "mapbuf_clicked"),
         ]),
          ("Text", [
-            ("Label", label_clicked),
+            ("Label", "test_label", "label_clicked"),
         ]),
          ("Times & Dates", [
-            ("Calendar", calendar_clicked),
-            ("Clock", clock_clicked),
-            ("Datetime", datetime_clicked),
+            ("Calendar", "test_calendar", "calendar_clicked"),
+            ("Clock", "test_clock", "clock_clicked"),
+            ("Datetime", "test_datetime", "datetime_clicked"),
         ]),
         ("Toolbars", [
-            ("Toolbar", toolbar_clicked),
+            ("Toolbar", "test_toolbar", "toolbar_clicked"),
         ]),
          ("Web", [
-            ("Web", web_clicked),
+            ("Web", "test_web", "web_clicked"),
         ]),
          ("Window / Background", [
-            ("Bg Plain", bg_plain_clicked),
-            ("Bg Image", bg_image_clicked),
-            ("InnerWindow", inner_window_clicked),
-            ("Window States", window_states_clicked),
+            ("Bg Plain", "test_bg", "bg_plain_clicked"),
+            ("Bg Image", "test_bg", "bg_image_clicked"),
+            ("InnerWindow", "test_inwin", "inner_window_clicked"),
+            ("Window States", "test_win", "window_states_clicked"),
         ])
         ]
 
@@ -269,7 +195,7 @@ def menu_create(search, win):
             if (search == None) or (test[0].lower().find(search.lower()) > -1):
                 bt = Button(win)
                 bt.text = test[0]
-                bt.callback_clicked_add(test[1])
+                bt.callback_clicked_add(lambda o, y = test[1], z = test[2]: exec("from " + y + " import " + z + "\n" + z + "(o)"))
                 bt.show()
                 tbx2.pack_end(bt)
                 cnt += 1

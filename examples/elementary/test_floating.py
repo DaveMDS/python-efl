@@ -46,7 +46,7 @@ def floating_clicked(obj):
     gl.show()
 
     for i in range(20):
-        GenlistItem(ItemClass(), None, ELM_GENLIST_ITEM_NONE, gl_sel_cb, i).append_to(gl)
+        GenlistItem(ItemClass(), i, None, ELM_GENLIST_ITEM_NONE, gl_sel_cb, i).append_to(gl)
 
     win.size = 480, 800
     win.show()
