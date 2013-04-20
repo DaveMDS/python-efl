@@ -145,10 +145,10 @@ cdef extern from "Elementary.h":
     Eina_Bool               elm_object_tooltip_window_mode_get(Evas_Object *obj)
 
     # Object - Translatable text (elm_general.h) (py3: DONE)
-    void                    elm_object_domain_translatable_text_part_set(Evas_Object *obj, const_char *part, const_char *domain, const_char *text)
+    void                    elm_object_domain_translatable_part_text_set(Evas_Object *obj, const_char *part, const_char *domain, const_char *text)
     void                    elm_object_domain_translatable_text_set(Evas_Object *obj, const_char *domain, const_char *text)
     void                    elm_object_translatable_text_set(Evas_Object *obj, const_char *text)
-    const_char *            elm_object_translatable_text_part_get(Evas_Object *obj, const_char *part)
+    const_char *            elm_object_translatable_part_text_get(const_Evas_Object *obj, const_char *part)
     const_char *            elm_object_translatable_text_get(Evas_Object *obj)
 
     # TODO: CnP

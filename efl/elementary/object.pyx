@@ -176,7 +176,7 @@ from cpython cimport PyObject, Py_INCREF, Py_DECREF, PyObject_GetAttr
 include "widget_header.pxi"
 include "tooltips.pxi"
 
-from efl.eo cimport _object_list_to_python
+from efl.eo cimport _object_list_to_python, _METHOD_DEPRECATED
 
 from efl.evas cimport EventKeyDown, EventKeyUp, EventMouseWheel
 from efl.evas cimport evas_object_smart_callback_add
@@ -1352,15 +1352,26 @@ cdef class Object(evasObject):
 
     #Translatable text
     def domain_translatable_text_part_set(self, part, domain, text):
-        """domain_translatable_text_part_set(unicode part, unicode domain, unicode text)
+        _METHOD_DEPRECATED(self, "Use domain_translatable_part_text_set() instead.")
+        if isinstance(part, unicode): part = PyUnicode_AsUTF8String(part)
+        if isinstance(domain, unicode): domain = PyUnicode_AsUTF8String(domain)
+        if isinstance(text, unicode): text = PyUnicode_AsUTF8String(text)
+        elm_object_domain_translatable_part_text_set(self.obj,
+            <const_char *>part if part is not None else NULL,
+            <const_char *>domain if domain is not None else NULL,
+            <const_char *>text if text is not None else NULL)
 
-        Set the text for an objects' part, marking it as translatable.
+    def domain_translatable_part_text_set(self, part = None, domain = None, text = None):
+        """domain_translatable_part_text_set(part = None, domain = None, text = None)
+
+        Set the text for an object's part, marking it as translatable.
 
         The string to set as ``text`` must be the original one. Do not pass the
         return of ``gettext()`` here. Elementary will translate the string
-        internally and set it on the object using :py:func:`part_text_set()`,
+        internally and set it on the object using :py:func:`part_text_set`,
         also storing the original string so that it can be automatically
-        translated when the language is changed with :py:func:`language_set()`.
+        translated when the language is changed with
+        :py:func:`efl.elementary.general.language_set`.
 
         The ``domain`` will be stored along to find the translation in the
         correct catalog. It can be None, in which case it will use whatever
@@ -1370,20 +1381,20 @@ cdef class Object(evasObject):
         programs using the library.
 
         :param part: The name of the part to set
-        :type part: string
         :param domain: The translation domain to use
-        :type domain: string
         :param text: The original, non-translated text to set
-        :type text: string
+
+        :since: 1.8
 
         """
         if isinstance(part, unicode): part = PyUnicode_AsUTF8String(part)
         if isinstance(domain, unicode): domain = PyUnicode_AsUTF8String(domain)
         if isinstance(text, unicode): text = PyUnicode_AsUTF8String(text)
-        elm_object_domain_translatable_text_part_set(self.obj,
+        elm_object_domain_translatable_part_text_set(self.obj,
             <const_char *>part if part is not None else NULL,
             <const_char *>domain if domain is not None else NULL,
             <const_char *>text if text is not None else NULL)
+
 
     def domain_translatable_text_set(self, domain, text):
         """domain_translatable_text_set(unicode domain, unicode text)
@@ -1396,26 +1407,38 @@ cdef class Object(evasObject):
             <const_char *>text if text is not None else NULL)
 
     def translatable_text_part_get(self, part):
-        """domain_translatable_text_part_get(unicode part) -> unicode
+        _METHOD_DEPRECATED(self, "Use translatable_part_text_get() instead.")
+        if isinstance(part, unicode): part = PyUnicode_AsUTF8String(part)
+        return _ctouni(elm_object_translatable_part_text_get(self.obj,
+            <const_char *>part if part is not None else NULL))
+
+
+    def translatable_part_text_get(self, part = None):
+        """translatable_part_text_get(part = None) -> unicode
 
         Gets the original string set as translatable for an object
 
-        When setting translated strings, the function :py:func:`part_text_get()`
-        will return the translation returned by *gettext()*. To get the
+        When setting translated strings, the function :py:func:`part_text_get`
+        will return the translation returned by ``gettext()``. To get the
         original string use this function.
 
         :param part: The name of the part that was set
-        :type part: string
+        :type part: unicode
 
         :return: The original, untranslated string
-        :rtype: string
+        :rtype: unicode
+
+        :see: :py:func:`translatable_part_text_set`
+
+        :since: 1.8
 
         """
         if isinstance(part, unicode): part = PyUnicode_AsUTF8String(part)
-        return _ctouni(elm_object_translatable_text_part_get(self.obj,
+        return _ctouni(elm_object_translatable_part_text_get(self.obj,
             <const_char *>part if part is not None else NULL))
 
     property translatable_text:
+        # TODO: Document this
         def __get__(self):
             return self.translatable_text_get()
         def __set__(self, text):

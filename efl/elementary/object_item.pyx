@@ -234,6 +234,58 @@ cdef class ObjectItem(object):
         return _ctouni(elm_object_item_part_text_get(self.item,
             <const_char *>part if part is not None else NULL))
 
+    def domain_translatable_part_text_set(self, part = None, domain = None, text = None):
+        """domain_translatable_part_text_set(part = None, domain = None, text = None)
+
+        Set the text for an object item's part, marking it as translatable.
+
+        The string to set as @p text must be the original one. Do not pass the
+        return of @c gettext() here. Elementary will translate the string
+        internally and set it on the object item using
+        elm_object_item_part_text_set(), also storing the original string so that it
+        can be automatically translated when the language is changed with
+        elm_language_set(). The @p domain will be stored along to find the
+        translation in the correct catalog. It can be NULL, in which case it will use
+        whatever domain was set by the application with @c textdomain(). This is
+        useful in case you are building a library on top of Elementary that will have
+        its own translatable strings, that should not be mixed with those of programs
+        using the library.
+
+        :param part: The name of the part to set
+        :param domain: The translation domain to use
+        :param text: The original, non-translated text to set
+
+        :since: 1.8
+
+        """
+        if isinstance(part, unicode): part = PyUnicode_AsUTF8String(part)
+        if isinstance(domain, unicode): domain = PyUnicode_AsUTF8String(domain)
+        if isinstance(text, unicode): text = PyUnicode_AsUTF8String(text)
+        elm_object_item_domain_translatable_part_text_set(self.item,
+            <const_char *>part if part is not None else NULL,
+            <const_char *>domain if domain is not None else NULL,
+            <const_char *>text if text is not None else NULL)
+
+    def translatable_part_text_get(self, part = None):
+        """translatable_part_text_get(part = None)
+
+        Gets the original string set as translatable for an object item.
+
+        When setting translated strings, the function elm_object_item_part_text_get()
+        will return the translation returned by @c gettext(). To get the original
+        string use this function.
+
+        :param part: The name of the part that was set
+
+        :return: The original, untranslated string
+
+        :since: 1.8
+
+        """
+        if isinstance(part, unicode): part = PyUnicode_AsUTF8String(part)
+        return _ctouni(elm_object_item_translatable_part_text_get(self.item,
+            <const_char *>part if part is not None else NULL))
+
     property text:
         """The main text for this object.
 
