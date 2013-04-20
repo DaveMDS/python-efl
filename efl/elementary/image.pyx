@@ -18,7 +18,8 @@
 
 """
 
-.. rubric:: Widget description
+Widget description
+------------------
 
 .. image:: /images/image-preview.png
 
@@ -48,7 +49,13 @@ Signals that you can add callbacks for are:
 - ``"clicked"`` - This is called when a user has clicked the image
 
 
-.. rubric:: Image manipulation types
+Enumerations
+------------
+
+.. _Elm_Image_Orient:
+
+Image manipulation types
+========================
 
 .. data:: ELM_IMAGE_ORIENT_NONE
 
@@ -121,7 +128,7 @@ cdef class Image(Object):
             case). If one wants to force this type of file independently of
             the extension, :py:attr:`file_edje` must be used, instead.
 
-        :type: string or tuple of strings
+        :type: unicode **file** or (unicode **file**, unicode **group**)
         :raise RuntimeError: when setting the file fails
 
         """
@@ -179,7 +186,7 @@ cdef class Image(Object):
 
         This is the real size of the image, not the size of the object.
 
-        :type: tuple of ints
+        :type: (int **width**, int **height**)
 
         """
         def __get__(self):
@@ -195,14 +202,10 @@ cdef class Image(Object):
     property no_scale:
         """Whether to disable scaling of this object.
 
-        This disables scaling of the elm_image widget through the
-        function :py:attr:`scale`. However, this does not affect the widget
-        size/resize in any way. For that effect, take a look at
-        :py:attr:`resizable`.
-
-        .. seealso::
-            :py:attr:`resizable`
-            :py:attr:`elementary.object.Object.scale`
+        This disables scaling of the elm_image widget through the property
+        :py:attr:`efl.elementary.object.Object.scale`. However, this does not
+        affect the widget size/resize in any way. For that effect, take a look
+        at :py:attr:`resizable`.
 
         :type: bool
 
@@ -224,7 +227,7 @@ cdef class Image(Object):
         object can't have its height or width resized to a value higher than
         the original image size. Same is valid for *size_down*.
 
-        :type: (bool size_up, bool size_down)
+        :type: (bool **size_up**, bool **size_down**)
 
         """
         def __get__(self):
@@ -256,8 +259,6 @@ cdef class Image(Object):
 
         .. note:: This option will have no effect if :py:attr:`aspect_fixed`
             is set to *False*.
-
-        .. seealso:: :py:attr:`aspect_fixed`
 
         :type: bool
 
@@ -294,13 +295,11 @@ cdef class Image(Object):
         with load size set to a smaller size.
 
         It's equivalent to the
-        :py:attr:`elementary.background.Background.load_size` property for bg.
+        :py:attr:`efl.elementary.background.Background.load_size` property for bg.
 
         .. note:: this is just a hint, the real size of the pixmap may differ
             depending on the type of image being loaded, being bigger than
             requested.
-
-        .. seealso:: :py:attr:`elementary.background.Background.load_size`
 
         :type: int
 
@@ -320,7 +319,7 @@ cdef class Image(Object):
 
         Setting this allows to rotate or flip the given image.
 
-        :type: Elm_Image_Orient
+        :type: :ref:`Elm_Image_Orient`
 
         """
         def __get__(self):
@@ -362,7 +361,7 @@ cdef class Image(Object):
         .. note:: Be careful to not manipulate it, as it is under control of
             elementary.
 
-        :type: :py:class:`evas.object_image.Image`
+        :type: :py:class:`efl.evas.Image`
 
         """
         def __get__(self):
