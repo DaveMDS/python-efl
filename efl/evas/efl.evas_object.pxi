@@ -168,6 +168,10 @@ cdef class Object(Eo):
         #
         self._callbacks = [None] * evas_object_event_callbacks_len
 
+    def __init__(self, *args, **kwargs):
+        if type(self) is Object:
+            raise TypeError("Must not instantiate Object, but subclasses")
+
     def __str__(self):
         cdef:
             const_char *name = evas_object_name_get(self.obj)

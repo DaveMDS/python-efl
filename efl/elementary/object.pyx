@@ -311,6 +311,10 @@ cdef class Object(evasObject):
 
     """
 
+    def __init__(self, *args, **kwargs):
+        if type(self) is Object:
+            raise TypeError("Must not instantiate Object, but subclasses")
+
     def part_text_set(self, part, text):
         """part_text_set(unicode part, unicode text)
 

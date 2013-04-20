@@ -274,6 +274,10 @@ cdef class Eo(object):
     def __dealloc__(self):
         self.data.clear()
 
+    def __init__(self, *args, **kwargs):
+        if type(self) is Eo:
+            raise TypeError("Must not instantiate Eo, but subclasses")
+
     def __str__(self):
         return ("Eo(class=%s, obj=%#x, parent=%#x, refcount=%d)") % \
                 (type(self).__name__, <unsigned long>self.obj,

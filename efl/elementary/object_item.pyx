@@ -103,6 +103,10 @@ cdef class ObjectItem(object):
             elm_object_item_del(self.item)
             self.item = NULL
 
+    def __init__(self, *args, **kwargs):
+        if type(self) is ObjectItem:
+            raise TypeError("Must not instantiate ObjectItem, but subclasses")
+
     cdef int _set_obj(self, Elm_Object_Item *item) except 0:
         assert self.item == NULL, "Object must be clean"
         self.item = item
