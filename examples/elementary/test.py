@@ -160,6 +160,7 @@ items = [
         ]),
         ("Toolbars", [
             ("Toolbar", "test_toolbar", "toolbar_clicked"),
+            ("Toolbar Item States", "test_toolbar", "toolbar5_clicked"),
         ]),
          ("Web", [
             ("Web", "test_web", "web_clicked"),

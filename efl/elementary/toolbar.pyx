@@ -174,6 +174,23 @@ ELM_TOOLBAR_ITEM_SCROLLTO_FIRST = enums.ELM_TOOLBAR_ITEM_SCROLLTO_FIRST
 ELM_TOOLBAR_ITEM_SCROLLTO_MIDDLE = enums.ELM_TOOLBAR_ITEM_SCROLLTO_MIDDLE
 ELM_TOOLBAR_ITEM_SCROLLTO_LAST = enums.ELM_TOOLBAR_ITEM_SCROLLTO_LAST
 
+
+import traceback
+
+cdef void _toolbar_item_state_callback(void *data, Evas_Object *obj, void *event_info) with gil:
+    cdef ToolbarItemState state = <object>data
+    cdef ToolbarItem item = ToolbarItem.__new__(ToolbarItem)
+    item.item = <Elm_Object_Item *>event_info
+    (callback, a, ka) = state.params
+    try:
+        o = object_from_instance(obj)
+        callback(o, item, *a, **ka)
+    except Exception as e:
+        traceback.print_exc()
+
+    # The C item will be freed unless this is done
+    item.item = NULL
+
 cdef class ToolbarItemState(object):
 
     """A state for a :py:class:`ToolbarItem`."""
@@ -181,15 +198,13 @@ cdef class ToolbarItemState(object):
     cdef Elm_Toolbar_Item_State *state
     cdef object params
 
-    # XXX: Item states mess up the item data somehow, making obj_it_del_cb crash.
-
     def __init__(self, ToolbarItem it, icon = None, label = None, callback = None, *args, **kwargs):
         cdef Evas_Smart_Cb cb = NULL
 
         if callback:
             if not callable(callback):
                 raise TypeError("callback is not callable")
-            cb = _object_item_callback
+            cb = _toolbar_item_state_callback
 
         self.params = (callback, args, kwargs)
 
@@ -201,6 +216,12 @@ cdef class ToolbarItemState(object):
             cb, <void*>self)
         if self.state == NULL:
             Py_DECREF(self)
+
+        Py_INCREF(self)
+
+    def delete(self):
+        self.state = NULL
+        Py_DECREF(self)
 
 
 cdef class ToolbarItem(ObjectItem):

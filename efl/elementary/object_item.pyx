@@ -61,9 +61,11 @@ cdef _object_item_list_to_python(const_Eina_List *lst):
     return ret
 
 cdef void _object_item_del_cb(void *data, Evas_Object *o, void *event_info) with gil:
-    cdef ObjectItem d = <object>data
-    d.item = NULL
-    Py_DECREF(d)
+    cdef ObjectItem d
+    if data != NULL:
+        d = <object>data
+        d.item = NULL
+        Py_DECREF(d)
 
 cdef void _object_item_callback(void *data, Evas_Object *obj, void *event_info) with gil:
     cdef ObjectItem item = <object>data
@@ -114,6 +116,17 @@ cdef class ObjectItem(object):
         elm_object_item_del_cb_set(item, _object_item_del_cb)
         Py_INCREF(self)
         return 1
+
+    def __str__(self):
+        return ("ObjectItem(class=%s, obj=%#x, refcount=%d)") % \
+                (type(self).__name__, <unsigned long>self.item,
+                 PY_REFCOUNT(self))
+
+    def __repr__(self):
+        return ("ObjectItem(class=%s, obj=%#x, refcount=%d)") % \
+                (type(self).__name__, <unsigned long>self.item,
+                 PY_REFCOUNT(self))
+
 
     property widget:
         """Get the widget object's handle which contains a given item
