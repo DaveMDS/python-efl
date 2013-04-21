@@ -166,7 +166,7 @@ cdef class EventSignalUser2(EventSignalUser):
 
 cdef class EventHandlerSignalUser(EventHandler):
     def __init__(self, func, *args, **kargs):
-        EventHandler.__init__(self, ECORE_EVENT_SIGNAL_USER,
+        EventHandler.__init__(self, enums.ECORE_EVENT_SIGNAL_USER,
                               func, *args, **kargs)
 
     cdef Eina_Bool _exec(self, void *event) except 2:
@@ -198,7 +198,7 @@ cdef class EventSignalHup(Event):
 
 
 def on_signal_hup(func, *args, **kargs):
-    return EventHandler(ECORE_EVENT_SIGNAL_HUP, func, *args, **kargs)
+    return EventHandler(enums.ECORE_EVENT_SIGNAL_HUP, func, *args, **kargs)
 
 
 cdef class EventSignalExit(Event):
@@ -245,7 +245,7 @@ cdef class EventSignalTerminate(EventSignalExit):
 
 cdef class EventHandlerSignalExit(EventHandler):
     def __init__(self, func, *args, **kargs):
-        EventHandler.__init__(self, ECORE_EVENT_SIGNAL_EXIT,
+        EventHandler.__init__(self, enums.ECORE_EVENT_SIGNAL_EXIT,
                               func, *args, **kargs)
 
     cdef Eina_Bool _exec(self, void *event) except 2:
@@ -279,7 +279,7 @@ cdef class EventSignalPower(Event):
 
 
 def on_signal_power(func, *args, **kargs):
-    return EventHandler(ECORE_EVENT_SIGNAL_POWER, func, *args, **kargs)
+    return EventHandler(enums.ECORE_EVENT_SIGNAL_POWER, func, *args, **kargs)
 
 
 cdef class EventSignalRealtime(Event):
@@ -297,7 +297,7 @@ cdef class EventSignalRealtime(Event):
 
 
 def on_signal_realtime(func, *args, **kargs):
-    return EventHandler(ECORE_EVENT_SIGNAL_REALTIME, func, *args, **kargs)
+    return EventHandler(enums.ECORE_EVENT_SIGNAL_REALTIME, func, *args, **kargs)
 
 
 cdef class CustomEvent(Event):

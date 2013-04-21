@@ -18,7 +18,7 @@
 from efl cimport *
 from efl.c_eo cimport Eo as cEo
 from efl.eo cimport Eo
-
+from efl.ecore.enums cimport Ecore_Fd_Handler_Flags, Ecore_Exe_Flags
 
 
 cdef extern from "Ecore.h":
@@ -71,27 +71,6 @@ cdef extern from "Ecore.h":
     ctypedef struct Ecore_Fd_Handler
     ctypedef struct Ecore_Exe
     ctypedef Ecore_Exe const_Ecore_Exe "const Ecore_Exe"
-
-    int ECORE_EVENT_SIGNAL_USER
-    int ECORE_EVENT_SIGNAL_HUP
-    int ECORE_EVENT_SIGNAL_EXIT
-    int ECORE_EVENT_SIGNAL_POWER
-    int ECORE_EVENT_SIGNAL_REALTIME
-
-    int ECORE_EXE_EVENT_ADD
-    int ECORE_EXE_EVENT_DEL
-    int ECORE_EXE_EVENT_DATA
-    int ECORE_EXE_EVENT_ERROR
-
-
-    ####################################################################
-    # Enumerations
-    #
-    ctypedef enum Ecore_Fd_Handler_Flags:
-        pass
-
-    ctypedef enum Ecore_Exe_Flags:
-        pass
 
     ####################################################################
     # Other typedefs
@@ -254,7 +233,7 @@ cdef class ExeEventFilter(object):
     cdef Ecore_Exe *exe
     cdef Ecore_Event_Handler *handler
     cdef readonly object owner
-    cdef readonly object event_type
+    cdef readonly int event_type
     cdef object callbacks
 
 
