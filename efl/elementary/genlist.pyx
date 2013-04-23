@@ -371,7 +371,10 @@ Genlist item types
     An index item of a group of items
 
 
-.. rubric:: Genlist items' field types
+.. _Elm_Genlist_Item_Field_Type:
+
+Genlist items' field types
+==========================
 
 .. data:: ELM_GENLIST_ITEM_FIELD_ALL
 
@@ -390,7 +393,10 @@ Genlist item types
     Match state fields
 
 
-.. rubric:: Genlist items' scroll-to types
+.. _Elm_Genlist_Item_Scrollto_Type:
+
+Genlist items' scroll-to types
+==============================
 
 .. data:: ELM_GENLIST_ITEM_SCROLLTO_NONE
 
@@ -924,34 +930,31 @@ cdef class GenlistItem(ObjectItem):
         Evas_Smart_Cb cb
         object comparison_func
 
-    def __cinit__(self):
-        self.item_class = NULL
-        self.parent_item = NULL
-        self.flags = 0
-        self.cb = NULL
-
     def __init__(   self,
                     GenlistItemClass item_class not None,
                     item_data=None,
                     GenlistItem parent_item=None,
-                    int flags=enums.ELM_GENLIST_ITEM_NONE,
+                    Elm_Genlist_Item_Type flags=enums.ELM_GENLIST_ITEM_NONE,
                     func=None,
                     func_data=None):
         """Create a new GenlistItem.
 
-        :param item_class: a valid instance that defines the
-            behavior of this row. See :py:class:`GenlistItemClass`.
+        :param item_data: Data that defines the model of this row.
+            This value will be given to methods of ``item_class`` such as
+            :py:func:`GenlistItemClass.text_get()`.
 
-        :param parent_item: if this is a tree child, then the
+        :param item_class: a valid instance that defines the behavior of this
+            row.
+        :type item_class: :py:class:`GenlistItemClass`
+
+        :param parent_item: If this is a tree child, then the
             parent item must be given here, otherwise it may be
             None. The parent must have the flag
             ``ELM_GENLIST_ITEM_SUBITEMS`` set.
+        :type parent_item: :py:class:`GenlistItem`
 
         :param flags: defines special behavior of this item:
-
-            - ELM_GENLIST_ITEM_NONE = 0
-            - ELM_GENLIST_ITEM_TREE = 1
-            - ELM_GENLIST_ITEM_GROUP = 2
+        :type flags: :ref:`Elm_Genlist_Item_Type`
 
         :param func: if not None, this must be a callable to be
             called back when the item is selected. The function
@@ -963,11 +966,7 @@ cdef class GenlistItem(ObjectItem):
             that represents this item, and ``item_data`` is the
             value given as parameter to this function.
 
-        :param item_data: some data that defines the model of this
-            row. This value will be given to methods of
-            ``item_class`` such as
-            :py:func:`GenlistItemClass.text_get()`. It will also be
-            provided to ``func`` as its last parameter.
+        :param func_data: This value will be passed to the callback.
 
         """
 
@@ -1243,6 +1242,8 @@ cdef class GenlistItem(ObjectItem):
         This causes genlist to jump to the item and show it (by
         jumping to that position), if it is not fully visible.
 
+        :type: :ref:`Elm_Genlist_Item_Scrollto_Type`
+
         .. seealso:: :py:func:`bring_in()`
 
         """
@@ -1254,6 +1255,8 @@ cdef class GenlistItem(ObjectItem):
         This causes genlist to jump to the item and show it (by
         animatedly scrolling), if it is not fully visible.
         This may use animation and take a some time to do so.
+
+        :type: :ref:`Elm_Genlist_Item_Scrollto_Type`
 
         .. seealso:: :py:func:`show()`
 
@@ -1279,6 +1282,8 @@ cdef class GenlistItem(ObjectItem):
         """This sets another class of the item, changing the way that it is
         displayed. After changing the item class, elm_genlist_item_update() is
         called on the item.
+
+        :type itc: :py:class:`GenlistItemClass`
 
         """
         elm_genlist_item_item_class_update(self.item, &itc.cls)
@@ -1410,6 +1415,8 @@ cdef class GenlistItem(ObjectItem):
         this function is called twice for an item, the previous set
         will be unset.
 
+        :type: unicode
+
         """
         def __set__(self, cursor):
             self.cursor_set(cursor)
@@ -1435,6 +1442,8 @@ cdef class GenlistItem(ObjectItem):
         .. note:: before you set a style you should define a cursor with
             elm_genlist_item_cursor_set()
 
+        :type: unicode
+
         """
         def __set__(self, style):
             self.cursor_style_set(style)
@@ -1454,6 +1463,8 @@ cdef class GenlistItem(ObjectItem):
 
         .. note:: before you set engine only usage you should define a
             cursor with elm_genlist_item_cursor_set()
+
+        :type: bool
 
         """
         def __set__(self, bint engine_only):
@@ -1559,22 +1570,26 @@ cdef class GenlistItem(ObjectItem):
         """
         elm_genlist_item_demote(self.item)
 
-    def fields_update(self, parts, itf):
+    def fields_update(self, parts, Elm_Genlist_Item_Field_Type itf):
         """fields_update(unicode parts, itf)
 
         This updates an item's part by calling item's fetching functions again
         to get the contents, texts and states. Use this when the original
         item data has changed and the changes are desired to be reflected.
-        Second parts argument is used for globbing to match '*', '?', and '.'
+        Parts argument is used for globbing to match '*', '?', and '.'
         It can be used at updating multi fields.
 
         Use elm_genlist_realized_items_update() to update an item's all
         property.
 
+        :param parts: The name of item's part
+        :type parts: unicode
+        :param itf: The type of item's part type
+        :type itf: :ref:`Elm_Genlist_Item_Field_Type`
+
         .. seealso:: :py:func:`update()`
 
         """
-        # TODO: itf type?
         if isinstance(parts, unicode): parts = PyUnicode_AsUTF8String(parts)
         elm_genlist_item_fields_update(self.item,
             <const_char *>parts if parts is not None else NULL,
@@ -1636,6 +1651,8 @@ cdef class GenlistItem(ObjectItem):
         """This function returns the item's type. Normally the item's type.
         If it failed, return value is ELM_GENLIST_ITEM_MAX
 
+        :type: :ref:`Elm_Genlist_Item_Type`
+
         """
         def __get__(self):
             cdef Elm_Genlist_Item_Type ittype = elm_genlist_item_type_get(self.item)
@@ -1669,21 +1686,7 @@ cdef class GenlistItem(ObjectItem):
     property select_mode:
         """Item's select mode. Possible values are:
 
-        - ELM_OBJECT_SELECT_MODE_DEFAULT : The item will only call their
-            selection func and callback when first becoming selected. Any
-            further clicks will do nothing, unless you set always select mode.
-        - ELM_OBJECT_SELECT_MODE_ALWAYS : This means that, even if selected,
-             every click will make the selected callbacks be called.
-        - ELM_OBJECT_SELECT_MODE_NONE : This will turn off the ability to
-            select the item entirely and they will neither appear selected
-            nor call selected callback functions.
-        - ELM_OBJECT_SELECT_MODE_DISPLAY_ONLY : This will apply
-            no-finger-size rule with ELM_OBJECT_SELECT_MODE_NONE.
-            No-finger-size rule makes an item can be smaller than lower
-            limit. Clickable objects should be bigger than human touch point
-            device (your finger) for some touch or small screen devices. So
-            it is enabled, the item can be shrink than predefined
-            finger-size value. And the item will be updated.
+        :type: :ref:`Elm_Object_Select_Mode`
 
         """
         def __set__(self, mode):
@@ -1752,29 +1755,31 @@ cdef class GenlistWidget(Object):
         return bool(elm_genlist_multi_select_get(self.obj))
 
     property mode:
-        """This sets the mode used for sizing items horizontally. Valid modes
-        are #ELM_LIST_LIMIT, #ELM_LIST_SCROLL, and #ELM_LIST_COMPRESS. The
-        default is ELM_LIST_SCROLL. This mode means that if items are too
-        wide to fit, the scroller will scroll horizontally. Otherwise items
-        are expanded to fill the width of the viewport of the scroller. If
-        it is ELM_LIST_LIMIT, items will be expanded to the viewport width
-        and limited to that size. If it is ELM_LIST_COMPRESS, the item width
-        will be fixed (restricted to a minimum of) to the list width when
-        calculating its size in order to allow the height to be calculated
-        based on it. This allows, for instance, text block to wrap lines if
-        the Edje part is configured with "text.min: 0 1".
+        """The mode used for sizing items horizontally.
+
+        Default value is ELM_LIST_SCROLL. This mode means that if items are too
+        wide to fit, the scroller will scroll horizontally. Otherwise items are
+        expanded to fill the width of the viewport of the scroller. If it is
+        ELM_LIST_LIMIT, items will be expanded to the viewport width and limited
+        to that size. If it is ELM_LIST_COMPRESS, the item width will be fixed
+        (restricted to a minimum of) to the list width when calculating its size
+        in order to allow the height to be calculated based on it. This allows,
+        for instance, text block to wrap lines if the Edje part is configured
+        with "text.min: 0 1".
 
         .. note:: ELM_LIST_COMPRESS will make list resize slower as it will
             have to recalculate every item height again whenever the list
             width changes!
-        .. note:: Homogeneous mode is for that all items in the genlist same
-            width/height. With ELM_LIST_COMPRESS, it makes genlist items to
-            fast initializing. However there's no sub-objects in genlist
-            which can be on the flying resizable (such as TEXTBLOCK). If
-            then, some dynamic resizable objects in genlist would not
-            diplayed properly.
+
+        .. note:: With Homogeneous mode all items in the genlist have the same
+            width/height. With ELM_LIST_COMPRESS the genlist items have
+            fast initializing. However there are no sub-objects in genlist
+            which can be on-the-fly resizable (such as TEXTBLOCK), as some
+            dynamic resizable objects would not be diplayed properly.
 
         """
+        # TODO: The above description had badly broken English, check that
+        #       it's correct.
         def __set__(self, mode):
             elm_genlist_mode_set(self.obj, mode)
 
