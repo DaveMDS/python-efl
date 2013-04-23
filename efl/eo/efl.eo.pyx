@@ -291,6 +291,9 @@ cdef class Eo(object):
                  <unsigned long>eo_parent_get(self.obj) if self.obj != NULL else 0,
                  PY_REFCOUNT(self))
 
+    def __nonzero__(self):
+        return 1 if self.obj != NULL else 0
+
     cdef void _set_obj(self, cEo *obj) except *:
         assert self.obj == NULL, "Object must be clean"
         assert obj != NULL, "Cannot set a NULL object"
