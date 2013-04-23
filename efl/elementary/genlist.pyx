@@ -1823,7 +1823,7 @@ cdef class GenlistWidget(Object):
         :rtype: :py:class:`GenlistItem`
 
         """
-        return GenlistItem(item_class, parent_item, flags, func, item_data)\
+        return GenlistItem(item_class, item_data, parent_item, flags, func, item_data)\
                           .append_to(self)
 
     def item_prepend(   self,
@@ -1863,7 +1863,7 @@ cdef class GenlistWidget(Object):
         :rtype: :py:class:`GenlistItem`
 
         """
-        return GenlistItem(item_class, parent_item, flags, func, item_data)\
+        return GenlistItem(item_class, item_data, parent_item, flags, func, item_data)\
                           .prepend_to(self)
 
     def item_insert_before( self,
@@ -1901,7 +1901,7 @@ cdef class GenlistWidget(Object):
         :rtype: :py:class:`GenlistItem`
 
         """
-        return GenlistItem(item_class, None, flags, func, item_data)\
+        return GenlistItem(item_class, item_data, None, flags, func, item_data)\
                           .insert_before(before_item)
 
     def item_insert_after(  self,
@@ -1939,7 +1939,7 @@ cdef class GenlistWidget(Object):
         :rtype: :py:class:`GenlistItem`
 
         """
-        return GenlistItem(item_class, None, flags, func, item_data)\
+        return GenlistItem(item_class, item_data, None, flags, func, item_data)\
                           .insert_after(after_item)
 
     def item_sorted_insert( self,
@@ -1993,7 +1993,7 @@ cdef class GenlistWidget(Object):
         :rtype: :py:class:`GenlistItem`
 
         """
-        return GenlistItem(item_class, parent_item, flags, func, item_data)\
+        return GenlistItem(item_class, item_data, parent_item, flags, func, item_data)\
                           .sorted_insert(self, comparison_func)
 
     property selected_item:
