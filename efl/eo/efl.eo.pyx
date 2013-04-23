@@ -269,11 +269,7 @@ cdef class Eo(object):
     # c globals declared in eo.pxd (to make the class available to others)
 
     def __cinit__(self):
-        self.obj = NULL
         self.data = dict()
-
-    def __dealloc__(self):
-        self.data.clear()
 
     def __init__(self, *args, **kwargs):
         if type(self) is Eo:
