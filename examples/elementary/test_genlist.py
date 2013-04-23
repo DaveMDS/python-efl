@@ -481,6 +481,8 @@ def genlist5_clicked(obj, item=None):
         GenlistItem(itc_i, i).append_to(gl)
     t2 = time.time()
 
+    assert(len(gl) == gl.items_count)
+
     it = gl.first_item
     t3 = time.time()
     while it:
@@ -488,11 +490,22 @@ def genlist5_clicked(obj, item=None):
         it = it.next
     t4 = time.time()
 
-    assert(d == 9999)
+    assert(d == item_count-1)
+
+    t5 = time.time()
+    for it in gl:
+        e = it.data
+    t6 = time.time()
+
+    assert(e == item_count-1)
+    assert(it in gl)
+
     print("Time to add {0} items:".format(item_count))
     print(t2-t1)
-    print("Time to iterate item data over {0} items:".format(item_count))
+    print("Time to iterate item data over {0} items using it.next:".format(item_count))
     print(t4-t3)
+    print("Time to iterate item data over {0} items using a python iterator:".format(item_count))
+    print(t6-t5)
 
     win.resize(320, 320)
     win.show()

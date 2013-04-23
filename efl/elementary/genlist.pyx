@@ -35,7 +35,8 @@ Genlist has a fairly large API, mostly because it's relatively complex,
 trying to be both expansive, powerful and efficient. First we will begin
 an overview on the theory behind genlist.
 
-.. rubric:: Genlist item classes - creating items
+Genlist item classes - creating items
+=====================================
 
 In order to have the ability to add and delete items on the fly, genlist
 implements a class (callback) system where the application provides a
@@ -102,7 +103,8 @@ Available item styles:
 - end_icon - Only 1 icon (at end/right) @since 1.1
 - no_icon - No icon (at end/right) @since 1.1
 
-.. rubric:: Structure of items
+Structure of items
+==================
 
 An item in a genlist can have 0 or more texts (they can be regular text
 or textblock Evas objects - that's up to the style to determine), 0 or
@@ -122,7 +124,8 @@ by default - "default", but this can be extended by system or application
 custom themes/overlays/extensions (see @ref Theme "themes" for more
 details).
 
-.. rubric:: Editing and Navigating
+Editing and Navigating
+======================
 
 Items can be added by several calls. All of them return a @ref
 Elm_Object_Item handle that is an internal member inside the genlist.
@@ -161,7 +164,8 @@ the items are flattened in the list, so elm_genlist_item_parent_get() will
 let you know which item is the parent (and thus know how to skip them if
 wanted).
 
-.. rubric:: Multi-selection
+Multi-selection
+===============
 
 If the application wants multiple items to be able to be selected,
 elm_genlist_multi_select_set() can enable this. If the list is
@@ -171,7 +175,8 @@ list is multi-select then elm_genlist_selected_items_get() will return a
 list (that is only valid as long as no items are modified (added, deleted,
 selected or unselected)).
 
-.. rubric:: Usage hints
+Usage hints
+===========
 
 There are also convenience functions. elm_object_item_widget_get() will
 return the genlist object the item belongs to. elm_genlist_item_show()
@@ -217,7 +222,8 @@ per application with elm_theme_extension_add(). If you absolutely must
 have a specific style that overrides any theme the user or system sets up
 you can use elm_theme_overlay_add() to add such a file.
 
-.. rubric:: Implementation
+Implementation
+==============
 
 Evas tracks every object you create. Every time it processes an event
 (mouse move, down, up etc.) it needs to walk through objects and find out
@@ -247,7 +253,8 @@ requested (allowing for efficient building of a very deep tree that could
 even be used for file-management). See the above smart signal callbacks for
 details.
 
-.. rubric:: Genlist smart events
+Genlist smart events
+====================
 
 Signals that you can add callbacks for are:
 
@@ -346,7 +353,10 @@ Signals that you can add callbacks for are:
 Enumerations
 ------------
 
-.. rubric:: Genlist item types
+.. _Elm_Genlist_Item_Type:
+
+Genlist item types
+==================
 
 .. data:: ELM_GENLIST_ITEM_NONE
 
@@ -399,7 +409,10 @@ Enumerations
     Scroll to the middle of viewport
 
 
-.. rubric:: List sizing
+.. _Elm_List_Mode:
+
+List sizing
+===========
 
 .. data:: ELM_LIST_COMPRESS
 
@@ -438,7 +451,10 @@ Enumerations
     externally.
 
 
-.. rubric:: Selection modes
+.. _Elm_Object_Select_Mode:
+
+Selection modes
+===============
 
 .. data:: ELM_OBJECT_SELECT_MODE_DEFAULT
 
@@ -457,7 +473,10 @@ Enumerations
     No select mode with no finger size rule
 
 
-.. rubric:: Scrollbar visibility
+.. _Elm_Scroller_Policy:
+
+Scrollbar visibility
+====================
 
 .. data:: ELM_SCROLLER_POLICY_AUTO
 
@@ -644,6 +663,21 @@ cdef int _py_elm_genlist_compare_func(const_void *data1, const_void *data2) with
             return 0
     else:
         return 0
+
+cdef class GenlistIterator(object):
+    cdef:
+        Elm_Object_Item *current_item
+        GenlistItem ret
+
+    def __cinit__(self, GenlistWidget gl):
+        self.current_item = elm_genlist_first_item_get(gl.obj)
+
+    def __next__(self):
+        if self.current_item == NULL:
+            raise StopIteration
+        ret = _object_item_to_python(self.current_item)
+        self.current_item = elm_genlist_item_next_get(self.current_item)
+        return ret
 
 class GenlistItemsCount(int):
     def __new__(cls, Object obj, int count):
@@ -1665,14 +1699,30 @@ cdef class GenlistItem(ObjectItem):
 
 cdef class GenlistWidget(Object):
 
-    """
-
-    This is the class that actually implement the widget.
-
-    """
+    """This is the class that actually implements the widget."""
 
     def __init__(self, evasObject parent not None):
         self._set_obj(elm_genlist_add(parent.obj))
+
+    def __iter__(self):
+        return GenlistIterator(self)
+
+    def __len__(self):
+        return elm_genlist_items_count(self.obj)
+
+    def __contains__(self, GenlistItem x):
+        cdef:
+            Elm_Object_Item *current_item = elm_genlist_first_item_get(self.obj)
+            int count = elm_genlist_items_count(self.obj)
+            int i
+
+        for i in range(count):
+            if x.item == current_item:
+                return 1
+            else:
+                current_item = elm_genlist_item_next_get(current_item)
+
+        return 0
 
     def clear(self):
         """clear()
