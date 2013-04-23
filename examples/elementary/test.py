@@ -174,6 +174,9 @@ items = [
         ]
 
 
+def selected_cb(o, mod, func):
+   exec("from " +mod + " import " + func + "\n" + func + "(o)")
+
 def menu_create(search, win):
     tbx.clear()
     for category in items:
@@ -196,7 +199,7 @@ def menu_create(search, win):
             if (search == None) or (test[0].lower().find(search.lower()) > -1):
                 bt = Button(win)
                 bt.text = test[0]
-                bt.callback_clicked_add(lambda o, y = test[1], z = test[2]: exec("from " + y + " import " + z + "\n" + z + "(o)"))
+                bt.callback_clicked_add(selected_cb, test[1], test[2])
                 bt.show()
                 tbx2.pack_end(bt)
                 cnt += 1

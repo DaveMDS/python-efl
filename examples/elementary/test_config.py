@@ -5,6 +5,7 @@ from efl import elementary
 from efl.elementary.window import StandardWindow, Window, ELM_WIN_INLINED_IMAGE, \
     ELM_WIN_SOCKET_IMAGE
 from efl.elementary.button import Button
+from efl.elementary.background import Background
 from efl.elementary.label import Label
 from efl.elementary.radio import Radio
 from efl.elementary.check import Check
