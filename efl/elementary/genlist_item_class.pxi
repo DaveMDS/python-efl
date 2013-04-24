@@ -14,25 +14,26 @@ cdef class GenlistItemClass(object):
 
     """
     # In pxd:
-    # Elm_Genlist_Item_Class cls
-    # object _text_get_func
-    # object _content_get_func
-    # object _state_get_func
-    # object _del_func
-    # object _item_style
-    # object _decorate_item_style
-    # object _decorate_all_item_style
+    # Elm_Genlist_Item_Class *cls
+    # object _text_get_func, _content_get_func, _state_get_func, _del_func
+    # object _item_style, _decorate_item_style, _decorate_all_item_style
 
     def __cinit__(self):
+        self.cls = elm_genlist_item_class_new()
         self.cls.func.text_get = _py_elm_genlist_item_text_get
         self.cls.func.content_get = _py_elm_genlist_item_content_get
         self.cls.func.state_get = _py_elm_genlist_item_state_get
-        # TODO: Check if the struct member is named del_
+        # In C the struct member is del but we rename it to del_ in pxd
         self.cls.func.del_ = _py_elm_genlist_object_item_del
+
+    def __dealloc__(self):
+        elm_genlist_item_class_free(self.cls)
+        self.cls = NULL
 
     def __init__(self, item_style=None, text_get_func=None,
                  content_get_func=None, state_get_func=None, del_func=None,
-                 decorate_item_style=None, decorate_all_item_style=None):
+                 decorate_item_style=None, decorate_all_item_style=None,
+                 *args, **kwargs):
 
         """GenlistItemClass constructor.
 
@@ -45,7 +46,7 @@ cdef class GenlistItemClass(object):
             purpose is to return the label string to be used by a
             given part and row. This function should have the
             signature:
-            ``func(obj, part, item_data) -> str``
+            ``func(obj, part, item_data) -> string``
 
         :param content_get_func: if provided will override the behavior
             defined by :py:func:`content_get()` in this class. Its purpose is
@@ -65,13 +66,12 @@ cdef class GenlistItemClass(object):
             defined by ``delete()`` in this class. Its purpose is to be
             called when row is deleted, thus finalizing resouces
             and similar. This function should have the signature:
-            ``func(obj, part, item_data) -> str``
+            ``func(obj, part, item_data)``
 
         .. note:: In all these signatures, 'obj' means Genlist and
             'item_data' is the value given to Genlist item append/prepend
             methods, it should represent your row model as you want.
         """
-
         #
         # Use argument if found, else a function that was defined by child
         # class, or finally the fallback function defined in this class.
@@ -150,6 +150,18 @@ cdef class GenlistItemClass(object):
                 self._content_get_func,
                 self._state_get_func,
                 self._del_func)
+
+    def ref(self):
+        """Increase the C level reference count."""
+        elm_genlist_item_class_ref(self.cls)
+
+    def unref(self):
+        """Decrease the C level reference count."""
+        elm_genlist_item_class_unref(self.cls)
+
+    def free(self):
+        """Free the C level struct."""
+        elm_genlist_item_class_free(self.cls)
 
     property item_style:
         """The style of this item class."""

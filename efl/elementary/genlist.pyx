@@ -549,18 +549,17 @@ ELM_SCROLLER_POLICY_OFF = enums.ELM_SCROLLER_POLICY_OFF
 
 cdef char *_py_elm_genlist_item_text_get(void *data, Evas_Object *obj, const_char *part) with gil:
     cdef:
-        GenlistItem item = <object>data
-        GenlistItemClass itc = item.params[0]
+        GenlistItem item = <GenlistItem>data
         unicode u = _ctouni(part)
 
-    func = itc._text_get_func
+    func = item.itc._text_get_func
     if func is None:
         return NULL
 
     try:
         o = object_from_instance(obj)
-        ret = func(o, u, item.params[1])
-    except Exception as e:
+        ret = func(o, u, item.item_data)
+    except:
         traceback.print_exc()
         return NULL
 
@@ -572,27 +571,26 @@ cdef char *_py_elm_genlist_item_text_get(void *data, Evas_Object *obj, const_cha
 
 cdef Evas_Object *_py_elm_genlist_item_content_get(void *data, Evas_Object *obj, const_char *part) with gil:
     cdef:
-        GenlistItem item = <object>data
-        GenlistItemClass itc = item.params[0]
+        GenlistItem item = <GenlistItem>data
         unicode u = _ctouni(part)
         evasObject icon
 
-    func = itc._content_get_func
+    func = item.itc._content_get_func
     if func is None:
         return NULL
 
+    o = object_from_instance(obj)
+
     try:
-        o = object_from_instance(obj)
-        ret = func(o, u, item.params[1])
-    except Exception as e:
+        icon = func(o, u, item.item_data)
+    except:
         traceback.print_exc()
         return NULL
 
-    if ret is not None:
+    if icon is not None:
         try:
-            icon = ret
             return icon.obj
-        except Exception as e:
+        except:
             traceback.print_exc()
             return NULL
     else:
@@ -600,18 +598,17 @@ cdef Evas_Object *_py_elm_genlist_item_content_get(void *data, Evas_Object *obj,
 
 cdef Eina_Bool _py_elm_genlist_item_state_get(void *data, Evas_Object *obj, const_char *part) with gil:
     cdef:
-        GenlistItem item = <object>data
-        GenlistItemClass itc = item.params[0]
+        GenlistItem item = <GenlistItem>data
         unicode u = _ctouni(part)
 
-    func = itc._state_get_func
+    func = item.itc._state_get_func
     if func is None:
         return 0
 
     try:
         o = object_from_instance(obj)
-        ret = func(o, u, item.params[1])
-    except Exception as e:
+        ret = func(o, u, item.item_data)
+    except:
         traceback.print_exc()
         return 0
 
@@ -619,52 +616,53 @@ cdef Eina_Bool _py_elm_genlist_item_state_get(void *data, Evas_Object *obj, cons
 
 cdef void _py_elm_genlist_object_item_del(void *data, Evas_Object *obj) with gil:
     cdef GenlistItem item = <object>data
-    cdef GenlistItemClass itc
 
     if item is None:
         return
 
-    itc = item.params[0]
+    func = item.itc._del_func
 
-    func = itc._del_func
     if func is not None:
         try:
             o = object_from_instance(obj)
-            func(o, item.params[1])
-        except Exception as e:
+            func(o, item.item_data)
+        except:
             traceback.print_exc()
+
     item._unset_obj()
     Py_DECREF(item)
 
 cdef void _py_elm_genlist_item_func(void *data, Evas_Object *obj, void *event_info) with gil:
     cdef GenlistItem item = <object>data
-    cdef object func = item.params[2]
+    cdef object func = item.cb_func
 
     if func is not None:
         try:
             o = object_from_instance(obj)
-            func(item, o, item.params[3])
-        except Exception as e:
+            func(item, o, item.func_data)
+        except:
             traceback.print_exc()
 
 cdef int _py_elm_genlist_compare_func(const_void *data1, const_void *data2) with gil:
-    cdef Elm_Object_Item *citem1    = <Elm_Object_Item *>data1
-    cdef Elm_Object_Item *citem2    = <Elm_Object_Item *>data2
-    cdef object func
+    cdef:
+        Elm_Object_Item *citem1 = <Elm_Object_Item *>data1
+        Elm_Object_Item *citem2 = <Elm_Object_Item *>data2
+        GenlistItem item1 = <GenlistItem>elm_object_item_data_get(citem1)
+        GenlistItem item2 = <GenlistItem>elm_object_item_data_get(citem2)
+        object func
 
-    item1 = <GenlistItem>elm_object_item_data_get(citem1)
-    item2 = <GenlistItem>elm_object_item_data_get(citem2)
-
-    func = item1.comparison_func
-
-    if func is None:
+    if item1.comparison_func is not None:
+        func = item1.comparison_func
+    elif item2.comparison_func is not None:
+        func = item2.comparison_func
+    else:
         return 0
 
     ret = func(item1, item2)
     if ret is not None:
         try:
             return ret
-        except Exception as e:
+        except:
             traceback.print_exc()
             return 0
     else:

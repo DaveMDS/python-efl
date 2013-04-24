@@ -55,6 +55,12 @@ cdef extern from "Elementary.h":
     int                     elm_genlist_item_index_get(Elm_Object_Item *it)
     void                    elm_genlist_realized_items_update(Evas_Object *obj)
     unsigned int            elm_genlist_items_count(Evas_Object *obj)
+
+    Elm_Genlist_Item_Class *elm_genlist_item_class_new()
+    void                    elm_genlist_item_class_free(Elm_Genlist_Item_Class *itc)
+    void                    elm_genlist_item_class_ref(Elm_Genlist_Item_Class *itc)
+    void                    elm_genlist_item_class_unref(Elm_Genlist_Item_Class *itc)
+
     void                    elm_genlist_item_tooltip_text_set(Elm_Object_Item *item, const_char *text)
     void                    elm_genlist_item_tooltip_content_cb_set(Elm_Object_Item *item, Elm_Tooltip_Item_Content_Cb func, void *data, Evas_Smart_Cb del_cb)
     void                    elm_genlist_item_tooltip_unset(Elm_Object_Item *item)
@@ -69,6 +75,7 @@ cdef extern from "Elementary.h":
     const_char *            elm_genlist_item_cursor_style_get(Elm_Object_Item *item)
     void                    elm_genlist_item_cursor_engine_only_set(Elm_Object_Item *item, Eina_Bool engine_only)
     Eina_Bool               elm_genlist_item_cursor_engine_only_get(Elm_Object_Item *item)
+
     void                    elm_genlist_homogeneous_set(Evas_Object *obj, Eina_Bool homogeneous)
     Eina_Bool               elm_genlist_homogeneous_get(Evas_Object *obj)
     void                    elm_genlist_block_count_set(Evas_Object *obj, int n)
@@ -76,6 +83,7 @@ cdef extern from "Elementary.h":
     void                    elm_genlist_longpress_timeout_set(Evas_Object *obj, double timeout)
     double                  elm_genlist_longpress_timeout_get(Evas_Object *obj)
     Elm_Object_Item *       elm_genlist_at_xy_item_get(Evas_Object *obj, Evas_Coord x, Evas_Coord y, int *posret)
+
     Elm_Object_Item *       elm_genlist_item_parent_get(Elm_Object_Item *it)
     void                    elm_genlist_item_subitems_clear(Elm_Object_Item *item)
     void                    elm_genlist_item_expanded_set(Elm_Object_Item *item, Eina_Bool expanded)
@@ -87,6 +95,7 @@ cdef extern from "Elementary.h":
     void                    elm_genlist_item_fields_update(Elm_Object_Item *item, const_char *parts, Elm_Genlist_Item_Field_Type itf)
     void                    elm_genlist_item_decorate_mode_set(Elm_Object_Item *it, const_char *decorate_it_type, Eina_Bool decorate_it_set)
     const_char *            elm_genlist_item_decorate_mode_get(Elm_Object_Item *it)
+
     Elm_Object_Item *       elm_genlist_decorated_item_get(Evas_Object *obj)
     void                    elm_genlist_reorder_mode_set(Evas_Object *obj, Eina_Bool reorder_mode)
     Eina_Bool               elm_genlist_reorder_mode_get(Evas_Object *obj)
@@ -106,7 +115,7 @@ cdef extern from "Elementary.h":
 
 cdef class GenlistItemClass(object):
     cdef:
-        Elm_Genlist_Item_Class cls
+        Elm_Genlist_Item_Class *cls
         object _text_get_func
         object _content_get_func
         object _state_get_func

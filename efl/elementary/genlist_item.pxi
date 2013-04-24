@@ -3,19 +3,16 @@ cdef class GenlistItem(ObjectItem):
     """An item for the :py:class:`Genlist` widget."""
 
     cdef:
-        Elm_Genlist_Item_Class *item_class
+        GenlistItemClass itc
         Elm_Object_Item *parent_item
         int flags
-        Evas_Smart_Cb cb
-        object comparison_func
+        object comparison_func, item_data, func_data
 
-    def __init__(   self,
-                    GenlistItemClass item_class not None,
-                    item_data=None,
-                    GenlistItem parent_item=None,
-                    Elm_Genlist_Item_Type flags=enums.ELM_GENLIST_ITEM_NONE,
-                    func=None,
-                    func_data=None):
+    def __init__(self,
+        GenlistItemClass item_class not None, item_data=None,
+        GenlistItem parent_item=None,
+        Elm_Genlist_Item_Type flags=enums.ELM_GENLIST_ITEM_NONE,
+        func=None, func_data=None):
         """Create a new GenlistItem.
 
         :param item_data: Data that defines the model of this row.
@@ -49,7 +46,7 @@ cdef class GenlistItem(ObjectItem):
 
         """
 
-        self.item_class = &item_class.cls
+        self.itc = item_class
 
         self.parent_item = _object_item_from_python(parent_item) if parent_item is not None else NULL
 
@@ -58,11 +55,15 @@ cdef class GenlistItem(ObjectItem):
         if func is not None:
             if not callable(func):
                 raise TypeError("func is not None or callable")
-            self.cb = _py_elm_genlist_item_func
 
-        self.params = (item_class, item_data, func, func_data)
+        self.item_data = item_data
+        self.cb_func = func
+        self.func_data = func_data
 
-    cdef int _set_obj(self, Elm_Object_Item *item, params=None) except 0:
+    def __dealloc__(self):
+        self.parent_item = NULL
+
+    cdef int _set_obj(self, Elm_Object_Item *item) except 0:
         assert self.item == NULL, "Object must be clean"
         self.item = item
         Py_INCREF(self)
@@ -74,21 +75,21 @@ cdef class GenlistItem(ObjectItem):
 
     def __str__(self):
         return "%s(item_class=%s, func=%s, item_data=%s)" % \
-               (self.__class__.__name__,
-                self.params[0].__class__.__name__,
-                self.params[2],
-                self.params[1])
+               (type(self).__name__,
+                type(self.itc).__name__,
+                self.cb_func,
+                self.item_data)
 
     def __repr__(self):
         return ("%s(%#x, refcount=%d, Elm_Object_Item=%#x, "
                 "item_class=%s, func=%s, item_data=%r)") % \
-               (self.__class__.__name__,
+               (type(self).__name__,
                 <unsigned long><void*>self,
                 PY_REFCOUNT(self),
                 <unsigned long>self.item,
-                self.params[0].__class__.__name__,
-                self.params[2],
-                self.params[1])
+                type(self.itc).__name__,
+                self.cb_func,
+                self.item_data)
 
     def append_to(self, GenlistWidget genlist not None):
         """append_to(Genlist genlist) -> GenlistItem
@@ -100,15 +101,18 @@ cdef class GenlistItem(ObjectItem):
         :rtype: :py:class:`GenlistItem`
 
         """
-        cdef Elm_Object_Item *item
+        cdef:
+            Elm_Object_Item *item
+            Evas_Smart_Cb cb = NULL
 
-        item = elm_genlist_item_append( genlist.obj,
-                                        self.item_class,
-                                        <void*>self,
-                                        self.parent_item,
-                                        <Elm_Genlist_Item_Type>self.flags,
-                                        self.cb,
-                                        <void*>self)
+        if self.cb_func is not None:
+            cb = _py_elm_genlist_item_func
+
+        item = elm_genlist_item_append(genlist.obj,
+            self.itc.cls, <void*>self,
+            self.parent_item,
+            <Elm_Genlist_Item_Type>self.flags,
+            cb, <void*>self)
 
         if item is not NULL:
             self._set_obj(item)
@@ -127,15 +131,18 @@ cdef class GenlistItem(ObjectItem):
         :rtype: :py:class:`GenlistItem`
 
         """
-        cdef Elm_Object_Item *item
+        cdef:
+            Elm_Object_Item *item
+            Evas_Smart_Cb cb = NULL
+
+        if self.cb_func is not None:
+            cb = _py_elm_genlist_item_func
 
         item = elm_genlist_item_prepend(genlist.obj,
-                                        self.item_class,
-                                        <void*>self,
-                                        self.parent_item,
-                                        <Elm_Genlist_Item_Type>self.flags,
-                                        self.cb,
-                                        <void*>self)
+            self.itc.cls, <void*>self,
+            self.parent_item,
+            <Elm_Genlist_Item_Type>self.flags,
+            cb,  <void*>self)
 
         if item is not NULL:
             self._set_obj(item)
@@ -155,19 +162,21 @@ cdef class GenlistItem(ObjectItem):
         :rtype: :py:class:`GenlistItem`
 
         """
-        cdef Elm_Object_Item *item, *before
+        cdef:
+            Elm_Object_Item *item, *before
+            GenlistWidget genlist = before_item.widget
+            Evas_Smart_Cb cb = NULL
 
-        genlist = before_item.widget
+        if self.cb_func is not None:
+            cb = _py_elm_genlist_item_func
+
         before = _object_item_from_python(before_item)
 
-        item = elm_genlist_item_insert_before(  <Evas_Object *>genlist.obj,
-                                                self.item_class,
-                                                <void*>self,
-                                                self.parent_item,
-                                                before,
-                                                <Elm_Genlist_Item_Type>self.flags,
-                                                self.cb,
-                                                <void*>self)
+        item = elm_genlist_item_insert_before(genlist.obj,
+            self.itc.cls, <void*>self,
+            self.parent_item, before,
+            <Elm_Genlist_Item_Type>self.flags,
+            cb, <void*>self)
 
         if item is not NULL:
             self._set_obj(item)
@@ -187,19 +196,21 @@ cdef class GenlistItem(ObjectItem):
         :rtype: :py:class:`GenlistItem`
 
         """
-        cdef Elm_Object_Item *item, *after
+        cdef:
+            Elm_Object_Item *item, *after
+            GenlistWidget genlist = after_item.widget
+            Evas_Smart_Cb cb = NULL
 
-        genlist = after_item.widget
+        if self.cb_func is not None:
+            cb = _py_elm_genlist_item_func
+
         after = _object_item_from_python(after_item)
 
-        item = elm_genlist_item_insert_after(   <Evas_Object *>genlist.obj,
-                                                self.item_class,
-                                                <void*>self,
-                                                self.parent_item,
-                                                after,
-                                                <Elm_Genlist_Item_Type>self.flags,
-                                                self.cb,
-                                                <void*>self)
+        item = elm_genlist_item_insert_after(genlist.obj,
+            self.itc.cls, <void*>self,
+            self.parent_item, after,
+            <Elm_Genlist_Item_Type>self.flags,
+            cb, <void*>self)
 
         if item is not NULL:
             self._set_obj(item)
@@ -232,21 +243,24 @@ cdef class GenlistItem(ObjectItem):
         to compare.
 
         """
-        cdef Elm_Object_Item *item
+        cdef:
+            Elm_Object_Item *item
+            Evas_Smart_Cb cb = NULL
+
+        if self.cb_func is not None:
+            cb = _py_elm_genlist_item_func
 
         if comparison_func is not None:
             if not callable(comparison_func):
                 raise TypeError("func is not None or callable")
             self.comparison_func = comparison_func
 
-        item = elm_genlist_item_sorted_insert(  <Evas_Object *>genlist.obj,
-                                                self.item_class,
-                                                <void*>self,
-                                                self.parent_item,
-                                                <Elm_Genlist_Item_Type>self.flags,
-                                                _py_elm_genlist_compare_func,
-                                                self.cb,
-                                                <void*>self)
+        item = elm_genlist_item_sorted_insert(genlist.obj,
+            self.itc.cls, <void*>self,
+            self.parent_item,
+            <Elm_Genlist_Item_Type>self.flags,
+            _py_elm_genlist_compare_func,
+            cb, <void*>self)
 
         if item is not NULL:
             self._set_obj(item)
@@ -258,10 +272,10 @@ cdef class GenlistItem(ObjectItem):
     property data:
         """User data for the item."""
         def __get__(self):
-            return self.params[1]
+            return self.item_data
 
     def data_get(self):
-        return self.params[1]
+        return self.item_data
 
     property next:
         """This returns the item placed after the ``item``, on the container
@@ -365,7 +379,7 @@ cdef class GenlistItem(ObjectItem):
         :type itc: :py:class:`GenlistItemClass`
 
         """
-        elm_genlist_item_item_class_update(self.item, &itc.cls)
+        elm_genlist_item_item_class_update(self.item, itc.cls)
 
     #TODO: def item_class_get(self):
         """This returns the Genlist_Item_Class for the given item. It can be
