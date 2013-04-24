@@ -25,18 +25,16 @@ TODO
 * evas.SmartObject
 * edje: complete the unit tests
 * elm.Web need a test
-* elm.GestureLayer need a test
 * elm.PhotoCam need a test
-* elm.Transit need a test
-* elm.Conformant need a test
 * include python-ethumb
 * include python-e_dbus (or make edbus2 ??)
-* elm.Notify align_set/get/prop
 * Review the internal functions and name them consistently
 * Add more documentation for the use of callbacks
 * Document our use of exceptions
-* Split Evas to individual modules?
-* update links and text on: http://www.freedesktop.org/wiki/Software/DBusBindings
+* update links and text on:
+  http://www.freedesktop.org/wiki/Software/DBusBindings
+* Split base object defines from includes/efl.evas.pxd so that everything
+  defined there doesn't get included to the C code that cimports it.
 
 
 IMAGES
