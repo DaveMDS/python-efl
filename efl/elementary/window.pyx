@@ -21,7 +21,6 @@
 Widget description
 ------------------
 
-
 The window class of Elementary.
 
 Contains functions to manipulate windows. The Evas engine used to render
@@ -87,7 +86,7 @@ fixed to "out001.png" Some examples of using the shot engine::
 Signals that you can add callbacks for are:
 
 - "delete,request": the user requested to close the window. See
-    :py:attr:`autodel`.
+    :py:attr:`autodel <Window.autodel>`.
 - "focus,in": window got focus
 - "focus,out": window lost focus
 - "moved": window that holds the canvas was moved
@@ -111,7 +110,8 @@ Enumerations
 
 .. _Elm_Win_Type:
 
-.. rubric:: Window types
+Window types
+============
 
 .. data:: ELM_WIN_BASIC
 
@@ -212,7 +212,8 @@ Enumerations
 
 .. _Elm_Win_Indicator_Mode:
 
-.. rubric:: Indicator states
+Indicator states
+================
 
 .. data:: ELM_WIN_INDICATOR_UNKNOWN
 
@@ -229,7 +230,8 @@ Enumerations
 
 .. _Elm_Win_Indicator_Opacity_Mode:
 
-.. rubric:: Indicator opacity
+Indicator opacity
+=================
 
 .. data:: ELM_WIN_INDICATOR_OPACITY_UNKNOWN
 
@@ -250,7 +252,8 @@ Enumerations
 
 .. _Elm_Win_Keyboard_Mode:
 
-.. rubric:: Keyboard virtual keyboard modes
+Keyboard virtual keyboard modes
+===============================
 
 .. data:: ELM_WIN_KEYBOARD_UNKNOWN
 
@@ -316,6 +319,34 @@ Enumerations
 
     J2ME keyboard layout.
 
+
+.. _Elm_Illume_Command:
+
+Illume commands
+===============
+
+Available commands that can be sent to the Illume manager.
+
+When running under an Illume session, a window may send commands to the
+Illume manager to perform different actions.
+
+.. data:: ELM_ILLUME_COMMAND_FOCUS_BACK
+
+    Reverts focus to the previous window
+
+.. data:: ELM_ILLUME_COMMAND_FOCUS_FORWARD
+
+    Sends focus to the next window in the list
+
+.. data:: ELM_ILLUME_COMMAND_FOCUS_HOME
+
+    Hides all windows to show the Home screen
+
+.. data:: ELM_ILLUME_COMMAND_CLOSE
+
+    Closes the currently active window
+
+
 """
 
 include "widget_header.pxi"
@@ -373,13 +404,14 @@ ELM_WIN_KEYBOARD_URL = enums.ELM_WIN_KEYBOARD_URL
 ELM_WIN_KEYBOARD_KEYPAD = enums.ELM_WIN_KEYBOARD_KEYPAD
 ELM_WIN_KEYBOARD_J2ME = enums.ELM_WIN_KEYBOARD_J2ME
 
+ELM_ILLUME_COMMAND_FOCUS_BACK = enums.ELM_ILLUME_COMMAND_FOCUS_BACK
+ELM_ILLUME_COMMAND_FOCUS_FORWARD = enums.ELM_ILLUME_COMMAND_FOCUS_FORWARD
+ELM_ILLUME_COMMAND_FOCUS_HOME = enums.ELM_ILLUME_COMMAND_FOCUS_HOME
+ELM_ILLUME_COMMAND_CLOSE = enums.ELM_ILLUME_COMMAND_CLOSE
+
 cdef class Window(Object):
 
-    """
-
-    This is the class that actually implement the widget.
-
-    """
+    """This is the class that actually implements the widget."""
 
     def __init__(self, name, type, evasObject parent=None):
         """
@@ -387,7 +419,7 @@ cdef class Window(Object):
         :param name: A name for the new window.
         :type name: string
         :param type: A type for the new window:
-        :type type: :ref:`Window type <Elm_Win_Type>`
+        :type type: :ref:`Elm_Win_Type`
         :keyword parent: Parent object to add the window to, defaults to None
         :type parent: :py:class:`efl.evas.Object`
 
@@ -962,13 +994,13 @@ cdef class Window(Object):
 
         """
         def __get__(self):
-            return elm_win_layer_get(self.obj)
+            return self.layer_get()
         def __set__(self, layer):
-            elm_win_layer_set(self.obj, layer)
+            self.layer_set(layer)
 
-    def layer_set(self, layer):
+    cpdef layer_set(self, int layer):
         elm_win_layer_set(self.obj, layer)
-    def layer_get(self):
+    cpdef layer_get(self):
         return elm_win_layer_get(self.obj)
 
     def norender_push(self):
@@ -1221,7 +1253,7 @@ cdef class Window(Object):
         structure (use None for this if not needed).
 
         :param command: The command to send
-        :type command: Elm_Illume_Command
+        :type command: :ref:`Elm_Illume_Command`
         :param params: Optional parameters for the command
 
         """
@@ -1253,9 +1285,9 @@ cdef class Window(Object):
 
         """
         def __get__(self):
-            return bool(elm_win_focus_get(self.obj))
+            return self.focus_get()
 
-    def focus_get(self):
+    cpdef focus_get(self):
         return bool(elm_win_focus_get(self.obj))
 
     property screen_constrain:
@@ -1353,7 +1385,7 @@ cdef class Window(Object):
     property keyboard_mode:
         """The keyboard mode of the window.
 
-        :type: :ref:`Window keyboard mode <Elm_Win_Keyboard_Mode>`
+        :type: :ref:`Elm_Win_Keyboard_Mode`
 
         """
         def __get__(self):
@@ -1385,7 +1417,7 @@ cdef class Window(Object):
     property indicator_mode:
         """The indicator mode of the window.
 
-        :type: :ref:`Window indicator mode <Elm_Win_Indicator_Mode>`
+        :type: :ref:`Elm_Win_Indicator_Mode`
 
         """
         def __get__(self):
@@ -1401,7 +1433,7 @@ cdef class Window(Object):
     property indicator_opacity:
         """The indicator opacity mode of the window.
 
-        :type: :ref:`Window indicator opacity <Elm_Win_Indicator_Opacity_Mode>`
+        :type: :ref:`Elm_Win_Indicator_Opacity_Mode`
 
         """
         def __get__(self):
@@ -1624,6 +1656,11 @@ _object_mapping_register("elm_win", Window)
 cdef class StandardWindow(Window):
 
     """A :py:class:`Window` with standard setup.
+
+    This creates a window like :py:class:`Window` but also puts in a standard
+    :py:class:`Background <efl.elementary.background.Background>`, as well as
+    setting the window title to ``title``. The window type created is of type
+    ELM_WIN_BASIC, with ``None`` as the parent widget.
 
     :param name: A name for the new window.
     :type name: string
