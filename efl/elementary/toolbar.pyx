@@ -18,11 +18,10 @@
 
 """
 
-Widget description
-------------------
-
 .. image:: /images/toolbar-preview.png
 
+Widget description
+------------------
 
 A toolbar is a widget that displays a list of items inside a box. It
 can be scrollable, show a menu with items that don't fit to toolbar size

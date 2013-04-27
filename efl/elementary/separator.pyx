@@ -21,7 +21,7 @@ Widget description
 ------------------
 
 .. image:: /images/separator-preview.png
-
+    :align: left
 
 Separator is a very thin object used to separate other objects.
 

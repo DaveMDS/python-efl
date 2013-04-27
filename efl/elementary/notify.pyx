@@ -17,11 +17,10 @@
 
 """
 
-Widget description
-------------------
-
 .. image:: /images/notify-preview.png
 
+Widget description
+------------------
 
 Display a container in a particular region of the parent.
 

@@ -21,7 +21,7 @@ Widget description
 ------------------
 
 .. image:: /images/innerwindow-preview.png
-
+    :align: left
 
 An inwin is a window inside a window that is useful for a quick popup.
 It does not hover.

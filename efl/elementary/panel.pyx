@@ -18,11 +18,10 @@
 
 """
 
-Widget description
-------------------
-
 .. image:: /images/panel-preview.png
 
+Widget description
+------------------
 
 A panel is a type of animated container that contains subobjects.
 

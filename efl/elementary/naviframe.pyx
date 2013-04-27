@@ -17,11 +17,10 @@
 
 """
 
-Widget description
-------------------
-
 .. image:: /images/naviframe-preview.png
 
+Widget description
+------------------
 
 Naviframe stands for navigation frame. It's a views manager
 for applications.

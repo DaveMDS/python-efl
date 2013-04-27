@@ -18,11 +18,10 @@
 
 """
 
-Widget description
-------------------
-
 .. image:: /images/background-preview.png
 
+Widget description
+------------------
 
 The background widget is used for setting a solid color, image or Edje group
 as a background to a window or any container object.

@@ -18,11 +18,10 @@
 
 """
 
-Widget description
-------------------
-
 .. image:: /images/icon-preview.png
 
+Widget description
+------------------
 
 An icon object is used to display standard icon images ("delete",
 "edit", "arrows", etc.) or images coming from a custom file (PNG, JPG,

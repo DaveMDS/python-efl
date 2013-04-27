@@ -18,10 +18,10 @@
 
 """
 
+.. image:: /images/dayselector-preview.png
+
 Widget description
 ------------------
-
-.. image:: /images/dayselector-preview.png
 
 Dayselector displays all seven days of the week and allows the user to
 select multiple days.

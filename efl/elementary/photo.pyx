@@ -17,11 +17,10 @@
 
 """
 
-Widget description
-------------------
-
 .. image:: /images/photo-preview.png
 
+Widget description
+------------------
 
 An Elementary photo widget is intended for displaying a photo, for
 ex., a person's image (contact).

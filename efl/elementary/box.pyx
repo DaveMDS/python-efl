@@ -22,7 +22,7 @@ Widget description
 ------------------
 
 .. image:: /images/box-preview.png
-
+    :align: left
 
 A box arranges objects in a linear fashion, governed by a layout function
 that defines the details of this arrangement.

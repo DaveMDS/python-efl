@@ -17,10 +17,10 @@
 
 """
 
+.. image:: /images/conformant-preview.png
+
 Widget description
 ------------------
-
-.. image:: /images/conformant-preview.png
 
 The aim is to provide a widget that can be used in elementary apps to
 account for space taken up by the indicator, virtual keypad & softkey

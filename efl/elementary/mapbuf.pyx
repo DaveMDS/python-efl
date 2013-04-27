@@ -21,7 +21,7 @@ Widget description
 ------------------
 
 .. image:: /images/mapbuf-preview.png
-
+    :align: left
 
 This holds one content object and uses an Evas Map of transformation
 points to be later used with this content. So the content will be

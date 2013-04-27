@@ -17,11 +17,10 @@
 
 """
 
-Widget description
-------------------
-
 .. image:: /images/segmentcontrol-preview.png
 
+Widget description
+------------------
 
 Segment control widget is a horizontal control made of multiple
 segment items, each segment item functioning similar to discrete two

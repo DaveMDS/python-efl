@@ -17,11 +17,10 @@
 
 """
 
-Widget description
-------------------
-
 .. image:: /images/genlist-preview.png
 
+Widget description
+------------------
 
 This widget aims to have more expansive list than the simple list in
 Elementary that could have more flexible items and allow many more

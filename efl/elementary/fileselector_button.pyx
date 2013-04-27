@@ -18,11 +18,10 @@
 
 """
 
-Widget description
-------------------
-
 .. image:: /images/fileselector-button-preview.png
 
+Widget description
+------------------
 
 This is a button that, when clicked, creates an Elementary window (or
 inner window) with a :py:class:`elementary.fileselector.Fileselector`

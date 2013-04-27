@@ -21,7 +21,6 @@
 Widget description
 ------------------
 
-
 This is a widget specifically for displaying high-resolution digital
 camera photos giving speedy feedback (fast load), low memory footprint
 and zooming and panning as well as fitting logic. It is entirely focused

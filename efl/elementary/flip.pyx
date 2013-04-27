@@ -18,11 +18,10 @@
 
 """
 
-Widget description
-------------------
-
 .. image:: /images/flip-preview.png
 
+Widget description
+------------------
 
 This widget holds two content :py:class:`efl.evas.Object`: one on
 the front and one on the back. It allows you to flip from front to back

@@ -22,8 +22,7 @@ Widget description
 ------------------
 
 .. image:: /images/ctxpopup-preview.png
-
-Context popup widget.
+    :align: left
 
 A ctxpopup is a widget that, when shown, pops up a list of items. It
 automatically chooses an area inside its parent object's view to

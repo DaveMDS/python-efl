@@ -18,11 +18,10 @@
 
 """
 
-Widget description
-------------------
-
 .. image:: /images/scroller-preview.png
 
+Widget description
+------------------
 
 A scroller holds a single object and "scrolls it around".
 

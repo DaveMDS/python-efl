@@ -18,11 +18,10 @@
 
 """
 
-Widget description
-------------------
-
 .. image:: /images/gengrid-preview.png
 
+Widget description
+------------------
 
 This widget aims to position objects in a grid layout while actually
 creating and rendering only the visible ones, using the same idea as the

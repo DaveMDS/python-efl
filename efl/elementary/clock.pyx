@@ -22,7 +22,7 @@ Widget description
 ------------------
 
 .. image:: /images/clock-preview.png
-
+    :align: left
 
 This is a digital clock widget.
 

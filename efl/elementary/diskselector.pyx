@@ -17,10 +17,10 @@
 
 """
 
+.. image:: /images/diskselector-preview.png
+
 Widget description
 ------------------
-
-.. image:: /images/diskselector-preview.png
 
 A diskselector is a kind of list widget. It scrolls horizontally,
 and can contain label and icon objects. Three items are displayed

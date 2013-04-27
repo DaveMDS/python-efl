@@ -18,11 +18,10 @@
 
 """
 
-Widget description
-------------------
-
 .. image:: /images/index-preview.png
 
+Widget description
+------------------
 
 An index widget gives you an index for fast access to whichever
 group of other UI items one might have.

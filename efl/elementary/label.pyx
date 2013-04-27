@@ -18,11 +18,10 @@
 
 """
 
-Widget description
-------------------
-
 .. image:: /images/label-preview.png
 
+Widget description
+------------------
 
 Widget to display text, with simple html-like markup.
 

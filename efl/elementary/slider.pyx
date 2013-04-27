@@ -17,11 +17,10 @@
 
 """
 
-Widget description
-------------------
-
 .. image:: /images/slider-preview.png
 
+Widget description
+------------------
 
 The slider adds a draggable "slider" widget for selecting the value of
 something within a range.

@@ -18,11 +18,10 @@
 
 """
 
-Widget description
-------------------
-
 .. image:: /images/bubble-preview.png
 
+Widget description
+------------------
 
 The Bubble is a widget to show text similar to how speech is
 represented in comics.

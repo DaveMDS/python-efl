@@ -21,7 +21,7 @@ Widget description
 ------------------
 
 .. image:: /images/radio-preview.png
-
+    :align: left
 
 Radio is a widget that allows for one or more options to be displayed
 and have the user choose only one of them.

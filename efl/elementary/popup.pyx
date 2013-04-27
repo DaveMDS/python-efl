@@ -18,11 +18,10 @@
 
 """
 
-Widget description
-------------------
-
 .. image:: /images/popup-preview.png
 
+Widget description
+------------------
 
 This widget is an enhancement of :py:class:`Notify`.
 In addition to Content area, there are two optional sections namely Title

@@ -21,7 +21,7 @@ Widget description
 ------------------
 
 .. image:: /images/panes-preview.png
-
+    :align: left
 
 The panes widget adds a draggable bar between two contents. When
 dragged this bar will resize contents' size.

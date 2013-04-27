@@ -21,7 +21,7 @@ Widget description
 ------------------
 
 .. image:: /images/spinner-preview.png
-
+    :align: left
 
 A spinner is a widget which allows the user to increase or decrease
 numeric values using arrow buttons, or edit values directly, clicking

@@ -18,11 +18,10 @@
 
 """
 
-Widget description
-------------------
-
 .. image:: /images/thumb-preview.png
 
+Widget description
+------------------
 
 A thumbnail object is used for displaying the thumbnail of an image
 or video. You must have compiled Elementary with ``Ethumb_Client``

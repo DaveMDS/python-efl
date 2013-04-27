@@ -22,7 +22,7 @@ Widget description
 ------------------
 
 .. image:: /images/hover-preview.png
-
+    :align: left
 
 A Hover object will hover over its ``parent`` object at the ``target``
 location.

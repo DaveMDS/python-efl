@@ -18,10 +18,10 @@
 
 """
 
+.. image:: /images/fileselector-preview.png
+
 Widget description
 ------------------
-
-.. image:: /images/fileselector-preview.png
 
 A file selector is a widget that allows a user to navigate through a
 file system, reporting file selections back via its API.

@@ -18,11 +18,10 @@
 
 """
 
-Widget description
-------------------
-
 .. image:: /images/list-preview.png
 
+Widget description
+------------------
 
 A list widget is a container whose children are displayed vertically or
 horizontally, in order, and can be selected.

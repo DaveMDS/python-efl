@@ -22,7 +22,7 @@ Widget description
 ------------------
 
 .. image:: /images/calendar-preview.png
-
+    :align: left
 
 This is a calendar widget.
 

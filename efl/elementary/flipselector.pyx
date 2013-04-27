@@ -22,7 +22,7 @@ Widget description
 ------------------
 
 .. image:: /images/flipselector-preview.png
-
+    :align: left
 
 A flip selector is a widget to show a set of *text* items, one
 at a time, with the same sheet switching style as the :py:class:`Clock`

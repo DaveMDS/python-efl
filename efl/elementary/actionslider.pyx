@@ -16,13 +16,12 @@
 # along with this Python-EFL.  If not, see <http://www.gnu.org/licenses/>.
 #
 
-
 """
+
+.. image:: /images/actionslider-preview.png
 
 Widget description
 ------------------
-
-.. image:: /images/actionslider-preview.png
 
 An actionslider is a switcher for two or three labels with
 customizable magnet properties.

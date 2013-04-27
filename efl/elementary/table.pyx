@@ -21,6 +21,7 @@ Widget description
 ------------------
 
 .. image:: /images/table-preview.png
+    :align: left
 
 A container widget to arrange other widgets in a table where items can
 span multiple columns or rows - even overlap (and then be raised or

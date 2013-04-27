@@ -17,11 +17,10 @@
 
 """
 
-Widget description
-------------------
-
 .. image:: /images/layout-preview.png
 
+Widget description
+------------------
 
 This is a container widget that takes a standard Edje design file and
 wraps it very thinly in a widget.

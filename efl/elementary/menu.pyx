@@ -18,11 +18,10 @@
 
 """
 
-Widget description
-------------------
-
 .. image:: /images/menu-preview.png
 
+Widget description
+------------------
 
 A menu is a list of items displayed above its parent.
 

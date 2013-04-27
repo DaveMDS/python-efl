@@ -22,7 +22,7 @@ Widget description
 ------------------
 
 .. image:: /images/progressbar-preview.png
-
+    :align: left
 
 The progress bar is a widget for visually representing the progress
 status of a given job/task.

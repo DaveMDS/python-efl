@@ -18,11 +18,10 @@
 
 """
 
-Widget description
-------------------
-
 .. image:: /images/grid-preview.png
 
+Widget description
+------------------
 
 A grid layout widget.
 

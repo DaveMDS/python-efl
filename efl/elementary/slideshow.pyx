@@ -18,11 +18,10 @@
 
 """
 
-Widget description
-------------------
-
 .. image:: /images/slideshow-preview.png
 
+Widget description
+------------------
 
 This widget, as the name indicates, is a pre-made image
 slideshow panel, with API functions acting on (child) image

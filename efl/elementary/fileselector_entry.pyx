@@ -18,11 +18,10 @@
 
 """
 
-Widget description
-------------------
-
 .. image:: /images/fileselector-entry-preview.png
 
+Widget description
+------------------
 
 This is an entry made to be filled with or display a file
 system path string.

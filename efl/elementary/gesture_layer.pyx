@@ -18,10 +18,10 @@
 
 """
 
+.. image:: /images/gesturelayer-preview.png
+
 Widget description
 ------------------
-
-.. image:: /images/gesturelayer-preview.png
 
 Use the GestureLayer to detect gestures. The advantage is that you don't
 have to implement gesture detection, just set callbacks for gesture states.

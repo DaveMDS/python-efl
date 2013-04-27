@@ -22,7 +22,7 @@ Widget description
 ------------------
 
 .. image:: /images/hoversel-preview.png
-
+    :align: left
 
 A hoversel is a button that pops up a list of items (automatically
 choosing the direction to display) that have a label and, optionally, an

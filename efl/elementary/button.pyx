@@ -21,7 +21,7 @@ Widget description
 ------------------
 
 .. image:: /images/button-preview.png
-
+    :align: left
 
 This is a push-button. Press it and run some function. It can contain
 a simple label and icon object and it also has an autorepeat feature.

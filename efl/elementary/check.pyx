@@ -22,7 +22,7 @@ Widget description
 ------------------
 
 .. image:: /images/check-preview.png
-
+    :align: left
 
 The check widget allows for toggling a value between true and false.
 

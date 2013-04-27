@@ -18,11 +18,10 @@
 
 """
 
-Widget description
-------------------
-
 .. image:: /images/frame-preview.png
 
+Widget description
+------------------
 
 Frame is a widget that holds some content and has a title.
 

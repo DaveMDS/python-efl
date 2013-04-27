@@ -22,7 +22,7 @@ Widget description
 ------------------
 
 .. image:: /images/entry-preview.png
-
+    :align: left
 
 An entry is a convenience widget which shows a box that the user can
 enter text into.
