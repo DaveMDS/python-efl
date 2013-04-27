@@ -297,6 +297,8 @@ def gesture_layer_clicked(obj):
     win.title = "Gesture Layer"
     win.autodel = True
     win.size = w, h
+    if obj is None:
+        win.callback_delete_request_add(lambda o: elementary.exit())
 
     bg = Background(win)
     bg.file = "images/wood_01.jpg"
@@ -319,7 +321,6 @@ def gesture_layer_clicked(obj):
 
     photos.append(photo_object_add(win, postit, None, 50, 50, 382, 400, 355))
 
-    win.callback_delete_request_add(lambda o: elementary.exit())
     win.show()
 
 if __name__ == "__main__":

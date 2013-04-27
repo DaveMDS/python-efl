@@ -93,6 +93,9 @@ items = [
             ("Thumb", "test_thumb", "thumb_clicked"),
             ("Video", "test_video", "video_clicked"),
         ]),
+         ("Input", [
+            ("Gesture Layer", "test_gesture_layer", "gesture_layer_clicked"),
+        ]),
          ("Lists", [
             ("List", "test_list", "list_clicked"),
             ("List 2", "test_list", "list2_clicked"),
