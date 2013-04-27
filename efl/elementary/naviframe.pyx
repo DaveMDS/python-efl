@@ -104,11 +104,7 @@ from object_item cimport    _object_item_to_python, \
 
 cdef class NaviframeItem(ObjectItem):
 
-    """
-
-    An item for the Naviframe widget.
-
-    """
+    """An item for the Naviframe widget."""
 
     cdef object label, item_style
     cdef Evas_Object *prev_btn, *next_btn, *item_content
@@ -336,11 +332,7 @@ cdef class NaviframeItem(ObjectItem):
 
 cdef class Naviframe(LayoutClass):
 
-    """
-
-    This is the class that actually implement the widget.
-
-    """
+    """This is the class that actually implements the widget."""
 
     def __init__(self, evasObject parent):
         self._set_obj(elm_naviframe_add(parent.obj))

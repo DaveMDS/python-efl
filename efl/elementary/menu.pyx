@@ -51,42 +51,44 @@ from object_item cimport    _object_item_callback, \
 
 cdef class MenuItem(ObjectItem):
 
-    """
+    """An item for the :py:class:`Menu` widget."""
 
-    An item for the :py:class:`Menu` widget.
+    cdef:
+        MenuItem parent
+        bytes label, icon
 
-    """
-
-    def __init__(   self,
-                    evasObject menu,
-                    MenuItem parent = None,
-                    label = None,
-                    icon = None,
-                    callback = None,
-                    *args, **kargs):
-
-        cdef Elm_Object_Item *item, *parent_obj = NULL
-        cdef Evas_Smart_Cb cb = NULL
-
-        parent_obj = parent.item if parent is not None else NULL
+    def __init__(self, MenuItem parent = None, label = None, icon = None,
+        callback = None, *args, **kargs):
 
         if callback is not None:
             if not callable(callback):
                 raise TypeError("callback is not callable")
-            cb = _object_item_callback
 
-        self.params = (callback, args, kargs)
         if isinstance(icon, unicode): icon = PyUnicode_AsUTF8String(icon)
         if isinstance(label, unicode): label = PyUnicode_AsUTF8String(label)
+        self.parent = parent
+        self.label = label
+        self.icon = icon
+        self.cb_func = callback
+        self.args = args
+        self.kwargs = kargs
+
+    def add_to(self, Menu menu not None):
+        cdef Elm_Object_Item *item, *parent_obj = NULL
+        cdef Evas_Smart_Cb cb = NULL
+
+        if self.cb_func is not None:
+            cb = _object_item_callback
+
         item = elm_menu_item_add(menu.obj,
-            parent_obj,
-            <const_char *>icon if icon is not None else NULL,
-            <const_char *>label if label is not None else NULL,
-            cb,
-            <void*>self)
+            self.parent.item if self.parent is not None else NULL,
+            <const_char *>self.icon if self.icon is not None else NULL,
+            <const_char *>self.label if self.label is not None else NULL,
+            cb, <void*>self)
 
         if item != NULL:
             self._set_obj(item)
+            return self
         else:
             Py_DECREF(self)
 
@@ -208,16 +210,25 @@ cdef class MenuItem(ObjectItem):
         return _object_item_to_python(elm_menu_item_prev_get(self.item))
 
 cdef class MenuSeparatorItem(ObjectItem):
-    def __init__(self, evasObject menu, MenuItem parent):
-        cdef Elm_Object_Item *parent_obj = NULL
 
-        if parent:
-            parent_obj = parent.item
-        item = elm_menu_item_separator_add(menu.obj, parent_obj)
-        if not item:
-            raise RuntimeError("Error creating separator")
+    cdef MenuItem parent
+    def __init__(self, MenuItem parent):
+        self.parent = parent
 
-        self._set_obj(item)
+    def add_to(self, Menu menu not None):
+        cdef Elm_Object_Item *item
+
+        if self.cb_func is not None:
+            cb = _object_item_callback
+
+        item = elm_menu_item_separator_add(menu.obj,
+            self.parent.item if self.parent is not None else NULL)
+
+        if item != NULL:
+            self._set_obj(item)
+            return self
+        else:
+            Py_DECREF(self)
 
     property is_separator:
         """Returns whether the item is a separator.
@@ -233,8 +244,8 @@ cdef class MenuSeparatorItem(ObjectItem):
     def next_get(self):
         """Get the next item in the menu.
 
-        @return: The item after it, or None
-        @rtype: L{MenuItem}
+        :return: The item after it, or None
+        :rtype: :py:class:`MenuItem`
 
         """
         return _object_item_to_python(elm_menu_item_next_get(self.item))
@@ -242,7 +253,7 @@ cdef class MenuSeparatorItem(ObjectItem):
     property next:
         """Get the next item in the menu.
 
-        @type: L{MenuItem}
+        :type: :py:class:`MenuItem`
 
         """
         def __get__(self):
@@ -251,8 +262,8 @@ cdef class MenuSeparatorItem(ObjectItem):
     def prev_get(self):
         """Get the previous item in the menu.
 
-        @return: The item before it, or None
-        @rtype: L{MenuItem}
+        :return: The item before it, or None
+        :rtype: :py:class:`MenuItem`
 
         """
         return _object_item_to_python(elm_menu_item_prev_get(self.item))
@@ -260,7 +271,7 @@ cdef class MenuSeparatorItem(ObjectItem):
     property prev:
         """Get the previous item in the menu.
 
-        @type: L{MenuItem}
+        :type: :py:class:`MenuItem`
 
         """
         def __get__(self):
@@ -268,17 +279,10 @@ cdef class MenuSeparatorItem(ObjectItem):
 
 cdef class Menu(Object):
 
-    """
+    """This is the class that actually implements the widget."""
 
-    This is the class that actually implement the widget.
-
-    """
-
-    def __init__(self, evasObject parent, obj = None):
-        if obj is None:
-            self._set_obj(elm_menu_add(parent.obj))
-        else:
-            self._set_obj(<Evas_Object*>obj)
+    def __init__(self, evasObject parent):
+        self._set_obj(elm_menu_add(parent.obj))
 
     property parent:
         """The parent for the given menu widget.
@@ -352,7 +356,7 @@ cdef class Menu(Object):
         :rtype: :py:class:`MenuItem`
 
         """
-        return MenuItem(self, parent, label, icon, callback, *args, **kwargs)
+        return MenuItem(parent, label, icon, callback, *args, **kwargs).add_to(self)
 
     def item_separator_add(self, parent = None):
         """item_separator_add(parent = None) -> MenuSeparatorItem
@@ -367,7 +371,7 @@ cdef class Menu(Object):
         :rtype: :py:class:`MenuSeparatorItem`
 
         """
-        return MenuSeparatorItem(self, parent)
+        return MenuSeparatorItem(parent).add_to(self)
 
     property selected_item:
         """The selected item in the menu

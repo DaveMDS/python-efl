@@ -18,7 +18,8 @@
 
 """
 
-.. rubric:: Copy and Paste
+Copy and Paste
+--------------
 
 Implements the following functionality
    a. select, copy/cut and paste
@@ -55,13 +56,13 @@ More information is on
  - X11R6 Inter-Client Communication Conventions Manual, section 2
 
 
-
 Enumerations
 ------------
 
 .. _Elm_Focus_Direction:
 
-.. rubric:: Focus direction
+Focus direction
+===============
 
 .. data:: ELM_FOCUS_PREVIOUS
 
@@ -74,7 +75,8 @@ Enumerations
 
 .. _Elm_Sel_Type:
 
-.. rubric:: Selection type
+Selection type
+==============
 
 Defines the types of selection property names.
 :see: `http://www.x.org/docs/X11/xlib.pdf`_ for more details.
@@ -96,10 +98,10 @@ Defines the types of selection property names.
     Clipboard selection (ctrl+C)
 
 
-
 .. _Elm_Sel_Format:
 
-.. rubric:: Selection format
+Selection format
+================
 
 Defines the types of content.
 
@@ -132,10 +134,10 @@ Defines the types of content.
     Raw HTML-like data (eg. webkit)
 
 
-
 .. _Elm_Xdnd_Action:
 
-.. rubric:: XDND action
+XDND action
+===========
 
 Defines the kind of action associated with the drop data if for XDND
 :since: 1.8

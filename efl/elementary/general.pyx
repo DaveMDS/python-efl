@@ -23,7 +23,8 @@ Enumerations
 
 .. _Elm_Policy:
 
-.. rubric:: Policy types
+Policy types
+============
 
 .. data:: ELM_POLICY_QUIT
 
@@ -32,7 +33,8 @@ Enumerations
 
 .. _Elm_Policy_Quit:
 
-.. rubric:: Quit policy types
+Quit policy types
+=================
 
 .. data:: ELM_POLICY_QUIT_NONE
 
@@ -144,11 +146,7 @@ ELM_CURSOR_XTERM               = "xterm"
 
 cdef class FontProperties(object):
 
-    """
-
-    Elementary font properties
-
-    """
+    """Elementary font properties"""
 
     cdef Elm_Font_Properties *efp
 
@@ -216,12 +214,12 @@ def policy_set(Elm_Policy policy, value):
     policy identifier, new and old values.
 
     :param policy: policy identifier as in Elm_Policy.
-    :type policy: :ref:`Policy type <Elm_Policy>`
+    :type policy: :ref:`Elm_Policy`
     :param value: policy value, depends on identifiers, usually there is
         an enumeration with the same prefix as the policy name, for
         example: ELM_POLICY_QUIT and Elm_Policy_Quit
         (ELM_POLICY_QUIT_NONE, ELM_POLICY_QUIT_LAST_WINDOW_CLOSED).
-    :type value: :ref:`Quit policy <Elm_Policy_Quit>`
+    :type value: :ref:`Elm_Policy_Quit`
 
     :return: True on success or False on error (right
         now just invalid policy identifier, but in future policy
@@ -236,10 +234,10 @@ def policy_get(Elm_Policy policy):
     Gets the policy value set for given identifier.
 
     :param policy: policy identifier as in Elm_Policy.
-    :type policy: :ref:`Policy type <Elm_Policy>`
+    :type policy: :ref:`Elm_Policy`
 
     :return: policy value. Will be 0 if policy identifier is invalid.
-    :rtype: :ref:`Quit policy <Elm_Policy_Quit>`
+    :rtype: :ref:`Elm_Policy_Quit`
 
     """
     return elm_policy_get(policy)

@@ -55,7 +55,8 @@ Enumerations
 
 .. _Elm_Icon_Type:
 
-.. rubric:: Icon types
+Icon types
+==========
 
 .. data:: ELM_ICON_NONE
 
@@ -92,10 +93,6 @@ cdef class HoverselItem(ObjectItem):
     cdef:
         object label, icon_file, icon_group
         Elm_Icon_Type icon_type
-        Evas_Smart_Cb cb
-
-    def __cinit__(self):
-        self.cb = NULL
 
     def __init__(self, label = None, icon_file = None,
             icon_type = ELM_ICON_NONE, callback = None, *args, **kargs):
@@ -108,7 +105,7 @@ cdef class HoverselItem(ObjectItem):
             standard icon name (None if not desired)
         :type icon_file: string
         :param icon_type: The icon type if relevant
-        :type icon_type: :ref:`Icon type <Elm_Icon_Type>`
+        :type icon_type: :ref:`Elm_Icon_Type`
         :param callback: Convenience function to call when this item is
             selected
         :type callback: function
@@ -123,9 +120,10 @@ cdef class HoverselItem(ObjectItem):
         if callback:
             if not callable(callback):
                 raise TypeError("callback is not callable")
-            self.cb = _object_item_callback
 
-        self.params = (callback, args, kargs)
+        self.cb_func = callback
+        self.args = args
+        self.kwargs = kargs
 
     def add_to(self, Hoversel hoversel):
         """add_to(Hoversel hoversel)
@@ -142,12 +140,15 @@ cdef class HoverselItem(ObjectItem):
         :rtype: Elm_Object_Item
 
         """
+        cdef Evas_Smart_Cb cb = NULL
+        if self.cb_func is not None:
+            cb = _object_item_callback
+
         item = elm_hoversel_item_add(   hoversel.obj,
             <const_char *>self.label if self.label is not None else NULL,
             <const_char *>self.icon_file if self.icon_file is not None else NULL,
             self.icon_type,
-            self.cb,
-            <void*>self)
+            cb, <void*>self)
 
         if item != NULL:
             self._set_obj(item)
@@ -161,7 +162,7 @@ cdef class HoverselItem(ObjectItem):
         The icon can be loaded from the standard set, from an image file, or
         from an edje file.
 
-        :type: tuple(string file, string group, Elm_Icon_Type type)
+        :type: (string file, string group, :ref:`Elm_Icon_Type` type)
 
         """
         def __set__(self, value):
@@ -198,11 +199,7 @@ cdef class HoverselItem(ObjectItem):
 
 cdef class Hoversel(Button):
 
-    """
-
-    This is the class that actually implement the widget.
-
-    """
+    """This is the class that actually implements the widget."""
 
     def __init__(self, evasObject parent):
         self._set_obj(elm_hoversel_add(parent.obj))

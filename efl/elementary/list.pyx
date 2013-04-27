@@ -67,7 +67,8 @@ Enumerations
 
 .. _Elm_List_Mode:
 
-.. rubric:: List sizing modes
+List sizing modes
+=================
 
 .. data:: ELM_LIST_COMPRESS
 
@@ -108,7 +109,8 @@ Enumerations
 
 .. _Elm_Object_Select_Mode:
 
-.. rubric:: Selection modes
+Selection modes
+===============
 
 .. data:: ELM_OBJECT_SELECT_MODE_DEFAULT
 
@@ -134,7 +136,8 @@ Enumerations
 
 .. _Elm_Scroller_Policy:
 
-.. rubric:: Scrollbar visibility
+Scrollbar visibility
+====================
 
 .. data:: ELM_SCROLLER_POLICY_AUTO
 
@@ -179,20 +182,10 @@ ELM_SCROLLER_POLICY_OFF = enums.ELM_SCROLLER_POLICY_OFF
 
 cdef class ListItem(ObjectItem):
 
-    """
-
-    An item for the list widget.
-
-    """
+    """An item for the list widget."""
     cdef:
         object label
         Evas_Object *icon_obj, *end_obj
-        Evas_Smart_Cb cb
-
-    def __cinit__(self):
-        self.icon_obj = NULL
-        self.end_obj = NULL
-        self.cb = NULL
 
     def __init__(self, label = None, evasObject icon = None,
         evasObject end = None, callback = None, *args, **kargs):
@@ -221,15 +214,16 @@ cdef class ListItem(ObjectItem):
         if callback is not None:
             if not callable(callback):
                 raise TypeError("callback is not callable")
-            self.cb = _object_item_callback
 
-        self.params = (callback, args, kargs)
+        self.cb_func = callback
+        self.args = args
+        self.kwargs = kargs
 
     def __str__(self):
         return ("%s(label=%r, icon=%s, end=%s, "
                 "callback=%r, args=%r, kargs=%s)") % \
             (self.__class__.__name__, self.text_get(), bool(self.part_content_get("icon")),
-             bool(self.part_content_get("end")), self.params[0], self.params[1], self.params[2])
+             bool(self.part_content_get("end")), self.cb_func, self.args, self.kwargs)
 
     def __repr__(self):
         return ("%s(%#x, refcount=%d, Elm_Object_Item=%#x, "
@@ -238,7 +232,7 @@ cdef class ListItem(ObjectItem):
             (self.__class__.__name__, <unsigned long><void *>self,
              PY_REFCOUNT(self), <unsigned long><void *>self.item,
              self.text_get(), bool(self.part_content_get("icon")),
-             bool(self.part_content_get("end")), self.params[0], self.params[1], self.params[2])
+             bool(self.part_content_get("end")), self.cb_func, self.args, self.kwargs)
 
     def append_to(self, List list):
         """append_to(List list)
@@ -272,18 +266,19 @@ cdef class ListItem(ObjectItem):
             :py:func:`List.clear()`
             :py:class:`Icon <efl.elementary.icon.Icon>`
 
-        :return:        The created item or ``None`` upon failure.
-        :rtype:         :py:class:`ListItem`
+        :return: The created item or ``None`` upon failure.
+        :rtype: :py:class:`ListItem`
 
         """
         cdef Elm_Object_Item *item
+        cdef Evas_Smart_Cb cb = NULL
+        if self.cb_func is not None:
+            cb = _object_item_callback
 
         item = elm_list_item_append(list.obj,
             <const_char *>self.label if self.label is not None else NULL,
-            self.icon_obj,
-            self.end_obj,
-            self.cb,
-            <void*>self)
+            self.icon_obj, self.end_obj,
+            cb, <void*>self)
 
         if item != NULL:
             self._set_obj(item)
@@ -311,13 +306,14 @@ cdef class ListItem(ObjectItem):
 
         """
         cdef Elm_Object_Item *item
+        cdef Evas_Smart_Cb cb = NULL
+        if self.cb_func is not None:
+            cb = _object_item_callback
 
         item = elm_list_item_prepend(   list.obj,
             <const_char *>self.label if self.label is not None else NULL,
-            self.icon_obj,
-            self.end_obj,
-            self.cb,
-            <void*>self)
+            self.icon_obj, self.end_obj,
+            cb, <void*>self)
 
         if item != NULL:
             self._set_obj(item)
@@ -345,15 +341,16 @@ cdef class ListItem(ObjectItem):
 
         """
         cdef Elm_Object_Item *item
+        cdef Evas_Smart_Cb cb = NULL
+        if self.cb_func is not None:
+            cb = _object_item_callback
 
         cdef List list = before.widget
         item = elm_list_item_insert_before( list.obj,
             before.item,
             <const_char *>self.label if self.label is not None else NULL,
-            self.icon_obj,
-            self.end_obj,
-            self.cb,
-            <void*>self)
+            self.icon_obj, self.end_obj,
+            cb, <void*>self)
 
         if item != NULL:
             self._set_obj(item)
@@ -381,15 +378,16 @@ cdef class ListItem(ObjectItem):
 
         """
         cdef Elm_Object_Item *item
+        cdef Evas_Smart_Cb cb = NULL
+        if self.cb_func is not None:
+            cb = _object_item_callback
 
         cdef List list = after.widget
         item = elm_list_item_insert_after(  list.obj,
             after.item,
             <const_char *>self.label if self.label is not None else NULL,
-            self.icon_obj,
-            self.end_obj,
-            self.cb,
-            <void*>self)
+            self.icon_obj, self.end_obj,
+            cb, <void*>self)
 
         if item != NULL:
             self._set_obj(item)

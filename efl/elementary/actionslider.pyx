@@ -63,7 +63,8 @@ Enumerations
 
 .. _Elm_Actionslider_Pos:
 
-.. rubric:: Actionslider positions
+Actionslider positions
+======================
 
 .. data:: ELM_ACTIONSLIDER_NONE
 
@@ -101,11 +102,7 @@ ELM_ACTIONSLIDER_ALL = enums.ELM_ACTIONSLIDER_ALL
 
 cdef class Actionslider(LayoutClass):
 
-    """
-
-    This is the class that actually implement the widget.
-
-    """
+    """This is the class that actually implements the widget."""
 
     def __init__(self, evasObject parent):
         self._set_obj(elm_actionslider_add(parent.obj))
@@ -125,7 +122,7 @@ cdef class Actionslider(LayoutClass):
     property indicator_pos:
         """Indicator position.
 
-        :type: :ref:`Actionslider position <Elm_Actionslider_Pos>`
+        :type: :ref:`Elm_Actionslider_Pos`
 
         """
         def __get__(self):
@@ -143,7 +140,7 @@ cdef class Actionslider(LayoutClass):
         magnets ``or`` them together(e.g.: ``ELM_ACTIONSLIDER_LEFT |
         ELM_ACTIONSLIDER_RIGHT``)
 
-        :type: :ref:`Actionslider position <Elm_Actionslider_Pos>`
+        :type: :ref:`Elm_Actionslider_Pos`
 
         """
         def __get__(self):
@@ -163,7 +160,7 @@ cdef class Actionslider(LayoutClass):
 
         .. note:: All positions are enabled by default.
 
-        :type: :ref:`Actionslider position <Elm_Actionslider_Pos>`
+        :type: :ref:`Elm_Actionslider_Pos`
 
         """
         def __get__(self):

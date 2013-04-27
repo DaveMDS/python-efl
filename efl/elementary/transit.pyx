@@ -71,7 +71,8 @@ Enumerations
 
 .. _Elm_Transit_Effect_Flip_Axis:
 
-.. rubric:: Flip effects
+Flip effects
+============
 
 .. data:: ELM_TRANSIT_EFFECT_FLIP_AXIS_X
 
@@ -84,7 +85,8 @@ Enumerations
 
 .. _Elm_Transit_Effect_Wipe_Dir:
 
-.. rubric:: Wipe effects
+Wipe effects
+============
 
 .. data:: ELM_TRANSIT_EFFECT_WIPE_DIR_LEFT
 
@@ -105,7 +107,8 @@ Enumerations
 
 .. _Elm_Transit_Effect_Wipe_Type:
 
-.. rubric:: Wipe types
+Wipe types
+==========
 
 .. data:: ELM_TRANSIT_EFFECT_WIPE_TYPE_HIDE
 
@@ -118,7 +121,8 @@ Enumerations
 
 .. _Elm_Transit_Tween_Mode:
 
-.. rubric:: Tween modes
+Tween modes
+===========
 
 .. data:: ELM_TRANSIT_TWEEN_MODE_LINEAR
 

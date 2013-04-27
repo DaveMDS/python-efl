@@ -56,7 +56,10 @@ Signals that you can add callbacks for are:
 Enumerations
 ------------
 
-.. rubric:: Photocam zoom modes
+.. _Elm_Photocam_Zoom_Mode:
+
+Photocam zoom modes
+===================
 
 .. data:: ELM_PHOTOCAM_ZOOM_MODE_MANUAL
 
@@ -93,11 +96,7 @@ ELM_PHOTOCAM_ZOOM_MODE_LAST = enums.ELM_PHOTOCAM_ZOOM_MODE_LAST
 
 cdef class Photocam(Object):
 
-    """
-
-    This is the class that actually implement the widget.
-
-    """
+    """This is the class that actually implements the widget."""
 
     def __init__(self, evasObject parent):
         self._set_obj(elm_photocam_add(parent.obj))
@@ -156,7 +155,7 @@ cdef class Photocam(Object):
         ELM_PHOTOCAM_ZOOM_MODE_AUTO_FILL will be similar but ensure no
         pixels within the frame are left unfilled.
 
-        :type: Elm_Photocam_Zoom_Mode
+        :type: :ref:`Elm_Photocam_Zoom_Mode`
 
         """
         def __set__(self, mode):

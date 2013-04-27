@@ -1,13 +1,13 @@
-from efl.evas cimport Eina_Bool, Eina_List, Evas_Object, Evas_Smart_Cb, Evas_Coord
+from efl.evas cimport Eina_Bool, Eina_List, Evas_Object, Evas_Smart_Cb, \
+    Evas_Coord, Eina_Compare_Cb
 from object_item cimport Elm_Object_Item
 from general cimport Elm_Tooltip_Item_Content_Cb
 from enums cimport Elm_Genlist_Item_Scrollto_Type, Elm_Scroller_Policy, \
     Elm_Object_Select_Mode
 from libc.string cimport const_char
+from libc.stdlib cimport const_void
 
 cdef extern from "Elementary.h":
-
-    #gengrid
     ctypedef char           *(*GengridItemLabelGetFunc)     (void *data, Evas_Object *obj, const_char *part)
     ctypedef Evas_Object    *(*GengridItemIconGetFunc)      (void *data, Evas_Object *obj, const_char *part)
     ctypedef Eina_Bool       (*GengridItemStateGetFunc)     (void *data, Evas_Object *obj, const_char *part)
@@ -23,7 +23,6 @@ cdef extern from "Elementary.h":
         char *item_style
         Elm_Gengrid_Item_Class_Func func
 
-    # Generic Grid          (api:TODO  cb:TODO  test:DONE  doc:TODO  py3:TODO)
     Evas_Object *           elm_gengrid_add(Evas_Object *parent)
     void                    elm_gengrid_clear(Evas_Object *obj)
     void                    elm_gengrid_multi_select_set(Evas_Object *obj, Eina_Bool multi)
@@ -32,10 +31,11 @@ cdef extern from "Elementary.h":
     Eina_Bool               elm_gengrid_horizontal_get(Evas_Object *obj)
     void                    elm_gengrid_bounce_set(Evas_Object *obj, Eina_Bool h_bounce, Eina_Bool v_bounce)
     void                    elm_gengrid_bounce_get(Evas_Object *obj, Eina_Bool *h_bounce, Eina_Bool *v_bounce)
-    Elm_Object_Item *       elm_gengrid_item_append(Evas_Object *obj, Elm_Gengrid_Item_Class *itc, void *data, Evas_Smart_Cb func, void *func_data)
-    Elm_Object_Item *       elm_gengrid_item_prepend(Evas_Object *obj, Elm_Gengrid_Item_Class *itc, void *data, Evas_Smart_Cb func, void *func_data)
-    Elm_Object_Item *       elm_gengrid_item_insert_before(Evas_Object *obj, Elm_Gengrid_Item_Class *itc, void *data, Elm_Object_Item *before, Evas_Smart_Cb func, void *func_data)
-    Elm_Object_Item *       elm_gengrid_item_insert_after(Evas_Object *obj, Elm_Gengrid_Item_Class *itc, void *data, Elm_Object_Item *after, Evas_Smart_Cb func, void *func_data)
+    Elm_Object_Item *       elm_gengrid_item_append(Evas_Object *obj, Elm_Gengrid_Item_Class *itc, const_void *data, Evas_Smart_Cb func, const_void *func_data)
+    Elm_Object_Item *       elm_gengrid_item_prepend(Evas_Object *obj, Elm_Gengrid_Item_Class *itc, const_void *data, Evas_Smart_Cb func, const_void *func_data)
+    Elm_Object_Item *       elm_gengrid_item_insert_before(Evas_Object *obj, Elm_Gengrid_Item_Class *itc, const_void *data, Elm_Object_Item *before, Evas_Smart_Cb func, const_void *func_data)
+    Elm_Object_Item *       elm_gengrid_item_insert_after(Evas_Object *obj, Elm_Gengrid_Item_Class *itc, const_void *data, Elm_Object_Item *after, Evas_Smart_Cb func, const_void *func_data)
+    Elm_Object_Item *       elm_gengrid_item_sorted_insert(Evas_Object *obj, const Elm_Gengrid_Item_Class *gic, const_void *data, Eina_Compare_Cb comp, Evas_Smart_Cb func, const_void *func_data)
     Elm_Object_Item *       elm_gengrid_selected_item_get(Evas_Object *obj)
     Eina_List *             elm_gengrid_selected_items_get(Evas_Object *obj)
     Eina_List *             elm_gengrid_realized_items_get(Evas_Object *obj)

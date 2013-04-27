@@ -65,7 +65,119 @@ from object_item cimport _object_item_to_python, _object_item_callback, _object_
 
 cdef class FlipSelectorItem(ObjectItem):
 
-    """An item for the :py:class:`FlipSelector` widget."""
+    """
+
+    An item for the :py:class:`FlipSelector` widget.
+
+    .. note:: The current selection *won't* be modified by appending an
+        element to the list.
+
+    .. note:: The maximum length of the text label is going to be
+        determined *by the widget's theme*. Strings larger than
+        that value are going to be *truncated*.
+
+    """
+
+    cdef:
+        bytes label
+
+    def __init__(self, label = None, callback = None, *args, **kwargs):
+        """
+
+        The widget's list of labels to show will be appended with the
+        given value. If the user wishes so, a callback function pointer
+        can be passed, which will get called when this same item is
+        selected.
+
+        :param label: The (text) label of the new item
+        :type label: string
+        :param func: Convenience callback function to take place when item
+            is selected
+        :type func: function
+
+        :return: A handle to the item added or ``None``, on errors
+        :rtype: :py:class:`FlipSelectorItem`
+
+        """
+
+        if callback:
+            if not callable(callback):
+                raise TypeError("callback is not callable")
+
+        if isinstance(label, unicode): label = PyUnicode_AsUTF8String(label)
+        self.label = label
+        self.cb_func = callback
+        self.args = args
+        self.kwargs = kwargs
+
+    def append_to(self, FlipSelector flipselector not None):
+        """append_to(FlipSelector flipselector) -> FlipSelectorItem
+
+        Append a (text) item to a flip selector widget
+
+        :param flipselector: The widget to append this item to
+        :type flipselector: :py:class:`FlipSelector`
+
+        :return: A handle to the item added or ``None``, on errors
+        :rtype: :py:class:`FlipSelectorItem`
+
+        """
+        cdef Elm_Object_Item *item
+        cdef Evas_Smart_Cb cb = NULL
+
+        if self.cb_func is not None:
+            cb = _object_item_callback
+
+        item = elm_flipselector_item_append(flipselector.obj,
+            <const_char *>self.label if self.label is not None else NULL,
+            cb, <void *>self)
+
+        if item != NULL:
+            self._set_obj(item)
+            return self
+        else:
+            return
+
+    def prepend_to(self, FlipSelector flipselector not None):
+        """prepend_to(FlipSelector flipselector) -> FlipSelectorItem
+
+        Append a (text) item to a flip selector widget
+
+        :param flipselector: The widget to prepend this item to
+        :type flipselector: :py:class:`FlipSelector`
+
+        :return: A handle to the item added or ``None``, on errors
+        :rtype: :py:class:`FlipSelectorItem`
+
+        """
+        cdef Elm_Object_Item *item
+        cdef Evas_Smart_Cb cb = NULL
+
+        if self.cb_func is not None:
+            cb = _object_item_callback
+
+        item = elm_flipselector_item_prepend(flipselector.obj,
+            <const_char *>self.label if self.label is not None else NULL,
+            cb, <void *>self)
+
+        if item != NULL:
+            self._set_obj(item)
+            return self
+        else:
+            return
+
+    property label:
+        """The label of this item
+
+        :type: string
+
+        """
+        def __set__(self, value):
+            if isinstance(value, unicode): value = PyUnicode_AsUTF8String(value)
+            self.label = value
+
+        def __get__(self):
+            return self.label.decode("UTF-8")
 
     property selected:
         """Set whether a given flip selector widget's item should be the
@@ -112,11 +224,7 @@ cdef class FlipSelectorItem(ObjectItem):
 
 cdef class FlipSelector(Object):
 
-    """
-
-    This is the class that actually implement the widget.
-
-    """
+    """This is the class that actually implements the widget."""
 
     def __init__(self, evasObject parent):
         self._set_obj(elm_flipselector_add(parent.obj))
@@ -149,98 +257,22 @@ cdef class FlipSelector(Object):
     def item_append(self, label = None, callback = None, *args, **kwargs):
         """item_append(unicode label = None, callback = None, *args, **kwargs) -> FlipSelectorItem
 
-        Append a (text) item to a flip selector widget
+        A constructor for a :py:class:`FlipSelectorItem`
 
-        The widget's list of labels to show will be appended with the
-        given value. If the user wishes so, a callback function pointer
-        can be passed, which will get called when this same item is
-        selected.
-
-        .. note:: The current selection *won't* be modified by appending an
-            element to the list.
-
-        .. note:: The maximum length of the text label is going to be
-            determined *by the widget's theme*. Strings larger than
-            that value are going to be *truncated*.
-
-        :param label: The (text) label of the new item
-        :type label: string
-        :param func: Convenience callback function to take place when item
-            is selected
-        :type func: function
-
-        :return: A handle to the item added or ``None``, on errors
-        :rtype: :py:class:`FlipSelectorItem`
+        :see: :py:func:`FlipSelectorItem.append_to`
 
         """
-        cdef Elm_Object_Item *item
-        cdef Evas_Smart_Cb cb = NULL
-        cdef FlipSelectorItem ret = FlipSelectorItem()
-
-        if callback is not None:
-            if not callable(callback):
-                raise TypeError("callback is not callable")
-            cb = _object_item_callback
-
-        ret.params = (callback, args, kwargs)
-        if isinstance(label, unicode): label = PyUnicode_AsUTF8String(label)
-        item = elm_flipselector_item_append(self.obj,
-            <const_char *>label if label is not None else NULL,
-            cb, <void *>self)
-
-        if item != NULL:
-            ret._set_obj(item)
-            return ret
-        else:
-            return
+        return FlipSelectorItem(label, callback, *args, **kwargs).append_to(self)
 
     def item_prepend(self, label = None, callback = None, *args, **kwargs):
         """item_prepend(unicode label = None, callback = None, *args, **kwargs) -> FlipSelectorItem
 
-        Prepend a (text) item to a flip selector widget
+        A constructor for a :py:class:`FlipSelectorItem`
 
-        The widget's list of labels to show will be prepended with the
-        given value. If the user wishes so, a callback function pointer
-        can be passed, which will get called when this same item is
-        selected.
-
-        .. note:: The current selection *won't* be modified by prepending
-            an element to the list.
-
-        .. note:: The maximum length of the text label is going to be
-            determined *by the widget's theme*. Strings larger than
-            that value are going to be *truncated*.
-
-        :param label: The (text) label of the new item
-        :type label: string
-        :param func: Convenience callback function to take place when item
-            is selected
-        :type func: function
-
-        :return: A handle to the item added or ``None``, on errors
-        :rtype: :py:class:`FlipSelectorItem`
+        :see: :py:func:`FlipSelectorItem.prepend_to`
 
         """
-        cdef Elm_Object_Item *item
-        cdef Evas_Smart_Cb cb = NULL
-        cdef FlipSelectorItem ret = FlipSelectorItem()
-
-        if callback is not None:
-            if not callable(callback):
-                raise TypeError("callback is not callable")
-            cb = _object_item_callback
-
-        ret.params = (callback, args, kwargs)
-        if isinstance(label, unicode): label = PyUnicode_AsUTF8String(label)
-        item = elm_flipselector_item_prepend(self.obj,
-            <const_char *>label if label is not None else NULL,
-            cb, <void *>self)
-
-        if item != NULL:
-            ret._set_obj(item)
-            return ret
-        else:
-            return
+        return FlipSelectorItem(label, callback, *args, **kwargs).prepend_to(self)
 
     property items:
         """Get the internal list of items in a given flip selector widget.

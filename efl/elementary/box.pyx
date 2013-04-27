@@ -82,7 +82,10 @@ children of the box.
 Enumerations
 ------------
 
-.. rubric:: Box layout modes
+.. _Evas_Object_Box_Layout:
+
+Box layout modes
+================
 
 .. data:: ELM_BOX_LAYOUT_HORIZONTAL
 
@@ -172,21 +175,15 @@ cdef Evas_Object_Box_Layout _py_elm_box_layout_resolv(int layout) with gil:
 
 cdef class Box(Object):
 
-    """
-
-    This is the class that actually implement the widget.
-
-    """
+    """This is the class that actually implements the widget."""
 
     def __init__(self, evasObject parent):
-        """Add a new box to the parent
-
-        By default, the box will be in vertical mode and non-homogeneous.
+        """By default, the box will be in vertical mode and non-homogeneous.
 
         :param parent: The parent object
-        :type parent: :py:class:`elementary.object.Object`
+        :type parent: :py:class:`efl.elementary.object.Object`
         :return: The new object or None if it cannot be created
-        :rtype: :py:class:`elementary.object.Object`
+        :rtype: :py:class:`Box`
 
         """
         self._set_obj(elm_box_add(parent.obj))
@@ -247,15 +244,7 @@ cdef class Box(Object):
         respectively.
 
         :param subobj: The object to add to the box
-        :type subobj: :py:class:`evas.object.Object`
-
-        .. seealso::
-            :py:func:`pack_end()`
-            :py:func:`pack_before()`
-            :py:func:`pack_after()`
-            :py:func:`unpack()`
-            :py:func:`unpack_all()`
-            :py:func:`clear()`
+        :type subobj: :py:class:`Object <efl.evas.Object>`
 
         """
         elm_box_pack_start(self.obj, obj.obj)
@@ -272,15 +261,7 @@ cdef class Box(Object):
         respectively.
 
         :param subobj: The object to add to the box
-        :type subobj: :py:class:`evas.object.Object`
-
-        .. seealso::
-            :py:func:`pack_start()`
-            :py:func:`pack_before()`
-            :py:func:`pack_after()`
-            :py:func:`unpack()`
-            :py:func:`unpack_all()`
-            :py:func:`clear()`
+        :type subobj: :py:class:`Object <efl.evas.Object>`
 
         """
         elm_box_pack_end(self.obj, obj.obj)
@@ -296,17 +277,9 @@ cdef class Box(Object):
         above it depending on orientation.
 
         :param subobj: The object to add to the box
-        :type subobj: :py:class:`evas.object.Object`
+        :type subobj: :py:class:`Object <efl.evas.Object>`
         :param before: The object before which to add it
-        :type before: :py:class:`evas.object.Object`
-
-        .. seealso::
-            :py:func:`pack_start()`
-            :py:func:`pack_end()`
-            :py:func:`pack_after()`
-            :py:func:`unpack()`
-            :py:func:`unpack_all()`
-            :py:func:`clear()`
+        :type before: :py:class:`Object <efl.evas.Object>`
 
         """
         elm_box_pack_before(self.obj, obj.obj, before.obj)
@@ -322,17 +295,9 @@ cdef class Box(Object):
         below it depending on orientation.
 
         :param subobj: The object to add to the box
-        :type subobj: :py:class:`evas.object.Object`
+        :type subobj: :py:class:`Object <efl.evas.Object>`
         :param after: The object after which to add it
-        :type after: :py:class:`evas.object.Object`
-
-        .. seealso::
-            :py:func:`pack_start()`
-            :py:func:`pack_end()`
-            :py:func:`pack_before()`
-            :py:func:`unpack()`
-            :py:func:`unpack_all()`
-            :py:func:`clear()`
+        :type after: :py:class:`Object <efl.evas.Object>`
 
         """
         elm_box_pack_after(self.obj, obj.obj, after.obj)
@@ -344,8 +309,6 @@ cdef class Box(Object):
 
         Remove all the elements contained by the box, deleting the respective
         objects.
-
-        .. seealso:: :py:func:`unpack()`, :py:func:`unpack_all()`
 
         """
         elm_box_clear(self.obj)
@@ -359,9 +322,7 @@ cdef class Box(Object):
         deleting it.
 
         :param subobj: The object to unpack
-        :type subobj: :py:class:`evas.object.Object`
-
-        .. seealso:: :py:func:`unpack_all()`, :py:func:`clear()`
+        :type subobj: :py:class:`Object <efl.evas.Object>`
 
         """
         elm_box_unpack(self.obj, obj.obj)
@@ -377,18 +338,17 @@ cdef class Box(Object):
         when using this function that you hold a reference to all the objects
         in the box.
 
-        .. seealso:: :py:func:`clear()`, :py:func:`unpack()`
-
         """
         elm_box_unpack_all(self.obj)
 
     property children:
         """Retrieve a list of the objects packed into the box
 
-        Returns a ``tuple`` with the child :py:class:`evas.object.Object`.
-        The order of the list corresponds to the packing order the box uses.
+        Returns a ``list`` with the child :py:class:`Objects
+        <efl.evas.Object>`. The order of the list corresponds to the
+        packing order the box uses.
 
-        :type: tuple of :py:class:`evas.object.Object`
+        :type: list of :py:class:`Objects <efl.evas.Object>`
 
         """
         def __get__(self):
@@ -411,7 +371,7 @@ cdef class Box(Object):
         is set for all elements in the box, besides any possible padding that
         individual elements may have through their size hints.
 
-        :type: tuple of Evas_Coords (int)
+        :type: (int **h**, int **v**)
 
         """
         def __get__(self):
@@ -438,7 +398,7 @@ cdef class Box(Object):
         their sizes and position has been calculated, will be aligned within
         the space given for the whole box widget.
 
-        :rtype: tuple of floats
+        :rtype: (float **h**, float **v**)
 
         """
         def __get__(self):
@@ -476,22 +436,11 @@ cdef class Box(Object):
         """Set the layout function for the box.
 
         A box layout function affects how a box object displays child
-        elements within its area. The list of pre-defined box layouts
-        available in Evas is:
-
-        - elementary.ELM_BOX_LAYOUT_HORIZONTAL
-        - elementary.ELM_BOX_LAYOUT_VERTICAL
-        - elementary.ELM_BOX_LAYOUT_HOMOGENEOUS_VERTICAL
-        - elementary.ELM_BOX_LAYOUT_HOMOGENEOUS_HORIZONTAL
-        - elementary.ELM_BOX_LAYOUT_HOMOGENEOUS_MAX_SIZE_HORIZONTAL
-        - elementary.ELM_BOX_LAYOUT_HOMOGENEOUS_MAX_SIZE_VERTICAL
-        - elementary.ELM_BOX_LAYOUT_FLOW_HORIZONTAL
-        - elementary.ELM_BOX_LAYOUT_FLOW_VERTICAL
-        - elementary.ELM_BOX_LAYOUT_STACK
+        elements within its area.
 
         Note that you cannot set a custom layout function.
 
-        :type: Evas_Object_Box_Layout
+        :type: :ref:`Evas_Object_Box_Layout`
 
         """
         def __set__(self, layout):
@@ -513,14 +462,12 @@ cdef class Box(Object):
         just need to call this function with the starting layout and
         the final one.
 
-        .. seealso:: :py:attr:`layout` for the list of available layouts.
-
         :param duration: the animation duration in seconds
         :type duration: float
         :param from_layout: one of elementary.ELM_BOX_LAYOUT
-        :type from_layout: Evas_Object_Box_Layout
+        :type from_layout: :ref:`Evas_Object_Box_Layout`
         :param to_layout: one of elementary.ELM_BOX_LAYOUT
-        :type to_layout: Evas_Object_Box_Layout
+        :type to_layout: :ref:`Evas_Object_Box_Layout`
 
         """
         cdef Elm_Box_Transition *t

@@ -21,7 +21,10 @@
 Enumerations
 ------------
 
-.. rubric:: Web window features
+.. _Elm_Web_Window_Feature:
+
+Web window features
+===================
 
 .. data:: ELM_WEB_WINDOW_FEATURE_TOOLBAR
 
@@ -48,7 +51,10 @@ Enumerations
     Fullscreen
 
 
-.. rubric:: Web zoom modes
+.. _Elm_Web_Zoom_Mode:
+
+Web zoom modes
+==============
 
 .. data:: ELM_WEB_ZOOM_MODE_MANUAL
 

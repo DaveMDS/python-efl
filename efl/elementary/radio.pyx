@@ -70,11 +70,7 @@ from layout_class cimport LayoutClass
 
 cdef class Radio(LayoutClass):
 
-    """
-
-    This is the class that actually implement the widget.
-
-    """
+    """This is the class that actually implements the widget."""
 
     def __init__(self, evasObject parent, obj=None):
         if obj is None:

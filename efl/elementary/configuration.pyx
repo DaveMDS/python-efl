@@ -18,12 +18,74 @@
 
 """
 
+Description
+-----------
+
+Elementary configuration is formed by a set options bounded to a
+given profile, like theme, "finger size", etc.
+
+These are functions with which one synchronizes changes made to those
+values to the configuration storing files, de facto. You most probably
+don't want to use the functions in this group unless you're writing an
+elementary configuration manager.
+
+Profiles
+========
+
+Profiles are pre-set options that affect the whole look-and-feel of
+Elementary-based applications. There are, for example, profiles
+aimed at desktop computer applications and others aimed at mobile,
+touchscreen-based ones. You most probably don't want to use the
+functions in this group unless you're writing an elementary
+configuration manager.
+
+Elementary Scrolling
+====================
+
+These set how scrollable views in Elementary widgets should behave on
+user interaction.
+
+Password show last
+==================
+
+Show last feature of password mode enables user to view the last input
+entered for few seconds before masking it. These functions allow to set
+this feature in password mode of entry widget and also allow to
+manipulate the duration for which the input has to be visible.
+
+Elementary Engine
+=================
+
+These are functions setting and querying which rendering engine
+Elementary will use for drawing its windows' pixels.
+
+The following are the available engines:
+
+- "software_x11"
+- "fb"
+- "directfb"
+- "software_16_x11"
+- "software_8_x11"
+- "xrender_x11"
+- "opengl_x11"
+- "software_gdi"
+- "software_16_wince_gdi"
+- "sdl"
+- "software_16_sdl"
+- "opengl_sdl"
+- "buffer"
+- "ews"
+- "opengl_cocoa"
+- "psl1ght"
+
+
 Enumerations
 ------------
 
 .. _Elm_Softcursor_Mode:
 
-.. rubric:: Elm_Softcursor_Mode
+Elm_Softcursor_Mode
+===================
 
 .. data:: ELM_SOFTCURSOR_MODE_AUTO
 
@@ -52,62 +114,7 @@ ELM_SOFTCURSOR_MODE_OFF = enums.ELM_SOFTCURSOR_MODE_OFF
 
 cdef class Configuration(object):
 
-    """
-
-    Elementary configuration is formed by a set options bounded to a
-    given profile, like theme, "finger size", etc.
-
-    These are functions with which one synchronizes changes made to those
-    values to the configuration storing files, de facto. You most probably
-    don't want to use the functions in this group unless you're writing an
-    elementary configuration manager.
-
-    .. rubric:: Profiles
-
-    Profiles are pre-set options that affect the whole look-and-feel of
-    Elementary-based applications. There are, for example, profiles
-    aimed at desktop computer applications and others aimed at mobile,
-    touchscreen-based ones. You most probably don't want to use the
-    functions in this group unless you're writing an elementary
-    configuration manager.
-
-    .. rubric:: Elementary Scrolling
-
-    These set how scrollable views in Elementary widgets should behave on
-    user interaction.
-
-    .. rubric:: Password show last
-
-    Show last feature of password mode enables user to view the last input
-    entered for few seconds before masking it. These functions allow to set
-    this feature in password mode of entry widget and also allow to
-    manipulate the duration for which the input has to be visible.
-
-    .. rubric:: Elementary Engine
-
-    These are functions setting and querying which rendering engine
-    Elementary will use for drawing its windows' pixels.
-
-    The following are the available engines:
-
-    - "software_x11"
-    - "fb"
-    - "directfb"
-    - "software_16_x11"
-    - "software_8_x11"
-    - "xrender_x11"
-    - "opengl_x11"
-    - "software_gdi"
-    - "software_16_wince_gdi"
-    - "sdl"
-    - "software_16_sdl"
-    - "opengl_sdl"
-    - "buffer"
-    - "ews"
-    - "opengl_cocoa"
-    - "psl1ght"
-
-    """
+    """The configuration class"""
 
     def save(self):
         """save()
@@ -371,7 +378,7 @@ cdef class Configuration(object):
         canvas windows in the event the native display system does not provide one
         or the native oneis not wanted.
 
-        :type: Elm_Softcursor_Mode
+        :type: :ref:`Elm_Softcursor_Mode`
 
         """
         def __set__(self, mode):
@@ -485,7 +492,7 @@ cdef class Configuration(object):
     property text_classes_list:
         """Get Elementary's list of supported text classes.
 
-        :type: Elm_Text_Class
+        :type: :ref:`Elm_Text_Class`
 
         """
         def __get__(self):

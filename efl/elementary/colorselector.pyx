@@ -23,7 +23,6 @@ Widget description
 
 .. image:: /images/colorselector-preview.png
 
-
 A Colorselector is a color selection widget.
 
 It allows application to set a series of colors. It also allows to
@@ -47,7 +46,10 @@ This widget emits the following signals, besides the ones sent from
 Enumerations
 ------------
 
-.. rubric:: Colorselector modes
+.. _Elm_Colorselector_Mode:
+
+Colorselector modes
+===================
 
 .. data:: ELM_COLORSELECTOR_PALETTE
 
@@ -77,11 +79,7 @@ ELM_COLORSELECTOR_BOTH = enums.ELM_COLORSELECTOR_BOTH
 
 cdef class ColorselectorPaletteItem(ObjectItem):
 
-    """
-
-    An item for the :py:class:`Colorselector` widget.
-
-    """
+    """An item for the :py:class:`Colorselector` widget."""
 
     def __init__(self, evasObject cs, r, g, b, a):
         cdef Elm_Object_Item *item = elm_colorselector_palette_color_add(cs.obj, r, g, b, a)
@@ -91,9 +89,9 @@ cdef class ColorselectorPaletteItem(ObjectItem):
             Py_DECREF(self)
 
     property color:
-        """The palette item's color.
+        """The palette items color.
 
-        :type: tuple of ints
+        :type: (int **r**, int **g**, int **b**, int **a**)
 
         """
         def __get__(self):
@@ -114,11 +112,7 @@ cdef class ColorselectorPaletteItem(ObjectItem):
 
 cdef class Colorselector(LayoutClass):
 
-    """
-
-    This is the class that actually implement the widget.
-
-    """
+    """This is the class that actually implements the widget."""
 
     def __init__(self, evasObject parent):
         self._set_obj(elm_colorselector_add(parent.obj))
@@ -126,7 +120,7 @@ cdef class Colorselector(LayoutClass):
     property color:
         """The current color (r, g, b, a).
 
-        :type: tuple of ints
+        :type: (int **r**, int **g**, int **b**, int **a**)
 
         """
         def __get__(self):
@@ -150,7 +144,7 @@ cdef class Colorselector(LayoutClass):
 
         Colorselector supports three modes palette only, selector only and both.
 
-        :type: Elm_Colorselector_Mode
+        :type: :ref:`Elm_Colorselector_Mode`
 
         """
         def __get__(self):

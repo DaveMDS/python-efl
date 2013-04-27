@@ -37,9 +37,11 @@ The API of this widget lets the applications perform other functions, like:
 - setting the year and month format.
 
 This widget emits the following signals, besides the ones sent from
-:py:class:`elementary.layout.Layout`:
+:py:class:`efl.elementary.layout_class.LayoutClass`:
 
 - ``changed`` - emitted when the date in the calendar is changed.
+- ``display,changed`` - emitted when the current month displayed in the
+  calendar is changed.
 
 
 Enumerations
@@ -47,7 +49,8 @@ Enumerations
 
 .. _Elm_Calendar_Mark_Repeat_Type:
 
-.. rubric:: Calendar mark repeat types
+Calendar mark repeat types
+==========================
 
 .. data:: ELM_CALENDAR_UNIQUE
 
@@ -85,7 +88,8 @@ Enumerations
 
 .. _Elm_Calendar_Select_Mode:
 
-.. rubric:: Calendar selection modes
+Calendar selection modes
+========================
 
 .. data:: ELM_CALENDAR_SELECT_MODE_DEFAULT
 
@@ -106,7 +110,8 @@ Enumerations
 
 .. _Elm_Calendar_Selectable:
 
-.. rubric:: Selectable
+Selectable
+==========
 
 .. data:: ELM_CALENDAR_SELECTABLE_NONE
 
@@ -127,7 +132,8 @@ Enumerations
 
 .. _Elm_Calendar_Weekday:
 
-.. rubric:: Days
+Days
+====
 
 .. data:: ELM_DAY_SUNDAY
 
@@ -241,7 +247,7 @@ cdef class CalendarMark(object):
         :type mark_time: datetime.date
         :param repeat: Repeat the event following this periodicity. Can be a unique
             mark (that don't repeat), daily, weekly, monthly or annually.
-        :type repeat: :ref:`Calendar repeat type <Elm_Calendar_Mark_Repeat_Type>`
+        :type repeat: :ref:Elm_Calendar_Mark_Repeat_Type`
 
         :return: The created mark or ``None`` upon failure.
         :rtype: :py:class:`CalendarMark`
@@ -323,7 +329,7 @@ cdef class Calendar(LayoutClass):
         If the maximum year is a negative value, it will be limited depending
         on the platform architecture (year 2037 for 32 bits)
 
-        :type: tuple of ints
+        :type: (int **min**, int **max**)
 
         """
         def __get__(self):
@@ -338,7 +344,7 @@ cdef class Calendar(LayoutClass):
     property select_mode:
         """The day selection mode used.
 
-        :type: :ref:`Calendar select mode <Elm_Calendar_Select_Mode>`
+        :type: :ref:`Elm_Calendar_Select_Mode`
 
         """
         def __get__(self):
@@ -430,7 +436,7 @@ cdef class Calendar(LayoutClass):
     property marks:
         """Calendar marks.
 
-        :type: tuple of :py:class:`CalendarMark`
+        :type: list of :py:class:`CalendarMark`
 
         """
         def __get__(self):
@@ -514,7 +520,7 @@ cdef class Calendar(LayoutClass):
     property selectable:
         """How selected_time manages a date
 
-        :type: :ref:`Calendar selectable <Elm_Calendar_Selectable>`
+        :type: :ref:`Elm_Calendar_Selectable`
 
         """
         def __set__(self, Elm_Calendar_Selectable selectable):
@@ -544,5 +550,11 @@ cdef class Calendar(LayoutClass):
     def callback_changed_del(self, func):
         self._callback_del("changed", func)
 
+    def callback_display_changed_add(self, func, *args, **kwargs):
+        """Emitted when the current month displayed in the calendar is changed."""
+        self._callback_add("display,changed", func, *args, **kwargs)
+
+    def callback_changed_del(self, func):
+        self._callback_del("display,changed", func)
 
 _object_mapping_register("elm_calendar", Calendar)

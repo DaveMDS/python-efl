@@ -42,7 +42,10 @@ Default content parts of the panel widget that you can use for are:
 Enumerations
 ------------
 
-.. rubric:: Panel orientation types
+.. _Elm_Panel_Orient:
+
+Panel orientation types
+=======================
 
 .. data:: ELM_PANEL_ORIENT_TOP
 
@@ -75,11 +78,7 @@ ELM_PANEL_ORIENT_RIGHT = enums.ELM_PANEL_ORIENT_RIGHT
 
 cdef class Panel(Object):
 
-    """
-
-    This is the class that actually implement the widget.
-
-    """
+    """This is the class that actually implements the widget."""
 
     def __init__(self, evasObject parent):
         self._set_obj(elm_panel_add(parent.obj))
@@ -91,7 +90,7 @@ cdef class Panel(Object):
 
         This has value ELM_PANEL_ORIENT_LEFT on failure
 
-        :type: Elm_Panel_Orient
+        :type: :ref:`Elm_Panel_Orient`
 
         """
         def __set__(self, orient):

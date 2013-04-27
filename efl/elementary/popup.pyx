@@ -104,7 +104,10 @@ Default text parts of the popup widget that you can use for are:
 Enumerations
 ------------
 
-.. rubric:: Popup orientation types
+.. _Elm_Popup_Orient:
+
+Popup orientation types
+=======================
 
 .. data:: ELM_POPUP_ORIENT_TOP
 
@@ -143,7 +146,10 @@ Enumerations
     Popup should appear in the bottom right of parent
 
 
-.. rubric:: Wrap modes
+.. Elm_Wrap_Type:
+
+Wrap modes
+==========
 
 .. data:: ELM_WRAP_NONE
 
@@ -202,36 +208,46 @@ cdef class PopupItem(ObjectItem):
     - "default" - Item's label
 
     """
-    # TODO: change API
+    cdef:
+        bytes label
+        evasObject icon
+
     def __init__(self, evasObject popup, label = None, evasObject icon = None, func = None, *args, **kwargs):
-        cdef Elm_Object_Item *item
-        cdef Evas_Smart_Cb cb
+        if func is not None:
+            if not callable(func):
+                raise TypeError("func is not None or callable")
 
-        if func is None:
-            cb = NULL
-        elif callable(func):
-            cb = _object_item_callback
-        else:
-            raise TypeError("func is not None or callable")
-
-        self.params = (func, args, kwargs)
         if isinstance(label, unicode): label = PyUnicode_AsUTF8String(label)
-        item = elm_popup_item_append(   popup.obj,
-                                        <const_char *>label if not None else NULL,
-                                        icon.obj if not None else NULL,
-                                        cb if not None else NULL,
-                                        <void *>self)
+        self.label = label
+        self.icon = icon
+        self.cb_func = func
+        self.args = args
+        self.kwargs = kwargs
+
+    def append_to(self, Popup popup not None):
+        cdef Elm_Object_Item *item
+        cdef Evas_Smart_Cb cb = NULL
+
+        if self.cb_func is not None:
+            cb = _object_item_callback
+
+        item = elm_popup_item_append(popup.obj,
+            <const_char *>self.label if not None else NULL,
+            self.icon.obj if not None else NULL,
+            cb, <void *>self)
 
         if item != NULL:
             self._set_obj(item)
+            return self
         else:
             Py_DECREF(self)
+
 
     def __str__(self):
         return "%s(func=%s, item_data=%s)" % \
                (self.__class__.__name__,
-                self.params[0],
-                self.params[1])
+                self.cb_func,
+                self.args)
 
     def __repr__(self):
         return ("%s(%#x, refcount=%d, Elm_Object_Item=%#x, "
@@ -240,16 +256,12 @@ cdef class PopupItem(ObjectItem):
                 <unsigned long><void*>self,
                 PY_REFCOUNT(self),
                 <unsigned long>self.item,
-                self.params[0],
-                self.params[1])
+                self.cb_func,
+                self.args)
 
 cdef class Popup(Object):
 
-    """
-
-    This is the class that actually implement the widget.
-
-    """
+    """This is the class that actually implements the widget."""
 
     def __init__(self, evasObject parent):
         self._set_obj(elm_popup_add(parent.obj))
@@ -297,7 +309,7 @@ cdef class Popup(Object):
 
         Sets the position in which popup will appear in its parent
 
-        :type: Elm_Popup_Orient
+        :type: :ref:`Elm_Popup_Orient`
 
         """
         def __set__(self, orient):

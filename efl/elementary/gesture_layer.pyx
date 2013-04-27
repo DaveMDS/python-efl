@@ -23,7 +23,6 @@ Widget description
 
 .. image:: /images/gesturelayer-preview.png
 
-
 Use the GestureLayer to detect gestures. The advantage is that you don't
 have to implement gesture detection, just set callbacks for gesture states.
 
@@ -91,7 +90,8 @@ Enumerations
 
 .. _Elm_Gesture_State:
 
-.. rubric:: Gesture states
+Gesture states
+==============
 
 .. data:: ELM_GESTURE_STATE_UNDEFINED
 
@@ -116,7 +116,8 @@ Enumerations
 
 .. _Elm_Gesture_Type:
 
-.. rubric:: Gesture types
+Gesture types
+=============
 
 .. data:: ELM_GESTURE_N_TAPS
 
@@ -549,9 +550,9 @@ cdef class GestureLayer(Object):
             EVAS_EVENT_FLAG_ON_HOLD from this callback.
 
         :param idx: The gesture you would like to track its state.
-        :type idx: :ref:`Gesture type <Elm_Gesture_Type>`
+        :type idx: :ref:`Elm_Gesture_Type`
         :param cb_type: what event this callback tracks: START, MOVE, END, ABORT.
-        :type cb_type: :ref:`Gesture state <Elm_Gesture_State>`
+        :type cb_type: :ref:`Elm_Gesture_State`
         :param callback: Callback function.
         :type callback: function
 

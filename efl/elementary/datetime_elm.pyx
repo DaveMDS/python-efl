@@ -158,7 +158,8 @@ Datetime individual field selection is implemented in a modular style.
 Module can be implemented as a Ctxpopup based selection or an ISE based
 selection or even a spinner like selection etc.
 
-**Datetime Module design:**
+Datetime Module design
+======================
 
 The following functions are expected to be implemented in a Datetime module:
 
@@ -215,7 +216,10 @@ This widget emits the following signals, besides the ones sent from
 Enumerations
 ------------
 
-.. rubric:: Datetime fields
+.. _Elm_Datetime_Field_Type:
+
+Datetime fields
+===============
 
 .. data:: ELM_DATETIME_YEAR
 
@@ -260,11 +264,8 @@ ELM_DATETIME_AMPM = enums.ELM_DATETIME_AMPM
 
 cdef class Datetime(Object):
 
-    """
+    """This is the class that actually implements the widget."""
 
-    This is the class that actually implement the widget.
-
-    """
     def __init__(self, evasObject parent):
         self._set_obj(elm_datetime_add(parent.obj))
 
@@ -471,7 +472,7 @@ cdef class Datetime(Object):
         Reference to field's minimum value
         Reference to field's maximum value
 
-        type: (Elm_Datetime_Field_Type, int, int)
+        type: (:ref:`Elm_Datetime_Field_Type`, int, int)
 
         """
         def __get__(self):
@@ -536,7 +537,7 @@ cdef class Datetime(Object):
         .. seealso:: :py:func:`field_visible_set()`
 
         :param fieldtype: Type of the field. ELM_DATETIME_YEAR etc
-        :type fieldtype: Elm_Datetime_Field_Type
+        :type fieldtype: :ref:`Elm_Datetime_Field_Type`
         :return: ``True``, if field can be visible. ``False`` otherwise.
         :rtype: bool
 
@@ -560,7 +561,7 @@ cdef class Datetime(Object):
         .. seealso:: :py:func:`field_visible_get()`
 
         :param fieldtype: Type of the field. ELM_DATETIME_YEAR etc.
-        :type fieldtype: Elm_Datetime_Field_Type
+        :type fieldtype: :ref:`Elm_Datetime_Field_Type`
         :param visible: ``True`` field can be visible, ``False`` otherwise.
         :type visible: bool
 

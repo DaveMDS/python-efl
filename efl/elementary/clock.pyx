@@ -58,7 +58,10 @@ This widget emits the following signals, besides the ones sent from
 Enumerations
 ------------
 
-.. rubric:: Clock edit modes
+.. _Elm_Clock_Edit_Mode:
+
+Clock edit modes
+================
 
 .. data:: ELM_CLOCK_EDIT_DEFAULT
 
@@ -111,11 +114,7 @@ ELM_CLOCK_EDIT_ALL = enums.ELM_CLOCK_EDIT_ALL
 
 cdef class Clock(LayoutClass):
 
-    """
-
-    This is the class that actually implement the widget.
-
-    """
+    """This is the class that actually implements the widget."""
 
     def __init__(self, evasObject parent):
         self._set_obj(elm_clock_add(parent.obj))
@@ -136,7 +135,7 @@ cdef class Clock(LayoutClass):
         .. warning:: The behavior for values set out of those ranges is
             **undefined**.
 
-        :type: (int h, int m, int s)
+        :type: (int **h**, int **m**, int **s**)
 
         """
         def __get__(self):
@@ -186,7 +185,7 @@ cdef class Clock(LayoutClass):
         """Which digits of the given clock widget should be editable when in
         edition mode.
 
-        :type: Elm_Clock_Edit_Mode
+        :type: :ref:`Elm_Clock_Edit_Mode`
 
         """
         def __get__(self):

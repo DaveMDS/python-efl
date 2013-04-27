@@ -53,7 +53,8 @@ Enumerations
 
 .. _Elm_Icon_Lookup_Order:
 
-.. rubric:: Icon lookup modes
+Icon lookup modes
+=================
 
 .. data:: ELM_ICON_LOOKUP_FDO_THEME
 
@@ -74,7 +75,8 @@ Enumerations
 
 .. _Elm_Object_Select_Mode:
 
-.. rubric:: Selection modes
+Selection modes
+===============
 
 .. data:: ELM_OBJECT_SELECT_MODE_DEFAULT
 
@@ -95,7 +97,8 @@ Enumerations
 
 .. _Elm_Toolbar_Shrink_Mode:
 
-.. rubric:: Toolbar shrink modes
+Toolbar shrink modes
+====================
 
 .. data:: ELM_TOOLBAR_SHRINK_NONE
 
@@ -120,7 +123,8 @@ Enumerations
 
 .. _Elm_Toolbar_Item_Scrollto_Type:
 
-.. rubric:: Toolbar item scrollto types
+Toolbar item scrollto types
+===========================
 
 Where to position the item in the toolbar.
 
@@ -258,17 +262,17 @@ cdef class ToolbarItem(ObjectItem):
         :type callback: function
 
         """
+        if callback is not None:
+            if not callable(callback):
+                raise TypeError("callback is not callable")
+
         if isinstance(icon, unicode): icon = PyUnicode_AsUTF8String(icon)
         if isinstance(label, unicode): label = PyUnicode_AsUTF8String(label)
         self.icon = icon
         self.label = label
-
-        if callback is not None:
-            if not callable(callback):
-                raise TypeError("callback is not callable")
-            self.cb = _object_item_callback
-
-        self.params = (callback, args, kwargs)
+        self.cb_func = callback
+        self.args = args
+        self.kwargs = kwargs
 
     def append_to(self, Toolbar toolbar):
         """append_to(Toolbar toolbar) -> ToolbarItem
@@ -290,11 +294,15 @@ cdef class ToolbarItem(ObjectItem):
 
         """
         cdef Elm_Object_Item *item
+        cdef Evas_Smart_Cb cb = NULL
+
+        if self.cb_func is not None:
+            cb = _object_item_callback
 
         item = elm_toolbar_item_append(toolbar.obj,
             <const_char *>self.icon if self.icon is not None else NULL,
             <const_char *>self.label if self.label is not None else NULL,
-            self.cb, <void*>self)
+            cb, <void*>self)
 
         if item != NULL:
             self._set_obj(item)
@@ -318,11 +326,15 @@ cdef class ToolbarItem(ObjectItem):
 
         """
         cdef Elm_Object_Item *item
+        cdef Evas_Smart_Cb cb = NULL
+
+        if self.cb_func is not None:
+            cb = _object_item_callback
 
         item = elm_toolbar_item_prepend(toolbar.obj,
             <const_char *>self.icon if self.icon is not None else NULL,
             <const_char *>self.label if self.label is not None else NULL,
-            self.cb, <void*>self)
+            cb, <void*>self)
 
         if item != NULL:
             self._set_obj(item)
@@ -348,12 +360,16 @@ cdef class ToolbarItem(ObjectItem):
         cdef:
             Elm_Object_Item *item
             Evas_Object *toolbar = elm_object_item_widget_get(after.item)
+            Evas_Smart_Cb cb = NULL
+
+        if self.cb_func is not None:
+            cb = _object_item_callback
 
         item = elm_toolbar_item_insert_after(toolbar,
             after.item,
             <const_char *>self.icon if self.icon is not None else NULL,
             <const_char *>self.label if self.label is not None else NULL,
-            self.cb, <void*>self)
+            cb, <void*>self)
 
         if item != NULL:
             self._set_obj(item)
@@ -379,12 +395,16 @@ cdef class ToolbarItem(ObjectItem):
         cdef:
             Elm_Object_Item *item
             Evas_Object *toolbar = elm_object_item_widget_get(before.item)
+            Evas_Smart_Cb cb = NULL
+
+        if self.cb_func is not None:
+            cb = _object_item_callback
 
         item = elm_toolbar_item_insert_before(toolbar,
             before.item,
             <const_char *>self.icon if self.icon is not None else NULL,
             <const_char *>self.label if self.label is not None else NULL,
-            self.cb, <void*>self)
+            cb, <void*>self)
 
         if item != NULL:
             self._set_obj(item)

@@ -44,7 +44,8 @@ Enumerations
 
 .. _Elm_Notify_Orient:
 
-.. rubric:: Notify orientation types
+Notify orientation types
+========================
 
 .. data:: ELM_NOTIFY_ORIENT_TOP
 
@@ -85,7 +86,8 @@ Enumerations
 
 .. _ELM_NOTIFY_ALIGN_FILL:
 
-.. rubric:: ELM_NOTIFY_ALIGN_FILL
+ELM_NOTIFY_ALIGN_FILL
+=====================
 
 .. data:: ELM_NOTIFY_ALIGN_FILL
 

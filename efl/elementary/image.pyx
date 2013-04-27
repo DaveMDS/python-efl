@@ -107,11 +107,7 @@ ELM_IMAGE_FLIP_TRANSVERSE = enums.ELM_IMAGE_FLIP_TRANSVERSE
 
 cdef class Image(Object):
 
-    """
-
-    This is the class that actually implement the widget.
-
-    """
+    """This is the class that actually implements the widget."""
 
     def __init__(self, evasObject parent):
         self._set_obj(elm_image_add(parent.obj))

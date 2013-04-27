@@ -83,11 +83,7 @@ class ProgressbarPulseState(int):
 
 cdef class Progressbar(LayoutClass):
 
-    """
-
-    This is the class that actually implement the widget.
-
-    """
+    """This is the class that actually implements the widget."""
 
     def __init__(self, evasObject parent):
         self._set_obj(elm_progressbar_add(parent.obj))

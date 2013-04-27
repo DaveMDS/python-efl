@@ -38,11 +38,7 @@ from object cimport Object
 
 cdef class Mapbuf(Object):
 
-    """
-
-    This is the class that actually implement the widget.
-
-    """
+    """This is the class that actually implements the widget."""
 
     def __init__(self, evasObject parent):
         self._set_obj(elm_mapbuf_add(parent.obj))

@@ -76,7 +76,10 @@ Default content parts of the scroller widget that you can use for are:
 Enumerations
 ------------
 
-.. rubric:: Scrollbar visibility
+.. _Elm_Scroller_Policy:
+
+Scrollbar visibility
+====================
 
 .. data:: ELM_SCROLLER_POLICY_AUTO
 
@@ -185,7 +188,7 @@ cdef class ScrollableInterface(Object):
         ELM_SCROLLER_POLICY_OFF always keeps it off. This applies
         respectively for the horizontal and vertical scrollbars.
 
-        :type: tuple of Elm_Scroller_Policy
+        :type: (:ref:`Elm_Scroller_Policy` **policy_h**, :ref:`Elm_Scroller_Policy` **policy_v**)
 
         """
         def __get__(self):

@@ -47,7 +47,7 @@ selected. The four available corners are:
 - **bottom_right**
 
 This widget emits the following signals, besides the ones sent from
-:py:class:`elementary.layout.Layout`:
+:py:class:`efl.elementary.layout_class.LayoutClass`:
 
 - ``clicked`` - This is called when a user has clicked the bubble.
 
@@ -65,7 +65,10 @@ Default text parts of the button widget that you can use for are:
 Enumerations
 ------------
 
-.. rubric:: Bubble arrow positions
+.. _Elm_Bubble_Pos:
+
+Bubble arrow positions
+======================
 
 .. data:: ELM_BUBBLE_POS_TOP_LEFT
 
@@ -98,11 +101,7 @@ ELM_BUBBLE_POS_BOTTOM_RIGHT = enums.ELM_BUBBLE_POS_BOTTOM_RIGHT
 
 cdef class Bubble(LayoutClass):
 
-    """
-
-    This is the class that actually implement the widget.
-
-    """
+    """This is the class that actually implements the widget."""
 
     def __init__(self, evasObject parent):
         self._set_obj(elm_bubble_add(parent.obj))
@@ -114,7 +113,7 @@ cdef class Bubble(LayoutClass):
         used to determine where the arrow in the frame points to and where
         label, icon and info are shown.
 
-        :type: Elm_Bubble_Pos
+        :type: :ref:`Elm_Bubble_Pos`
 
         """
         def __get__(self):

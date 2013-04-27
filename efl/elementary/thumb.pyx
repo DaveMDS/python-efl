@@ -63,7 +63,10 @@ Available styles:
 Enumerations
 ------------
 
-.. rubric:: Thumb animation modes
+.. _Elm_Thumb_Animation_Setting:
+
+Thumb animation modes
+=====================
 
 .. data:: ELM_THUMB_ANIMATION_START
 
@@ -92,11 +95,7 @@ ELM_THUMB_ANIMATION_LAST = enums.ELM_THUMB_ANIMATION_LAST
 
 cdef class Thumb(Object):
 
-    """
-
-    This is the class that actually implement the widget.
-
-    """
+    """This is the class that actually implements the widget."""
 
     def __init__(self, evasObject parent):
         self._set_obj(elm_thumb_add(parent.obj))
@@ -172,7 +171,7 @@ cdef class Thumb(Object):
 
         .. seealso:: :py:attr:`file`
 
-        :type: Elm_Thumb_Animation_Setting
+        :type: :ref:`Elm_Thumb_Animation_Setting`
 
         """
         def __set__(self, s):

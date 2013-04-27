@@ -14,22 +14,21 @@ from efl.elementary.scroller import Scroller
 
 counter = 0
 
-def cb_item_selected(mbe, item):
-    print("cb!!!!!!!!!!!") # TODO this is never called
+def cb_item_selected(mbe, *args, **kwargs):
+    # XXX: This gets called twice
     print(mbe)
-    print(item)
 
 def cb_btn_item_prepend(btn, mbe):
     global counter
 
     counter += 1
-    item = mbe.item_prepend("item #%d" % (counter), cb_item_selected, "PippO")
+    item = mbe.item_prepend("item #%d" % (counter), cb_item_selected)
 
 def cb_btn_item_append(btn, mbe):
     global counter
 
     counter += 1
-    item = mbe.item_append("item #%d" % (counter), cb_item_selected, "PippO")
+    item = mbe.item_append("item #%d" % (counter), cb_item_selected)
 
 def cb_btn_item_insert_after(btn, mbe):
     global counter
@@ -50,6 +49,7 @@ def cb_btn_clear2(btn, mbe):
         item.delete()
 
 def cb_filter1(mbe, text):
+    print(text)
     return True
 
 def multibuttonentry_clicked(obj, item=None):
@@ -78,6 +78,7 @@ def multibuttonentry_clicked(obj, item=None):
     sc.show()
 
     mbe = MultiButtonEntry(win)
+    mbe.callback_item_selected_add(cb_item_selected)
     mbe.size_hint_align = (evas.EVAS_HINT_FILL, evas.EVAS_HINT_FILL)
     mbe.size_hint_weight = (evas.EVAS_HINT_EXPAND, evas.EVAS_HINT_EXPAND)
     mbe.text = "To: "

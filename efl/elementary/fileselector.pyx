@@ -23,7 +23,6 @@ Widget description
 
 .. image:: /images/fileselector-preview.png
 
-
 A file selector is a widget that allows a user to navigate through a
 file system, reporting file selections back via its API.
 
@@ -63,7 +62,10 @@ This widget emits the following signals, besides the ones sent from
 Enumerations
 ------------
 
-.. rubric:: Fileselector modes
+.. _Elm_Fileselector_Mode:
+
+Fileselector modes
+==================
 
 .. data:: ELM_FILESELECTOR_LIST
 
@@ -87,11 +89,7 @@ ELM_FILESELECTOR_GRID = enums.ELM_FILESELECTOR_GRID
 
 cdef class Fileselector(LayoutClass):
 
-    """
-
-    This is the class that actually implement the widget.
-
-    """
+    """This is the class that actually implements the widget."""
 
     cdef object _cbs
 
@@ -249,7 +247,7 @@ cdef class Fileselector(LayoutClass):
 
         .. seealso:: :py:attr:`expandable`
 
-        :type: Elm_Fileselector_Mode
+        :type: :ref:`Elm_Fileselector_Mode`
 
         """
         def __get__(self):

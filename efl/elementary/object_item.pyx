@@ -69,20 +69,15 @@ cdef void _object_item_del_cb(void *data, Evas_Object *o, void *event_info) with
 
 cdef void _object_item_callback(void *data, Evas_Object *obj, void *event_info) with gil:
     cdef ObjectItem item = <object>data
-    (callback, a, ka) = item.params
     try:
         o = object_from_instance(obj)
-        callback(o, item, *a, **ka)
-    except Exception as e:
+        item.cb_func(o, item, *item.args, **item.kwargs)
+    except:
         traceback.print_exc()
 
 cdef class ObjectItem(object):
 
-    """
-
-    A generic item for the widgets.
-
-    """
+    """A generic item for the widgets."""
 
     # Notes to bindings' developers:
     # ==============================
@@ -91,13 +86,6 @@ cdef class ObjectItem(object):
     # instance pointer, and the attribute "item", that you see below, contains
     # a pointer to Elm_Object_Item.
     #
-    # The variable params holds callback data, usually the tuple
-    # (callback, args, kwargs). Note that some of the generic object item
-    # functions expect this tuple. Use custom functions if you assign the
-    # params differently.
-    #
-    # Gen type widgets MUST set the params BEFORE adding the item as the
-    # items need their data immediately when adding them.
 
     def __dealloc__(self):
         if self.item != NULL:
@@ -338,18 +326,18 @@ cdef class ObjectItem(object):
 
     property data:
         def __get__(self):
-            return (self.params[1], self.params[2])
+            return (self.args, self.kwargs)
 
         def __set__(self, data):
             args, kwargs = data
-            callback = self.params[0]
-            self.params = tuple(callback, *args, **kwargs)
+            self.args = args
+            self.kwargs = kwargs
 
     def data_get(self):
-        return (self.params[1], self.params[2])
+        return (self.args, self.kwargs)
     def data_set(self, *args, **kwargs):
-        callback = self.params[0]
-        self.params = tuple(callback, *args, **kwargs)
+        self.args = args
+        self.kwargs = kwargs
 
     def signal_emit(self, emission, source):
         """signal_emit(unicode emission, unicode source)

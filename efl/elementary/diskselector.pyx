@@ -32,6 +32,7 @@ reduced for a defined length for side items.
 Smart callbacks one can listen to:
 
 - "selected" - when item is selected, i.e. scroller stops.
+- "clicked" - This is called when a user clicks an item
 - "scroll,anim,start" - scrolling animation has started
 - "scroll,anim,stop" - scrolling animation has stopped
 - "scroll,drag,start" - dragging the diskselector has started
@@ -65,33 +66,88 @@ from scroller cimport *
 
 cdef class DiskselectorItem(ObjectItem):
 
+    """An item for the Diskselector widget.
+
+    A new item will be created and appended to the diskselector, i.e.,
+    will be set as last item. Also, if there is no selected item, it will
+    be selected. This will always happens for the first appended item.
+
+    If no icon is set, label will be centered on item position, otherwise
+    the icon will be placed at left of the label, that will be shifted
+    to the right.
+
+    Items created with this method can be deleted with
+    :py:func:`elementary.object_item.ObjectItem.delete()`.
+
+    If a function is passed as argument, it will be called every time
+    this item is selected, i.e., the user stops the diskselector with
+    this item on center position.
+
+    Simple example (with no function callback or data associated)::
+
+        disk = Diskselector(win)
+        ic = Icon(win)
+        ic.file_set("path/to/image")
+        ic.resizable_set(EINA_TRUE, EINA_TRUE)
+        disk.item_append("label", ic)
+
+    .. seealso::
+        :py:func:`elementary.object_item.ObjectItem.delete()`
+        :py:func:`clear()`
+        :py:class:`elementary.image.Image`
+
     """
 
-    An item for the Diskselector widget.
+    cdef:
+        bytes label
+        evasObject icon
 
-    """
+    def __init__(self, label, evasObject icon=None, callback=None, *args, **kargs):
+        """
 
-    def __init__(self, evasObject diskselector, label, evasObject icon=None, callback=None, *args, **kargs):
-        cdef Evas_Object* icon_obj = NULL
-        cdef Evas_Smart_Cb cb = NULL
+        :param label: The label of the diskselector item.
+        :type label: string
+        :param icon: The icon object to use at left side of the item. An
+            icon can be any Evas object, but usually it is an
+            :py:class:`elementary.icon.Icon`.
+        :type icon: :py:class:`evas.object.Object`
+        :param func: The function to call when the item is selected.
+        :type func: function
 
-        if icon is not None:
-            icon_obj = icon.obj
-
+        """
         if callback is not None:
             if not callable(callback):
                 raise TypeError("callback is not callable")
-            cb = _object_item_callback
-
-        self.params = (callback, args, kargs)
 
         if isinstance(label, unicode): label = PyUnicode_AsUTF8String(label)
+        self.label = label
+        self.icon = icon
+        self.cb_func = callback
+        self.args = args
+        self.kwargs = kargs
+
+    def append_to(self, Diskselector diskselector):
+        """append_to(self, Diskselector diskselector) -> DiskselectorItem
+
+        Appends a new item to the diskselector object.
+
+        :return: The created item or ``None`` upon failure.
+        :rtype: :py:class:`DiskselectorItem`
+
+        """
+        cdef Evas_Smart_Cb cb = NULL
+
+        if self.cb_func is not None:
+            cb = _object_item_callback
+
         item = elm_diskselector_item_append(diskselector.obj,
-            <const_char *>label if label is not None else NULL,
-            icon_obj, cb, <void*>self)
+            <const_char *>self.label if self.label is not None else NULL,
+            self.icon.obj if self.icon is not None else NULL,
+            cb, <void*>self)
 
         if item != NULL:
             self._set_obj(item)
+            return self
         else:
             Py_DECREF(self)
 
@@ -165,11 +221,7 @@ cdef class DiskselectorItem(ObjectItem):
 
 cdef class Diskselector(Object):
 
-    """
-
-    This is the class that actually implement the widget.
-
-    """
+    """This is the class that actually implements the widget."""
 
     def __init__(self, evasObject parent):
         self._set_obj(elm_diskselector_add(parent.obj))
@@ -310,50 +362,12 @@ cdef class Diskselector(Object):
     def item_append(self, label, evasObject icon = None, callback = None, *args, **kwargs):
         """item_append(self, unicode label, evas.Object icon = None, callback = None, *args, **kwargs) -> DiskselectorItem
 
-        Appends a new item to the diskselector object.
+        A constructor for :py:class:`DiskselectorItem`
 
-        A new item will be created and appended to the diskselector, i.e.,
-        will be set as last item. Also, if there is no selected item, it will
-        be selected. This will always happens for the first appended item.
-
-        If no icon is set, label will be centered on item position, otherwise
-        the icon will be placed at left of the label, that will be shifted
-        to the right.
-
-        Items created with this method can be deleted with
-        :py:func:`elementary.object_item.ObjectItem.delete()`.
-
-        If a function is passed as argument, it will be called every time
-        this item is selected, i.e., the user stops the diskselector with
-        this item on center position.
-
-        Simple example (with no function callback or data associated)::
-
-            disk = Diskselector(win)
-            ic = Icon(win)
-            ic.file_set("path/to/image")
-            ic.resizable_set(EINA_TRUE, EINA_TRUE)
-            disk.item_append("label", ic)
-
-        .. seealso::
-            :py:func:`elementary.object_item.ObjectItem.delete()`
-            :py:func:`clear()`
-            :py:class:`elementary.image.Image`
-
-        :param label: The label of the diskselector item.
-        :type label: string
-        :param icon: The icon object to use at left side of the item. An
-            icon can be any Evas object, but usually it is an
-            :py:class:`elementary.icon.Icon`.
-        :type icon: :py:class:`evas.object.Object`
-        :param func: The function to call when the item is selected.
-        :type func: function
-
-        :return: The created item or ``None`` upon failure.
-        :rtype: :py:class:`DiskselectorItem`
+        :see: :py:func`DiskselectorItem.append_to`
 
         """
-        return DiskselectorItem(self, label, icon, callback, *args, **kwargs)
+        return DiskselectorItem(label, icon, callback, *args, **kwargs).append_to(self)
 
     property selected_item:
         """Get the selected item.
@@ -407,6 +421,15 @@ cdef class Diskselector(Object):
 
     def callback_selected_del(self, func):
         self._callback_del_full("selected", _cb_object_item_conv, func)
+
+    def callback_clicked_add(self, func, *args, **kwargs):
+        """This is called when a user clicks an item
+
+        :since 1.8"""
+        self._callback_add_full("clicked", _cb_object_item_conv, func, *args, **kwargs)
+
+    def callback_clicked_del(self, func):
+        self._callback_del_full("clicked", _cb_object_item_conv, func)
 
     def callback_scroll_anim_start_add(self, func, *args, **kwargs):
         """Scrolling animation has started."""

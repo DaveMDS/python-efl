@@ -85,6 +85,11 @@ deleted, and vice-versa.
 Enumerations
 ------------
 
+.. _Elm_Hover_Axis:
+
+Hover axis
+==========
+
 .. data:: ELM_HOVER_AXIS_NONE
 
     No preferred orientation
@@ -171,13 +176,6 @@ cdef class Hover(LayoutClass):
         Best is defined here as the location at which there is the most
         available space.
 
-        ``pref_axis`` may be one of
-
-        - ``ELM_HOVER_AXIS_NONE`` -- no preferred orientation
-        - ``ELM_HOVER_AXIS_HORIZONTAL`` -- horizontal
-        - ``ELM_HOVER_AXIS_VERTICAL`` -- vertical
-        - ``ELM_HOVER_AXIS_BOTH`` -- both
-
         If ELM_HOVER_AXIS_HORIZONTAL is chosen the returned position will
         necessarily be along the horizontal axis("left" or "right"). If
         ELM_HOVER_AXIS_VERTICAL is chosen the returned position will
@@ -189,7 +187,7 @@ cdef class Hover(LayoutClass):
 
         :param pref_axis: The preferred orientation axis for the hover
             object to use
-        :type pref_axis: Elm_Hover_Axis
+        :type pref_axis: :ref:`Elm_Hover_Axis`
 
         :return: The edje location to place content into the hover or *None*,
             on errors.

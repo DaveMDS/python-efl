@@ -56,6 +56,7 @@ This widget emits the following signals, besides the ones sent from
   level to the second level
 - ``"level,down"`` - when the user moves a finger from the second
   level to the first level
+- ``"language,changed"`` - the program's language changed
 
 The ``"delay,changed"`` event is so that it'll wait a small time
 before actually reporting those events and, moreover, just the
@@ -68,56 +69,231 @@ include "widget_header.pxi"
 include "callback_conversions.pxi"
 
 from layout_class cimport LayoutClass
+from object_item cimport _object_item_callback, _object_item_to_python, \
+    elm_object_item_data_get
 
-from object_item cimport _object_item_callback, _object_item_to_python
+import traceback
 
-cdef enum Elm_Index_Item_Insert_Kind:
-    ELM_INDEX_ITEM_INSERT_APPEND
-    ELM_INDEX_ITEM_INSERT_PREPEND
-    ELM_INDEX_ITEM_INSERT_BEFORE
-    ELM_INDEX_ITEM_INSERT_AFTER
-    ELM_INDEX_ITEM_INSERT_SORTED
+
+cdef int _index_compare_func(const_void *data1, const_void *data2) with gil:
+    """Comparison by IndexItem objects"""
+    cdef:
+        Elm_Object_Item *citem1 = <Elm_Object_Item *>data1
+        Elm_Object_Item *citem2 = <Elm_Object_Item *>data2
+        IndexItem item1 = <IndexItem>elm_object_item_data_get(citem1)
+        IndexItem item2 = <IndexItem>elm_object_item_data_get(citem2)
+        object func
+
+    if item1.compare_func is not None:
+        func = item1.compare_func
+    elif item2.compare_func is not None:
+        func = item2.compare_func
+    else:
+        return 0
+
+    ret = func(item1, item2)
+    if ret is not None:
+        try:
+            return ret
+        except:
+            traceback.print_exc()
+            return 0
+    else:
+        return 0
+
+cdef int _index_data_compare_func(const_void *data1, const_void *data2) with gil:
+    """Comparison by IndexItem data"""
+    cdef:
+        IndexItem item1 = <object>data1
+        IndexItem item2 = <object>data2
+        object func
+
+    if item1.data_compare_func is not None:
+        func = item1.data_compare_func
+    elif item2.data_compare_func is not None:
+        func = item2.data_compare_func
+    else:
+        return 0
+
+    ret = func(item1.data, item2.data)
+    if ret is not None:
+        try:
+            return ret
+        except:
+            traceback.print_exc()
+            return 0
+    else:
+        return 0
 
 cdef class IndexItem(ObjectItem):
-    def __init__(self, kind, evasObject index, letter, IndexItem before_after = None,
-                 callback = None, *args, **kargs):
-        # TODO: Fix this horrible API
-        cdef Evas_Smart_Cb cb = NULL
 
+    """
+
+    An item on an :py:class:`Index` widget.
+
+    Despite the most common usage of the ``letter`` argument is for
+    single char strings, one could use arbitrary strings as index
+    entries.
+
+    ``item`` will be the item returned back on ``"changed"``,
+    ``"delay,changed"`` and ``"selected"`` smart events.
+
+    :param letter: Letter under which the item should be indexed
+    :type letter: string
+    :param callback: The function to call when the item is selected.
+    :type callback: function
+
+    """
+    cdef:
+        bytes letter
+        object compare_func, data_compare_func
+
+    def __init__(self, letter, callback = None, *args, **kwargs):
         if callback is not None:
             if not callable(callback):
                 raise TypeError("callback is not callable")
-            cb = _object_item_callback
-
-        self.params = (callback, args, kargs)
 
         if isinstance(letter, unicode): letter = PyUnicode_AsUTF8String(letter)
+        self.letter = letter
 
-        if kind == ELM_INDEX_ITEM_INSERT_APPEND:
-            item = elm_index_item_append(index.obj,
-                <const_char *>letter if letter is not None else NULL,
-                cb, <void*>self)
-        elif kind == ELM_INDEX_ITEM_INSERT_PREPEND:
-            item = elm_index_item_prepend(index.obj,
-                <const_char *>letter if letter is not None else NULL,
-                cb, <void*>self)
-        #elif kind == ELM_INDEX_ITEM_INSERT_SORTED:
-            # TODO: remove _cfruni when implementing this
-            #item = elm_index_item_sorted_insert(index.obj, _cfruni(letter), cb, <void*>self, cmp_f, cmp_data_f)
-        else:
-            if before_after == None:
-                raise ValueError("need a valid after object to add an item before/after another item")
-            if kind == ELM_INDEX_ITEM_INSERT_BEFORE:
-                item = elm_index_item_insert_before(index.obj, before_after.item,
-                    <const_char *>letter if letter is not None else NULL,
-                    cb, <void*>self)
-            else:
-                item = elm_index_item_insert_after(index.obj, before_after.item,
-                    <const_char *>letter if letter is not None else NULL,
-                    cb, <void*>self)
+        self.cb_func = callback
+        self.args = args
+        self.kwargs = kwargs
+
+    def append_to(self, Index index not None):
+        """
+
+        Append this item to the ``index``.
+
+        :param index: The index object to append to.
+        :type index: :py:class:`Index`
+
+        """
+        cdef Elm_Object_Item *item
+        cdef Evas_Smart_Cb cb = NULL
+        if self.cb_func is not None:
+            cb = _object_item_callback
+
+        item = elm_index_item_append(index.obj,
+            <const_char *>self.letter if self.letter is not None else NULL,
+            cb, <void*>self)
 
         if item != NULL:
             self._set_obj(item)
+            return self
+        else:
+            Py_DECREF(self)
+
+    def prepend_to(self, Index index not None):
+        """
+
+        Prepend this item to the ``index``.
+
+        :param index: The index object to prepend to.
+        :type index: :py:class:`Index`
+
+        """
+        cdef Elm_Object_Item *item
+        cdef Evas_Smart_Cb cb = NULL
+        if self.cb_func is not None:
+            cb = _object_item_callback
+
+        item = elm_index_item_prepend(index.obj,
+            <const_char *>self.letter if self.letter is not None else NULL,
+            cb, <void*>self)
+
+        if item != NULL:
+            self._set_obj(item)
+            return self
+        else:
+            Py_DECREF(self)
+
+    def insert_after(self, IndexItem after not None):
+        """
+
+        Insert this item after the item ``after``.
+
+        :param after: The index item to insert after.
+        :type after: :py:class:`IndexItem`
+
+        """
+        cdef Elm_Object_Item *item
+        cdef Index index = after.widget
+        cdef Evas_Smart_Cb cb = NULL
+        if self.cb_func is not None:
+            cb = _object_item_callback
+
+        item = elm_index_item_insert_after(index.obj, after.item,
+            <const_char *>self.letter if self.letter is not None else NULL,
+            cb, <void*>self)
+
+        if item != NULL:
+            self._set_obj(item)
+            return self
+        else:
+            Py_DECREF(self)
+
+    def insert_before(self, IndexItem before not None):
+        """
+
+        Insert this item before the item ``before``.
+
+        :param before: The index item to insert before.
+        :type before: :py:class:`IndexItem`
+
+        """
+        cdef Elm_Object_Item *item
+        cdef Index index = before.widget
+        cdef Evas_Smart_Cb cb = NULL
+        if self.cb_func is not None:
+            cb = _object_item_callback
+
+        item = elm_index_item_insert_before(index.obj, before.item,
+            <const_char *>self.letter if self.letter is not None else NULL,
+            cb, <void*>self)
+
+        if item != NULL:
+            self._set_obj(item)
+            return self
+        else:
+            Py_DECREF(self)
+
+    def insert_sorted(self, Index index not None, compare_func, data_compare_func = None):
+        """
+
+        :param cmp_func: The comparing function to be used to sort index
+            items **by index item handles**
+        :type cmp_func: function
+        :param cmp_data_func: A **fallback** function to be called for the
+            sorting of index items **by item data**). It will be used
+            when ``cmp_func`` returns ``0`` (equality), which means an index
+            item with provided item data already exists. To decide which
+            data item should be pointed to by the index item in question,
+            ``cmp_data_func`` will be used. If ``cmp_data_func`` returns a
+            non-negative value, the previous index item data will be
+            replaced by the given ``item`` pointer. If the previous data need
+            to be freed, it should be done by the ``cmp_data_func``
+            function, because all references to it will be lost. If this
+            function is not provided (``None`` is given), index items will
+            be **duplicated**, if ``cmp_func`` returns ``0``.
+        :type cmp_data_func: function
+
+        """
+        cdef Elm_Object_Item *item
+        cdef Evas_Smart_Cb cb = NULL
+        if self.cb_func is not None:
+            cb = _object_item_callback
+
+        self.compare_func = compare_func
+        self.data_compare_func = data_compare_func
+        item = elm_index_item_sorted_insert(index.obj,
+            <const_char *>self.letter if self.letter is not None else NULL,
+            cb, <void*>self,
+            _index_compare_func, _index_data_compare_func)
+
+        if item != NULL:
+            self._set_obj(item)
+            return self
         else:
             Py_DECREF(self)
 
@@ -164,11 +340,7 @@ cdef Elm_Object_Item *_elm_index_item_from_python(IndexItem item):
 
 cdef class Index(LayoutClass):
 
-    """
-
-    This is the class that actually implement the widget.
-
-    """
+    """This is the class that actually implements the widget."""
 
     def __init__(self, evasObject parent):
         self._set_obj(elm_index_add(parent.obj))
@@ -225,140 +397,50 @@ cdef class Index(LayoutClass):
     def item_append(self, letter, callback = None, *args, **kargs):
         """item_append(unicode letter, callback = None, *args, **kargs) -> IndexItem
 
-        Append a new item on a given index widget.
+        A constructor for :py:class:`IndexItem`
 
-        Despite the most common usage of the ``letter`` argument is for
-        single char strings, one could use arbitrary strings as index
-        entries.
-
-        ``item`` will be the item returned back on ``"changed"``,
-        ``"delay,changed"`` and ``"selected"`` smart events.
-
-        :param letter: Letter under which the item should be indexed
-        :type letter: string
-        :param callback: The function to call when the item is selected.
-        :type callback: function
-
-        :return: A handle to the item added or ``None``, on errors
-        :rtype: :py:class:`IndexItem`
+        :see: :py:func:`IndexItem.append_to`
 
         """
-        return IndexItem(ELM_INDEX_ITEM_INSERT_APPEND, self, letter,
-                        None, callback, *args, **kargs)
+        return IndexItem(letter, callback, *args, **kargs).append_to(self)
 
     def item_prepend(self, letter, callback = None, *args, **kargs):
         """item_prepend(unicode letter, callback = None, *args, **kargs) -> IndexItem
 
-        Prepend a new item on a given index widget.
+        A constructor for :py:class:`IndexItem`
 
-        Despite the most common usage of the ``letter`` argument is for
-        single char strings, one could use arbitrary strings as index
-        entries.
-
-        ``item`` will be the item returned back on ``"changed"``,
-        ``"delay,changed"`` and ``"selected"`` smart events.
-
-        :param letter: Letter under which the item should be indexed
-        :type letter: string
-        :param callback: The function to call when the item is selected.
-        :type callback: function
-        :return: A handle to the item added or ``None``, on errors
-        :rtype: :py:class:`IndexItem`
+        :see: :py:func:`IndexItem.prepend_to`
 
         """
-        return IndexItem(ELM_INDEX_ITEM_INSERT_PREPEND, self, letter,
-                        None, callback, *args, **kargs)
+        return IndexItem(letter, callback, *args, **kargs).prepend_to(self)
 
     def item_insert_after(self, IndexItem after, letter, callback = None, *args, **kargs):
         """item_insert_after(IndexItem after, unicode letter, callback = None, *args, **kargs) -> IndexItem
 
-        Insert a new item into the index object after item ``after``.
+        A constructor for :py:class:`IndexItem`
 
-        Despite the most common usage of the ``letter`` argument is for
-        single char strings, one could use arbitrary strings as index
-        entries.
-
-        ``item`` will be the pointer returned back on ``"changed"``,
-        ``"delay,changed"`` and ``"selected"`` smart events.
-
-        .. note:: If ``relative`` is ``None`` this function will behave
-            as :py:func:`item_append()`.
-
-        :param after: The index item to insert after.
-        :type after: :py:class:`IndexItem`
-        :param letter: Letter under which the item should be indexed
-        :type letter: string
-        :param callback: The function to call when the item is clicked.
-        :type callback: function
-        :return: A handle to the item added or ``None``, on errors
-        :rtype: :py:class:`IndexItem`
+        :see: :py:func:`IndexItem.insert_after`
 
         """
-        return IndexItem(ELM_INDEX_ITEM_INSERT_AFTER, self, letter,
-                        after, callback, *args, **kargs)
+        return IndexItem(letter, callback, *args, **kargs).insert_after(after)
 
     def item_insert_before(self, IndexItem before, letter, callback = None, *args, **kargs):
         """item_insert_before(IndexItem before, unicode letter, callback = None, *args, **kargs) -> IndexItem
 
-        Insert a new item into the index object before item ``before``.
+        A constructor for :py:class:`IndexItem`
 
-        Despite the most common usage of the ``letter`` argument is for
-        single char strings, one could use arbitrary strings as index
-        entries.
-
-        ``item`` will be the pointer returned back on ``"changed"``,
-        ``"delay,changed"`` and ``"selected"`` smart events.
-
-        .. note:: If ``relative`` is ``None`` this function will behave
-            as :py:func:`item_prepend()`.
-
-        :param before: The index item to insert before.
-        :type before: :py:class:`IndexItem`
-        :param letter: Letter under which the item should be indexed
-        :type letter: string
-        :param callback: The function to call when the item is clicked.
-        :type callback: function
-        :return: A handle to the item added or ``None``, on errors
-        :rtype: :py:class:`IndexItem`
+        :see: :py:func:`IndexItem.insert_before`
 
         """
-        return IndexItem(ELM_INDEX_ITEM_INSERT_BEFORE, self, letter,
-                        before, callback, *args, **kargs)
+        return IndexItem(letter, callback, *args, **kargs).insert_before(before)
 
     #def item_sorted_insert(self, letter, callback = None, *args, **kargs):
         """Insert a new item into the given index widget, using ``cmp_func``
         function to sort items (by item handles).
 
-        Despite the most common usage of the ``letter`` argument is for
-        single char strings, one could use arbitrary strings as index
-        entries.
+        A constructor for :py:class:`IndexItem`
 
-        ``item`` will be the pointer returned back on ``"changed"``,
-        ``"delay,changed"`` and ``"selected"`` smart events.
-
-        :param letter: Letter under which the item should be indexed
-        :type letter: string
-        :param func: The function to call when the item is clicked.
-        :type func: function
-        :param cmp_func: The comparing function to be used to sort index
-            items **by index item handles**
-        :type cmp_func: function
-        :param cmp_data_func: A **fallback** function to be called for the
-            sorting of index items **by item data**). It will be used
-            when ``cmp_func`` returns ``0`` (equality), which means an index
-            item with provided item data already exists. To decide which
-            data item should be pointed to by the index item in question,
-            ``cmp_data_func`` will be used. If ``cmp_data_func`` returns a
-            non-negative value, the previous index item data will be
-            replaced by the given ``item`` pointer. If the previous data need
-            to be freed, it should be done by the ``cmp_data_func``
-            function, because all references to it will be lost. If this
-            function is not provided (``None`` is given), index items will
-            be **duplicated**, if ``cmp_func`` returns ``0``.
-        :type cmp_data_func: function
-
-        :return: A handle to the item added or ``None``, on errors
-        :rtype: :py:class:`IndexItem`
+        :see: :py:func:`IndexItem.insert_sorted`
 
         """
         #return IndexItem(ELM_INDEX_ITEM_INSERT_SORTED, self, letter,
@@ -519,6 +601,13 @@ cdef class Index(LayoutClass):
 
     def callback_level_down_del(self, func):
         self._callback_del("level,down", func)
+
+    def callback_language_changed_add(self, func, *args, **kwargs):
+        """the program's language changed"""
+        self._callback_add("language,changed", func, *args, **kwargs)
+
+    def callback_language_changed_del(self, func):
+        self._callback_del("language,changed", func)
 
 
 _object_mapping_register("elm_index", Index)

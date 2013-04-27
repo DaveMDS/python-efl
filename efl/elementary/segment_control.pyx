@@ -63,11 +63,7 @@ from object_item cimport _object_item_to_python
 
 cdef class SegmentControlItem(ObjectItem):
 
-    """
-
-    An item for :py:class:`SegmentControl`.
-
-    """
+    """An item for :py:class:`SegmentControl`."""
 
     property index:
         """Get the index of an item.
@@ -112,11 +108,7 @@ cdef class SegmentControlItem(ObjectItem):
 
 cdef class SegmentControl(LayoutClass):
 
-    """
-
-    This is the class that actually implement the widget.
-
-    """
+    """This is the class that actually implements the widget."""
 
     def __init__(self, evasObject parent):
         self._set_obj(elm_segment_control_add(parent.obj))

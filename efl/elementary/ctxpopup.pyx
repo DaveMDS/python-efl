@@ -23,7 +23,6 @@ Widget description
 
 .. image:: /images/ctxpopup-preview.png
 
-
 Context popup widget.
 
 A ctxpopup is a widget that, when shown, pops up a list of items. It
@@ -55,7 +54,10 @@ Default text parts of the ctxpopup items that you can use for are:
 Enumerations
 ------------
 
-.. rubric:: Ctxpopup arrow directions
+.. _Elm_Ctxpopup_Direction:
+
+Ctxpopup arrow directions
+=========================
 
 .. data:: ELM_CTXPOPUP_DIRECTION_DOWN
 
@@ -80,7 +82,7 @@ Enumerations
 """
 
 include "widget_header.pxi"
-from object cimport Object
+from layout_class cimport LayoutClass
 from object_item cimport ObjectItem, _object_item_callback
 
 cimport enums
@@ -92,35 +94,75 @@ ELM_CTXPOPUP_DIRECTION_UP = enums.ELM_CTXPOPUP_DIRECTION_UP
 ELM_CTXPOPUP_DIRECTION_UNKNOWN = enums.ELM_CTXPOPUP_DIRECTION_UNKNOWN
 
 cdef class CtxpopupItem(ObjectItem):
-    def __init__(self, evasObject ctxpopup, label = None, evasObject icon = None, callback = None, *args, **kargs):
+
+    cdef:
+        bytes label
+        evasObject icon
+
+    def __init__(self, label = None, evasObject icon = None, callback = None, *args, **kargs):
+        """
+        .. warning:: Ctxpopup can't hold both an item list and a content at the
+            same time. When an item is added, any previous content will be
+            removed.
+
+        :param icon: Icon to be set on new item
+        :type icon: :py:class:`evas.object.Object`
+        :param label: The Label of the new item
+        :type label: string
+        :param func: Convenience function called when item selected
+        :type func: function
+        :return: The item added or ``None``, on errors
+        :rtype: :py:class:`CtxpopupItem`
+
+        """
+        if callback is not None:
+            if not callable(callback):
+                raise TypeError("callback is not callable")
+
+        if isinstance(label, unicode): label = PyUnicode_AsUTF8String(label)
+        self.label = label
+        self.icon = icon
+        self.cb_func = callback
+        self.args = args
+        self.kwargs = kargs
+
+    def append_to(self, evasObject ctxpopup):
+        """item_append(unicode label, evas.Object icon, func, *args, **kwargs) -> CtxpopupItem
+
+        Add a new item to a ctxpopup object.
+
+        .. warning:: Ctxpopup can't hold both an item list and a content at the
+            same time. When an item is added, any previous content will be
+            removed.
+
+        .. seealso:: :py:attr:`elementary.object.Object.content`
+
+        :param ctxpopup: The Ctxpopup widget this item is to be appended on
+        :type ctxpopup: :py:class:`Ctxpopup`
+        :return: The item added or ``None``, on errors
+        :rtype: :py:class:`CtxpopupItem`
+
+        """
         cdef Elm_Object_Item *item
         cdef Evas_Smart_Cb cb = NULL
 
-        if callback:
-            if not callable(callback):
-                raise TypeError("callback is not callable")
+        if self.cb_func is not None:
             cb = _object_item_callback
 
-        self.params = (callback, args, kargs)
-        if isinstance(label, unicode): label = PyUnicode_AsUTF8String(label)
         item = elm_ctxpopup_item_append(ctxpopup.obj,
-                                        <const_char *>label if label is not None else NULL,
-                                        icon.obj if icon is not None else NULL,
-                                        cb,
-                                        <void*>self)
+            <const_char *>self.label if self.label is not None else NULL,
+            self.icon.obj if self.icon is not None else NULL,
+            cb, <void*>self)
 
         if item != NULL:
             self._set_obj(item)
+            return self
         else:
             Py_DECREF(self)
 
-cdef class Ctxpopup(Object):
+cdef class Ctxpopup(LayoutClass):
 
-    """
-
-    This is the class that actually implement the widget.
-
-    """
+    """This is the class that actually implements the widget."""
 
     def __init__(self, evasObject parent):
         self._set_obj(elm_ctxpopup_add(parent.obj))
@@ -166,25 +208,12 @@ cdef class Ctxpopup(Object):
     def item_append(self, label, evasObject icon = None, func = None, *args, **kwargs):
         """item_append(unicode label, evas.Object icon, func, *args, **kwargs) -> CtxpopupItem
 
-        Add a new item to a ctxpopup object.
+        A constructor for a :py:class:`CtxpopupItem`.
 
-        .. warning:: Ctxpopup can't hold both an item list and a content at the
-            same time. When an item is added, any previous content will be
-            removed.
-
-        .. seealso:: :py:attr:`elementary.object.Object.content`
-
-        :param icon: Icon to be set on new item
-        :type icon: :py:class:`evas.object.Object`
-        :param label: The Label of the new item
-        :type label: string
-        :param func: Convenience function called when item selected
-        :type func: function
-        :return: The item added or ``None``, on errors
-        :rtype: :py:class:`CtxpopupItem`
+        :see: :py:func:`CtxpopupItem.append_to`
 
         """
-        return CtxpopupItem(self, label, icon, func, *args, **kwargs)
+        return CtxpopupItem(label, icon, func, *args, **kwargs).append_to(self)
 
     property direction_priority:
         """The direction priority order of a ctxpopup.
@@ -193,7 +222,7 @@ cdef class Ctxpopup(Object):
         showing direction. This doesn't guarantee the ctxpopup will appear
         in the requested direction.
 
-        :type: tuple of Elm_Ctxpopup_Direction
+        :type: (first, second, third, fourth) :ref:`Elm_Ctxpopup_Direction`
 
         """
         def __get__(self):
@@ -219,7 +248,7 @@ cdef class Ctxpopup(Object):
         .. warning:: Only once the ctxpopup is shown can the direction be
             determined
 
-        :type: Elm_Ctxpopup_Direction
+        :type: :ref:`Elm_Ctxpopup_Direction`
 
         """
         def __get__(self):

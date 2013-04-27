@@ -17,6 +17,7 @@
 #
 
 from efl.eo cimport object_from_instance
+from object_item cimport ObjectItem, _object_item_to_python, Elm_Object_Item
 
 cdef Evas_Object *_tooltip_content_create(void *data, Evas_Object *o, Evas_Object *t) with gil:
     cdef Object ret, obj, tooltip
@@ -33,15 +34,18 @@ cdef void _tooltip_data_del_cb(void *data, Evas_Object *o, void *event_info) wit
     Py_DECREF(<object>data)
 
 cdef Evas_Object *_tooltip_item_content_create(void *data, Evas_Object *o, Evas_Object *t, void *it) with gil:
-   cdef Object ret, obj, tooltip
+    cdef:
+        Object ret, obj, tooltip
+        ObjectItem item
 
-   obj = object_from_instance(o)
-   tooltip = object_from_instance(t)
-   (func, item, args, kargs) = <object>data
-   ret = func(obj, item, *args, **kargs)
-   if not ret:
+    obj = object_from_instance(o)
+    tooltip = object_from_instance(t)
+    item = _object_item_to_python(<Elm_Object_Item *>it)
+    (func, args, kargs) = <object>data
+    ret = func(obj, item, *args, **kargs)
+    if not ret:
        return NULL
-   return ret.obj
+    return ret.obj
 
 cdef void _tooltip_item_data_del_cb(void *data, Evas_Object *o, void *event_info) with gil:
    Py_DECREF(<object>data)

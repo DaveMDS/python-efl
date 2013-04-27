@@ -39,7 +39,8 @@ Other features include password mode, filtering of inserted text with
 :py:func:`markup_filter_append()` and related functions, inline "items" and
 formatted markup text.
 
-.. rubric:: Formatted text
+Formatted text
+==============
 
 The markup tags supported by the Entry are defined by the theme, but
 even when writing new themes or extensions it's a good idea to stick to
@@ -56,13 +57,15 @@ Currently defined by the default theme are the following tags:
 - <link>...</link>: Underlines the enclosed text.
 - <hilight>...</hilight>: Highlights the enclosed text.
 
-.. rubric:: Special markups
+Special markups
+===============
 
 Besides those used to format text, entries support two special markup
 tags used to insert click-able portions of text or items inlined within
 the text.
 
-.. rubric:: Anchors
+Anchors
+'''''''
 
 Anchors are similar to HTML anchors. Text can be surrounded by <a> and
 </a> tags and an event will be generated when this text is clicked,
@@ -79,7 +82,8 @@ callback function. The same applies for "anchor,in" (mouse in),
 "anchor,out" (mouse out), "anchor,down" (mouse down), and "anchor,up"
 (mouse up) events on an anchor.
 
-.. rubric:: Items
+Items
+'''''
 
 Inlined in the text, any other :py:class:`elementary.object.Object` can
 be inserted by using <item> tags this way::
@@ -168,7 +172,8 @@ Alternatively, an item may reference an image by its path, using
 the URI form ``file:///path/to/an/image.png`` and the entry will then
 use that image for the item.
 
-.. rubric:: Setting entry's style
+Setting entry's style
+=====================
 
 There are 2 major ways to change the entry's style:
 
@@ -181,7 +186,8 @@ aesthetic reasons. While the user style should be changed when you would
 like to change the style to something specific defined at run-time, e.g,
 setting font or font size in a text editor.
 
-.. rubric:: Loading and saving files
+Loading and saving files
+========================
 
 Entries have convenience functions to load text from a file and save
 changes back to it after a short delay. The automatic saving is enabled
@@ -189,7 +195,8 @@ by default, but can be disabled with :py:attr:`autosave` and files
 can be loaded directly as plain text or have any markup in them
 recognized. See :py:attr:`file` for more details.
 
-.. rubric:: Emitted signals
+Emitted signals
+---------------
 
 This widget emits the following signals:
 
@@ -244,7 +251,8 @@ Enumerations
 
 .. _Elm_Autocapital_Type:
 
-.. rubric:: Autocapitalization types
+Autocapitalization types
+========================
 
 .. data:: ELM_AUTOCAPITAL_TYPE_NONE
 
@@ -265,7 +273,8 @@ Enumerations
 
 .. _Elm_Cnp_Mode:
 
-.. rubric:: Copy & paste modes
+Copy & paste modes
+==================
 
 .. data:: ELM_CNP_MODE_MARKUP
 
@@ -282,7 +291,8 @@ Enumerations
 
 .. _Elm_Input_Panel_Lang:
 
-.. rubric:: Input panel language sort order
+Input panel language sort order
+===============================
 
 .. data:: ELM_INPUT_PANEL_LANG_AUTOMATIC
 
@@ -295,7 +305,8 @@ Enumerations
 
 .. _Elm_Input_Panel_Layout:
 
-.. rubric:: Input panel layouts
+Input panel layouts
+===================
 
 .. data:: ELM_INPUT_PANEL_LAYOUT_NORMAL
 
@@ -348,7 +359,8 @@ Enumerations
 
 .. _Elm_Input_Panel_Return_Key_Type:
 
-.. rubric:: Input panel return key modes
+Input panel return key modes
+============================
 
 .. data:: ELM_INPUT_PANEL_RETURN_KEY_TYPE_DEFAULT
 
@@ -385,7 +397,8 @@ Enumerations
 
 .. _Elm_Scroller_Policy:
 
-.. rubric:: Scrollbar visibility
+Scrollbar visibility
+====================
 
 .. data:: ELM_SCROLLER_POLICY_AUTO
 
@@ -402,7 +415,8 @@ Enumerations
 
 .. _Elm_Text_Format:
 
-.. rubric:: Text format
+Text format
+===========
 
 .. data:: ELM_TEXT_FORMAT_PLAIN_UTF8
 
@@ -415,7 +429,8 @@ Enumerations
 
 .. _Elm_Wrap_Type:
 
-.. rubric:: Wrap mode
+Wrap mode
+=========
 
 .. data:: ELM_WRAP_NONE
 
@@ -436,7 +451,8 @@ Enumerations
 
 .. _Elm_Icon_Type:
 
-.. rubric:: Icon types
+Icon types
+==========
 
 .. data:: ELM_ICON_NONE
 
@@ -899,7 +915,7 @@ cdef class Entry(Object):
         Note that this only makes sense for multi-line entries. A widget set
         to be single line will never wrap.
 
-        :type: :ref:`Line wrapping mode <Elm_Wrap_Type>`
+        :type: :ref:`Elm_Wrap_Type`
 
         """
         def __get__(self):
@@ -1305,7 +1321,7 @@ cdef class Entry(Object):
         will be saved if the autosave feature is enabled, otherwise, the file
         will be silently discarded and any non-saved changes will be lost.
 
-        :type: tuple of strings (file, format)
+        :type: (unicode **file_name**, :ref:`Elm_Text_Format` **file_format**)
         :raise RuntimeError: when setting the file fails
 
         """
@@ -1317,14 +1333,12 @@ cdef class Entry(Object):
             self.file_set(file, format)
 
     cpdef file_set(self, file_name, file_format):
-        # TODO: Check that Elm_Text_Format is being used correctly here
         a1 = file_name
         a2 = file_format
         if isinstance(a1, unicode): a1 = PyUnicode_AsUTF8String(a1)
-        if isinstance(a2, unicode): a2 = PyUnicode_AsUTF8String(a2)
         if not elm_entry_file_set(self.obj,
             <const_char *>a1 if a1 is not None else NULL,
-            <Elm_Text_Format>a2 if a2 is not None else ""):
+            a2 if a2 is not None else enums.ELM_TEXT_FORMAT_PLAIN_UTF8):
             raise RuntimeError("Could not set file")
     cpdef file_get(self):
         cdef const_char *file
@@ -1411,7 +1425,7 @@ cdef class Entry(Object):
         will automatically disable the display of scrollbars when the entry
         moves inside its scroller.
 
-        :type: (:ref:`Scroll policy <Elm_Scroller_Policy>` **h**, :ref:`Scroll policy <Elm_Scroller_Policy>` **v**)
+        :type: (:ref:`Elm_Scroller_Policy` **h**, :ref:`Elm_Scroller_Policy` **v**)
 
         """
         def __set__(self, value):
@@ -1449,7 +1463,7 @@ cdef class Entry(Object):
     property input_panel_layout:
         """The input panel layout of the entry
 
-        :type: :ref:`Input panel layout <Elm_Input_Panel_Layout>`
+        :type: :ref:`Elm_Input_Panel_Layout`
 
         """
         def __get__(self):
@@ -1486,7 +1500,7 @@ cdef class Entry(Object):
     property autocapital_type:
         """Autocapitalization type on the immodule.
 
-        :type: :ref:`Autocapitalization type <Elm_Autocapital_Type>`
+        :type: :ref:`Elm_Autocapital_Type`
 
         """
         def __set__(self, value):
@@ -1550,7 +1564,7 @@ cdef class Entry(Object):
 
         This API can be used if you want to show the alphabet keyboard mode.
 
-        :type: :ref:`Input panel language <Elm_Input_Panel_Lang>`
+        :type: :ref:`Elm_Input_Panel_Lang`
 
         """
         def __get__(self):
@@ -1596,7 +1610,7 @@ cdef class Entry(Object):
 
         An input panel displays the string or icon associated with this type
 
-        :type: :ref:`Input panel return key type <Elm_Input_Panel_Return_Key_Type>`
+        :type: :ref:`Elm_Input_Panel_Return_Key_Type`
 
         """
         def __get__(self):
@@ -1751,7 +1765,7 @@ cdef class Entry(Object):
 
         .. note:: This only changes the behaviour of text.
 
-        :type: :ref:`Copy and paste mode <Elm_Cnp_Mode>`
+        :type: :ref:`Elm_Cnp_Mode`
 
         """
         def __get__(self):
@@ -2039,41 +2053,3 @@ cdef class Entry(Object):
 
 
 _object_mapping_register("elm_entry", Entry)
-
-
-# TODO:
-# def context_menu_item_label_get(menu_item):
-#     """Get the text of the contextual menu item.
-
-#     Gets the text of the contextual menu item of entry.
-
-#     :param item: The item to get the label
-#     :return: The text of contextual menu item
-
-#     :see: :py:func:`Entry.context_menu_item_add`
-
-#     :since: 1.8
-
-#     """
-#     return _ctouni(elm_entry_context_menu_item_label_get(const_Elm_Entry_Context_Menu_Item *item))
-
-# TODO:
-# def context_menu_item_icon_get(menu_item):
-#     """Get the icon object of the contextual menu item.
-
-#     Gets the icon object packed in the contextual menu item of entry.
-
-#     :param item: The item to get the icon from
-#     :param icon_file: The image file path on disk used for the icon or standard
-#         icon name
-#     :param icon_group: The edje group used if @p icon_file is an edje file. NULL
-#         if the icon is not an edje file
-#     :param icon_type: The icon type
-
-#     :see: :py:func:`Entry.context_menu_item_add`
-
-#     :since: 1.8
-
-#     """
-#     elm_entry_context_menu_item_icon_get(const_Elm_Entry_Context_Menu_Item *item, const_char **icon_file, const_char **icon_group, Elm_Icon_Type *icon_type);
-

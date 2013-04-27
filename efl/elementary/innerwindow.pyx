@@ -50,11 +50,7 @@ from layout_class cimport LayoutClass
 
 cdef class InnerWindow(LayoutClass):
 
-    """
-
-    This is the class that actually implement the widget.
-
-    """
+    """This is the class that actually implements the widget."""
 
     def __init__(self, evasObject parent):
         self._set_obj(elm_win_inwin_add(parent.obj))
@@ -76,12 +72,8 @@ cdef class InnerWindow(LayoutClass):
         elm_win_inwin_activate(self.obj)
 
     def content_set(self, evasObject content):
-        cdef Evas_Object *o
-        if content is not None:
-            o = content.obj
-        else:
-            o = NULL
-        elm_win_inwin_content_set(self.obj, o)
+        elm_win_inwin_content_set(self.obj,
+            content.obj if content is not None else NULL)
 
     def content_get(self):
         return object_from_instance(elm_win_inwin_content_get(self.obj))
@@ -101,12 +93,8 @@ cdef class InnerWindow(LayoutClass):
             return object_from_instance(elm_win_inwin_content_get(self.obj))
 
         def __set__(self, evasObject content):
-            cdef Evas_Object *o
-            if content is not None:
-                o = content.obj
-            else:
-                o = NULL
-            elm_win_inwin_content_set(self.obj, o)
+            elm_win_inwin_content_set(self.obj,
+                content.obj if content is not None else NULL)
 
         def __del__(self):
             elm_win_inwin_content_unset(self.obj)

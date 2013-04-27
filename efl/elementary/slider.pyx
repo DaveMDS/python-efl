@@ -78,11 +78,7 @@ from layout_class cimport LayoutClass
 
 cdef class Slider(LayoutClass):
 
-    """
-
-    This is the class that actually implement the widget.
-
-    """
+    """This is the class that actually implements the widget."""
 
     def __init__(self, evasObject parent):
         self._set_obj(elm_slider_add(parent.obj))

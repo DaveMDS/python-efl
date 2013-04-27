@@ -63,9 +63,12 @@ cdef void _object_item_del_cb(void *data, Evas_Object *o, void *event_info) with
 cdef void _object_item_callback(void *data, Evas_Object *obj, void *event_info) with gil
 
 cdef class ObjectItem(object):
-    cdef Elm_Object_Item *item
-    cdef tuple params
-    cdef int _set_obj(self, Elm_Object_Item *item) except 0
+    cdef:
+        Elm_Object_Item *item
+        object cb_func
+        tuple args
+        dict kwargs
+        int _set_obj(self, Elm_Object_Item *item) except 0
 
     cpdef text_set(self, text)
     cpdef text_get(self)

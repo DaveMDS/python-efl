@@ -32,7 +32,7 @@ the value of a boolean between false and true. :py:attr:`state` sets the
 boolean state and :py:attr:`state` returns the current state.
 
 This widget emits the following signals, besides the ones sent from
-:py:class:`elementary.layout.Layout`:
+:py:class:`efl.elementary.layout_class.LayoutClass`:
 
 - ``changed`` - This is called whenever the user changes the state of
   the check objects.
@@ -55,11 +55,7 @@ from layout_class cimport LayoutClass
 
 cdef class Check(LayoutClass):
 
-    """
-
-    This is the class that actually implement the widget.
-
-    """
+    """This is the class that actually implements the widget."""
 
     def __init__(self, evasObject parent):
         self._set_obj(elm_check_add(parent.obj))

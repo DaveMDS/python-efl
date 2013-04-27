@@ -34,7 +34,8 @@ clicking on items to select them and clicking on the grid's viewport and
 swiping to pan the whole view) or via the keyboard, navigating through
 item with the arrow keys.
 
-.. rubric:: Gengrid layouts
+Gengrid layouts
+===============
 
 Gengrid may layout its items in one of two possible layouts:
 
@@ -49,7 +50,8 @@ placed in **rows**, from left to right and, when the space for a row is
 filled, another one is started below, thus expanding the grid vertically
 (and making for vertical scrolling).
 
-.. rubric:: Gengrid items
+Gengrid items
+=============
 
 An item in a gengrid can have 0 or more texts (they can be regular text
 or textblock Evas objects - that's up to the style to determine), 0 or
@@ -70,7 +72,8 @@ by default - "default", but this can be extended by system or
 application custom themes/overlays/extensions (see
 :py:class:`elementary.theme.Theme` for more details).
 
-.. rubric:: Gengrid item classes
+Gengrid item classes
+====================
 
 In order to have the ability to add and delete items on the fly, gengrid
 implements a class (callback) system where the application provides a
@@ -119,7 +122,8 @@ following members:
   to the item (e.g. its data parameter on creation) can be deleted. See
   #Elm_Gengrid_Item_Del_Cb.
 
-.. rubric:: Usage hints
+Usage hints
+===========
 
 If the user wants to have multiple items selected at the same time,
 elm_gengrid_multi_select_set() will permit it. If the gengrid is
@@ -154,7 +158,8 @@ augmentation per application with elm_theme_extension_add(). If you
 absolutely must have a specific style that overrides any theme the user
 or system sets up you can use elm_theme_overlay_add() to add such a file.
 
-.. rubric:: Gengrid smart events
+Gengrid smart events
+====================
 
 Smart events that you can add callbacks for are:
 
@@ -217,7 +222,10 @@ Smart events that you can add callbacks for are:
 Enumerations
 ------------
 
-.. rubric:: Items' scroll to types
+.. _Elm_Genlist_Item_Scrollto_Type:
+
+Items' scroll to types
+======================
 
 .. data:: ELM_GENLIST_ITEM_SCROLLTO_NONE
 
@@ -242,11 +250,9 @@ include "callback_conversions.pxi"
 include "tooltips.pxi"
 
 from object cimport Object
-from object_item cimport    ObjectItem, \
-                            _object_item_to_python, \
-                            elm_object_item_widget_get, \
-                            _object_item_from_python, \
-                            _object_item_list_to_python
+from object_item cimport ObjectItem, _object_item_to_python, \
+    elm_object_item_widget_get, _object_item_from_python, \
+    _object_item_list_to_python, elm_object_item_data_get
 from general cimport strdup
 from scroller cimport *
 cimport enums
@@ -258,58 +264,61 @@ ELM_GENLIST_ITEM_SCROLLTO_IN = enums.ELM_GENLIST_ITEM_SCROLLTO_IN
 ELM_GENLIST_ITEM_SCROLLTO_TOP = enums.ELM_GENLIST_ITEM_SCROLLTO_TOP
 ELM_GENLIST_ITEM_SCROLLTO_MIDDLE = enums.ELM_GENLIST_ITEM_SCROLLTO_MIDDLE
 
-cdef _py_elm_gengrid_item_call(func, Evas_Object *obj, const_char *part, data) with gil:
-    try:
-        o = object_from_instance(obj)
-        return func(o, _ctouni(part), data)
-    except Exception as e:
-        traceback.print_exc()
-        return None
-
 cdef char *_py_elm_gengrid_item_text_get(void *data, Evas_Object *obj, const_char *part) with gil:
     cdef GengridItem item = <object>data
-    cdef object params = item.params
-    cdef GengridItemClass itc = params[0]
+    cdef GengridItemClass itc = item.cls
 
     func = itc._text_get_func
     if func is None:
         return NULL
 
-    ret = _py_elm_gengrid_item_call(func, obj, part, params[1])
+    try:
+        o = object_from_instance(obj)
+        ret = func(o, part, item.item_data)
+    except:
+        traceback.print_exc()
+        return NULL
+
     if isinstance(ret, unicode): ret = PyUnicode_AsUTF8String(ret)
     return strdup(ret) if ret is not None else NULL
 
 cdef Evas_Object *_py_elm_gengrid_item_content_get(void *data, Evas_Object *obj, const_char *part) with gil:
     cdef GengridItem item = <object>data
-    cdef object params = item.params
     cdef evasObject icon
-    cdef GengridItemClass itc = params[0]
+    cdef GengridItemClass itc = item.cls
 
     func = itc._content_get_func
     if func is None:
         return NULL
 
-    ret = _py_elm_gengrid_item_call(func, obj, part, params[1])
-    if ret is not None:
-        try:
-            icon = ret
-            return icon.obj
-        except Exception as e:
-            traceback.print_exc()
-            return NULL
-    else:
+    try:
+        o = object_from_instance(obj)
+        ret = func(o, _ctouni(part), item.item_data)
+    except:
+        traceback.print_exc()
         return NULL
+
+    if ret is None:
+        return NULL
+
+    icon = ret
+    return icon.obj
 
 cdef Eina_Bool _py_elm_gengrid_item_state_get(void *data, Evas_Object *obj, const_char *part) with gil:
     cdef GengridItem item = <object>data
-    cdef object params = item.params
-    cdef GengridItemClass itc = params[0]
+    cdef GengridItemClass itc = item.cls
 
     func = itc._state_get_func
     if func is None:
         return False
 
-    ret = _py_elm_gengrid_item_call(func, obj, part, params[1])
+    try:
+        o = object_from_instance(obj)
+        ret = func(o, part, item.item_data)
+    except:
+        traceback.print_exc()
+        return 0
+
     if ret is not None:
         return bool(ret)
     else:
@@ -317,35 +326,55 @@ cdef Eina_Bool _py_elm_gengrid_item_state_get(void *data, Evas_Object *obj, cons
 
 cdef void _py_elm_gengrid_object_item_del(void *data, Evas_Object *obj) with gil:
     cdef GengridItem item = <object>data
-    cdef object params
-    cdef GengridItemClass itc
+    cdef GengridItemClass itc = item.cls
 
     if item is None:
         return
-
-    params = item.params
-    itc = params[0]
 
     func = itc._del_func
     if func is not None:
         try:
             o = object_from_instance(obj)
-            func(o, params[1])
-        except Exception as e:
+            func(o, item.item_data)
+        except:
             traceback.print_exc()
     item._unset_obj()
     Py_DECREF(item)
 
 cdef void _py_elm_gengrid_item_func(void *data, Evas_Object *obj, void *event_info) with gil:
     cdef GengridItem item = <object>data
-    cdef object func = item.params[2]
 
-    if func is not None:
+    if item.cb_func is not None:
         try:
             o = object_from_instance(obj)
-            func(item, o, item.params[1])
-        except Exception as e:
+            item.cb_func(item, o, item.func_data)
+        except:
             traceback.print_exc()
+
+cdef int _gengrid_compare_cb(const_void *data1, const_void *data2) with gil:
+    cdef:
+        Elm_Object_Item *citem1 = <Elm_Object_Item *>data1
+        Elm_Object_Item *citem2 = <Elm_Object_Item *>data2
+        GengridItem item1 = <GengridItem>elm_object_item_data_get(citem1)
+        GengridItem item2 = <GengridItem>elm_object_item_data_get(citem2)
+        object func
+
+    if item1.comparison_func is not None:
+        func = item1.comparison_func
+    elif item2.comparison_func is not None:
+        func = item2.comparison_func
+    else:
+        return 0
+
+    ret = func(item1, item2)
+    if ret is not None:
+        try:
+            return ret
+        except:
+            traceback.print_exc()
+            return 0
+    else:
+        return 0
 
 cdef class GengridItemClass:
     """
@@ -521,14 +550,13 @@ cdef class GengridItemClass:
         """
         return False
 
-
 cdef class GengridItem(ObjectItem):
 
-    """
+    """An item for the :py:class:`Gengrid` widget."""
 
-    An item for the :py:class:`Gengrid` widget.
-
-    """
+    cdef:
+        object item_data, func_data, compare_func
+        GengridItemClass cls
 
     cdef int _set_obj(self, Elm_Object_Item *item) except 0:
         assert self.item == NULL, "Object must be clean"
@@ -540,31 +568,182 @@ cdef class GengridItem(ObjectItem):
         assert self.item != NULL, "Object must wrap something"
         self.item = NULL
 
+    def __init__(self, GengridItemClass item_class not None, item_data = None, \
+        func = None, func_data = None):
+        """
+
+        :param item_class: a valid instance that defines the
+            behavior of this item. See :py:class:`GengridItemClass`.
+        :param item_data: some data that defines the model of this
+            item. This value will be given to methods of
+            ``item_class`` such as
+            :py:func:`GengridItemClass.text_get()`. It will also be
+            provided to ``func`` as its last parameter.
+        :param func: if not None, this must be a callable to be
+            called back when the item is selected. The function
+            signature is::
+
+                func(item, obj, item_data)
+
+            Where ``item`` is the handle, ``obj`` is the Evas object
+            that represents this item, and ``item_data`` is the
+            value given as parameter to this function.
+
+        """
+        if func is not None:
+            if not callable(func):
+                raise TypeError("func is not None or callable")
+
+        self.cls = item_class
+        self.cb_func = func
+        self.item_data = item_data
+        self.func_data = func_data
+
+    def append_to(self, Gengrid gengrid not None):
+        """item_append(Gengrid gengrid) -> GengridItem
+
+        Append a new item (add as last item) to this gengrid.
+
+        """
+        cdef Elm_Object_Item *item
+        cdef Evas_Smart_Cb cb
+
+        if self.cb_func is not None:
+            cb = _py_elm_gengrid_item_func
+
+        item = elm_gengrid_item_append(gengrid.obj, &self.cls.obj, <void*>self,
+            cb, <void*>self)
+
+        if item != NULL:
+            self._set_obj(item)
+            return self
+        else:
+            Py_DECREF(self)
+
+    def prepend_to(self, Gengrid gengrid not None):
+        """item_prepend(Gengrid gengrid) -> GengridItem
+
+        Prepend a new item (add as first item) to this gengrid.
+
+        """
+        cdef Elm_Object_Item *item
+        cdef Evas_Smart_Cb cb
+
+        if self.cb_func is not None:
+            cb = _py_elm_gengrid_item_func
+
+        item = elm_gengrid_item_prepend(gengrid.obj, &self.cls.obj, <void*>self,
+            cb, <void*>self)
+
+        if item != NULL:
+            self._set_obj(item)
+            return self
+        else:
+            Py_DECREF(self)
+
+    def insert_before(self, GengridItem before not None):
+        """insert_before(GengridItem before not None) -> GengridItem
+
+        Insert a new item before another item in this gengrid.
+
+        :param before: a reference item to use, the new item
+            will be inserted before it.
+
+        """
+        cdef Elm_Object_Item *item
+        cdef Evas_Smart_Cb cb
+        cdef Gengrid gengrid = before.widget
+
+        if self.cb_func is not None:
+            cb = _py_elm_gengrid_item_func
+
+        item = elm_gengrid_item_insert_before(gengrid.obj, &self.cls.obj,
+            <void*>self, before.item, cb, <void*>self)
+
+        if item != NULL:
+            self._set_obj(item)
+            return self
+        else:
+            Py_DECREF(self)
+
+    def insert_after(self, GengridItem after not None):
+        """insert_after(GengridItem after not None) -> GengridItem
+
+        Insert a new item after another item in this gengrid.
+
+        :param after: a reference item to use, the new item
+            will be inserted after it.
+
+        """
+        cdef Elm_Object_Item *item
+        cdef Evas_Smart_Cb cb
+        cdef Gengrid gengrid = after.widget
+
+        if self.cb_func is not None:
+            cb = _py_elm_gengrid_item_func
+
+        item = elm_gengrid_item_insert_after(gengrid.obj, &self.cls.obj,
+            <void*>self, after.item, cb, <void*>self)
+
+        if item != NULL:
+            self._set_obj(item)
+            return self
+        else:
+            Py_DECREF(self)
+
+    def sorted_insert(self, Gengrid gengrid not None, compare_func not None):
+        """insert_after(GengridItem after not None) -> GengridItem
+
+        Insert a new item after another item in this gengrid.
+
+        :param after: a reference item to use, the new item
+            will be inserted after it.
+
+        """
+        cdef Elm_Object_Item *item
+        cdef Evas_Smart_Cb cb
+
+        self.compare_func = compare_func
+
+        if self.cb_func is not None:
+            cb = _py_elm_gengrid_item_func
+
+        item = elm_gengrid_item_sorted_insert(gengrid.obj, &self.cls.obj,
+            <void*>self, _gengrid_compare_cb, cb, <void*>self)
+
+        if item != NULL:
+            self._set_obj(item)
+            return self
+        else:
+            Py_DECREF(self)
+
+
+
     def __str__(self):
         return "%s(item_class=%s, func=%s, item_data=%s)" % \
-               (self.__class__.__name__,
-                self.params[0].__class__.__name__,
-                self.params[2],
-                self.params[1])
+               (type(self).__name__,
+                type(self.cls).__name__,
+                self.cb_func,
+                self.item_data)
 
     def __repr__(self):
         return ("%s(%#x, refcount=%d, Elm_Object_Item=%#x, "
                 "item_class=%s, func=%s, item_data=%r)") % \
-               (self.__class__.__name__,
+               (type(self).__name__,
                 <unsigned long><void*>self,
                 PY_REFCOUNT(self),
                 <unsigned long>self.item,
-                self.params[0].__class__.__name__,
-                self.params[2],
-                self.params[1])
+                type(self.cls).__name__,
+                self.cb_func,
+                self.item_data)
 
     property data:
         """User data for the item."""
         def __get__(self):
-            return self.params[1]
+            return self.item_data
 
     def data_get(self):
-        return self.params[1]
+        return self.item_data
 
     property next:
         """This returns the item placed after the item, on the container
@@ -830,11 +1009,7 @@ cdef class GengridItem(ObjectItem):
 
 cdef class Gengrid(Object):
 
-    """
-
-    This is the class that actually implement the widget.
-
-    """
+    """This is the class that actually implements the widget."""
 
     def __init__(self, evasObject parent):
         self._set_obj(elm_gengrid_add(parent.obj))
@@ -940,30 +1115,8 @@ cdef class Gengrid(Object):
             that represents this item, and ``item_data`` is the
             value given as parameter to this function.
         """
-        cdef GengridItem ret = GengridItem()
-        cdef Elm_Object_Item *item
-        cdef Evas_Smart_Cb cb
-
-        if func is None:
-            cb = NULL
-        elif callable(func):
-            cb = _py_elm_gengrid_item_func
-        else:
-            raise TypeError("func is not None or callable")
-
-        ret.params = (item_class, item_data, func)
-        item = elm_gengrid_item_append( self.obj,
-                                        &item_class.obj,
-                                        <void*>ret,
-                                        cb,
-                                        <void*>ret)
-
-        if item != NULL:
-            ret._set_obj(item)
-            return ret
-        else:
-            Py_DECREF(ret)
-            return None
+        return GengridItem(item_class, item_data, func, item_data)\
+                          .append_to(self)
 
     def item_prepend(self, GengridItemClass item_class not None,
                      item_data, func=None):
@@ -988,29 +1141,8 @@ cdef class Gengrid(Object):
             that represents this item, and ``item_data`` is the
             value given as parameter to this function.
         """
-        cdef GengridItem ret = GengridItem()
-        cdef Elm_Object_Item *item
-        cdef Evas_Smart_Cb cb
-
-        if func is None:
-            cb = NULL
-        elif callable(func):
-            cb = _py_elm_gengrid_item_func
-        else:
-            raise TypeError("func is not None or callable")
-
-        ret.params = (item_class, item_data, func)
-        item = elm_gengrid_item_prepend(self.obj,
-                                        &item_class.obj,
-                                        <void*>ret,
-                                        cb,
-                                        <void*>ret)
-        if item != NULL:
-            ret._set_obj(item)
-            return ret
-        else:
-            Py_DECREF(ret)
-            return None
+        return GengridItem(item_class, item_data, func, item_data)\
+                          .prepend_to(self)
 
     def item_insert_before(self, GengridItemClass item_class not None,
                            item_data, GengridItem before_item=None,
@@ -1038,32 +1170,8 @@ cdef class Gengrid(Object):
             that represents this item, and ``item_data`` is the
             value given as parameter to this function.
         """
-        cdef GengridItem ret = GengridItem()
-        cdef Elm_Object_Item *item, *before
-        cdef Evas_Smart_Cb cb
-
-        before = _object_item_from_python(before_item)
-
-        if func is None:
-            cb = NULL
-        elif callable(func):
-            cb = _py_elm_gengrid_item_func
-        else:
-            raise TypeError("func is not None or callable")
-
-        (item_class, item_data, func)
-        item = elm_gengrid_item_insert_before(  self.obj,
-                                                &item_class.obj,
-                                                <void*>ret,
-                                                before,
-                                                cb,
-                                                <void*>ret)
-        if item != NULL:
-            ret._set_obj(item)
-            return ret
-        else:
-            Py_DECREF(ret)
-            return None
+        return GengridItem(item_class, item_data, func, item_data)\
+                          .insert_before(before_item)
 
     def item_insert_after(self, GengridItemClass item_class not None,
                           item_data, GengridItem after_item=None,
@@ -1091,32 +1199,8 @@ cdef class Gengrid(Object):
             that represents this item, and ``item_data`` is the
             value given as parameter to this function.
         """
-        cdef GengridItem ret = GengridItem()
-        cdef Elm_Object_Item *item, *after
-        cdef Evas_Smart_Cb cb
-
-        after = _object_item_from_python(after_item)
-
-        if func is None:
-            cb = NULL
-        elif callable(func):
-            cb = _py_elm_gengrid_item_func
-        else:
-            raise TypeError("func is not None or callable")
-
-        ret.params = (item_class, item_data, func)
-        item = elm_gengrid_item_insert_after(   self.obj,
-                                                &item_class.obj,
-                                                <void*>ret,
-                                                after,
-                                                cb,
-                                                <void*>ret)
-        if item != NULL:
-            ret._set_obj(item)
-            return ret
-        else:
-            Py_DECREF(ret)
-            return None
+        return GengridItem(item_class, item_data, func, item_data)\
+                          .insert_before(after_item)
 
     # XXX TODO elm_gengrid_item_sorted_insert()
 

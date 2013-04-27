@@ -23,7 +23,6 @@ Widget description
 
 .. image:: /images/dayselector-preview.png
 
-
 Dayselector displays all seven days of the week and allows the user to
 select multiple days.
 
@@ -75,7 +74,8 @@ Enumerations
 
 .. _Elm_Dayselector_Day:
 
-.. rubric:: Dayselector days
+Dayselector days
+================
 
 .. data:: ELM_DAYSELECTOR_SUN
 
@@ -124,11 +124,8 @@ ELM_DAYSELECTOR_MAX = enums.ELM_DAYSELECTOR_MAX
 
 cdef class Dayselector(LayoutClass):
 
-    """
+    """This is the class that actually implements the widget."""
 
-    This is the class that actually implement the widget.
-
-    """
     def __init__(self, evasObject parent):
         self._set_obj(elm_dayselector_add(parent.obj))
 
@@ -138,7 +135,7 @@ cdef class Dayselector(LayoutClass):
         Set the state of given Dayselector_Day.
 
         :param day: The day that the user want to set state.
-        :type day: :ref:`Day <Elm_Dayselector_Day>`
+        :type day: :ref:`Elm_Dayselector_Day`
         :param selected: state of the day. ``True`` is selected.
         :type selected: bool
 
@@ -151,7 +148,7 @@ cdef class Dayselector(LayoutClass):
         Get the state of given Dayselector_Day.
 
         :param day: The day that the user want to know state.
-        :type day: :ref:`Day <Elm_Dayselector_Day>`
+        :type day: :ref:`Elm_Dayselector_Day`
         :return: ``True``, if the Day is selected
         :rtype: bool
 
@@ -161,7 +158,7 @@ cdef class Dayselector(LayoutClass):
     property week_start:
         """The starting day of Dayselector.
 
-        :type: :ref:`Day <Elm_Dayselector_Day>`
+        :type: :ref:`Elm_Dayselector_Day`
 
         """
         def __get__(self):
@@ -172,7 +169,7 @@ cdef class Dayselector(LayoutClass):
     property weekend_start:
         """The weekend starting day of Dayselector.
 
-        :type: :ref:`Day <Elm_Dayselector_Day>`
+        :type: :ref:`Elm_Dayselector_Day`
 
         """
         def __get__(self):

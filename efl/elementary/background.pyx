@@ -43,7 +43,8 @@ Enumerations
 
 .. _Elm_Bg_Option:
 
-.. rubric:: Background display modes
+Background display modes
+========================
 
 .. data:: ELM_BG_OPTION_CENTER
 
@@ -77,11 +78,7 @@ ELM_BG_OPTION_LAST = enums.ELM_BG_OPTION_LAST
 
 cdef class Background(LayoutClass):
 
-    """
-
-    This is the class that actually implement the widget.
-
-    """
+    """This is the class that actually implements the widget."""
 
     def __init__(self, evasObject parent):
         self._set_obj(elm_bg_add(parent.obj))
@@ -140,7 +137,7 @@ cdef class Background(LayoutClass):
         image file. The image can be displayed tiled, scaled, centered or
         stretched.
 
-        :type: :ref:`Background display mode <Elm_Bg_Option>`
+        :type: :ref:`Elm_Bg_Option`
 
         """
         def __get__(self):
@@ -164,7 +161,7 @@ cdef class Background(LayoutClass):
             previously set :py:attr:`file`, so that you just want a solid color
             background.
 
-        :type: (int r, int g, int b)
+        :type: (int **r**, int **g**, int **b**)
 
         """
         def __get__(self):
@@ -201,7 +198,7 @@ cdef class Background(LayoutClass):
         .. warning:: This function just makes sense if an image file was set
             with :py:attr:`file`.
 
-        :type: (Evas_Coord w, Evas_Coord h)
+        :type: (int **w**, int **h**)
 
         """
         def __set__(self, value):

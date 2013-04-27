@@ -101,7 +101,10 @@ This widget emits the following signals, besides the ones sent from
 Enumerations
 ------------
 
-.. rubric:: Icon lookup modes
+.. _Elm_Icon_Lookup_Order:
+
+Icon lookup modes
+=================
 
 .. data:: ELM_ICON_LOOKUP_FDO_THEME
 
@@ -120,7 +123,10 @@ Enumerations
     theme
 
 
-.. rubric:: Icon type
+.. _Elm_Icon_Type:
+
+Icon type
+=========
 
 .. data:: ELM_ICON_NONE
 
@@ -151,11 +157,7 @@ ELM_ICON_STANDARD = enums.ELM_ICON_STANDARD
 
 cdef class Icon(Image):
 
-    """
-
-    This is the class that actually implement the widget.
-
-    """
+    """This is the class that actually implements the widget."""
 
     def __init__(self, evasObject parent):
         self._set_obj(elm_icon_add(parent.obj))
@@ -227,7 +229,7 @@ cdef class Icon(Image):
     property order_lookup:
         """The icon lookup order used by :py:attr:`standard`.
 
-        :type: Elm_Icon_Lookup_Order
+        :type: :ref:`Elm_Icon_Lookup_Order`
 
         """
         def __get__(self):

@@ -56,7 +56,8 @@ Enumerations
 
 .. _Elm_Wrap_Type:
 
-.. rubric:: Wrap modes
+Wrap modes
+==========
 
 .. data:: ELM_WRAP_NONE
 
@@ -77,7 +78,8 @@ Enumerations
 
 .. _Elm_Label_Slide_Mode:
 
-.. rubric:: Slide modes
+Slide modes
+===========
 
 .. data:: ELM_LABEL_SLIDE_MODE_NONE
 
@@ -112,11 +114,7 @@ ELM_LABEL_SLIDE_MODE_ALWAYS = enums.ELM_LABEL_SLIDE_MODE_ALWAYS
 
 cdef class Label(LayoutClass):
 
-    """
-
-    This is the class that actually implement the widget.
-
-    """
+    """This is the class that actually implements the widget."""
 
     def __init__(self, evasObject parent):
         self._set_obj(elm_label_add(parent.obj))
@@ -124,14 +122,9 @@ cdef class Label(LayoutClass):
     property line_wrap:
         """The wrapping behavior of the label
 
-        By default no wrapping is done. Possible values for ``wrap`` are:
+        By default no wrapping is done.
 
-        - ELM_WRAP_NONE - No wrapping
-        - ELM_WRAP_CHAR - wrap between characters
-        - ELM_WRAP_WORD - wrap between words
-        - ELM_WRAP_MIXED - Word wrap, and if that fails, char wrap
-
-        :type: :ref:`Line wrapping mode <Elm_Wrap_Type>`
+        :type: :ref:`Elm_Wrap_Type`
 
         """
         def __get__(self):
@@ -255,14 +248,9 @@ cdef class Label(LayoutClass):
     property slide_mode:
         """Change the slide mode of the label widget.
 
-        By default, slide mode is none. Possible values for ``mode`` are:
+        By default, slide mode is none.
 
-        - ELM_LABEL_SLIDE_MODE_NONE - no slide effect
-        - ELM_LABEL_SLIDE_MODE_AUTO - slide only if the label area is bigger than
-            the text width length
-        - ELM_LABEL_SLIDE_MODE_ALWAYS - slide always
-
-        :type: :ref:`Label slide mode <Elm_Label_Slide_Mode>`
+        :type: :ref:`Elm_Label_Slide_Mode`
 
         """
         def __get__(self):

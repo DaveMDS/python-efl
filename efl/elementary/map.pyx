@@ -40,7 +40,8 @@ It supports some basic but yet nice features:
 - names/coordinates conversion (and viceversa)
 
 
-.. rubric:: Signals you can listen to
+Signals you can listen to
+=========================
 
 - "clicked" - Called when a user has clicked the map without dragging around.
 - "clicked,double" - Called when a user has double-clicked the map.
@@ -72,7 +73,10 @@ It supports some basic but yet nice features:
 Enumerations
 ------------
 
-.. rubric:: Map overlay types
+.. _Elm_Map_Overlay_Type:
+
+Map overlay types
+=================
 
 .. data:: ELM_MAP_OVERLAY_TYPE_NONE
 
@@ -115,7 +119,10 @@ Enumerations
     This will draw a dinamic scale on the map.
 
 
-.. rubric:: Map route methods
+.. _Elm_Map_Route_Method:
+
+Map route methods
+=================
 
 .. data:: ELM_MAP_ROUTE_METHOD_FASTEST
 
@@ -126,7 +133,10 @@ Enumerations
     Route should prioritize distance
 
 
-.. rubric:: Map route types
+.. _Elm_Map_Route_Type:
+
+Map route types
+===============
 
 .. data:: ELM_MAP_ROUTE_TYPE_MOTOCAR
 
@@ -141,7 +151,10 @@ Enumerations
     Route should consider user will be walking.
 
 
-.. rubric:: Map source types
+.. _Elm_Map_Source_Type:
+
+Map source types
+================
 
 .. data:: ELM_MAP_SOURCE_TYPE_TILE
 
@@ -156,7 +169,10 @@ Enumerations
     Name service provider
 
 
-.. rubric:: Map zoom modes
+.. _Elm_Map_Zoom_Mode:
+
+Map zoom modes
+==============
 
 .. data:: ELM_MAP_ZOOM_MODE_MANUAL
 
@@ -432,11 +448,9 @@ cdef class MapOverlay(object):
         elm_map_overlay_del(self.overlay)
 
     property type:
-        """ Get the type of the overlay
+        """Get the type of the overlay
 
-        Can be one of: ELM_MAP_OVERLAY_TYPE_*
-
-        :type: int
+        :type: :ref:`Elm_Map_Overlay_Type`
 
         """
         def __get__(self):
@@ -514,7 +528,7 @@ cdef class MapOverlay(object):
         dynamically while zooming and panning.
 
         :type: bool
- 
+
         """
         def __get__(self):
             return bool(elm_map_overlay_visible_get(self.overlay))
@@ -536,7 +550,7 @@ cdef class MapOverlay(object):
         .. note:: Only `default` and `class` type overlay support this function.
         .. warning:: Do not modify this object (move, show, hide, del, etc.)
                      after set.
-        
+
         """
         def __get__(self):
             cdef Evas_Object *obj = <Evas_Object *>elm_map_overlay_content_get(self.overlay)
@@ -555,7 +569,7 @@ cdef class MapOverlay(object):
         """ The icon that is used to display the overlay.
 
         :type: :py:class:`efl.evas.Object`
-        
+
         .. note:: Only `default` and `class` type overlay support this function.
         .. warning:: Do not modify this object (move, show, hide, del, etc.)
                      after set.
@@ -613,7 +627,7 @@ cdef class MapOverlay(object):
         By default is set to solid red (r = 255, g = 0, b = 0, a = 255).
 
         For alpha channel, 0 represents completely transparent, and 255, opaque.
- 
+
         :type: tuple of 4 int (red, green, blue, alpha)
 
         .. note:: Only `default`, `class` and `route` type overlay support
@@ -645,7 +659,7 @@ cdef class MapOverlay(object):
 
         .. seealso:: :py:func:`Map.overlays_show` if more than one overlay need
                      to be displayed
- 
+
         """
         elm_map_overlay_show(self.overlay)
 
@@ -701,7 +715,7 @@ cdef class MapOverlayClass(MapOverlay):
 
         :param overlay: the overlay to be added as a member.
         :type overlay: :py:class:`MapOverlay`
-        
+
         """
         elm_map_overlay_class_append(self.overlay, overlay.overlay)
 
@@ -745,7 +759,7 @@ cdef class MapOverlayClass(MapOverlay):
 
         You can change the state (hidden, paused, etc.) or set the content
         or icon of the group overlays by chaning the state of the class overlay.
- 
+
         :type: list of :py:class:`MapOverlay`
 
         .. warning:: Do not modifty the group overlay itself.
@@ -856,7 +870,7 @@ cdef class MapOverlayPolygon(MapOverlay):
         :type lon: float
         :param lat: The latitude.
         :type lat: float
-        
+
         """
         elm_map_overlay_polygon_region_add(self.overlay, lon, lat)
 
@@ -922,13 +936,13 @@ cdef public class Map(Object)[object PyElementaryMap, type PyElementaryMap_Type]
         This property will respect the limits defined by :py:attr:`zoom_min`
         and :py:attr:`zoom_max`. By default these values are 0 (world map)
         and 18 (maximum zoom).
-        
+
         This property should be used when zoom mode is set to
         `ELM_MAP_ZOOM_MODE_MANUAL`. That is the default mode, and can be set
         with :py:attr:`zoom_mode`.
 
         :type: int
-        
+
         """
         def __get__(self):
             return elm_map_zoom_get(self.obj)
@@ -1006,7 +1020,7 @@ cdef public class Map(Object)[object PyElementaryMap, type PyElementaryMap_Type]
 
         This gets the current center coordinates of the map object. It can be
         set by :py:func:`region_bring_in()` and :py:func:`region_show()`.
- 
+
         :type: tuple of float (lon, lat)
 
         """
@@ -1090,7 +1104,7 @@ cdef public class Map(Object)[object PyElementaryMap, type PyElementaryMap_Type]
         :rtype: tuple of int
 
         .. seealso:: :py:func:`canvas_to_region_convert`
-        
+
         """
         cdef Evas_Coord x, y
         elm_map_region_to_canvas_convert(self.obj, lon, lat, &x, &y)
@@ -1183,7 +1197,7 @@ cdef public class Map(Object)[object PyElementaryMap, type PyElementaryMap_Type]
         field *User-Agent*.
 
         :type: string
- 
+
         """
         def __get__(self):
             return _ctouni(elm_map_user_agent_get(self.obj))
@@ -1237,7 +1251,7 @@ cdef public class Map(Object)[object PyElementaryMap, type PyElementaryMap_Type]
 
         :return: a list of all overlays
         :rtype: list of :py:class:`MapOverlay` objects
-        
+
         """
         def __get__(self):
             cdef Eina_List *lst
@@ -1290,7 +1304,7 @@ cdef public class Map(Object)[object PyElementaryMap, type PyElementaryMap_Type]
 
         :return: a new bubble style overlay
         :rtype: :py:class:`MapOverlayBubble`
-        
+
         .. seealso:: :py:func:`overlay_add`
 
         """
@@ -1309,10 +1323,10 @@ cdef public class Map(Object)[object PyElementaryMap, type PyElementaryMap_Type]
         :type tlon: float
         :param tlat: The end latitude.
         :type tlat: float
-        
+
         :return: a new line style overlay
         :rtype: :py:class:`MapOverlayLine`
-        
+
         .. seealso:: :py:func:`overlay_add`
 
         """
@@ -1326,7 +1340,7 @@ cdef public class Map(Object)[object PyElementaryMap, type PyElementaryMap_Type]
 
         :return: a new polygon style overlay
         :rtype: :py:class:`MapOverlayPolygon`
-        
+
         .. seealso:: :py:func:`overlay_add`
 
         """
@@ -1345,7 +1359,7 @@ cdef public class Map(Object)[object PyElementaryMap, type PyElementaryMap_Type]
         :type radius: int
         :return: a new circle style overlay
         :rtype: :py:class:`MapOverlayCircle`
-        
+
         .. seealso:: :py:func:`overlay_add`
 
         """
@@ -1364,7 +1378,7 @@ cdef public class Map(Object)[object PyElementaryMap, type PyElementaryMap_Type]
         :type y: int
         :return: a new scale style overlay
         :rtype: :py:class:`MapOverlayScale`
-        
+
         .. seealso:: :py:func:`overlay_add`
 
         """
@@ -1387,7 +1401,7 @@ cdef public class Map(Object)[object PyElementaryMap, type PyElementaryMap_Type]
 
         :return: a new class style overlay
         :rtype: :py:class:`MapOverlayClass`
-        
+
         .. seealso:: :py:func:`overlay_add`
 
         """
@@ -1398,13 +1412,13 @@ cdef public class Map(Object)[object PyElementaryMap, type PyElementaryMap_Type]
 
         This overlay has a route type.
         This overlay has a route style layout and icon or content can not be set.
-        
+
 
         :param route: The route object to make an overlay from.
         :type route: :py:class:`efl.elementary.map.MapRoute`
         :return: a new route style overlay
         :rtype: :py:class:`MapOverlayRoute`
-        
+
         .. seealso:: :py:func:`overlay_add`
 
         """
@@ -1452,10 +1466,10 @@ cdef public class Map(Object)[object PyElementaryMap, type PyElementaryMap_Type]
 
         :param type: the type of the source. Must be one of: `ELM_MAP_SOURCE_TYPE_TILE`,
                      `ELM_MAP_SOURCE_TYPE_ROUTE` or `ELM_MAP_SOURCE_TYPE_NAME`
-        :type type: int
+        :type type: :ref:`Elm_Map_Source_Type`
 
         .. seealso:: :py:func:`source_set`, :py:func:`source_get`
-        
+
         """
         cdef const_char **lst
 
@@ -1489,7 +1503,7 @@ cdef public class Map(Object)[object PyElementaryMap, type PyElementaryMap_Type]
 
         :param source_type: the type of the source. Must be one of: `ELM_MAP_SOURCE_TYPE_TILE`,
                             `ELM_MAP_SOURCE_TYPE_ROUTE` or `ELM_MAP_SOURCE_TYPE_NAME`
-        :type source_type: int
+        :type source_type: :ref:`Elm_Map_Source_Type`
         :param source_name: The source to be used. Need to match one of the names
                             provided by :py:func:`sources_get`.
         :type source_name: string
@@ -1507,7 +1521,7 @@ cdef public class Map(Object)[object PyElementaryMap, type PyElementaryMap_Type]
 
         :param source_type: the type of the source. Must be one of: `ELM_MAP_SOURCE_TYPE_TILE`,
                             `ELM_MAP_SOURCE_TYPE_ROUTE` or `ELM_MAP_SOURCE_TYPE_NAME`
-        :type source_type: int
+        :type source_type: :ref:`Elm_Map_Source_Type`
 
         .. seealso:: :py:func:`sources_get`, :py:func:`source_set`
         """
@@ -1526,16 +1540,16 @@ cdef public class Map(Object)[object PyElementaryMap, type PyElementaryMap_Type]
         depending if the user will be walking or driving, the route may vary.
         One of `ELM_MAP_ROUTE_TYPE_MOTOCAR`, `ELM_MAP_ROUTE_TYPE_BICYCLE`,
         or `ELM_MAP_ROUTE_TYPE_FOOT` need to be used.
-        
+
         Another parameter is what the route should prioritize, the minor distance
         or the less time to be spend on the route. So `method` should be one
         of `ELM_MAP_ROUTE_METHOD_SHORTEST` or `ELM_MAP_ROUTE_METHOD_FASTEST`.
 
         :param type: one of `ELM_MAP_ROUTE_TYPE_MOTOCAR`, `ELM_MAP_ROUTE_TYPE_BICYCLE`
                      or `ELM_MAP_ROUTE_TYPE_FOOT`
-        :type type: int
+        :type type: :ref:`Elm_Map_Route_Type`
         :param method: `ELM_MAP_ROUTE_METHOD_SHORTEST` or `ELM_MAP_ROUTE_METHOD_FASTEST`
-        :type method: int
+        :type method: :ref:`Elm_Map_Route_Method`
         :param flon: The start longitude.
         :type flon: float
         :param flat: The start latitude.

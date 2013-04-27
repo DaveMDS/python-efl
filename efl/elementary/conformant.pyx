@@ -22,7 +22,6 @@ Widget description
 
 .. image:: /images/conformant-preview.png
 
-
 The aim is to provide a widget that can be used in elementary apps to
 account for space taken up by the indicator, virtual keypad & softkey
 windows when running the illume2 module of E17.
@@ -31,8 +30,15 @@ So conformant content will be sized and positioned considering the
 space required for such stuff, and when they popup, as a keyboard
 shows when an entry is selected, conformant content won't change.
 
-This widget emits the signals sent from
-:py:class:`elementary.layout.Layout`.
+This widget emits the following signals, besides the ones sent from
+:py:class:`efl.elementary.layout_class.LayoutClass`:
+
+- "virtualkeypad,state,on": if virtualkeypad state is switched to "on".
+- "virtualkeypad,state,off": if virtualkeypad state is switched to "off".
+- "clipboard,state,on": if clipboard state is switched to "on".
+- "clipboard,state,off": if clipboard state is switched to "off".
+
+In all cases, the ``event`` parameter of the callback will be None.
 
 Available styles for it:
     - ``"default"``
@@ -48,15 +54,46 @@ from layout_class cimport LayoutClass
 
 cdef class Conformant(LayoutClass):
 
-    """
-
-    This is the class that actually implement the widget.
-
-    """
+    """This is the class that actually implements the widget."""
 
     def __init__(self, evasObject parent):
         self._set_obj(elm_conformant_add(parent.obj))
 
+    def callback_virtualkeypad_state_on_add(self, func, *args, **kwargs):
+        """if virtualkeypad state is switched to "on".
+
+        :since: 1.8"""
+        self._callback_add("virtualkeypad,state,on", func, *args, **kwargs)
+
+    def callback_virtualkeypad_state_on_del(self, func):
+        self._callback_del("virtualkeypad,state,on", func)
+
+    def callback_virtualkeypad_state_off_add(self, func, *args, **kwargs):
+        """if virtualkeypad state is switched to "off".
+
+        :since: 1.8"""
+        self._callback_add("virtualkeypad,state,off", func, *args, **kwargs)
+
+    def callback_virtualkeypad_state_off_del(self, func):
+        self._callback_del("virtualkeypad,state,off", func)
+
+    def callback_clipboard_state_on_add(self, func, *args, **kwargs):
+        """if clipboard state is switched to "on".
+
+        :since: 1.8"""
+        self._callback_add("clipboard,state,on", func, *args, **kwargs)
+
+    def callback_clipboard_state_on_del(self, func):
+        self._callback_del("clipboard,state,on", func)
+
+    def callback_clipboard_state_off_add(self, func, *args, **kwargs):
+        """if clipboard state is switched to "off".
+
+        :since: 1.8"""
+        self._callback_add("clipboard,state,off", func, *args, **kwargs)
+
+    def callback_clipboard_state_off_del(self, func):
+        self._callback_del("clipboard,state,off", func)
+
 
 _object_mapping_register("elm_conformant", Conformant)
-

@@ -62,7 +62,10 @@ for are:
 Enumerations
 ------------
 
-.. rubric:: Fileselector modes
+.. _Elm_Fileselector_Mode:
+
+Fileselector modes
+==================
 
 .. data:: ELM_FILESELECTOR_LIST
 
@@ -84,18 +87,13 @@ ELM_FILESELECTOR_GRID = enums.ELM_FILESELECTOR_GRID
 
 cdef class FileselectorButton(Button):
 
-    """
-
-    This is the class that actually implement the widget.
-
-    """
+    """This is the class that actually implements the widget."""
 
     cdef object _cbs
 
     def __init__(self, evasObject parent):
         self._set_obj(elm_fileselector_button_add(parent.obj))
-
-
+        # TODO: What's this for?
         self._cbs = {}
 
     property window_title:

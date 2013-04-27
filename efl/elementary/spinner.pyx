@@ -58,11 +58,7 @@ from layout_class cimport LayoutClass
 
 cdef class Spinner(LayoutClass):
 
-    """
-
-    This is the class that actually implement the widget.
-
-    """
+    """This is the class that actually implements the widget."""
 
     def __init__(self, evasObject parent):
         self._set_obj(elm_spinner_add(parent.obj))
