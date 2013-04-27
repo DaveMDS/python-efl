@@ -3,14 +3,19 @@
 
 from efl import evas
 from efl import elementary
-from efl.elementary.window import Window
+from efl.elementary.window import Window, StandardWindow
 from efl.elementary.background import Background
 from efl.elementary.box import Box
 from efl.elementary.button import Button
-from efl.elementary.entry import Entry
+from efl.elementary.entry import Entry, ELM_SCROLLER_POLICY_OFF, \
+    ELM_SCROLLER_POLICY_ON, Entry_markup_to_utf8
 from efl.elementary.list import List
 from efl.elementary.frame import Frame
 from efl.elementary.label import Label
+from efl.elementary.separator import Separator
+from efl.elementary.icon import Icon
+
+from efl.evas import EVAS_HINT_EXPAND, EVAS_HINT_FILL
 
 def my_entry_bt_1(bt, en):
     en.entry_set("")
@@ -104,35 +109,295 @@ def entry_clicked(obj, item=None):
     win.show()
 
 
-def entry_scrolled_clicked(obj, item=None):
-    win = Window("entry", elementary.ELM_WIN_BASIC)
-    win.title_set("Scrolled Entry")
-    win.autodel_set(True)
+def scrolled_entry_bt_1(obj, data):
+    en = data
+    en.text = ""
 
-    bg = Background(win)
-    win.resize_object_add(bg)
-    bg.size_hint_weight_set(evas.EVAS_HINT_EXPAND, evas.EVAS_HINT_EXPAND)
-    bg.show()
+def scrolled_entry_bt_2(obj, data):
+    en = data
+    s = en.text
+    print("ENTRY:")
+    if s: print(s)
+    print("ENTRY PLAIN UTF8:")
+    if s:
+        s = Entry_markup_to_utf8(s)
+        if s:
+            print(s)
 
+def scrolled_entry_bt_3(obj, data):
+    en = data
+    s = en.selection
+    print("SELECTION:")
+    if s: print(s)
+    print("SELECTION PLAIN UTF8:")
+    if s:
+        s = elm_entry_markup_to_utf8(s)
+        if s:
+             print(s)
+
+def scrolled_entry_bt_4(obj, data):
+    en = data
+    en.entry_insert("Insert some <b>BOLD</> text")
+
+def scrolled_entry_bt_5(obj, data):
+    en = data
+    s = en.text
+    print("PASSWORD: '%s'" % (s,))
+
+def scrolled_anchor_test(obj, anchor, data):
+    en = data
+    en.entry_insert("ANCHOR CLICKED")
+
+def entry_scrolled_clicked(obj, item = None):
+    #static Elm_Entry_Filter_Accept_Set digits_filter_data, digits_filter_data2;
+    #static Elm_Entry_Filter_Limit_Size limit_filter_data, limit_filter_data2;
+
+
+    win = StandardWindow("entry-scrolled", "Entry Scrolled")
+    win.autodel = True
+
+    bx = Box(win)
+    bx.size_hint_weight = EVAS_HINT_EXPAND, EVAS_HINT_EXPAND
+    win.resize_object_add(bx)
+    bx.show()
+
+    # disabled entry
     en = Entry(win)
-    win.resize_object_add(en)
-    en.scrollable_set(True)
-    en.line_wrap_set(False)
-    en.entry_set("This is an entry widget in this window that<br>"
-                 "uses markup <b>like this</> for styling and<br>"
-                 "formatting <em>like this</>, as well as<br>"
-                 "<a href=X><link>links in the text</></a>, so enter text<br>"
-                 "in here to edit it. By the way, links are<br>"
-                 "called <a href=anc-02>Anchors</a> so you will need<br>"
-                 "to refer to them this way.<br><br>" * 10)
-    en.size_hint_weight_set(evas.EVAS_HINT_EXPAND, evas.EVAS_HINT_EXPAND)
-    en.size_hint_align_set(evas.EVAS_HINT_FILL, evas.EVAS_HINT_FILL)
-    en.size_hint_min_set(200, 200)
+    en.scrollable = True
+    en.size_hint_weight = EVAS_HINT_EXPAND, 0.0
+    en.size_hint_align = EVAS_HINT_FILL, 0.5
+    en.scrollbar_policy = ELM_SCROLLER_POLICY_OFF, ELM_SCROLLER_POLICY_OFF
+    en.text = "Disabled entry"
+    en.single_line = True
+    en.disabled = True
     en.show()
+    bx.pack_end(en)
 
-    en.focus_set(True)
+    # password entry
+    en = Entry(win)
+    en.scrollable = True
+    en.size_hint_weight = EVAS_HINT_EXPAND, 0.0
+    en.size_hint_align = EVAS_HINT_FILL, 0.5
+    en.scrollbar_policy = ELM_SCROLLER_POLICY_OFF, ELM_SCROLLER_POLICY_OFF
+    en.password = True
+    en.single_line = True
+    en.text = "Access denied, give up!"
+    en.disabled = True
+    en.show()
+    bx.pack_end(en)
+
+    # multi-line disable entry
+    en = Entry(win)
+    en.scrollable = True
+    en.size_hint_weight = EVAS_HINT_EXPAND, EVAS_HINT_EXPAND
+    en.size_hint_align = EVAS_HINT_FILL, EVAS_HINT_FILL
+    en.scrollbar_policy = ELM_SCROLLER_POLICY_ON, ELM_SCROLLER_POLICY_ON
+    en.disabled = True
+    en.context_menu_item_add("Hello")
+    en.context_menu_item_add("World")
+    en.text = "Multi-line disabled entry widget :)<br/>"\
+        "We can use markup <b>like this</> for styling and<br/>"\
+        "formatting <em>like this</>, as well as<br/>"\
+        "<a href=X><link>links in the text</></a>,"\
+        "but it won't be editable or clickable."
+    en.show()
+    bx.pack_end(en)
+
+    sp = Separator(win)
+    sp.horizontal = True
+    bx.pack_end(sp)
+    sp.show()
+
+    # Single line selected entry
+    en = Entry(win)
+    en.scrollable = True
+    en.size_hint_weight = EVAS_HINT_EXPAND, 0.0
+    en.size_hint_align = EVAS_HINT_FILL, 0.5
+    en.text = "This is a single line"
+    en.scrollbar_policy = ELM_SCROLLER_POLICY_OFF, ELM_SCROLLER_POLICY_OFF
+    en.single_line = True
+    en.select_all()
+    en.show()
+    bx.pack_end(en)
+
+    # # Only digits entry
+    # en = Entry(win)
+    # en.scrollable = True
+    # en.size_hint_weight = EVAS_HINT_EXPAND, 0.0
+    # en.size_hint_align = EVAS_HINT_FILL, 0.5
+    # en.text = "01234"
+    # en.scrollbar_policy = ELM_SCROLLER_POLICY_OFF, ELM_SCROLLER_POLICY_OFF
+    # en.single_line = True
+    # en.show()
+    # bx.pack_end(en)
+
+    # digits_filter_data.accepted = "0123456789"
+    # digits_filter_data.rejected = NULL
+    # en.markup_filter_append(elm_entry_filter_accept_set, digits_filter_data)
+
+    # # No digits entry
+    # en = Entry(win)
+    # en.scrollable = True
+    # en.size_hint_weight = EVAS_HINT_EXPAND, 0.0
+    # en.size_hint_align = EVAS_HINT_FILL, 0.5
+    # en.text = "No numbers here"
+    # en.scrollbar_policy = ELM_SCROLLER_POLICY_OFF, ELM_SCROLLER_POLICY_OFF
+    # en.single_line = True
+    # en.show()
+    # bx.pack_end(en)
+
+    # digits_filter_data2.accepted = NULL
+    # digits_filter_data2.rejected = "0123456789"
+    # en.markup_filter_append(elm_entry_filter_accept_set, digits_filter_data2)
+
+    # # Size limited entry
+    # en = Entry(win)
+    # en.scrollable = True
+    # en.size_hint_weight = EVAS_HINT_EXPAND, 0.0
+    # en.size_hint_align = EVAS_HINT_FILL, 0.5
+    # en.text = "Just 20 chars"
+    # en.scrollbar_policy = ELM_SCROLLER_POLICY_OFF, ELM_SCROLLER_POLICY_OFF
+    # en.single_line = True
+    # en.show()
+    # bx.pack_end(en)
+
+    # limit_filter_data.max_char_count = 20
+    # limit_filter_data.max_byte_count = 0
+    # en.markup_filter_append(elm_entry_filter_limit_size, limit_filter_data)
+
+    # # Byte size limited entry
+    # en = Entry(win)
+    # en.scrollable = True
+    # en.size_hint_weight = EVAS_HINT_EXPAND, 0.0
+    # en.size_hint_align = EVAS_HINT_FILL, 0.5
+    # en.text = "And now only 30 bytes"
+    # en.scrollbar_policy = ELM_SCROLLER_POLICY_OFF, ELM_SCROLLER_POLICY_OFF
+    # en.single_line = True
+    # en.show()
+    # bx.pack_end(en)
+
+    # limit_filter_data2.max_char_count = 0
+    # limit_filter_data2.max_byte_count = 30
+    # en.markup_filter_append(elm_entry_filter_limit_size, limit_filter_data2)
+
+    # Single line password entry
+    en_p = Entry(win)
+    en_p.scrollable = True
+    en_p.size_hint_weight = EVAS_HINT_EXPAND, 0.0
+    en_p.size_hint_align = EVAS_HINT_FILL, 0.5
+    en_p.scrollbar_policy = ELM_SCROLLER_POLICY_OFF, ELM_SCROLLER_POLICY_OFF
+    en_p.text = "Password here"
+    en_p.single_line = True
+    en_p.password = True
+    en_p.show()
+    bx.pack_end(en_p)
+
+    # entry with icon/end widgets
+    en = Entry(win)
+    en.scrollable = True
+    en.scrollbar_policy = ELM_SCROLLER_POLICY_OFF, ELM_SCROLLER_POLICY_OFF
+    en.single_line = True
+    en.size_hint_weight = EVAS_HINT_EXPAND, EVAS_HINT_EXPAND
+    en.size_hint_align = EVAS_HINT_FILL, EVAS_HINT_FILL
+    bt = Icon(win)
+    bt.standard = "home"
+    bt.size_hint_min = 48, 48
+    bt.color = 128, 0, 0, 128
+    bt.show()
+    en.part_content_set("icon", bt)
+    bt = Icon(win)
+    bt.standard = "delete"
+    bt.color = 128, 0, 0, 128
+    bt.size_hint_min = 48, 48
+    bt.show()
+    en.part_content_set("end", bt)
+    en.text = "entry with icon and end objects"
+    en.show()
+    bx.pack_end(en)
+
+    # markup entry
+    en = Entry(win)
+    en.scrollable = True
+    en.size_hint_weight = EVAS_HINT_EXPAND, EVAS_HINT_EXPAND
+    en.size_hint_align = EVAS_HINT_FILL, EVAS_HINT_FILL
+    en.scrollbar_policy = ELM_SCROLLER_POLICY_ON, ELM_SCROLLER_POLICY_ON
+    en.text = "This is an entry widget in this window that<br/>"\
+        "uses markup <b>like this</> for styling and<br/>"\
+        "formatting <em>like this</>, as well as<br/>"\
+        "<a href=X><link>links in the text</></a>, so enter text<br/>"\
+        "in here to edit it. By them way, links are<br/>"\
+        "called <a href=anc-02>Anchors</a> so you will need<br/>"\
+        "to refer to them this way. At the end here is a really long "\
+        "line to test line wrapping to see if it works. But just in "\
+        "case this line is not long enough I will add more here to "\
+        "really test it out, as Elementary really needs some "\
+        "good testing to see if entry widgets work as advertised."
+    en.callback_anchor_clicked_add(scrolled_anchor_test, en)
+    en.show()
+    bx.pack_end(en)
+
+    bx2 = Box(win)
+    bx2.horizontal = True
+    bx2.size_hint_weight = EVAS_HINT_EXPAND, 0.0
+    bx2.size_hint_align = EVAS_HINT_FILL, EVAS_HINT_FILL
+
+    bt = Button(win)
+    bt.text = "Clear"
+    bt.callback_clicked_add(scrolled_entry_bt_1, en)
+    bt.size_hint_align = EVAS_HINT_FILL, EVAS_HINT_FILL
+    bt.size_hint_weight = EVAS_HINT_EXPAND, 0.0
+    bx2.pack_end(bt)
+    bt.propagate_events = 0
+    bt.focus_allow = 0
+    bt.show()
+
+    bt = Button(win)
+    bt.text = "Print"
+    bt.callback_clicked_add(scrolled_entry_bt_2, en)
+    bt.size_hint_align = EVAS_HINT_FILL, EVAS_HINT_FILL
+    bt.size_hint_weight = EVAS_HINT_EXPAND, 0.0
+    bx2.pack_end(bt)
+    bt.propagate_events = 0
+    bt.focus_allow = 0
+    bt.show()
+
+    bt = Button(win)
+    bt.text = "Print pwd"
+    bt.callback_clicked_add(scrolled_entry_bt_5, en_p)
+    bt.size_hint_align = EVAS_HINT_FILL, EVAS_HINT_FILL
+    bt.size_hint_weight = EVAS_HINT_EXPAND, 0.0
+    bx2.pack_end(bt)
+    bt.propagate_events = 0
+    bt.focus_allow = 0
+    bt.show()
+
+    bt = Button(win)
+    bt.text = "Selection"
+    bt.callback_clicked_add(scrolled_entry_bt_3, en)
+    bt.size_hint_align = EVAS_HINT_FILL, EVAS_HINT_FILL
+    bt.size_hint_weight = EVAS_HINT_EXPAND, 0.0
+    bx2.pack_end(bt)
+    bt.propagate_events = 0
+    bt.focus_allow = 0
+    bt.show()
+
+    bt = Button(win)
+    bt.text = "Insert"
+    bt.callback_clicked_add(scrolled_entry_bt_4, en)
+    bt.size_hint_align = EVAS_HINT_FILL, EVAS_HINT_FILL
+    bt.size_hint_weight = EVAS_HINT_EXPAND, 0.0
+    bx2.pack_end(bt)
+    bt.propagate_events = 0
+    bt.focus_allow = 0
+    bt.show()
+
+    bx.pack_end(bx2)
+    bx2.show()
+
+    win.size = 320, 300
+
+    win.focus_set(True)
     win.show()
-
 
 def anchor_clicked(obj, event_info):
     print(("Entry object is %s" % (obj)))

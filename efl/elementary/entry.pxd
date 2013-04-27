@@ -30,6 +30,8 @@ cdef extern from "Elementary.h":
 
     ctypedef Elm_Entry_Context_Menu_Item const_Elm_Entry_Context_Menu_Item "const Elm_Entry_Context_Menu_Item"
 
+    ctypedef void (*Elm_Entry_Filter_Cb)(void *data, Evas_Object *entry, char **text)
+
     # Data for the elm_entry_filter_limit_size() entry filter.
     ctypedef struct Elm_Entry_Filter_Limit_Size:
         int max_char_count      # The maximum number of characters allowed.

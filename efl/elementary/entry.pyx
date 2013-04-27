@@ -546,7 +546,6 @@ def Entry_utf8_to_markup(string):
     return _touni(elm_entry_utf8_to_markup(
         <const_char *>string if string is not None else NULL))
 
-
 cdef class EntryContextMenuItem(object):
     """
 
@@ -591,6 +590,88 @@ cdef class EntryContextMenuItem(object):
 
             return (_ctouni(icon_file), _ctouni(icon_group), icon_type)
 
+cdef class FilterLimitSize(object):
+    """Data for the elm_entry_filter_limit_size() entry filter."""
+
+    cdef:
+        Elm_Entry_Filter_Limit_Size *fltr
+
+    property max_char_count:
+        """The maximum number of characters allowed.
+
+        :type: int
+
+        """
+        def __set__(self, value):
+            self.fltr.max_char_count = value
+
+        def __get__(self):
+            return self.fltr.max_char_count
+
+    property max_byte_count:
+        """The maximum number of bytes allowed.
+
+        :type: int
+
+        """
+        def __set__(self, value):
+            self.fltr.max_byte_count = value
+
+        def __get__(self):
+            return self.fltr.max_byte_count
+
+cdef class FilterAcceptSet(object):
+    """Data for the elm_entry_filter_accept_set() entry filter."""
+
+    cdef:
+        Elm_Entry_Filter_Accept_Set *fltr
+
+    property accepted:
+        """Set of characters accepted in the entry.
+
+        :type: string
+
+        """
+        def __set__(self, value):
+            if isinstance(value, unicode): value = PyUnicode_AsUTF8String(value)
+            self.fltr.accepted = value
+
+        def __get__(self):
+            return _ctouni(self.fltr.accepted)
+
+    property rejected:
+        """Set of characters rejected from the entry.
+
+        :type: string
+
+        """
+        def __set__(self, value):
+            if isinstance(value, unicode): value = PyUnicode_AsUTF8String(value)
+            self.fltr.rejected = value
+
+        def __get__(self):
+            return _ctouni(self.fltr.rejected)
+
+cdef void entry_filter_cb(void *data, Evas_Object *entry, char **text):
+    """This callback type is used by entry filters to modify text.
+
+    :param data: The data specified as the last param when adding the filter
+    :param entry: The entry object
+    :param text: A pointer to the location of the text being filtered. The type
+        of text is always markup. This data can be modified, but any additional
+        allocations must be managed by the user.
+
+    """
+    cdef:
+        Entry en = object_from_instance(entry)
+
+    cb_func, cb_data = <object>data
+    try:
+        ret = cb_func(en, _touni(text[0]), cb_data)
+    except:
+        traceback.print_exc()
+
+    # TODO: replace text with returned value
 
 class EntryAnchorInfo(object):
     """
@@ -662,11 +743,7 @@ def _entryanchorhover_conv(long addr):
 
 cdef class Entry(Object):
 
-    """
-
-    This is the class that actually implement the widget.
-
-    """
+    """This is the class that actually implements the widget."""
 
     def __init__(self, evasObject parent):
         """By default, entries are:
@@ -1195,6 +1272,9 @@ cdef class Entry(Object):
             cb = _entry_context_menu_callback
         data = (func, args, kwargs)
 
+        if isinstance(label, unicode): label = PyUnicode_AsUTF8String(label)
+        if isinstance(icon_file, unicode): icon_file = PyUnicode_AsUTF8String(icon_file)
+
         elm_entry_context_menu_item_add(self.obj,
             <const_char *>label if label is not None else NULL,
             <const_char *>icon_file if icon_file is not None else NULL,
@@ -1279,7 +1359,9 @@ cdef class Entry(Object):
     #     :param data: User data to pass to @p func
 
     #     """
-    #     elm_entry_markup_filter_append(self.obj, Elm_Entry_Filter_Cb func, void *data)
+    #     cb_data = (func, data)
+    #     Py_INCREF(cb_data)
+    #     elm_entry_markup_filter_append(self.obj, entry_filter_cb, <void *>cb_data)
 
     # TODO:
     # def markup_filter_prepend(self, func, data):
