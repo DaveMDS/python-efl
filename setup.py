@@ -4,6 +4,7 @@ import sys
 import subprocess
 from distutils.core import setup, Command
 from distutils.extension import Extension
+from distutils.version import StrictVersion
 
 
 # Cython
@@ -12,10 +13,15 @@ try:
     from Cython.Build import cythonize
     import Cython.Compiler.Options
 
+    min_ver, cur_ver = "0.17.3", Cython.__version__
+    assert StrictVersion(cur_ver) >= StrictVersion(min_ver)
+    print("Found Cython: %s" % cur_ver)
+
     Cython.Compiler.Options.fast_fail = True # stop compilation on first error
     Cython.Compiler.Options.annotate = False # HTML file annotation generation
-except ImportError:
-    raise SystemExit("Requires Cython (http://cython.org/)")
+
+except (ImportError, AssertionError):
+    raise SystemExit("Requires Cython >= %s (http://cython.org/)" % min_ver)
 
 
 # Sphinx
