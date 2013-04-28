@@ -47,6 +47,12 @@ cdef extern from "Elementary.h":
     void                    elm_config_scroll_thumbscroll_border_friction_set(double friction)
     double                  elm_config_scroll_thumbscroll_sensitivity_friction_get()
     void                    elm_config_scroll_thumbscroll_sensitivity_friction_set(double friction)
+    double                  elm_config_scroll_thumbscroll_acceleration_threshold_get()
+    void                    elm_config_scroll_thumbscroll_acceleration_threshold_set(double threshold)
+    double                  elm_config_scroll_thumbscroll_acceleration_time_limit_get()
+    void                    elm_config_scroll_thumbscroll_acceleration_time_limit_set(double time_limit)
+    double                  elm_config_scroll_thumbscroll_acceleration_weight_get()
+    void                    elm_config_scroll_thumbscroll_acceleration_weight_set(double weight)
 
     double                  elm_config_longpress_timeout_get()
     void                    elm_config_longpress_timeout_set(double longpress_timeout)

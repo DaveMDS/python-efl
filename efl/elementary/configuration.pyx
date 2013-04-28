@@ -170,7 +170,7 @@ cdef class Configuration(object):
             if isinstance(profile, unicode): profile = PyUnicode_AsUTF8String(profile)
             elm_config_profile_set(<const_char *>profile if profile is not None else NULL)
 
-    def profile_dir_get(self, profile, is_user):
+    def profile_dir_get(self, profile, bint is_user):
         """profile_dir_get(unicode profile, bool is_user)
 
         Get an Elementary's profile directory path in the filesystem. One
@@ -212,7 +212,7 @@ cdef class Configuration(object):
         """
         def __get__(self):
             return bool(elm_config_scroll_bounce_enabled_get())
-        def __set__(self, enabled):
+        def __set__(self, bint enabled):
             elm_config_scroll_bounce_enabled_set(enabled)
 
     property scroll_bounce_friction:
@@ -223,7 +223,7 @@ cdef class Configuration(object):
         """
         def __get__(self):
             return elm_config_scroll_bounce_friction_get()
-        def __set__(self, friction):
+        def __set__(self, double friction):
             elm_config_scroll_bounce_friction_set(friction)
 
     property scroll_page_scroll_friction:
@@ -235,7 +235,7 @@ cdef class Configuration(object):
         """
         def __get__(self):
             return elm_config_scroll_page_scroll_friction_get()
-        def __set__(self, friction):
+        def __set__(self, double friction):
             elm_config_scroll_page_scroll_friction_set(friction)
 
     property scroll_bring_in_scroll_friction:
@@ -247,7 +247,7 @@ cdef class Configuration(object):
         """
         def __get__(self):
             return elm_config_scroll_bring_in_scroll_friction_get()
-        def __set__(self, friction):
+        def __set__(self, double friction):
             elm_config_scroll_bring_in_scroll_friction_set(friction)
 
     property scroll_zoom_friction:
@@ -259,7 +259,7 @@ cdef class Configuration(object):
         """
         def __get__(self):
             return elm_config_scroll_zoom_friction_get()
-        def __set__(self, friction):
+        def __set__(self, double friction):
             elm_config_scroll_zoom_friction_set(friction)
 
     property scroll_thumbscroll_enabled:
@@ -274,7 +274,7 @@ cdef class Configuration(object):
         """
         def __get__(self):
             return bool(elm_config_scroll_thumbscroll_enabled_get())
-        def __set__(self, enabled):
+        def __set__(self, bint enabled):
             elm_config_scroll_thumbscroll_enabled_set(enabled)
 
     property scroll_thumbscroll_threshold:
@@ -289,7 +289,7 @@ cdef class Configuration(object):
         """
         def __get__(self):
             return elm_config_scroll_thumbscroll_threshold_get()
-        def __set__(self, threshold):
+        def __set__(self, int threshold):
             elm_config_scroll_thumbscroll_threshold_set(threshold)
 
 
@@ -302,7 +302,7 @@ cdef class Configuration(object):
         """
         def __get__(self):
             return elm_config_scroll_thumbscroll_hold_threshold_get()
-        def __set__(self, threshold):
+        def __set__(self, int threshold):
             elm_config_scroll_thumbscroll_hold_threshold_set(threshold)
 
     property scroll_thumbscroll_momentum_threshold:
@@ -314,7 +314,7 @@ cdef class Configuration(object):
         """
         def __get__(self):
             return elm_config_scroll_thumbscroll_momentum_threshold_get()
-        def __set__(self, threshold):
+        def __set__(self, double threshold):
             elm_config_scroll_thumbscroll_momentum_threshold_set(threshold)
 
     property scroll_thumbscroll_friction:
@@ -326,7 +326,7 @@ cdef class Configuration(object):
         """
         def __get__(self):
             return elm_config_scroll_thumbscroll_friction_get()
-        def __set__(self, friction):
+        def __set__(self, double friction):
             elm_config_scroll_thumbscroll_friction_set(friction)
 
     property scroll_thumbscroll_border_friction:
@@ -341,7 +341,7 @@ cdef class Configuration(object):
         """
         def __get__(self):
             return elm_config_scroll_thumbscroll_border_friction_get()
-        def __set__(self, friction):
+        def __set__(self, double friction):
             elm_config_scroll_thumbscroll_border_friction_set(friction)
 
     property scroll_thumbscroll_sensitivity_friction:
@@ -356,8 +356,46 @@ cdef class Configuration(object):
         """
         def __get__(self):
             return elm_config_scroll_thumbscroll_sensitivity_friction_get()
-        def __set__(self, friction):
+        def __set__(self, double friction):
             elm_config_scroll_thumbscroll_sensitivity_friction_set(friction)
+
+
+    property scroll_thumbscroll_acceleration_threshold:
+        """The minimum speed of mouse cursor movement which will accelerate
+        scrolling velocity after a mouse up event (pixels/second).
+
+        :type: float
+
+        """
+        def __get__(self):
+            return elm_config_scroll_thumbscroll_acceleration_threshold_get()
+
+        def __set__(self, double threshold):
+            elm_config_scroll_thumbscroll_acceleration_threshold_set(threshold)
+
+    property scroll_thumbscroll_acceleration_time_limit:
+        """The time limit for accelerating velocity.
+
+        :type: float
+
+        """
+        def __get__(self):
+            return elm_config_scroll_thumbscroll_acceleration_time_limit_get()
+
+        def __set__(self, double time_limit):
+            elm_config_scroll_thumbscroll_acceleration_time_limit_set(time_limit)
+
+    property scroll_thumbscroll_acceleration_weight:
+        """The weight for the acceleration.
+
+        :type: float
+
+        """
+        def __get__(self):
+            return elm_config_scroll_thumbscroll_acceleration_weight_get()
+
+        def __set__(self, double weight):
+            elm_config_scroll_thumbscroll_acceleration_weight_set(weight)
 
     property longpress_timeout:
         """The duration for occurring long press event.
@@ -367,7 +405,7 @@ cdef class Configuration(object):
         """
         def __get__(self):
             return elm_config_longpress_timeout_get()
-        def __set__(self, longpress_timeout):
+        def __set__(self, double longpress_timeout):
             elm_config_longpress_timeout_set(longpress_timeout)
 
     property softcursor_mode:
@@ -381,7 +419,7 @@ cdef class Configuration(object):
         :type: :ref:`Elm_Softcursor_Mode`
 
         """
-        def __set__(self, mode):
+        def __set__(self, Elm_Softcursor_Mode mode):
             elm_config_softcursor_mode_set(mode)
 
         def __get__(self):
@@ -396,7 +434,7 @@ cdef class Configuration(object):
         """
         def __get__(self):
             return elm_config_tooltip_delay_get()
-        def __set__(self, delay):
+        def __set__(self, double delay):
             elm_config_tooltip_delay_set(delay)
 
     property cursor_engine_only:
@@ -410,7 +448,7 @@ cdef class Configuration(object):
         """
         def __get__(self):
             return elm_config_cursor_engine_only_get()
-        def __set__(self, engine_only):
+        def __set__(self, bint engine_only):
             elm_config_cursor_engine_only_set(engine_only)
 
     property scale:
@@ -424,7 +462,7 @@ cdef class Configuration(object):
         """
         def __get__(self):
             return elm_config_scale_get()
-        def __set__(self, scale):
+        def __set__(self, double scale):
             elm_config_scale_set(scale)
 
     property password_show_last:
@@ -435,7 +473,7 @@ cdef class Configuration(object):
         """
         def __get__(self):
             return elm_config_password_show_last_get()
-        def __set__(self, password_show_last):
+        def __set__(self, bint password_show_last):
             elm_config_password_show_last_set(password_show_last)
 
     property password_show_last_timeout:
@@ -447,7 +485,7 @@ cdef class Configuration(object):
         """
         def __get__(self):
             return elm_config_password_show_last_timeout_get()
-        def __set__(self, password_show_last_timeout):
+        def __set__(self, double password_show_last_timeout):
             elm_config_password_show_last_timeout_set(password_show_last_timeout)
 
     property engine:
@@ -492,7 +530,7 @@ cdef class Configuration(object):
     property text_classes_list:
         """Get Elementary's list of supported text classes.
 
-        :type: :ref:`Elm_Text_Class`
+        :type: list of :ref:`Elm_Text_Class`
 
         """
         def __get__(self):
@@ -509,6 +547,7 @@ cdef class Configuration(object):
                     ret.append((_ctouni(name), _ctouni(desc)))
                 lst = lst.next
             return ret
+            # TODO: Free the list?
 
     property font_overlay_list:
         """Get Elementary's list of font overlays, set with
@@ -518,7 +557,7 @@ cdef class Configuration(object):
         the default font properties for that class coming from the theme in
         use. There is no need to free this list.
 
-        :type: Elm_Font_Overlay
+        :type: list of :ref:`Elm_Font_Overlay`
 
         """
         def __get__(self):
@@ -537,6 +576,7 @@ cdef class Configuration(object):
                     ret.append((_ctouni(text_class), _ctouni(font), size))
                 lst = lst.next
             return ret
+            # TODO: Free the list?
 
     def font_overlay_set(self, text_class, font, size):
         """font_overlay_set(unicode text_class, unicode font, int size)
@@ -556,7 +596,7 @@ cdef class Configuration(object):
         :param font:  Font name and style string
         :type font: string
         :param size:  Font size
-        :type size: Evas_Font_Size
+        :type size: :ref:`Evas_Font_Size`
 
         """
         a1 = text_class
@@ -583,7 +623,7 @@ cdef class Configuration(object):
         """
         def __get__(self):
             return bool(elm_config_access_get())
-        def __set__(self, is_access):
+        def __set__(self, bint is_access):
             elm_config_access_set(is_access)
 
     property selection_unfocused_clear:
@@ -594,7 +634,7 @@ cdef class Configuration(object):
         """
         def __get__(self):
             return bool(elm_config_selection_unfocused_clear_get())
-        def __set__(self, enabled):
+        def __set__(self, bint enabled):
             elm_config_selection_unfocused_clear_set(enabled)
 
     def font_overlay_unset(self, text_class):
@@ -630,12 +670,12 @@ cdef class Configuration(object):
 
         This gets the globally configured finger size, **in pixels**
 
-        :type: Evas_Coord (int)
+        :type: int
 
         """
         def __get__(self):
             return elm_config_finger_size_get()
-        def __set__(self, size):
+        def __set__(self, int size):
             elm_config_finger_size_set(size)
 
     property cache_flush_interval:
@@ -651,7 +691,7 @@ cdef class Configuration(object):
         """
         def __get__(self):
             return elm_config_cache_flush_interval_get()
-        def __set__(self, size):
+        def __set__(self, int size):
             elm_config_cache_flush_interval_set(size)
 
     property cache_flush_enabled:
@@ -673,7 +713,7 @@ cdef class Configuration(object):
         """
         def __get__(self):
             return bool(elm_config_cache_flush_enabled_get())
-        def __set__(self, enabled):
+        def __set__(self, bint enabled):
             elm_config_cache_flush_enabled_set(enabled)
 
     property cache_font_cache_size:
@@ -684,7 +724,7 @@ cdef class Configuration(object):
         """
         def __get__(self):
             return elm_config_cache_font_cache_size_get()
-        def __set__(self, size):
+        def __set__(self, int size):
             elm_config_cache_font_cache_size_set(size)
 
     property cache_image_cache_size:
@@ -695,7 +735,7 @@ cdef class Configuration(object):
         """
         def __get__(self):
             return elm_config_cache_image_cache_size_get()
-        def __set__(self, size):
+        def __set__(self, int size):
             elm_config_cache_image_cache_size_set(size)
 
 
@@ -707,7 +747,7 @@ cdef class Configuration(object):
         """
         def __get__(self):
             return elm_config_cache_edje_file_cache_size_get()
-        def __set__(self, size):
+        def __set__(self, int size):
             elm_config_cache_edje_file_cache_size_set(size)
 
     property cache_edje_collection_cache_size:
@@ -719,7 +759,7 @@ cdef class Configuration(object):
         """
         def __get__(self):
             return elm_config_cache_edje_collection_cache_size_get()
-        def __set__(self, size):
+        def __set__(self, int size):
             elm_config_cache_edje_collection_cache_size_set(size)
 
     property focus_highlight_enabled:
@@ -733,7 +773,7 @@ cdef class Configuration(object):
         """
         def __get__(self):
             return bool(elm_config_focus_highlight_enabled_get())
-        def __set__(self, enable):
+        def __set__(self, bint enable):
             elm_config_focus_highlight_enabled_set(enable)
 
     property focus_highlight_animate:
@@ -750,7 +790,7 @@ cdef class Configuration(object):
         """
         def __get__(self):
             return bool(elm_config_focus_highlight_animate_get())
-        def __set__(self, animate):
+        def __set__(self, bint animate):
             elm_config_focus_highlight_animate_set(animate)
 
     property mirrored:
@@ -762,7 +802,7 @@ cdef class Configuration(object):
         """
         def __get__(self):
             return bool(elm_config_mirrored_get())
-        def __set__(self, mirrored):
+        def __set__(self, bint mirrored):
             elm_config_mirrored_set(mirrored)
 
     def indicator_service_get(self, int rotation):

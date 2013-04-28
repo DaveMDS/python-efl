@@ -349,6 +349,12 @@ cdef extern from "Elementary.h":
         ELM_SCROLLER_POLICY_ON
         ELM_SCROLLER_POLICY_OFF
 
+    ctypedef enum Elm_Scroller_Single_Direction:
+        ELM_SCROLLER_SINGLE_DIRECTION_NONE
+        ELM_SCROLLER_SINGLE_DIRECTION_SOFT
+        ELM_SCROLLER_SINGLE_DIRECTION_HARD
+        ELM_SCROLLER_SINGLE_DIRECTION_LAST
+
     ctypedef enum Elm_Sel_Format:
         ELM_SEL_FORMAT_TARGETS
         ELM_SEL_FORMAT_NONE

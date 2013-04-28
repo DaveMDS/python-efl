@@ -100,5 +100,31 @@ cdef class Mapbuf(Object):
     def alpha_get(self):
         return bool(elm_mapbuf_alpha_get(self.obj))
 
+    property auto:
+        """When a mapbuf object has "auto mode" enabled, then it will enable and
+        disable map mode based on current visibility. Mapbuf will track if you show
+        or hide it AND if the object is inside the canvas viewport or not when it
+        is moved or resized. Note that if you turn automode off, then map mode
+        will be in a disabled state at this point. When you turn it on for the
+        first time, the current state will be evaluated base on current properties
+        of the mapbuf object.
+
+        Auto mode is disabled by default.
+
+        :type: bool
+
+        """
+        def __set__(self, value):
+            self.auto_set(value)
+
+        def __get__(self):
+            return self.auto_get()
+
+    cpdef auto_set(self, bint on):
+        elm_mapbuf_auto_set(self.obj, on)
+
+    cpdef bint auto_get(self):
+        return elm_mapbuf_auto_get(self.obj)
+
 
 _object_mapping_register("elm_mapbuf", Mapbuf)

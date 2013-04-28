@@ -92,6 +92,26 @@ Scrollbar visibility
 
     Never show scrollbars
 
+
+.. _Elm_Scroller_Single_Direction:
+
+Single direction
+================
+
+Type that controls how the content is scrolled.
+
+.. data:: ELM_SCROLLER_SINGLE_DIRECTION_NONE
+
+    Scroll every direction
+
+.. data:: ELM_SCROLLER_SINGLE_DIRECTION_SOFT
+
+    Scroll single direction if the direction is certain
+
+.. data:: ELM_SCROLLER_SINGLE_DIRECTION_HARD
+
+    Scroll only single direction
+
 """
 
 include "widget_header.pxi"
@@ -105,6 +125,10 @@ cimport enums
 ELM_SCROLLER_POLICY_AUTO = enums.ELM_SCROLLER_POLICY_AUTO
 ELM_SCROLLER_POLICY_ON = enums.ELM_SCROLLER_POLICY_ON
 ELM_SCROLLER_POLICY_OFF = enums.ELM_SCROLLER_POLICY_OFF
+
+ELM_SCROLLER_SINGLE_DIRECTION_NONE = enums.ELM_SCROLLER_SINGLE_DIRECTION_NONE
+ELM_SCROLLER_SINGLE_DIRECTION_SOFT = enums.ELM_SCROLLER_SINGLE_DIRECTION_SOFT
+ELM_SCROLLER_SINGLE_DIRECTION_HARD = enums.ELM_SCROLLER_SINGLE_DIRECTION_HARD
 
 cdef class ScrollableInterface(Object):
 
@@ -207,6 +231,26 @@ cdef class ScrollableInterface(Object):
         elm_scroller_policy_get(self.obj, &policy_h, &policy_v)
         return (policy_h, policy_v)
 
+    property single_direction:
+        """The type of single direction scroll
+
+        :type: :ref:`Elm_Scroller_Single_Direction`
+
+        :since: 1.8
+
+        """
+        def __set__(self, value):
+            self.single_direction_set(value)
+
+        def __get__(self):
+            return self.single_direction_get()
+
+    cpdef single_direction_set(self, Elm_Scroller_Single_Direction single_dir):
+        elm_scroller_single_direction_set(self.obj, single_dir)
+
+    cpdef single_direction_get(self):
+        return elm_scroller_single_direction_get(self.obj)
+
     property region:
         """Get the currently visible content region
 
@@ -236,7 +280,7 @@ cdef class ScrollableInterface(Object):
 
         This gets the size of the content object of the scroller.
 
-        :type: tuple of Evas_Coord (int)
+        :type: (int **w**, int **h**)
 
         """
         def __get__(self):
@@ -258,7 +302,7 @@ cdef class ScrollableInterface(Object):
         will set if it is enabled for the given axis with the boolean
         parameters for each axis.
 
-        :type: (bool, bool)
+        :type: (bool **h**, bool **v**)
 
         """
         def __get__(self):
@@ -292,7 +336,7 @@ cdef class ScrollableInterface(Object):
         are normally between 0.0 and 1.0 including 1.0. If you only want a
         single axis to be page "limited", use 0.0 for the other axis.
 
-        :type: tuple of floats
+        :type: (float **h_pagerel**, float **v_pagerel**)
 
         """
         def __set__(self, value):
@@ -373,7 +417,7 @@ cdef class ScrollableInterface(Object):
             :py:func:`page_show()`
             :py:func:`page_bring_in()`
 
-        :type: tuple of ints
+        :type: (int **h_pagenumber**, int **v_pagenumber**)
 
         """
         def __get__(self):
@@ -397,7 +441,7 @@ cdef class ScrollableInterface(Object):
             :py:func:`page_show()`
             :py:func:`page_bring_in()`
 
-        :type: tuple of ints
+        :type: (int **h_pagenumber**, int **v_pagenumber**)
 
         """
         def __get__(self):
@@ -526,7 +570,7 @@ cdef class ScrollableInterface(Object):
 
         Default values for x and y are 0.0
 
-        :type: tuple of floats
+        :type: (float **x**, float **y**)
 
         """
         def __get__(self):

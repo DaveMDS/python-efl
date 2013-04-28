@@ -1,5 +1,5 @@
 from efl.evas cimport Eina_Bool, Evas_Object, Evas_Coord, const_Evas_Object
-from enums cimport Elm_Scroller_Policy
+from enums cimport Elm_Scroller_Policy, Elm_Scroller_Single_Direction
 from libc.string cimport const_char
 from object cimport Object
 
@@ -10,6 +10,8 @@ cdef extern from "Elementary.h":
     void                     elm_scroller_region_show(Evas_Object *obj, Evas_Coord x, Evas_Coord y, Evas_Coord w, Evas_Coord h)
     void                     elm_scroller_policy_set(Evas_Object *obj, Elm_Scroller_Policy policy_h, Elm_Scroller_Policy policy_v)
     void                     elm_scroller_policy_get(Evas_Object *obj, Elm_Scroller_Policy *policy_h, Elm_Scroller_Policy *policy_v)
+    void                    elm_scroller_single_direction_set(Evas_Object *obj, Elm_Scroller_Single_Direction single_dir)
+    Elm_Scroller_Single_Direction elm_scroller_single_direction_get(const_Evas_Object *obj)
     void                     elm_scroller_region_get(Evas_Object *obj, Evas_Coord *x, Evas_Coord *y, Evas_Coord *w, Evas_Coord *h)
     void                     elm_scroller_child_size_get(Evas_Object *obj, Evas_Coord *w, Evas_Coord *h)
     void                     elm_scroller_bounce_set(Evas_Object *obj, Eina_Bool h_bounce, Eina_Bool v_bounce)
@@ -31,6 +33,8 @@ cdef extern from "Elementary.h":
     void                     elm_scroller_gravity_get(Evas_Object *obj, double *x, double *y)
 
 cdef class ScrollableInterface(Object):
+    cpdef single_direction_set(self, Elm_Scroller_Single_Direction single_dir)
+    cpdef single_direction_get(self)
     cpdef page_size_set(self, h_pagesize, v_pagesize)
     cpdef page_size_get(self)
     cpdef page_scroll_limit_set(self, int page_limit_h, int page_limit_v)

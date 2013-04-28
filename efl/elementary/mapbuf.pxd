@@ -8,3 +8,5 @@ cdef extern from "Elementary.h":
     Eina_Bool                elm_mapbuf_smooth_get(const_Evas_Object *obj)
     void                     elm_mapbuf_alpha_set(Evas_Object *obj, Eina_Bool alpha)
     Eina_Bool                elm_mapbuf_alpha_get(const_Evas_Object *obj)
+    void                     elm_mapbuf_auto_set(Evas_Object *obj, Eina_Bool on)
+    Eina_Bool                elm_mapbuf_auto_get(const_Evas_Object *obj)
