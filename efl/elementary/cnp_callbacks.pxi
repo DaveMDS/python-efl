@@ -1,7 +1,7 @@
-"""Structure holding the info about selected data.
-
-"""
 cdef class SelectionData(object):
+
+    """Structure holding the info about selected data."""
+
     cdef Elm_Selection_Data *sel_data
 
     property x:
@@ -15,13 +15,13 @@ cdef class SelectionData(object):
             return self.sel_data.y
 
     property format:
-        """:type: Elm_Selection_Format"""
+        """:type: :ref:`Elm_Selection_Format`"""
         def __get__(self):
             return self.sel_data.format
 
     property data:
         def __get__(self):
-            # TODO
+            # TODO: void *
             return None
 
     property len:
@@ -32,7 +32,7 @@ cdef class SelectionData(object):
     property action:
         """The action to perform with the data
 
-        :type: Elm_Xdnd_Action
+        :type: :ref:`Elm_Xdnd_Action`
         :since: 1.8
 
         """
@@ -40,23 +40,40 @@ cdef class SelectionData(object):
             return self.sel_data.action
 
 cdef Eina_Bool elm_drop_cb(void *data, Evas_Object *obj, Elm_Selection_Data *ev):
-    """Callback invoked in when the selected data is 'dropped' at its destination.
+    """Callback invoked when the selected data is 'dropped' at its destination.
 
     :param data: Application specific data
     :param obj: The evas object where selected data is 'dropped'.
     :param ev: struct holding information about selected data
 
     """
-    pass
+    cdef:
+        SelectionData sd = SelectionData.__new__(SelectionData)
+        bint ret
+    sd.sel_data = ev
+
+    o = <object>data
+    cb_func = o.cnp_drop_cb
+    cb_data = o.cnp_drop_data
+
+    ret = cb_func(o, sd, cb_data)
+
+    sd.sel_data = NULL
+
+    return ret
 
 cdef void elm_selection_loss_cb(void *data, Elm_Sel_Type selection):
-    """Callback invoked in when the selection ownership for a given selection is lost.
+    """Callback invoked when the selection ownership for a given selection is lost.
 
     :param data: Application specific data
     :param selection: The selection that is lost
 
     """
-    pass
+    o = <object>data
+    cb_func = o.cnp_selection_loss_cb
+    cb_data = o.cnp_selection_loss_data
+
+    cb_func(selection, cb_data)
 
 cdef Evas_Object *elm_drag_icon_create_cb(void *data, Evas_Object *win, Evas_Coord *xoff, Evas_Coord *yoff):
     """Callback called to create a drag icon object

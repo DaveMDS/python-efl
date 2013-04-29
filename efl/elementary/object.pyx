@@ -22,9 +22,11 @@ Copy and Paste
 --------------
 
 Implements the following functionality
-   a. select, copy/cut and paste
-   b. clipboard
-   c. drag and drop
+
+a. select, copy/cut and paste
+b. clipboard
+c. drag and drop
+
 in order to share data across application windows.
 
 Contains functions to select text or a portion of data,
@@ -46,11 +48,13 @@ Clipboard selection is for explicit copying behavior
 Thus, in applications most cases only use the clipboard selection.
 As stated before, taking ownership of a selection doesn't move any actual data.
 Copying and Pasting is described as follows:
- 1. Copy text in Program A : Program A takes ownership of the selection
- 2. Paste text in Program B : Program B notes that Program A owns the selection
- 3. Program B asks A for the text
- 4. Program A responds and sends the text to program B
- 5. Program B pastes the response
+
+1. Copy text in Program A : Program A takes ownership of the selection
+2. Paste text in Program B : Program B notes that Program A owns the selection
+3. Program B asks A for the text
+4. Program A responds and sends the text to program B
+5. Program B pastes the response
+
 More information is on
  - http://www.jwz.org/doc/x-cut-and-paste.html
  - X11R6 Inter-Client Communication Conventions Manual, section 2
@@ -79,7 +83,8 @@ Selection type
 ==============
 
 Defines the types of selection property names.
-:see: `http://www.x.org/docs/X11/xlib.pdf`_ for more details.
+
+:see: http://www.x.org/docs/X11/xlib.pdf for more details.
 
 .. data:: ELM_SEL_TYPE_PRIMARY
 
@@ -140,6 +145,7 @@ XDND action
 ===========
 
 Defines the kind of action associated with the drop data if for XDND
+
 :since: 1.8
 
 .. data:: ELM_XDND_ACTION_UNKNOWN
@@ -156,7 +162,7 @@ Defines the kind of action associated with the drop data if for XDND
 
 .. data:: ELM_XDND_ACTION_PRIVATE
 
-    Pricate action type
+    Private action type
 
 .. data:: ELM_XDND_ACTION_ASK
 
@@ -177,7 +183,8 @@ Defines the kind of action associated with the drop data if for XDND
 
 """
 
-from cpython cimport PyObject, Py_INCREF, Py_DECREF, PyObject_GetAttr
+from cpython cimport PyObject, Py_INCREF, Py_DECREF, PyObject_GetAttr, \
+    PyObject_GetBuffer, PyBuffer_Release, PyBUF_SIMPLE, PyObject_CheckBuffer
 
 include "widget_header.pxi"
 include "tooltips.pxi"
@@ -243,7 +250,7 @@ cdef void _object_callback(void *data,
             else:
                 ei = event_conv(<long>event_info)
                 func(obj, ei, *args, **kargs)
-        except Exception, e:
+        except:
             traceback.print_exc()
 
 cdef bint _event_dispatcher(Object obj, Object src, Evas_Callback_Type t, event_info):
@@ -252,7 +259,7 @@ cdef bint _event_dispatcher(Object obj, Object src, Evas_Callback_Type t, event_
     for func, args, kargs in obj._elm_event_cbs:
         try:
             ret = func(obj, src, t, event_info, *args, **kargs)
-        except Exception, e:
+        except:
             traceback.print_exc()
         else:
             return ret
@@ -292,10 +299,10 @@ cdef void signal_callback(void *data, Evas_Object *obj,
     for func, args, kargs in lst:
         try:
             func(self, _ctouni(emission), _ctouni(source), *args, **kargs)
-        except Exception, e:
+        except:
             traceback.print_exc()
 
-# TODO: include "cnp_callbacks.pxi"
+include "cnp_callbacks.pxi"
 
 # TODO: Is this handled in Eo now?
 cdef void _event_data_del_cb(void *data, Evas_Object *o, void *event_info) with gil:
@@ -587,6 +594,7 @@ cdef class Object(evasObject):
         :type: string
 
         """
+        # FIXME: Now that we have Eo, is this useful anymore?
         def __get__(self):
             return elm_object_widget_type_get(self.obj)
 
@@ -1588,83 +1596,97 @@ cdef class Object(evasObject):
         """
         return <long>self.obj
 
-    # TODO: Copy and Paste
-    # def cnp_selection_set(self, Elm_Sel_Type selection, Elm_Sel_Format format, buf, buflen):
-    #     """Set copy data for a widget.
+    # Copy and Paste
+    def cnp_selection_set(self, Elm_Sel_Type selection, Elm_Sel_Format format, buf):
+        """Set copy data for a widget.
 
-    #     Set copy data and take ownership of selection. Format is used for specifying the selection type,
-    #     and this is used during pasting.
+        Set copy data and take ownership of selection. Format is used for specifying the selection type,
+        and this is used during pasting.
 
-    #     :param selection: Selection type for copying and pasting
-    #     :param format: Selection format
-    #     :param buf: The data selected
-    #     :param buflen: The size of @p buf
-    #     :raise RuntimeError: if setting cnp data fails.
+        :param selection: Selection type for copying and pasting
+        :type selection: :ref:`Elm_Sel_Type`
+        :param format: Selection format
+        :type format: :ref:`Elm_Sel_Format`
+        :param buf: The data selected
+        :type buf: An object that supports the new buffer interface
 
-    #     """
-    #     if not elm_cnp_selection_set(self.obj, selection, format, const_void *buf, size_t buflen):
-    #         raise RuntimeError("Could not set cnp data for widget.")
+        :raise RuntimeError: if setting cnp data fails.
 
-    # def cnp_selection_get(self, selection, format, datacb, udata):
-    #     """Retrieve data from a widget that has a selection.
+        """
+        cdef Py_buffer view
+        if isinstance(buf, unicode): buf = PyUnicode_AsUTF8String(buf)
+        if not PyObject_CheckBuffer(buf):
+            raise TypeError("The provided object does not support buffer interface.")
+        PyObject_GetBuffer(buf, &view, PyBUF_SIMPLE)
+        if not elm_cnp_selection_set(self.obj, selection, format, <const_void *>view.buf, view.itemsize):
+            raise RuntimeError("Could not set cnp data for widget.")
+        PyBuffer_Release(&view)
 
-    #     Gets the current selection data from a widget.
-    #     The widget input here will usually be elm_entry,
-    #     in which case @p datacb and @p udata can be NULL.
-    #     If a different widget is passed, @p datacb and @p udata are used for retrieving data.
+    def cnp_selection_get(self, selection, format, datacb, udata = None):
+        """Retrieve data from a widget that has a selection.
 
-    #     @see also elm_cnp_selection_set()
+        Gets the current selection data from a widget.
+        The widget input here will usually be elm_entry,
+        in which case @p datacb and @p udata can be NULL.
+        If a different widget is passed, @p datacb and @p udata are used for retrieving data.
 
-    #     :param selection: Selection type for copying and pasting
-    #     :param format: Selection format
-    #     :param datacb: The user data callback if the target widget isn't elm_entry
-    #     :param udata: The user data pointer for @p datacb
-    #     :raise RuntimeError: if getting cnp data fails.
+        :param selection: Selection type for copying and pasting
+        :param format: Selection format
+        :param datacb: The user data callback if the target widget isn't elm_entry
+        :param udata: The user data pointer for @p datacb
 
-    #     """
-    #     if not elm_cnp_selection_get(self.obj, selection, format, Elm_Drop_Cb datacb, void *udata):
-    #         raise RuntimeError("Could not get cnp data from widget.")
+        :raise RuntimeError: if getting cnp data fails.
 
-    # def cnp_selection_clear(self, Elm_Sel_Type selection):
-    #     """Clear the selection data of a widget.
+        """
+        if not callable(datacb):
+            raise TypeError("datacb is not callable.")
+        self.cnp_drop_cb = datacb
+        self.cnp_drop_data = udata
+        if not elm_cnp_selection_get(self.obj, selection, format, elm_drop_cb, <void *>self):
+            raise RuntimeError("Could not get cnp data from widget.")
 
-    #     Clear all data from the selection which is owned by a widget.
+    def cnp_selection_clear(self, Elm_Sel_Type selection):
+        """Clear the selection data of a widget.
 
-    #     @see also elm_cnp_selection_set()
+        Clear all data from the selection which is owned by a widget.
 
-    #     :param selection: Selection type for copying and pasting
-    #     :raise RuntimeError: if clearing cnp data fails.
+        :param selection: Selection type for copying and pasting
+        :type selection: :ref:`Elm_Sel_Type`
 
-    #     """
-    #     if not elm_object_cnp_selection_clear(self.obj, selection):
-    #         raise RuntimeError("Could not clear cnp data from widget.")
+        :raise RuntimeError: if clearing cnp data fails.
 
+        """
+        if not elm_object_cnp_selection_clear(self.obj, selection):
+            raise RuntimeError("Could not clear cnp data from widget.")
 
-    # def cnp_selection_loss_callback_set(self, Elm_Sel_Type selection, func, data):
-    #     """Set a function to be called when a selection is lost
+    def cnp_selection_loss_callback_set(self, Elm_Sel_Type selection, func, data = None):
+        """Set a function to be called when a selection is lost
 
-    #     The function @p func is set of be called when selection @p selection is lost
-    #     to another process or when elm_cnp_selection_set() is called. If @p func
-    #     is NULL then it is not called. @p data is passed as the data parameter to
-    #     the callback functions and selection is passed in as the selection that
-    #     has been lost.
+        The function @p func is set of be called when selection @p selection is lost
+        to another process or when elm_cnp_selection_set() is called. If @p func
+        is NULL then it is not called. @p data is passed as the data parameter to
+        the callback functions and selection is passed in as the selection that
+        has been lost.
 
-    #     elm_cnp_selection_set() and elm_object_cnp_selection_clear() automatically
-    #     set this los callback to NULL when called. If you wish to take the selection
-    #     and then be notified of loss please do this (for example)::
+        elm_cnp_selection_set() and elm_object_cnp_selection_clear() automatically
+        set this loss callback to NULL when called. If you wish to take the selection
+        and then be notified of loss please do this (for example)::
 
-    #         elm_cnp_selection_set(obj, ELM_SEL_TYPE_PRIMARY, ELM_SEL_FORMAT_TEXT, "hello", strlen(hello));
-    #         elm_cnp_selection_loss_callback_set(obj, ELM_SEL_TYPE_PRIMARY, loss_cb, NULL);
+            obj.cnp_selection_set(ELM_SEL_TYPE_PRIMARY, ELM_SEL_FORMAT_TEXT, "hello")
+            obj.cnp_selection_loss_callback_set(ELM_SEL_TYPE_PRIMARY, loss_cb)
 
-    #     @see also elm_cnp_selection_set()
+        :param selection: Selection to be notified of for loss
+        :param func: The function to call
+        :param data: The data pointer passed to the function.
 
-    #     :param selection: Selection to be notified of for loss
-    #     :param func: The function to call
-    #     :param data: The data pointer passed to the function.
+        """
+        if not callable(func):
+            raise TypeError("func is not callable.")
+        self.cnp_selection_loss_cb = func
+        self.cnp_selection_loss_data = data
+        elm_cnp_selection_loss_callback_set(self.obj, selection, elm_selection_loss_cb, <const_void *>data)
 
-    #     """
-    #     elm_cnp_selection_loss_callback_set(self.obj, selection, Elm_Selection_Loss_Cb func, const void *data)
-
+    # TODO:
     # def drop_target_add(self, Elm_Sel_Format format, entercb, enterdata, leavecb, leavedata, poscb, posdata, dropcb, dropdata):
     #     """Set the given object as a target for drops for drag-and-drop
 

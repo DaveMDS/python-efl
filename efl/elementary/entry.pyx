@@ -1925,6 +1925,26 @@ cdef class Entry(Object):
         elm_entry_anchor_hover_end(self.obj)
 
 
+    # Copy and paste
+    def cnp_selection_get(self, selection, format):
+        """Retrieve data from a widget that has a selection.
+
+        Gets the current selection data from a widget.
+
+        .. seealso::
+
+            :py:func:`efl.elementary.object.Object.cnp_selection_get`
+
+        :param selection: Selection type for copying and pasting
+        :param format: Selection format
+
+        :raise RuntimeError: if getting cnp data fails.
+
+        """
+        if not elm_cnp_selection_get(self.obj, selection, format, NULL, NULL):
+            raise RuntimeError("Could not get cnp data from widget.")
+
+
     def callback_changed_add(self, func, *args, **kwargs):
         """The text within the entry was changed."""
         self._callback_add("changed", func, *args, **kwargs)

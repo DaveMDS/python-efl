@@ -152,10 +152,10 @@ cdef extern from "Elementary.h":
     const_char *            elm_object_translatable_text_get(Evas_Object *obj)
 
     # TODO: CnP
-    # Eina_Bool               elm_cnp_selection_set(Evas_Object *obj, Elm_Sel_Type selection, Elm_Sel_Format format, const_void *buf, size_t buflen)
-    # Eina_Bool               elm_cnp_selection_get(Evas_Object *obj, Elm_Sel_Type selection, Elm_Sel_Format format, Elm_Drop_Cb datacb, void *udata)
-    # Eina_Bool               elm_object_cnp_selection_clear(Evas_Object *obj, Elm_Sel_Type selection)
-    # void                    elm_cnp_selection_loss_callback_set(Evas_Object *obj, Elm_Sel_Type selection, Elm_Selection_Loss_Cb func, const_void *data)
+    Eina_Bool               elm_cnp_selection_set(Evas_Object *obj, Elm_Sel_Type selection, Elm_Sel_Format format, const_void *buf, size_t buflen)
+    Eina_Bool               elm_cnp_selection_get(Evas_Object *obj, Elm_Sel_Type selection, Elm_Sel_Format format, Elm_Drop_Cb datacb, void *udata)
+    Eina_Bool               elm_object_cnp_selection_clear(Evas_Object *obj, Elm_Sel_Type selection)
+    void                    elm_cnp_selection_loss_callback_set(Evas_Object *obj, Elm_Sel_Type selection, Elm_Selection_Loss_Cb func, const_void *data)
     # Eina_Bool               elm_drop_target_add(Evas_Object *obj, Elm_Sel_Format format, Elm_Drag_State entercb, void *enterdata, Elm_Drag_State leavecb, void *leavedata, Elm_Drag_Pos poscb, void *posdata, Elm_Drop_Cb dropcb, void *cbdata)
     # Eina_Bool               elm_drop_target_del(Evas_Object *obj)
     # Eina_Bool               elm_drag_start(Evas_Object *obj, Elm_Sel_Format format, const_char *data, Elm_Xdnd_Action action, Elm_Drag_Icon_Create_Cb createicon, void *createdata, Elm_Drag_Pos dragpos, void *dragdata, Elm_Drag_Accept acceptcb, void *acceptdata, Elm_Drag_State dragdone, void *donecbdata)
@@ -171,9 +171,10 @@ cdef class Canvas(evasCanvas):
     pass
 
 cdef class Object(evasObject):
-    cdef object _elmcallbacks
-    cdef object _elm_event_cbs
-    cdef object _elm_signal_cbs
+    cdef:
+        object _elmcallbacks, _elm_event_cbs, _elm_signal_cbs
+        object cnp_drop_cb, cnp_drop_data
+        object cnp_selection_loss_cb, cnp_selection_loss_data
 
     cpdef text_set(self, text)
     cpdef text_get(self)

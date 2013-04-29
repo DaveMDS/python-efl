@@ -3,7 +3,8 @@ from efl.evas cimport Eina_Bool, Eina_Rectangle, Evas_Object, \
 from enums cimport Elm_Wrap_Type, Elm_Text_Format, Elm_Cnp_Mode, \
     Elm_Scroller_Policy, Elm_Input_Panel_Layout, Elm_Input_Panel_Lang, \
     Elm_Input_Panel_Lang, Elm_Input_Panel_Return_Key_Type, \
-    Elm_Autocapital_Type, Elm_Icon_Type
+    Elm_Autocapital_Type, Elm_Icon_Type, Elm_Sel_Type, Elm_Sel_Format, \
+    Elm_Xdnd_Action
 from libc.string cimport const_char
 from libc.stdlib cimport const_void
 
@@ -25,12 +26,21 @@ cdef extern from "Elementary.h":
         Eina_Bool hover_top
         Eina_Bool hover_bottom
 
+    ctypedef struct Elm_Selection_Data:
+        Evas_Coord       x, y
+        Elm_Sel_Format   format
+        void            *data
+        size_t           len
+        Elm_Xdnd_Action  action
+
     ctypedef struct Elm_Entry_Context_Menu_Item:
         pass
 
     ctypedef Elm_Entry_Context_Menu_Item const_Elm_Entry_Context_Menu_Item "const Elm_Entry_Context_Menu_Item"
 
     ctypedef void (*Elm_Entry_Filter_Cb)(void *data, Evas_Object *entry, char **text)
+
+    ctypedef Eina_Bool       (*Elm_Drop_Cb)                 (void *data, Evas_Object *obj, Elm_Selection_Data *ev)
 
     # Data for the elm_entry_filter_limit_size() entry filter.
     ctypedef struct Elm_Entry_Filter_Limit_Size:
@@ -139,3 +149,5 @@ cdef extern from "Elementary.h":
 
     const_char *            elm_entry_context_menu_item_label_get(const_Elm_Entry_Context_Menu_Item *item)
     void                    elm_entry_context_menu_item_icon_get(const_Elm_Entry_Context_Menu_Item *item, const_char **icon_file, const_char **icon_group, Elm_Icon_Type *icon_type)
+
+    Eina_Bool               elm_cnp_selection_get(Evas_Object *obj, Elm_Sel_Type selection, Elm_Sel_Format format, Elm_Drop_Cb datacb, void *udata)
