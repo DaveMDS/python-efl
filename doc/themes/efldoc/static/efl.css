@@ -30,8 +30,8 @@ body {
     background-color: rgb(64,64,64); /* */
     color: white; /*black*/
     padding: 0;
-    border-right: 1px solid rgb(111,111,111); /*#0a507a*/
-    border-left: 1px solid rgb(111,111,111); /*#0a507a*/
+    /* border-right: 1px solid rgb(111,111,111); 0a507a */
+    /* border-left: 1px solid rgb(111,111,111); 0a507a */
 
     margin: 0 auto;
     min-width: 780px;
@@ -39,41 +39,58 @@ body {
 }
 
 .pageheader {
-    background-image: url(headerbg.png);
-    text-align: left;
-    padding: 10px 15px;
+    background: url("header_menu_background.png") repeat scroll 0% 0% transparent;
+    margin-bottom: 18px;
 }
 
 .pageheader ul {
-    float: right;
-    color: white;
     list-style-type: none;
-    padding-left: 0;
-    margin-top: 30px;
-    margin-right: 10px;
+    margin: 0;
+    padding: 0;
+    height: 63px;
+    padding-right: 18px;
+    background: url("header_menu_background_last.png") no-repeat scroll right center transparent;
 }
 
 .pageheader li {
-    float: left;
-    margin: 0 0 0 10px;
+    float: right;
 }
 
 .pageheader li a {
-    border-radius: 1px;
-    padding: 8px 12px;
-    color: rgb(249,249,240);
-    text-shadow: 0 0 5px rgba(0, 0, 0, 0.5);
+    display: inline-block;
+
 }
 
-.pageheader li a:hover {
-    background-color: rgb(249,249,240);
-    color: rgb(10,80,122);
-    text-shadow: none;
+.pageheader li a span {
+    line-height: 63px;
+    text-transform: capitalize;
+    color: rgb(255, 255, 255);
+    font-size: 10px;
+    padding: 0px 14px;
+    text-shadow: 0px 1px rgba(0, 0, 0, 0.5);
+}
+
+.pageheader li.index {
+    background: url("header_logo.png") no-repeat scroll 0% 0% transparent;
+    float: left;
+    height: 63px;
+    width: 63px;
+}
+
+.pageheader li.current a {
+    background: url("header_menu_current_background.png") no-repeat scroll 0% 0% transparent;
+        padding-left: 12px;
+}
+
+.pageheader li.current a span {
+    color: rgb(51, 153, 255);
+    text-shadow: 0px 0px 10px;
 }
 
 div.document {
    /* background-color: white; */
     text-align: left;
+    border: 1px solid rgb(111,111,111); /* */
 }
 
 div.bodywrapper {
@@ -96,6 +113,8 @@ div.related ul {
     height: 1.9em;
     border-top: 1px solid rgb(32,32,32); /*#002e50*/
     border-bottom: 1px solid rgb(32,32,32); /*#002e50*/
+    margin-top: 6px;
+    margin-bottom: 6px;
 }
 
 div.related ul li {
@@ -206,13 +225,12 @@ div.footer {
     background-image: url(footer_background.png); /*url(footerbg.png)*/
     color: rgb(204,204,204);
     text-shadow: 0 0 .2px rgba(255, 255, 255, 0.8);
-    padding: 3px 8px 3px 0;
+    padding: 6px; /*3px 8px 3px 0*/
     clear: both;
     font-size: 0.8em;
     text-align: center; /*right*/
-/*
-    height: 3em; /* */
-*/
+    height: 50px; /*3em*/
+    margin-top: 18px;
 }
 
 /* no need to make a visible link to Sphinx on the Sphinx page */

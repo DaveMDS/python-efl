@@ -122,9 +122,9 @@ pygments_style = 'sphinx'
 # a list of builtin themes.
 #
 # html_theme = 'default'   # Classic python style
-html_theme = 'sphinxdoc' # Much modern sphinx style
+# html_theme = 'sphinxdoc' # Much modern sphinx style
 # html_theme = 'sphinx13'  # The latest one from the sphinx site
-# html_theme = 'efldoc'    # EFL dark style
+html_theme = 'efldoc'    # EFL dark style
 
 # Theme options are theme-specific and customize the look and feel of a theme
 # further.  For a list of options available for each theme, see the
@@ -157,7 +157,7 @@ html_static_path = ['images']
 
 # If not '', a 'Last updated on:' timestamp is inserted at every page bottom,
 # using the given strftime format.
-#html_last_updated_fmt = '%b %d, %Y'
+html_last_updated_fmt = '%b %d, %Y'
 
 # If true, SmartyPants will be used to convert quotes and dashes to
 # typographically correct entities.

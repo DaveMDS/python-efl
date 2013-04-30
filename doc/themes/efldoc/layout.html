@@ -62,20 +62,24 @@
        <!-- <li><a href="{{ pathto('contents') }}">Documentation</a> &raquo;</li>-->
 {% endblock %}
 
-{#
+
 {% block header %}
 <div class="pageheader">
-  <ul>
-    <li><a href="{{ pathto('index') }}">Home</a></li>
-    <li><a href="{{ pathto('install') }}">Get it</a></li>
-    <li><a href="{{ pathto('contents') }}">Docs</a></li>
-    <li><a href="{{ pathto('develop') }}">Extend/Develop</a></li>
+  <ul class="menu">
+    <li class="index"><a href="{{ pathto('index') }}"><span></span></a></li>
+    <li class="current"><a href="{{ pathto('index') }}"><span>python docs</span></a></li>
+    <li><a href="http://enlightenment.org/p.php?p=docs"><span>other docs</span></a></li>
+    <li><a href="http://enlightenment.org/p.php?p=about"><span>EFL</span></a></li>
   </ul>
-  <div>
-    <a href="{{ pathto('index') }}">
-      <img src="{{ pathto('_static/sphinxheader.png', 1) }}" alt="SPHINX" />
-    </a>
-  </div>
 </div>
 {% endblock %}
-#}
+
+
+{%- block footer %}
+<div class="footer">
+  {% trans copyright=copyright|e %}&copy; Copyright {{ copyright }}.{% endtrans %}
+  <br>
+  {% trans last_updated=last_updated|e %}Last updated on {{ last_updated }}.{% endtrans %}
+  {% trans sphinx_version=sphinx_version|e %}Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> {{ sphinx_version }}.{% endtrans %}
+</div>
+{%- endblock %}
