@@ -126,14 +126,14 @@ else:
                             extra_link_args = emotion_libs + eina_libs + evas_libs)
     modules.append(emotion_ext)
 
-    # EDBus
-    #edbus_cflags, edbus_libs = pkg_config('EDBus', 'edbus2', "1.7.99")
-    #pydbus_cflags, pydbus_libs = pkg_config('dbus-python', 'dbus-python')
-    #edbus_ext = Extension("efl.edbus", ["efl/edbus/edbus.pyx"],
-                            #include_dirs = ['include/'],
-                            #extra_compile_args = edbus_cflags + pydbus_cflags + ecore_cflags,
-                            #extra_link_args = edbus_libs)
-    #modules.append(edbus_ext)
+    # Eldbus
+    # eldbus_cflags, eldbus_libs = pkg_config('Eldbus', 'eldbus', "1.7.99")
+    # pydbus_cflags, pydbus_libs = pkg_config('dbus-python', 'dbus-python')
+    # eldbus_ext = Extension("efl.eldbus", ["efl/eldbus/eldbus.pyx"],
+                            # include_dirs = ['include/'],
+                            # extra_compile_args = eldbus_cflags + pydbus_cflags + ecore_cflags,
+                            # extra_link_args = eldbus_libs)
+    # modules.append(eldbus_ext)
 
     # dbus mainloop integration
     dbus_cflags, dbus_libs = pkg_config('DBus', 'dbus-python', "0.83.0")

@@ -79,12 +79,12 @@ def need_e_dbus():
 
     """
     print("need_e_dbus() is deprecated. Use need_edbus instead.")
-    return bool(elm_need_edbus())
+    return bool(elm_need_eldbus())
 
-def need_edbus():
-    """need_edbus() -> bool
+def need_eldbus():
+    """need_eldbus() -> bool
 
-    Request that your elementary application needs edbus
+    Request that your elementary application needs eldbus
 
     This initializes the edbus (aka v2) library when called and if
     support exists it returns True, otherwise returns
@@ -94,7 +94,7 @@ def need_edbus():
     :rtype: bool
 
     """
-    return bool(elm_need_edbus())
+    return bool(elm_need_eldbus())
 
 def need_elocation():
     """need_elocation() -> bool

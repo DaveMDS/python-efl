@@ -55,7 +55,7 @@ from efl.elementary.need import \
     need_systray, \
     need_sys_notify, \
     need_e_dbus, \
-    need_edbus, \
+    need_eldbus, \
     need_elocation, \
     need_ethumb, \
     need_web
