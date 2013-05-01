@@ -34,6 +34,7 @@ Elementary
 ----------
 
 .. toctree:: elementary/elementary
+   :maxdepth: 3
 
 
 Acknowledgements

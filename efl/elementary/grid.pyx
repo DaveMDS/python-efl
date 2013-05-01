@@ -18,7 +18,8 @@
 
 """
 
-.. rubric:: Widget description
+Widget description
+------------------
 
 .. image:: /images/grid-preview.png
 

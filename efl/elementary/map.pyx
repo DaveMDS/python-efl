@@ -18,7 +18,8 @@
 
 """
 
-.. rubric:: Widget description
+Widget description
+------------------
 
 .. image:: /images/map-preview.png
     :width: 100%
@@ -67,6 +68,9 @@ It supports some basic but yet nice features:
 - "loaded" - when a map is finally loaded.
 - "language,changed" - the program's language changed
 
+
+Enumerations
+------------
 
 .. rubric:: Map overlay types
 

@@ -17,7 +17,8 @@
 
 """
 
-.. rubric:: Widget description
+Widget description
+------------------
 
 .. image:: /images/photo-preview.png
 

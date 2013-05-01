@@ -18,7 +18,8 @@
 
 """
 
-.. rubric:: Widget description
+Widget description
+------------------
 
 .. image:: /images/thumb-preview.png
 
@@ -58,6 +59,9 @@ Available styles:
 - ``"default"``
 - ``"noframe"``
 
+
+Enumerations
+------------
 
 .. rubric:: Thumb animation modes
 

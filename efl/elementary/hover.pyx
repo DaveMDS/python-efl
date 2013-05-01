@@ -18,7 +18,8 @@
 
 """
 
-.. rubric:: Widget description
+Widget description
+------------------
 
 .. image:: /images/hover-preview.png
 
@@ -80,6 +81,9 @@ deleted, and vice-versa.
 .. note:: The content parts listed indicate the direction that the content
     will be displayed
 
+
+Enumerations
+------------
 
 .. data:: ELM_HOVER_AXIS_NONE
 

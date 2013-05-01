@@ -19,7 +19,8 @@
 
 """
 
-.. rubric:: Widget description
+Widget description
+------------------
 
 .. image:: /images/actionslider-preview.png
 
@@ -57,6 +58,8 @@ Default text parts of the actionslider widget that you can use for are:
 - **center** - A center label of the actionslider
 
 
+Enumerations
+------------
 
 .. _Elm_Actionslider_Pos:
 

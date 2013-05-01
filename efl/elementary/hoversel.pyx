@@ -18,7 +18,8 @@
 
 """
 
-.. rubric:: Widget description
+Widget description
+------------------
 
 .. image:: /images/hoversel-preview.png
 
@@ -48,6 +49,9 @@ Default text parts of the hoversel widget that you can use for are:
 
 - "default" - Label of the hoversel
 
+
+Enumerations
+------------
 
 .. _Elm_Icon_Type:
 

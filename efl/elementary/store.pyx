@@ -70,6 +70,9 @@ is called in the mainloop and is expected to take minimal or almost no time
 to simply free up memory resources.
 
 
+Enumerations
+------------
+
 .. _Elm_Store_Item_Mapping_Type:
 
 .. rubric:: Store item mapping types

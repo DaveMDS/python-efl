@@ -17,7 +17,8 @@
 
 """
 
-.. rubric:: Widget description
+Widget description
+------------------
 
 Elementary uses Edje to theme its widgets, naturally. But for the most
 part this is hidden behind a simpler interface that lets the user set

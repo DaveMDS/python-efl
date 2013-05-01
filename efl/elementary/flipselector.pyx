@@ -17,7 +17,9 @@
 #
 
 """
-.. rubric:: Widget description
+
+Widget description
+------------------
 
 .. image:: /images/flipselector-preview.png
 

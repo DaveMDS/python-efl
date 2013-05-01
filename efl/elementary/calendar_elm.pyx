@@ -18,7 +18,8 @@
 
 """
 
-.. rubric:: Widget description
+Widget description
+------------------
 
 .. image:: /images/calendar-preview.png
 
@@ -40,6 +41,9 @@ This widget emits the following signals, besides the ones sent from
 
 - ``changed`` - emitted when the date in the calendar is changed.
 
+
+Enumerations
+------------
 
 .. _Elm_Calendar_Mark_Repeat_Type:
 

@@ -18,6 +18,9 @@
 
 """
 
+Enumerations
+------------
+
 .. _Elm_Policy:
 
 .. rubric:: Policy types

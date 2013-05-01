@@ -18,7 +18,8 @@
 
 """
 
-.. rubric:: Widget description
+Widget description
+------------------
 
 .. image:: /images/clock-preview.png
 
@@ -53,6 +54,9 @@ This widget emits the following signals, besides the ones sent from
 
 - ``changed`` - the clock's user changed the time
 
+
+Enumerations
+------------
 
 .. rubric:: Clock edit modes
 

@@ -18,7 +18,8 @@
 
 """
 
-.. rubric:: Widget description
+Widget description
+------------------
 
 .. image:: /images/list-preview.png
 
@@ -60,6 +61,9 @@ Default text parts of the list items that you can use for are:
 
 - "default" - label in the list item
 
+
+Enumerations
+------------
 
 .. _Elm_List_Mode:
 

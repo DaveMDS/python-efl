@@ -18,7 +18,8 @@
 
 """
 
-.. rubric:: Widget description
+Widget description
+------------------
 
 .. image:: /images/gengrid-preview.png
 
@@ -212,6 +213,9 @@ Smart events that you can add callbacks for are:
 - ``"edge,right"`` - This is called when the gengrid is scrolled
   until the right edge.
 
+
+Enumerations
+------------
 
 .. rubric:: Items' scroll to types
 

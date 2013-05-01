@@ -18,7 +18,8 @@
 
 """
 
-.. rubric:: Widget description
+Widget description
+------------------
 
 .. image:: /images/entry-preview.png
 
@@ -237,6 +238,9 @@ Default text parts of the entry that you can use for are:
 
 - "default" - text of the entry
 
+
+Enumerations
+------------
 
 .. _Elm_Autocapital_Type:
 

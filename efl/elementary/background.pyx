@@ -18,7 +18,8 @@
 
 """
 
-.. rubric:: Widget description
+Widget description
+------------------
 
 .. image:: /images/background-preview.png
 
@@ -36,6 +37,9 @@ Default content parts of the bg widget that you can use for are:
 
 - **overlay** - overlay of the bg
 
+
+Enumerations
+------------
 
 .. _Elm_Bg_Option:
 

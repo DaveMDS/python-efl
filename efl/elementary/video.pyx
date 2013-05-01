@@ -17,7 +17,8 @@
 
 """
 
-.. rubric:: Widget description
+Widget description
+------------------
 
 
 Display a video by using Emotion.

@@ -18,7 +18,8 @@
 
 """
 
-.. rubric:: Widget description
+Widget description
+------------------
 
 .. image:: /images/icon-preview.png
 
@@ -96,6 +97,9 @@ This widget emits the following signals, besides the ones sent from
 - ``"thumb,done"`` - Setting :py:attr:`thumb` has completed with success
 - ``"thumb,error"`` - Setting :py:attr:`thumb` has failed
 
+
+Enumerations
+------------
 
 .. rubric:: Icon lookup modes
 

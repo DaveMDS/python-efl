@@ -18,7 +18,8 @@
 
 """
 
-.. rubric:: Widget description
+Widget description
+------------------
 
 .. image:: /images/box-preview.png
 
@@ -77,6 +78,9 @@ children of the box.
 
 .. note:: Objects should not be added to box objects using _add() calls.
 
+
+Enumerations
+------------
 
 .. rubric:: Box layout modes
 

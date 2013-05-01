@@ -18,7 +18,8 @@
 
 """
 
-.. rubric:: Widget description
+Widget description
+------------------
 
 .. image:: /images/dayselector-preview.png
 
@@ -68,6 +69,9 @@ Available styles for dayselector are:
 
 - default
 
+
+Enumerations
+------------
 
 .. _Elm_Dayselector_Day:
 

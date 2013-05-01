@@ -18,7 +18,8 @@
 
 """
 
-.. rubric:: Widget description
+Widget description
+------------------
 
 .. image:: /images/ctxpopup-preview.png
 
@@ -50,6 +51,9 @@ Default text parts of the ctxpopup items that you can use for are:
 
 .. note:: Ctxpopup is a specialization of :py:class:`elementary.hover.Hover`.
 
+
+Enumerations
+------------
 
 .. rubric:: Ctxpopup arrow directions
 

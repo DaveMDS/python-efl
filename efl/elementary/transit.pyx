@@ -18,7 +18,8 @@
 
 """
 
-.. rubric:: Widget description
+Widget description
+------------------
 
 
 Transit is designed to apply various animated transition effects to
@@ -64,6 +65,9 @@ It's also possible to make a transition chain with :py:func:`chain_transit_add`.
     Elm_Transit. Edje has more flexibility and animations can be
     manipulated inside the theme.
 
+
+Enumerations
+------------
 
 .. _Elm_Transit_Effect_Flip_Axis:
 

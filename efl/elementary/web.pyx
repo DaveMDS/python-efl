@@ -18,6 +18,9 @@
 
 """
 
+Enumerations
+------------
+
 .. rubric:: Web window features
 
 .. data:: ELM_WEB_WINDOW_FEATURE_TOOLBAR

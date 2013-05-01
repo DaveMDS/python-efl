@@ -18,7 +18,8 @@
 
 """
 
-.. rubric:: Widget description
+Widget description
+------------------
 
 .. image:: /images/fileselector-preview.png
 
@@ -58,6 +59,9 @@ This widget emits the following signals, besides the ones sent from
 - ``"done"`` - the user has clicked on the "ok" or "cancel"
   buttons (*event_info* is the selection's path)
 
+
+Enumerations
+------------
 
 .. rubric:: Fileselector modes
 

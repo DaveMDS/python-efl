@@ -18,7 +18,8 @@
 
 """
 
-.. rubric:: Widget description
+Widget description
+------------------
 
 .. image:: /images/fileselector-button-preview.png
 
@@ -57,6 +58,9 @@ for are:
 
 - "icon" - Icon of the fileselector_button
 
+
+Enumerations
+------------
 
 .. rubric:: Fileselector modes
 

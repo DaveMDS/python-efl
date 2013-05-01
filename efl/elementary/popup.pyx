@@ -18,7 +18,8 @@
 
 """
 
-.. rubric:: Widget description
+Widget description
+------------------
 
 .. image:: /images/popup-preview.png
 
@@ -99,6 +100,9 @@ Default text parts of the popup widget that you can use for are:
 - "title,text" - This operates on Title area's label
 - "default" - content-text set in the content area of the widget
 
+
+Enumerations
+------------
 
 .. rubric:: Popup orientation types
 

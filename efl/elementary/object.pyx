@@ -55,6 +55,10 @@ More information is on
  - X11R6 Inter-Client Communication Conventions Manual, section 2
 
 
+
+Enumerations
+------------
+
 .. _Elm_Focus_Direction:
 
 .. rubric:: Focus direction

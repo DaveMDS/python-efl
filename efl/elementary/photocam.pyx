@@ -18,7 +18,8 @@
 
 """
 
-.. rubric:: Widget description
+Widget description
+------------------
 
 
 This is a widget specifically for displaying high-resolution digital
@@ -51,6 +52,9 @@ Signals that you can add callbacks for are:
 - "scroll,drag,start" - dragging the contents around has started
 - "scroll,drag,stop" - dragging the contents around has stopped
 
+
+Enumerations
+------------
 
 .. rubric:: Photocam zoom modes
 

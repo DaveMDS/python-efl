@@ -18,7 +18,8 @@
 
 """
 
-.. rubric:: Widget description
+Widget description
+------------------
 
 .. image:: /images/colorselector-preview.png
 
@@ -42,6 +43,9 @@ This widget emits the following signals, besides the ones sent from
     The event_info parameter of the callback will be the selected
     color item.
 
+
+Enumerations
+------------
 
 .. rubric:: Colorselector modes
 

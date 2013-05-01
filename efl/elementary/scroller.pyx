@@ -18,7 +18,8 @@
 
 """
 
-.. rubric:: Widget description
+Widget description
+------------------
 
 .. image:: /images/scroller-preview.png
 
@@ -70,6 +71,10 @@ Default content parts of the scroller widget that you can use for are:
 
 .. note:: When Elementary is in desktop mode the thumbscroll(a.k.a.
     fingerscroll) won't work.
+
+
+Enumerations
+------------
 
 .. rubric:: Scrollbar visibility
 

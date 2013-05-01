@@ -18,7 +18,8 @@
 
 """
 
-.. rubric:: Widget description
+Widget description
+------------------
 
 .. image:: /images/toolbar-preview.png
 
@@ -46,6 +47,9 @@ Default text parts of the toolbar items that you can use for are:
 
 - "default" - label of the toolbar item
 
+
+Enumerations
+------------
 
 .. _Elm_Icon_Lookup_Order:
 

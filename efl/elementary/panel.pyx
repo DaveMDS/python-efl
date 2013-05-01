@@ -18,7 +18,8 @@
 
 """
 
-.. rubric:: Widget description
+Widget description
+------------------
 
 .. image:: /images/panel-preview.png
 
@@ -37,6 +38,9 @@ Default content parts of the panel widget that you can use for are:
 
 - "default" - A content of the panel
 
+
+Enumerations
+------------
 
 .. rubric:: Panel orientation types
 

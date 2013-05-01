@@ -18,7 +18,8 @@
 
 """
 
-.. rubric:: Widget description
+Widget description
+------------------
 
 .. image:: /images/label-preview.png
 
@@ -49,6 +50,9 @@ This widget emits the following signals, besides the ones sent from
 
 - *"language,changed"*: The program's language changed.
 
+
+Enumerations
+------------
 
 .. _Elm_Wrap_Type:
 

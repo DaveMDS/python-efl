@@ -17,7 +17,8 @@
 
 """
 
-.. rubric:: Widget description
+Widget description
+------------------
 
 .. image:: /images/notify-preview.png
 
@@ -37,6 +38,9 @@ Default content parts of the notify widget that you can use are:
 
 - ``"default"`` - The main content of the notify
 
+
+Enumerations
+------------
 
 .. _Elm_Notify_Orient:
 

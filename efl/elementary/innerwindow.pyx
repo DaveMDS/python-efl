@@ -16,7 +16,9 @@
 # along with this Python-EFL.  If not, see <http://www.gnu.org/licenses/>.
 
 """
-.. rubric:: Widget description
+
+Widget description
+------------------
 
 .. image:: /images/innerwindow-preview.png
 

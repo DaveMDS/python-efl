@@ -18,7 +18,8 @@
 
 """
 
-.. rubric:: Widget description
+Widget description
+------------------
 
 
 The window class of Elementary.
@@ -103,6 +104,10 @@ Signals that you can add callbacks for are:
 - "indicator,prop,changed": an indicator's property has been changed
 - "rotation,changed": window rotation has been changed
 - "profile,changed": profile of the window has been changed
+
+
+Enumerations
+------------
 
 .. _Elm_Win_Type:
 

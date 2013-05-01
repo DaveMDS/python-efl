@@ -18,7 +18,8 @@
 
 """
 
-.. rubric:: Widget description
+Widget description
+------------------
 
 .. image:: /images/bubble-preview.png
 
@@ -61,6 +62,8 @@ Default text parts of the button widget that you can use for are:
 - **info** - info of the bubble
 
 
+Enumerations
+------------
 
 .. rubric:: Bubble arrow positions
 

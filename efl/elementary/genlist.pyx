@@ -17,7 +17,8 @@
 
 """
 
-.. rubric:: Widget description
+Widget description
+------------------
 
 .. image:: /images/genlist-preview.png
 
@@ -341,6 +342,9 @@ Signals that you can add callbacks for are:
 - ``"tree,effect,finished"`` - This is called when a genlist tree effect
   is finished.
 
+
+Enumerations
+------------
 
 .. rubric:: Genlist item types
 

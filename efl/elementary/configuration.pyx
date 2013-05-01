@@ -18,6 +18,9 @@
 
 """
 
+Enumerations
+------------
+
 .. _Elm_Softcursor_Mode:
 
 .. rubric:: Elm_Softcursor_Mode

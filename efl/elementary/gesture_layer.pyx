@@ -17,7 +17,9 @@
 #
 
 """
-.. rubric:: Widget description
+
+Widget description
+------------------
 
 .. image:: /images/gesturelayer-preview.png
 
@@ -83,6 +85,9 @@ Setting glayer_continues_enable to false in
 behavior so gesture starts when user touches (a *DOWN* event)
 touch-surface and ends when no fingers touches surface (a *UP* event).
 
+
+Enumerations
+------------
 
 .. _Elm_Gesture_State:
 

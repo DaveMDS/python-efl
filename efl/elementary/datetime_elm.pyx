@@ -18,8 +18,8 @@
 
 """
 
-.. rubric:: Widget description
-
+Widget description
+------------------
 
 Datetime widget is used to display and input date & time values.
 
@@ -211,6 +211,9 @@ This widget emits the following signals, besides the ones sent from
 - **"language,changed"** - whenever system locale changes, this
     signal is sent.
 
+
+Enumerations
+------------
 
 .. rubric:: Datetime fields
 
