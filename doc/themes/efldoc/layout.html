@@ -9,14 +9,13 @@
 #}
 {%- extends "basic/layout.html" %}
 
-{# put the sidebar before the body #}
-{% block sidebar1 %}{{ sidebar() }}{% endblock %}
-{% block sidebar2 %}{% endblock %}
+
 
 {% block extrahead %}
     <link href='http://fonts.googleapis.com/css?family=Open+Sans:300,400,700'
           rel='stylesheet' type='text/css'>
 {{ super() }}
+
 {%- if not embedded %}
     <style type="text/css">
       table.right { float: right; margin-left: 20px; }
@@ -54,6 +53,7 @@
       });
     </script>
 {%- endif %}
+
 {% endblock %}
 
 
@@ -61,7 +61,6 @@
         <li><a href="{{ pathto('index') }}">Home</a>&nbsp;|</li>
        <!-- <li><a href="{{ pathto('contents') }}">Documentation</a> &raquo;</li>-->
 {% endblock %}
-
 
 {% block header %}
 <div class="pageheader">
@@ -74,6 +73,25 @@
 </div>
 {% endblock %}
 
+{%- block content %}
+    <div class="document">
+  {%- block document %}
+      {{ sidebar() }}
+      <div class="documentwrapper">
+      {%- if render_sidebar %}
+        <div class="bodywrapper">
+      {%- endif %}
+          <div class="body">
+            {% block body %} {% endblock %}
+          </div>
+      {%- if render_sidebar %}
+        </div>
+      {%- endif %}
+      </div>
+  {%- endblock %}
+      <div class="clearer"></div>
+    </div>
+{%- endblock %}
 
 {%- block footer %}
 <div class="footer">

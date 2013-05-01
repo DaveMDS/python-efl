@@ -30,17 +30,15 @@ body {
     background-color: rgb(64,64,64); /* */
     color: white; /*black*/
     padding: 0;
-    /* border-right: 1px solid rgb(111,111,111); 0a507a */
-    /* border-left: 1px solid rgb(111,111,111); 0a507a */
-
-    margin: 0 auto;
-    min-width: 780px;
-    max-width: 1080px;
+    margin: 0;
 }
 
 .pageheader {
     background: url("header_menu_background.png") repeat scroll 0% 0% transparent;
-    margin-bottom: 18px;
+    width: 90%;
+    margin: 0 auto 18px auto;
+    min-width: 750px;
+    max-width: 1080px;
 }
 
 .pageheader ul {
@@ -50,6 +48,7 @@ body {
     height: 63px;
     padding-right: 18px;
     background: url("header_menu_background_last.png") no-repeat scroll right center transparent;
+
 }
 
 .pageheader li {
@@ -58,7 +57,6 @@ body {
 
 .pageheader li a {
     display: inline-block;
-
 }
 
 .pageheader li a span {
@@ -90,22 +88,29 @@ body {
 div.document {
    /* background-color: white; */
     text-align: left;
-    border: 1px solid rgb(111,111,111); /* */
+    border: 1px solid rgb(111,111,111);
+    width: 90%;
+    margin: 0 auto;
+    min-width: 780px;
+    max-width: 1080px;
 }
 
 div.bodywrapper {
-    margin: 0 240px 0 0;
+    margin-right: 240px;
     border-right: 1px solid rgb(111,111,111); /*#0a507a*/
 }
 
 div.body {
-    margin: 0;
     padding: 0.5em 20px 20px 20px;
 }
 
 div.related {
     font-size: 1em;
     color: white;
+    width: 90%;
+    margin: 0 auto;
+    min-width: 780px;
+    max-width: 1080px;
 }
 
 div.related ul {
@@ -148,6 +153,7 @@ div.sphinxsidebarwrapper {
     top: 0px;
 */
     padding: 0;
+
 }
 
 div.sphinxsidebar {
