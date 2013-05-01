@@ -22,6 +22,7 @@ cdef extern from "Elementary.h":
     ctypedef struct Elm_Gengrid_Item_Class:
         char *item_style
         Elm_Gengrid_Item_Class_Func func
+    ctypedef Elm_Gengrid_Item_Class const_Elm_Gengrid_Item_Class "const Elm_Gengrid_Item_Class"
 
     Evas_Object *           elm_gengrid_add(Evas_Object *parent)
     void                    elm_gengrid_clear(Evas_Object *obj)
@@ -35,7 +36,7 @@ cdef extern from "Elementary.h":
     Elm_Object_Item *       elm_gengrid_item_prepend(Evas_Object *obj, Elm_Gengrid_Item_Class *itc, const_void *data, Evas_Smart_Cb func, const_void *func_data)
     Elm_Object_Item *       elm_gengrid_item_insert_before(Evas_Object *obj, Elm_Gengrid_Item_Class *itc, const_void *data, Elm_Object_Item *before, Evas_Smart_Cb func, const_void *func_data)
     Elm_Object_Item *       elm_gengrid_item_insert_after(Evas_Object *obj, Elm_Gengrid_Item_Class *itc, const_void *data, Elm_Object_Item *after, Evas_Smart_Cb func, const_void *func_data)
-    Elm_Object_Item *       elm_gengrid_item_sorted_insert(Evas_Object *obj, const Elm_Gengrid_Item_Class *gic, const_void *data, Eina_Compare_Cb comp, Evas_Smart_Cb func, const_void *func_data)
+    Elm_Object_Item *       elm_gengrid_item_sorted_insert(Evas_Object *obj, const_Elm_Gengrid_Item_Class *gic, const_void *data, Eina_Compare_Cb comp, Evas_Smart_Cb func, const_void *func_data)
     Elm_Object_Item *       elm_gengrid_selected_item_get(Evas_Object *obj)
     Eina_List *             elm_gengrid_selected_items_get(Evas_Object *obj)
     Eina_List *             elm_gengrid_realized_items_get(Evas_Object *obj)
