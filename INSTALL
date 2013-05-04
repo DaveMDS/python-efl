@@ -5,8 +5,8 @@
  * Python 2.7 or higher (http://www.python.org/)
    - Tested with Python 2.7 / 3.2
 
- * Cython 0.17.3 or higher (http://cython.org/)
-   - Tested with Cython 0.17.3
+ * Cython 0.17.0 or higher (http://cython.org/)
+   - Tested with Cython 0.17.1
 
  * EFL core library
    - eo, evas, ecore, edje, elementary, edbus and emotion
@@ -57,6 +57,10 @@
  * To install for python3:
 
     python3 setup.py install (also cython need to be installed with py3)
+
+ * Install with a custom prefix:
+
+    python setup.py install --prefix=/MY_PREFIX
 
 
 

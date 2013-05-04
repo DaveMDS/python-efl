@@ -13,7 +13,7 @@ try:
     from Cython.Build import cythonize
     import Cython.Compiler.Options
 
-    min_ver, cur_ver = "0.17.3", Cython.__version__
+    min_ver, cur_ver = "0.17.0", Cython.__version__
     assert StrictVersion(cur_ver) >= StrictVersion(min_ver)
     print("Found Cython: %s" % cur_ver)
 
@@ -109,7 +109,7 @@ else:
                             extra_compile_args = edje_cflags,
                             extra_link_args = edje_libs + eina_libs + evas_libs)
     modules.append(edje_ext)
-    
+
     # Edje_Edit
     edje_edit_ext = Extension("efl.edje_edit", ["efl/edje/efl.edje_edit.pyx"],
                             define_macros = [('EDJE_EDIT_IS_UNSTABLE_AND_I_KNOW_ABOUT_IT', None)],
