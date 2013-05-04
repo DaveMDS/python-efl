@@ -73,23 +73,58 @@ class DBusInterface(DBusNode):
 
 class DBusProperty(DBusNode):
     """object to represent a DBus Property"""
-    def __init__(self, name, parent_iface):
+    def __init__(self, name, parent_iface, typ = 'unknown', access = 'unknown'):
         DBusNode.__init__(self, name, parent_iface)
         parent_iface.properties.append(self)
+        self._type = typ
+        self._access = access
 
+    @property
+    def type(self):
+        return self._type
+
+    @property
+    def access(self):
+        return self._access
 
 class DBusMethod(DBusNode):
     """object to represent a DBus Method"""
     def __init__(self, name, parent_iface):
         DBusNode.__init__(self, name, parent_iface)
         parent_iface.methods.append(self)
+        self._params = []
+        self._returns = []
 
+    @property
+    def params(self):
+        return self._params
+
+    @property
+    def params_str(self):
+        return ', '.join([(ty+' '+name).strip() for name, ty in self._params])
+
+    @property
+    def returns(self):
+        return self._returns
+
+    @property
+    def returns_str(self):
+        return ', '.join([(ty+' '+name).strip() for name, ty in self._returns])
 
 class DBusSignal(DBusNode):
     """object to represent a DBus Signal"""
     def __init__(self, name, parent_iface):
         DBusNode.__init__(self, name, parent_iface)
         parent_iface.signals.append(self)
+        self._params = []
+
+    @property
+    def params(self):
+        return self._params
+
+    @property
+    def params_str(self):
+        return ', '.join([(ty+' '+name).strip() for name, ty in self._params])
 
 
 ### Introspect a named service and return a list of DBusObjects
@@ -125,13 +160,29 @@ def recursive_introspect(bus, named_service, object_path, ret_data=None):
 
             for child in xml_node:
                 if child.tag == 'property':
-                    prop = DBusProperty(child.attrib['name'], iface)
+                    typ = child.attrib['type']
+                    access = child.attrib['access']
+                    prop = DBusProperty(child.attrib['name'], iface, typ, access)
 
                 if child.tag == 'method':
                     meth = DBusMethod(child.attrib['name'], iface)
-                
+                    for arg in child:
+                        if arg.tag == 'arg':
+                            if arg.attrib['direction'] == 'out':
+                                L = meth.returns
+                            else:
+                                L = meth.params
+                            L.append((
+                                arg.attrib['name'] if 'name' in arg.attrib else '',
+                                arg.attrib['type'] if 'type' in arg.attrib else ''))
+
                 if child.tag == 'signal':
                     sig = DBusSignal(child.attrib['name'], iface)
+                    for arg in child:
+                        if arg.tag == 'arg':
+                            sig.params.append((
+                                arg.attrib['name'] if 'name' in arg.attrib else '',
+                                arg.attrib['type'] if 'type' in arg.attrib else ''))
 
         # found another node, introspect it...
         if xml_node.tag == 'node':
@@ -243,11 +294,16 @@ class NodeItemClass(GenlistItemClass):
         if isinstance(obj, DBusInterface):
             return '[IFACE] ' + obj.name
         if isinstance(obj, DBusProperty):
-            return '[PROP] ' + obj.name
+            return '[PROP] %s %s (%s)' % (obj.type, obj.name, obj.access)
         if isinstance(obj, DBusMethod):
-            return '[METH] ' + obj.name + '()'
+            params = obj.params_str
+            rets = obj.returns_str
+            if rets:
+                return '[METH] %s(%s) -> (%s)' % (obj.name, params, rets)
+            else:
+                return '[METH] %s(%s)' % (obj.name, params)
         if isinstance(obj, DBusSignal):
-            return '[SIG] ' + obj.name
+            return '[SIG] %s(%s)' % (obj.name, obj.params_str)
 
 class DetailList(Genlist):
     def __init__(self, parent):
@@ -276,17 +332,25 @@ class DetailList(Genlist):
                                               parent_item=obj_item,
                                               flags=elm.ELM_GENLIST_ITEM_TREE)
 
+    def sort_cb(self, it1, it2):
+        pri1 = pri2 = 0
+        if isinstance(it1.data, DBusProperty): pri1 = 3
+        elif isinstance(it1.data, DBusMethod): pri1 = 2
+        elif isinstance(it1.data, DBusSignal): pri1 = 1
+        if isinstance(it2.data, DBusProperty): pri2 = 3
+        elif isinstance(it2.data, DBusMethod): pri2 = 2
+        elif isinstance(it2.data, DBusSignal): pri2 = 1
+        if pri1 > pri2: return 1
+        elif pri1 < pri2: return -1
+        return 1 if it1.data.name.lower() < it2.data.name.lower() else -1
+
     def expand_request_cb(self, genlist, item):
         item.expanded = True
 
     def expanded_cb(self, genlist, item):
         iface = item.data
-        for prop in iface.properties:
-            self.item_append(self.itc, prop, parent_item=item)
-        for method in iface.methods:
-            self.item_append(self.itc, method, parent_item=item)
-        for signal in iface.signals:
-            self.item_append(self.itc, signal, parent_item=item)
+        for obj in iface.properties + iface.methods + iface.signals:
+            self.item_sorted_insert(self.itc, obj, self.sort_cb, parent_item=item)
     
     def contract_request_cb(self, genlist, item):
         item.expanded = False
