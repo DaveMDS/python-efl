@@ -2,6 +2,7 @@
 # -*- coding: utf-8 -*-
 
 import dbus
+import json
 import xml.etree.ElementTree as ElementTree
 
 from efl import evas
@@ -10,6 +11,7 @@ from efl.elementary.window import StandardWindow
 from efl.elementary.background import Background
 from efl.elementary.box import Box
 from efl.elementary.button import Button
+from efl.elementary.check import Check
 from efl.elementary.entry import Entry, \
     Entry_markup_to_utf8 as markup_to_utf8, \
     Entry_utf8_to_markup as utf8_to_markup
@@ -26,6 +28,7 @@ class Options(object):
     """class to contain application options"""
     def __init__(self):
         self.hide_introspect_stuff = True
+        self.pretty_output = True
 
 
 ### connect to session and system buses, and set session as the current one
@@ -424,7 +427,7 @@ class MethodRunner(Popup):
         # params label + entry
         if len(method.params) > 0:
             label = Label(parent)
-            label.size_hint_align = 0.0, 0.0
+            label.size_hint_align = 0.0, 0.5
             label.text = 'Params: ' + method.params_str
             label.show()
             vbox.pack_end(label)
@@ -447,7 +450,7 @@ class MethodRunner(Popup):
         
         # returns label + entry
         label = Label(parent)
-        label.size_hint_align = 0.0, 0.0
+        label.size_hint_align = 0.0, 0.5
         label.text = 'Returns: '
         label.text += method.returns_str if method.returns_str else 'None'
         label.show()
@@ -464,6 +467,17 @@ class MethodRunner(Popup):
         en.entry = '<br> <br> <br>'
         en.show()
         vbox.pack_end(en)
+
+        # pretty print check button
+        def pretty_output_clicked_cb(chk):
+            options.pretty_output = chk.state
+        ch = Check(parent)
+        ch.size_hint_align = 0.0, 0.5
+        ch.text = "Prettify output (loosing type infos)"
+        ch.state = options.pretty_output
+        ch.callback_changed_add(pretty_output_clicked_cb)
+        ch.show()
+        vbox.pack_end(ch)
 
         # popup buttons
         btn = Button(parent)
@@ -515,7 +529,10 @@ class MethodRunner(Popup):
 
     def reply_handler(self, *rets):
         if rets:
-            s = utf8_to_markup(str(*rets))
+            if options.pretty_output:
+                s = utf8_to_markup(json.dumps(rets, indent=2))
+            else:
+                s = utf8_to_markup(str(rets))
         else:
             s = "Method executed successfully.<br>Nothing returned."
         self._return_entry.entry = s
