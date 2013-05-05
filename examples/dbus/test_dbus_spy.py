@@ -1,4 +1,5 @@
 #!/usr/bin/env python
+# -*- coding: utf-8 -*-
 
 import dbus
 import xml.etree.ElementTree as ElementTree
@@ -9,8 +10,14 @@ from efl.elementary.window import StandardWindow
 from efl.elementary.background import Background
 from efl.elementary.box import Box
 from efl.elementary.button import Button
+from efl.elementary.entry import Entry, \
+    Entry_markup_to_utf8 as markup_to_utf8, \
+    Entry_utf8_to_markup as utf8_to_markup
 from efl.elementary.flipselector import FlipSelector
+from efl.elementary.label import Label
 from efl.elementary.panes import Panes
+from efl.elementary.popup import Popup
+from efl.elementary.separator import Separator
 from efl.elementary.genlist import Genlist, GenlistItem, GenlistItemClass
 from efl.dbus_mainloop import DBusEcoreMainLoop
 
@@ -111,6 +118,7 @@ class DBusMethod(DBusNode):
     def returns_str(self):
         return ', '.join([(ty+' '+name).strip() for name, ty in self._returns])
 
+
 class DBusSignal(DBusNode):
     """object to represent a DBus Signal"""
     def __init__(self, name, parent_iface):
@@ -141,11 +149,11 @@ def recursive_introspect(bus, named_service, object_path, ret_data=None):
     xml_root = ElementTree.fromstring(xml_data)
 
     # debug
-    print('=' * 80)
-    print("Introspecting path:'%s' on service:'%s'" % (object_path, named_service))
-    print('=' * 80)
-    print(xml_data)
-    print('=' * 80)
+    # print('=' * 80)
+    # print("Introspecting path:'%s' on service:'%s'" % (object_path, named_service))
+    # print('=' * 80)
+    # print(xml_data)
+    # print('=' * 80)
 
     # traverse the xml tree
     if xml_root.find('interface'):
@@ -299,7 +307,7 @@ class NodeItemClass(GenlistItemClass):
             params = obj.params_str
             rets = obj.returns_str
             if rets:
-                return '[METH] %s(%s) -> (%s)' % (obj.name, params, rets)
+                return '[METH] %s(%s) ↦ (%s)' % (obj.name, params, rets)
             else:
                 return '[METH] %s(%s)' % (obj.name, params)
         if isinstance(obj, DBusSignal):
@@ -308,12 +316,14 @@ class NodeItemClass(GenlistItemClass):
 class DetailList(Genlist):
     def __init__(self, parent):
         Genlist.__init__(self, parent)
+        self._parent = parent
         self.itc = NodeItemClass()
         self.itc_g = ObjectItemClass()
         self.callback_expand_request_add(self.expand_request_cb)
         self.callback_expanded_add(self.expanded_cb)
         self.callback_contract_request_add(self.contract_request_cb)
         self.callback_contracted_add(self.contracted_cb)
+        self.callback_clicked_double_add(self.double_click_cb)
         
         
     def populate(self, name):
@@ -357,6 +367,130 @@ class DetailList(Genlist):
 
     def contracted_cb(self, genlist, item):
         item.subitems_clear()
+
+    def double_click_cb(self, genlist, item):
+        if isinstance(item.data, DBusMethod):
+            MethodRunner(self._parent, item.data)
+
+
+### Methods runner
+class MethodRunner(Popup):
+    def __init__(self, parent, method):
+        Popup.__init__(self, parent)
+        self._method = method
+        self._param_entry = None
+        self._return_entry = None
+
+        # title
+        self.part_text_set('title,text', 'Method: %s()' % method.name)
+        self.show()
+
+        # content is vbox
+        vbox = Box(parent)
+        vbox.show()
+        self.content = vbox
+
+        # params label + entry
+        if len(method.params) > 0:
+            label = Label(parent)
+            label.size_hint_align = 0.0, 0.0
+            label.text = 'Params: ' + method.params_str
+            label.show()
+            vbox.pack_end(label)
+
+            en = Entry(parent)
+            self._param_entry = en
+            en.editable = True
+            en.scrollable = True
+            en.single_line = True
+            en.entry = ''
+            en.size_hint_weight = evas.EVAS_HINT_EXPAND, evas.EVAS_HINT_EXPAND
+            en.size_hint_align = evas.EVAS_HINT_FILL, evas.EVAS_HINT_FILL
+            en.show()
+            vbox.pack_end(en)
+
+            sp = Separator(win)
+            sp.horizontal = True
+            sp.show()
+            vbox.pack_end(sp)
+        
+        # returns label + entry
+        label = Label(parent)
+        label.size_hint_align = 0.0, 0.0
+        label.text = 'Returns: '
+        label.text += method.returns_str if method.returns_str else 'None'
+        label.show()
+        vbox.pack_end(label)
+
+        en = Entry(parent)
+        self._return_entry = en
+        en.size_hint_weight = evas.EVAS_HINT_EXPAND, evas.EVAS_HINT_EXPAND
+        en.size_hint_align = evas.EVAS_HINT_FILL, evas.EVAS_HINT_FILL
+        en.editable = False
+        en.scrollable = True
+        en.disabled = True
+        en.single_line = True # TODO this is wrong, but the only way to show the entry :/
+        en.entry = '<br> <br> <br>'
+        en.show()
+        vbox.pack_end(en)
+
+        # popup buttons
+        btn = Button(parent)
+        btn.text = 'Close'
+        btn.callback_clicked_add(lambda b: self.delete())
+        self.part_content_set('button1', btn)
+
+        btn = Button(parent)
+        btn.text = 'Clear output'
+        btn.callback_clicked_add(lambda b: self._return_entry.entry_set(''))
+        self.part_content_set('button2', btn)
+
+        btn = Button(parent)
+        btn.text = 'Run method'
+        btn.callback_clicked_add(self.run_clicked_cb)
+        self.part_content_set('button3', btn)
+
+    def run_clicked_cb(self, btn):
+        # collect method infos
+        named_service = self._method.parent.parent.parent
+        object_path = self._method.parent.parent.name
+        iface_name = self._method.parent.name
+        method_name = self._method.name
+        if self._param_entry:
+            user_params = markup_to_utf8(self._param_entry.entry)
+        else:
+            user_params = None
+
+        # create the dbus proxy
+        obj = bus.get_object(named_service, object_path)
+        iface = dbus.Interface(obj, iface_name)
+        meth = iface.get_dbus_method(method_name)
+
+        # async method call # TODO make another  example for this
+        try:
+            if user_params:
+                meth(eval(user_params),
+                     reply_handler = self.reply_handler,
+                     error_handler = self.error_handler)
+            else:
+                meth(reply_handler = self.reply_handler,
+                     error_handler = self.error_handler)
+        except Exception as e:
+            s = "Error running method<br>Exception: "
+            self._return_entry.entry = s + utf8_to_markup(str(e))
+
+        # TODO find a way to catch errors after this point
+        #      wrong params for example are raised later :/
+
+    def reply_handler(self, *rets):
+        if rets:
+            s = utf8_to_markup(str(*rets))
+        else:
+            s = "Method executed successfully.<br>Nothing returned."
+        self._return_entry.entry = s
+
+    def error_handler(self, *rets):
+        self._return_entry.entry = 'Error executing method'
 
 
 ### The main window
