@@ -85,6 +85,20 @@ class DBusProperty(DBusNode):
         parent_iface.properties.append(self)
         self._type = typ
         self._access = access
+        self._value = None
+
+    def fetch_value(self):
+        named_service = self.parent.parent.parent
+        object_path = self.parent.parent.name
+        iface_name = self.parent.name
+
+        obj = bus.get_object(named_service, object_path)
+        iface = dbus.Interface(obj, "org.freedesktop.DBus.Properties")
+        self._value = iface.Get(iface_name, self.name)
+
+    @property
+    def value(self):
+        return self._value
 
     @property
     def type(self):
@@ -302,7 +316,11 @@ class NodeItemClass(GenlistItemClass):
         if isinstance(obj, DBusInterface):
             return '[IFACE] ' + obj.name
         if isinstance(obj, DBusProperty):
-            return '[PROP] %s %s (%s)' % (obj.type, obj.name, obj.access)
+            if obj.value:
+                return '[PROP] %s %s (%s) = %s' % \
+                        (obj.type, obj.name, obj.access, obj.value)
+            else:
+                return '[PROP] %s %s (%s)' % (obj.type, obj.name, obj.access)
         if isinstance(obj, DBusMethod):
             params = obj.params_str
             rets = obj.returns_str
@@ -371,6 +389,9 @@ class DetailList(Genlist):
     def double_click_cb(self, genlist, item):
         if isinstance(item.data, DBusMethod):
             MethodRunner(self._parent, item.data)
+        elif isinstance(item.data, DBusProperty):
+            item.data.fetch_value()
+            item.update()
 
 
 ### Methods runner
