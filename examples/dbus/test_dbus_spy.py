@@ -22,10 +22,17 @@ from efl.elementary.genlist import Genlist, GenlistItem, GenlistItemClass
 from efl.dbus_mainloop import DBusEcoreMainLoop
 
 
+class Options(object):
+    """class to contain application options"""
+    def __init__(self):
+        self.hide_introspect_stuff = True
+
+
 ### connect to session and system buses, and set session as the current one
 session_bus = dbus.SessionBus(mainloop=DBusEcoreMainLoop())
 system_bus = dbus.SystemBus(mainloop=DBusEcoreMainLoop())
 bus = session_bus
+options = Options()
 
 
 ### Classes to describe various DBus nodes
@@ -356,6 +363,9 @@ class DetailList(Genlist):
             
             # interfaces
             for iface in obj.interfaces:
+                if options.hide_introspect_stuff and \
+                   iface.name.startswith("org.freedesktop.DBus"):
+                  continue
                 iface_item = self.item_append(self.itc, iface,
                                               parent_item=obj_item,
                                               flags=elm.ELM_GENLIST_ITEM_TREE)
