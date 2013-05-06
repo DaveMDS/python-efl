@@ -1,33 +1,33 @@
-#define EDBUS_METHOD_FLAG_DEPRECATED 1
-#define EDBUS_METHOD_FLAG_NOREPLY (1 << 1)
+#define ELDBUS_METHOD_FLAG_DEPRECATED 1
+#define ELDBUS_METHOD_FLAG_NOREPLY (1 << 1)
 
-#define EDBUS_SIGNAL_FLAG_DEPRECATED 1
+#define ELDBUS_SIGNAL_FLAG_DEPRECATED 1
 
-#define EDBUS_PROPERTY_FLAG_DEPRECATED 1
+#define ELDBUS_PROPERTY_FLAG_DEPRECATED 1
 
-typedef struct _EDBus_Arg_Info
+typedef struct _Eldbus_Arg_Info
 {
-   const char *signature;
-   const char *name;
-} EDBus_Arg_Info;
+   const_char *signature;
+   const_char *name;
+} Eldbus_Arg_Info;
 
 
 """
 
 @brief Used to insert complete types to signature of methods or signals.
 
-Example: EDBUS_ARGS({"s", "interface"}, {"s", "property"})
+Example: ELDBUS_ARGS({"s", "interface"}, {"s", "property"})
 The signature will be "ss" and each string will have a tag name on
 introspect XML with the respective name.
 
 """
-#define EDBUS_ARGS(args...) (const EDBus_Arg_Info[]){ args, { NULL, NULL } }
+#define ELDBUS_ARGS(args...) (const_Eldbus_Arg_Info[]){ args, { NULL, NULL } }
 
-typedef struct _EDBus_Service_Interface EDBus_Service_Interface;
-typedef EDBus_Message * (*EDBus_Method_Cb)(self.iface, const EDBus_Message *message);
+typedef struct _Eldbus_Service_Interface Eldbus_Service_Interface;
+typedef Eldbus_Message * (*Eldbus_Method_Cb)(self.iface, const_EDBus_Message *message);
 
 
-cdef Eina_Bool edbus_property_get_cb(self.iface, const char *propname, EDBus_Message_Iter *iter, const EDBus_Message *request_msg, EDBus_Message **error):
+cdef Eina_Bool eldbus_property_get_cb(self.iface, const_char *propname, Eldbus_Message_Iter *iter, const Eldbus_Message *request_msg, EDBus_Message **error):
     """
 
     Callback function to append property value to message.
@@ -42,7 +42,7 @@ cdef Eina_Bool edbus_property_get_cb(self.iface, const char *propname, EDBus_Mes
 
     @note request_msg and error arguments are only different from NULL when a
     client request a property with Properties.Get or Properties.GetAll. Upon
-    calls to edbus_service_property_changed(), this callback will also be called.
+    calls to eldbus_service_property_changed(), this callback will also be called.
     It's a mistake to return an error in this case because if a property changed,
     it must have a new value set and it should be able to be read.
 
@@ -50,7 +50,7 @@ cdef Eina_Bool edbus_property_get_cb(self.iface, const char *propname, EDBus_Mes
     pass
 
 
-cdef EDBus_Message *edbus_property_set_cb(self.iface, const char *propname, EDBus_Message_Iter *iter, const EDBus_Message *input_msg):
+cdef Eldbus_Message *eldbus_property_set_cb(self.iface, const_char *propname, Eldbus_Message_Iter *iter, const EDBus_Message *input_msg):
     """
 
     Callback function to set property value from message.
@@ -65,45 +65,45 @@ cdef EDBus_Message *edbus_property_set_cb(self.iface, const char *propname, EDBu
     pass
 
 """
-typedef struct _EDBus_Method
+typedef struct _Eldbus_Method
 {
-   const char *member;
-   const EDBus_Arg_Info *in;
-   const EDBus_Arg_Info *out;
-   EDBus_Method_Cb cb;
+   const_char *member;
+   const_Eldbus_Arg_Info *in;
+   const_Eldbus_Arg_Info *out;
+   Eldbus_Method_Cb cb;
    unsigned int flags;
-} EDBus_Method;
+} Eldbus_Method;
 
-typedef struct _EDBus_Signal
+typedef struct _Eldbus_Signal
 {
-   const char *name;
-   const EDBus_Arg_Info *args;
+   const_char *name;
+   const_Eldbus_Arg_Info *args;
    unsigned int flags;
-} EDBus_Signal;
+} Eldbus_Signal;
 
-typedef struct _EDBus_Property
+typedef struct _Eldbus_Property
 {
-   const char *name;
-   const char *type;
-   EDBus_Property_Get_Cb get_func;
-   EDBus_Property_Set_Cb set_func;
+   const_char *name;
+   const_char *type;
+   Eldbus_Property_Get_Cb get_func;
+   Eldbus_Property_Set_Cb set_func;
    unsigned int flags;
-} EDBus_Property;
+} Eldbus_Property;
 
-typedef struct _EDBus_Service_Interface_Desc
+typedef struct _Eldbus_Service_Interface_Desc
 {
-   const char *interface; /**< interface name */
-   const EDBus_Method *methods; /**< array of the methods that should be registered in this interface, the last item of array should be filled with NULL */
-   const EDBus_Signal *signals; /**< array of signal that this interface send, the last item of array should be filled with NULL */
-   const EDBus_Property *properties; /**< array of property that this interface have, the last item of array should be filled with NULL  */
-   const EDBus_Property_Get_Cb default_get; /**< default get function, if a property don't have a get function this will be used */
-   const EDBus_Property_Set_Cb default_set; /**< default set function, if a property don't have a set function this will be used */
-} EDBus_Service_Interface_Desc;
+   const_char *interface; /**< interface name */
+   const_Eldbus_Method *methods; /**< array of the methods that should be registered in this interface, the last item of array should be filled with NULL */
+   const_Eldbus_Signal *signals; /**< array of signal that this interface send, the last item of array should be filled with NULL */
+   const_Eldbus_Property *properties; /**< array of property that this interface have, the last item of array should be filled with NULL  */
+   const_Eldbus_Property_Get_Cb default_get; /**< default get function, if a property don't have a get function this will be used */
+   const_Eldbus_Property_Set_Cb default_set; /**< default set function, if a property don't have a set function this will be used */
+} Eldbus_Service_Interface_Desc;
 """
 
 cdef class ServiceInterface(object):
 
-    cdef EDBus_Service_Interface *iface
+    cdef Eldbus_Service_Interface *iface
 
     def __init__(self, conn, path, desc):
         """
@@ -117,7 +117,7 @@ cdef class ServiceInterface(object):
         @return Interface
 
         """
-        self.iface = edbus_service_interface_register(EDBus_Connection *conn, const char *path, const EDBus_Service_Interface_Desc *desc) EINA_ARG_NONNULL(1, 2, 3)
+        self.iface = eldbus_service_interface_register(Eldbus_Connection *conn, const_char *path, const Eldbus_Service_Interface_Desc *desc) EINA_ARG_NONNULL(1, 2, 3)
 
     def unregister(self):
         """
@@ -127,7 +127,7 @@ cdef class ServiceInterface(object):
         removed too.
 
         """
-        void edbus_service_interface_unregister(EDBus_Service_Interface *iface) EINA_ARG_NONNULL(1)
+        void eldbus_service_interface_unregister(Eldbus_Service_Interface *iface) EINA_ARG_NONNULL(1)
 
     def object_unregister(self):
         """
@@ -136,15 +136,15 @@ cdef class ServiceInterface(object):
         and the object path.
 
         """
-        void edbus_service_object_unregister(EDBus_Service_Interface *iface) EINA_ARG_NONNULL(1)
+        void eldbus_service_object_unregister(Eldbus_Service_Interface *iface) EINA_ARG_NONNULL(1)
 
     property connection:
         def __get__(self):
-            EDBus_Connection *edbus_service_connection_get(self.iface) EINA_ARG_NONNULL(1) EINA_WARN_UNUSED_RESULT
+            Eldbus_Connection *eldbus_service_connection_get(self.iface) EINA_ARG_NONNULL(1) EINA_WARN_UNUSED_RESULT
 
     property path:
         def __get__(self):
-            const char *edbus_service_object_path_get(self.iface) EINA_ARG_NONNULL(1) EINA_WARN_UNUSED_RESULT
+            const_char *eldbus_service_object_path_get(self.iface) EINA_ARG_NONNULL(1) EINA_WARN_UNUSED_RESULT
 
     def signal_emit(self, signal_id, *args):
         """
@@ -158,7 +158,7 @@ cdef class ServiceInterface(object):
         @param ... values that will be send on signal
 
         """
-        Eina_Bool edbus_service_signal_emit(self.iface, unsigned int signal_id, ...) EINA_ARG_NONNULL(1)
+        Eina_Bool eldbus_service_signal_emit(self.iface, unsigned int signal_id, ...) EINA_ARG_NONNULL(1)
 
     def signal_new(self, signal_id):
         """
@@ -172,19 +172,19 @@ cdef class ServiceInterface(object):
         @param signal_id id of signal
 
         """
-        EDBus_Message *edbus_service_signal_new(self.iface, unsigned int signal_id) EINA_ARG_NONNULL(1) EINA_WARN_UNUSED_RESULT
+        Eldbus_Message *eldbus_service_signal_new(self.iface, unsigned int signal_id) EINA_ARG_NONNULL(1) EINA_WARN_UNUSED_RESULT
 
     def signal_send(self, signal_msg):
         """
 
         @brief Send a signal message.
 
-        On success this will call edbus_message_unref() on the @param signal_msg,
+        On success this will call eldbus_message_unref() on the @param signal_msg,
         which is the intended behavior in 99% of the cases. Remember to increment
         the refcount if you want to keep it alive.
 
         """
-        Eina_Bool edbus_service_signal_send(self.iface, EDBus_Message *signal_msg) EINA_ARG_NONNULL(1, 2)
+        Eina_Bool eldbus_service_signal_send(self.iface, Eldbus_Message *signal_msg) EINA_ARG_NONNULL(1, 2)
 
     def object_data_set(self, key, data):
         """
@@ -198,7 +198,7 @@ cdef class ServiceInterface(object):
         @param data
 
         """
-        void edbus_service_object_data_set(EDBus_Service_Interface *iface, const char *key, const void *data) EINA_ARG_NONNULL(1, 2, 3)
+        void eldbus_service_object_data_set(Eldbus_Service_Interface *iface, const_char *key, const void *data) EINA_ARG_NONNULL(1, 2, 3)
 
     def object_data_get(self, key):
         """
@@ -211,7 +211,7 @@ cdef class ServiceInterface(object):
         @return pointer to data if found otherwise NULL
 
         """
-        void *edbus_service_object_data_get(self.iface, const char *key) EINA_ARG_NONNULL(1, 2) EINA_WARN_UNUSED_RESULT
+        void *eldbus_service_object_data_get(self.iface, const_char *key) EINA_ARG_NONNULL(1, 2) EINA_WARN_UNUSED_RESULT
 
     def object_data_del(self, key):
         """
@@ -224,7 +224,7 @@ cdef class ServiceInterface(object):
         @return pointer to data if found otherwise NULL
 
         """
-        void *edbus_service_object_data_del(EDBus_Service_Interface *iface, const char *key) EINA_ARG_NONNULL(1, 2)
+        void *eldbus_service_object_data_del(Eldbus_Service_Interface *iface, const_char *key) EINA_ARG_NONNULL(1, 2)
 
     def property_changed(self, name):
         """
@@ -237,11 +237,11 @@ cdef class ServiceInterface(object):
         @param name Property name
 
         """
-        Eina_Bool edbus_service_property_changed(self.iface, const char *name) EINA_ARG_NONNULL(1, 2)
+        Eina_Bool eldbus_service_property_changed(self.iface, const_char *name) EINA_ARG_NONNULL(1, 2)
 
 
     def property_invalidate_set(self, name, is_invalidate):
-        Eina_Bool edbus_service_property_invalidate_set(self.iface, const char *name, Eina_Bool is_invalidate) EINA_ARG_NONNULL(1, 2)
+        Eina_Bool eldbus_service_property_invalidate_set(self.iface, const_char *name, Eina_Bool is_invalidate) EINA_ARG_NONNULL(1, 2)
 
     def object_manager_attach(self):
         """
@@ -252,7 +252,7 @@ cdef class ServiceInterface(object):
         @return EINA_TRUE if success
 
         """
-        Eina_Bool edbus_service_object_manager_attach(EDBus_Service_Interface *iface) EINA_ARG_NONNULL(1)
+        Eina_Bool eldbus_service_object_manager_attach(Eldbus_Service_Interface *iface) EINA_ARG_NONNULL(1)
 
     def object_manager_detach(self):
         """
@@ -263,4 +263,4 @@ cdef class ServiceInterface(object):
         @return EINA_TRUE if success
 
         """
-        Eina_Bool edbus_service_object_manager_detach(EDBus_Service_Interface *iface) EINA_ARG_NONNULL(1)
+        Eina_Bool eldbus_service_object_manager_detach(Eldbus_Service_Interface *iface) EINA_ARG_NONNULL(1)

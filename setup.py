@@ -130,9 +130,9 @@ else:
     # eldbus_cflags, eldbus_libs = pkg_config('Eldbus', 'eldbus', "1.7.99")
     # pydbus_cflags, pydbus_libs = pkg_config('dbus-python', 'dbus-python')
     # eldbus_ext = Extension("efl.eldbus", ["efl/eldbus/eldbus.pyx"],
-                            # include_dirs = ['include/'],
-                            # extra_compile_args = eldbus_cflags + pydbus_cflags + ecore_cflags,
-                            # extra_link_args = eldbus_libs)
+    #                         include_dirs = ['include/'],
+    #                         extra_compile_args = eldbus_cflags + pydbus_cflags + ecore_cflags,
+    #                         extra_link_args = eldbus_libs)
     # modules.append(eldbus_ext)
 
     # dbus mainloop integration

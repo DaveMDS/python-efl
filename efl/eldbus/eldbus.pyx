@@ -17,7 +17,7 @@
 
 """
 
-EDBus is a wrapper around the
+Eldbus is a wrapper around the
 `dbus <http://www.freedesktop.org/wiki/Software/dbus>`_
 library, which is a message bus system. It also implements a set of
 specifications using dbus as interprocess communication.
@@ -27,9 +27,9 @@ specifications using dbus as interprocess communication.
 from cpython cimport PyUnicode_AsUTF8String
 
 def module_cleanup():
-    edbus_shutdown()
+    eldbus_shutdown()
 
-edbus_init()
+eldbus_init()
 atexit.register(module_cleanup)
 
 include "connection.pxi"
