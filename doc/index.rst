@@ -36,6 +36,13 @@ Elementary
 .. toctree:: elementary/elementary
    :maxdepth: 3
 
+
+DBus integration
+------------------------
+
+.. toctree:: dbus/dbus
+
+
 Acknowledgements
 ----------------
 
