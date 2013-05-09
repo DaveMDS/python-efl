@@ -27,7 +27,7 @@ from efl.dbus_mainloop import DBusEcoreMainLoop
 class Options(object):
     """class to contain application options"""
     def __init__(self):
-        self.hide_introspect_stuff = True
+        self.hide_introspect_stuff = False
         self.pretty_output = True
 
 
@@ -335,9 +335,9 @@ class NodeItemClass(GenlistItemClass):
             params = obj.params_str
             rets = obj.returns_str
             if rets:
-                return '[METH] %s(%s) ↦ (%s)' % (obj.name, params, rets)
+                return '𝆑   %s(%s) → (%s)' % (obj.name, params, rets)
             else:
-                return '[METH] %s(%s)' % (obj.name, params)
+                return '𝆑   %s(%s)' % (obj.name, params)
         if isinstance(obj, DBusSignal):
             return '[SIG] %s(%s)' % (obj.name, obj.params_str)
 
