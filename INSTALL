@@ -9,7 +9,7 @@
    - Tested with Cython 0.17.1
 
  * EFL core library
-   - eo, evas, ecore, edje, elementary, edbus and emotion
+   - eo, evas, ecore, edje, emotion and elementary
 
  * pkg-config (http://www.freedesktop.org/wiki/Software/pkg-config)
    - Windows executable (and GLib dependency) can be downloaded from

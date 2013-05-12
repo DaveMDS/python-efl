@@ -18,7 +18,8 @@
 from efl cimport *
 from efl.c_eo cimport Eo as cEo
 from efl.eo cimport Eo
-from efl.ecore.enums cimport Ecore_Fd_Handler_Flags, Ecore_Exe_Flags
+from efl.ecore.enums cimport Ecore_Fd_Handler_Flags, Ecore_Exe_Flags, \
+    Ecore_File_Event
 
 
 cdef extern from "Ecore.h":
@@ -165,9 +166,12 @@ cdef extern from "Ecore.h":
 cdef extern from "Ecore_File.h":
 
     ctypedef struct Ecore_File_Download_Job
+    ctypedef struct Ecore_File_Monitor
 
     ctypedef void (*Ecore_File_Download_Completion_Cb)(void *data, const_char *file, int status)
     ctypedef int  (*Ecore_File_Download_Progress_Cb)(void *data, const_char *file, long int dltotal, long int dlnow, long int ultotal, long int ulnow)
+    ctypedef void (*Ecore_File_Monitor_Cb)(void *data, Ecore_File_Monitor *em, Ecore_File_Event event, const_char *path)
+
 
     int       ecore_file_init()
     int       ecore_file_shutdown()
@@ -179,6 +183,10 @@ cdef extern from "Ecore_File.h":
                                   Ecore_File_Download_Progress_Cb progress_cb,
                                   void *data,
                                   Ecore_File_Download_Job **job_ret)
+
+    Ecore_File_Monitor *ecore_file_monitor_add(const_char *path, Ecore_File_Monitor_Cb func, void *data)
+    void                ecore_file_monitor_del(Ecore_File_Monitor *ecore_file_monitor)
+    const_char         *ecore_file_monitor_path_get(Ecore_File_Monitor *ecore_file_monitor)
 
 
 ####################################################################
@@ -316,3 +324,11 @@ cdef class FileDownload:
                                long int dltotal, long int dlnow,
                                long int ultotal, long int ulnow)
 
+
+cdef class FileMonitor:
+    cdef Ecore_File_Monitor *mon
+    cdef readonly object monitor_cb
+    cdef readonly object args
+    cdef readonly object kargs
+
+    cdef object _exec_monitor(self, Ecore_File_Event event, const_char *path)

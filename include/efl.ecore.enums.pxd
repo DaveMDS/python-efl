@@ -52,3 +52,15 @@ cdef extern from "Ecore.h":
     ctypedef enum Ecore_Animator_Source:
         ECORE_ANIMATOR_SOURCE_TIMER
         ECORE_ANIMATOR_SOURCE_CUSTOM
+
+
+cdef extern from "Ecore_File.h":
+    ctypedef enum Ecore_File_Event:
+        ECORE_FILE_EVENT_NONE
+        ECORE_FILE_EVENT_CREATED_FILE
+        ECORE_FILE_EVENT_CREATED_DIRECTORY
+        ECORE_FILE_EVENT_DELETED_FILE
+        ECORE_FILE_EVENT_DELETED_DIRECTORY
+        ECORE_FILE_EVENT_DELETED_SELF
+        ECORE_FILE_EVENT_MODIFIED
+        ECORE_FILE_EVENT_CLOSED
