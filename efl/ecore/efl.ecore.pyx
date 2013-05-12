@@ -160,6 +160,44 @@ Timing sources for animators
     A custom animator trigger that you need to call ecore_animator_trigger() to make it tick
 
 
+.. Ecore_File_Event:
+
+File monitor events
+===================
+
+.. data:: ECORE_FILE_EVENT_NONE
+
+    No event
+
+.. data:: ECORE_FILE_EVENT_CREATED_FILE
+
+    A file has been created
+
+.. data:: ECORE_FILE_EVENT_CREATED_DIRECTORY
+
+    A directory has been created
+
+.. data:: ECORE_FILE_EVENT_DELETED_FILE
+
+    A file has been deleted
+
+.. data:: ECORE_FILE_EVENT_DELETED_DIRECTORY
+
+    A directory has been deleted
+
+.. data:: ECORE_FILE_EVENT_DELETED_SELF
+
+    The monitored path itself has been deleted
+
+.. data:: ECORE_FILE_EVENT_MODIFIED
+
+    A file has changed
+
+.. data:: ECORE_FILE_EVENT_CLOSED
+
+    A file has been closed
+
+
 """
 
 import traceback

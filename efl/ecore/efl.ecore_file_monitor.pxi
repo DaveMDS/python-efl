@@ -27,7 +27,40 @@ cdef void _file_monitor_cb(void *data, Ecore_File_Monitor *em, Ecore_File_Event 
 
 
 cdef class FileMonitor(object):
-    """ TODOC """
+    """ Monitor the given path for changes.
+
+    The callback signatures is::
+
+        monitor_cb(event, path, *args, **kargs)
+
+    Example::
+
+        def monitor_cb(event, path, tmp_path):
+            if event == ecore.ECORE_FILE_EVENT_MODIFIED:
+                print("EVENT_MODIFIED: '%s'" % path)
+            elif event == ecore.ECORE_FILE_EVENT_CLOSED:
+                print("EVENT_CLOSED: '%s'" % path)
+            elif event == ecore.ECORE_FILE_EVENT_CREATED_FILE:
+                print("ECORE_FILE_EVENT_CREATED_FILE: '%s'" % path)
+            elif event == ecore.ECORE_FILE_EVENT_CREATED_DIRECTORY:
+                print("ECORE_FILE_EVENT_CREATED_DIRECTORY: '%s'" % path)
+            elif event == ecore.ECORE_FILE_EVENT_DELETED_FILE:
+                print("ECORE_FILE_EVENT_DELETED_FILE: '%s'" % path)
+            elif event == ecore.ECORE_FILE_EVENT_DELETED_DIRECTORY:
+                print("ECORE_FILE_EVENT_DELETED_DIRECTORY: '%s'" % path)
+            elif event == ecore.ECORE_FILE_EVENT_DELETED_SELF:
+                print("ECORE_FILE_EVENT_DELETED_SELF: '%s'" % path)
+    
+        ecore.FileMonitor("/tmp", monitor_cb)
+        ecore.main_loop_begin()
+    
+
+    :param path: The complete path of the folder you want to monitor.
+    :type path: str
+    :param monitor_cb: A callback called when something change in `path`
+    :type monitor_cb: callable
+
+    """
     def __init__(self, path, monitor_cb, *args, **kargs):
 
         if not callable(monitor_cb):
@@ -69,13 +102,22 @@ cdef class FileMonitor(object):
         return 0
 
     def delete(self):
-        """ TODOC """
+        """ Delete the monitor
+
+        Stop the monitoring process, all the internal resource will be freed
+        and no more callbacks will be called.
+
+         """
         if self.mon != NULL:
             ecore_file_monitor_del(self.mon)
             self.mon = NULL
             Py_DECREF(self)
 
     property path:
-        """ TODOC """
+        """ The path actully monitored.
+
+        :type: str (readonly)
+
+        """
         def __get__(self):
             return _ctouni(ecore_file_monitor_path_get(self.mon))

@@ -55,6 +55,24 @@ error. Any valid file descriptor can be used with this API, regardless of if
 was gotten with an OS specific API or from ecore.
 see :py:class:`FdHandler<efl.ecore.FdHandler>`
 
+File download
+-------------
+
+Ecore provide the :py:class:`FileDownload<efl.ecore.FileDownload>` class
+to perform asyncronous download of files from the net. Two callbacks are
+used to inform the user while progress occurs and when the download has
+finished.
+
+
+File monitor
+------------
+
+Using the :py:class:`FileMonitor<efl.ecore.FileMonitor>` class you can monitor
+a directory for changes, a single calback will be called when events occur.
+Events will be generatd everytime a file or directory (that live in the
+give path) is created/deleted/modified.
+
+
 
 Reference
 ---------
@@ -70,6 +88,7 @@ Reference
    class-exe
    class-fdhandler
    class-filedownload
+   class-filemonitor
 
 
 Inheritance diagram
