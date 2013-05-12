@@ -242,6 +242,9 @@ ECORE_FILE_EVENT_DELETED_SELF = enums.ECORE_FILE_EVENT_DELETED_SELF
 ECORE_FILE_EVENT_MODIFIED = enums.ECORE_FILE_EVENT_MODIFIED
 ECORE_FILE_EVENT_CLOSED = enums.ECORE_FILE_EVENT_CLOSED
 
+# Ecore_Poller_Type:
+ECORE_POLLER_CORE = enums.ECORE_POLLER_CORE
+
 
 cdef Eina_Bool _ecore_task_cb(void *data) with gil:
     cdef Eo obj = <Eo>data
@@ -323,6 +326,7 @@ def loop_time_get():
 
 include "efl.ecore_animator.pxi"
 include "efl.ecore_timer.pxi"
+include "efl.ecore_poller.pxi"
 include "efl.ecore_idler.pxi"
 include "efl.ecore_fd_handler.pxi"
 include "efl.ecore_events.pxi"

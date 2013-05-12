@@ -19,7 +19,7 @@ from efl cimport *
 from efl.c_eo cimport Eo as cEo
 from efl.eo cimport Eo
 from efl.ecore.enums cimport Ecore_Fd_Handler_Flags, Ecore_Exe_Flags, \
-    Ecore_File_Event
+    Ecore_File_Event, Ecore_Poller_Type
 
 
 cdef extern from "Ecore.h":
@@ -28,6 +28,7 @@ cdef extern from "Ecore.h":
     #
     ctypedef cEo Ecore_Timer
     ctypedef cEo Ecore_Animator
+    ctypedef cEo Ecore_Poller
     ctypedef cEo Ecore_Idler
     ctypedef cEo Ecore_Idle_Enterer
     ctypedef cEo Ecore_Idle_Exiter
@@ -104,6 +105,11 @@ cdef extern from "Ecore.h":
     void           *ecore_animator_del(Ecore_Animator *animator)
     void            ecore_animator_frametime_set(double frametime)
     double          ecore_animator_frametime_get()
+
+    Ecore_Poller *ecore_poller_add(Ecore_Poller_Type type, int interval, Ecore_Task_Cb func, const_void *data)
+    void         *ecore_poller_del(Ecore_Poller *poller)
+    Eina_Bool     ecore_poller_poller_interval_set(Ecore_Poller *poller, int interval)
+    int           ecore_poller_poller_interval_get(Ecore_Poller *poller)
 
     Ecore_Timer *ecore_timer_add(double t, Ecore_Task_Cb func, void *data)
     void        *ecore_timer_del(Ecore_Timer *timer)
@@ -199,6 +205,13 @@ cdef class Timer(Eo):
 
 
 cdef class Animator(Eo):
+    cdef readonly object func
+    cdef readonly tuple args
+    cdef readonly dict kargs
+    cpdef bint _task_exec(self)
+
+
+cdef class Poller(Eo):
     cdef readonly object func
     cdef readonly tuple args
     cdef readonly dict kargs

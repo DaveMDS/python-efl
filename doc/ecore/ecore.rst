@@ -31,6 +31,18 @@ limited to that use, it can, for example, also be used to create a progress
 bar. see :py:class:`Animator<efl.ecore.Animator>`
 
 
+Pollers
+-------
+
+Ecore :py:class:`Poller<efl.ecore.Poller>` provides infrastructure for the
+creation of pollers. Pollers are, in essence, callbacks that share a single
+timer per type. Because not all pollers need to be called at the same frequency
+the user may specify the frequency in ticks(each expiration of the shared
+timer is called a tick, in ecore poller parlance) for each added poller.
+Ecore pollers should only be used when the poller doesn't have specific
+requirements on the exact times to poll.
+
+
 Idlers
 ------
 
@@ -82,6 +94,7 @@ Reference
 
    class-timer
    class-animator
+   class-poller
    class-idler
    class-idleenterer
    class-idleexiter

@@ -53,6 +53,9 @@ cdef extern from "Ecore.h":
         ECORE_ANIMATOR_SOURCE_TIMER
         ECORE_ANIMATOR_SOURCE_CUSTOM
 
+    ctypedef enum Ecore_Poller_Type:
+        ECORE_POLLER_CORE
+
 
 cdef extern from "Ecore_File.h":
     ctypedef enum Ecore_File_Event:
