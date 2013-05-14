@@ -21,8 +21,9 @@ import warnings
 from cpython cimport PyMem_Malloc, PyMem_Free, PyUnicode_AsUTF8String
 cimport libc.stdlib
 
-from efl.eo cimport _object_mapping_register, object_from_instance
-from efl.eo cimport _ctouni, _touni, convert_eina_list_strings_to_python_list
+from efl.eo cimport _object_mapping_register, object_from_instance, \
+    _register_decorated_callbacks, _ctouni, _touni, \
+    convert_eina_list_strings_to_python_list
 
 
 # Edje_Message_Type:
@@ -317,36 +318,6 @@ def module_load(name):
     if isinstance(name, unicode): name = PyUnicode_AsUTF8String(name)
     return bool(edje_module_load(
                     <const_char *>name if name is not None else NULL))
-
-# class EdjeObjectMeta(evas.c_evas.EvasObjectMeta):
-#     def __init__(cls, name, bases, dict_):
-#         evas.c_evas.EvasObjectMeta.__init__(cls, name, bases, dict_)
-#         cls._fetch_callbacks()
-#
-#     def _fetch_callbacks(cls):
-#         if "__edje_signal_callbacks__" in cls.__dict__:
-#             return
-#
-#         cls.__edje_signal_callbacks__ = []
-#         cls.__edje_message_callbacks__ = []
-#         cls.__edje_text_callbacks__ = []
-#
-#         sig_append = cls.__edje_signal_callbacks__.append
-#         msg_append = cls.__edje_message_callbacks__.append
-#         txt_append = cls.__edje_text_callbacks__.append
-#
-#         for name in dir(cls):
-#             val = getattr(cls, name)
-#             if not callable(val):
-#                 continue
-#
-#             if hasattr(val, "edje_signal_callback"):
-#                 sig_data = getattr(val, "edje_signal_callback")
-#                 sig_append((name, sig_data))
-#             elif hasattr(val, "edje_message_handler"):
-#                 msg_append(name)
-#             elif hasattr(val, "edje_text_change_callback"):
-#                 txt_append(name)
 
 
 include "efl.edje_message.pxi"

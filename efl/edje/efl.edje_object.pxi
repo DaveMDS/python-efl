@@ -15,6 +15,7 @@
 # You should have received a copy of the GNU Lesser General Public License
 # along with this Python-EFL.  If not, see <http://www.gnu.org/licenses/>.
 
+
 cdef void text_change_cb(void *data,
                          Evas_Object *obj,
                          const_char *part) with gil:
@@ -127,6 +128,7 @@ cdef class Edje(Object):
 
     def __init__(self, Canvas canvas not None, **kargs):
         self._set_obj(edje_object_add(canvas.obj))
+        _register_decorated_callbacks(self)
         self._set_common_params(**kargs)
 
     def __free_wrapper_resources(self, ed):
@@ -1204,6 +1206,28 @@ cdef class Edje(Object):
         edje_object_signal_emit(self.obj,
             <const_char *>emission if emission is not None else NULL,
             <const_char *>source if source is not None else NULL)
+
+
+# decorators
+def on_signal(emission, source):
+    def decorator(func):
+        if not hasattr(func, "__decorated_callbacks__"):
+            func.__decorated_callbacks__ = list()
+        func.__decorated_callbacks__.append(("signal_callback_add", emission, source, func))
+        return func
+    return decorator
+
+def message_handler(func):
+    if not hasattr(func, "__decorated_callbacks__"):
+        func.__decorated_callbacks__ = list()
+    func.__decorated_callbacks__.append(("message_handler_set", func))
+    return func
+
+def on_text_change(func):
+    if not hasattr(func, "__decorated_callbacks__"):
+        func.__decorated_callbacks__ = list()
+    func.__decorated_callbacks__.append(("text_change_cb_set", func))
+    return func
 
 
 _object_mapping_register("edje", Edje)

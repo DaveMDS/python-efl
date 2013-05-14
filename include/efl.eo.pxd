@@ -16,7 +16,6 @@
 # along with this Python-EFL.  If not, see <http://www.gnu.org/licenses/>.
 
 from efl.c_eo cimport Eo as cEo
-from efl.c_eo cimport Eo_Class
 from efl cimport Eina_List, const_Eina_List
 from libc.string cimport const_char
 
@@ -34,6 +33,8 @@ cdef int PY_REFCOUNT(object o)
 cdef object object_from_instance(cEo *obj)
 cdef void _object_mapping_register(char *name, object cls) except *
 cdef void _object_mapping_unregister(char *name)
+
+cdef void _register_decorated_callbacks(object obj)
 
 cdef unicode _touni(char* s)
 cdef unicode _ctouni(const_char *s)

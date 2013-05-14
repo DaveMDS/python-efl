@@ -233,6 +233,22 @@ cdef object object_from_instance(cEo *obj):
     return o
 
 
+cdef void _register_decorated_callbacks(object obj):
+    """ Serach every attrib of the pyobj for a __decorated_callbacks__ object,
+    a list actually. If found then exec the functions listed there, with their
+    arguments. Must be called just after the _set_obj call.
+    List items signature: ("function_name", *args)
+    """
+    cdef object attr_name, attrib, func_name, func
+
+    for attr_name in dir(obj):
+        attrib = getattr(obj, attr_name)
+        if hasattr(attrib, "__decorated_callbacks__"):
+            for (func_name, *args) in getattr(attrib, "__decorated_callbacks__"):
+                func = getattr(obj, func_name)
+                func(*args)
+
+
 ######################################################################
 
 

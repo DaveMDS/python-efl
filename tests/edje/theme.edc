@@ -534,7 +534,7 @@ collections {
             program { name: "emit_back_message";
                 signal: "emit,message";
                 script {
-                    send_message(MSG_INT, 1, 1);
+                    send_message(MSG_INT, 1, 33);
                 }
             }
             program { name: "prog1";
