@@ -6,6 +6,7 @@ import subprocess
 from efl import evas
 from efl import edje
 from efl import emotion
+from efl.emotion import Emotion
 from efl import elementary
 from efl.elementary.window import Window
 
@@ -20,10 +21,19 @@ data_dir = prefix_dir + "/share/emotion/data"
 theme_file = data_dir + "/theme.edj"
 
 
+class MyDecoratedEmotion(Emotion):
+    def __init__(self, canvas, module_name):
+        Emotion.__init__(self, canvas, module_name=module_name)
+
+    @emotion.on_event("frame_resize")
+    def cb_frame_decoded(self):
+        print("Decorated callback successfully called")
+
+
 class MovieWindow(edje.Edje):
     def __init__(self, canvas, media_module, media_file):
         # emotion video
-        self.vid = emotion.Emotion(canvas, module_name=media_module)
+        self.vid = MyDecoratedEmotion(canvas, module_name=media_module)
         self.vid.file = media_file
         self.vid.smooth_scale = True
         self.vid.play = True

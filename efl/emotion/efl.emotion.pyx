@@ -17,7 +17,8 @@
 
 from cpython cimport PyUnicode_AsUTF8String
 
-from efl.eo cimport _ctouni, object_from_instance, _object_mapping_register
+from efl.eo cimport _ctouni, object_from_instance, _object_mapping_register, \
+    _register_decorated_callbacks
 from efl.evas cimport Canvas, evas_object_smart_callback_add, \
     evas_object_smart_callback_del
 
@@ -148,6 +149,7 @@ cdef class Emotion(evasObject):
 
     def __init__(self, Canvas canvas not None, **kargs):
         self._set_obj(emotion_object_add(canvas.obj))
+        _register_decorated_callbacks(self)
         self._set_common_params(**kargs)
 
     def _set_common_params(self, module_name="gstreamer",
@@ -1186,6 +1188,16 @@ cdef class Emotion(evasObject):
     def on_audio_level_change_del(self, func):
         "Same as calling: callback_del('audio_level_change', func)"
         self.callback_del("audio_level_change", func)
+
+
+# decorator
+def on_event(event_name):
+    def decorator(func):
+        if not hasattr(func, "__decorated_callbacks__"):
+            func.__decorated_callbacks__ = list()
+        func.__decorated_callbacks__.append(("callback_add", event_name, func))
+        return func
+    return decorator
 
 
 _object_mapping_register("Emotion_Object", Emotion)
