@@ -127,10 +127,9 @@ cdef extern from "Evas.h":
     ctypedef enum Evas_Display_Mode:
         # object's display mode type related with compress/expand or etc mode
         EVAS_DISPLAY_MODE_NONE = 0 # Default mode
-        EVAS_DISPLAY_MODE_INHERIT = 1 # Use this mode when object's display mode depend on ancestor's
-        EVAS_DISPLAY_MODE_COMPRESS = 2 # Use this mode want to give comppress display mode hint to object
-        EVAS_DISPLAY_MODE_EXPAND = 3 # Use this mode want to give expand display mode hint to object
-        EVAS_DISPLAY_MODE_DONT_CHANGE = 4 # Use this mode when object should not change display mode
+        EVAS_DISPLAY_MODE_COMPRESS = 1 # Use this mode want to give comppress display mode hint to object
+        EVAS_DISPLAY_MODE_EXPAND = 2 # Use this mode want to give expand display mode hint to object
+        EVAS_DISPLAY_MODE_DONT_CHANGE = 3 # Use this mode when object should not change display mode
 
     ctypedef enum Evas_Load_Error:
         # Evas image load error codes one can get - see evas_load_error_str() too.
