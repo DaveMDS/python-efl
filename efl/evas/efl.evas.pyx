@@ -320,9 +320,9 @@ include "efl.evas_object_polygon.pxi"
 include "efl.evas_object_text.pxi"
 include "efl.evas_object_textblock.pxi"
 include "efl.evas_object_box.pxi"
-include "object_textgrid.pxi"
-include "object_table.pxi"
-include "object_grid.pxi"
+include "efl.evas_object_textgrid.pxi"
+include "efl.evas_object_table.pxi"
+include "efl.evas_object_grid.pxi"
 
 
 init()
