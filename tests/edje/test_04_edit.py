@@ -6,14 +6,18 @@ from efl import edje
 from efl.edje import EDJE_PART_TYPE_RECTANGLE
 from efl.edje_edit import EdjeEdit, Text_Style, Text_Style_Tag, Color_Class, \
                           Part, Program
-import os, unittest
+import os, unittest, shutil
 
 
-theme_file = os.path.join(os.path.dirname(__file__), "theme.edj")
+orig_theme_file = os.path.join(os.path.dirname(__file__), "theme.edj")
+theme_file = os.path.join(os.path.dirname(__file__), "theme_working.edj")
 
 
 class TestEdjeEditBase(unittest.TestCase):
     def setUp(self):
+        # copy the edje file to a temp one as we are going to edit it
+        shutil.copy(orig_theme_file, theme_file)
+        
         self.canvas = evas.Canvas(method="buffer",
                                   size=(400, 500),
                                   viewport=(0, 0, 400, 500))
@@ -21,6 +25,7 @@ class TestEdjeEditBase(unittest.TestCase):
 
     def tearDown(self):
         self.canvas.delete()
+        os.remove(theme_file)
 
 
     def testConstructor(self):
@@ -32,6 +37,7 @@ class TestEdjeEditBase(unittest.TestCase):
 
 class TestEdjeEditGeneral(unittest.TestCase):
     def setUp(self):
+        shutil.copy(orig_theme_file, theme_file)
         self.canvas = evas.Canvas(method="buffer",
                                   size=(400, 500),
                                   viewport=(0, 0, 400, 500))
@@ -41,6 +47,7 @@ class TestEdjeEditGeneral(unittest.TestCase):
     def tearDown(self):
         self.o.delete()
         self.canvas.delete()
+        os.remove(theme_file)
 
     def testGeneral(self):
         self.assertEqual(self.o.compiler_get(), "edje_cc")
@@ -180,6 +187,7 @@ class TestEdjeEditGeneral(unittest.TestCase):
 
 class TestEdjeEditParts(unittest.TestCase):
     def setUp(self):
+        shutil.copy(orig_theme_file, theme_file)
         self.canvas = evas.Canvas(method="buffer",
                                   size=(400, 500),
                                   viewport=(0, 0, 400, 500))
@@ -189,6 +197,7 @@ class TestEdjeEditParts(unittest.TestCase):
     def tearDown(self):
         self.o.delete()
         self.canvas.delete()
+        os.remove(theme_file)
 
     def testPart(self):
         self.assertEqual(len(self.o.parts), 42)
@@ -314,6 +323,7 @@ class TestEdjeEditParts(unittest.TestCase):
 
 class TestEdjeEditPrograms(unittest.TestCase):
     def setUp(self):
+        shutil.copy(orig_theme_file, theme_file)
         self.canvas = evas.Canvas(method="buffer",
                                   size=(400, 500),
                                   viewport=(0, 0, 400, 500))
@@ -323,6 +333,7 @@ class TestEdjeEditPrograms(unittest.TestCase):
     def tearDown(self):
         self.o.delete()
         self.canvas.delete()
+        os.remove(theme_file)
 
     def testProgram(self):
         o = self.o
@@ -424,6 +435,7 @@ class TestEdjeEditPrograms(unittest.TestCase):
 
 class TestEdjeEditPartStates(unittest.TestCase):
     def setUp(self):
+        shutil.copy(orig_theme_file, theme_file)
         self.canvas = evas.Canvas(method="buffer",
                                   size=(400, 500),
                                   viewport=(0, 0, 400, 500))
@@ -433,6 +445,7 @@ class TestEdjeEditPartStates(unittest.TestCase):
     def tearDown(self):
         self.o.delete()
         self.canvas.delete()
+        os.remove(theme_file)
 
     def testPartStates(self):
         p = self.o.part_get("edit_test")
@@ -467,9 +480,9 @@ class TestEdjeEditPartStates(unittest.TestCase):
         print(s)
         print(s.rel1_to_get())
 
-
 if __name__ == '__main__':
     unittest.main(verbosity=2)
     edje.shutdown()
     ecore.shutdown()
     evas.shutdown()
+
