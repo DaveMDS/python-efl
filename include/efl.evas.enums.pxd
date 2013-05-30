@@ -118,49 +118,49 @@ cdef extern from "Evas.h":
 
     ctypedef enum Evas_Aspect_Control:
         # Aspect types/policies for scaling size hints, used for evas_object_size_hint_aspect_set()
-        EVAS_ASPECT_CONTROL_NONE = 0 # Preference on scaling unset
-        EVAS_ASPECT_CONTROL_NEITHER = 1 # Same effect as unset preference on scaling
-        EVAS_ASPECT_CONTROL_HORIZONTAL = 2 # Use all horizontal container space to place an object, using the given aspect
-        EVAS_ASPECT_CONTROL_VERTICAL = 3 # Use all vertical container space to place an object, using the given aspect
-        EVAS_ASPECT_CONTROL_BOTH = 4 # Use all horizontal @b and vertical container spaces to place an object (never growing it out of those bounds), using the given aspect
+        EVAS_ASPECT_CONTROL_NONE # Preference on scaling unset
+        EVAS_ASPECT_CONTROL_NEITHER # Same effect as unset preference on scaling
+        EVAS_ASPECT_CONTROL_HORIZONTAL # Use all horizontal container space to place an object, using the given aspect
+        EVAS_ASPECT_CONTROL_VERTICAL # Use all vertical container space to place an object, using the given aspect
+        EVAS_ASPECT_CONTROL_BOTH # Use all horizontal @b and vertical container spaces to place an object (never growing it out of those bounds), using the given aspect
 
     ctypedef enum Evas_Display_Mode:
         # object's display mode type related with compress/expand or etc mode
-        EVAS_DISPLAY_MODE_NONE = 0 # Default mode
-        EVAS_DISPLAY_MODE_COMPRESS = 1 # Use this mode want to give comppress display mode hint to object
-        EVAS_DISPLAY_MODE_EXPAND = 2 # Use this mode want to give expand display mode hint to object
-        EVAS_DISPLAY_MODE_DONT_CHANGE = 3 # Use this mode when object should not change display mode
+        EVAS_DISPLAY_MODE_NONE # Default mode
+        EVAS_DISPLAY_MODE_COMPRESS # Use this mode want to give comppress display mode hint to object
+        EVAS_DISPLAY_MODE_EXPAND # Use this mode want to give expand display mode hint to object
+        EVAS_DISPLAY_MODE_DONT_CHANGE # Use this mode when object should not change display mode
 
     ctypedef enum Evas_Load_Error:
         # Evas image load error codes one can get - see evas_load_error_str() too.
-        EVAS_LOAD_ERROR_NONE = 0 # No error on load
-        EVAS_LOAD_ERROR_GENERIC = 1 # A non-specific error occurred
-        EVAS_LOAD_ERROR_DOES_NOT_EXIST = 2 # File (or file path) does not exist
-        EVAS_LOAD_ERROR_PERMISSION_DENIED = 3 # Permission denied to an existing file (or path)
-        EVAS_LOAD_ERROR_RESOURCE_ALLOCATION_FAILED = 4 # Allocation of resources failure prevented load
-        EVAS_LOAD_ERROR_CORRUPT_FILE = 5 # File corrupt (but was detected as a known format)
-        EVAS_LOAD_ERROR_UNKNOWN_FORMAT = 6 # File is not a known format
+        EVAS_LOAD_ERROR_NONE # No error on load
+        EVAS_LOAD_ERROR_GENERIC # A non-specific error occurred
+        EVAS_LOAD_ERROR_DOES_NOT_EXIST # File (or file path) does not exist
+        EVAS_LOAD_ERROR_PERMISSION_DENIED # Permission denied to an existing file (or path)
+        EVAS_LOAD_ERROR_RESOURCE_ALLOCATION_FAILED # Allocation of resources failure prevented load
+        EVAS_LOAD_ERROR_CORRUPT_FILE # File corrupt (but was detected as a known format)
+        EVAS_LOAD_ERROR_UNKNOWN_FORMAT # File is not a known format
 
     ctypedef enum Evas_Alloc_Error:
         # Possible allocation errors returned by evas_alloc_error()
-        EVAS_ALLOC_ERROR_NONE = 0 # No allocation error
-        EVAS_ALLOC_ERROR_FATAL = 1 # Allocation failed despite attempts to free up memory
-        EVAS_ALLOC_ERROR_RECOVERED = 2 # Allocation succeeded, but extra memory had to be found by freeing up speculative resources
+        EVAS_ALLOC_ERROR_NONE # No allocation error
+        EVAS_ALLOC_ERROR_FATAL # Allocation failed despite attempts to free up memory
+        EVAS_ALLOC_ERROR_RECOVERED # Allocation succeeded, but extra memory had to be found by freeing up speculative resources
 
     ctypedef enum Evas_Fill_Spread:
         # Fill types used for evas_object_image_fill_spread_set()
-        EVAS_TEXTURE_REFLECT = 0 # image fill tiling mode - tiling reflects
-        EVAS_TEXTURE_REPEAT = 1 # tiling repeats
-        EVAS_TEXTURE_RESTRICT = 2 # tiling clamps - range offset ignored
-        EVAS_TEXTURE_RESTRICT_REFLECT = 3 # tiling clamps and any range offset reflects
-        EVAS_TEXTURE_RESTRICT_REPEAT = 4 # tiling clamps and any range offset repeats
-        EVAS_TEXTURE_PAD = 5 # tiling extends with end values
+        EVAS_TEXTURE_REFLECT # image fill tiling mode - tiling reflects
+        EVAS_TEXTURE_REPEAT # tiling repeats
+        EVAS_TEXTURE_RESTRICT # tiling clamps - range offset ignored
+        EVAS_TEXTURE_RESTRICT_REFLECT # tiling clamps and any range offset reflects
+        EVAS_TEXTURE_RESTRICT_REPEAT # tiling clamps and any range offset repeats
+        EVAS_TEXTURE_PAD # tiling extends with end values
 
     ctypedef enum Evas_Pixel_Import_Pixel_Format:
         # Pixel format for import call. See evas_object_image_pixels_import()
-        EVAS_PIXEL_FORMAT_NONE = 0 # No pixel format
-        EVAS_PIXEL_FORMAT_ARGB32 = 1 # ARGB 32bit pixel format with A in the high byte per 32bit pixel word
-        EVAS_PIXEL_FORMAT_YUV420P_601 = 2 # YUV 420 Planar format with CCIR 601 color encoding with contiguous planes in the order Y, U and V
+        EVAS_PIXEL_FORMAT_NONE # No pixel format
+        EVAS_PIXEL_FORMAT_ARGB32 # ARGB 32bit pixel format with A in the high byte per 32bit pixel word
+        EVAS_PIXEL_FORMAT_YUV420P_601 # YUV 420 Planar format with CCIR 601 color encoding with contiguous planes in the order Y, U and V
 
     ctypedef enum Evas_Native_Surface_Type:
         EVAS_NATIVE_SURFACE_NONE
@@ -169,45 +169,45 @@ cdef extern from "Evas.h":
 
     ctypedef enum Evas_Render_Op:
         # How the object should be rendered to output.
-        EVAS_RENDER_BLEND = 0 # default op: d = d*(1-sa) + s
-        EVAS_RENDER_BLEND_REL = 1 # d = d*(1 - sa) + s*da
-        EVAS_RENDER_COPY = 2 # d = s
-        EVAS_RENDER_COPY_REL = 3 # d = s*da
-        EVAS_RENDER_ADD = 4 # d = d + s
-        EVAS_RENDER_ADD_REL = 5 # d = d + s*da
-        EVAS_RENDER_SUB = 6 # d = d - s
-        EVAS_RENDER_SUB_REL = 7 # d = d - s*da
-        EVAS_RENDER_TINT = 8 # d = d*s + d*(1 - sa) + s*(1 - da)
-        EVAS_RENDER_TINT_REL = 9 # d = d*(1 - sa + s)
-        EVAS_RENDER_MASK = 10 # d = d*sa
-        EVAS_RENDER_MUL = 11 # d = d*s
+        EVAS_RENDER_BLEND # default op: d = d*(1-sa) + s
+        EVAS_RENDER_BLEND_REL # d = d*(1 - sa) + s*da
+        EVAS_RENDER_COPY # d = s
+        EVAS_RENDER_COPY_REL # d = s*da
+        EVAS_RENDER_ADD # d = d + s
+        EVAS_RENDER_ADD_REL # d = d + s*da
+        EVAS_RENDER_SUB # d = d - s
+        EVAS_RENDER_SUB_REL # d = d - s*da
+        EVAS_RENDER_TINT # d = d*s + d*(1 - sa) + s*(1 - da)
+        EVAS_RENDER_TINT_REL # d = d*(1 - sa + s)
+        EVAS_RENDER_MASK # d = d*sa
+        EVAS_RENDER_MUL # d = d*s
 
     ctypedef enum Evas_Border_Fill_Mode:
         # How an image's center region (the complement to the border region) should be rendered by Evas
-        EVAS_BORDER_FILL_NONE = 0 # Image's center region is @b not to be rendered
-        EVAS_BORDER_FILL_DEFAULT = 1 # Image's center region is to be @b blended with objects underneath it, if it has transparency. This is the default behavior for image objects
-        EVAS_BORDER_FILL_SOLID = 2 # Image's center region is to be made solid, even if it has transparency on it
+        EVAS_BORDER_FILL_NONE # Image's center region is @b not to be rendered
+        EVAS_BORDER_FILL_DEFAULT # Image's center region is to be @b blended with objects underneath it, if it has transparency. This is the default behavior for image objects
+        EVAS_BORDER_FILL_SOLID # Image's center region is to be made solid, even if it has transparency on it
 
     ctypedef enum Evas_Image_Scale_Hint:
         # How an image's data is to be treated by Evas, with regard to scaling cache
-        EVAS_IMAGE_SCALE_HINT_NONE = 0 # No scale hint at all
-        EVAS_IMAGE_SCALE_HINT_DYNAMIC = 1 # Image is being re-scaled over time, thus turning scaling cache @b off for its data
-        EVAS_IMAGE_SCALE_HINT_STATIC = 2 # Image is not being re-scaled over time, thus turning scaling cache @b on for its data
+        EVAS_IMAGE_SCALE_HINT_NONE # No scale hint at all
+        EVAS_IMAGE_SCALE_HINT_DYNAMIC # Image is being re-scaled over time, thus turning scaling cache @b off for its data
+        EVAS_IMAGE_SCALE_HINT_STATIC # Image is not being re-scaled over time, thus turning scaling cache @b on for its data
 
     ctypedef enum Evas_Image_Animated_Loop_Hint:
-        EVAS_IMAGE_ANIMATED_HINT_NONE = 0
-        EVAS_IMAGE_ANIMATED_HINT_LOOP = 1 # Image's animation mode is loop like 1->2->3->1->2->3
-        EVAS_IMAGE_ANIMATED_HINT_PINGPONG = 2 # Image's animation mode is pingpong like 1->2->3->2->1-> ...
+        EVAS_IMAGE_ANIMATED_HINT_NONE
+        EVAS_IMAGE_ANIMATED_HINT_LOOP # Image's animation mode is loop like 1->2->3->1->2->3
+        EVAS_IMAGE_ANIMATED_HINT_PINGPONG # Image's animation mode is pingpong like 1->2->3->2->1-> ...
 
     ctypedef enum Evas_Engine_Render_Mode:
-        EVAS_RENDER_MODE_BLOCKING = 0
-        EVAS_RENDER_MODE_NONBLOCKING = 1
+        EVAS_RENDER_MODE_BLOCKING
+        EVAS_RENDER_MODE_NONBLOCKING
 
     ctypedef enum Evas_Image_Content_Hint:
         # How an image's data is to be treated by Evas, for optimization
-        EVAS_IMAGE_CONTENT_HINT_NONE = 0 # No hint at all
-        EVAS_IMAGE_CONTENT_HINT_DYNAMIC = 1 # The contents will change over time
-        EVAS_IMAGE_CONTENT_HINT_STATIC = 2 # The contents won't change over time
+        EVAS_IMAGE_CONTENT_HINT_NONE # No hint at all
+        EVAS_IMAGE_CONTENT_HINT_DYNAMIC # The contents will change over time
+        EVAS_IMAGE_CONTENT_HINT_STATIC # The contents won't change over time
 
     ctypedef enum Evas_Device_Class:
         EVAS_DEVICE_CLASS_NONE # Not a device @since 1.8
@@ -239,14 +239,14 @@ cdef extern from "Evas.h":
         EVAS_TEXT_STYLE_FAR_SOFT_SHADOW      # text with (far soft) shadow underneath
 
         # OR these to modify shadow direction (3 bits needed)
-        EVAS_TEXT_STYLE_SHADOW_DIRECTION_BOTTOM_RIGHT = (0x0 << 4)      # shadow growing to bottom right
-        EVAS_TEXT_STYLE_SHADOW_DIRECTION_BOTTOM = (0x1 << 4)            # shadow growing to the bottom
-        EVAS_TEXT_STYLE_SHADOW_DIRECTION_BOTTOM_LEFT = (0x2 << 4)       # shadow growing to bottom left
-        EVAS_TEXT_STYLE_SHADOW_DIRECTION_LEFT = (0x3 << 4)              # shadow growing to the left
-        EVAS_TEXT_STYLE_SHADOW_DIRECTION_TOP_LEFT = (0x4 << 4)          # shadow growing to top left
-        EVAS_TEXT_STYLE_SHADOW_DIRECTION_TOP = (0x5 << 4)               # shadow growing to the top
-        EVAS_TEXT_STYLE_SHADOW_DIRECTION_TOP_RIGHT = (0x6 << 4)         # shadow growing to top right
-        EVAS_TEXT_STYLE_SHADOW_DIRECTION_RIGHT = (0x7 << 4)             # shadow growing to the right
+        EVAS_TEXT_STYLE_SHADOW_DIRECTION_BOTTOM_RIGHT      # shadow growing to bottom right
+        EVAS_TEXT_STYLE_SHADOW_DIRECTION_BOTTOM            # shadow growing to the bottom
+        EVAS_TEXT_STYLE_SHADOW_DIRECTION_BOTTOM_LEFT       # shadow growing to bottom left
+        EVAS_TEXT_STYLE_SHADOW_DIRECTION_LEFT              # shadow growing to the left
+        EVAS_TEXT_STYLE_SHADOW_DIRECTION_TOP_LEFT          # shadow growing to top left
+        EVAS_TEXT_STYLE_SHADOW_DIRECTION_TOP               # shadow growing to the top
+        EVAS_TEXT_STYLE_SHADOW_DIRECTION_TOP_RIGHT         # shadow growing to top right
+        EVAS_TEXT_STYLE_SHADOW_DIRECTION_RIGHT             # shadow growing to the right
 
     ctypedef enum Evas_Textblock_Text_Type:
         EVAS_TEXTBLOCK_TEXT_RAW
@@ -261,9 +261,9 @@ cdef extern from "Evas.h":
         EVAS_TEXTGRID_PALETTE_NONE     # No palette is used
         EVAS_TEXTGRID_PALETTE_STANDARD # standard palette (around 16 colors)
         EVAS_TEXTGRID_PALETTE_EXTENDED # extended palette (at max 256 colors)
-        EVAS_TEXTGRID_PALETTE_LAST      # ignore it
+        EVAS_TEXTGRID_PALETTE_LAST     # ignore it
 
     ctypedef enum Evas_Textgrid_Font_Style:
-        EVAS_TEXTGRID_FONT_STYLE_NORMAL = (1 << 0) # Normal style
-        EVAS_TEXTGRID_FONT_STYLE_BOLD   = (1 << 1) # Bold style
-        EVAS_TEXTGRID_FONT_STYLE_ITALIC = (1 << 2)  # Oblique style
+        EVAS_TEXTGRID_FONT_STYLE_NORMAL # Normal style
+        EVAS_TEXTGRID_FONT_STYLE_BOLD   # Bold style
+        EVAS_TEXTGRID_FONT_STYLE_ITALIC # Oblique style
