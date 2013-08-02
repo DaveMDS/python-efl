@@ -35,29 +35,33 @@ cdef Elm_Object_Item * _object_item_from_python(ObjectItem item) except NULL:
     return item.item
 
 cdef _object_item_to_python(Elm_Object_Item *it):
-    cdef void *data
-    cdef object item
+    cdef:
+        void *data
+        ObjectItem item
 
     if it == NULL:
         return None
 
     data = elm_object_item_data_get(it)
-    if data == NULL:
-        return None
 
-    item = <object>data
+    if data == NULL:
+        # Attempt to create a dummy object item
+        item = ObjectItem.__new__(ObjectItem)
+        item._set_obj(it)
+    else:
+        item = <object>data
+
     return item
 
 cdef _object_item_list_to_python(const_Eina_List *lst):
     cdef Elm_Object_Item *it
     ret = []
-    ret_append = ret.append
     while lst:
         it = <Elm_Object_Item *>lst.data
         lst = lst.next
         o = _object_item_to_python(it)
         if o is not None:
-            ret_append(o)
+            ret.append(o)
     return ret
 
 cdef void _object_item_del_cb(void *data, Evas_Object *o, void *event_info) with gil:
