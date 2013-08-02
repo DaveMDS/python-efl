@@ -52,6 +52,10 @@ def cb_filter1(mbe, text):
     print(text)
     return True
 
+def cb_print(btn, mbe):
+    for i in mbe.items:
+        print(i.text)
+
 def multibuttonentry_clicked(obj, item=None):
     win = Window("multibuttonentry", elementary.ELM_WIN_BASIC)
     win.title_set("MultiButtonEntry test")
@@ -163,6 +167,14 @@ def multibuttonentry_clicked(obj, item=None):
     bt.size_hint_align = (evas.EVAS_HINT_FILL, 0.0)
     bt.size_hint_weight = (evas.EVAS_HINT_EXPAND, 0.0)
     bt.callback_clicked_add(lambda btn: mbe.expanded_set(not mbe.expanded_get()))
+    hbox.pack_end(bt)
+    bt.show()
+
+    bt = Button(win)
+    bt.text = "print"
+    bt.size_hint_align = evas.EVAS_HINT_FILL, 0.0
+    bt.size_hint_weight = evas.EVAS_HINT_EXPAND, 0.0
+    bt.callback_clicked_add(cb_print, mbe)
     hbox.pack_end(bt)
     bt.show()
 
