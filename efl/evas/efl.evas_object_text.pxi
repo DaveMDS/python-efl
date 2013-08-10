@@ -113,9 +113,9 @@ cdef class Text(Object):
         :param size: The font size, in points.
 
         This function allows the font name and size of a text object to be
-        set. The @p font string has to follow fontconfig's convention on
+        set. The ``font`` string has to follow fontconfig's convention on
         naming fonts, as it's the underlying library used to query system
-        fonts by Evas (see the @c fc-list command's output, on your system,
+        fonts by Evas (see the ``fc-list`` command's output, on your system,
         to get an idea).
 
         :see: :py:attr:`font_source`

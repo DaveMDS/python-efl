@@ -29,7 +29,7 @@ cdef class Box(Object):
 
 
     :param canvas: The evas canvas for this object
-    :type canvas: L{Canvas}
+    :type canvas: :py:class:`Canvas`
     :keyword size: Width and height
     :type size: tuple of ints
     :keyword pos: X and Y
@@ -148,18 +148,18 @@ cdef class Box(Object):
         evas_object_box_prepend(self.obj, child.obj)
 
     def insert_before(self, Object child, Object reference):
-        """Insert a new @a child object **before another existing one**, in
-        a given box object @a o.
+        """Insert a new ``child`` object **before another existing one**, in
+        a given box object.
 
-        :param child: A child Evas object to be made a member of **o**
+        :param child: A child Evas object to be made a member of this object
         :param reference: The child object to place this new one before
-        :return: A box option bound to the recently added box item or ``NULL``, on errors
+        :return: A box option bound to the recently added box item or ``None``, on errors
 
         On success, the ``"child,added"`` smart event will take place.
 
         .. note::
 
-            This function will fail if **reference** is not a member of @p o.
+            This function will fail if **reference** is not a member of this object.
 
         .. note::
 
@@ -172,25 +172,26 @@ cdef class Box(Object):
             _Evas_Object_Box_Api::insert_before smart function.
 
         """
+        # TODO: raise exception if unsuccesful
         evas_object_box_insert_before(self.obj, child.obj, reference.obj)
 
     def insert_after(self, Object child, Object reference):
-        """Insert a new @a child object **after another existing one**, in
-        a given box object @a o.
+        """Insert a new ``child`` object **after another existing one**, in
+        this box object.
 
-        :param child: A child Evas object to be made a member of **o**
+        :param child: A child Evas object to be made a member of this object
         :param reference: The child object to place this new one after
-        :return: A box option bound to the recently added box item or ``NULL``, on errors
+        :return: A box option bound to the recently added box item or ``None``, on errors
 
         On success, the ``"child,added"`` smart event will take place.
 
         .. note::
 
-            This function will fail if **reference** is not a member of @p o.
+            This function will fail if **reference** is not a member of this object.
 
         .. note::
 
-            The actual placing of the item relative to **o**'s area will
+            The actual placing of the item relative to this objects area will
             depend on the layout set to it.
 
         .. note::
@@ -199,27 +200,28 @@ cdef class Box(Object):
             _Evas_Object_Box_Api::insert_after smart function.
 
         """
+        # TODO: raise exception if unsuccesful
         evas_object_box_insert_after(self.obj, child.obj, reference.obj)
 
     def insert_at(self, Object child, unsigned int pos):
-        """Insert a new @a child object **at a given position**, in a given
-        box object @a o.
+        """Insert a new ``child`` object **at a given position**, in this
+        box object.
 
-        :param child: A child Evas object to be made a member of **o**
+        :param child: A child Evas object to be made a member of this object
         :param pos: The numeric position (starting from ``0``) to place the
             new child object at
-        :return: A box option bound to the recently added box item or ``NULL``, on errors
+        :return: A box option bound to the recently added box item or ``None``, on errors
 
         On success, the ``"child,added"`` smart event will take place.
 
         .. note::
 
             This function will fail if the given position is invalid,
-            given **o**'s internal list of elements.
+            given this objects internal list of elements.
 
         .. note::
 
-            The actual placing of the item relative to **o**'s area will
+            The actual placing of the item relative to this objects area will
             depend on the layout set to it.
 
         .. note::

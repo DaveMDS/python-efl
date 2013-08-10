@@ -97,7 +97,7 @@ cdef class Accessible(Object):
 
     #     :param type: The type of content that will be read
     #     :param func: The function to be called when the content is read
-    #     :param data: The data pointer to be passed to @p func
+    #     :param data: The data pointer to be passed to ``func``
 
     #     The type would be one of ELM_ACCESS_TYPE, ELM_ACCESS_INFO,
     #     ELM_ACCESS_STATE, ELM_ACCESS_CONTEXT_INFO.
@@ -119,7 +119,7 @@ cdef class Accessible(Object):
     #     :since: 1.8
 
     #     :param func: The function to be called when the activate gesture is detected
-    #     :param data: The data pointer to be passed to @p func
+    #     :param data: The data pointer to be passed to ``func``
 
     #     """
     #     if not callable(func):

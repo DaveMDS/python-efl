@@ -174,8 +174,8 @@ Smart events that you can add callbacks for are:
 - ``"unselected"`` - The user has made an item unselected. The
   ``event_info`` parameter is the gengrid item that was unselected.
 - ``"realized"`` - This is called when the item in the gengrid
-  has its implementing Evas object instantiated, de facto. @c
-  event_info is the gengrid item that was created. The object
+  has its implementing Evas object instantiated, de facto.
+  ``event_info`` is the gengrid item that was created. The object
   may be deleted at any time, so it is highly advised to the
   caller **not** to use the object pointer returned from
   elm_gengrid_item_object_get(), because it may point to freed
@@ -811,7 +811,7 @@ cdef class GengridItem(ObjectItem):
         """show(int scrollto_type = ELM_GENLIST_ITEM_SCROLLTO_IN)
 
         This causes gengrid to **redraw** its viewport's contents to the
-        region containing the given @p item item, if it is not fully
+        region containing the given ``item``, if it is not fully
         visible.
 
         .. seealso:: :py:func:`bring_in()`
@@ -1204,8 +1204,8 @@ cdef class Gengrid(Object):
     # XXX TODO elm_gengrid_item_sorted_insert()
 
     property selected_item:
-        """This returns the selected item in @p obj. If multi selection is
-        enabled on @p obj (.. seealso:: :py:func:`multi_select_set()),` only
+        """This returns the selected item in ``obj``. If multi selection is
+        enabled on ``obj`` (.. seealso:: :py:func:`multi_select_set()),` only
         the first item in the list is selected, which might not be very
         useful. For that case, see elm_gengrid_selected_items_get().
 
@@ -1326,7 +1326,7 @@ cdef class Gengrid(Object):
     property item_size:
         """A gengrid, after creation, has still no information on the size
         to give to each of its cells. So, you most probably will end up
-        with squares one @ref Fingers "finger" wide, the default
+        with squares one :ref:`Fingers` "finger" wide, the default
         size. Use this property to force a custom size for you items,
         making them as big as you wish.
 
@@ -1475,7 +1475,7 @@ cdef class Gengrid(Object):
 
         This function sets the size of a page of the gengrid, in pixels,
         for each axis. Sane usable values are, between ``0`` and the
-        dimensions of @p obj, for each axis. Values beyond those will
+        dimensions of ``obj``, for each axis. Values beyond those will
         make it behave behave inconsistently. If you only want one axis
         to snap to pages, use the value ``0`` for the other one.
 

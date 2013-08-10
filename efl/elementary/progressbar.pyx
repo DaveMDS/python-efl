@@ -31,8 +31,8 @@ A progress bar may be horizontal or vertical. It may display an icon
 besides it, as well as primary and **units** labels. The former is meant
 to label the widget as a whole, while the latter, which is formatted
 with floating point values (and thus accepts a ``printf``-style format
-string, like ``"%1.2f units"``), is meant to label the widget's B{progress
-value}. Label, icon and unit strings/objects are **optional** for
+string, like ``"%1.2f units"``), is meant to label the widget's **progress
+value**. Label, icon and unit strings/objects are **optional** for
 progress bars.
 
 A progress bar may be **inverted**, in which case it gets its values
@@ -201,9 +201,9 @@ cdef class Progressbar(LayoutClass):
     # property unit_format_function:
     #     """Set the callback function to format the unit string.
 
-    #     @see: L{unit_format} for more info on how this works.
+    #     :see: :py:attr:`unit_format` for more info on how this works.
 
-    #     @type: function
+    #     :type: function
 
     #     """
     #     def __set__(self, func not None):

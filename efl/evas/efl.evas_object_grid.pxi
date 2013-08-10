@@ -23,7 +23,7 @@ cdef class Grid(Object):
 
     @classmethod
     def add_to(cls, Object parent):
-        """Create a grid that is child of a given element @a parent."""
+        """Create a grid that is child of a given element ``parent``."""
         Object._set_obj(cls, evas_object_grid_add_to(parent.obj))
 
     property grid_size:

@@ -1305,8 +1305,8 @@ cdef class Object(evasObject):
         Set the content to be shown in the tooltip object
 
         Setup the tooltip to object. The object can have only one tooltip,
-        so any previews tooltip data is removed. C{func(owner, tooltip,
-        args, kargs)} will be called every time that need show the tooltip
+        so any previews tooltip data is removed. ``func(owner, tooltip,
+        args, kargs)`` will be called every time that need show the tooltip
         and it should return a valid Evas_Object. This object is then
         managed fully by tooltip system and is deleted when the tooltip is
         gone.
@@ -1627,13 +1627,13 @@ cdef class Object(evasObject):
 
         Gets the current selection data from a widget.
         The widget input here will usually be elm_entry,
-        in which case @p datacb and @p udata can be NULL.
-        If a different widget is passed, @p datacb and @p udata are used for retrieving data.
+        in which case ``datacb`` and ``udata`` can be None.
+        If a different widget is passed, ``datacb`` and ``udata`` are used for retrieving data.
 
         :param selection: Selection type for copying and pasting
         :param format: Selection format
         :param datacb: The user data callback if the target widget isn't elm_entry
-        :param udata: The user data pointer for @p datacb
+        :param udata: The user data pointer for ``datacb``
 
         :raise RuntimeError: if getting cnp data fails.
 
@@ -1662,9 +1662,9 @@ cdef class Object(evasObject):
     def cnp_selection_loss_callback_set(self, Elm_Sel_Type selection, func, data = None):
         """Set a function to be called when a selection is lost
 
-        The function @p func is set of be called when selection @p selection is lost
-        to another process or when elm_cnp_selection_set() is called. If @p func
-        is NULL then it is not called. @p data is passed as the data parameter to
+        The function ``func`` is set of be called when selection ``selection`` is lost
+        to another process or when elm_cnp_selection_set() is called. If ``func``
+        is NULL then it is not called. ``data`` is passed as the data parameter to
         the callback functions and selection is passed in as the selection that
         has been lost.
 
@@ -1729,14 +1729,14 @@ cdef class Object(evasObject):
     #     :param data: The drag data itself (a string)
     #     :param action: The drag action to be done
     #     :param createicon: Function to call to create a drag object, or NULL if not wanted
-    #     :param createdata: Application data passed to @p createicon
+    #     :param createdata: Application data passed to ``createicon``
     #     :param dragpos: Function called with each position of the drag, x, y being screen coordinates if possible, and action being the current action.
-    #     :param dragdata: Application data passed to @p dragpos
+    #     :param dragdata: Application data passed to ``dragpos``
     #     :param acceptcb: Function called indicating if drop target accepts (or does not) the drop data while dragging
 
-    #     :param acceptdata: Application data passed to @p acceptcb
+    #     :param acceptdata: Application data passed to ``acceptcb``
     #     :param dragdone: Function to call when drag is done
-    #     :param donecbdata: Application data to pass to @p dragdone
+    #     :param donecbdata: Application data to pass to ``dragdone``
     #     :raise RuntimeError: if starting drag fails.
 
     #     :since: 1.8

@@ -160,22 +160,22 @@ cdef class Image(Object):
 
     #     This is the same as evas_object_image_file_set() but the file to be loaded
     #     may exist at an address in memory (the data for the file, not the filename
-    #     itself). The @p data at the address is copied and stored for future use, so
-    #     no @p data needs to be kept after this call is made. It will be managed and
-    #     freed for you when no longer needed. The @p size is limited to 2 gigabytes
-    #     in size, and must be greater than 0. A @c NULL @p data pointer is also
-    #     invalid. Set the filename to @c NULL to reset to empty state and have the
+    #     itself). The ``data`` at the address is copied and stored for future use, so
+    #     no ``data`` needs to be kept after this call is made. It will be managed and
+    #     freed for you when no longer needed. The ``size`` is limited to 2 gigabytes
+    #     in size, and must be greater than 0. A ``None`` ``data`` pointer is also
+    #     invalid. Set the filename to ``None`` to reset to empty state and have the
     #     image file data freed from memory using evas_object_image_file_set().
 
-    #     The @p format is optional (pass @c NULL if you don't need/use it). It is
+    #     The ``format`` is optional (pass ``None`` if you don't need/use it). It is
     #     used to help Evas guess better which loader to use for the data. It may
     #     simply be the "extension" of the file as it would normally be on disk
     #     such as "jpg" or "png" or "gif" etc.
 
-    #     @param data The image file data address
-    #     @param size The size of the image file data in bytes
-    #     @param format The format of the file (optional), or @c NULL if not needed
-    #     @param key The image key in file, or @c NULL.
+    #     :param data: The image file data address
+    #     :param size: The size of the image file data in bytes
+    #     :param format: The format of the file (optional), or ``None`` if not needed
+    #     :param key: The image key in file, or ``None``.
 
     #     """
     #     if isinstance(format, unicode): format = PyUnicode_AsUTF8String(format)
@@ -474,15 +474,15 @@ cdef class Image(Object):
 
     #     Note that this function does not modify the raw image data.  If the
     #     requested colorspace is the same as the image colorspace nothing is
-    #     done and @c NULL is returned. You should use
+    #     done and ``NULL`` is returned. You should use
     #     evas_object_image_colorspace_get() to check the current image
     #     colorspace.
 
     #     See @ref evas_object_image_colorspace_get.
 
-    #     @param obj The given image object.
-    #     @param to_cspace The colorspace to which the image raw data will be converted.
-    #     @return data A newly allocated data in the format specified by to_cspace.
+    #     :param obj: The given image object.
+    #     :param to_cspace: The colorspace to which the image raw data will be converted.
+    #     :return: A newly allocated data in the format specified by to_cspace.
 
     #     """
     #     void *evas_object_image_data_convert(self.obj, Evas_Colorspace to_cspace) EINA_WARN_UNUSED_RESULT EINA_ARG_NONNULL(1);
@@ -821,7 +821,7 @@ cdef class Image(Object):
     # property native_surface:
     #     """The native surface of a given image of the canvas
 
-    #     @param surf The new native surface.
+    #     :param surf: The new native surface.
 
     #     """
     #     def __set__(self, value):
@@ -839,7 +839,7 @@ cdef class Image(Object):
     # property video_surface:
     #     """The video surface linked to a given image of the canvas
 
-    #     @param surf The new video surface.
+    #     :param surf: The new video surface.
 
     #     """
     #     def __set__(self, value):
@@ -920,17 +920,17 @@ cdef class Image(Object):
         evas_object_image_alpha_mask_set(self.obj, ismask)
 
     property image_source:
-        """The source object on an image object to used as a @b proxy.
+        """The source object on an image object to used as a **proxy**.
 
-        If an image object is set to behave as a @b proxy, it will mirror
-        the rendering contents of a given @b source object in its drawing
+        If an image object is set to behave as a **proxy**, it will mirror
+        the rendering contents of a given **source** object in its drawing
         region, without affecting that source in any way. The source must
         be another valid Evas object. Other effects may be applied to the
         proxy, such as a map (see evas_object_map_set()) to create a
         reflection of the original object (for example).
 
-        Any existing source object on @p obj will be removed after this
-        call. Setting @p src to @c NULL clears the proxy object (not in
+        Any existing source object on ``obj`` will be removed after this
+        call. Setting ``src`` to ``NULL`` clears the proxy object (not in
         "proxy state" anymore).
 
         :type: Object
@@ -983,7 +983,7 @@ cdef class Image(Object):
 
         .. seealso:: evas_object_image_source_set()
 
-        @since 1.8
+        :since: 1.8
 
         """
         def __set__(self, value):
@@ -1014,7 +1014,7 @@ cdef class Image(Object):
             :py:attr:`source`
             :py:attr:`source_visible`
 
-        @since 1.8
+        :since: 1.8
 
         """
         def __set__(self, value):

@@ -1743,17 +1743,17 @@ cdef class Object(Eo):
         return ret
 
     def key_grab(self, keyname not None, Evas_Modifier_Mask modifiers, Evas_Modifier_Mask not_modifiers, bint exclusive):
-        """Requests @p keyname key events be directed to @p obj.
+        """Requests ``keyname`` key events be directed to ``obj``.
 
         :param keyname: the key to request events for.
         :param modifiers: a mask of modifiers that must be present to
             trigger the event.
         :type modifiers: Evas_Modifier_Mask
-        :param not_modifiers: a mask of modifiers that must @b not be present
+        :param not_modifiers: a mask of modifiers that must **not** be present
             to trigger the event.
         :type not_modifiers: Evas_Modifier_Mask
-        :param exclusive: request that the @p obj is the only object
-            receiving the @p keyname events.
+        :param exclusive: request that the ``obj`` is the only object
+            receiving the ``keyname`` events.
         :type exclusive: bool
         :raise RuntimeError: if grabbing the key was unsuccesful
 
@@ -1762,28 +1762,28 @@ cdef class Object(Eo):
         key is grabbed, only the objects grabbing it will get the events
         for the given keys.
 
-        @p keyname is a platform dependent symbolic name for the key
-        pressed (see @ref Evas_Keys for more information).
+        ``keyname`` is a platform dependent symbolic name for the key
+        pressed (see :ref:`Evas_Keys` for more information).
 
-        @p modifiers and @p not_modifiers are bit masks of all the
+        ``modifiers`` and ``not_modifiers`` are bit masks of all the
         modifiers that must and mustn't, respectively, be pressed along
-        with @p keyname key in order to trigger this new key
+        with ``keyname`` key in order to trigger this new key
         grab. Modifiers can be things such as Shift and Ctrl as well as
         user defined types via evas_key_modifier_add(). Retrieve them with
-        evas_key_modifier_mask_get() or use @c 0 for empty masks.
+        evas_key_modifier_mask_get() or use ``0`` for empty masks.
 
-        @p exclusive will make the given object the only one permitted to
-        grab the given key. If given @c EINA_TRUE, subsequent calls on this
-        function with different @p obj arguments will fail, unless the key
+        ``exclusive`` will make the given object the only one permitted to
+        grab the given key. If given ``EINA_TRUE``, subsequent calls on this
+        function with different ``obj`` arguments will fail, unless the key
         is ungrabbed again.
 
         .. warning:: Providing impossible modifier sets creates undefined behavior
 
-        @see evas_object_key_ungrab
-        @see evas_object_focus_set
-        @see evas_object_focus_get
-        @see evas_focus_get
-        @see evas_key_modifier_add
+        :see: evas_object_key_ungrab
+        :see: evas_object_focus_set
+        :see: evas_object_focus_get
+        :see: evas_focus_get
+        :see: evas_key_modifier_add
 
         """
         if isinstance(keyname, unicode): keyname = PyUnicode_AsUTF8String(keyname)
@@ -1791,7 +1791,7 @@ cdef class Object(Eo):
             raise RuntimeError("Could not grab key.")
 
     def key_ungrab(self, keyname not None, Evas_Modifier_Mask modifiers, Evas_Modifier_Mask not_modifiers):
-        """Removes the grab on @p keyname key events by @p obj.
+        """Removes the grab on ``keyname`` key events by ``obj``.
 
         :param keyname: the key the grab is set for.
         :param modifiers: a mask of modifiers that must be present to
@@ -1799,13 +1799,13 @@ cdef class Object(Eo):
         :param not_modifiers: a mask of modifiers that must not not be
             present to trigger the event.
 
-        Removes a key grab on @p obj if @p keyname, @p modifiers, and @p
-        not_modifiers match.
+        Removes a key grab on ``obj`` if ``keyname``, ``modifiers``, and
+        ``not_modifiers`` match.
 
-        @see evas_object_key_grab
-        @see evas_object_focus_set
-        @see evas_object_focus_get
-        @see evas_focus_get
+        :see: evas_object_key_grab
+        :see: evas_object_focus_set
+        :see: evas_object_focus_get
+        :see: evas_focus_get
 
         """
         if isinstance(keyname, unicode): keyname = PyUnicode_AsUTF8String(keyname)

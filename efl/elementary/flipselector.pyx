@@ -186,7 +186,7 @@ cdef class FlipSelectorItem(ObjectItem):
         This sets whether ``item`` is or not the selected (thus, under
         display) one. If ``item`` is different than the one under display,
         the latter will be unselected. If the ``item`` is set to be
-        unselected, on the other hand, the B{first} item in the widget's
+        unselected, on the other hand, the **first** item in the widget's
         internal members list will be the new selected one.
 
         :type: bool

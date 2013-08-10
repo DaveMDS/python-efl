@@ -285,7 +285,7 @@ cdef class Store(object):
     def delete(self):
         """Free the store object and all items it manages
 
-        This frees the given @p st store and all the items it manages. It will
+        This frees the given store and all the items it manages. It will
         clear the List that it populated, but otherwise leave it alone. It will
         cancel background threads (and may have to wait for them to complete a
         pending operation to do this).
@@ -296,7 +296,7 @@ cdef class Store(object):
     property filesystem_directory:
         """The path to the directory to scan for a filesystem store
 
-        This sets the directory (@p dir) to scan and begins scanning in the
+        This sets the directory to scan and begins scanning in the
         the background in threads (or not if threading is disabled with
         elm_store_fetch_thread_set()). Note that Listing is always done in a thread
         but fetching may not be if disabled here. This should be the last thing

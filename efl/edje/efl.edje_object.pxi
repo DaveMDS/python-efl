@@ -908,7 +908,7 @@ cdef class Edje(Object):
             <const_char *>part if part is not None else NULL, dx, dy)
 
     def part_drag_page_get(self, part):
-        "@rtype: tuple of float"
+        ":rtype: tuple of float"
         cdef double dx, dy
         if isinstance(part, unicode): part = PyUnicode_AsUTF8String(part)
         edje_object_part_drag_page_get(self.obj,

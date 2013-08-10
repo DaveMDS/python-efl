@@ -515,7 +515,7 @@ cdef class SmartObject(Object):
     def callback_del(self, char *event, func):
         """Remove a smart callback.
 
-        Removes a callback that was added by L{callback_add()}.
+        Removes a callback that was added by :py:func:`callback_add()`.
 
         :param event: event name
         :param func: what to callback, should have be previously registered.
@@ -654,10 +654,10 @@ cdef class SmartObject(Object):
         evas_object_smart_calculate(self.obj)
 
     def changed(self):
-        """Mark object as changed, so it's L{calculate()} will be called.
+        """Mark object as changed, so it's :py:func:`calculate()` will be called.
 
         If an object is changed and it provides a calculate() method,
-        it will be called from L{Canvas.render()}, what we call pre-render
+        it will be called from :py:func:`Canvas.render()`, what we call pre-render
         calculate.
 
         This can be used to postpone heavy calculations until you need to
@@ -705,56 +705,56 @@ cdef class SmartObject(Object):
 
     # Factory
     def Rectangle(self, **kargs):
-        """Factory of children L{evas.Rectangle}.
-        :rtype: L{Rectangle<evas.Rectangle>}
+        """Factory of children :py:class:`evas.Rectangle`.
+        :rtype: :py:class:`Rectangle<evas.Rectangle>`
         """
         obj = Rectangle(self.evas, **kargs)
         self.member_add(obj)
         return obj
 
     def Line(self, **kargs):
-        """Factory of children L{evas.Line}.
-        :rtype: L{Line<evas.Line>}
+        """Factory of children :py:class:`evas.Line`.
+        :rtype: :py:class:`Line<evas.Line>`
         """
         obj = Line(self.evas, **kargs)
         self.member_add(obj)
         return obj
 
 #     def Image(self, **kargs):
-#         """Factory of children L{evas.Image}.
-#         :rtype: L{Image<evas.Image>}
+#         """Factory of children :py:class:`evas.Image`.
+#         :rtype: :py:class:`Image<evas.Image>`
 #         """
 #         obj = Image(self.evas, **kargs)
 #         self.member_add(obj)
 #         return obj
 
 #     def FilledImage(self, **kargs):
-#         """Factory of L{evas.FilledImage} associated with this canvas.
-#         :rtype: L{FilledImage<evas.FilledImage>}
+#         """Factory of :py:class:`evas.FilledImage` associated with this canvas.
+#         :rtype: :py:class:`FilledImage<evas.FilledImage>`
 #         """
 #         obj = FilledImage(self.evas, **kargs)
 #         self.member_add(obj)
 #         return obj
 #
 #     def Polygon(self, **kargs):
-#         """Factory of children L{evas.Polygon}.
-#         :rtype: L{Polygon<evas.Polygon>}
+#         """Factory of children :py:class:`evas.Polygon`.
+#         :rtype: :py:class:`Polygon<evas.Polygon>`
 #         """
 #         obj = Polygon(self.evas, **kargs)
 #         self.member_add(obj)
 #         return obj
 #
 #     def Text(self, **kargs):
-#         """Factory of children L{evas.Text}.
-#         :rtype: L{Text<evas.Text>}
+#         """Factory of children :py:class:`evas.Text`.
+#         :rtype: :py:class:`Text<evas.Text>`
 #         """
 #         obj = Text(self.evas, **kargs)
 #         self.member_add(obj)
 #         return obj
 #
 #     def Textblock(self, **kargs):
-#         """Factory of children L{evas.Textblock}.
-#         :rtype: L{Textblock<evas.Textblock>}
+#         """Factory of children :py:class:`evas.Textblock`.
+#         :rtype: :py:class:`Textblock<evas.Textblock>`
 #         """
 #         obj = Textblock(self.evas, **kargs)
 #         self.member_add(obj)
@@ -772,8 +772,8 @@ cdef class ClippedSmartObject(SmartObject):
 
     This class is optimized for the recommended SmartObject usage of
     having an internal clipper, with all member objects clipped to it and
-    operations like L{hide()}, L{show()}, L{color_set()}, L{clip_set()} and
-    L{clip_unset()} operating on it.
+    operations like :py:func:`hide()`, :py:func:`show()`, :py:func:`color_set()`, :py:func:`clip_set()` and
+    :py:func:`clip_unset()` operating on it.
 
     This internal clipper size is huge by default (and not the same as the
     object size), this means that you should clip this object to another

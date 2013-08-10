@@ -205,7 +205,7 @@ cdef class Slider(LayoutClass):
 #~
 #~         Set the callback function to format the units string.
 #~
-#~         .. seealso:: L{units_format_set() for more info on how this works.
+#~         .. seealso:: :py:attr:`units_format_set()` for more info on how this works.
 #~
 #~         :param func: The units format function.
 #~         :type func: function

@@ -253,15 +253,15 @@ cdef class Map(object):
         This applies a given perspective (3D) to the map coordinates. X, Y and Z
         values are used. The px and py points specify the "infinite distance" point
         in the 3D conversion (where all lines converge to like when artists draw
-        3D by hand). The @p z0 value specifies the z value at which there is a 1:1
+        3D by hand). The ``z0`` value specifies the z value at which there is a 1:1
         mapping between spatial coordinates and screen coordinates. Any points
         on this z value will not have their X and Y values modified in the transform.
         Those further away (Z value higher) will shrink into the distance, and
-        those less than this value will expand and become bigger. The @p foc value
+        those less than this value will expand and become bigger. The ``foc`` value
         determines the "focal length" of the camera. This is in reality the distance
         between the camera lens plane itself (at or closer than this rendering
         results are undefined) and the "z0" z value. This allows for some "depth"
-        control and @p foc must be greater than 0.
+        control and ``foc`` must be greater than 0.
 
         :param m: map to change.
         :param px: The perspective distance X coordinate

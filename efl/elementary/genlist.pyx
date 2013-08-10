@@ -98,9 +98,9 @@ Available item styles:
 - icon_top_text_bottom
 - group_index
 
-- one_icon - Only 1 icon (left) @since 1.1
-- end_icon - Only 1 icon (at end/right) @since 1.1
-- no_icon - No icon (at end/right) @since 1.1
+- one_icon - Only 1 icon (left) :since: 1.1
+- end_icon - Only 1 icon (at end/right) :since: 1.1
+- no_icon - No icon (at end/right) :since: 1.1
 
 Structure of items
 ==================
@@ -120,14 +120,14 @@ spaces in the data fields. For the default genlist item theme, we have
 
 A genlist item may be at one of several styles. Elementary provides one
 by default - "default", but this can be extended by system or application
-custom themes/overlays/extensions (see @ref Theme "themes" for more
+custom themes/overlays/extensions (see :ref:`Theme` "themes" for more
 details).
 
 Editing and Navigating
 ======================
 
-Items can be added by several calls. All of them return a @ref
-Elm_Object_Item handle that is an internal member inside the genlist.
+Items can be added by several calls. All of them return a
+:ref:`Elm_Object_Item` handle that is an internal member inside the genlist.
 They all take a data parameter that is meant to be used for a handle to
 the applications internal data (eg. the struct with the original item
 data). The parent parameter is the parent genlist item this belongs to if

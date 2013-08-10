@@ -227,7 +227,7 @@ def fd_handler_add(fd, int flags, func, *args, **kargs):
 
         func(fd_handler, *args, **kargs): bool
 
-    :param fd: file descriptor or object with C{fileno()} method.
+    :param fd: file descriptor or object with ``fileno()`` method.
     :param flags: bitwise OR of ECORE_FD_READ, ECORE_FD_WRITE...
     :param func: function to call when file descriptor state changes.
 

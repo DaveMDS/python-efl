@@ -248,14 +248,14 @@ cdef class ObjectItem(object):
 
         Set the text for an object item's part, marking it as translatable.
 
-        The string to set as @p text must be the original one. Do not pass the
-        return of @c gettext() here. Elementary will translate the string
+        The string to set as ``text`` must be the original one. Do not pass the
+        return of ``gettext()`` here. Elementary will translate the string
         internally and set it on the object item using
         elm_object_item_part_text_set(), also storing the original string so that it
         can be automatically translated when the language is changed with
-        elm_language_set(). The @p domain will be stored along to find the
-        translation in the correct catalog. It can be NULL, in which case it will use
-        whatever domain was set by the application with @c textdomain(). This is
+        elm_language_set(). The ``domain`` will be stored along to find the
+        translation in the correct catalog. It can be None, in which case it will use
+        whatever domain was set by the application with ``textdomain()``. This is
         useful in case you are building a library on top of Elementary that will have
         its own translatable strings, that should not be mixed with those of programs
         using the library.
@@ -281,7 +281,7 @@ cdef class ObjectItem(object):
         Gets the original string set as translatable for an object item.
 
         When setting translated strings, the function elm_object_item_part_text_get()
-        will return the translation returned by @c gettext(). To get the original
+        will return the translation returned by ``gettext()``. To get the original
         string use this function.
 
         :param part: The name of the part that was set

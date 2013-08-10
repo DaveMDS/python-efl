@@ -341,9 +341,9 @@ def cache_all_flush():
 # def font_available_hash_add(list):
 #     """Create a font hash table of available system fonts.
 
-#     One must call it with @p list being the return value of
+#     One must call it with ``list`` being the return value of
 #     evas_font_available_list(). The hash will be indexed by font
-#     (family) names, being its values @c Elm_Font_Properties blobs.
+#     (family) names, being its values ``Elm_Font_Properties`` blobs.
 
 #     :param list: The list of available system fonts, as returned by
 #     evas_font_available_list().

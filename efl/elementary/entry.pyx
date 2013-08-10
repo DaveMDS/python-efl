@@ -1311,7 +1311,7 @@ cdef class Entry(Object):
     #     default provider in entry does.
 
     #     :param func: The function called to provide the item object
-    #     :param data: The data passed to @p func
+    #     :param data: The data passed to ``func``
 
     #     """
     #     elm_entry_item_provider_append(self.obj, Elm_Entry_Item_Provider_Cb func, void *data)
@@ -1324,7 +1324,7 @@ cdef class Entry(Object):
     #     more information
 
     #     :param func: The function called to provide the item object
-    #     :param data: The data passed to @p func
+    #     :param data: The data passed to ``func``
 
     #     """
     #     elm_entry_item_provider_prepend(self.obj, Elm_Entry_Item_Provider_Cb func, void *data)
@@ -1337,7 +1337,7 @@ cdef class Entry(Object):
     #     more information
 
     #     :param func: The function called to provide the item object
-    #     :param data: The data passed to @p func
+    #     :param data: The data passed to ``func``
 
     #     """
     #     elm_entry_item_provider_remove(self.obj, Elm_Entry_Item_Provider_Cb func, void *data)
@@ -1356,7 +1356,7 @@ cdef class Entry(Object):
     #     being called.
 
     #     :param func: The function to use as text filter
-    #     :param data: User data to pass to @p func
+    #     :param data: User data to pass to ``func``
 
     #     """
     #     cb_data = (func, data)
@@ -1371,7 +1371,7 @@ cdef class Entry(Object):
     #     for more information
 
     #     :param func: The function to use as text filter
-    #     :param data: User data to pass to @p func
+    #     :param data: User data to pass to ``func``
 
     #     """
     #     elm_entry_markup_filter_prepend(self.obj, Elm_Entry_Filter_Cb func, void *data)
@@ -1808,9 +1808,9 @@ cdef class Entry(Object):
     #     mutually exclusive. This structure must be available for as long as
     #     the entry is alive AND the elm_entry_filter_accept_set is being used.
 
-    #     The @c accepted set takes preference, so if it is set, the filter will
+    #     The ``accepted`` set takes preference, so if it is set, the filter will
     #     only work based on the accepted characters, ignoring anything in the
-    #     @c rejected value. If @c accepted is @c NULL, then @c rejected is used.
+    #     ``rejected`` value. If ``accepted`` is ``None``, then ``rejected`` is used.
 
     #     In both cases, the function filters by matching utf8 characters to the
     #     raw markup text, so it can be used to remove formatting tags.

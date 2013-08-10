@@ -574,7 +574,7 @@ cdef class Exe(object):
     def pause(self):
         """Send pause signal (SIGSTOP) to executed process.
 
-        In order to resume application execution, use ``continue_()``
+        In order to resume application execution, use :py:func:`continue_()`
         """
         ecore_exe_pause(self.exe)
 
@@ -585,9 +585,7 @@ cdef class Exe(object):
     def continue_(self):
         """Send contine signal (SIGCONT) to executed process.
 
-        This resumes application previously paused with L{pause()}
-
-        :see: pause()
+        This resumes application previously paused with :py:func:`pause`
 
         """
         ecore_exe_continue(self.exe)
@@ -689,7 +687,7 @@ cdef class Exe(object):
         filter.callback_add(func, args, kargs)
 
     def on_del_event_del(self, func, *args, **kargs):
-        """Removes the event listener registered with L{on_del_event_add()}.
+        """Removes the event listener registered with :py:func`on_del_event_add`.
 
         Parameters must be exactly the same.
 
@@ -725,7 +723,7 @@ cdef class Exe(object):
         filter.callback_add(func, args, kargs)
 
     def on_data_event_del(self, func, *args, **kargs):
-        """Removes the event listener registered with L{on_data_event_add()}.
+        """Removes the event listener registered with :py:func:`on_data_event_add()`.
 
         Parameters must be exactly the same.
 
@@ -749,7 +747,7 @@ cdef class Exe(object):
         In contrast with ``on_exe_error_event_add()``, this only receives
         the events from this exact exe instance. The signature is also
         very different, the first parameter is the ``Exe`` reference
-        and the return value does B{not} removes the event listener!
+        and the return value does **not** remove the event listener!
 
         :see: on_error_event_del()
         :see: on_exe_error_event_add()
@@ -761,7 +759,7 @@ cdef class Exe(object):
         filter.callback_add(func, args, kargs)
 
     def on_error_event_del(self, func, *args, **kargs):
-        """Removes the event listener registered with L{on_error_event_add()}.
+        """Removes the event listener registered with :py:func:`on_error_event_add()`.
 
         Parameters must be exactly the same.
 
@@ -788,7 +786,7 @@ def exe_pipe_run(exe_cmd, int flags=0, data=None):
 cdef class EventExeAdd(Event):
     """"Represents Ecore_Exe_Event_Add event from C-api.
 
-    This event notifies the process created with L{Exe} was started.
+    This event notifies the process created with :py:class:`Exe` was started.
 
     See property ``exe`` for ``Exe`` instance.
     """
@@ -843,14 +841,14 @@ cdef class EventExeDel(Event):
 cdef class EventExeData(Event):
     """Represents Ecore_Exe_Event_Data from C-api.
 
-    This event is issued by L{Exe} instances created with flags that
+    This event is issued by :py:class:`Exe` instances created with flags that
     allow reading from either stdout or stderr.
 
     See properties:
 
-      - **exe** instance of L{Exe} that created this event.
+      - **exe** instance of :py:class:`Exe` that created this event.
       - **data** the raw string buffer with binary data from child process.
-      - **size** the size of B{data} (same as C{len(data)})
+      - **size** the size of **data** (same as ``len(data)``)
       - **lines** list of strings with all text lines
     """
     cdef int _set_obj(self, void *o) except 0:
@@ -935,7 +933,7 @@ def on_exe_data_event_add(func, *args, **kargs):
 def on_exe_error_event_add(func, *args, **kargs):
     """Create an ecore event handler for ECORE_EXE_EVENT_ERROR
 
-       :see: L{EventHandler}
-       :see: L{EventHandlerExe}
+       :see: :py:class:`EventHandler`
+       :see: :py:class:`EventHandlerExe`
     """
     return EventHandlerExe(enums.ECORE_EXE_EVENT_ERROR, func, *args, **kargs)
