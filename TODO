@@ -32,6 +32,13 @@ TODO
   http://www.freedesktop.org/wiki/Software/DBusBindings
 * Split base object defines from includes/efl.evas.pxd so that everything
   defined there doesn't get included to the C code that cimports it.
+  This may have been fixed in latest versions of Cython.
+* Add more scrollables once the documentation issue (and others) is solved.
+* Review the new elm list type object item system.
+* Check for documentation changes.
+* Elm Drag-n-Drop
+* Unit tests for elm, things like top_widget and getting child objects
+  can be done easily.
 
 
 IMAGES
