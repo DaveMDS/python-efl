@@ -81,7 +81,7 @@ cdef class Poller(Eo):
                 self.interval if self.obj else -1,
                 self.func, self.args, self.kargs)
 
-    cpdef bint _task_exec(self):
+    cpdef bint _task_exec(self) except *:
         return self.func(*self.args, **self.kargs)
 
     def delete(self):
