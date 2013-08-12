@@ -105,6 +105,51 @@ ELM_IMAGE_FLIP_VERTICAL = enums.ELM_IMAGE_FLIP_VERTICAL
 ELM_IMAGE_FLIP_TRANSPOSE = enums.ELM_IMAGE_FLIP_TRANSPOSE
 ELM_IMAGE_FLIP_TRANSVERSE = enums.ELM_IMAGE_FLIP_TRANSVERSE
 
+
+class ImageProgressInfo(object):
+    """
+
+    The info sent in the callback for the "download,progress" signals emitted
+    by Image while downloading remote urls.
+
+    :var now: The amount of data received so far.
+    :var total: The total amount of data to download.
+
+    """
+    def __init__(self):
+        self.now = 0
+        self.total = 0
+
+def _image_download_progress_conv(long addr):
+    cdef Elm_Image_Progress *ip = <Elm_Image_Progress *>addr
+    ipi = ImageProgressInfo()
+    ipi.now = ip.now
+    ipi.total = ip.total
+    return ipi
+
+class ImageErrorInfo(object):
+    """
+
+    The info sent in the callback for the "download,error" signals emitted
+    by Image when fail to download remote urls.
+
+    :var status: The http error code (such as 401)
+    :var open_error: TODOC
+
+    """
+    def __init__(self):
+        self.status = 0
+        self.open_error = False
+
+def _image_download_error_conv(long addr):
+    cdef Elm_Image_Error *ie = <Elm_Image_Error *>addr
+    iei = ImageErrorInfo()
+    iei.status = ie.status
+    iei.open_error = ie.open_error
+    return iei
+
+
+
 cdef class Image(Object):
 
     """This is the class that actually implements the widget."""
@@ -478,6 +523,34 @@ cdef class Image(Object):
 
     def callback_drop_del(self, func):
         self._callback_del_full("drop", _cb_string_conv, func)
+
+    def callback_download_start_add(self, func, *args, **kwargs):
+        """This is called when you set a remote url and the download start"""
+        self._callback_add("download,start", func, *args, **kwargs)
+
+    def callback_download_start_del(self, func):
+        self._callback_del("download,start", func)
+
+    def callback_download_progress_add(self, func, *args, **kwargs):
+        """This is called while a remote image download is in progress"""
+        self._callback_add_full("download,progress", _image_download_progress_conv, func, *args, **kwargs)
+
+    def callback_download_progress_del(self, func):
+        self._callback_del_full("download,progress", _image_download_progress_conv, func)
+
+    def callback_download_done_add(self, func, *args, **kwargs):
+        """This is called when you set a remote url and the download finish"""
+        self._callback_add("download,done", func, *args, **kwargs)
+
+    def callback_download_done_del(self, func):
+        self._callback_del("download,end", func)
+
+    def callback_download_error_add(self, func, *args, **kwargs):
+        """This is called in case a download has errors"""
+        self._callback_add_full("download,error", _image_download_error_conv, func, *args, **kwargs)
+
+    def callback_download_error_del(self, func):
+        self._callback_add_full("download,error", _image_download_error_conv, func)
 
 
 _object_mapping_register("elm_image", Image)

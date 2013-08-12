@@ -7,6 +7,14 @@ cdef extern from *:
     ctypedef void const_void "const void"
 
 cdef extern from "Elementary.h":
+    ctypedef struct Elm_Image_Progress:
+        double now
+        double total
+
+    ctypedef struct Elm_Image_Error:
+        int status
+        Eina_Bool open_error
+
     Evas_Object             *elm_image_add(Evas_Object *parent)
     Eina_Bool                elm_image_memfile_set(Evas_Object *obj, const_void *img, size_t size, const_char *format, const_char *key)
     Eina_Bool                elm_image_file_set(Evas_Object *obj, const_char *file, const_char *group)
