@@ -9,7 +9,6 @@ from efl.elementary.button import Button
 from efl.elementary.image import Image
 from efl.elementary.progressbar import Progressbar
 from efl.elementary.separator import Separator
-from efl.elementary.radio import Radio
 
 
 orients = [
@@ -44,6 +43,7 @@ def _cb_im_download_error(im, info, pb):
 
 def image_clicked(obj):
     win = StandardWindow("image", "Image test")
+    win.autodel_set(True)
     if obj is None:
         win.callback_delete_request_add(lambda o: elementary.exit())
 
