@@ -64,7 +64,7 @@ def image_clicked(obj):
     sep.horizontal = True
     vbox.pack_end(sep)
     sep.show()
-    
+
     hbox = Box(win)
     hbox.layout = elementary.ELM_BOX_LAYOUT_FLOW_HORIZONTAL
     hbox.size_hint_align = evas.EVAS_HINT_FILL, evas.EVAS_HINT_FILL
@@ -75,7 +75,7 @@ def image_clicked(obj):
         b = Button(win)
         b.text = rot[0]
         hbox.pack_end(b)
-        b.callback_clicked_add(lambda b: im.orient_set(rot[1]))
+        b.callback_clicked_add(lambda b, y=rot[1]: im.orient_set(y))
         b.show()
 
     sep = Separator(win)
@@ -105,7 +105,7 @@ def image_clicked(obj):
     im.callback_download_done_add(_cb_im_download_done)
     im.callback_download_progress_add(_cb_im_download_progress, pb)
     im.callback_download_error_add(_cb_im_download_error, pb)
-    
+
     win.resize(320, 480)
     win.show()
 
