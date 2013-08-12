@@ -54,7 +54,7 @@ def pkg_config(require, min_vers=None):
         ver = subprocess.check_output(["pkg-config", "--modversion", require]).decode("utf-8").strip()
         if min_vers is not None:
             assert 0 == subprocess.call(["pkg-config", "--atleast-version", min_vers, require])
-        cflags = subprocess.check_output(["pkg-config", "--cflags", require]).decode("utf-8").split()
+        cflags = subprocess.check_output(["pkg-config", "--cflags-only-I", require]).decode("utf-8").split()
         sys.stdout.write("OK, found " + ver + "\n")
         return cflags
     except (OSError, subprocess.CalledProcessError):
