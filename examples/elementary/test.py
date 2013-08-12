@@ -90,6 +90,7 @@ items = [
             ("Icon Transparent", "test_icon", "icon_transparent_clicked"),
             ("Image", "test_image", "image_clicked"),
             ("Photo", "test_photo", "photo_clicked"),
+            ("Photocam", "test_photocam", "photocam_clicked"),
             ("Slideshow", "test_slideshow", "slideshow_clicked"),
             ("Thumb", "test_thumb", "thumb_clicked"),
             ("Video", "test_video", "video_clicked"),

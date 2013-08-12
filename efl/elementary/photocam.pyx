@@ -50,6 +50,10 @@ Signals that you can add callbacks for are:
 - "scroll,anim,stop" - scrolling animation has stopped
 - "scroll,drag,start" - dragging the contents around has started
 - "scroll,drag,stop" - dragging the contents around has stopped
+- "download,start" - remote url download has started
+- "download,progress" - url download in progress
+- "download,end" - remote url download has finished
+- "download,error" - remote url download has finished with errors
 
 
 Enumerations
@@ -93,6 +97,50 @@ ELM_PHOTOCAM_ZOOM_MODE_AUTO_FILL = enums.ELM_PHOTOCAM_ZOOM_MODE_AUTO_FILL
 ELM_PHOTOCAM_ZOOM_MODE_AUTO_FIT_IN = enums.ELM_PHOTOCAM_ZOOM_MODE_AUTO_FIT_IN
 ELM_PHOTOCAM_ZOOM_MODE_LAST = enums.ELM_PHOTOCAM_ZOOM_MODE_LAST
 
+
+class PhotocamProgressInfo(object):
+    """
+
+    The info sent in the callback for the "download,progress" signals emitted
+    by Photocam while downloading remote urls.
+
+    :var now: The amount of data received so far.
+    :var total: The total amount of data to download.
+
+    """
+    def __init__(self):
+        self.now = 0
+        self.total = 0
+
+def _photocam_download_progress_conv(long addr):
+    cdef Elm_Photocam_Progress *pp = <Elm_Photocam_Progress *>addr
+    ppi = PhotocamProgressInfo()
+    ppi.now = pp.now
+    ppi.total = pp.total
+    return ppi
+
+class PhotocamErrorInfo(object):
+    """
+
+    The info sent in the callback for the "download,error" signals emitted
+    by Photocam when fail to download remote urls.
+
+    :var status: The http error code (such as 401)
+    :var open_error: TODOC
+
+    """
+    def __init__(self):
+        self.status = 0
+        self.open_error = False
+
+def _photocam_download_error_conv(long addr):
+    cdef Elm_Photocam_Error *pe = <Elm_Photocam_Error *>addr
+    pei = PhotocamErrorInfo()
+    pei.status = pe.status
+    pei.open_error = pe.open_error
+    return pei
+
+
 cdef class Photocam(Object):
 
     """This is the class that actually implements the widget."""
@@ -116,12 +164,17 @@ cdef class Photocam(Object):
         """
         def __set__(self, file):
             if isinstance(file, unicode): file = PyUnicode_AsUTF8String(file)
-            # TODO: Check if Evas_Load_Error is being used correctly here
-            if not elm_photocam_file_set(self.obj,
-                <const_char *>file if file is not None else NULL):
+            if elm_photocam_file_set(self.obj,
+                <const_char *>file if file is not None else NULL) != 0:
                     raise RuntimeError("Could not set file")
+
         def __get__(self):
             return _ctouni(elm_photocam_file_get(self.obj))
+
+    def file_set(self, file):
+        self.file = file
+    def file_get(self):
+        return _ctouni(elm_photocam_file_get(self.obj))
 
     property zoom:
         """The zoom level of the photo
@@ -139,6 +192,11 @@ cdef class Photocam(Object):
             elm_photocam_zoom_set(self.obj, zoom)
         def __get__(self):
             return elm_photocam_zoom_get(self.obj)
+
+    def zoom_set(self, zoom):
+        elm_photocam_zoom_set(self.obj, zoom)
+    def zoom_get(self):
+        return elm_photocam_zoom_get(self.obj)
 
     property zoom_mode:
         """Set the zoom mode
@@ -162,6 +220,11 @@ cdef class Photocam(Object):
         def __get__(self):
             return elm_photocam_zoom_mode_get(self.obj)
 
+    def zoom_mode_set(self, mode):
+        elm_photocam_zoom_mode_set(self.obj, mode)
+    def zoom_mode_get(self):
+        return elm_photocam_zoom_mode_get(self.obj)
+
     property image_size:
         """Get the current image pixel width and height
 
@@ -177,6 +240,11 @@ cdef class Photocam(Object):
             elm_photocam_image_size_get(self.obj, &w, &h)
             return (w, h)
 
+    def image_size_get(self):
+        cdef int w, h
+        elm_photocam_image_size_get(self.obj, &w, &h)
+        return (w, h)
+
     property image_region:
         """Get the region of the image that is currently shown
 
@@ -190,6 +258,11 @@ cdef class Photocam(Object):
             cdef int x, y, w, h
             elm_photocam_image_region_get(self.obj, &x, &y, &w, &h)
             return (x, y, w, h)
+
+    def image_region_get(self):
+        cdef int x, y, w, h
+        elm_photocam_image_region_get(self.obj, &x, &y, &w, &h)
+        return (x, y, w, h)
 
     def image_region_show(self, x, y, w, h):
         """image_region_show(int x, int y, int w, int h)
@@ -245,6 +318,11 @@ cdef class Photocam(Object):
         def __get__(self):
             return bool(elm_photocam_paused_get(self.obj))
 
+    def paused_set(self, paused):
+        elm_photocam_paused_set(self.obj, paused)
+    def paused_get(self):
+        return bool(elm_photocam_paused_get(self.obj))
+
     property internal_image:
         """Get the internal low-res image used for photocam
 
@@ -261,6 +339,9 @@ cdef class Photocam(Object):
             img.obj = obj
             return img
 
+    def internal_image_get(self):
+        return self.internal_image
+
     property bounce:
         """Photocam scrolling bouncing.
 
@@ -275,6 +356,13 @@ cdef class Photocam(Object):
             elm_scroller_bounce_get(self.obj, &h_bounce, &v_bounce)
             return (h_bounce, v_bounce)
 
+    def bounce_set(self, h_bounce, v_bounce):
+        elm_scroller_bounce_set(self.obj, h_bounce, v_bounce)
+    def bounce_get(self):
+        cdef Eina_Bool h_bounce, v_bounce
+        elm_scroller_bounce_get(self.obj, &h_bounce, &v_bounce)
+        return (h_bounce, v_bounce)
+
     property gesture_enabled:
         """Set the gesture state for photocam.
 
@@ -288,6 +376,11 @@ cdef class Photocam(Object):
             elm_photocam_gesture_enabled_set(self.obj, gesture)
         def __get__(self):
             return bool(elm_photocam_gesture_enabled_get(self.obj))
+
+    def gesture_enabled_set(self, gesture):
+        elm_photocam_gesture_enabled_set(self.obj, gesture)
+    def gesture_enabled_get(self):
+        return bool(elm_photocam_gesture_enabled_get(self.obj))
 
     def callback_clicked_add(self, func, *args, **kwargs):
         """This is called when a user has clicked the photo without dragging
@@ -404,6 +497,34 @@ cdef class Photocam(Object):
 
     def callback_scroll_drag_stop_del(self, func):
         self._callback_del("scroll,drag,stop", func)
+
+    def callback_download_start_add(self, func, *args, **kwargs):
+        """This is called when you set a remote url and the download start"""
+        self._callback_add("download,start", func, *args, **kwargs)
+
+    def callback_download_start_del(self, func):
+        self._callback_del("download,start", func)
+
+    def callback_download_progress_add(self, func, *args, **kwargs):
+        """This is called while a remote image download is in progress"""
+        self._callback_add_full("download,progress", _photocam_download_progress_conv, func, *args, **kwargs)
+
+    def callback_download_progress_del(self, func):
+        self._callback_del_full("download,progress", _photocam_download_progress_conv, func)
+
+    def callback_download_done_add(self, func, *args, **kwargs):
+        """This is called when you set a remote url and the download finish"""
+        self._callback_add("download,done", func, *args, **kwargs)
+
+    def callback_download_done_del(self, func):
+        self._callback_del("download,end", func)
+
+    def callback_download_error_add(self, func, *args, **kwargs):
+        """This is called in case a download has errors"""
+        self._callback_add_full("download,error", _photocam_download_error_conv, func, *args, **kwargs)
+
+    def callback_download_error_del(self, func):
+        self._callback_add_full("download,error", _photocam_download_error_conv, func)
 
 
 _object_mapping_register("elm_photocam", Photocam)

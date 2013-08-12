@@ -47,7 +47,10 @@ Signals that you can add callbacks for are:
     typed object onto the object in question -- the
     event info argument is the path to that image file
 - ``"clicked"`` - This is called when a user has clicked the image
-
+- ``"download,start"`` - remote url download has started
+- ``"download,progress"`` - url download in progress
+- ``"download,end"`` - remote url download has finished
+- ``"download,error"`` - remote url download has finished with errors
 
 Enumerations
 ------------

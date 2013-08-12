@@ -4,6 +4,14 @@ from enums cimport Elm_Photocam_Zoom_Mode
 from libc.string cimport const_char
 
 cdef extern from "Elementary.h":
+    ctypedef struct Elm_Photocam_Progress:
+        double now
+        double total
+
+    ctypedef struct Elm_Photocam_Error:
+        int status
+        Eina_Bool open_error
+
     Evas_Object             *elm_photocam_add(Evas_Object *parent)
     Evas_Load_Error          elm_photocam_file_set(Evas_Object *obj, const_char *file)
     const_char *             elm_photocam_file_get(Evas_Object *obj)
