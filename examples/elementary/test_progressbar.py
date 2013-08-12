@@ -77,7 +77,7 @@ def progressbar_clicked(obj):
     pb2.size_hint_weight = evas.EVAS_HINT_EXPAND, evas.EVAS_HINT_EXPAND
     pb2.size_hint_align = evas.EVAS_HINT_FILL, 0.5
     pb2.text = "Infinite bounce"
-    pb2.pulse = True
+    pb2.pulse_mode = True
     bx.pack_end(pb2)
     pb2.show()
 
@@ -118,7 +118,7 @@ def progressbar_clicked(obj):
     pb5.size_hint_align = evas.EVAS_HINT_FILL, 0.5
     pb5.size_hint_weight = evas.EVAS_HINT_EXPAND, evas.EVAS_HINT_EXPAND
     pb5.span_size = 80
-    pb5.pulse = True
+    pb5.pulse_mode = True
     pb5.unit_format = None
     pb5.text = "Infinite bounce"
     hbx.pack_end(pb5)
@@ -144,7 +144,7 @@ def progressbar_clicked(obj):
     pb7 = Progressbar(win)
     pb7.style = "wheel"
     pb7.text = "Style: wheel"
-    pb7.pulse = True
+    pb7.pulse_mode = True
     pb7.size_hint_align = evas.EVAS_HINT_FILL, 0.5
     pb7.size_hint_weight = evas.EVAS_HINT_EXPAND, evas.EVAS_HINT_EXPAND
     bx.pack_end(pb7)

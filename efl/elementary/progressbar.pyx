@@ -71,15 +71,6 @@ include "widget_header.pxi"
 from layout_class cimport LayoutClass
 from object cimport Object
 
-class ProgressbarPulseState(int):
-    def __new__(cls, Object obj, int state):
-        return int.__new__(cls, state)
-
-    def __init__(self, Object obj, int state):
-        self.obj = obj
-
-    def __call__(self, int state):
-        return self.obj._pulse(state)
 
 cdef class Progressbar(LayoutClass):
 
@@ -88,7 +79,7 @@ cdef class Progressbar(LayoutClass):
     def __init__(self, evasObject parent):
         self._set_obj(elm_progressbar_add(parent.obj))
 
-    property pulse:
+    property pulse_mode:
         """Whether a given progress bar widget is at "pulsing mode" or not.
 
         By default, progress bars will display values from the low to high
@@ -101,23 +92,30 @@ cdef class Progressbar(LayoutClass):
         start and stop this pulsing animation, one has to explicitly call
         pulse(True) or pulse(False).
 
-        :type pulse: bool
+        :type: bool
 
         """
         def __set__(self, pulse):
             elm_progressbar_pulse_set(self.obj, pulse)
 
         def __get__(self):
-            return ProgressbarPulseState(self, elm_progressbar_pulse_get(self.obj))
+            return bool(elm_progressbar_pulse_get(self.obj))
 
-    def _pulse(self, state):
-        elm_progressbar_pulse(self.obj, state)
-
-    def pulse_set(self, state):
+    def pulse_mode_set(self, state):
         elm_progressbar_pulse_set(self.obj, state)
-
-    def pulse_get(self):
+    def pulse_mode_get(self):
         return bool(elm_progressbar_pulse_get(self.obj))
+
+    def pulse(self, state):
+        """Start (state=True) or stop (state=False) the pulsing animation.
+
+        Note that :py:attr:`pulse_mode` must be enabled for this to work.
+
+        :param state: Whenever to start or stop the pulse animation.
+        :type state: bool
+
+        """
+        elm_progressbar_pulse(self.obj, state)
 
     property value:
         """The progress value (in percentage) on a given progress bar widget.
