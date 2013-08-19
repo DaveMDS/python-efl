@@ -34,6 +34,9 @@ cdef extern from "Emotion.h":
     ctypedef enum Emotion_Suspend:
         pass
 
+    ctypedef enum Emotion_Vis:
+        pass
+
     ctypedef struct Emotion_Webcam:
         pass
 
@@ -123,6 +126,10 @@ cdef extern from "Emotion.h":
     const_Eina_List *emotion_webcams_get()
     const_char *emotion_webcam_name_get(Emotion_Webcam *ew)
     const_char *emotion_webcam_device_get(Emotion_Webcam *ew)
+
+    void emotion_object_vis_set(Evas_Object *obj, Emotion_Vis visualization)
+    Emotion_Vis emotion_object_vis_get(const_Evas_Object *obj)
+    Eina_Bool emotion_object_vis_supported(const_Evas_Object *obj, Emotion_Vis visualization)
 
 
 cdef class Emotion(evasObject):

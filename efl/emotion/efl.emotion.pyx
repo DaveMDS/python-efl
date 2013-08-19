@@ -81,6 +81,28 @@ EMOTION_SLEEP      = 1
 EMOTION_DEEP_SLEEP = 2
 EMOTION_HIBERNATE  = 3
 
+# Emotion_Vis:
+EMOTION_VIS_NONE                        = 0
+EMOTION_VIS_GOOM                        = 1
+EMOTION_VIS_LIBVISUAL_BUMPSCOPE         = 2
+EMOTION_VIS_LIBVISUAL_CORONA            = 3
+EMOTION_VIS_LIBVISUAL_DANCING_PARTICLES = 4
+EMOTION_VIS_LIBVISUAL_GDKPIXBUF         = 5
+EMOTION_VIS_LIBVISUAL_G_FORCE           = 6
+EMOTION_VIS_LIBVISUAL_GOOM              = 7
+EMOTION_VIS_LIBVISUAL_INFINITE          = 8
+EMOTION_VIS_LIBVISUAL_JAKDAW            = 9
+EMOTION_VIS_LIBVISUAL_JESS              = 10
+EMOTION_VIS_LIBVISUAL_LV_ANALYSER       = 11
+EMOTION_VIS_LIBVISUAL_LV_FLOWER         = 12
+EMOTION_VIS_LIBVISUAL_LV_GLTEST         = 13
+EMOTION_VIS_LIBVISUAL_LV_SCOPE          = 14
+EMOTION_VIS_LIBVISUAL_MADSPIN           = 15
+EMOTION_VIS_LIBVISUAL_NEBULUS           = 16
+EMOTION_VIS_LIBVISUAL_OINKSIE           = 17
+EMOTION_VIS_LIBVISUAL_PLASMA            = 18
+EMOTION_VIS_LAST                        = 19
+
 
 cdef void _emotion_callback(void *data, Evas_Object *o, void *ei) with gil:
     cdef Emotion obj
@@ -1019,6 +1041,20 @@ cdef class Emotion(evasObject):
         This function is usefull when you want to get a direct access to the pixels.
         """
         return object_from_instance(emotion_object_image_get(self.obj))
+
+    property vis:
+        def __get__(self):
+            return emotion_object_vis_get(self.obj)
+
+        def __set__(self, Emotion_Vis vis):
+            emotion_object_vis_set(self.obj, vis)
+
+    def vis_get(self):
+        return emotion_object_vis_get(self.obj)
+    def vis_set(self, Emotion_Vis vis):
+        emotion_object_vis_set(self.obj, vis)
+    def vis_supported(self, Emotion_Vis vis):
+        return emotion_object_vis_supported(self.obj, vis)
 
     def event_simple_send(self, int event_id):
         """ Send a named signal to the object.
