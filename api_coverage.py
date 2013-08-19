@@ -16,6 +16,13 @@ c_exclude_list = [
     "elm_quicklaunch", # Is quicklaunch relevant for us?
     "emotion_object_extension_may_play_fast_get", # this optimization does not work from py
     "edje_edit_", # edje edit is not there for users to use
+    "ecore_thread_", # python has his own thread abstraction library
+    "ecore_pipe_", # python has his own pipe abstraction library
+    "ecore_getopt_", # python has his own getopt implementation
+    "ecore_coroutine_", # python has someting similar...maybe
+    "ecore_fork_", # low level stuff, not to be exposed
+    "ecore_timer_dump", # this is just usefull for debugging
+    "ecore_throttle_", # I don't know what this is :/  - davemds
 ]
 c_excludes = "|".join(c_exclude_list)
 
