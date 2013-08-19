@@ -14,6 +14,7 @@ c_exclude_list = [
     "elm_glview", # Is there an OpenGL API for Python that can be used with this?
     "evas_gl_", # ditto
     "elm_quicklaunch", # Is quicklaunch relevant for us?
+    "emotion_object_extension_may_play_fast_get", # this optimization does not work from py
 ]
 c_excludes = "|".join(c_exclude_list)
 
