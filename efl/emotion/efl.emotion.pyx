@@ -103,7 +103,6 @@ class EmotionModuleInitError(Exception):
 def init():
     return emotion_init()
 
-
 def shutdown():
     return emotion_shutdown()
 
@@ -126,6 +125,21 @@ def webcams_get():
         ret.append((_ctouni(name), _ctouni(device)))
         itr = itr.next
     return ret
+
+def extension_may_play_get(filename):
+    """ Do we have a chance to play that file?
+
+    This just actually look at the extention of the file, it doesn't check
+    the mime-type nor if the file is actually sane. So this is just an
+    hint for your application.
+
+    :param filename: A filename that we want to know if Emotion can play.
+    :type filename: str
+
+    """
+    if isinstance(filename, unicode): filename = PyUnicode_AsUTF8String(filename)
+    return bool(emotion_object_extension_may_play_get(
+        <const_char *>filename if filename is not None else NULL))
 
 
 cdef class Emotion(evasObject):
@@ -455,7 +469,6 @@ cdef class Emotion(evasObject):
         return emotion_object_suspend_get(self.obj)
     def suspend_set(self, Emotion_Suspend a):
         emotion_object_suspend_set(self.obj, a)
-
 
     property buffer_size:
         """ The percentual size of the buffering cache.
@@ -998,21 +1011,6 @@ cdef class Emotion(evasObject):
 
         """
         emotion_object_last_position_save(self.obj)
-
-    def extension_may_play_get(self, filename):
-        """ Do we have a chance to play that file?
-
-        This just actually look at the extention of the file, it doesn't check
-        the mime-type nor if the file is actually sane. So this is just an
-        hint for your application.
-
-        :param filename: A filename that we want to know if Emotion can play.
-        :type filename: str
-
-        """
-        if isinstance(filename, unicode): filename = PyUnicode_AsUTF8String(filename)
-        return bool(emotion_object_extension_may_play_get(
-            <const_char *>filename if filename is not None else NULL))
 
     def image_get(self):
         """ Get the actual image object (:py:class:`efl.evas.Object`) of the
