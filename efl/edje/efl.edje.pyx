@@ -214,6 +214,17 @@ def collection_cache_get():
 def collection_cache_flush():
     edje_collection_cache_flush()
 
+def scale_set(double scale):
+    edje_scale_set(scale)
+
+def scale_get():
+    return edje_scale_get()
+
+def password_show_last_set(int show_last):
+    edje_password_show_last_set(show_last)
+
+def password_show_last_timeout_set(double timeout):
+    edje_password_show_last_timeout_set(timeout)
 
 def color_class_set(color_class,
                     int r, int g, int b, int a,

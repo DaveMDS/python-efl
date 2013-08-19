@@ -15,6 +15,7 @@ c_exclude_list = [
     "evas_gl_", # ditto
     "elm_quicklaunch", # Is quicklaunch relevant for us?
     "emotion_object_extension_may_play_fast_get", # this optimization does not work from py
+    "edje_edit_", # edje edit is not there for users to use
 ]
 c_excludes = "|".join(c_exclude_list)
 

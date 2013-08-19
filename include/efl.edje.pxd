@@ -189,6 +189,12 @@ cdef extern from "Edje.h":
     void edje_text_class_del(char *text_class)
     Eina_List * edje_text_class_list()
 
+    void edje_scale_set(double scale)
+    double edje_scale_get()
+
+    void edje_password_show_last_set(Eina_Bool password_show_last)
+    void edje_password_show_last_timeout_set(double password_show_last_timeout)
+    
     void edje_extern_object_min_size_set(Evas_Object *obj, Evas_Coord minw, Evas_Coord minh)
     void edje_extern_object_max_size_set(Evas_Object *obj, Evas_Coord maxw, Evas_Coord maxh)
     void edje_extern_object_aspect_set(Evas_Object *obj, Edje_Aspect_Control aspect, Evas_Coord aw, Evas_Coord ah)
@@ -213,6 +219,16 @@ cdef extern from "Edje.h":
     int edje_object_freeze(Evas_Object *obj)
     int edje_object_thaw(Evas_Object *obj)
 
+    Eina_Bool edje_object_preload(Evas_Object *obj, Eina_Bool cancel)
+    Eina_Bool edje_object_scale_set(Evas_Object *obj, double scale)
+    double edje_object_scale_get(Evas_Object *obj)
+
+    void edje_object_mirrored_set(Evas_Object *obj, Eina_Bool rtl)
+    Eina_Bool edje_object_mirrored_get(Evas_Object *obj)
+
+    void edje_object_update_hints_set(Evas_Object *obj, Eina_Bool update)
+    Eina_Bool edje_object_update_hints_get(Evas_Object *obj)
+
     void edje_object_color_class_set(Evas_Object *obj, char *color_class, int r, int g, int b, int a, int r2, int g2, int b2, int a2, int r3, int g3, int b3, int a3)
     void edje_object_color_class_get(Evas_Object *obj, char *color_class, int *r, int *g, int *b, int *a, int *r2, int *g2, int *b2, int *a2, int *r3, int *g3, int *b3, int *a3)
     void edje_object_color_class_del(Evas_Object *obj, char *color_class)
@@ -222,6 +238,7 @@ cdef extern from "Edje.h":
     void edje_object_size_max_get(Evas_Object *obj, Evas_Coord *maxw, Evas_Coord *maxh)
     void edje_object_calc_force(Evas_Object *obj)
     void edje_object_size_min_calc(Evas_Object *obj, Evas_Coord *minw, Evas_Coord *minh)
+    void edje_object_size_min_restricted_calc(Evas_Object *obj, Evas_Coord *minw, Evas_Coord *minh, Evas_Coord restrictedw, Evas_Coord restrictedh)
     Eina_Bool edje_object_parts_extends_calc(Evas_Object *obj, Evas_Coord *x, Evas_Coord *y, Evas_Coord *w, Evas_Coord *h)
 
     int edje_object_part_exists(Evas_Object *obj, char *part)

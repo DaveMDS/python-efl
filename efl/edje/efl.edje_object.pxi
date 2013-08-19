@@ -276,6 +276,22 @@ cdef class Edje(Object):
         "Thaw (unfreeze) the object."
         return edje_object_thaw(self.obj)
 
+    def preload(self, int cancel):
+        """Preload the images on the Edje Object in the background.
+
+        This function requests the preload of all data images in the background.
+        The work is queued before being processed (because there might be other
+        pending requests of this type). It emits the signal "preload,done"
+        when finished.
+
+        :param cancel: *True* will add it the preloading work queue, *False*
+                       will remove it (if it was issued before).
+        :type cancel: bool
+        :rtype: bool
+
+        """
+        return bool(edje_object_preload(self.obj, cancel))
+
     def color_class_set(self, color_class,
                         int r, int g, int b, int a,
                         int r2, int g2, int b2, int a2,
@@ -344,6 +360,32 @@ cdef class Edje(Object):
             <const_char *>font if font is not None else NULL,
             size)
 
+    property scale:
+        """The scaling factor for a given Edje object."""
+        def __set__(self, double scale):
+            edje_object_scale_set(self.obj, scale)
+
+        def __get__(self):
+            return edje_object_scale_get(self.obj)
+
+    cpdef scale_set(self, double scale): 
+        edje_object_scale_set(self.obj, scale)
+    cpdef scale_get(self):
+        return edje_object_scale_get(self.obj)
+
+    property mirrored:
+        """The RTL orientation for this object."""
+        def __set__(self, int rtl):
+            edje_object_mirrored_set(self.obj, rtl)
+
+        def __get__(self):
+            return bool(edje_object_mirrored_get(self.obj))
+
+    def mirrored_set(self, int rtl):
+        edje_object_mirrored_set(self.obj, rtl)
+    def mirrored_get(self):
+        return bool(edje_object_mirrored_get(self.obj))
+    
     def size_min_get(self):
         ":rtype: tuple of int"
         cdef int w, h
@@ -374,10 +416,60 @@ cdef class Edje(Object):
         edje_object_size_min_calc(self.obj, &w, &h)
         return (w, h)
 
+    def size_min_restricted_calc(self, minw, minh):
+        """
+        This call will trigger an internal recalculation of all parts of
+        the object, in order to return its minimum required dimensions for
+        width and height. The user might choose to *impose* those minimum sizes,
+        making the resulting calculation to get values equal or bigger than
+        minw and minh, for width and height, respectively.
+ 
+        :note: At the end of this call, the object won't be automatically
+               resized to new dimensions, but just return the calculated
+               sizes. The caller is the one up to change its geometry or not.
+ 
+        :warning: Be advised that invisible parts in the object obj will be
+                  taken into account in this calculation.
+
+        """
+        cdef int w, h
+        edje_object_size_min_restricted_calc(self.obj, &w, &h, minw, minh)
+        return (w, h)
+
     def parts_extends_calc(self):
+        """
+        Calculate the geometry of the region, relative to a given Edje
+        object's area, *occupied by all parts in the object*
+
+        :return: (x, y, w, h)
+        :rtype: tuple of 4 ints
+
+        """
         cdef int x, y, w, h
         edje_object_parts_extends_calc(self.obj, &x, &y, &w, &h)
         return (x, y, w, h)
+
+    property update_hints:
+        """ Edje will automatically update the size hints on itself.
+
+        By default edje doesn't set size hints on itself. With this property
+        set to *True* it will do so. Be carefully, it cost a lot to
+        trigger this feature as it will recalc the object every time it make
+        sense to be sure that's its minimal size hint is always accurate.
+
+        :type: bool
+
+        """
+        def __get__(self):
+            return bool(edje_object_update_hints_get(self.obj))
+
+        def __set__(self, update):
+            edje_object_update_hints_set(self.obj, update)
+
+    def update_hints_get(self):
+        return bool(edje_object_update_hints_get(self.obj))
+    def update_hints_set(self, update):
+        edje_object_update_hints_set(self.obj, update)
 
     def part_exists(self, part):
         ":rtype: bool"
@@ -472,7 +564,6 @@ cdef class Edje(Object):
         if isinstance(part, unicode): part = PyUnicode_AsUTF8String(part)
         return _ctouni(edje_object_part_text_get(self.obj,
                         <const_char *>part if part is not None else NULL))
-
 
     def part_text_select_all(self, part):
         "Select all the text of the given TEXT or TEXTBLOCK part"
