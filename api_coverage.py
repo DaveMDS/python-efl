@@ -77,45 +77,41 @@ def get_capis(inc_path, prefix):
 
     for path, dirs, files in os.walk(inc_path):
         for f in files:
-            if sys.version_info[0] < 3:
-                header = open(os.path.join(path, f), mode="r")
-            else:
-                header = open(os.path.join(path, f), encoding="UTF-8", mode="r")
+            open_args = (os.path.join(path, f),)
+            open_kwargs = dict(mode="r")
+            if sys.version_info[0] > 2: open_kwargs["encoding"] = "UTF-8"
 
-            capi = header.read()
+            with open(*open_args, **open_kwargs) as header:
+                capi = header.read()
 
-            matches = re.finditer(capi_pattern, capi)
-            for match in matches:
-                func = match.group(1)
-                capis.append(func)
-
-            header.close()
+                matches = re.finditer(capi_pattern, capi)
+                for match in matches:
+                    func = match.group(1)
+                    capis.append(func)
 
     return capis
 
 def get_pyapis(pxd_path, header_name, prefix):
     pyapis = []
     pyapi_pattern1 = re.compile('(cdef extern from "' + header_name + '\.h":\n)(.+)', flags = re.S)
-    pyapi_pattern2 = re.compile("^    [a-zA-Z _*]+?(?!" + py_excludes + ")(" + prefix + "_\w+)\(", flags = re.M)
+    pyapi_pattern2 = re.compile("^ +[a-zA-Z _*]+?(?!" + py_excludes + ")(" + prefix + "_\w+)\(", flags = re.M)
 
     for path, dirs, files in os.walk(pxd_path):
         for f in files:
             if f.endswith(".pxd"):
-                if sys.version_info[0] < 3:
-                    pxd = open(os.path.join(path, f), mode="r")
-                else:
-                    pxd = open(os.path.join(path, f), encoding="UTF-8", mode="r")
+                open_args = (os.path.join(path, f),)
+                open_kwargs = dict(mode="r")
+                if sys.version_info[0] > 2: open_kwargs["encoding"] = "UTF-8"
 
-                pyapi = pxd.read()
+                with open(*open_args, **open_kwargs) as pxd:
+                    pyapi = pxd.read()
 
-                cdef = re.search(pyapi_pattern1, pyapi)
-                if cdef:
-                    matches = re.finditer(pyapi_pattern2, cdef.group(2))
-                    for match in matches:
-                        func = match.group(1)
-                        pyapis.append(func)
-
-                pxd.close()
+                    cdef = re.search(pyapi_pattern1, pyapi)
+                    if cdef:
+                        matches = re.finditer(pyapi_pattern2, cdef.group(2))
+                        for match in matches:
+                            func = match.group(1)
+                            pyapis.append(func)
 
     return pyapis
 
@@ -127,32 +123,32 @@ for lib in libs:
     capis = get_capis(inc_path, prefix)
     pyapis = get_pyapis(pxd_path, header_name, prefix)
 
-    ecs = set(capis)
-    eps = set(pyapis)
-    differences = ecs.union(eps) - ecs.intersection(eps)
+    capis = set(capis)
+    pyapis = set(pyapis)
+    differences = capis.union(pyapis) - capis.intersection(pyapis)
 
     for d in sorted(differences):
-        if args.python and d in ecs:
+        if args.python and d in capis:
             print("{0} is missing from Python API".format(d))
-        if args.c and d in eps:
+        if args.c and d in pyapis:
             print("{0} is missing from C API".format(d))
 
     if args.python or args.c: print("\n---")
 
     if args.python:
-        print("Number of functions missing from Python API: {0}".format(len(ecs - ecs.intersection(eps))))
+        print("Number of functions missing from Python API: {0}".format(len(capis - capis.intersection(pyapis))))
     if args.c:
-        print("Number of functions missing from C API: {0}".format(len(eps - ecs.intersection(eps))))
+        print("Number of functions missing from C API: {0}".format(len(pyapis - capis.intersection(pyapis))))
 
     if args.python or args.c: print("---")
 
     if args.python:
-        print("Python API functions: {0}".format(len(eps)))
+        print("Python API functions: {0}".format(len(pyapis)))
     if args.c:
-        print("C API functions: {0}".format(len(ecs)))
+        print("C API functions: {0}".format(len(capis)))
 
-    if args.python and len(ecs) > 0:
-        percentage = float(len(ecs.intersection(eps))) / float(len(ecs)) * 100.0
+    if args.python and len(capis) > 0:
+        percentage = float(len(capis.intersection(pyapis))) / float(len(capis)) * 100.0
         print("===")
         print("Bindings coverage {0:.2f}%".format(percentage))
 
