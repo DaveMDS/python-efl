@@ -18,4 +18,5 @@ cdef extern from "Elementary.h":
     const_char *            elm_fileselector_selected_get(Evas_Object *obj)
     void                    elm_fileselector_mode_set(Evas_Object *obj, Elm_Fileselector_Mode mode)
     Elm_Fileselector_Mode   elm_fileselector_mode_get(Evas_Object *obj)
-
+    Eina_Bool               elm_fileselector_mime_types_filter_append(Evas_Object *obj, const_char *mime_types, const_char *filter_name)
+    void                    elm_fileselector_filters_clear(Evas_Object *obj)

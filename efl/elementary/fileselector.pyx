@@ -261,6 +261,51 @@ cdef class Fileselector(LayoutClass):
     def mode_get(self):
         return elm_fileselector_mode_get(self.obj)
 
+    def mime_types_filter_append(self, list mime_types, filter_name=None):
+        """mime_types_filter_append(list mime_types, str filter_name=None)
+
+        Append mime types filter into filter list
+
+        :param mime_types: mime types to be allowed.
+        :type mime_types: list
+        :param filter_name: The name to be displayed, ``mime_types`` will be displayed if None
+        :type filter_name: string
+        :raise RuntimeError: if setting mime_types failed
+
+        .. note:: a sub type of mime can be asterisk(*)
+        .. note:: mime type filter is only working with efreet now.
+        .. note:: first added filter will be the default filter at the moment.
+
+        :see: :py:func:efl.elementary.need.need_efreet()
+        :see: filters_clear()
+
+        :since: 1.8
+
+        """
+        mime_types_s = ",".join(mime_types)
+        if isinstance(mime_types_s, unicode): mime_types_s = PyUnicode_AsUTF8String(mime_types)
+        if isinstance(filter_name, unicode): filter_name = PyUnicode_AsUTF8String(filter_name)
+        if not elm_fileselector_mime_types_filter_append(self.obj, mime_types_s,
+            <const_char *>filter_name if filter_name is not None else NULL):
+            raise RuntimeError
+
+    def filters_clear(self):
+        """
+
+        Clear all filters registered
+
+        .. note::
+
+            If filter list is empty, file selector assume that all
+            files are matched.
+
+        :see: elm_fileselector_mime_type_filter_append()
+
+        :since: 1.8
+
+        """
+        elm_fileselector_filters_clear(self.obj)
+
     def callback_selected_add(self, func, *args, **kwargs):
         """The user has clicked on a file (when not in folders-only mode) or
         directory (when in folders-only mode). Parameter ``event_info``
