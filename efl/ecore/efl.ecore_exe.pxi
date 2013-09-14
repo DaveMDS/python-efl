@@ -784,7 +784,7 @@ def exe_pipe_run(exe_cmd, int flags=0, data=None):
 
 
 cdef class EventExeAdd(Event):
-    """"Represents Ecore_Exe_Event_Add event from C-api.
+    """Represents Ecore_Exe_Event_Add event from C-api.
 
     This event notifies the process created with :py:class:`Exe` was started.
 
@@ -806,7 +806,7 @@ cdef class EventExeAdd(Event):
 
 
 cdef class EventExeDel(Event):
-    """"Represents Ecore_Exe_Event_Del from C-api.
+    """Represents Ecore_Exe_Event_Del from C-api.
 
     This event notifies the process created with ``Exe`` is now dead.
 

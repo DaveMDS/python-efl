@@ -92,16 +92,16 @@ Reference
 .. toctree::
    :maxdepth: 4
 
-   class-timer
-   class-animator
-   class-poller
-   class-idler
-   class-idleenterer
-   class-idleexiter
-   class-exe
-   class-fdhandler
-   class-filedownload
-   class-filemonitor
+   timer
+   animator
+   poller
+   idler
+   idleenterer
+   idleexiter
+   exe
+   fdhandler
+   filedownload
+   filemonitor
 
 
 Inheritance diagram
