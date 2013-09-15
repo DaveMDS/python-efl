@@ -31,15 +31,15 @@
 
  * BUILDING WITH GCC/G++ (Linux, OS X, etc.)
 
-   python setup.py build_ext
+   python setup.py build
 
  * BUILDING WITH Visual Studio (Windows)
 
-   python setup.py build_ext
+   python setup.py build
 
  * BUILDING WITH MINGW (Windows)
 
-   python setup.py build_ext -c mingw32
+   python setup.py build -c mingw32
 
 
 
@@ -70,7 +70,7 @@
  To build the docs for the bindings you need to have Sphinx installed, for
  (optional) graphs you need Graphviz, for (optional) Youtube demonstration
  videos you need the YouTube module from sphinx contrib repository.
- packages: python-sphinx, graphviz
+ packages: python-sphinx, graphviz, python-pygraphviz, libgv-python
 
  To build the docs just run:
  python setup.py build_doc
