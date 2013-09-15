@@ -19,7 +19,6 @@ BUGS
 TODO
 ====
 
-* alert on signal and subprocess module usage (was in python-ecore/ecore/__init__.py)
 * evas.SmartObject
 * edje: complete the unit tests
 * elm.Web need a test

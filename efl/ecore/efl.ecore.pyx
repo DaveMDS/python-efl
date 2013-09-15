@@ -335,3 +335,52 @@ include "efl.ecore_file_download.pxi"
 include "efl.ecore_file_monitor.pxi"
 
 init()
+
+
+#---------------------------------------------------------------------------
+# let's try to warn users that ecore conflicts with subprocess module
+import subprocess
+
+_orig_subprocess = None
+
+def subprocess_warning(*a, **ka):
+    print("""    DEVELOPER WARNING:
+        Using subprocess (Popen and derivates) with Ecore is a bad idea.
+
+        Ecore will set some signal handlers subprocess module depends and this
+        may cause this module to operate unexpectedly.
+
+        Instead of using subprocess.Popen(), please consider using Ecore's
+        Exe() class.
+        """)
+    return _orig_subprocess(*a, **ka)
+
+if subprocess.Popen is not subprocess_warning:
+    _orig_subprocess = subprocess.Popen
+    subprocess.Popen = subprocess_warning
+
+
+#---------------------------------------------------------------------------
+# also try to warn that ecore conflicts with signal module
+import signal
+
+_orig_signal = None
+
+def signal_warning(sig, action):
+    if sig in (signal.SIGPIPE, signal.SIGALRM, signal.SIGCHLD, signal.SIGUSR1,
+               signal.SIGUSR2, signal.SIGHUP,  signal.SIGQUIT, signal.SIGINT,
+               signal.SIGTERM, signal.SIGPWR):
+        print("""    DEVELOPER WARNING:
+        Ecore already defines signal handlers for:
+
+        SIGPIPE, SIGALRM, SIGCHLD, SIGUSR1, SIGUSR2
+        SIGHUP, SIGQUIT, SIGINT, SIGTERM, SIGPWR, SIGRT*
+
+        Since you're defining a new signal handler, you might collide with
+        Ecore and bad things may happen!
+        """)
+    return _orig_signal(sig, action)
+
+if signal.signal is not signal_warning:
+    _orig_signal = signal.signal
+    signal.signal = signal_warning
