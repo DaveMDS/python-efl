@@ -1,3 +1,15 @@
+PYTHON-EFL 1.7.99
+
+
+EFL is a collection of libraries for handling many common tasks a
+developer man have such as data structures, communication, rendering,
+widgets and more. PYTHON-EFL are the python bindings for EFL and Elementary.
+
+
+INSTALL
+=======
+For installation instruction see the INSTALL file.
+
 
 BUGS
 ====
@@ -39,27 +51,11 @@ TODO
 * Unit tests for elm, things like top_widget and getting child objects
   can be done easily.
 
-
-IMAGES
-======
-
-* datetime
-* video
-* web
-* window ?
-
-
-STUFF LEFT OUT
-==============
-
-* EcoreEvas
-* EcoreImf
-* EcoreX
-* EcoreWin32
-* python-evas/evas/utils.py
-* python-evas/evas/decorators.py
-* python-evas/evas/debug.py
-* python-evas old hack to rotate objects
+* Images missing in the documentation:
+   - datetime
+   - video
+   - web
+   - window ?
 
 
 CHANGES FROM 1.7 to 1.8
@@ -99,3 +95,16 @@ CHANGES FROM 1.7 to 1.8
    - efl.elementary.video.Video.file_set
 
   This also applies when assigning the relevant properties.
+
+
+* This list of stuff will not be ported to the 1.8 tree. Because they are old,
+  not portable, or just because no one used and seem not usefull:
+
+   - EcoreEvas
+   - EcoreImf
+   - EcoreX
+   - EcoreWin32
+   - python-evas/evas/utils.py
+   - python-evas/evas/decorators.py
+   - python-evas/evas/debug.py
+   - python-evas old hack to rotate objects
