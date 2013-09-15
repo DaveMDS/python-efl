@@ -9,11 +9,12 @@ from distutils.version import StrictVersion
 
 # Cython
 try:
+    min_ver = "0.17.0"
     from Cython.Distutils import build_ext
     from Cython.Build import cythonize
     import Cython.Compiler.Options
 
-    min_ver, cur_ver = "0.17.0", Cython.__version__
+    cur_ver = Cython.__version__
     assert StrictVersion(cur_ver) >= StrictVersion(min_ver)
     print("Found Cython: %s" % cur_ver)
 
