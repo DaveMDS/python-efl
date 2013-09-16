@@ -1,4 +1,4 @@
-from efl.evas cimport Eina_Bool, Evas_Object, Evas_Coord
+from efl.evas cimport Eina_Bool, Evas_Object, const_Evas_Object, Evas_Coord
 from libc.string cimport const_char
 
 cdef extern from "Elementary.h":
@@ -8,6 +8,8 @@ cdef extern from "Elementary.h":
     void                     elm_progressbar_pulse(Evas_Object *obj, Eina_Bool state)
     void                     elm_progressbar_value_set(Evas_Object *obj, double val)
     double                   elm_progressbar_value_get(Evas_Object *obj)
+    void                     elm_progressbar_part_value_set(Evas_Object *obj, const_char *part, double val)
+    double                   elm_progressbar_part_value_get(const_Evas_Object *obj, const_char *part)
     void                     elm_progressbar_span_size_set(Evas_Object *obj, Evas_Coord size)
     Evas_Coord               elm_progressbar_span_size_get(Evas_Object *obj)
     void                     elm_progressbar_unit_format_set(Evas_Object *obj, const_char *format)

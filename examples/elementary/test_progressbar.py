@@ -15,7 +15,7 @@ from efl.elementary.progressbar import Progressbar
 my_progressbar_run = False
 my_progressbar_timer = None
 
-def pb_timer_cb(pb1, pb2, pb3, pb4, pb5, pb6, pb7):
+def pb_timer_cb(pb1, pb2, pb3, pb4, pb5, pb6, pb7, pb8):
     progress = pb1.value_get()
     if progress < 1.0:
         progress += 0.0123
@@ -25,6 +25,8 @@ def pb_timer_cb(pb1, pb2, pb3, pb4, pb5, pb6, pb7):
     pb4.value_set(progress)
     pb3.value_set(progress)
     pb6.value_set(progress)
+    pb8.part_value_set("elm.cur.progressbar", progress * 1.50)
+    pb8.part_value_set("elm.cur.progressbar1", progress)
     if progress < 1.0:
         return ecore.ECORE_CALLBACK_RENEW
     global my_progressbar_run
@@ -32,7 +34,7 @@ def pb_timer_cb(pb1, pb2, pb3, pb4, pb5, pb6, pb7):
     return ecore.ECORE_CALLBACK_CANCEL
 
 def begin_test(obj, *args, **kwargs):
-    (pb1, pb2, pb3, pb4, pb5, pb6, pb7) = args
+    (pb1, pb2, pb3, pb4, pb5, pb6, pb7, pb8) = args
     pb2.pulse(True)
     pb5.pulse(True)
     pb7.pulse(True)
@@ -43,7 +45,7 @@ def begin_test(obj, *args, **kwargs):
                                                *args)
         my_progressbar_run = True
 
-def end_test(obj, pb1, pb2, pb3, pb4, pb5, pb6, pb7):
+def end_test(obj, pb1, pb2, pb3, pb4, pb5, pb6, pb7, pb8):
     pb2.pulse(False)
     pb5.pulse(False)
     pb7.pulse(False)
@@ -68,6 +70,7 @@ def progressbar_clicked(obj):
     bx.show()
 
     pb1 = Progressbar(win)
+    pb1.span_size = 300
     pb1.size_hint_weight = evas.EVAS_HINT_EXPAND, evas.EVAS_HINT_EXPAND
     pb1.size_hint_align = evas.EVAS_HINT_FILL, 0.5
     bx.pack_end(pb1)
@@ -86,16 +89,23 @@ def progressbar_clicked(obj):
     ic1.size_hint_aspect = evas.EVAS_ASPECT_CONTROL_VERTICAL, 1, 1
 
     pb3 = Progressbar(win)
-    pb3.text = "Label"
+    pb3.text = "Inverted"
     pb3.content = ic1
     pb3.inverted = True
     pb3.unit_format = "%1.1f units"
-    pb3.span_size = 200
     pb3.size_hint_align = evas.EVAS_HINT_FILL, 0.5
     pb3.size_hint_weight = evas.EVAS_HINT_EXPAND, evas.EVAS_HINT_EXPAND
     bx.pack_end(pb3)
     ic1.show()
     pb3.show()
+
+    pb8 = Progressbar(win)
+    pb8.style = "recording"
+    pb8.text = "Style: recording"
+    pb8.size_hint_align = evas.EVAS_HINT_FILL, 0.5
+    pb8.size_hint_weight = evas.EVAS_HINT_EXPAND, evas.EVAS_HINT_EXPAND
+    bx.pack_end(pb8)
+    pb8.show()
 
     hbx = Box(win)
     hbx.horizontal = True
@@ -110,14 +120,14 @@ def progressbar_clicked(obj):
     pb4.size_hint_weight = evas.EVAS_HINT_EXPAND, evas.EVAS_HINT_EXPAND
     hbx.pack_end(pb4)
     pb4.span_size = 60
-    pb4.text = "percent"
+    pb4.text = "Vertical"
     pb4.show()
 
     pb5 = Progressbar(win)
     pb5.horizontal = False
     pb5.size_hint_align = evas.EVAS_HINT_FILL, 0.5
     pb5.size_hint_weight = evas.EVAS_HINT_EXPAND, evas.EVAS_HINT_EXPAND
-    pb5.span_size = 80
+    pb5.span_size = 120
     pb5.pulse_mode = True
     pb5.unit_format = None
     pb5.text = "Infinite bounce"
@@ -130,7 +140,7 @@ def progressbar_clicked(obj):
 
     pb6 = Progressbar(win)
     pb6.horizontal = False
-    pb6.text = "Label"
+    pb6.text = "Inverted"
     pb6.content = ic2
     pb6.inverted = True
     pb6.unit_format = "%1.2f%%"
@@ -156,7 +166,7 @@ def progressbar_clicked(obj):
     bx.pack_end(bt_bx)
     bt_bx.show()
 
-    pbt = (pb1, pb2, pb3, pb4, pb5, pb6, pb7)
+    pbt = (pb1, pb2, pb3, pb4, pb5, pb6, pb7, pb8)
 
     bt = Button(win)
     bt.text = "Start"

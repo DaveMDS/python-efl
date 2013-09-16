@@ -54,15 +54,21 @@ This widget has the following styles:
 
     - ``"default"``
     - ``"wheel"`` (simple style, no text, no progression, only "pulse"
-        effect is available)
+      effect is available)
+    - ``"recording"`` (style with two independent progress indicators)
 
 Default text parts of the progressbar widget that you can use for are:
 
-    - "default" - Label of the progressbar
+    - ``"default"`` - Label of the progressbar
 
 Default content parts of the progressbar widget that you can use for are:
 
-    - "icon" - An icon of the progressbar
+    - ``"icon"`` - An icon of the progressbar
+
+Default part names for the "recording" style:
+
+    - ``"elm.cur.progressbar1"`` - The "main" indicator bar
+    - ``"elm.cur.progressbar"`` - The "secondary" indicator bar
 
 """
 
@@ -139,6 +145,28 @@ cdef class Progressbar(LayoutClass):
         elm_progressbar_value_set(self.obj, value)
     def value_get(self):
         return elm_progressbar_value_get(self.obj)
+
+    def part_value_get(self, part not None):
+        """ Get the progress status (in percentage) for the given part.
+
+        This can be used with a progressbar of style: "recording". The recording
+        style have two different part that can represent two different progress
+        operation on the same progressbar at the same time.
+        The default theme provide two parts by default:
+        "elm.cur.progressbar" and "elm.cur.progressbar1"
+
+        """
+        if isinstance(part, unicode): part = PyUnicode_AsUTF8String(part)
+        return elm_progressbar_part_value_get(self.obj, <const_char *>part)
+
+    def part_value_set(self, part not None, value):
+        """ Set the progress status (in percentage) for the given part.
+
+        :see: :py:func:`part_value_get` for more info.
+
+        """
+        if isinstance(part, unicode): part = PyUnicode_AsUTF8String(part)
+        elm_progressbar_part_value_set(self.obj, <const_char *>part, value)
 
     property span_size:
         """The (exact) length of the bar region of a given progress bar widget.
