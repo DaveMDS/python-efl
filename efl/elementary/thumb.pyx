@@ -64,8 +64,8 @@ Enumerations
 
 .. _Elm_Thumb_Animation_Setting:
 
-Thumb animation modes
-=====================
+Thumb animation mode
+====================
 
 .. data:: ELM_THUMB_ANIMATION_START
 
@@ -78,6 +78,99 @@ Thumb animation modes
 .. data:: ELM_THUMB_ANIMATION_STOP
 
     Stop playing the animation
+
+
+.. _Ethumb_Thumb_FDO_Size:
+
+Thumb FDO size
+==============
+
+.. data:: ETHUMB_THUMB_NORMAL
+
+    128x128 as defined by FreeDesktop.Org standard
+
+.. data:: ETHUMB_THUMB_LARGE
+
+    256x256 as defined by FreeDesktop.Org standard
+
+
+.. _Ethumb_Thumb_Format:
+
+Thumb format
+============
+
+.. data:: ETHUMB_THUMB_FDO
+
+    PNG as defined by FreeDesktop.Org standard
+
+.. data:: ETHUMB_THUMB_JPEG
+
+    JPEGs are often smaller and faster to read/write
+
+.. data:: ETHUMB_THUMB_EET
+
+    EFL's own storage system, supports key parameter
+
+
+.. _Ethumb_Thumb_Aspect:
+
+Thumb aspect
+============
+
+.. data:: ETHUMB_THUMB_KEEP_ASPECT
+
+    keep original proportion between width and height
+
+.. data:: ETHUMB_THUMB_IGNORE_ASPECT
+
+    ignore aspect and foce it to match thumbnail's width and height
+
+.. data:: ETHUMB_THUMB_CROP
+
+    keep aspect but crop (cut) the largest dimension
+
+
+.. _Ethumb_Thumb_Orientation:
+
+Thumb orientation
+=================
+
+.. data:: ETHUMB_THUMB_ORIENT_NONE
+
+    keep orientation as pixel data is
+
+.. data:: ETHUMB_THUMB_ROTATE_90_CW
+
+    rotate 90° clockwise
+
+.. data:: ETHUMB_THUMB_ROTATE_180
+
+    rotate 180°
+
+.. data:: ETHUMB_THUMB_ROTATE_90_CCW
+
+    rotate 90° counter-clockwise
+
+.. data:: ETHUMB_THUMB_FLIP_HORIZONTAL
+
+    flip horizontally
+
+.. data:: ETHUMB_THUMB_FLIP_VERTICAL
+
+    flip vertically
+
+.. data:: ETHUMB_THUMB_FLIP_TRANSPOSE
+
+    transpose
+
+.. data:: ETHUMB_THUMB_FLIP_TRANSVERSE
+
+    transverse
+
+.. data:: ETHUMB_THUMB_ORIENT_ORIGINAL
+
+    use orientation from metadata (EXIF-only currently)
+
 
 """
 
@@ -163,6 +256,136 @@ cdef class Thumb(Object):
             elm_thumb_path_get(self.obj, &path, &key)
             return(_ctouni(path), _ctouni(key))
 
+    property aspect:
+        """
+
+        The aspect for the thumb object.
+
+        :since: 1.8
+        :type: :ref:`Ethumb_Thumb_Aspect`
+
+        """
+        def __set__(self, aspect):
+            elm_thumb_aspect_set(self.obj, aspect)
+
+        def __get__(self):
+            return elm_thumb_aspect_get(self.obj)
+
+    property fdo_size:
+        """
+
+        The FDO size for the thumb object.
+
+        :since: 1.8
+        :type: :ref:`Ethumb_Thumb_FDO_Size`
+
+        """
+        def __set__(self, size):
+            elm_thumb_fdo_size_set(self.obj, size)
+
+        def __get__(self):
+            return elm_thumb_fdo_size_get(self.obj)
+
+    property format:
+        """
+
+        The format for the thumb object.
+
+        :since: 1.8
+        :type: :ref:`Ethumb_Thumb_Format`
+
+        """
+        def __set__(self, format):
+            elm_thumb_format_set(self.obj, format)
+
+        def __get__(self):
+            return elm_thumb_format_get(self.obj)
+
+    property orientation:
+        """
+
+        The orientation for the thumb object.
+
+        :since: 1.8
+        :type: :ref:`Ethumb_Thumb_Orientation`
+
+        """
+        def __set__(self, orient):
+            elm_thumb_orientation_set(self.obj, orient)
+
+        def __get__(self):
+            return elm_thumb_orientation_get(self.obj)
+
+    property size:
+        """
+
+        The size for the thumb object.
+
+        :since: 1.8
+        :type: (int tw, int th)
+
+        """
+        def __set__(self, value):
+            tw, th = value
+            elm_thumb_size_set(self.obj, tw, th)
+
+        def __get__(self):
+            cdef int tw, th
+            elm_thumb_size_get(self.obj, &tw, &th)
+            return tw, th
+
+    property crop_align:
+        """
+
+        Set the crop alignment for the thumb object.
+
+        :since: 1.8
+        :type: (double cropx, double cropy)
+
+        """
+        def __set__(self, value):
+            cropx, cropy = value
+            elm_thumb_crop_align_set(self.obj, cropx, cropy)
+
+        def __get__(self):
+            cdef double cropx, cropy
+            elm_thumb_crop_align_get(self.obj, &cropx, &cropy)
+            return cropx, cropy
+
+    property compress:
+        """
+
+        Set the compression for the thumb object.
+
+        :since: 1.8
+        :type: int
+
+        """
+        def __set__(self, compress):
+            elm_thumb_compress_set(self.obj, compress)
+
+        def __get__(self):
+            cdef int compress
+            elm_thumb_compress_get(self.obj, &compress)
+            return compress
+
+    property quality:
+        """
+
+        Set the quality for the thumb object.
+        :since: 1.8
+
+        :type: int
+
+        """
+        def __set__(self, int quality):
+            elm_thumb_quality_set(self.obj, quality)
+
+        def __get__(self):
+            cdef int quality
+            elm_thumb_quality_get(self.obj, &quality)
+            return quality
+
     property animate:
         """Set the animation state for the thumb object. If its content is
         an animated video, you may start/stop the animation or tell it to
@@ -226,7 +449,7 @@ cdef class Thumb(Object):
 
         """
         return None
-        #return elm_thumb_ethumb_client_get(void)
+        # TODO: return elm_thumb_ethumb_client_get(void)
 
     property ethumb_client_connected:
         """Get the ethumb_client connection state.
