@@ -189,7 +189,8 @@ from cpython cimport PyObject, Py_INCREF, Py_DECREF, PyObject_GetAttr, \
 include "widget_header.pxi"
 include "tooltips.pxi"
 
-from efl.eo cimport _object_list_to_python, _METHOD_DEPRECATED
+from efl.eo cimport _object_list_to_python
+from efl.utils.deprecated import DEPRECATED
 
 from efl.evas cimport EventKeyDown, EventKeyUp, EventMouseWheel
 from efl.evas cimport evas_object_smart_callback_add
@@ -1369,8 +1370,14 @@ cdef class Object(evasObject):
         return bool(elm_object_tooltip_window_mode_get(self.obj))
 
     #Translatable text
+    @DEPRECATED
     def domain_translatable_text_part_set(self, part, domain, text):
-        _METHOD_DEPRECATED(self, "Use domain_translatable_part_text_set() instead.")
+        """domain_translatable_text_part_set(part, domain, text)
+
+        .. deprecated:: 1.8
+            Use :py:func:`domain_translatable_part_text_set` instead.
+
+        """
         if isinstance(part, unicode): part = PyUnicode_AsUTF8String(part)
         if isinstance(domain, unicode): domain = PyUnicode_AsUTF8String(domain)
         if isinstance(text, unicode): text = PyUnicode_AsUTF8String(text)
@@ -1424,8 +1431,14 @@ cdef class Object(evasObject):
             <const_char *>domain if domain is not None else NULL,
             <const_char *>text if text is not None else NULL)
 
+    @DEPRECATED
     def translatable_text_part_get(self, part):
-        _METHOD_DEPRECATED(self, "Use translatable_part_text_get() instead.")
+        """translatable_text_part_get(part) -> unicode
+
+        .. deprecated:: 1.8
+            Use :py:func:`translatable_part_text_get` instead.
+
+        """
         if isinstance(part, unicode): part = PyUnicode_AsUTF8String(part)
         return _ctouni(elm_object_translatable_part_text_get(self.obj,
             <const_char *>part if part is not None else NULL))

@@ -504,7 +504,7 @@ include "tooltips.pxi"
 
 from cpython cimport PyUnicode_AsUTF8String
 
-from efl.eo cimport _METHOD_DEPRECATED
+from efl.utils.deprecated import DEPRECATED
 
 from object_item cimport ObjectItem, _object_item_to_python, \
     elm_object_item_widget_get, _object_item_from_python, \
@@ -689,8 +689,8 @@ class GenlistItemsCount(int):
     def __init__(self, Object obj, int count):
         self.obj = obj
 
+    @DEPRECATED
     def __call__(self):
-        _METHOD_DEPRECATED(self.obj, "Use items_count instead.")
         return self.obj._items_count()
 
 include "genlist_item_class.pxi"

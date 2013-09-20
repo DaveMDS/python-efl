@@ -97,7 +97,7 @@ Slide modes
 include "widget_header.pxi"
 
 from layout_class cimport LayoutClass
-from efl.eo cimport _METHOD_DEPRECATED
+from efl.utils.deprecated import DEPRECATED
 
 cimport enums
 
@@ -182,34 +182,24 @@ cdef class Label(LayoutClass):
         return elm_label_ellipsis_get(self.obj)
 
     property slide:
-        """The sliding effect of the label widget.
+        """
 
-        If set to True, the text of the label will slide/scroll through the
-        length of label.
-
-        .. warning:: This only works with the themes "slide_short",
-            "slide_long" and "slide_bounce".
-
-        .. warning:: Deprecated. use slide_mode instead
-
-        :type: bool
+        .. deprecated:: 1.8
+            Use :py:attr:`slide_mode` instead.
 
         """
         def __get__(self):
-            _METHOD_DEPRECATED(self, "Use slide_mode instead.")
-            return bool(elm_label_slide_mode_get(self.obj))
+            return self.slide_get()
 
         def __set__(self, slide):
-            _METHOD_DEPRECATED(self, "Use slide_mode instead.")
-            elm_label_slide_mode_set(self.obj,
-                ELM_LABEL_SLIDE_MODE_ALWAYS if slide else ELM_LABEL_SLIDE_MODE_NONE)
+            self.slide_set(ELM_LABEL_SLIDE_MODE_ALWAYS if slide else ELM_LABEL_SLIDE_MODE_NONE)
 
+    @DEPRECATED
     def slide_set(self, bint slide):
-        _METHOD_DEPRECATED(self, "Use slide_mode instead.")
         elm_label_slide_mode_set(self.obj,
             ELM_LABEL_SLIDE_MODE_ALWAYS if slide else ELM_LABEL_SLIDE_MODE_NONE)
+    @DEPRECATED
     def slide_get(self):
-        _METHOD_DEPRECATED(self, "Use slide_mode instead.")
         return bool(elm_label_slide_mode_get(self.obj))
 
     property slide_duration:

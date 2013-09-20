@@ -118,7 +118,7 @@ include "widget_header.pxi"
 
 from object cimport Object
 from layout_class cimport LayoutClass
-from efl.eo cimport _METHOD_DEPRECATED
+from efl.utils.deprecated import DEPRECATED
 
 cimport enums
 
@@ -143,18 +143,14 @@ cdef class ScrollableInterface(Object):
     # TODO: Use the scrollable interface functions? Need to base on
     #   evas.SmartObject?
 
+    @DEPRECATED
     def custom_widget_base_theme_set(self, widget, base):
-        """custom_widget_base_theme_set(unicode widget, unicode base)
+        """custom_widget_base_theme_set(widget, base)
 
-        Set custom theme elements for the scroller
-
-        :param widget: The widget name to use (default is "scroller")
-        :type widget: string
-        :param base: The base name to use (default is "base")
-        :type base: string
+        .. deprecated:: 1.8
+            Use :py:attr:`theme<efl.elementary.object.Object.theme>` instead.
 
         """
-        _METHOD_DEPRECATED(self, "Use the property 'theme' instead.")
         if isinstance(widget, unicode): widget = PyUnicode_AsUTF8String(widget)
         if isinstance(base, unicode): base = PyUnicode_AsUTF8String(base)
         elm_scroller_custom_widget_base_theme_set(self.obj,

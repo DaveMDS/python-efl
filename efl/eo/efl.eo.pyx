@@ -27,8 +27,6 @@ from efl.c_eo cimport Eo as cEo, eo_init, eo_shutdown, eo_del, eo_do, \
     Eo_Event_Description, const_Eo_Event_Description, \
     eo_parent_get, EO_EV_DEL
 
-import traceback
-
 ######################################################################
 #
 # TODO: Automate these
@@ -155,27 +153,6 @@ cdef Eina_List *convert_python_list_objects_to_eina_list(list objects):
     for o in objects:
         lst = eina_list_append(lst, o.obj)
     return lst
-
-
-cdef void _METHOD_DEPRECATED(object self, char *message):
-    cdef:
-        object stack
-        tuple caller
-        str msg
-
-    stack = traceback.extract_stack()
-    caller = stack[-1]
-    caller_module, caller_line, caller_name, caller_code = caller
-    if caller_code is not None:
-        msg = "%s:%s %s (class %s) is deprecated. %s" % \
-            (caller_module, caller_line, caller_code,
-            type(self).__name__, message)
-    else:
-        msg = "%s:%s %s.%s() is deprecated. %s" % \
-            (caller_module, caller_line,
-            type(self).__name__, caller_name, message)
-#     log.warn(msg)
-    print(msg)
 
 
 ######################################################################
