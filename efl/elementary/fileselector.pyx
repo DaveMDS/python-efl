@@ -51,11 +51,11 @@ it supports.
 This widget emits the following signals, besides the ones sent from
 :py:class:`elementary.layout.Layout`:
 
-- ``"selected"`` - the user has clicked on a file (when not in
+- ``selected`` - the user has clicked on a file (when not in
     folders-only mode) or directory (when in folders-only mode)
-- ``"directory,open"`` - the list has been populated with new
+- ``directory,open`` - the list has been populated with new
   content (*event_info* is the directory's path)
-- ``"done"`` - the user has clicked on the "ok" or "cancel"
+- ``done`` - the user has clicked on the "ok" or "cancel"
   buttons (*event_info* is the selection's path)
 
 
@@ -315,6 +315,16 @@ cdef class Fileselector(LayoutClass):
 
     def callback_selected_del(self, func):
         self._callback_del_full("selected", _cb_string_conv, func)
+
+    #
+    # FIXME: This seems to be a thing that the application should handle
+    #
+    #def callback_selected_invalid_add(self, func, *args, **kwargs):
+        #"""The user has tried to access a path which does not exist."""
+        #self._callback_add("selected,invalid", func, *args, **kwargs)
+
+    #def callback_selected_invalid_del(self, func):
+        #self._callback_del("selected,invalid", func)
 
     def callback_directory_open_add(self, func, *args, **kwargs):
         """The list has been populated with new content (*event_info* is

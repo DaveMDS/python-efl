@@ -317,6 +317,23 @@ cdef class Configuration(object):
         def __set__(self, double threshold):
             elm_config_scroll_thumbscroll_momentum_threshold_set(threshold)
 
+    property scroll_thumbscroll_flick_distance_tolerance:
+        """
+
+        The number of pixels the maximum distance which can be flicked.
+        If it is flicked more than this,
+        the flick distance is same with maximum distance.
+
+        :type: int
+
+        :see: elm_config_thumbscroll_flick_distance_tolerance_get()
+
+        """
+        def __get__(self):
+            return elm_config_scroll_thumbscroll_flick_distance_tolerance_get()
+        def __set__(self, unsigned int distance):
+            elm_config_scroll_thumbscroll_flick_distance_tolerance_set(distance)
+
     property scroll_thumbscroll_friction:
         """The amount of inertia a scroller will impose at self scrolling
         animations.
@@ -328,6 +345,39 @@ cdef class Configuration(object):
             return elm_config_scroll_thumbscroll_friction_get()
         def __set__(self, double friction):
             elm_config_scroll_thumbscroll_friction_set(friction)
+
+    property scroll_thumbscroll_min_friction:
+        """
+
+        The min amount of inertia a scroller will impose at self scrolling
+        animations.
+
+        :type: float
+
+        :see: elm_config_thumbscroll_min_friction_get()
+
+        """
+        def __get__(self):
+            return elm_config_scroll_thumbscroll_min_friction_get()
+        def __set__(self, double friction):
+            elm_config_scroll_thumbscroll_min_friction_set(friction)
+
+    property scroll_thumbscroll_friction_standard:
+        """
+
+        The standard velocity of the scroller. The scroll animation time is
+        same with thumbscroll friction, if the velocity is same with standard
+        velocity.
+
+        :type: float
+
+        :see: elm_config_thumbscroll_friction_standard_get()
+
+        """
+        def __get__(self):
+            return elm_config_scroll_thumbscroll_friction_standard_get()
+        def __set__(self, double standard):
+            elm_config_scroll_thumbscroll_friction_standard_set(standard)
 
     property scroll_thumbscroll_border_friction:
         """The amount of lag between your actual mouse cursor dragging
@@ -369,7 +419,6 @@ cdef class Configuration(object):
         """
         def __get__(self):
             return elm_config_scroll_thumbscroll_acceleration_threshold_get()
-
         def __set__(self, double threshold):
             elm_config_scroll_thumbscroll_acceleration_threshold_set(threshold)
 
@@ -381,7 +430,6 @@ cdef class Configuration(object):
         """
         def __get__(self):
             return elm_config_scroll_thumbscroll_acceleration_time_limit_get()
-
         def __set__(self, double time_limit):
             elm_config_scroll_thumbscroll_acceleration_time_limit_set(time_limit)
 
@@ -393,7 +441,6 @@ cdef class Configuration(object):
         """
         def __get__(self):
             return elm_config_scroll_thumbscroll_acceleration_weight_get()
-
         def __set__(self, double weight):
             elm_config_scroll_thumbscroll_acceleration_weight_set(weight)
 
@@ -421,7 +468,6 @@ cdef class Configuration(object):
         """
         def __set__(self, Elm_Softcursor_Mode mode):
             elm_config_softcursor_mode_set(mode)
-
         def __get__(self):
             return elm_config_softcursor_mode_get()
 
@@ -805,6 +851,20 @@ cdef class Configuration(object):
         def __set__(self, bint mirrored):
             elm_config_mirrored_set(mirrored)
 
+    property clouseau_enabled:
+        """
+
+        Clouseau state. True if clouseau was tried to be run.
+
+        :since: 1.8
+        :return: True if clouseau was tried to run, False otherwise
+
+        """
+        def __get__(self):
+            return bool(elm_config_clouseau_enabled_get())
+        def __set__(self, bint enabled):
+            elm_config_clouseau_enabled_set(enabled)
+
     def indicator_service_get(self, int rotation):
         """indicator_service_get(int rotation) -> unicode
 
@@ -817,6 +877,31 @@ cdef class Configuration(object):
         """
         return _ctouni(elm_config_indicator_service_get(rotation))
 
+    property glayer_long_tap_start_timeout:
+        """
+
+        The duration for occurring long tap event of gesture layer.
+
+        :type: float
+
+        """
+        def __get__(self):
+            return elm_config_glayer_long_tap_start_timeout_get()
+        def __set__(self, double long_tap_timeout):
+            elm_config_glayer_long_tap_start_timeout_set(long_tap_timeout)
+
+    property glayer_double_tap_timeout:
+        """
+
+        Get the duration for occurring double tap event of gesture layer.
+
+        :return: Timeout for double tap event of gesture layer.
+
+        """
+        def __get__(self):
+            return elm_config_glayer_double_tap_timeout_get()
+        def __set__(self, double double_tap_timeout):
+            elm_config_glayer_double_tap_timeout_set(double_tap_timeout)
 
 #For compatibility
 def config_finger_size_get():

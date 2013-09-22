@@ -162,60 +162,78 @@ Gengrid smart events
 
 Smart events that you can add callbacks for are:
 
-- ``"activated"`` - The user has double-clicked or pressed
+- ``activated`` - The user has double-clicked or pressed
   (enter|return|spacebar) on an item. The ``event_info`` parameter
   is the gengrid item that was activated.
-- ``"clicked,double"`` - The user has double-clicked an item.
+- ``clicked,double`` - The user has double-clicked an item.
   The ``event_info`` parameter is the gengrid item that was double-clicked.
-- ``"longpressed"`` - This is called when the item is pressed for a certain
+- ``longpressed`` - This is called when the item is pressed for a certain
   amount of time. By default it's 1 second.
-- ``"selected"`` - The user has made an item selected. The
+- ``selected`` - The user has made an item selected. The
   ``event_info`` parameter is the gengrid item that was selected.
-- ``"unselected"`` - The user has made an item unselected. The
+- ``unselected`` - The user has made an item unselected. The
   ``event_info`` parameter is the gengrid item that was unselected.
-- ``"realized"`` - This is called when the item in the gengrid
+- ``realized`` - This is called when the item in the gengrid
   has its implementing Evas object instantiated, de facto.
   ``event_info`` is the gengrid item that was created. The object
   may be deleted at any time, so it is highly advised to the
   caller **not** to use the object pointer returned from
   elm_gengrid_item_object_get(), because it may point to freed
   objects.
-- ``"unrealized"`` - This is called when the implementing Evas
+- ``unrealized`` - This is called when the implementing Evas
   object for this item is deleted. ``event_info`` is the gengrid
   item that was deleted.
-- ``"changed"`` - Called when an item is added, removed, resized
+- ``changed`` - Called when an item is added, removed, resized
   or moved and when the gengrid is resized or gets "horizontal"
   property changes.
-- ``"scroll,anim,start"`` - This is called when scrolling animation has
+- ``scroll,anim,start`` - This is called when scrolling animation has
   started.
-- ``"scroll,anim,stop"`` - This is called when scrolling animation has
+- ``scroll,anim,stop`` - This is called when scrolling animation has
   stopped.
-- ``"drag,start,up"`` - Called when the item in the gengrid has
+- ``drag,start,up`` - Called when the item in the gengrid has
   been dragged (not scrolled) up.
-- ``"drag,start,down"`` - Called when the item in the gengrid has
+- ``drag,start,down`` - Called when the item in the gengrid has
   been dragged (not scrolled) down.
-- ``"drag,start,left"`` - Called when the item in the gengrid has
+- ``drag,start,left`` - Called when the item in the gengrid has
   been dragged (not scrolled) left.
-- ``"drag,start,right"`` - Called when the item in the gengrid has
+- ``drag,start,right`` - Called when the item in the gengrid has
   been dragged (not scrolled) right.
-- ``"drag,stop"`` - Called when the item in the gengrid has
+- ``drag,stop`` - Called when the item in the gengrid has
   stopped being dragged.
-- ``"drag"`` - Called when the item in the gengrid is being
+- ``drag`` - Called when the item in the gengrid is being
   dragged.
-- ``"scroll"`` - called when the content has been scrolled
+- ``scroll`` - called when the content has been scrolled
   (moved).
-- ``"scroll,drag,start"`` - called when dragging the content has
+- ``scroll,drag,start`` - called when dragging the content has
   started.
-- ``"scroll,drag,stop"`` - called when dragging the content has
+- ``scroll,drag,stop`` - called when dragging the content has
   stopped.
-- ``"edge,top"`` - This is called when the gengrid is scrolled until
+- ``edge,top`` - This is called when the gengrid is scrolled until
   the top edge.
-- ``"edge,bottom"`` - This is called when the gengrid is scrolled
+- ``edge,bottom`` - This is called when the gengrid is scrolled
   until the bottom edge.
-- ``"edge,left"`` - This is called when the gengrid is scrolled
+- ``edge,left`` - This is called when the gengrid is scrolled
   until the left edge.
-- ``"edge,right"`` - This is called when the gengrid is scrolled
+- ``edge,right`` - This is called when the gengrid is scrolled
   until the right edge.
+- ``moved`` - This is called when a gengrid item is moved by a user
+  interaction in a reorder mode. The %c event_info parameter is the item that
+  was moved.
+- ``index,update`` - This is called when a gengrid item index is changed.
+  Note that this callback is called while each item is being realized.
+- ``highlighted`` - an item in the list is highlighted. This is called when
+  the user presses an item or keyboard selection is done so the item is
+  physically highlighted. The %c event_info parameter is the item that was
+  highlighted.
+- ``unhighlighted`` - an item in the list is unhighlighted. This is called
+  when the user releases an item or keyboard selection is moved so the item
+  is physically unhighlighted. The %c event_info parameter is the item that
+  was unhighlighted.
+- ``language,changed`` - This is called when the program's language is
+  changed. Call the elm_gengrid_realized_items_update() if items text should
+  be translated.
+- ``focused`` - When the gengrid has received focus. (since 1.8)
+- ``unfocused`` - When the gengrid has lost focus. (since 1.8)
 
 
 Enumerations
@@ -1650,6 +1668,14 @@ cdef class Gengrid(Object):
     def highlight_mode_get(self, fill):
         return bool(elm_gengrid_highlight_mode_get(self.obj))
 
+
+    def callback_activated_add(self, func, *args, **kwargs):
+        self._callback_add_full("activated", _cb_object_item_conv,
+                                func, *args, **kwargs)
+
+    def callback_activated_del(self, func):
+        self._callback_del_full("activated", _cb_object_item_conv, func)
+
     def callback_clicked_double_add(self, func, *args, **kwargs):
         self._callback_add_full("clicked,double", _cb_object_item_conv,
                                 func, *args, **kwargs)
@@ -1677,6 +1703,225 @@ cdef class Gengrid(Object):
 
     def callback_unselected_del(self, func):
         self._callback_del_full("unselected", _cb_object_item_conv, func)
+
+    def callback_realized_add(self, func, *args, **kwargs):
+        """This is called when the item in the gengrid
+        has its implementing Evas object instantiated, de facto.
+        ``event_info`` is the gengrid item that was created. The object
+        may be deleted at any time, so it is highly advised to the
+        caller **not** to use the object pointer returned from
+        elm_gengrid_item_object_get(), because it may point to freed
+        objects."""
+        self._callback_add_full("realized", _cb_object_item_conv,
+                                func, *args, **kwargs)
+
+    def callback_realized_del(self, func):
+        self._callback_del_full("realized", _cb_object_item_conv, func)
+
+    def callback_unrealized_add(self, func, *args, **kwargs):
+        """This is called when the implementing Evas
+        object for this item is deleted. ``event_info`` is the gengrid
+        item that was deleted."""
+        self._callback_add_full("unrealized", _cb_object_item_conv,
+                                func, *args, **kwargs)
+
+    def callback_unrealized_del(self, func):
+        self._callback_del_full("unrealized", _cb_object_item_conv, func)
+
+    def callback_changed_add(self, func, *args, **kwargs):
+        """Called when an item is added, removed, resized
+        or moved and when the gengrid is resized or gets "horizontal"
+        property changes."""
+        self._callback_add("changed", func, *args, **kwargs)
+
+    def callback_changed_del(self, func):
+        self._callback_del("changed", func)
+
+    def callback_scroll_anim_start_add(self, func, *args, **kwargs):
+        """This is called when scrolling animation has
+        started."""
+        self._callback_add("scroll,anim,start", func, *args, **kwargs)
+
+    def callback_scroll_anim_start_del(self, func):
+        self._callback_del("scroll,anim,start", func)
+
+    def callback_scroll_anim_stop_add(self, func, *args, **kwargs):
+        """This is called when scrolling animation has
+        stopped."""
+        self._callback_add("scroll,anim,stop", func, *args, **kwargs)
+
+    def callback_scroll_anim_stop_del(self, func):
+        self._callback_del("scroll,anim,stop", func)
+
+    def callback_drag_start_up_add(self, func, *args, **kwargs):
+        """Called when the item in the gengrid has
+        been dragged (not scrolled) up."""
+        self._callback_add("drag,start,up", func, *args, **kwargs)
+
+    def callback_drag_start_up_del(self, func):
+        self._callback_del("drag,start,up", func)
+
+    def callback_drag_start_down_add(self, func, *args, **kwargs):
+        """Called when the item in the gengrid has
+        been dragged (not scrolled) down."""
+        self._callback_add("drag,start,down", func, *args, **kwargs)
+
+    def callback_drag_start_down_del(self, func):
+        self._callback_del("drag,start,down", func)
+
+    def callback_drag_start_left_add(self, func, *args, **kwargs):
+        """Called when the item in the gengrid has
+        been dragged (not scrolled) left."""
+        self._callback_add("drag,start,left", func, *args, **kwargs)
+
+    def callback_drag_start_left_del(self, func):
+        self._callback_del("drag,start,left", func)
+
+    def callback_drag_start_right_add(self, func, *args, **kwargs):
+        """Called when the item in the gengrid has
+        been dragged (not scrolled) right."""
+        self._callback_add("drag,start,right", func, *args, **kwargs)
+
+    def callback_drag_start_right_del(self, func):
+        self._callback_del("drag,start,right", func)
+
+    def callback_drag_stop_add(self, func, *args, **kwargs):
+        """Called when the item in the gengrid has
+        stopped being dragged."""
+        self._callback_add("drag,stop", func, *args, **kwargs)
+
+    def callback_drag_stop_del(self, func):
+        self._callback_del("drag,stop", func)
+
+    def callback_drag_add(self, func, *args, **kwargs):
+        """Called when the item in the gengrid is being
+        dragged."""
+        self._callback_add("drag", func, *args, **kwargs)
+
+    def callback_drag_del(self, func):
+        self._callback_del("drag", func)
+
+    def callback_scroll_add(self, func, *args, **kwargs):
+        """called when the content has been scrolled
+        (moved)."""
+        self._callback_add("scroll", func, *args, **kwargs)
+
+    def callback_scroll_del(self, func):
+        self._callback_del("scroll", func)
+
+    def callback_scroll_drag_start_add(self, func, *args, **kwargs):
+        """called when dragging the content has
+        started."""
+        self._callback_add("scroll,drag,start", func, *args, **kwargs)
+
+    def callback_scroll_drag_start_del(self, func):
+        self._callback_del("scroll,drag,start", func)
+
+    def callback_scroll_drag_stop_add(self, func, *args, **kwargs):
+        """called when dragging the content has
+        stopped."""
+        self._callback_add("scroll,drag,stop", func, *args, **kwargs)
+
+    def callback_scroll_drag_stop_del(self, func):
+        self._callback_del("scroll,drag,stop", func)
+
+    def callback_edge_top_add(self, func, *args, **kwargs):
+        """This is called when the gengrid is scrolled until
+        the top edge."""
+        self._callback_add("edge,top", func, *args, **kwargs)
+
+    def callback_edge_top_del(self, func):
+        self._callback_del("edge,top", func)
+
+    def callback_edge_bottom_add(self, func, *args, **kwargs):
+        """This is called when the gengrid is scrolled
+        until the bottom edge."""
+        self._callback_add("edge,bottom", func, *args, **kwargs)
+
+    def callback_edge_bottom_del(self, func):
+        self._callback_del("edge,bottom", func)
+
+    def callback_edge_left_add(self, func, *args, **kwargs):
+        """This is called when the gengrid is scrolled
+        until the left edge."""
+        self._callback_add("edge,left", func, *args, **kwargs)
+
+    def callback_edge_left_del(self, func):
+        self._callback_del("edge,left", func)
+
+    def callback_edge_right_add(self, func, *args, **kwargs):
+        """This is called when the gengrid is scrolled
+        until the right edge."""
+        self._callback_add("edge,right", func, *args, **kwargs)
+
+    def callback_edge_right_del(self, func):
+        self._callback_del("edge,right", func)
+
+    def callback_moved_add(self, func, *args, **kwargs):
+        """This is called when a gengrid item is moved by a user
+        interaction in a reorder mode. The %c event_info parameter is the item that
+        was moved."""
+        self._callback_add_full("moved", _cb_object_item_conv,
+                                func, *args, **kwargs)
+
+    def callback_moved_del(self, func):
+        self._callback_del_full("moved", _cb_object_item_conv, func)
+
+    def callback_index_update_add(self, func, *args, **kwargs):
+        """This is called when a gengrid item index is changed.
+        Note that this callback is called while each item is being realized."""
+        self._callback_add("index,update", func, *args, **kwargs)
+
+    def callback_index_update_del(self, func):
+        self._callback_del("index,update", func)
+
+    def callback_highlighted_add(self, func, *args, **kwargs):
+        """an item in the list is highlighted. This is called when
+        the user presses an item or keyboard selection is done so the item is
+        physically highlighted. The %c event_info parameter is the item that was
+        highlighted."""
+        self._callback_add_full("highlighted", _cb_object_item_conv,
+                                func, *args, **kwargs)
+
+    def callback_highlighted_del(self, func):
+        self._callback_del_full("highlighted", _cb_object_item_conv, func)
+
+    def callback_unhighlighted_add(self, func, *args, **kwargs):
+        """an item in the list is unhighlighted. This is called
+        when the user releases an item or keyboard selection is moved so the item
+        is physically unhighlighted. The %c event_info parameter is the item that
+        was unhighlighted."""
+        self._callback_add_full("unhighlighted", _cb_object_item_conv,
+                                func, *args, **kwargs)
+
+    def callback_unhighlighted_del(self, func):
+        self._callback_del_full("unhighlighted", _cb_object_item_conv, func)
+
+    def callback_language_changed_add(self, func, *args, **kwargs):
+        """This is called when the program's language is
+        changed. Call the elm_gengrid_realized_items_update() if items text should
+        be translated."""
+        self.callback_add("language,changed", func, *args, **kwargs)
+
+    def callback_focused_add(self, func, *args, **kwargs):
+        """When the gengrid has received focus.
+
+        :since: 1.8
+        """
+        self._callback_add("focused", func, *args, **kwargs)
+
+    def callback_focused_del(self, func):
+        self._callback_del("focused", func)
+
+    def callback_unfocused_add(self, func, *args, **kwargs):
+        """When the gengrid has lost focus.
+
+        :since: 1.8
+        """
+        self._callback_add("unfocused", func, *args, **kwargs)
+
+    def callback_unfocused_del(self, func):
+        self._callback_del("unfocused", func)
 
 
 _object_mapping_register("elm_gengrid", Gengrid)

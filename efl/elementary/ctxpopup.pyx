@@ -33,7 +33,14 @@ a label and/or an icon. It is intended for a small number of items
 
 Signals that you can add callbacks for are:
 
-- "dismissed" - the ctxpopup was dismissed
+- ``dismissed`` - This is called when 1. the outside of ctxpopup was clicked
+  or 2. its parent area is changed or 3. the language is changed and also when
+  4. the parent object is resized due to the window rotation. Then ctxpopup is
+  dismissed.
+- ``language,changed`` - This is called when the program's language is
+  changed.
+- ``focused`` - When the ctxpopup has received focus. (since 1.8)
+- ``unfocused`` - When the ctxpopup has lost focus. (since 1.8)
 
 Default content parts of the ctxpopup widget that you can use for are:
 
@@ -275,5 +282,31 @@ cdef class Ctxpopup(LayoutClass):
     def callback_dismissed_del(self, func):
         self._callback_del("dismissed", func)
 
+    def callback_language_changed_add(self, func, *args, **kwargs):
+        """This is called when the program's language is changed."""
+        self._callback_add("language,changed", func, *args, **kwargs)
+
+    def callback_language_changed_del(self, func):
+        self._callback_del("language,changed", func)
+
+    def callback_focused_add(self, func, *args, **kwargs):
+        """When the ctxpopup has received focus.
+
+        :since: 1.8
+        """
+        self._callback_add("focused", func, *args, **kwargs)
+
+    def callback_focused_del(self, func):
+        self._callback_del("focused", func)
+
+    def callback_unfocused_add(self, func, *args, **kwargs):
+        """When the ctxpopup has lost focus.
+
+        :since: 1.8
+        """
+        self._callback_add("unfocused", func, *args, **kwargs)
+
+    def callback_unfocused_del(self, func):
+        self._callback_del("unfocused", func)
 
 _object_mapping_register("elm_ctxpopup", Ctxpopup)

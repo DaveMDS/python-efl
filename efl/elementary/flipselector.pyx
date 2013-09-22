@@ -46,6 +46,8 @@ This widget emits the following signals, besides the ones sent from
   from the first item in its list to the last
 - ``"underflowed"`` - when the widget's current selection is changed
   from the last item in its list to the first
+- ``focused`` - When the flipselector has received focus. (since 1.8)
+- ``unfocused`` - When the flipselector has lost focus. (since 1.8)
 
 Available styles for it:
 
@@ -381,5 +383,24 @@ cdef class FlipSelector(Object):
     def callback_underflowed_del(self, func):
         self._callback_del("underflowed", func)
 
+    def callback_focused_add(self, func, *args, **kwargs):
+        """When the flipselector has received focus.
+
+        :since: 1.8
+        """
+        self._callback_add("focused", func, *args, **kwargs)
+
+    def callback_focused_del(self, func):
+        self._callback_del("focused", func)
+
+    def callback_unfocused_add(self, func, *args, **kwargs):
+        """When the flipselector has lost focus.
+
+        :since: 1.8
+        """
+        self._callback_add("unfocused", func, *args, **kwargs)
+
+    def callback_unfocused_del(self, func):
+        self._callback_del("unfocused", func)
 
 _object_mapping_register("elm_flipselector", FlipSelector)

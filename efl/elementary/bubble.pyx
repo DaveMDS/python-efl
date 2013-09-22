@@ -49,6 +49,8 @@ This widget emits the following signals, besides the ones sent from
 :py:class:`efl.elementary.layout_class.LayoutClass`:
 
 - ``clicked`` - This is called when a user has clicked the bubble.
+- ``focused`` - When the bubble has received focus. (since 1.8)
+- ``unfocused`` - When the bubble has lost focus. (since 1.8)
 
 Default content parts of the bubble that you can use for are:
 
@@ -133,5 +135,24 @@ cdef class Bubble(LayoutClass):
     def callback_clicked_del(self, func):
         self._callback_del("clicked", func)
 
+    def callback_focused_add(self, func, *args, **kwargs):
+        """When the bubble has received focus.
+
+        :since: 1.8
+        """
+        self._callback_add("focused", func, *args, **kwargs)
+
+    def callback_focused_del(self, func):
+        self._callback_del("focused", func)
+
+    def callback_unfocused_add(self, func, *args, **kwargs):
+        """When the bubble has lost focus.
+
+        :since: 1.8
+        """
+        self._callback_add("unfocused", func, *args, **kwargs)
+
+    def callback_unfocused_del(self, func):
+        self._callback_del("unfocused", func)
 
 _object_mapping_register("elm_bubble", Bubble)

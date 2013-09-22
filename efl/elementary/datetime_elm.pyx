@@ -207,10 +207,12 @@ To enable a module, set the ELM_MODULES environment variable as shown:
 This widget emits the following signals, besides the ones sent from
 :py:class:`elementary.layout.Layout`:
 
-- **"changed"** - whenever Datetime field value is changed, this
+- ``changed`` - whenever Datetime field value is changed, this
     signal is sent.
-- **"language,changed"** - whenever system locale changes, this
+- ``language,changed`` - whenever system locale changes, this
     signal is sent.
+- ``focused`` - When the datetime has received focus. (since 1.8)
+- ``unfocused`` - When the datetime has lost focus. (since 1.8)
 
 
 Enumerations
@@ -582,5 +584,24 @@ cdef class Datetime(Object):
     def callback_language_changed_del(self, func):
         self._callback_del("language,changed", func)
 
+    def callback_focused_add(self, func, *args, **kwargs):
+        """When the datetime has received focus.
+
+        :since: 1.8
+        """
+        self._callback_add("focused", func, *args, **kwargs)
+
+    def callback_focused_del(self, func):
+        self._callback_del("focused", func)
+
+    def callback_unfocused_add(self, func, *args, **kwargs):
+        """When the datetime has lost focus.
+
+        :since: 1.8
+        """
+        self._callback_add("unfocused", func, *args, **kwargs)
+
+    def callback_unfocused_del(self, func):
+        self._callback_del("unfocused", func)
 
 _object_mapping_register("elm_datetime", Datetime)

@@ -819,3 +819,44 @@ cdef class GenlistWidget(Object):
     def callback_tree_effect_finished_del(self, func):
         self._callback_del("tree,effect,finished", func)
 
+    def callback_highlighted_add(self, func, *args, **kwargs):
+        """an item in the list is highlighted. This is called when
+        the user presses an item or keyboard selection is done so the item is
+        physically highlighted. The %c event_info parameter is the item that was
+        highlighted."""
+        self._callback_add_full("highlighted", _cb_object_item_conv,
+                                func, *args, **kwargs)
+
+    def callback_highlighted_del(self, func):
+        self._callback_del_full("highlighted", _cb_object_item_conv, func)
+
+    def callback_unhighlighted_add(self, func, *args, **kwargs):
+        """an item in the list is unhighlighted. This is called
+        when the user releases an item or keyboard selection is moved so the item
+        is physically unhighlighted. The %c event_info parameter is the item that
+        was unhighlighted."""
+        self._callback_add_full("unhighlighted", _cb_object_item_conv,
+                                func, *args, **kwargs)
+
+    def callback_unhighlighted_del(self, func):
+        self._callback_del_full("unhighlighted", _cb_object_item_conv, func)
+
+    def callback_focused_add(self, func, *args, **kwargs):
+        """When the genlist has received focus.
+
+        :since: 1.8
+        """
+        self._callback_add("focused", func, *args, **kwargs)
+
+    def callback_focused_del(self, func):
+        self._callback_del("focused", func)
+
+    def callback_unfocused_add(self, func, *args, **kwargs):
+        """When the genlist has lost focus.
+
+        :since: 1.8
+        """
+        self._callback_add("unfocused", func, *args, **kwargs)
+
+    def callback_unfocused_del(self, func):
+        self._callback_del("unfocused", func)

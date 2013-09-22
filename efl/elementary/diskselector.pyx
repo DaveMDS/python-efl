@@ -31,12 +31,14 @@ reduced for a defined length for side items.
 
 Smart callbacks one can listen to:
 
-- "selected" - when item is selected, i.e. scroller stops.
-- "clicked" - This is called when a user clicks an item
-- "scroll,anim,start" - scrolling animation has started
-- "scroll,anim,stop" - scrolling animation has stopped
-- "scroll,drag,start" - dragging the diskselector has started
-- "scroll,drag,stop" - dragging the diskselector has stopped
+- ``selected`` - when item is selected, i.e. scroller stops.
+- ``clicked`` - This is called when a user clicks an item
+- ``scroll,anim,start`` - scrolling animation has started
+- ``scroll,anim,stop`` - scrolling animation has stopped
+- ``scroll,drag,start`` - dragging the diskselector has started
+- ``scroll,drag,stop`` - dragging the diskselector has stopped
+- ``focused`` - When the diskselector has received focus. (since 1.8)
+- ``unfocused`` - When the diskselector has lost focus. (since 1.8)
 
 Available styles for it:
 
@@ -459,5 +461,24 @@ cdef class Diskselector(Object):
     def callback_scroll_drag_stop_del(self, func):
         self._callback_del("scroll,drag,stop", func)
 
+    def callback_focused_add(self, func, *args, **kwargs):
+        """When the diskselector has received focus.
+
+        :since: 1.8
+        """
+        self._callback_add("focused", func, *args, **kwargs)
+
+    def callback_focused_del(self, func):
+        self._callback_del("focused", func)
+
+    def callback_unfocused_add(self, func, *args, **kwargs):
+        """When the diskselector has lost focus.
+
+        :since: 1.8
+        """
+        self._callback_add("unfocused", func, *args, **kwargs)
+
+    def callback_unfocused_del(self, func):
+        self._callback_del("unfocused", func)
 
 _object_mapping_register("elm_diskselector", Diskselector)

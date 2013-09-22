@@ -49,6 +49,8 @@ This widget emits the following signals, besides the ones sent from
     dismiss
 - ``"smart,changed"`` - a content object placed under the "smart"
     policy was replaced to a new slot direction.
+- ``focused`` - When the hover has received focus. (since 1.8)
+- ``unfocused`` - When the hover has lost focus. (since 1.8)
 
 Default content parts of the hover widget that you can use for are:
 
@@ -222,6 +224,26 @@ cdef class Hover(LayoutClass):
 
     def callback_smart_changed_del(self, func):
         self._callback_del("smart,changed", func)
+
+    def callback_focused_add(self, func, *args, **kwargs):
+        """When the hover has received focus.
+
+        :since: 1.8
+        """
+        self._callback_add("focused", func, *args, **kwargs)
+
+    def callback_focused_del(self, func):
+        self._callback_del("focused", func)
+
+    def callback_unfocused_add(self, func, *args, **kwargs):
+        """When the hover has lost focus.
+
+        :since: 1.8
+        """
+        self._callback_add("unfocused", func, *args, **kwargs)
+
+    def callback_unfocused_del(self, func):
+        self._callback_del("unfocused", func)
 
 
 _object_mapping_register("elm_hover", Hover)

@@ -42,6 +42,8 @@ This widget emits the following signals, besides the ones sent from
 - ``changed`` - emitted when the date in the calendar is changed.
 - ``display,changed`` - emitted when the current month displayed in the
   calendar is changed.
+- ``focused`` - When the calendar has received focus. (since 1.8)
+- ``unfocused`` - When the calendar has lost focus. (since 1.8)
 
 
 Enumerations
@@ -556,5 +558,25 @@ cdef class Calendar(LayoutClass):
 
     def callback_changed_del(self, func):
         self._callback_del("display,changed", func)
+
+    def callback_focused_add(self, func, *args, **kwargs):
+        """When the calendar has received focus.
+
+        :since: 1.8
+        """
+        self._callback_add("focused", func, *args, **kwargs)
+
+    def callback_focused_del(self, func):
+        self._callback_del("focused", func)
+
+    def callback_unfocused_add(self, func, *args, **kwargs):
+        """When the calendar has lost focus.
+
+        :since: 1.8
+        """
+        self._callback_add("unfocused", func, *args, **kwargs)
+
+    def callback_unfocused_del(self, func):
+        self._callback_del("unfocused", func)
 
 _object_mapping_register("elm_calendar", Calendar)

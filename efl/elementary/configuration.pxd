@@ -33,6 +33,7 @@ cdef extern from "Elementary.h":
     void                    elm_config_scroll_bring_in_scroll_friction_set(double friction)
     double                  elm_config_scroll_zoom_friction_get()
     void                    elm_config_scroll_zoom_friction_set(double friction)
+
     Eina_Bool               elm_config_scroll_thumbscroll_enabled_get()
     void                    elm_config_scroll_thumbscroll_enabled_set(Eina_Bool enabled)
     unsigned int            elm_config_scroll_thumbscroll_threshold_get()
@@ -41,8 +42,14 @@ cdef extern from "Elementary.h":
     void                    elm_config_scroll_thumbscroll_hold_threshold_set(unsigned int threshold)
     double                  elm_config_scroll_thumbscroll_momentum_threshold_get()
     void                    elm_config_scroll_thumbscroll_momentum_threshold_set(double threshold)
+    unsigned int            elm_config_scroll_thumbscroll_flick_distance_tolerance_get()
+    void                    elm_config_scroll_thumbscroll_flick_distance_tolerance_set(unsigned int distance)
     double                  elm_config_scroll_thumbscroll_friction_get()
     void                    elm_config_scroll_thumbscroll_friction_set(double friction)
+    double                  elm_config_scroll_thumbscroll_min_friction_get()
+    void                    elm_config_scroll_thumbscroll_min_friction_set(double friction)
+    double                  elm_config_scroll_thumbscroll_friction_standard_get()
+    void                    elm_config_scroll_thumbscroll_friction_standard_set(double standard)
     double                  elm_config_scroll_thumbscroll_border_friction_get()
     void                    elm_config_scroll_thumbscroll_border_friction_set(double friction)
     double                  elm_config_scroll_thumbscroll_sensitivity_friction_get()
@@ -108,4 +115,12 @@ cdef extern from "Elementary.h":
     Eina_Bool               elm_config_mirrored_get()
     void                    elm_config_mirrored_set(Eina_Bool mirrored)
 
+    Eina_Bool               elm_config_clouseau_enabled_get()
+    void                    elm_config_clouseau_enabled_set(Eina_Bool enabled)
+
     const_char *            elm_config_indicator_service_get(int rotation)
+
+    double                  elm_config_glayer_long_tap_start_timeout_get()
+    void                    elm_config_glayer_long_tap_start_timeout_set(double long_tap_timeout)
+    double                  elm_config_glayer_double_tap_timeout_get()
+    void                    elm_config_glayer_double_tap_timeout_set(double double_tap_timeout)

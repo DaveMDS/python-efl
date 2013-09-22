@@ -29,10 +29,12 @@ a simple label and icon object and it also has an autorepeat feature.
 This widget emits the following signals, besides the ones sent from
 :py:class:`elementary.layout.Layout`:
 
-- "clicked": the user clicked the button (press/release).
-- "repeated": the user pressed the button without releasing it.
-- "pressed": button was pressed.
-- "unpressed": button was released after being pressed.
+- ``clicked``: the user clicked the button (press/release).
+- ``repeated``: the user pressed the button without releasing it.
+- ``pressed``: button was pressed.
+- ``unpressed``: button was released after being pressed.
+- ``focused`` : When the button has received focus. (since 1.8)
+- ``unfocused`` : When the button has lost focus. (since 1.8)
 
 Also, defined in the default theme, the button has the following styles
 available:
@@ -170,5 +172,24 @@ cdef class Button(LayoutClass):
     def callback_unpressed_del(self, func):
         self._callback_del("unpressed", func)
 
+    def callback_focused_add(self, func, *args, **kwargs):
+        """When the button has received focus.
+
+        :since: 1.8
+        """
+        self._callback_add("focused", func, *args, **kwargs)
+
+    def callback_focused_del(self, func):
+        self._callback_del("focused", func)
+
+    def callback_unfocused_add(self, func, *args, **kwargs):
+        """When the button has lost focus.
+
+        :since: 1.8
+        """
+        self._callback_add("unfocused", func, *args, **kwargs)
+
+    def callback_unfocused_del(self, func):
+        self._callback_del("unfocused", func)
 
 _object_mapping_register("elm_button", Button)

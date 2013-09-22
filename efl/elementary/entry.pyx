@@ -235,6 +235,7 @@ This widget emits the following signals:
   parameter for the callback will be an :py:class:`EntryAnchorInfo`.
 - "preedit,changed": The preedit string has changed.
 - "language,changed": Program language changed.
+- "text,set,done": Whole text has been set to the entry.
 
 Default content parts of the entry items that you can use for are:
 
@@ -2153,5 +2154,11 @@ cdef class Entry(Object):
     def callback_language_changed_del(self, func):
         self._callback_del("language,changed", func)
 
+    def callback_text_set_done_add(self, func, *args, **kwargs):
+        """Whole text has been set to the entry."""
+        self._callback_add("text,set,done", func, *args, **kwargs)
+
+    def callback_text_set_done_del(self, func):
+        self._callback_del("text,set,done", func)
 
 _object_mapping_register("elm_entry", Entry)

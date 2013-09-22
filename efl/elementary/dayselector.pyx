@@ -109,6 +109,8 @@ Dayselector days
 
 include "widget_header.pxi"
 
+from efl.eo cimport convert_python_list_strings_to_array_of_strings, \
+    convert_eina_list_strings_to_python_list
 from layout_class cimport LayoutClass
 
 cimport enums
@@ -187,6 +189,41 @@ cdef class Dayselector(LayoutClass):
             return elm_dayselector_weekend_length_get(self.obj)
         def __set__(self, length):
             elm_dayselector_weekend_length_set(self.obj, length)
+
+    property weekdays_names:
+        """
+
+        Set weekdays names to be displayed by the Dayselector.
+
+        :param weekdays: List of seven strings to be used as weekday names.
+
+        .. warning:: It must have 7 elements, or it will access invalid memory.
+
+        By default or if set to None, weekdays abbreviations get from system are displayed:
+        E.g. for an en_US locale: "Sun, Mon, Tue, Wed, Thu, Fri, Sat"
+
+        The first string should be related to Sunday, the second to Monday...
+
+        The usage should be like this::
+
+            dayselector.weekdays_names = ["Sunday", "Monday", "Tuesday",
+                "Wednesday", "Thursday", "Friday", "Saturday"]
+
+        :see: elm_dayselector_weekdays_name_get()
+        :see: elm_dayselector_weekend_start_set()
+
+        :since: 1.8
+
+        """
+        def __set__(self, list weekdays):
+            # TODO: Add checks for list validity (len == 7 etc.)
+            elm_dayselector_weekdays_names_set(self.obj,
+                convert_python_list_strings_to_array_of_strings(weekdays))
+
+        def __get__(self):
+            return convert_eina_list_strings_to_python_list(
+                elm_dayselector_weekdays_names_get(self.obj)
+                )
 
     def callback_dayselector_changed_add(self, func, *args, **kwargs):
         """when the user changes the state of a day."""

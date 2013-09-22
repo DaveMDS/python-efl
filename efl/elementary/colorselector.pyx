@@ -41,6 +41,8 @@ This widget emits the following signals, besides the ones sent from
 - ``"color,item,longpressed"`` - When user long presses on color item.
     The event_info parameter of the callback will be the selected
     color item.
+- ``focused`` - When the colorselector has received focus. (since 1.8)
+- ``unfocused`` - When the colorselector has lost focus. (since 1.8)
 
 
 Enumerations
@@ -234,5 +236,24 @@ cdef class Colorselector(LayoutClass):
         self._callback_del_full("color,item,longpressed",
                                 _cb_object_item_conv, func)
 
+    def callback_focused_add(self, func, *args, **kwargs):
+        """When the check has received focus.
+
+        :since: 1.8
+        """
+        self._callback_add("focused", func, *args, **kwargs)
+
+    def callback_focused_del(self, func):
+        self._callback_del("focused", func)
+
+    def callback_unfocused_add(self, func, *args, **kwargs):
+        """When the check has lost focus.
+
+        :since: 1.8
+        """
+        self._callback_add("unfocused", func, *args, **kwargs)
+
+    def callback_unfocused_del(self, func):
+        self._callback_del("unfocused", func)
 
 _object_mapping_register("elm_colorselector", Colorselector)
