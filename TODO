@@ -1,0 +1,46 @@
+
+BUGS
+====
+
+* Evas: smart object doesn't work
+* EdjeEdit: PartState API does not work
+* Docs: GenlistWidget is documented instead of Genlist
+        (all the scrollable are affected)
+
+   - One solution to this is to use inherited-members option in autodoc.
+     Is there a way to have only the immediate parents this way?
+
+   - Another is having an abstraction layer with all functions defined and
+     documented in Genlist and then calling the parent class functions.
+     This defeats the purpose of having it in many classes.
+     Perhaps there is some clever way to use getattr and __doc__ = ...?
+
+
+TODO
+====
+
+* evas.SmartObject
+* edje: complete the unit tests
+* elm.Web need a test
+* elm.PhotoCam need a test
+* include python-ethumb
+* Review the internal functions and name them consistently
+* Add more documentation for the use of callbacks
+* Document our use of exceptions
+* update links and text on:
+  http://www.freedesktop.org/wiki/Software/DBusBindings
+* Split base object defines from includes/efl.evas.pxd so that everything
+  defined there doesn't get included to the C code that cimports it.
+  This may have been fixed in latest versions of Cython.
+* Add more scrollables once the documentation issue (and others) is solved.
+* Review the new elm list type object item system.
+* Check for documentation changes.
+* Elm Drag-n-Drop
+* Unit tests for elm, things like top_widget and getting child objects
+  can be done easily.
+
+* Images missing in the documentation:
+   - datetime
+   - video
+   - web
+   - window ?
