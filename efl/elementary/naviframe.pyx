@@ -74,9 +74,11 @@ them are supported:
 This widget emits the following signals, besides the ones sent from
 :py:class:`elementary.layout_class.LayoutClass`:
 
-- ``"transition,finished"`` - When the transition is finished in
+- ``transition,finished`` - When the transition is finished in
                             changing the item
-- ``"title,clicked"`` - User clicked title area
+- ``title,clicked`` - User clicked title area
+- ``focused`` - When the naviframe has received focus. (since 1.8)
+- ``unfocused`` - When the naviframe has lost focus. (since 1.8)
 
 All the parts, for content and text, described here will also be
 reachable by naviframe **items** direct calls:
@@ -515,5 +517,24 @@ cdef class Naviframe(LayoutClass):
     def callback_title_clicked_del(self, func):
         self._callback_del("title,clicked", func)
 
+    def callback_focused_add(self, func, *args, **kwargs):
+        """When the naviframe has received focus.
+
+        :since: 1.8
+        """
+        self._callback_add("focused", func, *args, **kwargs)
+
+    def callback_focused_del(self, func):
+        self._callback_del("focused", func)
+
+    def callback_unfocused_add(self, func, *args, **kwargs):
+        """When the naviframe has lost focus.
+
+        :since: 1.8
+        """
+        self._callback_add("unfocused", func, *args, **kwargs)
+
+    def callback_unfocused_del(self, func):
+        self._callback_del("unfocused", func)
 
 _object_mapping_register("elm_naviframe", Naviframe)

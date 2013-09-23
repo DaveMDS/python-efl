@@ -1,5 +1,6 @@
 from efl.evas cimport Eina_Bool, Evas_Object, Evas_Coord, const_Evas_Object
-from enums cimport Elm_Scroller_Policy, Elm_Scroller_Single_Direction
+from enums cimport Elm_Scroller_Policy, Elm_Scroller_Single_Direction, \
+    Elm_Scroller_Movement_Block
 from libc.string cimport const_char
 from object cimport Object
 
@@ -10,10 +11,12 @@ cdef extern from "Elementary.h":
     void                     elm_scroller_region_show(Evas_Object *obj, Evas_Coord x, Evas_Coord y, Evas_Coord w, Evas_Coord h)
     void                     elm_scroller_policy_set(Evas_Object *obj, Elm_Scroller_Policy policy_h, Elm_Scroller_Policy policy_v)
     void                     elm_scroller_policy_get(Evas_Object *obj, Elm_Scroller_Policy *policy_h, Elm_Scroller_Policy *policy_v)
-    void                    elm_scroller_single_direction_set(Evas_Object *obj, Elm_Scroller_Single_Direction single_dir)
+    void                     elm_scroller_single_direction_set(Evas_Object *obj, Elm_Scroller_Single_Direction single_dir)
     Elm_Scroller_Single_Direction elm_scroller_single_direction_get(const_Evas_Object *obj)
     void                     elm_scroller_region_get(Evas_Object *obj, Evas_Coord *x, Evas_Coord *y, Evas_Coord *w, Evas_Coord *h)
     void                     elm_scroller_child_size_get(Evas_Object *obj, Evas_Coord *w, Evas_Coord *h)
+    void                     elm_scroller_page_snap_set(Evas_Object *obj, Eina_Bool page_h_snap, Eina_Bool page_v_snap)
+    void                     elm_scroller_page_snap_get(const_Evas_Object *obj, Eina_Bool *page_h_snap, Eina_Bool *page_v_snap)
     void                     elm_scroller_bounce_set(Evas_Object *obj, Eina_Bool h_bounce, Eina_Bool v_bounce)
     void                     elm_scroller_bounce_get(Evas_Object *obj, Eina_Bool *h_bounce, Eina_Bool *v_bounce)
     void                     elm_scroller_page_relative_set(Evas_Object *obj, double h_pagerel, double v_pagerel)
@@ -31,6 +34,8 @@ cdef extern from "Elementary.h":
     Eina_Bool                elm_scroller_propagate_events_get(Evas_Object *obj)
     void                     elm_scroller_gravity_set(Evas_Object *obj, double x, double y)
     void                     elm_scroller_gravity_get(Evas_Object *obj, double *x, double *y)
+    void                     elm_scroller_movement_block_set(Evas_Object *obj, Elm_Scroller_Movement_Block block)
+    Elm_Scroller_Movement_Block elm_scroller_movement_block_get(const_Evas_Object *obj)
 
 cdef class ScrollableInterface(Object):
     cpdef single_direction_set(self, Elm_Scroller_Single_Direction single_dir)

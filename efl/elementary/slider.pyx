@@ -46,15 +46,17 @@ slider for its value with :py:attr:`Slider.value`.
 This widget emits the following signals, besides the ones sent from
 :py:class:`LayoutClass <efl.elementary.layout_class.LayoutClass>`:
 
-- ``"changed"`` - Whenever the slider value is changed by the user.
-- ``"slider,drag,start"`` - dragging the slider indicator around has
+- ``changed`` - Whenever the slider value is changed by the user.
+- ``slider,drag,start`` - dragging the slider indicator around has
     started.
-- ``"slider,drag,stop"`` - dragging the slider indicator around has
+- ``slider,drag,stop`` - dragging the slider indicator around has
     stopped.
-- ``"delay,changed"`` - A short time after the value is changed by
+- ``delay,changed`` - A short time after the value is changed by
     the user. This will be called only when the user stops dragging
     for a very short period or when they release their finger/mouse,
     so it avoids possibly expensive reactions to the value change.
+- ``focused`` - When the slider has received focus. (since 1.8)
+- ``unfocused`` - When the slider has lost focus. (since 1.8)
 
 Available styles for it:
 
@@ -375,5 +377,24 @@ cdef class Slider(LayoutClass):
     def callback_delay_changed_del(self, func):
         self._callback_del("delay,changed", func)
 
+    def callback_focused_add(self, func, *args, **kwargs):
+        """When the slider has received focus.
+
+        :since: 1.8
+        """
+        self._callback_add("focused", func, *args, **kwargs)
+
+    def callback_focused_del(self, func):
+        self._callback_del("focused", func)
+
+    def callback_unfocused_add(self, func, *args, **kwargs):
+        """When the slider has lost focus.
+
+        :since: 1.8
+        """
+        self._callback_add("unfocused", func, *args, **kwargs)
+
+    def callback_unfocused_del(self, func):
+        self._callback_del("unfocused", func)
 
 _object_mapping_register("elm_slider", Slider)

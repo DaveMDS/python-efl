@@ -33,6 +33,25 @@ Typical use case of multibuttonentry is, composing emails/messages to a
 group of addresses, each of which is an item that can be clicked for
 further actions.
 
+This widget emits the following signals, besides the ones sent from
+:py:class:`LayoutClass<efl.elementary.layout_class.LayoutClass>`:
+
+- ``item,selected`` - this is called when an item is selected by
+    api, user interaction, and etc. this is also called when a
+    user press back space while cursor is on the first field of
+    entry.
+- ``item,added`` - when a new multi-button entry item is added.
+- ``item,deleted`` - when a multi-button entry item is deleted.
+- ``item,clicked`` - this is called when an item is clicked by user
+    interaction. Both "item,selected" and "item,clicked" are needed.
+- ``clicked`` - when multi-button entry is clicked.
+- ``focused`` - when multi-button entry is focused.
+- ``unfocused`` - when multi-button entry is unfocused.
+- ``expanded`` - when multi-button entry is expanded.
+- ``contracted`` - when multi-button entry is contracted.
+- ``expand,state,changed`` - when shrink mode state of
+    multi-button entry is changed.
+
 Default text parts of the multibuttonentry widget that you can use for are:
     - "default" - A label of the multibuttonentry
 

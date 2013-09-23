@@ -36,6 +36,8 @@ Smart callbacks one can listen to:
 - "clicked" - when the user clicks on a toolbar item and becomes selected.
 - "longpressed" - when the toolbar is pressed for a certain amount of time.
 - "language,changed" - when the program language changes.
+- ``focused`` - When the toolbar has received focus. (since 1.8)
+- ``unfocused`` - When the toolbar has lost focus. (since 1.8)
 
 Available styles for it:
 
@@ -1073,5 +1075,24 @@ cdef class Toolbar(Object):
     def callback_language_changed_del(self, func):
         self._callback_del("language,changed", func)
 
+    def callback_focused_add(self, func, *args, **kwargs):
+        """When the toolbar has received focus.
+
+        :since: 1.8
+        """
+        self._callback_add("focused", func, *args, **kwargs)
+
+    def callback_focused_del(self, func):
+        self._callback_del("focused", func)
+
+    def callback_unfocused_add(self, func, *args, **kwargs):
+        """When the toolbar has lost focus.
+
+        :since: 1.8
+        """
+        self._callback_add("unfocused", func, *args, **kwargs)
+
+    def callback_unfocused_del(self, func):
+        self._callback_del("unfocused", func)
 
 _object_mapping_register("elm_toolbar", Toolbar)

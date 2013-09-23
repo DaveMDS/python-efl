@@ -54,6 +54,8 @@ Signals that you can add callbacks for are:
 - "download,progress" - url download in progress
 - "download,end" - remote url download has finished
 - "download,error" - remote url download has finished with errors
+- ``focused`` - When the photocam has received focus. (since 1.8)
+- ``unfocused`` - When the photocam has lost focus. (since 1.8)
 
 
 Enumerations
@@ -526,5 +528,24 @@ cdef class Photocam(Object):
     def callback_download_error_del(self, func):
         self._callback_add_full("download,error", _photocam_download_error_conv, func)
 
+    def callback_focused_add(self, func, *args, **kwargs):
+        """When the photocam has received focus.
+
+        :since: 1.8
+        """
+        self._callback_add("focused", func, *args, **kwargs)
+
+    def callback_focused_del(self, func):
+        self._callback_del("focused", func)
+
+    def callback_unfocused_add(self, func, *args, **kwargs):
+        """When the photocam has lost focus.
+
+        :since: 1.8
+        """
+        self._callback_add("unfocused", func, *args, **kwargs)
+
+    def callback_unfocused_del(self, func):
+        self._callback_del("unfocused", func)
 
 _object_mapping_register("elm_photocam", Photocam)

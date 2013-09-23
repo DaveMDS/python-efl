@@ -56,6 +56,8 @@ This widget emits the following signals, besides the ones sent from
 - ``"level,down"`` - when the user moves a finger from the second
   level to the first level
 - ``"language,changed"`` - the program's language changed
+- ``focused`` - When the index has received focus. (since 1.8)
+- ``unfocused`` - When the index has lost focus. (since 1.8)
 
 The ``"delay,changed"`` event is so that it'll wait a small time
 before actually reporting those events and, moreover, just the
@@ -608,5 +610,24 @@ cdef class Index(LayoutClass):
     def callback_language_changed_del(self, func):
         self._callback_del("language,changed", func)
 
+    def callback_focused_add(self, func, *args, **kwargs):
+        """When the index has received focus.
+
+        :since: 1.8
+        """
+        self._callback_add("focused", func, *args, **kwargs)
+
+    def callback_focused_del(self, func):
+        self._callback_del("focused", func)
+
+    def callback_unfocused_add(self, func, *args, **kwargs):
+        """When the index has lost focus.
+
+        :since: 1.8
+        """
+        self._callback_add("unfocused", func, *args, **kwargs)
+
+    def callback_unfocused_del(self, func):
+        self._callback_del("unfocused", func)
 
 _object_mapping_register("elm_index", Index)

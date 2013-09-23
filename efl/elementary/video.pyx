@@ -27,6 +27,12 @@ It embeds the video inside an Edje object, so you can do some
 animation depending on the video state change. It also implements a
 resource management policy to remove this burden from the application.
 
+These widgets emit the following signals, besides the ones sent from
+:py:class:`efl.elementary.layout_class.LayoutClass`:
+
+- ``focused`` - When the widget has received focus. (since 1.8)
+- ``unfocused`` - When the widget has lost focus. (since 1.8)
+
 """
 
 include "widget_header.pxi"
@@ -221,9 +227,29 @@ cdef class Video(LayoutClass):
     def title_get(self):
         return _ctouni(elm_video_title_get(self.obj))
 
+    def callback_focused_add(self, func, *args, **kwargs):
+        """When the video has received focus.
 
+        :since: 1.8
+        """
+        self._callback_add("focused", func, *args, **kwargs)
+
+    def callback_focused_del(self, func):
+        self._callback_del("focused", func)
+
+    def callback_unfocused_add(self, func, *args, **kwargs):
+        """When the video has lost focus.
+
+        :since: 1.8
+        """
+        self._callback_add("unfocused", func, *args, **kwargs)
+
+    def callback_unfocused_del(self, func):
+        self._callback_del("unfocused", func)
 
 _object_mapping_register("elm_video", Video)
+
+
 cdef class Player(LayoutClass):
 
     """
@@ -312,5 +338,24 @@ cdef class Player(LayoutClass):
     def callback_stop_clicked_del(self, func):
         self._callback_del_full("stop,clicked", func)
 
+    def callback_focused_add(self, func, *args, **kwargs):
+        """When the player has received focus.
+
+        :since: 1.8
+        """
+        self._callback_add("focused", func, *args, **kwargs)
+
+    def callback_focused_del(self, func):
+        self._callback_del("focused", func)
+
+    def callback_unfocused_add(self, func, *args, **kwargs):
+        """When the player has lost focus.
+
+        :since: 1.8
+        """
+        self._callback_add("unfocused", func, *args, **kwargs)
+
+    def callback_unfocused_del(self, func):
+        self._callback_del("unfocused", func)
 
 _object_mapping_register("elm_player", Player)

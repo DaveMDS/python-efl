@@ -44,6 +44,9 @@ This widget emits the following signals, besides the ones sent from
     the user.  This will be called only when the user stops dragging
     for a very short period or when they release their finger/mouse,
     so it avoids possibly expensive reactions to the value change.
+- ``language,changed`` - the program's language changed
+- ``focused`` - When the spinner has received focus. (since 1.8)
+- ``unfocused`` - When the spinner has lost focus. (since 1.8)
 
 Available styles for it:
 
@@ -366,5 +369,31 @@ cdef class Spinner(LayoutClass):
     def callback_delay_changed_del(self, func):
         self._callback_del("delay,changed", func)
 
+    def callback_language_changed_add(self, func, *args, **kwargs):
+        """the program's language changed"""
+        self._callback_add("language,changed", func, *args, **kwargs)
+
+    def callback_language_changed_del(self, func):
+        self._callback_del("language,changed", func)
+
+    def callback_focused_add(self, func, *args, **kwargs):
+        """When the spinner has received focus.
+
+        :since: 1.8
+        """
+        self._callback_add("focused", func, *args, **kwargs)
+
+    def callback_focused_del(self, func):
+        self._callback_del("focused", func)
+
+    def callback_unfocused_add(self, func, *args, **kwargs):
+        """When the spinner has lost focus.
+
+        :since: 1.8
+        """
+        self._callback_add("unfocused", func, *args, **kwargs)
+
+    def callback_unfocused_del(self, func):
+        self._callback_del("unfocused", func)
 
 _object_mapping_register("elm_spinner", Spinner)

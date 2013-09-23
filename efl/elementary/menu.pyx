@@ -31,7 +31,8 @@ event, in a toolbar, anywhere.
 
 Signals that you can add callbacks for are:
 
-- "clicked" - the user clicked the empty space in the menu to dismiss.
+- ``clicked`` - the user clicked the empty space in the menu to dismiss.
+- ``dismissed`` - the user clicked the empty space in the menu to dismiss (since 1.8)
 
 Default content parts of the menu items that you can use for are:
 
@@ -416,6 +417,16 @@ cdef class Menu(Object):
 
     def callback_clicked_del(self, func):
         self._callback_del("clicked", func)
+
+    def callback_dismissed_add(self, func, *args, **kwargs):
+        """the user clicked the empty space in the menu to dismiss
+
+        :since: 1.8
+        """
+        self._callback_add("dismissed", func, *args, **kwargs)
+
+    def callback_dismissed_del(self, func):
+        self._callback_del("dismissed", func)
 
 
 _object_mapping_register("elm_menu", Menu)

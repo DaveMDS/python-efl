@@ -32,6 +32,12 @@ Orientations are as follows:
 - ELM_PANEL_ORIENT_TOP
 - ELM_PANEL_ORIENT_LEFT
 - ELM_PANEL_ORIENT_RIGHT
+- ELM_PANEL_ORIENT_BOTTOM
+
+This widget emits the following signals, besides the ones sent from
+:py:class:`LayoutClass<efl.elementary.layout_class.LayoutClass>`:
+- ``focused`` - When the panel has received focus. (since 1.8)
+- ``unfocused`` - When the panel has lost focus. (since 1.8)
 
 Default content parts of the panel widget that you can use for are:
 
@@ -124,5 +130,24 @@ cdef class Panel(Object):
         Toggle the hidden state of the panel from code."""
         elm_panel_toggle(self.obj)
 
+    def callback_focused_add(self, func, *args, **kwargs):
+        """When the panel has received focus.
+
+        :since: 1.8
+        """
+        self._callback_add("focused", func, *args, **kwargs)
+
+    def callback_focused_del(self, func):
+        self._callback_del("focused", func)
+
+    def callback_unfocused_add(self, func, *args, **kwargs):
+        """When the panel has lost focus.
+
+        :since: 1.8
+        """
+        self._callback_add("unfocused", func, *args, **kwargs)
+
+    def callback_unfocused_del(self, func):
+        self._callback_del("unfocused", func)
 
 _object_mapping_register("elm_panel", Panel)

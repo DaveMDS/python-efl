@@ -33,19 +33,29 @@ lists, :py:class:`genlist.Genlist` should probably be used.
 
 Smart callbacks one can listen to:
 
-- ``"activated"`` - The user has double-clicked or pressed
+- ``activated`` - The user has double-clicked or pressed
     (enter|return|spacebar) on an item. The ``event_info`` parameter
     is the item that was activated.
-- ``"clicked,double"`` - The user has double-clicked an item.
+- ``clicked,double`` - The user has double-clicked an item.
     The ``event_info`` parameter is the item that was double-clicked.
-- "selected" - when the user selected an item
-- "unselected" - when the user unselected an item
-- "longpressed" - an item in the list is long-pressed
-- "edge,top" - the list is scrolled until the top edge
-- "edge,bottom" - the list is scrolled until the bottom edge
-- "edge,left" - the list is scrolled until the left edge
-- "edge,right" - the list is scrolled until the right edge
-- "language,changed" - the program's language changed
+- ``selected`` - when the user selected an item
+- ``unselected`` - when the user unselected an item
+- ``longpressed`` - an item in the list is long-pressed
+- ``edge,top`` - the list is scrolled until the top edge
+- ``edge,bottom`` - the list is scrolled until the bottom edge
+- ``edge,left`` - the list is scrolled until the left edge
+- ``edge,right`` - the list is scrolled until the right edge
+- ``highlighted`` - an item in the list is highlighted. This is called when
+  the user presses an item or keyboard selection is done so the item is
+  physically highlighted. The %c event_info parameter is the item that was
+  highlighted.
+- ``unhighlighted`` - an item in the list is unhighlighted. This is called
+  when the user releases an item or keyboard selection is moved so the item
+  is physically unhighlighted. The %c event_info parameter is the item that
+  was unhighlighted.
+- ``language,changed`` - the program's language changed
+- ``focused`` - When the list has received focus. (since 1.8)
+- ``unfocused`` - When the list has lost focus. (since 1.8)
 
 Available styles for it:
 
@@ -920,6 +930,53 @@ cdef class List(Object):
 
     def callback_language_changed_del(self, func):
         self._callback_del("language,changed",  func)
+
+    def callback_highlighted_add(self, func, *args, **kwargs):
+        """an item in the list is highlighted. This is called when
+        the user presses an item or keyboard selection is done so the item is
+        physically highlighted. The %c event_info parameter is the item that was
+        highlighted."""
+        self._callback_add("highlighted", func, *args, **kwargs)
+
+    def callback_highlighted_del(self, func):
+        self._callback_del("highlighted", func)
+
+    def callback_unhighlighted_add(self, func, *args, **kwargs):
+        """an item in the list is unhighlighted. This is called
+        when the user releases an item or keyboard selection is moved so the item
+        is physically unhighlighted. The %c event_info parameter is the item that
+        was unhighlighted."""
+        self._callback_add("unhighlighted", func, *args, **kwargs)
+
+    def callback_unhighlighted_del(self, func):
+        self._callback_del("unhighlighted", func)
+
+    def callback_language_changed_add(self, func, *args, **kwargs):
+        """the program's language changed"""
+        self._callback_add("language,changed", func, *args, **kwargs)
+
+    def callback_language_changed_del(self, func):
+        self._callback_del("language,changed", func)
+
+    def callback_focused_add(self, func, *args, **kwargs):
+        """When the list has received focus.
+
+        :since: 1.8
+        """
+        self._callback_add("focused", func, *args, **kwargs)
+
+    def callback_focused_del(self, func):
+        self._callback_del("focused", func)
+
+    def callback_unfocused_add(self, func, *args, **kwargs):
+        """When the list has lost focus.
+
+        :since: 1.8
+        """
+        self._callback_add("unfocused", func, *args, **kwargs)
+
+    def callback_unfocused_del(self, func):
+        self._callback_del("unfocused", func)
 
 
 _object_mapping_register("elm_list", List)

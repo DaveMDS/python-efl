@@ -56,6 +56,9 @@ This widget emits the following signals, besides the ones sent from
 - "hbar,drag" - the horizontal scroll bar has been dragged
 - "hbar,press" - the horizontal scroll bar has been pressed
 - "hbar,unpress" - the horizontal scroll bar has been unpressed
+- ``scroll,page,changed`` - the visible page has changed
+- ``focused`` - When the scroller has received focus. (since 1.8)
+- ``unfocused`` - When the scroller has lost focus. (since 1.8)
 
 Default content parts of the scroller widget that you can use for are:
 
@@ -112,6 +115,29 @@ Type that controls how the content is scrolled.
 
     Scroll only single direction
 
+
+.. _Elm_Scroller_Movement_Block:
+
+Movement block
+==============
+
+Type that blocks the scroll movement in one or more direction.
+
+:since: 1.8
+
+.. data:: ELM_SCROLLER_MOVEMENT_NO_BLOCK
+
+    Do not block movements
+
+.. data:: ELM_SCROLLER_MOVEMENT_BLOCK_VERTICAL
+
+    Block vertical movements
+
+.. data:: ELM_SCROLLER_MOVEMENT_BLOCK_HORIZONTAL
+
+    Block horizontal movements
+
+
 """
 
 include "widget_header.pxi"
@@ -129,6 +155,10 @@ ELM_SCROLLER_POLICY_OFF = enums.ELM_SCROLLER_POLICY_OFF
 ELM_SCROLLER_SINGLE_DIRECTION_NONE = enums.ELM_SCROLLER_SINGLE_DIRECTION_NONE
 ELM_SCROLLER_SINGLE_DIRECTION_SOFT = enums.ELM_SCROLLER_SINGLE_DIRECTION_SOFT
 ELM_SCROLLER_SINGLE_DIRECTION_HARD = enums.ELM_SCROLLER_SINGLE_DIRECTION_HARD
+
+ELM_SCROLLER_MOVEMENT_NO_BLOCK = enums.ELM_SCROLLER_MOVEMENT_NO_BLOCK
+ELM_SCROLLER_MOVEMENT_BLOCK_VERTICAL = enums.ELM_SCROLLER_MOVEMENT_BLOCK_VERTICAL
+ELM_SCROLLER_MOVEMENT_BLOCK_HORIZONTAL = enums.ELM_SCROLLER_MOVEMENT_BLOCK_HORIZONTAL
 
 cdef class ScrollableInterface(Object):
 
@@ -288,6 +318,38 @@ cdef class ScrollableInterface(Object):
         cdef Evas_Coord w, h
         elm_scroller_child_size_get(self.obj, &w, &h)
         return (w, h)
+
+    property page_snap:
+        """
+
+        Page snapping behavior of a scroller
+
+        When scrolling, if a scroller is paged (see
+        elm_scroller_page_size_set() and elm_scroller_page_relative_set()),
+        the scroller may snap to pages when being scrolled, i.e., even if
+        it had momentum to scroll further, it will stop at the next page
+        boundaries. This is **disabled**, by default, for both axis. This
+        function will set if it that is enabled or not, for each axis.
+
+        .. note::
+
+            If the object is not set to have pages, nothing will happen after
+            this call.
+
+        :type: (bool **page_h_snap**, bool **page_v_snap**)
+
+        :since: 1.8
+
+
+        """
+        def __set__(self, value):
+            page_h_snap, page_v_snap = value
+            elm_scroller_page_snap_set(self.obj, page_h_snap, page_v_snap)
+
+        def __get__(self):
+            cdef Eina_Bool page_h_snap, page_v_snap
+            elm_scroller_page_snap_get(self.obj, &page_h_snap, &page_v_snap)
+            return page_h_snap, page_v_snap
 
     property bounce:
         """The bouncing behavior
@@ -585,6 +647,35 @@ cdef class ScrollableInterface(Object):
         elm_scroller_gravity_get(self.obj, &x, &y)
         return (x, y)
 
+    property movement_block:
+        """
+
+        Blocking of scrolling (per axis) on a given scroller
+
+        This function will block scrolling movement (by input of a user) in
+        a given direction. One can disable movements in the X axis, the Y
+        axis or both. The default value is @c ELM_SCROLLER_MOVEMENT_NO_BLOCK,
+        where movements are allowed in both directions.
+
+        What makes this function different from
+        elm_object_scroll_freeze_push(), elm_object_scroll_hold_push() and
+        elm_object_scroll_lock_x_set() (or elm_object_scroll_lock_y_set())
+        is that it **doesn't** propagate its effects to any parent or child
+        widget of the object. Only the target scrollable widget will be locked
+        with regard to scrolling.
+
+        :type: :ref:`Elm_Scroller_Movement_Block`
+
+        :since: 1.8
+
+
+        """
+        def __set__(self, Elm_Scroller_Movement_Block block):
+            elm_scroller_movement_block_set(self.obj, block)
+
+        def __get__(self):
+            return elm_scroller_movement_block_get(self.obj)
+
     def callback_edge_left_add(self, func, *args, **kwargs):
         """The left edge of the content has been reached."""
         self._callback_add("edge,left", func, *args, **kwargs)
@@ -718,6 +809,33 @@ cdef class ScrollableInterface(Object):
 
     def callback_hbar_unpress_del(self, func):
         self._callback_del("hbar,unpress", func)
+
+    def callback_scroll_page_changed_add(self, func, *args, **kwargs):
+        """the visible page has changed"""
+        self._callback_add("scroll,page,changed", func, *args, **kwargs)
+
+    def callback_scroll_page_changed_del(self, func):
+        self._callback_del("scroll,page,changed", func)
+
+    def callback_focused_add(self, func, *args, **kwargs):
+        """When the scroller has received focus.
+
+        :since: 1.8
+        """
+        self._callback_add("focused", func, *args, **kwargs)
+
+    def callback_focused_del(self, func):
+        self._callback_del("focused", func)
+
+    def callback_unfocused_add(self, func, *args, **kwargs):
+        """When the scroller has lost focus.
+
+        :since: 1.8
+        """
+        self._callback_add("unfocused", func, *args, **kwargs)
+
+    def callback_unfocused_del(self, func):
+        self._callback_del("unfocused", func)
 
 
 cdef class ScrollerWidget(LayoutClass):

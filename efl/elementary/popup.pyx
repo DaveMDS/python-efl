@@ -23,7 +23,7 @@
 Widget description
 ------------------
 
-This widget is an enhancement of :py:class:`Notify`.
+This widget is an enhancement of :py:class:`Notify<efl.elementary.notify.Notify>`.
 In addition to Content area, there are two optional sections namely Title
 area and Action area.
 
@@ -79,8 +79,11 @@ based on the number of buttons currently set to popup.
 
 Signals that you can add callbacks for are:
 
-- "timeout" - when ever popup is closed as a result of timeout.
-- "block,clicked" - when ever user taps on Blocked Event area.
+- ``timeout`` - when ever popup is closed as a result of timeout.
+- ``block,clicked`` - when ever user taps on Blocked Event area.
+- ``focused`` - When the popup has received focus. (since 1.8)
+- ``unfocused`` - When the popup has lost focus. (since 1.8)
+- ``language,changed`` - the program's language changed (since 1.8)
 
 Styles available for Popup
 
@@ -368,6 +371,36 @@ cdef class Popup(Object):
 
     def callback_block_clicked_del(self, func):
         self._callback_del("block,clicked", func)
+
+    def callback_focused_add(self, func, *args, **kwargs):
+        """When the popup has received focus.
+
+        :since: 1.8
+        """
+        self._callback_add("focused", func, *args, **kwargs)
+
+    def callback_focused_del(self, func):
+        self._callback_del("focused", func)
+
+    def callback_unfocused_add(self, func, *args, **kwargs):
+        """When the popup has lost focus.
+
+        :since: 1.8
+        """
+        self._callback_add("unfocused", func, *args, **kwargs)
+
+    def callback_unfocused_del(self, func):
+        self._callback_del("unfocused", func)
+
+    def callback_language_changed_add(self, func, *args, **kwargs):
+        """the program's language changed
+
+        since: 1.8
+        """
+        self._callback_add("language,changed", func, *args, **kwargs)
+
+    def callback_language_changed_del(self, func):
+        self._callback_del("language,changed", func)
 
 
 _object_mapping_register("elm_popup", Popup)

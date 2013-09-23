@@ -355,6 +355,11 @@ cdef extern from "Elementary.h":
         ELM_SCROLLER_SINGLE_DIRECTION_HARD
         ELM_SCROLLER_SINGLE_DIRECTION_LAST
 
+    ctypedef enum Elm_Scroller_Movement_Block:
+        ELM_SCROLLER_MOVEMENT_NO_BLOCK # Do not block movements
+        ELM_SCROLLER_MOVEMENT_BLOCK_VERTICAL # Block vertical movements
+        ELM_SCROLLER_MOVEMENT_BLOCK_HORIZONTAL # Block horizontal movements
+
     ctypedef enum Elm_Sel_Format:
         ELM_SEL_FORMAT_TARGETS
         ELM_SEL_FORMAT_NONE

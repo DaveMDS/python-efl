@@ -131,7 +131,8 @@ These are available predefined theme layouts. All of them have class =
 
 This widget emits the following signals:
 
-- "theme,changed": The theme was changed.
+- ``theme,changed`` - The theme was changed.
+- ``language,changed`` - the program's language changed
 
 """
 

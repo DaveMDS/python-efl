@@ -47,7 +47,8 @@ they like.
 This widget emits the following signals, besides the ones sent from
 :py:class:`elementary.layout.Layout`:
 
-- *"language,changed"*: The program's language changed.
+- ``language,changed`` - The program's language changed.
+- ``slide,end`` - The slide is end.
 
 
 Enumerations
@@ -264,5 +265,11 @@ cdef class Label(LayoutClass):
     def callback_language_changed_del(self, func):
         self._callback_del("language,changed", func)
 
+    def callback_slide_end_add(self, func, *args, **kwargs):
+        """A slide effect has ended."""
+        self._callback_add("slide,end", func, *args, **kwargs)
+
+    def callback_slide_end_del(self, func):
+        self._callback_del("slide,end", func)
 
 _object_mapping_register("elm_label", Label)

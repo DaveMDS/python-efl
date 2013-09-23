@@ -7,6 +7,10 @@ cdef extern from "Ecore_X.h":
     ctypedef unsigned int Ecore_X_ID
     ctypedef Ecore_X_ID Ecore_X_Window
 
+# TODO:
+# cdef extern from "Ecore_Evas_Types.h":
+    # ctypedef struct Ecore_Wl_Window
+
 cdef extern from "Elementary.h":
     Evas_Object             *elm_win_add(Evas_Object *parent, const_char *name, Elm_Win_Type type)
     Evas_Object             *elm_win_util_standard_add(const_char *name, const_char *title)
@@ -91,12 +95,14 @@ cdef extern from "Elementary.h":
     void                     elm_win_screen_constrain_set(Evas_Object *obj, Eina_Bool constrain)
     Eina_Bool                elm_win_screen_constrain_get(Evas_Object *obj)
     void                     elm_win_screen_size_get(Evas_Object *obj, int *x, int *y, int *w, int *h)
-    void                  elm_win_screen_dpi_get(const_Evas_Object *obj, int *xdpi, int *ydpi)
+    void                     elm_win_screen_dpi_get(const_Evas_Object *obj, int *xdpi, int *ydpi)
 
     void                     elm_win_focus_highlight_enabled_set(Evas_Object *obj, Eina_Bool enabled)
     Eina_Bool                elm_win_focus_highlight_enabled_get(Evas_Object *obj)
     void                     elm_win_focus_highlight_style_set(Evas_Object *obj, const_char *style)
     const_char *             elm_win_focus_highlight_style_get(Evas_Object *obj)
+    void                     elm_win_focus_highlight_animate_set(Evas_Object *obj, Eina_Bool enabled)
+    Eina_Bool                elm_win_focus_highlight_animate_get(const_Evas_Object *obj)
 
     void                     elm_win_keyboard_mode_set(Evas_Object *obj, Elm_Win_Keyboard_Mode mode)
     Elm_Win_Keyboard_Mode    elm_win_keyboard_mode_get(Evas_Object *obj)
@@ -113,6 +119,9 @@ cdef extern from "Elementary.h":
 
     # X specific call - wont't work on non-x engines (return 0)
     Ecore_X_Window           elm_win_xwindow_get(Evas_Object *obj)
+    # TODO: Ecore_Wl_Window         *elm_win_wl_window_get(const_Evas_Object *obj)
 
-    void                  elm_win_floating_mode_set(Evas_Object *obj, Eina_Bool floating)
-    Eina_Bool             elm_win_floating_mode_get(const_Evas_Object *obj)
+    void                     elm_win_floating_mode_set(Evas_Object *obj, Eina_Bool floating)
+    Eina_Bool                elm_win_floating_mode_get(const_Evas_Object *obj)
+
+    # TODO: Ecore_Window          elm_win_window_id_get(const_Evas_Object *obj)

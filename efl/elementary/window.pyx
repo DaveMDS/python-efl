@@ -103,6 +103,8 @@ Signals that you can add callbacks for are:
 - "indicator,prop,changed": an indicator's property has been changed
 - "rotation,changed": window rotation has been changed
 - "profile,changed": profile of the window has been changed
+- ``focused`` - When the window has received focus. (since 1.8)
+- ``unfocused`` - When the window has lost focus. (since 1.8)
 
 
 Enumerations
@@ -1382,6 +1384,22 @@ cdef class Window(Object):
     cpdef focus_highlight_style_get(self):
         return _ctouni(elm_win_focus_highlight_style_get(self.obj))
 
+    property focus_highlight_animate:
+        """
+
+        The animate status for the focus highlight for this window.
+
+        This will enable or disable the animation of focus highlight only
+        for the given window, regardless of the global setting for it
+
+        :type: bool
+
+        """
+        def __set__(self, bint enabled):
+            elm_win_focus_highlight_animate_set(self.obj, enabled)
+        def __get__(self):
+            return bool(elm_win_focus_highlight_animate_get(self.obj))
+
     property keyboard_mode:
         """The keyboard mode of the window.
 
@@ -1513,10 +1531,20 @@ cdef class Window(Object):
         xwin = elm_win_xwindow_get(self.obj)
         return xwin
 
+    # TODO:
+    # property wl_window:
+    #     """Get the Ecore_Wl_Window of an Evas_Object
+
+    #     :type: Ecore_Wl_Window
+
+    #     """
+    #     Ecore_Wl_Window *elm_win_wl_window_get(const Evas_Object *obj)
+
     property floating:
         """Floating mode of a window.
 
         :type: bool
+        :since: 1.8
 
         """
         def __set__(self, floating):
@@ -1529,6 +1557,21 @@ cdef class Window(Object):
         elm_win_floating_mode_set(self.obj, floating)
     def floating_get(self):
         return bool(elm_win_floating_mode_get(self.obj))
+
+    # TODO:
+    # property window_id:
+    #     """
+
+    #     Get the Ecore_Window of an Evas_Object
+
+    #     When Elementary is using a Wayland engine, this function will return the surface id of the elm window's surface.
+
+    #     :type: Ecore_Window
+    #     :since: 1.8
+
+    #     """
+    #     def __get__(self):
+    #         return Ecore_Window elm_win_window_id_get(self.obj)
 
     def callback_delete_request_add(self, func, *args, **kwargs):
         """The user requested to close the window. See :py:attr:`autodel`."""
@@ -1649,6 +1692,25 @@ cdef class Window(Object):
     def callback_profile_changed_del(self, func):
         self._callback_del("profile,changed")
 
+    def callback_focused_add(self, func, *args, **kwargs):
+        """When the window has received focus.
+
+        :since: 1.8
+        """
+        self._callback_add("focused", func, *args, **kwargs)
+
+    def callback_focused_del(self, func):
+        self._callback_del("focused", func)
+
+    def callback_unfocused_add(self, func, *args, **kwargs):
+        """When the window has lost focus.
+
+        :since: 1.8
+        """
+        self._callback_add("unfocused", func, *args, **kwargs)
+
+    def callback_unfocused_del(self, func):
+        self._callback_del("unfocused", func)
 
 _object_mapping_register("elm_win", Window)
 

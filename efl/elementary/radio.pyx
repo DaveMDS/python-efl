@@ -51,8 +51,10 @@ memory for as long as the radio objects exist.
 This widget emits the following signals, besides the ones sent from
 :py:class:`elementary.layout_class.LayoutClass`:
 
-- changed - This is called whenever the user changes the state of one of
+- ``changed`` - This is called whenever the user changes the state of one of
     the radio objects within the group of radio objects that work together.
+- ``focused`` - When the radio has received focus. (since 1.8)
+- ``unfocused`` - When the radio has lost focus. (since 1.8)
 
 Default text parts of the radio widget that you can use for are:
 
@@ -174,5 +176,24 @@ cdef class Radio(LayoutClass):
     def callback_changed_del(self, func):
         self._callback_del("changed", func)
 
+    def callback_focused_add(self, func, *args, **kwargs):
+        """When the radio has received focus.
+
+        :since: 1.8
+        """
+        self._callback_add("focused", func, *args, **kwargs)
+
+    def callback_focused_del(self, func):
+        self._callback_del("focused", func)
+
+    def callback_unfocused_add(self, func, *args, **kwargs):
+        """When the radio has lost focus.
+
+        :since: 1.8
+        """
+        self._callback_add("unfocused", func, *args, **kwargs)
+
+    def callback_unfocused_del(self, func):
+        self._callback_del("unfocused", func)
 
 _object_mapping_register("elm_radio", Radio)

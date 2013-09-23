@@ -67,6 +67,8 @@ Signals you can listen to
 - "overlay,clicked" - A overlay is clicked.
 - "loaded" - when a map is finally loaded.
 - "language,changed" - the program's language changed
+- ``focused`` - When the map has received focus. (since 1.8)
+- ``unfocused`` - When the map has lost focus. (since 1.8)
 
 
 Enumerations
@@ -1809,5 +1811,24 @@ cdef public class Map(Object)[object PyElementaryMap, type PyElementaryMap_Type]
         """ Delete a previuosly attached callback """
         self._callback_del("language,changed", func)
 
+    def callback_focused_add(self, func, *args, **kwargs):
+        """When the map has received focus.
+
+        :since: 1.8
+        """
+        self._callback_add("focused", func, *args, **kwargs)
+
+    def callback_focused_del(self, func):
+        self._callback_del("focused", func)
+
+    def callback_unfocused_add(self, func, *args, **kwargs):
+        """When the map has lost focus.
+
+        :since: 1.8
+        """
+        self._callback_add("unfocused", func, *args, **kwargs)
+
+    def callback_unfocused_del(self, func):
+        self._callback_del("unfocused", func)
 
 _object_mapping_register("elm_map", Map)

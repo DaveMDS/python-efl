@@ -16,6 +16,30 @@
 # along with this Python-EFL.  If not, see <http://www.gnu.org/licenses/>.
 #
 
+"""
+
+An object that allows one to show an image which other process created.
+It can be used anywhere like any other elementary widget.
+
+This widget emits the following signals:
+
+- ``clicked`` - the user clicked the image (press/release).
+- ``image,deleted`` - the server side was deleted.
+- ``image,resized`` - the server side was resized. The ``event_info`` parameter of
+    the callback will be ``Evas_Coord_Size`` (two integers).
+
+.. note::
+
+    the event "image,resized" will be sent whenever the server
+    resized its image and this **always** happen on the first
+    time. Then it can be used to track when the server-side image
+    is fully known (client connected to server, retrieved its
+    image buffer through shared memory and resized the evas
+    object).
+
+"""
+
+
 include "widget_header.pxi"
 
 from object cimport Object
@@ -73,6 +97,30 @@ cdef class Plug(Object):
             cdef Evas_Object *obj = elm_plug_image_object_get(self.obj)
             img.obj = obj
             return img
+
+
+    def callback_clicked_add(self, func, *args, **kwargs):
+        """the user clicked the image (press/release)."""
+        self._callback_add("clicked", func, *args, **kwargs)
+
+    def callback_clicked_del(self, func):
+        self._callback_del("clicked", func)
+
+    def callback_image_deleted_add(self, func, *args, **kwargs):
+        """the server side was deleted."""
+        self._callback_add("image,deleted", func, *args, **kwargs)
+
+    def callback_image_deleted_del(self, func):
+        self._callback_del("image,deleted", func)
+
+    # TODO: Conv function
+    # def callback_image_resized_add(self, func, *args, **kwargs):
+    #     """the server side was resized. The ``event_info`` parameter of
+    #     the callback will be ``Evas_Coord_Size`` (two integers)."""
+    #     self._callback_add("image,resized", func, *args, **kwargs)
+
+    # def callback_image_resized_del(self, func):
+    #     self._callback_del("image,resized", func)
 
 
 _object_mapping_register("elm_plug", Plug)

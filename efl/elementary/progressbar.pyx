@@ -48,7 +48,9 @@ query the progress bar for its value with :py:attr:`value`.
 This widget emits the following signals, besides the ones sent from
 :py:class:`elementary.layout.Layout`:
 
-    - ``"changed"`` - when the value is changed
+- ``changed`` - when the value is changed
+- ``focused`` - When the progressbar has received focus. (since 1.8)
+- ``unfocused`` - When the progressbar has lost focus. (since 1.8)
 
 This widget has the following styles:
 
@@ -290,5 +292,24 @@ cdef class Progressbar(LayoutClass):
     def callback_changed_del(self, func):
         self._callback_del("changed", func)
 
+    def callback_focused_add(self, func, *args, **kwargs):
+        """When the progressbar has received focus.
+
+        :since: 1.8
+        """
+        self._callback_add("focused", func, *args, **kwargs)
+
+    def callback_focused_del(self, func):
+        self._callback_del("focused", func)
+
+    def callback_unfocused_add(self, func, *args, **kwargs):
+        """When the progressbar has lost focus.
+
+        :since: 1.8
+        """
+        self._callback_add("unfocused", func, *args, **kwargs)
+
+    def callback_unfocused_del(self, func):
+        self._callback_del("unfocused", func)
 
 _object_mapping_register("elm_progressbar", Progressbar)
