@@ -8,6 +8,10 @@ from distutils.version import StrictVersion
 
 
 # Cython
+#
+# TODO: Move this inside a conditional so that pre-generated .c files
+#       can be used.
+#
 min_ver = "0.17.0"
 try:
     from Cython.Distutils import build_ext

@@ -21,7 +21,7 @@ TODO
 
 * evas.SmartObject
 * edje: complete the unit tests
-* elm.Web need a test
+* elm.Web needs a test and a lot of work: signals and documentation
 * include python-ethumb
 * Review the internal functions and name them consistently
 * Add more documentation for the use of callbacks
