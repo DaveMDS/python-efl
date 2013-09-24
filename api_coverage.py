@@ -23,6 +23,7 @@ c_exclude_list = [
     "ecore_fork_", # low level stuff, not to be exposed
     "ecore_timer_dump", # this is just usefull for debugging
     "ecore_throttle_", # I don't know what this is :/  - davemds
+    "elm_check_state_pointer_set", # Cannot be implemented in Python
 ]
 c_excludes = "|".join(c_exclude_list)
 
@@ -73,7 +74,7 @@ def pkg_config(require, min_vers=None):
 
 def get_capis(inc_path, prefix):
     capis = []
-    capi_pattern = re.compile("^ *EAPI [A-Za-z_ *\n]+ +\**(?!" + c_excludes + ")(" + prefix + "_\w+) *\(", flags = re.S|re.M)
+    capi_pattern = re.compile("^ *EAPI [A-Za-z_ *\n]+ +\**\n?(?!" + c_excludes + ")(" + prefix + "_\w+) *\(", flags = re.S|re.M)
 
     for path, dirs, files in os.walk(inc_path):
         for f in files:
