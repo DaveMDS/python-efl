@@ -1,4 +1,5 @@
-from efl.evas cimport Eina_Bool, Eina_List, Eina_Compare_Cb, Evas_Object, Evas_Smart_Cb, Evas_Coord
+from efl.evas cimport Eina_Bool, Eina_List, Eina_Compare_Cb, \
+    Evas_Object, const_Evas_Object, Evas_Smart_Cb, Evas_Coord
 from object cimport Object
 from object_item cimport Elm_Object_Item
 from general cimport Elm_Tooltip_Item_Content_Cb
@@ -112,6 +113,9 @@ cdef extern from "Elementary.h":
     Eina_Bool               elm_genlist_highlight_mode_get(Evas_Object *obj)
     void                    elm_genlist_select_mode_set(Evas_Object *obj, Elm_Object_Select_Mode mode)
     Elm_Object_Select_Mode  elm_genlist_select_mode_get(Evas_Object *obj)
+    Elm_Object_Item *       elm_genlist_nth_item_get(const_Evas_Object *obj, unsigned int nth)
+    void                    elm_genlist_focus_on_selection_set(Evas_Object *obj, Eina_Bool enabled)
+    Eina_Bool               elm_genlist_focus_on_selection_get(const_Evas_Object *obj)
 
 cdef class GenlistItemClass(object):
     cdef:

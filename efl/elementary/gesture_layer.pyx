@@ -792,5 +792,68 @@ cdef class GestureLayer(Object):
         def __get__(self):
             return elm_gesture_layer_double_tap_timeout_get(self.obj)
 
+    property tap_finger_size:
+        """
+
+        The gesture layer finger-size for taps.
+        If not set, this size taken from elm_config.
+        Set to ZERO if you want GLayer to use system finger size value (default)
+
+        :type: int
+        :since: 1.8
+
+
+        """
+        def __set__(self, int sz):
+            elm_gesture_layer_tap_finger_size_set(self.obj, sz)
+
+        def __get__(self):
+            return elm_gesture_layer_tap_finger_size_get(self.obj)
+
+    # TODO:
+    # def tap_longpress_cb_add(self, state, cb, *args, **kwargs):
+    #     """tap_longpress_cb_add(state, cb, cb_data)
+
+    #     This function adds a callback called during Tap + Long Tap sequence.
+
+    #     :param state: state for the callback to add.
+    #     :param cb: callback pointer
+    #     :param data: user data for the callback.
+
+    #     The callbacks will be called as followed:
+    #     - start cbs on single tap start
+    #     - move cbs on long press move
+    #     - end cbs on long press end
+    #     - abort cbs whenever in the sequence. The event info will be NULL, because it
+    #       can be triggered from multiple events (timer expired, abort single/long taps).
+
+    #     You can remove the callbacks by using elm_gesture_layer_tap_longpress_cb_del.
+
+    #     :since: 1.8
+
+    #     """
+    #     if not callable(cb):
+    #         raise TypeError("cb is not callable.")
+
+    #     cb_data = (cb, args, kwargs)
+    #     elm_gesture_layer_tap_longpress_cb_add(self.obj, Elm_Gesture_State state, Elm_Gesture_Event_Cb cb, void *data)
+
+    # def tap_longpress_cb_del(self, state, cb, *args, **kwargs):
+    #     """tap_longpress_cb_del(state, cb, cb_data)
+
+    #     This function removes a callback called during Tap + Long Tap sequence.
+
+    #     :param state: state for the callback to add.
+    #     :param cb: callback pointer
+    #     :param data: user data for the callback.
+
+    #     The internal data used for the sequence will be freed ONLY when all the
+    #     callbacks added via elm_gesture_layer_tap_longpress_cb_add are removed by
+    #     this function.
+
+    #     :since: 1.8
+
+    #     """
+    #     elm_gesture_layer_tap_longpress_cb_del(self.obj, Elm_Gesture_State state, Elm_Gesture_Event_Cb cb, void *data)
 
 _object_mapping_register("elm_gesture_layer", GestureLayer)

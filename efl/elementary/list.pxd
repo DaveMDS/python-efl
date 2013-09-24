@@ -1,4 +1,5 @@
-from efl.evas cimport Eina_Bool, Eina_List, Eina_Compare_Cb, Evas_Object, Evas_Smart_Cb
+from efl.evas cimport Eina_Bool, Eina_List, Eina_Compare_Cb, \
+    Evas_Object, const_Evas_Object, Evas_Smart_Cb, Evas_Coord
 from object_item cimport Elm_Object_Item, ObjectItem
 from enums cimport Elm_List_Mode, Elm_Object_Select_Mode, Elm_Scroller_Policy
 from libc.string cimport const_char
@@ -39,3 +40,6 @@ cdef extern from "Elementary.h":
     Elm_Object_Item         *elm_list_first_item_get(Evas_Object *obj)
     Elm_Object_Item         *elm_list_last_item_get(Evas_Object *obj)
 
+    Elm_Object_Item         *elm_list_at_xy_item_get(const_Evas_Object *obj, Evas_Coord x, Evas_Coord y, int *posret)
+    void                     elm_list_focus_on_selection_set(Evas_Object *obj, Eina_Bool enabled)
+    Eina_Bool                elm_list_focus_on_selection_get(const_Evas_Object *obj)

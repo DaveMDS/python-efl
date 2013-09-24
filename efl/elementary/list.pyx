@@ -854,6 +854,53 @@ cdef class List(Object):
     def last_item_get(self):
         return _object_item_to_python(elm_list_last_item_get(self.obj))
 
+    def at_xy_item_get(self, int x, int y):
+        """
+
+        Get the item that is at the x, y canvas coords.
+
+        :param x: The input x coordinate
+        :param y: The input y coordinate
+        :return: (:py:class:`ListItem`, int posret)
+
+        This returns the item at the given coordinates (which are canvas
+        relative, not object-relative). If an item is at that coordinate,
+        that item handle is returned, and if @p posret is not NULL, the
+        integer pointed to is set to a value of -1, 0 or 1, depending if
+        the coordinate is on the upper portion of that item (-1), on the
+        middle section (0) or on the lower part (1). If NULL is returned as
+        an item (no item found there), then posret may indicate -1 or 1
+        based if the coordinate is above or below all items respectively in
+        the list.
+
+
+        """
+        cdef:
+            int posret
+            Elm_Object_Item *ret
+
+        ret = elm_list_at_xy_item_get(self.obj, x, y, &posret)
+        return _object_item_to_python(ret), posret
+
+    property focus_on_selection:
+        """
+
+        Focus upon items selection mode
+
+        :type: bool
+
+        When enabled, every selection of an item inside the genlist will automatically set focus to
+        its first focusable widget from the left. This is true of course if the selection was made by
+        clicking an unfocusable area in an item or selecting it with a key movement. Clicking on a
+        focusable widget inside an item will couse this particular item to get focus as usual.
+
+        """
+        def __set__(self, bint enabled):
+            elm_list_focus_on_selection_set(self.obj, enabled)
+
+        def __get__(self):
+            return bool(elm_list_focus_on_selection_get(self.obj))
+
     def callback_activated_add(self, func, *args, **kwargs):
         """The user has double-clicked or pressed (enter|return|spacebar) on
         an item. The ``event_info`` parameter is the item that was activated."""

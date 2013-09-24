@@ -73,3 +73,7 @@ cdef extern from "Elementary.h":
     Eina_Bool elm_gesture_layer_continues_enable_get(const_Evas_Object *obj)
     void elm_gesture_layer_double_tap_timeout_set(Evas_Object *obj, double double_tap_timeout)
     double elm_gesture_layer_double_tap_timeout_get(const_Evas_Object *obj)
+    void elm_gesture_layer_tap_finger_size_set(Evas_Object *obj, Evas_Coord sz)
+    Evas_Coord elm_gesture_layer_tap_finger_size_get(const_Evas_Object *obj)
+    # TODO: void elm_gesture_layer_tap_longpress_cb_add(Evas_Object *obj, Elm_Gesture_State state, Elm_Gesture_Event_Cb cb, void *data)
+    # TODO: void elm_gesture_layer_tap_longpress_cb_del(Evas_Object *obj, Elm_Gesture_State state, Elm_Gesture_Event_Cb cb, void *data)

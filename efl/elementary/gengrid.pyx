@@ -1668,6 +1668,52 @@ cdef class Gengrid(Object):
     def highlight_mode_get(self, fill):
         return bool(elm_gengrid_highlight_mode_get(self.obj))
 
+    def nth_item_get(self, unsigned int nth):
+        """nth_item_get(int nth) -> :py:class:`GengridItem`
+
+        Get the nth item, in a given gengrid widget, placed at position
+        ``nth``, in its internal items list
+
+        :param nth: The number of the item to grab (0 being the first)
+
+        :return: The item stored in the object at position ``nth`` or
+            ``None``, if there's no item with that index (and on errors)
+
+        :since: 1.8
+
+        """
+        return _object_item_to_python(elm_gengrid_nth_item_get(self.obj, nth))
+
+    def at_xy_item_get(self, int x, int y):
+        """at_xy_item_get(int x, int y) -> (GengridItem, int xposret, int yposret)
+
+        Get the item that is at the x, y canvas coords.
+
+        :param x: The input x coordinate
+        :param y: The input y coordinate
+        :return: (:py:class:`GengridItem`, **int** xposret, **int** yposret)
+
+        This returns the item at the given coordinates (which are canvas
+        relative, not object-relative). If an item is at that coordinate,
+        that item handle is returned, and if @p xposret is not NULL, the
+        integer pointed to is set to a value of -1, 0 or 1, depending if
+        the coordinate is on the left portion of that item (-1), on the
+        middle section (0) or on the right part (1).
+        if @p yposret is not NULL, the
+        integer pointed to is set to a value of -1, 0 or 1, depending if
+        the coordinate is on the upper portion of that item (-1), on the
+        middle section (0) or on the lower part (1). If NULL is returned as
+        an item (no item found there), then posret may indicate -1 or 1
+        based if the coordinate is above or below all items respectively in
+        the gengrid.
+
+        """
+        cdef:
+            int xposret, yposret
+            Elm_Object_Item *ret
+
+        ret = elm_gengrid_at_xy_item_get(self.obj, x, y, &xposret, &yposret)
+        return _object_item_to_python(ret), xposret, yposret
 
     def callback_activated_add(self, func, *args, **kwargs):
         self._callback_add_full("activated", _cb_object_item_conv,

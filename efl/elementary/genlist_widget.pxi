@@ -624,6 +624,44 @@ cdef class GenlistWidget(Object):
     def select_mode_get(self):
         return elm_genlist_select_mode_get(self.obj)
 
+    def nth_item_get(self, int nth):
+        """
+
+        Get the nth item, in a given genlist widget, placed at
+        position ``nth``, in its internal items list
+
+        :param nth: The number of the item to grab (0 being the first)
+
+        :return: The item stored in the object at position ``nth`` or
+            ``None``, if there's no item with that index (and on errors)
+
+        :since: 1.8
+
+        """
+        return _object_item_to_python(elm_genlist_nth_item_get(self.obj, nth))
+
+    property focus_on_selection:
+        """
+
+        Focus upon items selection mode
+
+        :type: bool
+
+        When enabled, every selection of an item inside the genlist will
+        automatically set focus to its first focusable widget from the
+        left. This is true of course if the selection was made by
+        clicking an unfocusable area in an item or selecting it with a
+        key movement. Clicking on a focusable widget inside an item will
+        couse this particular item to get focus as usual.
+
+        """
+        def __set__(self, bint enabled):
+            elm_genlist_focus_on_selection_set(self.obj, enabled)
+
+        def __get__(self):
+            return bool(elm_genlist_focus_on_selection_get(self.obj))
+
+
     def callback_activated_add(self, func, *args, **kwargs):
         self._callback_add_full("activated", _cb_object_item_conv,
                                 func, *args, **kwargs)
