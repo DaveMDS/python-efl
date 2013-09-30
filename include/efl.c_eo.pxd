@@ -15,7 +15,7 @@
 # You should have received a copy of the GNU Lesser General Public License
 # along with this Python-EFL.  If not, see <http://www.gnu.org/licenses/>.
 
-from efl cimport *
+from efl.eina cimport *
 
 cdef extern from "Eo.h":
     ####################################################################

@@ -15,8 +15,8 @@
 # You should have received a copy of the GNU Lesser General Public License
 # along with this Python-EFL.  If not, see <http://www.gnu.org/licenses/>.
 
-from efl cimport Eina_Bool, Eina_List, const_Eina_List
-from efl.evas cimport Evas, Evas_Object, const_Evas_Object, const_char_ptr
+from efl.eina cimport Eina_Bool, Eina_List, const_Eina_List
+from efl.evas cimport Evas, Evas_Object, const_Evas_Object
 from efl.evas cimport Object as evasObject
 from libc.string cimport const_char
 

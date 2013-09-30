@@ -15,22 +15,8 @@
 # You should have received a copy of the GNU Lesser General Public License
 # along with this Python-EFL.  If not, see <http://www.gnu.org/licenses/>.
 
-
-cdef extern from *:
-    ctypedef char* const_char_ptr "const char *"
-    ctypedef char const_char "const char"
-    ctypedef void const_void "const void"
-
-cdef extern from "stdlib.h":
-    void *malloc(long)
-    void free(void*)
-
-# cdef extern from "stdio.h":
-#     int printf(char*)
-
-cdef extern from "string.h":
-    void *memcpy(void *dst, void *src, int n)
-    char *strdup(char *str)
+from libc.stdlib cimport const_void, malloc, free
+from libc.string cimport const_char, memcpy, strdup
 
 cdef extern from "time.h":
     struct tm:

@@ -46,7 +46,7 @@ cdef void message_handler_cb(void *data,
 
 
 cdef void signal_cb(void *data, Evas_Object *obj,
-                    const_char *emission, const_char_ptr source) with gil:
+                    const_char *emission, const_char *source) with gil:
     cdef Edje self
     self = object_from_instance(obj)
     lst = tuple(<object>data)
@@ -368,7 +368,7 @@ cdef class Edje(Object):
         def __get__(self):
             return edje_object_scale_get(self.obj)
 
-    cpdef scale_set(self, double scale): 
+    cpdef scale_set(self, double scale):
         edje_object_scale_set(self.obj, scale)
     cpdef scale_get(self):
         return edje_object_scale_get(self.obj)
@@ -385,7 +385,7 @@ cdef class Edje(Object):
         edje_object_mirrored_set(self.obj, rtl)
     def mirrored_get(self):
         return bool(edje_object_mirrored_get(self.obj))
-    
+
     def size_min_get(self):
         ":rtype: tuple of int"
         cdef int w, h
@@ -423,11 +423,11 @@ cdef class Edje(Object):
         width and height. The user might choose to *impose* those minimum sizes,
         making the resulting calculation to get values equal or bigger than
         minw and minh, for width and height, respectively.
- 
+
         :note: At the end of this call, the object won't be automatically
                resized to new dimensions, but just return the calculated
                sizes. The caller is the one up to change its geometry or not.
- 
+
         :warning: Be advised that invisible parts in the object obj will be
                   taken into account in this calculation.
 

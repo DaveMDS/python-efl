@@ -15,9 +15,9 @@
 # You should have received a copy of the GNU Lesser General Public License
 # along with this Python-EFL.  If not, see <http://www.gnu.org/licenses/>.
 
-from efl cimport *
-from efl.evas cimport Object, Canvas
-from efl.evas cimport Evas_Object, Evas, Evas_Font_Size, Evas_Coord
+from efl.eina cimport *
+from efl.evas cimport Object, Canvas, \
+    Evas_Object, Evas, Evas_Font_Size, Evas_Coord
 
 
 cdef extern from "Edje.h":
@@ -153,7 +153,7 @@ cdef extern from "Edje.h":
 
 
     ctypedef Edje_External_Type const_Edje_External_Type "const Edje_External_Type"
-    ctypedef void (*Edje_Signal_Cb)(void *data, Evas_Object *obj, const_char *emission, const_char_ptr source)
+    ctypedef void (*Edje_Signal_Cb)(void *data, Evas_Object *obj, const_char *emission, const_char *source)
 
     ####################################################################
     # Engine
@@ -194,7 +194,7 @@ cdef extern from "Edje.h":
 
     void edje_password_show_last_set(Eina_Bool password_show_last)
     void edje_password_show_last_timeout_set(double password_show_last_timeout)
-    
+
     void edje_extern_object_min_size_set(Evas_Object *obj, Evas_Coord minw, Evas_Coord minh)
     void edje_extern_object_max_size_set(Evas_Object *obj, Evas_Coord maxw, Evas_Coord maxh)
     void edje_extern_object_aspect_set(Evas_Object *obj, Edje_Aspect_Control aspect, Evas_Coord aw, Evas_Coord ah)

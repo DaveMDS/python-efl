@@ -64,7 +64,7 @@ include "widget_header.pxi"
 
 from libc.stdlib cimport free
 from libc.string cimport strdup
-from efl cimport Eina_Stringshare, eina_stringshare_add, eina_stringshare_del, \
+from efl.eina cimport Eina_Stringshare, eina_stringshare_add, eina_stringshare_del, \
     eina_stringshare_replace
 from object cimport Object
 import traceback

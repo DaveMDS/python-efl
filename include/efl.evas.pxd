@@ -15,10 +15,9 @@
 # You should have received a copy of the GNU Lesser General Public License
 # along with this Python-EFL.  If not, see <http://www.gnu.org/licenses/>.
 
-from efl cimport *
+from efl.eina cimport *
 from efl.eo cimport Eo
-from efl.c_eo cimport Eo as cEo
-from efl.c_eo cimport const_Eo_Class
+from efl.c_eo cimport Eo as cEo, const_Eo_Class
 from efl.evas.enums cimport Evas_Event_Flags, Evas_Button_Flags, \
     Evas_Font_Hinting_Flags, Evas_Aspect_Control, Evas_Render_Op, \
     Evas_Callback_Type, Evas_Object_Pointer_Mode, Evas_Colorspace, \
@@ -352,8 +351,8 @@ cdef extern from "Evas.h":
     void evas_event_feed_multi_down(Evas *e, int d, int x, int y, double rad, double radx, double rady, double pres, double ang, double fx, double fy, Evas_Button_Flags flags, unsigned int timestamp, const_void *data)
     void evas_event_feed_multi_up(Evas *e, int d, int x, int y, double rad, double radx, double rady, double pres, double ang, double fx, double fy, Evas_Button_Flags flags, unsigned int timestamp, const_void *data)
     void evas_event_feed_multi_move(Evas *e, int d, int x, int y, double rad, double radx, double rady, double pres, double ang, double fx, double fy, unsigned int timestamp, const_void *data)
-    void evas_event_feed_key_down(Evas *e, const_char *keyname, const_char_ptr key, const_char_ptr string, const_char_ptr compose, unsigned int timestamp, const_void *data)
-    void evas_event_feed_key_up(Evas *e, const_char *keyname, const_char_ptr key, const_char_ptr string, const_char_ptr compose, unsigned int timestamp, const_void *data)
+    void evas_event_feed_key_down(Evas *e, const_char *keyname, const_char *key, const_char *string, const_char *compose, unsigned int timestamp, const_void *data)
+    void evas_event_feed_key_up(Evas *e, const_char *keyname, const_char *key, const_char *string, const_char *compose, unsigned int timestamp, const_void *data)
     void evas_event_feed_hold(Evas *e, int hold, unsigned int timestamp, const_void *data)
 
     void evas_font_path_clear(Evas *e)
@@ -541,8 +540,8 @@ cdef extern from "Evas.h":
     # TODO: Use this?: Evas_Object         *evas_object_image_filled_add(Evas *e)
     # TODO: void                evas_object_image_memfile_set(Evas_Object *obj, void *data, int size, char *format, char *key)
     # FIXME: Is this needed?: const_Eo_Class *evas_object_image_class_get()
-    void                evas_object_image_file_set(Evas_Object *obj, const_char *file, const_char_ptr key)
-    void                evas_object_image_file_get(const_Evas_Object *obj, const_char **file, const_char_ptr *key)
+    void                evas_object_image_file_set(Evas_Object *obj, const_char *file, const_char *key)
+    void                evas_object_image_file_get(const_Evas_Object *obj, const_char **file, const_char **key)
     void                evas_object_image_border_set(Evas_Object *obj, int l, int r, int t, int b)
     void                evas_object_image_border_get(const_Evas_Object *obj, int *l, int *r, int *t, int *b)
     void                evas_object_image_border_center_fill_set(Evas_Object *obj, Eina_Bool fill)
@@ -570,7 +569,7 @@ cdef extern from "Evas.h":
     Eina_Bool           evas_object_image_smooth_scale_get(const_Evas_Object *obj)
     void                evas_object_image_preload(Evas_Object *obj, Eina_Bool cancel)
     void                evas_object_image_reload(Evas_Object *obj)
-    Eina_Bool           evas_object_image_save(const_Evas_Object *obj, const_char *file, const_char_ptr key, const_char_ptr flags)
+    Eina_Bool           evas_object_image_save(const_Evas_Object *obj, const_char *file, const_char *key, const_char *flags)
     # TODO: Eina_Bool evas_object_image_pixels_import(Evas_Object *obj, Evas_Pixel_Import_Source *pixels)
     # TODO: void                evas_object_image_pixels_get_callback_set(Evas_Object *obj, void (*func) (void *data, Evas_Object *o), void *data)
     void                evas_object_image_pixels_dirty_set(Evas_Object *obj, Eina_Bool dirty)
@@ -669,8 +668,8 @@ cdef extern from "Evas.h":
     Evas_Textblock_Style *evas_object_textblock_style_get(const_Evas_Object *obj)
     void evas_object_textblock_replace_char_set(Evas_Object *obj, const_char *ch)
     const_char *evas_object_textblock_replace_char_get(const_Evas_Object *obj)
-    const_char *evas_textblock_escape_string_get(const_char_ptr escape)
-    const_char *evas_textblock_string_escape_get(const_char_ptr string, int *len_ret)
+    const_char *evas_textblock_escape_string_get(const_char *escape)
+    const_char *evas_textblock_string_escape_get(const_char *string, int *len_ret)
     void evas_object_textblock_text_markup_set(Evas_Object *obj, const_char *text)
     void evas_object_textblock_text_markup_prepend(Evas_Textblock_Cursor *cur, const_char *text)
     const_char *evas_object_textblock_text_markup_get(const_Evas_Object *obj)

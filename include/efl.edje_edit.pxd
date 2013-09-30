@@ -15,7 +15,7 @@
 # You should have received a copy of the GNU Lesser General Public License
 # along with this Python-EFL.  If not, see <http://www.gnu.org/licenses/>.
 
-from efl cimport *
+from efl.eina cimport *
 from efl.evas cimport Canvas, Evas_Event_Flags
 from efl.evas cimport Evas_Object, Evas
 from efl.edje cimport Edje, Edje_Part_Type, Edje_Text_Effect, Edje_Tween_Mode, \

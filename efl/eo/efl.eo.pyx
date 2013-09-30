@@ -18,7 +18,7 @@
 from cpython cimport PyObject, Py_INCREF, Py_DECREF, PyUnicode_AsUTF8String
 from libc.stdlib cimport malloc, free
 from libc.string cimport memcpy, strdup
-from efl cimport Eina_Bool, const_Eina_List, eina_list_append, const_void, \
+from efl.eina cimport Eina_Bool, const_Eina_List, eina_list_append, const_void, \
     Eina_Hash, eina_hash_string_superfast_new, eina_hash_add, eina_hash_del, \
     eina_hash_find
 from efl.c_eo cimport Eo as cEo, eo_init, eo_shutdown, eo_del, eo_do, \

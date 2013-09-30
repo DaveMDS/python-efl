@@ -15,7 +15,7 @@
 # You should have received a copy of the GNU Lesser General Public License
 # along with this Python-EFL.  If not, see <http://www.gnu.org/licenses/>.
 
-from efl cimport *
+from efl.eina cimport *
 from efl.c_eo cimport Eo as cEo
 from efl.eo cimport Eo
 from efl.ecore.enums cimport Ecore_Fd_Handler_Flags, Ecore_Exe_Flags, \
@@ -184,7 +184,7 @@ cdef extern from "Ecore_File.h":
     void      ecore_file_download_abort(Ecore_File_Download_Job *job)
     void      ecore_file_download_abort_all()
     Eina_Bool ecore_file_download_protocol_available(const_char *protocol)
-    Eina_Bool ecore_file_download(const_char *url, const_char_ptr dst,
+    Eina_Bool ecore_file_download(const_char *url, const_char *dst,
                                   Ecore_File_Download_Completion_Cb completion_cb,
                                   Ecore_File_Download_Progress_Cb progress_cb,
                                   void *data,

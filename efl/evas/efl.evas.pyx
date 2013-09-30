@@ -17,7 +17,7 @@
 
 import traceback
 from cpython cimport PyUnicode_AsUTF8String
-from efl cimport *
+from efl.eina cimport *
 from efl.eo cimport Eo, object_from_instance, _object_mapping_register
 from efl.eo cimport _ctouni, _touni
 cimport efl.evas.enums as enums
