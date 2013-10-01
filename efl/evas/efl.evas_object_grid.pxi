@@ -130,6 +130,6 @@ cdef class Grid(Object):
     cpdef children_get(self):
         cdef:
             Eina_List *lst = evas_object_grid_children_get(self.obj)
-            list ret = _object_list_to_python(lst)
+            list ret = eina_list_objects_to_python_list(lst)
         eina_list_free(lst)
         return ret

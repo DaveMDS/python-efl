@@ -22,8 +22,8 @@ include "tooltips.pxi"
 # cdef void _tooltip_item_data_del_cb(void *data, Evas_Object *o, void *event_info) with gil:
 #    Py_DECREF(<object>data)
 
-from efl.eo cimport convert_python_list_objects_to_eina_list, \
-    _object_list_to_python
+from efl.utils.conversions cimport python_list_objects_to_eina_list, \
+    eina_list_objects_to_python_list
 from object cimport Object
 import traceback
 
@@ -589,10 +589,10 @@ cdef class ObjectItem(object):
         """
         def __set__(self, list value):
             elm_object_item_access_order_set(self.item,
-                convert_python_list_objects_to_eina_list(value))
+                python_list_objects_to_eina_list(value))
 
         def __get__(self):
-            _object_list_to_python(elm_object_item_access_order_get(self.item))
+            eina_list_objects_to_python_list(elm_object_item_access_order_get(self.item))
 
         def __del__(self):
             elm_object_item_access_order_unset(self.item)

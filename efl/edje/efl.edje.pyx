@@ -22,8 +22,10 @@ from cpython cimport PyMem_Malloc, PyMem_Free, PyUnicode_AsUTF8String
 cimport libc.stdlib
 
 from efl.eo cimport _object_mapping_register, object_from_instance, \
-    _register_decorated_callbacks, _ctouni, _touni, \
-    convert_eina_list_strings_to_python_list
+    _register_decorated_callbacks
+
+from efl.utils.conversions cimport _ctouni, _touni, \
+    eina_list_strings_to_python_list
 
 
 # Edje_Message_Type:
@@ -166,7 +168,7 @@ def file_collection_list(file):
     if isinstance(file, unicode): file = PyUnicode_AsUTF8String(file)
     lst = edje_file_collection_list(
                 <const_char *>file if file is not None else NULL)
-    ret = convert_eina_list_strings_to_python_list(lst)
+    ret = eina_list_strings_to_python_list(lst)
     edje_file_collection_list_free(lst)
     return ret
 

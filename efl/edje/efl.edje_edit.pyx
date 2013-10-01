@@ -15,7 +15,8 @@
 # You should have received a copy of the GNU Lesser General Public License
 # along with this Python-EFL.  If not, see <http://www.gnu.org/licenses/>.
 
-from efl.eo cimport _touni, _ctouni, convert_eina_list_strings_to_python_list
+from efl.utils.conversions cimport _touni, _ctouni, \
+    eina_list_strings_to_python_list
 from efl.edje cimport Edje_Part_Type
 from efl.edje import EDJE_PART_TYPE_EXTERNAL
 
@@ -77,7 +78,7 @@ cdef class EdjeEdit(Edje):
                 Eina_List *lst
                 list ret
             lst = edje_edit_data_list_get(self.obj)
-            ret = convert_eina_list_strings_to_python_list(lst)
+            ret = eina_list_strings_to_python_list(lst)
             edje_edit_string_list_free(lst)
             return ret
 
@@ -123,7 +124,7 @@ cdef class EdjeEdit(Edje):
                 Eina_List *lst
                 list ret
             lst = edje_edit_group_data_list_get(self.obj)
-            ret = convert_eina_list_strings_to_python_list(lst)
+            ret = eina_list_strings_to_python_list(lst)
             edje_edit_string_list_free(lst)
             return ret
 
@@ -167,7 +168,7 @@ cdef class EdjeEdit(Edje):
         def __get__(self):
             cdef Eina_List *lst
             lst = edje_edit_styles_list_get(self.obj)
-            ret = convert_eina_list_strings_to_python_list(lst)
+            ret = eina_list_strings_to_python_list(lst)
             edje_edit_string_list_free(lst)
             return ret
 
@@ -190,7 +191,7 @@ cdef class EdjeEdit(Edje):
         def __get__(self):
             cdef Eina_List *lst
             lst = edje_edit_color_classes_list_get(self.obj)
-            ret = convert_eina_list_strings_to_python_list(lst)
+            ret = eina_list_strings_to_python_list(lst)
             edje_edit_string_list_free(lst)
             return ret
 
@@ -212,7 +213,7 @@ cdef class EdjeEdit(Edje):
         def __get__(self):
             cdef Eina_List *lst
             lst = edje_edit_externals_list_get(self.obj)
-            ret = convert_eina_list_strings_to_python_list(lst)
+            ret = eina_list_strings_to_python_list(lst)
             edje_edit_string_list_free(lst)
             return ret
 
@@ -231,7 +232,7 @@ cdef class EdjeEdit(Edje):
         def __get__(self):
             cdef Eina_List *lst
             lst = edje_edit_fonts_list_get(self.obj)
-            ret = convert_eina_list_strings_to_python_list(lst)
+            ret = eina_list_strings_to_python_list(lst)
             edje_edit_string_list_free(lst)
             return ret
 
@@ -252,7 +253,7 @@ cdef class EdjeEdit(Edje):
         def __get__(self):
             cdef Eina_List *lst
             lst = edje_edit_parts_list_get(self.obj)
-            ret = convert_eina_list_strings_to_python_list(lst)
+            ret = eina_list_strings_to_python_list(lst)
             edje_edit_string_list_free(lst)
             return ret
 
@@ -285,7 +286,7 @@ cdef class EdjeEdit(Edje):
         def __get__(self):
             cdef Eina_List *lst
             lst = edje_edit_images_list_get(self.obj)
-            ret = convert_eina_list_strings_to_python_list(lst)
+            ret = eina_list_strings_to_python_list(lst)
             edje_edit_string_list_free(lst)
             return ret
 
@@ -309,7 +310,7 @@ cdef class EdjeEdit(Edje):
         def __get__(self):
             cdef Eina_List *lst
             lst = edje_edit_programs_list_get(self.obj)
-            ret = convert_eina_list_strings_to_python_list(lst)
+            ret = eina_list_strings_to_python_list(lst)
             edje_edit_string_list_free(lst)
             return ret
 
@@ -397,7 +398,7 @@ cdef class Text_Style(object):
         def __get__(self):
             cdef Eina_List *lst
             lst = edje_edit_style_tags_list_get(self.edje.obj, self.name)
-            ret = convert_eina_list_strings_to_python_list(lst)
+            ret = eina_list_strings_to_python_list(lst)
             edje_edit_string_list_free(lst)
             return ret
 

@@ -201,7 +201,8 @@ File monitor events
 """
 
 import traceback
-from efl.eo cimport Eo, PY_REFCOUNT, _ctouni
+from efl.eo cimport Eo, PY_REFCOUNT
+from efl.utils.conversions cimport _ctouni
 from cpython cimport Py_INCREF, Py_DECREF
 cimport efl.ecore.enums as enums
 

@@ -189,7 +189,7 @@ from cpython cimport PyObject, Py_INCREF, Py_DECREF, PyObject_GetAttr, \
 include "widget_header.pxi"
 include "tooltips.pxi"
 
-from efl.eo cimport _object_list_to_python
+from efl.utils.conversions cimport eina_list_objects_to_python_list
 from efl.utils.deprecated import DEPRECATED
 
 from efl.evas cimport EventKeyDown, EventKeyUp, EventMouseWheel
@@ -926,7 +926,7 @@ cdef class Object(evasObject):
 
         """
         def __get__(self):
-            return _object_list_to_python(elm_object_focus_custom_chain_get(self.obj))
+            return eina_list_objects_to_python_list(elm_object_focus_custom_chain_get(self.obj))
 
         def __set__(self, objs):
             elm_object_focus_custom_chain_unset(self.obj)
@@ -945,7 +945,7 @@ cdef class Object(evasObject):
     def focus_custom_chain_unset(self):
         elm_object_focus_custom_chain_unset(self.obj)
     def focus_custom_chain_get(self):
-        return _object_list_to_python(elm_object_focus_custom_chain_get(self.obj))
+        return eina_list_objects_to_python_list(elm_object_focus_custom_chain_get(self.obj))
 
     def focus_custom_chain_append(self, Object child not None, Object relative_child=None):
         """focus_custom_chain_append(Object child, Object relative_child=None)

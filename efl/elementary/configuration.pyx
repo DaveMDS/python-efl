@@ -103,7 +103,7 @@ Elm_Softcursor_Mode
 
 include "widget_header.pxi"
 
-from efl.eo cimport convert_eina_list_strings_to_python_list
+from efl.utils.conversions cimport eina_list_strings_to_python_list
 
 cimport enums
 
@@ -199,7 +199,7 @@ cdef class Configuration(object):
         """
         def __get__(self):
             cdef Eina_List *lst = elm_config_profile_list_get()
-            ret = tuple(convert_eina_list_strings_to_python_list(lst))
+            ret = tuple(eina_list_strings_to_python_list(lst))
             elm_config_profile_list_free(lst)
             return ret
 

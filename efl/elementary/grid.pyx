@@ -38,7 +38,7 @@ of the width or height of the grid widget.
 
 include "widget_header.pxi"
 from object cimport Object
-from efl.eo cimport _object_list_to_python
+from efl.utils.conversions cimport eina_list_objects_to_python_list
 
 cdef class Grid(Object):
 
@@ -121,10 +121,10 @@ cdef class Grid(Object):
 
         """
         def __get__(self):
-            return _object_list_to_python(elm_grid_children_get(self.obj))
+            return eina_list_objects_to_python_list(elm_grid_children_get(self.obj))
 
     def children_get(self):
-        return _object_list_to_python(elm_grid_children_get(self.obj))
+        return eina_list_objects_to_python_list(elm_grid_children_get(self.obj))
 
 def grid_pack_set(evasObject subobj, x, y, w, h):
     """grid_pack_set(evas.Object subobj, int x, int y, int w, int h)

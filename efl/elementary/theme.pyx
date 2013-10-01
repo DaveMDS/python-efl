@@ -83,7 +83,7 @@ overlays. Don't use this unless you really know what you are doing.
 from cpython cimport Py_INCREF, Py_DECREF
 
 include "widget_header.pxi"
-from efl.eo cimport convert_eina_list_strings_to_python_list
+from efl.utils.conversions cimport eina_list_strings_to_python_list
 
 cdef class Theme(object):
 
@@ -218,7 +218,7 @@ cdef class Theme(object):
 
         """
         def __get__(self):
-            return tuple(convert_eina_list_strings_to_python_list(elm_theme_overlay_list_get(self.th)))
+            return tuple(eina_list_strings_to_python_list(elm_theme_overlay_list_get(self.th)))
 
     def extension_add(self, item):
         """extension_add(unicode item)
@@ -271,7 +271,7 @@ cdef class Theme(object):
 
         """
         def __get__(self):
-            return tuple(convert_eina_list_strings_to_python_list(elm_theme_extension_list_get(self.th)))
+            return tuple(eina_list_strings_to_python_list(elm_theme_extension_list_get(self.th)))
 
     property order:
         """Set the theme search order for the given theme
@@ -315,7 +315,7 @@ cdef class Theme(object):
 
         """
         def __get__(self):
-            return tuple(convert_eina_list_strings_to_python_list(elm_theme_list_get(self.th)))
+            return tuple(eina_list_strings_to_python_list(elm_theme_list_get(self.th)))
 
     def flush(self):
         """flush()
@@ -404,7 +404,7 @@ def theme_name_available_list():
 
     """
     cdef Eina_List *lst = elm_theme_name_available_list_new()
-    elements = tuple(convert_eina_list_strings_to_python_list(lst))
+    elements = tuple(eina_list_strings_to_python_list(lst))
     elm_theme_name_available_list_free(lst)
     return elements
 

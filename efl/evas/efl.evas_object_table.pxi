@@ -30,7 +30,7 @@ EVAS_OBJECT_TABLE_HOMOGENEOUS_ITEM = 2
 
 """
 
-from efl.eo cimport _object_list_to_python
+from efl.utils.conversions cimport eina_list_objects_to_python_list
 
 cdef class Table(Object):
 
@@ -252,7 +252,7 @@ cdef class Table(Object):
         """
         cdef:
             Eina_List *lst = evas_object_table_children_get(self.obj)
-            list ret = _object_list_to_python(lst)
+            list ret = eina_list_objects_to_python_list(lst)
         eina_list_free(lst)
         return ret
 

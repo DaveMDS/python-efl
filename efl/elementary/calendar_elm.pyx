@@ -170,8 +170,8 @@ Days
 include "widget_header.pxi"
 from cpython cimport PyMem_Malloc, PyMem_Free
 
-from efl.eo cimport convert_array_of_strings_to_python_list, \
-    convert_python_list_strings_to_array_of_strings
+from efl.utils.conversions cimport array_of_strings_to_python_list, \
+    python_list_strings_to_array_of_strings
 from layout_class cimport LayoutClass
 
 from datetime import date
@@ -314,12 +314,12 @@ cdef class Calendar(LayoutClass):
 
         """
         def __get__(self):
-            return convert_array_of_strings_to_python_list(
+            return array_of_strings_to_python_list(
                 <char **>elm_calendar_weekdays_names_get(self.obj), 7)
 
         def __set__(self, weekdays):
             elm_calendar_weekdays_names_set(self.obj,
-                convert_python_list_strings_to_array_of_strings(weekdays))
+                python_list_strings_to_array_of_strings(weekdays))
 
     property min_max_year:
         """The minimum and maximum values for the year

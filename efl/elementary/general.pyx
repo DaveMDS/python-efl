@@ -50,8 +50,9 @@ Quit policy types
 from cpython cimport PyObject, Py_INCREF, Py_DECREF, PyUnicode_AsUTF8String, \
     PyMem_Malloc, PyMem_Free
 
-from efl.eo cimport _touni, _ctouni, convert_python_list_strings_to_eina_list, \
-    convert_eina_list_strings_to_python_list
+from efl.utils.conversions cimport _touni, _ctouni, \
+    python_list_strings_to_eina_list, \
+    eina_list_strings_to_python_list
 
 import sys
 import traceback
@@ -162,10 +163,10 @@ cdef class FontProperties(object):
     property styles:
         """:type: list of strings"""
         def __set__(self, value):
-            self.efp.styles = convert_python_list_strings_to_eina_list(value)
+            self.efp.styles = python_list_strings_to_eina_list(value)
 
         def __get__(self):
-            return convert_eina_list_strings_to_python_list(self.efp.styles)
+            return eina_list_strings_to_python_list(self.efp.styles)
 
 
 def init():

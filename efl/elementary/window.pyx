@@ -357,8 +357,8 @@ from libc.stdlib cimport malloc, free
 from libc.string cimport memcpy
 
 from object cimport Object
-from efl.eo cimport convert_python_list_strings_to_array_of_strings, \
-    convert_array_of_strings_to_python_list
+from efl.utils.conversions cimport python_list_strings_to_array_of_strings, \
+    array_of_strings_to_python_list
 from efl.evas cimport Evas, evas_object_evas_get, Image as evasImage
 
 cimport enums
@@ -833,7 +833,7 @@ cdef class Window(Object):
             unsigned int i
 
         try:
-            array = convert_python_list_strings_to_array_of_strings(profiles)
+            array = python_list_strings_to_array_of_strings(profiles)
             elm_win_available_profiles_set(self.obj, array, arr_len)
         finally:
             for i in range(arr_len):
@@ -847,7 +847,7 @@ cdef class Window(Object):
         ret = elm_win_available_profiles_get(self.obj, &profiles, &count)
         if ret is 0:
             raise RuntimeError("No available profiles")
-        return convert_array_of_strings_to_python_list(profiles, count)
+        return array_of_strings_to_python_list(profiles, count)
 
     property profile:
         """The profile of a window.

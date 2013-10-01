@@ -109,8 +109,8 @@ Dayselector days
 
 include "widget_header.pxi"
 
-from efl.eo cimport convert_python_list_strings_to_array_of_strings, \
-    convert_eina_list_strings_to_python_list
+from efl.utils.conversions cimport python_list_strings_to_array_of_strings, \
+    eina_list_strings_to_python_list
 from layout_class cimport LayoutClass
 
 cimport enums
@@ -218,10 +218,10 @@ cdef class Dayselector(LayoutClass):
         def __set__(self, list weekdays):
             # TODO: Add checks for list validity (len == 7 etc.)
             elm_dayselector_weekdays_names_set(self.obj,
-                convert_python_list_strings_to_array_of_strings(weekdays))
+                python_list_strings_to_array_of_strings(weekdays))
 
         def __get__(self):
-            return convert_eina_list_strings_to_python_list(
+            return eina_list_strings_to_python_list(
                 elm_dayselector_weekdays_names_get(self.obj)
                 )
 

@@ -77,7 +77,7 @@ cdef class Part(object):
         def __get__(self):
             cdef Eina_List *lst
             lst = edje_edit_part_states_list_get(self.edje.obj, self.name)
-            ret = convert_eina_list_strings_to_python_list(lst)
+            ret = eina_list_strings_to_python_list(lst)
             edje_edit_string_list_free(lst)
             return ret
 

@@ -17,8 +17,9 @@
 
 from cpython cimport PyUnicode_AsUTF8String
 
-from efl.eo cimport _ctouni, object_from_instance, _object_mapping_register, \
+from efl.eo cimport object_from_instance, _object_mapping_register, \
     _register_decorated_callbacks
+from efl.utils.conversions cimport _ctouni
 from efl.evas cimport Canvas, evas_object_smart_callback_add, \
     evas_object_smart_callback_del
 

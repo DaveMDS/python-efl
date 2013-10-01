@@ -83,8 +83,14 @@ if set(("build", "build_ext", "install")) & set(sys.argv):
     modules.append(eo_ext)
 
     # Utilities
-    utils_ext = Extension("efl.utils.deprecated", ["efl/utils/deprecated.pyx"])
-    modules.append(utils_ext)
+    utils_ext = [
+        Extension("efl.utils.deprecated", ["efl/utils/deprecated.pyx"]),
+        Extension("efl.utils.conversions", ["efl/utils/conversions.pyx"],
+                            include_dirs = ['include/'],
+                            extra_compile_args = eo_cflags,
+                            extra_link_args = eo_libs + eina_libs)
+        ]
+    modules += utils_ext
 
     # Evas
     evas_cflags, evas_libs = pkg_config('Evas', 'evas', "1.7.99")

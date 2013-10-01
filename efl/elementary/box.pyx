@@ -129,7 +129,7 @@ include "widget_header.pxi"
 
 from object cimport Object
 
-from efl.eo cimport _object_list_to_python
+from efl.utils.conversions cimport eina_list_objects_to_python_list
 
 #~ ctypedef enum Elm_Box_CLayout:
 #~     ELM_BOX_LAYOUT_HORIZONTAL
@@ -352,7 +352,7 @@ cdef class Box(Object):
 
         """
         def __get__(self):
-            return _object_list_to_python(elm_box_children_get(self.obj))
+            return eina_list_objects_to_python_list(elm_box_children_get(self.obj))
 
         #def __set__(self, value):
             #TODO: unpack_all() and then get the objects from value and pack_end() them.
@@ -361,7 +361,7 @@ cdef class Box(Object):
             elm_box_clear(self.obj)
 
     def children_get(self):
-        return _object_list_to_python(elm_box_children_get(self.obj))
+        return eina_list_objects_to_python_list(elm_box_children_get(self.obj))
 
     property padding:
         """The space (padding) between the box's elements.

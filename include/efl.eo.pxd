@@ -37,13 +37,3 @@ cdef void _object_mapping_register(char *name, object cls) except *
 cdef void _object_mapping_unregister(char *name)
 
 cdef void _register_decorated_callbacks(object obj)
-
-cdef unicode _touni(char* s)
-cdef unicode _ctouni(const_char *s)
-
-cdef list convert_array_of_strings_to_python_list(char **array, int array_length)
-cdef const_char ** convert_python_list_strings_to_array_of_strings(list strings) except NULL
-cdef list convert_eina_list_strings_to_python_list(const_Eina_List *lst)
-cdef Eina_List * convert_python_list_strings_to_eina_list(list strings)
-cdef list _object_list_to_python(const_Eina_List *lst)
-cdef Eina_List *convert_python_list_objects_to_eina_list(list objects)

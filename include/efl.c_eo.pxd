@@ -15,19 +15,13 @@
 # You should have received a copy of the GNU Lesser General Public License
 # along with this Python-EFL.  If not, see <http://www.gnu.org/licenses/>.
 
-from efl.eina cimport *
+#from efl.eina cimport *
+
+from libc.string cimport const_char
+from libc.stdlib cimport const_void
+from efl.eina cimport Eina_Bool
 
 cdef extern from "Eo.h":
-    ####################################################################
-    # Basic Types
-    #
-
-
-    ####################################################################
-    # Enumerations
-    #
-
-
     ####################################################################
     # Structures
     #

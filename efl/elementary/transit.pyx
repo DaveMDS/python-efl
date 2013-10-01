@@ -143,7 +143,8 @@ Tween modes
 """
 
 include "widget_header.pxi"
-from efl.eo cimport _object_list_to_python, convert_python_list_strings_to_eina_list
+from efl.utils.conversions cimport eina_list_objects_to_python_list, \
+    python_list_strings_to_eina_list
 
 cimport enums
 
@@ -313,7 +314,7 @@ cdef class Transit(object):
 
         """
         def __get__(self):
-            return _object_list_to_python(elm_transit_objects_get(self.obj))
+            return eina_list_objects_to_python_list(elm_transit_objects_get(self.obj))
 
     property objects_final_state_keep:
         """Enable/disable keeping up the objects states.
@@ -558,7 +559,7 @@ cdef class Transit(object):
 
         """
         def __get__(self):
-            return _object_list_to_python(elm_transit_chain_transits_get(self.obj))
+            return eina_list_objects_to_python_list(elm_transit_chain_transits_get(self.obj))
 
     property smooth:
         """Smooth effect for a transit.
@@ -890,4 +891,4 @@ cdef class Transit(object):
 
         """
         #TODO: can the return value Elm_Transit_Effect be used somehow?
-        elm_transit_effect_image_animation_add(self.obj, convert_python_list_strings_to_eina_list(images))
+        elm_transit_effect_image_animation_add(self.obj, python_list_strings_to_eina_list(images))

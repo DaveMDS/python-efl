@@ -17,9 +17,9 @@
 
 import traceback
 from cpython cimport PyUnicode_AsUTF8String
-from efl.eina cimport *
+#from efl.eina cimport *
 from efl.eo cimport Eo, object_from_instance, _object_mapping_register
-from efl.eo cimport _ctouni, _touni
+from efl.utils.conversions cimport _ctouni, _touni
 cimport efl.evas.enums as enums
 
 EVAS_LAYER_MIN = enums.EVAS_LAYER_MIN
