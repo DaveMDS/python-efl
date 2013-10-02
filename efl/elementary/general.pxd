@@ -104,7 +104,7 @@ cdef extern from "Elementary.h":
     int                     elm_policy_get(unsigned int policy)
 
     # General - Language
-    # TODO: void                    elm_language_set(const_char *lang)
+    void                    elm_language_set(const_char *lang)
 
     # Cache
     void                    elm_cache_all_flush()
@@ -113,9 +113,9 @@ cdef extern from "Elementary.h":
     void                    elm_coords_finger_size_adjust(int times_w, Evas_Coord *w, int times_h, Evas_Coord *h)
 
     # Font (elm_font.h)
-    # TODO: Elm_Font_Properties *   elm_font_properties_get(const_char *font)
-    # TODO: void                    elm_font_properties_free(Elm_Font_Properties *efp)
-    # TODO: char *                  elm_font_fontconfig_name_get(const_char *name, const_char *style)
-    # TODO: void                    elm_font_fontconfig_name_free(char *name)
+    Elm_Font_Properties *   elm_font_properties_get(const_char *font)
+    void                    elm_font_properties_free(Elm_Font_Properties *efp)
+    char *                  elm_font_fontconfig_name_get(const_char *name, const_char *style)
+    void                    elm_font_fontconfig_name_free(char *name)
     # TODO: Eina_Hash *             elm_font_available_hash_add(Eina_List *list)
     # TODO: void                    elm_font_available_hash_del(Eina_Hash *hash)

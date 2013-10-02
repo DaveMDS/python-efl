@@ -276,6 +276,28 @@ def coords_finger_size_adjust(int times_w, int w, int times_h, int h):
     elm_coords_finger_size_adjust(times_w, &width, times_h, &height)
     return (width, height)
 
+def language_set(lang not None):
+    """language_set(unicode lang)
+    Change the language of the current application
+
+    The @p lang passed must be the full name of the locale to use, for
+    example "en_US.utf8" or "es_ES@euro".
+
+    Changing language with this function will make Elementary run through
+    all its widgets, translating strings set with
+    elm_object_domain_translatable_part_text_set(). This way, an entire
+    UI can have its language changed without having to restart the program.
+
+    For more complex cases, like having formatted strings that need
+    translation, widgets will also emit a "language,changed" signal that
+    the user can listen to and manually translate the text.
+
+    :param lang: Language to set, must be the full name of the locale
+
+    """
+    if isinstance(lang, unicode): lang = PyUnicode_AsUTF8String(lang)
+    elm_language_set(<const char *>lang)
+
 def cache_all_flush():
     """cache_all_flush()
 
@@ -287,56 +309,65 @@ def cache_all_flush():
     """
     elm_cache_all_flush()
 
-# XXX: These create some weird parsing error in Cython
-# def font_properties_get(font):
-#     """Translate a font (family) name string in fontconfig's font names
-#     syntax into a FontProperties object.
+def font_properties_get(font not None):
+    """font_properties_get(unicode font) -> FontProperties
 
-#     :param font: The font name and styles string
-#     :return: the font properties object
+    Translate a font (family) name string in fontconfig's font names
+    syntax into a FontProperties object.
 
-#     .. note:: The reverse translation can be achieved with
-#         :py:func:`font_fontconfig_name_get`, for one style only (single font
-#         instance, not family).
+    :param font: The font name and styles string
+    :return: the font properties object
 
-#     """
-#     if isinstance(font, unicode): font = PyUnicode_AsUTF8String(font)
-#     cdef:
-#         Elm_Font_Properties *efp
-#         FontProperties ret = FontProperties.__new__()
+    .. note:: The reverse translation can be achieved with
+        :py:func:`font_fontconfig_name_get`, for one style only (single font
+        instance, not family).
 
-    #ret.efp = elm_font_properties_get(<const char *>font if font is not None else NULL)
+    """
+    if isinstance(font, unicode): font = PyUnicode_AsUTF8String(font)
+    cdef FontProperties ret = FontProperties.__new__()
 
-    # elm_font_properties_free(efp)
-    # return ret
+    ret.efp = elm_font_properties_get(<const char *>font)
 
-# def font_fontconfig_name_get(font_name, style = None):
-#     """font_fontconfig_name_get(unicode font_name, unicode style = None) -> unicode
+    return ret
 
-#     Translate a font name, bound to a style, into fontconfig's font names
-#     syntax.
+def font_properties_free(FontProperties fp):
+    """Free font properties return by font_properties_get().
 
-#     :param font_name: The font (family) name
-#     :param style: The given style (may be None)
+    :param fp: the font properties struct
 
-#     :return: the font name and style string
+    """
+    elm_font_properties_free(fp.efp)
+    Py_DECREF(fp)
 
-#     .. note:: The reverse translation can be achieved with
-#         :py:func:`font_properties_get`, for one style only (single font
-#         instance, not family).
+def font_fontconfig_name_get(font_name, style = None):
+    """font_fontconfig_name_get(unicode font_name, unicode style = None) -> unicode
 
-#     """
-#     cdef:
-#         unicode ret
-#         char *fc_name
-#     if isinstance(font_name, unicode): font_name = PyUnicode_AsUTF8String(font_name)
-#     if isinstance(style, unicode): style = PyUnicode_AsUTF8String(style)
-#     fc_name = elm_font_fontconfig_name_get(<const char *>font_name,
-#         <const char *>style if style is not None else NULL))
+    Translate a font name, bound to a style, into fontconfig's font names
+    syntax.
 
-#     ret = _touni(fc_name)
-#     elm_font_fontconfig_name_free(fc_name)
-#     return ret
+    :param font_name: The font (family) name
+    :param style: The given style (may be None)
+
+    :return: the font name and style string
+
+    .. note:: The reverse translation can be achieved with
+        :py:func:`font_properties_get`, for one style only (single font
+        instance, not family).
+
+    """
+    cdef:
+        unicode ret
+        char *fc_name
+    if isinstance(font_name, unicode): font_name = PyUnicode_AsUTF8String(font_name)
+    if isinstance(style, unicode): style = PyUnicode_AsUTF8String(style)
+    fc_name = elm_font_fontconfig_name_get(
+        <const char *>font_name,
+        <const char *>style if style is not None else NULL
+        )
+
+    ret = _touni(fc_name)
+    elm_font_fontconfig_name_free(fc_name)
+    return ret
 
 # TODO: Create an Eina_Hash -> dict conversion function for this
 # def font_available_hash_add(list):
