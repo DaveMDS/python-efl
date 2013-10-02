@@ -83,7 +83,8 @@ def transit_wipe(obj):
     trans.go()
 
 def transit_del_cb(transit, *args, **kwargs):
-    data.freeze_events = False
+    obj = args[0]
+    obj.freeze_events = False
 
 def transit_image_animation(obj, data):
     ic = data

@@ -165,11 +165,16 @@ ELM_TRANSIT_TWEEN_MODE_DECELERATE = enums.ELM_TRANSIT_TWEEN_MODE_DECELERATE
 ELM_TRANSIT_TWEEN_MODE_ACCELERATE = enums.ELM_TRANSIT_TWEEN_MODE_ACCELERATE
 
 
-cdef void elm_transit_del_cb(void *data, Elm_Transit *transit):
+cdef void elm_transit_del_cb(void *data, Elm_Transit *transit) with gil:
     cdef:
-        Transit trans = <object>data
-        tuple args = trans.del_cb_args
-        dict kwargs = trans.del_cb_kwargs
+        Transit trans
+        tuple args
+        dict kwargs
+
+    if data != NULL:
+        trans = <Transit?>data
+        args = trans.del_cb_args
+        kwargs = trans.del_cb_kwargs
 
     trans.del_cb(trans, *args, **kwargs)
 
@@ -199,6 +204,7 @@ cdef class Transit(object):
 
         """
         self.obj = elm_transit_add()
+        Py_INCREF(self)
 
     def delete(self):
         """delete()
@@ -371,6 +377,7 @@ cdef class Transit(object):
         if not callable(func):
             raise TypeError("func is not callable.")
 
+        self.del_cb = func
         self.del_cb_args = args
         self.del_cb_kwargs = kwargs
 

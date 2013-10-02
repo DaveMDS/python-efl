@@ -21,7 +21,7 @@ from cpython cimport PyUnicode_AsUTF8String
 
 from efl.c_eo cimport Eo as cEo
 from efl.eo cimport Eo, object_from_instance
-from efl.eina cimport eina_list_append
+from efl.eina cimport eina_list_append, eina_stringshare_add
 
 cdef unicode _touni(char* s):
     """
@@ -108,7 +108,7 @@ cdef Eina_List *python_list_strings_to_eina_list(list strings):
     cdef Eina_List *lst = NULL
     for s in strings:
         if isinstance(s, unicode): s = PyUnicode_AsUTF8String(s)
-        lst = eina_list_append(lst, strdup(s))
+        lst = eina_list_append(lst, eina_stringshare_add(s))
     return lst
 
 
