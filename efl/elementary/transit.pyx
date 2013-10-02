@@ -164,6 +164,7 @@ ELM_TRANSIT_TWEEN_MODE_SINUSOIDAL = enums.ELM_TRANSIT_TWEEN_MODE_SINUSOIDAL
 ELM_TRANSIT_TWEEN_MODE_DECELERATE = enums.ELM_TRANSIT_TWEEN_MODE_DECELERATE
 ELM_TRANSIT_TWEEN_MODE_ACCELERATE = enums.ELM_TRANSIT_TWEEN_MODE_ACCELERATE
 
+import traceback
 
 cdef void elm_transit_del_cb(void *data, Elm_Transit *transit) with gil:
     cdef:
@@ -171,12 +172,19 @@ cdef void elm_transit_del_cb(void *data, Elm_Transit *transit) with gil:
         tuple args
         dict kwargs
 
-    if data != NULL:
-        trans = <Transit?>data
-        args = trans.del_cb_args
-        kwargs = trans.del_cb_kwargs
+    assert data != NULL, "Failed to call Transit del_cb because data is NULL"
 
-    trans.del_cb(trans, *args, **kwargs)
+    trans = <Transit?>data
+    args = trans.del_cb_args
+    kwargs = trans.del_cb_kwargs
+
+    try:
+        trans.del_cb(trans, *args, **kwargs)
+    except:
+        traceback.print_exc()
+
+    trans.obj = NULL
+    Py_DECREF(trans)
 
 cdef class Transit(object):
 
