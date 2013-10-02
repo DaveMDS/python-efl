@@ -5,7 +5,7 @@ from efl.elementary.image import Image
 from efl.elementary.transit import Transit, ELM_TRANSIT_EFFECT_WIPE_TYPE_HIDE, \
     ELM_TRANSIT_EFFECT_WIPE_DIR_RIGHT, ELM_TRANSIT_EFFECT_FLIP_AXIS_X, \
     ELM_TRANSIT_EFFECT_FLIP_AXIS_Y, ELM_TRANSIT_TWEEN_MODE_ACCELERATE, \
-    ELM_TRANSIT_TWEEN_MODE_DECELERATE
+    ELM_TRANSIT_TWEEN_MODE_DECELERATE, TransitCustomEffect
 from efl.elementary.box import Box
 from efl.elementary.frame import Frame
 from efl.elementary.label import Label
@@ -14,43 +14,33 @@ from efl.elementary.list import List
 from efl.evas import EVAS_HINT_EXPAND, EVAS_HINT_FILL, EVAS_ASPECT_CONTROL_VERTICAL
 
 
-# class Custom_Effect:
-#     _size.fr.w
-#     _size.fr.h
-#     _size.to.w
-#     _size.to.h
+class CustomEffect(TransitCustomEffect):
+    def __init__(self, from_w, from_h, to_w, to_h):
+        self.fr_w = from_w
+        self.fr_h = from_h
+        self.to_w = to_w - from_w
+        self.to_h = to_h - from_h
 
-# def custom_op(effect, transit, progress):
-#     if not effect: return
-#     elist = []
+    def transition_cb(effect, transit, progress):
+        if not effect: return
+        elist = []
 
-#     custom_effect = effect
-#     objs = transit.objects
+        custom_effect = effect
+        objs = transit.objects
 
-#     if progress < 0.5:
-#         h = custom_effect.fr.h + (custom_effect.to.h * progress * 2)
-#         w = custom_effect.fr.w
-#     else:
-#         h = custom_effect.fr.h + custom_effect.to.h
-#         w = custom_effect.fr.w + \
-#             (custom_effect.to.w * (progress - 0.5) * 2)
+        if progress < 0.5:
+            h = custom_effect.fr_h + (custom_effect.to_h * progress * 2)
+            w = custom_effect.fr_w
+        else:
+            h = custom_effect.fr_h + custom_effect.to_h
+            w = custom_effect.fr_w + \
+                (custom_effect.to_w * (progress - 0.5) * 2)
 
-#     for obj in objs:
-#         obj.resize(w, h)
+        for obj in objs:
+            obj.resize(w, h)
 
-# def custom_context_new(Evas_Coord from_w, Evas_Coord from_h, Evas_Coord to_w, Evas_Coord to_h):
-#     custom_effect = Custom_Effect()
-
-#     custom_effect.fr.w = from_w
-#     custom_effect.fr.h = from_h
-#     custom_effect.to.w = to_w - from_w
-#     custom_effect.to.h = to_h - from_h
-
-#     return custom_effect
-
-# def custom_context_free(Elm_Transit_Effect *effect, Elm_Transit *transit __UNUSED__):
-#     Custom_Effect *custom_effect = effect
-#     free(custom_effect)
+    def end_cb(effect, transit):
+        print("Effect done")
 
 def transit_rotation_translation_color(obj):
     trans = Transit()
@@ -348,31 +338,29 @@ def transit7_clicked(obj, item=None):
     bt2.callback_clicked_add(transit_resizable_flip, bt)
 
 # Custom Effect
-# def transit8_clicked(obj, item=None):
-#     Elm_Transit_Effect *effect_context
+def transit8_clicked(obj, item=None):
+    win = StandardWindow("transit8", "Transit 8")
+    win.autodel = True
 
-#     win = StandardWindow("transit8", "Transit 8")
-#     win.autodel = True
+    bt = Button(win)
+    bt.text = "Button - Custom Effect"
+    bt.show()
+    bt.move(50, 50)
+    bt.resize(150, 150)
 
-#     bt = Button(win)
-#     bt.text = "Button - Custom Effect"
-#     bt.show()
-#     bt.move(50, 50)
-#     bt.resize(150, 150)
+    # Adding Transit
+    trans = Transit()
+    trans.auto_reverse = True
+    trans.tween_mode = ELM_TRANSIT_TWEEN_MODE_DECELERATE
+    #effect_context = _custom_context_new(150, 150, 50, 50)
+    trans.object_add(bt)
+    trans.effect_add(CustomEffect(150, 150, 50, 50))
+    trans.duration = 5.0
+    trans.repeat_times = -1
+    trans.go()
 
-#     # Adding Transit
-#     trans = Transit()
-#     trans.auto_reverse = True
-#     trans.tween_mode = ELM_TRANSIT_TWEEN_MODE_DECELERATE
-#     effect_context = _custom_context_new(150, 150, 50, 50)
-#     trans.object_add(bt)
-#     trans.effect_add(trans, _custom_op, effect_context, _custom_context_free)
-#     trans.duration = 5.0
-#     trans.repeat_times = -1
-#     trans.go()
-
-#     win.resize(400, 400)
-#     win.show()
+    win.resize(400, 400)
+    win.show()
 
 # Chain Transit Effect
 def transit9_clicked(obj, item=None):
@@ -468,7 +456,7 @@ if __name__ == "__main__":
         ("Transit Blend", transit5_clicked),
         ("Transit Fade", transit6_clicked),
         ("Transit Resizable", transit7_clicked),
-        #("Transit Custom", transit8_clicked),
+        ("Transit Custom", transit8_clicked),
         ("Transit Chain", transit9_clicked),
     ]
 

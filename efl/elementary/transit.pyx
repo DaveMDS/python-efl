@@ -166,6 +166,61 @@ ELM_TRANSIT_TWEEN_MODE_ACCELERATE = enums.ELM_TRANSIT_TWEEN_MODE_ACCELERATE
 
 import traceback
 
+cdef class TransitCustomEffect:
+    """
+
+    A prototype class for a Transit widgets custom effect.
+
+    Inherit this class and override methods to create your custom effect.
+
+    """
+    cdef Transit transit
+
+    def __cinit__(self):
+        Py_INCREF(self)
+
+    def transition_cb(self, transit, progress):
+        """transition_cb(Transit transit, float progress)
+
+        A callback method that must be overridden to implement the
+        effect.
+
+        Called in a loop until the effect is finished.
+
+        """
+        pass
+
+    def end_cb(self, transit):
+        """end_cb(Transit transit)
+
+        A callback method that can be overridden, called when the effect
+        is deleted.
+
+        """
+        pass
+
+cdef void elm_transit_effect_transition_cb(Elm_Transit_Effect *effect, Elm_Transit *transit, double progress) with gil:
+    cdef:
+        TransitCustomEffect fect = <TransitCustomEffect?>effect
+        Transit tsit = fect.transit
+
+    try:
+        fect.transition_cb(tsit, progress)
+    except:
+        traceback.print_exc()
+
+cdef void elm_transit_effect_end_cb(Elm_Transit_Effect *effect, Elm_Transit *transit) with gil:
+    cdef:
+        TransitCustomEffect fect = <TransitCustomEffect?>effect
+        Transit tsit = fect.transit
+
+    try:
+        fect.end_cb(tsit)
+    except:
+        traceback.print_exc()
+
+    Py_DECREF(fect)
+
 cdef void elm_transit_del_cb(void *data, Elm_Transit *transit) with gil:
     cdef:
         Transit trans
@@ -230,8 +285,11 @@ cdef class Transit(object):
         """
         elm_transit_del(self.obj)
 
-    #def effect_add(self, Elm_Transit_Effect_Transition_Cb transition_cb, effect, Elm_Transit_Effect_End_Cb end_cb):
-        """Add a new effect to the transit.
+    # TODO: Fix the documentation
+    def effect_add(self, TransitCustomEffect effect):
+        """effect_add(TransitCustomEffect effect)
+
+        Add a new effect to the transit.
 
         Example::
 
@@ -250,21 +308,19 @@ cdef class Transit(object):
             effect list become empty again, the ``transit`` will be killed by
             elm_transit_del(transit) function.
 
-        :param transition_cb: The operation function. It is called when the
-            animation begins, it is the function that actually performs the
-            animation. It is called with the ``data``, ``transit`` and the time
-            progression of the animation (a double value between 0.0 and
-            1.0).
         :param effect: The context data of the effect.
-        :param end_cb: The function to free the context data, it will be
-            called at the end of the effect, it must finalize the animation
-            and free the ``data``.
 
         """
-        #elm_transit_effect_add(self.obj, transition_cb, effect, end_cb)
+        effect.transit = self
+        elm_transit_effect_add(self.obj,
+            elm_transit_effect_transition_cb,
+            <void *>effect,
+            elm_transit_effect_end_cb)
 
-    #def effect_del(self, Elm_Transit_Effect_Transition_Cb transition_cb, effect):
-        """Delete an added effect.
+    def effect_del(self, TransitCustomEffect effect):
+        """effect_del(TransitCustomEffect effect)
+
+        Delete an added effect.
 
         This function will remove the effect from the ``transit``, calling the
         data_free_cb to free the ``data``.
@@ -275,11 +331,12 @@ cdef class Transit(object):
         .. note:: If the effect list become empty, this function will call
             elm_transit_del(transit), i.e., it will kill the ``transit``.
 
-        :param transition_cb: The operation function.
         :param effect: The context data of the effect.
 
         """
-        #elm_transit_effect_del(self.obj, transition_cb, effect)
+        elm_transit_effect_del(self.obj,
+            elm_transit_effect_transition_cb,
+            <void *>effect)
 
     def object_add(self, evasObject obj):
         """object_add(evas.Object obj)

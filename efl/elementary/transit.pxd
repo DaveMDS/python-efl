@@ -6,7 +6,7 @@ cdef extern from "Elementary.h":
 
     ctypedef struct Elm_Transit
     ctypedef Elm_Transit const_Elm_Transit "const Elm_Transit"
-    ctypedef struct Elm_Transit_Effect
+    ctypedef void Elm_Transit_Effect
 
     ctypedef void            (*Elm_Transit_Effect_Transition_Cb)(Elm_Transit_Effect *effect, Elm_Transit *transit, double progress)
     ctypedef void            (*Elm_Transit_Effect_End_Cb)   (Elm_Transit_Effect *effect, Elm_Transit *transit)
@@ -14,8 +14,8 @@ cdef extern from "Elementary.h":
 
     Elm_Transit             *elm_transit_add()
     void                     elm_transit_del(Elm_Transit *transit)
-    # TODO: void                     elm_transit_effect_add(Elm_Transit *transit, Elm_Transit_Effect_Transition_Cb transition_cb, Elm_Transit_Effect *effect, Elm_Transit_Effect_End_Cb end_cb)
-    # TODO: void                     elm_transit_effect_del(Elm_Transit *transit, Elm_Transit_Effect_Transition_Cb transition_cb, Elm_Transit_Effect *effect)
+    void                     elm_transit_effect_add(Elm_Transit *transit, Elm_Transit_Effect_Transition_Cb transition_cb, Elm_Transit_Effect *effect, Elm_Transit_Effect_End_Cb end_cb)
+    void                     elm_transit_effect_del(Elm_Transit *transit, Elm_Transit_Effect_Transition_Cb transition_cb, Elm_Transit_Effect *effect)
     void                     elm_transit_object_add(Elm_Transit *transit, Evas_Object *obj)
     void                     elm_transit_object_remove(Elm_Transit *transit, Evas_Object *obj)
     const_Eina_List         *elm_transit_objects_get(Elm_Transit *transit)
