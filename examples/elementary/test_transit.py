@@ -22,21 +22,15 @@ class CustomEffect(TransitCustomEffect):
         self.to_h = to_h - from_h
 
     def transition_cb(effect, transit, progress):
-        if not effect: return
-        elist = []
-
-        custom_effect = effect
-        objs = transit.objects
-
         if progress < 0.5:
-            h = custom_effect.fr_h + (custom_effect.to_h * progress * 2)
-            w = custom_effect.fr_w
+            h = effect.fr_h + (effect.to_h * progress * 2)
+            w = effect.fr_w
         else:
-            h = custom_effect.fr_h + custom_effect.to_h
-            w = custom_effect.fr_w + \
-                (custom_effect.to_w * (progress - 0.5) * 2)
+            h = effect.fr_h + effect.to_h
+            w = effect.fr_w + \
+                (effect.to_w * (progress - 0.5) * 2)
 
-        for obj in objs:
+        for obj in transit.objects:
             obj.resize(w, h)
 
     def end_cb(effect, transit):
@@ -352,7 +346,6 @@ def transit8_clicked(obj, item=None):
     trans = Transit()
     trans.auto_reverse = True
     trans.tween_mode = ELM_TRANSIT_TWEEN_MODE_DECELERATE
-    #effect_context = _custom_context_new(150, 150, 50, 50)
     trans.object_add(bt)
     trans.effect_add(CustomEffect(150, 150, 50, 50))
     trans.duration = 5.0

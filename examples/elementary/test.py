@@ -65,6 +65,7 @@ items = [
             ("Transit Blend", "test_transit", "transit5_clicked"),
             ("Transit Fade", "test_transit", "transit6_clicked"),
             ("Transit Resizable", "test_transit", "transit7_clicked"),
+            ("Transit Custom", "test_transit", "transit8_clicked"),
             ("Transit Chain", "test_transit", "transit9_clicked"),
         ]),
          ("Entries", [
@@ -180,7 +181,7 @@ items = [
 
 
 def selected_cb(o, mod, func):
-   exec("from " +mod + " import " + func + "\n" + func + "(o)")
+   exec("from {0} import {1}; {1}(o)".format(mod, func))
 
 def menu_create(search, win):
     tbx.clear()
