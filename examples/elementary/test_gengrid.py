@@ -52,7 +52,7 @@ def gg_clicked_double(gg, ggi, *args, **kwargs):
 def gengrid_clicked(obj):
 
     global item_count
-    item_count = 5#25
+    item_count = 25
 
     # window
     win = Window("gengrid", elementary.ELM_WIN_BASIC)

@@ -359,7 +359,13 @@ cdef void _py_elm_gengrid_object_item_del(void *data, Evas_Object *obj) with gil
     Py_DECREF(item)
 
 cdef void _py_elm_gengrid_item_func(void *data, Evas_Object *obj, void *event_info) with gil:
-    cdef GengridItem item = <object>data
+    cdef GengridItem item
+
+    print("in item_cb")
+
+    assert data != NULL, "data is NULL in Gengrid select cb"
+
+    item = <GengridItem?>data
 
     if item.cb_func is not None:
         try:
@@ -622,13 +628,15 @@ cdef class GengridItem(ObjectItem):
         Append a new item (add as last item) to this gengrid.
 
         """
-        cdef Elm_Object_Item *item
-        cdef Evas_Smart_Cb cb
+        cdef:
+            Elm_Object_Item *item
+            Evas_Smart_Cb cb = NULL
 
         if self.cb_func is not None:
             cb = _py_elm_gengrid_item_func
 
-        item = elm_gengrid_item_append(gengrid.obj, &self.cls.obj, <void*>self,
+        item = elm_gengrid_item_append(gengrid.obj,
+            &self.cls.obj, <void*>self,
             cb, <void*>self)
 
         if item != NULL:
@@ -636,6 +644,7 @@ cdef class GengridItem(ObjectItem):
             return self
         else:
             Py_DECREF(self)
+            return None
 
     def prepend_to(self, Gengrid gengrid not None):
         """item_prepend(Gengrid gengrid) -> GengridItem
@@ -643,8 +652,9 @@ cdef class GengridItem(ObjectItem):
         Prepend a new item (add as first item) to this gengrid.
 
         """
-        cdef Elm_Object_Item *item
-        cdef Evas_Smart_Cb cb
+        cdef:
+            Elm_Object_Item *item
+            Evas_Smart_Cb cb = NULL
 
         if self.cb_func is not None:
             cb = _py_elm_gengrid_item_func
@@ -657,6 +667,7 @@ cdef class GengridItem(ObjectItem):
             return self
         else:
             Py_DECREF(self)
+            return None
 
     def insert_before(self, GengridItem before not None):
         """insert_before(GengridItem before not None) -> GengridItem
@@ -667,9 +678,10 @@ cdef class GengridItem(ObjectItem):
             will be inserted before it.
 
         """
-        cdef Elm_Object_Item *item
-        cdef Evas_Smart_Cb cb
-        cdef Gengrid gengrid = before.widget
+        cdef:
+            Elm_Object_Item *item
+            Evas_Smart_Cb cb = NULL
+            Gengrid gengrid = before.widget
 
         if self.cb_func is not None:
             cb = _py_elm_gengrid_item_func
@@ -682,6 +694,7 @@ cdef class GengridItem(ObjectItem):
             return self
         else:
             Py_DECREF(self)
+            return None
 
     def insert_after(self, GengridItem after not None):
         """insert_after(GengridItem after not None) -> GengridItem
@@ -692,9 +705,10 @@ cdef class GengridItem(ObjectItem):
             will be inserted after it.
 
         """
-        cdef Elm_Object_Item *item
-        cdef Evas_Smart_Cb cb
-        cdef Gengrid gengrid = after.widget
+        cdef:
+            Elm_Object_Item *item
+            Evas_Smart_Cb cb = NULL
+            Gengrid gengrid = after.widget
 
         if self.cb_func is not None:
             cb = _py_elm_gengrid_item_func
@@ -707,6 +721,7 @@ cdef class GengridItem(ObjectItem):
             return self
         else:
             Py_DECREF(self)
+            return None
 
     def sorted_insert(self, Gengrid gengrid not None, compare_func not None):
         """insert_after(GengridItem after not None) -> GengridItem
@@ -717,8 +732,9 @@ cdef class GengridItem(ObjectItem):
             will be inserted after it.
 
         """
-        cdef Elm_Object_Item *item
-        cdef Evas_Smart_Cb cb
+        cdef:
+            Elm_Object_Item *item
+            Evas_Smart_Cb cb = NULL
 
         self.compare_func = compare_func
 
@@ -733,6 +749,7 @@ cdef class GengridItem(ObjectItem):
             return self
         else:
             Py_DECREF(self)
+            return None
 
 
 
