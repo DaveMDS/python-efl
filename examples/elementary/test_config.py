@@ -13,6 +13,7 @@ from efl.elementary.scroller import Scroller
 from efl.elementary.box import Box
 from efl.elementary.frame import Frame
 from efl.elementary.plug import Plug
+from efl.elementary.layout import Layout
 
 from efl.elementary.configuration import Configuration
 elm_conf = Configuration()
@@ -179,7 +180,7 @@ def inlined_add(parent):
     win.resize_object_add(bg)
     bg.show()
 
-    bx = elm_box_add(win);
+    bx = Box(win)
     bx.size_hint_weight = EVAS_HINT_EXPAND, 0.0
     bx.size_hint_align = EVAS_HINT_FILL, 0.0
     bx.show()
@@ -189,7 +190,7 @@ def inlined_add(parent):
 
     lb = LOG(win, "Profile: <b>N/A</b>")
     bx.pack_end(lb)
-    evas_object_data_set(win, "lb", lb);
+    win.data["lb"] = lb
 
     win.pos = 10, 100
     win.size = 150, 70
@@ -229,7 +230,7 @@ def socket_add(name):
 
         lb = LOG(win, "Profile: <b>N/A</b>")
         bx.pack_end(lb)
-        evas_object_data_set(win, "lb", lb)
+        win.data["lb"] = lb
 
         inlined_add(win)
 
@@ -247,7 +248,7 @@ def plug_add(win, bx, name):
         ly = Layout(win)
         ly.file = "test.edj", "win_config"
         ly.size_hint_weight = EVAS_HINT_EXPAND, EVAS_HINT_EXPAND
-        ly.size_hint_fill = EVAS_HINT_FILL, EVAS_HINT_FILL
+        ly.size_hint_align = EVAS_HINT_FILL, EVAS_HINT_FILL
         ly.show()
 
         plug.size_hint_weight = EVAS_HINT_EXPAND, EVAS_HINT_EXPAND
