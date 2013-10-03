@@ -168,15 +168,17 @@ cdef void cb_canvas_image_unloaded(void *data, Evas *e, void *e_inf) with gil:
 
 
 cdef void cb_canvas_render_pre(void *data, Evas *e, void *e_inf) with gil:
-    cdef Evas_Object *obj = <Evas_Object*>e_inf
-    o = object_from_instance(obj)
-    cb_canvas_dispatcher(<Canvas>data, o, EVAS_CALLBACK_RENDER_PRE)
+    #cdef Evas_Object *obj = <Evas_Object*>e_inf
+    #o = object_from_instance(obj)
+    #cb_canvas_dispatcher(<Canvas>data, o, EVAS_CALLBACK_RENDER_PRE)
+    cb_canvas_dispatcher2(<Canvas>data, EVAS_CALLBACK_RENDER_PRE)
 
 
 cdef void cb_canvas_render_post(void *data, Evas *e, void *e_inf) with gil:
-    cdef Evas_Object *obj = <Evas_Object*>e_inf
-    o = object_from_instance(obj)
-    cb_canvas_dispatcher(<Canvas>data, o, EVAS_CALLBACK_RENDER_POST)
+    #cdef Evas_Object *obj = <Evas_Object*>e_inf
+    #o = object_from_instance(obj)
+    #cb_canvas_dispatcher(<Canvas>data, o, EVAS_CALLBACK_RENDER_POST)
+    cb_canvas_dispatcher2(<Canvas>data, EVAS_CALLBACK_RENDER_POST)
 
 
 cdef int evas_canvas_event_callbacks_len

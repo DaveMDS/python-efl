@@ -53,12 +53,12 @@ def core_evas_canvas_callbacks_clicked(obj, item=None):
 
     canvas.event_callback_add(evas.EVAS_CALLBACK_RENDER_FLUSH_PRE, events_cb1, "EVAS_CALLBACK_RENDER_FLUSH_PRE")
     canvas.event_callback_add(evas.EVAS_CALLBACK_RENDER_FLUSH_POST, events_cb1, "EVAS_CALLBACK_RENDER_FLUSH_POST")
-    canvas.event_callback_add(evas.EVAS_CALLBACK_RENDER_PRE, events_cb2, "EVAS_CALLBACK_RENDER_PRE")
-    canvas.event_callback_add(evas.EVAS_CALLBACK_RENDER_POST, events_cb2, "EVAS_CALLBACK_RENDER_POST")
+    canvas.event_callback_add(evas.EVAS_CALLBACK_RENDER_PRE, events_cb1, "EVAS_CALLBACK_RENDER_PRE")
+    canvas.event_callback_add(evas.EVAS_CALLBACK_RENDER_POST, events_cb1, "EVAS_CALLBACK_RENDER_POST")
 
     r2 = evas.Rectangle(win.evas, size=(120,70), color=(0,100,0,100), pos=(70,70))
     r2.show()
-    
+
     hbox = Box(win)
     win.resize_object_add(hbox)
     hbox.size_hint_weight_set(evas.EVAS_HINT_EXPAND, evas.EVAS_HINT_EXPAND)

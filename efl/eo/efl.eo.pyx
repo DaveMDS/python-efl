@@ -81,6 +81,7 @@ cdef object object_from_instance(cEo *obj):
         Eo o
         const_char *cls_name
         type cls
+        void *cls_ret
 
     if obj == NULL:
         return None
@@ -95,12 +96,19 @@ cdef object object_from_instance(cEo *obj):
         raise ValueError("Eo object %#x does not have a type!" % <long>obj)
     #print("Class name: %s" % cls_name)
 
-    cls = <type>eina_hash_find(object_mapping, cls_name)
+    cls_ret = eina_hash_find(object_mapping, cls_name)
+
+    if cls_ret == NULL:
+        raise ValueError("Eo object %#x of type %s does not have a mapping!" %
+                         (<long>obj, cls_name))
+
+    cls = <type?>cls_ret
+
     if cls is None:
         raise ValueError("Eo object %#x of type %s does not have a mapping!" %
                          (<long>obj, cls_name))
 
-    #print "MAPPING OBJECT:", cls_name, "=>", cls
+    #print("MAPPING OBJECT:", cls_name, "=>", cls)
     o = cls.__new__(cls)
     o._set_obj(obj)
     return o
