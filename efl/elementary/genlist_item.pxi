@@ -3,7 +3,7 @@ cdef class GenlistItem(ObjectItem):
     """An item for the :py:class:`Genlist` widget."""
 
     cdef:
-        GenlistItemClass itc
+        readonly GenlistItemClass item_class
         Elm_Object_Item *parent_item
         int flags
         object comparison_func, item_data, func_data
@@ -46,7 +46,7 @@ cdef class GenlistItem(ObjectItem):
 
         """
 
-        self.itc = item_class
+        self.item_class = item_class
 
         self.parent_item = _object_item_from_python(parent_item) if parent_item is not None else NULL
 
@@ -76,7 +76,7 @@ cdef class GenlistItem(ObjectItem):
     def __str__(self):
         return "%s(item_class=%s, func=%s, item_data=%s)" % \
                (type(self).__name__,
-                type(self.itc).__name__,
+                type(self.item_class).__name__,
                 self.cb_func,
                 self.item_data)
 
@@ -87,7 +87,7 @@ cdef class GenlistItem(ObjectItem):
                 <unsigned long><void*>self,
                 PY_REFCOUNT(self),
                 <unsigned long>self.item,
-                type(self.itc).__name__,
+                type(self.item_class).__name__,
                 self.cb_func,
                 self.item_data)
 
@@ -109,7 +109,7 @@ cdef class GenlistItem(ObjectItem):
             cb = _py_elm_genlist_item_func
 
         item = elm_genlist_item_append(genlist.obj,
-            self.itc.cls, <void*>self,
+            self.item_class.cls, <void*>self,
             self.parent_item,
             <Elm_Genlist_Item_Type>self.flags,
             cb, <void*>self)
@@ -139,7 +139,7 @@ cdef class GenlistItem(ObjectItem):
             cb = _py_elm_genlist_item_func
 
         item = elm_genlist_item_prepend(genlist.obj,
-            self.itc.cls, <void*>self,
+            self.item_class.cls, <void*>self,
             self.parent_item,
             <Elm_Genlist_Item_Type>self.flags,
             cb,  <void*>self)
@@ -173,7 +173,7 @@ cdef class GenlistItem(ObjectItem):
         before = _object_item_from_python(before_item)
 
         item = elm_genlist_item_insert_before(genlist.obj,
-            self.itc.cls, <void*>self,
+            self.item_class.cls, <void*>self,
             self.parent_item, before,
             <Elm_Genlist_Item_Type>self.flags,
             cb, <void*>self)
@@ -207,7 +207,7 @@ cdef class GenlistItem(ObjectItem):
         after = _object_item_from_python(after_item)
 
         item = elm_genlist_item_insert_after(genlist.obj,
-            self.itc.cls, <void*>self,
+            self.item_class.cls, <void*>self,
             self.parent_item, after,
             <Elm_Genlist_Item_Type>self.flags,
             cb, <void*>self)
@@ -256,7 +256,7 @@ cdef class GenlistItem(ObjectItem):
             self.comparison_func = comparison_func
 
         item = elm_genlist_item_sorted_insert(genlist.obj,
-            self.itc.cls, <void*>self,
+            self.item_class.cls, <void*>self,
             self.parent_item,
             <Elm_Genlist_Item_Type>self.flags,
             _py_elm_genlist_compare_func,

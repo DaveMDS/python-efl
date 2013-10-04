@@ -561,7 +561,7 @@ cdef char *_py_elm_genlist_item_text_get(void *data, Evas_Object *obj, const_cha
         GenlistItem item = <GenlistItem>data
         unicode u = _ctouni(part)
 
-    func = item.itc._text_get_func
+    func = item.item_class._text_get_func
     if func is None:
         return NULL
 
@@ -584,7 +584,7 @@ cdef Evas_Object *_py_elm_genlist_item_content_get(void *data, Evas_Object *obj,
         unicode u = _ctouni(part)
         evasObject icon
 
-    func = item.itc._content_get_func
+    func = item.item_class._content_get_func
     if func is None:
         return NULL
 
@@ -610,7 +610,7 @@ cdef Eina_Bool _py_elm_genlist_item_state_get(void *data, Evas_Object *obj, cons
         GenlistItem item = <GenlistItem>data
         unicode u = _ctouni(part)
 
-    func = item.itc._state_get_func
+    func = item.item_class._state_get_func
     if func is None:
         return 0
 
@@ -629,7 +629,7 @@ cdef void _py_elm_genlist_object_item_del(void *data, Evas_Object *obj) with gil
     if item is None:
         return
 
-    func = item.itc._del_func
+    func = item.item_class._del_func
 
     if func is not None:
         try:
