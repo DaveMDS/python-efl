@@ -19,6 +19,7 @@ cdef extern from "Elementary.h":
     Elm_Object_Item         *elm_menu_item_separator_add(Evas_Object *obj, Elm_Object_Item *parent)
     Eina_Bool                elm_menu_item_is_separator(Elm_Object_Item *it)
     Eina_List               *elm_menu_item_subitems_get(Elm_Object_Item *it)
+    void                     elm_menu_item_subitems_clear(Elm_Object_Item *it)
     int                      elm_menu_item_index_get(Elm_Object_Item *it)
     Elm_Object_Item         *elm_menu_selected_item_get(Evas_Object *obj)
     Elm_Object_Item         *elm_menu_last_item_get(Evas_Object *obj)

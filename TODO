@@ -25,7 +25,7 @@ TODO
 * include python-ethumb
 * Review the internal functions and name them consistently
 * Add more documentation for the use of callbacks
-* Document our use of exceptions
+* Review and document our use of exceptions
 * update links and text on:
   http://www.freedesktop.org/wiki/Software/DBusBindings
 * Split base object defines from includes/efl.evas.pxd so that everything
@@ -34,7 +34,7 @@ TODO
 * Add more scrollables once the documentation issue (and others) is solved.
 * Review the new elm list type object item system.
 * Check for documentation changes.
-* Elm Drag-n-Drop
+* Elm Drag-n-Drop (in progress/kuuko)
 * Unit tests for elm, things like top_widget and getting child objects
   can be done easily.
 

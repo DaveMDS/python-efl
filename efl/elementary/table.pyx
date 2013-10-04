@@ -143,6 +143,19 @@ cdef class Table(Object):
         """
         elm_table_clear(self.obj, clear)
 
+    def child_get(self, int col, int row):
+        """child_get(int col, int row) -> Object
+
+        Get child object of table at given coordinates.
+
+        :param int col: Column number of child object
+        :param int row: Row number of child object
+
+        :return: Child of object if find if not return None.
+
+        """
+        return object_from_instance(elm_table_child_get(self.obj, col, row))
+
 def table_pack_set(evasObject subobj, x, y, w, h):
     """table_pack_set(evas.Object subobj, int x, int y, int w, int h)
 
@@ -185,6 +198,5 @@ def table_pack_get(evasObject subobj):
     cdef int x, y, w, h
     elm_table_pack_get(subobj.obj, &x, &y, &w, &h)
     return (x, y, w, h)
-
 
 _object_mapping_register("elm_table", Table)

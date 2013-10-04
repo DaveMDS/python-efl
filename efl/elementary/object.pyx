@@ -1468,6 +1468,36 @@ cdef class Object(evasObject):
         return _ctouni(elm_object_translatable_part_text_get(self.obj,
             <const_char *>part if part is not None else NULL))
 
+    def domain_part_text_translatable_set(self, part not None, domain not None, bint translatable):
+        """domain_part_text_translatable_set(self, part, domain, bool translatable)
+
+        Mark the part text to be translatable or not.
+
+        Once you mark the part text to be translatable, the text will be translated
+        internally regardless of elm_object_part_text_set() and
+        elm_object_domain_translatable_part_text_set(). In other case, if you set the
+        Elementary policy that all text will be translatable in default, you can set
+        the part text to not be translated by calling this API.
+
+        :param part: The part name of the translatable text
+        :param domain: The translation domain to use
+        :param translatable: ``True``, the part text will be translated
+            internally. ``False``, otherwise.
+
+        :see: elm_object_domain_translatable_part_text_set()
+        :see: elm_object_part_text_set()
+        :see: elm_policy()
+
+        :since: 1.8
+
+        """
+        if isinstance(part, unicode): part = PyUnicode_AsUTF8String(part)
+        if isinstance(domain, unicode): domain = PyUnicode_AsUTF8String(domain)
+        elm_object_domain_part_text_translatable_set(self.obj,
+            <const_char *>part,
+            <const_char *>domain,
+            translatable)
+
     property translatable_text:
         # TODO: Document this
         def __get__(self):

@@ -264,6 +264,38 @@ cdef class Spinner(LayoutClass):
         elm_spinner_special_value_add(self.obj, value,
             <const_char *>label if label is not None else NULL)
 
+    def special_value_del(self, double value):
+        """special_value_del(float value)
+
+        Delete the special string display in the place of the numerical value.
+
+        :param value: The replaced value.
+
+        It will remove a previously added special value. After this, the spinner
+        will display the value itself instead of a label.
+
+        :see: elm_spinner_special_value_add() for more details.
+
+        :since: 1.8
+
+        """
+        elm_spinner_special_value_del(self.obj, value)
+
+    def special_value_get(self, double value):
+        """special_value_get(float value) -> unicode
+
+        Get the special string display in the place of the numerical value.
+
+        :param value: The replaced value.
+        :return: The used label.
+
+        :see: elm_spinner_special_value_add() for more details.
+
+        :since: 1.8
+
+        """
+        return _ctouni(elm_spinner_special_value_get(self.obj, value))
+
     property interval:
         """The interval on time updates for an user mouse button hold
         on spinner widgets' arrows.

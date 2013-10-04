@@ -16,6 +16,8 @@ cdef extern from "Elementary.h":
     void                     elm_spinner_editable_set(Evas_Object *obj, Eina_Bool editable)
     Eina_Bool                elm_spinner_editable_get(Evas_Object *obj)
     void                     elm_spinner_special_value_add(Evas_Object *obj, double value, const_char *label)
+    void                     elm_spinner_special_value_del(Evas_Object *obj, double value)
+    const_char *             elm_spinner_special_value_get(Evas_Object *obj, double value)
     void                     elm_spinner_interval_set(Evas_Object *obj, double interval)
     double                   elm_spinner_interval_get(Evas_Object *obj)
     void                     elm_spinner_base_set(Evas_Object *obj, double base)

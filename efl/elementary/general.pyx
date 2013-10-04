@@ -50,6 +50,8 @@ Quit policy types
 from cpython cimport PyObject, Py_INCREF, Py_DECREF, PyUnicode_AsUTF8String, \
     PyMem_Malloc, PyMem_Free
 
+from efl.evas cimport Object as evasObject
+
 from efl.utils.conversions cimport _touni, _ctouni, \
     python_list_strings_to_eina_list, \
     eina_list_strings_to_python_list
@@ -396,3 +398,24 @@ def font_fontconfig_name_get(font_name, style = None):
 #     """
 #     elm_font_available_hash_del(Eina_Hash *hash)
 
+def object_tree_dump(evasObject top):
+    """object_tree_dump(Object top)
+
+    Print Tree object hierarchy in stdout
+
+    :param top: The root object
+
+    """
+    elm_object_tree_dump(top.obj)
+
+def object_tree_dot_dump(evasObject top, path):
+    """object_tree_dot_dump(Object top, unicode path)
+
+    Print Elm Objects tree hierarchy in file as dot(graphviz) syntax.
+
+    :param top: The root object
+    :param path: The path of output file
+
+    """
+    if isinstance(path, unicode): path = PyUnicode_AsUTF8String(path)
+    elm_object_tree_dot_dump(top.obj, <const_char *>path)

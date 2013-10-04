@@ -164,8 +164,14 @@ cdef class MenuItem(ObjectItem):
         def __get__(self):
             return _object_item_list_to_python(elm_menu_item_subitems_get(self.item))
 
+        def __del__(self):
+            elm_menu_item_subitems_clear(self.item)
+
     def subitems_get(self):
         return _object_item_list_to_python(elm_menu_item_subitems_get(self.item))
+
+    def subitems_clear(self):
+        elm_menu_item_subitems_clear(self.item)
 
     property index:
         """Get the position of a menu item

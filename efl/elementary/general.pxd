@@ -119,3 +119,7 @@ cdef extern from "Elementary.h":
     void                    elm_font_fontconfig_name_free(char *name)
     # TODO: Eina_Hash *             elm_font_available_hash_add(Eina_List *list)
     # TODO: void                    elm_font_available_hash_del(Eina_Hash *hash)
+
+    # Debug
+    void elm_object_tree_dump(const_Evas_Object *top)
+    void elm_object_tree_dot_dump(const_Evas_Object *top, const_char *file)

@@ -653,7 +653,7 @@ cdef class FilterAcceptSet(object):
         def __get__(self):
             return _ctouni(self.fltr.rejected)
 
-cdef void entry_filter_cb(void *data, Evas_Object *entry, char **text):
+cdef void py_elm_entry_filter_cb(void *data, Evas_Object *entry, char **text) with gil:
     """This callback type is used by entry filters to modify text.
 
     :param data: The data specified as the last param when adding the filter
@@ -672,7 +672,10 @@ cdef void entry_filter_cb(void *data, Evas_Object *entry, char **text):
     except:
         traceback.print_exc()
 
-    # TODO: replace text with returned value
+    if ret is None:
+        return
+
+    # TODO: text[0] = <char *>ret
 
 class EntryAnchorInfo(object):
     """
@@ -1343,52 +1346,53 @@ cdef class Entry(Object):
     #     """
     #     elm_entry_item_provider_remove(self.obj, Elm_Entry_Item_Provider_Cb func, void *data)
 
-    # TODO:
-    # def markup_filter_append(self, func, data):
-    #     """Append a markup filter function for text inserted in the entry
+    def markup_filter_append(self, func, data):
+        """Append a markup filter function for text inserted in the entry
 
-    #     Append the given callback to the list. This functions will be called
-    #     whenever any text is inserted into the entry, with the text to be inserted
-    #     as a parameter. The type of given text is always markup.
-    #     The callback function is free to alter the text in any way it wants, but
-    #     it must remember to free the given pointer and update it.
-    #     If the new text is to be discarded, the function can free it and set its
-    #     text parameter to NULL. This will also prevent any following filters from
-    #     being called.
+        Append the given callback to the list. This functions will be called
+        whenever any text is inserted into the entry, with the text to be inserted
+        as a parameter. The type of given text is always markup.
+        The callback function is free to alter the text in any way it wants, but
+        it must remember to free the given pointer and update it.
+        If the new text is to be discarded, the function can free it and set its
+        text parameter to NULL. This will also prevent any following filters from
+        being called.
 
-    #     :param func: The function to use as text filter
-    #     :param data: User data to pass to ``func``
+        :param func: The function to use as text filter
+        :param data: User data to pass to ``func``
 
-    #     """
-    #     cb_data = (func, data)
-    #     Py_INCREF(cb_data)
-    #     elm_entry_markup_filter_append(self.obj, entry_filter_cb, <void *>cb_data)
+        """
+        cb_data = (func, data)
+        Py_INCREF(cb_data)
+        elm_entry_markup_filter_append(self.obj, py_elm_entry_filter_cb, <void *>cb_data)
 
-    # TODO:
-    # def markup_filter_prepend(self, func, data):
-    #     """Prepend a markup filter function for text inserted in the entry
+    def markup_filter_prepend(self, func, data):
+        """Prepend a markup filter function for text inserted in the entry
 
-    #     Prepend the given callback to the list. See elm_entry_markup_filter_append()
-    #     for more information
+        Prepend the given callback to the list. See elm_entry_markup_filter_append()
+        for more information
 
-    #     :param func: The function to use as text filter
-    #     :param data: User data to pass to ``func``
+        :param func: The function to use as text filter
+        :param data: User data to pass to ``func``
 
-    #     """
-    #     elm_entry_markup_filter_prepend(self.obj, Elm_Entry_Filter_Cb func, void *data)
+        """
+        cb_data = (func, data)
+        Py_INCREF(cb_data)
+        elm_entry_markup_filter_prepend(self.obj, py_elm_entry_filter_cb, <void *>cb_data)
 
-    # TODO:
-    # def markup_filter_remove(self, func, data):
-    #     """Remove a markup filter from the list
+    def markup_filter_remove(self, func, data):
+        """Remove a markup filter from the list
 
-    #     Removes the given callback from the filter list. See
-    #     elm_entry_markup_filter_append() for more information.
+        Removes the given callback from the filter list. See
+        elm_entry_markup_filter_append() for more information.
 
-    #     :param func: The filter function to remove
-    #     :param data: The user data passed when adding the function
+        :param func: The filter function to remove
+        :param data: The user data passed when adding the function
 
-    #     """
-    #     elm_entry_markup_filter_remove(self.obj, Elm_Entry_Filter_Cb func, void *data)
+        """
+        cb_data = (func, data)
+        Py_INCREF(cb_data)
+        elm_entry_markup_filter_remove(self.obj, py_elm_entry_filter_cb, <void *>cb_data)
 
     markup_to_utf8 = staticmethod(Entry_markup_to_utf8)
 

@@ -1,4 +1,5 @@
-from efl.evas cimport Eina_Bool, Evas_Object, Evas_Coord
+from efl.evas cimport Eina_Bool, Evas_Object, const_Evas_Object, \
+    Evas_Coord
 
 cdef extern from "Elementary.h":
     Evas_Object             *elm_table_add(Evas_Object *parent)
@@ -11,3 +12,4 @@ cdef extern from "Elementary.h":
     void                     elm_table_clear(Evas_Object *obj, Eina_Bool clear)
     void                     elm_table_pack_set(Evas_Object *subobj, int x, int y, int w, int h)
     void                     elm_table_pack_get(Evas_Object *subobj, int *x, int *y, int *w, int *h)
+    Evas_Object             *elm_table_child_get(const_Evas_Object *obj, int col, int row)

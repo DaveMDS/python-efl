@@ -150,6 +150,7 @@ cdef extern from "Elementary.h":
     void                    elm_object_translatable_text_set(Evas_Object *obj, const_char *text)
     const_char *            elm_object_translatable_part_text_get(const_Evas_Object *obj, const_char *part)
     const_char *            elm_object_translatable_text_get(Evas_Object *obj)
+    void                    elm_object_domain_part_text_translatable_set(Evas_Object *obj, const_char *part, const_char *domain, Eina_Bool translatable)
 
     # TODO: CnP
     Eina_Bool               elm_cnp_selection_set(Evas_Object *obj, Elm_Sel_Type selection, Elm_Sel_Format format, const_void *buf, size_t buflen)

@@ -148,6 +148,9 @@ def scrolled_anchor_test(obj, anchor, data):
     en = data
     en.entry_insert("ANCHOR CLICKED")
 
+def my_filter(obj, text, data):
+    print(text, data)
+
 def entry_scrolled_clicked(obj, item = None):
     #static Elm_Entry_Filter_Accept_Set digits_filter_data, digits_filter_data2;
     #static Elm_Entry_Filter_Limit_Size limit_filter_data, limit_filter_data2;
@@ -219,6 +222,19 @@ def entry_scrolled_clicked(obj, item = None):
     en.select_all()
     en.show()
     bx.pack_end(en)
+
+    # Filter test
+    en = Entry(win)
+    en.scrollable = True
+    en.size_hint_weight = EVAS_HINT_EXPAND, 0.0
+    en.size_hint_align = EVAS_HINT_FILL, 0.5
+    en.text = "Filter test"
+    en.scrollbar_policy = ELM_SCROLLER_POLICY_OFF, ELM_SCROLLER_POLICY_OFF
+    en.single_line = True
+    en.show()
+    bx.pack_end(en)
+
+    en.markup_filter_append(my_filter, "test")
 
     # # Only digits entry
     # en = Entry(win)

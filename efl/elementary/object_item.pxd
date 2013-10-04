@@ -23,6 +23,7 @@ cdef extern from "Elementary.h":
     const_char *    elm_object_item_text_get(Elm_Object_Item *item)
     void            elm_object_item_domain_translatable_part_text_set(Elm_Object_Item *it, const_char *part, const_char *domain, const_char *text)
     const_char *    elm_object_item_translatable_part_text_get(const_Elm_Object_Item *it, const_char *part)
+    void            elm_object_item_domain_part_text_translatable_set(Elm_Object_Item *it, const_char *part, const_char *domain, Eina_Bool translatable)
 
     void            elm_object_item_access_info_set(Elm_Object_Item *it, const_char *txt)
     void *          elm_object_item_data_get(Elm_Object_Item *item)
