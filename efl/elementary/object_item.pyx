@@ -16,15 +16,73 @@
 # along with this Python-EFL.  If not, see <http://www.gnu.org/licenses/>.
 
 
-include "widget_header.pxi"
+from efl.evas cimport Evas_Object, const_Evas_Object, \
+    Object as evasObject
+from efl.eo cimport object_from_instance, _object_mapping_register
+from efl.utils.conversions cimport _ctouni, _touni
+
+from object cimport Object
+
 include "tooltips.pxi"
+
+from libc.string cimport const_char
+from cpython cimport PyUnicode_AsUTF8String, Py_DECREF, Py_INCREF
+from efl.eo cimport PY_REFCOUNT
+
+cdef extern from "Elementary.h":
+
+    ctypedef Evas_Object    *(*Elm_Tooltip_Content_Cb)      (void *data, Evas_Object *obj, Evas_Object *tooltip)
+    ctypedef Evas_Object    *(*Elm_Tooltip_Item_Content_Cb) (void *data, Evas_Object *obj, Evas_Object *tooltip, void *item)
+
+    void            elm_object_item_part_content_set(Elm_Object_Item *it, const_char *part, Evas_Object* content)
+    void            elm_object_item_content_set(Elm_Object_Item *it, Evas_Object* content)
+    Evas_Object *   elm_object_item_part_content_get(Elm_Object_Item *it, const_char *part)
+    Evas_Object *   elm_object_item_content_get(Elm_Object_Item *it)
+    Evas_Object *   elm_object_item_part_content_unset(Elm_Object_Item *it, const_char *part)
+    Evas_Object *   elm_object_item_content_unset(Elm_Object_Item *it)
+    void            elm_object_item_part_text_set(Elm_Object_Item *item, const_char *part, const_char *label)
+    void            elm_object_item_text_set(Elm_Object_Item *item, const_char *label)
+    const_char *    elm_object_item_part_text_get(Elm_Object_Item *item, const_char *part)
+    const_char *    elm_object_item_text_get(Elm_Object_Item *item)
+    void            elm_object_item_domain_translatable_part_text_set(Elm_Object_Item *it, const_char *part, const_char *domain, const_char *text)
+    const_char *    elm_object_item_translatable_part_text_get(const_Elm_Object_Item *it, const_char *part)
+    void            elm_object_item_domain_part_text_translatable_set(Elm_Object_Item *it, const_char *part, const_char *domain, Eina_Bool translatable)
+
+    void            elm_object_item_access_info_set(Elm_Object_Item *it, const_char *txt)
+    void            elm_object_item_signal_emit(Elm_Object_Item *it, const_char *emission, const_char *source)
+    void            elm_object_item_disabled_set(Elm_Object_Item *it, Eina_Bool disabled)
+    Eina_Bool       elm_object_item_disabled_get(Elm_Object_Item *it)
+    void            elm_object_item_del_cb_set(Elm_Object_Item *it, Evas_Smart_Cb del_cb)
+    void            elm_object_item_del(Elm_Object_Item *item)
+    void            elm_object_item_tooltip_text_set(Elm_Object_Item *it, const_char *text)
+    Eina_Bool       elm_object_item_tooltip_window_mode_set(Elm_Object_Item *it, Eina_Bool disable)
+    Eina_Bool       elm_object_item_tooltip_window_mode_get(Elm_Object_Item *it)
+    void            elm_object_item_tooltip_content_cb_set(Elm_Object_Item *it, Elm_Tooltip_Item_Content_Cb func, void *data, Evas_Smart_Cb del_cb)
+    void            elm_object_item_tooltip_unset(Elm_Object_Item *it)
+    void            elm_object_item_tooltip_style_set(Elm_Object_Item *it, const_char *style)
+    const_char *    elm_object_item_tooltip_style_get(Elm_Object_Item *it)
+    void            elm_object_item_cursor_set(Elm_Object_Item *it, const_char *cursor)
+    const_char *    elm_object_item_cursor_get(Elm_Object_Item *it)
+    void            elm_object_item_cursor_unset(Elm_Object_Item *it)
+    void            elm_object_item_cursor_style_set(Elm_Object_Item *it, const_char *style)
+    const_char *    elm_object_item_cursor_style_get(Elm_Object_Item *it)
+    void            elm_object_item_cursor_engine_only_set(Elm_Object_Item *it, Eina_Bool engine_only)
+    Eina_Bool       elm_object_item_cursor_engine_only_get(Elm_Object_Item *it)
+
+    Evas_Object *   elm_object_item_access_register(Elm_Object_Item *item)
+    void            elm_object_item_access_unregister(Elm_Object_Item *item)
+    Evas_Object *   elm_object_item_access_object_get(const_Elm_Object_Item *item)
+    void            elm_object_item_access_order_set(Elm_Object_Item *item, Eina_List *objs)
+    const_Eina_List *elm_object_item_access_order_get(const_Elm_Object_Item *item)
+    void            elm_object_item_access_order_unset(Elm_Object_Item *item)
+
 
 # cdef void _tooltip_item_data_del_cb(void *data, Evas_Object *o, void *event_info) with gil:
 #    Py_DECREF(<object>data)
 
 from efl.utils.conversions cimport python_list_objects_to_eina_list, \
     eina_list_objects_to_python_list
-from object cimport Object
+
 import traceback
 
 cdef class ObjectItem

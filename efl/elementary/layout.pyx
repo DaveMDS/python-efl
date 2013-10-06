@@ -136,7 +136,24 @@ This widget emits the following signals:
 
 """
 
-include "widget_header.pxi"
+from efl.evas cimport Evas_Object, const_Evas_Object, \
+    Object as evasObject
+from efl.eo cimport object_from_instance, _object_mapping_register
+from efl.utils.conversions cimport _ctouni, _touni
+
+from object cimport Object
+
+from efl.evas cimport Eina_Bool
+from libc.string cimport const_char
+from cpython cimport PyUnicode_AsUTF8String
+
+cdef extern from "Elementary.h":
+    Evas_Object *   elm_layout_add(Evas_Object *parent)
+    Eina_Bool       elm_layout_content_set(Evas_Object *obj, const_char *swallow, Evas_Object *content)
+    Evas_Object *   elm_layout_content_get(Evas_Object *obj, const_char *swallow)
+    Evas_Object *   elm_layout_content_unset(Evas_Object *obj, const_char *swallow)
+    Eina_Bool       elm_layout_text_set(Evas_Object *obj, const_char *part, const_char *text)
+    const_char *    elm_layout_text_get(Evas_Object *obj, const_char *part)
 
 from layout_class cimport LayoutClass
 

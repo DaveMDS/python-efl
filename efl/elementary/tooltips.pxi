@@ -16,6 +16,7 @@
 # along with python-elementary.  If not, see <http://www.gnu.org/licenses/>.
 #
 
+from cpython cimport Py_DECREF
 from efl.eo cimport object_from_instance
 from object_item cimport ObjectItem, _object_item_to_python, Elm_Object_Item
 

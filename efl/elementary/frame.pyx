@@ -53,7 +53,22 @@ Default text parts of the frame widget that you can use for are:
 
 """
 
-include "widget_header.pxi"
+from efl.evas cimport Evas_Object, const_Evas_Object, \
+    Object as evasObject
+from efl.eo cimport object_from_instance, _object_mapping_register
+from efl.utils.conversions cimport _ctouni, _touni
+
+from object cimport Object
+
+from efl.evas cimport Eina_Bool
+
+cdef extern from "Elementary.h":
+    Evas_Object             *elm_frame_add(Evas_Object *parent)
+    void                     elm_frame_autocollapse_set(Evas_Object *obj, Eina_Bool autocollapse)
+    Eina_Bool                elm_frame_autocollapse_get(Evas_Object *obj)
+    void                     elm_frame_collapse_set(Evas_Object *obj, Eina_Bool collapse)
+    Eina_Bool                elm_frame_collapse_get(Evas_Object *obj)
+    void                     elm_frame_collapse_go(Evas_Object *obj, Eina_Bool collapse)
 
 from layout_class cimport LayoutClass
 

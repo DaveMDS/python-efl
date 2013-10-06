@@ -89,7 +89,19 @@ Bubble arrow positions
 
 """
 
-include "widget_header.pxi"
+from efl.evas cimport Evas_Object, const_Evas_Object, \
+    Object as evasObject
+from efl.eo cimport object_from_instance, _object_mapping_register
+from efl.utils.conversions cimport _ctouni, _touni
+
+from object cimport Object
+
+from enums cimport Elm_Bubble_Pos
+
+cdef extern from "Elementary.h":
+    Evas_Object             *elm_bubble_add(Evas_Object *parent)
+    void                     elm_bubble_pos_set(Evas_Object *obj, Elm_Bubble_Pos pos)
+    Elm_Bubble_Pos           elm_bubble_pos_get(Evas_Object *obj)
 
 from layout_class cimport LayoutClass
 

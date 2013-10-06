@@ -41,9 +41,26 @@ Signals that you can add callbacks for are:
 
 """
 
-include "widget_header.pxi"
+from efl.evas cimport Evas_Object, const_Evas_Object, \
+    Object as evasObject
+from efl.eo cimport object_from_instance, _object_mapping_register
+from efl.utils.conversions cimport _ctouni, _touni
 
 from object cimport Object
+
+from efl.evas cimport Eina_Bool, Evas_Object
+from libc.string cimport const_char
+from cpython cimport PyUnicode_AsUTF8String
+
+cdef extern from "Elementary.h":
+    Evas_Object             *elm_photo_add(Evas_Object *parent)
+    Eina_Bool                elm_photo_file_set(Evas_Object *obj, const_char *file)
+    void                     elm_photo_thumb_set(Evas_Object *obj, const_char *file, const_char *group)
+    void                     elm_photo_size_set(Evas_Object *obj, int size)
+    void                     elm_photo_fill_inside_set(Evas_Object *obj, Eina_Bool fill)
+    void                     elm_photo_editable_set(Evas_Object *obj, Eina_Bool editable)
+    void                     elm_photo_aspect_fixed_set(Evas_Object *obj, Eina_Bool fixed)
+    Eina_Bool                elm_photo_aspect_fixed_get(Evas_Object *obj)
 
 cdef class Photo(Object):
 

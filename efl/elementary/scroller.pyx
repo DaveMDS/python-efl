@@ -140,7 +140,10 @@ Type that blocks the scroll movement in one or more direction.
 
 """
 
-include "widget_header.pxi"
+from efl.evas cimport Evas_Object, const_Evas_Object, \
+    Object as evasObject
+from efl.eo cimport object_from_instance, _object_mapping_register
+from efl.utils.conversions cimport _ctouni, _touni
 
 from object cimport Object
 from layout_class cimport LayoutClass

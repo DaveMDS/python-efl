@@ -32,7 +32,19 @@ This widget emits the signals coming from
 
 """
 
-include "widget_header.pxi"
+from efl.evas cimport Evas_Object, const_Evas_Object, \
+    Object as evasObject
+from efl.eo cimport object_from_instance, _object_mapping_register
+from efl.utils.conversions cimport _ctouni, _touni
+
+from object cimport Object
+
+from efl.evas cimport Eina_Bool
+
+cdef extern from "Elementary.h":
+    Evas_Object             *elm_separator_add(Evas_Object *parent)
+    void                     elm_separator_horizontal_set(Evas_Object *obj, Eina_Bool)
+    Eina_Bool                elm_separator_horizontal_get(Evas_Object *obj)
 
 from layout_class cimport LayoutClass
 

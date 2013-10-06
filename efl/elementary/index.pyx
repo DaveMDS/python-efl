@@ -66,8 +66,46 @@ reported.
 
 """
 
-include "widget_header.pxi"
+from efl.evas cimport Evas_Object, const_Evas_Object, \
+    Object as evasObject
+from efl.eo cimport object_from_instance, _object_mapping_register
+from efl.utils.conversions cimport _ctouni, _touni
+
+from object cimport Object
+
 include "callback_conversions.pxi"
+
+from efl.evas cimport Eina_Bool, Eina_Compare_Cb, Evas_Smart_Cb
+from object_item cimport Elm_Object_Item, ObjectItem
+from libc.string cimport const_char
+from libc.stdlib cimport const_void
+from cpython cimport PyUnicode_AsUTF8String, Py_DECREF
+
+cdef extern from "Elementary.h":
+    Evas_Object             *elm_index_add(Evas_Object *parent)
+    void                     elm_index_autohide_disabled_set(Evas_Object *obj, Eina_Bool disabled)
+    Eina_Bool                elm_index_autohide_disabled_get(Evas_Object *obj)
+    void                     elm_index_item_level_set(Evas_Object *obj, int level)
+    int                      elm_index_item_level_get(Evas_Object *obj)
+    void                     elm_index_item_selected_set(Elm_Object_Item *it, Eina_Bool selected)
+    Elm_Object_Item         *elm_index_selected_item_get(Evas_Object *obj, int level)
+    Elm_Object_Item         *elm_index_item_append(Evas_Object *obj, const_char *letter, Evas_Smart_Cb func, const_void *data)
+    Elm_Object_Item         *elm_index_item_prepend(Evas_Object *obj, const_char *letter, Evas_Smart_Cb func, const_void *data)
+    Elm_Object_Item         *elm_index_item_insert_after(Evas_Object *obj, Elm_Object_Item *after, const_char *letter, Evas_Smart_Cb func, const_void *data)
+    Elm_Object_Item         *elm_index_item_insert_before(Evas_Object *obj, Elm_Object_Item *before, const_char *letter, Evas_Smart_Cb func, const_void *data)
+    Elm_Object_Item         *elm_index_item_sorted_insert(Evas_Object *obj, const_char *letter, Evas_Smart_Cb func, const_void *data, Eina_Compare_Cb cmp_func, Eina_Compare_Cb cmp_data_func)
+    Elm_Object_Item         *elm_index_item_find(Evas_Object *obj, void *data)
+    void                     elm_index_item_clear(Evas_Object *obj)
+    void                     elm_index_level_go(Evas_Object *obj, int level)
+    char                    *elm_index_item_letter_get(Elm_Object_Item *item)
+    void                     elm_index_indicator_disabled_set(Evas_Object *obj, Eina_Bool disabled)
+    Eina_Bool                elm_index_indicator_disabled_get(Evas_Object *obj)
+    void                     elm_index_horizontal_set(Evas_Object *obj, Eina_Bool horizontal)
+    Eina_Bool                elm_index_horizontal_get(Evas_Object *obj)
+    void                     elm_index_delay_change_time_set(Evas_Object *obj, double delay_change_time)
+    double                   elm_index_delay_change_time_get(const_Evas_Object *obj)
+    void                     elm_index_omit_enabled_set(Evas_Object *obj, Eina_Bool enabled)
+    Eina_Bool                elm_index_omit_enabled_get(const_Evas_Object *obj)
 
 from layout_class cimport LayoutClass
 from object_item cimport _object_item_callback, _object_item_to_python, \

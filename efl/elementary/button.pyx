@@ -63,9 +63,23 @@ Default text parts of the button widget that you can use for are:
 
 """
 
-include "widget_header.pxi"
+from efl.evas cimport Evas_Object, const_Evas_Object, \
+    Object as evasObject
+from efl.eo cimport object_from_instance, _object_mapping_register
+from efl.utils.conversions cimport _ctouni, _touni
 
-from layout_class cimport LayoutClass
+from object cimport Object
+
+from efl.evas cimport Eina_Bool
+
+cdef extern from "Elementary.h":
+    Evas_Object             *elm_button_add(Evas_Object *parent)
+    void                     elm_button_autorepeat_set(Evas_Object *obj, Eina_Bool on)
+    Eina_Bool                elm_button_autorepeat_get(Evas_Object *obj)
+    void                     elm_button_autorepeat_initial_timeout_set(Evas_Object *obj, double t)
+    double                   elm_button_autorepeat_initial_timeout_get(Evas_Object *obj)
+    void                     elm_button_autorepeat_gap_timeout_set(Evas_Object *obj, double t)
+    double                   elm_button_autorepeat_gap_timeout_get(Evas_Object *obj)
 
 cdef class Button(LayoutClass):
 

@@ -2,6 +2,7 @@ from efl.evas cimport Eina_Bool, Evas_Object, Evas_Coord, const_Evas_Object
 from enums cimport Elm_Scroller_Policy, Elm_Scroller_Single_Direction, \
     Elm_Scroller_Movement_Block
 from libc.string cimport const_char
+from cpython cimport PyUnicode_AsUTF8String
 from object cimport Object
 
 cdef extern from "Elementary.h":
