@@ -55,6 +55,20 @@ Default text parts of the diskselector items that you can use for are:
 .. note:: The "scroll,anim,*" and "scroll,drag,*" signals are only emitted
     by user intervention.
 
+Scollable Interface
+===================
+
+This widget supports the scrollable interface.
+
+If you wish to control the scolling behaviour using these functions,
+inherit both the widget class and the
+:py:class:`Scrollable<efl.elementary.scroller.Scrollable>` class
+using multiple inheritance, for example::
+
+    class ScrollableGenlist(Genlist, Scrollable):
+        def __init__(self, canvas, *args, **kwargs):
+            Genlist.__init__(self, canvas)
+
 """
 
 
@@ -99,7 +113,6 @@ cdef extern from "Elementary.h":
 
 from object_item cimport ObjectItem, _object_item_callback, \
     _object_item_to_python, _object_item_list_to_python
-from scroller cimport *
 
 cdef class DiskselectorItem(ObjectItem):
 
@@ -328,47 +341,6 @@ cdef class Diskselector(Object):
             elm_diskselector_display_item_num_set(self.obj, num)
         def __get__(self):
             return elm_diskselector_display_item_num_get(self.obj)
-
-    property bounce:
-        """Bouncing behaviour when the scrolled content reaches an edge.
-
-        Tell the internal scroller object whether it should bounce or not
-        when it reaches the respective edges for each axis.
-
-        .. seealso:: :py:attr:`elementary.scroller.Scroller.bounce`
-
-        :type: (bool h_bounce, bool v_bounce)
-
-        """
-        def __set__(self, bounce):
-            h_bounce, v_bounce = bounce
-            elm_scroller_bounce_set(self.obj, h_bounce, v_bounce)
-        def __get__(self):
-            cdef Eina_Bool h_bounce, v_bounce
-            elm_scroller_bounce_get(self.obj, &h_bounce, &v_bounce)
-            return (h_bounce, v_bounce)
-
-    property scroller_policy:
-        """The scrollbar policy.
-
-        This sets the scrollbar visibility policy for the given scroller.
-        ELM_SCROLLER_POLICY_AUTO means the scrollbar is made visible if it
-        is needed, and otherwise kept hidden. ELM_SCROLLER_POLICY_ON turns
-        it on all the time, and ELM_SCROLLER_POLICY_OFF always keeps it off.
-        This applies respectively for the horizontal and vertical scrollbars.
-
-        Both are disabled by default, i.e., are set to ELM_SCROLLER_POLICY_OFF.
-
-        :type: tuple of Elm_Scroller_Policy
-
-        """
-        def __get__(self):
-            cdef Elm_Scroller_Policy h_policy, v_policy
-            elm_scroller_policy_get(self.obj, &h_policy, &v_policy)
-            return (h_policy, v_policy)
-        def __set__(self, policy):
-            h_policy, v_policy = policy
-            elm_scroller_policy_set(self.obj, h_policy, v_policy)
 
     def clear(self):
         """clear()

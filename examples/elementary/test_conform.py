@@ -8,8 +8,14 @@ from efl.elementary.naviframe import Naviframe
 from efl.elementary.frame import Frame
 from efl.elementary.label import Label
 from efl.elementary.list import List
+from efl.elementary.scroller import Scrollable
 
 from efl.evas import EVAS_HINT_EXPAND, EVAS_HINT_FILL
+
+class ScrollableEntry(Scrollable, Entry):
+    def __init__(self, canvas, *args, **kwargs):
+        Entry.__init__(self, canvas)
+        self.scrollable = True
 
 def conformant_clicked(obj, item=None):
     win = StandardWindow("conformant", "Conformant")
@@ -25,8 +31,7 @@ def conformant_clicked(obj, item=None):
     bx.size_hint_weight = EVAS_HINT_EXPAND, EVAS_HINT_EXPAND
     bx.size_hint_align = EVAS_HINT_FILL, EVAS_HINT_FILL
 
-    en = Entry(win)
-    en.scrollable = True
+    en = ScrollableEntry(win)
     en.single_line = True
     en.bounce = True, False
     en.text = "This is the top entry here"
@@ -42,8 +47,7 @@ def conformant_clicked(obj, item=None):
     bx.pack_end(btn)
     btn.show()
 
-    en = Entry(win)
-    en.scrollable = True
+    en = ScrollableEntry(win)
     en.single_line = True
     en.bounce = True, False
     en.text = "This is the middle entry here"
@@ -59,8 +63,7 @@ def conformant_clicked(obj, item=None):
     bx.pack_end(btn)
     btn.show()
 
-    en = Entry(win)
-    en.scrollable = True
+    en = ScrollableEntry(win)
     en.bounce = False, True
     en.text = "This is a multi-line entry at the bottom<br/>" \
     "This can contain more than 1 line of text and be " \
@@ -96,8 +99,7 @@ def conformant2_clicked(obj, item=None):
     win.resize_object_add(bx)
     bx.show()
 
-    en = Entry(win)
-    en.scrollable = True
+    en = ScrollableEntry(win)
     en.single_line = True
     en.bounce = True, False
     en.text = "This is the top entry here"
@@ -132,8 +134,7 @@ def conformant2_clicked(obj, item=None):
     bx.size_hint_weight = EVAS_HINT_EXPAND, EVAS_HINT_EXPAND
     bx.size_hint_align = EVAS_HINT_FILL, EVAS_HINT_FILL
 
-    en = Entry(win)
-    en.scrollable = True
+    en = ScrollableEntry(win)
     en.bounce = False, True
     en.text = "This entry and button below get deleted."
     en.size_hint_weight = EVAS_HINT_EXPAND, EVAS_HINT_EXPAND
@@ -164,8 +165,7 @@ def conformant2_clicked(obj, item=None):
     bx.size_hint_weight = EVAS_HINT_EXPAND, EVAS_HINT_EXPAND
     bx.size_hint_align = EVAS_HINT_FILL, EVAS_HINT_FILL
 
-    en = Entry(win)
-    en.scrollable = True
+    en = ScrollableEntry(win)
     en.bounce = False, True
     en.text = "This entry and button below get deleted."
     en.size_hint_weight = EVAS_HINT_EXPAND, EVAS_HINT_EXPAND

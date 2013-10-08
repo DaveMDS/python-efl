@@ -140,6 +140,45 @@ Type that blocks the scroll movement in one or more direction.
 
 """
 
+from efl.evas cimport Eina_Bool, Evas_Object, Evas_Coord, const_Evas_Object
+from enums cimport Elm_Scroller_Policy, Elm_Scroller_Single_Direction, \
+    Elm_Scroller_Movement_Block
+from libc.string cimport const_char
+from cpython cimport PyUnicode_AsUTF8String
+
+cdef extern from "Elementary.h":
+    Evas_Object             *elm_scroller_add(Evas_Object *parent)
+    void                     elm_scroller_custom_widget_base_theme_set(Evas_Object *obj, const_char *widget, const_char *base)
+    void                     elm_scroller_content_min_limit(Evas_Object *obj, Eina_Bool w, Eina_Bool h)
+    void                     elm_scroller_region_show(Evas_Object *obj, Evas_Coord x, Evas_Coord y, Evas_Coord w, Evas_Coord h)
+    void                     elm_scroller_policy_set(Evas_Object *obj, Elm_Scroller_Policy policy_h, Elm_Scroller_Policy policy_v)
+    void                     elm_scroller_policy_get(Evas_Object *obj, Elm_Scroller_Policy *policy_h, Elm_Scroller_Policy *policy_v)
+    void                     elm_scroller_single_direction_set(Evas_Object *obj, Elm_Scroller_Single_Direction single_dir)
+    Elm_Scroller_Single_Direction elm_scroller_single_direction_get(const_Evas_Object *obj)
+    void                     elm_scroller_region_get(Evas_Object *obj, Evas_Coord *x, Evas_Coord *y, Evas_Coord *w, Evas_Coord *h)
+    void                     elm_scroller_child_size_get(Evas_Object *obj, Evas_Coord *w, Evas_Coord *h)
+    void                     elm_scroller_page_snap_set(Evas_Object *obj, Eina_Bool page_h_snap, Eina_Bool page_v_snap)
+    void                     elm_scroller_page_snap_get(const_Evas_Object *obj, Eina_Bool *page_h_snap, Eina_Bool *page_v_snap)
+    void                     elm_scroller_bounce_set(Evas_Object *obj, Eina_Bool h_bounce, Eina_Bool v_bounce)
+    void                     elm_scroller_bounce_get(Evas_Object *obj, Eina_Bool *h_bounce, Eina_Bool *v_bounce)
+    void                     elm_scroller_page_relative_set(Evas_Object *obj, double h_pagerel, double v_pagerel)
+    void                     elm_scroller_page_relative_get(Evas_Object *obj, double *h_pagerel, double *v_pagerel)
+    void                     elm_scroller_page_size_set(Evas_Object *obj, Evas_Coord h_pagesize, Evas_Coord v_pagesize)
+    void                     elm_scroller_page_size_get(const_Evas_Object *obj, Evas_Coord *h_pagesize, Evas_Coord *v_pagesize)
+    void                     elm_scroller_page_scroll_limit_set(const_Evas_Object *obj, Evas_Coord page_limit_h, Evas_Coord page_limit_v)
+    void                     elm_scroller_page_scroll_limit_get(const_Evas_Object *obj, Evas_Coord *page_limit_h, Evas_Coord *page_limit_v)
+    void                     elm_scroller_current_page_get(Evas_Object *obj, int *h_pagenumber, int *v_pagenumber)
+    void                     elm_scroller_last_page_get(Evas_Object *obj, int *h_pagenumber, int *v_pagenumber)
+    void                     elm_scroller_page_show(Evas_Object *obj, int h_pagenumber, int v_pagenumber)
+    void                     elm_scroller_page_bring_in(Evas_Object *obj, int h_pagenumber, int v_pagenumber)
+    void                     elm_scroller_region_bring_in(Evas_Object *obj, Evas_Coord x, Evas_Coord y, Evas_Coord w, Evas_Coord h)
+    void                     elm_scroller_propagate_events_set(Evas_Object *obj, Eina_Bool propagation)
+    Eina_Bool                elm_scroller_propagate_events_get(Evas_Object *obj)
+    void                     elm_scroller_gravity_set(Evas_Object *obj, double x, double y)
+    void                     elm_scroller_gravity_get(Evas_Object *obj, double *x, double *y)
+    void                     elm_scroller_movement_block_set(Evas_Object *obj, Elm_Scroller_Movement_Block block)
+    Elm_Scroller_Movement_Block elm_scroller_movement_block_get(const_Evas_Object *obj)
+
 from efl.evas cimport Evas_Object, const_Evas_Object, \
     Object as evasObject
 from efl.eo cimport object_from_instance, _object_mapping_register
@@ -163,7 +202,7 @@ ELM_SCROLLER_MOVEMENT_NO_BLOCK = enums.ELM_SCROLLER_MOVEMENT_NO_BLOCK
 ELM_SCROLLER_MOVEMENT_BLOCK_VERTICAL = enums.ELM_SCROLLER_MOVEMENT_BLOCK_VERTICAL
 ELM_SCROLLER_MOVEMENT_BLOCK_HORIZONTAL = enums.ELM_SCROLLER_MOVEMENT_BLOCK_HORIZONTAL
 
-cdef class ScrollableInterface(Object):
+cdef class Scrollable(Object):
 
     """
 
@@ -268,16 +307,16 @@ cdef class ScrollableInterface(Object):
         :since: 1.8
 
         """
-        def __set__(self, value):
-            self.single_direction_set(value)
+        def __set__(self, Elm_Scroller_Single_Direction single_dir):
+            elm_scroller_single_direction_set(self.obj, single_dir)
 
         def __get__(self):
-            return self.single_direction_get()
+            return elm_scroller_single_direction_get(self.obj)
 
-    cpdef single_direction_set(self, Elm_Scroller_Single_Direction single_dir):
+    def single_direction_set(self, Elm_Scroller_Single_Direction single_dir):
         elm_scroller_single_direction_set(self.obj, single_dir)
 
-    cpdef single_direction_get(self):
+    def single_direction_get(self):
         return elm_scroller_single_direction_get(self.obj)
 
     property region:
@@ -428,15 +467,18 @@ cdef class ScrollableInterface(Object):
 
         """
         def __set__(self, value):
-            self.page_size_set(*value)
+            h_pagesize, v_pagesize = value
+            elm_scroller_page_size_set(self.obj, h_pagesize, v_pagesize)
 
         def __get__(self):
-            return self.page_size_get()
+            cdef int h_pagesize, v_pagesize
+            elm_scroller_page_size_get(self.obj, &h_pagesize,  &v_pagesize)
+            return (h_pagesize, v_pagesize)
 
-    cpdef page_size_set(self, h_pagesize, v_pagesize):
+    def page_size_set(self, h_pagesize, v_pagesize):
         elm_scroller_page_size_set(self.obj, h_pagesize, v_pagesize)
 
-    cpdef page_size_get(self):
+    def page_size_get(self):
         cdef int h_pagesize, v_pagesize
         elm_scroller_page_size_get(self.obj, &h_pagesize,  &v_pagesize)
         return (h_pagesize, v_pagesize)
@@ -452,15 +494,18 @@ cdef class ScrollableInterface(Object):
 
         """
         def __set__(self, value):
-            self.page_scroll_limit_set(*value)
+            page_limit_h, page_limit_v = value
+            elm_scroller_page_scroll_limit_set(self.obj, page_limit_h, page_limit_v)
 
         def __get__(self):
-            return self.page_scroll_limit_get()
+            cdef int page_limit_h, page_limit_v
+            elm_scroller_page_scroll_limit_get(self.obj, &page_limit_h, &page_limit_v)
+            return (page_limit_h, page_limit_v)
 
-    cpdef page_scroll_limit_set(self, int page_limit_h, int page_limit_v):
+    def page_scroll_limit_set(self, int page_limit_h, int page_limit_v):
         elm_scroller_page_scroll_limit_set(self.obj, page_limit_h, page_limit_v)
 
-    cpdef page_scroll_limit_get(self):
+    def page_scroll_limit_get(self):
         cdef int page_limit_h, page_limit_v
         elm_scroller_page_scroll_limit_get(self.obj, &page_limit_h, &page_limit_v)
         return (page_limit_h, page_limit_v)
@@ -845,7 +890,7 @@ cdef class ScrollerWidget(LayoutClass):
     def __init__(self, evasObject parent):
         self._set_obj(elm_scroller_add(parent.obj))
 
-class Scroller(ScrollableInterface, ScrollerWidget):
+class Scroller(Scrollable, ScrollerWidget):
 
     """
 

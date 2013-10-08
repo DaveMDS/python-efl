@@ -13,6 +13,11 @@ from efl.elementary.image import Image
 from efl.elementary.gengrid import Gengrid, GengridItemClass
 from efl.elementary.slider import Slider
 from efl.elementary.table import Table
+from efl.elementary.scroller import Scrollable
+
+class ScrollableGengrid(Scrollable, Gengrid):
+    def __init__(self, canvas, *args, **kwargs):
+        Gengrid.__init__(self, canvas)
 
 
 images = ["panel_01.jpg", "plant_01.jpg", "rock_01.jpg", "rock_02.jpg",
@@ -80,7 +85,7 @@ def gengrid_clicked(obj):
                                        content_get_func=gg_content_get,
                                        state_get_func=gg_state_get,
                                        del_func=gg_del)
-    gg = Gengrid(win)
+    gg = ScrollableGengrid(win)
     gg.size_hint_weight_set(evas.EVAS_HINT_EXPAND, evas.EVAS_HINT_EXPAND)
     gg.size_hint_align_set(evas.EVAS_HINT_FILL, evas.EVAS_HINT_FILL)
     gg.horizontal_set(False)

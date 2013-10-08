@@ -70,6 +70,19 @@ Default text parts of the list items that you can use for are:
 
 - "default" - label in the list item
 
+Scollable Interface
+===================
+
+This widget supports the scrollable interface.
+
+If you wish to control the scolling behaviour using these functions,
+inherit both the widget class and the
+:py:class:`Scrollable<efl.elementary.scroller.Scrollable>` class
+using multiple inheritance, for example::
+
+    class ScrollableGenlist(Genlist, Scrollable):
+        def __init__(self, canvas, *args, **kwargs):
+            Genlist.__init__(self, canvas)
 
 Enumerations
 ------------
@@ -223,7 +236,6 @@ from object cimport Object
 from object_item cimport    _object_item_callback, \
                             _object_item_to_python, \
                             _object_item_list_to_python
-from scroller cimport *
 
 cimport enums
 
@@ -745,63 +757,6 @@ cdef class List(Object):
         elm_list_select_mode_set(self.obj, mode)
     def select_mode_get(self):
         return elm_list_select_mode_get(self.obj)
-
-    property bounce:
-        """The bouncing behaviour when the scrolled content reaches an edge.
-
-        Whether the internal scroller object should bounce or not when it
-        reaches the respective edges for each axis.
-
-        :type: (bool **h**, bool **v**)
-
-        """
-        def __set__(self, value):
-            h, v = value
-            elm_scroller_bounce_set(self.obj, h, v)
-
-        def __get__(self):
-            cdef Eina_Bool h, v
-            elm_scroller_bounce_get(self.obj, &h, &v)
-            return (h, v)
-
-    def bounce_set(self, h, v):
-        elm_scroller_bounce_set(self.obj, h, v)
-    def bounce_get(self):
-        cdef Eina_Bool h, v
-        elm_scroller_bounce_get(self.obj, &h, &v)
-        return (h, v)
-
-    property scroller_policy:
-        """The scrollbar policy.
-
-        This sets the scrollbar visibility policy for the given scroller.
-        ELM_SCROLLER_POLICY_AUTO means the scrollbar is made visible if it
-        is needed, and otherwise kept hidden. ELM_SCROLLER_POLICY_ON turns
-        it on all the time, and ELM_SCROLLER_POLICY_OFF always keeps it off.
-        This applies respectively for the horizontal and vertical scrollbars.
-
-        The both are disabled by default, i.e., are set to
-        ELM_SCROLLER_POLICY_OFF.
-
-        :type: :ref:`Scrolling policy <Elm_Scroller_Policy>`
-
-        """
-        def __set__(self, value):
-            policy_h, policy_v = value
-            elm_scroller_policy_set(self.obj, policy_h, policy_v)
-
-        def __get__(self):
-            cdef Elm_Scroller_Policy policy_h, policy_v
-            elm_scroller_policy_get(self.obj, &policy_h, &policy_v)
-            return (policy_h, policy_v)
-
-    def scroller_policy_set(self, policy_h, policy_v):
-        elm_scroller_policy_set(self.obj, policy_h, policy_v)
-    def scroller_policy_get(self):
-        cdef Elm_Scroller_Policy policy_h, policy_v
-        elm_scroller_policy_get(self.obj, &policy_h, &policy_v)
-        return (policy_h, policy_v)
-
 
     def item_append(self, label, evasObject icon = None,
                     evasObject end = None, callback = None, *args, **kargs):

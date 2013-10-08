@@ -1,4 +1,4 @@
-cdef class GenlistWidget(Object):
+cdef class Genlist(Object):
 
     """This is the class that actually implements the widget."""
 

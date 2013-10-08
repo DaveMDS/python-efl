@@ -39,6 +39,20 @@ Other features include password mode, filtering of inserted text with
 :py:func:`markup_filter_append()` and related functions, inline "items" and
 formatted markup text.
 
+Scollable Interface
+===================
+
+This widget supports the scrollable interface.
+
+If you wish to control the scolling behaviour using these functions,
+inherit both the widget class and the
+:py:class:`Scrollable<efl.elementary.scroller.Scrollable>` class
+using multiple inheritance, for example::
+
+    class ScrollableGenlist(Genlist, Scrollable):
+        def __init__(self, canvas, *args, **kwargs):
+            Genlist.__init__(self, canvas)
+
 Formatted text
 ==============
 
@@ -632,7 +646,6 @@ cdef extern from "Elementary.h":
     Eina_Bool               elm_cnp_selection_get(Evas_Object *obj, Elm_Sel_Type selection, Elm_Sel_Format format, Elm_Drop_Cb datacb, void *udata)
 
 from hover cimport Hover
-from scroller cimport *
 
 cimport enums
 
@@ -1662,49 +1675,6 @@ cdef class Entry(Object):
 
     cpdef end_visible_set(self, setting):
         elm_entry_end_visible_set(self.obj, setting)
-
-    property scrollbar_policy:
-        """This sets the entry's scrollbar policy (i.e. enabling/disabling
-        them).
-
-        Setting an entry to single-line mode with :py:attr:`single_line`
-        will automatically disable the display of scrollbars when the entry
-        moves inside its scroller.
-
-        :type: (:ref:`Elm_Scroller_Policy` **h**, :ref:`Elm_Scroller_Policy` **v**)
-
-        """
-        def __set__(self, value):
-            cdef Elm_Scroller_Policy h, v
-            h, v = value
-            elm_scroller_policy_set(self.obj, h, v)
-
-    def scrollbar_policy_set(self, Elm_Scroller_Policy h, Elm_Scroller_Policy v):
-        elm_scroller_policy_set(self.obj, h, v)
-
-    property bounce:
-        """Whether the entry will bounce when scrolling reaches
-        the end of the contained entry.
-
-        :type: (bool **h_bounce**, bool **v_bounce**)
-
-        """
-        def __get__(self):
-            cdef Eina_Bool h_bounce, v_bounce
-            elm_scroller_bounce_get(self.obj, &h_bounce, &v_bounce)
-            return (h_bounce, v_bounce)
-
-        def __set__(self, value):
-            cdef Eina_Bool h_bounce, v_bounce
-            h_bounce, v_bounce = value
-            elm_scroller_bounce_set(self.obj, h_bounce, v_bounce)
-
-    def bounce_set(self, h_bounce, v_bounce):
-        elm_scroller_bounce_set(self.obj, h_bounce, v_bounce)
-    def bounce_get(self):
-        cdef Eina_Bool h_bounce, v_bounce
-        elm_scroller_bounce_get(self.obj, &h_bounce, &v_bounce)
-        return (h_bounce, v_bounce)
 
     property input_panel_layout:
         """The input panel layout of the entry

@@ -126,7 +126,6 @@ cdef extern from "Elementary.h":
     Eina_Bool                elm_photocam_gesture_enabled_get(Evas_Object *obj)
 
 from efl.evas cimport Image as evasImage
-from scroller cimport *
 
 cimport enums
 
@@ -380,27 +379,6 @@ cdef class Photocam(Object):
 
     def internal_image_get(self):
         return self.internal_image
-
-    property bounce:
-        """Photocam scrolling bouncing.
-
-        :type: tuple of bools
-
-        """
-        def __set__(self, value):
-            h_bounce, v_bounce = value
-            elm_scroller_bounce_set(self.obj, h_bounce, v_bounce)
-        def __get__(self):
-            cdef Eina_Bool h_bounce, v_bounce
-            elm_scroller_bounce_get(self.obj, &h_bounce, &v_bounce)
-            return (h_bounce, v_bounce)
-
-    def bounce_set(self, h_bounce, v_bounce):
-        elm_scroller_bounce_set(self.obj, h_bounce, v_bounce)
-    def bounce_get(self):
-        cdef Eina_Bool h_bounce, v_bounce
-        elm_scroller_bounce_get(self.obj, &h_bounce, &v_bounce)
-        return (h_bounce, v_bounce)
 
     property gesture_enabled:
         """Set the gesture state for photocam.

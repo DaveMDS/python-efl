@@ -14,6 +14,12 @@ from efl.elementary.frame import Frame
 from efl.elementary.label import Label
 from efl.elementary.separator import Separator
 from efl.elementary.icon import Icon
+from efl.elementary.scroller import Scrollable
+
+class ScrollableEntry(Scrollable, Entry):
+    def __init__(self, canvas, *args, **kwargs):
+        Entry.__init__(self, canvas)
+        self.scrollable = True
 
 from efl.evas import EVAS_HINT_EXPAND, EVAS_HINT_FILL
 
@@ -165,8 +171,7 @@ def entry_scrolled_clicked(obj, item = None):
     bx.show()
 
     # disabled entry
-    en = Entry(win)
-    en.scrollable = True
+    en = ScrollableEntry(win)
     en.size_hint_weight = EVAS_HINT_EXPAND, 0.0
     en.size_hint_align = EVAS_HINT_FILL, 0.5
     en.scrollbar_policy = ELM_SCROLLER_POLICY_OFF, ELM_SCROLLER_POLICY_OFF
@@ -177,8 +182,7 @@ def entry_scrolled_clicked(obj, item = None):
     bx.pack_end(en)
 
     # password entry
-    en = Entry(win)
-    en.scrollable = True
+    en = ScrollableEntry(win)
     en.size_hint_weight = EVAS_HINT_EXPAND, 0.0
     en.size_hint_align = EVAS_HINT_FILL, 0.5
     en.scrollbar_policy = ELM_SCROLLER_POLICY_OFF, ELM_SCROLLER_POLICY_OFF
@@ -190,8 +194,7 @@ def entry_scrolled_clicked(obj, item = None):
     bx.pack_end(en)
 
     # multi-line disable entry
-    en = Entry(win)
-    en.scrollable = True
+    en = ScrollableEntry(win)
     en.size_hint_weight = EVAS_HINT_EXPAND, EVAS_HINT_EXPAND
     en.size_hint_align = EVAS_HINT_FILL, EVAS_HINT_FILL
     en.scrollbar_policy = ELM_SCROLLER_POLICY_ON, ELM_SCROLLER_POLICY_ON
@@ -212,8 +215,7 @@ def entry_scrolled_clicked(obj, item = None):
     sp.show()
 
     # Single line selected entry
-    en = Entry(win)
-    en.scrollable = True
+    en = ScrollableEntry(win)
     en.size_hint_weight = EVAS_HINT_EXPAND, 0.0
     en.size_hint_align = EVAS_HINT_FILL, 0.5
     en.text = "This is a single line"
@@ -224,8 +226,7 @@ def entry_scrolled_clicked(obj, item = None):
     bx.pack_end(en)
 
     # Filter test
-    en = Entry(win)
-    en.scrollable = True
+    en = ScrollableEntry(win)
     en.size_hint_weight = EVAS_HINT_EXPAND, 0.0
     en.size_hint_align = EVAS_HINT_FILL, 0.5
     en.text = "Filter test"
@@ -237,8 +238,7 @@ def entry_scrolled_clicked(obj, item = None):
     en.markup_filter_append(my_filter, "test")
 
     # # Only digits entry
-    # en = Entry(win)
-    # en.scrollable = True
+    # en = ScrollableEntry(win)
     # en.size_hint_weight = EVAS_HINT_EXPAND, 0.0
     # en.size_hint_align = EVAS_HINT_FILL, 0.5
     # en.text = "01234"
@@ -252,8 +252,7 @@ def entry_scrolled_clicked(obj, item = None):
     # en.markup_filter_append(elm_entry_filter_accept_set, digits_filter_data)
 
     # # No digits entry
-    # en = Entry(win)
-    # en.scrollable = True
+    # en = ScrollableEntry(win)
     # en.size_hint_weight = EVAS_HINT_EXPAND, 0.0
     # en.size_hint_align = EVAS_HINT_FILL, 0.5
     # en.text = "No numbers here"
@@ -267,8 +266,7 @@ def entry_scrolled_clicked(obj, item = None):
     # en.markup_filter_append(elm_entry_filter_accept_set, digits_filter_data2)
 
     # # Size limited entry
-    # en = Entry(win)
-    # en.scrollable = True
+    # en = ScrollableEntry(win)
     # en.size_hint_weight = EVAS_HINT_EXPAND, 0.0
     # en.size_hint_align = EVAS_HINT_FILL, 0.5
     # en.text = "Just 20 chars"
@@ -282,8 +280,7 @@ def entry_scrolled_clicked(obj, item = None):
     # en.markup_filter_append(elm_entry_filter_limit_size, limit_filter_data)
 
     # # Byte size limited entry
-    # en = Entry(win)
-    # en.scrollable = True
+    # en = ScrollableEntry(win)
     # en.size_hint_weight = EVAS_HINT_EXPAND, 0.0
     # en.size_hint_align = EVAS_HINT_FILL, 0.5
     # en.text = "And now only 30 bytes"
@@ -297,7 +294,7 @@ def entry_scrolled_clicked(obj, item = None):
     # en.markup_filter_append(elm_entry_filter_limit_size, limit_filter_data2)
 
     # Single line password entry
-    en_p = Entry(win)
+    en_p = ScrollableEntry(win)
     en_p.scrollable = True
     en_p.size_hint_weight = EVAS_HINT_EXPAND, 0.0
     en_p.size_hint_align = EVAS_HINT_FILL, 0.5
@@ -309,8 +306,7 @@ def entry_scrolled_clicked(obj, item = None):
     bx.pack_end(en_p)
 
     # entry with icon/end widgets
-    en = Entry(win)
-    en.scrollable = True
+    en = ScrollableEntry(win)
     en.scrollbar_policy = ELM_SCROLLER_POLICY_OFF, ELM_SCROLLER_POLICY_OFF
     en.single_line = True
     en.size_hint_weight = EVAS_HINT_EXPAND, EVAS_HINT_EXPAND
@@ -332,8 +328,7 @@ def entry_scrolled_clicked(obj, item = None):
     bx.pack_end(en)
 
     # markup entry
-    en = Entry(win)
-    en.scrollable = True
+    en = ScrollableEntry(win)
     en.size_hint_weight = EVAS_HINT_EXPAND, EVAS_HINT_EXPAND
     en.size_hint_align = EVAS_HINT_FILL, EVAS_HINT_FILL
     en.scrollbar_policy = ELM_SCROLLER_POLICY_ON, ELM_SCROLLER_POLICY_ON

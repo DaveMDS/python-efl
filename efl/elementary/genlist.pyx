@@ -221,6 +221,20 @@ per application with elm_theme_extension_add(). If you absolutely must
 have a specific style that overrides any theme the user or system sets up
 you can use elm_theme_overlay_add() to add such a file.
 
+Scollable Interface
+===================
+
+This widget supports the scrollable interface.
+
+If you wish to control the scolling behaviour using these functions,
+inherit both the widget class and the
+:py:class:`Scrollable<efl.elementary.scroller.Scrollable>` class
+using multiple inheritance, for example::
+
+    class ScrollableGenlist(Genlist, Scrollable):
+        def __init__(self, canvas, *args, **kwargs):
+            Genlist.__init__(self, canvas)
+
 Implementation
 ==============
 
@@ -810,7 +824,7 @@ cdef class GenlistIterator(object):
         Elm_Object_Item *current_item
         GenlistItem ret
 
-    def __cinit__(self, GenlistWidget gl):
+    def __cinit__(self, Genlist gl):
         self.current_item = elm_genlist_first_item_get(gl.obj)
 
     def __next__(self):
@@ -835,7 +849,7 @@ include "genlist_item_class.pxi"
 include "genlist_item.pxi"
 include "genlist_widget.pxi"
 
-class Genlist(GenlistWidget, ScrollableInterface):
-    pass
+#class Genlist(GenlistWidget, ScrollableInterface):
+    #pass
 
 _object_mapping_register("elm_genlist", Genlist)

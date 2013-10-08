@@ -33,6 +33,20 @@ clicking on items to select them and clicking on the grid's viewport and
 swiping to pan the whole view) or via the keyboard, navigating through
 item with the arrow keys.
 
+Scollable Interface
+===================
+
+This widget supports the scrollable interface.
+
+If you wish to control the scolling behaviour using these functions,
+inherit both the widget class and the
+:py:class:`Scrollable<efl.elementary.scroller.Scrollable>` class
+using multiple inheritance, for example::
+
+    class ScrollableGenlist(Genlist, Scrollable):
+        def __init__(self, canvas, *args, **kwargs):
+            Genlist.__init__(self, canvas)
+
 Gengrid layouts
 ===============
 
@@ -380,7 +394,6 @@ cdef extern from "Elementary.h":
 from object_item cimport ObjectItem, _object_item_to_python, \
     elm_object_item_widget_get, _object_item_from_python, \
     _object_item_list_to_python, elm_object_item_data_get
-from scroller cimport *
 cimport enums
 
 import traceback
@@ -1210,31 +1223,6 @@ cdef class Gengrid(Object):
     def horizontal_get(self):
         return bool(elm_gengrid_horizontal_get(self.obj))
 
-    property bounce:
-        """The bouncing effect occurs whenever one reaches the gengrid's
-        edge's while panning it -- it will scroll past its limits a
-        little bit and return to the edge again, in a animated for,
-        automatically.
-
-        .. note:: By default, gengrids have bouncing enabled on both axis
-
-        """
-        def __get__(self):
-            cdef Eina_Bool h_bounce, v_bounce
-            elm_scroller_bounce_get(self.obj, &h_bounce, &v_bounce)
-            return (h_bounce, v_bounce)
-
-        def __set__(self, value):
-            h_bounce, v_bounce = value
-            elm_scroller_bounce_set(self.obj, bool(h_bounce), bool(v_bounce))
-
-    def bounce_set(self, h_bounce, v_bounce):
-        elm_scroller_bounce_set(self.obj, bool(h_bounce), bool(v_bounce))
-    def bounce_get(self):
-        cdef Eina_Bool h_bounce, v_bounce
-        elm_scroller_bounce_get(self.obj, &h_bounce, &v_bounce)
-        return (h_bounce, v_bounce)
-
     def item_append(self, GengridItemClass item_class not None,
                     item_data, func=None):
         """item_append(self, GengridItemClass item_class, item_data, func=None) -> GengridItem
@@ -1430,34 +1418,6 @@ cdef class Gengrid(Object):
     def last_item_get(self):
         return _object_item_to_python(elm_gengrid_last_item_get(self.obj))
 
-    property scroller_policy:
-        """This sets the scrollbar visibility policy for the given gengrid
-        scroller. #ELM_SCROLLER_POLICY_AUTO means the scrollbar is made
-        visible if it is needed, and otherwise kept hidden.
-        #ELM_SCROLLER_POLICY_ON turns it on all the time, and
-        #ELM_SCROLLER_POLICY_OFF always keeps it off. This applies
-        respectively for the horizontal and vertical scrollbars. Default is
-        #ELM_SCROLLER_POLICY_AUTO
-
-        :type: Elm_Scroller_Policy
-
-        """
-        def __get__(self):
-            cdef Elm_Scroller_Policy policy_h, policy_v
-            elm_scroller_policy_get(self.obj, &policy_h, &policy_v)
-            return (policy_h, policy_v)
-
-        def __set__(self, value):
-            policy_h, policy_v = value
-            elm_scroller_policy_set(self.obj, policy_h, policy_v)
-
-    def scroller_policy_set(self, policy_h, policy_v):
-        elm_scroller_policy_set(self.obj, policy_h, policy_v)
-    def scroller_policy_get(self):
-        cdef Elm_Scroller_Policy policy_h, policy_v
-        elm_scroller_policy_get(self.obj, &policy_h, &policy_v)
-        return (policy_h, policy_v)
-
     property items_count:
         """Return how many items are currently in a list.
 
@@ -1568,168 +1528,6 @@ cdef class Gengrid(Object):
         elm_gengrid_reorder_mode_set(self.obj, bool(mode))
     def reorder_mode_get(self, mode):
         return bool(elm_gengrid_reorder_mode_get(self.obj))
-
-    property page_relative:
-        """The gengrid's scroller is capable of binding scrolling by the
-        user to "pages". It means that, while scrolling and, specially
-        after releasing the mouse button, the grid will **snap** to the
-        nearest displaying page's area. When page sizes are set, the
-        grid's continuous content area is split into (equal) page sized
-        pieces.
-
-        This function sets the size of a page **relatively to the viewport
-        dimensions** of the gengrid, for each axis. A value ``1.0`` means
-        "the exact viewport's size", in that axis, while ``0.0`` turns
-        paging off in that axis. Likewise, ``0.5`` means "half a viewport".
-        Sane usable values are, than, between ``0.0`` and ``1.0``. Values
-        beyond those will make it behave behave inconsistently. If you only
-        want one axis to snap to pages, use the value ``0.0`` for the other
-        one.
-
-        There is a function setting page size values in **absolute** values,
-        too -- elm_gengrid_page_size_set(). Naturally, its use is mutually
-        exclusive to this one.
-
-        :type: tuple of floats
-
-        """
-        def __get__(self):
-            cdef double h_pagerel, v_pagerel
-            elm_scroller_page_relative_get(self.obj, &h_pagerel, &v_pagerel)
-            return (h_pagerel, v_pagerel)
-
-        def __set__(self, value):
-            h_pagerel, v_pagerel = value
-            elm_scroller_page_relative_set(self.obj, h_pagerel, v_pagerel)
-
-    def page_relative_set(self, h_pagerel, v_pagerel):
-        elm_scroller_page_relative_set(self.obj, h_pagerel, v_pagerel)
-    def page_relative_get(self):
-        cdef double h_pagerel, v_pagerel
-        elm_scroller_page_relative_get(self.obj, &h_pagerel, &v_pagerel)
-        return (h_pagerel, v_pagerel)
-
-    property page_size:
-        """The gengrid's scroller is capable of binding scrolling by the
-        user to "pages". It means that, while scrolling and, specially
-        after releasing the mouse button, the grid will **snap** to the
-        nearest displaying page's area. When page sizes are set, the
-        grid's continuous content area is split into (equal) page sized
-        pieces.
-
-        This function sets the size of a page of the gengrid, in pixels,
-        for each axis. Sane usable values are, between ``0`` and the
-        dimensions of ``obj``, for each axis. Values beyond those will
-        make it behave behave inconsistently. If you only want one axis
-        to snap to pages, use the value ``0`` for the other one.
-
-        There is a function setting page size values in **relative**
-        values, too -- elm_gengrid_page_relative_set(). Naturally, its
-        use is mutually exclusive to this one.
-
-        """
-        def __set__(self, value):
-            h_pagesize, v_pagesize = value
-            elm_scroller_page_size_set(self.obj, h_pagesize, v_pagesize)
-
-    def page_size_set(self, h_pagesize, v_pagesize):
-        elm_scroller_page_size_set(self.obj, h_pagesize, v_pagesize)
-
-    property current_page:
-        """The page number starts from 0. 0 is the first page.
-        Current page means the page which meet the top-left of the viewport.
-        If there are two or more pages in the viewport, it returns the
-        number of page which meet the top-left of the viewport.
-
-        .. seealso::
-            :py:attr:`last_page`
-            :py:func:`page_show()`
-            :py:func:`page_bring_in()`
-
-        :type: tuple of ints
-
-        """
-        def __get__(self):
-            cdef int h_pagenum, v_pagenum
-            elm_scroller_current_page_get(self.obj, &h_pagenum, &v_pagenum)
-            return (h_pagenum, v_pagenum)
-
-    def current_page_get(self):
-        cdef int h_pagenum, v_pagenum
-        elm_scroller_current_page_get(self.obj, &h_pagenum, &v_pagenum)
-        return (h_pagenum, v_pagenum)
-
-    property last_page:
-        """The page number starts from 0. 0 is the first page.
-        This returns the last page number among the pages.
-
-        .. seealso::
-            :py:attr:`current_page`
-            :py:func:`page_show()`
-            :py:func:`page_bring_in()`
-
-        :type: tuple of ints
-
-        """
-        def __get__(self):
-            cdef int h_pagenum, v_pagenum
-            elm_scroller_last_page_get(self.obj, &h_pagenum, &v_pagenum)
-            return (h_pagenum, v_pagenum)
-
-    def last_page_get(self):
-        cdef int h_pagenum, v_pagenum
-        elm_scroller_last_page_get(self.obj, &h_pagenum, &v_pagenum)
-        return (h_pagenum, v_pagenum)
-
-    def page_show(self, h_pagenum, v_pagenum):
-        """page_show(int h_pagenum, int v_pagenum)
-
-        Show a specific virtual region within the gengrid content object
-        by page number.
-
-        :param h_pagenumber: The horizontal page number
-        :param v_pagenumber: The vertical page number
-
-        0, 0 of the indicated page is located at the top-left of the viewport.
-        This will jump to the page directly without animation.
-
-        Example of usage::
-
-            sc = Gengrid(win)
-            sc.content = content
-            sc.page_relative = (1, 0)
-            h_page, v_page = sc.current_page
-            sc.page_show(h_page + 1, v_page)
-
-        .. seealso:: :py:func:`page_bring_in()`
-
-        """
-        elm_scroller_page_show(self.obj, h_pagenum, v_pagenum)
-
-    def page_bring_in(self, h_pagenum, v_pagenum):
-        """page_show(int h_pagenum, int v_pagenum)
-
-        Show a specific virtual region within the gengrid content object
-        by page number.
-
-        :param h_pagenumber: The horizontal page number
-        :param v_pagenumber: The vertical page number
-
-        0, 0 of the indicated page is located at the top-left of the viewport.
-        This will slide to the page with animation.
-
-        Example of usage::
-
-            sc = Gengrid(win)
-            sc.content = content
-            sc.page_relative = (1, 0)
-            h_page, v_page = sc.current_page
-            sc.page_bring_in(h_page + 1, v_page)
-
-        .. seealso:: :py:func:`page_show()`
-
-        """
-        elm_scroller_page_bring_in(self.obj, h_pagenum, v_pagenum)
 
     property filled:
         """The fill state of the whole grid of items of a gengrid

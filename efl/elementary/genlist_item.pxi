@@ -91,7 +91,7 @@ cdef class GenlistItem(ObjectItem):
                 self.cb_func,
                 self.item_data)
 
-    def append_to(self, GenlistWidget genlist not None):
+    def append_to(self, Genlist genlist not None):
         """append_to(Genlist genlist) -> GenlistItem
 
         Append a new item (add as last row) to this genlist.
@@ -121,7 +121,7 @@ cdef class GenlistItem(ObjectItem):
             Py_DECREF(self)
             return None
 
-    def prepend_to(self, GenlistWidget genlist not None):
+    def prepend_to(self, Genlist genlist not None):
         """prepend_to(Genlist genlist) -> GenlistItem
 
         Prepend a new item (add as first row) to this Genlist.
@@ -164,7 +164,7 @@ cdef class GenlistItem(ObjectItem):
         """
         cdef:
             Elm_Object_Item *item, *before
-            GenlistWidget genlist = before_item.widget
+            Genlist genlist = before_item.widget
             Evas_Smart_Cb cb = NULL
 
         if self.cb_func is not None:
@@ -198,7 +198,7 @@ cdef class GenlistItem(ObjectItem):
         """
         cdef:
             Elm_Object_Item *item, *after
-            GenlistWidget genlist = after_item.widget
+            Genlist genlist = after_item.widget
             Evas_Smart_Cb cb = NULL
 
         if self.cb_func is not None:
@@ -219,7 +219,7 @@ cdef class GenlistItem(ObjectItem):
             Py_DECREF(self)
             return None
 
-    def sorted_insert(self, GenlistWidget genlist not None, comparison_func):
+    def sorted_insert(self, Genlist genlist not None, comparison_func):
         """sorted_insert(Genlist genlist, comparison_func) -> GenlistItem
 
         Insert a new item into the sorted genlist object
