@@ -654,7 +654,6 @@ cdef extern from "Elementary.h":
     void                    elm_genlist_focus_on_selection_set(Evas_Object *obj, Eina_Bool enabled)
     Eina_Bool               elm_genlist_focus_on_selection_get(const_Evas_Object *obj)
 
-
 from cpython cimport PyUnicode_AsUTF8String
 
 from efl.utils.deprecated import DEPRECATED
@@ -694,9 +693,19 @@ ELM_OBJECT_SELECT_MODE_NONE = enums.ELM_OBJECT_SELECT_MODE_NONE
 ELM_OBJECT_SELECT_MODE_DISPLAY_ONLY = enums.ELM_OBJECT_SELECT_MODE_DISPLAY_ONLY
 ELM_OBJECT_SELECT_MODE_MAX = enums.ELM_OBJECT_SELECT_MODE_MAX
 
-ELM_SCROLLER_POLICY_AUTO = enums.ELM_SCROLLER_POLICY_AUTO
-ELM_SCROLLER_POLICY_ON = enums.ELM_SCROLLER_POLICY_ON
-ELM_SCROLLER_POLICY_OFF = enums.ELM_SCROLLER_POLICY_OFF
+ELM_SEL_FORMAT_TARGETS = enums.ELM_SEL_FORMAT_TARGETS
+ELM_SEL_FORMAT_NONE = enums.ELM_SEL_FORMAT_NONE
+ELM_SEL_FORMAT_TEXT = enums.ELM_SEL_FORMAT_TEXT
+ELM_SEL_FORMAT_MARKUP = enums.ELM_SEL_FORMAT_MARKUP
+ELM_SEL_FORMAT_IMAGE = enums.ELM_SEL_FORMAT_IMAGE
+ELM_SEL_FORMAT_VCARD = enums.ELM_SEL_FORMAT_VCARD
+ELM_SEL_FORMAT_HTML = enums.ELM_SEL_FORMAT_HTML
+
+ELM_SEL_TYPE_PRIMARY = enums.ELM_SEL_TYPE_PRIMARY
+ELM_SEL_TYPE_SECONDARY = enums.ELM_SEL_TYPE_SECONDARY
+ELM_SEL_TYPE_XDND = enums.ELM_SEL_TYPE_XDND
+ELM_SEL_TYPE_CLIPBOARD = enums.ELM_SEL_TYPE_CLIPBOARD
+
 
 cdef char *_py_elm_genlist_item_text_get(void *data, Evas_Object *obj, const_char *part) with gil:
     cdef:

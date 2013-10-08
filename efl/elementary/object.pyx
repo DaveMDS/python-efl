@@ -203,29 +203,17 @@ from enums cimport Elm_Focus_Direction, Elm_Sel_Format, Elm_Sel_Type, \
 from libc.string cimport const_char
 from libc.stdlib cimport const_void
 
+include "cnp_callbacks.pxi"
+
 cdef extern from "Edje.h":
     ctypedef void (*Edje_Signal_Cb)(void *data, Evas_Object *obj, const_char *emission, const_char *source)
 
 cdef extern from "Elementary.h":
     ctypedef struct Elm_Theme
 
-    ctypedef struct Elm_Selection_Data:
-        Evas_Coord       x, y
-        Elm_Sel_Format   format
-        void            *data
-        size_t           len
-        Elm_Xdnd_Action  action
-
     ctypedef Eina_Bool       (*Elm_Event_Cb)                (void *data, Evas_Object *obj, Evas_Object *src, Evas_Callback_Type t, void *event_info)
     ctypedef Evas_Object    *(*Elm_Tooltip_Content_Cb)      (void *data, Evas_Object *obj, Evas_Object *tooltip)
     ctypedef Evas_Object    *(*Elm_Tooltip_Item_Content_Cb) (void *data, Evas_Object *obj, Evas_Object *tooltip, void *item)
-
-    ctypedef Eina_Bool       (*Elm_Drop_Cb)                 (void *data, Evas_Object *obj, Elm_Selection_Data *ev)
-    ctypedef void            (*Elm_Selection_Loss_Cb)       (void *data, Elm_Sel_Type selection)
-    ctypedef Evas_Object    *(*Elm_Drag_Icon_Create_Cb)     (void *data, Evas_Object *win, Evas_Coord *xoff, Evas_Coord *yoff)
-    ctypedef void            (*Elm_Drag_State)              (void *data, Evas_Object *obj)
-    ctypedef void            (*Elm_Drag_Accept)             (void *data, Evas_Object *obj, Eina_Bool doaccept)
-    ctypedef void            (*Elm_Drag_Pos)                (void *data, Evas_Object *obj, Evas_Coord x, Evas_Coord y, Elm_Xdnd_Action action)
 
     # Object handling       (py3: DONE)
     void                    elm_object_part_text_set(Evas_Object *obj, const_char *part, const_char *label)
@@ -422,12 +410,15 @@ cdef bint _event_dispatcher(Object obj, Object src, Evas_Callback_Type t, event_
             return ret
     return False
 
-cdef Eina_Bool _event_callback(void *data, Evas_Object *o, Evas_Object *src, Evas_Callback_Type t, void *event_info) with gil:
-    cdef Object obj = object_from_instance(o)
-    cdef Object src_obj = object_from_instance(src)
-    cdef bint ret = False
-    cdef EventKeyDown down_event
-    cdef EventKeyUp up_event
+cdef Eina_Bool _event_callback(void *data, Evas_Object *o, \
+    Evas_Object *src, Evas_Callback_Type t, void *event_info) with gil:
+
+    cdef:
+        Object obj = object_from_instance(o)
+        Object src_obj = object_from_instance(src)
+        bint ret = False
+        EventKeyDown down_event
+        EventKeyUp up_event
 
     if t == evasenums.EVAS_CALLBACK_KEY_DOWN:
         down_event = EventKeyDown()
@@ -459,7 +450,6 @@ cdef void signal_callback(void *data, Evas_Object *obj,
         except:
             traceback.print_exc()
 
-include "cnp_callbacks.pxi"
 
 # TODO: Is this handled in Eo now?
 cdef void _event_data_del_cb(void *data, Evas_Object *o, void *event_info) with gil:
@@ -970,7 +960,10 @@ cdef class Object(evasObject):
     cpdef bint orientation_mode_disabled_get(self):
         return elm_object_orientation_mode_disabled_get(self.obj)
 
+    #
     # Cursors
+    # =======
+
     property cursor:
         """The cursor to be shown when mouse is over the object
 
@@ -1028,7 +1021,10 @@ cdef class Object(evasObject):
     def cursor_theme_search_enabled_get(self):
         return elm_object_cursor_theme_search_enabled_get(self.obj)
 
+    #
     # Focus
+    # =====
+
     property focus:
         """Set/unset focus to a given Elementary object.
 
@@ -1237,7 +1233,10 @@ cdef class Object(evasObject):
     def tree_focus_allow_get(self):
         return bool(elm_object_tree_focus_allow_get(self.obj))
 
+    #
     # Mirroring
+    # =========
+
     property mirrored:
         """The widget's mirrored mode.
 
@@ -1271,7 +1270,10 @@ cdef class Object(evasObject):
     def mirrored_automatic_set(self, automatic):
         elm_object_mirrored_automatic_set(self.obj, automatic)
 
+    #
     # Scaling
+    # =======
+
     property scale:
         """The scaling factor for the Elementary object.
 
@@ -1289,7 +1291,10 @@ cdef class Object(evasObject):
     def scale_get(self):
         return elm_object_scale_get(self.obj)
 
+    #
     # Scrollhints
+    # ===========
+
     def scroll_hold_push(self):
         """scroll_hold_push()
 
@@ -1383,7 +1388,10 @@ cdef class Object(evasObject):
     def scroll_lock_y_get(self):
         return bool(elm_object_scroll_lock_y_get(self.obj))
 
+    #
     # Theme
+    # =====
+
     property theme:
         """A theme to be used for this object and its children.
 
@@ -1408,7 +1416,10 @@ cdef class Object(evasObject):
             th.th = elm_object_theme_get(self.obj)
             return th
 
+    #
     # Tooltips
+    # ========
+
     def tooltip_show(self):
         """tooltip_show()
 
@@ -1668,12 +1679,15 @@ cdef class Object(evasObject):
     def translatable_text_get(self):
         return _ctouni(elm_object_translatable_text_get(self.obj))
 
+    #
     # Callbacks
+    # =========
     #
     # TODO: Should these be internal only? (cdef)
     #       Or remove the individual widget callback_*_add/del methods and
     #       use just these.
     #
+
     def _callback_add_full(self, event, event_conv, func, *args, **kargs):
         """Add a callback for the smart event specified by event.
 
@@ -1795,7 +1809,10 @@ cdef class Object(evasObject):
         """
         return <long>self.obj
 
+    #
     # Copy and Paste
+    # ==============
+
     def cnp_selection_set(self, Elm_Sel_Type selection, Elm_Sel_Format format, buf):
         """Set copy data for a widget.
 
@@ -1841,7 +1858,7 @@ cdef class Object(evasObject):
             raise TypeError("datacb is not callable.")
         self.cnp_drop_cb = datacb
         self.cnp_drop_data = udata
-        if not elm_cnp_selection_get(self.obj, selection, format, elm_drop_cb, <void *>self):
+        if not elm_cnp_selection_get(self.obj, selection, format, py_elm_drop_cb, <void *>self):
             raise RuntimeError("Could not get cnp data from widget.")
 
     def cnp_selection_clear(self, Elm_Sel_Type selection):
@@ -1883,19 +1900,24 @@ cdef class Object(evasObject):
             raise TypeError("func is not callable.")
         self.cnp_selection_loss_cb = func
         self.cnp_selection_loss_data = data
-        elm_cnp_selection_loss_callback_set(self.obj, selection, elm_selection_loss_cb, <const_void *>data)
+        elm_cnp_selection_loss_callback_set(
+            self.obj, selection, py_elm_selection_loss_cb, <const_void *>data)
 
-    # TODO:
-    # def drop_target_add(self, Elm_Sel_Format format, entercb, enterdata, leavecb, leavedata, poscb, posdata, dropcb, dropdata):
+    #
+    # Drag n Drop
+    # ===========
+
+    # def drop_target_add(self, Elm_Sel_Format format,
+    #     entercb, enterdata, leavecb, leavedata, poscb, posdata, dropcb, dropdata):
     #     """Set the given object as a target for drops for drag-and-drop
 
     #     :param format: The formats supported for dropping
     #     :param entercb: The function to call when the object is entered with a drag
     #     :param enterdata: The application data to pass to enterdata
     #     :param leavecb: The function to call when the object is left with a drag
-    #     :param leavedata: The application data to pass to leavedata
+    #     :param leavedata: The application data to pass to leavecb
     #     :param poscb: The function to call when the object has a drag over it
-    #     :param posdata: The application data to pass to posdata
+    #     :param posdata: The application data to pass to poscb
     #     :param dropcb: The function to call when a drop has occurred
     #     :param cbdata: The application data to pass to dropcb
     #     :raise RuntimeError: if adding as drop target fails.
@@ -1903,11 +1925,24 @@ cdef class Object(evasObject):
     #     :since: 1.8
 
     #     """
-    #     if not elm_drop_target_add(self.obj, format,
-    #                                        Elm_Drag_State entercb, void *enterdata,
-    #                                        Elm_Drag_State leavecb, void *leavedata,
-    #                                        Elm_Drag_Pos poscb, void *posdata,
-    #                                        Elm_Drop_Cb dropcb, void *cbdata):
+    #     if not callable(entercb) \
+    #     or not callable(leavecb) \
+    #     or not callable(poscb) \
+    #     or not callable(dropcb):
+    #         raise TypeError("A callback passed is not callable.")
+
+    #     enter = (entercb, enterdata)
+    #     leave = (leavecb, leavedata)
+    #     pos = (poscb, posdata)
+    #     drop = (dropcb, dropdata)
+
+    #     if not elm_drop_target_add(
+    #         self.obj, format,
+    #         py_elm_drag_state_cb, <void *>enter,
+    #         py_elm_drag_state_cb, <void *>leave,
+    #         py_elm_drag_pos_cb, <void *>pos,
+    #         py_elm_drop_cb, <void *>drop
+    #         ):
     #         raise RuntimeError("Could not add drop target.")
 
     # def drop_target_del(self):
@@ -1921,7 +1956,9 @@ cdef class Object(evasObject):
     #     if not elm_drop_target_del(self.obj):
     #         raise RuntimeError("Could not delete drop target status.")
 
-    # def drag_start(self, Elm_Sel_Format format, data, Elm_Xdnd_Action action, createicon, createdata, dragpos, dragdata, acceptcb, acceptdata, dragdone, donecbdata):
+    # def drag_start(self, Elm_Sel_Format format,
+    #     data, Elm_Xdnd_Action action, createicon, createdata,
+    #     dragpos, dragdata, acceptcb, acceptdata, dragdone, donecbdata):
     #     """Begins a drag given a source object
 
     #     :param format: The drag formats supported by the data
@@ -1961,6 +1998,83 @@ cdef class Object(evasObject):
     #     if not elm_drag_action_set(Evas_Object *obj, action):
     #         raise RuntimeError("Could not set cnp xdnd action.")
 
+    # def drag_item_container_add(self, double tm_to_anim, double tm_to_drag, itemgetcb, data_get):
+    #     """
+
+    #     Set a item container (list, genlist, grid) as source of drag
+
+    #     :param tm_to_anim: Time period to wait before start animation.
+    #     :param tm_to_drag: Time period to wait before start draggind.
+    #     :param itemgetcb: Callback to get Evas_Object pointer for item at (x,y)
+    #     :param data_get:  Callback to get drag info
+    #     :return: Returns EINA_TRUE, if successful, or EINA_FALSE if not.
+
+    #     :since: 1.8
+
+    #     """
+    #     if not elm_drag_item_container_add(self.obj, tm_to_anim, tm_to_drag, Elm_Xy_Item_Get_Cb itemgetcb, Elm_Item_Container_Data_Get_Cb data_get):
+    #         raise RuntimeError
+
+    # def drag_item_container_del(self):
+    #     """
+
+    #     Deletes a item container from drag-source list
+
+    #     :return: Returns EINA_TRUE, if successful, or EINA_FALSE if not.
+
+    #     :since: 1.8
+
+    #     """
+    #     if not elm_drag_item_container_del(self.obj):
+    #         raise RuntimeError
+
+    # def drop_item_container_add(self, format, itemgetcb, entercb, enterdata, leavecb, leavedata, poscb, posdata, dropcb, cbdata):
+    #     """
+
+    #     Set a item container (list, genlist, grid) as target for drop.
+
+    #     :param format: The formats supported for dropping
+    #     :param itemgetcb: Callback to get Evas_Object pointer for item at (x,y)
+    #     :param entercb: The function to call when the object is entered with a drag
+    #     :param enterdata: The application data to pass to enterdata
+    #     :param leavecb: The function to call when the object is left with a drag
+    #     :param leavedata: The application data to pass to leavedata
+    #     :param poscb: The function to call when the object has a drag over it
+    #     :param posdata: The application data to pass to posdata
+    #     :param dropcb: The function to call when a drop has occurred
+    #     :param cbdata: The application data to pass to dropcb
+    #     :return: Returns EINA_TRUE, if successful, or EINA_FALSE if not.
+
+    #     :since: 1.8
+
+    #     """
+    #     if not elm_drop_item_container_add(self.obj,
+    #           Elm_Sel_Format format,
+    #           Elm_Xy_Item_Get_Cb itemgetcb,
+    #           Elm_Drag_State entercb, void *enterdata,
+    #           Elm_Drag_State leavecb, void *leavedata,
+    #           Elm_Drag_Item_Container_Pos poscb, void *posdata,
+    #           Elm_Drop_Item_Container_Cb dropcb, void *cbdata):
+    #         raise RuntimeError
+
+    # def drop_item_container_del(self):
+    #     """
+
+    #     Removes a container from list of drop tragets.
+
+    #     :param obj: The container object
+    #     :return: Returns EINA_TRUE, if successful, or EINA_FALSE if not.
+
+
+    #     :since: 1.8
+
+    #     """
+    #     if not elm_drop_item_container_del(self.obj):
+    #         raise RuntimeError
+
+    #
+    # Access
+    # ======
 
     def unregister(self):
         """Unregister accessible object.

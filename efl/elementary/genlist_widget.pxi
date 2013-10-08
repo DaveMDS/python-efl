@@ -1,3 +1,5 @@
+include "cnp_callbacks.pxi"
+
 cdef class Genlist(Object):
 
     """This is the class that actually implements the widget."""
@@ -489,7 +491,7 @@ cdef class Genlist(Object):
         :param x: The input x coordinate
         :param y: The input y coordinate
         :param posret: The position relative to the item returned here
-        :return: The item at the coordinates or None if none
+        :return: (:py:class:`ObjectItem<efl.elementary.object_item.ObjectItem>` it, **int** posret)
 
         This returns the item at the given coordinates (which are canvas
         relative, not object-relative). If an item is at that coordinate,
@@ -502,7 +504,12 @@ cdef class Genlist(Object):
         the genlist.
 
         """
-        return _object_item_to_python(elm_genlist_at_xy_item_get(self.obj, x, y, NULL))
+        cdef:
+            int posret
+            Elm_Object_Item *ret
+
+        ret = elm_genlist_at_xy_item_get(self.obj, x, y, &posret)
+        return _object_item_to_python(ret), posret
 
     property decorated_item:
         """This function returns the item that was activated with a mode, by
@@ -660,6 +667,108 @@ cdef class Genlist(Object):
 
         def __get__(self):
             return bool(elm_genlist_focus_on_selection_get(self.obj))
+
+    #
+    # Drag and Drop
+    # =============
+
+    def drag_item_container_add(self,
+        double tm_to_anim, double tm_to_drag,
+        itemgetcb = None,
+        data_get = None):
+        """
+
+        Set a item container (list, genlist, grid) as source of drag
+
+        :param tm_to_anim: Time period to wait before start animation.
+        :param tm_to_drag: Time period to wait before start draggind.
+        :param itemgetcb: Callback to get Evas_Object pointer for item at (x,y)
+        :param data_get:  Callback to get drag info
+        :return: Returns EINA_TRUE, if successful, or EINA_FALSE if not.
+
+        :since: 1.8
+
+        """
+        if itemgetcb is not None:
+            if not callable(itemgetcb):
+                raise TypeError("itemgetcb must be callable.")
+            self.data["xy_item_get_cb"] = itemgetcb
+
+        if not elm_drag_item_container_add(self.obj,
+            tm_to_anim,
+            tm_to_drag,
+            <Elm_Xy_Item_Get_Cb>py_elm_xy_item_get_cb if itemgetcb is not None else NULL,
+            <Elm_Item_Container_Data_Get_Cb>py_elm_item_container_data_get_cb if data_get is not None else NULL):
+            raise RuntimeError
+
+    def drag_item_container_del(self):
+        """
+
+        Deletes a item container from drag-source list
+
+        :return: Returns EINA_TRUE, if successful, or EINA_FALSE if not.
+
+        :since: 1.8
+
+        """
+        if not elm_drag_item_container_del(self.obj):
+            raise RuntimeError
+
+    def drop_item_container_add(self, Elm_Sel_Format format,
+        itemgetcb = None, entercb = None, enterdata = None,
+        leavecb = None, leavedata = None,
+        poscb = None, posdata = None, dropcb = None, cbdata = None):
+        """
+
+        Set a item container (list, genlist, grid) as target for drop.
+
+        :param format: The formats supported for dropping
+        :param itemgetcb: Callback to get Evas_Object pointer for item at (x,y)
+        :param entercb: The function to call when the object is entered with a drag
+        :param enterdata: The application data to pass to enterdata
+        :param leavecb: The function to call when the object is left with a drag
+        :param leavedata: The application data to pass to leavedata
+        :param poscb: The function to call when the object has a drag over it
+        :param posdata: The application data to pass to posdata
+        :param dropcb: The function to call when a drop has occurred
+        :param cbdata: The application data to pass to dropcb
+        :return: Returns EINA_TRUE, if successful, or EINA_FALSE if not.
+
+        :since: 1.8
+
+        """
+        if itemgetcb is not None:
+            if not callable(itemgetcb):
+                raise TypeError("itemgetcb must be callable.")
+            self.data["xy_item_get_cb"] = itemgetcb
+
+        if not elm_drop_item_container_add(self.obj,
+            format,
+            <Elm_Xy_Item_Get_Cb>py_elm_xy_item_get_cb if itemgetcb is not None else NULL,
+            <Elm_Drag_State>py_elm_drag_state_cb if entercb is not None else NULL,
+            <void *>enterdata,
+            <Elm_Drag_State>py_elm_drag_state_cb if leavecb is not None else NULL,
+            <void *>leavedata,
+            <Elm_Drag_Item_Container_Pos>py_elm_drag_item_container_pos if poscb is not None else NULL,
+            <void *>posdata,
+            <Elm_Drop_Item_Container_Cb>py_elm_drop_item_container_cb if dropcb is not None else NULL,
+            <void *>cbdata):
+            raise RuntimeError
+
+    def drop_item_container_del(self):
+        """
+
+        Removes a container from list of drop tragets.
+
+        :param obj: The container object
+        :return: Returns EINA_TRUE, if successful, or EINA_FALSE if not.
+
+
+        :since: 1.8
+
+        """
+        if not elm_drop_item_container_del(self.obj):
+            raise RuntimeError
 
 
     def callback_activated_add(self, func, *args, **kwargs):
