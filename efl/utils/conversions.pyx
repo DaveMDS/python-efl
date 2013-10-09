@@ -122,7 +122,7 @@ cdef list eina_list_objects_to_python_list(const_Eina_List *lst):
 
 cdef Eina_List *python_list_objects_to_eina_list(list objects):
     cdef:
-        Eina_List *lst
+        Eina_List *lst = NULL
         Eo o
     for o in objects:
         lst = eina_list_append(lst, o.obj)
