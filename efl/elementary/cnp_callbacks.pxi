@@ -1,5 +1,6 @@
 from efl.elementary.enums cimport Elm_Sel_Type, Elm_Sel_Format, \
     Elm_Xdnd_Action
+from efl.utils.conversions cimport python_list_objects_to_eina_list
 
 cdef extern from "Elementary.h":
     struct _Elm_Selection_Data:
@@ -78,7 +79,7 @@ cdef class SelectionData(object):
     property data:
         def __get__(self):
             # TODO: void *
-            return None
+            return <const_char *>self.sel_data.data
 
     property len:
         """:type: size_t"""
@@ -103,6 +104,8 @@ cdef Eina_Bool py_elm_drop_cb(void *data, Evas_Object *obj, Elm_Selection_Data *
     :param ev: struct holding information about selected data
 
     """
+    print("in drop_cb")
+    assert data != NULL, "data is NULL"
     cdef:
         SelectionData sd = SelectionData.__new__(SelectionData)
         bint ret
@@ -146,10 +149,10 @@ cdef Elm_Object_Item *py_elm_xy_item_get_cb(Evas_Object *obj, Evas_Coord x, Evas
 
     if xpos1 is not None:
         xpos2 = xpos1
-        xposret = &xpos2
+        xposret[0] = xpos2
     if ypos1 is not None:
         ypos2 = ypos1
-        yposret = &ypos2
+        yposret[0] = ypos2
 
     return it.item
 
@@ -181,6 +184,40 @@ cdef Evas_Object *py_elm_drag_icon_create_cb(
 
     """
     print("in drag_icon_create_cb")
+    assert data != NULL, "data is NULL"
+
+    cdef:
+        evasObject win1 = object_from_instance(win)
+        evasObject icon
+        object xoff1 = None, yoff1 = None
+        Evas_Coord xoff2, yoff2
+
+    createicon, createdata = <object>data
+
+    if xoff != NULL:
+        xoff1 = xoff[0]
+    if yoff != NULL:
+        yoff1 = yoff[0]
+
+    try:
+        ret = createicon(win1, xoff1, yoff1, createdata)
+    except:
+        traceback.print_exc()
+        return NULL
+
+    if ret is None:
+        return NULL
+
+    icon, xoff1, yoff1 = ret
+
+    if xoff1 is not None:
+        xoff2 = xoff1
+        xoff[0] = xoff2
+    if yoff1 is not None:
+        yoff2 = yoff1
+        yoff[0] = yoff2
+
+    return icon.obj
 
 cdef void py_elm_drag_state_cb(void *data, Evas_Object *obj) with gil:
     """Callback called when a drag is finished, enters, or leaves an object
@@ -191,6 +228,28 @@ cdef void py_elm_drag_state_cb(void *data, Evas_Object *obj) with gil:
 
     """
     print("in drag_state_cb")
+
+cdef void py_elm_drag_done_cb(void *data, Evas_Object *obj, Eina_Bool accepted) with gil:
+    """Callback called when a drag is finished.
+
+    @param data Application specific data
+    @param obj The object where the drag started
+    @param accepted TRUE if the droppped-data is accepted on drop
+    :since: 1.8
+
+    """
+    print("in drag_done_cb")
+    assert data != NULL, "data is NULL"
+
+    cdef:
+        evasObject o = object_from_instance(obj)
+
+    donecb, donedata = <object>data
+
+    try:
+        donecb(o, <bint>accepted, donedata)
+    except:
+        traceback.print_exc()
 
 cdef void py_elm_drag_accept_cb(void *data, Evas_Object *obj, Eina_Bool doaccept) with gil:
     """Callback called when a drag is responded to with an accept or deny
@@ -215,7 +274,17 @@ cdef void py_elm_drag_pos_cb(void *data, Evas_Object *obj,
 
     """
     print("in drag_pos_cb")
+    assert data != NULL, "data is NULL"
 
+    cdef:
+        evasObject o = object_from_instance(obj)
+
+    dragpos, dragdata = <object>data
+
+    try:
+        dragpos(o, x, y, action, dragdata)
+    except:
+        traceback.print_exc()
 
 cdef void py_elm_drag_item_container_pos(
     void *data, Evas_Object *cont, Elm_Object_Item *it,
@@ -254,7 +323,26 @@ cdef Eina_Bool py_elm_drop_item_container_cb(
 
     """
     print("in drop_item_container_cb")
+    assert obj != NULL, "obj is NULL"
 
+    cdef:
+        evasObject o = object_from_instance(obj)
+        ObjectItem item = _object_item_to_python(it)
+        SelectionData evdata = SelectionData.__new__(SelectionData)
+        object cbdata = None
+
+    evdata.sel_data = ev
+
+    cb = o.data["drop_item_container_cb"]
+
+    if data != NULL:
+        cbdata = <object>data
+
+    try:
+        ret = cb(o, item, evdata, xposret, yposret, cbdata)
+    except:
+        traceback.print_exc()
+        return 0
 
 cdef class DragUserInfo(object):
     """
@@ -277,8 +365,21 @@ cdef class DragUserInfo(object):
     @param donecbdata Application data to pass to @p dragdone (output)
 
     """
+    cdef:
+        public Elm_Sel_Format format
+        public Elm_Xdnd_Action action
+        public list icons
+        public object createicon, createdata, dragpos, dragdata
+        public object acceptcb, acceptdata, dragdone, donecbdata
+        const_char *_data
 
-    cdef Elm_Drag_User_Info *info
+    property data:
+        def __get__(self):
+            return _ctouni(self._data)
+
+        def __set__(self, value):
+            if isinstance(value, unicode): value = PyUnicode_AsUTF8String(value)
+            self._data = value
 
     # Elm_Sel_Format format;
     # const char *data;
@@ -306,3 +407,44 @@ cdef Eina_Bool py_elm_item_container_data_get_cb(
 
     """
     print("in item_container_data_get_cb")
+
+    cdef:
+        DragUserInfo ret
+        evasObject o = object_from_instance(obj)
+        ObjectItem item = _object_item_to_python(it)
+
+    try:
+        ret = <DragUserInfo?>o.data["item_container_data_get_cb"](o, item)
+    except:
+        traceback.print_exc()
+        return 0
+
+    if ret is not None:
+        print("populating info")
+        info.format = ret.format
+        info.data = ret._data
+        info.icons = python_list_objects_to_eina_list(ret.icons)
+        if ret.createicon is not None:
+            info.createicon = py_elm_drag_icon_create_cb
+            createdata = (ret.createicon, ret.createdata)
+            Py_INCREF(createdata)
+            info.createdata = <void *>createdata
+        if ret.dragpos is not None:
+            info.dragpos = py_elm_drag_pos_cb
+            dragdata = (ret.dragpos, ret.dragdata)
+            Py_INCREF(dragdata)
+            info.dragdata = <void *>dragdata
+        if ret.acceptcb is not None:
+            info.acceptcb = py_elm_drag_accept_cb
+            acceptdata = (ret.acceptcb, ret.acceptdata)
+            Py_INCREF(acceptdata)
+            info.acceptdata = <void *>acceptdata
+        if ret.dragdone is not None:
+            info.dragdone =py_elm_drag_done_cb
+            donecbdata = (ret.dragdone, ret.donecbdata)
+            Py_INCREF(donecbdata)
+            info.donecbdata = <void *>donecbdata
+        return 1
+    else:
+        print("ret is None")
+        return 0

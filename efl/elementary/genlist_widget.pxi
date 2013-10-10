@@ -694,6 +694,8 @@ cdef class Genlist(Object):
                 raise TypeError("itemgetcb must be callable.")
             self.data["xy_item_get_cb"] = itemgetcb
 
+        self.data["item_container_data_get_cb"] = data_get
+
         if not elm_drag_item_container_add(self.obj,
             tm_to_anim,
             tm_to_drag,
@@ -742,17 +744,20 @@ cdef class Genlist(Object):
                 raise TypeError("itemgetcb must be callable.")
             self.data["xy_item_get_cb"] = itemgetcb
 
+        self.data["drag_item_container_pos"] = poscb
+        self.data["drop_item_container_cb"] = dropcb
+
         if not elm_drop_item_container_add(self.obj,
             format,
             <Elm_Xy_Item_Get_Cb>py_elm_xy_item_get_cb if itemgetcb is not None else NULL,
             <Elm_Drag_State>py_elm_drag_state_cb if entercb is not None else NULL,
-            <void *>enterdata,
+            <void *>enterdata if enterdata is not None else NULL,
             <Elm_Drag_State>py_elm_drag_state_cb if leavecb is not None else NULL,
-            <void *>leavedata,
+            <void *>leavedata if leavedata is not None else NULL,
             <Elm_Drag_Item_Container_Pos>py_elm_drag_item_container_pos if poscb is not None else NULL,
-            <void *>posdata,
+            <void *>posdata if posdata is not None else NULL,
             <Elm_Drop_Item_Container_Cb>py_elm_drop_item_container_cb if dropcb is not None else NULL,
-            <void *>cbdata):
+            <void *>cbdata if cbdata is not None else NULL):
             raise RuntimeError
 
     def drop_item_container_del(self):

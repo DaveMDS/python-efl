@@ -7,7 +7,7 @@ from efl.elementary.box import Box
 from efl.elementary.window import StandardWindow
 from efl.elementary.icon import Icon
 from efl.elementary.genlist import Genlist, GenlistItemClass, \
-    ELM_SEL_FORMAT_TARGETS, ELM_GENLIST_ITEM_NONE
+    ELM_SEL_FORMAT_TARGETS, ELM_GENLIST_ITEM_NONE, DragUserInfo
 
 img = (
     "panel_01.jpg",
@@ -39,19 +39,12 @@ img = (
 DRAG_TIMEOUT = 0.3
 ANIM_TIME = 0.5
 
-def item_ptr_cmp(d1, d2):
-    return (d1 - d2)
-
-#static Elm_Genlist_Item_Class *itc1
-#static Elm_Gengrid_Item_Class *gic
-
-
 class DndItemClass(GenlistItemClass):
     def text_get(self, obj, part, data, *args):
         return data
 
     def content_get(self, obj, part, data, *args):
-        if not part == "elm.swallow.icon":
+        if part == "elm.swallow.icon":
             icon = Icon(obj)
             icon.file = data
             icon.size_hint_aspect = evas.EVAS_ASPECT_CONTROL_VERTICAL, 1, 1
@@ -59,8 +52,10 @@ class DndItemClass(GenlistItemClass):
             return icon
         return None
 
+itc1 = DndItemClass()
+
 def win_del(obj, data):
-    #print("<%s> <%d> will del <%p>\n", __func__, __LINE__, data)
+    print("will del <%s>" % data)
     data.drop_item_container_del()
     data.drag_item_container_del()
 
@@ -73,12 +68,11 @@ def win_del(obj, data):
 
 def gl_item_getcb(gl, x, y):
     # This function returns pointer to item under (x,y) coords
-    #print("<%s> <%d> obj=<%p>\n", __func__, __LINE__, gl)
     gli, yposret = gl.at_xy_item_get(x, y)
     if gli is not None:
-        print("over <%s>, gli=<%s> yposret %i\n" % (gli.part_text_get("elm.text"), gli, yposret))
+        print("over <%s>, gli=<%s> yposret %i" % (gli.part_text_get("elm.text"), gli, yposret))
     else:
-        print("over none, yposret %i\n", yposret)
+        print("over none, yposret %i" % yposret)
     return gli, None, yposret
 
 # def grid_item_getcb(obj, x, y, int *xposret, int *yposret):
@@ -92,42 +86,33 @@ def gl_item_getcb(gl, x, y):
 #         print("over none, xposret %i yposret %i\n", *xposret, *yposret)
 #     return item
 
-def gl_dropcb(data, obj, it,
-    ev, # Elm_Selection_Data *
-    xposret, yposret):
+def gl_dropcb(obj, it, ev, xposret, yposret, data):
     # This function is called when data is dropped on the genlist
-    #print("<%s> <%d> str=<%s>\n", __func__, __LINE__, (char *) ev->data)
     if ev.data is None:
         return False
 
     p = ev.data
-    p = strchr(p, '#')
-    while p is not None:
-        p += 1
-        p2 = strchr(p, '#')
-        if p2 is not None:
-            p2 = '\0'
-            print("Item %s\n", p)
-            if yposret == -1:
-                obj.item_insert_before(itc1, p, before=it,
-                        flags=ELM_GENLIST_ITEM_NONE)
-            elif yposret == 0 or yposret == 1:
-                if not it:
-                    it = obj.last_item
 
-                if it:
-                    it = obj.item_insert_after(itc1, p, None, it,
-                    ELM_GENLIST_ITEM_NONE)
-                else:
-                    it = obj.item_append(itc1, p, None,
-                    ELM_GENLIST_ITEM_NONE)
+    wh0rdlist = p.split("#")
+
+    wh0rdlist.pop(0)
+    wh0rdlist.pop()
+
+    for wh0rd in wh0rdlist:
+        print("Item %s" % wh0rd)
+
+        if yposret == -1:
+            obj.item_insert_before(itc1, wh0rd, before_item=it, flags=ELM_GENLIST_ITEM_NONE)
+        elif yposret == 0 or yposret == 1:
+            if not it:
+                it = obj.last_item
+
+            if it:
+                it = obj.item_insert_after(itc1, wh0rd, after_item=it, flags=ELM_GENLIST_ITEM_NONE)
             else:
-                return False
-
-            p = p2
-
+                it = obj.item_append(itc1, wh0rd, flags=ELM_GENLIST_ITEM_NONE)
         else:
-            p = None
+            return False
 
     return True
 
@@ -284,44 +269,43 @@ def gl_dropcb(data, obj, it,
 # # END   - Handling drag start animation
 
 def gl_dragdone(obj, doaccept, data):
-    #print("<%s> <%d> data=<%p> doaccept=<%d>\n", __func__, __LINE__, data, doaccept)
-
     if doaccept:
         # Remove items dragged out (accepted by target)
         for it in data:
             it.delete()
 
-def gl_createicon(data, win, xoff, yoff):
+def gl_createicon(win, xoff, yoff, data):
     #print("<%s> <%d>\n", __func__, __LINE__)
     it = data
     o = it.part_content_get("elm.swallow.icon")
 
-    if o is not None:
-        w = h = 30
+    if o is None:
+        return
 
-        f, g = o.file
+    w = h = 30
 
-        xm, ym = o.evas.pointer_canvas_xy
+    f, g = o.file
 
-        if xoff is not None:
-            xoff = xm - (w/2)
-        if yoff is not None:
-            yoff = ym - (h/2)
+    xm, ym = o.evas.pointer_canvas_xy
 
-        icon = Icon(win)
-        icon.file = f, g
-        icon.size_hint_align = evas.EVAS_HINT_FILL, evas.EVAS_HINT_FILL
-        icon.size_hint_weight = evas.EVAS_HINT_EXPAND, evas.EVAS_HINT_EXPAND
+    if xoff is not None:
+        xoff = xm - (w/2)
+    if yoff is not None:
+        yoff = ym - (h/2)
 
-        if xoff is not None and yoff is not None:
-            icon.move(xoff, yoff)
-        icon.resize(w, h)
+    icon = Icon(win)
+    icon.file = f, g
+    icon.size_hint_align = evas.EVAS_HINT_FILL, evas.EVAS_HINT_FILL
+    icon.size_hint_weight = evas.EVAS_HINT_EXPAND, evas.EVAS_HINT_EXPAND
 
-    return icon
+    if (xoff is not None) and (yoff is not None):
+        icon.move(xoff, yoff)
+    icon.resize(w, h)
+
+    return icon, xoff, yoff
 
 def gl_icons_get(data):
     # Start icons animation before actually drag-starts
-    #print("<%s> <%d>\n", __func__, __LINE__)
     gl = data
 
     yposret = 0
@@ -329,18 +313,17 @@ def gl_icons_get(data):
     icons = []
 
     xm, ym = gl.evas.pointer_canvas_xy
-    items = gl.selected_items
-    gli = gl.at_xy_item_get(xm, ym, yposret)
+    items = list(gl.selected_items)
+    gli, yposret = gl.at_xy_item_get(xm, ym)
 
     if gli is not None:
         # Add the item mouse is over to the list if NOT seleced
-        p = eina_list_search_unsorted(items, _item_ptr_cmp, gli)
-        if p is not None:
-            items = eina_list_append(items, gli)
+        if not gli in items:
+            items.append(gli)
 
-    for gli in items:
+    for it in items:
         # Now add icons to animation window
-        o = gli.part_content_get("elm.swallow.icon")
+        o = it.part_content_get("elm.swallow.icon")
 
         if o is not None:
             f, g = o.file
@@ -356,22 +339,19 @@ def gl_icons_get(data):
 
             icons.append(ic)
 
-    eina_list_free(items)
     return icons
 
-def gl_get_drag_data(gl, it, items):
+def gl_get_drag_data(gl, it):
     # Construct a string of dragged info, user frees returned string
     drag_data = None
-    #print("<%s> <%d>\n", __func__, __LINE__)
 
-    items = gl.selected_items
+    items = list(gl.selected_items)
     if it is not None:
         # Add the item mouse is over to the list if NOT seleced
-        p = eina_list_search_unsorted(items, _item_ptr_cmp, it)
-        if p is None:
-            items = eina_list_append(items, it)
+        if not it in items:
+            items.append(it)
 
-    if items:
+    if items is not None:
         # Now we can actually compose string to send and start dragging
         drag_data = "file://"
 
@@ -383,9 +363,9 @@ def gl_get_drag_data(gl, it, items):
 
         drag_data += "#"
 
-        #print("<%s> <%d> Sending <%s>\n", __func__, __LINE__, drag_data)
+        print("Sending <%s>" % drag_data)
 
-    return drag_data
+    return drag_data, items
 
 # def grid_get_drag_data(gg, it, Eina_List **items):
 #     # Construct a string of dragged info, user frees returned string
@@ -432,26 +412,25 @@ def gl_get_drag_data(gl, it, items):
 
 #     return drag_data
 
-def gl_dnd_default_anim_data_getcb(gl, it,
-        info # Elm_Drag_User_Info *
-    ):
+def gl_dnd_default_anim_data_getcb(gl, it):
     # This called before starting to drag, mouse-down was on it
+    info = DragUserInfo()
     info.format = ELM_SEL_FORMAT_TARGETS
-    info.createicon = _gl_createicon
+    info.createicon = gl_createicon
     info.createdata = it
-    info.icons = _gl_icons_get(obj)
-    info.dragdone = _gl_dragdone
+    info.icons = gl_icons_get(gl)
+    info.dragdone = gl_dragdone
 
     # Now, collect data to send for drop from ALL selected items
     # Save list pointer to remove items after drop and free list on done
-    info.data = _gl_get_drag_data(obj, it, info.donecbdata)
-    #print("%s - data = %s\n", __FUNCTION__, info->data)
+    info.data, info.donecbdata = gl_get_drag_data(gl, it)
+
     info.acceptdata = info.donecbdata
 
     if info.data is not None:
-        return True
+        return info
     else:
-        return False
+        return
 
 # def gl_data_getcb(gl,  it,
 #         Elm_Drag_User_Info *info):
@@ -563,7 +542,7 @@ def dnd_genlist_default_anim_clicked(*args):
         bxx.pack_end(gl)
         gl.show()
 
-        itc1 = DndItemClass()
+        #itc1 = DndItemClass()
 
         for i in range (20):
             gl.item_append(itc1, "images/{0}".format(img[i % 9]), flags=ELM_GENLIST_ITEM_NONE)
