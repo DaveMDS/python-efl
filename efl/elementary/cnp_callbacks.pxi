@@ -25,7 +25,7 @@ cdef extern from "Elementary.h":
 
     struct _Elm_Drag_User_Info:
         Elm_Sel_Format format
-        const char *data
+        const_char *data
         Eina_List *icons
         Elm_Xdnd_Action action
         Elm_Drag_Icon_Create_Cb createicon
