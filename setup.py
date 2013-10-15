@@ -20,7 +20,7 @@ try:
 
     cur_ver = Cython.__version__
     assert StrictVersion(cur_ver) >= StrictVersion(min_ver)
-    print("Found Cython: %s" % cur_ver)
+    #print("Found Cython: %s" % cur_ver)
 
     Cython.Compiler.Options.fast_fail = True # stop compilation on first error
     Cython.Compiler.Options.annotate = False # HTML file annotation generation
