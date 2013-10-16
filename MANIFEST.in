@@ -1,1 +1,4 @@
+include README INSTALL COPYING AUTHORS
 recursive-include efl *.c *.h
+recursive-include examples *
+recursive-include doc *
