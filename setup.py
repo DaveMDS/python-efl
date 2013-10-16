@@ -70,7 +70,7 @@ class CleanGenerated(Command):
             subprocess.call("rm -rfv efl/{0}/*.c efl/{0}/*.html".format(lib), shell=True)
         subprocess.call("rm -rfv efl/dbus_mainloop/dbus_mainloop.c efl/dbus_mainloop/dbus_mainloop.html", shell=True)
 
-if set(("build", "build_ext", "install")) & set(sys.argv):
+if set(("build", "build_ext", "install", "bdist", "sdist")) & set(sys.argv):
 
     # Eo
     eo_cflags, eo_libs = pkg_config('Eo', 'eo', "1.7.99")
