@@ -39,22 +39,12 @@ This widget emits the following signals:
 
 """
 
-
-from efl.evas cimport Evas_Object, const_Evas_Object, \
-    Object as evasObject
-from efl.eo cimport object_from_instance, _object_mapping_register
-from efl.utils.conversions cimport _ctouni, _touni
-
-from object cimport Object
-
-from efl.evas cimport Eina_Bool
-from libc.string cimport const_char
 from cpython cimport PyUnicode_AsUTF8String
 
-cdef extern from "Elementary.h":
-    Evas_Object             *elm_plug_add(Evas_Object *parent)
-    Eina_Bool                elm_plug_connect(Evas_Object *obj, const_char *svcname, int svcnum, Eina_Bool svcsys)
-    Evas_Object             *elm_plug_image_object_get(Evas_Object *obj)
+from efl.eo cimport _object_mapping_register
+from efl.utils.conversions cimport _ctouni
+from efl.evas cimport Object as evasObject
+from object cimport Object
 
 from efl.evas cimport Image as evasImage
 

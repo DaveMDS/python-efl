@@ -70,23 +70,9 @@ Panel orientation types
 
 """
 
-from efl.evas cimport Evas_Object, const_Evas_Object, \
-    Object as evasObject
-from efl.eo cimport object_from_instance, _object_mapping_register
-from efl.utils.conversions cimport _ctouni, _touni
-
+from efl.eo cimport _object_mapping_register
+from efl.evas cimport Object as evasObject
 from object cimport Object
-
-from efl.evas cimport Eina_Bool, Evas_Object
-from enums cimport Elm_Panel_Orient
-
-cdef extern from "Elementary.h":
-    Evas_Object             *elm_panel_add(Evas_Object *parent)
-    void                     elm_panel_orient_set(Evas_Object *obj, Elm_Panel_Orient orient)
-    Elm_Panel_Orient         elm_panel_orient_get(Evas_Object *obj)
-    void                     elm_panel_hidden_set(Evas_Object *obj, Eina_Bool hidden)
-    Eina_Bool                elm_panel_hidden_get(Evas_Object *obj)
-    void                     elm_panel_toggle(Evas_Object *obj)
 
 cimport enums
 

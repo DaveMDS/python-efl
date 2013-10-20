@@ -89,20 +89,11 @@ Bubble arrow positions
 
 """
 
-from efl.evas cimport Evas_Object, const_Evas_Object, \
-    Object as evasObject
-from efl.eo cimport object_from_instance, _object_mapping_register
-from efl.utils.conversions cimport _ctouni, _touni
+from cpython cimport PyUnicode_AsUTF8String
 
-from object cimport Object
-
-from enums cimport Elm_Bubble_Pos
-
-cdef extern from "Elementary.h":
-    Evas_Object             *elm_bubble_add(Evas_Object *parent)
-    void                     elm_bubble_pos_set(Evas_Object *obj, Elm_Bubble_Pos pos)
-    Elm_Bubble_Pos           elm_bubble_pos_get(Evas_Object *obj)
-
+from efl.eo cimport _object_mapping_register
+from efl.utils.conversions cimport _ctouni
+from efl.evas cimport Object as evasObject
 from layout_class cimport LayoutClass
 
 cimport enums

@@ -53,34 +53,13 @@ Default text parts of the segment control items that you can use for are:
 
 """
 
-from efl.evas cimport Evas_Object, const_Evas_Object, \
-    Object as evasObject
-from efl.eo cimport object_from_instance, _object_mapping_register
-from efl.utils.conversions cimport _ctouni, _touni
-
-from object cimport Object
-
 include "callback_conversions.pxi"
 
-from efl.evas cimport Eina_Bool
-from object_item cimport Elm_Object_Item, ObjectItem
-from libc.string cimport const_char
 from cpython cimport PyUnicode_AsUTF8String
 
-cdef extern from "Elementary.h":
-    Evas_Object             *elm_segment_control_add(Evas_Object *parent)
-    Elm_Object_Item         *elm_segment_control_item_add(Evas_Object *obj, Evas_Object *icon, const_char *label)
-    Elm_Object_Item         *elm_segment_control_item_insert_at(Evas_Object *obj, Evas_Object *icon, const_char *label, int index)
-    void                     elm_segment_control_item_del_at(Evas_Object *obj, int index)
-    int                      elm_segment_control_item_count_get(Evas_Object *obj)
-    Elm_Object_Item         *elm_segment_control_item_get(Evas_Object *obj, int index)
-    const_char *             elm_segment_control_item_label_get(Evas_Object *obj, int index)
-    Evas_Object             *elm_segment_control_item_icon_get(Evas_Object *obj, int index)
-    int                      elm_segment_control_item_index_get(Elm_Object_Item *it)
-    Evas_Object             *elm_segment_control_item_object_get(Elm_Object_Item *it)
-    Elm_Object_Item         *elm_segment_control_item_selected_get(Evas_Object *obj)
-    void                     elm_segment_control_item_selected_set(Elm_Object_Item *it, Eina_Bool select)
-
+from efl.eo cimport _object_mapping_register, object_from_instance
+from efl.utils.conversions cimport _ctouni
+from efl.evas cimport Object as evasObject
 from layout_class cimport LayoutClass
 
 from object_item cimport _object_item_to_python

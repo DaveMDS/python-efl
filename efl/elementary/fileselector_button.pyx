@@ -76,38 +76,14 @@ Fileselector modes
 
 """
 
-from efl.evas cimport Evas_Object, const_Evas_Object, \
-    Object as evasObject
-from efl.eo cimport object_from_instance, _object_mapping_register
-from efl.utils.conversions cimport _ctouni, _touni
-
-from object cimport Object
 
 include "callback_conversions.pxi"
 
-from efl.evas cimport Eina_Bool, Evas_Coord
-from button cimport Button
-from enums cimport Elm_Fileselector_Mode
-from libc.string cimport const_char
 from cpython cimport PyUnicode_AsUTF8String
 
-cdef extern from "Elementary.h":
-    Evas_Object *           elm_fileselector_button_add(Evas_Object *parent)
-    void                    elm_fileselector_button_window_title_set(Evas_Object *obj, const_char *title)
-    const_char *            elm_fileselector_button_window_title_get(Evas_Object *obj)
-    void                    elm_fileselector_button_window_size_set(Evas_Object *obj, Evas_Coord width, Evas_Coord height)
-    void                    elm_fileselector_button_window_size_get(Evas_Object *obj, Evas_Coord *width, Evas_Coord *height)
-    void                    elm_fileselector_button_folder_only_set(Evas_Object *obj, Eina_Bool value)
-    Eina_Bool               elm_fileselector_button_folder_only_get(Evas_Object *obj)
-    void                    elm_fileselector_button_inwin_mode_set(Evas_Object *obj, Eina_Bool value)
-    Eina_Bool               elm_fileselector_button_inwin_mode_get(Evas_Object *obj)
-    void                    elm_fileselector_button_is_save_set(Evas_Object *obj, Eina_Bool value)
-    Eina_Bool               elm_fileselector_button_is_save_get(Evas_Object *obj)
-    void                    elm_fileselector_button_path_set(Evas_Object *obj, const_char *path)
-    const_char *            elm_fileselector_button_path_get(Evas_Object *obj)
-    void                    elm_fileselector_button_expandable_set(Evas_Object *obj, Eina_Bool value)
-    Eina_Bool               elm_fileselector_button_expandable_get(Evas_Object *obj)
-
+from efl.eo cimport _object_mapping_register
+from efl.utils.conversions cimport _ctouni
+from efl.evas cimport Object as evasObject
 
 cimport enums
 

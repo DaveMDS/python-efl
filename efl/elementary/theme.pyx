@@ -80,41 +80,10 @@ overlays. Don't use this unless you really know what you are doing.
 
 """
 
-from efl.evas cimport Evas_Object, const_Evas_Object, \
-    Object as evasObject
-from efl.eo cimport object_from_instance, _object_mapping_register
-from efl.utils.conversions cimport _ctouni, _touni
+from cpython cimport PyUnicode_AsUTF8String
 
-from object cimport Object
-
-from efl.evas cimport Eina_Bool, Eina_List
-from libc.string cimport const_char
-from cpython cimport PyUnicode_AsUTF8String, Py_INCREF, Py_DECREF
-
-cdef extern from "Elementary.h":
-    Elm_Theme               *elm_theme_new()
-    void                     elm_theme_free(Elm_Theme *th)
-    void                     elm_theme_copy(Elm_Theme *th, Elm_Theme *thdst)
-    void                     elm_theme_ref_set(Elm_Theme *th, Elm_Theme *thref)
-    Elm_Theme               *elm_theme_ref_get(Elm_Theme *th)
-    Elm_Theme               *elm_theme_default_get()
-    void                     elm_theme_overlay_add(Elm_Theme *th, const_char *item)
-    void                     elm_theme_overlay_del(Elm_Theme *th, const_char *item)
-    Eina_List               *elm_theme_overlay_list_get(Elm_Theme *th)
-    void                     elm_theme_extension_add(Elm_Theme *th, const_char *item)
-    void                     elm_theme_extension_del(Elm_Theme *th, const_char *item)
-    Eina_List               *elm_theme_extension_list_get(Elm_Theme *th)
-    void                     elm_theme_set(Elm_Theme *th, const_char *theme)
-    char                    *elm_theme_get(Elm_Theme *th)
-    Eina_List               *elm_theme_list_get(Elm_Theme *th)
-    char                    *elm_theme_list_item_path_get(const_char *f, Eina_Bool *in_search_path)
-    void                     elm_theme_flush(Elm_Theme *th)
-    void                     elm_theme_full_flush()
-    Eina_List               *elm_theme_name_available_list_new()
-    void                     elm_theme_name_available_list_free(Eina_List *list)
-    char                    *elm_theme_data_get(Elm_Theme *th, const_char *key)
-
-
+from efl.utils.conversions cimport _ctouni
+from cpython cimport Py_INCREF, Py_DECREF
 
 from efl.utils.conversions cimport eina_list_strings_to_python_list
 
@@ -125,6 +94,7 @@ cdef class Theme(object):
     This is the class that actually implement the widget.
 
     """
+
     def __cinit__(self):
         self.th = NULL
 

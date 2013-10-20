@@ -35,39 +35,11 @@ These widgets emit the following signals, besides the ones sent from
 
 """
 
-from efl.evas cimport Evas_Object, const_Evas_Object, \
-    Object as evasObject
-from efl.eo cimport object_from_instance, _object_mapping_register
-from efl.utils.conversions cimport _ctouni, _touni
-
-from object cimport Object
-
-from efl.evas cimport Eina_Bool, Evas_Object
-from libc.string cimport const_char
 from cpython cimport PyUnicode_AsUTF8String
 
-cdef extern from "Elementary.h":
-    Evas_Object             *elm_player_add(Evas_Object *parent)
-    Evas_Object             *elm_video_add(Evas_Object *parent)
-    Eina_Bool                elm_video_file_set(Evas_Object *video, const_char *filename)
-    Evas_Object             *elm_video_emotion_get(Evas_Object *video)
-    void                     elm_video_play(Evas_Object *video)
-    void                     elm_video_pause(Evas_Object *video)
-    void                     elm_video_stop(Evas_Object *video)
-    Eina_Bool                elm_video_is_playing_get(Evas_Object *video)
-    Eina_Bool                elm_video_is_seekable_get(Evas_Object *video)
-    Eina_Bool                elm_video_audio_mute_get(Evas_Object *video)
-    void                     elm_video_audio_mute_set(Evas_Object *video, Eina_Bool mute)
-    double                   elm_video_audio_level_get(Evas_Object *video)
-    void                     elm_video_audio_level_set(Evas_Object *video, double volume)
-    double                   elm_video_play_position_get(Evas_Object *video)
-    void                     elm_video_play_position_set(Evas_Object *video, double position)
-    double                   elm_video_play_length_get(Evas_Object *video)
-    void                     elm_video_remember_position_set(Evas_Object *video, Eina_Bool remember)
-    Eina_Bool                elm_video_remember_position_get(Evas_Object *video)
-    const_char *             elm_video_title_get(Evas_Object *video)
-
-
+from efl.eo cimport _object_mapping_register, object_from_instance
+from efl.utils.conversions cimport _ctouni
+from efl.evas cimport Object as evasObject
 from layout_class cimport LayoutClass
 
 cdef class Video(LayoutClass):

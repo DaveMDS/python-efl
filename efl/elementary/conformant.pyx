@@ -48,16 +48,8 @@ Default content parts of the conformant widget that you can use for are:
 
 """
 
-from efl.evas cimport Evas_Object, const_Evas_Object, \
-    Object as evasObject
-from efl.eo cimport object_from_instance, _object_mapping_register
-from efl.utils.conversions cimport _ctouni, _touni
-
-from object cimport Object
-
-cdef extern from "Elementary.h":
-    Evas_Object             *elm_conformant_add(Evas_Object *parent)
-
+from efl.eo cimport _object_mapping_register
+from efl.evas cimport Object as evasObject
 from layout_class cimport LayoutClass
 
 cdef class Conformant(LayoutClass):

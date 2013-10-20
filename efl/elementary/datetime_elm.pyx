@@ -249,47 +249,12 @@ Datetime fields
 
 """
 
-from efl.evas cimport Evas_Object, const_Evas_Object, \
-    Object as evasObject
-from efl.eo cimport object_from_instance, _object_mapping_register
-from efl.utils.conversions cimport _ctouni, _touni
-
-from object cimport Object
-
-from efl.evas cimport Eina_Bool
-from enums cimport Elm_Datetime_Field_Type
-from libc.string cimport const_char
 from cpython cimport PyUnicode_AsUTF8String
 
-cdef extern from "time.h":
-    struct tm:
-        int tm_sec
-        int tm_min
-        int tm_hour
-        int tm_mday
-        int tm_mon
-        int tm_year
-        int tm_wday
-        int tm_yday
-        int tm_isdst
-
-        long int tm_gmtoff
-        const_char *tm_zone
-
-cdef extern from "Elementary.h":
-    Evas_Object *           elm_datetime_add(Evas_Object *parent)
-    const_char *            elm_datetime_format_get(Evas_Object *obj)
-    void                    elm_datetime_format_set(Evas_Object *obj, const_char *fmt)
-    Eina_Bool               elm_datetime_value_max_get(Evas_Object *obj, tm *maxtime)
-    Eina_Bool               elm_datetime_value_max_set(Evas_Object *obj, tm *maxtime)
-    Eina_Bool               elm_datetime_value_min_get(Evas_Object *obj, tm *mintime)
-    Eina_Bool               elm_datetime_value_min_set(Evas_Object *obj, tm *mintime)
-    void                    elm_datetime_field_limit_get(Evas_Object *obj, Elm_Datetime_Field_Type fieldtype, int *min, int *max)
-    void                    elm_datetime_field_limit_set(Evas_Object *obj, Elm_Datetime_Field_Type fieldtype, int min, int max)
-    Eina_Bool               elm_datetime_value_get(Evas_Object *obj, tm *currtime)
-    Eina_Bool               elm_datetime_value_set(Evas_Object *obj, tm *newtime)
-    Eina_Bool               elm_datetime_field_visible_get(Evas_Object *obj, Elm_Datetime_Field_Type fieldtype)
-    void                    elm_datetime_field_visible_set(Evas_Object *obj, Elm_Datetime_Field_Type fieldtype, Eina_Bool visible)
+from efl.eo cimport _object_mapping_register
+from efl.utils.conversions cimport _ctouni
+from efl.evas cimport Object as evasObject
+from object cimport Object
 
 from datetime import datetime
 

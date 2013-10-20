@@ -44,19 +44,8 @@ There are three styles available in the default theme. These are:
 
 """
 
-from efl.evas cimport Evas_Object, const_Evas_Object, \
-    Object as evasObject
-from efl.eo cimport object_from_instance, _object_mapping_register
-from efl.utils.conversions cimport _ctouni, _touni
-
-from object cimport Object
-
-cdef extern from "Elementary.h":
-    Evas_Object             *elm_win_inwin_add(Evas_Object *obj)
-    void                     elm_win_inwin_activate(Evas_Object *obj)
-    void                     elm_win_inwin_content_set(Evas_Object *obj, Evas_Object *content)
-    Evas_Object             *elm_win_inwin_content_get(Evas_Object *obj)
-    Evas_Object             *elm_win_inwin_content_unset(Evas_Object *obj)
+from efl.eo cimport _object_mapping_register, object_from_instance
+from efl.evas cimport Object as evasObject
 
 from layout_class cimport LayoutClass
 

@@ -59,38 +59,15 @@ Default text parts of the flipselector items that you can use for are:
 
 """
 
-from efl.evas cimport Evas_Object, const_Evas_Object, \
-    Object as evasObject
-from efl.eo cimport object_from_instance, _object_mapping_register
-from efl.utils.conversions cimport _ctouni, _touni
-
-from object cimport Object
 
 include "callback_conversions.pxi"
 
-from efl.evas cimport Eina_Bool, Evas_Coord, Eina_List, const_Eina_List
-from efl.evas cimport Evas_Smart_Cb
-from object_item cimport Elm_Object_Item, const_Elm_Object_Item, ObjectItem
-from libc.string cimport const_char
 from cpython cimport PyUnicode_AsUTF8String
 
-cdef extern from "Elementary.h":
-    Evas_Object             *elm_flipselector_add(Evas_Object *parent)
-    void                     elm_flipselector_flip_next(Evas_Object *obj)
-    void                     elm_flipselector_flip_prev(Evas_Object *obj)
-    Elm_Object_Item         *elm_flipselector_item_append(Evas_Object *obj, const_char *label, Evas_Smart_Cb func, void *data)
-    Elm_Object_Item         *elm_flipselector_item_prepend(Evas_Object *obj, const_char *label, Evas_Smart_Cb func, void *data)
-    const_Eina_List         *elm_flipselector_items_get(const_Evas_Object *obj)
-    Elm_Object_Item         *elm_flipselector_first_item_get(const_Evas_Object *obj)
-    Elm_Object_Item         *elm_flipselector_last_item_get(const_Evas_Object *obj)
-    Elm_Object_Item         *elm_flipselector_selected_item_get(const_Evas_Object *obj)
-    void                     elm_flipselector_item_selected_set(Elm_Object_Item *it, Eina_Bool selected)
-    Eina_Bool                elm_flipselector_item_selected_get(const_Elm_Object_Item *it)
-    Elm_Object_Item         *elm_flipselector_item_prev_get(const_Elm_Object_Item *it)
-    Elm_Object_Item         *elm_flipselector_item_next_get(const_Elm_Object_Item *it)
-    void                     elm_flipselector_first_interval_set(Evas_Object *obj, double interval)
-    double                   elm_flipselector_first_interval_get(const_Evas_Object *obj)
-
+from efl.eo cimport _object_mapping_register
+from efl.utils.conversions cimport _ctouni
+from efl.evas cimport Object as evasObject
+from object cimport Object
 from object_item cimport _object_item_to_python, _object_item_callback, _object_item_list_to_python
 
 cdef class FlipSelectorItem(ObjectItem):

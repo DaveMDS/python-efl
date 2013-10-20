@@ -1,3 +1,4 @@
+from object_item cimport Elm_Object_Item
 from efl.elementary.enums cimport Elm_Sel_Type, Elm_Sel_Format, \
     Elm_Xdnd_Action
 from efl.utils.conversions cimport python_list_objects_to_eina_list
@@ -54,6 +55,15 @@ cdef extern from "Elementary.h":
       Elm_Drag_Item_Container_Pos poscb, void *posdata,
       Elm_Drop_Item_Container_Cb dropcb, void *cbdata)
     Eina_Bool elm_drop_item_container_del(Evas_Object *obj)
+
+    Eina_Bool               elm_cnp_selection_set(Evas_Object *obj, Elm_Sel_Type selection, Elm_Sel_Format format, const_void *buf, size_t buflen)
+    Eina_Bool               elm_cnp_selection_get(Evas_Object *obj, Elm_Sel_Type selection, Elm_Sel_Format format, Elm_Drop_Cb datacb, void *udata)
+    Eina_Bool               elm_object_cnp_selection_clear(Evas_Object *obj, Elm_Sel_Type selection)
+    void                    elm_cnp_selection_loss_callback_set(Evas_Object *obj, Elm_Sel_Type selection, Elm_Selection_Loss_Cb func, const_void *data)
+    # Eina_Bool               elm_drop_target_add(Evas_Object *obj, Elm_Sel_Format format, Elm_Drag_State entercb, void *enterdata, Elm_Drag_State leavecb, void *leavedata, Elm_Drag_Pos poscb, void *posdata, Elm_Drop_Cb dropcb, void *cbdata)
+    # Eina_Bool               elm_drop_target_del(Evas_Object *obj)
+    # Eina_Bool               elm_drag_start(Evas_Object *obj, Elm_Sel_Format format, const_char *data, Elm_Xdnd_Action action, Elm_Drag_Icon_Create_Cb createicon, void *createdata, Elm_Drag_Pos dragpos, void *dragdata, Elm_Drag_Accept acceptcb, void *acceptdata, Elm_Drag_State dragdone, void *donecbdata)
+    # Eina_Bool               elm_drag_action_set(Evas_Object *obj, Elm_Xdnd_Action action)
 
 cdef class SelectionData(object):
 

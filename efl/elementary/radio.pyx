@@ -66,24 +66,8 @@ Default content parts of the radio widget that you can use for are:
 
 """
 
-from efl.evas cimport Evas_Object, const_Evas_Object, \
-    Object as evasObject
-from efl.eo cimport object_from_instance, _object_mapping_register
-from efl.utils.conversions cimport _ctouni, _touni
-
-from object cimport Object
-
-cdef extern from "Elementary.h":
-    Evas_Object             *elm_radio_add(Evas_Object *parent)
-    void                     elm_radio_group_add(Evas_Object *obj, Evas_Object *group)
-    void                     elm_radio_state_value_set(Evas_Object *obj, int value)
-    int                      elm_radio_state_value_get(Evas_Object *obj)
-    void                     elm_radio_value_set(Evas_Object *obj, int value)
-    int                      elm_radio_value_get(Evas_Object *obj)
-    void                     elm_radio_value_pointer_set(Evas_Object *obj, int *valuep)
-    Evas_Object             *elm_radio_selected_object_get(Evas_Object *obj)
-
-
+from efl.eo cimport _object_mapping_register, object_from_instance
+from efl.evas cimport Object as evasObject
 from layout_class cimport LayoutClass
 
 cdef class Radio(LayoutClass):
@@ -91,6 +75,7 @@ cdef class Radio(LayoutClass):
     """This is the class that actually implements the widget."""
 
     def __init__(self, evasObject parent, obj=None):
+        # FIXME: This conditional should be removed, use __new__ and _set_obj
         if obj is None:
             self._set_obj(elm_radio_add(parent.obj))
         else:

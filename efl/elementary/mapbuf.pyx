@@ -32,26 +32,8 @@ children).
 
 """
 
-from efl.evas cimport Evas_Object, const_Evas_Object, \
-    Object as evasObject
-from efl.eo cimport object_from_instance, _object_mapping_register
-from efl.utils.conversions cimport _ctouni, _touni
-
-from object cimport Object
-
-from efl.evas cimport Eina_Bool
-
-cdef extern from "Elementary.h":
-    Evas_Object             *elm_mapbuf_add(Evas_Object *parent)
-    void                     elm_mapbuf_enabled_set(Evas_Object *obj, Eina_Bool enabled)
-    Eina_Bool                elm_mapbuf_enabled_get(const_Evas_Object *obj)
-    void                     elm_mapbuf_smooth_set(Evas_Object *obj, Eina_Bool smooth)
-    Eina_Bool                elm_mapbuf_smooth_get(const_Evas_Object *obj)
-    void                     elm_mapbuf_alpha_set(Evas_Object *obj, Eina_Bool alpha)
-    Eina_Bool                elm_mapbuf_alpha_get(const_Evas_Object *obj)
-    void                     elm_mapbuf_auto_set(Evas_Object *obj, Eina_Bool on)
-    Eina_Bool                elm_mapbuf_auto_get(const_Evas_Object *obj)
-
+from efl.eo cimport _object_mapping_register
+from efl.evas cimport Object as evasObject
 from object cimport Object
 
 cdef class Mapbuf(Object):

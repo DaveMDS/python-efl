@@ -87,33 +87,11 @@ Ctxpopup arrow directions
 
 """
 
-from efl.evas cimport Evas_Object, const_Evas_Object, \
-    Object as evasObject
-from efl.eo cimport object_from_instance, _object_mapping_register
-from efl.utils.conversions cimport _ctouni, _touni
-
-from object cimport Object
-
-from efl.evas cimport Eina_Bool, Evas_Smart_Cb
-from object_item cimport Elm_Object_Item
-from enums cimport Elm_Ctxpopup_Direction
-from libc.string cimport const_char
 from cpython cimport PyUnicode_AsUTF8String, Py_DECREF
 
-cdef extern from "Elementary.h":
-    Evas_Object             *elm_ctxpopup_add(Evas_Object *parent)
-    void                     elm_ctxpopup_hover_parent_set(Evas_Object *obj, Evas_Object *parent)
-    Evas_Object             *elm_ctxpopup_hover_parent_get(Evas_Object *obj)
-    void                     elm_ctxpopup_clear(Evas_Object *obj)
-    void                     elm_ctxpopup_horizontal_set(Evas_Object *obj, Eina_Bool horizontal)
-    Eina_Bool                elm_ctxpopup_horizontal_get(Evas_Object *obj)
-    Elm_Object_Item         *elm_ctxpopup_item_append(Evas_Object *obj, const_char *label, Evas_Object *icon, Evas_Smart_Cb func, void *data)
-    void                     elm_ctxpopup_direction_priority_set(Evas_Object *obj, Elm_Ctxpopup_Direction first, Elm_Ctxpopup_Direction second, Elm_Ctxpopup_Direction third, Elm_Ctxpopup_Direction fourth)
-    void                     elm_ctxpopup_direction_priority_get(Evas_Object *obj, Elm_Ctxpopup_Direction *first, Elm_Ctxpopup_Direction *second, Elm_Ctxpopup_Direction *third, Elm_Ctxpopup_Direction *fourth)
-    Elm_Ctxpopup_Direction   elm_ctxpopup_direction_get(Evas_Object *obj)
-    void                     elm_ctxpopup_dismiss(Evas_Object *obj)
-
-
+from efl.eo cimport _object_mapping_register, object_from_instance
+from efl.utils.conversions cimport _ctouni
+from efl.evas cimport Object as evasObject
 from layout_class cimport LayoutClass
 from object_item cimport ObjectItem, _object_item_callback
 

@@ -15,31 +15,13 @@
 # You should have received a copy of the GNU Lesser General Public License
 # along with this Python-EFL.  If not, see <http://www.gnu.org/licenses/>.
 
-from efl.evas cimport Evas_Object, const_Evas_Object, \
-    Object as evasObject
-from efl.eo cimport object_from_instance, _object_mapping_register
-from efl.utils.conversions cimport _ctouni, _touni
-
-from libc.string cimport const_char
 from cpython cimport PyUnicode_AsUTF8String
-from libc.stdlib cimport const_void
 
+from efl.eo cimport _object_mapping_register
+from efl.utils.conversions cimport _touni
+from efl.evas cimport Object as evasObject
 from object cimport Object
-from object_item cimport Elm_Object_Item, ObjectItem
-
-cdef extern from "Elementary.h":
-    ctypedef char *(*Elm_Access_Info_Cb)(void *data, Evas_Object *obj)
-    ctypedef void (*Elm_Access_Activate_Cb)(void *data, Evas_Object *part_obj, Elm_Object_Item *item)
-
-    Evas_Object *       elm_access_object_register(Evas_Object *obj, Evas_Object *parent)
-    void                elm_access_info_set(Evas_Object *obj, int type, const_char *text)
-    char *              elm_access_info_get(const_Evas_Object *obj, int type)
-    # TODO: void                elm_access_info_cb_set(Evas_Object *obj, int type, Elm_Access_Info_Cb func, const_void *data)
-    # TODO: void                elm_access_activate_cb_set(Evas_Object *obj, Elm_Access_Activate_Cb func, void *data)
-    void                    elm_access_highlight_set(Evas_Object* obj)
-
-    Evas_Object *   elm_object_item_access_register(Elm_Object_Item *item)
-
+from object_item cimport ObjectItem
 
 ELM_ACCESS_TYPE = 0 # when reading out widget or item this is read first
 ELM_ACCESS_INFO = 1 # next read is info - this is normally label
@@ -57,7 +39,7 @@ cdef class Accessible(Object):
 
     """An accessible object."""
 
-    def __init__(self, evasObject target, Object parent = None):
+    def __init__(self, target, parent = None):
         """__init__(target, parent = None)
 
         Register evas object as an accessible object.

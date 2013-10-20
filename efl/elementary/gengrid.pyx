@@ -276,121 +276,16 @@ Items' scroll to types
 
 """
 
-from efl.evas cimport Evas_Object, const_Evas_Object, \
-    Object as evasObject
-from efl.eo cimport object_from_instance, _object_mapping_register
-from efl.utils.conversions cimport _ctouni, _touni
-
-from object cimport Object
-
 include "callback_conversions.pxi"
 include "tooltips.pxi"
 
-from efl.evas cimport Eina_Bool, Eina_List, Evas_Smart_Cb, \
-    Evas_Coord, Eina_Compare_Cb
-from object_item cimport Elm_Object_Item
-from enums cimport Elm_Genlist_Item_Scrollto_Type, Elm_Scroller_Policy, \
-    Elm_Object_Select_Mode
-from libc.string cimport const_char, strdup
-from libc.stdlib cimport const_void
-from cpython cimport PyUnicode_AsUTF8String, Py_INCREF, Py_DECREF
-from efl.eo cimport PY_REFCOUNT
+from libc.string cimport strdup
+from cpython cimport Py_INCREF, Py_DECREF, PyUnicode_AsUTF8String
+from efl.eo cimport object_from_instance, _object_mapping_register, PY_REFCOUNT
+from efl.utils.conversions cimport _ctouni, _touni
 
-cdef extern from "Elementary.h":
-    ctypedef Evas_Object *  (*Elm_Tooltip_Content_Cb)       (void *data, Evas_Object *obj, Evas_Object *tooltip)
-    ctypedef Evas_Object *  (*Elm_Tooltip_Item_Content_Cb)  (void *data, Evas_Object *obj, Evas_Object *tooltip, void *item)
-
-    ctypedef char           *(*GengridItemLabelGetFunc)     (void *data, Evas_Object *obj, const_char *part)
-    ctypedef Evas_Object    *(*GengridItemIconGetFunc)      (void *data, Evas_Object *obj, const_char *part)
-    ctypedef Eina_Bool       (*GengridItemStateGetFunc)     (void *data, Evas_Object *obj, const_char *part)
-    ctypedef void            (*GengridItemDelFunc)          (void *data, Evas_Object *obj)
-
-    ctypedef struct Elm_Gengrid_Item_Class_Func:
-        GengridItemLabelGetFunc text_get
-        GengridItemIconGetFunc content_get
-        GengridItemStateGetFunc state_get
-        GengridItemDelFunc del_ "del"
-
-    ctypedef struct Elm_Gengrid_Item_Class:
-        char *item_style
-        Elm_Gengrid_Item_Class_Func func
-    ctypedef Elm_Gengrid_Item_Class const_Elm_Gengrid_Item_Class "const Elm_Gengrid_Item_Class"
-
-    Evas_Object *           elm_gengrid_add(Evas_Object *parent)
-    void                    elm_gengrid_clear(Evas_Object *obj)
-    void                    elm_gengrid_multi_select_set(Evas_Object *obj, Eina_Bool multi)
-    Eina_Bool               elm_gengrid_multi_select_get(Evas_Object *obj)
-    void                    elm_gengrid_horizontal_set(Evas_Object *obj, Eina_Bool setting)
-    Eina_Bool               elm_gengrid_horizontal_get(Evas_Object *obj)
-    void                    elm_gengrid_bounce_set(Evas_Object *obj, Eina_Bool h_bounce, Eina_Bool v_bounce)
-    void                    elm_gengrid_bounce_get(Evas_Object *obj, Eina_Bool *h_bounce, Eina_Bool *v_bounce)
-    Elm_Object_Item *       elm_gengrid_item_append(Evas_Object *obj, Elm_Gengrid_Item_Class *itc, const_void *data, Evas_Smart_Cb func, const_void *func_data)
-    Elm_Object_Item *       elm_gengrid_item_prepend(Evas_Object *obj, Elm_Gengrid_Item_Class *itc, const_void *data, Evas_Smart_Cb func, const_void *func_data)
-    Elm_Object_Item *       elm_gengrid_item_insert_before(Evas_Object *obj, Elm_Gengrid_Item_Class *itc, const_void *data, Elm_Object_Item *before, Evas_Smart_Cb func, const_void *func_data)
-    Elm_Object_Item *       elm_gengrid_item_insert_after(Evas_Object *obj, Elm_Gengrid_Item_Class *itc, const_void *data, Elm_Object_Item *after, Evas_Smart_Cb func, const_void *func_data)
-    Elm_Object_Item *       elm_gengrid_item_sorted_insert(Evas_Object *obj, const_Elm_Gengrid_Item_Class *gic, const_void *data, Eina_Compare_Cb comp, Evas_Smart_Cb func, const_void *func_data)
-    Elm_Object_Item *       elm_gengrid_selected_item_get(Evas_Object *obj)
-    Eina_List *             elm_gengrid_selected_items_get(Evas_Object *obj)
-    Eina_List *             elm_gengrid_realized_items_get(Evas_Object *obj)
-    void                    elm_gengrid_realized_items_update(Evas_Object *obj)
-    Elm_Object_Item *       elm_gengrid_first_item_get(Evas_Object *obj)
-    Elm_Object_Item *       elm_gengrid_last_item_get(Evas_Object *obj)
-    void                    elm_gengrid_scroller_policy_set(Evas_Object *obj, Elm_Scroller_Policy policy_h, Elm_Scroller_Policy policy_v)
-    void                    elm_gengrid_scroller_policy_get(Evas_Object *obj, Elm_Scroller_Policy *policy_h, Elm_Scroller_Policy *policy_v)
-    unsigned int            elm_gengrid_items_count(Evas_Object *obj)
-    void                    elm_gengrid_item_size_set(Evas_Object *obj, Evas_Coord w, Evas_Coord h)
-    void                    elm_gengrid_item_size_get(Evas_Object *obj, Evas_Coord *w, Evas_Coord *h)
-    void                    elm_gengrid_group_item_size_set(Evas_Object *obj, Evas_Coord w, Evas_Coord h)
-    void                    elm_gengrid_group_item_size_get(Evas_Object *obj, Evas_Coord *w, Evas_Coord *h)
-    void                    elm_gengrid_align_set(Evas_Object *obj,  double align_x, double align_y)
-    void                    elm_gengrid_align_get(Evas_Object *obj,  double *align_x, double *align_y)
-    void                    elm_gengrid_reorder_mode_set(Evas_Object *obj, Eina_Bool reorder_mode)
-    Eina_Bool               elm_gengrid_reorder_mode_get(Evas_Object *obj)
-    void                    elm_gengrid_page_relative_set(Evas_Object *obj, double h_pagerel, double v_pagerel)
-    void                    elm_gengrid_page_relative_get(Evas_Object *obj, double *h_pagerel, double *v_pagerel)
-    void                    elm_gengrid_page_size_set(Evas_Object *obj, Evas_Coord h_pagesize, Evas_Coord v_pagesize)
-    void                    elm_gengrid_current_page_get(Evas_Object *obj, int *h_pagenum, int *v_pagenum)
-    void                    elm_gengrid_last_page_get(Evas_Object *obj, int *h_pagenum, int *v_pagenum)
-    void                    elm_gengrid_page_show(Evas_Object *obj, int h_pagenum, int v_pagenum)
-    void                    elm_gengrid_page_bring_in(Evas_Object *obj, int h_pagenum, int v_pagenum)
-    void                    elm_gengrid_filled_set(Evas_Object *obj, Eina_Bool fill)
-    Eina_Bool               elm_gengrid_filled_get(Evas_Object *obj)
-    void                    elm_gengrid_select_mode_set(Evas_Object *obj, Elm_Object_Select_Mode mode)
-    Elm_Object_Select_Mode  elm_gengrid_select_mode_get(Evas_Object *obj)
-    void                    elm_gengrid_highlight_mode_set(Evas_Object *obj, Eina_Bool highlight)
-    Eina_Bool               elm_gengrid_highlight_mode_get(Evas_Object *obj)
-
-    Elm_Object_Item *       elm_gengrid_first_item_get(Evas_Object *obj)
-    Elm_Object_Item *       elm_gengrid_last_item_get(Evas_Object *obj)
-    int                     elm_gengrid_item_index_get(Elm_Object_Item *it)
-    void                    elm_gengrid_item_select_mode_set(Elm_Object_Item *it, Elm_Object_Select_Mode mode)
-    Elm_Object_Select_Mode  elm_gengrid_item_select_mode_get(Elm_Object_Item *it)
-    Elm_Object_Item *       elm_gengrid_item_next_get(Elm_Object_Item *item)
-    Elm_Object_Item *       elm_gengrid_item_prev_get(Elm_Object_Item *item)
-    void                    elm_gengrid_item_selected_set(Elm_Object_Item *item, Eina_Bool selected)
-    Eina_Bool               elm_gengrid_item_selected_get(Elm_Object_Item *item)
-    void                    elm_gengrid_item_show(Elm_Object_Item *item, Elm_Genlist_Item_Scrollto_Type scrollto_type)
-    void                    elm_gengrid_item_bring_in(Elm_Object_Item *item, Elm_Genlist_Item_Scrollto_Type scrollto_type)
-    Evas_Object *           elm_gengrid_item_object_get(Elm_Object_Item *it)
-    void                    elm_gengrid_item_update(Elm_Object_Item *item)
-    void                    elm_gengrid_item_pos_get(Elm_Object_Item *item, unsigned int *x, unsigned int *y)
-    void                    elm_gengrid_item_tooltip_text_set(Elm_Object_Item *item, const_char *text)
-    void                    elm_gengrid_item_tooltip_content_cb_set(Elm_Object_Item *item, Elm_Tooltip_Item_Content_Cb func, void *data, Evas_Smart_Cb del_cb)
-    void                    elm_gengrid_item_tooltip_unset(Elm_Object_Item *item)
-    void                    elm_gengrid_item_tooltip_style_set(Elm_Object_Item *item, const_char *style)
-    const_char *            elm_gengrid_item_tooltip_style_get(Elm_Object_Item *item)
-    Eina_Bool               elm_gengrid_item_tooltip_window_mode_set(Elm_Object_Item *it, Eina_Bool disable)
-    Eina_Bool               elm_gengrid_item_tooltip_window_mode_get(Elm_Object_Item *it)
-    void                    elm_gengrid_item_cursor_set(Elm_Object_Item *item, const_char *cursor)
-    const_char *            elm_gengrid_item_cursor_get(Elm_Object_Item *item)
-    void                    elm_gengrid_item_cursor_unset(Elm_Object_Item *item)
-    void                    elm_gengrid_item_cursor_style_set(Elm_Object_Item *item, const_char *style)
-    const_char *            elm_gengrid_item_cursor_style_get(Elm_Object_Item *item)
-    void                    elm_gengrid_item_cursor_engine_only_set(Elm_Object_Item *item, Eina_Bool engine_only)
-    Eina_Bool               elm_gengrid_item_cursor_engine_only_get(Elm_Object_Item *item)
-    Elm_Object_Item *       elm_gengrid_nth_item_get(const_Evas_Object *obj, unsigned int nth)
-    Elm_Object_Item *       elm_gengrid_at_xy_item_get(const_Evas_Object *obj, Evas_Coord x, Evas_Coord y, int *xposret, int *yposret)
-
+from efl.evas cimport Object as evasObject
+from object cimport Object
 from object_item cimport ObjectItem, _object_item_to_python, \
     elm_object_item_widget_get, _object_item_from_python, \
     _object_item_list_to_python, elm_object_item_data_get
