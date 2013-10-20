@@ -1,104 +1,97 @@
 #!/usr/bin/env python
 # encoding: utf-8
 
-from efl import evas
-from efl import elementary
-from efl.elementary.window import Window
+from efl.evas import EVAS_HINT_EXPAND, EVAS_HINT_FILL, \
+    EVAS_ASPECT_CONTROL_VERTICAL
+EXPAND_BOTH = EVAS_HINT_EXPAND, EVAS_HINT_EXPAND
+FILL_BOTH = EVAS_HINT_FILL, EVAS_HINT_FILL
+from efl import elementary as elm
+from efl.elementary.window import Window, ELM_WIN_BASIC
 from efl.elementary.background import Background
 from efl.elementary.box import Box
 from efl.elementary.frame import Frame
 from efl.elementary.icon import Icon
 from efl.elementary.label import Label
 from efl.elementary.list import List
-from efl.elementary.bubble import Bubble
+from efl.elementary.bubble import Bubble, ELM_BUBBLE_POS_TOP_LEFT, \
+    ELM_BUBBLE_POS_TOP_RIGHT, ELM_BUBBLE_POS_BOTTOM_LEFT, \
+    ELM_BUBBLE_POS_BOTTOM_RIGHT
 
 def bubble_clicked(obj, item=None):
-    win = Window("bubble", elementary.ELM_WIN_BASIC)
+    win = Window("bubble", ELM_WIN_BASIC)
     win.title_set("Bubble")
     win.autodel_set(True)
 
     bg = Background(win)
     win.resize_object_add(bg)
-    bg.size_hint_weight_set(evas.EVAS_HINT_EXPAND, evas.EVAS_HINT_EXPAND)
+    bg.size_hint_weight = EXPAND_BOTH
     bg.show()
 
     bx = Box(win)
     win.resize_object_add(bx)
-    bx.size_hint_weight_set(evas.EVAS_HINT_EXPAND, evas.EVAS_HINT_EXPAND)
+    bx.size_hint_weight = EXPAND_BOTH
     bx.show()
 
     # bb 1
     ic = Icon(win)
     ic.file_set("images/logo_small.png")
-    ic.size_hint_aspect_set(evas.EVAS_ASPECT_CONTROL_VERTICAL, 1, 1)
+    ic.size_hint_aspect_set(EVAS_ASPECT_CONTROL_VERTICAL, 1, 1)
 
     lb = Label(win)
     lb.text_set("Blah, Blah, Blah")
 
-    bb = Bubble(win)
-    bb.text_set("Message 1")
+    bb = Bubble(win, text = "Message 1", content = lb,
+        pos = ELM_BUBBLE_POS_TOP_LEFT,
+        size_hint_weight = EXPAND_BOTH, size_hint_align = FILL_BOTH)
     bb.part_text_set("info", "Corner: top_left")
-    bb.content_set(lb)
     bb.part_content_set("icon", ic)
-    bb.pos = elementary.ELM_BUBBLE_POS_TOP_LEFT
-    bb.size_hint_weight_set(evas.EVAS_HINT_EXPAND, evas.EVAS_HINT_EXPAND)
-    bb.size_hint_align_set(evas.EVAS_HINT_FILL, evas.EVAS_HINT_FILL)
     bx.pack_end(bb)
     bb.show()
 
     # bb 2
     ic = Icon(win)
     ic.file_set("images/logo_small.png")
-    ic.size_hint_aspect_set(evas.EVAS_ASPECT_CONTROL_VERTICAL, 1, 1)
+    ic.size_hint_aspect_set(EVAS_ASPECT_CONTROL_VERTICAL, 1, 1)
 
     lb = Label(win)
     lb.text_set("Blah, Blah, Blah")
 
-    bb = Bubble(win)
-    bb.text_set("Message 2")
+    bb = Bubble(win, text = "Message 2", content = lb,
+        pos = ELM_BUBBLE_POS_TOP_RIGHT,
+        size_hint_weight = EXPAND_BOTH, size_hint_align = FILL_BOTH)
     bb.part_text_set("info", "Corner: top_right")
-    bb.content_set(lb)
     bb.part_content_set("icon", ic)
-    bb.pos = elementary.ELM_BUBBLE_POS_TOP_RIGHT
-    bb.size_hint_weight_set(evas.EVAS_HINT_EXPAND, evas.EVAS_HINT_EXPAND)
-    bb.size_hint_align_set(evas.EVAS_HINT_FILL, evas.EVAS_HINT_FILL)
     bx.pack_end(bb)
     bb.show()
 
     # bb 3
     ic = Icon(win)
     ic.file_set("images/logo_small.png")
-    ic.size_hint_aspect_set(evas.EVAS_ASPECT_CONTROL_VERTICAL, 1, 1)
+    ic.size_hint_aspect_set(EVAS_ASPECT_CONTROL_VERTICAL, 1, 1)
 
     lb = Label(win)
     lb.text_set("Blah, Blah, Blah")
 
-    bb = Bubble(win)
-    bb.text_set("Message 3")
+    bb = Bubble(win, text = "Message 3", content = ic,
+        pos = ELM_BUBBLE_POS_BOTTOM_LEFT,
+        size_hint_weight = EXPAND_BOTH, size_hint_align = FILL_BOTH)
     bb.part_text_set("info", "Corner: bottom_left")
-    bb.content_set(ic)
-    bb.pos = elementary.ELM_BUBBLE_POS_BOTTOM_LEFT
-    bb.size_hint_weight_set(evas.EVAS_HINT_EXPAND, evas.EVAS_HINT_EXPAND)
-    bb.size_hint_align_set(evas.EVAS_HINT_FILL, evas.EVAS_HINT_FILL)
     bx.pack_end(bb)
     bb.show()
 
     # bb 4
     ic = Icon(win)
     ic.file_set("images/logo_small.png")
-    ic.size_hint_aspect_set(evas.EVAS_ASPECT_CONTROL_VERTICAL, 1, 1)
+    ic.size_hint_aspect_set(EVAS_ASPECT_CONTROL_VERTICAL, 1, 1)
 
     lb = Label(win)
     lb.text_set("Blah, Blah, Blah")
 
-    bb = Bubble(win)
-    bb.text_set("Message 4")
+    bb = Bubble(win, text = "Message 4", content = lb,
+        pos = ELM_BUBBLE_POS_BOTTOM_RIGHT,
+        size_hint_weight = EXPAND_BOTH, size_hint_align = FILL_BOTH)
     bb.part_text_set("info", "Corner: bottom_right")
-    bb.content_set(lb)
     bb.part_content_set("icon", ic)
-    bb.pos = elementary.ELM_BUBBLE_POS_BOTTOM_RIGHT
-    bb.size_hint_weight_set(evas.EVAS_HINT_EXPAND, evas.EVAS_HINT_EXPAND)
-    bb.size_hint_align_set(evas.EVAS_HINT_FILL, evas.EVAS_HINT_FILL)
     bx.pack_end(bb)
     bb.show()
 
@@ -108,20 +101,20 @@ def bubble_clicked(obj, item=None):
 
 if __name__ == "__main__":
     def destroy(obj):
-        elementary.exit()
+        elm.exit()
 
-    elementary.init()
-    win = Window("test", elementary.ELM_WIN_BASIC)
+    elm.init()
+    win = Window("test", ELM_WIN_BASIC)
     win.title_set("python-elementary test application")
     win.callback_delete_request_add(destroy)
 
     bg = Background(win)
     win.resize_object_add(bg)
-    bg.size_hint_weight_set(evas.EVAS_HINT_EXPAND, evas.EVAS_HINT_EXPAND)
+    bg.size_hint_weight = EXPAND_BOTH
     bg.show()
 
     box0 = Box(win)
-    box0.size_hint_weight_set(evas.EVAS_HINT_EXPAND, evas.EVAS_HINT_EXPAND)
+    box0.size_hint_weight = EXPAND_BOTH
     win.resize_object_add(box0)
     box0.show()
 
@@ -141,8 +134,8 @@ if __name__ == "__main__":
             ]
 
     li = List(win)
-    li.size_hint_weight_set(evas.EVAS_HINT_EXPAND, evas.EVAS_HINT_EXPAND)
-    li.size_hint_align_set(evas.EVAS_HINT_FILL, evas.EVAS_HINT_FILL)
+    li.size_hint_weight = EXPAND_BOTH
+    li.size_hint_align = FILL_BOTH
     box0.pack_end(li)
     li.show()
 
@@ -153,6 +146,6 @@ if __name__ == "__main__":
 
     win.resize(320,520)
     win.show()
-    elementary.run()
-    elementary.shutdown()
+    elm.run()
+    elm.shutdown()
 

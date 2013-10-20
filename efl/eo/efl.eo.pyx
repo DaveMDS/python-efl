@@ -196,6 +196,11 @@ cdef class Eo(object):
         eo_do(self.obj, eo_event_callback_add(EO_EV_DEL, _eo_event_del_cb, <const_void *>self))
         Py_INCREF(self)
 
+    cdef void _set_properties_from_keyword_args(self, dict kwargs) except *:
+        for k, v in kwargs.items():
+            assert hasattr(self, k), "%s has no attribute with the name %s." % (self, k)
+            setattr(self, k, v)
+
     def is_deleted(self):
         "Check if the object has been deleted thus leaving the object shallow"
         return bool(self.obj == NULL)

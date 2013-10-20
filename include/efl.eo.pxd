@@ -26,6 +26,7 @@ cdef class Eo(object):
     cdef readonly dict data
 
     cdef void _set_obj(self, cEo *obj) except *
+    cdef void _set_properties_from_keyword_args(self, dict kwargs) except *
 #    cdef void *_unset_obj(self)
 #    cdef _add_obj(self, Eo_Class *klass, cEo *parent)
 
