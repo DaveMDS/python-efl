@@ -72,7 +72,7 @@ cdef extern from "Eo.h":
     const_Eo_Class *eo_class_get(const_Eo *obj)
     const_char *eo_class_name_get(const_Eo_Class *klass)
 
-    Eo *eo_parent_get(const_Eo *obj)
+    Eo *eo_parent_get(Eo **obj)
 
     void eo_event_callback_add(const_Eo_Event_Description *desc, Eo_Event_Cb cb, const_void *data)
     void eo_event_callback_del(const_Eo_Event_Description *desc, Eo_Event_Cb cb, const_void *data)

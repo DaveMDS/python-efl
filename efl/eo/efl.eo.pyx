@@ -15,28 +15,84 @@
 # You should have received a copy of the GNU Lesser General Public License
 # along with this Python-EFL.  If not, see <http://www.gnu.org/licenses/>.
 
-from cpython cimport PyObject, Py_INCREF, Py_DECREF, PyUnicode_AsUTF8String
+cimport cython
+from cpython cimport PyObject, Py_INCREF, Py_DECREF, PyUnicode_AsUTF8String, \
+    PyString_FromFormatV
 from libc.stdlib cimport malloc, free
 from libc.string cimport memcpy, strdup
 from efl.eina cimport Eina_Bool, const_Eina_List, eina_list_append, const_void, \
     Eina_Hash, eina_hash_string_superfast_new, eina_hash_add, eina_hash_del, \
-    eina_hash_find
+    eina_hash_find, Eina_Log_Domain, const_Eina_Log_Domain, Eina_Log_Level, \
+    eina_log_print_cb_set, eina_log_domain_register, \
+    eina_log_level_set, eina_log_level_get, eina_log_domain_level_get, \
+    eina_log_domain_level_set, EINA_LOG_DOM_DBG, EINA_LOG_DOM_INFO
 from efl.c_eo cimport Eo as cEo, eo_init, eo_shutdown, eo_del, eo_do, \
     eo_class_name_get, eo_class_get, eo_base_data_set, eo_base_data_get, \
     eo_base_data_del, eo_event_callback_add, eo_event_callback_del, \
     Eo_Event_Description, const_Eo_Event_Description, \
     eo_parent_get, EO_EV_DEL
 
-######################################################################
-#
-# TODO: Automate these
-#
-# Call eo_init and put eo_shutdown to atexit, and don't expose in our API.
-#
-# Do the same in other packages as well, making sure the packages main
-# module is always imported.
-#
+
+cdef extern from "stdarg.h":
+    ctypedef struct va_list:
+        pass
+
+cdef void py_eina_log_print_cb(const_Eina_Log_Domain *d,
+                              Eina_Log_Level level,
+                              const_char *file, const_char *fnc, int line,
+                              const_char *fmt, void *data, va_list args) with gil:
+
+    cdef str msg = PyString_FromFormatV(fmt, args)
+    rec = logging.LogRecord(d.name, log_levels[level], file, line, msg, None, None, fnc)
+    loggers[d.name].handle(rec)
+
+eina_log_print_cb_set(py_eina_log_print_cb, NULL)
+
+
+import logging
+
+cdef tuple log_levels = (
+    50,
+    40,
+    30,
+    20,
+    10
+)
+
+cdef dict loggers = dict()
+
+class PyEFLLogger(logging.Logger):
+    def __init__(self, name):
+        self.eina_log_domain = eina_log_domain_register(name, NULL)
+        loggers[name] = self
+        logging.Logger.__init__(self, name)
+
+    def setLevel(self, lvl):
+        eina_log_domain_level_set(self.name, log_levels.index(lvl))
+        logging.Logger.setLevel(self, lvl)
+
+logging.setLoggerClass(PyEFLLogger)
+
+# TODO: Handle messages from root Eina Log with this one?
+rootlog = logging.getLogger("efl")
+rootlog.propagate = False
+rootlog.setLevel(logging.WARNING)
+rootlog.addHandler(logging.NullHandler())
+
+log = logging.getLogger(__name__)
+log.propagate = True
+log.setLevel(logging.WARNING)
+log.addHandler(logging.NullHandler())
+
+logging.setLoggerClass(logging.Logger)
+
+cdef int PY_EFL_EO_LOG_DOMAIN = log.eina_log_domain
+
+
+
+
 def init():
+    EINA_LOG_DOM_INFO(PY_EFL_EO_LOG_DOMAIN, "Initializing %s", <char *>__name__)
     return eo_init()
 
 def shutdown():
@@ -50,14 +106,15 @@ cdef int PY_REFCOUNT(object o):
     return obj.ob_refcnt
 
 
-
 ######################################################################
 
-
 """
+
 Object mapping is an Eina Hash table into which object type names can be
 registered. These can be used to find a bindings class for an object using
-the object_from_instance function."""
+the function object_from_instance.
+
+"""
 cdef Eina_Hash *object_mapping = eina_hash_string_superfast_new(NULL)
 
 
@@ -66,7 +123,7 @@ cdef void _object_mapping_register(char *name, object cls) except *:
     if eina_hash_find(object_mapping, name) != NULL:
         raise ValueError("Object type name '%s' already registered." % name)
 
-    #print("REGISTER: %s => %s" % (name, cls))
+    EINA_LOG_DOM_DBG(PY_EFL_EO_LOG_DOMAIN, "REGISTER: %s => %s", name, <char *>cls.__name__)
     eina_hash_add(object_mapping, name, <PyObject *>cls)
 
 
@@ -115,10 +172,13 @@ cdef object object_from_instance(cEo *obj):
 
 
 cdef void _register_decorated_callbacks(object obj):
-    """ Serach every attrib of the pyobj for a __decorated_callbacks__ object,
+    """
+
+    Search every attrib of the pyobj for a __decorated_callbacks__ object,
     a list actually. If found then exec the functions listed there, with their
     arguments. Must be called just after the _set_obj call.
     List items signature: ("function_name", *args)
+
     """
     cdef object attr_name, attrib, func_name, func
 
@@ -159,8 +219,10 @@ cdef Eina_Bool _eo_event_del_cb(void *data, cEo *obj, const_Eo_Event_Description
 
 cdef class Eo(object):
     """
+
     Base class used by all the Eo object in the bindings, its not meant to be
     used by users, but only by internal classes.
+
     """
 
     # c globals declared in eo.pxd (to make the class available to others)
@@ -175,13 +237,13 @@ cdef class Eo(object):
     def __str__(self):
         return ("Eo(class=%s, obj=%#x, parent=%#x, refcount=%d)") % \
                 (type(self).__name__, <unsigned long>self.obj,
-                 <unsigned long>eo_parent_get(self.obj) if self.obj != NULL else 0,
+                 <unsigned long><void *>eo_parent_get(&self.obj) if self.obj != NULL else 0,
                  PY_REFCOUNT(self))
 
     def __repr__(self):
         return ("Eo(class=%s, obj=%#x, parent=%#x, refcount=%d)") % \
                 (type(self).__name__, <unsigned long>self.obj,
-                 <unsigned long>eo_parent_get(self.obj) if self.obj != NULL else 0,
+                 <unsigned long><void *>eo_parent_get(&self.obj) if self.obj != NULL else 0,
                  PY_REFCOUNT(self))
 
     def __nonzero__(self):

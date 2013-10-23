@@ -15,6 +15,7 @@
 # You should have received a copy of the GNU Lesser General Public License
 # along with this Python-EFL.  If not, see <http://www.gnu.org/licenses/>.
 
+from cpython cimport va_list
 from libc.stdlib cimport const_void, malloc, free
 from libc.string cimport const_char, memcpy, strdup
 
@@ -38,6 +39,18 @@ cdef extern from "Eina.h":
     ####################################################################
     # Enumerations
     #
+    ctypedef enum Eina_Log_Level:
+        EINA_LOG_LEVEL_CRITICAL # Critical log level
+        EINA_LOG_LEVEL_ERR # Error log level
+        EINA_LOG_LEVEL_WARN # Warning log level
+        EINA_LOG_LEVEL_INFO # Information log level
+        EINA_LOG_LEVEL_DBG # Debug log level
+        EINA_LOG_LEVELS # Count of default log levels
+        EINA_LOG_LEVEL_UNKNOWN = (-2147483647 - 1) # Unknown level
+
+    ctypedef enum Eina_Log_State:
+        EINA_LOG_STATE_START
+        EINA_LOG_STATE_STOP
 
     ####################################################################
     # Basic Types
@@ -78,11 +91,22 @@ cdef extern from "Eina.h":
         void *(*get_container)(Eina_Iterator *it)
         void (*free)(Eina_Iterator *it)
 
+    ctypedef struct Eina_Log_Domain:
+        int         level # Max level to log
+        const char *domain_str # Formatted string with color to print
+        const char *name # Domain name
+        size_t      namelen # strlen(name)
+    ctypedef Eina_Log_Domain const_Eina_Log_Domain "const Eina_Log_Domain"
+
     ####################################################################
     # Other typedefs
     #
     ctypedef int (*Eina_Compare_Cb)(const_void *data1, const_void *data2)
     ctypedef void (*Eina_Free_Cb)(void *data)
+    ctypedef void (*Eina_Log_Print_Cb)(const_Eina_Log_Domain *d,
+                                  Eina_Log_Level level,
+                                  const_char *file, const_char *fnc, int line,
+                                  const_char *fmt, void *data, va_list args)
 
     ####################################################################
     # Functions
@@ -142,3 +166,29 @@ cdef extern from "Eina.h":
     Eina_Bool  eina_hash_add(Eina_Hash *hash, const_void *key, const_void *data)
     Eina_Bool eina_hash_del(Eina_Hash  *hash, const_void *key, const_void *data)
     void *eina_hash_find(Eina_Hash *hash, const_void *key)
+
+    void eina_log_threads_enable()
+    void eina_log_print_cb_set(Eina_Log_Print_Cb cb, void *data)
+    void eina_log_level_set(int level)
+    int  eina_log_level_get()
+    Eina_Bool          eina_log_main_thread_check()
+    void               eina_log_function_disable_set(Eina_Bool disabled)
+    Eina_Bool          eina_log_function_disable_get()
+    void               eina_log_domain_level_set(const_char *domain_name, int level)
+    int                eina_log_domain_level_get(const_char *domain_name)
+    int                eina_log_domain_registered_level_get(int domain)
+    int  eina_log_domain_register(const_char *name, const_char *color)
+    void eina_log_domain_unregister(int domain)
+    void eina_log_print(int            domain,
+                        Eina_Log_Level level,
+                        const_char    *file,
+                        const_char    *fnc,
+                        int            line,
+                        const_char    *fmt,
+                        ...)
+
+    void EINA_LOG_DOM_CRIT(int DOM, const_char *fmt, ...)
+    void EINA_LOG_DOM_ERR(int DOM, const_char *fmt, ...)
+    void EINA_LOG_DOM_WARN(int DOM, const_char *fmt, ...)
+    void EINA_LOG_DOM_INFO(int DOM, const_char *fmt, ...)
+    void EINA_LOG_DOM_DBG(int DOM, const_char *fmt, ...)
