@@ -93,8 +93,8 @@ cdef extern from "Eina.h":
 
     ctypedef struct Eina_Log_Domain:
         int         level # Max level to log
-        const char *domain_str # Formatted string with color to print
-        const char *name # Domain name
+        const_char *domain_str # Formatted string with color to print
+        const_char *name # Domain name
         size_t      namelen # strlen(name)
     ctypedef Eina_Log_Domain const_Eina_Log_Domain "const Eina_Log_Domain"
 
