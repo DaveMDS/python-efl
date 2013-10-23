@@ -41,10 +41,10 @@ cdef void py_eina_log_print_cb(const_Eina_Log_Domain *d,
                               Eina_Log_Level level,
                               const_char *file, const_char *fnc, int line,
                               const_char *fmt, void *data, va_list args) with gil:
-
     cdef str msg = PyString_FromFormatV(fmt, args)
     rec = logging.LogRecord(d.name, log_levels[level], file, line, msg, None, None, fnc)
-    loggers[d.name].handle(rec)
+    logger = loggers.get(d.name, loggers["efl"])
+    logger.handle(rec)
 
 eina_log_print_cb_set(py_eina_log_print_cb, NULL)
 
