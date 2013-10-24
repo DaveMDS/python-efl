@@ -21,20 +21,22 @@ from efl.c_eo cimport Eo as cEo
 
 from efl.eina cimport Eina_List, const_Eina_List
 
-cdef class Eo(object):
-    cdef cEo *obj
-    cdef readonly dict data
+cdef:
+    class Eo(object):
+        cdef:
+            cEo *obj
+            readonly dict data
 
-    cdef void _set_obj(self, cEo *obj) except *
-    cdef void _set_properties_from_keyword_args(self, dict kwargs) except *
-#    cdef void *_unset_obj(self)
-#    cdef _add_obj(self, Eo_Class *klass, cEo *parent)
+            void _set_obj(self, cEo *obj) except *
+            void _set_properties_from_keyword_args(self, dict kwargs) except *
+            #void *_unset_obj(self)
+            #_add_obj(self, Eo_Class *klass, cEo *parent)
 
 
-cdef int PY_REFCOUNT(object o)
+    int PY_REFCOUNT(object o)
 
-cdef object object_from_instance(cEo *obj)
-cdef void _object_mapping_register(char *name, object cls) except *
-cdef void _object_mapping_unregister(char *name)
+    object object_from_instance(cEo *obj)
+    void _object_mapping_register(char *name, object cls) except *
+    void _object_mapping_unregister(char *name)
 
-cdef void _register_decorated_callbacks(object obj)
+    void _register_decorated_callbacks(object obj)

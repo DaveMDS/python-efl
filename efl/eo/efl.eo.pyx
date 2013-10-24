@@ -15,80 +15,22 @@
 # You should have received a copy of the GNU Lesser General Public License
 # along with this Python-EFL.  If not, see <http://www.gnu.org/licenses/>.
 
-cimport cython
-from cpython cimport PyObject, Py_INCREF, Py_DECREF, PyUnicode_AsUTF8String, \
-    PyString_FromFormatV
+from cpython cimport PyObject, Py_INCREF, Py_DECREF, PyUnicode_AsUTF8String
 from libc.stdlib cimport malloc, free
 from libc.string cimport memcpy, strdup
 from efl.eina cimport Eina_Bool, const_Eina_List, eina_list_append, const_void, \
     Eina_Hash, eina_hash_string_superfast_new, eina_hash_add, eina_hash_del, \
-    eina_hash_find, Eina_Log_Domain, const_Eina_Log_Domain, Eina_Log_Level, \
-    eina_log_print_cb_set, eina_log_domain_register, \
-    eina_log_level_set, eina_log_level_get, eina_log_domain_level_get, \
-    eina_log_domain_level_set, EINA_LOG_DOM_DBG, EINA_LOG_DOM_INFO
+    eina_hash_find, EINA_LOG_DOM_DBG, EINA_LOG_DOM_INFO
 from efl.c_eo cimport Eo as cEo, eo_init, eo_shutdown, eo_del, eo_do, \
     eo_class_name_get, eo_class_get, eo_base_data_set, eo_base_data_get, \
     eo_base_data_del, eo_event_callback_add, eo_event_callback_del, \
     Eo_Event_Description, const_Eo_Event_Description, \
     eo_parent_get, EO_EV_DEL
 
+from efl.utils.logger cimport add_logger
 
-cdef extern from "stdarg.h":
-    ctypedef struct va_list:
-        pass
-
-cdef void py_eina_log_print_cb(const_Eina_Log_Domain *d,
-                              Eina_Log_Level level,
-                              const_char *file, const_char *fnc, int line,
-                              const_char *fmt, void *data, va_list args) with gil:
-    cdef str msg = PyString_FromFormatV(fmt, args)
-    rec = logging.LogRecord(d.name, log_levels[level], file, line, msg, None, None, fnc)
-    logger = loggers.get(d.name, loggers["efl"])
-    logger.handle(rec)
-
-eina_log_print_cb_set(py_eina_log_print_cb, NULL)
-
-
-import logging
-
-cdef tuple log_levels = (
-    50,
-    40,
-    30,
-    20,
-    10
-)
-
-cdef dict loggers = dict()
-
-class PyEFLLogger(logging.Logger):
-    def __init__(self, name):
-        self.eina_log_domain = eina_log_domain_register(name, NULL)
-        loggers[name] = self
-        logging.Logger.__init__(self, name)
-
-    def setLevel(self, lvl):
-        eina_log_domain_level_set(self.name, log_levels.index(lvl))
-        logging.Logger.setLevel(self, lvl)
-
-logging.setLoggerClass(PyEFLLogger)
-
-# TODO: Handle messages from root Eina Log with this one?
-rootlog = logging.getLogger("efl")
-rootlog.propagate = False
-rootlog.setLevel(logging.WARNING)
-rootlog.addHandler(logging.NullHandler())
-
-log = logging.getLogger(__name__)
-log.propagate = True
-log.setLevel(logging.WARNING)
-log.addHandler(logging.NullHandler())
-
-logging.setLoggerClass(logging.Logger)
-
-cdef int PY_EFL_EO_LOG_DOMAIN = log.eina_log_domain
-
-
+# Set this to public and export it in pxd if you need it in another module
+cdef int PY_EFL_EO_LOG_DOMAIN = add_logger(__name__)
 
 
 def init():

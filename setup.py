@@ -86,11 +86,18 @@ if set(("build", "build_ext", "install", "bdist", "sdist")) & set(sys.argv):
 
     # Utilities
     utils_ext = [
-        Extension("utils.deprecated", ["efl/utils/deprecated"+module_suffix]),
+        Extension("utils.deprecated", ["efl/utils/deprecated"+module_suffix],
+                            include_dirs = ['include/'],
+                            extra_compile_args = eo_cflags,
+                            extra_link_args = eo_libs + eina_libs),
         Extension("utils.conversions", ["efl/utils/conversions"+module_suffix],
                             include_dirs = ['include/'],
                             extra_compile_args = eo_cflags,
-                            extra_link_args = eo_libs + eina_libs)
+                            extra_link_args = eo_libs + eina_libs),
+        Extension("utils.logger", ["efl/utils/logger"+module_suffix],
+                            include_dirs = ['include/'],
+                            extra_compile_args = eo_cflags,
+                            extra_link_args = eo_libs + eina_libs),
         ]
     modules += utils_ext
 
