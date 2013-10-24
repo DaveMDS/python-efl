@@ -15,6 +15,17 @@ from efl.elementary.check import Check
 from efl.elementary.entry import Entry
 from efl.elementary.scroller import Scroller
 
+import logging
+elog = logging.getLogger("efl")
+elog.setLevel(logging.DEBUG)
+
+elog_form = logging.Formatter("[%(name)s] %(levelname)s - %(message)s")
+elog_hdlr = logging.StreamHandler()
+elog_hdlr.setFormatter(elog_form)
+
+elog.addHandler(elog_hdlr)
+
+
 items = [
          ("Core Libs", [
             ("Evas Objects", "test_core_evas_objects", "core_evas_objects_clicked"),

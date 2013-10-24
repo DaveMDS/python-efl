@@ -149,7 +149,7 @@ from efl.utils.conversions cimport _ctouni, _touni
 
 from object cimport Object
 from layout_class cimport LayoutClass
-from efl.utils.deprecated import DEPRECATED
+from efl.utils.deprecated cimport DEPRECATED
 
 cimport enums
 
@@ -178,12 +178,9 @@ cdef class Scrollable(Object):
     # TODO: Use the scrollable interface functions? Need to base on
     #   evas.SmartObject?
 
-    @DEPRECATED
+    @DEPRECATED("1.8", "Use :py:attr:`theme<efl.elementary.object.Object.theme>` instead.")
     def custom_widget_base_theme_set(self, widget, base):
         """custom_widget_base_theme_set(widget, base)
-
-        .. deprecated:: 1.8
-            Use :py:attr:`theme<efl.elementary.object.Object.theme>` instead.
 
         """
         if isinstance(widget, unicode): widget = PyUnicode_AsUTF8String(widget)

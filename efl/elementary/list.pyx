@@ -188,6 +188,10 @@ from object_item cimport    _object_item_callback, \
                             _object_item_to_python, \
                             _object_item_list_to_python
 
+from efl.utils.deprecated cimport DEPRECATED
+from scroller cimport elm_scroller_policy_get, elm_scroller_policy_set, \
+    elm_scroller_bounce_get, elm_scroller_bounce_set, Elm_Scroller_Policy
+
 cimport enums
 
 ELM_LIST_COMPRESS = enums.ELM_LIST_COMPRESS
@@ -985,5 +989,40 @@ cdef class List(Object):
     def callback_unfocused_del(self, func):
         self._callback_del("unfocused", func)
 
+
+    property scroller_policy:
+        def __get__(self):
+            return self.scroller_policy_get()
+
+        def __set__(self, value):
+            cdef Elm_Scroller_Policy policy_h, policy_v
+            policy_h, policy_v = value
+            self.scroller_policy_set(policy_h, policy_v)
+
+    @DEPRECATED("1.8", "You should combine with Scrollable class instead.")
+    def scroller_policy_set(self, policy_h, policy_v):
+        elm_scroller_policy_set(self.obj, policy_h, policy_v)
+    @DEPRECATED("1.8", "You should combine with Scrollable class instead.")
+    def scroller_policy_get(self):
+        cdef Elm_Scroller_Policy policy_h, policy_v
+        elm_scroller_policy_get(self.obj, &policy_h, &policy_v)
+        return (policy_h, policy_v)
+
+    property bounce:
+        def __get__(self):
+            return self.bounce_get()
+        def __set__(self, value):
+            cdef Eina_Bool h, v
+            h, v = value
+            self.bounce_set(h, v)
+
+    @DEPRECATED("1.8", "You should combine with Scrollable class instead.")
+    def bounce_set(self, h, v):
+        elm_scroller_bounce_set(self.obj, h, v)
+    @DEPRECATED("1.8", "You should combine with Scrollable class instead.")
+    def bounce_get(self):
+        cdef Eina_Bool h, v
+        elm_scroller_bounce_get(self.obj, &h, &v)
+        return (h, v)
 
 _object_mapping_register("elm_list", List)

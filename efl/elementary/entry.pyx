@@ -492,6 +492,10 @@ from efl.evas cimport Object as evasObject
 from object cimport Object
 from hover cimport Hover
 
+from efl.utils.deprecated cimport DEPRECATED
+from scroller cimport elm_scroller_policy_get, elm_scroller_policy_set, \
+    elm_scroller_bounce_get, elm_scroller_bounce_set, Elm_Scroller_Policy
+
 cimport enums
 
 ELM_AUTOCAPITAL_TYPE_NONE = enums.ELM_AUTOCAPITAL_TYPE_NONE
@@ -2138,5 +2142,42 @@ cdef class Entry(Object):
 
     def callback_text_set_done_del(self, func):
         self._callback_del("text,set,done", func)
+
+
+    property scrollbar_policy:
+        def __get__(self):
+            return self.scrollbar_policy_get()
+
+        def __set__(self, value):
+            cdef Elm_Scroller_Policy policy_h, policy_v
+            policy_h, policy_v = value
+            self.scrollbar_policy_set(policy_h, policy_v)
+
+    @DEPRECATED("1.8", "You should combine with Scrollable class instead.")
+    def scrollbar_policy_set(self, policy_h, policy_v):
+        elm_scroller_policy_set(self.obj, policy_h, policy_v)
+    @DEPRECATED("1.8", "You should combine with Scrollable class instead.")
+    def scrollbar_policy_get(self):
+        cdef Elm_Scroller_Policy policy_h, policy_v
+        elm_scroller_policy_get(self.obj, &policy_h, &policy_v)
+        return (policy_h, policy_v)
+
+    property bounce:
+        def __get__(self):
+            return self.bounce_get()
+        def __set__(self, value):
+            cdef Eina_Bool h, v
+            h, v = value
+            self.bounce_set(h, v)
+
+    @DEPRECATED("1.8", "You should combine with Scrollable class instead.")
+    def bounce_set(self, h, v):
+        elm_scroller_bounce_set(self.obj, h, v)
+    @DEPRECATED("1.8", "You should combine with Scrollable class instead.")
+    def bounce_get(self):
+        cdef Eina_Bool h, v
+        elm_scroller_bounce_get(self.obj, &h, &v)
+        return (h, v)
+
 
 _object_mapping_register("elm_entry", Entry)

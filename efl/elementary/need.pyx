@@ -15,7 +15,7 @@
 # You should have received a copy of the GNU Lesser General Public License
 # along with this Python-EFL.  If not, see <http://www.gnu.org/licenses/>.
 
-from efl.utils.deprecated import DEPRECATED
+from efl.utils.deprecated cimport DEPRECATED
 
 def need_efreet():
     """need_efreet() -> bool
@@ -62,7 +62,7 @@ def need_sys_notify():
     """
     return bool(elm_need_sys_notify())
 
-@DEPRECATED
+@DEPRECATED("1.8", "Use :py:func:`need_eldbus` for eldbus (v2) support. Old API is deprecated.")
 def need_e_dbus():
     """need_e_dbus() -> bool
 
@@ -74,10 +74,6 @@ def need_e_dbus():
 
     :return: True if support exists and initialization succeeded.
     :rtype: bool
-
-    .. deprecated:: 1.8
-        Use :py:func:`need_eldbus` for eldbus (v2) support. Old API is
-        deprecated.
 
     """
     return bool(elm_need_eldbus())

@@ -532,13 +532,14 @@ from efl.eo cimport _object_mapping_register, PY_REFCOUNT
 from efl.utils.conversions cimport _ctouni
 from efl.evas cimport Object as evasObject
 
-from efl.utils.deprecated import DEPRECATED
+from efl.utils.deprecated cimport DEPRECATED
+from scroller cimport elm_scroller_policy_get, elm_scroller_policy_set, \
+    elm_scroller_bounce_get, elm_scroller_bounce_set, Elm_Scroller_Policy
 
 from object_item cimport ObjectItem, _object_item_to_python, \
     elm_object_item_widget_get, _object_item_from_python, \
     _object_item_list_to_python, elm_object_item_data_get
 from general cimport strdup
-from scroller cimport *
 cimport enums
 
 import traceback
@@ -727,7 +728,7 @@ class GenlistItemsCount(int):
     def __init__(self, Object obj, int count):
         self.obj = obj
 
-    @DEPRECATED
+    @DEPRECATED("1.8", "Use items_count instead.")
     def __call__(self):
         return self.obj._items_count()
 

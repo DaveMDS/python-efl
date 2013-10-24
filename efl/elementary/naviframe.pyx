@@ -106,7 +106,7 @@ from layout_class cimport LayoutClass
 from object_item cimport    _object_item_to_python, \
                             _object_item_list_to_python
 
-from efl.utils.deprecated import DEPRECATED
+from efl.utils.deprecated cimport DEPRECATED
 
 cdef class NaviframeItem(ObjectItem):
 
@@ -264,14 +264,9 @@ cdef class NaviframeItem(ObjectItem):
         else:
             return None
 
-    @DEPRECATED
+    @DEPRECATED("1.8", "Use :py:func:`pop_to` instead.")
     def item_pop_to(self):
-        """item_pop_to()
-
-        .. deprecated:: 1.8
-            Use :py:func:`pop_to` instead.
-
-        """
+        """item_pop_to()"""
         elm_naviframe_item_pop_to(self.item)
 
     def pop_to(self):
@@ -282,14 +277,9 @@ cdef class NaviframeItem(ObjectItem):
         """
         elm_naviframe_item_pop_to(self.item)
 
-    @DEPRECATED
+    @DEPRECATED("1.8", "Use :py:func:`promote` instead.")
     def item_promote(self):
-        """item_promote()
-
-        .. deprecated:: 1.8
-            Use :py:func:`promote` instead.
-
-        """
+        """item_promote()"""
         elm_naviframe_item_promote(self.item)
 
     def promote(self):

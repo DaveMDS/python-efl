@@ -101,7 +101,7 @@ from efl.eo cimport _object_mapping_register
 from efl.utils.conversions cimport _ctouni
 from efl.evas cimport Object as evasObject
 from layout_class cimport LayoutClass
-from efl.utils.deprecated import DEPRECATED
+from efl.utils.deprecated cimport DEPRECATED
 
 cimport enums
 
@@ -198,11 +198,11 @@ cdef class Label(LayoutClass):
         def __set__(self, slide):
             self.slide_set(ELM_LABEL_SLIDE_MODE_ALWAYS if slide else ELM_LABEL_SLIDE_MODE_NONE)
 
-    @DEPRECATED
+    @DEPRECATED("1.8", "Use :py:attr:`slide_mode` instead.")
     def slide_set(self, bint slide):
         elm_label_slide_mode_set(self.obj,
             ELM_LABEL_SLIDE_MODE_ALWAYS if slide else ELM_LABEL_SLIDE_MODE_NONE)
-    @DEPRECATED
+    @DEPRECATED("1.8", "Use :py:attr:`slide_mode` instead.")
     def slide_get(self):
         return bool(elm_label_slide_mode_get(self.obj))
 
