@@ -19,7 +19,8 @@ cdef class DEPRECATED(object):
             assignments.append("__module__")
         update_wrapper(wrapper, f, assigned=assignments)
 
-        if wrapper.__doc__ is not None:
+        # Version is required for the deprecated directive
+        if wrapper.__doc__ is not None and self.version is not None:
             wrapper.__doc__ += "\n\n.. deprecated:: %s\n    %s\n" % (self.version, self.message)
 
         return wrapper
@@ -54,7 +55,8 @@ class WRAPPER(object):
             msg = "Deprecated function %s called in %s:%s." % \
                 (self.f.__name__, caller_module, caller_line)
 
-        msg += " " + self.message
+        if self.message is not None:
+            msg += " " + self.message
 
         EINA_LOG_DOM_WARN(PY_EFL_LOG_DOMAIN, msg, NULL)
 

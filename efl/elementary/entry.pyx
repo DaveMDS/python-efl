@@ -39,8 +39,8 @@ Other features include password mode, filtering of inserted text with
 :py:func:`markup_filter_append()` and related functions, inline "items" and
 formatted markup text.
 
-Scollable Interface
-===================
+Scrollable Interface
+====================
 
 This widget supports the scrollable interface.
 

@@ -33,8 +33,8 @@ clicking on items to select them and clicking on the grid's viewport and
 swiping to pan the whole view) or via the keyboard, navigating through
 item with the arrow keys.
 
-Scollable Interface
-===================
+Scrollable Interface
+====================
 
 This widget supports the scrollable interface.
 

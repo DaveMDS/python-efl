@@ -221,8 +221,8 @@ per application with elm_theme_extension_add(). If you absolutely must
 have a specific style that overrides any theme the user or system sets up
 you can use elm_theme_overlay_add() to add such a file.
 
-Scollable Interface
-===================
+Scrollable Interface
+====================
 
 This widget supports the scrollable interface.
 

@@ -57,6 +57,19 @@ Signals that you can add callbacks for are:
 - ``focused`` - When the photocam has received focus. (since 1.8)
 - ``unfocused`` - When the photocam has lost focus. (since 1.8)
 
+Scrollable Interface
+====================
+
+This widget supports the scrollable interface.
+
+If you wish to control the scolling behaviour using these functions,
+inherit both the widget class and the
+:py:class:`Scrollable<efl.elementary.scroller.Scrollable>` class
+using multiple inheritance, for example::
+
+    class ScrollableGenlist(Genlist, Scrollable):
+        def __init__(self, canvas, *args, **kwargs):
+            Genlist.__init__(self, canvas)
 
 Enumerations
 ------------

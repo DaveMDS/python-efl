@@ -55,8 +55,8 @@ Default text parts of the diskselector items that you can use for are:
 .. note:: The "scroll,anim,*" and "scroll,drag,*" signals are only emitted
     by user intervention.
 
-Scollable Interface
-===================
+Scrollable Interface
+====================
 
 This widget supports the scrollable interface.
 

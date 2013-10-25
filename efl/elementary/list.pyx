@@ -70,8 +70,8 @@ Default text parts of the list items that you can use for are:
 
 - "default" - label in the list item
 
-Scollable Interface
-===================
+Scrollable Interface
+====================
 
 This widget supports the scrollable interface.
 
