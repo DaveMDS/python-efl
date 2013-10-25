@@ -2,6 +2,8 @@ import traceback
 import types
 from functools import update_wrapper
 
+from cpython cimport PY_VERSION_HEX, PyUnicode_AsUTF8String
+
 from efl.eina cimport EINA_LOG_DOM_WARN
 from efl.utils.logger cimport PY_EFL_LOG_DOMAIN
 
@@ -33,7 +35,10 @@ class WRAPPER(object):
         self.message = message
 
     def __get__(self, obj, objtype):
-        return types.MethodType(self, obj, objtype)
+        if PY_VERSION_HEX < 0x03000000:
+            return types.MethodType(self, obj, objtype)
+        else:
+            return types.MethodType(self, obj)
 
     def __call__(self, *args, **kwargs):
         cdef:
@@ -58,6 +63,9 @@ class WRAPPER(object):
         if self.message is not None:
             msg += " " + self.message
 
-        EINA_LOG_DOM_WARN(PY_EFL_LOG_DOMAIN, msg, NULL)
+        msg2 = msg
+        if isinstance(msg2, unicode): msg2 = PyUnicode_AsUTF8String(msg2)
+
+        EINA_LOG_DOM_WARN(PY_EFL_LOG_DOMAIN, msg2, NULL)
 
         return self.f(*args, **kwargs)

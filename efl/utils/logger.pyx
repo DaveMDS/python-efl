@@ -18,7 +18,9 @@
 from libc.string cimport const_char
 from efl.eina cimport Eina_Log_Domain, const_Eina_Log_Domain, Eina_Log_Level, \
     eina_log_print_cb_set, eina_log_domain_register, eina_log_level_set, \
-    eina_log_level_get, eina_log_domain_level_get, eina_log_domain_level_set
+    eina_log_level_get, eina_log_domain_level_get, eina_log_domain_level_set, \
+    eina_log_print
+from cpython cimport PyUnicode_AsUTF8String
 
 cdef extern from "stdarg.h":
     ctypedef struct va_list:
@@ -42,8 +44,9 @@ cdef void py_eina_log_print_cb(const_Eina_Log_Domain *d,
                               const_char *file, const_char *fnc, int line,
                               const_char *fmt, void *data, va_list args) with gil:
     cdef unicode msg = PyUnicode_FromFormatV(fmt, args)
-    rec = logging.LogRecord(d.name, log_levels[level], file, line, msg, None, None, fnc)
-    logger = loggers.get(d.name, loggers["efl"])
+    cdef unicode name = d.name.decode("utf-8")
+    rec = logging.LogRecord(name, log_levels[level], file, line, msg, None, None, fnc)
+    logger = loggers.get(name, loggers["efl"])
     logger.handle(rec)
 
 import logging
@@ -52,12 +55,16 @@ eina_log_print_cb_set(py_eina_log_print_cb, NULL)
 
 class PyEFLLogger(logging.Logger):
     def __init__(self, name):
-        self.eina_log_domain = eina_log_domain_register(name, NULL)
+        cname = name
+        if isinstance(cname, unicode): cname = PyUnicode_AsUTF8String(cname)
+        self.eina_log_domain = eina_log_domain_register(cname, NULL)
         loggers[name] = self
         logging.Logger.__init__(self, name)
 
     def setLevel(self, lvl):
-        eina_log_domain_level_set(self.name, log_levels.index(lvl))
+        cname = self.name
+        if isinstance(cname, unicode): cname = PyUnicode_AsUTF8String(cname)
+        eina_log_domain_level_set(cname, log_levels.index(lvl))
         logging.Logger.setLevel(self, lvl)
 
 logging.setLoggerClass(PyEFLLogger)
@@ -71,7 +78,7 @@ logging.setLoggerClass(logging.Logger)
 
 cdef public int PY_EFL_LOG_DOMAIN = rootlog.eina_log_domain
 
-cdef int add_logger(char *name):
+cdef int add_logger(object name):
     logging.setLoggerClass(PyEFLLogger)
 
     log = logging.getLogger(name)

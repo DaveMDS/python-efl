@@ -34,7 +34,7 @@ cdef int PY_EFL_EO_LOG_DOMAIN = add_logger(__name__)
 
 
 def init():
-    EINA_LOG_DOM_INFO(PY_EFL_EO_LOG_DOMAIN, "Initializing %s", <char *>__name__)
+    EINA_LOG_DOM_INFO(PY_EFL_EO_LOG_DOMAIN, "Initializing efl.eo", NULL)
     return eo_init()
 
 def shutdown():
@@ -65,7 +65,10 @@ cdef void _object_mapping_register(char *name, object cls) except *:
     if eina_hash_find(object_mapping, name) != NULL:
         raise ValueError("Object type name '%s' already registered." % name)
 
-    EINA_LOG_DOM_DBG(PY_EFL_EO_LOG_DOMAIN, "REGISTER: %s => %s", name, <char *>cls.__name__)
+    cdef object cls_name = cls.__name__
+    if isinstance(cls_name, unicode): cls_name = PyUnicode_AsUTF8String(cls_name)
+
+    EINA_LOG_DOM_DBG(PY_EFL_EO_LOG_DOMAIN, "REGISTER: %s => %s", <char *>name, <char *>cls_name)
     eina_hash_add(object_mapping, name, <PyObject *>cls)
 
 

@@ -1,3 +1,3 @@
 cdef:
-    int add_logger(char *name)
+    int add_logger(object name)
     int PY_EFL_LOG_DOMAIN
