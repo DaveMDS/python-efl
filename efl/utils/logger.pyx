@@ -15,7 +15,6 @@
 # You should have received a copy of the GNU Lesser General Public License
 # along with this Python-EFL.  If not, see <http://www.gnu.org/licenses/>.
 
-from cpython cimport PyString_FromFormatV
 from libc.string cimport const_char
 from efl.eina cimport Eina_Log_Domain, const_Eina_Log_Domain, Eina_Log_Level, \
     eina_log_print_cb_set, eina_log_domain_register, eina_log_level_set, \
@@ -24,6 +23,9 @@ from efl.eina cimport Eina_Log_Domain, const_Eina_Log_Domain, Eina_Log_Level, \
 cdef extern from "stdarg.h":
     ctypedef struct va_list:
         pass
+
+cdef extern from "Python.h":
+    object PyUnicode_FromFormatV(char *format, va_list vargs)
 
 cdef tuple log_levels = (
     50,
@@ -39,7 +41,7 @@ cdef void py_eina_log_print_cb(const_Eina_Log_Domain *d,
                               Eina_Log_Level level,
                               const_char *file, const_char *fnc, int line,
                               const_char *fmt, void *data, va_list args) with gil:
-    cdef str msg = PyString_FromFormatV(fmt, args)
+    cdef unicode msg = PyUnicode_FromFormatV(fmt, args)
     rec = logging.LogRecord(d.name, log_levels[level], file, line, msg, None, None, fnc)
     logger = loggers.get(d.name, loggers["efl"])
     logger.handle(rec)
