@@ -120,14 +120,14 @@ spaces in the data fields. For the default genlist item theme, we have
 
 A genlist item may be at one of several styles. Elementary provides one
 by default - "default", but this can be extended by system or application
-custom themes/overlays/extensions (see :ref:`Theme` "themes" for more
-details).
+custom themes/overlays/extensions (see :py:mod:`themes<efl.elementary.theme>`)
+for more details).
 
 Editing and Navigating
 ======================
 
 Items can be added by several calls. All of them return a
-:ref:`Elm_Object_Item` handle that is an internal member inside the genlist.
+:py:class:`GenlistItem` handle that is an internal member inside the genlist.
 They all take a data parameter that is meant to be used for a handle to
 the applications internal data (eg. the struct with the original item
 data). The parent parameter is the parent genlist item this belongs to if
@@ -500,24 +500,6 @@ Selection modes
 .. data:: ELM_OBJECT_SELECT_MODE_DISPLAY_ONLY
 
     No select mode with no finger size rule
-
-
-.. _Elm_Scroller_Policy:
-
-Scrollbar visibility
-====================
-
-.. data:: ELM_SCROLLER_POLICY_AUTO
-
-    Show scrollbars as needed
-
-.. data:: ELM_SCROLLER_POLICY_ON
-
-    Always show scrollbars
-
-.. data:: ELM_SCROLLER_POLICY_OFF
-
-    Never show scrollbars
 
 
 """

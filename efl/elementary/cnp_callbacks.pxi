@@ -242,9 +242,9 @@ cdef void py_elm_drag_state_cb(void *data, Evas_Object *obj) with gil:
 cdef void py_elm_drag_done_cb(void *data, Evas_Object *obj, Eina_Bool accepted) with gil:
     """Callback called when a drag is finished.
 
-    @param data Application specific data
-    @param obj The object where the drag started
-    @param accepted TRUE if the droppped-data is accepted on drop
+    :param data: Application specific data
+    :param obj: The object where the drag started
+    :param accepted: TRUE if the droppped-data is accepted on drop
     :since: 1.8
 
     """
@@ -305,14 +305,14 @@ cdef void py_elm_drag_item_container_pos(
     Callback called when a drag is over an object
 
     :param data: Application specific data
-    @param cont The container object where the drag started
-    @param it The object item in container where mouse-over
-    @param x The X coordinate relative to the top-left of the object
-    @param y The Y coordinate relative to the top-left of the object
-    @param xposret Position relative to item (left (-1), middle (0), right (1)
-    @param yposret Position relative to item (upper (-1), middle (0), bottom (1)
-    @param action The drag action to be done
-    @since 1.8
+    :param cont: The container object where the drag started
+    :param it: The object item in container where mouse-over
+    :param x: The X coordinate relative to the top-left of the object
+    :param y: The Y coordinate relative to the top-left of the object
+    :param xposret: Position relative to item (left (-1), middle (0), right (1)
+    :param yposret: Position relative to item (upper (-1), middle (0), bottom (1)
+    :param action: The drag action to be done
+    :since: 1.8
 
     """
     print("in drag_item_container_pos")
@@ -324,12 +324,12 @@ cdef Eina_Bool py_elm_drop_item_container_cb(
 
     Callback invoked in when the selected data is 'dropped' on container.
 
-    @param data Application specific data
-    @param obj The evas object where selected data is 'dropped'.
-    @param it The item in container where drop-cords
-    @param ev struct holding information about selected data
-    @param xposret Position relative to item (left (-1), middle (0), right (1)
-    @param yposret Position relative to item (upper (-1), middle (0), bottom (1)
+    :param data: Application specific data
+    :param obj: The evas object where selected data is 'dropped'.
+    :param it: The item in container where drop-cords
+    :param ev: struct holding information about selected data
+    :param xposret: Position relative to item (left (-1), middle (0), right (1)
+    :param yposret: Position relative to item (upper (-1), middle (0), bottom (1)
 
     """
     print("in drop_item_container_cb")
@@ -359,20 +359,20 @@ cdef class DragUserInfo(object):
 
     Structure describing user information for the drag process.
 
-    @param format The drag formats supported by the data (output)
-    @param data The drag data itself (a string) (output)
-    @param icons if value not NULL, play default anim (output)
-    @param action The drag action to be done (output)
-    @param createicon Function to call to create a drag object, or NULL if not wanted (output)
-    @param createdata Application data passed to @p createicon (output)
-    @param dragpos Function called with each position of the drag,
+    :param format: The drag formats supported by the data (output)
+    :param data: The drag data itself (a string) (output)
+    :param icons: if value not NULL, play default anim (output)
+    :param action: The drag action to be done (output)
+    :param createicon: Function to call to create a drag object, or NULL if not wanted (output)
+    :param createdata: Application data passed to @p createicon (output)
+    :param dragpos: Function called with each position of the drag,
         x, y being screen coordinates if possible, and action being the current action. (output)
-    @param dragdata Application data passed to @p dragpos (output)
-    @param acceptcb Function called indicating if drop target accepts
+    :param dragdata: Application data passed to @p dragpos (output)
+    :param acceptcb: Function called indicating if drop target accepts
         (or does not) the drop data while dragging (output)
-    @param acceptdata Application data passed to @p acceptcb (output)
-    @param dragdone Function to call when drag is done (output)
-    @param donecbdata Application data to pass to @p dragdone (output)
+    :param acceptdata: Application data passed to @p acceptcb (output)
+    :param dragdone: Function to call when drag is done (output)
+    :param donecbdata: Application data to pass to @p dragdone (output)
 
     """
     cdef:
@@ -411,9 +411,9 @@ cdef Eina_Bool py_elm_item_container_data_get_cb(
 
     Callback invoked when starting to drag for a container.
 
-    @param obj The container object
-    @param it The Elm_Object_Item pointer where drag-start
-    @return Returns EINA_TRUE, if successful, or EINA_FALSE if not.
+    :param obj: The container object
+    :param it: The Elm_Object_Item pointer where drag-start
+    :return: Returns EINA_TRUE, if successful, or EINA_FALSE if not.
 
     """
     print("in item_container_data_get_cb")
