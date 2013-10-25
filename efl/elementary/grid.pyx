@@ -49,8 +49,9 @@ cdef class Grid(Object):
 
     """
 
-    def __init__(self, evasObject parent):
+    def __init__(self, evasObject parent, *args, **kwargs):
         self._set_obj(elm_grid_add(parent.obj))
+        self._set_properties_from_keyword_args(kwargs)
 
     property size:
         """The virtual size (width and height) of the grid.

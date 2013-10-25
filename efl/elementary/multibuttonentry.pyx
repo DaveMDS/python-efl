@@ -235,8 +235,9 @@ cdef class MultiButtonEntry(Object):
 
     """This is the class that actually implements the widget."""
 
-    def __init__(self, evasObject parent):
+    def __init__(self, evasObject parent, *args, **kwargs):
         self._set_obj(elm_multibuttonentry_add(parent.obj))
+        self._set_properties_from_keyword_args(kwargs)
 
     property entry:
         """The Entry object child of the multibuttonentry.

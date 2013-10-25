@@ -419,7 +419,7 @@ cdef class Window(Object):
 
     """This is the class that actually implements the widget."""
 
-    def __init__(self, name, type, evasObject parent=None):
+    def __init__(self, name, type, evasObject parent=None, *args, **kwargs):
         """
 
         :param name: A name for the new window.
@@ -434,6 +434,7 @@ cdef class Window(Object):
         self._set_obj(elm_win_add(parent.obj if parent is not None else NULL,
             <const_char *>name if name is not None else NULL,
             type))
+        self._set_properties_from_keyword_args(kwargs)
 
     def resize_object_add(self, evasObject subobj):
         """resize_object_add(evas.Object subobj)
@@ -1735,9 +1736,10 @@ cdef class StandardWindow(Window):
 
     """
 
-    def __init__(self, name, title):
+    def __init__(self, name, title, *args, **kwargs):
         if isinstance(name, unicode): name = PyUnicode_AsUTF8String(name)
         if isinstance(title, unicode): title = PyUnicode_AsUTF8String(title)
         self._set_obj(elm_win_util_standard_add(
             <const_char *>name if name is not None else NULL,
             <const_char *>title if title is not None else NULL))
+        self._set_properties_from_keyword_args(kwargs)

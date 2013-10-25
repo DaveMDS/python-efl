@@ -53,8 +53,9 @@ cdef class Table(Object):
 
     """
 
-    def __init__(self, evasObject parent):
+    def __init__(self, evasObject parent, *args, **kwargs):
         self._set_obj(elm_table_add(parent.obj))
+        self._set_properties_from_keyword_args(kwargs)
 
     property homogeneous:
         """The homogeneous layout in the table

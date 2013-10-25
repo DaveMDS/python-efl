@@ -137,8 +137,9 @@ cdef void _web_console_message_hook(void *data, Evas_Object *obj, const_char *me
 cdef class Web(Object):
     cdef object _console_message_hook
 
-    def __init__(self,evasObject parent):
+    def __init__(self,evasObject parent, *args, **kwargs):
         self._set_obj(elm_web_add(parent.obj))
+        self._set_properties_from_keyword_args(kwargs)
 
     # XXX TODO: complete all callbacks from elm_web.h
     def callback_uri_changed_add(self, func, *args, **kwargs):

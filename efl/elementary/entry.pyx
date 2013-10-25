@@ -770,7 +770,7 @@ cdef class Entry(Object):
 
     """This is the class that actually implements the widget."""
 
-    def __init__(self, evasObject parent):
+    def __init__(self, evasObject parent, *args, **kwargs):
         """By default, entries are:
 
         - not scrolled
@@ -785,6 +785,7 @@ cdef class Entry(Object):
 
         """
         self._set_obj(elm_entry_add(parent.obj))
+        self._set_properties_from_keyword_args(kwargs)
 
     def text_style_user_push(self, style):
         """Push the style to the top of user style stack.

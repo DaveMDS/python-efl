@@ -162,8 +162,9 @@ cdef class Icon(Image):
 
     """This is the class that actually implements the widget."""
 
-    def __init__(self, evasObject parent):
+    def __init__(self, evasObject parent, *args, **kwargs):
         self._set_obj(elm_icon_add(parent.obj))
+        self._set_properties_from_keyword_args(kwargs)
 
     property thumb:
         """Set the file (and edje group) that will be used, but use a

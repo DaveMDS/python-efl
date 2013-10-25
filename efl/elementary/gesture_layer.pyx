@@ -521,7 +521,7 @@ cdef class GestureLayer(Object):
 
     """
 
-    def __init__(self, evasObject parent):
+    def __init__(self, evasObject parent, *args, **kwargs):
         """Call this function to construct a new gesture-layer object.
 
         This does not activate the gesture layer. You have to call
@@ -535,6 +535,7 @@ cdef class GestureLayer(Object):
 
         """
         self._set_obj(elm_gesture_layer_add(parent.obj))
+        self._set_properties_from_keyword_args(kwargs)
 
     def cb_set(self, Elm_Gesture_Type idx, Elm_Gesture_State cb_type, callback, *args, **kwargs):
         """cb_set(Elm_Gesture_Type idx, Elm_Gesture_State cb_type, callback, *args, **kwargs)

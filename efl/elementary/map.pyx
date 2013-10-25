@@ -942,14 +942,15 @@ cdef class MapOverlayRoute(MapOverlay):
         Py_INCREF(self)
 
 
-cdef public class Map(Object)[object PyElementaryMap, type PyElementaryMap_Type]:
+cdef class Map(Object):
     """
 
     This is the class that actually implement the widget.
 
     """
-    def __init__(self, evasObject parent):
+    def __init__(self, evasObject parent, *args, **kwargs):
         self._set_obj(elm_map_add(parent.obj))
+        self._set_properties_from_keyword_args(kwargs)
 
     property zoom:
         """ The zoom level of the map.

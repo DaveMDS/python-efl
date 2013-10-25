@@ -750,8 +750,9 @@ cdef class Toolbar(Object):
 
     """
 
-    def __init__(self, evasObject parent):
+    def __init__(self, evasObject parent, *args, **kwargs):
         self._set_obj(elm_toolbar_add(parent.obj))
+        self._set_properties_from_keyword_args(kwargs)
 
     property icon_size:
         """The icon size, in pixels, to be used by toolbar items.

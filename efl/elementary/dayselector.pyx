@@ -130,8 +130,9 @@ cdef class Dayselector(LayoutClass):
 
     """This is the class that actually implements the widget."""
 
-    def __init__(self, evasObject parent):
+    def __init__(self, evasObject parent, *args, **kwargs):
         self._set_obj(elm_dayselector_add(parent.obj))
+        self._set_properties_from_keyword_args(kwargs)
 
     def day_selected_set(self, day, selected):
         """day_selected_set(int day, bool selected)

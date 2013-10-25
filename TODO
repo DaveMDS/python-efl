@@ -1,17 +1,15 @@
 
 BUGS
-====
+----
 
-* Evas: smart object doesn't work
+* Evas: SmartObject doesn't work
 * EdjeEdit: PartState API does not work
 
 
 TODO
-====
+----
 
-* evas.SmartObject
 * edje: complete the unit tests
-* elm.Web needs a test and a lot of work: signals and documentation
 * include python-ethumb
 * Review the internal functions and name them consistently
 * Add more documentation for the use of callbacks
@@ -21,15 +19,23 @@ TODO
 * Split base object defines from includes/efl.evas.pxd so that everything
   defined there doesn't get included to the C code that cimports it.
   This may have been fixed in latest versions of Cython.
-* Add compatibility properties/methods for scrollables
-* Check that all scrollable Elm widgets are documented as being such.
-* Review the new elm list type object item system.
 * Check for documentation changes.
-* Elm Drag-n-Drop (in progress/kuuko)
-* Unit tests for elm, things like top_widget and getting child objects
-  can be done easily.
+* Use more _set_properties_from_keyword_args
+* Check for missing properties <-> getter-/setter-functions
+* Add more logging
 
-* New Elm documentation images with the new default theme.
+Elementary
+==========
+
+* Web needs a test and a lot of work: signals and documentation
+* Review the new container type object item system.
+  Should the instance methods be classmethods instead?
+* Drag-n-Drop (in progress/kuuko)
+* Unit tests, things like top_widget and getting child objects
+  can be done easily.
+* Fix Theme API, add a test
+
+* New documentation images with the new default theme.
 * Images missing in the documentation:
    - datetime
    - video

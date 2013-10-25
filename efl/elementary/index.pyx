@@ -348,8 +348,9 @@ cdef class Index(LayoutClass):
 
     """This is the class that actually implements the widget."""
 
-    def __init__(self, evasObject parent):
+    def __init__(self, evasObject parent, *args, **kwargs):
         self._set_obj(elm_index_add(parent.obj))
+        self._set_properties_from_keyword_args(kwargs)
 
     property autohide_disabled:
         """Enable or disable auto hiding feature for a given index widget.

@@ -268,8 +268,9 @@ cdef class Popup(Object):
 
     """This is the class that actually implements the widget."""
 
-    def __init__(self, evasObject parent):
+    def __init__(self, evasObject parent, *args, **kwargs):
         self._set_obj(elm_popup_add(parent.obj))
+        self._set_properties_from_keyword_args(kwargs)
 
     def item_append(self, label, evasObject icon, func = None, *args, **kwargs):
         """item_append(unicode label, evas.Object icon, func = None, *args, **kwargs) -> PopupItem

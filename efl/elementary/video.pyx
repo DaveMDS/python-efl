@@ -46,8 +46,9 @@ cdef class Video(LayoutClass):
 
     """This is the class that actually implements the widget."""
 
-    def __init__(self, evasObject parent):
+    def __init__(self, evasObject parent, *args, **kwargs):
         self._set_obj(elm_video_add(parent.obj))
+        self._set_properties_from_keyword_args(kwargs)
 
     property file:
         """Define the file or URI that will be the video source.
@@ -282,8 +283,9 @@ cdef class Player(LayoutClass):
 
     """
 
-    def __init__(self, evasObject parent):
+    def __init__(self, evasObject parent, *args, **kwargs):
         self._set_obj(elm_player_add(parent.obj))
+        self._set_properties_from_keyword_args(kwargs)
 
     def callback_forward_clicked_add(self, func, *args, **kwargs):
         """the user clicked the forward button."""

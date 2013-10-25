@@ -74,12 +74,9 @@ cdef class Radio(LayoutClass):
 
     """This is the class that actually implements the widget."""
 
-    def __init__(self, evasObject parent, obj=None):
-        # FIXME: This conditional should be removed, use __new__ and _set_obj
-        if obj is None:
-            self._set_obj(elm_radio_add(parent.obj))
-        else:
-            self._set_obj(<Evas_Object*>obj)
+    def __init__(self, evasObject parent, *args, **kwargs):
+        self._set_obj(elm_radio_add(parent.obj))
+        self._set_properties_from_keyword_args(kwargs)
 
     def group_add(self, evasObject group):
         """group_add(evas.Object group)

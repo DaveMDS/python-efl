@@ -94,12 +94,9 @@ cdef class FileselectorButton(Button):
 
     """This is the class that actually implements the widget."""
 
-    cdef object _cbs
-
-    def __init__(self, evasObject parent):
+    def __init__(self, evasObject parent, *args, **kwargs):
         self._set_obj(elm_fileselector_button_add(parent.obj))
-        # TODO: What's this for?
-        self._cbs = {}
+        self._set_properties_from_keyword_args(kwargs)
 
     property window_title:
         """The title for a given file selector button widget's window

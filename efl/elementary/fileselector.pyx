@@ -95,11 +95,9 @@ cdef class Fileselector(LayoutClass):
 
     """This is the class that actually implements the widget."""
 
-    cdef object _cbs
-
-    def __init__(self, evasObject parent):
+    def __init__(self, evasObject parent, *args, **kwargs):
         self._set_obj(elm_fileselector_add(parent.obj))
-        self._cbs = {}
+        self._set_properties_from_keyword_args(kwargs)
 
     property is_save:
         """Enable/disable the file name entry box where the user can type
