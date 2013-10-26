@@ -30,7 +30,7 @@ from efl.c_eo cimport Eo as cEo, eo_init, eo_shutdown, eo_del, eo_do, \
 from efl.utils.logger cimport add_logger
 
 # Set this to public and export it in pxd if you need it in another module
-cdef int PY_EFL_EO_LOG_DOMAIN = add_logger(__name__)
+cdef int PY_EFL_EO_LOG_DOMAIN = add_logger(__name__).eina_log_domain
 
 
 def init():

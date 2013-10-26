@@ -20,7 +20,10 @@ from efl.eina cimport Eina_Log_Domain, const_Eina_Log_Domain, Eina_Log_Level, \
     eina_log_print_cb_set, eina_log_domain_register, eina_log_level_set, \
     eina_log_level_get, eina_log_domain_level_get, eina_log_domain_level_set, \
     eina_log_print
-from cpython cimport PyUnicode_AsUTF8String
+from cpython cimport PyUnicode_AsUTF8String, PY_VERSION_HEX
+
+import logging
+import types
 
 cdef extern from "stdarg.h":
     ctypedef struct va_list:
@@ -49,8 +52,6 @@ cdef void py_eina_log_print_cb(const_Eina_Log_Domain *d,
     logger = loggers.get(name, loggers["efl"])
     logger.handle(rec)
 
-import logging
-
 eina_log_print_cb_set(py_eina_log_print_cb, NULL)
 
 class PyEFLLogger(logging.Logger):
@@ -67,25 +68,33 @@ class PyEFLLogger(logging.Logger):
         eina_log_domain_level_set(cname, log_levels.index(lvl))
         logging.Logger.setLevel(self, lvl)
 
-logging.setLoggerClass(PyEFLLogger)
-
-rootlog = logging.getLogger("efl")
-rootlog.propagate = False
-rootlog.setLevel(logging.WARNING)
-rootlog.addHandler(logging.NullHandler())
-
-logging.setLoggerClass(logging.Logger)
-
-cdef public int PY_EFL_LOG_DOMAIN = rootlog.eina_log_domain
-
-cdef int add_logger(object name):
+cdef object add_logger(object name):
     logging.setLoggerClass(PyEFLLogger)
 
     log = logging.getLogger(name)
-    log.propagate = True
-    log.setLevel(logging.WARNING)
+    if not isinstance(log, PyEFLLogger):
+        # The logger has been instantiated already so lets add our own
+        # initialization for it.
+        cname = name
+        if isinstance(cname, unicode): cname = PyUnicode_AsUTF8String(cname)
+        log.eina_log_domain = eina_log_domain_register(cname, NULL)
+        loggers[name] = log
+        lvl = log.getEffectiveLevel()
+        eina_log_domain_level_set(cname, log_levels.index(lvl))
+        if PY_VERSION_HEX < 0x03000000:
+            log.setLevel = types.MethodType(PyEFLLogger.setLevel, log, PyEFLLogger)
+        else:
+            log.setLevel = types.MethodType(PyEFLLogger.setLevel, log)
+    else:
+        log.propagate = True
+        log.setLevel(logging.WARNING)
     log.addHandler(logging.NullHandler())
 
     logging.setLoggerClass(logging.Logger)
 
-    return log.eina_log_domain
+    return log
+
+rootlog = add_logger("efl")
+rootlog.propagate = False
+
+cdef public int PY_EFL_LOG_DOMAIN = rootlog.eina_log_domain

@@ -1,6 +1,19 @@
 #!/usr/bin/env python
 # encoding: utf-8
 
+import logging
+elog = logging.getLogger("efl")
+elog.setLevel(logging.DEBUG)
+
+elog_form = logging.Formatter("[%(name)s] %(levelname)s - %(message)s")
+elog_hdlr = logging.StreamHandler()
+elog_hdlr.setFormatter(elog_form)
+
+elog.addHandler(elog_hdlr)
+
+eolog = logging.getLogger("efl.eo")
+eolog.setLevel(logging.DEBUG)
+
 import os
 
 from efl import evas
@@ -15,16 +28,7 @@ from efl.elementary.check import Check
 from efl.elementary.entry import Entry
 from efl.elementary.scroller import Scroller
 
-import logging
-elog = logging.getLogger("efl")
-elog.setLevel(logging.DEBUG)
-
-elog_form = logging.Formatter("[%(name)s] %(levelname)s - %(message)s")
-elog_hdlr = logging.StreamHandler()
-elog_hdlr.setFormatter(elog_form)
-
-elog.addHandler(elog_hdlr)
-
+elog.setLevel(logging.INFO)
 
 items = [
          ("Core Libs", [
