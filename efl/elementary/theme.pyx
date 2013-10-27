@@ -28,7 +28,9 @@ Instead of thinking in terms of paths to Edje files and their groups
 each time you want to change the appearance of a widget, Elementary
 works so you can add any theme file with extensions or replace the
 main theme at one point in the application, and then just set the style
-of widgets with elm_object_style_set() and related functions. Elementary
+of widgets with
+:py:attr:`Object.style<efl.elementary.object.Object.style>`
+and related functions. Elementary
 will then look in its list of themes for a matching group and apply it,
 and when the theme changes midway through the application, all widgets
 will be updated accordingly.
@@ -40,7 +42,7 @@ Default theme, obviously enough, is the one that provides the default
 look of all widgets. End users can change the theme used by Elementary
 by setting the ``ELM_THEME`` environment variable before running an
 application, or globally for all programs using the ``elementary_config``
-utility. Applications can change the default theme using elm_theme_set(),
+utility. Applications can change the default theme using :py:attr:`Theme.order`,
 but this can go against the user wishes, so it's not an advised practice.
 
 Ideally, applications should find everything they need in the already
@@ -55,8 +57,9 @@ the widget, so important signals and parts need to be there for the
 object to behave properly (see documentation of Edje for details).
 Once the theme for the extension is done, the application needs to add
 it to the list of themes Elementary will look into, using
-elm_theme_extension_add(), and set the style of the desired widgets as
-he would normally with elm_object_style_set().
+:py:func:`Theme.extension_add()`, and set the style of the desired widgets as
+he would normally with
+:py:attr:`Object.style<efl.elementary.object.Object.style>`.
 
 Overlays, on the other hand, can replace the look of all widgets by
 overriding the default style. Like extensions, it's up to the application
@@ -70,35 +73,49 @@ options, not to mention the risk of ending up with not matching styles
 across the program. Unless there's a very special reason to use them,
 overlays should be avoided for the reasons exposed before.
 
-All these theme lists are handled by ::Elm_Theme instances. Elementary
-keeps one default internally and every function that receives one of
-these can be called with NULL to refer to this default (except for
-elm_theme_free()). It's possible to create a new instance of a
-::Elm_Theme to set other theme for a specific widget (and all of its
+All these theme lists are handled by :py:class:`Theme` instances. Elementary
+keeps one default internally. It's possible to create a new instance of a
+:py:class:`Theme` to set other theme for a specific widget (and all of its
 children), but this is as discouraged, if not even more so, than using
 overlays. Don't use this unless you really know what you are doing.
 
+.. note::
+
+    Remember to :py:func:`Theme.free` the instance when you're done with it!
+
 """
 
-from cpython cimport PyUnicode_AsUTF8String
+from cpython cimport PyUnicode_AsUTF8String, Py_INCREF, Py_DECREF
 
-from efl.utils.conversions cimport _ctouni
-from cpython cimport Py_INCREF, Py_DECREF
-
-from efl.utils.conversions cimport eina_list_strings_to_python_list
+from efl.eo cimport PY_REFCOUNT
+from efl.utils.conversions cimport _ctouni, eina_list_strings_to_python_list
 
 cdef class Theme(object):
 
     """
 
-    This is the class that actually implement the widget.
+    This is the class that actually implements the widget.
 
     """
 
-    def __cinit__(self):
-        self.th = NULL
+    def __repr__(self):
+        return "<%s object at %#x (refcount=%d, order=%s, overlay_list=%s, extension_list=%s)>" % (
+            type(self).__name__,
+            <unsigned long>self.th,
+            PY_REFCOUNT(self),
+            _ctouni(elm_theme_get(self.th)),
+            eina_list_strings_to_python_list(elm_theme_overlay_list_get(self.th)),
+            eina_list_strings_to_python_list(elm_theme_extension_list_get(self.th))
+            )
 
     def __init__(self, default=False):
+        self.th = elm_theme_new() if not default else elm_theme_default_get()
+
+        if self.th == NULL:
+            raise RuntimeError
+
+    @classmethod
+    def new(type cls):
         """Create a new specific theme
 
         This creates an empty specific theme that only uses the default
@@ -115,26 +132,45 @@ cdef class Theme(object):
         applications).
 
         """
-        cdef Elm_Theme *th
-        th = elm_theme_default_get() if default else elm_theme_new()
+        cdef Theme ret = cls.__new__(cls)
 
-        if th != NULL:
-            self.th = th
+        ret.th = elm_theme_new()
+
+        if ret.th == NULL:
+            raise RuntimeError
         else:
-            Py_DECREF(self)
+            return ret
+
+    @classmethod
+    def default_get(type cls):
+        """Return the default theme
+
+        This returns the internal default theme setup handle that all widgets
+        use implicitly unless a specific theme is set. This is also often use
+        as a shorthand of NULL.
+
+        """
+        cdef Theme ret = cls.__new__(cls)
+
+        ret.th = elm_theme_default_get()
+
+        if ret.th == NULL:
+            raise RuntimeError
+        else:
+            return ret
 
     def free(self):
-        """Free a specific theme
+        """free()
 
-        This frees a theme created with elm_theme_new().
+        Free the theme.
 
         """
         if self.th != NULL:
             elm_theme_free(self.th)
             self.th = NULL
 
-    def copy(self):
-        """copy() -> Theme
+    def copy(self, Theme dst not None):
+        """copy(Theme dst)
 
         Copy the theme from the source to the destination theme
 
@@ -143,36 +179,51 @@ cdef class Theme(object):
         ``thdst`` is also set to reference it, with all the theme settings,
         overlays and extensions that ``th`` had.
 
-        :param thdst: The destination theme to copy data to
-        :type thdst: :py:class:`Theme`
+        :param Theme thdst: The destination theme to copy data to
 
         """
-        cdef Elm_Theme * thdst = NULL
-        cdef Theme t = Theme()
-        elm_theme_free(t.th)
-        elm_theme_copy(self.th, thdst)
-        t.th = thdst
+        elm_theme_copy(self.th, dst.th)
 
     property reference:
-        """Tell the source theme to reference the ref theme
+        """Theme reference
 
-        This clears ``th`` to be empty and then sets it to refer to ``thref``
-        so ``th`` acts as an override to ``thref``, but where its overrides
-        don't apply, it will fall through to ``thref`` for configuration.
+        Setting this clears ``th`` to be empty and then sets it to refer to
+        ``thref`` so ``th`` acts as an override to ``thref``, but where its
+        overrides don't apply, it will fall through to ``thref`` for
+        configuration.
+
+        Getting it returns the theme that is referred to.
 
         :type: :py:class:`Theme`
 
         """
-        def __set__(self, Theme thref):
+        def __set__(self, Theme thref not None):
             elm_theme_ref_set(self.th, thref.th)
 
         def __get__(self):
-            cdef Theme thref = Theme()
-            elm_theme_free(thref.th)
-            thref.th = elm_theme_ref_get(self.th)
-            return thref
+            cdef Theme ret = Theme.__new__(Theme)
 
-    def overlay_add(self, item):
+            ret.th = elm_theme_ref_get(self.th)
+
+            if ret.th == NULL:
+                raise RuntimeError
+            else:
+                return ret
+
+    def ref_set(self, Theme thref not None):
+        elm_theme_ref_set(self.th, thref.th)
+
+    def ref_get(self):
+        cdef Theme ret = Theme.__new__(Theme)
+
+        ret.th = elm_theme_ref_get(self.th)
+
+        if ret.th == NULL:
+            raise RuntimeError
+        else:
+            return ret
+
+    def overlay_add(self, item not None):
         """overlay_add(unicode item)
 
         Prepends a theme overlay to the list of overlays
@@ -188,15 +239,14 @@ cdef class Theme(object):
 
         .. seealso:: :py:func:`extension_add()`
 
-        :param item: The Edje file path to be used
-        :type item: string
+        :param string item: The Edje file path to be used
 
         """
         if isinstance(item, unicode): item = PyUnicode_AsUTF8String(item)
         elm_theme_overlay_add(self.th,
-            <const_char *>item if item is not None else NULL)
+            <const_char *>item)
 
-    def overlay_del(self, item):
+    def overlay_del(self, item not None):
         """overlay_del(unicode item)
 
         Delete a theme overlay from the list of overlays
@@ -209,7 +259,7 @@ cdef class Theme(object):
         """
         if isinstance(item, unicode): item = PyUnicode_AsUTF8String(item)
         elm_theme_overlay_del(self.th,
-            <const_char *>item if item is not None else NULL)
+            <const_char *>item)
 
     property overlay_list:
         """Get the list of registered overlays for the given theme
@@ -222,7 +272,10 @@ cdef class Theme(object):
         def __get__(self):
             return tuple(eina_list_strings_to_python_list(elm_theme_overlay_list_get(self.th)))
 
-    def extension_add(self, item):
+    def overlay_list_get(self):
+        return tuple(eina_list_strings_to_python_list(elm_theme_overlay_list_get(self.th)))
+
+    def extension_add(self, item not None):
         """extension_add(unicode item)
 
         Appends a theme extension to the list of extensions.
@@ -239,7 +292,7 @@ cdef class Theme(object):
         meet the needs of the application. Use this call instead of
         elm_theme_overlay_add() for almost all cases.
 
-        .. seealso:: :py:attr:`Object.style`
+        .. seealso:: :py:attr:`Object.style<efl.elementary.object.Object.style>`
 
         :param item: The Edje file path to be used
         :type item: string
@@ -247,9 +300,9 @@ cdef class Theme(object):
         """
         if isinstance(item, unicode): item = PyUnicode_AsUTF8String(item)
         elm_theme_extension_add(self.th,
-            <const_char *>item if item is not None else NULL)
+            <const_char *>item)
 
-    def extension_del(self, item):
+    def extension_del(self, item not None):
         """extension_del(unicode item)
 
         Deletes a theme extension from the list of extensions.
@@ -262,7 +315,7 @@ cdef class Theme(object):
         """
         if isinstance(item, unicode): item = PyUnicode_AsUTF8String(item)
         elm_theme_extension_del(self.th,
-            <const_char *>item if item is not None else NULL)
+            <const_char *>item)
 
     property extension_list:
         """Get the list of registered extensions for the given theme
@@ -275,6 +328,9 @@ cdef class Theme(object):
         def __get__(self):
             return tuple(eina_list_strings_to_python_list(elm_theme_extension_list_get(self.th)))
 
+    def extension_list_get(self):
+        return tuple(eina_list_strings_to_python_list(elm_theme_extension_list_get(self.th)))
+
     property order:
         """Set the theme search order for the given theme
 
@@ -285,18 +341,26 @@ cdef class Theme(object):
 
         See the ELM_THEME environment variable for more information.
 
-        .. seealso:: :py:func:`list_get()`
+        .. seealso:: :py:attr:`elements`
 
         :type: string
 
         """
-        def __set__(self, theme):
+        def __set__(self, theme not None):
             if isinstance(theme, unicode): theme = PyUnicode_AsUTF8String(theme)
             elm_theme_set(self.th,
                 <const_char *>theme if theme is not None else NULL)
 
         def __get__(self):
             return _ctouni(elm_theme_get(self.th))
+
+    def order_set(self, theme not None):
+        if isinstance(theme, unicode): theme = PyUnicode_AsUTF8String(theme)
+        elm_theme_set(self.th,
+            <const_char *>theme if theme is not None else NULL)
+
+    def order_get(self):
+        return _ctouni(elm_theme_get(self.th))
 
     property elements:
         """Return a list of theme elements to be used in a theme.
@@ -319,6 +383,9 @@ cdef class Theme(object):
         def __get__(self):
             return tuple(eina_list_strings_to_python_list(elm_theme_list_get(self.th)))
 
+    def elements_get(self):
+        return tuple(eina_list_strings_to_python_list(elm_theme_list_get(self.th)))
+
     def flush(self):
         """flush()
 
@@ -332,7 +399,7 @@ cdef class Theme(object):
         """
         elm_theme_flush(self.th)
 
-    def data_get(self, key):
+    def data_get(self, key not None):
         """data_get(unicode key) -> unicode
 
         Get a data item from a theme
@@ -352,7 +419,7 @@ cdef class Theme(object):
         return _ctouni(elm_theme_data_get(self.th,
             <const_char *>key if key is not None else NULL))
 
-def theme_list_item_path_get(f, in_search_path):
+def theme_list_item_path_get(f not None, bint in_search_path):
     """theme_list_item_path_get(unicode f, bool in_search_path) -> unicode
 
     Return the full path for a theme element
@@ -366,10 +433,8 @@ def theme_list_item_path_get(f, in_search_path):
     EINA_TRUE if the file was a search-able file and is in the search path,
     and EINA_FALSE otherwise.
 
-    :param f: The theme element name
-    :type f: string
-    :param in_search_path: Pointer to a boolean to indicate if item is in the search path or not
-    :type in_search_path: bool
+    :param string f: The theme element name
+    :param bool in_search_path: Pointer to a boolean to indicate if item is in the search path or not
 
     :return: The full path to the file found.
     :rtype: string
@@ -398,8 +463,7 @@ def theme_name_available_list():
 
     This lists all available theme files in the standard Elementary search path
     for theme elements, and returns them in alphabetical order as theme
-    element names in a list of strings. Free this with
-    elm_theme_name_available_list_free() when you are done with the list.
+    element names in a list of strings.
 
     :return: A list of strings that are the theme element names.
     :rtype: tuple of strings
@@ -411,12 +475,12 @@ def theme_name_available_list():
     return elements
 
 # for compatibility
-def theme_overlay_add(item):
+def theme_overlay_add(item not None):
     if isinstance(item, unicode): item = PyUnicode_AsUTF8String(item)
     elm_theme_overlay_add(NULL,
-        <const_char *>item if item is not None else NULL)
+        <const_char *>item)
 
-def theme_extension_add(item):
+def theme_extension_add(item not None):
     if isinstance(item, unicode): item = PyUnicode_AsUTF8String(item)
     elm_theme_extension_add(NULL,
-        <const_char *>item if item is not None else NULL)
+        <const_char *>item)

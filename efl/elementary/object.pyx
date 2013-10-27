@@ -447,7 +447,11 @@ cdef class Object(evasObject):
             <const_char *>part if part is not None else NULL))
 
     property content:
-        # TODO: document this
+        """Main content part for this object.
+
+        :type: :py:class:`efl.evas.Object`
+
+        """
         def __get__(self):
             return object_from_instance(elm_object_content_get(self.obj))
 
@@ -1270,11 +1274,13 @@ cdef class Object(evasObject):
         :type: :py:class:`Theme`
 
         """
-        def __set__(self, Theme th not None):
-            elm_object_theme_set(self.obj, th.th)
+        def __set__(self, Theme th):
+            elm_object_theme_set(self.obj,
+                th.th if th is not None else NULL
+                )
 
         def __get__(self):
-            cdef Theme th = Theme()
+            cdef Theme th = Theme.__new__(Theme)
             th.th = elm_object_theme_get(self.obj)
             return th
 
