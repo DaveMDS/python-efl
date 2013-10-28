@@ -54,19 +54,24 @@ cdef void py_eina_log_print_cb(const_Eina_Log_Domain *d,
 
 eina_log_print_cb_set(py_eina_log_print_cb, NULL)
 
+def setLevel(self, lvl):
+    cname = self.name
+    if isinstance(cname, unicode): cname = PyUnicode_AsUTF8String(cname)
+    eina_log_domain_level_set(cname, log_levels.index(lvl))
+    logging.Logger.setLevel(self, lvl)
+
 class PyEFLLogger(logging.Logger):
+
     def __init__(self, name):
         cname = name
         if isinstance(cname, unicode): cname = PyUnicode_AsUTF8String(cname)
         self.eina_log_domain = eina_log_domain_register(cname, NULL)
         loggers[name] = self
         logging.Logger.__init__(self, name)
-
-    def setLevel(self, lvl):
-        cname = self.name
-        if isinstance(cname, unicode): cname = PyUnicode_AsUTF8String(cname)
-        eina_log_domain_level_set(cname, log_levels.index(lvl))
-        logging.Logger.setLevel(self, lvl)
+        if PY_VERSION_HEX < 0x03000000:
+            self.setLevel = types.MethodType(setLevel, self, type(self))
+        else:
+            self.setLevel = types.MethodType(setLevel, self)
 
 cdef object add_logger(object name):
     logging.setLoggerClass(PyEFLLogger)
@@ -82,9 +87,9 @@ cdef object add_logger(object name):
         lvl = log.getEffectiveLevel()
         eina_log_domain_level_set(cname, log_levels.index(lvl))
         if PY_VERSION_HEX < 0x03000000:
-            log.setLevel = types.MethodType(PyEFLLogger.setLevel, log, PyEFLLogger)
+            log.setLevel = types.MethodType(setLevel, log, type(log))
         else:
-            log.setLevel = types.MethodType(PyEFLLogger.setLevel, log)
+            log.setLevel = types.MethodType(setLevel, log)
     else:
         log.propagate = True
         log.setLevel(logging.WARNING)
