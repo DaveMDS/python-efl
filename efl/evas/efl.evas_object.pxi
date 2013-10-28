@@ -172,27 +172,6 @@ cdef class Object(Eo):
         if type(self) is Object:
             raise TypeError("Must not instantiate Object, but subclasses")
 
-    def __str__(self):
-        cdef:
-            const_char *name = evas_object_name_get(self.obj)
-            bint clipped = evas_object_clip_get(self.obj) is not NULL
-            int layer = evas_object_layer_get(self.obj)
-            bint visible = evas_object_visible_get(self.obj)
-            int x, y, w, h
-            int r, g, b, a
-
-        evas_object_geometry_get(self.obj, &x, &y, &w, &h)
-        evas_object_color_get(self.obj, &r, &g, &b, &a)
-
-        name_str = "name=%s, " % name if name is not NULL else ""
-
-        return ("%s(%sgeometry=(%d, %d, %d, %d), color=(%d, %d, %d, %d), "
-                "layer=%s, clipped=%s, visible=%s)") % \
-                (type(self).__name__, name_str,
-                x, y, w, h,
-                r, g, b, a,
-                layer, clipped, visible)
-
     def __repr__(self):
         cdef:
             const_char *name = evas_object_name_get(self.obj)
@@ -207,12 +186,13 @@ cdef class Object(Eo):
 
         name_str = "name=%s, " % name if name is not NULL else ""
 
-        return ("%s %s(%sgeometry=(%d, %d, %d, %d), color=(%d, %d, %d, %d), "
-                "layer=%s, clip=%s, visible=%s)") % (Eo.__str__(self),
-                type(self).__name__, name_str,
-                x, y, w, h,
-                r, g, b, a,
-                layer, clipped, visible)
+        return ("<%s (%sgeometry=(%d, %d, %d, %d), color=(%d, %d, %d, %d), "
+                "layer=%s, clip=%s, visible=%s)>") % (
+            Eo.__repr__(self),
+            name_str,
+            x, y, w, h,
+            r, g, b, a,
+            layer, clipped, visible)
 
     cdef void _set_obj(self, Evas_Object *obj) except *:
         Eo._set_obj(self, obj)

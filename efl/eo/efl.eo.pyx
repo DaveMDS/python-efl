@@ -95,20 +95,20 @@ cdef object object_from_instance(cEo *obj):
 
     cls_name = eo_class_name_get(eo_class_get(obj))
     if cls_name == NULL:
-        raise ValueError("Eo object %#x does not have a type!" % <long>obj)
+        raise ValueError("Eo object at %#x does not have a type!" % <unsigned long>obj)
     #print("Class name: %s" % cls_name)
 
     cls_ret = eina_hash_find(object_mapping, cls_name)
 
     if cls_ret == NULL:
-        raise ValueError("Eo object %#x of type %s does not have a mapping!" %
-                         (<long>obj, cls_name))
+        raise ValueError("Eo object at %#x of type %s does not have a mapping!" %
+                         (<unsigned long>obj, cls_name))
 
-    cls = <type?>cls_ret
+    cls = <type>cls_ret
 
     if cls is None:
-        raise ValueError("Eo object %#x of type %s does not have a mapping!" %
-                         (<long>obj, cls_name))
+        raise ValueError("Mapping for Eo object at %#x, type %s, contains None!" %
+                         (<unsigned long>obj, cls_name))
 
     #print("MAPPING OBJECT:", cls_name, "=>", cls)
     o = cls.__new__(cls)
@@ -179,17 +179,13 @@ cdef class Eo(object):
         if type(self) is Eo:
             raise TypeError("Must not instantiate Eo, but subclasses")
 
-    def __str__(self):
-        return ("Eo(class=%s, obj=%#x, parent=%#x, refcount=%d)") % \
-                (type(self).__name__, <unsigned long>self.obj,
-                 <unsigned long><void *>eo_parent_get(&self.obj) if self.obj != NULL else 0,
-                 PY_REFCOUNT(self))
-
     def __repr__(self):
-        return ("Eo(class=%s, obj=%#x, parent=%#x, refcount=%d)") % \
-                (type(self).__name__, <unsigned long>self.obj,
-                 <unsigned long><void *>eo_parent_get(&self.obj) if self.obj != NULL else 0,
-                 PY_REFCOUNT(self))
+        return ("<%s object (Eo) at %#x (obj=%#x, parent=%#x, refcount=%d)>") % (
+            type(self).__name__,
+            <unsigned long><void *>self,
+            <unsigned long>self.obj,
+            <unsigned long><void *>eo_parent_get(&self.obj) if self.obj != NULL else 0,
+            PY_REFCOUNT(self))
 
     def __nonzero__(self):
         return 1 if self.obj != NULL else 0

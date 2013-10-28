@@ -73,23 +73,17 @@ cdef class GenlistItem(ObjectItem):
         assert self.item != NULL, "Object must wrap something"
         self.item = NULL
 
-    def __str__(self):
-        return "%s(item_class=%s, func=%s, item_data=%s)" % \
-               (type(self).__name__,
-                type(self.item_class).__name__,
-                self.cb_func,
-                self.item_data)
-
     def __repr__(self):
-        return ("%s(%#x, refcount=%d, Elm_Object_Item=%#x, "
-                "item_class=%s, func=%s, item_data=%r)") % \
-               (type(self).__name__,
-                <unsigned long><void*>self,
-                PY_REFCOUNT(self),
-                <unsigned long>self.item,
-                type(self.item_class).__name__,
-                self.cb_func,
-                self.item_data)
+        return ("<%s(%#x, refcount=%d, Elm_Object_Item=%#x, "
+                "item_class=%s, func=%s, item_data=%r)>") % (
+            type(self).__name__,
+            <unsigned long><void*>self,
+            PY_REFCOUNT(self),
+            <unsigned long>self.item,
+            type(self.item_class).__name__,
+            self.cb_func,
+            self.item_data
+            )
 
     def append_to(self, Genlist genlist not None):
         """append_to(Genlist genlist) -> GenlistItem

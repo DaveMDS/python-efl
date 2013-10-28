@@ -49,7 +49,11 @@ cdef _object_item_to_python(Elm_Object_Item *it):
     data = elm_object_item_data_get(it)
 
     if data == NULL:
-        # Attempt to create a dummy object item
+        #
+        # Attempt to create a dummy object item.
+        #
+        # TODO: Warn here that the item is not complete.
+        #
         item = ObjectItem.__new__(ObjectItem)
         item._set_obj(it)
     else:
@@ -113,16 +117,14 @@ cdef class ObjectItem(object):
         Py_INCREF(self)
         return 1
 
-    def __str__(self):
-        return ("ObjectItem(class=%s, obj=%#x, refcount=%d)") % \
-                (type(self).__name__, <unsigned long>self.item,
-                 PY_REFCOUNT(self))
-
     def __repr__(self):
-        return ("ObjectItem(class=%s, obj=%#x, refcount=%d)") % \
-                (type(self).__name__, <unsigned long>self.item,
-                 PY_REFCOUNT(self))
-
+        return ("<%s object (ObjectItem) at %#x (obj=%#x, refcount=%d, widget=%s)>") % (
+            type(self).__name__,
+            <unsigned long><void *>self,
+            <unsigned long>self.item,
+            PY_REFCOUNT(self),
+            repr(object_from_instance(elm_object_item_widget_get(self.item)))
+            )
 
     property widget:
         """Get the widget object's handle which contains a given item
