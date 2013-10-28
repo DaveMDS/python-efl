@@ -47,8 +47,9 @@ if os.path.exists(os.path.join(os.getcwd(), "efl", "eo", "efl.eo.pyx")):
         import Cython.Compiler.Options
 
         assert StrictVersion(Cython.__version__) >= StrictVersion(min_ver)
-        Cython.Compiler.Options.fast_fail = True # stop compilation on first error
-        Cython.Compiler.Options.annotate = False # HTML file annotation generation
+        Cython.Compiler.Options.fast_fail = True # Stop compilation on first error
+        Cython.Compiler.Options.annotate = False # Generates HTML files with annotated source
+        Cython.Compiler.Options.docstrings = True # Set to False to disable docstrings
 
     except (ImportError, AssertionError):
         raise SystemExit("Requires Cython >= %s (http://cython.org/)" % min_ver)
