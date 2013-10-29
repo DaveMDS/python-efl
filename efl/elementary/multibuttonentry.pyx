@@ -238,6 +238,10 @@ cdef class MultiButtonEntry(Object):
     def __init__(self, evasObject parent, *args, **kwargs):
         self._set_obj(elm_multibuttonentry_add(parent.obj))
         self._set_properties_from_keyword_args(kwargs)
+        #
+        # TODO: Add callbacks for item added and item deleted, inject
+        #       the python instance into Elm_Object_Item's data
+        #
 
     property entry:
         """The Entry object child of the multibuttonentry.

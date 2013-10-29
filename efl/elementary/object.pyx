@@ -491,7 +491,7 @@ cdef class Object(evasObject):
         children and so on) of the given object looking for a child with the
         name of *name*. If the child is found the object is returned, or
         None is returned. You can set the name of an object with
-        :py:func:`name_set()`. If the name is not unique within the child
+        :py:attr:`name<efl.evas.Object.name>`. If the name is not unique within the child
         objects (or the tree is ``recurse`` is greater than 0) then it is
         undefined as to which child of that name is returned, so ensure the
         name is unique amongst children. If recurse is set to -1 it will
@@ -552,6 +552,11 @@ cdef class Object(evasObject):
     def disabled_get(self):
         return bool(elm_object_disabled_get(self.obj))
 
+    #
+    # TODO: Remove this? Or make it a module level function. No sense
+    #       in trying to check here since we're guaranteed to be an
+    #       elm object.
+    #
     def widget_check(self):
         """widget_check() -> bool
 
