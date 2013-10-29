@@ -5,7 +5,8 @@ from efl import edje
 import os, unittest
 
 
-theme_file = os.path.join(os.path.dirname(__file__), "theme.edj")
+theme_path = os.path.dirname(os.path.abspath(__file__))
+theme_file = os.path.join(theme_path, "theme.edj")
 
 
 class TestBasics(unittest.TestCase):

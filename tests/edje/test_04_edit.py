@@ -9,15 +9,16 @@ from efl.edje_edit import EdjeEdit, Text_Style, Text_Style_Tag, Color_Class, \
 import os, unittest, shutil
 
 
-orig_theme_file = os.path.join(os.path.dirname(__file__), "theme.edj")
-theme_file = os.path.join(os.path.dirname(__file__), "theme_working.edj")
+theme_path = os.path.dirname(os.path.abspath(__file__))
+orig_theme_file = os.path.join(theme_path, "theme.edj")
+theme_file = os.path.join(theme_path, "theme_working.edj")
 
 
 class TestEdjeEditBase(unittest.TestCase):
     def setUp(self):
         # copy the edje file to a temp one as we are going to edit it
         shutil.copy(orig_theme_file, theme_file)
-        
+
         self.canvas = evas.Canvas(method="buffer",
                                   size=(400, 500),
                                   viewport=(0, 0, 400, 500))
@@ -51,18 +52,18 @@ class TestEdjeEditGeneral(unittest.TestCase):
 
     def testGeneral(self):
         self.assertEqual(self.o.compiler_get(), "edje_cc")
-        self.assertEqual(self.o.file_get(), (theme_file, "main"))
-        # o.print_internal_status() # FIXME this crash badly
+        self.assertEqual(self.o.file_get(), (unicode(theme_file), u"main"))
+        # self.o.print_internal_status() # FIXME this crash badly
 
     def testGroup(self):
         g = self.o.current_group
 
         self.assertEqual((g.w_min, g.w_max), (200, 400))
         self.assertEqual((g.h_min, g.h_max), (200, 400))
-        
+
         g.w_min = g.h_min = 201
         g.w_max = g.h_max = 401
-        
+
         self.assertEqual((g.w_min, g.w_max), (201, 401))
         self.assertEqual((g.h_min, g.h_max), (201, 401))
 
@@ -85,36 +86,36 @@ class TestEdjeEditGeneral(unittest.TestCase):
 
         self.assertEqual(self.o.data_get("key1"), "value1")
         self.assertEqual(self.o.data_get("key2"), "value2")
-        
+
         self.o.data_set("key1", "new_value1")
         self.o.data_set("key2", "new_value2")
         self.assertEqual(self.o.data_get("key1"), "new_value1")
         self.assertEqual(self.o.data_get("key2"), "new_value2")
-        
+
         self.o.data_add("key5", "value5")
         self.assertEqual(self.o.data_get("key5"), "value5")
-        
+
         self.o.data_rename("key5", "key55")
         self.assertEqual(self.o.data_get("key55"), "value5")
-        
+
         # self.o.data_del("key44")       # FIXME this crash badly
         # self.assertNotIn("key44", self.o.data)
-    
+
     def testGroupData(self):
         self.assertIn("key3", self.o.group_data)
         self.assertIn("key4", self.o.group_data)
-        
+
         self.assertEqual(self.o.group_data_get("key3"), "value3")
         self.assertEqual(self.o.group_data_get("key4"), "value4")
-        
+
         self.o.group_data_set("key3", "new_value3")
         self.o.group_data_set("key4", "new_value4")
         self.assertEqual(self.o.group_data_get("key3"), "new_value3")
         self.assertEqual(self.o.group_data_get("key4"), "new_value4")
-        
+
         self.o.group_data_add("key6", "value6")
         self.assertEqual(self.o.group_data_get("key6"), "value6")
-        
+
         self.o.group_data_del("key6")
         self.assertNotIn("key6", self.o.group_data)
 
@@ -163,7 +164,7 @@ class TestEdjeEditGeneral(unittest.TestCase):
         self.assertIn("colorclass3", self.o.color_classes)
         cc3 = self.o.color_class_get("colorclass3")
         self.assertIsInstance(cc3, Color_Class)
-        
+
         cc3.colors_set(85,86,87,88, 89,90,91,92, 93,94,95,96)
         self.assertEqual(cc3.colors_get(), ((85,86,87,88),(89,90,91,92),(93,94,95,96)))
 
@@ -217,6 +218,7 @@ class TestEdjeEditParts(unittest.TestCase):
         p.rename("rect")
         self.assertEqual(p.name, "rect")
 
+    @unittest.skip("segfault") # FIXME
     def testPartAdd(self):
         self.o.part_add("new_part", EDJE_PART_TYPE_RECTANGLE)
         self.assertTrue(self.o.part_exist("new_part"))
@@ -447,6 +449,7 @@ class TestEdjeEditPartStates(unittest.TestCase):
         self.canvas.delete()
         os.remove(theme_file)
 
+    @unittest.skip("segfault") # FIXME
     def testPartStates(self):
         p = self.o.part_get("edit_test")
         self.assertEqual(p.states, ["default 0.00","state1 0.00","state2 0.00","state2 0.10"])

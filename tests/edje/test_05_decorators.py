@@ -8,7 +8,9 @@ from efl.edje import Edje
 import os, unittest
 
 
-theme_file = os.path.join(os.path.dirname(__file__), "theme.edj")
+theme_path = os.path.dirname(os.path.abspath(__file__))
+theme_file = os.path.join(theme_path, "theme.edj")
+
 
 expected_signals = ["edje,state,ltr", "load", "edje,state,ltr", "resize",
                     "cursor,changed", "changed", "zoom,stop", "emit,message",
@@ -21,7 +23,7 @@ expected_text_parts = ["label", "label"]
 class MyEdje(Edje):
     def __init__(self, canvas):
         Edje.__init__(self, canvas, file=theme_file, group="main")
-        
+
 
     @edje.on_signal("*", "*")
     def cb_signal_all(self, emission, source):
@@ -35,7 +37,7 @@ class MyEdje(Edje):
     @edje.message_handler
     def message_handler(self, msg):
         expected_messages.remove(msg.val)
-        
+
     @edje.on_text_change
     def text_change(self, part):
         expected_text_parts.remove(part)
@@ -58,7 +60,7 @@ class TestEdjeDecoratedCallbacks(unittest.TestCase):
         # this should trigger text_change, two times
         ecore.Timer(0.1, lambda: o.part_text_set("label", "asd"))
         ecore.Timer(0.1, lambda: o.part_text_set("label", "asd2"))
-        
+
         # ask the edje obj to send a messagge, two times
         ecore.Timer(0.1, lambda: o.signal_emit("emit,message", ""))
         ecore.Timer(0.1, lambda: o.signal_emit("emit,message", ""))

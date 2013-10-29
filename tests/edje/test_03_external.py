@@ -44,8 +44,8 @@ from efl.elementary.video import Video
 from efl.elementary.web import Web
 
 
-
-theme_file = os.path.join(os.path.dirname(__file__), "theme.edj")
+theme_path = os.path.dirname(os.path.abspath(__file__))
+theme_file = os.path.join(theme_path, "theme.edj")
 
 
 class TestElementaryExternal(unittest.TestCase):
@@ -55,7 +55,7 @@ class TestElementaryExternal(unittest.TestCase):
                                   viewport=(0, 0, 400, 500))
         self.canvas.engine_info_set(self.canvas.engine_info_get())
         self.theme = edje.Edje(self.canvas, file=theme_file, group="main")
-        
+
     def tearDown(self):
         self.theme.delete()
         self.canvas.delete()
@@ -370,7 +370,7 @@ class TestElementaryExternal(unittest.TestCase):
 
 if __name__ == '__main__':
     unittest.main(verbosity=2)
-    
+
     elementary.shutdown()
     edje.shutdown()
     ecore.shutdown()
