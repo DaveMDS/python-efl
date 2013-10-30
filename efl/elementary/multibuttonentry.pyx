@@ -68,8 +68,6 @@ from efl.evas cimport Object as evasObject
 
 from libc.stdlib cimport free
 from libc.string cimport strdup
-from efl.eina cimport Eina_Stringshare, eina_stringshare_add, eina_stringshare_del, \
-    eina_stringshare_replace
 from object cimport Object
 import traceback
 from object_item cimport    _object_item_callback, \
@@ -78,6 +76,7 @@ from object_item cimport    _object_item_callback, \
 
 cdef Eina_Bool _multibuttonentry_filter_callback(Evas_Object *obj, \
     const_char *item_label, void *item_data, void *data) with gil:
+
     cdef:
         MultiButtonEntry mbe = object_from_instance(obj)
         bint ret
@@ -90,18 +89,6 @@ cdef Eina_Bool _multibuttonentry_filter_callback(Evas_Object *obj, \
         traceback.print_exc()
 
     return ret
-
-    # XXX: MBE API is teh b0rg
-    # if ret is None:
-    #     eina_stringshare_del(item_label)
-    #     item_label = NULL
-    #     return 1
-    # elif isinstance(ret, (str, unicode)):
-    #     ret = PyUnicode_AsUTF8String(ret)
-    #     item_label = eina_stringshare_replace(&item_label, strdup(ret))
-    #     return 1
-    # else:
-    #     return 0
 
 cdef class MultiButtonEntryItem(ObjectItem):
 
@@ -331,9 +318,9 @@ cdef class MultiButtonEntry(Object):
 
         Py_INCREF(cbdata)
 
-    def filter_remove(self, func, *args, **kwargs):
-        #TODO
-        pass
+    #TODO
+    #def filter_remove(self, func, *args, **kwargs):
+        #pass
 
     property editable:
         """Whether the multibuttonentry is to be editable or not.
