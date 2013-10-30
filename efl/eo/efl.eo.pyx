@@ -200,8 +200,9 @@ cdef class Eo(object):
         Py_INCREF(self)
 
     cdef void _set_properties_from_keyword_args(self, dict kwargs) except *:
+        cdef list cls_list = dir(self)
         for k, v in kwargs.items():
-            assert hasattr(self, k), "%s has no attribute with the name %s." % (self, k)
+            assert k in cls_list, "%s has no attribute with the name %s." % (self, k)
             setattr(self, k, v)
 
     def is_deleted(self):
