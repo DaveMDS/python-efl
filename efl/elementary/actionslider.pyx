@@ -118,10 +118,10 @@ cdef class Actionslider(LayoutClass):
 
         """
         def __get__(self):
-            return elm_actionslider_selected_label_get(self.obj)
+            return _ctouni(elm_actionslider_selected_label_get(self.obj))
 
     def selected_label_get(self):
-        return elm_actionslider_selected_label_get(self.obj)
+        return _ctouni(elm_actionslider_selected_label_get(self.obj))
 
     property indicator_pos:
         """Indicator position.
