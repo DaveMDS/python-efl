@@ -3,7 +3,7 @@
 
 import logging
 elog = logging.getLogger("efl")
-elog.setLevel(logging.DEBUG)
+elog.setLevel(logging.INFO)
 
 elog_form = logging.Formatter("[%(name)s] %(levelname)s - %(message)s")
 elog_hdlr = logging.StreamHandler()
@@ -12,15 +12,15 @@ elog_hdlr.setFormatter(elog_form)
 elog.addHandler(elog_hdlr)
 
 eolog = logging.getLogger("efl.eo")
-eolog.setLevel(logging.DEBUG)
+eolog.setLevel(logging.INFO)
 
 import os
 
-from efl import evas
+from efl.evas import EVAS_HINT_EXPAND, EVAS_HINT_FILL
 from efl import elementary
-from efl.elementary.window import Window
+from efl.elementary.window import StandardWindow
 from efl.elementary.background import Background
-from efl.elementary.box import Box
+from efl.elementary.box import Box, ELM_BOX_LAYOUT_FLOW_HORIZONTAL
 from efl.elementary.button import Button
 from efl.elementary.frame import Frame
 from efl.elementary.label import Label
@@ -28,7 +28,10 @@ from efl.elementary.check import Check
 from efl.elementary.entry import Entry
 from efl.elementary.scroller import Scroller
 
-elog.setLevel(logging.INFO)
+elog.setLevel(logging.DEBUG)
+
+EXPAND_BOTH = EVAS_HINT_EXPAND, EVAS_HINT_EXPAND
+FILL_BOTH = EVAS_HINT_FILL, EVAS_HINT_FILL
 
 items = [
          ("Core Libs", [
@@ -204,25 +207,24 @@ def selected_cb(o, mod, func):
 def menu_create(search, win):
     tbx.clear()
     for category in items:
-        frame = Frame(win)
-        frame.size_hint_weight_set(evas.EVAS_HINT_EXPAND, evas.EVAS_HINT_EXPAND)
-        frame.size_hint_align_set(evas.EVAS_HINT_FILL, evas.EVAS_HINT_FILL)
-        frame.text = category[0]
+        frame = Frame(win,
+            size_hint_weight=EXPAND_BOTH, size_hint_align=FILL_BOTH,
+            text=category[0]
+            )
         frame.show()
         tbx.pack_end(frame)
 
-        tbx2 = Box(win)
-        tbx2.layout_set(elementary.ELM_BOX_LAYOUT_FLOW_HORIZONTAL)
-        tbx2.size_hint_weight_set(evas.EVAS_HINT_EXPAND, 0.0)
-        tbx2.size_hint_align_set(evas.EVAS_HINT_FILL, 0.0)
+        tbx2 = Box(win, layout=ELM_BOX_LAYOUT_FLOW_HORIZONTAL,
+            size_hint_weight=(EVAS_HINT_EXPAND, 0.0),
+            size_hint_align=(EVAS_HINT_FILL, 0.0)
+            )
         frame.content_set(tbx2)
         tbx2.show()
 
         cnt = 0
         for test in category[1]:
             if (search == None) or (test[0].lower().find(search.lower()) > -1):
-                bt = Button(win)
-                bt.text = test[0]
+                bt = Button(win, text=test[0])
                 bt.callback_clicked_add(selected_cb, test[1], test[2])
                 bt.show()
                 tbx2.pack_end(bt)
@@ -245,71 +247,58 @@ def cb_filter(en, win):
 
 if __name__ == "__main__":
     elementary.init()
-    win = Window("test", elementary.ELM_WIN_BASIC)
-    win.title_set("python-elementary test application")
+    win = StandardWindow("test", "python-elementary test application")
     win.callback_delete_request_add(destroy, "test1", "test2", str3="test3", str4="test4")
 
-    bg = Background(win)
-    win.resize_object_add(bg)
-    bg.size_hint_weight_set(evas.EVAS_HINT_EXPAND, evas.EVAS_HINT_EXPAND)
-    bg.show()
-
-    box0 = Box(win)
-    box0.size_hint_weight_set(evas.EVAS_HINT_EXPAND, evas.EVAS_HINT_EXPAND)
+    box0 = Box(win, size_hint_weight=EXPAND_BOTH)
     win.resize_object_add(box0)
     box0.show()
 
-    fr = Frame(win)
-    fr.text_set("Information")
+    lb = Label(win)
+    lb.text =   "Please select a test from the list below<br>" \
+                "by clicking the test button to show the<br>" \
+                "test window."
+    lb.show()
+
+    fr = Frame(win, text="Information", content=lb)
     box0.pack_end(fr)
     fr.show()
 
-    lb = Label(win)
-    lb.text_set("Please select a test from the list below<br>"
-                 "by clicking the test button to show the<br>"
-                 "test window.")
-    fr.content_set(lb)
-    lb.show()
-
-    tg = Check(win)
-    tg.style = "toggle"
-    tg.text = "UI-Mirroring:"
+    tg = Check(win, style="toggle", text="UI-Mirroring:")
     tg.callback_changed_add(cb_mirroring)
     box0.pack_end(tg)
     tg.show()
 
-    bx1 = Box(win)
-    bx1.size_hint_weight_set(evas.EVAS_HINT_EXPAND, 0.0)
-    bx1.size_hint_align_set(evas.EVAS_HINT_FILL, 0.0)
-    bx1.horizontal_set(True)
+    bx1 = Box(win,
+        size_hint_weight=(EVAS_HINT_EXPAND, 0.0),
+        size_hint_align=(EVAS_HINT_FILL, 0.0),
+        horizontal=True
+        )
     box0.pack_end(bx1)
     bx1.show()
 
-    lb = Label(win)
-    lb.text_set("Filter:")
+    lb = Label(win, text="Filter:")
     bx1.pack_end(lb)
     lb.show()
 
-    en = Entry(win)
-    en.single_line_set(True)
-    en.scrollable_set(True)
-    en.size_hint_weight_set(evas.EVAS_HINT_EXPAND, evas.EVAS_HINT_EXPAND)
-    en.size_hint_align_set(evas.EVAS_HINT_FILL, evas.EVAS_HINT_FILL)
+    en = Entry(win, single_line=True, scrollable=True,
+        size_hint_weight=EXPAND_BOTH, size_hint_align=FILL_BOTH
+        )
     en.callback_changed_add(cb_filter, win)
     bx1.pack_end(en)
     en.show()
     en.focus_set(True)
 
-    sc = Scroller(win)
-    sc.size_hint_weight_set(evas.EVAS_HINT_EXPAND, evas.EVAS_HINT_EXPAND)
-    sc.size_hint_align_set(evas.EVAS_HINT_FILL, evas.EVAS_HINT_FILL)
-    sc.bounce_set(False, True)
+    sc = Scroller(win, size_hint_weight=EXPAND_BOTH, size_hint_align=FILL_BOTH,
+        bounce=(False, True)
+        )
     sc.show()
     box0.pack_end(sc)
 
-    tbx = Box(win)
-    tbx.size_hint_weight_set(evas.EVAS_HINT_EXPAND, 0.0)
-    tbx.size_hint_align_set(evas.EVAS_HINT_FILL, 0.0)
+    tbx = Box(win,
+        size_hint_weight=(EVAS_HINT_EXPAND, 0.0),
+        size_hint_align=(EVAS_HINT_FILL, 0.0)
+        )
     sc.content_set(tbx)
     tbx.show()
 

@@ -2,45 +2,41 @@
 # encoding: utf-8
 
 
-from efl import evas
+from efl.evas import EVAS_HINT_EXPAND, EVAS_HINT_FILL
 from efl import elementary
-from efl.elementary.window import Window
-from efl.elementary.background import Background
+from efl.elementary.window import StandardWindow, Window, ELM_WIN_BASIC
+from efl.elementary.background import Background, ELM_BG_OPTION_SCALE
 from efl.elementary.box import Box
 from efl.elementary.frame import Frame
 from efl.elementary.label import Label
 from efl.elementary.list import List
 
+EXPAND_BOTH = EVAS_HINT_EXPAND, EVAS_HINT_EXPAND
+FILL_BOTH = EVAS_HINT_FILL, EVAS_HINT_FILL
 
 def bg_plain_clicked(obj, item=None):
-    win = Window("bg plain", elementary.ELM_WIN_BASIC)
-    win.title_set("Bg Plain")
-    win.autodel_set(True)
+    win = Window("bg plain", ELM_WIN_BASIC, title="Bg Plain", autodel=True,
+        size=(320, 320)
+        )
 
-    bg = Background(win)
+    bg = Background(win, size_hint_weight=EXPAND_BOTH)
     win.resize_object_add(bg)
-    bg.size_hint_weight_set(evas.EVAS_HINT_EXPAND, evas.EVAS_HINT_EXPAND)
     bg.show()
 
-    win.resize(320, 320)
     win.show()
 
 
 def bg_image_clicked(obj, item=None):
-    win = Window("bg-image", elementary.ELM_WIN_BASIC)
-    win.title_set("Bg Image")
-    win.autodel_set(True)
+    win = Window("bg-image", ELM_WIN_BASIC, title="Bg Image", autodel=True,
+        size=(320, 320), size_hint_min=(160, 160), size_hint_max=(320,320)
+        )
 
-    bg = Background(win)
+    bg = Background(win, file="images/plant_01.jpg", option=ELM_BG_OPTION_SCALE,
+        size_hint_weight=EXPAND_BOTH
+        )
     win.resize_object_add(bg)
-    bg.file_set("images/plant_01.jpg")
-    bg.option_set(elementary.ELM_BG_OPTION_SCALE)
-    bg.size_hint_weight_set(evas.EVAS_HINT_EXPAND, evas.EVAS_HINT_EXPAND)
     bg.show()
 
-    win.size_hint_min_set(160, 160)
-    win.size_hint_max_set(320, 320)
-    win.resize(320, 320)
     win.show()
 
     (filename, group) = bg.file_get()
@@ -53,38 +49,29 @@ if __name__ == "__main__":
         elementary.exit()
 
     elementary.init()
-    win = Window("test", elementary.ELM_WIN_BASIC)
-    win.title_set("python-elementary test application")
+    win = StandardWindow("test", "python-elementary test application",
+        size=(320,520)
+        )
     win.callback_delete_request_add(destroy)
 
-    bg = Background(win)
-    win.resize_object_add(bg)
-    bg.size_hint_weight_set(evas.EVAS_HINT_EXPAND, evas.EVAS_HINT_EXPAND)
-    bg.show()
-
-    box0 = Box(win)
-    box0.size_hint_weight_set(evas.EVAS_HINT_EXPAND, evas.EVAS_HINT_EXPAND)
+    box0 = Box(win, size_hint_weight=EXPAND_BOTH)
     win.resize_object_add(box0)
     box0.show()
 
-    fr = Frame(win)
-    fr.text_set("Information")
+    lb = Label(win)
+    lb.text =   "Please select a test from the list below<br>" \
+                "by clicking the test button to show the<br>" \
+                "test window."
+    lb.show()
+
+    fr = Frame(win, text="Information", content=lb)
     box0.pack_end(fr)
     fr.show()
-
-    lb = Label(win)
-    lb.text_set("Please select a test from the list below<br>"
-                 "by clicking the test button to show the<br>"
-                 "test window.")
-    fr.content_set(lb)
-    lb.show()
 
     items = [("Bg Plain", bg_plain_clicked),
              ("Bg Image", bg_image_clicked)]
 
-    li = List(win)
-    li.size_hint_weight_set(evas.EVAS_HINT_EXPAND, evas.EVAS_HINT_EXPAND)
-    li.size_hint_align_set(evas.EVAS_HINT_FILL, evas.EVAS_HINT_FILL)
+    li = List(win, size_hint_weight=EXPAND_BOTH, size_hint_align=FILL_BOTH)
     box0.pack_end(li)
     li.show()
 
@@ -93,7 +80,6 @@ if __name__ == "__main__":
 
     li.go()
 
-    win.resize(320,520)
     win.show()
     elementary.run()
     elementary.shutdown()

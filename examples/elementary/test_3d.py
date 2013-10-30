@@ -1,18 +1,15 @@
 #!/usr/bin/env python
 # encoding: utf-8
 
-from efl import evas
+from efl.evas import EVAS_HINT_EXPAND, EVAS_HINT_FILL, Image, Map
 from efl import elementary
-from efl.elementary.window import Window
-from efl.elementary.background import Background
+from efl.elementary.window import StandardWindow
 from efl.elementary.box import Box
-# from efl.elementary.button import Button
-# from efl.elementary.frame import Frame
-# from efl.elementary.label import Label
-# from efl.elementary.check import Check
-# from efl.elementary.entry import Entry
 from efl.elementary.slider import Slider
 
+EXPAND_BOTH = EVAS_HINT_EXPAND, EVAS_HINT_EXPAND
+FILL_BOTH = EVAS_HINT_FILL, EVAS_HINT_FILL
+FILL_HORIZ = EVAS_HINT_FILL, 0.5
 
 class Point(object):
     def __init__(self, x, y, z, u, v):
@@ -28,11 +25,11 @@ class Side(object):
         self.obj = None
         self.points = []
 
-        img = evas.Image(eva)
-        img.file_set("images/rock_02.jpg")
-        img.fill_set(0, 0, 256, 256)
+        img = Image(eva)
+        img.file = "images/rock_02.jpg",
+        img.fill = (0, 0, 256, 256)
+        img.smooth_scale = False
         img.resize(256, 256)
-        img.smooth_scale_set(False)
         img.show()
         self.obj = img
 
@@ -56,7 +53,7 @@ class Cube(object):
         w -= (w / 2)
         h -= (h / 2)
         d -= (d / 2)
-        
+
         self.sides[0].points.append(Point(-w, -h, -d,   0,   0))
         self.sides[0].points.append(Point( w, -h, -d, 256,   0))
         self.sides[0].points.append(Point( w,  h, -d, 256, 256))
@@ -101,7 +98,7 @@ class Cube(object):
         foc = self.z0v
         z0 = self.focv
 
-        m = evas.Map(4)
+        m = Map(4)
         m.smooth = True
 
         for i in range(6):
@@ -112,7 +109,7 @@ class Cube(object):
                 m.point_image_uv_set(j, self.sides[i].points[j].u,
                                         self.sides[i].points[j].v)
                 m.point_color_set(j, 255, 255, 255, 255)
-            
+
             m.util_3d_rotate(dx, dy, dz, x, y, z)
             m.util_3d_lighting(-1000, -1000, -1000,
                                255, 255, 255,
@@ -158,101 +155,69 @@ def ch_z0(sl, cube):
     cube.update()
 
 def evas3d_clicked(obj, item=None):
-    win = Window("evas3d", elementary.ELM_WIN_BASIC)
-    win.title_set("Evas 3d test")
+    win = StandardWindow("evas3d", "Evas 3d test")
     win.autodel_set(True)
     if obj is None:
         win.callback_delete_request_add(lambda o: elementary.exit())
 
-    bg = Background(win)
-    win.resize_object_add(bg)
-    bg.size_hint_weight_set(evas.EVAS_HINT_EXPAND, evas.EVAS_HINT_EXPAND)
-    bg.show()
-
     cube = Cube(win, 240, 240, 240)
- 
-    vbox = Box(win)
-    vbox.size_hint_weight = (evas.EVAS_HINT_EXPAND, evas.EVAS_HINT_EXPAND)
+
+    vbox = Box(win, size_hint_weight=EXPAND_BOTH)
     win.resize_object_add(vbox)
     vbox.show()
 
-    sl = Slider(win)
-    sl.text = "Rot X"
-    sl.unit_format = "%1.0f units"
-    sl.span_size = 360
-    sl.min_max = (0, 360)
-    sl.size_hint_align = (evas.EVAS_HINT_FILL, 0.5)
-    sl.size_hint_weight = (evas.EVAS_HINT_EXPAND, evas.EVAS_HINT_EXPAND)
+    sl = Slider(win, text="Rot X", unit_format="%1.0f units", span_size=360,
+        min_max=(0, 360),
+        size_hint_align=FILL_HORIZ, size_hint_weight=EXPAND_BOTH
+        )
     vbox.pack_end(sl)
     sl.callback_changed_add(ch_rot_x, cube)
     sl.show()
 
-    sl = Slider(win)
-    sl.text = "Rot Y"
-    sl.unit_format = "%1.0f units"
-    sl.span_size = 360
-    sl.min_max = (0, 360)
-    sl.size_hint_align = (evas.EVAS_HINT_FILL, 0.5)
-    sl.size_hint_weight = (evas.EVAS_HINT_EXPAND, evas.EVAS_HINT_EXPAND)
+    sl = Slider(win, text="Rot Y", unit_format="%1.0f units", span_size=360,
+        min_max=(0, 360),
+        size_hint_align=FILL_HORIZ, size_hint_weight=EXPAND_BOTH
+        )
     vbox.pack_end(sl)
     sl.callback_changed_add(ch_rot_y, cube)
     sl.show()
 
-    sl = Slider(win)
-    sl.text = "Rot Z"
-    sl.unit_format = "%1.0f units"
-    sl.span_size = 360
-    sl.min_max = (0, 360)
-    sl.size_hint_align = (evas.EVAS_HINT_FILL, 0.5)
-    sl.size_hint_weight = (evas.EVAS_HINT_EXPAND, evas.EVAS_HINT_EXPAND)
+    sl = Slider(win, text="Rot Z", unit_format="%1.0f units", span_size=360,
+        min_max=(0, 360),
+        size_hint_align=FILL_HORIZ, size_hint_weight=EXPAND_BOTH
+        )
     vbox.pack_end(sl)
     sl.callback_changed_add(ch_rot_z, cube)
     sl.show()
 
-    sl = Slider(win)
-    sl.text = "CX Off"
-    sl.unit_format = "%1.0f units"
-    sl.span_size = 360
-    sl.min_max = (-320, 320)
-    sl.value = cube.cxo
-    sl.size_hint_align = (evas.EVAS_HINT_FILL, 0.5)
-    sl.size_hint_weight = (evas.EVAS_HINT_EXPAND, evas.EVAS_HINT_EXPAND)
+    sl = Slider(win, text="CX Off", unit_format="%1.0f units", span_size=360,
+        min_max=(-320, 320), value=cube.cxo,
+        size_hint_align=FILL_HORIZ, size_hint_weight=EXPAND_BOTH
+        )
     vbox.pack_end(sl)
     sl.callback_changed_add(ch_cx, cube)
     sl.show()
 
-    sl = Slider(win)
-    sl.text = "CY Off"
-    sl.unit_format = "%1.0f units"
-    sl.span_size = 360
-    sl.min_max = (-320, 320)
-    sl.value = cube.cyo
-    sl.size_hint_align = (evas.EVAS_HINT_FILL, 0.5)
-    sl.size_hint_weight = (evas.EVAS_HINT_EXPAND, evas.EVAS_HINT_EXPAND)
+    sl = Slider(win, text="CY Off", unit_format="%1.0f units", span_size=360,
+        min_max=(-320, 320), value=cube.cyo,
+        size_hint_align=FILL_HORIZ, size_hint_weight=EXPAND_BOTH
+        )
     vbox.pack_end(sl)
     sl.callback_changed_add(ch_cy, cube)
     sl.show()
 
-    sl = Slider(win)
-    sl.text = "Foc"
-    sl.unit_format = "%1.0f units"
-    sl.span_size = 360
-    sl.min_max = (1, 2000)
-    sl.value = cube.focv
-    sl.size_hint_align = (evas.EVAS_HINT_FILL, 0.5)
-    sl.size_hint_weight = (evas.EVAS_HINT_EXPAND, evas.EVAS_HINT_EXPAND)
+    sl = Slider(win, text="Foc", unit_format="%1.0f units", span_size=360,
+        min_max=(1, 2000), value=cube.focv,
+        size_hint_align=FILL_HORIZ, size_hint_weight=EXPAND_BOTH
+        )
     vbox.pack_end(sl)
     sl.callback_changed_add(ch_foc, cube)
     sl.show()
 
-    sl = Slider(win)
-    sl.text = "Z0"
-    sl.unit_format = "%1.0f units"
-    sl.span_size = 360
-    sl.min_max = (-2000, 2000)
-    sl.value = cube.z0v
-    sl.size_hint_align = (evas.EVAS_HINT_FILL, 0.5)
-    sl.size_hint_weight = (evas.EVAS_HINT_EXPAND, evas.EVAS_HINT_EXPAND)
+    sl = Slider(win, text="Z0", unit_format="%1.0f units", span_size=360,
+        min_max=(-2000, 2000), value=cube.z0v,
+        size_hint_align=FILL_HORIZ, size_hint_weight=EXPAND_BOTH
+        )
     vbox.pack_end(sl)
     sl.callback_changed_add(ch_z0, cube)
     sl.show()

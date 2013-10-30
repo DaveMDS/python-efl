@@ -17,6 +17,9 @@ from efl.elementary.label import Label
 from efl.elementary.list import List
 from efl.elementary.icon import Icon
 
+EXPAND_BOTH = EVAS_HINT_EXPAND, EVAS_HINT_EXPAND
+FILL_BOTH = EVAS_HINT_FILL, EVAS_HINT_FILL
+
 config = Configuration()
 
 
@@ -29,14 +32,13 @@ class GLItC1(GenlistItemClass):
 
     def content_get(self, gl, part, data):
         if not part == "elm.swallow.end":
-            bt = Button(gl)
-            bt.size_hint_align = EVAS_HINT_FILL, EVAS_HINT_FILL
-            bt.size_hint_weight = EVAS_HINT_EXPAND, EVAS_HINT_EXPAND
-            bt.text = "OK"
+            bt = Button(gl, text="OK",
+                size_hint_align=FILL_BOTH, size_hint_weight=EXPAND_BOTH,
+                )
         else:
-            bt = Icon(gl)
-            bt.file = "images/logo_small.png"
-            bt.size_hint_aspect = EVAS_ASPECT_CONTROL_VERTICAL, 1, 1
+            bt = Icon(gl, file="images/logo_small.png",
+                size_hint_aspect=(EVAS_ASPECT_CONTROL_VERTICAL, 1, 1)
+                )
 
         return bt
 
@@ -44,12 +46,10 @@ class GLItC2(GenlistItemClass):
     def content_get(self, gl, part, data):
         if part != "elm.swallow.content": return
 
-        grid = Gengrid(gl)
-        grid.item_size = config.scale * 100, config.scale * 100
-        grid.horizontal = False
-        grid.reorder_mode = True
-        grid.size_hint_weight = EVAS_HINT_EXPAND, EVAS_HINT_EXPAND
-        grid.size_hint_align = EVAS_HINT_FILL, EVAS_HINT_FILL
+        grid = Gengrid(gl, horizontal=False, reorder_mode=True,
+            item_size=(config.scale * 100, config.scale * 100),
+            size_hint_weight=EXPAND_BOTH, size_hint_align=FILL_BOTH
+            )
 
         gic = GGItC(item_style="default")
 
@@ -68,12 +68,10 @@ class GLItC2(GenlistItemClass):
 class GGItC(GengridItemClass):
     def content_get(self, gg, part, data):
         if not part == "elm.swallow.icon":
-            ic = Icon(gg)
-            ic.scale = 0.5
-            ic.file = "images/icon_%02i.png" % (data % 4)
-            ic.resizable = 0, 0
-            ic.size_hint_weight = EVAS_HINT_EXPAND, EVAS_HINT_EXPAND
-            ic.size_hint_align = 0.5, 0.5
+            ic = Icon(gg, scale=0.5, file="images/icon_%02i.png" % (data % 4),
+                resizable=(0, 0),
+                size_hint_weight=EXPAND_BOTH, size_hint_align=(0.5, 0.5)
+                )
             ic.show()
             return ic
 
@@ -108,16 +106,13 @@ def access_clicked(obj, item=None):
 
     config.access = True
 
-    bx = Box(win)
-    bx.size_hint_weight = EVAS_HINT_EXPAND, EVAS_HINT_EXPAND
-    bx.homogeneous = True
-    bx.horizontal = True
+    bx = Box(win, size_hint_weight=EXPAND_BOTH, homogeneous=True,
+        horizontal=True
+        )
     win.resize_object_add(bx)
     bx.show()
 
-    gl = Genlist(win)
-    gl.size_hint_weight = EVAS_HINT_EXPAND, EVAS_HINT_EXPAND
-    gl.size_hint_align = EVAS_HINT_FILL, EVAS_HINT_FILL
+    gl = Genlist(win, size_hint_weight=EXPAND_BOTH, size_hint_align=FILL_BOTH)
     bx.pack_end(gl)
     gl.show()
 

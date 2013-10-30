@@ -1,12 +1,17 @@
 #!/usr/bin/env python
 # encoding: utf-8
 
-from efl import evas
+from efl.evas import EVAS_HINT_EXPAND, EVAS_HINT_FILL
 from efl import elementary
-from efl.elementary.actionslider import *
-from efl.elementary.background import Background
+from efl.elementary.actionslider import Actionslider, ELM_ACTIONSLIDER_NONE, \
+    ELM_ACTIONSLIDER_ALL, ELM_ACTIONSLIDER_LEFT, ELM_ACTIONSLIDER_CENTER, \
+    ELM_ACTIONSLIDER_RIGHT
 from efl.elementary.box import Box
-from efl.elementary.window import Window, ELM_WIN_BASIC
+from efl.elementary.window import StandardWindow
+
+EXPAND_BOTH = EVAS_HINT_EXPAND, EVAS_HINT_EXPAND
+EXPAND_HORIZ = EVAS_HINT_EXPAND, 0.0
+FILL_BOTH = EVAS_HINT_FILL, EVAS_HINT_FILL
 
 positions = {
     ELM_ACTIONSLIDER_NONE: "none",
@@ -25,7 +30,7 @@ def _pos_selected_cb(obj, event_info):
     iposs = []
     mposs = []
     eposs = []
-    for k, v in positions.iteritems():
+    for k, v in positions.items():
         if k == ELM_ACTIONSLIDER_NONE or k == ELM_ACTIONSLIDER_ALL:
             if k == ipos:
                 iposs = [v,]
@@ -46,67 +51,58 @@ def _pos_selected_cb(obj, event_info):
 
 def _position_change_magnetic_cb(obj, event_info):
     if event_info == "left":
-        obj.magnet_pos_set(ELM_ACTIONSLIDER_LEFT)
+        obj.magnet_pos = ELM_ACTIONSLIDER_LEFT
     elif event_info == "right":
-        obj.magnet_pos_set(ELM_ACTIONSLIDER_RIGHT)
+        obj.magnet_pos = ELM_ACTIONSLIDER_RIGHT
 
 def _magnet_enable_disable_cb(obj, event_info):
     if event_info == "left":
-        obj.magnet_pos_set(ELM_ACTIONSLIDER_CENTER)
+        obj.magnet_pos = ELM_ACTIONSLIDER_CENTER
     elif event_info == "right":
-        obj.magnet_pos_set(ELM_ACTIONSLIDER_NONE)
+        obj.magnet_pos = ELM_ACTIONSLIDER_NONE
 
 def actionslider_clicked(obj):
-    win = Window("actionslider", ELM_WIN_BASIC)
-    win.title_set("Actionslider")
+    win = StandardWindow("actionslider", "Actionslider")
     win.autodel_set(True)
     if obj is None:
         win.callback_delete_request_add(lambda o: elementary.exit())
 
-    bg = Background(win)
-    bg.size_hint_weight_set(evas.EVAS_HINT_EXPAND, evas.EVAS_HINT_EXPAND)
-    win.resize_object_add(bg)
-    bg.show()
-
-    bx = Box(win)
-    bx.size_hint_weight_set(evas.EVAS_HINT_EXPAND, evas.EVAS_HINT_EXPAND)
+    bx = Box(win, size_hint_weight=EXPAND_BOTH)
     win.resize_object_add(bx)
     bx.show()
 
-    acts = Actionslider(win)
-    acts.size_hint_weight_set(evas.EVAS_HINT_EXPAND, 0.0)
-    acts.size_hint_align_set(evas.EVAS_HINT_FILL, 0.0)
-    acts.indicator_pos_set(ELM_ACTIONSLIDER_RIGHT)
-    acts.magnet_pos_set(ELM_ACTIONSLIDER_RIGHT)
+    acts = Actionslider(win,
+        size_hint_weight=EXPAND_HORIZ, size_hint_align=(EVAS_HINT_FILL, 0.0),
+        indicator_pos=ELM_ACTIONSLIDER_RIGHT, magnet_pos=ELM_ACTIONSLIDER_RIGHT,
+        enabled_pos=(ELM_ACTIONSLIDER_LEFT | ELM_ACTIONSLIDER_RIGHT)
+        )
     acts.part_text_set("left", "Snooze")
     acts.part_text_set("center", "")
     acts.part_text_set("right", "Stop")
-    acts.enabled_pos_set(ELM_ACTIONSLIDER_LEFT | ELM_ACTIONSLIDER_RIGHT)
     acts.callback_pos_changed_add(_position_change_magnetic_cb)
     acts.callback_selected_add(_pos_selected_cb)
     bx.pack_end(acts)
     acts.show()
 
-    acts = Actionslider(win)
-    acts.size_hint_weight_set(evas.EVAS_HINT_EXPAND, 0.0)
-    acts.size_hint_align_set(evas.EVAS_HINT_FILL, 0.0)
-    acts.indicator_pos_set(ELM_ACTIONSLIDER_CENTER)
-    acts.magnet_pos_set(ELM_ACTIONSLIDER_CENTER)
+    acts = Actionslider(win,
+        size_hint_weight=EXPAND_HORIZ, size_hint_align=(EVAS_HINT_FILL, 0.0),
+        indicator_pos=ELM_ACTIONSLIDER_CENTER,
+        magnet_pos=ELM_ACTIONSLIDER_CENTER,
+        enabled_pos=(ELM_ACTIONSLIDER_LEFT | ELM_ACTIONSLIDER_RIGHT)
+        )
     acts.part_text_set("left", "Snooze")
     acts.part_text_set("center", "")
     acts.part_text_set("right", "Stop")
-    acts.enabled_pos_set(ELM_ACTIONSLIDER_LEFT | ELM_ACTIONSLIDER_RIGHT)
     acts.callback_selected_add(_pos_selected_cb)
     bx.pack_end(acts)
     acts.show()
 
-    acts = Actionslider(win)
-    acts.style_set("bar")
-    acts.size_hint_weight_set(evas.EVAS_HINT_EXPAND, 0.0)
-    acts.size_hint_align_set(evas.EVAS_HINT_FILL, 0.0)
-    acts.indicator_pos_set(ELM_ACTIONSLIDER_LEFT)
-    acts.magnet_pos_set(ELM_ACTIONSLIDER_CENTER | ELM_ACTIONSLIDER_RIGHT)
-    acts.enabled_pos_set(ELM_ACTIONSLIDER_CENTER | ELM_ACTIONSLIDER_RIGHT)
+    acts = Actionslider(win, style="bar",
+        size_hint_weight=EXPAND_HORIZ, size_hint_align=(EVAS_HINT_FILL, 0.0),
+        indicator_pos=ELM_ACTIONSLIDER_LEFT,
+        magnet_pos=(ELM_ACTIONSLIDER_CENTER | ELM_ACTIONSLIDER_RIGHT),
+        enabled_pos=(ELM_ACTIONSLIDER_CENTER | ELM_ACTIONSLIDER_RIGHT)
+        )
     acts.part_text_set("left", "")
     acts.part_text_set("center", "Accept")
     acts.part_text_set("right", "Reject")
@@ -114,26 +110,22 @@ def actionslider_clicked(obj):
     bx.pack_end(acts)
     acts.show()
 
-    acts = Actionslider(win)
-    acts.style_set("bar")
-    acts.size_hint_weight_set(evas.EVAS_HINT_EXPAND, 0.0)
-    acts.size_hint_align_set(evas.EVAS_HINT_FILL, 0.0)
-    acts.indicator_pos_set(ELM_ACTIONSLIDER_LEFT)
-    acts.magnet_pos_set(ELM_ACTIONSLIDER_LEFT)
+    acts = Actionslider(win, style="bar", text="Go",
+        size_hint_weight=EXPAND_HORIZ, size_hint_align=(EVAS_HINT_FILL, 0.0),
+        indicator_pos=ELM_ACTIONSLIDER_LEFT, magnet_pos=ELM_ACTIONSLIDER_LEFT,
+        )
     acts.part_text_set("left", "")
     acts.part_text_set("center", "Accept")
     acts.part_text_set("right", "Reject")
-    acts.text_set("Go")
     acts.callback_pos_changed_add(_position_change_magnetic_cb)
     acts.callback_selected_add(_pos_selected_cb)
     bx.pack_end(acts)
     acts.show()
 
-    acts = Actionslider(win)
-    acts.size_hint_weight_set(evas.EVAS_HINT_EXPAND, 0.0)
-    acts.size_hint_align_set(evas.EVAS_HINT_FILL, 0.0)
-    acts.indicator_pos_set(ELM_ACTIONSLIDER_LEFT)
-    acts.magnet_pos_set(ELM_ACTIONSLIDER_ALL)
+    acts = Actionslider(win,
+        size_hint_weight=EXPAND_HORIZ, size_hint_align=(EVAS_HINT_FILL, 0.0),
+        indicator_pos=ELM_ACTIONSLIDER_LEFT, magnet_pos=ELM_ACTIONSLIDER_ALL
+        )
     acts.part_text_set("left", "Left")
     acts.part_text_set("center", "Center")
     acts.part_text_set("right", "Right")
@@ -142,11 +134,11 @@ def actionslider_clicked(obj):
     bx.pack_end(acts)
     acts.show()
 
-    acts = Actionslider(win)
-    acts.size_hint_weight_set(evas.EVAS_HINT_EXPAND, 0.0)
-    acts.size_hint_align_set(evas.EVAS_HINT_FILL, 0.0)
-    acts.indicator_pos_set(ELM_ACTIONSLIDER_CENTER)
-    acts.magnet_pos_set(ELM_ACTIONSLIDER_CENTER)
+    acts = Actionslider(win,
+        size_hint_weight=EXPAND_HORIZ, size_hint_align=(EVAS_HINT_FILL, 0.0),
+        indicator_pos=ELM_ACTIONSLIDER_CENTER,
+        magnet_pos=ELM_ACTIONSLIDER_CENTER
+        )
     acts.part_text_set("left", "Enable")
     acts.part_text_set("center", "Magnet")
     acts.part_text_set("right", "Disable")

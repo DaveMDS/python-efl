@@ -1,11 +1,10 @@
 #!/usr/bin/env python
 # encoding: utf-8
 
-from efl import evas
+from efl.evas import EVAS_HINT_EXPAND, EVAS_HINT_FILL
 from efl import elementary
-from efl.elementary.window import Window
-from efl.elementary.background import Background
-from efl.elementary.box import Box
+from efl.elementary.window import StandardWindow
+from efl.elementary.box import Box, ELM_BOX_LAYOUT_HORIZONTAL
 from efl.elementary.button import Button
 from efl.elementary.frame import Frame
 from efl.elementary.label import Label
@@ -13,42 +12,21 @@ from efl.elementary.list import List
 from efl.elementary.icon import Icon
 from efl.elementary.separator import Separator
 
+EXPAND_BOTH = EVAS_HINT_EXPAND, EVAS_HINT_EXPAND
+FILL_BOTH = EVAS_HINT_FILL, EVAS_HINT_FILL
+ic_file = "images/logo_small.png"
 
 def box_vert_clicked(obj, item=None):
-    win = Window("box-vert", elementary.ELM_WIN_BASIC)
-    win.title_set("Box Vert")
-    win.autodel_set(True)
+    win = StandardWindow("box-vert", "Box Vert", autodel=True)
 
-    bg = Background(win)
-    win.resize_object_add(bg)
-    bg.size_hint_weight_set(evas.EVAS_HINT_EXPAND, evas.EVAS_HINT_EXPAND)
-    bg.show()
-
-    bx = Box(win)
+    bx = Box(win, size_hint_weight=EXPAND_BOTH)
     win.resize_object_add(bx)
-    bx.size_hint_weight_set(evas.EVAS_HINT_EXPAND, evas.EVAS_HINT_EXPAND)
     bx.show()
 
-    ic = Icon(win)
-    ic.file_set("images/logo_small.png")
-    ic.resizable_set(0, 0)
-    ic.size_hint_align_set(0.5, 0.5)
-    bx.pack_end(ic)
-    ic.show()
-
-    ic = Icon(win)
-    ic.file_set("images/logo_small.png")
-    ic.resizable_set(0, 0)
-    ic.size_hint_align_set(0.0, 0.5)
-    bx.pack_end(ic)
-    ic.show()
-
-    ic = Icon(win)
-    ic.file_set("images/logo_small.png")
-    ic.resizable_set(0, 0)
-    ic.size_hint_align_set(evas.EVAS_HINT_EXPAND, 0.5)
-    bx.pack_end(ic)
-    ic.show()
+    for align in ((0.5, 0.5), (0.0, 0.5), (EVAS_HINT_EXPAND, 0.5)):
+        ic = Icon(win, file=ic_file, resizable=(0, 0), size_hint_align=align)
+        bx.pack_end(ic)
+        ic.show()
 
     win.show()
 
@@ -58,98 +36,33 @@ def boxvert2_del_cb(bt, bx):
     bt.color_set(128, 64, 0, 128)
 
 def box_vert2_clicked(obj, item=None):
-    win = Window("box-vert2", elementary.ELM_WIN_BASIC)
-    win.title_set("Box Vert 2")
-    win.autodel_set(True)
+    win = StandardWindow("box-vert2", "Box Vert 2", autodel=True)
 
-    bg = Background(win)
-    win.resize_object_add(bg)
-    bg.size_hint_weight_set(evas.EVAS_HINT_EXPAND, evas.EVAS_HINT_EXPAND)
-    bg.show()
-
-    bx = Box(win)
+    bx = Box(win, size_hint_weight=(0.0, 0.0))
     win.resize_object_add(bx)
-    bx.size_hint_weight_set(0.0, 0.0)
     bx.show()
 
-    bt = Button(win)
-    bt.text_set("Button 1")
-    bt.size_hint_align_set(evas.EVAS_HINT_FILL, evas.EVAS_HINT_FILL)
-    bt.size_hint_weight_set(0.0, 0.0)
-    bt.callback_clicked_add(boxvert2_del_cb, bx)
-    bx.pack_end(bt)
-    bt.show()
-
-    bt = Button(win)
-    bt.text_set("Button 2")
-    bt.size_hint_align_set(evas.EVAS_HINT_FILL, evas.EVAS_HINT_FILL)
-    bt.size_hint_weight_set(0.0, 0.0)
-    bt.callback_clicked_add(boxvert2_del_cb, bx)
-    bx.pack_end(bt)
-    bt.show()
-
-    bt = Button(win)
-    bt.text_set("Button 3")
-    bt.size_hint_align_set(evas.EVAS_HINT_FILL, evas.EVAS_HINT_FILL)
-    bt.size_hint_weight_set(0.0, 0.0)
-    bt.callback_clicked_add(boxvert2_del_cb, bx)
-    bx.pack_end(bt)
-    bt.show()
-
-    bt = Button(win)
-    bt.text_set("Button 4")
-    bt.size_hint_align_set(evas.EVAS_HINT_FILL, evas.EVAS_HINT_FILL)
-    bt.size_hint_weight_set(0.0, 0.0)
-    bt.callback_clicked_add(boxvert2_del_cb, bx)
-    bx.pack_end(bt)
-    bt.show()
-
-    bt = Button(win)
-    bt.text_set("Button 5")
-    bt.size_hint_align_set(evas.EVAS_HINT_FILL, evas.EVAS_HINT_FILL)
-    bt.size_hint_weight_set(0.0, 0.0)
-    bt.callback_clicked_add(boxvert2_del_cb, bx)
-    bx.pack_end(bt)
-    bt.show()
+    for i in range(5):
+        bt = Button(win, text="Button %d" % i,
+            size_hint_align=FILL_BOTH, size_hint_weight=(0.0, 0.0)
+            )
+        bt.callback_clicked_add(boxvert2_del_cb, bx)
+        bx.pack_end(bt)
+        bt.show()
 
     win.show()
 
 def box_horiz_clicked(obj, item=None):
-    win = Window("box-horiz", elementary.ELM_WIN_BASIC)
-    win.title_set("Box Horiz")
-    win.autodel_set(True)
+    win = StandardWindow("box-horiz", "Box Horiz", autodel=True)
 
-    bg = Background(win)
-    win.resize_object_add(bg)
-    bg.size_hint_weight_set(evas.EVAS_HINT_EXPAND, evas.EVAS_HINT_EXPAND)
-    bg.show()
-
-    bx = Box(win)
-    bx.horizontal_set(True)
+    bx = Box(win, horizontal=True, size_hint_weight=EXPAND_BOTH)
     win.resize_object_add(bx)
-    bx.size_hint_weight_set(evas.EVAS_HINT_EXPAND, evas.EVAS_HINT_EXPAND)
     bx.show()
 
-    ic = Icon(win)
-    ic.file_set("images/logo_small.png")
-    ic.resizable_set(0, 0)
-    ic.size_hint_align_set(0.5, 0.5)
-    bx.pack_end(ic)
-    ic.show()
-
-    ic = Icon(win)
-    ic.file_set("images/logo_small.png")
-    ic.resizable_set(0, 0)
-    ic.size_hint_align_set(0.5, 0.0)
-    bx.pack_end(ic)
-    ic.show()
-
-    ic = Icon(win)
-    ic.file_set("images/logo_small.png")
-    ic.resizable_set(0, 0)
-    ic.size_hint_align_set(0.0, evas.EVAS_HINT_EXPAND)
-    bx.pack_end(ic)
-    ic.show()
+    for align in ((0.5, 0.5), (0.5, 0.0), (0.0, EVAS_HINT_EXPAND)):
+        ic = Icon(win, file=ic_file, resizable=(0, 0), size_hint_align=align)
+        bx.pack_end(ic)
+        ic.show()
 
     win.show()
 
@@ -157,7 +70,7 @@ def box_horiz_clicked(obj, item=None):
 layout_list = ["horizontal","vertical","homogeneous_vertical",
     "homogeneous_horizontal", "homogeneous_max_size_horizontal",
     "homogeneous_max_size_vertical", "flow_horizontal", "flow_vertical", "stack"]
-current_layout = elementary.ELM_BOX_LAYOUT_HORIZONTAL
+current_layout = ELM_BOX_LAYOUT_HORIZONTAL
 
 
 def box_layout_button_cb(obj, box):
@@ -170,58 +83,37 @@ def box_layout_button_cb(obj, box):
     box.layout_set(current_layout)
 
 def box_layout_clicked(obj, item=None):
-    win = Window("box-layout", elementary.ELM_WIN_BASIC)
-    win.title_set("Box Layout")
-    win.autodel_set(True)
+    win = StandardWindow("box-layout", "Box Layout", autodel=True)
 
-    bg = Background(win)
-    win.resize_object_add(bg)
-    bg.size_hint_weight_set(evas.EVAS_HINT_EXPAND, evas.EVAS_HINT_EXPAND)
-    bg.show()
-
-    vbox = Box(win)
+    vbox = Box(win, size_hint_weight=EXPAND_BOTH, size_hint_align=FILL_BOTH)
     win.resize_object_add(vbox)
-    vbox.size_hint_align_set(evas.EVAS_HINT_FILL, evas.EVAS_HINT_FILL)
-    vbox.size_hint_weight_set(evas.EVAS_HINT_EXPAND, evas.EVAS_HINT_EXPAND)
     vbox.show()
 
-    bx = Box(win)
-    bx.layout_set(elementary.ELM_BOX_LAYOUT_HORIZONTAL)
-    bx.size_hint_align_set(evas.EVAS_HINT_FILL, evas.EVAS_HINT_FILL)
-    bx.size_hint_weight_set(evas.EVAS_HINT_EXPAND, evas.EVAS_HINT_EXPAND)
+    bx = Box(win, layout=ELM_BOX_LAYOUT_HORIZONTAL,
+        size_hint_align=FILL_BOTH, size_hint_weight=EXPAND_BOTH
+        )
     vbox.pack_end(bx)
     bx.show()
 
-    sep = Separator(win)
-    sep.horizontal_set(True)
+    sep = Separator(win, horizontal=True)
     vbox.pack_end(sep)
     sep.show()
 
-    bt = Button(win)
-    bt.text_set("layout: %s" % layout_list[current_layout])
+    bt = Button(win, text="layout: %s" % layout_list[current_layout])
     bt.callback_clicked_add(box_layout_button_cb, bx)
     vbox.pack_end(bt)
     bt.show()
 
     for i in range(5):
-        ic = Icon(win)
-        ic.file_set("images/logo_small.png")
-        ic.resizable_set(0, 0)
-        ic.size_hint_align_set(0.5, 0.5)
+        ic = Icon(win, file=ic_file, resizable=(0, 0), size_hint_align=(0.5, 0.5))
         bx.pack_end(ic)
         ic.show()
 
-    ic = Icon(win)
-    ic.file_set("images/logo_small.png")
-    ic.resizable_set(0, 0)
-    ic.size_hint_align_set(1.0, 1.0)
+    ic = Icon(win, file=ic_file, resizable=(0, 0), size_hint_align=(1.0, 1.0))
     bx.pack_end(ic)
     ic.show()
 
-    ic = Icon(win)
-    ic.file_set("images/logo_small.png")
-    ic.resizable_set(0, 0)
-    ic.size_hint_align_set(0.0, 0.0)
+    ic = Icon(win, file=ic_file, resizable=(0, 0), size_hint_align=(0.0, 0.0))
     bx.pack_end(ic)
     ic.show()
 
@@ -239,47 +131,33 @@ def box_transition_button_cb(obj, box):
     box.layout_transition(0.4, from_ly, current_layout)
 
 def box_transition_clicked(obj, item=None):
-    win = Window("box-layout-transition", elementary.ELM_WIN_BASIC)
-    win.title_set("Box Layout Transition")
-    win.autodel_set(True)
+    win = StandardWindow("box-layout-transition", "Box Layout Transition",
+        autodel=True
+        )
 
-    bg = Background(win)
-    win.resize_object_add(bg)
-    bg.size_hint_weight_set(evas.EVAS_HINT_EXPAND, evas.EVAS_HINT_EXPAND)
-    bg.show()
-
-    vbox = Box(win)
+    vbox = Box(win, size_hint_align=FILL_BOTH, size_hint_weight=EXPAND_BOTH)
     win.resize_object_add(vbox)
-    vbox.size_hint_align_set(evas.EVAS_HINT_FILL, evas.EVAS_HINT_FILL)
-    vbox.size_hint_weight_set(evas.EVAS_HINT_EXPAND, evas.EVAS_HINT_EXPAND)
     vbox.show()
 
-    bx = Box(win)
-    bx.layout_set(elementary.ELM_BOX_LAYOUT_HORIZONTAL)
-    bx.size_hint_align_set(evas.EVAS_HINT_FILL, evas.EVAS_HINT_FILL)
-    bx.size_hint_weight_set(evas.EVAS_HINT_EXPAND, evas.EVAS_HINT_EXPAND)
+    bx = Box(win, layout=ELM_BOX_LAYOUT_HORIZONTAL,
+        size_hint_align=FILL_BOTH, size_hint_weight=EXPAND_BOTH
+        )
     vbox.pack_end(bx)
     bx.show()
 
-    sep = Separator(win)
-    sep.horizontal_set(True)
+    sep = Separator(win, horizontal=True)
     vbox.pack_end(sep)
     sep.show()
 
-    bt = Button(win)
-    bt.text_set("layout: %s" % layout_list[current_layout])
+    bt = Button(win, text="layout: %s" % layout_list[current_layout])
     bt.callback_clicked_add(box_transition_button_cb, bx)
     vbox.pack_end(bt)
     bt.show()
 
     for i in range(4):
-        ic = Icon(win)
-        ic.file_set("images/logo_small.png")
-        ic.resizable_set(0, 0)
-        ic.size_hint_align_set(0.5, 0.5)
+        ic = Icon(win, file=ic_file, resizable=(0, 0), size_hint_align=(0.5, 0.5))
         bx.pack_end(ic)
         ic.show()
-
 
     win.show()
 
@@ -289,31 +167,22 @@ if __name__ == "__main__":
         elementary.exit()
 
     elementary.init()
-    win = Window("test", elementary.ELM_WIN_BASIC)
-    win.title_set("python-elementary test application")
+    win = StandardWindow("test", "python-elementary test application", size=(320,520))
     win.callback_delete_request_add(destroy)
 
-    bg = Background(win)
-    win.resize_object_add(bg)
-    bg.size_hint_weight_set(evas.EVAS_HINT_EXPAND, evas.EVAS_HINT_EXPAND)
-    bg.show()
-
-    box0 = Box(win)
-    box0.size_hint_weight_set(evas.EVAS_HINT_EXPAND, evas.EVAS_HINT_EXPAND)
+    box0 = Box(win, size_hint_weight=EXPAND_BOTH)
     win.resize_object_add(box0)
     box0.show()
 
-    fr = Frame(win)
-    fr.text_set("Information")
+    lb = Label(win)
+    lb.text =   "Please select a test from the list below<br>" \
+                "by clicking the test button to show the<br>" \
+                "test window."
+    lb.show()
+
+    fr = Frame(win, text="Information", content=lb)
     box0.pack_end(fr)
     fr.show()
-
-    lb = Label(win)
-    lb.text_set("Please select a test from the list below<br>"
-                 "by clicking the test button to show the<br>"
-                 "test window.")
-    fr.content_set(lb)
-    lb.show()
 
     items = [("Box Vert", box_vert_clicked),
              ("Box Vert 2", box_vert2_clicked),
@@ -321,9 +190,7 @@ if __name__ == "__main__":
              ("Box Layout", box_layout_clicked),
              ("Box Layout Transition", box_transition_clicked)]
 
-    li = List(win)
-    li.size_hint_weight_set(evas.EVAS_HINT_EXPAND, evas.EVAS_HINT_EXPAND)
-    li.size_hint_align_set(evas.EVAS_HINT_FILL, evas.EVAS_HINT_FILL)
+    li = List(win, size_hint_weight=EXPAND_BOTH, size_hint_align=FILL_BOTH)
     box0.pack_end(li)
     li.show()
 
@@ -332,7 +199,6 @@ if __name__ == "__main__":
 
     li.go()
 
-    win.resize(320,520)
     win.show()
     elementary.run()
     elementary.shutdown()
