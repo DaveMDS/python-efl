@@ -19,7 +19,8 @@ from libc.string cimport const_char
 from efl.eina cimport Eina_Log_Domain, const_Eina_Log_Domain, Eina_Log_Level, \
     eina_log_print_cb_set, eina_log_domain_register, eina_log_level_set, \
     eina_log_level_get, eina_log_domain_level_get, eina_log_domain_level_set, \
-    eina_log_print
+    eina_log_print, EINA_LOG_DOM_DBG, EINA_LOG_DOM_INFO, EINA_LOG_DOM_WARN, \
+    EINA_LOG_DOM_ERR, EINA_LOG_DOM_CRIT
 from cpython cimport PyUnicode_AsUTF8String, PY_VERSION_HEX
 
 import logging
@@ -29,8 +30,8 @@ cdef extern from "stdarg.h":
     ctypedef struct va_list:
         pass
 
-cdef extern from "Python.h":
-    object PyUnicode_FromFormatV(char *format, va_list vargs)
+cdef extern from "stdio.h":
+    int vsprintf(char *, const_char *fmt, va_list args)
 
 cdef tuple log_levels = (
     50,
@@ -46,8 +47,14 @@ cdef void py_eina_log_print_cb(const_Eina_Log_Domain *d,
                               Eina_Log_Level level,
                               const_char *file, const_char *fnc, int line,
                               const_char *fmt, void *data, va_list args) with gil:
-    cdef unicode msg = PyUnicode_FromFormatV(fmt, args)
-    cdef unicode name = d.name.decode("utf-8")
+    cdef:
+        char tmp[256]
+        cdef unicode msg
+        cdef unicode name = d.name.decode("utf-8")
+
+    vsprintf(tmp, fmt, args)
+    msg = tmp.decode("utf-8")
+
     rec = logging.LogRecord(name, log_levels[level], file, line, msg, None, None, fnc)
     logger = loggers.get(name, loggers["efl"])
     logger.handle(rec)
@@ -103,3 +110,6 @@ rootlog = add_logger("efl")
 rootlog.propagate = False
 
 cdef public int PY_EFL_LOG_DOMAIN = rootlog.eina_log_domain
+
+def logger_test_dbg():
+    EINA_LOG_DOM_DBG(PY_EFL_LOG_DOMAIN, "test message", NULL)
