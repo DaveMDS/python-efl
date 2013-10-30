@@ -1,63 +1,49 @@
 #!/usr/bin/env python
 # encoding: utf-8
 
-from efl import evas
+import os
+
+from efl.evas import EVAS_HINT_EXPAND, EVAS_ASPECT_CONTROL_VERTICAL
 from efl import elementary
-from efl.elementary.window import Window
-from efl.elementary.background import Background
+from efl.elementary.window import StandardWindow
 from efl.elementary.box import Box
 from efl.elementary.frame import Frame
 from efl.elementary.icon import Icon
 from efl.elementary.button import Button
 
+EXPAND_BOTH = EVAS_HINT_EXPAND, EVAS_HINT_EXPAND
+
+img_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), "images")
+ic_file = os.path.join(img_path, "logo_small.png")
+
 def buttons_clicked(obj):
-    win = Window("buttons", elementary.ELM_WIN_BASIC)
-    win.title_set("Buttons")
-    win.focus_highlight_enabled_set(True)
-    win.autodel_set(True)
+    win = StandardWindow("buttons", "Buttons", focus_highlight_enabled=True,
+        autodel=True)
     if obj is None:
         win.callback_delete_request_add(lambda o: elementary.exit())
 
-    bg = Background(win)
-    win.resize_object_add(bg)
-    bg.size_hint_weight_set(evas.EVAS_HINT_EXPAND, evas.EVAS_HINT_EXPAND)
-    bg.show()
-
-    bx = Box(win)
+    bx = Box(win, size_hint_weight=EXPAND_BOTH)
     win.resize_object_add(bx)
-    bx.size_hint_weight_set(evas.EVAS_HINT_EXPAND, evas.EVAS_HINT_EXPAND)
     bx.show()
 
-    ic = Icon(win)
-    ic.file_set("images/logo_small.png")
-    ic.size_hint_aspect_set(evas.EVAS_ASPECT_CONTROL_VERTICAL, 1, 1)
-    bt = Button(win)
-    bt.text_set("Icon sized to button")
-    bt.content_set(ic)
-    bx.pack_end(bt)
-    bt.show()
+    ic = Icon(win, file=ic_file, size_hint_aspect=(EVAS_ASPECT_CONTROL_VERTICAL, 1, 1))
     ic.show()
-
-    ic = Icon(win)
-    ic.file_set("images/logo_small.png")
-    ic.resizable_set(0, 0)
-    bt = Button(win)
-    bt.text_set("Icon no scale")
-    bt.content_set(ic)
+    bt = Button(win, text="Icon sized to button", content=ic)
     bx.pack_end(bt)
     bt.show()
+
+    ic = Icon(win, file=ic_file, resizable=(0, 0))
     ic.show()
-
-    bt = Button(win)
-    bt.text_set("No icon")
+    bt = Button(win, text="Icon no scale", content=ic)
     bx.pack_end(bt)
     bt.show()
 
-    ic = Icon(win)
-    ic.file_set("images/logo_small.png")
-    ic.resizable_set(0, 0)
-    bt = Button(win)
-    bt.content_set(ic)
+    bt = Button(win, text="No icon")
+    bx.pack_end(bt)
+    bt.show()
+
+    ic = Icon(win, file=ic_file, resizable=(0, 0))
+    bt = Button(win, content=ic)
     bx.pack_end(bt)
     bt.show()
     ic.show()

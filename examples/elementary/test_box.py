@@ -1,6 +1,8 @@
 #!/usr/bin/env python
 # encoding: utf-8
 
+import os
+
 from efl.evas import EVAS_HINT_EXPAND, EVAS_HINT_FILL
 from efl import elementary
 from efl.elementary.window import StandardWindow
@@ -14,7 +16,9 @@ from efl.elementary.separator import Separator
 
 EXPAND_BOTH = EVAS_HINT_EXPAND, EVAS_HINT_EXPAND
 FILL_BOTH = EVAS_HINT_FILL, EVAS_HINT_FILL
-ic_file = "images/logo_small.png"
+
+img_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), "images")
+ic_file = os.path.join(img_path, "logo_small.png")
 
 def box_vert_clicked(obj, item=None):
     win = StandardWindow("box-vert", "Box Vert", autodel=True)
@@ -163,12 +167,9 @@ def box_transition_clicked(obj, item=None):
 
 
 if __name__ == "__main__":
-    def destroy(obj):
-        elementary.exit()
-
     elementary.init()
     win = StandardWindow("test", "python-elementary test application", size=(320,520))
-    win.callback_delete_request_add(destroy)
+    win.callback_delete_request_add(lambda x: elementary.exit())
 
     box0 = Box(win, size_hint_weight=EXPAND_BOTH)
     win.resize_object_add(box0)

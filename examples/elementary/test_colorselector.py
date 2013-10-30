@@ -1,14 +1,20 @@
 #!/usr/bin/env python
 # encoding: utf-8
 
-from efl import evas
+from efl.evas import EVAS_HINT_EXPAND, EVAS_HINT_FILL, Rectangle
 from efl import elementary
-from efl.elementary.window import Window
-from efl.elementary.background import Background
+from efl.elementary.window import StandardWindow
 from efl.elementary.box import Box
 from efl.elementary.frame import Frame
 from efl.elementary.button import Button
-from efl.elementary.colorselector import Colorselector
+from efl.elementary.colorselector import Colorselector, \
+    ELM_COLORSELECTOR_PALETTE, ELM_COLORSELECTOR_COMPONENTS, \
+    ELM_COLORSELECTOR_BOTH
+
+EXPAND_BOTH = EVAS_HINT_EXPAND, EVAS_HINT_EXPAND
+EXPAND_HORIZ = EVAS_HINT_EXPAND, 0.0
+FILL_BOTH = EVAS_HINT_FILL, EVAS_HINT_FILL
+FILL_AND_ALIGN_TOP = EVAS_HINT_FILL, 0.0
 
 def cb_cs_changed(cs, rect):
     print("changed")
@@ -35,50 +41,40 @@ def cb_cs_item_lp(cs, item, rect):
     rect.color = (r, g, b, a)
 
 def colorselector_clicked(obj):
-    win = Window("colorselector", elementary.ELM_WIN_BASIC)
-    win.title = "ColorSelector test"
-    win.autodel = True
+    win = StandardWindow("colorselector", "ColorSelector test",
+        autodel=True, size=(350,350)
+        )
     if obj is None:
         win.callback_delete_request_add(lambda o: elementary.exit())
 
-    bg = Background(win)
-    win.resize_object_add(bg)
-    bg.size_hint_weight = (evas.EVAS_HINT_EXPAND, evas.EVAS_HINT_EXPAND)
-    bg.show()
-
-    vbox = Box(win)
-    vbox.size_hint_weight = (evas.EVAS_HINT_EXPAND, evas.EVAS_HINT_EXPAND)
+    vbox = Box(win, size_hint_weight=EXPAND_BOTH)
     win.resize_object_add(vbox)
     vbox.show()
 
-    fr = Frame(win)
-    fr.text = "Color View"
-    fr.size_hint_weight = (evas.EVAS_HINT_EXPAND, 0.0)
-    fr.size_hint_align = (evas.EVAS_HINT_FILL, evas.EVAS_HINT_FILL)
-    vbox.pack_end(fr)
-    fr.show()
-
-    re = evas.Rectangle(win.evas)
+    re = Rectangle(win.evas)
     re.size_hint_min = (1, 100)
-    fr.content = re
     re.show()
 
-    fr = Frame(win)
-    fr.text = "Color Selector"
-    fr.size_hint_weight = (evas.EVAS_HINT_EXPAND, evas.EVAS_HINT_EXPAND)
-    fr.size_hint_align = (evas.EVAS_HINT_FILL, evas.EVAS_HINT_FILL)
+    fr = Frame(win, text="Color View", content=re,
+        size_hint_weight=EXPAND_HORIZ,
+        size_hint_align=FILL_BOTH
+        )
     vbox.pack_end(fr)
     fr.show()
 
-    cs = Colorselector(win)
-    cs.size_hint_weight = (evas.EVAS_HINT_EXPAND, evas.EVAS_HINT_EXPAND)
-    cs.size_hint_align = (evas.EVAS_HINT_FILL, evas.EVAS_HINT_FILL)
+    cs = Colorselector(win, size_hint_weight=EXPAND_BOTH,
+        size_hint_align=FILL_BOTH, color=(255, 160, 132, 255)
+        )
     cs.callback_changed_add(cb_cs_changed, re)
     cs.callback_color_item_selected_add(cb_cs_item_sel, re)
     cs.callback_color_item_longpressed_add(cb_cs_item_lp, re)
-    cs.color = (255, 160, 132, 255)
-    fr.content = cs
     cs.show()
+
+    fr = Frame(win, text="Color Selector", content=cs,
+        size_hint_weight=EXPAND_BOTH, size_hint_align=FILL_BOTH
+        )
+    vbox.pack_end(fr)
+    fr.show()
 
     re.color = cs.color
     cs.palette_color_add(255, 90, 18, 255)
@@ -94,38 +90,33 @@ def colorselector_clicked(obj):
     cs.palette_color_add(255, 255, 119, 255)
     cs.palette_color_add(133, 100, 255, 255)
 
-    hbox = Box(win)
-    hbox.horizontal = True
-    hbox.size_hint_align = (evas.EVAS_HINT_FILL, 0.0)
-    hbox.size_hint_weight = (evas.EVAS_HINT_EXPAND, 0.0)
+    hbox = Box(win, horizontal=True, size_hint_align=FILL_AND_ALIGN_TOP,
+        size_hint_weight=EXPAND_HORIZ
+        )
     vbox.pack_end(hbox)
     hbox.show()
 
-    bt = Button(win)
-    bt.text = "Palette"
-    bt.size_hint_align = (evas.EVAS_HINT_FILL, 0.0)
-    bt.size_hint_weight = (evas.EVAS_HINT_EXPAND, 0.0)
-    bt.callback_clicked_add(lambda btn: cs.mode_set(elementary.ELM_COLORSELECTOR_PALETTE))
+    bt = Button(win, text="Palette", size_hint_align=FILL_AND_ALIGN_TOP,
+        size_hint_weight=EXPAND_HORIZ
+        )
+    bt.callback_clicked_add(lambda btn: cs.mode_set(ELM_COLORSELECTOR_PALETTE))
     hbox.pack_end(bt)
     bt.show()
 
-    bt = Button(win)
-    bt.text = "Components"
-    bt.size_hint_align = (evas.EVAS_HINT_FILL, 0.0)
-    bt.size_hint_weight = (evas.EVAS_HINT_EXPAND, 0.0)
-    bt.callback_clicked_add(lambda btn: cs.mode_set(elementary.ELM_COLORSELECTOR_COMPONENTS))
+    bt = Button(win, text="Components", size_hint_align=FILL_AND_ALIGN_TOP,
+        size_hint_weight=EXPAND_HORIZ
+        )
+    bt.callback_clicked_add(lambda btn: cs.mode_set(ELM_COLORSELECTOR_COMPONENTS))
     hbox.pack_end(bt)
     bt.show()
 
-    bt = Button(win)
-    bt.text = "Both"
-    bt.size_hint_align = (evas.EVAS_HINT_FILL, 0.0)
-    bt.size_hint_weight = (evas.EVAS_HINT_EXPAND, 0.0)
-    bt.callback_clicked_add(lambda btn: cs.mode_set(elementary.ELM_COLORSELECTOR_BOTH))
+    bt = Button(win, text="Both", size_hint_align=FILL_AND_ALIGN_TOP,
+        size_hint_weight=EXPAND_HORIZ
+        )
+    bt.callback_clicked_add(lambda btn: cs.mode_set(ELM_COLORSELECTOR_BOTH))
     hbox.pack_end(bt)
     bt.show()
 
-    win.resize(320, 550)
     win.show()
 
 

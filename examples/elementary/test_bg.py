@@ -14,6 +14,9 @@ from efl.elementary.list import List
 EXPAND_BOTH = EVAS_HINT_EXPAND, EVAS_HINT_EXPAND
 FILL_BOTH = EVAS_HINT_FILL, EVAS_HINT_FILL
 
+img_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), "images")
+ic_file = os.path.join(img_path, "plant_01.jpg")
+
 def bg_plain_clicked(obj, item=None):
     win = Window("bg plain", ELM_WIN_BASIC, title="Bg Plain", autodel=True,
         size=(320, 320)
@@ -31,7 +34,7 @@ def bg_image_clicked(obj, item=None):
         size=(320, 320), size_hint_min=(160, 160), size_hint_max=(320,320)
         )
 
-    bg = Background(win, file="images/plant_01.jpg", option=ELM_BG_OPTION_SCALE,
+    bg = Background(win, file=ic_file, option=ELM_BG_OPTION_SCALE,
         size_hint_weight=EXPAND_BOTH
         )
     win.resize_object_add(bg)
@@ -45,14 +48,9 @@ def bg_image_clicked(obj, item=None):
 
 
 if __name__ == "__main__":
-    def destroy(obj):
-        elementary.exit()
-
     elementary.init()
-    win = StandardWindow("test", "python-elementary test application",
-        size=(320,520)
-        )
-    win.callback_delete_request_add(destroy)
+    win = StandardWindow("test", "python-elementary test application", size=(320,520))
+    win.callback_delete_request_add(lambda x: elementary.exit())
 
     box0 = Box(win, size_hint_weight=EXPAND_BOTH)
     win.resize_object_add(box0)

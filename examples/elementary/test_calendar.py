@@ -1,15 +1,20 @@
 #!/usr/bin/env python
 # encoding: utf-8
 
-from efl import evas
+from efl.evas import EVAS_HINT_EXPAND, EVAS_HINT_FILL
 from efl import elementary
 from efl.elementary.window import StandardWindow
 from efl.elementary.box import Box
 from efl.elementary.button import Button
-from efl.elementary.calendar_elm import Calendar
+from efl.elementary.calendar_elm import Calendar, \
+    ELM_DAY_MONDAY, ELM_DAY_THURSDAY, ELM_DAY_SATURDAY, \
+    ELM_CALENDAR_UNIQUE, ELM_CALENDAR_DAILY, ELM_CALENDAR_WEEKLY, \
+    ELM_CALENDAR_MONTHLY, ELM_CALENDAR_ANNUALLY
 
 from datetime import datetime
 
+EXPAND_BOTH = EVAS_HINT_EXPAND, EVAS_HINT_EXPAND
+FILL_BOTH = EVAS_HINT_FILL, EVAS_HINT_FILL
 
 api = {
     "state" : 0,  # What state we are testing
@@ -33,31 +38,31 @@ def set_api_state(api):
         cal = items[0]
         cal.min_max_year = (2010, 2011)
         the_time = datetime(2010, 12, 31)
-        m = cal.mark_add("checked", the_time, elementary.ELM_CALENDAR_MONTHLY)
+        m = cal.mark_add("checked", the_time, ELM_CALENDAR_MONTHLY)
         cal.selected_time = the_time
     elif api["state"] == STATE_MARK_WEEKLY:
         cal = items[0]
         the_time = datetime(2010, 12, 26)
         if m is not None:
             m.delete()
-        m = cal.mark_add("checked", the_time, elementary.ELM_CALENDAR_WEEKLY)
+        m = cal.mark_add("checked", the_time, ELM_CALENDAR_WEEKLY)
         cal.selected_time = the_time
     elif api["state"] == STATE_SUNDAY_HIGHLIGHT:
         cal = items[0]
         the_time = datetime(2010, 12, 25)
         # elm_calendar_mark_del(m)
-        m = cal.mark_add("holiday", the_time, elementary.ELM_CALENDAR_WEEKLY)
+        m = cal.mark_add("holiday", the_time, ELM_CALENDAR_WEEKLY)
         cal.selected_time = the_time
     elif api["state"] == STATE_SELECT_DATE_DISABLED_WITH_MARKS:
         cal = items[0]
         the_time = datetime(2011, 1, 1)
-        cal.select_mode = elementary.ELM_CALENDAR_SELECT_MODE_NONE
+        cal.select_mode = ELM_CALENDAR_SELECT_MODE_NONE
         cal.selected_time = the_time
     elif api["state"] == STATE_SELECT_DATE_DISABLED_NO_MARKS:
         cal = items[0]
         the_time = datetime(2011, 2, 1)
         del cal.marks
-        cal.select_mode = elementary.ELM_CALENDAR_SELECT_MODE_NONE
+        cal.select_mode = ELM_CALENDAR_SELECT_MODE_NONE
         cal.selected_time = the_time
     elif api["state"] == API_STATE_LAST:
         return
@@ -74,21 +79,19 @@ def api_bt_clicked(bt, a):
 
 # A simple test, just displaying calendar in it's default state
 def calendar_clicked(obj):
-    win = StandardWindow("calendar", "Calendar")
-    win.autodel = True
+    win = StandardWindow("calendar", "Calendar", autodel=True)
+    if obj is None:
+        win.callback_delete_request_add(lambda x:elementary.exit())
 
-    bxx = Box(win)
+    bxx = Box(win, size_hint_weight=EXPAND_BOTH)
     win.resize_object_add(bxx)
-    bxx.size_hint_weight_set(evas.EVAS_HINT_EXPAND, evas.EVAS_HINT_EXPAND)
     bxx.show()
 
-    bx = Box(win)
-    bx.size_hint_weight_set(evas.EVAS_HINT_EXPAND, evas.EVAS_HINT_EXPAND)
+    bx = Box(win, size_hint_weight=EXPAND_BOTH)
     api["box"] = bx
     bx.show()
 
-    bt = Button(win)
-    bt.text = "Next API function"
+    bt = Button(win, text="Next API function")
     bt.callback_clicked_add(api_bt_clicked, api)
     bxx.pack_end(bt)
     if api["state"] == API_STATE_LAST:
@@ -97,14 +100,12 @@ def calendar_clicked(obj):
 
     bxx.pack_end(bx)
 
-    cal = Calendar(win)
-    cal.first_day_of_week = elementary.ELM_DAY_MONDAY
-    cal.size_hint_weight_set(evas.EVAS_HINT_EXPAND, evas.EVAS_HINT_EXPAND)
-    bx.pack_end(cal)
-
     the_time = datetime(2010, 12, 31)
-    cal.selected_time = the_time
-    cal.min_max_year = (2010, 2012)
+    cal = Calendar(win, first_day_of_week=ELM_DAY_MONDAY,
+        size_hint_weight=EXPAND_BOTH, selected_time=the_time,
+        min_max_year=(2010,2012)
+        )
+    bx.pack_end(cal)
 
     cal.show()
 

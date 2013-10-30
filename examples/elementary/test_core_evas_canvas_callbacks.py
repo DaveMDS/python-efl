@@ -2,6 +2,12 @@
 # encoding: utf-8
 
 from efl import evas
+
+# edje is imported because the canvas callbacks point to an edje obj,
+# an instance cannot be created unless the class is available.
+# (it's not mapped in efl.eo object_mapping)
+from efl import edje
+
 from efl import elementary
 from efl.elementary.window import Window
 from efl.elementary.background import Background

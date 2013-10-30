@@ -1,66 +1,49 @@
 #!/usr/bin/env python
 # encoding: utf-8
 
-from efl import evas
+from efl.evas import EVAS_HINT_EXPAND
 from efl import elementary
-from efl.elementary.window import Window
-from efl.elementary.background import Background
+from efl.elementary.window import StandardWindow
 from efl.elementary.box import Box
 from efl.elementary.clock import Clock
 
+EXPAND_BOTH = EVAS_HINT_EXPAND, EVAS_HINT_EXPAND
+
 def clock_clicked(obj):
-    win = Window("clock", elementary.ELM_WIN_BASIC)
-    win.title_set("Clock")
-    win.autodel_set(True)
+    win = StandardWindow("clock", "Clock", autodel=True)
     if obj is None:
         win.callback_delete_request_add(lambda o: elementary.exit())
 
-    bg = Background(win)
-    win.resize_object_add(bg)
-    bg.size_hint_weight_set(evas.EVAS_HINT_EXPAND, evas.EVAS_HINT_EXPAND)
-    bg.show()
-
-    bx = Box(win)
+    bx = Box(win, size_hint_weight=EXPAND_BOTH)
     win.resize_object_add(bx)
-    bx.size_hint_weight_set(evas.EVAS_HINT_EXPAND, evas.EVAS_HINT_EXPAND)
     bx.show()
 
     ck = Clock(win)
     bx.pack_end(ck)
     ck.show()
 
-    ck = Clock(win)
-    ck.show_am_pm_set(True)
+    ck = Clock(win, show_am_pm=True)
     bx.pack_end(ck)
     ck.show()
 
     print((ck.time_get()))
 
-    ck = Clock(win)
-    ck.show_seconds_set(True)
+    ck = Clock(win, show_seconds=True)
     bx.pack_end(ck)
     ck.show()
 
-    ck = Clock(win)
-    ck.show_seconds_set(True)
-    ck.show_am_pm_set(True)
+    ck = Clock(win, show_seconds=True, show_am_pm=True)
     bx.pack_end(ck)
     ck.show()
 
-    ck = Clock(win)
-    ck.edit_set(True)
-    ck.show_seconds_set(True)
-    ck.show_am_pm_set(True)
-    ck.time_set(10, 11, 12)
+    ck = Clock(win, edit=True, show_seconds=True, show_am_pm=True, time=(10, 11, 12))
     bx.pack_end(ck)
     ck.show()
 
-    ck = Clock(win)
-    ck.edit_set(True)
-    ck.show_seconds_set(True)
-    ck.edit_mode = elementary.ELM_CLOCK_EDIT_HOUR_DECIMAL | \
-                   elementary.ELM_CLOCK_EDIT_MIN_DECIMAL | \
-                   elementary.ELM_CLOCK_EDIT_SEC_DECIMAL
+    ck = Clock(win, edit=True, show_seconds=True, edit_mode = \
+        elementary.ELM_CLOCK_EDIT_HOUR_DECIMAL | \
+        elementary.ELM_CLOCK_EDIT_MIN_DECIMAL | \
+        elementary.ELM_CLOCK_EDIT_SEC_DECIMAL)
     bx.pack_end(ck)
     ck.show()
 

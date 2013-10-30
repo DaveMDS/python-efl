@@ -1,6 +1,8 @@
 #!/usr/bin/env python
 # encoding: utf-8
 
+import os
+
 from efl.evas import EVAS_HINT_EXPAND, EVAS_HINT_FILL, Image, Map
 from efl import elementary
 from efl.elementary.window import StandardWindow
@@ -10,6 +12,9 @@ from efl.elementary.slider import Slider
 EXPAND_BOTH = EVAS_HINT_EXPAND, EVAS_HINT_EXPAND
 FILL_BOTH = EVAS_HINT_FILL, EVAS_HINT_FILL
 FILL_HORIZ = EVAS_HINT_FILL, 0.5
+
+img_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), "images")
+ic_file = os.path.join(img_path, "rock_02.jpg")
 
 class Point(object):
     def __init__(self, x, y, z, u, v):
@@ -26,7 +31,7 @@ class Side(object):
         self.points = []
 
         img = Image(eva)
-        img.file = "images/rock_02.jpg",
+        img.file = ic_file
         img.fill = (0, 0, 256, 256)
         img.smooth_scale = False
         img.resize(256, 256)

@@ -1,6 +1,8 @@
 #!/usr/bin/env python
 # encoding: utf-8
 
+import os
+
 from efl.evas import EVAS_HINT_FILL, EVAS_HINT_EXPAND, \
     EVAS_ASPECT_CONTROL_VERTICAL
 from efl import elementary
@@ -22,6 +24,7 @@ FILL_BOTH = EVAS_HINT_FILL, EVAS_HINT_FILL
 
 config = Configuration()
 
+img_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), "images")
 
 def cleanup_cb(obj):
     config.access = False
@@ -36,7 +39,7 @@ class GLItC1(GenlistItemClass):
                 size_hint_align=FILL_BOTH, size_hint_weight=EXPAND_BOTH,
                 )
         else:
-            bt = Icon(gl, file="images/logo_small.png",
+            bt = Icon(gl, file=os.path.join(img_path, "logo_small.png")
                 size_hint_aspect=(EVAS_ASPECT_CONTROL_VERTICAL, 1, 1)
                 )
 
@@ -68,7 +71,8 @@ class GLItC2(GenlistItemClass):
 class GGItC(GengridItemClass):
     def content_get(self, gg, part, data):
         if not part == "elm.swallow.icon":
-            ic = Icon(gg, scale=0.5, file="images/icon_%02i.png" % (data % 4),
+            ic = Icon(gg, scale=0.5,
+                file=os.path.join(img_path, "icon_%02i.png" % (data % 4)),
                 resizable=(0, 0),
                 size_hint_weight=EXPAND_BOTH, size_hint_align=(0.5, 0.5)
                 )
