@@ -128,12 +128,12 @@ if set(("build", "build_ext", "install", "bdist", "sdist")) & set(sys.argv):
     modules.append(edje_ext)
 
     # Edje_Edit
-    edje_edit_ext = Extension("edje_edit", ["efl/edje/efl.edje_edit"+module_suffix],
-                            define_macros = [('EDJE_EDIT_IS_UNSTABLE_AND_I_KNOW_ABOUT_IT', None)],
-                            include_dirs = ['include/'],
-                            extra_compile_args = edje_cflags,
-                            extra_link_args = edje_libs + eina_libs + evas_libs)
-    modules.append(edje_edit_ext)
+    # edje_edit_ext = Extension("edje_edit", ["efl/edje/efl.edje_edit"+module_suffix],
+    #                         define_macros = [('EDJE_EDIT_IS_UNSTABLE_AND_I_KNOW_ABOUT_IT', None)],
+    #                         include_dirs = ['include/'],
+    #                         extra_compile_args = edje_cflags,
+    #                         extra_link_args = edje_libs + eina_libs + evas_libs)
+    # modules.append(edje_edit_ext)
 
     # Emotion
     emotion_cflags, emotion_libs = pkg_config('Emotion', 'emotion', "1.7.99")
