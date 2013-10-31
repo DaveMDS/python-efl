@@ -71,11 +71,10 @@ def actionslider_clicked(obj):
     win.resize_object_add(bx)
     bx.show()
 
-    acts = Actionslider(win,
-        size_hint_weight=EXPAND_HORIZ, size_hint_align=(EVAS_HINT_FILL, 0.0),
+    acts = Actionslider(win, size_hint_weight=EXPAND_HORIZ,
+        size_hint_align=(EVAS_HINT_FILL, 0.0),
         indicator_pos=ELM_ACTIONSLIDER_RIGHT, magnet_pos=ELM_ACTIONSLIDER_RIGHT,
-        enabled_pos=(ELM_ACTIONSLIDER_LEFT | ELM_ACTIONSLIDER_RIGHT)
-        )
+        enabled_pos=(ELM_ACTIONSLIDER_LEFT | ELM_ACTIONSLIDER_RIGHT))
     acts.part_text_set("left", "Snooze")
     acts.part_text_set("center", "")
     acts.part_text_set("right", "Stop")
@@ -84,12 +83,11 @@ def actionslider_clicked(obj):
     bx.pack_end(acts)
     acts.show()
 
-    acts = Actionslider(win,
-        size_hint_weight=EXPAND_HORIZ, size_hint_align=(EVAS_HINT_FILL, 0.0),
+    acts = Actionslider(win, size_hint_weight=EXPAND_HORIZ,
+        size_hint_align=(EVAS_HINT_FILL, 0.0),
         indicator_pos=ELM_ACTIONSLIDER_CENTER,
         magnet_pos=ELM_ACTIONSLIDER_CENTER,
-        enabled_pos=(ELM_ACTIONSLIDER_LEFT | ELM_ACTIONSLIDER_RIGHT)
-        )
+        enabled_pos=(ELM_ACTIONSLIDER_LEFT | ELM_ACTIONSLIDER_RIGHT))
     acts.part_text_set("left", "Snooze")
     acts.part_text_set("center", "")
     acts.part_text_set("right", "Stop")
@@ -97,12 +95,11 @@ def actionslider_clicked(obj):
     bx.pack_end(acts)
     acts.show()
 
-    acts = Actionslider(win, style="bar",
-        size_hint_weight=EXPAND_HORIZ, size_hint_align=(EVAS_HINT_FILL, 0.0),
+    acts = Actionslider(win, style="bar", size_hint_weight=EXPAND_HORIZ,
+        size_hint_align=(EVAS_HINT_FILL, 0.0),
         indicator_pos=ELM_ACTIONSLIDER_LEFT,
         magnet_pos=(ELM_ACTIONSLIDER_CENTER | ELM_ACTIONSLIDER_RIGHT),
-        enabled_pos=(ELM_ACTIONSLIDER_CENTER | ELM_ACTIONSLIDER_RIGHT)
-        )
+        enabled_pos=(ELM_ACTIONSLIDER_CENTER | ELM_ACTIONSLIDER_RIGHT))
     acts.part_text_set("left", "")
     acts.part_text_set("center", "Accept")
     acts.part_text_set("right", "Reject")
@@ -112,8 +109,7 @@ def actionslider_clicked(obj):
 
     acts = Actionslider(win, style="bar", text="Go",
         size_hint_weight=EXPAND_HORIZ, size_hint_align=(EVAS_HINT_FILL, 0.0),
-        indicator_pos=ELM_ACTIONSLIDER_LEFT, magnet_pos=ELM_ACTIONSLIDER_LEFT,
-        )
+        indicator_pos=ELM_ACTIONSLIDER_LEFT, magnet_pos=ELM_ACTIONSLIDER_LEFT)
     acts.part_text_set("left", "")
     acts.part_text_set("center", "Accept")
     acts.part_text_set("right", "Reject")
@@ -122,10 +118,9 @@ def actionslider_clicked(obj):
     bx.pack_end(acts)
     acts.show()
 
-    acts = Actionslider(win,
-        size_hint_weight=EXPAND_HORIZ, size_hint_align=(EVAS_HINT_FILL, 0.0),
-        indicator_pos=ELM_ACTIONSLIDER_LEFT, magnet_pos=ELM_ACTIONSLIDER_ALL
-        )
+    acts = Actionslider(win, size_hint_weight=EXPAND_HORIZ,
+        size_hint_align=(EVAS_HINT_FILL, 0.0),
+        indicator_pos=ELM_ACTIONSLIDER_LEFT, magnet_pos=ELM_ACTIONSLIDER_ALL)
     acts.part_text_set("left", "Left")
     acts.part_text_set("center", "Center")
     acts.part_text_set("right", "Right")
@@ -134,11 +129,10 @@ def actionslider_clicked(obj):
     bx.pack_end(acts)
     acts.show()
 
-    acts = Actionslider(win,
-        size_hint_weight=EXPAND_HORIZ, size_hint_align=(EVAS_HINT_FILL, 0.0),
+    acts = Actionslider(win, size_hint_weight=EXPAND_HORIZ,
+        size_hint_align=(EVAS_HINT_FILL, 0.0),
         indicator_pos=ELM_ACTIONSLIDER_CENTER,
-        magnet_pos=ELM_ACTIONSLIDER_CENTER
-        )
+        magnet_pos=ELM_ACTIONSLIDER_CENTER)
     acts.part_text_set("left", "Enable")
     acts.part_text_set("center", "Magnet")
     acts.part_text_set("right", "Disable")

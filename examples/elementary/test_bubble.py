@@ -31,19 +31,21 @@ def bubble_clicked(obj, item=None):
     bx.show()
 
     # bb 1
-    ic = Icon(win, file=ic_file, size_hint_aspect=(EVAS_ASPECT_CONTROL_VERTICAL, 1, 1))
+    ic = Icon(win, file=ic_file,
+        size_hint_aspect=(EVAS_ASPECT_CONTROL_VERTICAL, 1, 1))
     lb = Label(win, text="Blah, Blah, Blah")
 
     bb = Bubble(win, text = "Message 1", content = lb,
-        pos = ELM_BUBBLE_POS_TOP_LEFT,
-        size_hint_weight = EXPAND_BOTH, size_hint_align = FILL_BOTH)
+        pos = ELM_BUBBLE_POS_TOP_LEFT, size_hint_weight = EXPAND_BOTH,
+        size_hint_align = FILL_BOTH)
     bb.part_text_set("info", "Corner: top_left")
     bb.part_content_set("icon", ic)
     bx.pack_end(bb)
     bb.show()
 
     # bb 2
-    ic = Icon(win, file=ic_file, size_hint_aspect=(EVAS_ASPECT_CONTROL_VERTICAL, 1, 1))
+    ic = Icon(win, file=ic_file,
+        size_hint_aspect=(EVAS_ASPECT_CONTROL_VERTICAL, 1, 1))
     lb = Label(win, text="Blah, Blah, Blah")
 
     bb = Bubble(win, text = "Message 2", content = lb,
@@ -55,7 +57,8 @@ def bubble_clicked(obj, item=None):
     bb.show()
 
     # bb 3
-    ic = Icon(win, file=ic_file, size_hint_aspect=(EVAS_ASPECT_CONTROL_VERTICAL, 1, 1))
+    ic = Icon(win, file=ic_file,
+        size_hint_aspect=(EVAS_ASPECT_CONTROL_VERTICAL, 1, 1))
     lb = Label(win, text="Blah, Blah, Blah")
 
     bb = Bubble(win, text = "Message 3", content = ic,
@@ -66,7 +69,8 @@ def bubble_clicked(obj, item=None):
     bb.show()
 
     # bb 4
-    ic = Icon(win, file=ic_file, size_hint_aspect=(EVAS_ASPECT_CONTROL_VERTICAL, 1, 1))
+    ic = Icon(win, file=ic_file,
+        size_hint_aspect=(EVAS_ASPECT_CONTROL_VERTICAL, 1, 1))
     lb = Label(win, text="Blah, Blah, Blah")
 
     bb = Bubble(win, text = "Message 4", content = lb,
@@ -82,7 +86,8 @@ def bubble_clicked(obj, item=None):
 
 if __name__ == "__main__":
     elementary.init()
-    win = StandardWindow("test", "python-elementary test application", size=(320,520))
+    win = StandardWindow("test", "python-elementary test application",
+        size=(320,520))
     win.callback_delete_request_add(lambda x: elementary.exit())
 
     box0 = Box(win, size_hint_weight=EXPAND_BOTH)

@@ -19,8 +19,7 @@ ic_file = os.path.join(img_path, "plant_01.jpg")
 
 def bg_plain_clicked(obj, item=None):
     win = Window("bg plain", ELM_WIN_BASIC, title="Bg Plain", autodel=True,
-        size=(320, 320)
-        )
+        size=(320, 320))
 
     bg = Background(win, size_hint_weight=EXPAND_BOTH)
     win.resize_object_add(bg)
@@ -31,12 +30,10 @@ def bg_plain_clicked(obj, item=None):
 
 def bg_image_clicked(obj, item=None):
     win = Window("bg-image", ELM_WIN_BASIC, title="Bg Image", autodel=True,
-        size=(320, 320), size_hint_min=(160, 160), size_hint_max=(320,320)
-        )
+        size=(320, 320), size_hint_min=(160, 160), size_hint_max=(320,320))
 
     bg = Background(win, file=ic_file, option=ELM_BG_OPTION_SCALE,
-        size_hint_weight=EXPAND_BOTH
-        )
+        size_hint_weight=EXPAND_BOTH)
     win.resize_object_add(bg)
     bg.show()
 

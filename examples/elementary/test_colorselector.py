@@ -42,8 +42,7 @@ def cb_cs_item_lp(cs, item, rect):
 
 def colorselector_clicked(obj):
     win = StandardWindow("colorselector", "ColorSelector test",
-        autodel=True, size=(350,350)
-        )
+        autodel=True, size=(350,350))
     if obj is None:
         win.callback_delete_request_add(lambda o: elementary.exit())
 
@@ -56,23 +55,19 @@ def colorselector_clicked(obj):
     re.show()
 
     fr = Frame(win, text="Color View", content=re,
-        size_hint_weight=EXPAND_HORIZ,
-        size_hint_align=FILL_BOTH
-        )
+        size_hint_weight=EXPAND_HORIZ, size_hint_align=FILL_BOTH)
     vbox.pack_end(fr)
     fr.show()
 
     cs = Colorselector(win, size_hint_weight=EXPAND_BOTH,
-        size_hint_align=FILL_BOTH, color=(255, 160, 132, 255)
-        )
+        size_hint_align=FILL_BOTH, color=(255, 160, 132, 255))
     cs.callback_changed_add(cb_cs_changed, re)
     cs.callback_color_item_selected_add(cb_cs_item_sel, re)
     cs.callback_color_item_longpressed_add(cb_cs_item_lp, re)
     cs.show()
 
     fr = Frame(win, text="Color Selector", content=cs,
-        size_hint_weight=EXPAND_BOTH, size_hint_align=FILL_BOTH
-        )
+        size_hint_weight=EXPAND_BOTH, size_hint_align=FILL_BOTH)
     vbox.pack_end(fr)
     fr.show()
 
@@ -91,28 +86,24 @@ def colorselector_clicked(obj):
     cs.palette_color_add(133, 100, 255, 255)
 
     hbox = Box(win, horizontal=True, size_hint_align=FILL_AND_ALIGN_TOP,
-        size_hint_weight=EXPAND_HORIZ
-        )
+        size_hint_weight=EXPAND_HORIZ)
     vbox.pack_end(hbox)
     hbox.show()
 
     bt = Button(win, text="Palette", size_hint_align=FILL_AND_ALIGN_TOP,
-        size_hint_weight=EXPAND_HORIZ
-        )
+        size_hint_weight=EXPAND_HORIZ)
     bt.callback_clicked_add(lambda btn: cs.mode_set(ELM_COLORSELECTOR_PALETTE))
     hbox.pack_end(bt)
     bt.show()
 
     bt = Button(win, text="Components", size_hint_align=FILL_AND_ALIGN_TOP,
-        size_hint_weight=EXPAND_HORIZ
-        )
+        size_hint_weight=EXPAND_HORIZ)
     bt.callback_clicked_add(lambda btn: cs.mode_set(ELM_COLORSELECTOR_COMPONENTS))
     hbox.pack_end(bt)
     bt.show()
 
     bt = Button(win, text="Both", size_hint_align=FILL_AND_ALIGN_TOP,
-        size_hint_weight=EXPAND_HORIZ
-        )
+        size_hint_weight=EXPAND_HORIZ)
     bt.callback_clicked_add(lambda btn: cs.mode_set(ELM_COLORSELECTOR_BOTH))
     hbox.pack_end(bt)
     bt.show()

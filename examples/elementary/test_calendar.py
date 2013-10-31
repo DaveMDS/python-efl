@@ -103,8 +103,7 @@ def calendar_clicked(obj):
     the_time = datetime(2010, 12, 31)
     cal = Calendar(win, first_day_of_week=ELM_DAY_MONDAY,
         size_hint_weight=EXPAND_BOTH, selected_time=the_time,
-        min_max_year=(2010,2012)
-        )
+        min_max_year=(2010,2012))
     bx.pack_end(cal)
 
     cal.show()

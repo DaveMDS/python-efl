@@ -48,8 +48,7 @@ def box_vert2_clicked(obj, item=None):
 
     for i in range(5):
         bt = Button(win, text="Button %d" % i,
-            size_hint_align=FILL_BOTH, size_hint_weight=(0.0, 0.0)
-            )
+            size_hint_align=FILL_BOTH, size_hint_weight=(0.0, 0.0))
         bt.callback_clicked_add(boxvert2_del_cb, bx)
         bx.pack_end(bt)
         bt.show()
@@ -73,7 +72,8 @@ def box_horiz_clicked(obj, item=None):
 
 layout_list = ["horizontal","vertical","homogeneous_vertical",
     "homogeneous_horizontal", "homogeneous_max_size_horizontal",
-    "homogeneous_max_size_vertical", "flow_horizontal", "flow_vertical", "stack"]
+    "homogeneous_max_size_vertical", "flow_horizontal", "flow_vertical",
+    "stack"]
 current_layout = ELM_BOX_LAYOUT_HORIZONTAL
 
 
@@ -109,7 +109,8 @@ def box_layout_clicked(obj, item=None):
     bt.show()
 
     for i in range(5):
-        ic = Icon(win, file=ic_file, resizable=(0, 0), size_hint_align=(0.5, 0.5))
+        ic = Icon(win, file=ic_file, resizable=(0, 0),
+            size_hint_align=(0.5, 0.5))
         bx.pack_end(ic)
         ic.show()
 
@@ -159,7 +160,8 @@ def box_transition_clicked(obj, item=None):
     bt.show()
 
     for i in range(4):
-        ic = Icon(win, file=ic_file, resizable=(0, 0), size_hint_align=(0.5, 0.5))
+        ic = Icon(win, file=ic_file, resizable=(0, 0),
+            size_hint_align=(0.5, 0.5))
         bx.pack_end(ic)
         ic.show()
 
@@ -168,7 +170,8 @@ def box_transition_clicked(obj, item=None):
 
 if __name__ == "__main__":
     elementary.init()
-    win = StandardWindow("test", "python-elementary test application", size=(320,520))
+    win = StandardWindow("test", "python-elementary test application",
+        size=(320,520))
     win.callback_delete_request_add(lambda x: elementary.exit())
 
     box0 = Box(win, size_hint_weight=EXPAND_BOTH)

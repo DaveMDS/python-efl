@@ -36,7 +36,8 @@ def clock_clicked(obj):
     bx.pack_end(ck)
     ck.show()
 
-    ck = Clock(win, edit=True, show_seconds=True, show_am_pm=True, time=(10, 11, 12))
+    ck = Clock(win, edit=True, show_seconds=True, show_am_pm=True,
+        time=(10, 11, 12))
     bx.pack_end(ck)
     ck.show()
 

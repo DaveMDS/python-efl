@@ -35,13 +35,11 @@ class GLItC1(GenlistItemClass):
 
     def content_get(self, gl, part, data):
         if not part == "elm.swallow.end":
-            bt = Button(gl, text="OK",
-                size_hint_align=FILL_BOTH, size_hint_weight=EXPAND_BOTH,
-                )
+            bt = Button(gl, text="OK", size_hint_align=FILL_BOTH,
+                size_hint_weight=EXPAND_BOTH)
         else:
-            bt = Icon(gl, file=os.path.join(img_path, "logo_small.png")
-                size_hint_aspect=(EVAS_ASPECT_CONTROL_VERTICAL, 1, 1)
-                )
+            bt = Icon(gl, file=os.path.join(img_path, "logo_small.png"),
+                size_hint_aspect=(EVAS_ASPECT_CONTROL_VERTICAL, 1, 1))
 
         return bt
 
@@ -51,8 +49,7 @@ class GLItC2(GenlistItemClass):
 
         grid = Gengrid(gl, horizontal=False, reorder_mode=True,
             item_size=(config.scale * 100, config.scale * 100),
-            size_hint_weight=EXPAND_BOTH, size_hint_align=FILL_BOTH
-            )
+            size_hint_weight=EXPAND_BOTH, size_hint_align=FILL_BOTH)
 
         gic = GGItC(item_style="default")
 
@@ -73,9 +70,8 @@ class GGItC(GengridItemClass):
         if not part == "elm.swallow.icon":
             ic = Icon(gg, scale=0.5,
                 file=os.path.join(img_path, "icon_%02i.png" % (data % 4)),
-                resizable=(0, 0),
-                size_hint_weight=EXPAND_BOTH, size_hint_align=(0.5, 0.5)
-                )
+                resizable=(0, 0), size_hint_weight=EXPAND_BOTH,
+                size_hint_align=(0.5, 0.5))
             ic.show()
             return ic
 
@@ -111,8 +107,7 @@ def access_clicked(obj, item=None):
     config.access = True
 
     bx = Box(win, size_hint_weight=EXPAND_BOTH, homogeneous=True,
-        horizontal=True
-        )
+        horizontal=True)
     win.resize_object_add(bx)
     bx.show()
 
@@ -292,25 +287,23 @@ def access_clicked(obj, item=None):
 
 if __name__ == "__main__":
     elementary.init()
-    win = StandardWindow("test", "python-elementary test application")
+    win = StandardWindow("test", "python-elementary test application",
+        size=(320,520))
     win.callback_delete_request_add(lambda o: elementary.exit())
 
-    box0 = Box(win)
-    box0.size_hint_weight_set(EVAS_HINT_EXPAND, EVAS_HINT_EXPAND)
+    box0 = Box(win, size_hint_weight=EXPAND_BOTH)
     win.resize_object_add(box0)
     box0.show()
-
-    fr = Frame(win)
-    fr.text_set("Information")
-    box0.pack_end(fr)
-    fr.show()
 
     lb = Label(win)
     lb.text_set("Please select a test from the list below<br>"
                  "by clicking the test button to show the<br>"
                  "test window.")
-    fr.content_set(lb)
     lb.show()
+
+    fr = Frame(win, text="Information", content=lb)
+    box0.pack_end(fr)
+    fr.show()
 
     items = [
         ("Access 1", access_clicked),
@@ -318,9 +311,7 @@ if __name__ == "__main__":
         #("Access 3", accesst3_clicked),
     ]
 
-    li = List(win)
-    li.size_hint_weight_set(EVAS_HINT_EXPAND, EVAS_HINT_EXPAND)
-    li.size_hint_align_set(EVAS_HINT_FILL, EVAS_HINT_FILL)
+    li = List(win, size_hint_weight=EXPAND_BOTH, size_hint_align=FILL_BOTH)
     box0.pack_end(li)
     li.show()
 
@@ -329,7 +320,6 @@ if __name__ == "__main__":
 
     li.go()
 
-    win.resize(320,520)
     win.show()
     elementary.run()
     elementary.shutdown()

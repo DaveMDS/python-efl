@@ -1,9 +1,9 @@
 #!/usr/bin/env python
 # encoding: utf-8
 
-from efl import evas
+from efl.evas import EVAS_HINT_EXPAND, EVAS_HINT_FILL
 from efl import elementary
-from efl.elementary.window import Window, StandardWindow
+from efl.elementary.window import StandardWindow
 from efl.elementary.background import Background
 from efl.elementary.box import Box
 from efl.elementary.button import Button
@@ -14,14 +14,21 @@ from efl.elementary.frame import Frame
 from efl.elementary.label import Label
 from efl.elementary.separator import Separator
 from efl.elementary.icon import Icon
-from efl.elementary.scroller import Scrollable
+from efl.elementary.scroller import Scrollable, ELM_SCROLLER_POLICY_OFF, \
+    ELM_SCROLLER_POLICY_ON
+
+EXPAND_BOTH = EVAS_HINT_EXPAND, EVAS_HINT_EXPAND
+EXPAND_HORIZ = EVAS_HINT_EXPAND, 0.0
+FILL_BOTH = EVAS_HINT_FILL, EVAS_HINT_FILL
+FILL_HORIZ = EVAS_HINT_FILL, 0.5
+
+SCROLL_POLICY_OFF = ELM_SCROLLER_POLICY_OFF, ELM_SCROLLER_POLICY_OFF
+SCROLL_POLICY_ON = ELM_SCROLLER_POLICY_ON, ELM_SCROLLER_POLICY_ON
 
 class ScrollableEntry(Scrollable, Entry):
     def __init__(self, canvas, *args, **kwargs):
-        Entry.__init__(self, canvas)
+        Entry.__init__(self, canvas, *args, **kwargs)
         self.scrollable = True
-
-from efl.evas import EVAS_HINT_EXPAND, EVAS_HINT_FILL
 
 def my_entry_bt_1(bt, en):
     en.entry_set("")
@@ -42,22 +49,14 @@ def my_entry_anchor_test(obj, anchor, en, *args, **kwargs):
 
 
 def entry_clicked(obj, item=None):
-    win = Window("entry", elementary.ELM_WIN_BASIC)
-    win.title_set("Entry")
-    win.autodel_set(True)
+    win = StandardWindow("entry", "Entry", autodel=True)
 
-    bg = Background(win)
-    win.resize_object_add(bg)
-    bg.size_hint_weight_set(evas.EVAS_HINT_EXPAND, evas.EVAS_HINT_EXPAND)
-    bg.show()
-
-    bx = Box(win)
+    bx = Box(win, size_hint_weight=EXPAND_BOTH)
     win.resize_object_add(bx)
-    bx.size_hint_weight_set(evas.EVAS_HINT_EXPAND, evas.EVAS_HINT_EXPAND)
     bx.show()
 
-    en = Entry(win)
-    en.line_wrap_set(False)
+    en = Entry(win, line_wrap=False, size_hint_weight=EXPAND_BOTH,
+        size_hint_align=FILL_BOTH)
     en.entry_set("This is an entry widget in this window that<br>"
                  "uses markup <b>like this</> for styling and<br>"
                  "formatting <em>like this</>, as well as<br>"
@@ -66,45 +65,33 @@ def entry_clicked(obj, item=None):
                  "called <a href=anc-02>Anchors</a> so you will need<br>"
                  "to refer to them this way.")
     en.callback_anchor_clicked_add(my_entry_anchor_test, en)
-    en.size_hint_weight_set(evas.EVAS_HINT_EXPAND, evas.EVAS_HINT_EXPAND)
-    en.size_hint_align_set(evas.EVAS_HINT_FILL, evas.EVAS_HINT_FILL)
     bx.pack_end(en)
     en.show()
 
-    bx2 = Box(win)
-    bx2.horizontal_set(True)
-    bx2.size_hint_weight_set(evas.EVAS_HINT_EXPAND, 0.0)
-    bx2.size_hint_align_set(evas.EVAS_HINT_FILL, evas.EVAS_HINT_FILL)
+    bx2 = Box(win, horizontal=True, size_hint_weight=EXPAND_HORIZ,
+        size_hint_align=FILL_BOTH)
 
-    bt = Button(win)
-    bt.text_set("Clear")
+    bt = Button(win, text="Clear", size_hint_weight=EXPAND_HORIZ,
+        size_hint_align=FILL_BOTH)
     bt.callback_clicked_add(my_entry_bt_1, en)
-    bt.size_hint_align_set(evas.EVAS_HINT_FILL, evas.EVAS_HINT_FILL)
-    bt.size_hint_weight_set(evas.EVAS_HINT_EXPAND, 0.0)
     bx2.pack_end(bt)
     bt.show()
 
-    bt = Button(win)
-    bt.text_set("Print")
+    bt = Button(win, text="Print", size_hint_weight=EXPAND_HORIZ,
+        size_hint_align=FILL_BOTH)
     bt.callback_clicked_add(my_entry_bt_2, en)
-    bt.size_hint_align_set(evas.EVAS_HINT_FILL, evas.EVAS_HINT_FILL)
-    bt.size_hint_weight_set(evas.EVAS_HINT_EXPAND, 0.0)
     bx2.pack_end(bt)
     bt.show()
 
-    bt = Button(win)
-    bt.text_set("Selection")
+    bt = Button(win, text="Selection", size_hint_weight=EXPAND_HORIZ,
+        size_hint_align=FILL_BOTH)
     bt.callback_clicked_add(my_entry_bt_3, en)
-    bt.size_hint_align_set(evas.EVAS_HINT_FILL, evas.EVAS_HINT_FILL)
-    bt.size_hint_weight_set(evas.EVAS_HINT_EXPAND, 0.0)
     bx2.pack_end(bt)
     bt.show()
 
-    bt = Button(win)
-    bt.text_set("Insert")
+    bt = Button(win, text="Insert", size_hint_weight=EXPAND_HORIZ,
+        size_hint_align=FILL_BOTH)
     bt.callback_clicked_add(my_entry_bt_4, en)
-    bt.size_hint_align_set(evas.EVAS_HINT_FILL, evas.EVAS_HINT_FILL)
-    bt.size_hint_weight_set(evas.EVAS_HINT_EXPAND, 0.0)
     bx2.pack_end(bt)
     bt.show()
 
@@ -162,43 +149,32 @@ def entry_scrolled_clicked(obj, item = None):
     #static Elm_Entry_Filter_Limit_Size limit_filter_data, limit_filter_data2;
 
 
-    win = StandardWindow("entry-scrolled", "Entry Scrolled")
-    win.autodel = True
+    win = StandardWindow("entry-scrolled", "Entry Scrolled", autodel=True,
+        size=(320, 300))
 
-    bx = Box(win)
-    bx.size_hint_weight = EVAS_HINT_EXPAND, EVAS_HINT_EXPAND
+    bx = Box(win, size_hint_weight=EXPAND_BOTH)
     win.resize_object_add(bx)
     bx.show()
 
     # disabled entry
-    en = ScrollableEntry(win)
-    en.size_hint_weight = EVAS_HINT_EXPAND, 0.0
-    en.size_hint_align = EVAS_HINT_FILL, 0.5
-    en.scrollbar_policy = ELM_SCROLLER_POLICY_OFF, ELM_SCROLLER_POLICY_OFF
-    en.text = "Disabled entry"
-    en.single_line = True
-    en.disabled = True
+    en = ScrollableEntry(win, size_hint_weight=EXPAND_HORIZ,
+        size_hint_align=FILL_HORIZ, scrollbar_policy=SCROLL_POLICY_OFF,
+        text="Disabled entry", single_line=True, disabled=True)
     en.show()
     bx.pack_end(en)
 
     # password entry
-    en = ScrollableEntry(win)
-    en.size_hint_weight = EVAS_HINT_EXPAND, 0.0
-    en.size_hint_align = EVAS_HINT_FILL, 0.5
-    en.scrollbar_policy = ELM_SCROLLER_POLICY_OFF, ELM_SCROLLER_POLICY_OFF
-    en.password = True
-    en.single_line = True
-    en.text = "Access denied, give up!"
-    en.disabled = True
+    en = ScrollableEntry(win, size_hint_weight=EXPAND_HORIZ,
+        size_hint_align=FILL_HORIZ, scrollbar_policy=SCROLL_POLICY_OFF,
+        password=True, single_line=True, text="Access denied, give up!",
+        disabled=True)
     en.show()
     bx.pack_end(en)
 
     # multi-line disable entry
-    en = ScrollableEntry(win)
-    en.size_hint_weight = EVAS_HINT_EXPAND, EVAS_HINT_EXPAND
-    en.size_hint_align = EVAS_HINT_FILL, EVAS_HINT_FILL
-    en.scrollbar_policy = ELM_SCROLLER_POLICY_ON, ELM_SCROLLER_POLICY_ON
-    en.disabled = True
+    en = ScrollableEntry(win, size_hint_weight=EXPAND_BOTH,
+        size_hint_align=FILL_BOTH, scrollbar_policy=SCROLL_POLICY_ON,
+        disabled=True)
     en.context_menu_item_add("Hello")
     en.context_menu_item_add("World")
     en.text = "Multi-line disabled entry widget :)<br/>"\
@@ -209,29 +185,22 @@ def entry_scrolled_clicked(obj, item = None):
     en.show()
     bx.pack_end(en)
 
-    sp = Separator(win)
-    sp.horizontal = True
+    sp = Separator(win, horizontal=True)
     bx.pack_end(sp)
     sp.show()
 
     # Single line selected entry
-    en = ScrollableEntry(win)
-    en.size_hint_weight = EVAS_HINT_EXPAND, 0.0
-    en.size_hint_align = EVAS_HINT_FILL, 0.5
-    en.text = "This is a single line"
-    en.scrollbar_policy = ELM_SCROLLER_POLICY_OFF, ELM_SCROLLER_POLICY_OFF
-    en.single_line = True
+    en = ScrollableEntry(win, size_hint_weight=EXPAND_HORIZ,
+        size_hint_align=FILL_HORIZ, text="This is a single line",
+        scrollbar_policy=SCROLL_POLICY_OFF, single_line=True)
     en.select_all()
     en.show()
     bx.pack_end(en)
 
     # Filter test
-    en = ScrollableEntry(win)
-    en.size_hint_weight = EVAS_HINT_EXPAND, 0.0
-    en.size_hint_align = EVAS_HINT_FILL, 0.5
-    en.text = "Filter test"
-    en.scrollbar_policy = ELM_SCROLLER_POLICY_OFF, ELM_SCROLLER_POLICY_OFF
-    en.single_line = True
+    en = ScrollableEntry(win, size_hint_weight=EXPAND_HORIZ,
+        size_hint_align=FILL_HORIZ, text="Filter test",
+        scrollbar_policy=SCROLL_POLICY_OFF, single_line=True)
     en.show()
     bx.pack_end(en)
 
@@ -294,44 +263,30 @@ def entry_scrolled_clicked(obj, item = None):
     # en.markup_filter_append(elm_entry_filter_limit_size, limit_filter_data2)
 
     # Single line password entry
-    en_p = ScrollableEntry(win)
-    en_p.scrollable = True
-    en_p.size_hint_weight = EVAS_HINT_EXPAND, 0.0
-    en_p.size_hint_align = EVAS_HINT_FILL, 0.5
-    en_p.scrollbar_policy = ELM_SCROLLER_POLICY_OFF, ELM_SCROLLER_POLICY_OFF
-    en_p.text = "Password here"
-    en_p.single_line = True
-    en_p.password = True
+    en_p = ScrollableEntry(win, size_hint_weight=EXPAND_HORIZ,
+        size_hint_align=FILL_HORIZ, scrollbar_policy=SCROLL_POLICY_OFF,
+        text="Password here", single_line=True, password=True)
     en_p.show()
     bx.pack_end(en_p)
 
     # entry with icon/end widgets
-    en = ScrollableEntry(win)
-    en.scrollbar_policy = ELM_SCROLLER_POLICY_OFF, ELM_SCROLLER_POLICY_OFF
-    en.single_line = True
-    en.size_hint_weight = EVAS_HINT_EXPAND, EVAS_HINT_EXPAND
-    en.size_hint_align = EVAS_HINT_FILL, EVAS_HINT_FILL
-    bt = Icon(win)
-    bt.standard = "home"
-    bt.size_hint_min = 48, 48
-    bt.color = 128, 0, 0, 128
+    en = ScrollableEntry(win, scrollbar_policy=SCROLL_POLICY_OFF,
+        single_line=True, size_hint_weight=EXPAND_BOTH,
+        size_hint_align=FILL_BOTH, text="entry with icon and end objects")
+    bt = Icon(win, standard="home", size_hint_min=(48, 48),
+        color=(128, 0, 0, 128))
     bt.show()
     en.part_content_set("icon", bt)
-    bt = Icon(win)
-    bt.standard = "delete"
-    bt.color = 128, 0, 0, 128
-    bt.size_hint_min = 48, 48
+    bt = Icon(win, standard="delete", size_hint_min=(48, 48),
+        color=(128, 0, 0, 128))
     bt.show()
     en.part_content_set("end", bt)
-    en.text = "entry with icon and end objects"
     en.show()
     bx.pack_end(en)
 
     # markup entry
-    en = ScrollableEntry(win)
-    en.size_hint_weight = EVAS_HINT_EXPAND, EVAS_HINT_EXPAND
-    en.size_hint_align = EVAS_HINT_FILL, EVAS_HINT_FILL
-    en.scrollbar_policy = ELM_SCROLLER_POLICY_ON, ELM_SCROLLER_POLICY_ON
+    en = ScrollableEntry(win, size_hint_weight=EXPAND_BOTH,
+        size_hint_align=FILL_BOTH, scrollbar_policy=SCROLL_POLICY_ON)
     en.text = "This is an entry widget in this window that<br/>"\
         "uses markup <b>like this</> for styling and<br/>"\
         "formatting <em>like this</>, as well as<br/>"\
@@ -347,158 +302,111 @@ def entry_scrolled_clicked(obj, item = None):
     en.show()
     bx.pack_end(en)
 
-    bx2 = Box(win)
-    bx2.horizontal = True
-    bx2.size_hint_weight = EVAS_HINT_EXPAND, 0.0
-    bx2.size_hint_align = EVAS_HINT_FILL, EVAS_HINT_FILL
+    bx2 = Box(win, horizontal=True, size_hint_weight=EXPAND_HORIZ,
+        size_hint_align=FILL_BOTH)
 
-    bt = Button(win)
-    bt.text = "Clear"
+    bt = Button(win, text="Clear", size_hint_align=FILL_BOTH,
+        size_hint_weight=EXPAND_HORIZ, propagate_events=False,
+        focus_allow=False)
     bt.callback_clicked_add(scrolled_entry_bt_1, en)
-    bt.size_hint_align = EVAS_HINT_FILL, EVAS_HINT_FILL
-    bt.size_hint_weight = EVAS_HINT_EXPAND, 0.0
     bx2.pack_end(bt)
-    bt.propagate_events = 0
-    bt.focus_allow = 0
     bt.show()
 
-    bt = Button(win)
-    bt.text = "Print"
+    bt = Button(win, text="Print", size_hint_align=FILL_BOTH,
+        size_hint_weight=EXPAND_HORIZ, propagate_events=False,
+        focus_allow=False)
     bt.callback_clicked_add(scrolled_entry_bt_2, en)
-    bt.size_hint_align = EVAS_HINT_FILL, EVAS_HINT_FILL
-    bt.size_hint_weight = EVAS_HINT_EXPAND, 0.0
     bx2.pack_end(bt)
-    bt.propagate_events = 0
-    bt.focus_allow = 0
     bt.show()
 
-    bt = Button(win)
-    bt.text = "Print pwd"
+    bt = Button(win, text="Print pwd", size_hint_align=FILL_BOTH,
+        size_hint_weight=EXPAND_HORIZ, propagate_events=False,
+        focus_allow=False)
     bt.callback_clicked_add(scrolled_entry_bt_5, en_p)
-    bt.size_hint_align = EVAS_HINT_FILL, EVAS_HINT_FILL
-    bt.size_hint_weight = EVAS_HINT_EXPAND, 0.0
     bx2.pack_end(bt)
-    bt.propagate_events = 0
-    bt.focus_allow = 0
     bt.show()
 
-    bt = Button(win)
-    bt.text = "Selection"
+    bt = Button(win, text="Selection", size_hint_align=FILL_BOTH,
+        size_hint_weight=EXPAND_HORIZ, propagate_events=False,
+        focus_allow=False)
     bt.callback_clicked_add(scrolled_entry_bt_3, en)
-    bt.size_hint_align = EVAS_HINT_FILL, EVAS_HINT_FILL
-    bt.size_hint_weight = EVAS_HINT_EXPAND, 0.0
     bx2.pack_end(bt)
-    bt.propagate_events = 0
-    bt.focus_allow = 0
     bt.show()
 
-    bt = Button(win)
-    bt.text = "Insert"
+    bt = Button(win, text="Insert", size_hint_align=FILL_BOTH,
+        size_hint_weight=EXPAND_HORIZ, propagate_events=False,
+        focus_allow=False)
     bt.callback_clicked_add(scrolled_entry_bt_4, en)
-    bt.size_hint_align = EVAS_HINT_FILL, EVAS_HINT_FILL
-    bt.size_hint_weight = EVAS_HINT_EXPAND, 0.0
     bx2.pack_end(bt)
-    bt.propagate_events = 0
-    bt.focus_allow = 0
     bt.show()
 
     bx.pack_end(bx2)
     bx2.show()
 
-    win.size = 320, 300
-
     win.focus_set(True)
     win.show()
 
 def anchor_clicked(obj, event_info):
-    print(("Entry object is %s" % (obj)))
-    print(("We should have EntryAnchorInfo here: %s" % (str(event_info))))
-    print(("EntryAnchorInfo has the following properties and methods: %s" % (dir(event_info))))
+    print("Entry object is %s" % (obj))
+    print("We should have EntryAnchorInfo here: %s" % (str(event_info)))
+    print("EntryAnchorInfo has the following properties and methods: %s" % (dir(event_info)))
     print(event_info.name)
 
 def anchor_hover_opened(obj, event_info):
-    print(("We should have EntryAnchorHoverInfo here: %s" % (event_info)))
-    print(("EntryAnchorHoverInfo has the following properties and methods: %s" % (dir(event_info))))
+    print("We should have EntryAnchorHoverInfo here: %s" % (event_info))
+    print("EntryAnchorHoverInfo has the following properties and methods: %s" % (dir(event_info)))
     print(event_info.anchor_info.name)
-    btn = Button(obj)
-    btn.text_set("Testing entry anchor")
+    btn = Button(obj, text="Testing entry anchor")
     event_info.hover.part_content_set("middle", btn)
     btn.show()
 
 def entry_anchor_clicked(obj, item=None):
-    win = Window("entry", elementary.ELM_WIN_BASIC)
-    win.title_set("Entry Anchor")
-    win.autodel_set(True)
+    win = StandardWindow("entry", "Entry Anchor", autodel=True, size=(400,400))
 
-    bg = Background(win)
-    bg.size_hint_weight_set(1.0, 1.0)
-    win.resize_object_add(bg)
-    bg.show()
-
-    box = Box(win)
-    box.size_hint_weight_set(1.0, 1.0)
+    box = Box(win, size_hint_weight=EXPAND_BOTH)
     win.resize_object_add(box)
 
-    entry = Entry(win)
-    entry.text_set("<a href=url:http://www.enlightenment.org/>Enlightenment</a>")
+    entry = Entry(win, anchor_hover_style="popout", anchor_hover_parent=win)
+    entry.text = "<a href=url:http://www.enlightenment.org/>Enlightenment</a>"
     entry.callback_anchor_clicked_add(anchor_clicked)
-    entry.anchor_hover_style_set("popout")
-    entry.anchor_hover_parent_set(win)
     entry.callback_anchor_hover_opened_add(anchor_hover_opened)
     entry.show()
 
-    frame = Frame(win)
-    frame.size_hint_align_set(-1.0, -1.0)
-    frame.text_set("Entry test")
-    frame.content_set(entry)
+    frame = Frame(win, size_hint_align=FILL_BOTH, text="Entry test",
+        content=entry)
     frame.show()
 
     box.pack_end(frame)
     box.show()
 
-    win.resize(400, 400)
     win.show()
 
-
 if __name__ == "__main__":
-    def destroy(obj):
-        elementary.exit()
-
     elementary.init()
-    win = Window("test", elementary.ELM_WIN_BASIC)
-    win.title_set("python-elementary test application")
-    win.callback_delete_request_add(destroy)
+    win = StandardWindow("test", "python-elementary test application",
+        size=(320,520))
+    win.callback_delete_request_add(lambda o: elementary.exit())
 
-    bg = Background(win)
-    win.resize_object_add(bg)
-    bg.size_hint_weight_set(evas.EVAS_HINT_EXPAND, evas.EVAS_HINT_EXPAND)
-    bg.show()
-
-    box0 = Box(win)
-    box0.size_hint_weight_set(evas.EVAS_HINT_EXPAND, evas.EVAS_HINT_EXPAND)
+    box0 = Box(win, size_hint_weight=EXPAND_BOTH)
     win.resize_object_add(box0)
     box0.show()
-
-    fr = Frame(win)
-    fr.text_set("Information")
-    box0.pack_end(fr)
-    fr.show()
 
     lb = Label(win)
     lb.text_set("Please select a test from the list below<br>"
                  "by clicking the test button to show the<br>"
                  "test window.")
-    fr.content_set(lb)
     lb.show()
+
+    fr = Frame(win, text="Information", content=lb)
+    box0.pack_end(fr)
+    fr.show()
 
     items = [("Entry", entry_clicked),
              ("Entry Scrolled", entry_scrolled_clicked),
              ("Entry Anchor", entry_anchor_clicked)
             ]
 
-    li = List(win)
-    li.size_hint_weight_set(evas.EVAS_HINT_EXPAND, evas.EVAS_HINT_EXPAND)
-    li.size_hint_align_set(evas.EVAS_HINT_FILL, evas.EVAS_HINT_FILL)
+    li = List(win, size_hint_weight=EXPAND_BOTH, size_hint_align=FILL_BOTH)
     box0.pack_end(li)
     li.show()
 
@@ -507,7 +415,6 @@ if __name__ == "__main__":
 
     li.go()
 
-    win.resize(320,520)
     win.show()
     elementary.run()
     elementary.shutdown()

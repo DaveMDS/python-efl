@@ -26,7 +26,8 @@ def buttons_clicked(obj):
     win.resize_object_add(bx)
     bx.show()
 
-    ic = Icon(win, file=ic_file, size_hint_aspect=(EVAS_ASPECT_CONTROL_VERTICAL, 1, 1))
+    ic = Icon(win, file=ic_file,
+        size_hint_aspect=(EVAS_ASPECT_CONTROL_VERTICAL, 1, 1))
     ic.show()
     bt = Button(win, text="Icon sized to button", content=ic)
     bx.pack_end(bt)

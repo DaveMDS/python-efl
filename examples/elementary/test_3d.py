@@ -172,57 +172,50 @@ def evas3d_clicked(obj, item=None):
     vbox.show()
 
     sl = Slider(win, text="Rot X", unit_format="%1.0f units", span_size=360,
-        min_max=(0, 360),
-        size_hint_align=FILL_HORIZ, size_hint_weight=EXPAND_BOTH
-        )
+        min_max=(0, 360), size_hint_align=FILL_HORIZ,
+        size_hint_weight=EXPAND_BOTH)
     vbox.pack_end(sl)
     sl.callback_changed_add(ch_rot_x, cube)
     sl.show()
 
     sl = Slider(win, text="Rot Y", unit_format="%1.0f units", span_size=360,
-        min_max=(0, 360),
-        size_hint_align=FILL_HORIZ, size_hint_weight=EXPAND_BOTH
-        )
+        min_max=(0, 360), size_hint_align=FILL_HORIZ,
+        size_hint_weight=EXPAND_BOTH)
     vbox.pack_end(sl)
     sl.callback_changed_add(ch_rot_y, cube)
     sl.show()
 
     sl = Slider(win, text="Rot Z", unit_format="%1.0f units", span_size=360,
-        min_max=(0, 360),
-        size_hint_align=FILL_HORIZ, size_hint_weight=EXPAND_BOTH
-        )
+        min_max=(0, 360), size_hint_align=FILL_HORIZ,
+        size_hint_weight=EXPAND_BOTH)
     vbox.pack_end(sl)
     sl.callback_changed_add(ch_rot_z, cube)
     sl.show()
 
     sl = Slider(win, text="CX Off", unit_format="%1.0f units", span_size=360,
-        min_max=(-320, 320), value=cube.cxo,
-        size_hint_align=FILL_HORIZ, size_hint_weight=EXPAND_BOTH
-        )
+        min_max=(-320, 320), value=cube.cxo, size_hint_align=FILL_HORIZ,
+        size_hint_weight=EXPAND_BOTH)
     vbox.pack_end(sl)
     sl.callback_changed_add(ch_cx, cube)
     sl.show()
 
     sl = Slider(win, text="CY Off", unit_format="%1.0f units", span_size=360,
-        min_max=(-320, 320), value=cube.cyo,
-        size_hint_align=FILL_HORIZ, size_hint_weight=EXPAND_BOTH
-        )
+        min_max=(-320, 320), value=cube.cyo, size_hint_align=FILL_HORIZ,
+        size_hint_weight=EXPAND_BOTH)
     vbox.pack_end(sl)
     sl.callback_changed_add(ch_cy, cube)
     sl.show()
 
     sl = Slider(win, text="Foc", unit_format="%1.0f units", span_size=360,
-        min_max=(1, 2000), value=cube.focv,
-        size_hint_align=FILL_HORIZ, size_hint_weight=EXPAND_BOTH
-        )
+        min_max=(1, 2000), value=cube.focv, size_hint_align=FILL_HORIZ,
+        size_hint_weight=EXPAND_BOTH)
     vbox.pack_end(sl)
     sl.callback_changed_add(ch_foc, cube)
     sl.show()
 
     sl = Slider(win, text="Z0", unit_format="%1.0f units", span_size=360,
-        min_max=(-2000, 2000), value=cube.z0v,
-        size_hint_align=FILL_HORIZ, size_hint_weight=EXPAND_BOTH
-        )
+        min_max=(-2000, 2000), value=cube.z0v, size_hint_align=FILL_HORIZ,
+        size_hint_weight=EXPAND_BOTH)
     vbox.pack_end(sl)
     sl.callback_changed_add(ch_z0, cube)
     sl.show()

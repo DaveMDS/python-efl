@@ -1,13 +1,19 @@
 #!/usr/bin/env python
 # encoding: utf-8
 
-from efl import evas
+from efl.evas import EVAS_HINT_EXPAND, EVAS_HINT_FILL, \
+    EVAS_ASPECT_CONTROL_VERTICAL, EVAS_CALLBACK_MOUSE_MOVE, \
+    EVAS_CALLBACK_MOUSE_UP, EVAS_CALLBACK_MOUSE_DOWN, \
+    EVAS_EVENT_FLAG_ON_HOLD
 from efl import elementary
 from efl.elementary.box import Box
 from efl.elementary.window import StandardWindow
 from efl.elementary.icon import Icon
 from efl.elementary.genlist import Genlist, GenlistItemClass, \
     ELM_SEL_FORMAT_TARGETS, ELM_GENLIST_ITEM_NONE, DragUserInfo
+
+EXPAND_BOTH = EVAS_HINT_EXPAND, EVAS_HINT_EXPAND
+FILL_BOTH = EVAS_HINT_FILL, EVAS_HINT_FILL
 
 img = (
     "panel_01.jpg",
@@ -45,9 +51,8 @@ class DndItemClass(GenlistItemClass):
 
     def content_get(self, obj, part, data, *args):
         if part == "elm.swallow.icon":
-            icon = Icon(obj)
-            icon.file = data
-            icon.size_hint_aspect = evas.EVAS_ASPECT_CONTROL_VERTICAL, 1, 1
+            icon = Icon(obj, file=data,
+                size_hint_aspect=(EVAS_ASPECT_CONTROL_VERTICAL, 1, 1))
             icon.show()
             return icon
         return None
@@ -293,10 +298,8 @@ def gl_createicon(win, xoff, yoff, data):
     if yoff is not None:
         yoff = ym - (h/2)
 
-    icon = Icon(win)
-    icon.file = f, g
-    icon.size_hint_align = evas.EVAS_HINT_FILL, evas.EVAS_HINT_FILL
-    icon.size_hint_weight = evas.EVAS_HINT_EXPAND, evas.EVAS_HINT_EXPAND
+    icon = Icon(win, file=(f, g), size_hint_weight=EXPAND_BOTH,
+        size_hint_align=FILL_BOTH)
 
     if (xoff is not None) and (yoff is not None):
         icon.move(xoff, yoff)
@@ -327,16 +330,12 @@ def gl_icons_get(data):
 
         if o is not None:
             f, g = o.file
-            ic = Icon(gl)
-            ic.file = f, g
             x, y, w, h = o.geometry
-            ic.size_hint_align = evas.EVAS_HINT_FILL, evas.EVAS_HINT_FILL
-            ic.size_hint_weight = evas.EVAS_HINT_EXPAND, evas.EVAS_HINT_EXPAND
 
-            ic.move(x, y)
-            ic.resize(w, h)
+            ic = Icon(gl, file=(f, g), size_hint_align=FILL_BOTH,
+                size_hint_weight=EXPAND_BOTH, pos=(x,y), size=(w,h))
+
             ic.show()
-
             icons.append(ic)
 
     return icons
@@ -513,32 +512,30 @@ def gl_dnd_default_anim_data_getcb(gl, it):
 #       return False
 
 def dnd_genlist_default_anim_clicked(*args):
-    win = StandardWindow("dnd-genlist-default-anim", "DnD-Genlist-Default-Anim")
+    win = StandardWindow("dnd-genlist-default-anim",
+        "DnD-Genlist-Default-Anim", autodel=True, size=(680, 800))
     win.autodel = True
 
-    bxx = Box(win)
-    bxx.horizontal = True
-    bxx.size_hint_weight = evas.EVAS_HINT_EXPAND, evas.EVAS_HINT_EXPAND
+    bxx = Box(win, horizontal=True, size_hint_weight=EXPAND_BOTH)
     win.resize_object_add(bxx)
     bxx.show()
 
     for j in range(2):
-        gl = Genlist(win)
+        gl = Genlist(win, multi_select=True, size_hint_weight=EXPAND_BOTH,
+            size_hint_align=FILL_BOTH)
 
         # START Drag and Drop handling
         win.callback_delete_request_add(win_del, gl)
-        gl.multi_select = True # We allow multi drag
         gl.drop_item_container_add(ELM_SEL_FORMAT_TARGETS,
               gl_item_getcb, dropcb=gl_dropcb)
 
         gl.drag_item_container_add(ANIM_TIME, DRAG_TIMEOUT,
               gl_item_getcb, gl_dnd_default_anim_data_getcb)
 
-        # FIXME: This causes genlist to resize the horiz axis very slowly :(
-        # Reenable this and resize the window horizontally, then try to resize it back
+        # FIXME:    This causes genlist to resize the horiz axis very slowly :(
+        #           Reenable this and resize the window horizontally, then try
+        #           to resize it back.
         #elm_genlist_mode_set(gl, ELM_LIST_LIMIT)
-        gl.size_hint_weight = evas.EVAS_HINT_EXPAND, evas.EVAS_HINT_EXPAND
-        gl.size_hint_align = evas.EVAS_HINT_FILL, evas.EVAS_HINT_FILL
         bxx.pack_end(gl)
         gl.show()
 
@@ -547,7 +544,6 @@ def dnd_genlist_default_anim_clicked(*args):
         for i in range (20):
             gl.item_append(itc1, "images/{0}".format(img[i % 9]), flags=ELM_GENLIST_ITEM_NONE)
 
-    win.resize(680, 800)
     win.show()
 
 # def test_dnd_genlist_user_anim(obj, event_info, data):

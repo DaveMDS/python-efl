@@ -1,25 +1,25 @@
 #!/usr/bin/env python
 # encoding: utf-8
 
-from efl import evas
+from efl.evas import EVAS_HINT_EXPAND, EVAS_HINT_FILL, FilledImage
 from efl import elementary
-from efl.elementary.window import Window
-from efl.elementary.background import Background
+from efl.elementary.window import StandardWindow
 from efl.elementary.box import Box
 from efl.elementary.icon import Icon
 from efl.elementary.button import Button
-from efl.elementary.list import List
+from efl.elementary.list import List, ELM_LIST_COMPRESS
 from efl.elementary.ctxpopup import Ctxpopup
 from efl.elementary.scroller import Scroller
+
+EXPAND_BOTH = EVAS_HINT_EXPAND, EVAS_HINT_EXPAND
+FILL_BOTH = EVAS_HINT_FILL, EVAS_HINT_FILL
 
 def cb_items(li, item):
     print(("ctxpopup item selected: %s" % (item.text)))
 
 def item_new(cp, label, icon = None):
     if icon:
-        ic = Icon(cp)
-        ic.standard_set(icon)
-        ic.resizable_set(False, False)
+        ic = Icon(cp, standard=icon, resizable=(False,False))
         return cp.item_append(label, ic, cb_items)
     else:
         return cp.item_append(label, None, cb_items)
@@ -28,7 +28,7 @@ def cb_btn(btn):
     cp = btn.data["ctxpopup"]
     if "img" in cp.data:
         return
-    img = evas.FilledImage(btn.evas)
+    img = FilledImage(btn.evas)
     img.file_set("images/sky_04.jpg")
     img.move(40, 40)
     img.resize(320, 320)
@@ -101,70 +101,51 @@ def cb_item4(li, item):
     cp.show()
 
 def cb_item5(li, item):
-    box = Box(li)
-    box.size_hint_min = (150, 150)
+    box = Box(li, size_hint_min=(150, 150))
 
-    sc = Scroller(li)
-    sc.bounce = (False, True)
-    sc.size_hint_align = (evas.EVAS_HINT_FILL, evas.EVAS_HINT_FILL)
-    sc.size_hint_weight = (evas.EVAS_HINT_EXPAND, evas.EVAS_HINT_EXPAND)
+    sc = Scroller(li, bounce=(False, True), size_hint_align=FILL_BOTH,
+        size_hint_weight=EXPAND_BOTH)
     sc.show()
 
-    bt = Button(li)
-    bt.text = "Enlightenment"
-    bt.size_hint_min = (140, 140)
+    bt = Button(li, text="Enlightenment", size_hint_min=(140, 140))
 
     sc.content = bt
     box.pack_end(sc)
 
-    cp = Ctxpopup(li)
-    cp.content = box
+    cp = Ctxpopup(li, content = box)
     (x, y) = li.evas.pointer_canvas_xy_get()
     cp.move(x, y)
     cp.show()
 
 def cb_item6(li, item):
-    box = Box(li)
-    box.size_hint_min = (200, 150)
+    box = Box(li, size_hint_min=(200, 150))
 
-    sc = Scroller(li)
-    sc.bounce = (False, True)
-    sc.size_hint_align = (evas.EVAS_HINT_FILL, evas.EVAS_HINT_FILL)
-    sc.size_hint_weight = (evas.EVAS_HINT_EXPAND, evas.EVAS_HINT_EXPAND)
+    sc = Scroller(li, bounce=(False, True), size_hint_align=FILL_BOTH,
+        size_hint_weight=EXPAND_BOTH)
     sc.show()
 
-    bt = Button(li)
-    bt.text = "Ctxpop will be on the top of layer"
+    bt = Button(li, text="Ctxpop will be on the top of layer",
+        size_hint_min=(190, 140))
     bt.callback_clicked_add(cb_btn)
-    bt.size_hint_min = (190, 140)
 
     sc.content = bt
     box.pack_end(sc)
 
-    cp = Ctxpopup(li)
+    cp = Ctxpopup(li, content=box)
     cp.callback_dismissed_add(cb_dismissed)
-    cp.content = box
     (x, y) = li.evas.pointer_canvas_xy_get()
     cp.move(x, y)
     cp.show()
     bt.data["ctxpopup"] = cp
 
 def ctxpopup_clicked(obj):
-    win = Window("ctxpopup", elementary.ELM_WIN_BASIC)
-    win.title = "Context popup test"
-    win.autodel = True
+    win = StandardWindow("ctxpopup", "Context popup test", autodel=True,
+        size=(400,400))
     if obj is None:
         win.callback_delete_request_add(lambda o: elementary.exit())
 
-    bg = Background(win)
-    win.resize_object_add(bg)
-    bg.size_hint_weight = (evas.EVAS_HINT_EXPAND, evas.EVAS_HINT_EXPAND)
-    bg.show()
-
-    li = List(win)
+    li = List(win, size_hint_weight=EXPAND_BOTH, mode=ELM_LIST_COMPRESS)
     win.resize_object_add(li)
-    li.size_hint_weight = (evas.EVAS_HINT_EXPAND, evas.EVAS_HINT_EXPAND)
-    li.mode = elementary.ELM_LIST_COMPRESS
     li.show()
 
     li.item_append("Ctxpopup with icons and labels", callback=cb_item1)
@@ -175,7 +156,6 @@ def ctxpopup_clicked(obj):
     li.item_append("Ctxpopup with restacking", callback=cb_item6)
     li.go()
 
-    win.resize(400, 400)
     win.show()
 
 

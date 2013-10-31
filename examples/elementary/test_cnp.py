@@ -41,8 +41,7 @@ def cnp_clicked(obj):
 
     en = Entry(win, scrollable=True, line_wrap=ELM_WRAP_CHAR,
         size_hint_weight=EXPAND_BOTH, size_hint_align=FILL_BOTH,
-        text="Elementary provides "
-        )
+        text="Elementary provides ")
     gd.pack(en, 10, 10, 60, 30)
     en.show()
 
@@ -58,8 +57,7 @@ def cnp_clicked(obj):
 
     en = Entry(win, scrollable=True, line_wrap=ELM_WRAP_CHAR,
         size_hint_weight=EXPAND_BOTH, size_hint_align=FILL_BOTH,
-        text="rich copying and pasting functionality,"
-        )
+        text="rich copying and pasting functionality,")
     gd.pack(en, 10, 40, 60, 30)
     en.show()
 
@@ -68,15 +66,14 @@ def cnp_clicked(obj):
     gd.pack(bt, 70, 40, 22, 30)
     bt.show()
 
-    lb = Label(win, text="<b>Clipboard:</b>",
-        size_hint_weight=(0.0, 0.0), size_hint_align=FILL_BOTH
-        )
+    lb = Label(win, text="<b>Clipboard:</b>", size_hint_weight=(0.0, 0.0),
+        size_hint_align=FILL_BOTH)
     gd.pack(lb, 10, 70, 60, 10)
     lb.show()
 
     global glb
-    glb = Label(win, text="",
-        size_hint_weight=(0.0, 0.0), size_hint_align=FILL_BOTH)
+    glb = Label(win, text="", size_hint_weight=(0.0, 0.0),
+        size_hint_align=FILL_BOTH)
     gd.pack(glb, 10, 80, 60, 10)
     glb.show()
 

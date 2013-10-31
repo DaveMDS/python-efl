@@ -20,6 +20,11 @@ elm_conf = Configuration()
 
 from efl.evas import EVAS_HINT_FILL, EVAS_HINT_EXPAND
 
+EXPAND_BOTH = EVAS_HINT_EXPAND, EVAS_HINT_EXPAND
+EXPAND_HORIZ = EVAS_HINT_EXPAND, 0.0
+FILL_BOTH = EVAS_HINT_FILL, EVAS_HINT_FILL
+FILL_HORIZ = EVAS_HINT_FILL, 0.5
+
 class Prof_Data(object):
     rdg = None
     cks = []
@@ -36,10 +41,8 @@ class App_Data(object):
 MAX_PROFILES = 20
 
 def LOG(win, m):
-    lb = Label(win)
-    lb.text = m
-    lb.size_hint_weight = 0.0, 0.0
-    lb.size_hint_align = EVAS_HINT_FILL, EVAS_HINT_FILL
+    lb = Label(win, text=m, size_hint_weight=(0.0, 0.0),
+        size_hint_align=FILL_BOTH)
     lb.show()
     return lb
 
@@ -117,29 +120,23 @@ def radio_add(win, bx):
 
     i = 0
 
-    bx2 = Box(win)
-    bx2.size_hint_weight = EVAS_HINT_EXPAND, 0.0
-    bx2.size_hint_align = EVAS_HINT_FILL, 0.0
-    bx2.align =  0.0, 0.5
-    bx2.horizontal = True
+    bx2 = Box(win, size_hint_weight=EXPAND_HORIZ,
+        size_hint_align=(EVAS_HINT_FILL, 0.0), align=(0.0, 0.5),
+        horizontal = True)
     bx.pack_end(bx2)
     bx2.show()
 
-    rdg = rd = Radio(win)
-    rd.state_value = i
+    rdg = rd = Radio(win, state_value=i, text="Nothing",
+        size_hint_weight=EXPAND_BOTH)
     rd.group_add(rdg)
-    rd.text = "Nothing"
-    rd.size_hint_weight = EVAS_HINT_EXPAND, EVAS_HINT_EXPAND
     bx2.pack_end(rd)
     rd.show()
     i += 1
 
     for profile in ad.profiles:
-        rd = Radio(win)
-        rd.state_value = i
+        rd = Radio(win, state_value=i, text=profile,
+            size_hint_weight=EXPAND_BOTH)
         rd.group_add(rdg)
-        rd.text = profile
-        rd.size_hint_weight = EVAS_HINT_EXPAND, EVAS_HINT_EXPAND
         bx2.pack_end(rd)
         rd.show()
         i += 1
@@ -149,21 +146,17 @@ def radio_add(win, bx):
 def check_add(win, bx):
     ad = win.data["ad"]
 
-    bx2 = Box(win)
-    bx2.size_hint_weight = EVAS_HINT_EXPAND, 0.0
-    bx2.size_hint_align = EVAS_HINT_FILL, 0.0
-    bx2.align = 0.0, 0.5
-    bx2.horizontal = True
+    bx2 = Box(win, size_hint_weight=EXPAND_HORIZ,
+        size_hint_align=(EVAS_HINT_FILL, 0.0), align=(0.0, 0.5),
+        horizontal=True)
     bx.pack_end(bx2)
     bx2.show()
 
     ll = []
 
     for profile in ad.profiles:
-        ck = Check(win)
-        ck.text = profile
+        ck = Check(win, text=profile, size_hint_weight=EXPAND_BOTH)
         ck.data["profile"] = profile
-        ck.size_hint_weight = EVAS_HINT_EXPAND, EVAS_HINT_EXPAND
         bx2.pack_end(ck)
         ck.show()
 
@@ -172,17 +165,15 @@ def check_add(win, bx):
     return ll
 
 def inlined_add(parent):
-    win = Window("inlined", ELM_WIN_INLINED_IMAGE, parent)
+    win = Window("inlined", ELM_WIN_INLINED_IMAGE, parent, pos=(10, 100),
+        size=(150, 70))
 
-    bg = Background(win)
-    bg.color = 110, 210, 120
-    bg.size_hint_weight = EVAS_HINT_EXPAND, EVAS_HINT_EXPAND
+    bg = Background(win, color=(110, 210, 120), size_hint_weight=EXPAND_BOTH)
     win.resize_object_add(bg)
     bg.show()
 
-    bx = Box(win)
-    bx.size_hint_weight = EVAS_HINT_EXPAND, 0.0
-    bx.size_hint_align = EVAS_HINT_FILL, 0.0
+    bx = Box(win, size_hint_weight=EXPAND_HORIZ,
+        size_hint_align=(EVAS_HINT_FILL, 0.0))
     bx.show()
 
     lb = LOG(win, "ELM_WIN_INLINED_IMAGE")
@@ -192,8 +183,6 @@ def inlined_add(parent):
     bx.pack_end(lb)
     win.data["lb"] = lb
 
-    win.pos = 10, 100
-    win.size = 150, 70
     win.inlined_image_object.pos = 10, 100
     win.inlined_image_object.size = 150, 70
 
@@ -203,7 +192,8 @@ def inlined_add(parent):
     return win
 
 def socket_add(name):
-    win = Window("socket image", ELM_WIN_SOCKET_IMAGE)
+    win = Window("socket image", ELM_WIN_SOCKET_IMAGE, pos=(0, 0),
+        size=(150, 200))
 
     try:
         win.socket_listen(name, 0, False)
@@ -214,15 +204,12 @@ def socket_add(name):
     else:
         win.autodel = True
 
-        bg = Background(win)
-        bg.color = 80, 110, 205
-        bg.size_hint_weight = EVAS_HINT_EXPAND, EVAS_HINT_EXPAND
+        bg = Background(win, color=(80, 110, 205), size_hint_weight=EXPAND_BOTH)
         win.resize_object_add(bg)
         bg.show()
 
-        bx = Box(win)
-        bx.size_hint_weight = EVAS_HINT_EXPAND, 0.0
-        bx.size_hint_align = EVAS_HINT_FILL, 0.0
+        bx = Box(win, size_hint_weight=EXPAND_HORIZ,
+            size_hint_align=(EVAS_HINT_FILL, 0.0))
         bx.show()
 
         lb = LOG(win, "ELM_WIN_SOCKET_IMAGE")
@@ -234,24 +221,18 @@ def socket_add(name):
 
         inlined_add(win)
 
-        win.pos = 0, 0
-        win.size = 150, 200
-
         win.callback_profile_changed_add(win_profile_changed_cb)
         win.show()
         return win
 
 def plug_add(win, bx, name):
-    plug = Plug(win)
+    plug = Plug(win, size_hint_weight=EXPAND_BOTH)
 
     if plug.connect(name, 0, False):
-        ly = Layout(win)
-        ly.file = "test.edj", "win_config"
-        ly.size_hint_weight = EVAS_HINT_EXPAND, EVAS_HINT_EXPAND
-        ly.size_hint_align = EVAS_HINT_FILL, EVAS_HINT_FILL
+        ly = Layout(win, file=("test.edj", "win_config"),
+            size_hint_weight=EXPAND_BOTH, size_hint_align=FILL_BOTH)
         ly.show()
 
-        plug.size_hint_weight = EVAS_HINT_EXPAND, EVAS_HINT_EXPAND
         bx.pack_end(ly)
         ly.part_content_set("swallow", plug)
         plug.show()
@@ -263,47 +244,38 @@ def plug_add(win, bx, name):
     return plug
 
 def FRAME(win, bx, t):
-    fr = Frame(bx)
-    fr.text = t
-    fr.size_hint_weight = EVAS_HINT_EXPAND, EVAS_HINT_EXPAND
-    fr.size_hint_align = EVAS_HINT_FILL, EVAS_HINT_FILL
+    bx2 = Box(win, size_hint_weight=EXPAND_HORIZ,
+        size_hint_align=(EVAS_HINT_FILL, 0.0), align=(0.0, 0.5))
+    bx2.show()
+    fr = Frame(bx, text=t, content=bx2, size_hint_weight=EXPAND_BOTH,
+        size_hint_align=FILL_BOTH)
     bx.pack_end(fr)
     fr.show()
-    bx2 = Box(win)
-    bx2.size_hint_weight = EVAS_HINT_EXPAND, 0.0
-    bx2.size_hint_align = EVAS_HINT_FILL, 0.0
-    bx2.align = 0.0, 0.5
-    fr.content = bx2
-    bx2.show()
     return fr, bx2
 
 def config_clicked(obj, data=None):
     siname = "_TestConfigSocketImage_"
 
-    win = StandardWindow("config", "Configuration")
-    win.autodel = True
+    win = StandardWindow("config", "Configuration", autodel=True,
+        size=(400,500))
     global ad
     ad = App_Data()
     win.data["ad"] = ad
     ad.win = win
     ad.profiles = elm_conf.profile_list
 
-    sc = Scroller(win)
-    sc.bounce = False, True
-    sc.size_hint_weight = EVAS_HINT_EXPAND, EVAS_HINT_EXPAND
+    bx = Box(win, size_hint_weight=EXPAND_HORIZ, size_hint_align=FILL_BOTH)
+    sc = Scroller(win, content=bx, bounce=(False, True),
+        size_hint_weight=EXPAND_BOTH)
     win.resize_object_add(sc)
-
-    bx = Box(win)
-    bx.size_hint_weight = EVAS_HINT_EXPAND, 0.0
-    bx.size_hint_align = EVAS_HINT_FILL, EVAS_HINT_FILL
-    sc.content = bx
 
     fr, bx2 = FRAME(win, bx, "Current window profile")
     # TODO: Add this code
     #ee = ecore_evas_ecore_evas_get(evas_object_evas_get(win));
     #supported = ecore_evas_window_profile_supported_get(ee);
     supported = True
-    buf = "Virtual desktop window profile support: <b>{0}</b>".format("Yes" if supported else "No")
+    buf = "Virtual desktop window profile support: <b>{0}</b>".format(
+        "Yes" if supported else "No")
     lb = LOG(win, buf)
     bx2.pack_end(lb)
 
@@ -315,8 +287,7 @@ def config_clicked(obj, data=None):
     bx2.pack_end(lb)
     ad.curr.rdg = radio_add(win, bx2)
 
-    bt = Button(win)
-    bt.text = "Set"
+    bt = Button(win, text="Set")
     bt.callback_clicked_add(bt_profile_set, win)
     bx2.pack_end(bt)
     bt.show()
@@ -325,8 +296,7 @@ def config_clicked(obj, data=None):
     bx2.pack_end(lb)
     ad.curr.cks = check_add(win, bx2)
 
-    bt = Button(win)
-    bt.text = "Set"
+    bt = Button(win, text="Set")
     bt.callback_clicked_add(bt_available_profiles_set, win)
     bx2.pack_end(bt)
     bt.show()
@@ -336,7 +306,10 @@ def config_clicked(obj, data=None):
         lb = LOG(win, "Starting socket image.")
         bx2.pack_end(lb)
     else:
-        lb = LOG(win, "Failed to create socket.<br/>Please check whether another test configuration window is<br/>already running and providing socket image.")
+        lb = LOG(win,
+            "Failed to create socket.<br/>Please check whether another "
+            "test configuration window is<br/>already running and providing "
+            "socket image.")
         bx2.pack_end(lb)
 
     fr, bx2 = FRAME(win, bx, "Plug")
@@ -353,8 +326,7 @@ def config_clicked(obj, data=None):
     bx2.pack_end(lb)
     ad.new.cks = check_add(win, bx2)
 
-    bt = Button(win)
-    bt.text = "Create"
+    bt = Button(win, text="Create")
     bt.callback_clicked_add(bt_win_add, win)
     bx2.pack_end(bt)
     bt.show()
@@ -375,7 +347,6 @@ def config_clicked(obj, data=None):
     bx.show()
     sc.show()
 
-    win.size = 400, 500
     win.show()
 
 

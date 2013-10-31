@@ -2,10 +2,9 @@
 # encoding: utf-8
 
 
-from efl import evas
+from efl.evas import EVAS_HINT_EXPAND, EVAS_HINT_FILL
 from efl import elementary
-from efl.elementary.window import Window
-from efl.elementary.background import Background
+from efl.elementary.window import StandardWindow
 from efl.elementary.box import Box
 from efl.elementary.button import Button
 from efl.elementary.label import Label
@@ -15,180 +14,132 @@ from efl.elementary.clock import Clock
 from efl.elementary.entry import Entry
 from efl.elementary.toolbar import Toolbar
 
+EXPAND_BOTH = EVAS_HINT_EXPAND, EVAS_HINT_EXPAND
+EXPAND_HORIZ = EVAS_HINT_EXPAND, 0.0
+FILL_BOTH = EVAS_HINT_FILL, EVAS_HINT_FILL
+FILL_HORIZ = EVAS_HINT_FILL, 0.5
+
 def cursor_clicked(obj, item=None):
-    win = Window("cursors", elementary.ELM_WIN_BASIC)
-    win.title_set("Cursors")
+    win = StandardWindow("cursors", "Cursors", autodel=True, size=(320,480))
     win.autodel_set(True)
 
-    bg = Background(win)
-    win.resize_object_add(bg)
-    bg.size_hint_weight_set(evas.EVAS_HINT_EXPAND, evas.EVAS_HINT_EXPAND)
-    bg.show()
-
-    bx = Box(win)
+    bx = Box(win, size_hint_weight=EXPAND_BOTH)
     win.resize_object_add(bx)
-    bx.size_hint_weight_set(evas.EVAS_HINT_EXPAND, evas.EVAS_HINT_EXPAND)
     bx.show()
 
-    ck = Clock(win)
-    ck.cursor_set("clock")
+    ck = Clock(win, cursor="clock")
     bx.pack_end(ck)
     ck.show()
 
-    bt = Button(win)
-    bt.text_set("Coffee Mug")
-    bt.cursor_set("coffee_mug")
+    bt = Button(win, text="Coffee Mug", cursor="coffee_mug")
     bx.pack_end(bt)
     bt.show()
 
-    bt = Button(win)
-    bt.text_set("Cursor unset")
-    bt.cursor_set("bogosity")
+    bt = Button(win, text="Cursor unset", cursor="bogosity")
     bt.cursor_unset()
     bx.pack_end(bt)
     bt.show()
 
-    lst = List(win)
+    lst = List(win, size_hint_weight=EXPAND_BOTH, size_hint_align=FILL_BOTH,
+        cursor="watch")
     lst.item_append("watch over list")
     lst.item_append("watch over list")
-    lst.size_hint_weight_set(evas.EVAS_HINT_EXPAND, evas.EVAS_HINT_EXPAND)
-    lst.size_hint_align_set(evas.EVAS_HINT_FILL, evas.EVAS_HINT_FILL)
-    lst.cursor_set("watch")
     bx.pack_end(lst)
     lst.go()
     lst.show()
 
-    en = Entry(win)
-    en.scrollable_set(True)
-    en.single_line_set(True)
-    en.entry_set("Xterm cursor")
-    en.size_hint_weight_set(evas.EVAS_HINT_EXPAND, 0.0)
-    en.size_hint_align_set(evas.EVAS_HINT_FILL, 0.5)
-    en.cursor_set("xterm")
+    en = Entry(win, scrollable=True, single_line=True, entry="Xterm cursor"
+        size_hint_weight=EXPAND_HORIZ, size_hint_align=FILL_HORIZ,
+        cursor="xterm")
     bx.pack_end(en)
     en.show()
 
-    win.resize(320, 480)
     win.show()
 
 
 def cursor2_clicked(obj, item=None):
-    win = Window("cursors", elementary.ELM_WIN_BASIC)
-    win.title_set("Cursors 2")
-    win.autodel_set(True)
+    win = StandardWindow("cursors", "Cursors 2", autodel=True, size=(320, 480))
 
-    bg = Background(win)
-    win.resize_object_add(bg)
-    bg.size_hint_weight_set(evas.EVAS_HINT_EXPAND, evas.EVAS_HINT_EXPAND)
-    bg.show()
-
-    bx = Box(win)
+    bx = Box(win, size_hint_weight=EXPAND_BOTH)
     win.resize_object_add(bx)
-    bx.size_hint_weight_set(evas.EVAS_HINT_EXPAND, evas.EVAS_HINT_EXPAND)
     bx.show()
 
-    tb = Toolbar(win)
+    tb = Toolbar(win, size_hint_weight=(0.0, 0.0),
+        size_hint_align=(EVAS_HINT_FILL, 0.0))
     ti = tb.item_append("folder-new", "Bogosity", None, None)
     ti.cursor_set("bogosity")
     ti = tb.item_append("clock", "Unset", None, None)
     ti.cursor_unset()
     ti = tb.item_append("document-print", "Xterm", None, None)
     ti.cursor_set("xterm")
-    tb.size_hint_weight_set(0.0, 0.0)
-    tb.size_hint_align_set(evas.EVAS_HINT_FILL, 0.0)
     bx.pack_end(tb)
     tb.show()
 
-    lst = List(win)
+    lst = List(win, size_hint_weight=EXPAND_BOTH, size_hint_align=FILL_BOTH)
     li = lst.item_append("cursor bogosity")
     li.cursor_set("bogosity")
     li = lst.item_append("cursor unset")
     li.cursor_unset()
     li = lst.item_append("cursor xterm")
     li.cursor_set("xterm")
-    lst.size_hint_weight_set(evas.EVAS_HINT_EXPAND, evas.EVAS_HINT_EXPAND)
-    lst.size_hint_align_set(evas.EVAS_HINT_FILL, evas.EVAS_HINT_FILL)
     bx.pack_end(lst)
     lst.go()
     lst.show()
 
-    win.resize(320, 480)
     win.show()
 
 
 def cursor3_clicked(obj, item=None):
-    win = Window("cursors", elementary.ELM_WIN_BASIC)
-    win.title_set("Cursors 3")
-    win.autodel_set(True)
+    win = StandardWindow("cursors", "Cursors 3", autodel=True, size=(320, 480))
 
     elementary.theme_extension_add("./cursors.edj")
-    bg = Background(win)
-    win.resize_object_add(bg)
-    bg.size_hint_weight_set(evas.EVAS_HINT_EXPAND, evas.EVAS_HINT_EXPAND)
-    bg.show()
 
-    bx = Box(win)
+    bx = Box(win, size_hint_weight=EXPAND_BOTH)
     win.resize_object_add(bx)
-    bx.size_hint_weight_set(evas.EVAS_HINT_EXPAND, evas.EVAS_HINT_EXPAND)
     bx.show()
 
-    bt = Button(win)
-    bt.text_set("hand1")
-    bt.cursor_set("hand1")
-    bt.cursor_theme_search_enabled_set(False)
+    bt = Button(win, text="hand1", cursor="hand1",
+        cursor_theme_search_enabled=False)
     bx.pack_end(bt)
     bt.show()
 
-    bt = Button(win)
-    bt.text_set("hand2 x")
-    bt.cursor_set("hand2")
+    bt = Button(win, text="hand2 x", cursor="hand2")
     bx.pack_end(bt)
     bt.show()
 
-    bt = Button(win)
-    bt.text_set("hand2")
-    bt.cursor_set("hand2")
-    bt.cursor_theme_search_enabled_set(False)
+    bt = Button(win, text="hand2", cursor="hand2",
+        cursor_theme_search_enabled=False)
     bx.pack_end(bt)
     bt.show()
 
-    bt = Button(win)
-    bt.text_set("hand3")
-    bt.cursor_set("hand3")
-    bt.cursor_theme_search_enabled_set(False)
+    bt = Button(win, text="hand3", cursor="hand3",
+        cursor_theme_search_enabled=False)
     bx.pack_end(bt)
     bt.show()
 
-    bt = Button(win)
-    bt.text_set("hand3")
-    bt.cursor_set("hand3")
-    bt.cursor_theme_search_enabled_set(False)
-    bt.cursor_style_set("transparent")
+    bt = Button(win, text="hand3", cursor="hand3",
+        cursor_theme_search_enabled=False, cursor_style="transparent")
     bx.pack_end(bt)
     bt.show()
 
-    bt = Button(win)
-    bt.text_set("not existent")
-    bt.cursor_set("hand4")
-    bt.cursor_theme_search_enabled_set(False)
+    bt = Button(win, text="not existent", cursor="hand4",
+        cursor_theme_search_enabled=False)
     bx.pack_end(bt)
     bt.show()
 
     elementary.cursor_engine_only_set(False)
-    bt = Button(win)
-    bt.text_set("hand 2 engine only config false")
-    bt.cursor_set("hand2")
+
+    bt = Button(win, text="hand 2 engine only config false", cursor="hand2")
     bx.pack_end(bt)
     bt.show()
 
     elementary.cursor_engine_only_set(True)
-    bt = Button(win)
-    bt.text_set("hand 2 engine only config true")
-    bt.cursor_set("hand2")
+
+    bt = Button(win, text="hand 2 engine only config true", cursor="hand2")
     bx.pack_end(bt)
     bt.show()
 
-    lst = List(win)
+    lst = List(win, size_hint_weight=EXPAND_BOTH, size_hint_align=FILL_BOTH)
     li = lst.item_append("cursor hand2 x")
     li.cursor_set("hand2")
     li = lst.item_append("cursor hand2")
@@ -199,56 +150,40 @@ def cursor3_clicked(obj, item=None):
     li.cursor_engine_only_set(False)
     li = lst.item_append("cursor hand3 transparent")
     li.cursor_set("hand3")
-    bt.cursor_style_set("transparent")
+    li.cursor_style_set("transparent")
     li.cursor_engine_only_set(False)
-    lst.size_hint_weight_set(evas.EVAS_HINT_EXPAND, evas.EVAS_HINT_EXPAND)
-    lst.size_hint_align_set(evas.EVAS_HINT_FILL, evas.EVAS_HINT_FILL)
     bx.pack_end(lst)
     lst.go()
     lst.show()
 
-    win.resize(320, 480)
     win.show()
 
 
 if __name__ == "__main__":
-    def destroy(obj):
-        elementary.exit()
-
     elementary.init()
-    win = Window("test", elementary.ELM_WIN_BASIC)
-    win.title_set("python-elementary test application")
-    win.callback_delete_request_add(destroy)
+    win = StandardWindow("test", "python-elementary test application",
+        size=(320,520))
+    win.callback_delete_request_add(lambda o: elementary.exit())
 
-    bg = Background(win)
-    win.resize_object_add(bg)
-    bg.size_hint_weight_set(evas.EVAS_HINT_EXPAND, evas.EVAS_HINT_EXPAND)
-    bg.show()
-
-    box0 = Box(win)
-    box0.size_hint_weight_set(evas.EVAS_HINT_EXPAND, evas.EVAS_HINT_EXPAND)
+    box0 = Box(win, size_hint_weight=EXPAND_BOTH)
     win.resize_object_add(box0)
     box0.show()
-
-    fr = Frame(win)
-    fr.text_set("Information")
-    box0.pack_end(fr)
-    fr.show()
 
     lb = Label(win)
     lb.text_set("Please select a test from the list below<br>"
                  "by clicking the test button to show the<br>"
                  "test window.")
-    fr.content_set(lb)
     lb.show()
+
+    fr = Frame(win, text="Information", content=lb)
+    box0.pack_end(fr)
+    fr.show()
 
     items = [("Cursor", cursor_clicked),
              ("Cursor 2", cursor2_clicked),
              ("Cursor 3", cursor3_clicked)]
 
-    li = List(win)
-    li.size_hint_weight_set(evas.EVAS_HINT_EXPAND, evas.EVAS_HINT_EXPAND)
-    li.size_hint_align_set(evas.EVAS_HINT_FILL, evas.EVAS_HINT_FILL)
+    li = List(win, size_hint_weight=EXPAND_BOTH, size_hint_align=FILL_BOTH)
     box0.pack_end(li)
     li.show()
 
@@ -257,8 +192,6 @@ if __name__ == "__main__":
 
     li.go()
 
-    win.resize(320, 480)
     win.show()
     elementary.run()
     elementary.shutdown()
-

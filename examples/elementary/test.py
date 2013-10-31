@@ -38,6 +38,7 @@ items = [
             ("Evas Objects", "test_core_evas_objects", "core_evas_objects_clicked"),
             ("Evas Canvas Callbacks", "test_core_evas_canvas_callbacks", "core_evas_canvas_callbacks_clicked"),
             ("Evas Object Callbacks", "test_core_evas_object_callbacks", "core_evas_object_callbacks_clicked"),
+            ("Evas Textgrid", "test_evas_textgrid", "evas_textgrid_clicked"),
          ]),
          ("3D", [
             ("Evas Map 3D", "test_3d", "evas3d_clicked"),
@@ -207,17 +208,14 @@ def selected_cb(o, mod, func):
 def menu_create(search, win):
     tbx.clear()
     for category in items:
-        frame = Frame(win,
-            size_hint_weight=EXPAND_BOTH, size_hint_align=FILL_BOTH,
-            text=category[0]
-            )
+        frame = Frame(win, size_hint_weight=EXPAND_BOTH,
+            size_hint_align=FILL_BOTH, text=category[0])
         frame.show()
         tbx.pack_end(frame)
 
         tbx2 = Box(win, layout=ELM_BOX_LAYOUT_FLOW_HORIZONTAL,
             size_hint_weight=(EVAS_HINT_EXPAND, 0.0),
-            size_hint_align=(EVAS_HINT_FILL, 0.0)
-            )
+            size_hint_align=(EVAS_HINT_FILL, 0.0))
         frame.content_set(tbx2)
         tbx2.show()
 
@@ -269,11 +267,8 @@ if __name__ == "__main__":
     box0.pack_end(tg)
     tg.show()
 
-    bx1 = Box(win,
-        size_hint_weight=(EVAS_HINT_EXPAND, 0.0),
-        size_hint_align=(EVAS_HINT_FILL, 0.0),
-        horizontal=True
-        )
+    bx1 = Box(win, size_hint_weight=(EVAS_HINT_EXPAND, 0.0),
+        size_hint_align=(EVAS_HINT_FILL, 0.0), horizontal=True)
     box0.pack_end(bx1)
     bx1.show()
 
@@ -282,23 +277,19 @@ if __name__ == "__main__":
     lb.show()
 
     en = Entry(win, single_line=True, scrollable=True,
-        size_hint_weight=EXPAND_BOTH, size_hint_align=FILL_BOTH
-        )
+        size_hint_weight=EXPAND_BOTH, size_hint_align=FILL_BOTH)
     en.callback_changed_add(cb_filter, win)
     bx1.pack_end(en)
     en.show()
     en.focus_set(True)
 
     sc = Scroller(win, size_hint_weight=EXPAND_BOTH, size_hint_align=FILL_BOTH,
-        bounce=(False, True)
-        )
+        bounce=(False, True))
     sc.show()
     box0.pack_end(sc)
 
-    tbx = Box(win,
-        size_hint_weight=(EVAS_HINT_EXPAND, 0.0),
-        size_hint_align=(EVAS_HINT_FILL, 0.0)
-        )
+    tbx = Box(win, size_hint_weight=(EVAS_HINT_EXPAND, 0.0),
+        size_hint_align=(EVAS_HINT_FILL, 0.0))
     sc.content_set(tbx)
     tbx.show()
 

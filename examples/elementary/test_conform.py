@@ -12,77 +12,66 @@ from efl.elementary.scroller import Scrollable
 
 from efl.evas import EVAS_HINT_EXPAND, EVAS_HINT_FILL
 
+EXPAND_BOTH = EVAS_HINT_EXPAND, EVAS_HINT_EXPAND
+EXPAND_HORIZ = EVAS_HINT_EXPAND, 0.0
+FILL_BOTH = EVAS_HINT_FILL, EVAS_HINT_FILL
+FILL_HORIZ = EVAS_HINT_FILL, 0.5
+
 class ScrollableEntry(Scrollable, Entry):
     def __init__(self, canvas, *args, **kwargs):
-        Entry.__init__(self, canvas)
+        Entry.__init__(self, canvas, *args, **kwargs)
         self.scrollable = True
 
 def conformant_clicked(obj, item=None):
-    win = StandardWindow("conformant", "Conformant")
-    win.autodel = True
-    win.conformant = True
+    win = StandardWindow("conformant", "Conformant", autodel=True,
+        conformant=True, size=(240,240))
 
-    conform = Conformant(win)
-    conform.size_hint_weight = EVAS_HINT_EXPAND, EVAS_HINT_EXPAND
+    conform = Conformant(win, size_hint_weight=EXPAND_BOTH)
     win.resize_object_add(conform)
     conform.show()
 
-    bx = Box(win)
-    bx.size_hint_weight = EVAS_HINT_EXPAND, EVAS_HINT_EXPAND
-    bx.size_hint_align = EVAS_HINT_FILL, EVAS_HINT_FILL
+    bx = Box(win, size_hint_weight=EXPAND_BOTH, size_hint_align=FILL_BOTH)
 
-    en = ScrollableEntry(win)
-    en.single_line = True
-    en.bounce = True, False
-    en.text = "This is the top entry here"
-    en.size_hint_weight = EVAS_HINT_EXPAND, 0.0
-    en.size_hint_align = EVAS_HINT_FILL, 0.5
+    en = ScrollableEntry(win, single_line=True, bounce=(True, False),
+        text="This is the top entry here", size_hint_weight=EXPAND_HORIZ,
+        size_hint_align=FILL_HORIZ)
     en.show()
     bx.pack_end(en)
 
-    btn = Button(win)
-    btn.text = "Test Conformant"
-    btn.size_hint_weight = EVAS_HINT_EXPAND, 0.0
-    btn.size_hint_align = EVAS_HINT_FILL, EVAS_HINT_FILL
+    btn = Button(win, text="Test Conformant", size_hint_weight=EXPAND_HORIZ,
+        size_hint_align=FILL_BOTH)
     bx.pack_end(btn)
     btn.show()
 
-    en = ScrollableEntry(win)
-    en.single_line = True
-    en.bounce = True, False
-    en.text = "This is the middle entry here"
-    en.size_hint_weight = EVAS_HINT_EXPAND, 0.0
-    en.size_hint_align = EVAS_HINT_FILL, 0.5
+    en = ScrollableEntry(win, single_line=True, bounce=(True, False),
+        text="This is the middle entry here", size_hint_weight=EXPAND_HORIZ,
+        size_hint_align=FILL_HORIZ)
     en.show()
     bx.pack_end(en)
 
-    btn = Button(win)
-    btn.text = "Test Conformant"
-    btn.size_hint_weight = EVAS_HINT_EXPAND, EVAS_HINT_EXPAND
-    btn.size_hint_align = EVAS_HINT_FILL, EVAS_HINT_FILL
+    btn = Button(win, text="Test Conformant", size_hint_weight=EXPAND_BOTH,
+        size_hint_align=FILL_BOTH)
     bx.pack_end(btn)
     btn.show()
 
-    en = ScrollableEntry(win)
-    en.bounce = False, True
-    en.text = "This is a multi-line entry at the bottom<br/>" \
-    "This can contain more than 1 line of text and be " \
-    "scrolled around to allow for entering of lots of " \
-    "content. It is also to test to see that autoscroll " \
-    "moves to the right part of a larger multi-line " \
-    "text entry that is inside of a scroller than can be " \
-    "scrolled around, thus changing the expected position " \
-    "as well as cursor changes updating auto-scroll when " \
-    "it is enabled."
-    en.size_hint_weight = EVAS_HINT_EXPAND, EVAS_HINT_EXPAND
-    en.size_hint_align = EVAS_HINT_FILL, EVAS_HINT_FILL
+    en = ScrollableEntry(win, bounce=(False, True),
+        size_hint_weight=EXPAND_BOTH, size_hint_align=FILL_BOTH)
+    en.text = \
+        "This is a multi-line entry at the bottom<br/>" \
+        "This can contain more than 1 line of text and be " \
+        "scrolled around to allow for entering of lots of " \
+        "content. It is also to test to see that autoscroll " \
+        "moves to the right part of a larger multi-line " \
+        "text entry that is inside of a scroller than can be " \
+        "scrolled around, thus changing the expected position " \
+        "as well as cursor changes updating auto-scroll when " \
+        "it is enabled."
     en.show()
     bx.pack_end(en)
 
     conform.content = bx
     bx.show()
 
-    win.size = 240, 240
     win.show()
 
 def popobj(obj, *args, **kwargs):
@@ -90,63 +79,45 @@ def popobj(obj, *args, **kwargs):
     nf.item_pop()
 
 def conformant2_clicked(obj, item=None):
-    win = StandardWindow("conformant2", "Conformant 2")
-    win.autodel = True
-    win.conformant = True
+    win = StandardWindow("conformant2", "Conformant 2", autodel=True,
+        conformant=True, size=(240,480))
 
-    bx = Box(win)
-    bx.size_hint_weight = EVAS_HINT_EXPAND, EVAS_HINT_EXPAND
+    bx = Box(win, size_hint_weight=EXPAND_BOTH)
     win.resize_object_add(bx)
     bx.show()
 
-    en = ScrollableEntry(win)
-    en.single_line = True
-    en.bounce = True, False
-    en.text = "This is the top entry here"
-    en.size_hint_weight = EVAS_HINT_EXPAND, 0.0
-    en.size_hint_align = EVAS_HINT_FILL, 0.5
+    en = ScrollableEntry(win, single_line=True, bounce=(True, False),
+        text="This is the top entry here", size_hint_weight=EXPAND_HORIZ,
+        size_hint_align=FILL_HORIZ)
     bx.pack_end(en)
     en.show()
 
-    btn = Button(win)
-    btn.focus_allow = False
-    btn.text = "Delete Below"
-    btn.size_hint_weight = EVAS_HINT_EXPAND, 0.0
-    btn.size_hint_align = EVAS_HINT_FILL, EVAS_HINT_FILL
+    btn = Button(win, focus_allow=False, text="Delete Below",
+        size_hint_weight=EXPAND_HORIZ, size_hint_align=FILL_BOTH)
     bx.pack_end(btn)
     btn.show()
 
-    pg = Naviframe(win)
-    pg.size_hint_weight = EVAS_HINT_EXPAND, EVAS_HINT_EXPAND
-    pg.size_hint_align = EVAS_HINT_FILL, EVAS_HINT_FILL
+    pg = Naviframe(win, size_hint_weight=EXPAND_BOTH, size_hint_align=FILL_BOTH)
     bx.pack_end(pg)
     pg.show()
 
     btn.callback_clicked_add(popobj, pg)
 
-    conform = Conformant(win)
-    conform.size_hint_weight = EVAS_HINT_EXPAND, EVAS_HINT_EXPAND
-    conform.size_hint_align = EVAS_HINT_FILL, EVAS_HINT_FILL
+    conform = Conformant(win, size_hint_weight=EXPAND_BOTH,
+        size_hint_align=FILL_BOTH)
     pg.item_simple_push(conform)
     conform.show()
 
-    bx = Box(win)
-    bx.size_hint_weight = EVAS_HINT_EXPAND, EVAS_HINT_EXPAND
-    bx.size_hint_align = EVAS_HINT_FILL, EVAS_HINT_FILL
+    bx = Box(win, size_hint_weight=EXPAND_BOTH, size_hint_align=FILL_BOTH)
 
-    en = ScrollableEntry(win)
-    en.bounce = False, True
-    en.text = "This entry and button below get deleted."
-    en.size_hint_weight = EVAS_HINT_EXPAND, EVAS_HINT_EXPAND
-    en.size_hint_align = EVAS_HINT_FILL, EVAS_HINT_FILL
+    en = ScrollableEntry(win, bounce=(False, True),
+        text="This entry and button below get deleted.",
+        size_hint_weight=EXPAND_BOTH, size_hint_align=FILL_BOTH)
     en.show()
     bx.pack_end(en)
 
-    btn = Button(win)
-    btn.focus_allow = False
-    btn.text = "Delete this bottom bit 1"
-    btn.size_hint_weight = EVAS_HINT_EXPAND, 0.0
-    btn.size_hint_align = EVAS_HINT_FILL, EVAS_HINT_FILL
+    btn = Button(win, focus_allow=False, text="Delete this bottom bit 1",
+        size_hint_weight=EXPAND_HORIZ, size_hint_align=FILL_BOTH)
     bx.pack_end(btn)
     btn.show()
 
@@ -155,29 +126,21 @@ def conformant2_clicked(obj, item=None):
     conform.content = bx
     bx.show()
 
-    conform = Conformant(win)
-    conform.size_hint_weight = EVAS_HINT_EXPAND, EVAS_HINT_EXPAND
-    conform.size_hint_align = EVAS_HINT_FILL, EVAS_HINT_FILL
+    conform = Conformant(win, size_hint_weight=EXPAND_BOTH,
+        size_hint_align=FILL_BOTH)
     pg.item_simple_push(conform)
     conform.show()
 
-    bx = Box(win)
-    bx.size_hint_weight = EVAS_HINT_EXPAND, EVAS_HINT_EXPAND
-    bx.size_hint_align = EVAS_HINT_FILL, EVAS_HINT_FILL
+    bx = Box(win, size_hint_weight=EXPAND_BOTH, size_hint_align=FILL_BOTH)
 
-    en = ScrollableEntry(win)
-    en.bounce = False, True
-    en.text = "This entry and button below get deleted."
-    en.size_hint_weight = EVAS_HINT_EXPAND, EVAS_HINT_EXPAND
-    en.size_hint_align = EVAS_HINT_FILL, EVAS_HINT_FILL
+    en = ScrollableEntry(win, bounce=(False, True),
+        text="This entry and button below get deleted.",
+        size_hint_weight=EXPAND_BOTH, size_hint_align=FILL_BOTH)
     en.show()
     bx.pack_end(en)
 
-    btn = Button(win)
-    btn.focus_allow = False
-    btn.text = "Delete this bottom bit 2"
-    btn.size_hint_weight = EVAS_HINT_EXPAND, 0.0
-    btn.size_hint_align = EVAS_HINT_FILL, EVAS_HINT_FILL
+    btn = Button(win, focus_allow=False, text="Delete this bottom bit 2",
+        size_hint_weight=EXPAND_HORIZ, size_hint_align=FILL_BOTH)
     bx.pack_end(btn)
     btn.show()
 
@@ -186,39 +149,34 @@ def conformant2_clicked(obj, item=None):
     conform.content = bx
     bx.show()
 
-    win.size = 240, 480
     win.show()
 
 if __name__ == "__main__":
     elementary.init()
-    win = StandardWindow("test", "python-elementary test application")
+    win = StandardWindow("test", "python-elementary test application",
+        size=(320,520))
     win.callback_delete_request_add(lambda o: elementary.exit())
 
-    box0 = Box(win)
-    box0.size_hint_weight = EVAS_HINT_EXPAND, EVAS_HINT_EXPAND
+    box0 = Box(win, size_hint_weight=EXPAND_BOTH)
     win.resize_object_add(box0)
     box0.show()
 
-    fr = Frame(win)
-    fr.text = "Information"
+    lb = Label(win)
+    lb.text_set("Please select a test from the list below<br>"
+                 "by clicking the test button to show the<br>"
+                 "test window.")
+    lb.show()
+
+    fr = Frame(win, text="Information", content=lb)
     box0.pack_end(fr)
     fr.show()
-
-    lb = Label(win)
-    lb.text = "Please select a test from the list below<br>" \
-                "by clicking the test button to show the<br>" \
-                "test window."
-    fr.content_set(lb)
-    lb.show()
 
     items = [
         ("Conformant", conformant_clicked),
         ("Conformant 2", conformant2_clicked),
     ]
 
-    li = List(win)
-    li.size_hint_weight_set(EVAS_HINT_EXPAND, EVAS_HINT_EXPAND)
-    li.size_hint_align_set(EVAS_HINT_FILL, EVAS_HINT_FILL)
+    li = List(win, size_hint_weight=EXPAND_BOTH, size_hint_align=FILL_BOTH)
     box0.pack_end(li)
     li.show()
 
@@ -227,7 +185,6 @@ if __name__ == "__main__":
 
     li.go()
 
-    win.resize(320,520)
     win.show()
     elementary.run()
     elementary.shutdown()
