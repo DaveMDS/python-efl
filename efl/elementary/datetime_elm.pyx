@@ -463,35 +463,39 @@ cdef class Datetime(Object):
             time.tm_isdst = tmtup.tm_isdst
             elm_datetime_value_min_set(self.obj, &time)
 
-    property field_limit:
-        """The field limits of a field.
+    def field_limit_get(self, Elm_Datetime_Field_Type fieldtype):
+        """Get the field limits of a field.
 
-        Limits can be set to individual fields, independently, except for
-        AM/PM field. Any field can display the values only in between these
-        Minimum and Maximum limits unless the corresponding time value is
-        restricted from MinTime to MaxTime. That is, Min/ Max field limits
-        always works under the limitations of MinTime/ MaxTime.
+        Limits can be set to individual fields, independently, except for AM/PM field.
+        Any field can display the values only in between these Minimum and Maximum limits unless
+        the corresponding time value is restricted from MinTime to MaxTime.
+        That is, Min/ Max field limits always works under the limitations of MinTime/ MaxTime.
 
         There is no provision to set the limits of AM/PM field.
 
-        Type of the field. ELM_DATETIME_YEAR etc.
-        Reference to field's minimum value
-        Reference to field's maximum value
-
-        type: (:ref:`Elm_Datetime_Field_Type`, int, int)
+        :param fieldtype: Type of the field. ELM_DATETIME_YEAR etc.
 
         """
-        def __get__(self):
-            cdef int min, max
-            cdef Elm_Datetime_Field_Type fieldtype = ELM_DATETIME_YEAR
-            elm_datetime_field_limit_get(self.obj, fieldtype, &min, &max)
-            return (fieldtype, min, max)
+        cdef int min, max
+        elm_datetime_field_limit_get(self.obj, fieldtype, &min, &max)
+        return min, max
 
-        def __set__(self, value):
-            cdef int min, max
-            cdef Elm_Datetime_Field_Type fieldtype
-            min, max, fieldtype = value
-            elm_datetime_field_limit_set(self.obj, fieldtype, min, max)
+    def field_limit_set(self, Elm_Datetime_Field_Type fieldtype, int min, int max):
+        """Set the field limits of a field.
+
+        Limits can be set to individual fields, independently, except for AM/PM field.
+        Any field can display the values only in between these Minimum and Maximum limits unless
+        the corresponding time value is restricted from MinTime to MaxTime.
+        That is, Min/ Max field limits always works under the limitations of MinTime/ MaxTime.
+
+        There is no provision to set the limits of AM/PM field.
+
+        :param Elm_Datetime_Field_Type fieldtype: Type of the field. ELM_DATETIME_YEAR etc.
+        :param int min: Reference to field's minimum value
+        :param int max: Reference to field's maximum value
+
+        """
+        elm_datetime_field_limit_set(self.obj, fieldtype, min, max)
 
     property value:
         """The current value of a field.
