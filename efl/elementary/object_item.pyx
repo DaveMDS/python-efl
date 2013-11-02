@@ -31,8 +31,6 @@ from efl.utils.conversions cimport python_list_objects_to_eina_list, \
 from object cimport Object
 import traceback
 
-cdef class ObjectItem
-
 cdef Elm_Object_Item * _object_item_from_python(ObjectItem item) except NULL:
     if item is None or item.item is NULL:
         raise TypeError("Invalid item!")
@@ -89,7 +87,17 @@ cdef void _object_item_callback(void *data, Evas_Object *obj, void *event_info) 
 
 cdef class ObjectItem(object):
 
-    """A generic item for the widgets."""
+    """
+
+    A generic item for the widgets.
+
+    .. py:attribute:: data
+
+        :type: dict
+
+        A dictionary object that holds user data.
+
+    """
 
     # Notes to bindings' developers:
     # ==============================
@@ -98,6 +106,9 @@ cdef class ObjectItem(object):
     # instance pointer, and the attribute "item", that you see below, contains
     # a pointer to Elm_Object_Item.
     #
+
+    def __cinit__(self):
+        self.data = dict()
 
     def __dealloc__(self):
         if self.item != NULL:
@@ -363,21 +374,6 @@ cdef class ObjectItem(object):
         if isinstance(txt, unicode): txt = PyUnicode_AsUTF8String(txt)
         elm_object_item_access_info_set(self.item,
             <const_char *>txt if txt is not None else NULL)
-
-    property data:
-        def __get__(self):
-            return (self.args, self.kwargs)
-
-        def __set__(self, data):
-            args, kwargs = data
-            self.args = args
-            self.kwargs = kwargs
-
-    def data_get(self):
-        return (self.args, self.kwargs)
-    def data_set(self, *args, **kwargs):
-        self.args = args
-        self.kwargs = kwargs
 
     def signal_emit(self, emission, source):
         """signal_emit(unicode emission, unicode source)

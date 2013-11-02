@@ -69,6 +69,7 @@ cdef class ObjectItem(object):
         object cb_func
         tuple args
         dict kwargs
+        readonly dict data
         int _set_obj(self, Elm_Object_Item *item) except 0
 
     cpdef text_set(self, text)

@@ -34,6 +34,11 @@ Elementary
 * Unit tests, things like top_widget and getting child objects
   can be done easily.
 * Fix Theme API, add a test
+* ObjectItem.data changed to dict (like in Eo). Find out what this affects
+  and document it.
+* Item add methods (constructors) should be changed to have cb_args in a
+  single argument, not args, kwargs, and it should be assigned to
+  ObjectItem.data dict as necessary.
 
 * New documentation images with the new default theme.
 * Images missing in the documentation:
