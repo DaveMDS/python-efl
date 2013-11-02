@@ -74,7 +74,7 @@ cdef class ObjectItem(object):
 
     cpdef text_set(self, text)
     cpdef text_get(self)
-    cpdef access_info_set(self, txt)
+    #cpdef access_info_set(self, txt)
     cpdef tooltip_style_set(self, style=*)
     cpdef tooltip_style_get(self)
     cpdef cursor_set(self, cursor)

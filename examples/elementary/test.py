@@ -132,7 +132,7 @@ items = [
             ("Gengrid", "test_gengrid", "gengrid_clicked"),
         ]),
          ("Miscellaneous", [
-            ("Accessibility", "test_access", "access_clicked"),
+            # ("Accessibility", "test_access", "access_clicked"),
             # ("Accessibility 2", "test_access", "access2_clicked"),
             # ("Accessibility 3", "test_access", "access3_clicked"),
             ("Configuration", "test_config", "config_clicked"),
