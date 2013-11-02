@@ -1,5 +1,9 @@
+#!/usr/bin/env python
+# encoding: utf-8
+
+import os
+
 from efl import elementary
-from efl import evas
 
 from efl.elementary.window import Window, ELM_WIN_BASIC
 from efl.elementary.transit import Transit
@@ -11,7 +15,13 @@ from efl.elementary.layout import Layout
 from efl.elementary.entry import Entry, ELM_WRAP_MIXED
 from efl.elementary.icon import Icon
 
-from efl.evas import Map, EVAS_HINT_EXPAND, EVAS_EVENT_FLAG_NONE
+from efl.evas import EVAS_HINT_EXPAND, EVAS_EVENT_FLAG_NONE, Map, Polygon
+
+EXPAND_BOTH = EVAS_HINT_EXPAND, EVAS_HINT_EXPAND
+EXPAND_HORIZ = EVAS_HINT_EXPAND, 0.0
+
+script_path = os.path.dirname(os.path.abspath(__file__))
+img_path = os.path.join(script_path, "images")
 
 #We zoom out to this value so we'll be able to use map and have a nice
 #resolution when zooming in.
@@ -33,9 +43,9 @@ class Photo_Object(object):
     # bx, by - current wanted coordinates of the photo object.
     # bw, bh - original size of the "ic" object.
     # dx, dy - Used to indicate the distance between the center point
-    # where we put down our fingers (when started moving the item) to
-    # the coords of the object, so we'll be able to calculate movement
-    # correctly.
+    #   where we put down our fingers (when started moving the item) to
+    #   the coords of the object, so we'll be able to calculate movement
+    #   correctly.
     bx, by, bw, bh, dx, dy = None, None, None, None, None, None
     # Because gesture layer only knows the amount of rotation/zoom we do
     # per gesture, we have to keep the current rotate/zoom factor and the
@@ -50,7 +60,7 @@ def apply_changes(po):
     evas objects. Zoom/rotate factors and etc.
     """
 
-    map = evas.Map(4)
+    map = Map(4)
     map.point_coord_set(0, po.bx, po.by, 0)
     map.point_coord_set(1, po.bx + po.bw, po.by, 0)
     map.point_coord_set(2, po.bx + po.bw, po.by + po.bh, 0)
@@ -250,12 +260,11 @@ def photo_object_add(parent, ic, icon, x, y, w, h, angle):
     po.bh = h
 
     # Add shadow
-    po.shadow = Icon(po.ic)
-    po.shadow.file = "images/pol_shadow.png"
+    po.shadow = Icon(po.ic, file=os.path.join(img_path, "pol_shadow.png"))
     po.shadow.size = SHADOW_W, SHADOW_H
     po.shadow.show()
 
-    po.hit = evas.Polygon(parent.evas)
+    po.hit = Polygon(parent.evas)
     po.hit.precise_is_inside = True
     po.hit.repeat_events = True
     po.hit.color = 0, 0, 0, 0
@@ -266,8 +275,7 @@ def photo_object_add(parent, ic, icon, x, y, w, h, angle):
 
     po.hit.show()
 
-    po.gl = GestureLayer(po.ic)
-    po.gl.hold_events = True
+    po.gl = GestureLayer(po.ic, hold_events=True)
     po.gl.attach(po.hit)
 
     # FIXME: Add a po.rotate start so we take the first angle!!!!
@@ -293,30 +301,28 @@ def gesture_layer_clicked(obj):
     w = 480
     h = 800
 
-    win = Window("gesture-layer", ELM_WIN_BASIC)
-    win.title = "Gesture Layer"
-    win.autodel = True
-    win.size = w, h
+    win = Window("gesture-layer", ELM_WIN_BASIC, title="Gesture Layer",
+        autodel=True, size=(w, h))
     if obj is None:
         win.callback_delete_request_add(lambda o: elementary.exit())
 
-    bg = Background(win)
-    bg.file = "images/wood_01.jpg"
-    bg.size_hint_weight = EVAS_HINT_EXPAND, EVAS_HINT_EXPAND
+    bg = Background(win, file=os.path.join(img_path, "wood_01.jpg"),
+        size_hint_weight=EXPAND_BOTH)
     win.resize_object_add(bg)
     bg.show()
 
     photos = []
 
-    photos.append(photo_object_add(win, None, "images/pol_sky.png", 200, 200, 365, 400, 0))
-    photos.append(photo_object_add(win, None, "images/pol_twofish.png", 40, 300, 365, 400, 45))
+    photos.append(photo_object_add(win, None,
+        os.path.join(img_path, "pol_sky.png"), 200, 200, 365, 400, 0))
+    photos.append(photo_object_add(win, None,
+        os.path.join(img_path, "pol_twofish.png"), 40, 300, 365, 400, 45))
 
-    en = Entry(win)
+    en = Entry(win, line_wrap=ELM_WRAP_MIXED)
     en.text = "You can use whatever object you want, even entries like this."
-    en.line_wrap = ELM_WRAP_MIXED
 
-    postit = Layout(win)
-    postit.file = "postit_ent.edj", "main"
+    postit = Layout(win,
+        file=(os.path.join(script_path, "postit_ent.edj"), "main"))
     postit.part_content_set("ent", en)
 
     photos.append(photo_object_add(win, postit, None, 50, 50, 382, 400, 355))

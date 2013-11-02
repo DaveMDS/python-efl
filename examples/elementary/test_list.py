@@ -1,81 +1,65 @@
 #!/usr/bin/env python
 # encoding: utf-8
 
-from efl import evas
+import os
+
+from efl.evas import EVAS_HINT_EXPAND, EVAS_HINT_FILL
 from efl import elementary
-from efl.elementary.window import Window
+from efl.elementary.window import StandardWindow, Window, ELM_WIN_BASIC
 from efl.elementary.background import Background
 from efl.elementary.box import Box
 from efl.elementary.button import Button
 from efl.elementary.frame import Frame
 from efl.elementary.label import Label
-from efl.elementary.list import List
+from efl.elementary.list import List, ELM_LIST_LIMIT, ELM_LIST_COMPRESS
 from efl.elementary.icon import Icon
 from efl.elementary.table import Table
 
+EXPAND_BOTH = EVAS_HINT_EXPAND, EVAS_HINT_EXPAND
+EXPAND_HORIZ = EVAS_HINT_EXPAND, 0.0
+FILL_BOTH = EVAS_HINT_FILL, EVAS_HINT_FILL
+ALIGN_CENTER = 0.5, 0.5
+
+script_path = os.path.dirname(os.path.abspath(__file__))
+img_path = os.path.join(script_path, "images")
 
 def my_list_show_it(obj, it):
     it.show()
 
 def list_clicked(obj, item=None):
-    win = Window("list", elementary.ELM_WIN_BASIC)
-    win.title_set("List")
-    win.autodel_set(True)
+    win = StandardWindow("list", "List", autodel=True, size=(320, 320))
 
-    bg = Background(win)
-    win.resize_object_add(bg)
-    bg.size_hint_weight_set(evas.EVAS_HINT_EXPAND, evas.EVAS_HINT_EXPAND)
-    bg.show()
-
-    li = List(win)
+    li = List(win, size_hint_weight=EXPAND_BOTH)
     win.resize_object_add(li)
-    li.size_hint_weight_set(evas.EVAS_HINT_EXPAND, evas.EVAS_HINT_EXPAND)
 
-    ic = Icon(win)
-    ic.file_set('images/logo_small.png')
-    ic.resizable_set(1, 1)
+    ic = Icon(win, file=os.path.join(img_path, "logo_small.png"),
+        resizable=(True, True))
     it1 = li.item_append("Hello", ic)
-    ic = Icon(win)
-    ic.file_set('images/logo_small.png')
-    ic.resizable_set(0, 0)
+    ic = Icon(win, file=os.path.join(img_path, "logo_small.png"),
+        resizable=(False, False))
     li.item_append("Hello", ic)
-    ic = Icon(win)
-    ic.standard_set("edit")
-    ic.resizable_set(0, 0)
-    ic2 = Icon(win)
-    ic2.standard_set("clock")
-    ic2.resizable_set(0, 0)
+    ic = Icon(win, standard="edit", resizable=(False, False))
+    ic2 = Icon(win, standard="clock", resizable=(False, False))
     li.item_append(".", ic, ic2)
 
-    ic = Icon(win)
-    ic.standard_set("delete")
-    ic.resizable_set(0, 0)
-    ic2 = Icon(win)
-    ic2.standard_set("clock")
-    ic2.resizable_set(0, 0)
+    ic = Icon(win, standard="delete", resizable=(False, False))
+    ic2 = Icon(win, standard="clock", resizable=(False, False))
     it2 = li.item_append("How", ic, ic2)
 
-    bx = Box(win)
-    bx.horizontal_set(True)
+    bx = Box(win, horizontal=True)
 
-    ic = Icon(win)
-    ic.file_set('images/logo_small.png')
-    ic.resizable_set(0, 0)
-    ic.size_hint_align_set(0.5, 0.5)
+    ic = Icon(win, file=os.path.join(img_path, "logo_small.png"),
+        resizable=(False, False), size_hint_align=ALIGN_CENTER)
     bx.pack_end(ic)
     ic.show()
 
-    ic = Icon(win)
-    ic.file_set('images/logo_small.png')
-    ic.resizable_set(0, 0)
-    ic.size_hint_align_set(0.5, 0.0)
+    ic = Icon(win, file=os.path.join(img_path, "logo_small.png"),
+        resizable=(False, False), size_hint_align=(0.5, 0.0))
     bx.pack_end(ic)
     ic.show()
 
-    ic = Icon(win)
-    ic.file_set('images/logo_small.png')
-    ic.resizable_set(0, 0)
-    ic.size_hint_align_set(0.0, evas.EVAS_HINT_EXPAND)
+    ic = Icon(win, file=os.path.join(img_path, "logo_small.png"),
+        resizable=(False, False), size_hint_align=(0.0, EVAS_HINT_FILL))
     bx.pack_end(ic)
     ic.show()
     li.item_append("are")
@@ -98,53 +82,41 @@ def list_clicked(obj, item=None):
 
     li.show()
 
-    tb2 = Table(win)
-    tb2.size_hint_weight_set(evas.EVAS_HINT_EXPAND, evas.EVAS_HINT_EXPAND)
+    tb2 = Table(win, size_hint_weight=EXPAND_BOTH)
     win.resize_object_add(tb2)
 
-    bt = Button(win)
-    bt.text_set("Hello")
+    bt = Button(win, text="Hello", size_hint_weight=EXPAND_BOTH,
+        size_hint_align=(0.9, 0.5))
     bt.callback_clicked_add(my_list_show_it, it1)
-    bt.size_hint_weight_set(evas.EVAS_HINT_EXPAND, evas.EVAS_HINT_EXPAND)
-    bt.size_hint_align_set(0.9, 0.5)
     tb2.pack(bt, 0, 0, 1, 1);
     bt.show()
 
-    bt = Button(win)
-    bt.text_set("How")
+    bt = Button(win, text="How", size_hint_weight=EXPAND_BOTH,
+        size_hint_align=(0.9, 0.5))
     bt.callback_clicked_add(my_list_show_it, it2)
-    bt.size_hint_weight_set(evas.EVAS_HINT_EXPAND, evas.EVAS_HINT_EXPAND)
-    bt.size_hint_align_set(0.9, 0.5)
     tb2.pack(bt, 0, 1, 1, 1);
     bt.show()
 
-    bt = Button(win)
-    bt.text_set("doing")
+    bt = Button(win, text="doing", size_hint_weight=EXPAND_BOTH,
+        size_hint_align=(0.9, 0.5))
     bt.callback_clicked_add(my_list_show_it, it3)
-    bt.size_hint_weight_set(evas.EVAS_HINT_EXPAND, evas.EVAS_HINT_EXPAND)
-    bt.size_hint_align_set(0.9, 0.5)
     tb2.pack(bt, 0, 2, 1, 1);
     bt.show()
 
-    bt = Button(win)
-    bt.text_set("Here")
+    bt = Button(win, text="Here", size_hint_weight=EXPAND_BOTH,
+        size_hint_align=(0.9, 0.5))
     bt.callback_clicked_add(my_list_show_it, it4)
-    bt.size_hint_weight_set(evas.EVAS_HINT_EXPAND, evas.EVAS_HINT_EXPAND)
-    bt.size_hint_align_set(0.9, 0.5)
     tb2.pack(bt, 0, 3, 1, 1);
     bt.show()
 
-    bt = Button(win)
-    bt.text_set("Maybe this...")
+    bt = Button(win, text="Maybe this...", size_hint_weight=EXPAND_BOTH,
+        size_hint_align=(0.9, 0.5))
     bt.callback_clicked_add(my_list_show_it, it5)
-    bt.size_hint_weight_set(evas.EVAS_HINT_EXPAND, evas.EVAS_HINT_EXPAND)
-    bt.size_hint_align_set(0.9, 0.5)
     tb2.pack(bt, 0, 4, 1, 1);
     bt.show()
 
     tb2.show()
 
-    win.resize(320, 320)
     win.show()
 
 
@@ -157,61 +129,43 @@ def my_list2_sel(obj, it):
         it.selected_set(False)
 
 def list2_clicked(obj, item=None):
-    win = Window("list-2", elementary.ELM_WIN_BASIC)
-    win.title_set("List 2")
-    win.autodel_set(True)
+    win = Window("list-2", ELM_WIN_BASIC, title="List 2",
+        autodel=True, size=(320, 320))
 
-    bg = Background(win)
-    bg.file_set('images/plant_01.jpg')
+    bg = Background(win, file=os.path.join(img_path, "plant_01.jpg"),
+        size_hint_weight=EXPAND_BOTH)
     win.resize_object_add(bg)
-    bg.size_hint_weight_set(evas.EVAS_HINT_EXPAND, evas.EVAS_HINT_EXPAND)
     bg.show()
 
-    bx = Box(win)
-    bx.size_hint_weight_set(evas.EVAS_HINT_EXPAND, evas.EVAS_HINT_EXPAND)
+    bx = Box(win, size_hint_weight=EXPAND_BOTH)
     win.resize_object_add(bx)
     bx.show()
 
-    li = List(win)
-    li.size_hint_align_set(evas.EVAS_HINT_FILL, evas.EVAS_HINT_FILL)
-    li.size_hint_weight_set(evas.EVAS_HINT_EXPAND, evas.EVAS_HINT_EXPAND)
-    li.mode_set(elementary.ELM_LIST_LIMIT)
+    li = List(win, size_hint_align=FILL_BOTH, size_hint_weight=EXPAND_BOTH,
+        mode=ELM_LIST_LIMIT)
 
-    ic = Icon(win)
-    ic.file_set('images/logo_small.png')
+    ic = Icon(win, file=os.path.join(img_path, "logo_small.png"))
     it = li.item_append("Hello", ic, callback=my_list2_sel)
     it.selected_set(True)
-    ic = Icon(win)
-    ic.resizable_set(0, 0)
-    ic.file_set('images/logo_small.png')
+    ic = Icon(win, file=os.path.join(img_path, "logo_small.png"),
+        resizable=(False, False))
     li.item_append("world", ic)
-    ic = Icon(win)
-    ic.standard_set("edit")
-    ic.resizable_set(0, 0)
+    ic = Icon(win, standard="edit", resizable=(False, False))
     li.item_append(".", ic)
 
-    ic = Icon(win)
-    ic.standard_set("delete")
-    ic.resizable_set(0, 0)
-    ic2 = Icon(win)
-    ic2.standard_set("clock")
-    ic2.resizable_set(0, 0)
+    ic = Icon(win, standard="delete", resizable=(False, False))
+    ic2 = Icon(win, standard="clock", resizable=(False, False))
     it2 = li.item_append("How", ic, ic2)
 
-    bx2 = Box(win)
-    bx2.horizontal_set(True)
+    bx2 = Box(win, horizontal=True)
 
-    ic = Icon(win)
-    ic.file_set('images/logo_small.png')
-    ic.resizable_set(0, 0)
-    ic.size_hint_align_set(0.5, 0.5)
+    ic = Icon(win, file=os.path.join(img_path, "logo_small.png"),
+        resizable=(False, False), size_hint_align=ALIGN_CENTER)
     bx2.pack_end(ic)
     ic.show()
 
-    ic = Icon(win)
-    ic.file_set('images/logo_small.png')
-    ic.resizable_set(0, 0)
-    ic.size_hint_align_set(0.5, 0.0)
+    ic = Icon(win, file=os.path.join(img_path, "logo_small.png"),
+        resizable=(False, False), size_hint_align=(0.5, 0.0))
     bx2.pack_end(ic)
     ic.show()
 
@@ -235,83 +189,54 @@ def list2_clicked(obj, item=None):
     bx.pack_end(li)
     li.show()
 
-    bx2 = Box(win)
-    bx2.horizontal_set(True)
-    bx2.homogeneous_set(True)
-    bx2.size_hint_weight_set(evas.EVAS_HINT_EXPAND, 0.0)
-    bx2.size_hint_align_set(evas.EVAS_HINT_FILL, evas.EVAS_HINT_FILL)
+    bx2 = Box(win, horizontal=True, homogeneous=True,
+        size_hint_weight=EXPAND_HORIZ, size_hint_align=FILL_BOTH)
 
-    bt = Button(win)
-    bt.text_set("Clear")
+    bt = Button(win, text="Clear", size_hint_align=FILL_BOTH,
+        size_hint_weight=EXPAND_HORIZ)
     bt.callback_clicked_add(my_list2_clear, li)
-    bt.size_hint_align_set(evas.EVAS_HINT_FILL, evas.EVAS_HINT_FILL)
-    bt.size_hint_weight_set(evas.EVAS_HINT_EXPAND, 0.0)
     bx2.pack_end(bt)
     bt.show()
 
     bx.pack_end(bx2)
     bx2.show()
 
-    win.resize(320, 320)
     win.show()
 
 
 def list3_clicked(obj, item=None):
-    win = Window("list-3", elementary.ELM_WIN_BASIC)
-    win.title_set("List 3")
-    win.autodel_set(True)
+    win = StandardWindow("list-3", "List 3", autodel=True, size=(320, 300))
 
-    bg = Background(win)
-    win.resize_object_add(bg)
-    bg.size_hint_weight_set(evas.EVAS_HINT_EXPAND, evas.EVAS_HINT_EXPAND)
-    bg.show()
-
-    li = List(win)
+    li = List(win, size_hint_weight=EXPAND_BOTH, mode=ELM_LIST_COMPRESS)
     win.resize_object_add(li)
-    li.size_hint_weight_set(evas.EVAS_HINT_EXPAND, evas.EVAS_HINT_EXPAND)
-    li.mode_set(elementary.ELM_LIST_COMPRESS)
 
-    ic = Icon(win)
-    ic.file_set('images/logo_small.png')
+    ic = Icon(win, file=os.path.join(img_path, "logo_small.png"))
     li.item_append("Hello", ic)
-    ic = Icon(win)
-    ic.file_set('images/logo_small.png')
-    ic.resizable_set(0, 0)
+    ic = Icon(win, file=os.path.join(img_path, "logo_small.png"),
+        resizable=(False, False))
     li.item_append("world", ic)
-    ic = Icon(win)
-    ic.standard_set("edit")
-    ic.resizable_set(0, 0)
+    ic = Icon(win, standard="edit", resizable=(False, False))
     li.item_append(".", ic)
 
-    ic = Icon(win)
-    ic.standard_set("delete")
-    ic.resizable_set(0, 0)
-    ic2 = Icon(win)
-    ic2.standard_set("clock")
-    ic2.resizable_set(0, 0)
+    ic = Icon(win, standard="delete", resizable=(False, False))
+    ic2 = Icon(win, standard="clock", resizable=(False, False))
     it2 = li.item_append("How", ic, ic2)
 
-    bx = Box(win)
+    bx = Box(win, horizontal=True)
     bx.horizontal_set(True)
 
-    ic = Icon(win)
-    ic.file_set('images/logo_small.png')
-    ic.resizable_set(0, 0)
-    ic.size_hint_align_set(0.5, 0.5)
+    ic = Icon(win, standard="delete", resizable=(False, False),
+        size_hint_align=ALIGN_CENTER)
     bx.pack_end(ic)
     ic.show()
 
-    ic = Icon(win)
-    ic.file_set('images/logo_small.png')
-    ic.resizable_set(0, 0)
-    ic.size_hint_align_set(0.5, 0.0)
+    ic = Icon(win, file=os.path.join(img_path, "logo_small.png"),
+        resizable=(False, False), size_hint_align=(0.5, 0.0))
     bx.pack_end(ic)
     ic.show()
 
-    ic = Icon(win)
-    ic.file_set('images/logo_small.png')
-    ic.resizable_set(0, 0)
-    ic.size_hint_align_set(0.0, evas.EVAS_HINT_EXPAND)
+    ic = Icon(win, file=os.path.join(img_path, "logo_small.png"),
+        resizable=(False, False), size_hint_align=(0.0, EVAS_HINT_FILL))
     bx.pack_end(ic)
     ic.show()
 
@@ -331,51 +256,35 @@ def list3_clicked(obj, item=None):
     it5 = li.item_append("Maybe this one is even longer so we can test long long items.")
 
     li.go()
-
     li.show()
 
-    win.resize(320, 300)
     win.show()
 
-
 if __name__ == "__main__":
-    def destroy(obj):
-        elementary.exit()
-
     elementary.init()
-    win = Window("test", elementary.ELM_WIN_BASIC)
-    win.title_set("python-elementary test application")
-    win.callback_delete_request_add(destroy)
+    win = StandardWindow("test", "python-elementary test application",
+        size=(320,520))
+    win.callback_delete_request_add(lambda o: elementary.exit())
 
-    bg = Background(win)
-    win.resize_object_add(bg)
-    bg.size_hint_weight_set(evas.EVAS_HINT_EXPAND, evas.EVAS_HINT_EXPAND)
-    bg.show()
-
-    box0 = Box(win)
-    box0.size_hint_weight_set(evas.EVAS_HINT_EXPAND, evas.EVAS_HINT_EXPAND)
+    box0 = Box(win, size_hint_weight=EXPAND_BOTH)
     win.resize_object_add(box0)
     box0.show()
-
-    fr = Frame(win)
-    fr.text_set("Information")
-    box0.pack_end(fr)
-    fr.show()
 
     lb = Label(win)
     lb.text_set("Please select a test from the list below<br>"
                  "by clicking the test button to show the<br>"
                  "test window.")
-    fr.content_set(lb)
     lb.show()
+
+    fr = Frame(win, text="Information", content=lb)
+    box0.pack_end(fr)
+    fr.show()
 
     items = [("List", list_clicked),
              ("List 2", list2_clicked),
              ("List 3", list3_clicked)]
 
-    li = List(win)
-    li.size_hint_weight_set(evas.EVAS_HINT_EXPAND, evas.EVAS_HINT_EXPAND)
-    li.size_hint_align_set(evas.EVAS_HINT_FILL, evas.EVAS_HINT_FILL)
+    li = List(win, size_hint_weight=EXPAND_BOTH, size_hint_align=FILL_BOTH)
     box0.pack_end(li)
     li.show()
 
@@ -384,7 +293,6 @@ if __name__ == "__main__":
 
     li.go()
 
-    win.resize(320,520)
     win.show()
     elementary.run()
     elementary.shutdown()

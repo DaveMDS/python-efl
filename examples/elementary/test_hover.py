@@ -1,10 +1,11 @@
 #!/usr/bin/env python
 # encoding: utf-8
 
-from efl import evas
+import os
+
+from efl.evas import EVAS_HINT_EXPAND, EVAS_HINT_FILL
 from efl import elementary
-from efl.elementary.window import Window
-from efl.elementary.background import Background
+from efl.elementary.window import StandardWindow
 from efl.elementary.box import Box
 from efl.elementary.button import Button
 from efl.elementary.frame import Frame
@@ -13,204 +14,138 @@ from efl.elementary.label import Label
 from efl.elementary.list import List
 from efl.elementary.icon import Icon
 
+EXPAND_BOTH = EVAS_HINT_EXPAND, EVAS_HINT_EXPAND
+FILL_BOTH = EVAS_HINT_FILL, EVAS_HINT_FILL
+
+script_path = os.path.dirname(os.path.abspath(__file__))
+img_path = os.path.join(script_path, "images")
 
 def hover_bt1_clicked(bt, hv):
     hv.show()
 
 def hover_clicked(obj, item=None):
-    win = Window("hover", elementary.ELM_WIN_BASIC)
-    win.title_set("Hover")
-    win.autodel_set(True)
+    win = StandardWindow("hover", "Hover", autodel=True, size=(320, 320))
 
-    bg = Background(win)
-    win.resize_object_add(bg)
-    bg.size_hint_weight_set(evas.EVAS_HINT_EXPAND, evas.EVAS_HINT_EXPAND)
-    bg.show()
-
-    bx = Box(win)
+    bx = Box(win, size_hint_weight=EXPAND_BOTH)
     win.resize_object_add(bx)
-    bx.size_hint_weight_set(evas.EVAS_HINT_EXPAND, evas.EVAS_HINT_EXPAND)
     bx.show()
 
     hv = Hover(win)
 
-    bt = Button(win)
-    bt.text_set("Button")
+    bt = Button(win, text="Button")
     bt.callback_clicked_add(hover_bt1_clicked, hv)
     bx.pack_end(bt)
     bt.show()
-    hv.parent_set(win)
-    hv.target_set(bt)
+    hv.target = bt
 
-    bt = Button(win)
-    bt.text_set("Popup")
+    bt = Button(win, text="Popup")
     hv.part_content_set("middle", bt)
     bt.show()
 
     bx = Box(win)
 
-    ic = Icon(win)
-    ic.file_set("images/logo_small.png")
-    ic.resizable_set(0, 0)
+    ic = Icon(win, file=os.path.join(img_path, "logo_small.png"),
+        resizable=(False, False))
     bx.pack_end(ic)
     ic.show()
 
-    bt = Button(win)
-    bt.text_set("Top 1")
-    bx.pack_end(bt)
-    bt.show()
-
-    bt = Button(win)
-    bt.text_set("Top 2")
-    bx.pack_end(bt)
-    bt.show()
-
-    bt = Button(win)
-    bt.text_set("Top 3")
-    bx.pack_end(bt)
-    bt.show()
+    for t in "Top 1", "Top 2", "Top 3":
+        bt = Button(win, text=t)
+        bx.pack_end(bt)
+        bt.show()
 
     bx.show()
 
     hv.part_content_set("top", bx)
 
-    bt = Button(win)
-    bt.text_set("Bottom")
+    bt = Button(win, text="Bottom")
     hv.part_content_set("bottom", bt)
     bt.show()
 
-    bt = Button(win)
-    bt.text_set("Left")
+    bt = Button(win, text="Left")
     hv.part_content_set("left", bt)
     bt.show()
 
-    bt = Button(win)
-    bt.text_set("Right")
+    bt = Button(win, text="Right")
     hv.part_content_set("right", bt)
     bt.show()
 
-    bg.size_hint_min_set(160, 160)
-    bg.size_hint_max_set(640, 640)
-
-    win.resize(320, 320)
     win.show()
 
 
 def hover2_clicked(obj, item=None):
-    win = Window("hover2", elementary.ELM_WIN_BASIC)
-    win.title_set("Hover 2")
-    win.autodel_set(True)
+    win = StandardWindow("hover2", "Hover 2", autodel=True, size=(320, 320))
 
-    bg = Background(win)
-    win.resize_object_add(bg)
-    bg.size_hint_weight_set(evas.EVAS_HINT_EXPAND, evas.EVAS_HINT_EXPAND)
-    bg.show()
-
-    bx = Box(win)
+    bx = Box(win, size_hint_weight=EXPAND_BOTH)
     win.resize_object_add(bx)
-    bx.size_hint_weight_set(evas.EVAS_HINT_EXPAND, evas.EVAS_HINT_EXPAND)
     bx.show()
 
-    hv = Hover(win)
-    hv.style_set("popout")
+    hv = Hover(win, style="popout")
 
-    bt = Button(win)
-    bt.text_set("Button")
+    bt = Button(win, text="Button")
     bt.callback_clicked_add(hover_bt1_clicked, hv)
     bx.pack_end(bt)
     bt.show()
-    hv.parent_set(win)
     hv.target_set(bt)
 
-    bt = Button(win)
-    bt.text_set("Popup")
+    bt = Button(win, text="Popup")
     hv.part_content_set("middle", bt)
     bt.show()
 
     bx = Box(win)
 
-    ic = Icon(win)
-    ic.file_set("images/logo_small.png")
-    ic.resizable_set(0, 0)
+    ic = Icon(win, file=os.path.join(img_path, "logo_small.png"),
+        resizable=(False, False))
     bx.pack_end(ic)
     ic.show()
 
-    bt = Button(win)
-    bt.text_set("Top 1")
-    bx.pack_end(bt)
-    bt.show()
-
-    bt = Button(win)
-    bt.text_set("Top 2")
-    bx.pack_end(bt)
-    bt.show()
-
-    bt = Button(win)
-    bt.text_set("Top 3")
-    bx.pack_end(bt)
-    bt.show()
+    for t in "Top 1", "Top 2", "Top 3":
+        bt = Button(win, text=t)
+        bx.pack_end(bt)
+        bt.show()
 
     bx.show()
     hv.part_content_set("top", bx)
 
-    bt = Button(win)
-    bt.text_set("Bot")
+    bt = Button(win, text="Bot")
     hv.part_content_set("bottom", bt)
     bt.show()
 
-    bt = Button(win)
-    bt.text_set("Left")
+    bt = Button(win, text="Left")
     hv.part_content_set("left", bt)
     bt.show()
 
-    bt = Button(win)
-    bt.text_set("Right")
+    bt = Button(win, text="Right")
     hv.part_content_set("right", bt)
     bt.show()
 
-    bg.size_hint_min_set(160, 160)
-    bg.size_hint_max_set(640, 640)
-    win.resize(320, 320)
     win.show()
 
 
 if __name__ == "__main__":
-    def destroy(obj):
-        elementary.exit()
-
     elementary.init()
-    win = Window("test", elementary.ELM_WIN_BASIC)
-    win.title_set("python-elementary test application")
-    win.callback_delete_request_add(destroy)
+    win = StandardWindow("test", "python-elementary test application",
+        size=(320,520))
+    win.callback_delete_request_add(lambda o: elementary.exit())
 
-    bg = Background(win)
-    win.resize_object_add(bg)
-    bg.size_hint_weight_set(evas.EVAS_HINT_EXPAND, evas.EVAS_HINT_EXPAND)
-    bg.show()
-
-    box0 = Box(win)
-    box0.size_hint_weight_set(evas.EVAS_HINT_EXPAND, evas.EVAS_HINT_EXPAND)
+    box0 = Box(win, size_hint_weight=EXPAND_BOTH)
     win.resize_object_add(box0)
     box0.show()
-
-    fr = Frame(win)
-    fr.text_set("Information")
-    box0.pack_end(fr)
-    fr.show()
 
     lb = Label(win)
     lb.text_set("Please select a test from the list below<br>"
                  "by clicking the test button to show the<br>"
                  "test window.")
-    fr.content_set(lb)
     lb.show()
+
+    fr = Frame(win, text="Information", content=lb)
+    box0.pack_end(fr)
+    fr.show()
 
     items = [("Hover", hover_clicked),
              ("Hover 2", hover2_clicked)]
 
-    li = List(win)
-    li.size_hint_weight_set(evas.EVAS_HINT_EXPAND, evas.EVAS_HINT_EXPAND)
-    li.size_hint_align_set(evas.EVAS_HINT_FILL, evas.EVAS_HINT_FILL)
+    li = List(win, size_hint_weight=EXPAND_BOTH, size_hint_align=FILL_BOTH)
     box0.pack_end(li)
     li.show()
 
@@ -219,8 +154,6 @@ if __name__ == "__main__":
 
     li.go()
 
-    win.resize(320,520)
     win.show()
     elementary.run()
     elementary.shutdown()
-

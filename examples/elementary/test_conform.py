@@ -1,3 +1,6 @@
+#!/usr/bin/env python
+# encoding: utf-8
+
 from efl import elementary
 from efl.elementary.window import StandardWindow
 from efl.elementary.conformant import Conformant

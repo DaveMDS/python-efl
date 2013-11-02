@@ -33,7 +33,7 @@ def buttons_clicked(obj):
     bx.pack_end(bt)
     bt.show()
 
-    ic = Icon(win, file=ic_file, resizable=(0, 0))
+    ic = Icon(win, file=ic_file, resizable=(False, False))
     ic.show()
     bt = Button(win, text="Icon no scale", content=ic)
     bx.pack_end(bt)
@@ -43,7 +43,7 @@ def buttons_clicked(obj):
     bx.pack_end(bt)
     bt.show()
 
-    ic = Icon(win, file=ic_file, resizable=(0, 0))
+    ic = Icon(win, file=ic_file, resizable=(False, False))
     bt = Button(win, content=ic)
     bx.pack_end(bt)
     bt.show()

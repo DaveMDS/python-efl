@@ -1,110 +1,89 @@
 #!/usr/bin/env python
 # encoding: utf-8
 
-from efl import evas
+import os
+
+from efl.evas import EVAS_HINT_EXPAND
 from efl import elementary
-from efl.elementary.window import Window
-from efl.elementary.background import Background
+from efl.elementary.window import StandardWindow
 from efl.elementary.box import Box
-from efl.elementary.hoversel import Hoversel
+from efl.elementary.hoversel import Hoversel, ELM_ICON_STANDARD, ELM_ICON_FILE
 from efl.elementary.icon import Icon
 
+EXPAND_BOTH = EVAS_HINT_EXPAND, EVAS_HINT_EXPAND
+WEIGHT_ZERO = 0.0, 0.0
+ALIGN_CENTER = 0.5, 0.5
+
+script_path = os.path.dirname(os.path.abspath(__file__))
+img_path = os.path.join(script_path, "images")
 
 def hoversel_clicked(obj):
-    win = Window("hoversel", elementary.ELM_WIN_BASIC)
-    win.title_set("Hoversel")
-    win.autodel_set(True)
+    win = StandardWindow("hoversel", "Hoversel", autodel=True, size=(320, 320))
     if obj is None:
         win.callback_delete_request_add(lambda o: elementary.exit())
 
-    bg = Background(win)
-    win.resize_object_add(bg)
-    bg.size_hint_weight_set(evas.EVAS_HINT_EXPAND, evas.EVAS_HINT_EXPAND)
-    bg.show()
-
-    bx = Box(win)
+    bx = Box(win, size_hint_weight=EXPAND_BOTH)
     win.resize_object_add(bx)
-    bx.size_hint_weight_set(evas.EVAS_HINT_EXPAND, evas.EVAS_HINT_EXPAND)
     bx.show()
 
-    bt = Hoversel(win)
-    bt.hover_parent_set(win)
-    bt.text_set("Labels")
+    bt = Hoversel(win, hover_parent=win, text="Labels",
+        size_hint_weight=WEIGHT_ZERO, size_hint_align=ALIGN_CENTER)
     bt.item_add("Item 1")
     bt.item_add("Item 2")
     bt.item_add("Item 3")
     bt.item_add("Item 4 - Long Label Here")
-    bt.size_hint_weight_set(0.0, 0.0)
-    bt.size_hint_align_set(0.5, 0.5)
     bx.pack_end(bt)
     bt.show()
 
-    bt = Hoversel(win)
-    bt.hover_parent_set(win)
-    bt.text_set("Some Icons")
+    bt = Hoversel(win, hover_parent=win, text="Some Icons",
+        size_hint_weight=WEIGHT_ZERO, size_hint_align=ALIGN_CENTER)
     bt.item_add("Item 1")
     bt.item_add("Item 2")
-    bt.item_add("Item 3", "home", elementary.ELM_ICON_STANDARD)
-    bt.item_add("Item 4", "close", elementary.ELM_ICON_STANDARD)
-    bt.size_hint_weight_set(0.0, 0.0)
-    bt.size_hint_align_set(0.5, 0.5)
+    bt.item_add("Item 3", "home", ELM_ICON_STANDARD)
+    bt.item_add("Item 4", "close", ELM_ICON_STANDARD)
     bx.pack_end(bt)
     bt.show()
 
-    bt = Hoversel(win)
-    bt.hover_parent_set(win)
-    bt.text_set("All Icons")
-    bt.item_add("Item 1", "apps", elementary.ELM_ICON_STANDARD)
-    bt.item_add("Item 2", "arrow_down", elementary.ELM_ICON_STANDARD)
-    bt.item_add("Item 3", "home", elementary.ELM_ICON_STANDARD)
-    bt.item_add("Item 4", "close", elementary.ELM_ICON_STANDARD)
-    bt.size_hint_weight_set(0.0, 0.0)
-    bt.size_hint_align_set(0.5, 0.5)
+    bt = Hoversel(win, hover_parent=win, text="All Icons",
+        size_hint_weight=WEIGHT_ZERO, size_hint_align=ALIGN_CENTER)
+    bt.item_add("Item 1", "apps", ELM_ICON_STANDARD)
+    bt.item_add("Item 2", "arrow_down", ELM_ICON_STANDARD)
+    bt.item_add("Item 3", "home", ELM_ICON_STANDARD)
+    bt.item_add("Item 4", "close", ELM_ICON_STANDARD)
     bx.pack_end(bt)
     bt.show()
 
-    bt = Hoversel(win)
-    bt.hover_parent_set(win)
-    bt.text_set("All Icons")
-    bt.item_add("Item 1", "apps", elementary.ELM_ICON_STANDARD)
-    bt.item_add("Item 2", "images/logo_small.png", elementary.ELM_ICON_FILE)
-    bt.item_add("Item 3", "home", elementary.ELM_ICON_STANDARD)
-    bt.item_add("Item 4", "close", elementary.ELM_ICON_STANDARD)
-    bt.size_hint_weight_set(0.0, 0.0)
-    bt.size_hint_align_set(0.5, 0.5)
+    bt = Hoversel(win, hover_parent=win, text="All Icons",
+        size_hint_weight=WEIGHT_ZERO, size_hint_align=ALIGN_CENTER)
+    bt.item_add("Item 1", "apps", ELM_ICON_STANDARD)
+    bt.item_add("Item 2", os.path.join(img_path, "logo_small.png"),
+        ELM_ICON_FILE)
+    bt.item_add("Item 3", "home", ELM_ICON_STANDARD)
+    bt.item_add("Item 4", "close", ELM_ICON_STANDARD)
     bx.pack_end(bt)
     bt.show()
 
-    bt = Hoversel(win)
-    bt.hover_parent_set(win)
-    bt.text_set("Disabled Hoversel")
-    bt.item_add("Item 1", "apps", elementary.ELM_ICON_STANDARD)
-    bt.item_add("Item 2", "close", elementary.ELM_ICON_STANDARD)
-    bt.disabled_set(True)
-    bt.size_hint_weight_set(0.0, 0.0)
-    bt.size_hint_align_set(0.5, 0.5)
+    bt = Hoversel(win, hover_parent=win, text="Disabled Hoversel",
+        disabled=True, size_hint_weight=WEIGHT_ZERO,
+        size_hint_align=ALIGN_CENTER)
+    bt.item_add("Item 1", "apps", ELM_ICON_STANDARD)
+    bt.item_add("Item 2", "close", ELM_ICON_STANDARD)
     bx.pack_end(bt)
     bt.show()
 
-    bt = Hoversel(win)
-    bt.hover_parent_set(win)
-    bt.text_set("Icon + Label")
 
-    ic = Icon(win)
-    ic.file_set("images/sky_03.jpg")
-    bt.content_set(ic)
+    ic = Icon(win, file=os.path.join(img_path, "sky_03.jpg"))
+    bt = Hoversel(win, hover_parent=win, text="Icon + Label", content=ic,
+        size_hint_weight=WEIGHT_ZERO, size_hint_align=ALIGN_CENTER)
     ic.show()
 
-    bt.item_add("Item 1", "apps", elementary.ELM_ICON_STANDARD)
-    bt.item_add("Item 2", "arrow_down", elementary.ELM_ICON_STANDARD)
-    bt.item_add("Item 3", "home", elementary.ELM_ICON_STANDARD)
-    bt.item_add("Item 4", "close", elementary.ELM_ICON_STANDARD)
-    bt.size_hint_weight_set(0.0, 0.0)
-    bt.size_hint_align_set(0.5, 0.5)
+    bt.item_add("Item 1", "apps", ELM_ICON_STANDARD)
+    bt.item_add("Item 2", "arrow_down", ELM_ICON_STANDARD)
+    bt.item_add("Item 3", "home", ELM_ICON_STANDARD)
+    bt.item_add("Item 4", "close", ELM_ICON_STANDARD)
     bx.pack_end(bt)
     bt.show()
 
-    win.resize(320, 320)
     win.show()
 
 

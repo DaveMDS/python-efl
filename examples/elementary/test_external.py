@@ -1,6 +1,8 @@
 #!/usr/bin/env python
 # encoding: utf-8
 
+import os
+
 from efl.evas import EVAS_HINT_EXPAND, EVAS_HINT_FILL
 from efl.ecore import Timer
 from efl import edje
@@ -17,13 +19,18 @@ from efl.elementary.list import List
 EXPAND_BOTH = EVAS_HINT_EXPAND, EVAS_HINT_EXPAND
 FILL_BOTH = EVAS_HINT_FILL, EVAS_HINT_FILL
 
+script_path = os.path.dirname(os.path.abspath(__file__))
+img_path = os.path.join(script_path, "images")
+
 def edje_external_button_clicked(obj, item=None):
     win = StandardWindow("edje-external-button", "Edje External Button",
         autodel=True, size=(320, 400))
     if obj is None:
         win.callback_delete_request_add(lambda o: elementary.exit())
 
-    ly = Layout(win, file=("test_external.edj", "external/button"),
+    ly = Layout(win,file=(
+        os.path.join(script_path, "test_external.edj"),
+        "external/button"),
         size_hint_weight=EXPAND_BOTH)
     win.resize_object_add(ly)
     ly.show()
@@ -63,7 +70,9 @@ def edje_external_pbar_clicked(obj, item=None):
     if obj is None:
         win.callback_delete_request_add(lambda o: elementary.exit())
 
-    ly = Layout(win, file=("test_external.edj", "external/pbar"),
+    ly = Layout(win, file=(
+        os.path.join(script_path, "test_external.edj"),
+        "external/pbar"),
         size_hint_weight=EXPAND_BOTH)
     win.resize_object_add(ly)
     ly.show()
@@ -80,7 +89,9 @@ def edje_external_scroller_clicked(obj, item=None):
     if obj is None:
         win.callback_delete_request_add(lambda o: elementary.exit())
 
-    ly = Layout(win, file=("test_external.edj", "external/scroller"),
+    ly = Layout(win, file=(
+        os.path.join(script_path, "test_external.edj"),
+        "external/scroller"),
         size_hint_weight=EXPAND_BOTH)
     win.resize_object_add(ly)
     ly.show()
@@ -93,7 +104,9 @@ def edje_external_slider_clicked(obj, item=None):
     if obj is None:
         win.callback_delete_request_add(lambda o: elementary.exit())
 
-    ly = Layout(win, file=("test_external.edj", "external/slider"),
+    ly = Layout(win, file=(
+        os.path.join(script_path, "test_external.edj"),
+        "external/slider"),
         size_hint_weight=EXPAND_BOTH)
     win.resize_object_add(ly)
     ly.show()
@@ -106,7 +119,9 @@ def edje_external_video_clicked(obj, item=None):
     if obj is None:
         win.callback_delete_request_add(lambda o: elementary.exit())
 
-    ly = Layout(win, file=("test_external.edj", "external/video"),
+    ly = Layout(win, file=(
+        os.path.join(script_path, "test_external.edj"),
+        "external/video"),
         size_hint_weight=EXPAND_BOTH)
     win.resize_object_add(ly)
     ly.show()

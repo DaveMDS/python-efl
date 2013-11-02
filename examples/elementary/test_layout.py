@@ -1,50 +1,43 @@
 #!/usr/bin/env python
 # encoding: utf-8
 
-from efl import evas
+import os
+
+from efl.evas import EVAS_HINT_EXPAND
 from efl import elementary
-from efl.elementary.window import Window
-from efl.elementary.background import Background
+from efl.elementary.window import StandardWindow
 from efl.elementary.button import Button
 from efl.elementary.layout import Layout
 
+EXPAND_BOTH = EVAS_HINT_EXPAND, EVAS_HINT_EXPAND
+
+script_path = os.path.dirname(os.path.abspath(__file__))
 
 def _event(*args, **kargs):
     print((args, kargs))
 
 def layout_clicked(obj):
-    win = Window("layout", elementary.ELM_WIN_BASIC)
-    win.title_set("Layout")
+    win = StandardWindow("layout", "Layout", autodel=True)
     win.elm_event_callback_add(_event)
-    win.autodel_set(True)
     if obj is None:
         win.callback_delete_request_add(lambda o: elementary.exit())
 
-    bg = Background(win)
-    win.resize_object_add(bg)
-    bg.size_hint_weight_set(evas.EVAS_HINT_EXPAND, evas.EVAS_HINT_EXPAND)
-    bg.show()
-
-    ly = Layout(win)
-    ly.file_set("test.edj", "layout")
-    ly.size_hint_weight_set(evas.EVAS_HINT_EXPAND, evas.EVAS_HINT_EXPAND)
+    ly = Layout(win, file=(os.path.join(script_path, "test.edj"), "layout"),
+        size_hint_weight=EXPAND_BOTH)
     win.resize_object_add(ly)
     ly.show()
 
-    bt = Button(win)
-    bt.text_set("Button 1")
+    bt = Button(win, text="Button 1")
     ly.part_content_set("element1", bt)
     bt.elm_event_callback_add(_event)
     bt.elm_event_callback_del(_event)
     bt.show()
 
-    bt = Button(win)
-    bt.text_set("Button 2")
+    bt = Button(win, text="Button 2")
     ly.part_content_set("element2", bt)
     bt.show()
 
-    bt = Button(win)
-    bt.text_set("Button 3")
+    bt = Button(win, text="Button 3")
     ly.part_content_set("element3", bt)
     bt.show()
 

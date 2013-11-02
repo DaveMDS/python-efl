@@ -1,119 +1,96 @@
 #!/usr/bin/env python
 # encoding: utf-8
 
-from efl import evas
+from efl.evas import EVAS_HINT_EXPAND, EVAS_HINT_FILL
 from efl import elementary
-from efl.elementary.window import Window
-from efl.elementary.background import Background
+from efl.elementary.window import StandardWindow
 from efl.elementary.box import Box
 from efl.elementary.check import Check
 from efl.elementary.index import Index
 from efl.elementary.genlist import Genlist, GenlistItem, GenlistItemClass
 from efl.elementary.separator import Separator
 
+EXPAND_BOTH = EVAS_HINT_EXPAND, EVAS_HINT_EXPAND
+EXPAND_HORIZ = EVAS_HINT_EXPAND, 0.0
+FILL_BOTH = EVAS_HINT_FILL, EVAS_HINT_FILL
 
 def gl_text_get(gl, part, data):
     return str(data)
 
 def cb_idx_item(idx, item, gl_item):
     print(("Current Index: %s" % (item.letter)))
-    gl_item.bring_in()
 
 def cb_idx_changed(idx, item):
     print(("changed event on: %s" % (item.letter)))
-    
+
 def cb_idx_delay_changed(idx, item):
     print(("delay_changed event on: %s" % (item.letter)))
-    # BROKEN (see below)
-    # gl_item = item.data["gl_item"]
-    # gl_item.bring_in()
-    
+    gl_item = item.data["gl_item"]
+    gl_item.bring_in()
+
 def cb_idx_selected(idx, item):
     print(("selected event on: %s" % (item.letter)))
-    
+
 
 def index_clicked(obj):
-    win = Window("index", elementary.ELM_WIN_BASIC)
-    win.title_set("Index test")
-    win.autodel_set(True)
+    win = StandardWindow("index", "Index test", autodel=True, size=(320, 480))
     if obj is None:
         win.callback_delete_request_add(lambda o: elementary.exit())
 
-    bg = Background(win)
-    win.resize_object_add(bg)
-    bg.size_hint_weight_set(evas.EVAS_HINT_EXPAND, evas.EVAS_HINT_EXPAND)
-    bg.show()
-
-    vbox = Box(win)
-    vbox.size_hint_weight_set(evas.EVAS_HINT_EXPAND, evas.EVAS_HINT_EXPAND)
+    vbox = Box(win, size_hint_weight=EXPAND_BOTH)
     win.resize_object_add(vbox)
     vbox.show()
 
     # index
-    idx = Index(win)
-    idx.size_hint_align_set(evas.EVAS_HINT_FILL, evas.EVAS_HINT_FILL)
-    idx.size_hint_weight_set(evas.EVAS_HINT_EXPAND, evas.EVAS_HINT_EXPAND)
+    idx = Index(win, size_hint_align=FILL_BOTH, size_hint_weight=EXPAND_BOTH)
     idx.callback_delay_changed_add(cb_idx_delay_changed)
     idx.callback_changed_add(cb_idx_changed)
     idx.callback_selected_add(cb_idx_selected)
     win.resize_object_add(idx)
     idx.show()
-    
+
     # genlist
     itc = GenlistItemClass(item_style="default",
                            text_get_func=gl_text_get)
                            # content_get_func=gl_content_get,
                            # state_get_func=gl_state_get)
-    gl = Genlist(win)
-    gl.size_hint_align_set(evas.EVAS_HINT_FILL, evas.EVAS_HINT_FILL)
-    gl.size_hint_weight_set(evas.EVAS_HINT_EXPAND, evas.EVAS_HINT_EXPAND)
+    gl = Genlist(win, size_hint_align=FILL_BOTH, size_hint_weight=EXPAND_BOTH)
     vbox.pack_end(gl)
     gl.show()
 
-    
+
     for i in 'ABCDEFGHILMNOPQRSTUVZ':
         for j in 'acegikmo':
             gl_item = gl.item_append(itc, i + j)
             if j == 'a':
                 idx_item = idx.item_append(i, cb_idx_item, gl_item)
-
-                # TODO This is broken (data assignment to ItemObject)
-                # ...for now just bringin on select
-                # idx_item.data["gl_item"] = gl_item
-        
+                idx_item.data["gl_item"] = gl_item
 
     idx.level_go(0)
 
-    sep = Separator(win)
-    sep.horizontal = True
+    sep = Separator(win, horizontal=True)
     vbox.pack_end(sep)
     sep.show()
 
-    hbox = Box(win)
-    hbox.horizontal = True
-    hbox.size_hint_weight_set(evas.EVAS_HINT_EXPAND, 0.0)
+    hbox = Box(win, horizontal=True, size_hint_weight=EXPAND_HORIZ)
     vbox.pack_end(hbox)
     hbox.show()
 
-    ck = Check(win)
-    ck.text = "autohide_disabled"
+    ck = Check(win, text="autohide_disabled")
     ck.callback_changed_add(lambda ck: idx.autohide_disabled_set(ck.state))
     hbox.pack_end(ck)
     ck.show()
 
-    ck = Check(win)
-    ck.text = "indicator_disabled"
+    ck = Check(win, text="indicator_disabled")
     ck.callback_changed_add(lambda ck: idx.indicator_disabled_set(ck.state))
     hbox.pack_end(ck)
     ck.show()
 
-    ck = Check(win)
-    ck.text = "horizontal"
+    ck = Check(win, text="horizontal")
     ck.callback_changed_add(lambda ck: idx.horizontal_set(ck.state))
     hbox.pack_end(ck)
     ck.show()
 
-    win.resize(320, 480)
     win.show()
 
 

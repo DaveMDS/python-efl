@@ -1,15 +1,16 @@
 #!/usr/bin/env python
 # encoding: utf-8
 
-from efl import evas
+from efl.evas import EVAS_HINT_EXPAND, EVAS_HINT_FILL
 from efl import elementary
 from efl.elementary.window import StandardWindow
-from efl.elementary.background import Background
 from efl.elementary.box import Box
 from efl.elementary.button import Button
 from efl.elementary.slider import Slider
 from efl.elementary.flipselector import FlipSelector
 
+EXPAND_BOTH = EVAS_HINT_EXPAND, EVAS_HINT_EXPAND
+FILL_BOTH = EVAS_HINT_FILL, EVAS_HINT_FILL
 
 def sel_cb(fp, *args):
     if args:
@@ -51,16 +52,13 @@ def flipselector_clicked(obj):
         "Edbus"
     )
 
-    win = StandardWindow("flipselector", "Flip Selector")
-    win.autodel = True
+    win = StandardWindow("flipselector", "Flip Selector", autodel=True)
 
-    bx = Box(win)
-    bx.size_hint_weight_set(evas.EVAS_HINT_EXPAND, evas.EVAS_HINT_EXPAND)
+    bx = Box(win, size_hint_weight=EXPAND_BOTH)
     win.resize_object_add(bx)
     bx.show()
 
-    fp = FlipSelector(win)
-    fp.size_hint_weight_set(evas.EVAS_HINT_EXPAND, evas.EVAS_HINT_EXPAND)
+    fp = FlipSelector(win, size_hint_weight=EXPAND_BOTH)
     fp.callback_selected_add(sel_cb)
     fp.callback_underflowed_add(overflow_cb)
     fp.callback_overflowed_add(underflow_cb)
@@ -72,21 +70,17 @@ def flipselector_clicked(obj):
     bx.pack_end(fp)
     fp.show()
 
-    bx2 = Box(win)
-    bx2.size_hint_weight_set(evas.EVAS_HINT_EXPAND, evas.EVAS_HINT_EXPAND)
-    bx2.horizontal = True
+    bx2 = Box(win, size_hint_weight=EXPAND_BOTH, horizontal=True)
     bx.pack_end(bx2)
     bx2.show()
 
-    fp = FlipSelector(win)
+    fp = FlipSelector(win, size_hint_weight=EXPAND_BOTH)
     fp.callback_underflowed_add(overflow_cb)
     fp.callback_overflowed_add(underflow_cb)
-    fp.size_hint_weight_set(evas.EVAS_HINT_EXPAND, evas.EVAS_HINT_EXPAND)
     for i in range(1990, 2100):
         fp.item_append(str(i), sel_cb)
 
-    bt = Button(win)
-    bt.text = "Flip Prev"
+    bt = Button(win, text="Flip Prev")
     bt.callback_clicked_add(flip_prev_cb, fp)
 
     bx2.pack_end(bt)
@@ -95,37 +89,29 @@ def flipselector_clicked(obj):
     bx2.pack_end(fp)
     fp.show()
 
-    bt = Button(win)
-    bt.text = "Flip Next"
+    bt = Button(win, text="Flip Next")
     bt.callback_clicked_add(flip_next_cb, fp)
     bx2.pack_end(bt)
     bt.show()
 
-    sl = Slider(win)
-    sl.text = "Flip Iterval:"
-    sl.unit_format = "%1.2f"
-    sl.min_max = (0.0, 3.0)
-    sl.value = (0.85)
-    sl.size_hint_align_set(evas.EVAS_HINT_FILL, evas.EVAS_HINT_FILL)
-    sl.size_hint_weight_set(evas.EVAS_HINT_EXPAND, evas.EVAS_HINT_EXPAND)
+    sl = Slider(win, text="Flip Iterval:", unit_format="%1.2f",
+        min_max=(0.0, 3.0), value=0.85, size_hint_align=FILL_BOTH,
+        size_hint_weight=EXPAND_BOTH)
     bx.pack_end(sl)
     sl.show()
     sl.callback_changed_add(slider_change_cb, fp)
 
-    bt = Button(win)
-    bt.text = "Select Last"
+    bt = Button(win, text="Select Last")
     bt.callback_clicked_add(last_cb, fp)
     bx.pack_end(bt)
     bt.show()
 
-    bt = Button(win)
-    bt.text = "Select 2097"
+    bt = Button(win, text="Select 2097")
     bt.callback_clicked_add(third_from_end_cb, fp)
     bx.pack_end(bt)
     bt.show()
 
-    bt = Button(win)
-    bt.text = "Unselect year"
+    bt = Button(win, text="Unselect year")
     bt.callback_clicked_add(unsel_cb, fp)
     bx.pack_end(bt)
     bt.show()

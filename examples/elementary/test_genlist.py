@@ -3,12 +3,15 @@
 
 import time
 import sys
+import os
 if sys.version_info < (3,): range = xrange
 
 from efl import evas
-from efl import ecore
+from efl.evas import EVAS_HINT_EXPAND, EVAS_HINT_FILL, \
+    EVAS_ASPECT_CONTROL_VERTICAL, Rectangle
+from efl.ecore import Timer
 from efl import elementary
-from efl.elementary.window import Window, StandardWindow
+from efl.elementary.window import StandardWindow, Window, ELM_WIN_BASIC
 from efl.elementary.background import Background
 from efl.elementary.box import Box
 from efl.elementary.frame import Frame
@@ -23,16 +26,20 @@ from efl.elementary.general import cache_all_flush
 from efl.elementary.radio import Radio
 from efl.elementary.check import Check
 
-from efl.evas import EVAS_HINT_EXPAND, EVAS_HINT_FILL, EVAS_ASPECT_CONTROL_VERTICAL
+EXPAND_BOTH = EVAS_HINT_EXPAND, EVAS_HINT_EXPAND
+EXPAND_HORIZ = EVAS_HINT_EXPAND, 0.0
+FILL_BOTH = EVAS_HINT_FILL, EVAS_HINT_FILL
+FILL_HORIZ = EVAS_HINT_FILL, 0.5
 
+script_path = os.path.dirname(os.path.abspath(__file__))
+img_path = os.path.join(script_path, "images")
 
 def gl_text_get(obj, part, item_data):
     return "Item # %i" % (item_data,)
 
 def gl_content_get(obj, part, data):
-    ic = Icon(obj)
-    ic.file_set("images/logo_small.png")
-    ic.size_hint_aspect_set(evas.EVAS_ASPECT_CONTROL_VERTICAL, 1, 1)
+    ic = Icon(obj, file=os.path.join(img_path, "logo_small.png"),
+        size_hint_aspect=(EVAS_ASPECT_CONTROL_VERTICAL, 1, 1))
     return ic
 
 def gl_state_get(obj, part, item_data):
@@ -41,7 +48,8 @@ def gl_state_get(obj, part, item_data):
 def gl_comp_func(item1, item2):
     #print(item1.data)
     #print(item2.data)
-    # If data1 is 'less' than data2, -1 must be returned, if it is 'greater', 1 must be returned, and if they are equal, 0 must be returned.
+    # If data1 is 'less' than data2, -1 must be returned, if it is 'greater',
+    # 1 must be returned, and if they are equal, 0 must be returned.
     if item1.data < item2.data:
         return -1
     elif item1.data == item2.data:
@@ -64,9 +72,8 @@ def glg_text_get(obj, part, item_data):
     return "Group # %i" % (item_data,)
 
 def glg_content_get(obj, part, data):
-    ic = Icon(obj)
-    ic.file_set("images/logo.png")
-    ic.size_hint_aspect_set(evas.EVAS_ASPECT_CONTROL_VERTICAL, 1, 1)
+    ic = Icon(obj, file=os.path.join(img_path, "logo.png"),
+        size_hint_aspect=(EVAS_ASPECT_CONTROL_VERTICAL, 1, 1))
     return ic
 
 def _gl_selected(gl, gli, *args, **kwargs):
@@ -100,30 +107,23 @@ def _gl_over_click(evas, evt, gl):
 
 
 def genlist_clicked(obj, item=None):
-    win = Window("Genlist", elementary.ELM_WIN_BASIC)
-    win.title_set("Genlist test")
-    win.autodel_set(True)
+    win = StandardWindow("Genlist", "Genlist test", autodel=True)
 
-    bg = Background(win)
-    win.resize_object_add(bg)
-    bg.size_hint_weight_set(evas.EVAS_HINT_EXPAND, evas.EVAS_HINT_EXPAND)
-    bg.show()
-
-    bx = Box(win)
+    bx = Box(win, size_hint_weight=EXPAND_BOTH)
     win.resize_object_add(bx)
-    bx.size_hint_weight_set(evas.EVAS_HINT_EXPAND, evas.EVAS_HINT_EXPAND)
     bx.show()
 
-    gl = Genlist(win)
-    gl.callback_selected_add(_gl_selected, "arg1", "arg2", kwarg1="kwarg1", kwarg2="kwarg2")
-    gl.callback_clicked_double_add(_gl_clicked_double, "arg1", "arg2", kwarg1="kwarg1", kwarg2="kwarg2")
-    gl.callback_longpressed_add(_gl_longpressed, "arg1", "arg2", kwarg1="kwarg1", kwarg2="kwarg2")
-    gl.size_hint_weight_set(evas.EVAS_HINT_EXPAND, evas.EVAS_HINT_EXPAND)
-    gl.size_hint_align_set(evas.EVAS_HINT_FILL, evas.EVAS_HINT_FILL)
+    gl = Genlist(win, size_hint_weight=EXPAND_BOTH, size_hint_align=FILL_BOTH)
+    gl.callback_selected_add(_gl_selected, "arg1", "arg2",
+        kwarg1="kwarg1", kwarg2="kwarg2")
+    gl.callback_clicked_double_add(_gl_clicked_double, "arg1", "arg2",
+        kwarg1="kwarg1", kwarg2="kwarg2")
+    gl.callback_longpressed_add(_gl_longpressed, "arg1", "arg2",
+        kwarg1="kwarg1", kwarg2="kwarg2")
     bx.pack_end(gl)
     gl.show()
 
-    over = evas.Rectangle(win.evas_get())
+    over = Rectangle(win.evas_get())
     over.color_set(0, 0, 0, 0)
     over.event_callback_add(evas.EVAS_CALLBACK_MOUSE_DOWN, _gl_over_click, gl)
     over.repeat_events_set(True)
@@ -131,8 +131,7 @@ def genlist_clicked(obj, item=None):
     over.size_hint_weight_set(evas.EVAS_HINT_EXPAND, evas.EVAS_HINT_EXPAND)
     win.resize_object_add(over)
 
-    vbx = Box(win)
-    vbx.horizontal_set(True)
+    vbx = Box(win, horizontal=True)
     bx.pack_end(vbx)
     vbx.show()
 
@@ -141,13 +140,11 @@ def genlist_clicked(obj, item=None):
                             content_get_func=gl_content_get,
                             state_get_func=gl_state_get)
 
-    bt_50 = Button(win)
-    bt_50.text_set("Go to 50")
+    bt_50 = Button(win, text="Go to 50")
     vbx.pack_end(bt_50)
     bt_50.show()
 
-    bt_1500 = Button(win)
-    bt_1500.text_set("Go to 1500")
+    bt_1500 = Button(win, text="Go to 1500")
     vbx.pack_end(bt_1500)
     bt_1500.show()
 
@@ -163,24 +160,19 @@ def genlist_clicked(obj, item=None):
 
 
 def genlist2_clicked(obj, item=None):
-    win = Window("Genlist", elementary.ELM_WIN_BASIC)
-    win.title_set("Genlist test 2")
-    win.autodel_set(True)
+    win = Window("Genlist", ELM_WIN_BASIC, title="Genlist test 2",
+        autodel=True, size=(320, 320))
 
-    bg = Background(win)
+    bg = Background(win, file=os.path.join(img_path, "plant_01.jpg"),
+        size_hint_weight=EXPAND_BOTH)
     win.resize_object_add(bg)
-    bg.file_set("images/plant_01.jpg")
-    bg.size_hint_weight_set(evas.EVAS_HINT_EXPAND, evas.EVAS_HINT_EXPAND)
     bg.show()
 
-    bx = Box(win)
+    bx = Box(win, size_hint_weight=EXPAND_BOTH)
     win.resize_object_add(bx)
-    bx.size_hint_weight_set(evas.EVAS_HINT_EXPAND, evas.EVAS_HINT_EXPAND)
     bx.show()
 
-    gl = Genlist(win)
-    gl.size_hint_align_set(evas.EVAS_HINT_FILL, evas.EVAS_HINT_FILL)
-    gl.size_hint_weight_set(evas.EVAS_HINT_EXPAND, evas.EVAS_HINT_EXPAND)
+    gl = Genlist(win, size_hint_align=FILL_BOTH, size_hint_weight=EXPAND_BOTH)
     gl.show()
 
     itc1 = GenlistItemClass(item_style="default",
@@ -198,24 +190,18 @@ def genlist2_clicked(obj, item=None):
 
     bx.pack_end(gl)
 
-    bx2 = Box(win)
-    bx2.horizontal_set(True)
-    bx2.homogeneous_set(True)
-    bx2.size_hint_weight_set(evas.EVAS_HINT_EXPAND, 0.0)
-    bx2.size_hint_align_set(evas.EVAS_HINT_FILL, evas.EVAS_HINT_FILL)
-
+    bx2 = Box(win, horizontal=True, homogeneous=True,
+        size_hint_weight=EXPAND_HORIZ, size_hint_align=FILL_BOTH)
 
     def my_gl_first(bt, gl):
-        gli = gl.first_item_get()
+        gli = gl.first_item
         if gli:
             gli.show()
             gli.selected = True
 
-    bt = Button(win)
-    bt.text_set("/\\")
+    bt = Button(win, text="/\\", size_hint_align=FILL_BOTH,
+        size_hint_weight=EXPAND_HORIZ)
     bt.callback_clicked_add(my_gl_first, gl)
-    bt.size_hint_align_set(evas.EVAS_HINT_FILL, evas.EVAS_HINT_FILL)
-    bt.size_hint_weight_set(evas.EVAS_HINT_EXPAND, 0.0)
     bx2.pack_end(bt)
     bt.show()
 
@@ -226,17 +212,15 @@ def genlist2_clicked(obj, item=None):
             gli.show()
             gli.selected = True
 
-    bt = Button(win)
-    bt.text_set("\\/")
+    bt = Button(win, text="\\/", size_hint_align=FILL_BOTH,
+        size_hint_weight=EXPAND_HORIZ)
     bt.callback_clicked_add(my_gl_last, gl)
-    bt.size_hint_align_set(evas.EVAS_HINT_FILL, evas.EVAS_HINT_FILL)
-    bt.size_hint_weight_set(evas.EVAS_HINT_EXPAND, 0.0)
     bx2.pack_end(bt)
     bt.show()
 
 
     def my_gl_disable(bt, gl):
-        gli = gl.selected_item_get()
+        gli = gl.selected_item
         if gli:
             gli.disabled = True
             gli.selected = False
@@ -244,11 +228,9 @@ def genlist2_clicked(obj, item=None):
         else:
             print("no item selected")
 
-    bt = Button(win)
-    bt.text_set("#")
+    bt = Button(win, text="#", size_hint_align=FILL_BOTH,
+        size_hint_weight=EXPAND_HORIZ)
     bt.callback_clicked_add(my_gl_disable, gl)
-    bt.size_hint_align_set(evas.EVAS_HINT_FILL, evas.EVAS_HINT_FILL)
-    bt.size_hint_weight_set(evas.EVAS_HINT_EXPAND, 0.0)
     bx2.pack_end(bt)
     bt.show()
 
@@ -262,11 +244,9 @@ def genlist2_clicked(obj, item=None):
             i = i + 1
             gli = gli.next_get()
 
-    bt = Button(win)
-    bt.text_set("U")
+    bt = Button(win, text="U", size_hint_align=FILL_BOTH,
+        size_hint_weight=EXPAND_HORIZ)
     bt.callback_clicked_add(my_gl_update_all, gl)
-    bt.size_hint_align_set(evas.EVAS_HINT_FILL, evas.EVAS_HINT_FILL)
-    bt.size_hint_weight_set(evas.EVAS_HINT_EXPAND, 0.0)
     bx2.pack_end(bt)
     bt.show()
 
@@ -274,21 +254,16 @@ def genlist2_clicked(obj, item=None):
     bx2.show()
 
 
-    bx2 = Box(win)
-    bx2.horizontal_set(True)
-    bx2.homogeneous_set(True)
-    bx2.size_hint_weight_set(evas.EVAS_HINT_EXPAND, 0.0)
-    bx2.size_hint_align_set(evas.EVAS_HINT_FILL, evas.EVAS_HINT_FILL)
+    bx2 = Box(win, horizontal=True, homogeneous=True,
+        size_hint_weight=EXPAND_HORIZ, size_hint_align=FILL_BOTH)
 
 
     def my_gl_clear(bt, gl):
         gl.clear()
 
-    bt = Button(win)
-    bt.text_set("X")
+    bt = Button(win, text="X", size_hint_align=FILL_BOTH,
+        size_hint_weight=EXPAND_HORIZ)
     bt.callback_clicked_add(my_gl_clear, gl)
-    bt.size_hint_align_set(evas.EVAS_HINT_FILL, evas.EVAS_HINT_FILL)
-    bt.size_hint_weight_set(evas.EVAS_HINT_EXPAND, 0.0)
     bx2.pack_end(bt)
     bt.show()
 
@@ -299,11 +274,9 @@ def genlist2_clicked(obj, item=None):
         gl.item_append(itc1, MyGlAdd.i, func=gl_item_sel)
         MyGlAdd.i = MyGlAdd.i + 1
 
-    bt = Button(win)
-    bt.text_set("+")
+    bt = Button(win, text="+", size_hint_align=FILL_BOTH,
+        size_hint_weight=EXPAND_HORIZ)
     bt.callback_clicked_add(my_gl_add, gl, itc1)
-    bt.size_hint_align_set(evas.EVAS_HINT_FILL, evas.EVAS_HINT_FILL)
-    bt.size_hint_weight_set(evas.EVAS_HINT_EXPAND, 0.0)
     bx2.pack_end(bt)
     bt.show()
 
@@ -315,22 +288,17 @@ def genlist2_clicked(obj, item=None):
         else:
             print("no item selected")
 
-    bt = Button(win)
-    bt.text_set("-")
+    bt = Button(win, text="-", size_hint_align=FILL_BOTH,
+        size_hint_weight=EXPAND_HORIZ)
     bt.callback_clicked_add(my_gl_del, gl)
-    bt.size_hint_align_set(evas.EVAS_HINT_FILL, evas.EVAS_HINT_FILL)
-    bt.size_hint_weight_set(evas.EVAS_HINT_EXPAND, 0.0)
     bx2.pack_end(bt)
     bt.show()
 
     bx.pack_end(bx2)
     bx2.show()
 
-    bx2 = Box(win)
-    bx2.horizontal_set(True)
-    bx2.homogeneous_set(True)
-    bx2.size_hint_weight_set(evas.EVAS_HINT_EXPAND, 0.0)
-    bx2.size_hint_align_set(evas.EVAS_HINT_FILL, evas.EVAS_HINT_FILL)
+    bx2 = Box(win, horizontal=True, homogeneous=True,
+        size_hint_weight=EXPAND_HORIZ, size_hint_align=FILL_BOTH)
 
 
     class MyGlInsertBefore:
@@ -338,16 +306,15 @@ def genlist2_clicked(obj, item=None):
     def my_gl_insert_before(bt, gl, itc1):
         gli = gl.selected_item_get()
         if gli:
-            gl.item_insert_before(itc1, MyGlInsertBefore.i, gli, func=gl_item_sel)
+            gl.item_insert_before(itc1, MyGlInsertBefore.i, gli,
+                func=gl_item_sel)
             MyGlInsertBefore.i = MyGlInsertBefore.i + 1
         else:
             print("no item selected")
 
-    bt = Button(win)
-    bt.text_set("+ before")
+    bt = Button(win, text="+ before", size_hint_align=FILL_BOTH,
+        size_hint_weight=EXPAND_HORIZ)
     bt.callback_clicked_add(my_gl_insert_before, gl, itc1)
-    bt.size_hint_align_set(evas.EVAS_HINT_FILL, evas.EVAS_HINT_FILL)
-    bt.size_hint_weight_set(evas.EVAS_HINT_EXPAND, 0.0)
     bx2.pack_end(bt)
     bt.show()
 
@@ -362,11 +329,9 @@ def genlist2_clicked(obj, item=None):
         else:
             print("no item selected")
 
-    bt = Button(win)
-    bt.text_set("+ after")
+    bt = Button(win, text="+ after", size_hint_align=FILL_BOTH,
+        size_hint_weight=EXPAND_HORIZ)
     bt.callback_clicked_add(my_gl_insert_after, gl, itc1)
-    bt.size_hint_align_set(evas.EVAS_HINT_FILL, evas.EVAS_HINT_FILL)
-    bt.size_hint_weight_set(evas.EVAS_HINT_EXPAND, 0.0)
     bx2.pack_end(bt)
     bt.show()
 
@@ -374,36 +339,25 @@ def genlist2_clicked(obj, item=None):
     def my_gl_flush(bt, gl):
         def my_gl_flush_delay():
             cache_all_flush()
-        ecore.timer_add(1.2, my_gl_flush_delay)
-    bt = Button(win)
-    bt.text_set("Flush")
+        Timer(1.2, my_gl_flush_delay)
+    bt = Button(win, text="Flush", size_hint_align=FILL_BOTH,
+        size_hint_weight=EXPAND_HORIZ)
     bt.callback_clicked_add(my_gl_flush, gl)
-    bt.size_hint_align_set(evas.EVAS_HINT_FILL, evas.EVAS_HINT_FILL)
-    bt.size_hint_weight_set(evas.EVAS_HINT_EXPAND, 0.0)
     bx2.pack_end(bt)
     bt.show()
 
     bx.pack_end(bx2)
     bx2.show()
 
-    win.resize(320, 320)
     win.show()
 
 
 def genlist3_clicked(obj, item=None):
-    win = Window("Genlist", elementary.ELM_WIN_BASIC)
-    win.title_set("Genlist Group test")
-    win.autodel_set(True)
+    win = StandardWindow("Genlist", "Genlist Group test", autodel=True,
+        size=(320, 320))
 
-    bg = Background(win)
-    win.resize_object_add(bg)
-    bg.size_hint_weight_set(evas.EVAS_HINT_EXPAND, evas.EVAS_HINT_EXPAND)
-    bg.show()
-
-    gl = Genlist(win)
+    gl = Genlist(win, size_hint_align=FILL_BOTH, size_hint_weight=EXPAND_BOTH)
     win.resize_object_add(gl)
-    gl.size_hint_align_set(evas.EVAS_HINT_FILL, evas.EVAS_HINT_FILL)
-    gl.size_hint_weight_set(evas.EVAS_HINT_EXPAND, evas.EVAS_HINT_EXPAND)
     gl.show()
 
     itc_i = GenlistItemClass(item_style="default",
@@ -422,23 +376,14 @@ def genlist3_clicked(obj, item=None):
             git.select_mode_set(elementary.ELM_OBJECT_SELECT_MODE_DISPLAY_ONLY)
         gl.item_append(itc_i, i, git)
 
-    win.resize(320, 320)
     win.show()
 
 def genlist4_clicked(obj, item=None):
-    win = Window("Genlist", elementary.ELM_WIN_BASIC)
-    win.title_set("Genlist sorted insert test")
-    win.autodel_set(True)
+    win = StandardWindow("Genlist", "Genlist sorted insert test", autodel=True,
+        size=(320, 320))
 
-    bg = Background(win)
-    win.resize_object_add(bg)
-    bg.size_hint_weight_set(evas.EVAS_HINT_EXPAND, evas.EVAS_HINT_EXPAND)
-    bg.show()
-
-    gl = Genlist(win)
+    gl = Genlist(win, size_hint_align=FILL_BOTH, size_hint_weight=EXPAND_BOTH)
     win.resize_object_add(gl)
-    gl.size_hint_align_set(evas.EVAS_HINT_FILL, evas.EVAS_HINT_FILL)
-    gl.size_hint_weight_set(evas.EVAS_HINT_EXPAND, evas.EVAS_HINT_EXPAND)
     gl.show()
 
     itc_i = GenlistItemClass(item_style="default",
@@ -449,24 +394,15 @@ def genlist4_clicked(obj, item=None):
     for i in range(100,-1,-1):
         GenlistItem(itc_i, i).sorted_insert(gl, gl_comp_func)
 
-    win.resize(320, 320)
     win.show()
 
 def genlist5_clicked(obj, item=None):
-    win = Window("Genlist", elementary.ELM_WIN_BASIC)
-    win.title_set("Genlist iteration test")
-    win.autodel_set(True)
+    win = StandardWindow("Genlist", "Genlist iteration test", autodel=True,
+        size=(320, 320))
 
-    bg = Background(win)
-    win.resize_object_add(bg)
-    bg.size_hint_weight_set(evas.EVAS_HINT_EXPAND, evas.EVAS_HINT_EXPAND)
-    bg.show()
-
-    gl = Genlist(win)
-    gl.homogeneous = True
+    gl = Genlist(win, homogeneous=True, size_hint_align=FILL_BOTH,
+        size_hint_weight=EXPAND_BOTH)
     win.resize_object_add(gl)
-    gl.size_hint_align_set(evas.EVAS_HINT_FILL, evas.EVAS_HINT_FILL)
-    gl.size_hint_weight_set(evas.EVAS_HINT_EXPAND, evas.EVAS_HINT_EXPAND)
     gl.show()
 
     itc_i = GenlistItemClass(item_style="default",
@@ -483,8 +419,8 @@ def genlist5_clicked(obj, item=None):
 
     assert(len(gl) == gl.items_count)
 
-    it = gl.first_item
     t3 = time.time()
+    it = gl.first_item
     while it:
         d = it.data
         it = it.next
@@ -502,12 +438,13 @@ def genlist5_clicked(obj, item=None):
 
     print("Time to add {0} items:".format(item_count))
     print(t2-t1)
-    print("Time to iterate item data over {0} items using it.next:".format(item_count))
+    print("Time to iterate item data over {0} items using "
+        "it.next:".format(item_count))
     print(t4-t3)
-    print("Time to iterate item data over {0} items using a python iterator:".format(item_count))
+    print("Time to iterate item data over {0} items using "
+        "a python iterator:".format(item_count))
     print(t6-t5)
 
-    win.resize(320, 320)
     win.show()
 
 mode_type = ["slide", "rotate"]
@@ -523,9 +460,9 @@ class ItemClass10(GenlistItemClass):
     def content_get(self, obj, part, data):
         ic = Icon(obj)
         if part == "elm.swallow.end":
-            f = "images/bubble.png"
+            f = os.path.join(img_path, "bubble.png")
         else:
-            f = "images/logo_small.png"
+            f = os.path.join(img_path, "logo_small.png")
         ic.file = f
         ic.size_hint_aspect = EVAS_ASPECT_CONTROL_VERTICAL, 1, 1
         return ic
@@ -554,42 +491,33 @@ def my_gl_mode_cancel(obj, it, rd):
         glit.decorate_mode_set(mode_type[v], False)
 
 def genlist10_clicked(obj, item=None):
-    win = StandardWindow("genlist-decorate-item-mode", "Genlist Decorate Item Mode");
-    win.autodel = True
+    win = StandardWindow("genlist-decorate-item-mode",
+        "Genlist Decorate Item Mode", autodel=True, size=(520, 520))
 
-    bx = Box(win)
-    bx.size_hint_weight = EVAS_HINT_EXPAND, EVAS_HINT_EXPAND
+    bx = Box(win, size_hint_weight=EXPAND_BOTH)
     win.resize_object_add(bx)
     bx.show()
 
-    fr = Frame(win)
-    fr.text = "Decorate Item Mode Type"
+    bx2 = Box(win)
+    bx2.show()
+
+    fr = Frame(win, text="Decorate Item Mode Type", content=bx2)
     bx.pack_end(fr)
     fr.show()
 
-    bx2 = Box(win)
-    fr.content = bx2
-    bx2.show()
-
-    rd = Radio(win)
-    rd.size_hint_weight = EVAS_HINT_EXPAND, EVAS_HINT_EXPAND
-    rd.state_value = 0
-    rd.text = "Slide : Sweep genlist items to the right."
+    rd = Radio(win, size_hint_weight=EXPAND_BOTH, state_value=0,
+        text="Slide : Sweep genlist items to the right.")
     rd.show()
     bx2.pack_end(rd)
     rdg = rd
 
-    rd = Radio(win)
-    rd.size_hint_weight = EVAS_HINT_EXPAND, EVAS_HINT_EXPAND
-    rd.state_value = 1
-    rd.text = "Rotate : Click each item."
+    rd = Radio(win, size_hint_weight=EXPAND_BOTH, state_value=1,
+        text = "Rotate : Click each item.")
     rd.group_add(rdg)
     rd.show()
     bx2.pack_end(rd)
 
-    gl = Genlist(win)
-    gl.size_hint_align = EVAS_HINT_FILL, EVAS_HINT_FILL
-    gl.size_hint_weight = EVAS_HINT_EXPAND, EVAS_HINT_EXPAND
+    gl = Genlist(win, size_hint_align=FILL_BOTH, size_hint_weight=EXPAND_BOTH)
     gl.callback_drag_start_right_add(my_gl_mode_right, rdg)
     gl.callback_drag_start_left_add(my_gl_mode_left, rdg)
     gl.callback_drag_start_up_add(my_gl_mode_cancel, rdg)
@@ -600,12 +528,13 @@ def genlist10_clicked(obj, item=None):
     itc10.state_get = gl_state_get
 
     for i in range(1000, 1050):
-        GenlistItem(itc10,
-            i,
-            None,
-            ELM_GENLIST_ITEM_NONE,
-            gl_sel10,
-            (i, rdg)).append_to(gl)
+        GenlistItem(item_class=itc10,
+            item_data=i,
+            parent_item=None,
+            flags=ELM_GENLIST_ITEM_NONE,
+            func=gl_sel10,
+            func_data=(i, rdg)
+            ).append_to(gl)
 
     bx.pack_end(gl)
 
@@ -613,11 +542,9 @@ def genlist10_clicked(obj, item=None):
     win.show()
 
 
-
-def edit_icon_clicked_cb(ic, item):
-    # TODO: get the item here
-    #item.delete()
-    pass
+def edit_icon_clicked_cb(ic, data):
+    item = data[2]
+    item.delete()
 
 class ItemClass15(GenlistItemClass):
     def text_get(self, obj, part, data):
@@ -633,22 +560,18 @@ class ItemClass15(GenlistItemClass):
         # --------------------------------------------------------------------
 
         if part == "elm.swallow.end":
-            ic = Icon(obj)
-            ic.file = "images/bubble.png"
-            ic.size_hint_aspect = EVAS_ASPECT_CONTROL_VERTICAL, 1, 1
+            ic = Icon(obj, file=os.path.join(img_path, "bubble.png"),
+                size_hint_aspect=(EVAS_ASPECT_CONTROL_VERTICAL, 1, 1))
             return ic
         elif part == "elm.edit.icon.1":
-            ck = Check(obj)
-            ck.state = checked
-            ck.propagate_events = False
+            ck = Check(obj, state=checked, propagate_events=False)
             ck.show()
             return ck
         elif part == "elm.edit.icon.2":
-            icn = Icon(obj)
-            icn.file = "images/icon_06.png"
-            icn.propagate_events = False
-            icn.size_hint_aspect = EVAS_ASPECT_CONTROL_VERTICAL, 1, 1
-            icn.callback_clicked_add(edit_icon_clicked_cb, obj)
+            icn = Icon(obj, file=os.path.join(img_path, "icon_06.png"),
+                propagate_events=False,
+                size_hint_aspect=(EVAS_ASPECT_CONTROL_VERTICAL, 1, 1))
+            icn.callback_clicked_add(edit_icon_clicked_cb, data)
             return icn
         else:
             return
@@ -674,17 +597,14 @@ def gl15_normal_mode(obj, gl):
     gl.select_mode = ELM_OBJECT_SELECT_MODE_DEFAULT
 
 def genlist15_clicked(obj, item=None):
-    win = StandardWindow("genlist-decorate-all-mode", "Genlist Decorate All Mode")
-    win.autodel = True
+    win = StandardWindow("genlist-decorate-all-mode",
+        "Genlist Decorate All Mode", autodel=True, size=(520, 520))
 
-    bx = Box(win)
-    bx.size_hint_weight = EVAS_HINT_EXPAND, EVAS_HINT_EXPAND
+    bx = Box(win, size_hint_weight=EXPAND_BOTH)
     win.resize_object_add(bx)
     bx.show()
 
-    gl = Genlist(win)
-    gl.size_hint_align = EVAS_HINT_FILL, EVAS_HINT_FILL
-    gl.size_hint_weight = EVAS_HINT_EXPAND, EVAS_HINT_EXPAND
+    gl = Genlist(win, size_hint_align=FILL_BOTH, size_hint_weight=EXPAND_BOTH)
     gl.show()
 
     itc15 = ItemClass15(item_style="default", decorate_all_item_style="edit")
@@ -692,67 +612,60 @@ def genlist15_clicked(obj, item=None):
 
     for i in range(100):
         ck = Check(gl)
-        GenlistItem(itc15,
-            [i, False], # item data
-            None, # parent
-            ELM_GENLIST_ITEM_NONE, # flags
-            gl15_sel, # func
-            [i, False], # func data
+        data = [i, False]
+        it = GenlistItem(item_class=itc15,
+            item_data=data,
+            parent_item=None,
+            flags=ELM_GENLIST_ITEM_NONE,
+            func=gl15_sel,
+            func_data=data,
             ).append_to(gl)
+
+        data.append(it)
 
     bx.pack_end(gl)
     bx.show()
 
-    bx2 = Box(win)
-    bx2.horizontal = True
-    bx2.homogeneous = True
-    bx2.size_hint_weight =  EVAS_HINT_EXPAND, 0.0
-    bx2.size_hint_align = EVAS_HINT_FILL, EVAS_HINT_FILL
+    bx2 = Box(win, horizontal=True, homogeneous=True,
+        size_hint_weight=EXPAND_HORIZ, size_hint_align=FILL_BOTH)
 
-    bt = Button(win)
-    bt.text = "Decorate All mode"
+    bt = Button(win, text="Decorate All mode", size_hint_align=FILL_BOTH,
+        size_hint_weight=EXPAND_HORIZ)
     bt.callback_clicked_add(gl15_deco_all_mode, gl)
-    bt.size_hint_align = EVAS_HINT_FILL, EVAS_HINT_FILL
-    bt.size_hint_weight = EVAS_HINT_EXPAND, 0.0
     bx2.pack_end(bt)
     bt.show()
 
-    bt = Button(win)
-    bt.text = "Normal mode"
+    bt = Button(win, text="Normal mode", size_hint_align=FILL_BOTH,
+        size_hint_weight=EXPAND_HORIZ)
     bt.callback_clicked_add(gl15_normal_mode, gl)
-    bt.size_hint_align = EVAS_HINT_FILL, EVAS_HINT_FILL
-    bt.size_hint_weight = EVAS_HINT_EXPAND, 0.0
     bx2.pack_end(bt)
     bt.show()
 
     bx.pack_end(bx2)
     bx2.show()
 
-    win.size = 520, 520
     win.show()
 
 
 if __name__ == "__main__":
     elementary.init()
-    win = StandardWindow("test", "python-elementary test application")
+    win = StandardWindow("test", "python-elementary test application",
+        size=(320,520))
     win.callback_delete_request_add(lambda o: elementary.exit())
 
-    box0 = Box(win)
-    box0.size_hint_weight_set(evas.EVAS_HINT_EXPAND, evas.EVAS_HINT_EXPAND)
+    box0 = Box(win, size_hint_weight=EXPAND_BOTH)
     win.resize_object_add(box0)
     box0.show()
-
-    fr = Frame(win)
-    fr.text_set("Information")
-    box0.pack_end(fr)
-    fr.show()
 
     lb = Label(win)
     lb.text_set("Please select a test from the list below<br>"
                  "by clicking the test button to show the<br>"
                  "test window.")
-    fr.content_set(lb)
     lb.show()
+
+    fr = Frame(win, text="Information", content=lb)
+    box0.pack_end(fr)
+    fr.show()
 
     items = [
         ("Genlist", genlist_clicked),
@@ -764,9 +677,7 @@ if __name__ == "__main__":
         ("Genlist Decorate All Mode", genlist15_clicked),
     ]
 
-    li = List(win)
-    li.size_hint_weight_set(evas.EVAS_HINT_EXPAND, evas.EVAS_HINT_EXPAND)
-    li.size_hint_align_set(evas.EVAS_HINT_FILL, evas.EVAS_HINT_FILL)
+    li = List(win, size_hint_weight=EXPAND_BOTH, size_hint_align=FILL_BOTH)
     box0.pack_end(li)
     li.show()
 
@@ -775,7 +686,6 @@ if __name__ == "__main__":
 
     li.go()
 
-    win.resize(320,520)
     win.show()
     elementary.run()
     elementary.shutdown()

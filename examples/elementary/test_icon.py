@@ -1,9 +1,11 @@
 #!/usr/bin/env python
 # encoding: utf-8
 
-from efl import evas
+import os
+
+from efl.evas import EVAS_HINT_EXPAND, EVAS_HINT_FILL
 from efl import elementary
-from efl.elementary.window import Window
+from efl.elementary.window import StandardWindow, Window, ELM_WIN_BASIC
 from efl.elementary.background import Background
 from efl.elementary.box import Box
 from efl.elementary.button import Button
@@ -13,124 +15,95 @@ from efl.elementary.check import Check
 from efl.elementary.list import List
 from efl.elementary.icon import Icon
 
+EXPAND_BOTH = EVAS_HINT_EXPAND, EVAS_HINT_EXPAND
+EXPAND_HORIZ = EVAS_HINT_EXPAND, 0.0
+FILL_BOTH = EVAS_HINT_FILL, EVAS_HINT_FILL
+
+script_path = os.path.dirname(os.path.abspath(__file__))
+img_path = os.path.join(script_path, "images")
 
 def aspect_fixed_cb(obj, ic):
-    ic.aspect_fixed_set(obj.state_get())
+    ic.aspect_fixed = obj.state
 
 def fill_outside_cb(obj, ic):
-    ic.fill_outside_set(obj.state_get())
+    ic.fill_outside = obj.state
 
 def smooth_cb(obj, ic):
-    ic.smooth_set(obj.state_get())
+    ic.smooth = obj.state
 
 def bt_clicked(obj):
-    win = Window("preload-prescale", elementary.ELM_WIN_BASIC)
-    win.title_set("Preload & Prescale")
-    win.autodel_set(True)
+    win = StandardWindow("preload-prescale", "Preload & Prescale", autodel=True,
+        size=(350, 350))
 
-    bg = Background(win)
-    bg.size_hint_weight_set(evas.EVAS_HINT_EXPAND, evas.EVAS_HINT_EXPAND)
-    win.resize_object_add(bg)
-    bg.show()
-
-    ic = Icon(win)
+    ic = Icon(win, file=os.path.join(img_path, "insanely_huge_test_image.jpg"),
+        size_hint_weight=EXPAND_BOTH, size_hint_align=FILL_BOTH,
+        resizable=(True, True), aspect_fixed=True, preload_disabled=True,
+        prescale=True)
     win.resize_object_add(ic)
-    ic.file_set("images/insanely_huge_test_image.jpg")
-
-    ic.size_hint_weight_set(evas.EVAS_HINT_EXPAND, evas.EVAS_HINT_EXPAND)
-    ic.size_hint_align_set(evas.EVAS_HINT_FILL, evas.EVAS_HINT_FILL)
-    ic.resizable_set(True, True)
-    ic.aspect_fixed_set(True)
-    ic.preload_disabled_set(True)
-    ic.prescale_set(True)
     ic.show()
 
-    win.resize(350, 350)
     win.show()
 
 
 def icon_clicked(obj, item=None):
-    win = Window("icon test", elementary.ELM_WIN_BASIC)
-    win.title_set("Icon Test")
-    win.autodel_set(True)
+    win = StandardWindow("icon test", "Icon Test", autodel=True,
+        size=(400, 400))
 
-    bg = Background(win)
-    bg.size_hint_weight_set(evas.EVAS_HINT_EXPAND, evas.EVAS_HINT_EXPAND)
-    win.resize_object_add(bg)
-    bg.show()
-
-    box = Box(win)
+    box = Box(win, size_hint_weight=EXPAND_BOTH)
     win.resize_object_add(box)
-    box.size_hint_weight_set(evas.EVAS_HINT_EXPAND, evas.EVAS_HINT_EXPAND)
     box.show()
 
-    content_box = Box(win)
+    content_box = Box(win, size_hint_weight=EXPAND_BOTH,
+        size_hint_align=FILL_BOTH)
     win.resize_object_add(content_box)
-    content_box.size_hint_weight_set(evas.EVAS_HINT_EXPAND, evas.EVAS_HINT_EXPAND)
-    content_box.size_hint_align_set(evas.EVAS_HINT_FILL, evas.EVAS_HINT_FILL)
     box.pack_end(content_box)
     content_box.show()
 
-    ic = Icon(win)
-    ic.file_set("images/logo.png")
-    ic.resizable_set(True, True)
-    ic.size_hint_weight_set(evas.EVAS_HINT_EXPAND, evas.EVAS_HINT_EXPAND)
-    ic.size_hint_align_set(evas.EVAS_HINT_FILL, evas.EVAS_HINT_FILL)
-
+    ic = Icon(win, file=os.path.join(img_path, "logo.png"),
+        resizable=(True, True), size_hint_weight=EXPAND_BOTH,
+        size_hint_align=FILL_BOTH)
     content_box.pack_end(ic)
     ic.show()
 
-    hbox = Box(win)
-    hbox.horizontal_set(True)
-    content_box.size_hint_weight_set(evas.EVAS_HINT_EXPAND, evas.EVAS_HINT_EXPAND)
+    hbox = Box(win, horizontal=True, size_hint_weight=EXPAND_HORIZ)
     box.pack_end(hbox)
     hbox.show()
 
     # Test Aspect Fixed
-    tg = Check(win)
-    tg.text_set("Aspect Fixed")
-    tg.state_set(True)
+    tg = Check(win, text="Aspect Fixed", state=True)
     tg.callback_changed_add(aspect_fixed_cb, ic)
     hbox.pack_end(tg)
     tg.show()
 
     # Test Fill Outside
-    tg = Check(win)
-    tg.text_set("Fill Outside")
+    tg = Check(win, text="Fill Outside")
     tg.callback_changed_add(fill_outside_cb, ic)
     hbox.pack_end(tg)
     tg.show()
 
     # Test Smooth
-    tg = Check(win)
-    tg.text_set("Smooth")
-    tg.state_set(True)
+    tg = Check(win, text="Smooth", state=True)
     tg.callback_changed_add(smooth_cb, ic)
     hbox.pack_end(tg)
     tg.show()
 
     # Test Preload, Prescale
-    bt = Button(win)
-    bt.text_set("Preload & Prescale")
+    bt = Button(win, text="Preload & Prescale")
     bt.callback_clicked_add(bt_clicked)
     hbox.pack_end(bt)
     bt.show()
 
-    win.resize(400, 400)
     win.show()
 
 
 def icon_transparent_clicked(obj, item=None):
-    win = Window("icon-transparent", elementary.ELM_WIN_BASIC)
-    win.title_set("Icon Transparent")
-    win.autodel_set(True)
-    win.alpha_set(True)
+    win = Window("icon-transparent", ELM_WIN_BASIC, title="Icon Transparent",
+        autodel=True, alpha=True)
     if obj is None:
         win.callback_delete_request_add(lambda o: elementary.exit())
 
-    icon = Icon(win)
-    icon.file_set("images/logo.png")
-    icon.resizable_set(0, 0)
+    icon = Icon(win, file=os.path.join(img_path, "logo.png"),
+        resizable=(False, False))
     win.resize_object_add(icon)
     icon.show()
 
@@ -138,42 +111,29 @@ def icon_transparent_clicked(obj, item=None):
 
 
 if __name__ == "__main__":
-    def destroy(obj):
-        elementary.exit()
-
     elementary.init()
-    win = Window("test", elementary.ELM_WIN_BASIC)
-    win.title_set("python-elementary test application")
-    win.callback_delete_request_add(destroy)
+    win = StandardWindow("test", "python-elementary test application",
+        size=(320,520))
+    win.callback_delete_request_add(lambda o: elementary.exit())
 
-    bg = Background(win)
-    win.resize_object_add(bg)
-    bg.size_hint_weight_set(evas.EVAS_HINT_EXPAND, evas.EVAS_HINT_EXPAND)
-    bg.show()
-
-    box0 = Box(win)
-    box0.size_hint_weight_set(evas.EVAS_HINT_EXPAND, evas.EVAS_HINT_EXPAND)
+    box0 = Box(win, size_hint_weight=EXPAND_BOTH)
     win.resize_object_add(box0)
     box0.show()
-
-    fr = Frame(win)
-    fr.text_set("Information")
-    box0.pack_end(fr)
-    fr.show()
 
     lb = Label(win)
     lb.text_set("Please select a test from the list below<br>"
                  "by clicking the test button to show the<br>"
                  "test window.")
-    fr.content_set(lb)
     lb.show()
+
+    fr = Frame(win, text="Information", content=lb)
+    box0.pack_end(fr)
+    fr.show()
 
     items = [("Icon", icon_clicked),
              ("Icon transparent", icon_transparent_clicked)]
 
-    li = List(win)
-    li.size_hint_weight_set(evas.EVAS_HINT_EXPAND, evas.EVAS_HINT_EXPAND)
-    li.size_hint_align_set(evas.EVAS_HINT_FILL, evas.EVAS_HINT_FILL)
+    li = List(win, size_hint_weight=EXPAND_BOTH, size_hint_align=FILL_BOTH)
     box0.pack_end(li)
     li.show()
 
@@ -182,7 +142,6 @@ if __name__ == "__main__":
 
     li.go()
 
-    win.resize(320,520)
     win.show()
     elementary.run()
     elementary.shutdown()
