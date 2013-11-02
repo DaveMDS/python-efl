@@ -468,19 +468,19 @@ cdef class Object(evasObject):
     def content_unset(self):
         return object_from_instance(elm_object_content_unset(self.obj))
 
-    def access_info_set(self, txt):
-        """access_info_set(unicode txt)
+    # def access_info_set(self, txt):
+    #     """access_info_set(unicode txt)
 
-        Set the text to read out when in accessibility mode
+    #     Set the text to read out when in accessibility mode
 
-        :param txt: The text that describes the widget to people with poor
-            or no vision
-        :type txt: string
+    #     :param txt: The text that describes the widget to people with poor
+    #         or no vision
+    #     :type txt: string
 
-        """
-        if isinstance(txt, unicode): txt = PyUnicode_AsUTF8String(txt)
-        elm_object_access_info_set(self.obj,
-            <const_char *>txt if txt is not None else NULL)
+    #     """
+    #     if isinstance(txt, unicode): txt = PyUnicode_AsUTF8String(txt)
+    #     elm_object_access_info_set(self.obj,
+    #         <const_char *>txt if txt is not None else NULL)
 
     def name_find(self, name not None, int recurse = 0):
         """name_find(unicode name, int recurse = 0) -> evas.Object
@@ -1936,34 +1936,34 @@ cdef class Object(evasObject):
     #         raise RuntimeError
 
     #
-    # Access
-    # ======
+    # Access (TODO)
+    # =============
 
-    def unregister(self):
-        """Unregister accessible object.
+    # def unregister(self):
+    #     """Unregister accessible object.
 
-        :since: 1.8
+    #     :since: 1.8
 
-        """
-        elm_access_object_unregister(self.obj)
+    #     """
+    #     elm_access_object_unregister(self.obj)
 
-    property access_object:
-        """Get an accessible object of the evas object.
+    # property access_object:
+    #     """Get an accessible object of the evas object.
 
-        :since: 1.8
+    #     :since: 1.8
 
-        :type: Object
+    #     :type: Object
 
-        """
-        def __get__(self):
-            return object_from_instance(elm_access_object_get(self.obj))
+    #     """
+    #     def __get__(self):
+    #         return object_from_instance(elm_access_object_get(self.obj))
 
-    def access_highlight_set(self):
-        """Give the highlight to the object directly.
+    # def access_highlight_set(self):
+    #     """Give the highlight to the object directly.
 
-        :since: 1.8
+    #     :since: 1.8
 
-        The object should be an elementary object or an access object.
+    #     The object should be an elementary object or an access object.
 
-        """
-        elm_access_highlight_set(self.obj)
+    #     """
+    #     elm_access_highlight_set(self.obj)

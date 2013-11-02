@@ -361,19 +361,20 @@ cdef class ObjectItem(object):
     cpdef text_get(self):
         return _ctouni(elm_object_item_text_get(self.item))
 
-    property access_info:
-        """Set the text to read out when in accessibility mode
+    # TODO:
+    # property access_info:
+    #     """Set the text to read out when in accessibility mode
 
-        :type: string
+    #     :type: string
 
-        """
-        def __set__(self, txt):
-            self.access_info_set(txt)
+    #     """
+    #     def __set__(self, txt):
+    #         self.access_info_set(txt)
 
-    cpdef access_info_set(self, txt):
-        if isinstance(txt, unicode): txt = PyUnicode_AsUTF8String(txt)
-        elm_object_item_access_info_set(self.item,
-            <const_char *>txt if txt is not None else NULL)
+    # cpdef access_info_set(self, txt):
+    #     if isinstance(txt, unicode): txt = PyUnicode_AsUTF8String(txt)
+    #     elm_object_item_access_info_set(self.item,
+    #         <const_char *>txt if txt is not None else NULL)
 
     def signal_emit(self, emission, source):
         """signal_emit(unicode emission, unicode source)
@@ -592,42 +593,42 @@ cdef class ObjectItem(object):
     def cursor_engine_only_get(self):
         return elm_object_item_cursor_engine_only_get(self.item)
 
+    # TODO: Accessibility
+    # def access_unregister(self):
+    #     """Unregister accessible object of the object item.
+    #     :since: 1.9
 
-    def access_unregister(self):
-        """Unregister accessible object of the object item.
-        :since: 1.8
+    #     """
+    #     elm_object_item_access_unregister(self.item)
 
-        """
-        elm_object_item_access_unregister(self.item)
+    # property access_object:
+    #     """Get an accessible object of the object item.
 
-    property access_object:
-        """Get an accessible object of the object item.
+    #     :since: 1.9
 
-        :since: 1.8
+    #     :return: Accessible object of the object item or NULL for any error
 
-        :return: Accessible object of the object item or NULL for any error
+    #     """
+    #     def __get__(self):
+    #         return object_from_instance(elm_object_item_access_object_get(self.item))
 
-        """
-        def __get__(self):
-            return object_from_instance(elm_object_item_access_object_get(self.item))
+    # property access_order:
+    #     """Access highlight order
 
-    property access_order:
-        """Access highlight order
+    #     :since: 1.9
 
-        :since: 1.8
+    #     :type: list of Objects
 
-        :type: list of Objects
+    #     """
+    #     def __set__(self, list value):
+    #         elm_object_item_access_order_set(self.item,
+    #             python_list_objects_to_eina_list(value))
 
-        """
-        def __set__(self, list value):
-            elm_object_item_access_order_set(self.item,
-                python_list_objects_to_eina_list(value))
+    #     def __get__(self):
+    #         eina_list_objects_to_python_list(elm_object_item_access_order_get(self.item))
 
-        def __get__(self):
-            eina_list_objects_to_python_list(elm_object_item_access_order_get(self.item))
-
-        def __del__(self):
-            elm_object_item_access_order_unset(self.item)
+    #     def __del__(self):
+    #         elm_object_item_access_order_unset(self.item)
 
 
 _object_mapping_register("elm_object_item", ObjectItem)

@@ -25,7 +25,7 @@ cdef extern from "Elementary.h":
     const_char *    elm_object_item_translatable_part_text_get(const_Elm_Object_Item *it, const_char *part)
     void            elm_object_item_domain_part_text_translatable_set(Elm_Object_Item *it, const_char *part, const_char *domain, Eina_Bool translatable)
 
-    void            elm_object_item_access_info_set(Elm_Object_Item *it, const_char *txt)
+    #TODO: void            elm_object_item_access_info_set(Elm_Object_Item *it, const_char *txt)
     void *          elm_object_item_data_get(Elm_Object_Item *item)
     void            elm_object_item_data_set(Elm_Object_Item *item, void *data)
     void            elm_object_item_signal_emit(Elm_Object_Item *it, const_char *emission, const_char *source)
@@ -48,12 +48,12 @@ cdef extern from "Elementary.h":
     void            elm_object_item_cursor_engine_only_set(Elm_Object_Item *it, Eina_Bool engine_only)
     Eina_Bool       elm_object_item_cursor_engine_only_get(Elm_Object_Item *it)
 
-    Evas_Object *   elm_object_item_access_register(Elm_Object_Item *item)
-    void            elm_object_item_access_unregister(Elm_Object_Item *item)
-    Evas_Object *   elm_object_item_access_object_get(const_Elm_Object_Item *item)
-    void            elm_object_item_access_order_set(Elm_Object_Item *item, Eina_List *objs)
-    const_Eina_List *elm_object_item_access_order_get(const_Elm_Object_Item *item)
-    void            elm_object_item_access_order_unset(Elm_Object_Item *item)
+    #TODO: Evas_Object *   elm_object_item_access_register(Elm_Object_Item *item)
+    #TODO: void            elm_object_item_access_unregister(Elm_Object_Item *item)
+    #TODO: Evas_Object *   elm_object_item_access_object_get(const_Elm_Object_Item *item)
+    #TODO: void            elm_object_item_access_order_set(Elm_Object_Item *item, Eina_List *objs)
+    #TODO: const_Eina_List *elm_object_item_access_order_get(const_Elm_Object_Item *item)
+    #TODO: void            elm_object_item_access_order_unset(Elm_Object_Item *item)
 
 
 

@@ -153,9 +153,9 @@ cdef extern from "Elementary.h":
     void                    elm_object_domain_part_text_translatable_set(Evas_Object *obj, const_char *part, const_char *domain, Eina_Bool translatable)
 
     # Access (elm_access.h)
-    Evas_Object *           elm_access_object_get(const_Evas_Object *obj)
-    void                    elm_access_highlight_set(Evas_Object* obj)
-    void                elm_access_object_unregister(Evas_Object *obj)
+    #TODO: Evas_Object *           elm_access_object_get(const_Evas_Object *obj)
+    #TODO: void                    elm_access_highlight_set(Evas_Object* obj)
+    #TODO: void                elm_access_object_unregister(Evas_Object *obj)
 
 
 cdef class Canvas(evasCanvas):

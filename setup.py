@@ -163,7 +163,7 @@ if set(("build", "build_ext", "install", "bdist", "sdist")) & set(sys.argv):
 
     # Elementary
     elm_exts = [
-        Extension("elementary.access", ["efl/elementary/access"+module_suffix]),
+        #Extension("elementary.access", ["efl/elementary/access"+module_suffix]),
         Extension("elementary.actionslider", ["efl/elementary/actionslider"+module_suffix]),
         Extension("elementary.background", ["efl/elementary/background"+module_suffix]),
         Extension("elementary.box", ["efl/elementary/box"+module_suffix]),

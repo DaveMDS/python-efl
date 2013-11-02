@@ -654,23 +654,23 @@ cdef class Configuration(object):
             <const_char *>a2 if a2 is not None else NULL,
             size)
 
+    # TODO:
+    # property access:
+    #     """Access mode
 
-    property access:
-        """Access mode
+    #     :type: bool
 
-        :type: bool
+    #     .. note::
 
-        .. note::
+    #         Elementary objects may have information (e.g. label on the
+    #         elm_button) to be read. This information is read by access module
+    #         when an object receives EVAS_CALLBACK_MOUSE_IN event
 
-            Elementary objects may have information (e.g. label on the
-            elm_button) to be read. This information is read by access module
-            when an object receives EVAS_CALLBACK_MOUSE_IN event
-
-        """
-        def __get__(self):
-            return bool(elm_config_access_get())
-        def __set__(self, bint is_access):
-            elm_config_access_set(is_access)
+    #     """
+    #     def __get__(self):
+    #         return bool(elm_config_access_get())
+    #     def __set__(self, bint is_access):
+    #         elm_config_access_set(is_access)
 
     property selection_unfocused_clear:
         """Whether selection should be cleared when entry widget is unfocused.
