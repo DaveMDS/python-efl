@@ -1,6 +1,9 @@
 #!/usr/bin/env python
 # encoding: utf-8
 
+import os
+
+from efl.evas import EVAS_HINT_EXPAND, EVAS_HINT_FILL
 from efl import elementary
 from efl.elementary.window import StandardWindow
 from efl.elementary.box import Box
@@ -12,17 +15,21 @@ from efl.elementary.frame import Frame
 from efl.elementary.label import Label
 from efl.elementary.list import List
 
-from efl.evas import EVAS_HINT_EXPAND, EVAS_HINT_FILL
+EXPAND_BOTH = EVAS_HINT_EXPAND, EVAS_HINT_EXPAND
+FILL_BOTH = EVAS_HINT_FILL, EVAS_HINT_FILL
+ALIGN_CENTER = 0.5, 0.5
 
+script_path = os.path.dirname(os.path.abspath(__file__))
+img_path = os.path.join(script_path, "images")
 
 def tb_1(obj, it, ph):
-    ph.file = "images/panel_01.jpg"
+    ph.file = os.path.join(img_path, "panel_01.jpg")
 
 def tb_2(obj, it, ph):
-    ph.file = "images/rock_01.jpg"
+    ph.file = os.path.join(img_path, "rock_01.jpg")
 
 def tb_3(obj, it, ph):
-    ph.file = "images/wood_01.jpg"
+    ph.file = os.path.join(img_path, "wood_01.jpg")
 
 def tb_3a(obj, it, ph):
     tb_3(obj, it, ph)
@@ -33,7 +40,7 @@ def tb_3b(obj, it, ph):
     del it.state
 
 def tb_4(obj, it, ph):
-    ph.file = "images/sky_03.jpg"
+    ph.file = os.path.join(img_path, "sky_03.jpg")
 
 def tb_4a(obj, it, ph):
     it.state = it.state_prev()
@@ -42,25 +49,39 @@ def tb_5(obj, it, ph):
     ph.file = None
 
 def toolbar_clicked(obj, item=None):
-    win = StandardWindow("toolbar", "Toolbar")
-    win.autodel = True
+    win = StandardWindow("toolbar", "Toolbar", autodel=True, size=(320, 300))
     if obj is None:
         win.callback_delete_request_add(lambda o: elementary.exit())
 
-    bx = Box(win)
+    bx = Box(win, size_hint_weight=EXPAND_BOTH)
     win.resize_object_add(bx)
-    bx.size_hint_weight = EVAS_HINT_EXPAND, EVAS_HINT_EXPAND
     bx.show()
 
-    tb = Toolbar(win)
-    tb.homogeneous = False
-    tb.size_hint_weight = 0.0, 0.0
-    tb.size_hint_align = EVAS_HINT_FILL, 0.0
+    tbl = Table(win, size_hint_weight=(0.0, EVAS_HINT_EXPAND),
+        size_hint_align=FILL_BOTH)
 
-    ph1 = Photo(win)
-    ph2 = Photo(win)
-    ph3 = Photo(win)
-    ph4 = Photo(win)
+    tb = Toolbar(win, homogeneous=False, size_hint_weight=(0.0, 0.0),
+        size_hint_align=(EVAS_HINT_FILL, 0.0))
+
+    ph1 = Photo(win, size=40, file=os.path.join(img_path, "plant_01.jpg"),
+        size_hint_weight=EXPAND_BOTH, size_hint_align=ALIGN_CENTER)
+    tbl.pack(ph1, 0, 0, 1, 1)
+    ph1.show()
+
+    ph2 = Photo(win, size=80, size_hint_weight=EXPAND_BOTH,
+        size_hint_align=ALIGN_CENTER)
+    tbl.pack(ph2, 1, 0, 1, 1)
+    ph2.show()
+
+    ph3 = Photo(win, size=40, file=os.path.join(img_path, "sky_01.jpg"),
+        size_hint_weight=EXPAND_BOTH, size_hint_align=ALIGN_CENTER)
+    tbl.pack(ph3, 0, 1, 1, 1)
+    ph3.show()
+
+    ph4 = Photo(win, size=60, file=os.path.join(img_path, "sky_02.jpg"),
+        size_hint_weight=EXPAND_BOTH, size_hint_align=ALIGN_CENTER)
+    tbl.pack(ph4, 1, 1, 1, 1)
+    ph4.show()
 
     item = tb.item_append("document-print", "Hello", tb_1)
     item.disabled = True
@@ -86,71 +107,54 @@ def toolbar_clicked(obj, item=None):
     bx.pack_end(tb)
     tb.show()
 
-    tb = Table(win)
-    tb.size_hint_weight = 0.0, EVAS_HINT_EXPAND
-    tb.size_hint_align = EVAS_HINT_FILL, EVAS_HINT_FILL
+    bx.pack_end(tbl)
+    tbl.show()
 
-    ph1.size = 40
-    ph1.file = "images/plant_01.jpg"
-    ph1.size_hint_weight = EVAS_HINT_EXPAND, EVAS_HINT_EXPAND
-    ph1.size_hint_align = 0.5, 0.5
-    tb.pack(ph1, 0, 0, 1, 1)
-    ph1.show()
-
-    ph2.size = 80
-    ph2.size_hint_weight = EVAS_HINT_EXPAND, EVAS_HINT_EXPAND
-    ph2.size_hint_align = 0.5, 0.5
-    tb.pack(ph2, 1, 0, 1, 1)
-    ph2.show()
-
-    ph3.size = 40
-    ph3.file = "images/sky_01.jpg"
-    ph3.size_hint_weight = EVAS_HINT_EXPAND, EVAS_HINT_EXPAND
-    ph3.size_hint_align = 0.5, 0.5
-    tb.pack(ph3, 0, 1, 1, 1)
-    ph3.show()
-
-    ph4.size = 60
-    ph4.file = "images/sky_02.jpg"
-    ph4.size_hint_weight = EVAS_HINT_EXPAND, EVAS_HINT_EXPAND
-    ph4.size_hint_align = 0.5, 0.5
-    tb.pack(ph4, 1, 1, 1, 1)
-    ph4.show()
-
-    bx.pack_end(tb)
-    tb.show()
-
-    win.resize(320, 300)
     win.show()
 
 
 # Toolbar with multiple state buttons
 def toolbar5_clicked(obj, item=None):
-    win = StandardWindow("toolbar5", "Toolbar 5")
+    win = StandardWindow("toolbar5", "Toolbar 5", autodel=True, size=(320, 300))
     win.autodel = True
 
-    bx = Box(win)
-    bx.size_hint_weight = EVAS_HINT_EXPAND, EVAS_HINT_EXPAND
+    bx = Box(win, size_hint_weight=EXPAND_BOTH)
     win.resize_object_add(bx)
     bx.show()
 
-    tb = Toolbar(win)
-    tb.homogeneous = 0
-    tb.shrink_mode = ELM_TOOLBAR_SHRINK_MENU
-    tb.size_hint_weight = 0.0, 0.0
-    tb.size_hint_align = EVAS_HINT_FILL, 0.0
-    tb.select_mode = ELM_OBJECT_SELECT_MODE_NONE
+    tbl = Table(win, size_hint_weight=(0.0, EVAS_HINT_EXPAND),
+        size_hint_align=FILL_BOTH)
 
-    ph1 = Photo(win)
-    ph2 = Photo(win)
-    ph3 = Photo(win)
-    ph4 = Photo(win)
+    tb = Toolbar(win, homogeneous=False, shrink_mode=ELM_TOOLBAR_SHRINK_MENU,
+        size_hint_weight=(0.0, 0.0), size_hint_align=(EVAS_HINT_FILL, 0.0),
+        select_mode=ELM_OBJECT_SELECT_MODE_NONE)
+
+    ph1 = Photo(win, size=40, file=os.path.join(img_path, "plant_01.jpg"),
+        size_hint_weight=EXPAND_BOTH, size_hint_align=ALIGN_CENTER)
+    tbl.pack(ph1, 0, 0, 1, 1)
+    ph1.show()
+
+    ph2 = Photo(win, size=80, size_hint_weight=EXPAND_BOTH,
+        size_hint_align=ALIGN_CENTER)
+    tbl.pack(ph2, 1, 0, 1, 1)
+    ph2.show()
+
+    ph3 = Photo(win, size=20, file=os.path.join(img_path, "sky_01.jpg"),
+        size_hint_weight=EXPAND_BOTH, size_hint_align=ALIGN_CENTER)
+    tbl.pack(ph3, 0, 1, 1, 1)
+    ph3.show()
+
+    ph4 = Photo(win, size=60, file=os.path.join(img_path, "sky_02.jpg"),
+        size_hint_weight=EXPAND_BOTH, size_hint_align=ALIGN_CENTER)
+    tbl.pack(ph4, 1, 1, 1, 1)
+    ph4.show()
 
     tb_it = tb.item_append("document-print", "Hello", tb_1, ph1)
     tb_it.disabled = True
     tb_it.priority = 100
 
-    tb_it = tb.item_append("images/icon_04.png", "World", tb_2, ph1)
+    tb_it = tb.item_append(os.path.join(img_path, "icon_04.png"),
+        "World", tb_2, ph1)
     tb_it.priority = -100
 
     tb_it = tb.item_append("object-rotate-right", "H", tb_3a, ph4)
@@ -179,78 +183,38 @@ def toolbar5_clicked(obj, item=None):
     bx.pack_end(tb)
     tb.show()
 
-    tb = Table(win)
-    tb.size_hint_weight = 0.0, EVAS_HINT_EXPAND
-    tb.size_hint_align = EVAS_HINT_FILL, EVAS_HINT_FILL
+    bx.pack_end(tbl)
+    tbl.show()
 
-    ph = ph1
-    ph.size = 40
-    ph.file = "images/plant_01.jpg"
-    ph.size_hint_weight = EVAS_HINT_EXPAND, EVAS_HINT_EXPAND
-    ph.size_hint_align = 0.5, 0.5
-    tb.pack(ph, 0, 0, 1, 1)
-    ph.show()
-
-    ph = ph2
-    ph.size = 80
-    ph.size_hint_weight = EVAS_HINT_EXPAND, EVAS_HINT_EXPAND
-    ph.size_hint_align = 0.5, 0.5
-    tb.pack(ph, 1, 0, 1, 1)
-    ph.show()
-
-    ph = ph3
-    ph.size = 20
-    ph.file = "images/sky_01.jpg"
-    ph.size_hint_weight = EVAS_HINT_EXPAND, EVAS_HINT_EXPAND
-    ph.size_hint_align = 0.5, 0.5
-    tb.pack(ph, 0, 1, 1, 1)
-    ph.show()
-
-    ph = ph4
-    ph.size = 60
-    ph.file = "images/sky_02.jpg"
-    ph.size_hint_weight = EVAS_HINT_EXPAND, EVAS_HINT_EXPAND
-    ph.size_hint_align = 0.5, 0.5
-    tb.pack(ph, 1, 1, 1, 1)
-    ph.show()
-
-    bx.pack_end(tb)
-    tb.show()
-
-    win.size = 320, 300
     win.show()
 
 
 if __name__ == "__main__":
     elementary.init()
-    win = StandardWindow("test", "python-elementary test application")
+    win = StandardWindow("test", "python-elementary test application",
+        size=(320,520))
     win.callback_delete_request_add(lambda o: elementary.exit())
 
-    box0 = Box(win)
-    box0.size_hint_weight_set(EVAS_HINT_EXPAND, EVAS_HINT_EXPAND)
+    box0 = Box(win, size_hint_weight=EXPAND_BOTH)
     win.resize_object_add(box0)
     box0.show()
-
-    fr = Frame(win)
-    fr.text_set("Information")
-    box0.pack_end(fr)
-    fr.show()
 
     lb = Label(win)
     lb.text_set("Please select a test from the list below<br>"
                  "by clicking the test button to show the<br>"
                  "test window.")
-    fr.content_set(lb)
     lb.show()
+
+    fr = Frame(win, text="Information", content=lb)
+    box0.pack_end(fr)
+    fr.show()
 
     items = [
         ("Toolbar", toolbar_clicked),
         ("Toolbar Item States", toolbar5_clicked),
     ]
 
-    li = List(win)
-    li.size_hint_weight_set(EVAS_HINT_EXPAND, EVAS_HINT_EXPAND)
-    li.size_hint_align_set(EVAS_HINT_FILL, EVAS_HINT_FILL)
+    li = List(win, size_hint_weight=EXPAND_BOTH, size_hint_align=FILL_BOTH)
     box0.pack_end(li)
     li.show()
 
@@ -259,7 +223,6 @@ if __name__ == "__main__":
 
     li.go()
 
-    win.resize(320,520)
     win.show()
     elementary.run()
     elementary.shutdown()

@@ -1,14 +1,23 @@
 #!/usr/bin/env python
 # encoding: utf-8
 
-from efl import evas
+import os
+
+from efl.evas import EVAS_HINT_EXPAND, EVAS_HINT_FILL
 from efl import elementary
-from efl.elementary.window import Window
+from efl.elementary.window import StandardWindow
 from efl.elementary.background import Background
 from efl.elementary.button import Button
 from efl.elementary.scroller import Scroller
 from efl.elementary.table import Table
 
+EXPAND_BOTH = EVAS_HINT_EXPAND, EVAS_HINT_EXPAND
+EXPAND_HORIZ = EVAS_HINT_EXPAND, 0.0
+FILL_BOTH = EVAS_HINT_FILL, EVAS_HINT_FILL
+FILL_HORIZ = EVAS_HINT_FILL, 0.5
+
+script_path = os.path.dirname(os.path.abspath(__file__))
+img_path = os.path.join(script_path, "images")
 
 def my_scroller_go_300_300(bt, sc):
     sc.region_bring_in(300, 300, 318, 318)
@@ -23,56 +32,46 @@ def my_scroller_go_900_900(obj, sc):
     sc.region_bring_in(900, 900, 318, 318)
 
 def cb_edges(obj, border):
-    print(("Border callback:", border))
+    print("Border callback: " + border)
 
 def cb_drags(obj, action):
-    print(("Drag callback:", action))
+    print("Drag callback: " + action)
 
 def cb_anims(obj, action):
-    print(("Anim callback:", action))
+    print("Anim callback: " + action)
 
 def scroller_clicked(obj):
-    win = Window("scroller", elementary.ELM_WIN_BASIC)
-    win.title_set("Scroller")
-    win.autodel_set(True)
+    win = StandardWindow("scroller", "Scroller", autodel=True, size=(320, 320))
     if obj is None:
         win.callback_delete_request_add(lambda o: elementary.exit())
 
-    bg = Background(win)
-    win.resize_object_add(bg)
-    bg.size_hint_weight_set(evas.EVAS_HINT_EXPAND, evas.EVAS_HINT_EXPAND)
-    bg.show()
+    tb = Table(win, size_hint_weight=EXPAND_BOTH)
 
-    tb = Table(win)
-    tb.size_hint_weight_set(evas.EVAS_HINT_EXPAND, evas.EVAS_HINT_EXPAND)
-
-    img = ["images/panel_01.jpg",
-           "images/plant_01.jpg",
-           "images/rock_01.jpg",
-           "images/rock_02.jpg",
-           "images/sky_01.jpg",
-           "images/sky_02.jpg",
-           "images/sky_03.jpg",
-           "images/sky_04.jpg",
-           "images/wood_01.jpg"]
+    img = ["panel_01.jpg",
+           "plant_01.jpg",
+           "rock_01.jpg",
+           "rock_02.jpg",
+           "sky_01.jpg",
+           "sky_02.jpg",
+           "sky_03.jpg",
+           "sky_04.jpg",
+           "wood_01.jpg"]
 
     n = 0
     for j in range(12):
         for i in range(12):
-            bg2 = Background(win)
-            bg2.file_set(img[n])
+            bg2 = Background(win, file=os.path.join(img_path, img[n]),
+                size_hint_weight=EXPAND_BOTH, size_hint_align=FILL_BOTH,
+                size_hint_min=(318, 318))
 
             n = n + 1
             if n >= 9:
                 n = 0
-            bg2.size_hint_weight_set(evas.EVAS_HINT_EXPAND, evas.EVAS_HINT_EXPAND)
-            bg2.size_hint_align_set(evas.EVAS_HINT_FILL, evas.EVAS_HINT_FILL)
-            bg2.size_hint_min_set(318, 318)
             tb.pack(bg2, i, j, 1, 1)
             bg2.show()
 
-    sc = Scroller(win)
-    sc.size_hint_weight_set(evas.EVAS_HINT_EXPAND, evas.EVAS_HINT_EXPAND)
+    sc = Scroller(win, size_hint_weight=EXPAND_BOTH, content=tb,
+        page_relative=(1.0, 1.0))
     sc.callback_edge_top_add(cb_edges, "top")
     sc.callback_edge_bottom_add(cb_edges, "bottom")
     sc.callback_edge_left_add(cb_edges, "left")
@@ -83,51 +82,39 @@ def scroller_clicked(obj):
     sc.callback_scroll_anim_stop_add(cb_anims, "stop")
     win.resize_object_add(sc)
 
-    sc.content_set(tb)
     tb.show()
 
-    sc.page_relative_set(1.0, 1.0)
     sc.show()
 
-    tb2 = Table(win)
-    tb2.size_hint_weight_set(evas.EVAS_HINT_EXPAND, evas.EVAS_HINT_EXPAND)
+    tb2 = Table(win, size_hint_weight=EXPAND_BOTH)
     win.resize_object_add(tb2)
 
-    bt = Button(win)
-    bt.text_set("to 300 300")
+    bt = Button(win, text="to 300 300", size_hint_weight=EXPAND_BOTH,
+        size_hint_align=(0.1, 0.1))
     bt.callback_clicked_add(my_scroller_go_300_300, sc)
-    bt.size_hint_weight_set(evas.EVAS_HINT_EXPAND, evas.EVAS_HINT_EXPAND)
-    bt.size_hint_align_set(0.1, 0.1)
     tb2.pack(bt, 0, 0, 1, 1)
     bt.show()
 
-    bt = Button(win)
-    bt.text_set("to 900 300")
+    bt = Button(win, text="to 900 300", size_hint_weight=EXPAND_BOTH,
+        size_hint_align=(0.9, 0.1))
     bt.callback_clicked_add(my_scroller_go_900_300, sc)
-    bt.size_hint_weight_set(evas.EVAS_HINT_EXPAND, evas.EVAS_HINT_EXPAND)
-    bt.size_hint_align_set(0.9, 0.1)
     tb2.pack(bt, 1, 0, 1, 1)
     bt.show()
 
-    bt = Button(win)
-    bt.text_set("to 300 900")
+    bt = Button(win, text="to 300 900", size_hint_weight=EXPAND_BOTH,
+        size_hint_align=(0.1, 0.9))
     bt.callback_clicked_add(my_scroller_go_300_900, sc)
-    bt.size_hint_weight_set(evas.EVAS_HINT_EXPAND, evas.EVAS_HINT_EXPAND)
-    bt.size_hint_align_set(0.1, 0.9)
     tb2.pack(bt, 0, 1, 1, 1)
     bt.show()
 
-    bt = Button(win)
-    bt.text_set("to 900 900")
+    bt = Button(win, text="to 900 900", size_hint_weight=EXPAND_BOTH,
+        size_hint_align=(0.9, 0.9))
     bt.callback_clicked_add(my_scroller_go_900_900, sc)
-    bt.size_hint_weight_set(evas.EVAS_HINT_EXPAND, evas.EVAS_HINT_EXPAND)
-    bt.size_hint_align_set(0.9, 0.9)
     tb2.pack(bt, 1, 1, 1, 1)
     bt.show()
 
     tb2.show()
 
-    win.resize(320, 320)
     win.show()
 
 

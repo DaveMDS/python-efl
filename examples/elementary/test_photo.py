@@ -1,14 +1,22 @@
 #!/usr/bin/env python
 # encoding: utf-8
 
-from efl import evas
+import os
+
+from efl.evas import EVAS_HINT_EXPAND, EVAS_HINT_FILL
 from efl import elementary
-from efl.elementary.window import Window
-from efl.elementary.background import Background
+from efl.elementary.window import StandardWindow
 from efl.elementary.photo import Photo
 from efl.elementary.scroller import Scroller
 from efl.elementary.table import Table
 
+EXPAND_BOTH = EVAS_HINT_EXPAND, EVAS_HINT_EXPAND
+EXPAND_HORIZ = EVAS_HINT_EXPAND, 0.0
+FILL_BOTH = EVAS_HINT_FILL, EVAS_HINT_FILL
+FILL_HORIZ = EVAS_HINT_FILL, 0.5
+
+script_path = os.path.dirname(os.path.abspath(__file__))
+img_path = os.path.join(script_path, "images")
 
 images = ["panel_01.jpg",
           "mystrale.jpg",
@@ -21,53 +29,38 @@ images = ["panel_01.jpg",
           "wood_01.jpg"]
 
 def photo_clicked(obj):
-    win = Window("photo", elementary.ELM_WIN_BASIC)
-    win.title_set("Photo test")
-    win.autodel_set(True)
+    win = StandardWindow("photo", "Photo test", autodel=True, size=(300, 300))
     if obj is None:
         win.callback_delete_request_add(lambda o: elementary.exit())
 
-    bg = Background(win)
-    win.resize_object_add(bg)
-    bg.size_hint_weight_set(evas.EVAS_HINT_EXPAND, evas.EVAS_HINT_EXPAND)
-    bg.show()
-
-    sc = Scroller(win)
-    sc.size_hint_weight = (evas.EVAS_HINT_EXPAND, evas.EVAS_HINT_EXPAND)
-    win.resize_object_add(sc)
-    sc.show()
-
     elementary.need_ethumb()
 
-    tb = Table(win)
-    tb.size_hint_weight = (evas.EVAS_HINT_EXPAND, evas.EVAS_HINT_EXPAND)
-    sc.content = tb
+    tb = Table(win, size_hint_weight=EXPAND_BOTH)
     tb.show()
+
+    sc = Scroller(win, size_hint_weight=EXPAND_BOTH, content=tb)
+    win.resize_object_add(sc)
+    sc.show()
 
     n = 0
     for j in range(12):
         for i in range(12):
-            ph = Photo(win)
-            name = "images/%s" % (images[n])
+            ph = Photo(win, aspect_fixed=False, size=80, editable=True,
+                size_hint_weight=EXPAND_BOTH, size_hint_align=FILL_BOTH)
+            name = os.path.join(img_path, images[n])
             n += 1
             if n >= 9: n = 0
-            ph.aspect_fixed = False
-            ph.size = 80
             if n == 8:
                 ph.thumb = name
             else:
                 ph.file = name
-            ph.size_hint_weight = (evas.EVAS_HINT_EXPAND, evas.EVAS_HINT_EXPAND)
-            ph.size_hint_align = (evas.EVAS_HINT_FILL, evas.EVAS_HINT_FILL)
-            ph.editable = True
             if n in [2, 3]:
                 ph.fill_inside = True
                 ph.style = "shadow"
-            
+
             tb.pack(ph, i, j, 1, 1)
             ph.show()
 
-    win.resize(300, 300)
     win.show()
 
 

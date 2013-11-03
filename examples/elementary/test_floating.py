@@ -12,15 +12,17 @@ from efl.evas import EVAS_ASPECT_CONTROL_VERTICAL, EVAS_HINT_EXPAND, \
 EXPAND_BOTH = EVAS_HINT_EXPAND, EVAS_HINT_EXPAND
 FILL_BOTH = EVAS_HINT_FILL, EVAS_HINT_FILL
 
+script_path = os.path.dirname(os.path.abspath(__file__))
+img_path = os.path.join(script_path, "images")
+
 class ItemClass(GenlistItemClass):
     def text_get(self, obj, part, *args, **kwargs):
        return "Item #{0}".format(args[0])
 
     def content_get(self, obj, part, *args, **kwargs):
-       ic = Icon(obj)
-       ic.file = "images/logo_small.png"
-       ic.size_hint_aspect = EVAS_ASPECT_CONTROL_VERTICAL, 1, 1
-       return ic
+        ic = Icon(obj, file=os.path.join(img_path, "logo_small.png"),
+            size_hint_aspect=(EVAS_ASPECT_CONTROL_VERTICAL, 1, 1))
+        return ic
 
 def gl_sel_cb(obj, event_info, data):
     print("sel item data [{0}] on genlist obj [{1}], item [{2}]".format(data, obj, event_info))

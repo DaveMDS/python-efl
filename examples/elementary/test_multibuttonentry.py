@@ -1,16 +1,21 @@
 #!/usr/bin/env python
 # encoding: utf-8
 
-from efl import evas
+from efl.evas import EVAS_HINT_EXPAND, EVAS_HINT_FILL
 from efl import elementary
-from efl.elementary.window import Window
-from efl.elementary.background import Background
+from efl.elementary.window import StandardWindow
 from efl.elementary.box import Box
 from efl.elementary.button import Button
 from efl.elementary.entry import Entry
 from efl.elementary.multibuttonentry import MultiButtonEntry
-from efl.elementary.scroller import Scroller
+from efl.elementary.scroller import Scroller, ELM_SCROLLER_POLICY_OFF, \
+    ELM_SCROLLER_POLICY_AUTO
 
+EXPAND_BOTH = EVAS_HINT_EXPAND, EVAS_HINT_EXPAND
+EXPAND_HORIZ = EVAS_HINT_EXPAND, 0.0
+FILL_BOTH = EVAS_HINT_FILL, EVAS_HINT_FILL
+FILL_HORIZ = EVAS_HINT_FILL, 0.5
+SCROLL_POLICY_VERT = ELM_SCROLLER_POLICY_OFF, ELM_SCROLLER_POLICY_AUTO
 
 counter = 0
 
@@ -57,129 +62,94 @@ def cb_print(btn, mbe):
         print(i.text)
 
 def multibuttonentry_clicked(obj, item=None):
-    win = Window("multibuttonentry", elementary.ELM_WIN_BASIC)
-    win.title_set("MultiButtonEntry test")
-    win.autodel_set(True)
+    win = StandardWindow("multibuttonentry", "MultiButtonEntry test",
+        autodel=True, size=(320, 320))
     if obj is None:
         win.callback_delete_request_add(lambda o: elementary.exit())
 
-    bg = Background(win)
-    win.resize_object_add(bg)
-    bg.size_hint_weight_set(evas.EVAS_HINT_EXPAND, evas.EVAS_HINT_EXPAND)
-    bg.show()
-
-    vbox = Box(win)
-    vbox.size_hint_weight = (evas.EVAS_HINT_EXPAND, evas.EVAS_HINT_EXPAND)
+    vbox = Box(win, size_hint_weight=EXPAND_BOTH)
     win.resize_object_add(vbox)
     vbox.show()
 
-    sc = Scroller(win)
-    sc.bounce = (False, True)
-    sc.policy = (elementary.ELM_SCROLLER_POLICY_OFF, elementary.ELM_SCROLLER_POLICY_AUTO)
-    sc.size_hint_align = (evas.EVAS_HINT_FILL, evas.EVAS_HINT_FILL)
-    sc.size_hint_weight = (evas.EVAS_HINT_EXPAND, evas.EVAS_HINT_EXPAND)
+    mbe = MultiButtonEntry(win, size_hint_align=FILL_BOTH,
+        size_hint_weight=EXPAND_BOTH, text="To: ")
+    mbe.callback_item_selected_add(cb_item_selected)
+    mbe.part_text_set("guide", "Tap to add recipient")
+    mbe.filter_append(cb_filter1)
+    mbe.show()
+
+    sc = Scroller(win, bounce=(False, True), policy=SCROLL_POLICY_VERT,
+        size_hint_align=FILL_BOTH, size_hint_weight=EXPAND_BOTH, content=mbe)
     vbox.pack_end(sc)
     sc.show()
 
-    mbe = MultiButtonEntry(win)
-    mbe.callback_item_selected_add(cb_item_selected)
-    mbe.size_hint_align = (evas.EVAS_HINT_FILL, evas.EVAS_HINT_FILL)
-    mbe.size_hint_weight = (evas.EVAS_HINT_EXPAND, evas.EVAS_HINT_EXPAND)
-    mbe.text = "To: "
-    mbe.part_text_set("guide", "Tap to add recipient")
-    mbe.filter_append(cb_filter1)
-    sc.content = mbe
-    mbe.show()
-
     print(mbe.entry)
 
-    hbox = Box(win)
-    hbox.horizontal = True
-    hbox.size_hint_weight = (evas.EVAS_HINT_EXPAND, 0.0)
+    hbox = Box(win, horizontal=True, size_hint_weight=EXPAND_HORIZ)
     vbox.pack_end(hbox)
     hbox.show()
 
-    bt = Button(win)
-    bt.text = "item_append"
-    bt.size_hint_align = (evas.EVAS_HINT_FILL, 0.0)
-    bt.size_hint_weight = (evas.EVAS_HINT_EXPAND, 0.0)
+    bt = Button(win, text="item_append", size_hint_align=FILL_HORIZ,
+        size_hint_weight=EXPAND_HORIZ)
     bt.callback_clicked_add(cb_btn_item_append, mbe)
     hbox.pack_end(bt)
     bt.show()
 
-    bt = Button(win)
-    bt.text = "item_prepend"
-    bt.size_hint_align = (evas.EVAS_HINT_FILL, 0.0)
-    bt.size_hint_weight = (evas.EVAS_HINT_EXPAND, 0.0)
+    bt = Button(win, text="item_prepend", size_hint_align=FILL_HORIZ,
+        size_hint_weight=EXPAND_HORIZ)
     bt.callback_clicked_add(cb_btn_item_prepend, mbe)
     hbox.pack_end(bt)
     bt.show()
 
-    bt = Button(win)
-    bt.text = "item_insert_after"
-    bt.size_hint_align = (evas.EVAS_HINT_FILL, 0.0)
-    bt.size_hint_weight = (evas.EVAS_HINT_EXPAND, 0.0)
+    bt = Button(win, text="item_insert_after", size_hint_align=FILL_HORIZ,
+        size_hint_weight=EXPAND_HORIZ)
     bt.callback_clicked_add(cb_btn_item_insert_after, mbe)
     hbox.pack_end(bt)
     bt.show()
 
-    bt = Button(win)
-    bt.text = "item_insert_before"
-    bt.size_hint_align = (evas.EVAS_HINT_FILL, 0.0)
-    bt.size_hint_weight = (evas.EVAS_HINT_EXPAND, 0.0)
+    bt = Button(win, text="item_insert_before", size_hint_align=FILL_HORIZ,
+        size_hint_weight=EXPAND_HORIZ)
     bt.callback_clicked_add(cb_btn_item_insert_before, mbe)
     hbox.pack_end(bt)
     bt.show()
 
 
-    hbox = Box(win)
-    hbox.horizontal = True
-    hbox.size_hint_weight = (evas.EVAS_HINT_EXPAND, 0.0)
+    hbox = Box(win, horizontal=True, size_hint_weight=EXPAND_HORIZ)
     vbox.pack_end(hbox)
     hbox.show()
 
-    bt = Button(win)
-    bt.text = "delete selected item"
-    bt.size_hint_align = (evas.EVAS_HINT_FILL, 0.0)
-    bt.size_hint_weight = (evas.EVAS_HINT_EXPAND, 0.0)
+    bt = Button(win, text="delete selected item", size_hint_align=FILL_HORIZ,
+        size_hint_weight=EXPAND_HORIZ)
     bt.callback_clicked_add(lambda btn: mbe.selected_item.delete())
     hbox.pack_end(bt)
     bt.show()
 
-    bt = Button(win)
-    bt.text = "clear"
-    bt.size_hint_align = (evas.EVAS_HINT_FILL, 0.0)
-    bt.size_hint_weight = (evas.EVAS_HINT_EXPAND, 0.0)
+    bt = Button(win, text="clear", size_hint_align=FILL_HORIZ,
+        size_hint_weight=EXPAND_HORIZ)
     bt.callback_clicked_add(lambda bt: mbe.clear())
     hbox.pack_end(bt)
     bt.show()
 
-    bt = Button(win)
-    bt.text = "clear2"
-    bt.size_hint_align = (evas.EVAS_HINT_FILL, 0.0)
-    bt.size_hint_weight = (evas.EVAS_HINT_EXPAND, 0.0)
+    bt = Button(win, text="clear2", size_hint_align=FILL_HORIZ,
+        size_hint_weight=EXPAND_HORIZ)
     bt.callback_clicked_add(cb_btn_clear2, mbe)
     hbox.pack_end(bt)
     bt.show()
 
-    bt = Button(win)
-    bt.text = "toggle expand"
-    bt.size_hint_align = (evas.EVAS_HINT_FILL, 0.0)
-    bt.size_hint_weight = (evas.EVAS_HINT_EXPAND, 0.0)
+    bt = Button(win, text="toggle expand", size_hint_align=FILL_HORIZ,
+        size_hint_weight=EXPAND_HORIZ)
     bt.callback_clicked_add(lambda btn: mbe.expanded_set(not mbe.expanded_get()))
     hbox.pack_end(bt)
     bt.show()
 
-    bt = Button(win)
-    bt.text = "print"
-    bt.size_hint_align = evas.EVAS_HINT_FILL, 0.0
-    bt.size_hint_weight = evas.EVAS_HINT_EXPAND, 0.0
+    bt = Button(win, text="print", size_hint_align=FILL_HORIZ,
+        size_hint_weight=EXPAND_HORIZ)
     bt.callback_clicked_add(cb_print, mbe)
     hbox.pack_end(bt)
     bt.show()
 
     mbe.focus = True
-    win.resize(320, 320)
+
     win.show()
 
 

@@ -48,7 +48,7 @@ def cursor_clicked(obj, item=None):
     lst.go()
     lst.show()
 
-    en = Entry(win, scrollable=True, single_line=True, entry="Xterm cursor"
+    en = Entry(win, scrollable=True, single_line=True, entry="Xterm cursor",
         size_hint_weight=EXPAND_HORIZ, size_hint_align=FILL_HORIZ,
         cursor="xterm")
     bx.pack_end(en)

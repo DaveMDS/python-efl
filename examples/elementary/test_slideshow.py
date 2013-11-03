@@ -1,28 +1,40 @@
 #!/usr/bin/env python
 # encoding: utf-8
 
-from efl import evas
+import os
+
+from efl.evas import EVAS_HINT_EXPAND, EVAS_HINT_FILL, EVAS_CALLBACK_MOUSE_IN, \
+    EVAS_CALLBACK_MOUSE_OUT, EVAS_CALLBACK_MOUSE_UP, EVAS_CALLBACK_MOUSE_MOVE
 from efl import elementary
 from efl.elementary.window import StandardWindow
 from efl.elementary.background import Background
 from efl.elementary.box import Box
 from efl.elementary.button import Button
 from efl.elementary.hoversel import Hoversel
-from efl.elementary.notify import Notify
+from efl.elementary.notify import Notify, ELM_NOTIFY_ORIENT_BOTTOM
 from efl.elementary.photo import Photo
 from efl.elementary.spinner import Spinner
 from efl.elementary.slideshow import Slideshow, SlideshowItemClass
 
+EXPAND_BOTH = EVAS_HINT_EXPAND, EVAS_HINT_EXPAND
+EXPAND_HORIZ = EVAS_HINT_EXPAND, 0.0
+FILL_BOTH = EVAS_HINT_FILL, EVAS_HINT_FILL
+FILL_HORIZ = EVAS_HINT_FILL, 0.5
 
-img1 = "images/logo.png"
-img2 = "images/plant_01.jpg"
-img3 = "images/rock_01.jpg"
-img4 = "images/rock_02.jpg"
-img5 = "images/sky_01.jpg"
-img6 = "images/sky_04.jpg"
-img7 = "images/wood_01.jpg"
-img8 = "images/mystrale.jpg"
-img9 = "images/mystrale_2.jpg"
+script_path = os.path.dirname(os.path.abspath(__file__))
+img_path = os.path.join(script_path, "images")
+
+images = [
+    "logo.png",
+    "plant_01.jpg",
+    "rock_01.jpg",
+    "rock_02.jpg",
+    "sky_01.jpg",
+    "sky_04.jpg",
+    "wood_01.jpg",
+    "mystrale.jpg",
+    "mystrale_2.jpg"
+]
 
 def notify_show(no, event, *args, **kwargs):
     no = args[0]
@@ -71,107 +83,82 @@ def slide_transition(ss, slide_it, slide_last_it):
 
 class ssClass(SlideshowItemClass):
     def get(self, obj, *args, **kwargs):
-        photo = Photo(obj)
-        photo.file = args[0]
-        photo.fill_inside = True
-        photo.style = "shadow"
-
+        photo = Photo(obj, file=args[0], fill_inside=True, style="shadow")
         return photo
 
 def slideshow_clicked(obj):
-    win = StandardWindow("slideshow", "Slideshow")
-    win.autodel = True
+    win = StandardWindow("slideshow", "Slideshow", autodel=True,
+        size=(500, 400))
 
-    ss = Slideshow(win)
-    ss.loop = True
+    ss = Slideshow(win, loop=True, size_hint_weight=EXPAND_BOTH)
     win.resize_object_add(ss)
-    ss.size_hint_weight_set(evas.EVAS_HINT_EXPAND, evas.EVAS_HINT_EXPAND)
     ss.show()
 
     ssc = ssClass()
-    ss.item_add(ssc, img1)
-    ss.item_add(ssc, img2)
-    ss.item_add(ssc, img3)
-    ss.item_add(ssc, img4)
-    ss.item_add(ssc, img9)
-    ss.item_add(ssc, img5)
-    ss.item_add(ssc, img6)
-    ss.item_add(ssc, img7)
-    slide_last_it = ss.item_add(ssc, img8)
+    ss.item_add(ssc, os.path.join(img_path, images[0]))
+    ss.item_add(ssc, os.path.join(img_path, images[1]))
+    ss.item_add(ssc, os.path.join(img_path, images[2]))
+    ss.item_add(ssc, os.path.join(img_path, images[3]))
+    ss.item_add(ssc, os.path.join(img_path, images[8]))
+    ss.item_add(ssc, os.path.join(img_path, images[4]))
+    ss.item_add(ssc, os.path.join(img_path, images[5]))
+    ss.item_add(ssc, os.path.join(img_path, images[6]))
+    slide_last_it = ss.item_add(ssc, os.path.join(img_path, images[7]))
     ss.callback_transition_end_add(slide_transition, slide_last_it)
 
-    no = Notify(win)
-    no.orient = elementary.ELM_NOTIFY_ORIENT_BOTTOM
-    no.size_hint_weight_set(evas.EVAS_HINT_EXPAND, evas.EVAS_HINT_EXPAND)
-    win.resize_object_add(no)
-    no.timeout = 3.0
-
-    bx = Box(win)
-    bx.horizontal = True
-    no.content = bx
+    bx = Box(win, horizontal=True)
     bx.show()
 
-    bx.event_callback_add(evas.EVAS_CALLBACK_MOUSE_IN, mouse_in, no)
-    bx.event_callback_add(evas.EVAS_CALLBACK_MOUSE_OUT, mouse_out, no)
+    no = Notify(win, orient=ELM_NOTIFY_ORIENT_BOTTOM,
+        size_hint_weight=EXPAND_BOTH, timeout=3.0, content=bx)
+    win.resize_object_add(no)
 
-    bt = Button(win)
-    bt.text = "Previous"
+    bx.event_callback_add(EVAS_CALLBACK_MOUSE_IN, mouse_in, no)
+    bx.event_callback_add(EVAS_CALLBACK_MOUSE_OUT, mouse_out, no)
+
+    bt = Button(win, text="Previous")
     bt.callback_clicked_add(previous, ss)
     bx.pack_end(bt)
     bt.show()
 
-    bt = Button(win)
-    bt.text = "Next"
+    bt = Button(win, text="Next")
     bt.callback_clicked_add(next, ss)
     bx.pack_end(bt)
     bt.show()
 
-    hv = Hoversel(win)
+    hv = Hoversel(win, hover_parent=win, text=ss.transitions[0])
     bx.pack_end(hv)
-    hv.hover_parent = win
     for transition in ss.transitions:
         hv.item_add(transition, None, 0, hv_select, ss, transition)
     hv.item_add("None", None, 0, hv_select, ss, None)
-    hv.text_set(ss.transitions[0])
     hv.show()
 
-    hv = Hoversel(win)
+    hv = Hoversel(win, hover_parent=win, text=ss.layout)
     bx.pack_end(hv)
-    hv.hover_parent = win
     for layout in ss.layouts:
          hv.item_add(layout, None, 0, layout_select, ss, layout)
-    hv.text = ss.layout
     hv.show()
 
-    sp = Spinner(win)
-    sp.label_format = "%2.0f secs."
+    sp = Spinner(win, label_format="%2.0f secs.", step=1, min_max=(1, 30),
+        value=3)
     sp.callback_changed_add(spin, ss)
-    sp.step = 1
-    sp.min_max = (1, 30)
-    sp.value = 3
     bx.pack_end(sp)
     sp.show()
 
-    bt_start = Button(win)
-    bt_stop = Button(win)
+    bt_start = Button(win, text="Start")
+    bt_stop = Button(win, text="Stop", disabled=True)
 
-    bt = bt_start
-    bt.text = "Start"
-    bt.callback_clicked_add(start, ss, sp, bt_start, bt_stop)
-    bx.pack_end(bt)
-    bt.show()
+    bt_start.callback_clicked_add(start, ss, sp, bt_start, bt_stop)
+    bx.pack_end(bt_start)
+    bt_start.show()
 
-    bt = bt_stop
-    bt.text = "Stop"
-    bt.callback_clicked_add(stop, ss, sp, bt_start, bt_stop)
-    bx.pack_end(bt)
-    bt.disabled = True
-    bt.show()
+    bt_stop.callback_clicked_add(stop, ss, sp, bt_start, bt_stop)
+    bx.pack_end(bt_stop)
+    bt_stop.show()
 
-    ss.event_callback_add(evas.EVAS_CALLBACK_MOUSE_UP, notify_show, no)
-    ss.event_callback_add(evas.EVAS_CALLBACK_MOUSE_MOVE, notify_show, no)
+    ss.event_callback_add(EVAS_CALLBACK_MOUSE_UP, notify_show, no)
+    ss.event_callback_add(EVAS_CALLBACK_MOUSE_MOVE, notify_show, no)
 
-    win.resize(500, 400)
     win.show()
 
 

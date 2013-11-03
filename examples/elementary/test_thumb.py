@@ -1,14 +1,20 @@
 #!/usr/bin/env python
 # encoding: utf-8
 
-from efl import evas
+import os
+
+from efl.evas import EVAS_HINT_EXPAND, EVAS_HINT_FILL
 from efl import elementary
 from efl.elementary.window import StandardWindow
-from efl.elementary.background import Background
 from efl.elementary.scroller import Scroller
 from efl.elementary.table import Table
 from efl.elementary.thumb import Thumb
 
+EXPAND_BOTH = EVAS_HINT_EXPAND, EVAS_HINT_EXPAND
+FILL_BOTH = EVAS_HINT_FILL, EVAS_HINT_FILL
+
+script_path = os.path.dirname(os.path.abspath(__file__))
+img_path = os.path.join(script_path, "images")
 
 def thumb_clicked(obj):
     if not elementary.need_ethumb():
@@ -29,35 +35,28 @@ def thumb_clicked(obj):
         "mystrale_2.jpg"
     )
 
-    win = StandardWindow("thumb", "Thumb")
-    win.autodel_set(True)
+    win = StandardWindow("thumb", "Thumb", autodel=True, size=(600, 600))
     if obj is None:
         win.callback_delete_request_add(lambda o: elementary.exit())
 
-    tb = Table(win)
-    tb.size_hint_weight_set(evas.EVAS_HINT_EXPAND, evas.EVAS_HINT_EXPAND)
+    tb = Table(win, size_hint_weight=EXPAND_BOTH)
 
     n = 0
     for j in range(12):
         for i in range(12):
-            th = Thumb(win)
             n = (n + 1) % 11
-            th.file = "images/%s" % (images[n])
-            th.size_hint_weight_set(evas.EVAS_HINT_EXPAND, evas.EVAS_HINT_EXPAND)
-            th.size_hint_align_set(evas.EVAS_HINT_FILL, evas.EVAS_HINT_FILL)
+            th = Thumb(win, file=os.path.join(img_path, images[n]),
+                size_hint_weight=EXPAND_BOTH, size_hint_align=FILL_BOTH,
+                editable=True)
             tb.pack(th, i, j, 1, 1)
-            th.editable = True
             th.show()
 
-    sc = Scroller(win)
-    sc.size_hint_weight_set(evas.EVAS_HINT_EXPAND, evas.EVAS_HINT_EXPAND)
+    sc = Scroller(win, size_hint_weight=EXPAND_BOTH, content=tb)
     win.resize_object_add(sc)
 
-    sc.content_set(tb)
     tb.show()
     sc.show()
 
-    win.resize(600, 600)
     win.show()
 
 

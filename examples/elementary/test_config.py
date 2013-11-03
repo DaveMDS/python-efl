@@ -1,6 +1,8 @@
 #!/usr/bin/env python
 # encoding: utf-8
 
+import os
+
 from efl import elementary
 from efl.elementary.window import StandardWindow, Window, ELM_WIN_INLINED_IMAGE, \
     ELM_WIN_SOCKET_IMAGE
@@ -24,6 +26,9 @@ EXPAND_BOTH = EVAS_HINT_EXPAND, EVAS_HINT_EXPAND
 EXPAND_HORIZ = EVAS_HINT_EXPAND, 0.0
 FILL_BOTH = EVAS_HINT_FILL, EVAS_HINT_FILL
 FILL_HORIZ = EVAS_HINT_FILL, 0.5
+
+script_path = os.path.dirname(os.path.abspath(__file__))
+img_path = os.path.join(script_path, "images")
 
 class Prof_Data(object):
     rdg = None
@@ -229,7 +234,8 @@ def plug_add(win, bx, name):
     plug = Plug(win, size_hint_weight=EXPAND_BOTH)
 
     if plug.connect(name, 0, False):
-        ly = Layout(win, file=("test.edj", "win_config"),
+        ly = Layout(win,
+            file=(os.path.join(script_path, "test.edj"), "win_config"),
             size_hint_weight=EXPAND_BOTH, size_hint_align=FILL_BOTH)
         ly.show()
 
@@ -338,7 +344,7 @@ def config_clicked(obj, data=None):
 
     if data:
         if data.available_profiles:
-            win.available_profiles = data.available_profiles,
+            win.available_profiles = data.available_profiles
         if data.profile:
             win.profile = data.profile
 
@@ -348,7 +354,6 @@ def config_clicked(obj, data=None):
     sc.show()
 
     win.show()
-
 
 if __name__ == "__main__":
     elementary.init()

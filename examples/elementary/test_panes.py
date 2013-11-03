@@ -1,63 +1,49 @@
 #!/usr/bin/env python
 # encoding: utf-8
 
-from efl import evas
+from efl.evas import EVAS_HINT_EXPAND, EVAS_HINT_FILL
 from efl import elementary
-from efl.elementary.window import Window
-from efl.elementary.background import Background
+from efl.elementary.window import StandardWindow
 from efl.elementary.button import Button
 from efl.elementary.panes import Panes
 
+EXPAND_BOTH = EVAS_HINT_EXPAND, EVAS_HINT_EXPAND
+FILL_BOTH = EVAS_HINT_FILL, EVAS_HINT_FILL
 
 def cb_panes(panes, event):
     print(("Event: %s" % (event)))
 
 def panes_clicked(obj):
-    win = Window("panes", elementary.ELM_WIN_BASIC)
-    win.title_set("Panes test")
-    win.autodel_set(True)
+    win = StandardWindow("panes", "Panes test", autodel=True, size=(320, 480))
     if obj is None:
         win.callback_delete_request_add(lambda o: elementary.exit())
 
-    bg = Background(win)
-    win.resize_object_add(bg)
-    bg.size_hint_weight_set(evas.EVAS_HINT_EXPAND, evas.EVAS_HINT_EXPAND)
-    bg.show()
-
-    panes = Panes(win)
+    panes = Panes(win, size_hint_weight=EXPAND_BOTH, size_hint_align=FILL_BOTH)
     win.resize_object_add(panes)
-    panes.size_hint_weight = (evas.EVAS_HINT_EXPAND, evas.EVAS_HINT_EXPAND)
-    panes.size_hint_align = (evas.EVAS_HINT_FILL, evas.EVAS_HINT_FILL)
     panes.callback_clicked_add(cb_panes, "clicked")
     panes.callback_clicked_double_add(cb_panes, "clicked,double")
     panes.callback_press_add(cb_panes, "press")
     panes.callback_unpress_add(cb_panes, "unpress")
     panes.show()
 
-    bt = Button(win)
-    bt.text = "Left"
+    bt = Button(win, text="Left")
     panes.part_content_set("left", bt)
     bt.show()
 
-    panes_h = Panes(win)
+    panes_h = Panes(win, horizontal=True, size_hint_weight=EXPAND_BOTH,
+        size_hint_align=FILL_BOTH)
     panes_h.horizontal = True
-    panes_h.size_hint_weight = (evas.EVAS_HINT_EXPAND, evas.EVAS_HINT_EXPAND)
-    panes_h.size_hint_align = (evas.EVAS_HINT_FILL, evas.EVAS_HINT_FILL)
     panes.part_content_set("right", panes_h)
     panes_h.show()
 
-    bt = Button(win)
-    bt.text = "Up"
+    bt = Button(win, text="Up")
     panes_h.part_content_set("left", bt)
     bt.show()
 
-    bt = Button(win)
-    bt.text = "Down"
+    bt = Button(win, text="Down")
     panes_h.part_content_set("right", bt)
     bt.show()
 
-
-    win.resize(320, 480)
     win.show()
 
 

@@ -1,23 +1,22 @@
 #!/usr/bin/env python
 # encoding: utf-8
 
-from efl import evas
+import os
+
+from efl.evas import EVAS_HINT_EXPAND, EVAS_HINT_FILL
 from efl import elementary
-from efl.elementary.window import Window
-from efl.elementary.background import Background
+from efl.elementary.window import StandardWindow
 from efl.elementary.box import Box
 from efl.elementary.button import Button
 from efl.elementary.icon import Icon
 from efl.elementary.naviframe import Naviframe
 from efl.elementary.photo import Photo
 
+EXPAND_BOTH = EVAS_HINT_EXPAND, EVAS_HINT_EXPAND
+FILL_BOTH = EVAS_HINT_FILL, EVAS_HINT_FILL
 
-def content_new(parent, img):
-    photo = Photo(parent)
-    photo.file_set(img)
-    photo.fill_inside_set(True)
-    photo.style_set("shadow")
-    return photo
+script_path = os.path.dirname(os.path.abspath(__file__))
+img_path = os.path.join(script_path, "images")
 
 def navi_pop(bt, nf):
     nf.item_pop()
@@ -29,115 +28,107 @@ def title_visible(obj, item):
     item.title_visible = not item.title_visible
 
 def page2(bt, nf):
-    ic = Icon(nf)
-    ic.file_set("images/icon_right_arrow.png")
-    bt = Button(nf)
-    bt.callback_clicked_add(page3, nf)
-    bt.content_set(ic)
+    ic = Icon(nf, file=os.path.join(img_path, "icon_right_arrow.png"))
 
-    content = content_new(nf, "images/plant_01.jpg");
+    bt = Button(nf, content=ic)
+    bt.callback_clicked_add(page3, nf)
+
+    content = Photo(nf, file=os.path.join(img_path, "plant_01.jpg"),
+        fill_inside=True, style="shadow")
+
     item = nf.item_push("Page 2", None, bt, content, "basic")
     item.part_text_set("subtitle", "Here is sub-title part!")
 
 def page3(bt, nf):
-    bt = Button(nf)
+    bt = Button(nf, text="Prev")
     bt.callback_clicked_add(navi_pop, nf)
-    bt.text_set("Prev")
 
-    bt2 = Button(nf)
+    bt2 = Button(nf, text="Next")
     bt2.callback_clicked_add(page4, nf)
-    bt2.text_set("Next")
 
-    content = content_new(nf, "images/rock_01.jpg");
+    content = Photo(nf, file=os.path.join(img_path, "rock_01.jpg"),
+        fill_inside=True, style="shadow")
+
     item = nf.item_push("Page 3", bt, bt2, content, "basic")
-    ic = Icon(nf)
-    ic.file_set("images/logo_small.png")
+
+    ic = Icon(nf, file=os.path.join(img_path, "logo_small.png"))
     item.part_content_set("icon", ic)
 
 def page4(bt, nf):
-    ic = Icon(nf)
-    ic.file_set("images/icon_right_arrow.png")
-    bt = Button(nf)
+    ic = Icon(nf, file=os.path.join(img_path, "icon_right_arrow.png"))
+    bt = Button(nf, content=ic)
     bt.callback_clicked_add(page5, nf)
-    bt.content_set(ic)
 
-    content = content_new(nf, "images/rock_02.jpg");
+    content = Photo(nf, file=os.path.join(img_path, "rock_02.jpg"),
+        fill_inside=True, style="shadow")
+
     item = nf.item_push("Page 4", None, bt, content, "basic")
-    ic = Icon(nf)
-    ic.file_set("images/logo_small.png")
+    ic = Icon(nf, file=os.path.join(img_path, "logo_small.png"))
     item.part_content_set("icon", ic)
     item.part_text_set("subtitle", "Title area visibility test")
     item.title_visible_set(False)
+
     content.callback_clicked_add(title_visible, item)
 
 def page5(bt, nf):
-    bt = Button(nf)
+    bt = Button(nf, text="Page 4")
     bt.callback_clicked_add(navi_pop, nf)
-    bt.text_set("Page 4")
 
-    bt2 = Button(nf)
+    bt2 = Button(nf, text="Page 6")
     bt2.callback_clicked_add(page6, nf)
-    bt2.text_set("Page 6")
 
-    content = content_new(nf, "images/sky_01.jpg");
+    content = Photo(nf, file=os.path.join(img_path, "sky_01.jpg"),
+        fill_inside=True, style="shadow")
+
     item = nf.item_insert_after(nf.top_item_get(), "Page 5", bt, bt2, content, "basic")
     item.part_text_set("subtitle", "This page is inserted without transition (TODO)")
 
 def page6(bt, nf):
-    bt = Button(nf)
+    bt = Button(nf, text="Page 5")
     bt.callback_clicked_add(navi_pop, nf)
-    bt.text_set("Page 5")
 
-    bt2 = Button(nf)
+    bt2 = Button(nf, text="Page 7")
     bt2.callback_clicked_add(page7, nf)
-    bt2.text_set("Page 7")
 
-    content = content_new(nf, "images/sky_03.jpg");
+    content = Photo(nf, file=os.path.join(img_path, "sky_03.jpg"),
+        fill_inside=True, style="shadow")
+
     item = nf.item_push("Page 6", bt, bt2, content, "overlap")
     item.part_text_set("subtitle", "Overlap style!")
 
 def page7(bt, nf):
-    bt = Button(nf)
+    bt = Button(nf, text="Page 6")
     bt.callback_clicked_add(navi_pop, nf)
-    bt.text_set("Page 6")
 
-    bt2 = Button(nf)
+    bt2 = Button(nf, text="Page 1")
     bt2.callback_clicked_add(navi_promote, nf, nf.data["page1"])
-    bt2.text_set("Page 1")
 
-    content = content_new(nf, "images/sky_02.jpg");
+    content = Photo(nf, file=os.path.join(img_path, "sky_02.jpg"),
+        fill_inside=True, style="shadow")
+
     item = nf.item_push("Page 7", bt, bt2, content, "overlap")
     item.part_text_set("subtitle", "Overlap style!")
 
 
 def naviframe_clicked(obj):
-    win = Window("naviframe", elementary.ELM_WIN_BASIC)
-    win.title_set("Naviframe test")
-    win.autodel_set(True)
+    win = StandardWindow("naviframe", "Naviframe test", autodel=True,
+        size=(400, 600))
     if obj is None:
         win.callback_delete_request_add(lambda o: elementary.exit())
 
-    bg = Background(win)
-    bg.size_hint_weight = (evas.EVAS_HINT_EXPAND, evas.EVAS_HINT_EXPAND)
-    bg.size_hint_align = (evas.EVAS_HINT_FILL, evas.EVAS_HINT_FILL)
-    win.resize_object_add(bg)
-    bg.show()
-
-    nf = Naviframe(win)
-    nf.size_hint_weight = (evas.EVAS_HINT_EXPAND, evas.EVAS_HINT_EXPAND)
-    nf.size_hint_align = (evas.EVAS_HINT_FILL, evas.EVAS_HINT_FILL)
+    nf = Naviframe(win, size_hint_weight=EXPAND_BOTH, size_hint_align=FILL_BOTH)
     win.resize_object_add(nf)
     nf.show()
 
-    bt = Button(win)
+    bt = Button(win, text="Next")
     bt.callback_clicked_add(page2, nf)
-    bt.text_set("Next")
 
-    content = content_new(nf, "images/logo.png")
+    content = Photo(nf, file=os.path.join(img_path, "logo.png"),
+        fill_inside=True, style="shadow")
+
     item = nf.item_push("Page 1", None, bt, content, "basic")
     nf.data["page1"] = item
 
-    win.resize(400, 600)
     win.show()
 
 

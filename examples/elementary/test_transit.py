@@ -1,3 +1,10 @@
+#!/usr/bin/env python
+# encoding: utf-8
+
+import os
+
+from efl.evas import EVAS_HINT_EXPAND, EVAS_HINT_FILL, \
+    EVAS_ASPECT_CONTROL_VERTICAL
 from efl import elementary
 from efl.elementary.button import Button
 from efl.elementary.window import StandardWindow
@@ -11,8 +18,11 @@ from efl.elementary.frame import Frame
 from efl.elementary.label import Label
 from efl.elementary.list import List
 
-from efl.evas import EVAS_HINT_EXPAND, EVAS_HINT_FILL, EVAS_ASPECT_CONTROL_VERTICAL
+EXPAND_BOTH = EVAS_HINT_EXPAND, EVAS_HINT_EXPAND
+FILL_BOTH = EVAS_HINT_FILL, EVAS_HINT_FILL
 
+script_path = os.path.dirname(os.path.abspath(__file__))
+img_path = os.path.join(script_path, "images")
 
 class CustomEffect(TransitCustomEffect):
     def __init__(self, from_w, from_h, to_w, to_h):
@@ -74,10 +84,10 @@ def transit_image_animation(obj, data):
     ic = data
 
     images = [
-        "images/icon_19.png",
-        "images/icon_00.png",
-        "images/icon_11.png",
-        "images/logo_small.png"
+        os.path.join(img_path, "icon_19.png"),
+        os.path.join(img_path, "icon_00.png"),
+        os.path.join(img_path, "icon_11.png"),
+        os.path.join(img_path, "logo_small.png")
     ]
 
     trans = Transit()
@@ -166,26 +176,22 @@ def transit_clicked(obj, item=None):
     bx.size_hint_min = 318, 318
     bx.show()
 
-    ic = Image(win)
-    ic.file = "images/icon_11.png"
-    ic.size_hint_aspect = EVAS_ASPECT_CONTROL_VERTICAL, 1, 1
+    ic = Image(win, file=os.path.join(img_path, "icon_11.png"),
+        size_hint_aspect=(EVAS_ASPECT_CONTROL_VERTICAL, 1, 1))
 
-    bt = Button(win)
-    bt.text = "ImageAnimation Effect"
+    bt = Button(win, text="ImageAnimation Effect")
     bt.part_content_set("icon", ic)
     bx.pack_end(bt)
     bt.show()
     ic.show()
     bt.callback_clicked_add(transit_image_animation, ic)
 
-    bt = Button(win)
-    bt.text = "Color, Rotation and Translation"
+    bt = Button(win, text="Color, Rotation and Translation")
     bx.pack_end(bt)
     bt.show()
     bt.callback_clicked_add(transit_rotation_translation_color)
 
-    bt = Button(win)
-    bt.text = "Wipe Effect"
+    bt = Button(win, text="Wipe Effect")
     bx.pack_end(bt)
     bt.show()
     bt.callback_clicked_add(transit_wipe)
@@ -194,36 +200,25 @@ def transit_clicked(obj, item=None):
 
 # Resizing Effect
 def transit2_clicked(obj, item=None):
-    win = StandardWindow("transit2", "Transit 2")
-    win.autodel = True
+    win = StandardWindow("transit2", "Transit 2", autodel=True, size=(400, 400))
 
-    bt = Button(win)
-    bt.text = "Resizing Effect"
+    bt = Button(win, text="Resizing Effect", pos=(50, 100), size=(100, 50))
     bt.show()
-    bt.move(50, 100)
-    bt.resize(100, 50)
     bt.callback_clicked_add(transit_resizing)
 
-    win.resize(400, 400)
     win.show()
 
 # Flip Effect
 def transit3_clicked(obj, item=None):
-    win = StandardWindow("transit3", "Transit 3")
-    win.autodel = True
+    win = StandardWindow("transit3", "Transit 3", autodel=True, size=(300, 300))
 
-    bt = Button(win)
-    bt.text = "Front Button - Flip Effect"
+    bt = Button(win, text="Front Button - Flip Effect", pos=(50, 50),
+        size=(200, 200))
     bt.show()
-    bt.move(50, 50)
-    bt.resize(200, 200)
 
-    bt2 = Button(win)
-    bt2.text = "Back Button - Flip Effect"
-    bt2.move(50, 50)
-    bt2.resize(200, 200)
+    bt2 = Button(win, text="Back Button - Flip Effect", pos=(50, 50),
+        size=(200, 200))
 
-    win.resize(300, 300)
     win.show()
 
     bt.callback_clicked_add(transit_flip, bt2)
@@ -231,47 +226,34 @@ def transit3_clicked(obj, item=None):
 
 # Zoom Effect
 def transit4_clicked(obj, item=None):
-    win = StandardWindow("transit4", "Transit 4")
-    win.autodel = True
+    win = StandardWindow("transit4", "Transit 4", autodel=True, size=(300, 300))
 
-    bt = Button(win)
-    bt.text = "Zoom Effect"
-    bt.resize(100, 50)
-    bt.move(100, 125)
+    bt = Button(win, text="Zoom Effect", size=(100, 50), pos=(100, 125))
     bt.show()
 
     bt.callback_clicked_add(transit_zoom)
 
-    win.resize(300, 300)
     win.show()
 
 # Blend Effect
 def transit5_clicked(obj, item=None):
-    win = StandardWindow("transit5", "Transit 5")
-    win.autodel = True
+    win = StandardWindow("transit5", "Transit 5", autodel=True, size=(300, 300))
 
-    ic = Image(win)
-    ic.file = "images/rock_01.jpg"
-    ic.size_hint_max = 50, 50
+    ic = Image(win, file=os.path.join(img_path, "rock_01.jpg"),
+        size_hint_max=(50, 50))
 
-    bt = Button(win)
+    bt = Button(win, text="Before Button - Blend Effect", pos=(25, 125),
+        size=(250, 50))
     bt.part_content_set("icon", ic)
-    bt.text = "Before Button - Blend Effect"
-    bt.move(25, 125)
-    bt.resize(250, 50)
     bt.show()
 
-    ic = Image(win)
-    ic.file = "images/rock_02.jpg"
-    ic.size_hint_max = 50, 50
+    ic = Image(win, file=os.path.join(img_path, "rock_02.jpg"),
+        size_hint_max=(50, 50))
 
-    bt2 = Button(win)
+    bt2 = Button(win, text="After Button - Blend Effect", pos=(25, 125),
+        size=(250, 50))
     bt2.part_content_set("icon", ic)
-    bt2.text = "After Button - Blend Effect"
-    bt2.move(25, 125)
-    bt2.resize(250, 50)
 
-    win.resize(300, 300)
     win.show()
 
     bt.callback_clicked_add(transit_blend, bt2)
@@ -279,31 +261,23 @@ def transit5_clicked(obj, item=None):
 
 # Fade Effect */
 def transit6_clicked(obj, item=None):
-    win = StandardWindow("transit6","Transit 6")
-    win.autodel = True
+    win = StandardWindow("transit6","Transit 6", autodel=True, size=(300, 300))
 
-    ic = Image(win)
-    ic.file = "images/rock_01.jpg"
-    ic.size_hint_max = 50, 50
+    ic = Image(win, file=os.path.join(img_path, "rock_01.jpg"),
+        size_hint_max=(50, 50))
 
-    bt = Button(win)
+    bt = Button(win, text="Before Button - Fade Effect", pos=(25, 125),
+        size=(250, 50))
     bt.part_content_set("icon", ic)
-    bt.text = "Before Button - Fade Effect"
-    bt.move(25, 125)
-    bt.resize(250, 50)
     bt.show()
 
-    ic = Image(win)
-    ic.file = "images/rock_02.jpg"
-    ic.size_hint_max = 50, 50
+    ic = Image(win, file=os.path.join(img_path, "rock_02.jpg"),
+        size_hint_max=(50, 50))
 
-    bt2 = Button(win)
+    bt2 = Button(win, text="After Button - Fade Effect", pos=(25, 125),
+        size=(250, 50))
     bt2.part_content_set("icon", ic)
-    bt2.text = "After Button - Fade Effect"
-    bt2.move(25, 125)
-    bt2.resize(250, 50)
 
-    win.resize(300, 300)
     win.show()
 
     bt.callback_clicked_add(transit_fade, bt2)
@@ -311,21 +285,15 @@ def transit6_clicked(obj, item=None):
 
 # Resizable Flip Effect
 def transit7_clicked(obj, item=None):
-    win = StandardWindow("transit7", "Transit 7")
-    win.autodel = True
+    win = StandardWindow("transit7", "Transit 7", autodel=True, size=(400, 400))
 
-    bt = Button(win)
-    bt.text = "Front Button - Resizable Flip Effect"
+    bt = Button(win, text="Front Button - Resizable Flip Effect", pos=(50, 100),
+        size=(250, 30))
     bt.show()
-    bt.move(50, 100)
-    bt.resize(250, 30)
 
-    bt2 = Button(win)
-    bt2.text = "Back Button - Resizable Flip Effect"
-    bt2.move(50, 100)
-    bt2.resize(300, 200)
+    bt2 = Button(win, text="Back Button - Resizable Flip Effect", pos=(50, 100),
+        size=(300, 200))
 
-    win.resize(400, 400)
     win.show()
 
     bt.callback_clicked_add(transit_resizable_flip, bt2)
@@ -333,14 +301,11 @@ def transit7_clicked(obj, item=None):
 
 # Custom Effect
 def transit8_clicked(obj, item=None):
-    win = StandardWindow("transit8", "Transit 8")
-    win.autodel = True
+    win = StandardWindow("transit8", "Transit 8", autodel=True, size=(400, 400))
 
-    bt = Button(win)
-    bt.text = "Button - Custom Effect"
+    bt = Button(win, text="Button - Custom Effect", pos=(50, 50),
+        size=(150, 150))
     bt.show()
-    bt.move(50, 50)
-    bt.resize(150, 150)
 
     # Adding Transit
     trans = Transit()
@@ -352,36 +317,22 @@ def transit8_clicked(obj, item=None):
     trans.repeat_times = -1
     trans.go()
 
-    win.resize(400, 400)
     win.show()
 
 # Chain Transit Effect
 def transit9_clicked(obj, item=None):
-    win = StandardWindow("transit9", "Transit 9")
-    win.autodel = True
+    win = StandardWindow("transit9", "Transit 9", autodel=True, size=(400, 400))
 
-    bt = Button(win)
-    bt.text = "Chain 1"
-    bt.resize(100, 100)
-    bt.move(0, 0)
+    bt = Button(win, text="Chain 1", size=(100, 100), pos=(0, 0))
     bt.show()
 
-    bt2 = Button(win)
-    bt2.text = "Chain 2"
-    bt2.resize(100, 100)
-    bt2.move(300, 0)
+    bt2 = Button(win, text="Chain 2", size=(100, 100), pos=(300, 0))
     bt2.show()
 
-    bt3 = Button(win)
-    bt3.text = "Chain 3"
-    bt3.resize(100, 100)
-    bt3.move(300, 300)
+    bt3 = Button(win, text="Chain 3", size=(100, 100), pos=(300, 300))
     bt3.show()
 
-    bt4 = Button(win)
-    bt4.text = "Chain 4"
-    bt4.resize(100, 100)
-    bt4.move(0, 300)
+    bt4 = Button(win, text="Chain 4", size=(100, 100), pos=(0, 300))
     bt4.show()
 
     trans = Transit()
@@ -416,30 +367,28 @@ def transit9_clicked(obj, item=None):
     trans4.objects_final_state_keep = True
     trans3.chain_transit_add(trans4)
 
-    win.resize(400, 400)
     win.show()
+
 
 if __name__ == "__main__":
     elementary.init()
-    win = StandardWindow("test", "python-elementary test application")
+    win = StandardWindow("test", "python-elementary test application",
+        size=(320,520))
     win.callback_delete_request_add(lambda o: elementary.exit())
 
-    box0 = Box(win)
-    box0.size_hint_weight = EVAS_HINT_EXPAND, EVAS_HINT_EXPAND
+    box0 = Box(win, size_hint_weight=EXPAND_BOTH)
     win.resize_object_add(box0)
     box0.show()
-
-    fr = Frame(win)
-    fr.text = "Information"
-    box0.pack_end(fr)
-    fr.show()
 
     lb = Label(win)
     lb.text_set("Please select a test from the list below<br>"
                  "by clicking the test button to show the<br>"
                  "test window.")
-    fr.content = lb
     lb.show()
+
+    fr = Frame(win, text="Information", content=lb)
+    box0.pack_end(fr)
+    fr.show()
 
     items = [
         ("Transit", transit_clicked),
@@ -453,9 +402,7 @@ if __name__ == "__main__":
         ("Transit Chain", transit9_clicked),
     ]
 
-    li = List(win)
-    li.size_hint_weight = EVAS_HINT_EXPAND, EVAS_HINT_EXPAND
-    li.size_hint_align = EVAS_HINT_FILL, EVAS_HINT_FILL
+    li = List(win, size_hint_weight=EXPAND_BOTH, size_hint_align=FILL_BOTH)
     box0.pack_end(li)
     li.show()
 
@@ -464,7 +411,6 @@ if __name__ == "__main__":
 
     li.go()
 
-    win.resize(320,520)
     win.show()
     elementary.run()
     elementary.shutdown()

@@ -1,12 +1,12 @@
 #!/usr/bin/env python
 # encoding: utf-8
 
-from efl import evas
+from efl.evas import EVAS_HINT_EXPAND, EVAS_CALLBACK_MOUSE_DOWN, Rectangle
 from efl import elementary
-from efl.elementary.window import Window
-from efl.elementary.background import Background
+from efl.elementary.window import StandardWindow
 from efl.elementary.menu import Menu
 
+EXPAND_BOTH = EVAS_HINT_EXPAND, EVAS_HINT_EXPAND
 
 def menu_show(rect, evtinfo, menu):
     (x,y) = evtinfo.position.canvas
@@ -63,34 +63,24 @@ def menu_populate_1(menu, item):
     menu_populate_2(menu, item2)
 
 def menu_clicked(obj):
-    win = Window("menu", elementary.ELM_WIN_BASIC)
-    win.title_set("Menu test")
-    win.autodel_set(True)
+    win = StandardWindow("menu", "Menu test", autodel=True, size=(350, 200))
     if obj is None:
         win.callback_delete_request_add(lambda o: elementary.exit())
 
-    bg = Background(win)
-    win.resize_object_add(bg)
-    bg.size_hint_weight_set(evas.EVAS_HINT_EXPAND, evas.EVAS_HINT_EXPAND)
-    bg.show()
-
-    rect = evas.Rectangle(win.evas_get())
+    rect = Rectangle(win.evas_get(), color=(0, 0, 0, 0))
     win.resize_object_add(rect)
-    rect.size_hint_weight_set(evas.EVAS_HINT_EXPAND, evas.EVAS_HINT_EXPAND)
-    rect.color_set(0, 0, 0, 0)
+    rect.size_hint_weight = EVAS_HINT_EXPAND, EVAS_HINT_EXPAND
     rect.show()
 
     menu = Menu(win)
     item = menu.item_add(None, "first item", "clock")
-
     item = menu.item_add(None, "second item", "mail-send")
     menu_populate_1(menu, item)
 
     menu.item_add(item, "sub menu", "refresh")
 
-    rect.event_callback_add(evas.EVAS_CALLBACK_MOUSE_DOWN, menu_show, menu)
+    rect.event_callback_add(EVAS_CALLBACK_MOUSE_DOWN, menu_show, menu)
 
-    win.resize(350, 200)
     win.show()
 
 

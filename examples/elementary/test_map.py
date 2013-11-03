@@ -1,17 +1,20 @@
 #!/usr/bin/env python
 # encoding: utf-8
 
-from efl import evas
+from efl.evas import EVAS_HINT_EXPAND, EVAS_HINT_FILL
 from efl import elementary
-from efl.elementary.window import Window
-from efl.elementary.background import Background
+from efl.elementary.window import StandardWindow
 from efl.elementary.box import Box
 from efl.elementary.button import Button
 from efl.elementary.check import Check
 from efl.elementary.hoversel import Hoversel
-from efl.elementary.map import Map
+from efl.elementary.map import Map, ELM_MAP_SOURCE_TYPE_TILE
 from efl.elementary.slider import Slider
 
+EXPAND_BOTH = EVAS_HINT_EXPAND, EVAS_HINT_EXPAND
+EXPAND_HORIZ = EVAS_HINT_EXPAND, 0.0
+FILL_BOTH = EVAS_HINT_FILL, EVAS_HINT_FILL
+FILL_HORIZ = EVAS_HINT_FILL, 0.5
 
 def print_map_info(Map):
     print("---Map info---")
@@ -44,130 +47,101 @@ def cb_slider_rot(sl, Map):
     Map.rotate_set(sl.value, cx, cy)
     print("New rotate: %f %d %d" % Map.rotate)
 
-def cb_hovsel_selected(hov, item, Map, type):
-    Map.source_set(type, item.text)
+def cb_hovsel_selected(hov, item, Map, src_type):
+    Map.source_set(src_type, item.text)
     hov.text = "Tiles: %s" % (item.text)
 
 def map_clicked(obj):
-    win = Window("map", elementary.ELM_WIN_BASIC)
-    win.title = "Map test"
-    win.autodel = True
+    win = StandardWindow("map", "Map test", autodel=True, size=(600, 600))
     if obj is None:
         win.callback_delete_request_add(lambda o: elementary.exit())
 
-    bg = Background(win)
-    win.resize_object_add(bg)
-    bg.size_hint_weight = (evas.EVAS_HINT_EXPAND, evas.EVAS_HINT_EXPAND)
-    bg.show()
-
-    vbox = Box(win)
-    vbox.size_hint_weight = (evas.EVAS_HINT_EXPAND, evas.EVAS_HINT_EXPAND)
-    vbox.size_hint_align = (evas.EVAS_HINT_FILL, evas.EVAS_HINT_FILL)
+    vbox = Box(win, size_hint_weight=EXPAND_BOTH, size_hint_align=FILL_BOTH)
     win.resize_object_add(vbox)
     vbox.show()
 
-    map_obj = Map(win)
-    map_obj.zoom = 2
-    map_obj.size_hint_weight = (evas.EVAS_HINT_EXPAND, evas.EVAS_HINT_EXPAND)
-    map_obj.size_hint_align = (evas.EVAS_HINT_FILL, evas.EVAS_HINT_FILL)
+    map_obj = Map(win, zoom=2, size_hint_weight=EXPAND_BOTH,
+        size_hint_align=FILL_BOTH)
     # map_obj.callback_clicked_add(cb_map_clicked)
     vbox.pack_end(map_obj)
     map_obj.show()
 
     # view
-    hbox = Box(win)
-    hbox.horizontal = True
-    hbox.size_hint_weight = (evas.EVAS_HINT_EXPAND, 0.0)
-    hbox.size_hint_align = (evas.EVAS_HINT_FILL, 0.0)
+    hbox = Box(win, horizontal=True, size_hint_weight=EXPAND_HORIZ,
+        size_hint_align=FILL_HORIZ)
     vbox.pack_end(hbox)
     hbox.show()
-    
-    bt = Button(win)
-    bt.text = "Zoom +"
+
+    bt = Button(win, text="Zoom +")
     bt.callback_clicked_add(cb_btn_zoom, map_obj, 1)
     hbox.pack_end(bt)
     bt.show()
 
-    bt = Button(win)
-    bt.text = "Zoom -"
+    bt = Button(win, text="Zoom -")
     bt.callback_clicked_add(cb_btn_zoom, map_obj, -1)
     hbox.pack_end(bt)
     bt.show()
 
-    sl = Slider(win)
-    sl.text = "Rotation:"
-    sl.min_max = (0, 360)
-    sl.value = 0
-    sl.indicator_format = "%3.0f"
+    sl = Slider(win, text="Rotation:", min_max=(0, 360), value=0,
+        indicator_format="%3.0f")
     sl.callback_changed_add(cb_slider_rot, map_obj)
     hbox.pack_end(sl)
     sl.show()
 
-    ho = Hoversel(win)
-    ho.hover_parent_set(win)
-    type = elementary.ELM_MAP_SOURCE_TYPE_TILE
-    ho.text_set("Tiles: %s" % (map_obj.source_get(type)))
-    for src in map_obj.sources_get(type):
+    src_type = ELM_MAP_SOURCE_TYPE_TILE
+
+    ho = Hoversel(win, hover_parent=win,
+        text="Tiles: %s" % (map_obj.source_get(src_type)))
+    for src in map_obj.sources_get(src_type):
         ho.item_add(src)
-    ho.callback_selected_add(cb_hovsel_selected, map_obj, type)
+    ho.callback_selected_add(cb_hovsel_selected, map_obj, src_type)
     hbox.pack_end(ho)
     ho.show()
 
     # show / bring in
-    hbox = Box(win)
-    hbox.horizontal = True
-    hbox.size_hint_weight = (evas.EVAS_HINT_EXPAND, 0.0)
-    hbox.size_hint_align = (evas.EVAS_HINT_FILL, 0.0)
+    hbox = Box(win, horizontal=True, size_hint_weight=EXPAND_HORIZ,
+        size_hint_align=FILL_HORIZ)
     vbox.pack_end(hbox)
     hbox.show()
-    
-    bt = Button(win)
-    bt.text = "Show Sydney"
+
+    bt = Button(win, text="Show Sydney")
     bt.callback_clicked_add(cb_btn_show, map_obj, 151.175274, -33.859126)
     hbox.pack_end(bt)
     bt.show()
-    
-    bt = Button(win)
-    bt.text = "Show Paris"
+
+    bt = Button(win, text="Show Paris")
     bt.callback_clicked_add(cb_btn_show, map_obj, 2.342913, 48.853701)
     hbox.pack_end(bt)
     bt.show()
-    
-    bt = Button(win)
-    bt.text = "BringIn Sydney"
+
+    bt = Button(win, text="BringIn Sydney")
     bt.callback_clicked_add(cb_btn_bringin, map_obj, 151.175274, -33.859126)
     hbox.pack_end(bt)
     bt.show()
-    
-    bt = Button(win)
-    bt.text = "BringIn Paris"
+
+    bt = Button(win, text="BringIn Paris")
     bt.callback_clicked_add(cb_btn_bringin, map_obj, 2.342913, 48.853701)
     hbox.pack_end(bt)
     bt.show()
 
-    hbox = Box(win)
-    hbox.horizontal = True
-    hbox.size_hint_weight = (evas.EVAS_HINT_EXPAND, 0.0)
-    hbox.size_hint_align = (evas.EVAS_HINT_FILL, 0.0)
+    hbox = Box(win, horizontal=True, size_hint_weight=EXPAND_HORIZ,
+        size_hint_align=FILL_HORIZ)
     vbox.pack_end(hbox)
     hbox.show()
 
     # options
-    ck = Check(win)
-    ck.text = "wheel_disabled"
+    ck = Check(win, text="wheel_disabled")
     ck.callback_changed_add(lambda bt: map_obj.wheel_disabled_set(bt.state))
     hbox.pack_end(ck)
     ck.show()
 
-    ck = Check(win)
-    ck.text = "paused"
+    ck = Check(win, text="paused")
     ck.callback_changed_add(lambda bt: map_obj.paused_set(bt.state))
     hbox.pack_end(ck)
     ck.show()
 
     print_map_info(map_obj)
 
-    win.resize(600, 600)
     win.show()
 
 
