@@ -4,6 +4,10 @@ BUGS
 
 * Evas: SmartObject doesn't work
 * EdjeEdit: PartState API does not work
+* Edje.External: The unit test fails
+* Elm.Configuration: example crashes
+* Elm.EdjeExternal: examples don't work properly
+* Elm.Map: overlays_show segfaults, scrollers in examples jump when menu opens
 
 
 TODO
@@ -27,7 +31,7 @@ TODO
 Elementary
 ==========
 
-* Web needs a test and a lot of work: signals and documentation
+* Web needs a lot of work: signals and documentation
 * Review the new container type object item system.
   Should the instance methods be classmethods instead?
 * Drag-n-Drop (in progress/kuuko)
