@@ -99,7 +99,6 @@ Reference
 .. toctree::
    :maxdepth: 4
 
-   module-access
    module-actionslider
    module-background
    module-box
@@ -173,7 +172,6 @@ Inheritance diagram
 -------------------
 
 .. inheritance-diagram::
-    efl.elementary.access
     efl.elementary.actionslider
     efl.elementary.background
     efl.elementary.box
