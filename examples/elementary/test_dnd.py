@@ -1,11 +1,16 @@
 #!/usr/bin/env python
 # encoding: utf-8
 
+import os
+
 from efl.evas import EVAS_HINT_EXPAND, EVAS_HINT_FILL, \
     EVAS_ASPECT_CONTROL_VERTICAL, EVAS_CALLBACK_MOUSE_MOVE, \
     EVAS_CALLBACK_MOUSE_UP, EVAS_CALLBACK_MOUSE_DOWN, \
     EVAS_EVENT_FLAG_ON_HOLD
 from efl import elementary
+from efl.elementary.label import Label
+from efl.elementary.frame import Frame
+from efl.elementary.list import List
 from efl.elementary.box import Box
 from efl.elementary.window import StandardWindow
 from efl.elementary.icon import Icon
@@ -14,6 +19,9 @@ from efl.elementary.genlist import Genlist, GenlistItemClass, \
 
 EXPAND_BOTH = EVAS_HINT_EXPAND, EVAS_HINT_EXPAND
 FILL_BOTH = EVAS_HINT_FILL, EVAS_HINT_FILL
+
+script_path = os.path.dirname(os.path.abspath(__file__))
+img_path = os.path.join(script_path, "images")
 
 img = (
     "panel_01.jpg",
@@ -51,7 +59,7 @@ class DndItemClass(GenlistItemClass):
 
     def content_get(self, obj, part, data, *args):
         if part == "elm.swallow.icon":
-            icon = Icon(obj, file=data,
+            icon = Icon(obj, file=os.path.join(img_path, data),
                 size_hint_aspect=(EVAS_ASPECT_CONTROL_VERTICAL, 1, 1))
             icon.show()
             return icon
@@ -69,7 +77,7 @@ def win_del(obj, data):
     # FIXME Needed?: if (itc1) elm_genlist_item_class_free(itc1)
     #itc1 = NULL
 
-    elementary.exit()
+    #elementary.exit()
 
 def gl_item_getcb(gl, x, y):
     # This function returns pointer to item under (x,y) coords
@@ -511,10 +519,9 @@ def gl_dnd_default_anim_data_getcb(gl, it):
 #     else
 #       return False
 
-def dnd_genlist_default_anim_clicked(*args):
+def dnd_genlist_default_anim_clicked(obj, item=None):
     win = StandardWindow("dnd-genlist-default-anim",
         "DnD-Genlist-Default-Anim", autodel=True, size=(680, 800))
-    win.autodel = True
 
     bxx = Box(win, horizontal=True, size_hint_weight=EXPAND_BOTH)
     win.resize_object_add(bxx)
@@ -542,7 +549,7 @@ def dnd_genlist_default_anim_clicked(*args):
         #itc1 = DndItemClass()
 
         for i in range (20):
-            gl.item_append(itc1, "images/{0}".format(img[i % 9]), flags=ELM_GENLIST_ITEM_NONE)
+            gl.item_append(itc1, img[i % 9], flags=ELM_GENLIST_ITEM_NONE)
 
     win.show()
 
@@ -683,8 +690,37 @@ def dnd_genlist_default_anim_clicked(*args):
 
 if __name__ == "__main__":
     elementary.init()
+    win = StandardWindow("test", "python-elementary test application",
+        size=(320,520))
+    win.callback_delete_request_add(lambda o: elementary.exit())
 
-    dnd_genlist_default_anim_clicked(None)
+    box0 = Box(win, size_hint_weight=EXPAND_BOTH)
+    win.resize_object_add(box0)
+    box0.show()
 
+    lb = Label(win)
+    lb.text_set("Please select a test from the list below<br>"
+                 "by clicking the test button to show the<br>"
+                 "test window.")
+    lb.show()
+
+    fr = Frame(win, text="Information", content=lb)
+    box0.pack_end(fr)
+    fr.show()
+
+    items = [
+        ("DnD Genlist Default Anim", dnd_genlist_default_anim_clicked),
+        ]
+
+    li = List(win, size_hint_weight=EXPAND_BOTH, size_hint_align=FILL_BOTH)
+    box0.pack_end(li)
+    li.show()
+
+    for item in items:
+        li.item_append(item[0], callback=item[1])
+
+    li.go()
+
+    win.show()
     elementary.run()
     elementary.shutdown()

@@ -1,6 +1,8 @@
 #!/usr/bin/env python
 # encoding: utf-8
 
+import os
+
 from efl.evas import EVAS_HINT_EXPAND, EVAS_HINT_FILL, FilledImage
 from efl import elementary
 from efl.elementary.window import StandardWindow
@@ -13,6 +15,9 @@ from efl.elementary.scroller import Scroller
 
 EXPAND_BOTH = EVAS_HINT_EXPAND, EVAS_HINT_EXPAND
 FILL_BOTH = EVAS_HINT_FILL, EVAS_HINT_FILL
+
+script_path = os.path.dirname(os.path.abspath(__file__))
+img_path = os.path.join(script_path, "images")
 
 def cb_items(li, item):
     print(("ctxpopup item selected: %s" % (item.text)))
@@ -29,7 +34,7 @@ def cb_btn(btn):
     if "img" in cp.data:
         return
     img = FilledImage(btn.evas)
-    img.file_set("images/sky_04.jpg")
+    img.file_set(os.path.join(img_path, "sky_04.jpg"))
     img.move(40, 40)
     img.resize(320, 320)
     img.show()

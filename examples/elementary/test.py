@@ -44,15 +44,15 @@ items = [
             ("Evas Map 3D", "test_3d", "evas3d_clicked"),
          ]),
          ("Booleans", [
-            ("Checks", "test_check", "check_clicked"),
-            # ("Toggles", toggles_clicked),TODO make a toggle with check
+            ("Check", "test_check", "check_clicked"),
+            #TODO: ("Toggle", "test_check", "toggle_clicked"),
         ]),
          ("Boundaries", [
             ("Bubble", "test_bubble", "bubble_clicked"),
             ("Separator", "test_separator", "separator_clicked"),
         ]),
          ("Buttons", [
-            ("Buttons", "test_button", "buttons_clicked"),
+            ("Button", "test_button", "buttons_clicked"),
         ]),
          ("Containers", [
             ("Box Horiz", "test_box", "box_horiz_clicked"),
@@ -74,6 +74,16 @@ items = [
             ("Panel", "test_panel", "panel_clicked"),
             ("Panes", "test_panes", "panes_clicked"),
         ]),
+         ("Drag & Drop", [
+            ("Genlist DnD Default Anim", "test_dnd", "dnd_genlist_default_anim_clicked"),
+        ]),
+         ("Edje External", [
+            ("Ext Button", "test_external", "edje_external_button_clicked"),
+            ("Ext ProgressBar", "test_external", "edje_external_pbar_clicked"),
+            ("Ext Scroller", "test_external", "edje_external_scroller_clicked"),
+            ("Ext Slider", "test_external", "edje_external_slider_clicked"),
+            ("Ext Video", "test_external", "edje_external_video_clicked"),
+        ]),
          ("Effects", [
             ("Flip", "test_flip", "flip_clicked"),
             ("Flip Interactive", "test_flip", "flip_interactive_clicked"),
@@ -92,13 +102,6 @@ items = [
             ("Entry Scrolled", "test_entry", "entry_scrolled_clicked"),
             ("Entry Anchor", "test_entry", "entry_anchor_clicked"),
             ("MultiButtonEntry", "test_multibuttonentry", "multibuttonentry_clicked"),
-        ]),
-         ("Edje External", [
-            ("Ext Button", "test_external", "edje_external_button_clicked"),
-            ("Ext ProgressBar", "test_external", "edje_external_pbar_clicked"),
-            ("Ext Scroller", "test_external", "edje_external_scroller_clicked"),
-            ("Ext Slider", "test_external", "edje_external_slider_clicked"),
-            ("Ext Video", "test_external", "edje_external_video_clicked"),
         ]),
          ("Geographic", [
             ("Map", "test_map", "map_clicked"),
@@ -152,6 +155,7 @@ items = [
          ("Range Values", [
             ("Spinner", "test_spinner", "spinner_clicked"),
             ("Progressbar", "test_progressbar", "progressbar_clicked"),
+            ("Slider", "test_slider", "slider_clicked"),
         ]),
          ("Scroller", [
             ("Scroller", "test_scroller", "scroller_clicked"),
