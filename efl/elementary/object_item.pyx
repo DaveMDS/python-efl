@@ -19,6 +19,7 @@ from cpython cimport PyUnicode_AsUTF8String, Py_DECREF, Py_INCREF
 
 from efl.eo cimport _object_mapping_register, object_from_instance, PY_REFCOUNT
 from efl.utils.conversions cimport _ctouni
+from efl.utils.deprecated cimport DEPRECATED
 from efl.evas cimport Object as evasObject
 
 include "tooltips.pxi"
@@ -136,6 +137,15 @@ cdef class ObjectItem(object):
             PY_REFCOUNT(self),
             repr(object_from_instance(elm_object_item_widget_get(self.item)))
             )
+
+    @DEPRECATED("1.8", "Use the data attribute (dict) instead.")
+    def data_get(self):
+        return (self.args, self.kwargs)
+
+    @DEPRECATED("1.8", "Use the data attribute (dict) instead.")
+    def data_set(self, *args, **kwargs):
+        self.args = args
+        self.kwargs = kwargs
 
     property widget:
         """Get the widget object's handle which contains a given item
