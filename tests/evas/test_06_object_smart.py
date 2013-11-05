@@ -4,7 +4,6 @@ from efl import evas
 import unittest
 
 
-@unittest.skip("TO BE DONE")
 class MyObject(evas.SmartObject):
     def __init__(self, canvas, *args, **kargs):
         evas.SmartObject.__init__(self, canvas, *args, **kargs)
@@ -25,7 +24,6 @@ class MyObject(evas.SmartObject):
         self.r1.geometry = (0, 0, w2, h2)
         self.r2.geometry = (w2, h2, w2, h2)
 
-@unittest.skip("TO BE DONE")
 class SmartObjectTest(unittest.TestCase):
     def setUp(self):
         self.canvas = evas.Canvas(method="buffer",

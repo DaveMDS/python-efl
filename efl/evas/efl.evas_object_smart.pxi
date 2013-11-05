@@ -16,15 +16,21 @@
 # along with this Python-EFL.  If not, see <http://www.gnu.org/licenses/>.
 
 
-cdef object _smart_classes
-_smart_classes = list()
+#cdef object _smart_classes
+#_smart_classes = list()
 
-from cpython cimport PyMem_Malloc, PyMethod_New
+from cpython cimport PyMethod_New
 import types
+
+
+include "smart_object_metaclass.pxi"
+_install_metaclass(EvasSmartObjectMeta, SmartObject)
+
+
 
 cdef void _smart_object_delete(Evas_Object *o) with gil:
     cdef SmartObject obj
-    obj = <SmartObject>evas_object_data_get(o, "python-evas")
+    obj = <SmartObject>evas_object_data_get(o, "python-eo")
 
     try:
         obj._m_delete(obj)
@@ -104,7 +110,7 @@ cdef void _smart_object_delete(Evas_Object *o) with gil:
 cdef void _smart_object_move(Evas_Object *o,
                              Evas_Coord x, Evas_Coord y) with gil:
     cdef SmartObject obj
-    obj = <SmartObject>evas_object_data_get(o, "python-evas")
+    obj = <SmartObject>evas_object_data_get(o, "python-eo")
     if obj._m_move is not None:
         try:
             obj._m_move(obj, x, y)
@@ -115,7 +121,7 @@ cdef void _smart_object_move(Evas_Object *o,
 cdef void _smart_object_resize(Evas_Object *o,
                                Evas_Coord w, Evas_Coord h) with gil:
     cdef SmartObject obj
-    obj = <SmartObject>evas_object_data_get(o, "python-evas")
+    obj = <SmartObject>evas_object_data_get(o, "python-eo")
     if obj._m_resize is not None:
         try:
             obj._m_resize(obj, w, h)
@@ -125,7 +131,7 @@ cdef void _smart_object_resize(Evas_Object *o,
 
 cdef void _smart_object_show(Evas_Object *o) with gil:
     cdef SmartObject obj
-    obj = <SmartObject>evas_object_data_get(o, "python-evas")
+    obj = <SmartObject>evas_object_data_get(o, "python-eo")
     if obj._m_show is not None:
         try:
             obj._m_show(obj)
@@ -135,7 +141,7 @@ cdef void _smart_object_show(Evas_Object *o) with gil:
 
 cdef void _smart_object_hide(Evas_Object *o) with gil:
     cdef SmartObject obj
-    obj = <SmartObject>evas_object_data_get(o, "python-evas")
+    obj = <SmartObject>evas_object_data_get(o, "python-eo")
     if obj._m_hide is not None:
         try:
             obj._m_hide(obj)
@@ -146,7 +152,7 @@ cdef void _smart_object_hide(Evas_Object *o) with gil:
 cdef void _smart_object_color_set(Evas_Object *o,
                                   int r, int g, int b, int a) with gil:
     cdef SmartObject obj
-    obj = <SmartObject>evas_object_data_get(o, "python-evas")
+    obj = <SmartObject>evas_object_data_get(o, "python-eo")
     if obj._m_color_set is not None:
         try:
             obj._m_color_set(obj, r, g, b, a)
@@ -157,7 +163,7 @@ cdef void _smart_object_color_set(Evas_Object *o,
 cdef void _smart_object_clip_set(Evas_Object *o, Evas_Object *clip) with gil:
     cdef SmartObject obj
     cdef Object other
-    obj = <SmartObject>evas_object_data_get(o, "python-evas")
+    obj = <SmartObject>evas_object_data_get(o, "python-eo")
     other = object_from_instance(clip)
     if obj._m_clip_set is not None:
         try:
@@ -168,7 +174,7 @@ cdef void _smart_object_clip_set(Evas_Object *o, Evas_Object *clip) with gil:
 
 cdef void _smart_object_clip_unset(Evas_Object *o) with gil:
     cdef SmartObject obj
-    obj = <SmartObject>evas_object_data_get(o, "python-evas")
+    obj = <SmartObject>evas_object_data_get(o, "python-eo")
     if obj._m_clip_unset is not None:
         try:
             obj._m_clip_unset(obj)
@@ -178,7 +184,7 @@ cdef void _smart_object_clip_unset(Evas_Object *o) with gil:
 
 cdef void _smart_object_calculate(Evas_Object *o) with gil:
     cdef SmartObject obj
-    obj = <SmartObject>evas_object_data_get(o, "python-evas")
+    obj = <SmartObject>evas_object_data_get(o, "python-eo")
     if obj._m_calculate is not None:
         try:
             obj._m_calculate(obj)
@@ -189,7 +195,7 @@ cdef void _smart_object_calculate(Evas_Object *o) with gil:
 cdef void _smart_object_member_add(Evas_Object *o, Evas_Object *clip) with gil:
     cdef SmartObject obj
     cdef Object other
-    obj = <SmartObject>evas_object_data_get(o, "python-evas")
+    obj = <SmartObject>evas_object_data_get(o, "python-eo")
     other = object_from_instance(clip)
     if obj._m_member_add is not None:
         try:
@@ -201,7 +207,7 @@ cdef void _smart_object_member_add(Evas_Object *o, Evas_Object *clip) with gil:
 cdef void _smart_object_member_del(Evas_Object *o, Evas_Object *clip) with gil:
     cdef SmartObject obj
     cdef Object other
-    obj = <SmartObject>evas_object_data_get(o, "python-evas")
+    obj = <SmartObject>evas_object_data_get(o, "python-eo")
     other = object_from_instance(clip)
     if obj._m_member_del is not None:
         try:
@@ -214,7 +220,7 @@ cdef void _smart_callback(void *data,
                           Evas_Object *o, void *event_info) with gil:
     cdef SmartObject obj
     cdef object event, ei
-    obj = <SmartObject>evas_object_data_get(o, "python-evas")
+    obj = <SmartObject>evas_object_data_get(o, "python-eo")
     event = <object>data
     ei = <object>event_info
     lst = tuple(obj._smart_callbacks[event])
@@ -225,53 +231,7 @@ cdef void _smart_callback(void *data,
             traceback.print_exc()
 
 
-cdef long _smart_object_class_new(char *name) except 0:
-    cdef Evas_Smart_Class *cls_def
-    cdef Evas_Smart *cls
-
-    cls_def = <Evas_Smart_Class*>PyMem_Malloc(sizeof(Evas_Smart_Class))
-    if cls_def == NULL:
-        return 0
-
-    _smart_classes.append(<long>cls_def)
-    cls_def.name = name
-    cls_def.version = EVAS_SMART_CLASS_VERSION
-    cls_def.add = NULL # use python constructor
-    cls_def.delete = _smart_object_delete
-    cls_def.move = _smart_object_move
-    cls_def.resize = _smart_object_resize
-    cls_def.show = _smart_object_show
-    cls_def.hide = _smart_object_hide
-    cls_def.color_set = _smart_object_color_set
-    cls_def.clip_set = _smart_object_clip_set
-    cls_def.clip_unset = _smart_object_clip_unset
-    cls_def.calculate = _smart_object_calculate
-    cls_def.member_add = _smart_object_member_add
-    cls_def.member_del = _smart_object_member_del
-    cls_def.parent = NULL
-    cls_def.callbacks = NULL
-    cls_def.interfaces = NULL
-    cls_def.data = NULL
-
-    cls = evas_smart_class_new(cls_def);
-    return <long>cls
-
-
-# class EvasSmartObjectMeta(EvasObjectMeta):
-#     def __init__(cls, name, bases, dict_):
-#         EvasObjectMeta.__init__(cls, name, bases, dict_)
-#         cls._setup_smart_class()
-#
-#     def _setup_smart_class(cls):
-#         if "__evas_smart_class__" in cls.__dict__:
-#             return
-#
-#         cdef long addr
-#         addr = _smart_object_class_new(cls.__name__)
-#         cls.__evas_smart_class__ = addr
-
-
-cdef object _smart_class_get_impl_method(object cls, char *name):
+cdef object _smart_class_get_impl_method(object cls, name):
     meth = getattr(cls, name)
     orig = getattr(Object, name)
     if meth is orig:
@@ -281,7 +241,7 @@ cdef object _smart_class_get_impl_method(object cls, char *name):
 
 
 cdef object _smart_class_get_impl_method_cls(object cls, object parent_cls,
-                                             char *name):
+                                             name):
     meth = getattr(cls, name)
     orig = getattr(parent_cls, name)
     if meth is orig:
