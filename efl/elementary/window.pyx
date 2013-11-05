@@ -490,15 +490,17 @@ cdef class Window(Object):
 
         """
         def __get__(self):
-            return self.title_get()
+            return _ctouni(elm_win_title_get(self.obj))
         def __set__(self, title):
-            self.title_set(title)
+            if isinstance(title, unicode): title = PyUnicode_AsUTF8String(title)
+            elm_win_title_set(self.obj,
+                <const_char *>title if title is not None else NULL)
 
-    cpdef title_set(self, title):
+    def title_set(self, title):
         if isinstance(title, unicode): title = PyUnicode_AsUTF8String(title)
         elm_win_title_set(self.obj,
             <const_char *>title if title is not None else NULL)
-    cpdef title_get(self):
+    def title_get(self):
         return _ctouni(elm_win_title_get(self.obj))
 
     property icon_name:
@@ -826,12 +828,29 @@ cdef class Window(Object):
 
         """
         def __set__(self, list profiles):
-            self.available_profiles_set(profiles)
+            cdef:
+                const_char **array
+                unsigned int arr_len = len(profiles)
+                unsigned int i
+
+            try:
+                array = python_list_strings_to_array_of_strings(profiles)
+                elm_win_available_profiles_set(self.obj, array, arr_len)
+            finally:
+                for i in range(arr_len):
+                    free(<void *>array[i])
+                free(array)
 
         def __get__(self):
-            return self.available_profiles_get()
+            cdef:
+                char **profiles
+                unsigned int count
+            ret = elm_win_available_profiles_get(self.obj, &profiles, &count)
+            if ret is 0:
+                raise RuntimeError("No available profiles")
+            return array_of_strings_to_python_list(profiles, count)
 
-    cpdef available_profiles_set(self, list profiles):
+    def available_profiles_set(self, list profiles):
         cdef:
             const_char **array
             unsigned int arr_len = len(profiles)
@@ -845,7 +864,7 @@ cdef class Window(Object):
                 free(<void *>array[i])
             free(array)
 
-    cpdef available_profiles_get(self):
+    def available_profiles_get(self):
         cdef:
             char **profiles
             unsigned int count
@@ -861,16 +880,18 @@ cdef class Window(Object):
 
         """
         def __set__(self, profile):
-            self.profile_set(profile)
+            if isinstance(profile, unicode): profile = PyUnicode_AsUTF8String(profile)
+            elm_win_profile_set(self.obj,
+                <const_char *>profile if profile is not None else NULL)
 
         def __get__(self):
-            return self.profile_get()
+            return _ctouni(elm_win_profile_get(self.obj))
 
-    cpdef profile_set(self, profile):
+    def profile_set(self, profile):
         if isinstance(profile, unicode): profile = PyUnicode_AsUTF8String(profile)
         elm_win_profile_set(self.obj,
             <const_char *>profile if profile is not None else NULL)
-    cpdef profile_get(self):
+    def profile_get(self):
         return _ctouni(elm_win_profile_get(self.obj))
 
     property urgent:
@@ -1001,13 +1022,13 @@ cdef class Window(Object):
 
         """
         def __get__(self):
-            return self.layer_get()
+            return elm_win_layer_get(self.obj)
         def __set__(self, layer):
-            self.layer_set(layer)
+            elm_win_layer_set(self.obj, layer)
 
-    cpdef layer_set(self, int layer):
+    def layer_set(self, int layer):
         elm_win_layer_set(self.obj, layer)
-    cpdef layer_get(self):
+    def layer_get(self):
         return elm_win_layer_get(self.obj)
 
     def norender_push(self):
@@ -1292,9 +1313,9 @@ cdef class Window(Object):
 
         """
         def __get__(self):
-            return self.focus_get()
+            return bool(elm_win_focus_get(self.obj))
 
-    cpdef focus_get(self):
+    def focus_get(self):
         return bool(elm_win_focus_get(self.obj))
 
     property screen_constrain:
@@ -1378,15 +1399,17 @@ cdef class Window(Object):
 
         """
         def __get__(self):
-            return self.focus_highlight_style_get()
+            return _ctouni(elm_win_focus_highlight_style_get(self.obj))
         def __set__(self, style):
-            self.focus_highlight_style_set(style)
+            if isinstance(style, unicode): style = PyUnicode_AsUTF8String(style)
+            elm_win_focus_highlight_style_set(self.obj,
+                <const_char *>style if style is not None else NULL)
 
-    cpdef focus_highlight_style_set(self, style):
+    def focus_highlight_style_set(self, style):
         if isinstance(style, unicode): style = PyUnicode_AsUTF8String(style)
         elm_win_focus_highlight_style_set(self.obj,
             <const_char *>style if style is not None else NULL)
-    cpdef focus_highlight_style_get(self):
+    def focus_highlight_style_get(self):
         return _ctouni(elm_win_focus_highlight_style_get(self.obj))
 
     property focus_highlight_animate:

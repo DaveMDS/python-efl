@@ -115,17 +115,17 @@ cdef class Mapbuf(Object):
         :type: bool
 
         """
-        def __set__(self, value):
-            self.auto_set(value)
+        def __set__(self, bint on):
+            elm_mapbuf_auto_set(self.obj, on)
 
         def __get__(self):
-            return self.auto_get()
+            return bool(elm_mapbuf_auto_get(self.obj))
 
-    cpdef auto_set(self, bint on):
+    def auto_set(self, bint on):
         elm_mapbuf_auto_set(self.obj, on)
 
-    cpdef bint auto_get(self):
-        return elm_mapbuf_auto_get(self.obj)
+    def auto_get(self):
+        return bool(elm_mapbuf_auto_get(self.obj))
 
 
 _object_mapping_register("elm_mapbuf", Mapbuf)

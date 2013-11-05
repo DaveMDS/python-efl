@@ -59,8 +59,3 @@ cdef extern from "Elementary.h":
 
 cdef class LayoutClass(Object):
     cdef object _elm_layout_signal_cbs
-
-    cpdef file_set(self, filename, group = *)
-    cpdef theme_set(self, clas, group, style)
-    cpdef edje_object_can_access_set(self, bint can_access)
-    cpdef bint edje_object_can_access_get(self)

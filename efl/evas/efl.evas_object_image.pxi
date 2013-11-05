@@ -193,14 +193,26 @@ cdef class Image(Object):
 
         """
         def __get__(self):
-            return self.file_get()
+            cdef const_char *file, *key
+            evas_object_image_file_get(self.obj, &file, &key)
+            return (_ctouni(file), _ctouni(key))
 
         def __set__(self, value):
             if isinstance(value, str):
-                value = (value, None)
-            self.file_set(*value)
+                filename, key = value, None
+            else:
+                filename, key = value
+            cdef int err
+            if isinstance(filename, unicode): filename = PyUnicode_AsUTF8String(filename)
+            if isinstance(key, unicode): key = PyUnicode_AsUTF8String(key)
+            evas_object_image_file_set(self.obj,
+                <const_char *>filename if filename is not None else NULL,
+                <const_char *>key if key is not None else NULL)
+            err = evas_object_image_load_error_get(self.obj)
+            if err != EVAS_LOAD_ERROR_NONE:
+                raise EvasLoadError(err, filename, key)
 
-    cpdef file_set(self, filename, key=None):
+    def file_set(self, filename, key=None):
         cdef int err
         if isinstance(filename, unicode): filename = PyUnicode_AsUTF8String(filename)
         if isinstance(key, unicode): key = PyUnicode_AsUTF8String(key)
@@ -211,7 +223,7 @@ cdef class Image(Object):
         if err != EVAS_LOAD_ERROR_NONE:
             raise EvasLoadError(err, filename, key)
 
-    cpdef file_get(self):
+    def file_get(self):
         cdef const_char *file, *key
         evas_object_image_file_get(self.obj, &file, &key)
         return (_ctouni(file), _ctouni(key))
@@ -229,17 +241,21 @@ cdef class Image(Object):
 
         """
         def __get__(self):
-            return self.border_get()
+            cdef int left, right, top, bottom
+            evas_object_image_border_get(self.obj, &left, &right, &top, &bottom)
+            return (left, right, top, bottom)
 
         def __set__(self, spec):
-            self.border_set(*spec)
+            cdef int left, right, top, bottom
+            left, right, top, bottom = spec
+            evas_object_image_border_set(self.obj, left, right, top, bottom)
 
-    cpdef border_get(self):
+    def border_get(self):
         cdef int left, right, top, bottom
         evas_object_image_border_get(self.obj, &left, &right, &top, &bottom)
         return (left, right, top, bottom)
 
-    cpdef border_set(self, int left, int right, int top, int bottom):
+    def border_set(self, int left, int right, int top, int bottom):
         evas_object_image_border_set(self.obj, left, right, top, bottom)
 
     property border_center_fill:
@@ -256,15 +272,15 @@ cdef class Image(Object):
 
         """
         def __get__(self):
-            return self.border_center_fill_get()
+            return bool(evas_object_image_border_center_fill_get(self.obj))
 
         def __set__(self, int value):
-            self.border_center_fill_set(value)
+            evas_object_image_border_center_fill_set(self.obj, value)
 
-    cpdef border_center_fill_get(self):
+    def border_center_fill_get(self):
         return bool(evas_object_image_border_center_fill_get(self.obj))
 
-    cpdef border_center_fill_set(self, int value):
+    def border_center_fill_set(self, int value):
         evas_object_image_border_center_fill_set(self.obj, value)
 
     property filled:
@@ -281,16 +297,16 @@ cdef class Image(Object):
         .. seealso:: :py:func:`filled_add`
 
         """
-        def __set__(self, value):
-            self.filled_set(value)
+        def __set__(self, setting):
+            evas_object_image_filled_set(self.obj, setting)
 
         def __get__(self):
-            return self.filled_get()
+            return bool(evas_object_image_filled_get(self.obj))
 
-    cpdef filled_set(self, setting):
+    def filled_set(self, setting):
         evas_object_image_filled_set(self.obj, setting)
 
-    cpdef filled_get(self):
+    def filled_get(self):
         return bool(evas_object_image_filled_get(self.obj))
 
     property border_scale:
@@ -304,16 +320,16 @@ cdef class Image(Object):
         :see: :py:attr:`border`
 
         """
-        def __set__(self, value):
-            self.border_scale_set(value)
+        def __set__(self, scale):
+            evas_object_image_border_scale_set(self.obj, scale)
 
         def __get__(self):
-            return self.border_scale_get()
+            return evas_object_image_border_scale_get(self.obj)
 
-    cpdef border_scale_set(self, scale):
+    def border_scale_set(self, scale):
         evas_object_image_border_scale_set(self.obj, scale)
 
-    cpdef border_scale_get(self):
+    def border_scale_get(self):
         return evas_object_image_border_scale_get(self.obj)
 
     property fill:
@@ -331,17 +347,21 @@ cdef class Image(Object):
 
         """
         def __get__(self):
-            return self.fill_get()
+            cdef int x, y, w, h
+            evas_object_image_fill_get(self.obj, &x, &y, &w, &h)
+            return (x, y, w, h)
 
         def __set__(self, spec):
-            self.fill_set(*spec)
+            cdef int x, y, w, h
+            x, y, w, h = spec
+            evas_object_image_fill_set(self.obj, x, y, w, h)
 
-    cpdef fill_get(self):
+    def fill_get(self):
         cdef int x, y, w, h
         evas_object_image_fill_get(self.obj, &x, &y, &w, &h)
         return (x, y, w, h)
 
-    cpdef fill_set(self, int x, int y, int w, int h):
+    def fill_set(self, int x, int y, int w, int h):
         evas_object_image_fill_set(self.obj, x, y, w, h)
 
     property fill_spread:
@@ -353,16 +373,16 @@ cdef class Image(Object):
         :type: Evas_Fill_Spread
 
         """
-        def __set__(self, value):
-            self.fill_spread_set(value)
+        def __set__(self, Evas_Fill_Spread spread):
+            evas_object_image_fill_spread_set(self.obj, spread)
 
         def __get__(self):
             return self.fill_spread_get()
 
-    cpdef fill_spread_set(self, spread):
+    def fill_spread_set(self, Evas_Fill_Spread spread):
         evas_object_image_fill_spread_set(self.obj, spread)
 
-    cpdef fill_spread_get(self):
+    def fill_spread_get(self):
         return evas_object_image_fill_spread_get(self.obj)
 
     property image_size:
@@ -386,17 +406,21 @@ cdef class Image(Object):
 
         """
         def __get__(self):
-            return self.image_size_get()
+            cdef int w, h
+            evas_object_image_size_get(self.obj, &w, &h)
+            return (w, h)
 
         def __set__(self, spec):
-            self.image_size_set(*spec)
+            cdef int w, h
+            w, h = spec
+            evas_object_image_size_set(self.obj, w, h)
 
-    cpdef image_size_get(self):
+    def image_size_get(self):
         cdef int w, h
         evas_object_image_size_get(self.obj, &w, &h)
         return (w, h)
 
-    cpdef image_size_set(self, int w, int h):
+    def image_size_set(self, int w, int h):
         evas_object_image_size_set(self.obj, w, h)
 
     property stride:
@@ -419,9 +443,9 @@ cdef class Image(Object):
 
         """
         def __get__(self):
-            return self.stride_get()
+            return evas_object_image_stride_get(self.obj)
 
-    cpdef stride_get(self):
+    def stride_get(self):
         return evas_object_image_stride_get(self.obj)
 
     property load_error:
@@ -431,9 +455,9 @@ cdef class Image(Object):
 
         """
         def __get__(self):
-            return self.load_error_get()
+            return evas_object_image_load_error_get(self.obj)
 
-    cpdef load_error_get(self):
+    def load_error_get(self):
         return evas_object_image_load_error_get(self.obj)
 
     def image_data_set(self, buf):
@@ -539,15 +563,15 @@ cdef class Image(Object):
 
         """
         def __get__(self):
-            return self.alpha_get()
+            return bool(evas_object_image_alpha_get(self.obj))
 
         def __set__(self, int value):
-            self.alpha_set(value)
+            evas_object_image_alpha_set(self.obj, value)
 
-    cpdef alpha_get(self):
+    def alpha_get(self):
         return bool(evas_object_image_alpha_get(self.obj))
 
-    cpdef alpha_set(self, value):
+    def alpha_set(self, value):
         evas_object_image_alpha_set(self.obj, value)
 
     property smooth_scale:
@@ -557,15 +581,15 @@ cdef class Image(Object):
 
         """
         def __get__(self):
-            return self.smooth_scale_get()
+            return bool(evas_object_image_smooth_scale_get(self.obj))
 
         def __set__(self, int value):
-            self.smooth_scale_set(value)
+            evas_object_image_smooth_scale_set(self.obj, value)
 
-    cpdef smooth_scale_get(self):
+    def smooth_scale_get(self):
         return bool(evas_object_image_smooth_scale_get(self.obj))
 
-    cpdef smooth_scale_set(self, value):
+    def smooth_scale_set(self, value):
         evas_object_image_smooth_scale_set(self.obj, value)
 
     def preload(self, int cancel=0):
@@ -657,15 +681,15 @@ cdef class Image(Object):
 
         """
         def __get__(self):
-            return self.pixels_dirty_get()
+            return bool(evas_object_image_pixels_dirty_get(self.obj))
 
         def __set__(self, int value):
-            self.pixels_dirty_set(value)
+            evas_object_image_pixels_dirty_set(self.obj, value)
 
-    cpdef pixels_dirty_get(self):
+    def pixels_dirty_get(self):
         return bool(evas_object_image_pixels_dirty_get(self.obj))
 
-    cpdef pixels_dirty_set(self, value):
+    def pixels_dirty_set(self, value):
         evas_object_image_pixels_dirty_set(self.obj, value)
 
     property load_dpi:
@@ -675,15 +699,15 @@ cdef class Image(Object):
 
         """
         def __get__(self):
-            return self.load_dpi_get()
+            return evas_object_image_load_dpi_get(self.obj)
 
         def __set__(self, int value):
-            self.load_dpi_set(value)
+            evas_object_image_load_dpi_set(self.obj, value)
 
-    cpdef load_dpi_get(self):
+    def load_dpi_get(self):
         return evas_object_image_load_dpi_get(self.obj)
 
-    cpdef load_dpi_set(self, double value):
+    def load_dpi_set(self, double value):
         evas_object_image_load_dpi_set(self.obj, value)
 
     property load_size:
@@ -696,17 +720,21 @@ cdef class Image(Object):
 
         """
         def __get__(self):
-            return self.load_size_get()
+            cdef int w, h
+            evas_object_image_load_size_get(self.obj, &w, &h)
+            return (w, h)
 
         def __set__(self, spec):
-            self.load_size_set(*spec)
+            cdef int w, h
+            w, h = spec
+            evas_object_image_load_size_set(self.obj, w, h)
 
-    cpdef load_size_get(self):
+    def load_size_get(self):
         cdef int w, h
         evas_object_image_load_size_get(self.obj, &w, &h)
         return (w, h)
 
-    cpdef load_size_set(self, int w, int h):
+    def load_size_set(self, int w, int h):
         evas_object_image_load_size_set(self.obj, w, h)
 
     property load_scale_down:
@@ -716,15 +744,15 @@ cdef class Image(Object):
 
         """
         def __get__(self):
-            return self.load_scale_down_get()
+            return evas_object_image_load_scale_down_get(self.obj)
 
         def __set__(self, int value):
-            self.load_scale_down_set(value)
+            evas_object_image_load_scale_down_set(self.obj, value)
 
-    cpdef load_scale_down_get(self):
+    def load_scale_down_get(self):
         return evas_object_image_load_scale_down_get(self.obj)
 
-    cpdef load_scale_down_set(self, int value):
+    def load_scale_down_set(self, int value):
         evas_object_image_load_scale_down_set(self.obj, value)
 
     property load_region:
@@ -744,15 +772,19 @@ cdef class Image(Object):
 
         """
         def __set__(self, value):
-            self.load_region_set(*value)
+            cdef int x, y, w, h
+            x, y, w, h = value
+            evas_object_image_load_region_set(self.obj, x, y, w, h)
 
         def __get__(self):
-            return self.load_region_get()
+            cdef int x, y, w, h
+            evas_object_image_load_region_get(self.obj, &x, &y, &w, &h)
+            return x, y, w, h
 
-    cpdef load_region_set(self, int x, int y, int w, int h):
+    def load_region_set(self, int x, int y, int w, int h):
         evas_object_image_load_region_set(self.obj, x, y, w, h)
 
-    cpdef load_region_get(self):
+    def load_region_get(self):
         cdef int x, y, w, h
         evas_object_image_load_region_get(self.obj, &x, &y, &w, &h)
         return x, y, w, h
@@ -763,16 +795,16 @@ cdef class Image(Object):
         :type: bool
 
         """
-        def __set__(self, value):
-            self.load_orientation_set(value)
+        def __set__(self, bint enable):
+            evas_object_image_load_orientation_set(self.obj, enable)
 
         def __get__(self):
-            return self.load_orientation_get()
+            return bool(evas_object_image_load_orientation_get(self.obj))
 
-    cpdef load_orientation_set(self, enable):
+    def load_orientation_set(self, bint enable):
         evas_object_image_load_orientation_set(self.obj, enable)
 
-    cpdef load_orientation_get(self):
+    def load_orientation_get(self):
         return bool(evas_object_image_load_orientation_get(self.obj))
 
     property colorspace:
@@ -795,15 +827,15 @@ cdef class Image(Object):
 
         """
         def __get__(self):
-            return self.colorspace_get()
+            return evas_object_image_colorspace_get(self.obj)
 
         def __set__(self, int value):
-            self.colorspace_set(value)
+            evas_object_image_colorspace_set(self.obj, <Evas_Colorspace>value)
 
-    cpdef colorspace_get(self):
+    def colorspace_get(self):
         return evas_object_image_colorspace_get(self.obj)
 
-    cpdef colorspace_set(self, int value):
+    def colorspace_set(self, int value):
         evas_object_image_colorspace_set(self.obj, <Evas_Colorspace>value)
 
     property region_support:
@@ -813,11 +845,12 @@ cdef class Image(Object):
 
         """
         def __get__(self):
-            return self.region_support_get()
+            return bool(evas_object_image_region_support_get(self.obj))
 
-    cpdef region_support_get(self):
+    def region_support_get(self):
         return bool(evas_object_image_region_support_get(self.obj))
 
+    # TODO: Pass these out as capsules? Find out where they can be used and how
     # property native_surface:
     #     """The native surface of a given image of the canvas
 
@@ -864,16 +897,16 @@ cdef class Image(Object):
 
 
         """
-        def __set__(self, value):
-            self.scale_hint_set(value)
+        def __set__(self, Evas_Image_Scale_Hint hint):
+            evas_object_image_scale_hint_set(self.obj, hint)
 
         def __get__(self):
             return self.scale_hint_get()
 
-    cpdef scale_hint_set(self, Evas_Image_Scale_Hint hint):
+    def scale_hint_set(self, Evas_Image_Scale_Hint hint):
         evas_object_image_scale_hint_set(self.obj, hint)
 
-    cpdef scale_hint_get(self):
+    def scale_hint_get(self):
         return evas_object_image_scale_hint_get(self.obj)
 
     property content_hint:
@@ -887,16 +920,16 @@ cdef class Image(Object):
         :type: Evas_Image_Content_Hint
 
         """
-        def __set__(self, value):
-            self.content_hint_set(value)
+        def __set__(self, Evas_Image_Content_Hint hint):
+            evas_object_image_content_hint_set(self.obj, hint)
 
         def __get__(self):
-            return self.content_hint_get()
+            return evas_object_image_content_hint_get(self.obj)
 
-    cpdef content_hint_set(self, Evas_Image_Content_Hint hint):
+    def content_hint_set(self, Evas_Image_Content_Hint hint):
         evas_object_image_content_hint_set(self.obj, hint)
 
-    cpdef content_hint_get(self):
+    def content_hint_get(self):
         return evas_object_image_content_hint_get(self.obj)
 
     property alpha_mask:
@@ -913,10 +946,10 @@ cdef class Image(Object):
         :type: bool
 
         """
-        def __set__(self, value):
-            self.alpha_mask_set(value)
+        def __set__(self, bint ismask):
+            evas_object_image_alpha_mask_set(self.obj, ismask)
 
-    cpdef alpha_mask_set(self, ismask):
+    def alpha_mask_set(self, bint ismask):
         evas_object_image_alpha_mask_set(self.obj, ismask)
 
     property image_source:
@@ -941,23 +974,25 @@ cdef class Image(Object):
         .. seealso:: :py:attr:`source_visible`
 
         """
-        def __set__(self, value):
-            self.source_set(value)
+        def __set__(self, Object src):
+            if not evas_object_image_source_set(self.obj, src.obj):
+                raise RuntimeError("Could not set image source.")
 
         def __get__(self):
-            return self.source_get()
+            return object_from_instance(evas_object_image_source_get(self.obj))
 
         def __del__(self):
-            self.source_unset()
+            if not evas_object_image_source_unset(self.obj):
+                raise RuntimeError("Could not unset image source.")
 
-    cpdef source_set(self, Object src):
+    def source_set(self, Object src):
         if not evas_object_image_source_set(self.obj, src.obj):
             raise RuntimeError("Could not set image source.")
 
-    cpdef source_get(self):
+    def source_get(self):
         return object_from_instance(evas_object_image_source_get(self.obj))
 
-    cpdef source_unset(self):
+    def source_unset(self):
         if not evas_object_image_source_unset(self.obj):
             raise RuntimeError("Could not unset image source.")
 
@@ -986,16 +1021,16 @@ cdef class Image(Object):
         :since: 1.8
 
         """
-        def __set__(self, value):
-            self.source_visible_set(value)
+        def __set__(self, bint visible):
+            evas_object_image_source_visible_set(self.obj, visible)
 
         def __get__(self):
-            return self.source_visible_get()
+            return bool(evas_object_image_source_visible_get(self.obj))
 
-    cpdef source_visible_set(self, visible):
+    def source_visible_set(self, bint visible):
         evas_object_image_source_visible_set(self.obj, visible)
 
-    cpdef source_visible_get(self):
+    def source_visible_get(self):
         return bool(evas_object_image_source_visible_get(self.obj))
 
     property source_events:
@@ -1017,16 +1052,16 @@ cdef class Image(Object):
         :since: 1.8
 
         """
-        def __set__(self, value):
-            self.source_events_set(value)
+        def __set__(self, bint source):
+            evas_object_image_source_events_set(self.obj, source)
 
         def __get__(self):
-            return self.source_events_get()
+            return bool(evas_object_image_source_events_get(self.obj))
 
-    cpdef source_events_set(self, source):
+    def source_events_set(self, bint source):
         evas_object_image_source_events_set(self.obj, source)
 
-    cpdef source_events_get(self):
+    def source_events_get(self):
         return bool(evas_object_image_source_events_get(self.obj))
 
     property animated:
@@ -1060,9 +1095,9 @@ cdef class Image(Object):
 
         """
         def __get__(self):
-            return self.animated_get()
+            return bool(evas_object_image_animated_get(self.obj))
 
-    cpdef animated_get(self):
+    def animated_get(self):
         return bool(evas_object_image_animated_get(self.obj))
 
     property animated_frame_count:
@@ -1074,9 +1109,9 @@ cdef class Image(Object):
 
         """
         def __get__(self):
-            return self.animated_frame_count_get()
+            return evas_object_image_animated_frame_count_get(self.obj)
 
-    cpdef animated_frame_count_get(self):
+    def animated_frame_count_get(self):
         return evas_object_image_animated_frame_count_get(self.obj)
 
     property animated_loop_type:
@@ -1095,9 +1130,9 @@ cdef class Image(Object):
 
         """
         def __get__(self):
-            return self.animated_loop_type_get()
+            return evas_object_image_animated_loop_type_get(self.obj)
 
-    cpdef animated_loop_type_get(self):
+    def animated_loop_type_get(self):
         return evas_object_image_animated_loop_type_get(self.obj)
 
     property animated_loop_count:
@@ -1114,9 +1149,9 @@ cdef class Image(Object):
 
         """
         def __get__(self):
-            return self.animated_loop_count_get()
+            return evas_object_image_animated_loop_count_get(self.obj)
 
-    cpdef animated_loop_count_get(self):
+    def animated_loop_count_get(self):
         return evas_object_image_animated_loop_count_get(self.obj)
 
     def animated_frame_duration_get(self, int start_frame, int fram_num):
@@ -1151,10 +1186,10 @@ cdef class Image(Object):
         frame.
 
         """
-        def __set__(self, value):
-            self.animated_frame_set(value)
+        def __set__(self, int frame_num):
+            evas_object_image_animated_frame_set(self.obj, frame_num)
 
-    cpdef animated_frame_set(self, int frame_num):
+    def animated_frame_set(self, int frame_num):
         evas_object_image_animated_frame_set(self.obj, frame_num)
 
 

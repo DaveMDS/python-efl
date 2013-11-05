@@ -119,16 +119,18 @@ cdef class MenuItem(ObjectItem):
 
         """
         def __get__(self):
-            return self.icon_name_get()
+            return _ctouni(elm_menu_item_icon_name_get(self.item))
 
         def __set__(self, icon):
-            self.icon_name_set(icon)
+            if isinstance(icon, unicode): icon = PyUnicode_AsUTF8String(icon)
+            elm_menu_item_icon_name_set(self.item,
+                <const_char *>icon if icon is not None else NULL)
 
-    cpdef icon_name_set(self, icon):
+    def icon_name_set(self, icon):
         if isinstance(icon, unicode): icon = PyUnicode_AsUTF8String(icon)
         elm_menu_item_icon_name_set(self.item,
             <const_char *>icon if icon is not None else NULL)
-    cpdef icon_name_get(self):
+    def icon_name_get(self):
         return _ctouni(elm_menu_item_icon_name_get(self.item))
 
     property selected:

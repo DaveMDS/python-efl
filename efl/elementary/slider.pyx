@@ -136,16 +136,18 @@ cdef class Slider(LayoutClass):
 
         """
         def __get__(self):
-            return self.unit_format_get()
+            return _ctouni(elm_slider_unit_format_get(self.obj))
 
         def __set__(self, unit_format):
-            self.unit_format_set(unit_format)
+            if isinstance(unit_format, unicode): unit_format = PyUnicode_AsUTF8String(unit_format)
+            elm_slider_unit_format_set(self.obj,
+                <const_char *>unit_format if unit_format is not None else NULL)
 
-    cpdef unit_format_set(self, unit_format):
+    def unit_format_set(self, unit_format):
         if isinstance(unit_format, unicode): unit_format = PyUnicode_AsUTF8String(unit_format)
         elm_slider_unit_format_set(self.obj,
             <const_char *>unit_format if unit_format is not None else NULL)
-    cpdef unit_format_get(self):
+    def unit_format_get(self):
         return _ctouni(elm_slider_unit_format_get(self.obj))
 
     property indicator_format:
@@ -169,16 +171,18 @@ cdef class Slider(LayoutClass):
 
         """
         def __get__(self):
-            return self.indicator_format_get()
+            return _ctouni(elm_slider_indicator_format_get(self.obj))
 
         def __set__(self, ind_format):
-            self.indicator_format_set(ind_format)
+            if isinstance(ind_format, unicode): ind_format = PyUnicode_AsUTF8String(ind_format)
+            elm_slider_indicator_format_set(self.obj,
+                <const_char *>ind_format if ind_format is not None else NULL)
 
-    cpdef indicator_format_set(self, ind_format):
+    def indicator_format_set(self, ind_format):
         if isinstance(ind_format, unicode): ind_format = PyUnicode_AsUTF8String(ind_format)
         elm_slider_indicator_format_set(self.obj,
             <const_char *>ind_format if ind_format is not None else NULL)
-    cpdef indicator_format_get(self):
+    def indicator_format_get(self):
         return _ctouni(elm_slider_indicator_format_get(self.obj))
 
     #TODO: def indicator_format_function_set(self, func, free_func)

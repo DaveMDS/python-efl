@@ -166,20 +166,3 @@ cdef class Object(evasObject):
         object _elmcallbacks, _elm_event_cbs, _elm_signal_cbs
         object cnp_drop_cb, cnp_drop_data
         object cnp_selection_loss_cb, cnp_selection_loss_data
-
-    cpdef text_set(self, text)
-    cpdef text_get(self)
-    cpdef style_set(self, style)
-    cpdef style_get(self)
-    cpdef cursor_set(self, cursor)
-    cpdef cursor_get(self)
-    cpdef cursor_unset(self)
-    cpdef cursor_style_set(self, style=*)
-    cpdef cursor_style_get(self)
-    cpdef tooltip_style_set(self, style=*)
-    cpdef tooltip_style_get(self)
-    cpdef orientation_mode_disabled_set(self, bint disabled)
-    cpdef bint orientation_mode_disabled_get(self)
-    cpdef focused_object_get(self)
-    cpdef int scroll_hold_get(self)
-    cpdef int scroll_freeze_get(self)

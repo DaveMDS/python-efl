@@ -530,16 +530,18 @@ cdef class ToolbarItem(ObjectItem):
 
         """
         def __get__(self):
-            return self.icon_get()
+            return _ctouni(elm_toolbar_item_icon_get(self.item))
 
         def __set__(self, ic):
-            self.icon_set(ic)
+            if isinstance(ic, unicode): ic = PyUnicode_AsUTF8String(ic)
+            elm_toolbar_item_icon_set(self.item,
+                <const_char *>ic if ic is not None else NULL)
 
-    cpdef icon_set(self, ic):
+    def icon_set(self, ic):
         if isinstance(ic, unicode): ic = PyUnicode_AsUTF8String(ic)
         elm_toolbar_item_icon_set(self.item,
             <const_char *>ic if ic is not None else NULL)
-    cpdef icon_get(self):
+    def icon_get(self):
         return _ctouni(elm_toolbar_item_icon_get(self.item))
 
     property object:
@@ -670,14 +672,14 @@ cdef class ToolbarItem(ObjectItem):
 
         """
         def __get__(self):
-            return self.menu_get()
+            return object_from_instance(elm_toolbar_item_menu_get(self.item))
 
         def __set__(self, menu):
-            self.menu_set(menu)
+            elm_toolbar_item_menu_set(self.item, menu)
 
-    cpdef menu_set(self, menu):
+    def menu_set(self, menu):
         elm_toolbar_item_menu_set(self.item, menu)
-    cpdef menu_get(self):
+    def menu_get(self):
         return object_from_instance(elm_toolbar_item_menu_get(self.item))
 
 
@@ -690,23 +692,26 @@ cdef class ToolbarItem(ObjectItem):
 
     property state:
         """An item state."""
-        def __set__(self, value):
-            self.state_set(value)
+        def __set__(self, ToolbarItemState state):
+            if not elm_toolbar_item_state_set(self.item, state.state):
+                raise RuntimeError("Could not set state")
 
         def __del__(self):
-            self.state_unset()
+            elm_toolbar_item_state_unset(self.item)
 
         def __get__(self):
-            return self.state_get()
+            cdef ToolbarItemState ret = ToolbarItemState.__new__(ToolbarItemState)
+            ret.state = elm_toolbar_item_state_get(self.item)
+            return ret if ret.state != NULL else None
 
-    cpdef state_set(self, ToolbarItemState state):
+    def state_set(self, ToolbarItemState state):
         if not elm_toolbar_item_state_set(self.item, state.state):
             raise RuntimeError("Could not set state")
 
-    cpdef state_unset(self):
+    def state_unset(self):
         elm_toolbar_item_state_unset(self.item)
 
-    cpdef state_get(self):
+    def state_get(self):
         cdef ToolbarItemState ret = ToolbarItemState.__new__(ToolbarItemState)
         ret.state = elm_toolbar_item_state_get(self.item)
         return ret if ret.state != NULL else None
@@ -914,16 +919,16 @@ cdef class Toolbar(Object):
         length of the item is set according its min value (this property is False).
 
         """
-        def __set__(self, value):
-            self.transverse_expanded_set(value)
+        def __set__(self, bint transverse_expanded):
+            elm_toolbar_transverse_expanded_set(self.obj, transverse_expanded)
 
         def __get__(self):
-            return self.transverse_expanded_get()
+            return bool(elm_toolbar_transverse_expanded_get(self.obj))
 
-    cpdef transverse_expanded_set(self, transverse_expanded):
+    def transverse_expanded_set(self, bint transverse_expanded):
         elm_toolbar_transverse_expanded_set(self.obj, transverse_expanded)
 
-    cpdef transverse_expanded_get(self):
+    def transverse_expanded_get(self):
         return bool(elm_toolbar_transverse_expanded_get(self.obj))
 
     property homogeneous:
@@ -1063,16 +1068,16 @@ cdef class Toolbar(Object):
         :type: bool
 
         """
-        def __set__(self, value):
-            self.reorder_mode_set(value)
+        def __set__(self, bint reorder_mode):
+            elm_toolbar_reorder_mode_set(self.obj, reorder_mode)
 
         def __get__(self):
-            return self.reorder_mode_get()
+            return bool(elm_toolbar_reorder_mode_get(self.obj))
 
-    cpdef reorder_mode_set(self, reorder_mode):
+    def reorder_mode_set(self, bint reorder_mode):
         elm_toolbar_reorder_mode_set(self.obj, reorder_mode)
 
-    cpdef reorder_mode_get(self):
+    def reorder_mode_get(self):
         return bool(elm_toolbar_reorder_mode_get(self.obj))
 
     def callback_clicked_add(self, func, *args, **kwargs):

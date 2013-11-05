@@ -359,16 +359,18 @@ cdef class ObjectItem(object):
 
         """
         def __get__(self):
-            return self.text_get()
+            return _ctouni(elm_object_item_text_get(self.item))
 
         def __set__(self, text):
-            self.text_set(text)
+            if isinstance(text, unicode): text = PyUnicode_AsUTF8String(text)
+            elm_object_item_text_set(self.item,
+                <const_char *>text if text is not None else NULL)
 
-    cpdef text_set(self, text):
+    def text_set(self, text):
         if isinstance(text, unicode): text = PyUnicode_AsUTF8String(text)
         elm_object_item_text_set(self.item,
             <const_char *>text if text is not None else NULL)
-    cpdef text_get(self):
+    def text_get(self):
         return _ctouni(elm_object_item_text_get(self.item))
 
     # TODO:
@@ -379,9 +381,11 @@ cdef class ObjectItem(object):
 
     #     """
     #     def __set__(self, txt):
-    #         self.access_info_set(txt)
+    #         if isinstance(txt, unicode): txt = PyUnicode_AsUTF8String(txt)
+    #         elm_object_item_access_info_set(self.item,
+    #             <const_char *>txt if txt is not None else NULL)
 
-    # cpdef access_info_set(self, txt):
+    # def access_info_set(self, txt):
     #     if isinstance(txt, unicode): txt = PyUnicode_AsUTF8String(txt)
     #     elm_object_item_access_info_set(self.item,
     #         <const_char *>txt if txt is not None else NULL)
@@ -521,19 +525,21 @@ cdef class ObjectItem(object):
 
         """
         def __set__(self, style):
-            self.tooltip_style_set(style)
+            if isinstance(style, unicode): style = PyUnicode_AsUTF8String(style)
+            elm_object_item_tooltip_style_set(self.item,
+                <const_char *>style if style is not None else NULL)
 
         def __get__(self):
-            return self.tooltip_style_get()
+            return _ctouni(elm_object_item_tooltip_style_get(self.item))
 
         def __del__(self):
             self.tooltip_style_set(None)
 
-    cpdef tooltip_style_set(self, style=None):
+    def tooltip_style_set(self, style=None):
         if isinstance(style, unicode): style = PyUnicode_AsUTF8String(style)
         elm_object_item_tooltip_style_set(self.item,
             <const_char *>style if style is not None else NULL)
-    cpdef tooltip_style_get(self):
+    def tooltip_style_get(self):
         return _ctouni(elm_object_item_tooltip_style_get(self.item))
 
     property cursor:
@@ -543,21 +549,23 @@ cdef class ObjectItem(object):
 
         """
         def __set__(self, cursor):
-            self.cursor_set(cursor)
+            if isinstance(cursor, unicode): cursor = PyUnicode_AsUTF8String(cursor)
+            elm_object_item_cursor_set(self.item,
+                <const_char *>cursor if cursor is not None else NULL)
 
         def __get__(self):
-            return self.cursor_get()
+            return _ctouni(elm_object_item_cursor_get(self.item))
 
         def __del__(self):
-            self.cursor_unset()
+            elm_object_item_cursor_unset(self.item)
 
-    cpdef cursor_set(self, cursor):
+    def cursor_set(self, cursor):
         if isinstance(cursor, unicode): cursor = PyUnicode_AsUTF8String(cursor)
         elm_object_item_cursor_set(self.item,
             <const_char *>cursor if cursor is not None else NULL)
-    cpdef cursor_get(self):
+    def cursor_get(self):
         return _ctouni(elm_object_item_cursor_get(self.item))
-    cpdef cursor_unset(self):
+    def cursor_unset(self):
         elm_object_item_cursor_unset(self.item)
 
     property cursor_style:
@@ -568,19 +576,21 @@ cdef class ObjectItem(object):
 
         """
         def __set__(self, style):
-            self.cursor_style_set(style)
+            if isinstance(style, unicode): style = PyUnicode_AsUTF8String(style)
+            elm_object_item_cursor_style_set(self.item,
+                <const_char *>style if style is not None else NULL)
 
         def __get__(self):
-            return self.cursor_style_get()
+            return _ctouni(elm_object_item_cursor_style_get(self.item))
 
         def __del__(self):
-            self.cursor_style_set(None)
+            elm_object_item_cursor_style_set(self.item, NULL)
 
-    cpdef cursor_style_set(self, style=None):
+    def cursor_style_set(self, style=None):
         if isinstance(style, unicode): style = PyUnicode_AsUTF8String(style)
         elm_object_item_cursor_style_set(self.item,
             <const_char *>style if style is not None else NULL)
-    cpdef cursor_style_get(self):
+    def cursor_style_get(self):
         return _ctouni(elm_object_item_cursor_style_get(self.item))
 
     property cursor_engine_only:

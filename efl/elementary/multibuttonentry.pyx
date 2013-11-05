@@ -328,17 +328,17 @@ cdef class MultiButtonEntry(Object):
         :type: bool
 
         """
-        def __set__(self, value):
-            self.editable_set(value)
+        def __set__(self, bint editable):
+            elm_multibuttonentry_editable_set(self.obj, editable)
 
         def __get__(self):
-            return self.editable_get()
+            return bool(elm_multibuttonentry_editable_get(self.obj))
 
-    cpdef editable_set(self, bint editable):
+    def editable_set(self, bint editable):
         elm_multibuttonentry_editable_set(self.obj, editable)
 
-    cpdef bint editable_get(self):
-        return elm_multibuttonentry_editable_get(self.obj)
+    def editable_get(self):
+        return bool(elm_multibuttonentry_editable_get(self.obj))
 
     def callback_item_selected_add(self, func, *args, **kwargs):
         self._callback_add("item,selected", func, *args, **kwargs)

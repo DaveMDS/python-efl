@@ -537,15 +537,19 @@ cdef class Transit(object):
 
         """
         def __set__(self, value):
-            self.tween_mode_factor_set(*value)
+            cdef float v1, v2
+            v1, v2 = value
+            elm_transit_tween_mode_factor_set(self.obj, v1, v2)
 
         def __get__(self):
-            return self.tween_mode_factor_get()
+            cdef double v1, v2
+            elm_transit_tween_mode_factor_get(self.obj, &v1, &v2)
+            return (v1, v2)
 
-    cpdef tween_mode_factor_set(self, float v1, float v2):
+    def tween_mode_factor_set(self, float v1, float v2):
         elm_transit_tween_mode_factor_set(self.obj, v1, v2)
 
-    cpdef tween_mode_factor_get(self):
+    def tween_mode_factor_get(self):
         cdef double v1, v2
         elm_transit_tween_mode_factor_get(self.obj, &v1, &v2)
         return (v1, v2)
@@ -651,17 +655,17 @@ cdef class Transit(object):
         :since: 1.8
 
         """
-        def __set__(self, value):
-            self.smooth_set(value)
+        def __set__(self, bint smooth):
+            elm_transit_smooth_set(self.obj, smooth)
 
         def __get__(self):
-            return self.smooth_get()
+            return bool(elm_transit_smooth_get(self.obj))
 
-    cpdef smooth_set(self, bint smooth):
+    def smooth_set(self, bint smooth):
         elm_transit_smooth_set(self.obj, smooth)
 
-    cpdef bint smooth_get(self):
-        return elm_transit_smooth_get(self.obj)
+    def smooth_get(self):
+        return bool(elm_transit_smooth_get(self.obj))
 
     def effect_resizing_add(self, Evas_Coord from_w, Evas_Coord from_h, Evas_Coord to_w, Evas_Coord to_h):
         """effect_resizing_add(int from_w, int from_h, int to_w, int to_h)

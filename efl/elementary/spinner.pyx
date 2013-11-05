@@ -87,16 +87,18 @@ cdef class Spinner(LayoutClass):
 
         """
         def __get__(self):
-            return self.label_format_get()
+            return _ctouni(elm_spinner_label_format_get(self.obj))
 
         def __set__(self, label_format):
-            self.label_format_set(label_format)
+            if isinstance(label_format, unicode): label_format = PyUnicode_AsUTF8String(label_format)
+            elm_spinner_label_format_set(self.obj,
+                <const_char *>label_format if label_format is not None else NULL)
 
-    cpdef label_format_set(self, label_format):
+    def label_format_set(self, label_format):
         if isinstance(label_format, unicode): label_format = PyUnicode_AsUTF8String(label_format)
         elm_spinner_label_format_set(self.obj,
             <const_char *>label_format if label_format is not None else NULL)
-    cpdef label_format_get(self):
+    def label_format_get(self):
         return _ctouni(elm_spinner_label_format_get(self.obj))
 
     property min_max:

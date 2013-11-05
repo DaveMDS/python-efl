@@ -109,7 +109,9 @@ cdef class Background(LayoutClass):
 
         """
         def __get__(self):
-            return self.file_get()
+            cdef const_char *filename, *group
+            elm_bg_file_get(self.obj, &filename, &group)
+            return (_ctouni(filename), _ctouni(group))
 
         def __set__(self, value):
             cdef int ret
@@ -118,16 +120,21 @@ cdef class Background(LayoutClass):
             else:
                 filename = value
                 group = ""
-            self.file_set(filename, group)
+            if isinstance(filename, unicode): filename = PyUnicode_AsUTF8String(filename)
+            if isinstance(group, unicode): group = PyUnicode_AsUTF8String(group)
+            if not elm_bg_file_set(self.obj,
+                <const_char *>filename if filename is not None else NULL,
+                <const_char *>group if group is not None else NULL):
+                    raise RuntimeError("Could not set background file.")
 
-    cpdef file_set(self, filename, group = None):
+    def file_set(self, filename, group = None):
         if isinstance(filename, unicode): filename = PyUnicode_AsUTF8String(filename)
         if isinstance(group, unicode): group = PyUnicode_AsUTF8String(group)
         if not elm_bg_file_set(self.obj,
             <const_char *>filename if filename is not None else NULL,
             <const_char *>group if group is not None else NULL):
                 raise RuntimeError("Could not set background file.")
-    cpdef file_get(self):
+    def file_get(self):
         cdef const_char *filename, *group
         elm_bg_file_get(self.obj, &filename, &group)
         return (_ctouni(filename), _ctouni(group))

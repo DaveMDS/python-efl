@@ -872,16 +872,18 @@ cdef class Entry(Object):
 
         """
         def __get__(self):
-            return self.entry_get()
+            return _ctouni(elm_entry_entry_get(self.obj))
 
         def __set__(self, entry):
-            self.entry_set(entry)
+            if isinstance(entry, unicode): entry = PyUnicode_AsUTF8String(entry)
+            elm_entry_entry_set(self.obj,
+                <const_char *>entry if entry is not None else NULL)
 
-    cpdef entry_set(self, entry):
+    def entry_set(self, entry):
         if isinstance(entry, unicode): entry = PyUnicode_AsUTF8String(entry)
         elm_entry_entry_set(self.obj,
             <const_char *>entry if entry is not None else NULL)
-    cpdef entry_get(self):
+    def entry_get(self):
         return _ctouni(elm_entry_entry_get(self.obj))
 
     def entry_append(self, text):
@@ -1435,13 +1437,22 @@ cdef class Entry(Object):
 
         """
         def __get__(self):
-            return self.file_get()
+            cdef const_char *file
+            cdef Elm_Text_Format format
+            elm_entry_file_get(self.obj, &file, &format)
+            return (_ctouni(file), format)
 
         def __set__(self, value):
-            file, format = value
-            self.file_set(file, format)
+            file_name, file_format = value
+            a1 = file_name
+            a2 = file_format
+            if isinstance(a1, unicode): a1 = PyUnicode_AsUTF8String(a1)
+            if not elm_entry_file_set(self.obj,
+                <const_char *>a1 if a1 is not None else NULL,
+                a2 if a2 is not None else enums.ELM_TEXT_FORMAT_PLAIN_UTF8):
+                raise RuntimeError("Could not set file")
 
-    cpdef file_set(self, file_name, file_format):
+    def file_set(self, file_name, file_format):
         a1 = file_name
         a2 = file_format
         if isinstance(a1, unicode): a1 = PyUnicode_AsUTF8String(a1)
@@ -1449,7 +1460,7 @@ cdef class Entry(Object):
             <const_char *>a1 if a1 is not None else NULL,
             a2 if a2 is not None else enums.ELM_TEXT_FORMAT_PLAIN_UTF8):
             raise RuntimeError("Could not set file")
-    cpdef file_get(self):
+    def file_get(self):
         cdef const_char *file
         cdef Elm_Text_Format format
         elm_entry_file_get(self.obj, &file, &format)
@@ -1507,10 +1518,10 @@ cdef class Entry(Object):
         :type: bool
 
         """
-        def __set__(self, value):
-            self.icon_visible_set(value)
+        def __set__(self, bint visible):
+            elm_entry_icon_visible_set(self.obj, visible)
 
-    cpdef icon_visible_set(self, visible):
+    def icon_visible_set(self, bint visible):
         elm_entry_icon_visible_set(self.obj, visible)
 
     property end_visible:
@@ -1520,10 +1531,10 @@ cdef class Entry(Object):
         :type: bool
 
         """
-        def __set__(self, value):
-            self.end_visible_set(value)
+        def __set__(self, bint setting):
+            elm_entry_end_visible_set(self.obj, setting)
 
-    cpdef end_visible_set(self, setting):
+    def end_visible_set(self, bint setting):
         elm_entry_end_visible_set(self.obj, setting)
 
     property input_panel_layout:
@@ -1551,16 +1562,16 @@ cdef class Entry(Object):
         :since: 1.8
 
         """
-        def __set__(self, value):
-            self.input_panel_layout_variation_set(value)
+        def __set__(self, int variation):
+            elm_entry_input_panel_layout_variation_set(self.obj, variation)
 
         def __get__(self):
-            return self.input_panel_layout_variation_get()
+            return elm_entry_input_panel_layout_variation_get(self.obj)
 
-    cpdef input_panel_layout_variation_set(self, int variation):
+    def input_panel_layout_variation_set(self, int variation):
         elm_entry_input_panel_layout_variation_set(self.obj, variation)
 
-    cpdef input_panel_layout_variation_get(self):
+    def input_panel_layout_variation_get(self):
         return elm_entry_input_panel_layout_variation_get(self.obj)
 
     property autocapital_type:
@@ -1569,16 +1580,16 @@ cdef class Entry(Object):
         :type: :ref:`Elm_Autocapital_Type`
 
         """
-        def __set__(self, value):
-            self.autocapital_type_set(value)
+        def __set__(self, Elm_Autocapital_Type autocapital_type):
+            elm_entry_autocapital_type_set(self.obj, autocapital_type)
 
         def __get__(self):
-            return self.autocapital_type_get()
+            return elm_entry_autocapital_type_get(self.obj)
 
-    cpdef autocapital_type_set(self, Elm_Autocapital_Type autocapital_type):
+    def autocapital_type_set(self, Elm_Autocapital_Type autocapital_type):
         elm_entry_autocapital_type_set(self.obj, autocapital_type)
 
-    cpdef autocapital_type_get(self):
+    def autocapital_type_get(self):
         return elm_entry_autocapital_type_get(self.obj)
 
     property input_panel_enabled:
@@ -1816,9 +1827,9 @@ cdef class Entry(Object):
 
     #     """
     #     def __get__(self):
-    #         return self.imf_context_get()
+    #         void *elm_entry_imf_context_get(self.obj)
 
-    # cpdef imf_context_get(self):
+    # def imf_context_get(self):
     #     void *elm_entry_imf_context_get(self.obj)
 
     property cnp_mode:
@@ -1884,16 +1895,18 @@ cdef class Entry(Object):
 
         """
         def __get__(self):
-            return self.anchor_hover_style_get()
+            return _ctouni(elm_entry_anchor_hover_style_get(self.obj))
 
         def __set__(self, style):
-            self.anchor_hover_style_set(style)
+            if isinstance(style, unicode): style = PyUnicode_AsUTF8String(style)
+            elm_entry_anchor_hover_style_set(self.obj,
+                <const_char *>style if style is not None else NULL)
 
-    cpdef anchor_hover_style_set(self, style):
+    def anchor_hover_style_set(self, style):
         if isinstance(style, unicode): style = PyUnicode_AsUTF8String(style)
         elm_entry_anchor_hover_style_set(self.obj,
             <const_char *>style if style is not None else NULL)
-    cpdef anchor_hover_style_get(self):
+    def anchor_hover_style_get(self):
         return _ctouni(elm_entry_anchor_hover_style_get(self.obj))
 
     def anchor_hover_end(self):

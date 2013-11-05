@@ -75,9 +75,14 @@ cdef class LayoutClass(Object):
         """
         def __set__(self, value):
             filename, group = value
-            self.file_set(filename, group)
+            if isinstance(filename, unicode): filename = PyUnicode_AsUTF8String(filename)
+            if isinstance(group, unicode): group = PyUnicode_AsUTF8String(group)
+            if not elm_layout_file_set(self.obj,
+                <const_char *>filename if filename is not None else NULL,
+                <const_char *>group if group is not None else NULL):
+                    raise RuntimeError("Could not set file.")
 
-    cpdef file_set(self, filename, group = None):
+    def file_set(self, filename, group = None):
         if isinstance(filename, unicode): filename = PyUnicode_AsUTF8String(filename)
         if isinstance(group, unicode): group = PyUnicode_AsUTF8String(group)
         if not elm_layout_file_set(self.obj,
@@ -127,9 +132,16 @@ cdef class LayoutClass(Object):
         """
         def __set__(self, theme):
             clas, group, style = theme
-            self.theme_set(clas, group, style)
+            if isinstance(clas, unicode): clas = PyUnicode_AsUTF8String(clas)
+            if isinstance(group, unicode): group = PyUnicode_AsUTF8String(group)
+            if isinstance(style, unicode): style = PyUnicode_AsUTF8String(style)
+            if not elm_layout_theme_set(self.obj,
+                <const_char *>clas if clas is not None else NULL,
+                <const_char *>group if group is not None else NULL,
+                <const_char *>style if style is not None else NULL):
+                    raise RuntimeError("Could not set theme.")
 
-    cpdef theme_set(self, clas, group, style):
+    def theme_set(self, clas, group, style):
         if isinstance(clas, unicode): clas = PyUnicode_AsUTF8String(clas)
         if isinstance(group, unicode): group = PyUnicode_AsUTF8String(group)
         if isinstance(style, unicode): style = PyUnicode_AsUTF8String(style)
@@ -747,18 +759,19 @@ cdef class LayoutClass(Object):
         :raise RuntimeError: if accessibility cannot be set.
 
         """
-        def __set__(self, value):
-            self.edje_object_can_access_set(value)
+        def __set__(self, can_access):
+            if not elm_layout_edje_object_can_access_set(self.obj, can_access):
+                raise RuntimeError("Could not set accessibility to layout textblock parts.")
 
         def __get__(self):
-            return self.edje_object_can_access_get()
+            return elm_layout_edje_object_can_access_get(self.obj)
 
-    cpdef edje_object_can_access_set(self, bint can_access):
+    def edje_object_can_access_set(self, bint can_access):
         if not elm_layout_edje_object_can_access_set(self.obj, can_access):
             raise RuntimeError("Could not set accessibility to layout textblock parts.")
 
-    cpdef bint edje_object_can_access_get(self):
-        return elm_layout_edje_object_can_access_get(self.obj)
+    def edje_object_can_access_get(self):
+        return bool(elm_layout_edje_object_can_access_get(self.obj))
 
     property icon:
         """The icon object in a layout that follows the Elementary naming

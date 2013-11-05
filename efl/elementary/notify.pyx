@@ -233,15 +233,19 @@ cdef class Notify(Object):
 
         """
         def __set__(self, value):
-            self.align_set(*value)
+            cdef double horizontal, vertical
+            horizontal, vertical = value
+            elm_notify_align_set(self.obj, horizontal, vertical)
 
         def __get__(self):
-            return self.align_get()
+            cdef double horizontal, vertical
+            elm_notify_align_get(self.obj, &horizontal, &vertical)
+            return (horizontal, vertical)
 
-    cpdef align_set(self, float horizontal, float vertical):
+    def align_set(self, float horizontal, float vertical):
         elm_notify_align_set(self.obj, horizontal, vertical)
 
-    cpdef align_get(self):
+    def align_get(self):
         cdef double horizontal, vertical
         elm_notify_align_get(self.obj, &horizontal, &vertical)
         return (horizontal, vertical)

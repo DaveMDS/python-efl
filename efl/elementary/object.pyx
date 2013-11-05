@@ -380,16 +380,18 @@ cdef class Object(evasObject):
 
         """
         def __get__(self):
-            return self.text_get()
+            return _ctouni(elm_object_text_get(self.obj))
 
         def __set__(self, text):
-            self.text_set(text)
+            if isinstance(text, unicode): text = PyUnicode_AsUTF8String(text)
+            elm_object_text_set(self.obj,
+                <const_char *>text if text is not None else NULL)
 
-    cpdef text_set(self, text):
+    def text_set(self, text):
         if isinstance(text, unicode): text = PyUnicode_AsUTF8String(text)
         elm_object_text_set(self.obj,
             <const_char *>text if text is not None else NULL)
-    cpdef text_get(self):
+    def text_get(self):
         return _ctouni(elm_object_text_get(self.obj))
 
     def part_content_set(self, part, evasObject content not None):
@@ -518,16 +520,18 @@ cdef class Object(evasObject):
 
         """
         def __get__(self):
-            return self.style_get()
+            return _ctouni(elm_object_style_get(self.obj))
 
         def __set__(self, style):
-            self.style_set(style)
+            if isinstance(style, unicode): style = PyUnicode_AsUTF8String(style)
+            elm_object_style_set(self.obj,
+                <const_char *>style if style is not None else NULL)
 
-    cpdef style_set(self, style):
+    def style_set(self, style):
         if isinstance(style, unicode): style = PyUnicode_AsUTF8String(style)
         elm_object_style_set(self.obj,
             <const_char *>style if style is not None else NULL)
-    cpdef style_get(self):
+    def style_get(self):
         return _ctouni(elm_object_style_get(self.obj))
 
     property disabled:
@@ -819,17 +823,17 @@ cdef class Object(evasObject):
         :since: 1.8
 
         """
-        def __set__(self, value):
-            self.orientation_mode_disabled_set(value)
+        def __set__(self, bint disabled):
+            elm_object_orientation_mode_disabled_set(self.obj, disabled)
 
         def __get__(self):
-            return self.orientation_mode_disabled_get()
+            return bool(elm_object_orientation_mode_disabled_get(self.obj))
 
-    cpdef orientation_mode_disabled_set(self, bint disabled):
+    def orientation_mode_disabled_set(self, bint disabled):
         elm_object_orientation_mode_disabled_set(self.obj, disabled)
 
-    cpdef bint orientation_mode_disabled_get(self):
-        return elm_object_orientation_mode_disabled_get(self.obj)
+    def orientation_mode_disabled_get(self):
+        return bool(elm_object_orientation_mode_disabled_get(self.obj))
 
     #
     # Cursors
@@ -842,36 +846,40 @@ cdef class Object(evasObject):
 
         """
         def __get__(self):
-            return self.cursor_get()
+            return _ctouni(elm_object_cursor_get(self.obj))
 
         def __set__(self, cursor):
-            self.cursor_set(cursor)
+            if isinstance(cursor, unicode): cursor = PyUnicode_AsUTF8String(cursor)
+            elm_object_cursor_set(self.obj,
+                <const_char *>cursor if cursor is not None else NULL)
 
         def __del__(self):
-            self.cursor_unset()
+            elm_object_cursor_unset(self.obj)
 
-    cpdef cursor_set(self, cursor):
+    def cursor_set(self, cursor):
         if isinstance(cursor, unicode): cursor = PyUnicode_AsUTF8String(cursor)
         elm_object_cursor_set(self.obj,
             <const_char *>cursor if cursor is not None else NULL)
-    cpdef cursor_get(self):
+    def cursor_get(self):
         return _ctouni(elm_object_cursor_get(self.obj))
-    cpdef cursor_unset(self):
+    def cursor_unset(self):
         elm_object_cursor_unset(self.obj)
 
     property cursor_style:
         """The style for this object cursor."""
         def __get__(self):
-            return self.cursor_style_get()
+            return _ctouni(elm_object_cursor_style_get(self.obj))
 
         def __set__(self, style):
-            self.cursor_style_set(style)
+            if isinstance(style, unicode): style = PyUnicode_AsUTF8String(style)
+            elm_object_cursor_style_set(self.obj,
+                <const_char *>style if style is not None else NULL)
 
-    cpdef cursor_style_set(self, style=None):
+    def cursor_style_set(self, style=None):
         if isinstance(style, unicode): style = PyUnicode_AsUTF8String(style)
         elm_object_cursor_style_set(self.obj,
             <const_char *>style if style is not None else NULL)
-    cpdef cursor_style_get(self):
+    def cursor_style_get(self):
         return _ctouni(elm_object_cursor_style_get(self.obj))
 
     property cursor_theme_search_enabled:
@@ -1072,9 +1080,9 @@ cdef class Object(evasObject):
 
         """
         def __get__(self):
-            return self.focused_object_get()
+            return object_from_instance(elm_object_focused_object_get(self.obj))
 
-    cpdef focused_object_get(self):
+    def focused_object_get(self):
         return object_from_instance(elm_object_focused_object_get(self.obj))
 
 
@@ -1196,9 +1204,9 @@ cdef class Object(evasObject):
 
         """
         def __get__(self):
-            return self.scroll_hold_get()
+            return elm_object_scroll_hold_get(self.obj)
 
-    cpdef int scroll_hold_get(self):
+    def scroll_hold_get(self):
         return elm_object_scroll_hold_get(self.obj)
 
     def scroll_freeze_push(self):
@@ -1230,9 +1238,9 @@ cdef class Object(evasObject):
 
         """
         def __get__(self):
-            return self.scroll_freeze_get()
+            return elm_object_scroll_freeze_get(self.obj)
 
-    cpdef int scroll_freeze_get(self):
+    def scroll_freeze_get(self):
         return elm_object_scroll_freeze_get(self.obj)
 
     property scroll_lock_x:
@@ -1386,15 +1394,17 @@ cdef class Object(evasObject):
 
         """
         def __get__(self):
-            return self.tooltip_style_get()
+            return _ctouni(elm_object_tooltip_style_get(self.obj))
         def __set__(self, style):
-            self.tooltip_style_set(style)
+            if isinstance(style, unicode): style = PyUnicode_AsUTF8String(style)
+            elm_object_tooltip_style_set(self.obj,
+                <const_char *>style if style is not None else NULL)
 
-    cpdef tooltip_style_set(self, style=None):
+    def tooltip_style_set(self, style=None):
         if isinstance(style, unicode): style = PyUnicode_AsUTF8String(style)
         elm_object_tooltip_style_set(self.obj,
             <const_char *>style if style is not None else NULL)
-    cpdef tooltip_style_get(self):
+    def tooltip_style_get(self):
         return _ctouni(elm_object_tooltip_style_get(self.obj))
 
     property tooltip_window_mode:

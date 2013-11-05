@@ -306,16 +306,18 @@ cdef class NaviframeItem(ObjectItem):
 
         """
         def __get__(self):
-            return self.style_get()
+            return _ctouni(elm_naviframe_item_style_get(self.item))
 
         def __set__(self, style):
-            self.style_set(style)
+            if isinstance(style, unicode): style = PyUnicode_AsUTF8String(style)
+            elm_naviframe_item_style_set(self.item,
+                <const_char *>style if style is not None else NULL)
 
-    cpdef style_set(self, style):
+    def style_set(self, style):
         if isinstance(style, unicode): style = PyUnicode_AsUTF8String(style)
         elm_naviframe_item_style_set(self.item,
             <const_char *>style if style is not None else NULL)
-    cpdef style_get(self):
+    def style_get(self):
         return _ctouni(elm_naviframe_item_style_get(self.item))
 
     property title_visible:

@@ -62,18 +62,21 @@ cdef class Box(Object):
 
         """
         def __get__(self):
-            return self.align_get()
+            cdef double horizontal, vertical
+            evas_object_box_align_get(self.obj, &horizontal, &vertical)
+            return (horizontal, vertical)
 
         def __set__(self, v):
-            (horizontal, vertical) = v
-            self.align_set(horizontal, vertical)
+            cdef double horizontal, vertical
+            horizontal, vertical = v
+            evas_object_box_align_set(self.obj, horizontal, vertical)
 
-    cpdef align_get(self):
+    def align_get(self):
         cdef double horizontal, vertical
         evas_object_box_align_get(self.obj, &horizontal, &vertical)
         return (horizontal, vertical)
 
-    cpdef align_set(self, double horizontal, double vertical):
+    def align_set(self, double horizontal, double vertical):
         evas_object_box_align_set(self.obj, horizontal, vertical)
 
     property padding:
@@ -85,18 +88,21 @@ cdef class Box(Object):
 
         """
         def __get__(self):
-            return self.padding_get()
+            cdef Evas_Coord horizontal, vertical
+            evas_object_box_padding_get(self.obj, &horizontal, &vertical)
+            return (horizontal, vertical)
 
         def __set__(self, v):
-            (horizontal, vertical) = v
-            self.padding_set(horizontal, vertical)
+            cdef Evas_Coord horizontal, vertical
+            horizontal, vertical = v
+            evas_object_box_padding_set(self.obj, horizontal, vertical)
 
-    cpdef padding_get(self):
+    def padding_get(self):
         cdef Evas_Coord horizontal, vertical
         evas_object_box_padding_get(self.obj, &horizontal, &vertical)
         return (horizontal, vertical)
 
-    cpdef padding_set(self, Evas_Coord horizontal, Evas_Coord vertical):
+    def padding_set(self, Evas_Coord horizontal, Evas_Coord vertical):
         evas_object_box_padding_set(self.obj, horizontal, vertical)
 
     def append(self, Object child):

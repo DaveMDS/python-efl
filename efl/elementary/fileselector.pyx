@@ -200,16 +200,18 @@ cdef class Fileselector(LayoutClass):
 
         """
         def __get__(self):
-            return self.path_get()
+            return _ctouni(elm_fileselector_path_get(self.obj))
 
         def __set__(self, path):
-            self.path_set(path)
+            if isinstance(path, unicode): path = PyUnicode_AsUTF8String(path)
+            elm_fileselector_path_set(self.obj,
+                <const_char *>path if path is not None else NULL)
 
-    cpdef path_set(self, path):
+    def path_set(self, path):
         if isinstance(path, unicode): path = PyUnicode_AsUTF8String(path)
         elm_fileselector_path_set(self.obj,
             <const_char *>path if path is not None else NULL)
-    cpdef path_get(self):
+    def path_get(self):
         return _ctouni(elm_fileselector_path_get(self.obj))
 
     property selected:
@@ -221,17 +223,20 @@ cdef class Fileselector(LayoutClass):
 
         """
         def __get__(self):
-            return self.selected_get()
+            return _ctouni(elm_fileselector_selected_get(self.obj))
 
         def __set__(self, path):
-            self.selected_set(path)
+            if isinstance(path, unicode): path = PyUnicode_AsUTF8String(path)
+            if not elm_fileselector_selected_set(self.obj,
+                <const_char *>path if path is not None else NULL):
+                    raise RuntimeError("Setting the selected path failed")
 
-    cpdef selected_set(self, path):
+    def selected_set(self, path):
         if isinstance(path, unicode): path = PyUnicode_AsUTF8String(path)
         if not elm_fileselector_selected_set(self.obj,
             <const_char *>path if path is not None else NULL):
                 raise RuntimeError("Setting the selected path failed")
-    cpdef selected_get(self):
+    def selected_get(self):
         return _ctouni(elm_fileselector_selected_get(self.obj))
 
     property mode:

@@ -539,16 +539,16 @@ cdef class Index(LayoutClass):
         .. note:: Delay time is 0.2 sec by default.
 
         """
-        def __set__(self, value):
-            self.delay_change_time_set(value)
+        def __set__(self, double delay_change_time):
+            elm_index_delay_change_time_set(self.obj, delay_change_time)
 
         def __get__(self):
-            return self.delay_change_time_get()
+            return elm_index_delay_change_time_get(self.obj)
 
-    cpdef delay_change_time_set(self, double delay_change_time):
+    def delay_change_time_set(self, double delay_change_time):
         elm_index_delay_change_time_set(self.obj, delay_change_time)
 
-    cpdef delay_change_time_get(self):
+    def delay_change_time_get(self):
         return elm_index_delay_change_time_get(self.obj)
 
     property omit_enabled:
@@ -557,17 +557,17 @@ cdef class Index(LayoutClass):
         :type: bool
 
         """
-        def __set__(self, value):
-            self.omit_enabled_set(value)
+        def __set__(self, bint enabled):
+            elm_index_omit_enabled_set(self.obj, enabled)
 
         def __get__(self):
-            return self.omit_enabled_get()
+            return bool(elm_index_omit_enabled_get(self.obj))
 
-    cpdef omit_enabled_set(self, bint enabled):
+    def omit_enabled_set(self, bint enabled):
         elm_index_omit_enabled_set(self.obj, enabled)
 
-    cpdef bint omit_enabled_get(self):
-        return elm_index_omit_enabled_get(self.obj)
+    def omit_enabled_get(self):
+        return bool(elm_index_omit_enabled_get(self.obj))
 
     def callback_changed_add(self, func, *args, **kwargs):
         """When the selected index item changes. ``event_info`` is the selected

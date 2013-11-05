@@ -15,6 +15,7 @@
 # You should have received a copy of the GNU Lesser General Public License
 # along with this Python-EFL.  If not, see <http://www.gnu.org/licenses/>.
 
+from efl.evas cimport Object
 
 cdef void text_change_cb(void *data,
                          Evas_Object *obj,
@@ -368,9 +369,9 @@ cdef class Edje(Object):
         def __get__(self):
             return edje_object_scale_get(self.obj)
 
-    cpdef scale_set(self, double scale):
+    def scale_set(self, double scale):
         edje_object_scale_set(self.obj, scale)
-    cpdef scale_get(self):
+    def scale_get(self):
         return edje_object_scale_get(self.obj)
 
     property mirrored:

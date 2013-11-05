@@ -32,11 +32,20 @@ cdef class Grid(Object):
         :type: (int **w**, int **h**)
 
         """
+        def __set__(self, value):
+            cdef int w, h
+            w, h = value
+            evas_object_grid_size_set(self.obj, w, h)
 
-    cpdef grid_size_set(self, int w, int h):
+        def __get__(self):
+            cdef int w, h
+            evas_object_grid_size_get(self.obj, &w, &h)
+            return (w, h)
+
+    def grid_size_set(self, int w, int h):
         evas_object_grid_size_set(self.obj, w, h)
 
-    cpdef grid_size_get(self):
+    def grid_size_get(self):
         cdef int w, h
         evas_object_grid_size_get(self.obj, &w, &h)
         return (w, h)
@@ -50,11 +59,16 @@ cdef class Grid(Object):
         :type: bool
 
         """
+        def __set__(self, bint mirrored):
+            evas_object_grid_mirrored_set(self.obj, mirrored)
 
-    cpdef mirrored_set(self, bint mirrored):
+        def __get__(self):
+            return bool(evas_object_grid_mirrored_get(self.obj))
+
+    def mirrored_set(self, bint mirrored):
         evas_object_grid_mirrored_set(self.obj, mirrored)
 
-    cpdef bint mirrored_get(self):
+    def mirrored_get(self):
         return bool(evas_object_grid_mirrored_get(self.obj))
 
     def pack(self, Object child not None, int x, int y, int w, int h):
@@ -126,8 +140,14 @@ cdef class Grid(Object):
         :type: list
 
         """
+        def __get__(self):
+            cdef:
+                Eina_List *lst = evas_object_grid_children_get(self.obj)
+                list ret = eina_list_objects_to_python_list(lst)
+            eina_list_free(lst)
+            return ret
 
-    cpdef children_get(self):
+    def children_get(self):
         cdef:
             Eina_List *lst = evas_object_grid_children_get(self.obj)
             list ret = eina_list_objects_to_python_list(lst)

@@ -312,17 +312,19 @@ cdef class Store(object):
 
         """
         def __set__(self, value):
-            self.filesystem_directory_set(value)
+            if isinstance(directory, unicode): directory = PyUnicode_AsUTF8String(directory)
+            elm_store_filesystem_directory_set(self.st,
+                <const_char *>directory if directory is not None else NULL)
 
         def __get__(self):
-            return self.filesystem_directory_get()
+            return _ctouni(elm_store_filesystem_directory_get(self.st))
 
-    cpdef filesystem_directory_set(self, directory):
+    def filesystem_directory_set(self, directory):
         if isinstance(directory, unicode): directory = PyUnicode_AsUTF8String(directory)
         elm_store_filesystem_directory_set(self.st,
             <const_char *>directory if directory is not None else NULL)
 
-    cpdef filesystem_directory_get(self):
+    def filesystem_directory_get(self):
         return _ctouni(elm_store_filesystem_directory_get(self.st))
 
     property target_genlist:
@@ -335,10 +337,10 @@ cdef class Store(object):
         :type: :py:class:`Genlist <efl.elementary.genlist.Genlist>`
 
         """
-        def __set__(self, value):
-            self.target_genlist_set(value)
+        def __set__(self, Genlist target):
+            elm_store_target_genlist_set(self.st, target.obj)
 
-    cpdef target_genlist_set(self, Object target):
+    def target_genlist_set(self, Genlist target):
         elm_store_target_genlist_set(self.st, target.obj)
 
     property cache_size:
@@ -351,16 +353,16 @@ cdef class Store(object):
         :param max: The number of items to keep (should be greater than or equal to 0)
 
         """
-        def __set__(self, value):
-            self.cache_set(value)
+        def __set__(self, int maximum):
+            elm_store_cache_set(self.st, maximum)
 
         def __get__(self):
-            return self.cache_get()
+            return elm_store_cache_get(self.st)
 
-    cpdef cache_size_set(self, int maximum):
+    def cache_size_set(self, int maximum):
         elm_store_cache_set(self.st, maximum)
 
-    cpdef cache_size_get(self):
+    def cache_size_get(self):
         return elm_store_cache_get(self.st)
 
     def fs_list_func_set(self, func, *args, **kwargs):
@@ -431,17 +433,17 @@ cdef class Store(object):
         :type: bool
 
         """
-        def __set__(self, value):
-            self.fetch_thread_set(value)
+        def __set__(self, bint use_thread):
+            elm_store_fetch_thread_set(self.st, use_thread)
 
         def __get__(self):
-            return self.fetch_thread_get()
+            return bool(elm_store_fetch_thread_get(self.st))
 
-    cpdef fetch_thread_set(self, bint use_thread):
+    def fetch_thread_set(self, bint use_thread):
         elm_store_fetch_thread_set(self.st, use_thread)
 
-    cpdef bint fetch_thread_get(self):
-        return elm_store_fetch_thread_get(self.st)
+    def fetch_thread_get(self):
+        return bool(elm_store_fetch_thread_get(self.st))
 
     property items_sorted:
         """Set if items are to be sorted or not.
@@ -455,17 +457,17 @@ cdef class Store(object):
         :type: bool
 
         """
-        def __set__(self, value):
-            self.sorted_set(value)
+        def __set__(self, bint items_sorted):
+            elm_store_sorted_set(self.st, items_sorted)
 
         def __get__(self):
-            return self.sorted_get()
+            return bool(elm_store_sorted_get(self.st))
 
-    cpdef sorted_set(self, bint items_sorted):
+    def sorted_set(self, bint items_sorted):
         elm_store_sorted_set(self.st, items_sorted)
 
-    cpdef bint sorted_get(self):
-        return elm_store_sorted_get(self.st)
+    def sorted_get(self):
+        return bool(elm_store_sorted_get(self.st))
 
 
 cdef class StoreItem(object):
@@ -485,9 +487,9 @@ cdef class StoreItem(object):
 
         """
         def __get__(self):
-            return self.filesystem_path_get()
+            return _ctouni(elm_store_item_filesystem_path_get(self.sti))
 
-    cpdef filesystem_path_get(self):
+    def filesystem_path_get(self):
         return _ctouni(elm_store_item_filesystem_path_get(self.sti))
 
     property data:
@@ -502,16 +504,18 @@ cdef class StoreItem(object):
         :param data: The data pointer to set.
 
         """
-        def __set__(self, value):
-            self.data_set(value)
+        def __set__(self, data):
+            elm_store_item_data_set(self.sti, <void *>data)
 
         def __get__(self):
-            return self.data_get()
+            cdef void *data = elm_store_item_data_get(self.sti)
+            if data == NULL: return None
+            return <object>data
 
-    cpdef data_set(self, data):
+    def data_set(self, data):
         elm_store_item_data_set(self.sti, <void *>data)
 
-    cpdef data_get(self):
+    def data_get(self):
         cdef void *data = elm_store_item_data_get(self.sti)
         if data == NULL: return None
         return <object>elm_store_item_data_get(self.sti)
@@ -526,9 +530,18 @@ cdef class StoreItem(object):
 
         """
         def __get__(self):
-            return self.store_get()
+            cdef:
+                Store ret
+                Elm_Store *st = <Elm_Store *>elm_store_item_store_get(self.sti)
 
-    cpdef store_get(self):
+            if st == NULL:
+                return None
+
+            ret = Store.__new__()
+            ret.st = st
+            return ret
+
+    def store_get(self):
         cdef:
             Store ret
             Elm_Store *st = <Elm_Store *>elm_store_item_store_get(self.sti)
@@ -548,7 +561,7 @@ cdef class StoreItem(object):
 
         """
         def __get__(self):
-            return self.genlist_item_get()
+            return _object_item_to_python(<Elm_Object_Item *>elm_store_item_genlist_item_get(self.sti))
 
-    cpdef genlist_item_get(self):
+    def genlist_item_get(self):
         return _object_item_to_python(<Elm_Object_Item *>elm_store_item_genlist_item_get(self.sti))

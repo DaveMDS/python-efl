@@ -171,12 +171,32 @@ cdef class HoverselItem(ObjectItem):
         """
         def __set__(self, value):
             icon_file, icon_group, icon_type = value
-            self.icon_set(icon_file, icon_group, icon_type)
+            a1, a2, a3 = icon_file, icon_group, icon_type
+            if isinstance(a1, unicode): a1 = PyUnicode_AsUTF8String(a1)
+            if isinstance(a2, unicode): a2 = PyUnicode_AsUTF8String(a2)
+            if self.item == NULL:
+                self.icon_file = a1
+                self.icon_group = a2
+                self.icon_type = a3
+            else:
+                elm_hoversel_item_icon_set(self.item,
+                    <const_char *>a1 if a1 is not None else NULL,
+                    <const_char *>a2 if a2 is not None else NULL,
+                    a3)
 
         def __get__(self):
-            return self.icon_get()
+            cdef const_char *icon_file, *icon_group
+            cdef Elm_Icon_Type icon_type
+            if self.item == NULL:
+                a1 = self.icon_file.decode("UTF-8")
+                a2 = self.icon_group.decode("UTF-8")
+                a3 = self.icon_type
+                return (a1, a2, a3)
+            else:
+                elm_hoversel_item_icon_get(self.item, &icon_file, &icon_group, &icon_type)
+                return (_ctouni(icon_file), _ctouni(icon_group), icon_type)
 
-    cpdef icon_set(self, icon_file, icon_group, icon_type):
+    def icon_set(self, icon_file, icon_group, icon_type):
         a1, a2, a3 = icon_file, icon_group, icon_type
         if isinstance(a1, unicode): a1 = PyUnicode_AsUTF8String(a1)
         if isinstance(a2, unicode): a2 = PyUnicode_AsUTF8String(a2)
@@ -189,7 +209,7 @@ cdef class HoverselItem(ObjectItem):
                 <const_char *>a1 if a1 is not None else NULL,
                 <const_char *>a2 if a2 is not None else NULL,
                 a3)
-    cpdef icon_get(self):
+    def icon_get(self):
         cdef const_char *icon_file, *icon_group
         cdef Elm_Icon_Type icon_type
         if self.item == NULL:

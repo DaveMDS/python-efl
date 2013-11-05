@@ -16,6 +16,7 @@
 # along with this Python-EFL.  If not, see <http://www.gnu.org/licenses/>.
 
 from cpython cimport Py_INCREF, Py_DECREF
+from efl.utils.conversions cimport eina_list_objects_to_python_list
 
 
 cdef int _object_free_wrapper_resources(Object obj) except 0:
@@ -266,15 +267,15 @@ cdef class Object(Eo):
         :type: int
 
         """
-        def __set__(self, int l):
-            self.layer_set(l)
+        def __set__(self, int layer):
+            evas_object_layer_set(self.obj, layer)
 
         def __get__(self):
-            return self.layer_get()
+            return evas_object_layer_get(self.obj)
 
-    cpdef layer_set(self, int layer):
+    def layer_set(self, int layer):
         evas_object_layer_set(self.obj, layer)
-    cpdef layer_get(self):
+    def layer_get(self):
         return evas_object_layer_get(self.obj)
 
 
@@ -371,18 +372,21 @@ cdef class Object(Eo):
 
         """
         def __get__(self):
-            return self.geometry_get()
+            cdef int x, y, w, h
+            evas_object_geometry_get(self.obj, &x, &y, &w, &h)
+            return (x, y, w, h)
 
         def __set__(self, spec):
             cdef int x, y, w, h
             x, y, w, h = spec
-            self.geometry_set(x, y, w, h)
+            evas_object_move(self.obj, x, y)
+            evas_object_resize(self.obj, w, h)
 
-    cpdef geometry_get(self):
+    def geometry_get(self):
         cdef int x, y, w, h
         evas_object_geometry_get(self.obj, &x, &y, &w, &h)
         return (x, y, w, h)
-    cpdef geometry_set(self, int x, int y, int w, int h):
+    def geometry_set(self, int x, int y, int w, int h):
         evas_object_move(self.obj, x, y)
         evas_object_resize(self.obj, w, h)
 
@@ -393,18 +397,20 @@ cdef class Object(Eo):
 
         """
         def __get__(self):
-            return self.size_get()
+            cdef int w, h
+            evas_object_geometry_get(self.obj, NULL, NULL, &w, &h)
+            return (w, h)
 
         def __set__(self, spec):
             cdef int w, h
             w, h = spec
-            self.size_set(w, h)
+            evas_object_resize(self.obj, w, h)
 
-    cpdef size_get(self):
+    def size_get(self):
         cdef int w, h
         evas_object_geometry_get(self.obj, NULL, NULL, &w, &h)
         return (w, h)
-    cpdef size_set(self, int w, int h):
+    def size_set(self, int w, int h):
         evas_object_resize(self.obj, w, h)
 
     def resize(self, int w, int h):
@@ -783,15 +789,15 @@ cdef class Object(Eo):
 
         """
         def __get__(self):
-            return self.size_hint_display_mode_get()
+            return evas_object_size_hint_display_mode_get(self.obj)
 
-        def __set__(self, value):
-            self.size_hint_display_mode_set(value)
+        def __set__(self, Evas_Display_Mode dispmode):
+            evas_object_size_hint_display_mode_set(self.obj, dispmode)
 
-    cpdef size_hint_display_mode_get(self):
+    def size_hint_display_mode_get(self):
         return evas_object_size_hint_display_mode_get(self.obj)
 
-    cpdef size_hint_display_mode_set(self, Evas_Display_Mode dispmode):
+    def size_hint_display_mode_set(self, Evas_Display_Mode dispmode):
         evas_object_size_hint_display_mode_set(self.obj, dispmode)
 
     property size_hint_request:
@@ -1002,14 +1008,17 @@ cdef class Object(Eo):
 
         """
         def __get__(self):
-            return self.visible_get()
+            return bool(evas_object_visible_get(self.obj))
 
         def __set__(self, spec):
-            self.visible_set(spec)
+            if spec:
+                self.show()
+            else:
+                self.hide()
 
-    cpdef visible_get(self):
+    def visible_get(self):
         return bool(evas_object_visible_get(self.obj))
-    cpdef visible_set(self, spec):
+    def visible_set(self, spec):
         if spec:
             self.show()
         else:
@@ -1030,16 +1039,16 @@ cdef class Object(Eo):
             making Evas more resource intensive.
 
         """
-        def __set__(self, value):
-            self.precise_is_inside_set(value)
+        def __set__(self, precise):
+            evas_object_precise_is_inside_set(self.obj, precise)
 
         def __get__(self):
-            return self.precise_is_inside_get()
+            return bool(evas_object_precise_is_inside_get(self.obj))
 
-    cpdef precise_is_inside_set(self, precise):
+    def precise_is_inside_set(self, precise):
         evas_object_precise_is_inside_set(self.obj, precise)
 
-    cpdef precise_is_inside_get(self):
+    def precise_is_inside_get(self):
         return bool(evas_object_precise_is_inside_get(self.obj))
 
     property static_clip:
@@ -1109,16 +1118,16 @@ cdef class Object(Eo):
             handlers. Other objects won't change visually on this call.
 
         """
-        def __set__(self, value):
-            self.scale_set(value)
+        def __set__(self, scale):
+            evas_object_scale_set(self.obj, scale)
 
         def __get__(self):
-            return self.scale_get()
+            return evas_object_scale_get(self.obj)
 
-    cpdef scale_set(self, double scale):
+    def scale_set(self, double scale):
         evas_object_scale_set(self.obj, scale)
 
-    cpdef scale_get(self):
+    def scale_get(self):
         return evas_object_scale_get(self.obj)
 
     property color:
@@ -1129,7 +1138,9 @@ cdef class Object(Eo):
         """
 
         def __get__(self):
-            return self.color_get()
+            cdef int r, g, b, a
+            evas_object_color_get(self.obj, &r, &g, &b, &a)
+            return (r, g, b, a)
 
         def __set__(self, color):
             cdef int r, g, b, a
@@ -1138,7 +1149,7 @@ cdef class Object(Eo):
 
     def color_set(self, int r, int g, int b, int a):
         evas_object_color_set(self.obj, r, g, b, a)
-    cpdef color_get(self):
+    def color_get(self):
         cdef int r, g, b, a
         evas_object_color_get(self.obj, &r, &g, &b, &a)
         return (r, g, b, a)
@@ -1150,7 +1161,7 @@ cdef class Object(Eo):
 
         """
         def __get__(self):
-            return self.clip_get()
+            return object_from_instance(evas_object_clip_get(self.obj))
 
         def __set__(self, value):
             cdef Evas_Object *clip
@@ -1167,7 +1178,7 @@ cdef class Object(Eo):
         def __del__(self):
             evas_object_clip_unset(self.obj)
 
-    cpdef clip_get(self):
+    def clip_get(self):
         return object_from_instance(evas_object_clip_get(self.obj))
 
     def clip_set(self, value):
@@ -1195,17 +1206,8 @@ cdef class Object(Eo):
         def __get__(self):
             return self.clipees_get()
 
-    cpdef clipees_get(self):
-        # TODO: objects to python
-        cdef const_Eina_List *itr
-        cdef Object o
-        ret = []
-        itr = evas_object_clipees_get(self.obj)
-        while itr:
-            o = object_from_instance(<Evas_Object*>itr.data)
-            ret.append(o)
-            itr = itr.next
-        return tuple(ret)
+    def clipees_get(self):
+        return eina_list_objects_to_python_list(evas_object_clipees_get(self.obj))
 
     property name:
         """Object name or *None*.
@@ -1214,14 +1216,16 @@ cdef class Object(Eo):
 
         """
         def __get__(self):
-            return self.name_get()
+            return _ctouni(evas_object_name_get(self.obj))
 
         def __set__(self, value):
-            self.name_set(value)
+            if isinstance(value, unicode): value = PyUnicode_AsUTF8String(value)
+            evas_object_name_set(self.obj,
+                <const_char *>value if value is not None else NULL)
 
-    cpdef name_get(self):
+    def name_get(self):
         return _ctouni(evas_object_name_get(self.obj))
-    cpdef name_set(self, value):
+    def name_set(self, value):
         if isinstance(value, unicode): value = PyUnicode_AsUTF8String(value)
         evas_object_name_set(self.obj,
             <const_char *>value if value is not None else NULL)
@@ -1233,14 +1237,14 @@ cdef class Object(Eo):
 
         """
         def __get__(self):
-            return self.focus_get()
+            return bool(evas_object_focus_get(self.obj))
 
         def __set__(self, value):
-            self.focus_set(value)
+            evas_object_focus_set(self.obj, value)
 
-    cpdef focus_get(self):
+    def focus_get(self):
         return bool(evas_object_focus_get(self.obj))
-    cpdef focus_set(self, value):
+    def focus_set(self, value):
         evas_object_focus_set(self.obj, value)
 
     def event_callback_add(self, Evas_Callback_Type type, func, *args, **kargs):
@@ -1633,16 +1637,16 @@ cdef class Object(Eo):
             :py:attr:`propagate_events`
 
         """
-        def __set__(self, value):
-            self.freeze_events_set(value)
+        def __set__(self, freeze):
+            evas_object_freeze_events_set(self.obj, freeze)
 
         def __get__(self):
-            return self.freeze_events_get()
+            return bool(evas_object_freeze_events_get(self.obj))
 
-    cpdef freeze_events_set(self, freeze):
+    def freeze_events_set(self, freeze):
         evas_object_freeze_events_set(self.obj, freeze)
 
-    cpdef freeze_events_get(self):
+    def freeze_events_get(self):
         return bool(evas_object_freeze_events_get(self.obj))
 
     property pointer_mode:
@@ -1710,14 +1714,16 @@ cdef class Object(Eo):
 
         """
         def __get__(self):
-            return self.map_get()
-        def __set__(self, map):
-            self.map_set(map)
+            cdef Map ret = Map.__new__(Map)
+            ret.map = <Evas_Map *>evas_object_map_get(self.obj)
+            return ret
+        def __set__(self, Map m):
+            evas_object_map_set(self.obj, m.map)
 
-    cpdef map_set(self, Map map):
-        evas_object_map_set(self.obj, map.map)
+    def map_set(self, Map m):
+        evas_object_map_set(self.obj, m.map)
 
-    cpdef map_get(self):
+    def map_get(self):
         cdef Map ret = Map.__new__(Map)
         ret.map = <Evas_Map *>evas_object_map_get(self.obj)
         return ret
@@ -1793,14 +1799,14 @@ cdef class Object(Eo):
 
     property is_frame_object:
         """:type: bool"""
-        def __set__(self, value):
-            self.is_frame_object_set(value)
+        def __set__(self, bint is_frame):
+            evas_object_is_frame_object_set(self.obj, is_frame);
 
         def __get__(self):
-            return self.is_frame_object_get()
+            return bool(evas_object_is_frame_object_get(self.obj))
 
-    cpdef is_frame_object_set(self, bint is_frame):
+    def is_frame_object_set(self, bint is_frame):
         evas_object_is_frame_object_set(self.obj, is_frame);
 
-    cpdef is_frame_object_get(self):
+    def is_frame_object_get(self):
         return bool(evas_object_is_frame_object_get(self.obj))

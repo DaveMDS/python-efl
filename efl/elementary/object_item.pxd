@@ -71,14 +71,3 @@ cdef class ObjectItem(object):
         dict kwargs
         readonly dict data
         int _set_obj(self, Elm_Object_Item *item) except 0
-
-    cpdef text_set(self, text)
-    cpdef text_get(self)
-    #cpdef access_info_set(self, txt)
-    cpdef tooltip_style_set(self, style=*)
-    cpdef tooltip_style_get(self)
-    cpdef cursor_set(self, cursor)
-    cpdef cursor_get(self)
-    cpdef cursor_unset(self)
-    cpdef cursor_style_set(self, style=*)
-    cpdef cursor_style_get(self)

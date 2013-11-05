@@ -92,16 +92,16 @@ cdef class Table(Object):
         :type: Evas_Object_Table_Homogeneous_Mode
 
         """
-        def __set__(self, value):
-            self.homogeneous_set(value)
+        def __set__(self, Evas_Object_Table_Homogeneous_Mode homogeneous):
+            evas_object_table_homogeneous_set(self.obj, homogeneous)
 
         def __get__(self):
-            return self.homogeneous_get()
+            return evas_object_table_homogeneous_get(self.obj)
 
-    cpdef homogeneous_set(self, Evas_Object_Table_Homogeneous_Mode homogeneous):
+    def homogeneous_set(self, Evas_Object_Table_Homogeneous_Mode homogeneous):
         evas_object_table_homogeneous_set(self.obj, homogeneous)
 
-    cpdef homogeneous_get(self):
+    def homogeneous_get(self):
         return evas_object_table_homogeneous_get(self.obj)
 
     property padding:
@@ -111,15 +111,19 @@ cdef class Table(Object):
 
         """
         def __set__(self, value):
-            self.padding_set(*value)
+            cdef Evas_Coord horizontal, vertical
+            horizontal, vertical = value
+            evas_object_table_padding_set(self.obj, horizontal, vertical)
 
         def __get__(self):
-            return self.padding_get()
+            cdef Evas_Coord horizontal, vertical
+            evas_object_table_padding_get(self.obj, &horizontal, &vertical)
+            return (horizontal, vertical)
 
-    cpdef padding_set(self, Evas_Coord horizontal, Evas_Coord vertical):
+    def padding_set(self, Evas_Coord horizontal, Evas_Coord vertical):
         evas_object_table_padding_set(self.obj, horizontal, vertical)
 
-    cpdef padding_get(self):
+    def padding_get(self):
         cdef Evas_Coord horizontal, vertical
         evas_object_table_padding_get(self.obj, &horizontal, &vertical)
         return (horizontal, vertical)
@@ -130,11 +134,20 @@ cdef class Table(Object):
         :type: (double **horizontal**, double **vertical**)
 
         """
+        def __set__(self, value):
+            cdef double horizontal, vertical
+            horizontal, vertical = value
+            evas_object_table_align_set(self.obj, horizontal, vertical)
 
-    cpdef align_set(self, double horizontal, double vertical):
+        def __get__(self):
+            cdef double horizontal, vertical
+            evas_object_table_align_get(self.obj, &horizontal, &vertical)
+            return (horizontal, vertical)
+
+    def align_set(self, double horizontal, double vertical):
         evas_object_table_align_set(self.obj, horizontal, vertical)
 
-    cpdef align_get(self):
+    def align_get(self):
         cdef double horizontal, vertical
         evas_object_table_align_get(self.obj, &horizontal, &vertical)
         return (horizontal, vertical)
@@ -147,16 +160,16 @@ cdef class Table(Object):
         :type: bool
 
         """
-        def __set__(self, value):
-            self.mirrored_set(value)
+        def __set__(self, bint mirrored):
+            evas_object_table_mirrored_set(self.obj, mirrored)
 
         def __get__(self):
-            return self.mirrored_get()
+            return bool(evas_object_table_mirrored_get(self.obj))
 
-    cpdef mirrored_set(self, bint mirrored):
+    def mirrored_set(self, bint mirrored):
         evas_object_table_mirrored_set(self.obj, mirrored)
 
-    cpdef mirrored_get(self):
+    def mirrored_get(self):
         return bool(evas_object_table_mirrored_get(self.obj))
 
     def pack_get(self, Object child):
@@ -235,9 +248,11 @@ cdef class Table(Object):
 
         """
         def __get__(self):
-            return self.col_row_size_get()
+            cdef int cols, rows
+            evas_object_table_col_row_size_get(self.obj, &cols, &rows)
+            return (cols, rows)
 
-    cpdef col_row_size_get(self):
+    def col_row_size_get(self):
         cdef int cols, rows
         evas_object_table_col_row_size_get(self.obj, &cols, &rows)
         return (cols, rows)

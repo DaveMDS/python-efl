@@ -883,38 +883,12 @@ cdef class Canvas(Eo):
 cdef class Map(object):
     cdef Evas_Map *map
 
+
 cdef class Object(Eo):
 #     cdef readonly Canvas evas
     cdef object _callbacks
     #     cdef int _unset_obj(self) except 0
     #     cdef int _set_obj(self, Evas_Object *obj) except 0
-    cpdef layer_set(self, int layer)
-    cpdef layer_get(self)
-    cpdef geometry_get(self)
-    cpdef geometry_set(self, int x, int y, int w, int h)
-    cpdef size_get(self)
-    cpdef size_set(self, int w, int h)
-    cpdef size_hint_display_mode_get(self)
-    cpdef size_hint_display_mode_set(self, Evas_Display_Mode dispmode)
-    cpdef visible_get(self)
-    cpdef visible_set(self, spec)
-    cpdef precise_is_inside_set(self, precise)
-    cpdef precise_is_inside_get(self)
-    cpdef scale_set(self, double scale)
-    cpdef scale_get(self)
-    cpdef color_get(self)
-    cpdef clip_get(self)
-    cpdef clipees_get(self)
-    cpdef name_get(self)
-    cpdef name_set(self, value)
-    cpdef focus_get(self)
-    cpdef focus_set(self, value)
-    cpdef freeze_events_set(self, freeze)
-    cpdef freeze_events_get(self)
-    cpdef map_get(self)
-    cpdef map_set(self, Map map)
-    cpdef is_frame_object_set(self, bint is_frame)
-    cpdef is_frame_object_get(self)
 
 
 cdef class Rectangle(Object):
@@ -926,60 +900,7 @@ cdef class Line(Object):
 
 
 cdef class Image(Object):
-    cpdef file_set(self, filename, key=*)
-    cpdef file_get(self)
-    cpdef border_get(self)
-    cpdef border_set(self, int left, int right, int top, int bottom)
-    cpdef border_center_fill_get(self)
-    cpdef border_center_fill_set(self, int value)
-    cpdef filled_set(self, setting)
-    cpdef filled_get(self)
-    cpdef border_scale_set(self, scale)
-    cpdef border_scale_get(self)
-    cpdef fill_get(self)
-    cpdef fill_set(self, int x, int y, int w, int h)
-    cpdef fill_spread_set(self, value)
-    cpdef fill_spread_get(self)
-    cpdef image_size_get(self)
-    cpdef image_size_set(self, int w, int h)
-    cpdef stride_get(self)
-    cpdef load_error_get(self)
-    cpdef alpha_get(self)
-    cpdef alpha_set(self, value)
-    cpdef smooth_scale_get(self)
-    cpdef smooth_scale_set(self, value)
-    cpdef pixels_dirty_get(self)
-    cpdef pixels_dirty_set(self, value)
-    cpdef load_dpi_get(self)
-    cpdef load_dpi_set(self, double value)
-    cpdef load_size_get(self)
-    cpdef load_size_set(self, int w, int h)
-    cpdef load_scale_down_get(self)
-    cpdef load_scale_down_set(self, int value)
-    cpdef load_region_set(self, int x, int y, int w, int h)
-    cpdef load_region_get(self)
-    cpdef load_orientation_set(self, enable)
-    cpdef load_orientation_get(self)
-    cpdef colorspace_get(self)
-    cpdef colorspace_set(self, int value)
-    cpdef region_support_get(self)
-    cpdef scale_hint_set(self, Evas_Image_Scale_Hint hint)
-    cpdef scale_hint_get(self)
-    cpdef content_hint_set(self, Evas_Image_Content_Hint hint)
-    cpdef content_hint_get(self)
-    cpdef alpha_mask_set(self, ismask)
-    cpdef source_set(self, Object src)
-    cpdef source_get(self)
-    cpdef source_unset(self)
-    cpdef source_visible_set(self, visible)
-    cpdef source_visible_get(self)
-    cpdef source_events_set(self, source)
-    cpdef source_events_get(self)
-    cpdef animated_get(self)
-    cpdef animated_frame_count_get(self)
-    cpdef animated_loop_type_get(self)
-    cpdef animated_loop_count_get(self)
-    cpdef animated_frame_set(self, int frame_num)
+    pass
 
 
 cdef class FilledImage(Image):

@@ -127,16 +127,18 @@ cdef class FileselectorEntry(Object):
 
         """
         def __get__(self):
-            return self.window_title_get()
+            return _ctouni(elm_fileselector_entry_window_title_get(self.obj))
 
         def __set__(self, title):
-            self.window_title_set(title)
+            if isinstance(title, unicode): title = PyUnicode_AsUTF8String(title)
+            elm_fileselector_entry_window_title_set(self.obj,
+                <const_char *>title if title is not None else NULL)
 
-    cpdef window_title_set(self, title):
+    def window_title_set(self, title):
         if isinstance(title, unicode): title = PyUnicode_AsUTF8String(title)
         elm_fileselector_entry_window_title_set(self.obj,
             <const_char *>title if title is not None else NULL)
-    cpdef window_title_get(self):
+    def window_title_get(self):
         return _ctouni(elm_fileselector_entry_window_title_get(self.obj))
 
     property window_size:
@@ -179,16 +181,18 @@ cdef class FileselectorEntry(Object):
 
         """
         def __get__(self):
-            return self.path_get()
+            return _ctouni(elm_fileselector_entry_path_get(self.obj))
 
         def __set__(self, path):
-            self.path_set(path)
+            if isinstance(path, unicode): path = PyUnicode_AsUTF8String(path)
+            elm_fileselector_entry_path_set(self.obj,
+                <const_char *>path if path is not None else NULL)
 
-    cpdef path_set(self, path):
+    def path_set(self, path):
         if isinstance(path, unicode): path = PyUnicode_AsUTF8String(path)
         elm_fileselector_entry_path_set(self.obj,
             <const_char *>path if path is not None else NULL)
-    cpdef path_get(self):
+    def path_get(self):
         return _ctouni(elm_fileselector_entry_path_get(self.obj))
 
     property expandable:
@@ -297,16 +301,18 @@ cdef class FileselectorEntry(Object):
 
         """
         def __get__(self):
-            return self.selected_get()
+            return _ctouni(elm_fileselector_entry_selected_get(self.obj))
 
         def __set__(self, path):
-            self.selected_set(path)
+            if isinstance(path, unicode): path = PyUnicode_AsUTF8String(path)
+            elm_fileselector_entry_selected_set(self.obj,
+                <const_char *>path if path is not None else NULL)
 
-    cpdef selected_set(self, path):
+    def selected_set(self, path):
         if isinstance(path, unicode): path = PyUnicode_AsUTF8String(path)
         elm_fileselector_entry_selected_set(self.obj,
             <const_char *>path if path is not None else NULL)
-    cpdef selected_get(self):
+    def selected_get(self):
         return _ctouni(elm_fileselector_entry_selected_get(self.obj))
 
     def callback_changed_add(self, func, *args, **kwargs):
