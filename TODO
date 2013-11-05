@@ -2,7 +2,8 @@
 BUGS
 ----
 
-* Evas: SmartObject doesn't work
+* Evas: SmartObject doesn't work (Dave, do we need the metaclasses for this to
+  work?)
 * EdjeEdit: PartState API does not work
 * Edje.External: The unit test fails
 * Elm.Configuration: example crashes
@@ -20,11 +21,9 @@ TODO
 * Review and document our use of exceptions
 * update links and text on:
   http://www.freedesktop.org/wiki/Software/DBusBindings
-* Split base object defines from includes/efl.evas.pxd so that everything
-  defined there doesn't get included to the C code that cimports it.
-  This may have been fixed in latest versions of Cython.
 * Check for documentation changes.
-* Use more _set_properties_from_keyword_args
+* Use more _set_properties_from_keyword_args, replace Evas' _set_common_params
+  with it?
 * Check for missing properties <-> getter-/setter-functions
 * Add more logging
 
@@ -40,9 +39,9 @@ Elementary
 * Fix Theme API, add a test
 * ObjectItem.data changed to dict (like in Eo). Find out what this affects
   and document it.
-* Item add methods (constructors) should be changed to have cb_args in a
-  single argument, not args, kwargs, and it should be assigned to
-  ObjectItem.data dict as necessary.
+* Item add methods (constructors) should be changed to have cb_data in a
+  single argument, not args, kwargs
+* Get rid of enums in __init__.py
 
 * New documentation images with the new default theme.
 * Images missing in the documentation:
