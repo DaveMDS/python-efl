@@ -15,12 +15,13 @@
 # You should have received a copy of the GNU Lesser General Public License
 # along with this Python-EFL.  If not, see <http://www.gnu.org/licenses/>.
 
-
-#cdef object _smart_classes
-#_smart_classes = list()
+from efl.utils.conversions cimport eina_list_objects_to_python_list
 
 from cpython cimport PyMethod_New
 import types
+
+#cdef object _smart_classes
+#_smart_classes = list()
 
 
 include "smart_object_metaclass.pxi"
@@ -325,7 +326,7 @@ cdef class SmartObject(Object):
         and not from C, for instance, adding your object to Edje swallow
         that clips or set color it will not behave as expected.
 
-    ..note::
+    .. note::
         Do not call your parent on methods you want to replace the behavior
         instead of extending it. For example, some methods have default
         implementation, you may want to remove and replace it with something
@@ -405,7 +406,9 @@ cdef class SmartObject(Object):
         self._set_common_params(**kargs)
 
     def member_add(self, Object child):
-        """Set an evas object as a member of this object.
+        """member_add(Object child)
+
+        Set an evas object as a member of this object.
 
         Members will automatically be stacked and layered with the smart
         object. The various stacking function will operate on members relative
@@ -419,7 +422,9 @@ cdef class SmartObject(Object):
         evas_object_smart_member_add(child.obj, self.obj)
 
     def member_del(self, Object child):
-        """Removes a member object from a smart object.
+        """member_del(Object child)
+
+        Removes a member object from a smart object.
 
         .. attention:: this will actually map to C API as
             ``evas_object_smart_member_del(child)``, so the object will loose
@@ -428,16 +433,14 @@ cdef class SmartObject(Object):
         evas_object_smart_member_del(child.obj)
 
     def members_get(self):
-        """:rtype: tuple of :py:class:`Object`"""
-        cdef Eina_List *lst, *itr
-        cdef Object o
-        ret = []
-        lst = evas_object_smart_members_get(self.obj)
-        itr = lst
-        while itr:
-            o = object_from_instance(<Evas_Object*>itr.data)
-            ret.append(o)
-            itr = itr.next
+        """members_get() -> tuple
+
+        :rtype: tuple of :py:class:`Object`
+
+        """
+        cdef:
+            Eina_List *lst = evas_object_smart_members_get(self.obj)
+            list ret = eina_list_objects_to_python_list(lst)
         eina_list_free(lst)
         return tuple(ret)
 
@@ -446,7 +449,9 @@ cdef class SmartObject(Object):
             return self.members_get()
 
     def callback_add(self, char *event, func, *args, **kargs):
-        """Add a callback for the smart event specified by event.
+        """callback_add(event, func, *args, **kargs)
+
+        Add a callback for the smart event specified by event.
 
         :param event: Event name
         :param func:
@@ -465,6 +470,8 @@ cdef class SmartObject(Object):
         if not callable(func):
             raise TypeError("func must be callable")
 
+        # FIXME: Why is this interned?
+        #        What is the reason to use char * and cast it to void *?
         e = intern(event)
         lst = self._smart_callbacks.setdefault(e, [])
         if not lst:
@@ -473,7 +480,9 @@ cdef class SmartObject(Object):
         lst.append((func, args, kargs))
 
     def callback_del(self, char *event, func):
-        """Remove a smart callback.
+        """callback_del(event, func)
+
+        Remove a smart callback.
 
         Removes a callback that was added by :py:func:`callback_add()`.
 
@@ -505,7 +514,9 @@ cdef class SmartObject(Object):
         evas_object_smart_callback_del(self.obj, event, _smart_callback)
 
     def callback_call(self, char *event, event_info=None):
-        """Call any smart callbacks for event.
+        """callback_call(event, event_info=None)
+
+        Call any smart callbacks for event.
 
         :param event: the event name
         :param event_info: an event specific info to pass to the callback.
@@ -592,7 +603,7 @@ cdef class SmartObject(Object):
               #self.__class__.__name__
 
     def clip_set(self, Object clip):
-        """clip(Object clip)
+        """clip_set(Object clip)
 
         Abstract method.
 
@@ -610,11 +621,17 @@ cdef class SmartObject(Object):
         #print "%s.clip_unset() not implemented." % self.__class__.__name__
 
     def calculate(self):
-        """Request object to recalculate it's internal state."""
+        """calculate()
+
+        Request object to recalculate it's internal state.
+
+        """
         evas_object_smart_calculate(self.obj)
 
     def changed(self):
-        """Mark object as changed, so it's :py:func:`calculate()` will be called.
+        """changed()
+
+        Mark object as changed, so it's :py:func:`calculate()` will be called.
 
         If an object is changed and it provides a calculate() method,
         it will be called from :py:func:`Canvas.render()`, what we call pre-render
@@ -625,6 +642,7 @@ cdef class SmartObject(Object):
         """
         evas_object_smart_changed(self.obj)
 
+    # TODO: Move docstrings to property; What is the actual type of value?
     def need_recalculate_set(self, unsigned int value):
         """Set need_recalculate flag.
 
@@ -649,10 +667,12 @@ cdef class SmartObject(Object):
     def need_recalculate_get(self):
         """Get the current value of need_recalculate flag.
 
-        .. note:: this flag will be unset during the render phase, after
+        .. note::
+            This flag will be unset during the render phase, after
             calculate() is called if one is provided.  If no calculate()
             is provided, then the flag will be left unchanged after render
             phase.
+
         """
         return evas_object_smart_need_recalculate_get(self.obj)
 
@@ -666,7 +686,9 @@ cdef class SmartObject(Object):
     # Factory
     def Rectangle(self, **kargs):
         """Factory of children :py:class:`evas.Rectangle`.
+
         :rtype: :py:class:`Rectangle<evas.Rectangle>`
+
         """
         obj = Rectangle(self.evas, **kargs)
         self.member_add(obj)
@@ -674,7 +696,9 @@ cdef class SmartObject(Object):
 
     def Line(self, **kargs):
         """Factory of children :py:class:`evas.Line`.
+
         :rtype: :py:class:`Line<evas.Line>`
+
         """
         obj = Line(self.evas, **kargs)
         self.member_add(obj)
