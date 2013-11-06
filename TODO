@@ -2,8 +2,6 @@
 BUGS
 ----
 
-* Evas: SmartObject doesn't work (Dave, do we need the metaclasses for this to
-  work?)
 * EdjeEdit: PartState API does not work
 * Edje.External: The unit test fails
 * Elm.Configuration: example crashes
@@ -26,6 +24,8 @@ TODO
   with it?
 * Check for missing properties <-> getter-/setter-functions
 * Add more logging
+* Evas: SmartObject needs testing, work. Make it inheritable by extension
+  classes?
 
 Elementary
 ==========
@@ -40,7 +40,8 @@ Elementary
 * ObjectItem.data changed to dict (like in Eo). Find out what this affects
   and document it.
 * Item add methods (constructors) should be changed to have cb_data in a
-  single argument, not args, kwargs
+  single argument, not args, kwargs. The callback signatures need to be
+  changed as well.
 * Get rid of enums in __init__.py
 
 * New documentation images with the new default theme.

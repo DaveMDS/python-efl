@@ -118,7 +118,17 @@ def get_pyapis(pxd_path, header_name, prefix):
 
 
 for lib in libs:
-    inc_path = pkg_config(lib, "1.7.99")[0][2:]
+
+    inc_paths = pkg_config(lib, "1.7.99")
+    inc_path = None
+    for p in inc_paths:
+        if lib in p:
+            inc_path = p[2:]
+            break
+
+    if inc_path is None:
+        raise SystemExit
+
     pxd_path, header_name, prefix = params[lib]
 
     capis = get_capis(inc_path, prefix)
