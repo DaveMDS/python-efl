@@ -200,6 +200,18 @@ Recommended reading:
 Reference
 ---------
 
+.. autofunction:: init
+.. autofunction:: shutdown
+.. autofunction:: render_method_lookup
+.. autofunction:: render_method_list
+.. autofunction:: color_parse
+.. autofunction:: color_argb_premul
+.. autofunction:: color_argb_unpremul
+.. autofunction:: color_hsv_to_rgb
+.. autofunction:: color_rgb_to_hsv
+
+.. autoexception:: EvasLoadError
+
 .. toctree::
    :maxdepth: 4
 
