@@ -1,3 +1,7 @@
+#!/usr/bin/env python
+# encoding: utf-8
+
+import os
 from math import sin
 
 from efl import elementary

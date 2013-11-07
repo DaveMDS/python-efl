@@ -158,14 +158,14 @@ def entry_scrolled_clicked(obj, item = None):
 
     # disabled entry
     en = ScrollableEntry(win, size_hint_weight=EXPAND_HORIZ,
-        size_hint_align=FILL_HORIZ, scrollbar_policy=SCROLL_POLICY_OFF,
+        size_hint_align=FILL_HORIZ, policy=SCROLL_POLICY_OFF,
         text="Disabled entry", single_line=True, disabled=True)
     en.show()
     bx.pack_end(en)
 
     # password entry
     en = ScrollableEntry(win, size_hint_weight=EXPAND_HORIZ,
-        size_hint_align=FILL_HORIZ, scrollbar_policy=SCROLL_POLICY_OFF,
+        size_hint_align=FILL_HORIZ, policy=SCROLL_POLICY_OFF,
         password=True, single_line=True, text="Access denied, give up!",
         disabled=True)
     en.show()
@@ -173,7 +173,7 @@ def entry_scrolled_clicked(obj, item = None):
 
     # multi-line disable entry
     en = ScrollableEntry(win, size_hint_weight=EXPAND_BOTH,
-        size_hint_align=FILL_BOTH, scrollbar_policy=SCROLL_POLICY_ON,
+        size_hint_align=FILL_BOTH, policy=SCROLL_POLICY_ON,
         disabled=True)
     en.context_menu_item_add("Hello")
     en.context_menu_item_add("World")
@@ -192,7 +192,7 @@ def entry_scrolled_clicked(obj, item = None):
     # Single line selected entry
     en = ScrollableEntry(win, size_hint_weight=EXPAND_HORIZ,
         size_hint_align=FILL_HORIZ, text="This is a single line",
-        scrollbar_policy=SCROLL_POLICY_OFF, single_line=True)
+        policy=SCROLL_POLICY_OFF, single_line=True)
     en.select_all()
     en.show()
     bx.pack_end(en)
@@ -200,7 +200,7 @@ def entry_scrolled_clicked(obj, item = None):
     # Filter test
     en = ScrollableEntry(win, size_hint_weight=EXPAND_HORIZ,
         size_hint_align=FILL_HORIZ, text="Filter test",
-        scrollbar_policy=SCROLL_POLICY_OFF, single_line=True)
+        policy=SCROLL_POLICY_OFF, single_line=True)
     en.show()
     bx.pack_end(en)
 
@@ -253,7 +253,7 @@ def entry_scrolled_clicked(obj, item = None):
     # en.size_hint_weight = EVAS_HINT_EXPAND, 0.0
     # en.size_hint_align = EVAS_HINT_FILL, 0.5
     # en.text = "And now only 30 bytes"
-    # en.scrollbar_policy = ELM_SCROLLER_POLICY_OFF, ELM_SCROLLER_POLICY_OFF
+    # en.policy = ELM_SCROLLER_POLICY_OFF, ELM_SCROLLER_POLICY_OFF
     # en.single_line = True
     # en.show()
     # bx.pack_end(en)
@@ -264,13 +264,13 @@ def entry_scrolled_clicked(obj, item = None):
 
     # Single line password entry
     en_p = ScrollableEntry(win, size_hint_weight=EXPAND_HORIZ,
-        size_hint_align=FILL_HORIZ, scrollbar_policy=SCROLL_POLICY_OFF,
+        size_hint_align=FILL_HORIZ, policy=SCROLL_POLICY_OFF,
         text="Password here", single_line=True, password=True)
     en_p.show()
     bx.pack_end(en_p)
 
     # entry with icon/end widgets
-    en = ScrollableEntry(win, scrollbar_policy=SCROLL_POLICY_OFF,
+    en = ScrollableEntry(win, policy=SCROLL_POLICY_OFF,
         single_line=True, size_hint_weight=EXPAND_BOTH,
         size_hint_align=FILL_BOTH, text="entry with icon and end objects")
     bt = Icon(win, standard="home", size_hint_min=(48, 48),
@@ -286,7 +286,7 @@ def entry_scrolled_clicked(obj, item = None):
 
     # markup entry
     en = ScrollableEntry(win, size_hint_weight=EXPAND_BOTH,
-        size_hint_align=FILL_BOTH, scrollbar_policy=SCROLL_POLICY_ON)
+        size_hint_align=FILL_BOTH, policy=SCROLL_POLICY_ON)
     en.text = "This is an entry widget in this window that<br/>"\
         "uses markup <b>like this</> for styling and<br/>"\
         "formatting <em>like this</>, as well as<br/>"\
