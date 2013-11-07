@@ -15,16 +15,14 @@
 # You should have received a copy of the GNU Lesser General Public License
 # along with this Python-EFL.  If not, see <http://www.gnu.org/licenses/>.
 
-
-# TODO: remove me after usage is update to new buffer api
 cdef extern from "Python.h":
-    int PyObject_AsReadBuffer(obj, void **buffer, Py_ssize_t *buffer_len) except -1
+    PyObject * PyMemoryView_FromBuffer(Py_buffer *info)
 
+from cpython.buffer cimport Py_buffer, PyObject_CheckBuffer, \
+    PyObject_GetBuffer, PyBuffer_Release, PyBUF_SIMPLE
 
-# TODO needed? neem like the frong place to define fill/rotation stuff...
-# def image_mask_fill(Image source, Image mask, Image surface, int x_mask, int y_mask, int x_surface, int y_surface):
-#     evas_object_image_mask_fill(source.obj, mask.obj, surface.obj,
-#                                 x_mask, y_mask, x_surface, y_surface)
+from cpython.mem cimport PyMem_Malloc, PyMem_Realloc, PyMem_Free
+
 
 cdef int _data_size_get(Evas_Object *obj):
     cdef int stride, h, bpp, cspace, have_alpha
@@ -52,38 +50,38 @@ cdef class Image(Object):
 
     .. rubric:: Introduction
 
-    Image will consider the object's :py:func:`geometry<geometry_set()>`
-    as the area to paint with tiles as described by :py:func:`fill_set()` and the
+    Image will consider the object's :py:attr:`geometry`
+    as the area to paint with tiles as described by :py:attr:`fill` and the
     real pixels (image data) will be stored as described by
-    :py:func:`image_size<image_size_set()>`. This can be tricky to understand at
+    :py:attr:`image_size`. This can be tricky to understand at
     first, but gives flexibility to do everything.
 
     If an image is loaded from file, it will have
-    :py:func:`image_size<image_size_set()>` set to its original size, unless some
-    other size was set with :py:func:`load_size_set()`, :py:func:`load_dpi_set()` or
-    :py:func:`load_scale_down_set()`.
+    :py:attr:`image_size` set to its original size, unless some
+    other size was set with :py:attr:`load_size`, :py:attr:`load_dpi` or
+    :py:attr:`load_scale_down`.
 
-    Pixels will be scaled to match size specified by :py:func:`fill_set()`
+    Pixels will be scaled to match size specified by :py:attr:`fill`
     using either sampled or smooth methods, these can be specified with
-    :py:func:`smooth_scale_set()`. The scale will consider borders as specified by
-    :py:func:`border_set()` and :py:func:`border_center_fill_set()`, while the former specify
+    :py:attr:`smooth_scale`. The scale will consider borders as specified by
+    :py:attr:`border` and :py:attr:`border_center_fill`, while the former specify
     the border dimensions (top and bottom will scale horizontally, while
     right and left will do vertically, corners are kept unscaled), the latter
     says whenever the center of the image will be used (useful to create
     frames).
 
-    Contents will be tiled using :py::`fill_set()` information in order to paint
-    :py:func:`geometry<Object.geometry_set()>`, so if you want an image to be drawn
-    just once, you should match every :py:func:`geometry_set(x, y, w, h)` by a call
-    to :py:func:`fill_set(0, 0, w, h)`. :py:class:`FilledImage` does that for you.
+    Contents will be tiled using :py:attr:`fill` information in order to paint
+    :py:attr:`geometry<Object.geometry>`, so if you want an image to be drawn
+    just once, you should match every :py:attr:`geometry` = **x, y, w, h** by a call
+    to :py:attr:`fill` = **0, 0, w, h**. :py:class:`FilledImage` does that for you.
 
     .. rubric:: Pixel data and buffer API
 
     Images implement the Python Buffer API, so it's possible to use it
     where buffers are expected (ie: file.write()). Available data will
-    depend on :py:func:`alpha<alpha_set()>`, :py:func:`colorspace<colorspace_set()>` and
-    :py:func:`image_size<image_size_set()>`, lines should be considered multiple
-    of :py:func:`stride<stride_get()>`, with the following considerations about
+    depend on :py:attr:`alpha`, :py:attr:`colorspace` and
+    :py:attr:`image_size`, lines should be considered multiple
+    of :py:attr:`stride`, with the following considerations about
     colorspace:
 
     - **EVAS_COLORSPACE_ARGB8888:** This pixel format is a linear block of
@@ -101,7 +99,8 @@ cdef class Image(Object):
         So 50% transparent blue will be: 0x80000080. This will not be "dark" -
         just 50% transparent. Values are 0 == black, 255 == solid or full
         red, green or blue.
-    - **EVAS_COLORSPACE_RGB565_A5P:** In the process of being implemented in
+
+    .. **EVAS_COLORSPACE_RGB565_A5P:** In the process of being implemented in
         1 engine only. This may change. This is a pointer to image data for
         16-bit half-word pixel data in 16bpp RGB 565 format (5 bits red,
         6 bits green, 5 bits blue), with the high-byte containing red and the
@@ -473,23 +472,125 @@ cdef class Image(Object):
         :type buf: data
 
         """
-        cdef const_void *p_data
-        cdef Py_ssize_t size, expected_size
+        cdef:
+            Py_ssize_t expected_size
+            Py_buffer view
 
         if buf is None:
             evas_object_image_data_set(self.obj, NULL)
             return
 
-        # TODO: update to new buffer api
-        PyObject_AsReadBuffer(buf, &p_data, &size)
-        if p_data != NULL:
-            expected_size = _data_size_get(self.obj)
-            if size < expected_size:
-                raise ValueError(("buffer size (%d) is smalled than expected "
-                                  "(%d)!") % (size, expected_size))
-        evas_object_image_data_set(self.obj,<void *> p_data)
+        if not PyObject_CheckBuffer(buf):
+            raise TypeError("The provided object does not support buffer interface.")
 
-    # TODO: def image_data_get(self):
+        PyObject_GetBuffer(buf, &view, PyBUF_SIMPLE)
+
+        expected_size = _data_size_get(self.obj)
+        if view.itemsize < expected_size:
+            raise ValueError(
+                "buffer size (%d) is smaller than expected (%d)!" % (
+                    view.itemsize, expected_size
+                    )
+                )
+
+        evas_object_image_data_set(self.obj, <void *>view.buf)
+
+        PyBuffer_Release(&view)
+
+    def image_data_memoryview_get(self, bint for_writing=False, bint simple=True):
+        """image_data_memoryview_get(bool for_writing) -> MemoryView
+
+        Get a MemoryView object to the raw image data of the given image object.
+
+        :param bool for_writing: Whether the data being retrieved will be
+                modified or not.
+        :param bool simple: Whether the MemoryView is 1D or 2D
+        :return MemoryView: The raw image data.
+
+        This method returns a MemoryView object to an image object's internal pixel
+        buffer, for reading only or read/write. If you request it for
+        writing, the image will be marked dirty so that it gets redrawn at
+        the next update.
+
+        Each time you call this method on an image object, its data
+        buffer will have an internal reference counter
+        incremented. Decrement it back by using
+        :py:func:`image_data_set`.
+
+        This is best suited for when you want to modify an existing image,
+        without changing its dimensions.
+
+        .. note::
+            The contents' format returned by it depend on the color
+            space of the given image object.
+
+        .. note::
+            You may want to use :py:func:`image_data_update_add` to
+            inform data changes, if you did any.
+
+        """
+        cdef int stride, h, bpp, cspace, have_alpha, img_size
+
+        stride = evas_object_image_stride_get(self.obj)
+        evas_object_image_size_get(self.obj, NULL, &h)
+        cspace = evas_object_image_colorspace_get(self.obj)
+        have_alpha = evas_object_image_alpha_get(self.obj)
+
+        bpp = 0
+        if cspace == EVAS_COLORSPACE_ARGB8888:
+            bpp = 4
+            format = "L"
+        elif cspace == EVAS_COLORSPACE_RGB565_A5P:
+            if have_alpha == 0:
+                bpp = 2
+                format = "H"
+            else:
+                pass #bpp = 3
+                # XXX: There's no type that has three bytes.
+                #      Is the format string actually used?
+        if bpp == 0:
+            raise ValueError("Unsupported colorspace")
+
+        img_size = stride * h * bpp
+
+        cdef Py_buffer *img_buf = <Py_buffer *>PyMem_Malloc(sizeof(Py_buffer))
+        if img_buf == NULL:
+            raise MemoryError
+
+        cdef:
+            Py_ssize_t simple_shape[1]
+            Py_ssize_t shape[2]
+            Py_ssize_t strides[2]
+            Py_ssize_t suboffsets[2]
+
+        if simple:
+            simple_shape[0] = img_size
+        else:
+            shape[0] = stride / bpp
+            shape[1] = h
+            strides[0] = stride
+            strides[1] = h * bpp
+            suboffsets[0] = -1
+            suboffsets[1] = -1
+
+        img_buf.buf = evas_object_image_data_get(self.obj, for_writing)
+        img_buf.len = img_size
+        img_buf.readonly = not for_writing
+        img_buf.format = format
+        if simple:
+            img_buf.ndim = 1
+            img_buf.shape = simple_shape
+            img_buf.strides = NULL
+            img_buf.suboffsets = NULL
+        else:
+            img_buf.ndim = 2
+            img_buf.shape = shape
+            img_buf.strides = strides
+            img_buf.suboffsets = suboffsets
+        img_buf.itemsize = bpp
+
+        return <object>PyMemoryView_FromBuffer(img_buf)
+
 
     # TODO:
     # def image_data_convert(self, to_cspace):
@@ -814,13 +915,16 @@ cdef class Image(Object):
 
         - **EVAS_COLORSPACE_ARGB8888** ARGB 32 bits per pixel, high-byte is
             Alpha, accessed 1 32bit word at a time.
-        - **EVAS_COLORSPACE_YCBCR422P601_PL** YCbCr 4:2:2 Planar, ITU.BT-601
+
+        .. **EVAS_COLORSPACE_YCBCR422P601_PL** YCbCr 4:2:2 Planar, ITU.BT-601
             specifications. The data poitned to is just an array of row
             pointer, pointing to the Y rows, then the Cb, then Cr rows.
-        - **EVAS_COLORSPACE_YCBCR422P709_PL** YCbCr 4:2:2 Planar, ITU.BT-709
+
+        .. **EVAS_COLORSPACE_YCBCR422P709_PL** YCbCr 4:2:2 Planar, ITU.BT-709
             specifications. The data poitned to is just an array of row
             pointer, pointing to the Y rows, then the Cb, then Cr rows.
-        - **EVAS_COLORSPACE_RGB565_A5P** 16bit rgb565 + Alpha plane at end -
+
+        .. **EVAS_COLORSPACE_RGB565_A5P** 16bit rgb565 + Alpha plane at end -
             5 bits of the 8 being used per alpha byte.
 
         :type: Evas_Colorspace
@@ -952,7 +1056,7 @@ cdef class Image(Object):
     def alpha_mask_set(self, bint ismask):
         evas_object_image_alpha_mask_set(self.obj, ismask)
 
-    property image_source:
+    property source:
         """The source object on an image object to used as a **proxy**.
 
         If an image object is set to behave as a **proxy**, it will mirror
@@ -1193,50 +1297,20 @@ cdef class Image(Object):
         evas_object_image_animated_frame_set(self.obj, frame_num)
 
 
-
-    def __getsegcount__(self, Py_ssize_t *p_len):
-        if p_len == NULL:
-            return 1
-
-        p_len[0] = _data_size_get(self.obj)
-        return 1
-
-    def __getreadbuffer__(self, int segment, void **ptr):
-        ptr[0] = evas_object_image_data_get(self.obj, 0)
-        if ptr[0] == NULL:
+    def __getbuffer__(self, Py_buffer *view, int flags):
+        view.buf = evas_object_image_data_get(self.obj, not view.readonly)
+        if view.buf == NULL:
             raise SystemError("image has no allocated buffer.")
-        # XXX: keep Evas pixels_checked_out counter to 0 and allow
-        # XXX: image to reload and unload its data.
-        # XXX: may cause problems if buffer is used after these
-        # XXX: functions are called, but buffers aren't expected to
-        # XXX: live much.
-        evas_object_image_data_set(self.obj, ptr[0])
-        return _data_size_get(self.obj)
+        view.len = _data_size_get(self.obj)
+        view.format = "L"
+        view.ndim = 1
+        view.itemsize = 4
+        # TODO: Check flags, provide multidim if possible, handle other
+        #       colorspaces
 
-    def __getwritebuffer__(self, int segment, void **ptr):
-        ptr[0] = evas_object_image_data_get(self.obj, 1)
-        if ptr[0] == NULL:
-            raise SystemError("image has no allocated buffer.")
-        # XXX: keep Evas pixels_checked_out counter to 0 and allow
-        # XXX: image to reload and unload its data.
-        # XXX: may cause problems if buffer is used after these
-        # XXX: functions are called, but buffers aren't expected to
-        # XXX: live much.
-        evas_object_image_data_set(self.obj, ptr[0])
-        return _data_size_get(self.obj)
-
-    def __getcharbuffer__(self, int segment, char **ptr):
-        ptr[0] = <char *>evas_object_image_data_get(self.obj, 0)
-        if ptr[0] == NULL:
-            raise SystemError("image has no allocated buffer.")
-        # XXX: keep Evas pixels_checked_out counter to 0 and allow
-        # XXX: image to reload and unload its data.
-        # XXX: may cause problems if buffer is used after these
-        # XXX: functions are called, but buffers aren't expected to
-        # XXX: live much.
-        evas_object_image_data_set(self.obj, ptr[0])
-        return _data_size_get(self.obj)
-
+    def __releasebuffer__(self, Py_buffer *view):
+        evas_object_image_data_set(self.obj, view.buf)
+        # TODO: Free possibly allocated memory here (shape, strides, suboffsets)
 
 
     def on_image_preloaded_add(self, func, *a, **k):
@@ -1273,8 +1347,8 @@ cdef class FilledImage(Image):
 
     Image that automatically resize it's contents to fit object size.
 
-    This :py::`Image` subclass already calls :py::`Image.fill_set()` on resize so
-    it will match and so be scaled to fill the whole area.
+    This :py:class:`Image` subclass already calls :py:func:`Image.fill_set`
+    on resize so it will match and so be scaled to fill the whole area.
 
     :param canvas: The evas canvas for this object
     :type canvas: :py:class:`Canvas`

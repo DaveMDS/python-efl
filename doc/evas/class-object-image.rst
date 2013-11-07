@@ -2,3 +2,9 @@
 =============================
 
 .. autoclass:: efl.evas.Image
+
+
+:class:`efl.evas.FilledImage` Class
+===================================
+
+.. autoclass:: efl.evas.FilledImage
