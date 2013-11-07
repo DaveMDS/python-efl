@@ -254,7 +254,7 @@ cdef class Video(LayoutClass):
     def callback_unfocused_del(self, func):
         self._callback_del("unfocused", func)
 
-_object_mapping_register("elm_video", Video)
+_object_mapping_register("Elm_Video", Video)
 
 
 cdef class Player(LayoutClass):
@@ -366,4 +366,4 @@ cdef class Player(LayoutClass):
     def callback_unfocused_del(self, func):
         self._callback_del("unfocused", func)
 
-_object_mapping_register("elm_player", Player)
+_object_mapping_register("Elm_Player", Player)

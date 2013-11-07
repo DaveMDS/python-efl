@@ -251,4 +251,4 @@ cdef class Hover(LayoutClass):
         self._callback_del("unfocused", func)
 
 
-_object_mapping_register("elm_hover", Hover)
+_object_mapping_register("Elm_Hover", Hover)

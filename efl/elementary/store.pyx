@@ -469,6 +469,7 @@ cdef class Store(object):
     def sorted_get(self):
         return bool(elm_store_sorted_get(self.st))
 
+_object_mapping_register("Elm_Store", Store)
 
 cdef class StoreItem(object):
 

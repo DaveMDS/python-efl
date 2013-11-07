@@ -164,4 +164,4 @@ def grid_pack_get(evasObject subobj):
     return (x, y, w, h)
 
 
-_object_mapping_register("elm_grid", Grid)
+_object_mapping_register("Elm_Grid", Grid)

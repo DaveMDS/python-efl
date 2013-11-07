@@ -140,4 +140,4 @@ cdef class Accessible(Object):
         """
         elm_access_highlight_set(self.obj)
 
-_object_mapping_register("elm_access", Accessible)
+_object_mapping_register("Elm_Access", Accessible)

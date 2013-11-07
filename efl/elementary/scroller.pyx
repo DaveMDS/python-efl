@@ -859,4 +859,4 @@ class Scroller(Scrollable, ScrollerWidget):
 
     """
 
-_object_mapping_register("elm_scroller", Scroller)
+_object_mapping_register("Elm_Scroller", Scroller)

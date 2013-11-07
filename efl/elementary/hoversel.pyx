@@ -353,4 +353,4 @@ cdef class Hoversel(Button):
         self._callback_del("dismissed", func)
 
 
-_object_mapping_register("elm_hoversel", Hoversel)
+_object_mapping_register("Elm_Hoversel", Hoversel)

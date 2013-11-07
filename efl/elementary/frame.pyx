@@ -129,4 +129,4 @@ cdef class Frame(LayoutClass):
         self._callback_del("clicked", func)
 
 
-_object_mapping_register("elm_frame", Frame)
+_object_mapping_register("Elm_Frame", Frame)

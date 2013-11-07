@@ -2194,4 +2194,4 @@ cdef class Entry(Object):
         return (h, v)
 
 
-_object_mapping_register("elm_entry", Entry)
+_object_mapping_register("Elm_Entry", Entry)

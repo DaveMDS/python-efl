@@ -61,4 +61,4 @@ cdef class Polygon(Object):
         evas_object_polygon_points_clear(self.obj)
 
 
-_object_mapping_register("Evas_Object_Polygon", Polygon)
+_object_mapping_register("Evas_Polygon", Polygon)

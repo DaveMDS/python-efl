@@ -168,4 +168,4 @@ cdef class Panes(LayoutClass):
         self._callback_del("clicked,double", func)
 
 
-_object_mapping_register("elm_panes", Panes)
+_object_mapping_register("Elm_Panes", Panes)

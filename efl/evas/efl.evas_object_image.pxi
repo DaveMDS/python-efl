@@ -1330,7 +1330,7 @@ cdef class Image(Object):
         self.event_callback_del(EVAS_CALLBACK_IMAGE_UNLOADED, func)
 
 
-_object_mapping_register("Evas_Object_Image", Image)
+_object_mapping_register("Evas_Image", Image)
 
 
 cdef void _cb_on_filled_image_resize(void *data, Evas *e,
@@ -1379,7 +1379,8 @@ cdef class FilledImage(Image):
         raise NotImplementedError("FilledImage doesn't support fill_set()")
 
 
-_object_mapping_register("Evas_Object_FilledImage", FilledImage)
+#TODO: Check if this is right
+_object_mapping_register("Evas_FilledImage", FilledImage)
 
 def extension_can_load(filename):
     """extension_can_load(unicode filename) -> bool

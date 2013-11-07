@@ -487,4 +487,4 @@ cdef class Box(Object):
                            elm_box_transition_free)
 
 
-_object_mapping_register("elm_box", Box)
+_object_mapping_register("Elm_Box", Box)

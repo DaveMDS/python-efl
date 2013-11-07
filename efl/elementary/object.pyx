@@ -1977,3 +1977,6 @@ cdef class Object(evasObject):
 
     #     """
     #     elm_access_highlight_set(self.obj)
+
+# TODO: Check if this is used correctly here
+_object_mapping_register("Elm_Widget", Object)

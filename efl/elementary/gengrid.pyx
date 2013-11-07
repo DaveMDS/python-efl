@@ -1839,4 +1839,4 @@ cdef class Gengrid(Object):
         return (h, v)
 
 
-_object_mapping_register("elm_gengrid", Gengrid)
+_object_mapping_register("Elm_Gengrid", Gengrid)

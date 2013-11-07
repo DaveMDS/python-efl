@@ -569,4 +569,4 @@ cdef class Image(Object):
         self._callback_add_full("download,error", _image_download_error_conv, func)
 
 
-_object_mapping_register("elm_image", Image)
+_object_mapping_register("Elm_Image", Image)

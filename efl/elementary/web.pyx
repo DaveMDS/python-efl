@@ -245,4 +245,4 @@ cdef class Web(Object):
             elm_web_console_message_hook_set(self.obj, NULL, NULL)
 
 
-_object_mapping_register("elm_web", Web)
+_object_mapping_register("Elm_Web", Web)

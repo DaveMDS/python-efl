@@ -405,4 +405,4 @@ cdef class Slider(LayoutClass):
     def callback_unfocused_del(self, func):
         self._callback_del("unfocused", func)
 
-_object_mapping_register("elm_slider", Slider)
+_object_mapping_register("Elm_Slider", Slider)

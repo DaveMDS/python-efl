@@ -265,4 +265,4 @@ cdef class Notify(Object):
         self._callback_del("block,clicked", func)
 
 
-_object_mapping_register("elm_notify", Notify)
+_object_mapping_register("Elm_Notify", Notify)

@@ -26,6 +26,7 @@ TODO
 * Add more logging
 * Evas: SmartObject needs testing, work. Make it inheritable by extension
   classes?
+* Add missing Eo type mappings, mostly in Ecore
 
 Elementary
 ==========

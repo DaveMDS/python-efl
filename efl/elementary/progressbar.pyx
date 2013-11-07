@@ -318,4 +318,4 @@ cdef class Progressbar(LayoutClass):
     def callback_unfocused_del(self, func):
         self._callback_del("unfocused", func)
 
-_object_mapping_register("elm_progressbar", Progressbar)
+_object_mapping_register("Elm_Progressbar", Progressbar)

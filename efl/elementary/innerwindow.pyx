@@ -102,4 +102,4 @@ cdef class InnerWindow(LayoutClass):
             elm_win_inwin_content_unset(self.obj)
 
 
-_object_mapping_register("elm_inwin", InnerWindow)
+_object_mapping_register("Elm_Inwin", InnerWindow)

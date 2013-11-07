@@ -128,4 +128,4 @@ cdef class Mapbuf(Object):
         return bool(elm_mapbuf_auto_get(self.obj))
 
 
-_object_mapping_register("elm_mapbuf", Mapbuf)
+_object_mapping_register("Elm_Mapbuf", Mapbuf)

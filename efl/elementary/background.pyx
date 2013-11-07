@@ -219,4 +219,4 @@ cdef class Background(LayoutClass):
     def load_size_set(self, w, h):
         elm_bg_load_size_set(self.obj, w, h)
 
-_object_mapping_register("elm_bg", Background)
+_object_mapping_register("Elm_Bg", Background)

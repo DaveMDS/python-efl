@@ -307,4 +307,4 @@ cdef class Clock(LayoutClass):
     def callback_unfocused_del(self, func):
         self._callback_del("unfocused", func)
 
-_object_mapping_register("elm_clock", Clock)
+_object_mapping_register("Elm_Clock", Clock)

@@ -500,4 +500,4 @@ cdef class Diskselector(Object):
         return (h, v)
 
 
-_object_mapping_register("elm_diskselector", Diskselector)
+_object_mapping_register("Elm_Diskselector", Diskselector)

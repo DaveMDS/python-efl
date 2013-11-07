@@ -252,4 +252,4 @@ cdef class Layout(LayoutClass):
             <const_char *>part if part is not None else NULL))
 
 
-_object_mapping_register("elm_layout", Layout)
+_object_mapping_register("Elm_Layout", Layout)

@@ -1322,4 +1322,4 @@ def on_text_change(func):
     return func
 
 
-_object_mapping_register("edje", Edje)
+_object_mapping_register("Edje", Edje)

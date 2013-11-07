@@ -721,4 +721,4 @@ include "genlist_widget.pxi"
 #class Genlist(GenlistWidget, ScrollableInterface):
     #pass
 
-_object_mapping_register("elm_genlist", Genlist)
+_object_mapping_register("Elm_Genlist", Genlist)

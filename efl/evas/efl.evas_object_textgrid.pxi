@@ -477,3 +477,5 @@ cdef class Textgrid(Object):
 
         """
         evas_object_textgrid_update_add(self.obj, x, y, w, h)
+
+_object_mapping_register("Evas_Textgrid", Textgrid)

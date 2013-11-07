@@ -140,4 +140,4 @@ cdef class Rectangle(Object):
         self._set_common_params(**kargs)
 
 
-_object_mapping_register("Evas_Object_Rectangle", Rectangle)
+_object_mapping_register("Evas_Rectangle", Rectangle)

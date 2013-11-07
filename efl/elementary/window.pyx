@@ -1740,7 +1740,7 @@ cdef class Window(Object):
     def callback_unfocused_del(self, func):
         self._callback_del("unfocused", func)
 
-_object_mapping_register("elm_win", Window)
+_object_mapping_register("Elm_Win", Window)
 
 
 cdef class StandardWindow(Window):

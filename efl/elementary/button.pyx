@@ -193,4 +193,4 @@ cdef class Button(LayoutClass):
     def callback_unfocused_del(self, func):
         self._callback_del("unfocused", func)
 
-_object_mapping_register("elm_button", Button)
+_object_mapping_register("Elm_Button", Button)

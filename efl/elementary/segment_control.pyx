@@ -334,4 +334,4 @@ cdef class SegmentControl(LayoutClass):
         self._callback_del_full("changed", _cb_object_item_conv, func)
 
 
-_object_mapping_register("elm_segment_control", SegmentControl)
+_object_mapping_register("Elm_Segment_Control", SegmentControl)

@@ -205,5 +205,5 @@ cdef class Textblock(Object):
         return (l, r, t, b)
 
 
-_object_mapping_register("Evas_Object_Textblock", Textblock)
+_object_mapping_register("Evas_Textblock", Textblock)
 

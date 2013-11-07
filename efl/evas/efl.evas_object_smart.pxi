@@ -744,7 +744,7 @@ cdef class SmartObject(Object):
 #         self.member_add(obj)
 #         return obj
 
-_object_mapping_register("Evas_Object_Smart", SmartObject)
+_object_mapping_register("Evas_Smart", SmartObject)
 
 # cdef extern from "Evas.h": # hack to force type to be known
 #     cdef PyTypeObject PyEvasSmartObject_Type # hack to install metaclass
@@ -836,6 +836,7 @@ cdef class ClippedSmartObject(SmartObject):
         """Default implementation that acts on the the clipper."""
         evas_object_clip_unset(self.clipper.obj)
 
+_object_mapping_register("Evas_Smart_Clipped", ClippedSmartObject)
 
 # cdef extern from "Evas.h": # hack to force type to be known
 #     cdef PyTypeObject PyEvasClippedSmartObject_Type # hack to install metaclass

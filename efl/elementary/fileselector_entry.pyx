@@ -411,4 +411,4 @@ cdef class FileselectorEntry(Object):
         self._callback_del_full("file,chosen", _cb_string_conv, func)
 
 
-_object_mapping_register("elm_fileselector_entry", FileselectorEntry)
+_object_mapping_register("Elm_Fileselector_Entry", FileselectorEntry)

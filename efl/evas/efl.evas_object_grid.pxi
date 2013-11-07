@@ -153,3 +153,5 @@ cdef class Grid(Object):
             list ret = eina_list_objects_to_python_list(lst)
         eina_list_free(lst)
         return ret
+
+_object_mapping_register("Evas_Grid", Grid)

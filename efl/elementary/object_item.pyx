@@ -650,6 +650,3 @@ cdef class ObjectItem(object):
     #     def __del__(self):
     #         elm_object_item_access_order_unset(self.item)
 
-
-_object_mapping_register("elm_object_item", ObjectItem)
-

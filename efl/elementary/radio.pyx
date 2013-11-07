@@ -194,4 +194,4 @@ cdef class Radio(LayoutClass):
     def callback_unfocused_del(self, func):
         self._callback_del("unfocused", func)
 
-_object_mapping_register("elm_radio", Radio)
+_object_mapping_register("Elm_Radio", Radio)

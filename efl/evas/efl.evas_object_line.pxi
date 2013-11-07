@@ -160,4 +160,4 @@ cdef class Line(Object):
         return (x2, y2)
 
 
-_object_mapping_register("Evas_Object_Line", Line)
+_object_mapping_register("Evas_Line", Line)

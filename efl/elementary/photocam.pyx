@@ -582,4 +582,4 @@ cdef class Photocam(Object):
         elm_scroller_bounce_get(self.obj, &h, &v)
         return (h, v)
 
-_object_mapping_register("elm_photocam", Photocam)
+_object_mapping_register("Elm_Photocam", Photocam)

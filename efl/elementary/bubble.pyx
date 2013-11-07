@@ -159,4 +159,4 @@ cdef class Bubble(LayoutClass):
     def callback_unfocused_del(self, func):
         self._callback_del("unfocused", func)
 
-_object_mapping_register("elm_bubble", Bubble)
+_object_mapping_register("Elm_Bubble", Bubble)

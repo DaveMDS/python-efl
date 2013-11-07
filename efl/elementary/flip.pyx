@@ -390,4 +390,4 @@ cdef class Flip(Object):
         self._callback_del("animate,done", func)
 
 
-_object_mapping_register("elm_flip", Flip)
+_object_mapping_register("Elm_Flip", Flip)

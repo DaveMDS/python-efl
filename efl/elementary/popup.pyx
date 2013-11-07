@@ -407,4 +407,4 @@ cdef class Popup(Object):
         self._callback_del("language,changed", func)
 
 
-_object_mapping_register("elm_popup", Popup)
+_object_mapping_register("Elm_Popup", Popup)

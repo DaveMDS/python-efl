@@ -364,4 +364,4 @@ cdef class Text(Object):
         return (l, r, t, b)
 
 
-_object_mapping_register("Evas_Object_Text", Text)
+_object_mapping_register("Evas_Text", Text)

@@ -285,3 +285,5 @@ cdef class Table(Object):
 
         """
         return object_from_instance(evas_object_table_child_get(self.obj, col, row))
+
+_object_mapping_register("Evas_Table", Table)

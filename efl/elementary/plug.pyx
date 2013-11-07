@@ -126,4 +126,4 @@ cdef class Plug(Object):
     #     self._callback_del("image,resized", func)
 
 
-_object_mapping_register("elm_plug", Plug)
+_object_mapping_register("Elm_Plug", Plug)
