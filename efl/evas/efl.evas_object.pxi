@@ -22,7 +22,7 @@ from efl.utils.conversions cimport eina_list_objects_to_python_list
 cdef int _object_free_wrapper_resources(Object obj) except 0:
     cdef int i
     for i from 0 <= i < evas_object_event_callbacks_len:
-        obj._callbacks[i] = None
+        obj._event_callbacks[i] = None
     return 1
 
 
@@ -31,7 +31,7 @@ cdef int _object_unregister_callbacks(Object obj) except 0:
     cdef Evas_Object_Event_Cb cb
     o = obj.obj
     if o != NULL:
-        for i, lst in enumerate(obj._callbacks):
+        for i, lst in enumerate(obj._event_callbacks):
             if lst is not None:
                 cb = evas_object_event_callbacks[i]
                 evas_object_event_callback_del(o, i, cb)
@@ -44,7 +44,7 @@ cdef void obj_free_cb(void *data, Evas *e,
                       Evas_Object *obj, void *event_info) with gil:
     cdef Object self = <Object>data
 
-    lst = self._callbacks[enums.EVAS_CALLBACK_FREE]
+    lst = self._event_callbacks[enums.EVAS_CALLBACK_FREE]
     if lst is not None:
         for func, args, kargs in lst:
             try:
@@ -71,12 +71,12 @@ cdef _object_add_callback_to_list(Object obj, int type, func, args, kargs):
         raise ValueError("Invalid callback type")
 
     r = (func, args, kargs)
-    lst = obj._callbacks[type]
+    lst = obj._event_callbacks[type]
     if lst is not None:
         lst.append(r)
         return False
     else:
-        obj._callbacks[type] = [r]
+        obj._event_callbacks[type] = [r]
         return True
 
 
@@ -84,7 +84,7 @@ cdef _object_del_callback_from_list(Object obj, int type, func):
     if type < 0 or type >= evas_object_event_callbacks_len:
         raise ValueError("Invalid callback type")
 
-    lst = obj._callbacks[type]
+    lst = obj._event_callbacks[type]
     if not lst:
         raise ValueError("Callback %s was not registered with type %d" %
                          (func, type))
@@ -99,7 +99,7 @@ cdef _object_del_callback_from_list(Object obj, int type, func):
 
     lst.pop(i)
     if len(lst) == 0:
-        obj._callbacks[type] = None
+        obj._event_callbacks[type] = None
         return True
     else:
         return False
@@ -164,10 +164,7 @@ cdef class Object(Eo):
 
     """
     def __cinit__(self):
-        #
-        # TODO: Make this C only if possible
-        #
-        self._callbacks = [None] * evas_object_event_callbacks_len
+        self._event_callbacks = [None] * evas_object_event_callbacks_len
 
     def __init__(self, *args, **kwargs):
         if type(self) is Object:

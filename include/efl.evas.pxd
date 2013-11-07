@@ -873,11 +873,7 @@ cdef class Rect:
 
 
 cdef class Canvas(Eo):
-#     cdef Evas *obj
-    cdef object _callbacks
-#
-#     cdef int _set_obj(self, Evas *obj) except 0
-#     cdef int _unset_obj(self) except 0
+    cdef list _event_callbacks
 
 
 cdef class Map(object):
@@ -885,10 +881,7 @@ cdef class Map(object):
 
 
 cdef class Object(Eo):
-#     cdef readonly Canvas evas
-    cdef object _callbacks
-    #     cdef int _unset_obj(self) except 0
-    #     cdef int _set_obj(self, Evas_Object *obj) except 0
+    cdef list _event_callbacks
 
 
 cdef class Rectangle(Object):

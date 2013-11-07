@@ -163,6 +163,7 @@ cdef class Canvas(evasCanvas):
 
 cdef class Object(evasObject):
     cdef:
-        object _elmcallbacks, _elm_event_cbs, _elm_signal_cbs
+        dict _elmcallbacks
+        list _elm_event_cbs, _elm_signal_cbs
         object cnp_drop_cb, cnp_drop_data
         object cnp_selection_loss_cb, cnp_selection_loss_data

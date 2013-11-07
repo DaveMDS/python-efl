@@ -18,7 +18,7 @@
 
 cdef int cb_canvas_dispatcher(Canvas self, event, int type) except 0:
     # iterate over copy since users may delete callback from callback
-    lst = tuple(self._callbacks[type])
+    lst = tuple(self._event_callbacks[type])
     for func, args, kargs in lst:
         try:
             func(self, event, *args, **kargs)
@@ -29,7 +29,7 @@ cdef int cb_canvas_dispatcher(Canvas self, event, int type) except 0:
 
 cdef int cb_canvas_dispatcher2(Canvas self, int type) except 0:
     # iterate over copy since users may delete callback from callback
-    lst = tuple(self._callbacks[type])
+    lst = tuple(self._event_callbacks[type])
     for func, args, kargs in lst:
         try:
             func(self, *args, **kargs)

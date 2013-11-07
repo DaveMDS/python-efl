@@ -19,7 +19,7 @@
 # cdef int _canvas_free_wrapper_resources(Canvas canvas) except 0:
 #     cdef int i
 #     for i from 0 <= i < evas_canvas_event_callbacks_len:
-#         canvas._callbacks[i] = None
+#         canvas._event_callbacks[i] = None
 #     return 1
 #
 #
@@ -28,7 +28,7 @@ cdef int _canvas_unregister_callbacks(Canvas canvas) except 0:
     cdef Evas_Event_Cb cb
     e = canvas.obj
     if e != NULL:
-        for i, lst in enumerate(canvas._callbacks):
+        for i, lst in enumerate(canvas._event_callbacks):
             if lst is not None:
                 cb = evas_canvas_event_callbacks[i]
                 evas_event_callback_del(e, i, cb)
@@ -40,12 +40,12 @@ cdef _canvas_add_callback_to_list(Canvas canvas, int type, func, args, kargs):
         raise ValueError("Invalid callback type")
 
     r = (func, args, kargs)
-    lst = canvas._callbacks[type]
+    lst = canvas._event_callbacks[type]
     if lst is not None:
         lst.append(r)
         return False
     else:
-        canvas._callbacks[type] = [r]
+        canvas._event_callbacks[type] = [r]
         return True
 
 
@@ -53,7 +53,7 @@ cdef _canvas_del_callback_from_list(Canvas canvas, int type, func):
     if type < 0 or type >= evas_canvas_event_callbacks_len:
         raise ValueError("Invalid callback type")
 
-    lst = canvas._callbacks[type]
+    lst = canvas._event_callbacks[type]
     if not lst:
         raise ValueError("Callback %s was not registered with type %d" %
                          (func, type))
@@ -68,7 +68,7 @@ cdef _canvas_del_callback_from_list(Canvas canvas, int type, func):
 
     lst.pop(i)
     if len(lst) == 0:
-        canvas._callbacks[type] = None
+        canvas._event_callbacks[type] = None
         return True
     else:
         return False
@@ -94,7 +94,7 @@ cdef class Canvas(Eo):
 
     """
     def __cinit__(self, *a, **ka):
-        self._callbacks = [None] * evas_canvas_event_callbacks_len
+        self._event_callbacks = [None] * evas_canvas_event_callbacks_len
 
     def __init__(self, method=None, size=None, viewport=None):
         self._set_obj(evas_new())
@@ -109,7 +109,7 @@ cdef class Canvas(Eo):
     def __dealloc__(self):
         if self.obj != NULL:
             _canvas_unregister_callbacks(self)
-        self._callbacks = None
+        self._event_callbacks = None
 
     def __str__(self):
         return ("%s Canvas(size=%s, method=%r)") % (Eo.__repr__(self),
