@@ -23,6 +23,8 @@ FILL_HORIZ = EVAS_HINT_FILL, 0.5
 _from = None
 _to = None
 
+# Initialize efreet so that elm_map can find a proper path for its cache dir
+elementary.need_efreet()
 
 def cb_btn_goto(bt, m):
     m.zoom = 12

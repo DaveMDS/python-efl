@@ -11,30 +11,8 @@ from efl.elementary.box import Box
 from efl.elementary.button import Button
 from efl.elementary.check import Check
 from efl.elementary.ctxpopup import Ctxpopup
-# from efl.elementary.entry import Entry
-# from efl.elementary.frame import Frame
-# from efl.elementary.grid import Grid
-# from efl.elementary.hover import Hover
-# from efl.elementary.hoversel import Hoversel
-# from efl.elementary.label import Label
-# from efl.elementary.layout import Layout
-# from efl.elementary.list import List
 from efl.elementary.icon import Icon
-# from efl.elementary.index import Index
-# from efl.elementary.innerwindow import InnerWindow
-# from efl.elementary.image import Image
 from efl.elementary.map import Map, MapOverlayClass, ELM_MAP_OVERLAY_TYPE_CLASS
-# from efl.elementary.fileselector import Fileselector
-# from efl.elementary.fileselector_button import FileselectorButton
-# from efl.elementary.fileselector_entry import FileselectorEntry
-# from efl.elementary.flip import Flip
-# from efl.elementary.gengrid import Gengrid, GengridItemClass
-# from efl.elementary.genlist import Genlist, GenlistItem, GenlistItemClass
-# from efl.elementary.radio import Radio
-# from efl.elementary.separator import Separator
-# from efl.elementary.slider import Slider
-# from efl.elementary.table import Table
-# from efl.elementary.flipselector import FlipSelector
 
 EXPAND_BOTH = EVAS_HINT_EXPAND, EVAS_HINT_EXPAND
 EXPAND_HORIZ = EVAS_HINT_EXPAND, 0.0
@@ -43,6 +21,9 @@ FILL_HORIZ = EVAS_HINT_FILL, 0.5
 
 script_path = os.path.dirname(os.path.abspath(__file__))
 img_path = os.path.join(script_path, "images")
+
+# Initialize efreet so that elm_map can find a proper path for its cache dir
+elementary.need_efreet()
 
 def cb_btn_clear_overlays(bt, m):
     for ov in m.overlays:

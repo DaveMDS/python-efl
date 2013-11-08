@@ -16,6 +16,8 @@ EXPAND_HORIZ = EVAS_HINT_EXPAND, 0.0
 FILL_BOTH = EVAS_HINT_FILL, EVAS_HINT_FILL
 FILL_HORIZ = EVAS_HINT_FILL, 0.5
 
+elementary.need_efreet()
+
 def print_map_info(Map):
     print("---Map info---")
     # print("user_agent: %s" % (Map.user_agent))
