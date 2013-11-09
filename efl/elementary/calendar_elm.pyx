@@ -222,11 +222,11 @@ cdef class CalendarMark(object):
 
         cal = Calendar(win)
 
-        current_time = time.time() + 5 * 84600
+        current_time = time.time() + 5 * 86400
         selected_time = date.fromtimestamp(current_time)
         CalendarMark(cal, "holiday", selected_time, ELM_CALENDAR_ANNUALLY)
 
-        current_time = time.time() + 1 * 84600
+        current_time = time.time() + 1 * 86400
         selected_time = date.fromtimestamp(current_time)
         CalendarMark(cal, "checked", selected_time, ELM_CALENDAR_UNIQUE)
 
