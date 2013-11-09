@@ -20,10 +20,6 @@ CHANGES FROM 1.7 to 1.8
 * ecore.file.Download => efl.ecore.FileDownload
 * edje.edit.EdjeEdit => efl.edje_edit.EdjeEdit
 * Emotion(module_filename="xxx") => Emotion(module_name="xxx")
-* elementary.need_e_dbus => elementary.need_edbus
-* elm.domain_translatable_text_part_set => elm.domain_translatable_part_text_set
-* elm.Scroller.custom_widget_base_theme_set =>  elm.Layout.theme_set             TODO is this right?
-* elm.notify.orient_set/get/prop removed  =>  align_set (TODO)
 * elm.ObjectItem.data changed to a dict (previously held args & kwargs)
 
 * Many _set functions that would previously return status now instead raise
@@ -65,3 +61,11 @@ CHANGES FROM 1.7 to 1.8
    - python-evas/evas/decorators.py
    - python-evas/evas/debug.py
    - python-evas old hack to rotate objects
+
+Deprecated in 1.8
+-----------------
+
+* elm.Scroller.custom_widget_base_theme_set =>  elm.Layout.theme_set
+* elm.notify.orient_set/get/prop removed  =>  align
+* elementary.need_e_dbus => elementary.need_edbus
+* elm.domain_translatable_text_part_set => elm.domain_translatable_part_text_set

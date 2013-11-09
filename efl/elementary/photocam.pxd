@@ -26,7 +26,5 @@ cdef extern from "Elementary.h":
     void                     elm_photocam_paused_set(Evas_Object *obj, Eina_Bool paused)
     Eina_Bool                elm_photocam_paused_get(Evas_Object *obj)
     Evas_Object             *elm_photocam_internal_image_get(Evas_Object *obj)
-    void                     elm_photocam_bounce_set(Evas_Object *obj, Eina_Bool h_bounce, Eina_Bool v_bounce)
-    void                     elm_photocam_bounce_get(Evas_Object *obj, Eina_Bool *h_bounce, Eina_Bool *v_bounce)
     void                     elm_photocam_gesture_enabled_set(Evas_Object *obj, Eina_Bool gesture)
     Eina_Bool                elm_photocam_gesture_enabled_get(Evas_Object *obj)

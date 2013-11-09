@@ -41,48 +41,6 @@ Default content parts of the notify widget that you can use are:
 Enumerations
 ------------
 
-.. _Elm_Notify_Orient:
-
-Notify orientation types
-========================
-
-.. data:: ELM_NOTIFY_ORIENT_TOP
-
-    Top orientation
-
-.. data:: ELM_NOTIFY_ORIENT_CENTER
-
-    Center orientation
-
-.. data:: ELM_NOTIFY_ORIENT_BOTTOM
-
-    Bottom orientation
-
-.. data:: ELM_NOTIFY_ORIENT_LEFT
-
-    Left orientation
-
-.. data:: ELM_NOTIFY_ORIENT_RIGHT
-
-    Right orientation
-
-.. data:: ELM_NOTIFY_ORIENT_TOP_LEFT
-
-    Top left orientation
-
-.. data:: ELM_NOTIFY_ORIENT_TOP_RIGHT
-
-    Top right orientation
-
-.. data:: ELM_NOTIFY_ORIENT_BOTTOM_LEFT
-
-    Bottom left orientation
-
-.. data:: ELM_NOTIFY_ORIENT_BOTTOM_RIGHT
-
-    Bottom right orientation
-
-
 .. _ELM_NOTIFY_ALIGN_FILL:
 
 ELM_NOTIFY_ALIGN_FILL
@@ -102,6 +60,7 @@ from efl.eo cimport _object_mapping_register, object_from_instance
 from efl.utils.conversions cimport _ctouni
 from efl.evas cimport Object as evasObject
 from object cimport Object
+from efl.utils.deprecated cimport DEPRECATED
 
 cimport enums
 
@@ -149,23 +108,6 @@ cdef class Notify(Object):
         elm_notify_parent_set(self.obj, parent.obj if parent is not None else NULL)
     def parent_get(self):
         return object_from_instance(elm_notify_parent_get(self.obj))
-
-    property orient:
-        """The position in which the notify will appear in its parent.
-
-        :type: :ref:`Notify orientation <Elm_Notify_Orient>`
-
-        """
-        def __get__(self):
-            return elm_notify_orient_get(self.obj)
-
-        def __set__(self, orient):
-            elm_notify_orient_set(self.obj, orient)
-
-    def orient_set(self, int orient):
-        elm_notify_orient_set(self.obj, orient)
-    def orient_get(self):
-        return elm_notify_orient_get(self.obj)
 
     property timeout:
         """The time interval after which the notify window is going to be
@@ -263,6 +205,21 @@ cdef class Notify(Object):
 
     def callback_block_clicked_del(self, func):
         self._callback_del("block,clicked", func)
+
+
+    property orient:
+        def __get__(self):
+            return self.orient_get()
+
+        def __set__(self, orient):
+            self.orient_set(orient)
+
+    @DEPRECATED("1.8", "Use align instead.")
+    def orient_set(self, int orient):
+        elm_notify_orient_set(self.obj, orient)
+    @DEPRECATED("1.8", "Use align instead.")
+    def orient_get(self):
+        return elm_notify_orient_get(self.obj)
 
 
 _object_mapping_register("Elm_Notify", Notify)

@@ -9,10 +9,6 @@ import argparse
 c_exclude_list = [
     "elm_app", # These are only useful for C apps
     "elm_widget", # Custom widgets, probably not feasible for us to provide
-    #"elm_prefs", # Intended for configuration dialogs
-    #"elm_route", # Useless API?
-    #"elm_glview", # Is there an OpenGL API for Python that can be used with this?
-    #"evas_gl_", # ditto
     "elm_quicklaunch", # Is quicklaunch relevant for us?
     "emotion_object_extension_may_play_fast_get", # this optimization does not work from py
     "edje_edit_", # Disabled
@@ -24,6 +20,9 @@ c_exclude_list = [
     "ecore_timer_dump", # this is just usefull for debugging
     "ecore_throttle_", # I don't know what this is :/  - davemds
     "elm_check_state_pointer_set", # Cannot be implemented in Python
+    "elm_access", # Access disabled until 1.9
+    "elm_config_access", # Access disabled until 1.9
+    "elm_object_item_access", # Access disabled until 1.9
 ]
 c_excludes = "|".join(c_exclude_list)
 
@@ -33,6 +32,14 @@ py_exclude_list = [
     "elm_object_item_text", # macro
     "elm_object_content", # macro
     "elm_object_text", # macro
+    "elm_layout_end", # macros
+    "elm_layout_icon", # macros
+    "elm_object_domain_translatable_text", # macros
+    "elm_object_tooltip_translatable_text", # macros
+    "elm_object_translatable_text", # macros
+    "elm_access", # Access disabled until 1.9
+    "elm_config_access", # Access disabled until 1.9
+    "elm_object_item_access", # Access disabled until 1.9
 ]
 py_excludes = "|".join(py_exclude_list)
 
@@ -74,7 +81,7 @@ def pkg_config(require, min_vers=None):
 
 def get_capis(inc_path, prefix):
     capis = []
-    capi_pattern = re.compile("^ *EAPI [A-Za-z_ *\n]+ +\**\n?(?!" + c_excludes + ")(" + prefix + "_\w+) *\(", flags = re.S|re.M)
+    capi_pattern = re.compile("^ *EAPI [A-Za-z_ *\n]+ *\**\n?(?!" + c_excludes + ")(" + prefix + "_\w+) *\(", flags = re.S|re.M)
 
     for path, dirs, files in os.walk(inc_path):
         for f in files:
