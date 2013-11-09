@@ -25,28 +25,53 @@ from efl.c_eo cimport Eo as cEo, eo_init, eo_shutdown, eo_del, eo_do, \
     eo_class_name_get, eo_class_get, eo_base_data_set, eo_base_data_get, \
     eo_base_data_del, eo_event_callback_add, eo_event_callback_del, \
     Eo_Event_Description, const_Eo_Event_Description, \
-    eo_parent_get, EO_EV_DEL
+    eo_parent_get, EO_EV_DEL, EO_BASE_BASE_ID, eo_base_class_get, \
+    eo_event_freeze, eo_event_thaw, eo_event_freeze_get, \
+    eo_event_global_freeze, eo_event_global_thaw, eo_event_global_freeze_get, \
+    const_Eo, eo_parent_set
+
+cimport efl.eo.enums as enums
 
 from efl.utils.logger cimport add_logger
 
 # Set this to public and export it in pxd if you need it in another module
 cdef int PY_EFL_EO_LOG_DOMAIN = add_logger(__name__).eina_log_domain
 
+cdef int PY_REFCOUNT(object o):
+    cdef PyObject *obj = <PyObject *>o
+    return obj.ob_refcnt
+
+######################################################################
 
 def init():
     EINA_LOG_DOM_INFO(PY_EFL_EO_LOG_DOMAIN, "Initializing efl.eo", NULL)
     return eo_init()
 
 def shutdown():
+    EINA_LOG_DOM_INFO(PY_EFL_EO_LOG_DOMAIN, "Shutting down efl.eo", NULL)
     return eo_shutdown()
 
 init()
 
+def event_global_freeze_get():
+    cdef int fcount
+    eo_do(
+        <const_Eo *>eo_base_class_get(),
+        eo_event_global_freeze_get(&fcount),
+        )
+    return fcount
 
-cdef int PY_REFCOUNT(object o):
-    cdef PyObject *obj = <PyObject *>o
-    return obj.ob_refcnt
+def event_global_freeze():
+    eo_do(
+        <const_Eo *>eo_base_class_get(),
+        eo_event_global_freeze(),
+        )
 
+def event_global_thaw():
+    eo_do(
+        <const_Eo *>eo_base_class_get(),
+        eo_event_global_thaw()
+        )
 
 ######################################################################
 
@@ -68,7 +93,8 @@ cdef void _object_mapping_register(char *name, object cls) except *:
     cdef object cls_name = cls.__name__
     if isinstance(cls_name, unicode): cls_name = PyUnicode_AsUTF8String(cls_name)
 
-    EINA_LOG_DOM_DBG(PY_EFL_EO_LOG_DOMAIN, "REGISTER: %s => %s", <char *>name, <char *>cls_name)
+    EINA_LOG_DOM_DBG(PY_EFL_EO_LOG_DOMAIN,
+        "REGISTER: %s => %s", <char *>name, <char *>cls_name)
     eina_hash_add(object_mapping, name, <PyObject *>cls)
 
 
@@ -81,7 +107,7 @@ cdef object object_from_instance(cEo *obj):
     cdef:
         void *data
         Eo o
-        const_char *cls_name
+        const_char *cls_name = eo_class_name_get(eo_class_get(obj))
         type cls
         void *cls_ret
 
@@ -90,27 +116,33 @@ cdef object object_from_instance(cEo *obj):
 
     eo_do(obj, eo_base_data_get("python-eo", &data))
     if data != NULL:
-        #print("Found: %s" % Eo.__repr__(<Eo>data))
+        EINA_LOG_DOM_DBG(PY_EFL_EO_LOG_DOMAIN,
+            "Returning a Python object instance for Eo of type %s.", cls_name)
         return <Eo>data
 
-    cls_name = eo_class_name_get(eo_class_get(obj))
     if cls_name == NULL:
-        raise ValueError("Eo object at %#x does not have a type!" % <unsigned long>obj)
-    #print("Class name: %s" % cls_name)
+        raise ValueError(
+            "Eo object at %#x does not have a type!" % <unsigned long>obj)
 
     cls_ret = eina_hash_find(object_mapping, cls_name)
 
     if cls_ret == NULL:
-        raise ValueError("Eo object at %#x of type %s does not have a mapping!" %
-                         (<unsigned long>obj, cls_name))
+        # TODO: Add here a last ditch effort to import the class from a module
+        raise ValueError(
+            "Eo object at %#x of type %s does not have a mapping!" % (
+                <unsigned long>obj, cls_name)
+            )
 
     cls = <type>cls_ret
 
     if cls is None:
-        raise ValueError("Mapping for Eo object at %#x, type %s, contains None!" %
-                         (<unsigned long>obj, cls_name))
+        raise ValueError(
+            "Mapping for Eo object at %#x, type %s, contains None!" % (
+                <unsigned long>obj, cls_name))
 
-    #print("MAPPING OBJECT:", cls_name, "=>", cls)
+    EINA_LOG_DOM_DBG(PY_EFL_EO_LOG_DOMAIN,
+        "Constructing a Python object from Eo of type %s.", cls_name)
+
     o = cls.__new__(cls)
     o._set_obj(obj)
     return o
@@ -138,28 +170,28 @@ cdef void _register_decorated_callbacks(object obj):
 ######################################################################
 
 
-# TODO: Move these to enums.pxd
-cdef:
-    int C_EO_CALLBACK_STOP = 0
-    int C_EO_CALLBACK_CONTINUE = 1
-
-EO_CALLBACK_STOP = C_EO_CALLBACK_STOP
-EO_CALLBACK_CONTINUE = C_EO_CALLBACK_CONTINUE
+EO_CALLBACK_STOP = enums.EO_CALLBACK_STOP
+EO_CALLBACK_CONTINUE = enums.EO_CALLBACK_CONTINUE
 
 
 ######################################################################
 
 
-cdef Eina_Bool _eo_event_del_cb(void *data, cEo *obj, const_Eo_Event_Description *desc, void *event_info) with gil:
-    cdef Eo self = <Eo>data
+cdef Eina_Bool _eo_event_del_cb(void *data, cEo *obj,
+    const_Eo_Event_Description *desc, void *event_info) with gil:
+    cdef:
+        Eo self = <Eo>data
+        const_char *cls_name = eo_class_name_get(eo_class_get(obj))
 
-#     print("DEL CB: %s" % Eo.__repr__(self))
-    eo_do(self.obj, eo_event_callback_del(EO_EV_DEL, _eo_event_del_cb, <const_void *>self))
+    EINA_LOG_DOM_DBG(PY_EFL_EO_LOG_DOMAIN, "Deleting Eo: %s", cls_name)
+
+    eo_do(self.obj,
+        eo_event_callback_del(EO_EV_DEL, _eo_event_del_cb, <const_void *>self))
     eo_do(self.obj, eo_base_data_del("python-eo"))
     self.obj = NULL
     Py_DECREF(self)
 
-    return C_EO_CALLBACK_STOP
+    return enums.EO_CALLBACK_STOP
 
 
 cdef class Eo(object):
@@ -180,11 +212,14 @@ cdef class Eo(object):
             raise TypeError("Must not instantiate Eo, but subclasses")
 
     def __repr__(self):
+        cdef cEo *parent = NULL
+        if self.obj != NULL:
+            eo_do(self.obj, eo_parent_get(&parent))
         return ("<%s object (Eo) at %#x (obj=%#x, parent=%#x, refcount=%d)>") % (
             type(self).__name__,
             <unsigned long><void *>self,
             <unsigned long>self.obj,
-            <unsigned long><void *>eo_parent_get(&self.obj) if self.obj != NULL else 0,
+            <unsigned long>parent,
             PY_REFCOUNT(self))
 
     def __nonzero__(self):
@@ -196,7 +231,8 @@ cdef class Eo(object):
 
         self.obj = obj
         eo_do(self.obj, eo_base_data_set("python-eo", <void *>self, NULL))
-        eo_do(self.obj, eo_event_callback_add(EO_EV_DEL, _eo_event_del_cb, <const_void *>self))
+        eo_do(self.obj,
+            eo_event_callback_add(EO_EV_DEL, _eo_event_del_cb, <const_void *>self))
         Py_INCREF(self)
 
     cdef void _set_properties_from_keyword_args(self, dict kwargs) except *:
@@ -205,7 +241,28 @@ cdef class Eo(object):
             assert k in cls_list, "%s has no attribute with the name %s." % (self, k)
             setattr(self, k, v)
 
+    def delete(self):
+        eo_del(self.obj)
+
     def is_deleted(self):
         "Check if the object has been deleted thus leaving the object shallow"
         return bool(self.obj == NULL)
 
+    def parent_set(self, Eo parent):
+        eo_do(self.obj, eo_parent_set(parent.obj))
+
+    def parent_get(self):
+        cdef cEo *parent = NULL
+        eo_do(self.obj, eo_parent_get(&parent))
+        return object_from_instance(parent)
+
+    def event_freeze(self):
+        eo_do(self.obj, eo_event_freeze())
+
+    def event_thaw(self):
+        eo_do(self.obj, eo_event_thaw())
+
+    def event_freeze_get(self):
+        cdef int fcount
+        eo_do(self.obj, eo_event_freeze_get(&fcount))
+        return fcount

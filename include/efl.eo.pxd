@@ -29,7 +29,6 @@ cdef:
 
             void _set_obj(self, cEo *obj) except *
             void _set_properties_from_keyword_args(self, dict kwargs) except *
-            #void *_unset_obj(self)
             #_add_obj(self, Eo_Class *klass, cEo *parent)
 
 

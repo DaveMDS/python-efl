@@ -37,6 +37,10 @@ cdef extern from "Eo.h":
 
     ctypedef Eo_Event_Description const_Eo_Event_Description "const Eo_Event_Description"
 
+    ctypedef unsigned int Eo_Op
+
+    ctypedef Eo_Op EO_BASE_BASE_ID
+
     ####################################################################
     # Eo Events
     #
@@ -62,18 +66,32 @@ cdef extern from "Eo.h":
     int eo_ref_get(const_Eo *obj)
     void eo_del(const_Eo *obj)
 
-    void eo_wref_add(Eo *obj)
+    Eo_Op eo_wref_add(Eo *obj)
 
     Eina_Bool eo_do(Eo *obj, ...)
-    void eo_base_data_set(const_char *key, const_void *data, eo_base_data_free_func free_func)
-    void eo_base_data_get(const_char *key, void **data)
-    void eo_base_data_del(const_char *key)
+    Eina_Bool eo_class_do(Eo_Class *cls, ...)
+    const_Eo_Class *eo_base_class_get()
+
+    Eo_Op eo_base_data_set(const_char *key, const_void *data, eo_base_data_free_func free_func)
+    Eo_Op eo_base_data_get(const_char *key, void **data)
+    Eo_Op eo_base_data_del(const_char *key)
 
     const_Eo_Class *eo_class_get(const_Eo *obj)
     const_char *eo_class_name_get(const_Eo_Class *klass)
 
-    Eo *eo_parent_get(Eo **obj)
+    Eo_Op eo_parent_set(Eo *parent)
+    Eo_Op eo_parent_get(Eo **parent)
 
-    void eo_event_callback_add(const_Eo_Event_Description *desc, Eo_Event_Cb cb, const_void *data)
-    void eo_event_callback_del(const_Eo_Event_Description *desc, Eo_Event_Cb cb, const_void *data)
+    Eo_Op eo_event_callback_forwarder_add(const_Eo_Event_Description *desc, Eo *new_obj)
+    Eo_Op eo_event_callback_forwarder_del(const_Eo_Event_Description *desc, Eo *new_obj)
 
+    Eo_Op eo_event_freeze()
+    Eo_Op eo_event_thaw()
+    Eo_Op eo_event_freeze_get(int *fcount)
+
+    Eo_Op eo_event_global_freeze()
+    Eo_Op eo_event_global_thaw()
+    Eo_Op eo_event_global_freeze_get(int *fcount)
+
+    Eo_Op eo_event_callback_add(const_Eo_Event_Description *desc, Eo_Event_Cb cb, const_void *data)
+    Eo_Op eo_event_callback_del(const_Eo_Event_Description *desc, Eo_Event_Cb cb, const_void *data)
