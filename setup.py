@@ -190,6 +190,7 @@ if set(("build", "build_ext", "install", "bdist", "sdist")) & set(sys.argv):
         Extension("elementary.gengrid", ["efl/elementary/gengrid"+module_suffix]),
         Extension("elementary.genlist", ["efl/elementary/genlist"+module_suffix]),
         Extension("elementary.gesture_layer", ["efl/elementary/gesture_layer"+module_suffix]),
+        Extension("elementary.glview", ["efl/elementary/glview"+module_suffix]),
         Extension("elementary.grid", ["efl/elementary/grid"+module_suffix]),
         Extension("elementary.hover", ["efl/elementary/hover"+module_suffix]),
         Extension("elementary.hoversel", ["efl/elementary/hoversel"+module_suffix]),

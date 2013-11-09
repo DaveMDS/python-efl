@@ -125,6 +125,7 @@ Reference
    module-gengrid
    module-genlist
    module-gesture_layer
+   module-glview
    module-grid
    module-hover
    module-hoversel

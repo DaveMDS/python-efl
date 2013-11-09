@@ -184,6 +184,21 @@ cdef extern from "Elementary.h":
         ELM_GESTURE_ROTATE
         ELM_GESTURE_LAST
 
+    ctypedef enum Elm_GLView_Mode:
+        ELM_GLVIEW_NONE
+        ELM_GLVIEW_ALPHA
+        ELM_GLVIEW_DEPTH
+        ELM_GLVIEW_STENCIL
+        ELM_GLVIEW_DIRECT
+
+    ctypedef enum Elm_GLView_Resize_Policy:
+        ELM_GLVIEW_RESIZE_POLICY_RECREATE
+        ELM_GLVIEW_RESIZE_POLICY_SCALE
+
+    ctypedef enum Elm_GLView_Render_Policy:
+        ELM_GLVIEW_RENDER_POLICY_ON_DEMAND
+        ELM_GLVIEW_RENDER_POLICY_ALWAYS
+
     ctypedef enum Elm_Hover_Axis:
         ELM_HOVER_AXIS_NONE
         ELM_HOVER_AXIS_HORIZONTAL

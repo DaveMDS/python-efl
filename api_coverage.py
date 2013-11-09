@@ -9,13 +9,13 @@ import argparse
 c_exclude_list = [
     "elm_app", # These are only useful for C apps
     "elm_widget", # Custom widgets, probably not feasible for us to provide
-    "elm_prefs", # Intended for configuration dialogs
-    "elm_route", # Useless API?
-    "elm_glview", # Is there an OpenGL API for Python that can be used with this?
-    "evas_gl_", # ditto
+    #"elm_prefs", # Intended for configuration dialogs
+    #"elm_route", # Useless API?
+    #"elm_glview", # Is there an OpenGL API for Python that can be used with this?
+    #"evas_gl_", # ditto
     "elm_quicklaunch", # Is quicklaunch relevant for us?
     "emotion_object_extension_may_play_fast_get", # this optimization does not work from py
-    "edje_edit_", # edje edit is not there for users to use
+    "edje_edit_", # Disabled
     "ecore_thread_", # python has his own thread abstraction library
     "ecore_pipe_", # python has his own pipe abstraction library
     "ecore_getopt_", # python has his own getopt implementation
