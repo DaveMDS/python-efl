@@ -8,6 +8,8 @@ from distutils.extension import Extension
 from distutils.version import StrictVersion
 
 
+script_path = os.path.dirname(os.path.abspath(__file__))
+
 # Sphinx
 try:
     from sphinx.setup_command import BuildDoc
@@ -38,7 +40,7 @@ def pkg_config(name, require, min_vers=None):
 
 
 # use cython or pre-generated c files
-if os.path.exists(os.path.join(os.getcwd(), "efl", "eo", "efl.eo.pyx")):
+if os.path.exists(os.path.join(script_path, "efl", "eo", "efl.eo.pyx")):
     module_suffix = ".pyx"
     min_ver = "0.17.0"
     try:
@@ -52,7 +54,8 @@ if os.path.exists(os.path.join(os.getcwd(), "efl", "eo", "efl.eo.pyx")):
         Cython.Compiler.Options.docstrings = True # Set to False to disable docstrings
 
     except (ImportError, AssertionError):
-        raise SystemExit("Requires Cython >= %s (http://cython.org/)" % min_ver)
+        print("Requires Cython >= %s (http://cython.org/)" % min_ver)
+        raise
 else:
     module_suffix = ".c"
     from distutils.command.build_ext import build_ext
