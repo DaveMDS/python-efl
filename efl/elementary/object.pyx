@@ -602,6 +602,10 @@ cdef class Object(evasObject):
         def __get__(self):
             return object_from_instance(elm_object_top_widget_get(self.obj))
 
+    def top_widget_get(self):
+        return object_from_instance(elm_object_top_widget_get(self.obj))
+
+    # FIXME: Now that we have Eo, is this useful anymore?
     property widget_type:
         """The string that represents this Elementary widget.
         This is a readonly property.
@@ -616,12 +620,8 @@ cdef class Object(evasObject):
         :type: string
 
         """
-        # FIXME: Now that we have Eo, is this useful anymore?
         def __get__(self):
             return elm_object_widget_type_get(self.obj)
-
-    def top_widget_get(self):
-        return object_from_instance(elm_object_top_widget_get(self.obj))
 
     def signal_emit(self, emission, source):
         """signal_emit(unicode emission, unicode source)
@@ -720,6 +720,9 @@ cdef class Object(evasObject):
             <const_char *>source if source is not None else NULL,
             signal_callback)
 
+    #
+    # FIXME: This isn't done as it's supposed to.
+    #
     # NOTE: name clash with evas event_callback_*
     def elm_event_callback_add(self, func, *args, **kargs):
         """elm_event_callback_add(func, *args, **kargs)

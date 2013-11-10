@@ -25,11 +25,11 @@ cdef class EventPoint:
 
     def __str__(self):
         self._check_validity()
-        return "%s(%d, %d)" % (self.__class__.__name__, self.obj.x, self.obj.y)
+        return "%s(%d, %d)" % (type(self).__name__, self.obj.x, self.obj.y)
 
-    cdef void _check_validity(self) except *:
-        if self.obj == NULL:
-            raise ValueError("EventPoint object is invalid.")
+    cdef int _check_validity(self) except 0:
+        assert self.obj != NULL, "EventPoint object is invalid."
+        return 1
 
     property x:
         def __get__(self):
@@ -71,9 +71,9 @@ cdef class EventCoordPoint:
         self._check_validity()
         return "%s(%d, %d)" % (self.__class__.__name__, self.obj.x, self.obj.y)
 
-    cdef void _check_validity(self) except *:
-        if self.obj == NULL:
-            raise ValueError("EventPoint object is invalid.")
+    cdef int _check_validity(self) except 0:
+        assert self.obj != NULL, "EventCoordPoint object is invalid."
+        return 1
 
     property x:
         def __get__(self):
@@ -117,9 +117,9 @@ cdef class EventPrecisionPoint:
                (self.__class__.__name__, self.obj.x, self.obj.y,
                 self.obj.xsub, self.obj.ysub)
 
-    cdef void _check_validity(self) except *:
-        if self.obj == NULL:
-            raise ValueError("EventPoint object is invalid.")
+    cdef int _check_validity(self) except 0:
+        assert self.obj != NULL, "EventPoint object is invalid."
+        return 1
 
     property x:
         def __get__(self):
@@ -214,9 +214,9 @@ cdef class EventMouseIn:
         self.obj = NULL
         self.position._unset_objs()
 
-    cdef void _check_validity(self) except *:
-        if self.obj == NULL:
-            raise ValueError("EventMouseIn object is invalid.")
+    cdef int _check_validity(self) except 0:
+        assert self.obj != NULL, "EventMouseIn object is invalid."
+        return 1
 
     def __str__(self):
         self._check_validity()
@@ -260,9 +260,9 @@ cdef class EventMouseOut:
         self.obj = NULL
         self.position._unset_objs()
 
-    cdef void _check_validity(self) except *:
-        if self.obj == NULL:
-            raise ValueError("EventMouseOut object is invalid.")
+    cdef int _check_validity(self) except 0:
+        assert self.obj != NULL, "EventMouseOut object is invalid."
+        return 1
 
     def __str__(self):
         self._check_validity()
@@ -306,9 +306,9 @@ cdef class EventMouseDown:
         self.obj = NULL
         self.position._unset_objs()
 
-    cdef void _check_validity(self) except *:
-        if self.obj == NULL:
-            raise ValueError("EventMouseDown object is invalid.")
+    cdef int _check_validity(self) except 0:
+        assert self.obj != NULL, "EventMouseDown object is invalid."
+        return 1
 
     def __str__(self):
         self._check_validity()
@@ -361,9 +361,9 @@ cdef class EventMouseUp:
         self.obj = NULL
         self.position._unset_objs()
 
-    cdef void _check_validity(self) except *:
-        if self.obj == NULL:
-            raise ValueError("EventMouseUp object is invalid.")
+    cdef int _check_validity(self) except 0:
+        assert self.obj != NULL, "EventMouseUp object is invalid."
+        return 1
 
     def __str__(self):
         self._check_validity()
@@ -420,9 +420,9 @@ cdef class EventMouseMove:
         self.position._unset_objs()
         self.prev_position._unset_objs()
 
-    cdef void _check_validity(self) except *:
-        if self.obj == NULL:
-            raise ValueError("EventMouseMove object is invalid.")
+    cdef int _check_validity(self) except 0:
+        assert self.obj != NULL, "EventMouseMove object is invalid."
+        return 1
 
     def __str__(self):
         self._check_validity()
@@ -469,9 +469,8 @@ cdef class EventMultiDown:
         self.obj = NULL
         self.position._unset_objs()
 
-    cdef void _check_validity(self) except *:
-        if self.obj == NULL:
-            raise ValueError("EventMultiDown object is invalid.")
+    cdef int _check_validity(self) except 0:
+        assert self.obj != NULL, "EventMultiDown object is invalid."
 
     def __str__(self):
         self._check_validity()
@@ -553,9 +552,9 @@ cdef class EventMultiUp:
         self.obj = NULL
         self.position._unset_objs()
 
-    cdef void _check_validity(self) except *:
-        if self.obj == NULL:
-            raise ValueError("EventMultiUp object is invalid.")
+    cdef int _check_validity(self) except 0:
+        assert self.obj != NULL, "EventMultiUp object is invalid."
+        return 1
 
     def __str__(self):
         self._check_validity()
@@ -637,9 +636,9 @@ cdef class EventMultiMove:
         self.obj = NULL
         self.position._unset_objs()
 
-    cdef void _check_validity(self) except *:
-        if self.obj == NULL:
-            raise ValueError("EventMultiMove object is invalid.")
+    cdef int _check_validity(self) except 0:
+        assert self.obj != NULL, "EventMultiMove object is invalid."
+        return 1
 
     def __str__(self):
         self._check_validity()
@@ -707,9 +706,9 @@ cdef class EventMouseWheel:
         self.obj = NULL
         self.position._unset_objs()
 
-    cdef void _check_validity(self) except *:
-        if self.obj == NULL:
-            raise ValueError("EventMouseWheel object is invalid.")
+    cdef int _check_validity(self) except 0:
+        assert self.obj != NULL, "EventMouseWheel object is invalid."
+        return 1
 
     def __str__(self):
         self._check_validity()
@@ -755,9 +754,9 @@ cdef class EventKeyDown:
     cdef void _unset_obj(self):
         self.obj = NULL
 
-    cdef void _check_validity(self) except *:
-        if self.obj == NULL:
-            raise ValueError("EventKeyDown object is invalid.")
+    cdef int _check_validity(self) except 0:
+        assert self.obj != NULL, "EventKeyDown object is invalid."
+        return 1
 
     def __str__(self):
         self._check_validity()
@@ -813,9 +812,9 @@ cdef class EventKeyUp:
     cdef void _unset_obj(self):
         self.obj = NULL
 
-    cdef void _check_validity(self) except *:
-        if self.obj == NULL:
-            raise ValueError("EventKeyUp object is invalid.")
+    cdef int _check_validity(self) except 0:
+        assert self.obj != NULL, "EventKeyUp object is invalid."
+        return 1
 
     def __str__(self):
         self._check_validity()
@@ -870,9 +869,9 @@ cdef class EventHold:
     cdef void _unset_obj(self):
         self.obj = NULL
 
-    cdef void _check_validity(self) except *:
-        if self.obj == NULL:
-            raise ValueError("EventHold object is invalid.")
+    cdef int _check_validity(self) except 0:
+        assert self.obj != NULL, "EventHold object is invalid."
+        return 1
 
     def __str__(self):
         self._check_validity()

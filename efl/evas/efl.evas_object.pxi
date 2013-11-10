@@ -192,11 +192,13 @@ cdef class Object(Eo):
             r, g, b, a,
             layer, clipped, visible)
 
-    cdef void _set_obj(self, Evas_Object *obj) except *:
+    cdef int _set_obj(self, Evas_Object *obj) except 0:
         Eo._set_obj(self, obj)
         evas_object_event_callback_add(obj, enums.EVAS_CALLBACK_FREE,
                                        obj_free_cb, <void *>self)
         Py_INCREF(self)
+
+        return 1
 
     def _set_common_params(self, size=None, pos=None, geometry=None,
                            color=None, name=None):

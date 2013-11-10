@@ -27,8 +27,8 @@ cdef:
             cEo *obj
             readonly dict data
 
-            void _set_obj(self, cEo *obj) except *
-            void _set_properties_from_keyword_args(self, dict kwargs) except *
+            int _set_obj(self, cEo *obj) except 0
+            int _set_properties_from_keyword_args(self, dict kwargs) except 0
             #_add_obj(self, Eo_Class *klass, cEo *parent)
 
 

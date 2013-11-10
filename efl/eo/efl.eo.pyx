@@ -225,7 +225,7 @@ cdef class Eo(object):
     def __nonzero__(self):
         return 1 if self.obj != NULL else 0
 
-    cdef void _set_obj(self, cEo *obj) except *:
+    cdef int _set_obj(self, cEo *obj) except 0:
         assert self.obj == NULL, "Object must be clean"
         assert obj != NULL, "Cannot set a NULL object"
 
@@ -235,11 +235,14 @@ cdef class Eo(object):
             eo_event_callback_add(EO_EV_DEL, _eo_event_del_cb, <const_void *>self))
         Py_INCREF(self)
 
-    cdef void _set_properties_from_keyword_args(self, dict kwargs) except *:
+        return 1
+
+    cdef int _set_properties_from_keyword_args(self, dict kwargs) except 0:
         cdef list cls_list = dir(self)
         for k, v in kwargs.items():
             assert k in cls_list, "%s has no attribute with the name %s." % (self, k)
             setattr(self, k, v)
+        return 1
 
     def delete(self):
         eo_del(self.obj)

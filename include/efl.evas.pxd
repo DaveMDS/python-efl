@@ -934,7 +934,7 @@ cdef class EventPoint:
 
     cdef void _set_obj(self, Evas_Point *obj)
     cdef void _unset_obj(self)
-    cdef void _check_validity(self) except *
+    cdef int _check_validity(self) except 0
 
 
 cdef class EventCoordPoint:
@@ -942,7 +942,7 @@ cdef class EventCoordPoint:
 
     cdef void _set_obj(self, Evas_Coord_Point *obj)
     cdef void _unset_obj(self)
-    cdef void _check_validity(self) except *
+    cdef int _check_validity(self) except 0
 
 
 cdef class EventPrecisionPoint:
@@ -950,7 +950,7 @@ cdef class EventPrecisionPoint:
 
     cdef void _set_obj(self, Evas_Coord_Precision_Point *obj)
     cdef void _unset_obj(self)
-    cdef void _check_validity(self) except *
+    cdef int _check_validity(self) except 0
 
 
 cdef class EventPosition:
@@ -975,7 +975,7 @@ cdef class EventMouseIn:
 
     cdef void _set_obj(self, void *ptr)
     cdef void _unset_obj(self)
-    cdef void _check_validity(self) except *
+    cdef int _check_validity(self) except 0
 
 
 cdef class EventMouseOut:
@@ -984,7 +984,7 @@ cdef class EventMouseOut:
 
     cdef void _set_obj(self, void *ptr)
     cdef void _unset_obj(self)
-    cdef void _check_validity(self) except *
+    cdef int _check_validity(self) except 0
 
 
 cdef class EventMouseDown:
@@ -993,7 +993,7 @@ cdef class EventMouseDown:
 
     cdef void _set_obj(self, void *ptr)
     cdef void _unset_obj(self)
-    cdef void _check_validity(self) except *
+    cdef int _check_validity(self) except 0
 
 
 cdef class EventMouseUp:
@@ -1002,7 +1002,7 @@ cdef class EventMouseUp:
 
     cdef void _set_obj(self, void *ptr)
     cdef void _unset_obj(self)
-    cdef void _check_validity(self) except *
+    cdef int _check_validity(self) except 0
 
 
 cdef class EventMouseMove:
@@ -1012,7 +1012,7 @@ cdef class EventMouseMove:
 
     cdef void _set_obj(self, void *ptr)
     cdef void _unset_obj(self)
-    cdef void _check_validity(self) except *
+    cdef int _check_validity(self) except 0
 
 
 cdef class EventMultiDown:
@@ -1021,7 +1021,7 @@ cdef class EventMultiDown:
 
     cdef void _set_obj(self, void *ptr)
     cdef void _unset_obj(self)
-    cdef void _check_validity(self) except *
+    cdef int _check_validity(self) except 0
 
 
 cdef class EventMultiUp:
@@ -1030,7 +1030,7 @@ cdef class EventMultiUp:
 
     cdef void _set_obj(self, void *ptr)
     cdef void _unset_obj(self)
-    cdef void _check_validity(self) except *
+    cdef int _check_validity(self) except 0
 
 
 cdef class EventMultiMove:
@@ -1039,7 +1039,7 @@ cdef class EventMultiMove:
 
     cdef void _set_obj(self, void *ptr)
     cdef void _unset_obj(self)
-    cdef void _check_validity(self) except *
+    cdef int _check_validity(self) except 0
 
 
 cdef class EventMouseWheel:
@@ -1048,7 +1048,7 @@ cdef class EventMouseWheel:
 
     cdef void _set_obj(self, void *ptr)
     cdef void _unset_obj(self)
-    cdef void _check_validity(self) except *
+    cdef int _check_validity(self) except 0
 
 
 cdef class EventKeyDown:
@@ -1056,7 +1056,7 @@ cdef class EventKeyDown:
 
     cdef void _set_obj(self, void *ptr)
     cdef void _unset_obj(self)
-    cdef void _check_validity(self) except *
+    cdef int _check_validity(self) except 0
 
 
 cdef class EventKeyUp:
@@ -1064,7 +1064,7 @@ cdef class EventKeyUp:
 
     cdef void _set_obj(self, void *ptr)
     cdef void _unset_obj(self)
-    cdef void _check_validity(self) except *
+    cdef int _check_validity(self) except 0
 
 
 cdef class EventHold:
@@ -1072,4 +1072,4 @@ cdef class EventHold:
 
     cdef void _set_obj(self, void *ptr)
     cdef void _unset_obj(self)
-    cdef void _check_validity(self) except *
+    cdef int _check_validity(self) except 0
