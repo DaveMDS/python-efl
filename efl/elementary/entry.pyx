@@ -264,7 +264,7 @@ Default text parts of the entry that you can use for are:
 Enumerations
 ------------
 
-.. _Elm_Autocapital_Type:
+.. _Elm_Entry_Autocapital_Type:
 
 Autocapitalization types
 ========================
@@ -286,7 +286,7 @@ Autocapitalization types
     Autocapitalize all letters
 
 
-.. _Elm_Cnp_Mode:
+.. _Elm_Entry_Cnp_Mode:
 
 Copy & paste modes
 ==================
@@ -304,7 +304,7 @@ Copy & paste modes
     Copy & paste text without markup tags
 
 
-.. _Elm_Input_Panel_Lang:
+.. _Elm_Entry_Input_Panel_Lang:
 
 Input panel language sort order
 ===============================
@@ -318,7 +318,7 @@ Input panel language sort order
     Alphabetic
 
 
-.. _Elm_Input_Panel_Layout:
+.. _Elm_Entry_Input_Panel_Layout:
 
 Input panel layouts
 ===================
@@ -372,7 +372,7 @@ Input panel layouts
     Like normal, but no auto-correct, no auto-capitalization etc.
 
 
-.. _Elm_Input_Panel_Return_Key_Type:
+.. _Elm_Entry_Input_Panel_Return_Key_Type:
 
 Input panel return key modes
 ============================
@@ -410,25 +410,7 @@ Input panel return key modes
     Send
 
 
-.. _Elm_Scroller_Policy:
-
-Scrollbar visibility
-====================
-
-.. data:: ELM_SCROLLER_POLICY_AUTO
-
-    Scrollbar visibility is automatically determined
-
-.. data:: ELM_SCROLLER_POLICY_ON
-
-    Scrollbars are always visible
-
-.. data:: ELM_SCROLLER_POLICY_OFF
-
-    Scrollbars are never visible
-
-
-.. _Elm_Text_Format:
+.. _Elm_Entry_Text_Format:
 
 Text format
 ===========
@@ -442,7 +424,7 @@ Text format
     UTF-8 with markup
 
 
-.. _Elm_Wrap_Type:
+.. _Elm_Entry_Wrap_Type:
 
 Wrap mode
 =========
@@ -464,7 +446,7 @@ Wrap mode
     Word wrap, and if that fails, char wrap
 
 
-.. _Elm_Icon_Type:
+.. _Elm_Entry_Icon_Type:
 
 Icon types
 ==========
@@ -1020,7 +1002,7 @@ cdef class Entry(Object):
         Note that this only makes sense for multi-line entries. A widget set
         to be single line will never wrap.
 
-        :type: :ref:`Elm_Wrap_Type`
+        :type: :ref:`Elm_Entry_Wrap_Type`
 
         """
         def __get__(self):
@@ -1432,7 +1414,7 @@ cdef class Entry(Object):
         will be saved if the autosave feature is enabled, otherwise, the file
         will be silently discarded and any non-saved changes will be lost.
 
-        :type: (unicode **file_name**, :ref:`Elm_Text_Format` **file_format**)
+        :type: (unicode **file_name**, :ref:`Elm_Entry_Text_Format` **file_format**)
         :raise RuntimeError: when setting the file fails
 
         """
@@ -1540,7 +1522,7 @@ cdef class Entry(Object):
     property input_panel_layout:
         """The input panel layout of the entry
 
-        :type: :ref:`Elm_Input_Panel_Layout`
+        :type: :ref:`Elm_Entry_Input_Panel_Layout`
 
         """
         def __get__(self):
@@ -1577,7 +1559,7 @@ cdef class Entry(Object):
     property autocapital_type:
         """Autocapitalization type on the immodule.
 
-        :type: :ref:`Elm_Autocapital_Type`
+        :type: :ref:`Elm_Entry_Autocapital_Type`
 
         """
         def __set__(self, Elm_Autocapital_Type autocapital_type):
@@ -1641,7 +1623,7 @@ cdef class Entry(Object):
 
         This API can be used if you want to show the alphabet keyboard mode.
 
-        :type: :ref:`Elm_Input_Panel_Lang`
+        :type: :ref:`Elm_Entry_Input_Panel_Lang`
 
         """
         def __get__(self):
@@ -1687,7 +1669,7 @@ cdef class Entry(Object):
 
         An input panel displays the string or icon associated with this type
 
-        :type: :ref:`Elm_Input_Panel_Return_Key_Type`
+        :type: :ref:`Elm_Entry_Input_Panel_Return_Key_Type`
 
         """
         def __get__(self):
@@ -1842,7 +1824,7 @@ cdef class Entry(Object):
 
         .. note:: This only changes the behaviour of text.
 
-        :type: :ref:`Elm_Cnp_Mode`
+        :type: :ref:`Elm_Entry_Cnp_Mode`
 
         """
         def __get__(self):

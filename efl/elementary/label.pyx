@@ -54,7 +54,7 @@ This widget emits the following signals, besides the ones sent from
 Enumerations
 ------------
 
-.. _Elm_Wrap_Type:
+.. _Elm_Label_Wrap_Type:
 
 Wrap modes
 ==========
@@ -128,7 +128,7 @@ cdef class Label(LayoutClass):
 
         By default no wrapping is done.
 
-        :type: :ref:`Elm_Wrap_Type`
+        :type: :ref:`Elm_Label_Wrap_Type`
 
         """
         def __get__(self):

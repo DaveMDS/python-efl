@@ -63,7 +63,7 @@ More information is on
 Enumerations
 ------------
 
-.. _Elm_Focus_Direction:
+.. _Elm_Object_Focus_Direction:
 
 Focus direction
 ===============
@@ -77,7 +77,7 @@ Focus direction
     Focus next
 
 
-.. _Elm_Sel_Type:
+.. _Elm_Object_Sel_Type:
 
 Selection type
 ==============
@@ -103,7 +103,7 @@ Defines the types of selection property names.
     Clipboard selection (ctrl+C)
 
 
-.. _Elm_Sel_Format:
+.. _Elm_Object_Sel_Format:
 
 Selection format
 ================
@@ -139,7 +139,7 @@ Defines the types of content.
     Raw HTML-like data (eg. webkit)
 
 
-.. _Elm_Xdnd_Action:
+.. _Elm_Object_Xdnd_Action:
 
 XDND action
 ===========
@@ -583,7 +583,7 @@ cdef class Object(evasObject):
             application's window, which is the root of that tree, all other
             objects would have valid Elementary widget parents.
 
-        :type: :py:class:`elementary.object.Object`
+        :type: :py:class:`~efl.elementary.object.Object`
 
         """
         def __get__(self):
@@ -596,7 +596,7 @@ cdef class Object(evasObject):
         """The top level parent of an Elementary widget.
         This is a readonly property.
 
-        :type: :py:class:`elementary.object.Object`
+        :type: :py:class:`~efl.elementary.object.Object`
 
         """
         def __get__(self):
@@ -731,7 +731,7 @@ cdef class Object(evasObject):
         on a given Elementary widget
 
         Every widget in an Elementary interface set to receive focus, with
-        elm_object_focus_allow_set(), will propagate **all** of its key up,
+        :py:func:`focus_allow_set`, will propagate **all** of its key up,
         key down and mouse wheel input events up to its parent object, and
         so on. All of the focusable ones in this chain which had an event
         callback set, with this call, will be able to treat those events.
@@ -956,7 +956,7 @@ cdef class Object(evasObject):
     property focus_custom_chain:
         """The custom focus chain.
 
-        :type: list of :py:class:`elementary.object.Object`
+        :type: list of :py:class:`~efl.elementary.object.Object`
 
         """
         def __get__(self):
@@ -993,9 +993,9 @@ cdef class Object(evasObject):
             container.
 
         :param child: The child to be added in custom chain
-        :type child: :py:class:`elementary.object.Object`
+        :type child: :py:class:`~efl.elementary.object.Object`
         :param relative_child: The relative object to position the child
-        :type relative_child: :py:class:`elementary.object.Object`
+        :type relative_child: :py:class:`~efl.elementary.object.Object`
 
         """
         cdef Evas_Object *rel = NULL
@@ -1015,9 +1015,9 @@ cdef class Object(evasObject):
             container.
 
         :param child: The child to be added in custom chain
-        :type child: :py:class:`elementary.object.Object`
+        :type child: :py:class:`~efl.elementary.object.Object`
         :param relative_child: The relative object to position the child
-        :type relative_child: :py:class:`elementary.object.Object`
+        :type relative_child: :py:class:`~efl.elementary.object.Object`
 
         """
         cdef Evas_Object *rel = NULL
@@ -1033,7 +1033,7 @@ cdef class Object(evasObject):
         first object of chain.
 
         :param dir: Direction to move the focus
-        :type dir: :ref:`Focus direction <Elm_Focus_Direction>`
+        :type dir: :ref:`Elm_Object_Focus_Direction`
 
         """
         elm_object_focus_next(self.obj, direction)
@@ -1045,7 +1045,7 @@ cdef class Object(evasObject):
         with specific focus direction.
 
         :param dir: Focus direction
-        :type dir: :ref:`Focus direction <Elm_Focus_Direction>`
+        :type dir: :ref:`Elm_Object_Focus_Direction`
         :return: Focus next object or None, if there is no focus next object.
 
         :see: :py:func:`focus_next`
@@ -1065,7 +1065,7 @@ cdef class Object(evasObject):
 
         :param next: Focus next object
         :param dir: Focus direction
-        :type dir: :ref:`Focus direction <Elm_Focus_Direction>`
+        :type dir: :ref:`Elm_Object_Focus_Direction`
 
         :see: :py:func:`focus_next`
 
@@ -1137,7 +1137,8 @@ cdef class Object(evasObject):
 
     property mirrored_automatic:
         """The widget's mirrored mode setting. When widget in automatic
-        mode, it follows the system mirrored mode set by elm_mirrored_set().
+        mode, it follows the system mirrored mode set by
+        :py:func:`efl.elementary.general.mirrored_set`.
 
         :type: bool
 
@@ -1517,8 +1518,8 @@ cdef class Object(evasObject):
         Mark the part text to be translatable or not.
 
         Once you mark the part text to be translatable, the text will be translated
-        internally regardless of elm_object_part_text_set() and
-        elm_object_domain_translatable_part_text_set(). In other case, if you set the
+        internally regardless of :py:meth:`part_text_set` and
+        :py:meth:`domain_translatable_part_text_set`. In other case, if you set the
         Elementary policy that all text will be translatable in default, you can set
         the part text to not be translated by calling this API.
 
@@ -1527,9 +1528,7 @@ cdef class Object(evasObject):
         :param translatable: ``True``, the part text will be translated
             internally. ``False``, otherwise.
 
-        :see: elm_object_domain_translatable_part_text_set()
-        :see: elm_object_part_text_set()
-        :see: elm_policy()
+        :seealso: :py:func:`efl.elementary.general.policy_set`
 
         :since: 1.8
 
@@ -1696,9 +1695,9 @@ cdef class Object(evasObject):
         and this is used during pasting.
 
         :param selection: Selection type for copying and pasting
-        :type selection: :ref:`Elm_Sel_Type`
+        :type selection: :ref:`Elm_Object_Sel_Type`
         :param format: Selection format
-        :type format: :ref:`Elm_Sel_Format`
+        :type format: :ref:`Elm_Object_Sel_Format`
         :param buf: The data selected
         :type buf: An object that supports the new buffer interface
 
@@ -1743,7 +1742,7 @@ cdef class Object(evasObject):
         Clear all data from the selection which is owned by a widget.
 
         :param selection: Selection type for copying and pasting
-        :type selection: :ref:`Elm_Sel_Type`
+        :type selection: :ref:`Elm_Object_Sel_Type`
 
         :raise RuntimeError: if clearing cnp data fails.
 

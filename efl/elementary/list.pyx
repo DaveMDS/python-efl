@@ -129,7 +129,7 @@ List sizing modes
     externally.
 
 
-.. _Elm_Object_Select_Mode:
+.. _Elm_List_Object_Select_Mode:
 
 Selection modes
 ===============
@@ -155,23 +155,6 @@ Selection modes
 
     No select mode with no finger size rule
 
-
-.. _Elm_Scroller_Policy:
-
-Scrollbar visibility
-====================
-
-.. data:: ELM_SCROLLER_POLICY_AUTO
-
-    Show scrollbars as needed
-
-.. data:: ELM_SCROLLER_POLICY_ON
-
-    Always show scrollbars
-
-.. data:: ELM_SCROLLER_POLICY_OFF
-
-    Never show scrollbars
 
 """
 
@@ -664,7 +647,7 @@ cdef class List(Object):
 
         .. note:: Default value is ELM_LIST_SCROLL.
 
-        :type: :ref:`List mode <Elm_List_Mode>`
+        :type: :ref:`Elm_List_Mode`
 
         """
         def __get__(self):
@@ -700,7 +683,7 @@ cdef class List(Object):
     property select_mode:
         """The list select mode.
 
-        :type: :ref:`Selection mode <Elm_Object_Select_Mode>`
+        :type: :ref:`Elm_List_Object_Select_Mode`
 
         """
         def __set__(self, mode):

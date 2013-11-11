@@ -82,7 +82,7 @@ cdef class SelectionData(object):
             return self.sel_data.y
 
     property format:
-        """:type: :ref:`Elm_Selection_Format`"""
+        """:type: :ref:`Elm_Object_Sel_Format`"""
         def __get__(self):
             return self.sel_data.format
 
@@ -99,7 +99,7 @@ cdef class SelectionData(object):
     property action:
         """The action to perform with the data
 
-        :type: :ref:`Elm_Xdnd_Action`
+        :type: :ref:`Elm_Object_Xdnd_Action`
         :since: 1.8
 
         """

@@ -53,7 +53,7 @@ Default text parts of the hoversel widget that you can use for are:
 Enumerations
 ------------
 
-.. _Elm_Icon_Type:
+.. _Elm_Hoversel_Icon_Type:
 
 Icon types
 ==========
@@ -109,7 +109,7 @@ cdef class HoverselItem(ObjectItem):
             standard icon name (None if not desired)
         :type icon_file: string
         :param icon_type: The icon type if relevant
-        :type icon_type: :ref:`Elm_Icon_Type`
+        :type icon_type: :ref:`Elm_Hoversel_Icon_Type`
         :param callback: Convenience function to call when this item is
             selected
         :type callback: function

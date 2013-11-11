@@ -65,7 +65,7 @@ using multiple inheritance, for example::
 Enumerations
 ------------
 
-.. _Elm_Icon_Lookup_Order:
+.. _Elm_Toolbar_Icon_Lookup_Order:
 
 Icon lookup modes
 =================
@@ -87,7 +87,7 @@ Icon lookup modes
     theme
 
 
-.. _Elm_Object_Select_Mode:
+.. _Elm_Toolbar_Object_Select_Mode:
 
 Selection modes
 ===============
@@ -501,7 +501,7 @@ cdef class ToolbarItem(ObjectItem):
 
         Selected items will be highlighted.
 
-        .. seealso:: :py:attr:`Toolbar.selected_item_get()`
+        .. seealso:: :py:attr:`Toolbar.selected_item`
 
         :type: bool
 
@@ -784,7 +784,7 @@ cdef class Toolbar(Object):
         Icons added before calling this function will not be affected.
         The default lookup order is ELM_ICON_LOOKUP_THEME_FDO.
 
-        :type: :ref:`Icon lookup order <Elm_Icon_Lookup_Order>`
+        :type: :ref:`Elm_Toolbar_Icon_Lookup_Order`
 
         """
         def __set__(self, order):
@@ -895,7 +895,7 @@ cdef class Toolbar(Object):
         scroll if ELM_TOOLBAR_SHRINK_SCROLL, and will create a button to pop
         up excess elements with ELM_TOOLBAR_SHRINK_MENU.
 
-        :type: :ref:`Toolbar shrink mode <Elm_Toolbar_Shrink_Mode>`
+        :type: :ref:`Elm_Toolbar_Shrink_Mode`
 
         """
         def __get__(self):
@@ -1048,7 +1048,7 @@ cdef class Toolbar(Object):
     property select_mode:
         """The toolbar select mode.
 
-        :type: :ref:`Object select mode <Elm_Object_Select_Mode>`
+        :type: :ref:`Elm_Toolbar_Object_Select_Mode`
 
         """
         def __get__(self):

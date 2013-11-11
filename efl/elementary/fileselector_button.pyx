@@ -58,22 +58,6 @@ for are:
 - "icon" - Icon of the fileselector_button
 
 
-Enumerations
-------------
-
-.. _Elm_Fileselector_Mode:
-
-Fileselector modes
-==================
-
-.. data:: ELM_FILESELECTOR_LIST
-
-    Layout as a list
-
-.. data:: ELM_FILESELECTOR_GRID
-
-    Layout as a grid
-
 """
 
 
@@ -86,9 +70,6 @@ from efl.utils.conversions cimport _ctouni
 from efl.evas cimport Object as evasObject
 
 cimport enums
-
-ELM_FILESELECTOR_LIST = enums.ELM_FILESELECTOR_LIST
-ELM_FILESELECTOR_GRID = enums.ELM_FILESELECTOR_GRID
 
 cdef class FileselectorButton(Button):
 

@@ -438,7 +438,7 @@ Genlist items' scroll-to types
     Scroll to the middle of viewport
 
 
-.. _Elm_List_Mode:
+.. _Elm_Genlist_List_Mode:
 
 List sizing
 ===========
@@ -480,7 +480,7 @@ List sizing
     externally.
 
 
-.. _Elm_Object_Select_Mode:
+.. _Elm_Genlist_Object_Select_Mode:
 
 Selection modes
 ===============

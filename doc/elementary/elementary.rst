@@ -1,3 +1,5 @@
+.. py:module:: efl.elementary
+
 :mod:`efl.elementary` Package
 =============================
 
@@ -26,62 +28,11 @@ Event callbacks have signature of::
 
     object, source_object, event_type, event_info, *args, **kwargs
 
-Hello Python Elementary
------------------------
+A sample Python Elementary program
+----------------------------------
 
-Let's create an interactive "Hello World" gui where you can click the ok
-button to exit::
-
-    import efl.elementary as elm
-
-    def on_done(obj):
-        # quit the mainloop
-        elm.exit()
-
-    class Spam:
-        def __init__(self):
-            # new window - do the usual and give it a name (hello) and title (Hello)
-            win = elm.StandardWindow("hello", "Hello")
-            # when the user clicks "close" on a window there is a request to delete
-            win.callback_delete_request_add(on_done)
-
-            # add a box object - default is vertical. a box holds children in a row,
-            # either horizontally or vertically. nothing more.
-            box = elm.Box(win)
-            # make the box horizontal
-            box.horizontal = True
-            # add object as a resize object for the window (controls window minimum
-            # size as well as gets resized if window is resized)
-            win.resize_object_add(box)
-            box.show()
-
-            # add a label widget, set the text and put it in the pad frame
-            lab = elm.Label(win)
-            # set default text of the label
-            lab.text = "Hello out there world!"
-            # pack the label at the end of the box
-            box.pack_end(lab)
-            lab.show()
-
-            # add an ok button
-            btn = elm.Button(win)
-            # set default text of button to "OK"
-            btn.text = "OK"
-            # pack the button at the end of the box
-            box.pack_end(btn)
-            btn.show()
-            # call on_done when button is clicked
-            btn.callback_clicked_add(on_done)
-
-            # now we are done, show the window
-            win.show()
-
-    if __name__ == "__main__":
-        elm.init()
-        food = Spam()
-        # run the mainloop and process events and callbacks
-        elm.run()
-        elm.shutdown()
+.. literalinclude:: ../../examples/elementary/test_panel.py
+    :lines: 4-50
 
 What is Elementary?
 -------------------
@@ -95,6 +46,15 @@ of flexibility.
 
 Reference
 ---------
+
+Package
+^^^^^^^
+
+Everything in the modules :py:mod:`~efl.elementary.general` and
+:py:mod:`~efl.elementary.need` is also available at package level.
+
+Modules
+^^^^^^^
 
 .. toctree::
    :maxdepth: 4
@@ -199,6 +159,7 @@ Inheritance diagram
     efl.elementary.gengrid
     efl.elementary.genlist
     efl.elementary.gesture_layer
+    efl.elementary.glview
     efl.elementary.grid
     efl.elementary.hover
     efl.elementary.hoversel

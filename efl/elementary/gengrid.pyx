@@ -253,7 +253,7 @@ Smart events that you can add callbacks for are:
 Enumerations
 ------------
 
-.. _Elm_Genlist_Item_Scrollto_Type:
+.. _Elm_Gengrid_Item_Scrollto_Type:
 
 Items' scroll to types
 ======================

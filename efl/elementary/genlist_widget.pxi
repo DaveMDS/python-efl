@@ -618,7 +618,7 @@ cdef class Genlist(Object):
             select items entirely and they will neither appear selected nor
             call selected callback functions.
 
-        :type: Elm_Object_Select_Mode
+        :type: :ref:`Elm_Genlist_Object_Select_Mode`
 
         """
         def __set__(self, mode):
