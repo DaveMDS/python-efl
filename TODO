@@ -45,6 +45,7 @@ Elementary
   single argument, not args, kwargs. The callback signatures need to be
   changed as well.
 * Get rid of enums in __init__.py
+* Automate compilation of the example edje files.
 
 * New documentation images with the new default theme.
 * Images missing in the documentation:

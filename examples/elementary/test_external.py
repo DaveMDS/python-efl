@@ -38,17 +38,18 @@ def edje_external_button_clicked(obj, item=None):
     win.show()
 
 def animate(ly):
-    val = ly.edje_get().part_external_object_get("ext_pbar1").value
+    val = ly.edje.part_external_object_get("ext_pbar1").value
     val += 0.0123
 
     for part_name in ["ext_pbar1", "ext_pbar3", "ext_pbar4", "ext_pbar6"]:
-        ly.edje_get().part_external_object_get(part_name).value = val
+        ly.edje.part_external_object_get(part_name).value = val
 
     if val < 1:
         Timer(0.1, animate, ly)
     else:
         for part_name in ["ext_pbar2", "ext_pbar5", "ext_pbar7"]:
-            ly.edje_get().part_external_object_get(part_name).pulse(False)
+            ly.edje.part_external_object_get(part_name).pulse(False)
+            ly.edje.part_external_object_get(part_name).pulse_mode = False
         for part_name in ["ext_button1", "ext_button2", "ext_button3"]:
             ly.edje_get().part_external_object_get(part_name).disabled = False
 
@@ -58,7 +59,8 @@ def cb_btn3_clicked(bt, ly):
     ly.edje.part_external_object_get("ext_pbar1").value = 0.0
 
     for part_name in ["ext_pbar2", "ext_pbar5", "ext_pbar7"]:
-        ly.edje_get().part_external_object_get(part_name).pulse(True)
+        ly.edje.part_external_object_get(part_name).pulse_mode = True
+        ly.edje.part_external_object_get(part_name).pulse(True)
     for part_name in ["ext_button1", "ext_button2", "ext_button3"]:
         ly.edje_get().part_external_object_get(part_name).disabled = True
 
