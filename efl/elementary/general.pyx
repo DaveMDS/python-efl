@@ -56,9 +56,13 @@ from efl.utils.conversions cimport _touni, _ctouni, \
     python_list_strings_to_eina_list, \
     eina_list_strings_to_python_list
 
+from efl.utils.logger cimport add_logger
+
+from efl.eina cimport EINA_LOG_DOM_DBG, EINA_LOG_DOM_INFO, \
+    EINA_LOG_DOM_WARN, EINA_LOG_DOM_ERR, EINA_LOG_DOM_CRIT
+
 import sys
 import traceback
-import logging
 
 cimport enums
 
@@ -67,85 +71,6 @@ ELM_POLICY_QUIT = enums.ELM_POLICY_QUIT
 ELM_POLICY_QUIT_NONE = enums.ELM_POLICY_QUIT_NONE
 ELM_POLICY_QUIT_LAST_WINDOW_CLOSED = enums.ELM_POLICY_QUIT_LAST_WINDOW_CLOSED
 
-###
-# NOTE: Is there reason we have these around?
-ELM_CURSOR_X                   = "x"
-ELM_CURSOR_ARROW               = "arrow"
-ELM_CURSOR_BASED_ARROW_DOWN    = "based_arrow_down"
-ELM_CURSOR_BASED_ARROW_UP      = "based_arrow_up"
-ELM_CURSOR_BOAT                = "boat"
-ELM_CURSOR_BOGOSITY            = "bogosity"
-ELM_CURSOR_BOTTOM_LEFT_CORNER  = "bottom_left_corner"
-ELM_CURSOR_BOTTOM_RIGHT_CORNER = "bottom_right_corner"
-ELM_CURSOR_BOTTOM_SIDE         = "bottom_side"
-ELM_CURSOR_BOTTOM_TEE          = "bottom_tee"
-ELM_CURSOR_BOX_SPIRAL          = "box_spiral"
-ELM_CURSOR_CENTER_PTR          = "center_ptr"
-ELM_CURSOR_CIRCLE              = "circle"
-ELM_CURSOR_CLOCK               = "clock"
-ELM_CURSOR_COFFEE_MUG          = "coffee_mug"
-ELM_CURSOR_CROSS               = "cross"
-ELM_CURSOR_CROSS_REVERSE       = "cross_reverse"
-ELM_CURSOR_CROSSHAIR           = "crosshair"
-ELM_CURSOR_DIAMOND_CROSS       = "diamond_cross"
-ELM_CURSOR_DOT                 = "dot"
-ELM_CURSOR_DOT_BOX_MASK        = "dot_box_mask"
-ELM_CURSOR_DOUBLE_ARROW        = "double_arrow"
-ELM_CURSOR_DRAFT_LARGE         = "draft_large"
-ELM_CURSOR_DRAFT_SMALL         = "draft_small"
-ELM_CURSOR_DRAPED_BOX          = "draped_box"
-ELM_CURSOR_EXCHANGE            = "exchange"
-ELM_CURSOR_FLEUR               = "fleur"
-ELM_CURSOR_GOBBLER             = "gobbler"
-ELM_CURSOR_GUMBY               = "gumby"
-ELM_CURSOR_HAND1               = "hand1"
-ELM_CURSOR_HAND2               = "hand2"
-ELM_CURSOR_HEART               = "heart"
-ELM_CURSOR_ICON                = "icon"
-ELM_CURSOR_IRON_CROSS          = "iron_cross"
-ELM_CURSOR_LEFT_PTR            = "left_ptr"
-ELM_CURSOR_LEFT_SIDE           = "left_side"
-ELM_CURSOR_LEFT_TEE            = "left_tee"
-ELM_CURSOR_LEFTBUTTON          = "leftbutton"
-ELM_CURSOR_LL_ANGLE            = "ll_angle"
-ELM_CURSOR_LR_ANGLE            = "lr_angle"
-ELM_CURSOR_MAN                 = "man"
-ELM_CURSOR_MIDDLEBUTTON        = "middlebutton"
-ELM_CURSOR_MOUSE               = "mouse"
-ELM_CURSOR_PENCIL              = "pencil"
-ELM_CURSOR_PIRATE              = "pirate"
-ELM_CURSOR_PLUS                = "plus"
-ELM_CURSOR_QUESTION_ARROW      = "question_arrow"
-ELM_CURSOR_RIGHT_PTR           = "right_ptr"
-ELM_CURSOR_RIGHT_SIDE          = "right_side"
-ELM_CURSOR_RIGHT_TEE           = "right_tee"
-ELM_CURSOR_RIGHTBUTTON         = "rightbutton"
-ELM_CURSOR_RTL_LOGO            = "rtl_logo"
-ELM_CURSOR_SAILBOAT            = "sailboat"
-ELM_CURSOR_SB_DOWN_ARROW       = "sb_down_arrow"
-ELM_CURSOR_SB_H_DOUBLE_ARROW   = "sb_h_double_arrow"
-ELM_CURSOR_SB_LEFT_ARROW       = "sb_left_arrow"
-ELM_CURSOR_SB_RIGHT_ARROW      = "sb_right_arrow"
-ELM_CURSOR_SB_UP_ARROW         = "sb_up_arrow"
-ELM_CURSOR_SB_V_DOUBLE_ARROW   = "sb_v_double_arrow"
-ELM_CURSOR_SHUTTLE             = "shuttle"
-ELM_CURSOR_SIZING              = "sizing"
-ELM_CURSOR_SPIDER              = "spider"
-ELM_CURSOR_SPRAYCAN            = "spraycan"
-ELM_CURSOR_STAR                = "star"
-ELM_CURSOR_TARGET              = "target"
-ELM_CURSOR_TCROSS              = "tcross"
-ELM_CURSOR_TOP_LEFT_ARROW      = "top_left_arrow"
-ELM_CURSOR_TOP_LEFT_CORNER     = "top_left_corner"
-ELM_CURSOR_TOP_RIGHT_CORNER    = "top_right_corner"
-ELM_CURSOR_TOP_SIDE            = "top_side"
-ELM_CURSOR_TOP_TEE             = "top_tee"
-ELM_CURSOR_TREK                = "trek"
-ELM_CURSOR_UL_ANGLE            = "ul_angle"
-ELM_CURSOR_UMBRELLA            = "umbrella"
-ELM_CURSOR_UR_ANGLE            = "ur_angle"
-ELM_CURSOR_WATCH               = "watch"
-ELM_CURSOR_XTERM               = "xterm"
 
 cdef class FontProperties(object):
 
@@ -170,14 +95,15 @@ cdef class FontProperties(object):
         def __get__(self):
             return eina_list_strings_to_python_list(self.efp.styles)
 
+elm_log = add_logger("efl.elementary")
+cdef int PY_EFL_ELM_LOG_DOMAIN = elm_log.eina_log_domain
 
 def init():
-    """Initialize Elementary"""
-    logging.basicConfig(level=logging.DEBUG)
-    log = logging.getLogger("elementary")
-    log.propagate = False
-    log.addHandler(logging.NullHandler())
 
+    """Initialize Elementary"""
+
+    EINA_LOG_DOM_INFO(PY_EFL_ELM_LOG_DOMAIN,
+        "Initializing efl.elementary", NULL)
     # FIXME: Why pass the cl args to elm_init?
     cdef int argc, i, arg_len
     cdef char **argv, *arg
@@ -195,16 +121,28 @@ def init():
     elm_init(argc, argv)
 
 def shutdown():
+
     """Shutdown Elementary"""
+
+    EINA_LOG_DOM_INFO(PY_EFL_ELM_LOG_DOMAIN,
+        "Shutting down efl.elementary", NULL)
     elm_shutdown()
 
 def run():
+
     """Begin main loop"""
+
+    EINA_LOG_DOM_DBG(PY_EFL_ELM_LOG_DOMAIN,
+        "Starting up main loop.", NULL)
     with nogil:
         elm_run()
 
 def exit():
+
     """Exit main loop"""
+
+    EINA_LOG_DOM_DBG(PY_EFL_ELM_LOG_DOMAIN,
+        "Ending main loop.", NULL)
     elm_exit()
 
 def policy_set(Elm_Policy policy, value):
@@ -280,10 +218,11 @@ def coords_finger_size_adjust(int times_w, int w, int times_h, int h):
 
 def language_set(lang not None):
     """language_set(unicode lang)
+
     Change the language of the current application
 
-    The @p lang passed must be the full name of the locale to use, for
-    example "en_US.utf8" or "es_ES@euro".
+    The ``lang`` passed must be the full name of the locale to use, for
+    example ``en_US.utf8`` or ``es_ES@euro``.
 
     Changing language with this function will make Elementary run through
     all its widgets, translating strings set with
