@@ -39,7 +39,7 @@ cdef class LayoutClass(Object):
 
     """
 
-    Elementary, besides having the :py:class:`elementary.layout.Layout`
+    Elementary, besides having the :py:class:`~efl.elementary.layout.Layout`
     widget, exposes its foundation -- the Elementary Layout Class -- in
     order to create other widgets which are, basically, a certain layout
     with some more logic on top.
@@ -64,6 +64,108 @@ cdef class LayoutClass(Object):
     Elm_Layout_Part_Alias_Description, where it's explained in detail.
 
     """
+    def content_set(self, swallow=None, evasObject content=None):
+        """content_set(unicode swallow, Object content)
+
+        Set the layout content.
+
+        Once the content object is set, a previously set one will be deleted.
+        If you want to keep that old content object, use the
+        :py:meth:`content_unset` function.
+
+        .. note:: In an Edje theme, the part used as a content container is
+            called *SWALLOW*. This is why the parameter name is called
+            *swallow*, but it is expected to be a part name just like the
+            second parameter of :py:meth:`box_append`.
+
+        :param swallow: The swallow part name in the edje file
+        :type swallow: string
+        :param content: The child that will be added in this layout object
+        :type content: :py:class:`~efl.evas.Object`
+
+        :return: ``True`` on success, ``False`` otherwise
+        :rtype: bool
+
+        """
+        if content is None:
+            content = swallow
+            swallow = None
+        if isinstance(swallow, unicode): swallow = PyUnicode_AsUTF8String(swallow)
+        elm_layout_content_set(self.obj,
+            <const_char *>swallow if swallow is not None else NULL,
+            content.obj if content is not None else NULL)
+
+    def content_get(self, swallow=None):
+        """content_get(unicode swallow) -> Object
+
+        Get the child object in the given content part.
+
+        :param swallow: The SWALLOW part to get its content
+        :type swallow: string
+
+        :return: The swallowed object or None if none or an error occurred
+
+        """
+        if isinstance(swallow, unicode): swallow = PyUnicode_AsUTF8String(swallow)
+        return object_from_instance(elm_layout_content_get(self.obj,
+            <const_char *>swallow if swallow is not None else NULL))
+
+    def content_unset(self, swallow=None):
+        """content_unset(unicode swallow)
+
+        Unset the layout content.
+
+        Unparent and return the content object which was set for this part.
+
+        :param swallow: The swallow part name in the edje file
+        :type swallow: string
+        :return: The content that was being used
+        :rtype: :py:class:`~efl.evas.Object`
+
+        """
+        if isinstance(swallow, unicode): swallow = PyUnicode_AsUTF8String(swallow)
+        return object_from_instance(elm_layout_content_unset(self.obj,
+            <const_char *>swallow if swallow is not None else NULL))
+
+    def text_set(self, part=None, text=None):
+        """text_set(unicode part, unicode text)
+
+        Set the text of the given part
+
+        :param part: The TEXT part where to set the text
+        :type part: string
+        :param text: The text to set
+        :type text: string
+        :return: ``True`` on success, ``False`` otherwise
+
+        """
+        if isinstance(part, unicode): part = PyUnicode_AsUTF8String(part)
+        if isinstance(text, unicode): text = PyUnicode_AsUTF8String(text)
+        if text is None:
+            # In this case we're guessing the user wants the only arg used
+            # as text
+            text = part
+            part = None
+        elm_layout_text_set(self.obj,
+            <const_char *>part if part is not None else NULL,
+            <const_char *>text if text is not None else NULL)
+
+    def text_get(self, part=None):
+        """text_get(unicode part) -> unicode
+
+        Get the text set in the given part
+
+        :param part: The TEXT part to retrieve the text off
+        :type part: string
+
+        :return: The text set in ``part``
+        :rtype: string
+
+        """
+        # With part=None it should do the same as elm_object_text_get
+        if isinstance(part, unicode): part = PyUnicode_AsUTF8String(part)
+        return _ctouni(elm_layout_text_get(self.obj,
+            <const_char *>part if part is not None else NULL))
 
     property file:
         """Set the file path and group of the edje file that will be used as
@@ -211,7 +313,7 @@ cdef class LayoutClass(Object):
         This function removes the **last** callback attached to a signal
         emitted by the undelying Edje object, with parameters *emission*,
         ``source`` and ``func`` matching exactly those passed to a previous
-        call to :py:func:`elementary.object.Object.signal_callback_add()`.
+        call to :py:meth:`~efl.elementary.object.Object.signal_callback_add`.
         The data pointer that was passed to this call will be returned.
 
         :param emission: The signal's name string
@@ -254,25 +356,25 @@ cdef class LayoutClass(Object):
             layout_signal_callback)
 
     def box_append(self, part, evasObject child):
-        """box_append(unicode part, evas.Object child) -> bool
+        """box_append(unicode part, Object child) -> bool
 
         Append child to layout box part.
 
         Once the object is appended, it will become child of the layout. Its
         lifetime will be bound to the layout, whenever the layout dies the
         child will be deleted automatically. One should use
-        :py:func:`box_remove()` to make this layout forget about the object.
+        :py:meth:`box_remove()` to make this layout forget about the object.
 
         .. seealso::
-            :py:func:`box_prepend()`
-            :py:func:`box_insert_before()`
-            :py:func:`box_insert_at()`
-            :py:func:`box_remove()`
+            :py:meth:`box_prepend`
+            :py:meth:`box_insert_before`
+            :py:meth:`box_insert_at`
+            :py:meth:`box_remove`
 
         :param part: the box part to which the object will be appended.
         :type part: string
         :param child: the child object to append to box.
-        :type child: :py:class:`evas.object.Object`
+        :type child: :py:class:`~efl.evas.Object`
 
         :raise RuntimeError: when adding the box fails
 
@@ -284,25 +386,25 @@ cdef class LayoutClass(Object):
                 raise RuntimeError("Could not add to box")
 
     def box_prepend(self, part, evasObject child):
-        """box_prepend(unicode part, evas.Object child) -> bool
+        """box_prepend(unicode part, Object child) -> bool
 
         Prepend child to layout box part.
 
         Once the object is prepended, it will become child of the layout. Its
         lifetime will be bound to the layout, whenever the layout dies the
         child will be deleted automatically. One should use
-        :py:func:`box_remove()` to make this layout forget about the object.
+        :py:meth:`box_remove` to make this layout forget about the object.
 
         .. seealso::
-            :py:func:`box_append()`
-            :py:func:`box_insert_before()`
-            :py:func:`box_insert_at()`
-            :py:func:`box_remove()`
+            :py:meth:`box_append`
+            :py:meth:`box_insert_before`
+            :py:meth:`box_insert_at`
+            :py:meth:`box_remove`
 
         :param part: the box part to prepend.
         :type part: string
         :param child: the child object to prepend to box.
-        :type child: :py:class:`evas.object.Object`
+        :type child: :py:class:`~efl.evas.Object`
 
         :raise RuntimeError: when adding to box fails
 
@@ -314,27 +416,27 @@ cdef class LayoutClass(Object):
                 raise RuntimeError("Could not add to box")
 
     def box_insert_before(self, part, evasObject child, evasObject reference):
-        """box_insert_before(unicode part, evas.Object child, evas.Object reference) -> bool
+        """box_insert_before(unicode part, Object child, Object reference) -> bool
 
         Insert child to layout box part before a reference object.
 
         Once the object is inserted, it will become child of the layout. Its
         lifetime will be bound to the layout, whenever the layout dies the
         child will be deleted automatically. One should use
-        :py:func:`box_remove()` to make this layout forget about the object.
+        :py:meth:`box_remove` to make this layout forget about the object.
 
         .. seealso::
-            :py:func:`box_append()`
-            :py:func:`box_prepend()`
-            :py:func:`box_insert_at()`
-            :py:func:`box_remove()`
+            :py:meth:`box_append`
+            :py:meth:`box_prepend`
+            :py:meth:`box_insert_at`
+            :py:meth:`box_remove`
 
         :param part: the box part to insert.
         :type part: string
         :param child: the child object to insert into box.
-        :type child: :py:class:`evas.object.Object`
+        :type child: :py:class:`~efl.evas.Object`
         :param reference: another reference object to insert before in box.
-        :type reference: :py:class:`evas.object.Object`
+        :type reference: :py:class:`~efl.evas.Object`
 
         :raise RuntimeError: when inserting to box fails
 
@@ -346,25 +448,25 @@ cdef class LayoutClass(Object):
                 raise RuntimeError("Could not add to box")
 
     def box_insert_at(self, part, evasObject child, pos):
-        """box_insert_at(unicode part, evas.Object child, int pos) -> bool
+        """box_insert_at(unicode part, Object child, int pos) -> bool
 
         Insert child to layout box part at a given position.
 
         Once the object is inserted, it will become child of the layout. Its
         lifetime will be bound to the layout, whenever the layout dies the
         child will be deleted automatically. One should use
-        :py:func:`box_remove()` to make this layout forget about the object.
+        :py:meth:`box_remove` to make this layout forget about the object.
 
         .. seealso::
-            :py:func:`box_append()`
-            :py:func:`box_prepend()`
-            :py:func:`box_insert_before()`
-            :py:func:`box_remove()`
+            :py:meth:`box_append`
+            :py:meth:`box_prepend`
+            :py:meth:`box_insert_before`
+            :py:meth:`box_remove`
 
         :param part: the box part to insert.
         :type part: string
         :param child: the child object to insert into box.
-        :type child: :py:class:`evas.object.Object`
+        :type child: :py:class:`~efl.evas.Object`
         :param pos: the numeric position >=0 to insert the child.
         :type pos: int
 
@@ -378,25 +480,25 @@ cdef class LayoutClass(Object):
                 raise RuntimeError("Could not add to box")
 
     def box_remove(self, part, evasObject child):
-        """box_remove(unicode part, evas.Object child) -> evas.Object
+        """box_remove(unicode part, Object child) -> evas.Object
 
         Remove a child of the given part box.
 
         The object will be removed from the box part and its lifetime will
         not be handled by the layout anymore. This is equivalent to
-        :py:func:`elementary.object.Object.part_content_unset()` for box.
+        :py:meth:`~efl.elementary.object.Object.part_content_unset` for box.
 
         .. seealso::
-            :py:func:`box_append()`
-            :py:func:`box_remove_all()`
+            :py:meth:`box_append`
+            :py:meth:`box_remove_all`
 
         :param part: The box part name to remove child.
         :type part: string
         :param child: The object to remove from box.
-        :type child: :py:class:`evas.object.Object`
+        :type child: :py:class:`~efl.evas.Object`
 
         :return: The object that was being used, or None if not found.
-        :rtype: :py:class:`evas.object.Object`
+        :rtype: :py:class:`~efl.evas.Object`
 
         """
         if isinstance(part, unicode): part = PyUnicode_AsUTF8String(part)
@@ -411,11 +513,11 @@ cdef class LayoutClass(Object):
 
         The objects will be removed from the box part and their lifetime will
         not be handled by the layout anymore. This is equivalent to
-        :py:func:`box_remove()` for all box children.
+        :py:meth:`box_remove` for all box children.
 
         .. seealso::
-            :py:func:`box_append()`
-            :py:func:`box_remove()`
+            :py:meth:`box_append`
+            :py:meth:`box_remove`
 
         :param part: The box part name to remove child.
         :type part: string
@@ -434,26 +536,26 @@ cdef class LayoutClass(Object):
                 raise RuntimeError("Could not remove all items from box")
 
     def table_pack(self, part, evasObject child_obj, col, row, colspan, rowspan):
-        """table_pack(unicode part, evas.Object child_obj, int col, int row, int colspan, int rowspan) -> bool
+        """table_pack(unicode part, Object child_obj, int col, int row, int colspan, int rowspan) -> bool
 
         Insert child to layout table part.
 
         Once the object is inserted, it will become child of the table. Its
         lifetime will be bound to the layout, and whenever the layout dies the
         child will be deleted automatically. One should use
-        :py:func:`table_remove()` to make this layout forget about the object.
+        :py:meth:`table_remove` to make this layout forget about the object.
 
         If ``colspan`` or ``rowspan`` are bigger than 1, that object will occupy
         more space than a single cell.
 
         .. seealso::
-            :py:func:`table_unpack()`
-            :py:func:`table_clear()`
+            :py:meth:`table_unpack`
+            :py:meth:`table_clear`
 
         :param part: the box part to pack child.
         :type part: string
         :param child_obj: the child object to pack into table.
-        :type child_obj: :py:class:`evas.object.Object`
+        :type child_obj: :py:class:`efl.evas.Object`
         :param col: the column to which the child should be added. (>= 0)
         :type col: int
         :param row: the row to which the child should be added. (>= 0)
@@ -474,25 +576,25 @@ cdef class LayoutClass(Object):
                 raise RuntimeError("Could not pack an item to the table")
 
     def table_unpack(self, part, evasObject child_obj):
-        """table_unpack(unicode part, evas.Object child_obj) -> evas.Object
+        """table_unpack(unicode part, Object child_obj) -> Object
 
         Unpack (remove) a child of the given part table.
 
         The object will be unpacked from the table part and its lifetime
         will not be handled by the layout anymore. This is equivalent to
-        :py:func:`Object.part_content_unset()` for table.
+        :py:meth:`~efl.elementary.object.Object.part_content_unset` for table.
 
         .. seealso::
-            :py:func:`table_pack()`
-            :py:func:`table_clear()`
+            :py:meth:`table_pack`
+            :py:meth:`table_clear`
 
         :param part: The table part name to remove child.
         :type part: string
         :param child_obj: The object to remove from table.
-        :type child_obj: :py:class:`evas.object.Object`
+        :type child_obj: :py:class:`~efl.evas.Object`
 
         :return: The object that was being used, or None if not found.
-        :rtype: :py:class:`evas.object.Object`
+        :rtype: :py:class:`~efl.evas.Object`
 
         """
         if isinstance(part, unicode): part = PyUnicode_AsUTF8String(part)
@@ -507,11 +609,11 @@ cdef class LayoutClass(Object):
 
         The objects will be removed from the table part and their lifetime will
         not be handled by the layout anymore. This is equivalent to
-        :py:func:`table_unpack()` for all table children.
+        :py:meth:`table_unpack` for all table children.
 
         .. seealso::
-            :py:func:`table_pack()`
-            :py:func:`table_unpack()`
+            :py:meth:`table_pack`
+            :py:meth:`table_unpack`
 
         :param part: The table part name to remove child.
         :type part: string
@@ -533,9 +635,10 @@ cdef class LayoutClass(Object):
         """Get the edje layout
 
         This returns the edje object. It is not expected to be used to then
-        swallow objects via edje_object_part_swallow() for example. Use
-        :py:func:`part_content_set()` instead so child object handling and
-        sizing is done properly.
+        swallow objects via
+        :py:meth:`Edje.part_swallow <efl.edje.Edje.part_swallow>` for example.
+        Use :py:meth:`~efl.elementary.object.Object.part_content_set` instead so
+        child object handling and sizing is done properly.
 
         .. note:: This function should only be used if you really need to call
             some low level Edje function on this edje object. All the common
@@ -543,15 +646,14 @@ cdef class LayoutClass(Object):
             signals, etc.) can be done with proper elementary functions.
 
         .. seealso::
-            :py:func:`signal_callback_add()`
-            :py:func:`signal_emit()`
-            :py:func:`part_text_set()`
-            :py:func:`part_content_set()`
-            :py:func:`box_append()`
-            :py:func:`table_pack()`
-            :py:attr:`data`
+            :py:meth:`signal_callback_add`
+            :py:meth:`signal_emit`
+            :py:meth:`~efl.elementary.object.Object.part_text_set`
+            :py:meth:`box_append`
+            :py:meth:`table_pack`
+            :py:attr:`~efl.eo.Eo.data`
 
-        :type: :py:class:`edje.Edje`
+        :type: :py:class:`~efl.edje.Edje`
 
         """
         def __get__(self):
@@ -653,10 +755,10 @@ cdef class LayoutClass(Object):
     def part_cursor_unset(self, part_name):
         """part_cursor_unset(unicode part_name) -> bool
 
-        Unsets a cursor previously set with :py:func:`part_cursor_set()`.
+        Unsets a cursor previously set with :py:meth:`part_cursor_set`.
 
         :param part_name: a part from loaded edje group, that had a cursor set
-            with :py:func:`part_cursor_set()`.
+            with :py:meth:`part_cursor_set`.
         :type part_name: string
 
         :raise RuntimeError: when unsetting the part cursor fails
@@ -711,7 +813,7 @@ cdef class LayoutClass(Object):
         the provided by the engine, only.
 
         .. note:: Before you set if should look on theme you should define a
-            cursor with :py:func:`part_cursor_set()`. By default it will only
+            cursor with :py:meth:`part_cursor_set`. By default it will only
             look for cursors provided by the engine.
 
         :param part_name: a part from loaded edje group.
@@ -777,7 +879,7 @@ cdef class LayoutClass(Object):
         """The icon object in a layout that follows the Elementary naming
         convention for its parts.
 
-        :type: :py:class:`evas.object.Object`
+        :type: :py:class:`~efl.evas.Object`
 
         """
         def __get__(self):
@@ -795,7 +897,7 @@ cdef class LayoutClass(Object):
         """The end object in a layout that follows the Elementary naming
         convention for its parts.
 
-        :type: :py:class:`evas.object.Object`
+        :type: :py:class:`~efl.evas.Object`
 
         """
         def __get__(self):

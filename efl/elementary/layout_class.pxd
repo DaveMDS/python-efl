@@ -23,6 +23,11 @@ cdef extern from "Edje.h":
     ctypedef void (*Edje_Signal_Cb)(void *data, Evas_Object *obj, const_char *emission, const_char *source)
 
 cdef extern from "Elementary.h":
+    Eina_Bool       elm_layout_content_set(Evas_Object *obj, const_char *swallow, Evas_Object *content)
+    Evas_Object *   elm_layout_content_get(Evas_Object *obj, const_char *swallow)
+    Evas_Object *   elm_layout_content_unset(Evas_Object *obj, const_char *swallow)
+    Eina_Bool       elm_layout_text_set(Evas_Object *obj, const_char *part, const_char *text)
+    const_char *    elm_layout_text_get(Evas_Object *obj, const_char *part)
     Eina_Bool           elm_layout_file_set(Evas_Object *obj, const_char *file, const_char *group)
     int                 elm_layout_freeze(Evas_Object *obj)
     int                 elm_layout_thaw(Evas_Object *obj)
