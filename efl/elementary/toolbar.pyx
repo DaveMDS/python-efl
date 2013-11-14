@@ -170,7 +170,8 @@ from efl.eo cimport _object_mapping_register, object_from_instance
 from efl.utils.conversions cimport _ctouni
 from efl.evas cimport Object as evasObject
 from object cimport Object
-from object_item cimport _object_item_callback, _object_item_to_python
+from object_item cimport _object_item_callback, _object_item_to_python, \
+    _object_item_callback2
 from menu cimport Menu
 
 from efl.utils.deprecated cimport DEPRECATED
@@ -227,7 +228,10 @@ cdef class ToolbarItemState(object):
     cdef Elm_Toolbar_Item_State *state
     cdef object params
 
-    def __init__(self, ToolbarItem it, icon = None, label = None, callback = None, *args, **kwargs):
+    # FIXME
+
+    def __init__(self, ToolbarItem it, icon = None, label = None,
+        callback = None, *args, **kwargs):
         cdef Evas_Smart_Cb cb = NULL
 
         if callback:
@@ -262,7 +266,8 @@ cdef class ToolbarItem(ObjectItem):
         object icon
         Evas_Smart_Cb cb
 
-    def __init__(self, icon = None, label = None, callback = None, *args, **kwargs):
+    def __init__(self, icon = None, label = None, callback = None,
+        cb_data = None, *args, **kwargs):
         """
 
         If a function is passed as argument, it will be called every time
@@ -292,6 +297,7 @@ cdef class ToolbarItem(ObjectItem):
         self.icon = icon
         self.label = label
         self.cb_func = callback
+        self.cb_data = cb_data
         self.args = args
         self.kwargs = kwargs
 
@@ -318,7 +324,7 @@ cdef class ToolbarItem(ObjectItem):
         cdef Evas_Smart_Cb cb = NULL
 
         if self.cb_func is not None:
-            cb = _object_item_callback
+            cb = _object_item_callback2
 
         item = elm_toolbar_item_append(toolbar.obj,
             <const_char *>self.icon if self.icon is not None else NULL,
@@ -327,6 +333,7 @@ cdef class ToolbarItem(ObjectItem):
 
         if item != NULL:
             self._set_obj(item)
+            self._set_properties_from_keyword_args(self.kwargs)
             return self
         else:
             Py_DECREF(self)
@@ -350,7 +357,7 @@ cdef class ToolbarItem(ObjectItem):
         cdef Evas_Smart_Cb cb = NULL
 
         if self.cb_func is not None:
-            cb = _object_item_callback
+            cb = _object_item_callback2
 
         item = elm_toolbar_item_prepend(toolbar.obj,
             <const_char *>self.icon if self.icon is not None else NULL,
@@ -359,6 +366,7 @@ cdef class ToolbarItem(ObjectItem):
 
         if item != NULL:
             self._set_obj(item)
+            self._set_properties_from_keyword_args(self.kwargs)
             return self
         else:
             Py_DECREF(self)
@@ -384,7 +392,7 @@ cdef class ToolbarItem(ObjectItem):
             Evas_Smart_Cb cb = NULL
 
         if self.cb_func is not None:
-            cb = _object_item_callback
+            cb = _object_item_callback2
 
         item = elm_toolbar_item_insert_after(toolbar,
             after.item,
@@ -394,6 +402,7 @@ cdef class ToolbarItem(ObjectItem):
 
         if item != NULL:
             self._set_obj(item)
+            self._set_properties_from_keyword_args(self.kwargs)
             return self
         else:
             Py_DECREF(self)
@@ -419,7 +428,7 @@ cdef class ToolbarItem(ObjectItem):
             Evas_Smart_Cb cb = NULL
 
         if self.cb_func is not None:
-            cb = _object_item_callback
+            cb = _object_item_callback2
 
         item = elm_toolbar_item_insert_before(toolbar,
             before.item,
@@ -429,6 +438,7 @@ cdef class ToolbarItem(ObjectItem):
 
         if item != NULL:
             self._set_obj(item)
+            self._set_properties_from_keyword_args(self.kwargs)
             return self
         else:
             Py_DECREF(self)
@@ -799,7 +809,30 @@ cdef class Toolbar(Object):
         return elm_toolbar_icon_order_lookup_get(self.obj)
 
     def item_append(self, icon, label, callback = None, *args, **kargs):
-        return ToolbarItem(icon, label, callback, *args, **kargs).append_to(self)
+        cdef:
+            Elm_Object_Item *item
+            Evas_Smart_Cb cb = NULL
+            ToolbarItem ret = ToolbarItem.__new__(ToolbarItem)
+
+        if callback is not None and callable(callback):
+            cb = _object_item_callback
+
+        if isinstance(icon, unicode): icon = PyUnicode_AsUTF8String(icon)
+        if isinstance(label, unicode): label = PyUnicode_AsUTF8String(label)
+
+        item = elm_toolbar_item_append(self.obj,
+            <const_char *>icon if icon is not None else NULL,
+            <const_char *>label if label is not None else NULL,
+            cb, <void*>ret)
+
+        if item != NULL:
+            ret._set_obj(item)
+            ret.cb_func = callback
+            ret.args = args
+            ret.kwargs = kargs
+            return ret
+        else:
+            return None
 
     #TODO: def item_prepend(self, icon, label, callback = None, *args, **kargs):
         #return ToolbarItem(self, icon, label, callback, *args, **kargs)

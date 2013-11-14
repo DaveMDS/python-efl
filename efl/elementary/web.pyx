@@ -77,7 +77,6 @@ from efl.utils.conversions cimport _ctouni
 from efl.evas cimport Object as evasObject
 from object cimport Object
 
-include "callback_conversions.pxi"
 import traceback
 
 cimport enums
@@ -92,6 +91,10 @@ ELM_WEB_WINDOW_FEATURE_FULLSCREEN = enums.ELM_WEB_WINDOW_FEATURE_FULLSCREEN
 ELM_WEB_ZOOM_MODE_MANUAL = enums.ELM_WEB_ZOOM_MODE_MANUAL
 ELM_WEB_ZOOM_MODE_AUTO_FIT = enums.ELM_WEB_ZOOM_MODE_AUTO_FIT
 ELM_WEB_ZOOM_MODE_AUTO_FILL = enums.ELM_WEB_ZOOM_MODE_AUTO_FILL
+
+def _cb_string_conv(long addr):
+    cdef const_char *s = <const_char *>addr
+    return _ctouni(s) if s is not NULL else None
 
 def _web_double_conv(long addr):
     cdef double *info = <double *>addr

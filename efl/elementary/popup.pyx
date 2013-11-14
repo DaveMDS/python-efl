@@ -177,8 +177,8 @@ from efl.eo cimport _object_mapping_register, PY_REFCOUNT
 from efl.utils.conversions cimport _ctouni
 from efl.evas cimport Object as evasObject
 from object cimport Object
-from object_item cimport    _object_item_callback, \
-                            _object_item_to_python
+from object_item cimport _object_item_callback, _object_item_callback2, \
+    _object_item_to_python
 
 cimport enums
 
@@ -217,7 +217,8 @@ cdef class PopupItem(ObjectItem):
         bytes label
         evasObject icon
 
-    def __init__(self, evasObject popup, label = None, evasObject icon = None, func = None, *args, **kwargs):
+    def __init__(self, evasObject popup, label = None, evasObject icon = None,
+        func = None, cb_data = None, *args, **kwargs):
         if func is not None:
             if not callable(func):
                 raise TypeError("func is not None or callable")
@@ -226,6 +227,7 @@ cdef class PopupItem(ObjectItem):
         self.label = label
         self.icon = icon
         self.cb_func = func
+        self.cb_data = cb_data
         self.args = args
         self.kwargs = kwargs
 
@@ -234,7 +236,7 @@ cdef class PopupItem(ObjectItem):
         cdef Evas_Smart_Cb cb = NULL
 
         if self.cb_func is not None:
-            cb = _object_item_callback
+            cb = _object_item_callback2
 
         item = elm_popup_item_append(popup.obj,
             <const_char *>self.label if not None else NULL,
@@ -243,9 +245,11 @@ cdef class PopupItem(ObjectItem):
 
         if item != NULL:
             self._set_obj(item)
+            self._set_properties_from_keyword_args(self.kwargs)
             return self
         else:
-            Py_DECREF(self)
+            # FIXME: raise RuntimeError?
+            return None
 
 
     def __str__(self):
@@ -296,7 +300,29 @@ cdef class Popup(Object):
             content area.
 
         """
-        return PopupItem(self, label, icon, func, *args, **kwargs)
+        cdef:
+            Elm_Object_Item *item
+            Evas_Smart_Cb cb = NULL
+            PopupItem ret = PopupItem.__new__(PopupItem)
+
+        if func is not None and callable(func):
+            cb = _object_item_callback
+
+        if isinstance(label, unicode): label = PyUnicode_AsUTF8String(label)
+
+        item = elm_popup_item_append(self.obj,
+            <const_char *>label if label is not None else NULL,
+            icon.obj if icon is not None else NULL,
+            cb, <void*>ret)
+
+        if item != NULL:
+            ret._set_obj(item)
+            ret.cb_func = func
+            ret.args = args
+            ret.kwargs = kwargs
+            return ret
+        else:
+            return None
 
     property content_text_wrap_type:
         """Sets the wrapping type of content text packed in content

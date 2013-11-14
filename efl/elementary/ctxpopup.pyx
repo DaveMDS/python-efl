@@ -93,7 +93,8 @@ from efl.eo cimport _object_mapping_register, object_from_instance
 from efl.utils.conversions cimport _ctouni
 from efl.evas cimport Object as evasObject
 from layout_class cimport LayoutClass
-from object_item cimport ObjectItem, _object_item_callback
+from object_item cimport ObjectItem, _object_item_callback, \
+    _object_item_callback2
 
 cimport enums
 
@@ -109,7 +110,8 @@ cdef class CtxpopupItem(ObjectItem):
         bytes label
         evasObject icon
 
-    def __init__(self, label = None, evasObject icon = None, callback = None, *args, **kargs):
+    def __init__(self, label = None, evasObject icon = None,
+        callback = None, cb_data = None, *args, **kargs):
         """
         .. warning:: Ctxpopup can't hold both an item list and a content at the
             same time. When an item is added, any previous content will be
@@ -133,6 +135,7 @@ cdef class CtxpopupItem(ObjectItem):
         self.label = label
         self.icon = icon
         self.cb_func = callback
+        self.cb_data = cb_data
         self.args = args
         self.kwargs = kargs
 
@@ -157,7 +160,7 @@ cdef class CtxpopupItem(ObjectItem):
         cdef Evas_Smart_Cb cb = NULL
 
         if self.cb_func is not None:
-            cb = _object_item_callback
+            cb = _object_item_callback2
 
         item = elm_ctxpopup_item_append(ctxpopup.obj,
             <const_char *>self.label if self.label is not None else NULL,
@@ -166,9 +169,11 @@ cdef class CtxpopupItem(ObjectItem):
 
         if item != NULL:
             self._set_obj(item)
+            self._set_properties_from_keyword_args(self.kwargs)
             return self
         else:
-            Py_DECREF(self)
+            # FIXME: raise RuntimeError?
+            return None
 
 cdef class Ctxpopup(LayoutClass):
 
@@ -216,7 +221,8 @@ cdef class Ctxpopup(LayoutClass):
     def horizontal_get(self):
         return bool(elm_ctxpopup_horizontal_get(self.obj))
 
-    def item_append(self, label, evasObject icon = None, func = None, *args, **kwargs):
+    def item_append(self, label, evasObject icon = None, func = None,
+        *args, **kwargs):
         """item_append(unicode label, evas.Object icon, func, *args, **kwargs) -> CtxpopupItem
 
         A constructor for a :py:class:`CtxpopupItem`.
@@ -224,7 +230,29 @@ cdef class Ctxpopup(LayoutClass):
         :see: :py:func:`CtxpopupItem.append_to`
 
         """
-        return CtxpopupItem(label, icon, func, *args, **kwargs).append_to(self)
+        cdef:
+            Elm_Object_Item *item
+            Evas_Smart_Cb cb = NULL
+            CtxpopupItem ret = CtxpopupItem.__new__(CtxpopupItem)
+
+        if func is not None and callable(func):
+            cb = _object_item_callback
+
+        if isinstance(label, unicode): label = PyUnicode_AsUTF8String(label)
+
+        item = elm_ctxpopup_item_append(self.obj,
+            <const_char *>label if label is not None else NULL,
+            icon.obj if icon is not None else NULL,
+            cb, <void*>ret)
+
+        if item != NULL:
+            ret._set_obj(item)
+            ret.cb_func = func
+            ret.args = args
+            ret.kwargs = kwargs
+            return ret
+        else:
+            return None
 
     property direction_priority:
         """The direction priority order of a ctxpopup.

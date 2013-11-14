@@ -67,15 +67,12 @@ Colorselector modes
 
 """
 
-
-include "callback_conversions.pxi"
-
 from cpython cimport PyUnicode_AsUTF8String, Py_DECREF
 
 from efl.eo cimport _object_mapping_register
 from efl.utils.conversions cimport _ctouni
 from efl.evas cimport Object as evasObject
-from object_item cimport ObjectItem
+from object_item cimport ObjectItem, _object_item_to_python
 from layout_class cimport LayoutClass
 
 cimport enums
@@ -84,16 +81,31 @@ ELM_COLORSELECTOR_PALETTE = enums.ELM_COLORSELECTOR_PALETTE
 ELM_COLORSELECTOR_COMPONENTS = enums.ELM_COLORSELECTOR_COMPONENTS
 ELM_COLORSELECTOR_BOTH = enums.ELM_COLORSELECTOR_BOTH
 
+def _cb_object_item_conv(long addr):
+    cdef Elm_Object_Item *it = <Elm_Object_Item *>addr
+    return _object_item_to_python(it)
+
 cdef class ColorselectorPaletteItem(ObjectItem):
+
+    cdef int r, g, b, a
 
     """An item for the :py:class:`Colorselector` widget."""
 
-    def __init__(self, evasObject cs, r, g, b, a):
-        cdef Elm_Object_Item *item = elm_colorselector_palette_color_add(cs.obj, r, g, b, a)
+    def __init__(self, int r, int g, int b, int a, *args, **kwargs):
+        self.r, self.g, self.b, self.a = r, g, b, a
+        self.args, self.kwargs = args, kwargs
+
+    def add_to(self, evasObject cs):
+        cdef Elm_Object_Item *item
+        item = elm_colorselector_palette_color_add(
+            cs.obj, self.r, self.g, self.b, self.a)
         if item != NULL:
             self._set_obj(item)
+            self._set_properties_from_keyword_args(self.kwargs)
+            return self
         else:
-            Py_DECREF(self)
+            # FIXME: raise RuntimeError?
+            return None
 
     property color:
         """The palette items color.
@@ -182,7 +194,7 @@ cdef class Colorselector(LayoutClass):
         :rtype: :py:class:`ColorselectorPaletteItem`
 
         """
-        return ColorselectorPaletteItem(self, r, g, b, a)
+        return ColorselectorPaletteItem(r, g, b, a).add_to(self)
 
     def palette_clear(self):
         """palette_clear()

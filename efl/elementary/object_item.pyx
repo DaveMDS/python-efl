@@ -22,6 +22,10 @@ from efl.utils.conversions cimport _ctouni
 from efl.utils.deprecated cimport DEPRECATED
 from efl.evas cimport Object as evasObject
 
+from efl.eina cimport EINA_LOG_DOM_DBG, EINA_LOG_DOM_INFO, EINA_LOG_DOM_WARN, \
+    EINA_LOG_DOM_ERR, EINA_LOG_DOM_CRIT
+from efl.elementary.general cimport PY_EFL_ELM_LOG_DOMAIN
+
 include "tooltips.pxi"
 
 # cdef void _tooltip_item_data_del_cb(void *data, Evas_Object *o, void *event_info) with gil:
@@ -48,11 +52,9 @@ cdef _object_item_to_python(Elm_Object_Item *it):
     data = elm_object_item_data_get(it)
 
     if data == NULL:
-        #
-        # Attempt to create a dummy object item.
-        #
-        # TODO: Warn here that the item is not complete.
-        #
+        # Create a dummy object item.
+        EINA_LOG_DOM_WARN(PY_EFL_ELM_LOG_DOMAIN,
+            "Creating an incomplete ObjectItem.", NULL)
         item = ObjectItem.__new__(ObjectItem)
         item._set_obj(it)
     else:
@@ -79,10 +81,20 @@ cdef void _object_item_del_cb(void *data, Evas_Object *o, void *event_info) with
         Py_DECREF(d)
 
 cdef void _object_item_callback(void *data, Evas_Object *obj, void *event_info) with gil:
+    # This should be used with old style items
     cdef ObjectItem item = <object>data
     try:
         o = object_from_instance(obj)
         item.cb_func(o, item, *item.args, **item.kwargs)
+    except:
+        traceback.print_exc()
+
+cdef void _object_item_callback2(void *data, Evas_Object *obj, void *event_info) with gil:
+    # This should be used with new style items
+    cdef ObjectItem item = <object>data
+    try:
+        o = object_from_instance(obj)
+        item.cb_func(o, item, item.cb_data)
     except:
         traceback.print_exc()
 
@@ -137,6 +149,13 @@ cdef class ObjectItem(object):
             PY_REFCOUNT(self),
             repr(object_from_instance(elm_object_item_widget_get(self.item)))
             )
+
+    cdef int _set_properties_from_keyword_args(self, dict kwargs) except 0:
+        cdef list cls_list = dir(self)
+        for k, v in kwargs.items():
+            assert k in cls_list, "%s has no attribute with the name %s." % (self, k)
+            setattr(self, k, v)
+        return 1
 
     @DEPRECATED("1.8", "Use the data attribute (dict) instead.")
     def data_get(self):

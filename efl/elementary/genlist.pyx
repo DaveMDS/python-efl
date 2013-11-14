@@ -504,8 +504,6 @@ Selection modes
 
 """
 
-
-include "callback_conversions.pxi"
 include "tooltips.pxi"
 
 from cpython cimport PyUnicode_AsUTF8String, Py_DECREF, Py_INCREF
@@ -522,6 +520,11 @@ from object_item cimport ObjectItem, _object_item_to_python, \
     elm_object_item_widget_get, _object_item_from_python, \
     _object_item_list_to_python, elm_object_item_data_get
 from general cimport strdup
+
+from general cimport PY_EFL_ELM_LOG_DOMAIN
+from efl.eina cimport EINA_LOG_DOM_DBG, EINA_LOG_DOM_INFO, EINA_LOG_DOM_WARN, \
+    EINA_LOG_DOM_ERR, EINA_LOG_DOM_CRIT
+
 cimport enums
 
 import traceback
@@ -566,6 +569,9 @@ ELM_SEL_TYPE_SECONDARY = enums.ELM_SEL_TYPE_SECONDARY
 ELM_SEL_TYPE_XDND = enums.ELM_SEL_TYPE_XDND
 ELM_SEL_TYPE_CLIPBOARD = enums.ELM_SEL_TYPE_CLIPBOARD
 
+def _cb_object_item_conv(long addr):
+    cdef Elm_Object_Item *it = <Elm_Object_Item *>addr
+    return _object_item_to_python(it)
 
 cdef char *_py_elm_genlist_item_text_get(void *data, Evas_Object *obj, const_char *part) with gil:
     cdef:
@@ -650,7 +656,6 @@ cdef void _py_elm_genlist_object_item_del(void *data, Evas_Object *obj) with gil
             traceback.print_exc()
 
     item._unset_obj()
-    Py_DECREF(item)
 
 cdef void _py_elm_genlist_item_func(void *data, Evas_Object *obj, void *event_info) with gil:
     cdef GenlistItem item = <object>data

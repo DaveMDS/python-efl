@@ -1,6 +1,5 @@
 from efl.evas cimport Eina_Bool, Eina_List, Evas_Object, Evas_Smart_Cb
-from button cimport Button
-from object_item cimport Elm_Object_Item, ObjectItem
+from object_item cimport Elm_Object_Item
 from enums cimport Elm_Icon_Type
 from libc.string cimport const_char
 

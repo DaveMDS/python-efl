@@ -53,8 +53,6 @@ Default text parts of the segment control items that you can use for are:
 
 """
 
-include "callback_conversions.pxi"
-
 from cpython cimport PyUnicode_AsUTF8String
 
 from efl.eo cimport _object_mapping_register, object_from_instance
@@ -63,6 +61,10 @@ from efl.evas cimport Object as evasObject
 from layout_class cimport LayoutClass
 
 from object_item cimport _object_item_to_python
+
+def _cb_object_item_conv(long addr):
+    cdef Elm_Object_Item *it = <Elm_Object_Item *>addr
+    return _object_item_to_python(it)
 
 cdef class SegmentControlItem(ObjectItem):
 

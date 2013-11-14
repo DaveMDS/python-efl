@@ -69,9 +69,11 @@ cdef class GenlistItem(ObjectItem):
         Py_INCREF(self)
         return 1
 
-    cdef void _unset_obj(self):
+    cdef int _unset_obj(self) except 0:
         assert self.item != NULL, "Object must wrap something"
         self.item = NULL
+        Py_DECREF(self)
+        return 1
 
     def __repr__(self):
         return ("<%s(%#x, refcount=%d, Elm_Object_Item=%#x, "

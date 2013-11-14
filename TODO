@@ -41,9 +41,6 @@ Elementary
 * Fix Theme API, add a test
 * ObjectItem.data changed to dict (like in Eo). Find out what this affects
   and document it.
-* Item add methods (constructors) should be changed to have cb_data in a
-  single argument, not args, kwargs. The callback signatures need to be
-  changed as well.
 * Get rid of enums in __init__.py
 * Automate compilation of the example edje files.
 

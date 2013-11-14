@@ -94,8 +94,6 @@ Image manipulation types
 
 """
 
-include "callback_conversions.pxi"
-
 from cpython cimport PyUnicode_AsUTF8String
 
 from efl.eo cimport _object_mapping_register, object_from_instance
@@ -113,6 +111,9 @@ ELM_IMAGE_FLIP_VERTICAL = enums.ELM_IMAGE_FLIP_VERTICAL
 ELM_IMAGE_FLIP_TRANSPOSE = enums.ELM_IMAGE_FLIP_TRANSPOSE
 ELM_IMAGE_FLIP_TRANSVERSE = enums.ELM_IMAGE_FLIP_TRANSVERSE
 
+def _cb_string_conv(long addr):
+    cdef const_char *s = <const_char *>addr
+    return _ctouni(s) if s is not NULL else None
 
 class ImageProgressInfo(object):
     """

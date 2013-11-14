@@ -158,18 +158,14 @@ Selection modes
 
 """
 
-
-include "callback_conversions.pxi"
-
 from cpython cimport PyUnicode_AsUTF8String, Py_DECREF
 
 from efl.eo cimport _object_mapping_register, object_from_instance, PY_REFCOUNT
 from efl.utils.conversions cimport _ctouni
 from efl.evas cimport Object as evasObject
 from object cimport Object
-from object_item cimport    _object_item_callback, \
-                            _object_item_to_python, \
-                            _object_item_list_to_python
+from object_item cimport _object_item_callback, _object_item_callback2, \
+    _object_item_to_python, _object_item_list_to_python
 
 from efl.utils.deprecated cimport DEPRECATED
 from scroller cimport elm_scroller_policy_get, elm_scroller_policy_set, \
@@ -192,6 +188,9 @@ ELM_SCROLLER_POLICY_AUTO = enums.ELM_SCROLLER_POLICY_AUTO
 ELM_SCROLLER_POLICY_ON = enums.ELM_SCROLLER_POLICY_ON
 ELM_SCROLLER_POLICY_OFF = enums.ELM_SCROLLER_POLICY_OFF
 
+def _cb_object_item_conv(long addr):
+    cdef Elm_Object_Item *it = <Elm_Object_Item *>addr
+    return _object_item_to_python(it)
 
 cdef class ListItem(ObjectItem):
 
@@ -201,19 +200,18 @@ cdef class ListItem(ObjectItem):
         Evas_Object *icon_obj, *end_obj
 
     def __init__(self, label = None, evasObject icon = None,
-        evasObject end = None, callback = None, *args, **kargs):
+        evasObject end = None, callback = None, cb_data = None, *args, **kargs):
         """Create a new ListItem
 
-        :param label: The label of the list item.
-        :type  label: string
+        :param string label: The label of the list item.
         :param  icon: The icon object to use for the left side of the item. An
                       icon can be any Evas object, but usually it is an :py:class:`Icon`.
         :type   icon: :py:class:`evas.object.Object`
         :param   end: The icon object to use for the right side of the item. An
                       icon can be any Evas object.
         :type    end: :py:class:`evas.object.Object`
-        :param  callback: The function to call when the item is clicked.
-        :type   callback: function
+        :param callable callback: The function to call when the item is clicked.
+        :param cb_data: An object associated with the callback.
 
         """
         if isinstance(label, unicode): label = PyUnicode_AsUTF8String(label)
@@ -229,23 +227,24 @@ cdef class ListItem(ObjectItem):
                 raise TypeError("callback is not callable")
 
         self.cb_func = callback
+        self.cb_data = cb_data
         self.args = args
         self.kwargs = kargs
 
-    def __str__(self):
-        return ("%s(label=%r, icon=%s, end=%s, "
-                "callback=%r, args=%r, kargs=%s)") % \
-            (self.__class__.__name__, self.text_get(), bool(self.part_content_get("icon")),
-             bool(self.part_content_get("end")), self.cb_func, self.args, self.kwargs)
-
     def __repr__(self):
-        return ("%s(%#x, refcount=%d, Elm_Object_Item=%#x, "
+        return ("<%s at %#x (refcount=%d, item=%#x, "
                 "label=%r, icon=%s, end=%s, "
-                "callback=%r, args=%r, kargs=%s)") % \
-            (self.__class__.__name__, <unsigned long><void *>self,
-             PY_REFCOUNT(self), <unsigned long><void *>self.item,
-             self.text_get(), bool(self.part_content_get("icon")),
-             bool(self.part_content_get("end")), self.cb_func, self.args, self.kwargs)
+                "callback=%r, cb_data=%r, "
+                "args=%r, kargs=%r)>") % (
+        type(self).__name__,
+        <unsigned long><void *>self,
+        PY_REFCOUNT(self),
+        <unsigned long><void *>self.item,
+        self.text,
+        getattr(self.part_content_get("icon"), "file", None),
+        getattr(self.part_content_get("end"), "file", None),
+        self.cb_func, self.cb_data,
+        self.args, self.kwargs)
 
     def append_to(self, List list):
         """append_to(List list)
@@ -286,7 +285,7 @@ cdef class ListItem(ObjectItem):
         cdef Elm_Object_Item *item
         cdef Evas_Smart_Cb cb = NULL
         if self.cb_func is not None:
-            cb = _object_item_callback
+            cb = _object_item_callback2
 
         item = elm_list_item_append(list.obj,
             <const_char *>self.label if self.label is not None else NULL,
@@ -295,9 +294,11 @@ cdef class ListItem(ObjectItem):
 
         if item != NULL:
             self._set_obj(item)
+            self._set_properties_from_keyword_args(self.kwargs)
             return self
         else:
-            Py_DECREF(self)
+            # FIXME: raise RuntimeError?
+            return None
 
     def prepend_to(self, List list):
         """prepend_to(List list)
@@ -321,7 +322,7 @@ cdef class ListItem(ObjectItem):
         cdef Elm_Object_Item *item
         cdef Evas_Smart_Cb cb = NULL
         if self.cb_func is not None:
-            cb = _object_item_callback
+            cb = _object_item_callback2
 
         item = elm_list_item_prepend(   list.obj,
             <const_char *>self.label if self.label is not None else NULL,
@@ -330,9 +331,11 @@ cdef class ListItem(ObjectItem):
 
         if item != NULL:
             self._set_obj(item)
+            self._set_properties_from_keyword_args(self.kwargs)
             return self
         else:
-            Py_DECREF(self)
+            # FIXME: raise RuntimeError?
+            return None
 
     def insert_before(self, ListItem before):
         """insert_before(ListItem before)
@@ -356,7 +359,7 @@ cdef class ListItem(ObjectItem):
         cdef Elm_Object_Item *item
         cdef Evas_Smart_Cb cb = NULL
         if self.cb_func is not None:
-            cb = _object_item_callback
+            cb = _object_item_callback2
 
         cdef List list = before.widget
         item = elm_list_item_insert_before( list.obj,
@@ -367,9 +370,11 @@ cdef class ListItem(ObjectItem):
 
         if item != NULL:
             self._set_obj(item)
+            self._set_properties_from_keyword_args(self.kwargs)
             return self
         else:
-            Py_DECREF(self)
+            # FIXME: raise RuntimeError?
+            return None
 
     def insert_after(self, ListItem after):
         """insert_after(ListItem after)
@@ -393,7 +398,7 @@ cdef class ListItem(ObjectItem):
         cdef Elm_Object_Item *item
         cdef Evas_Smart_Cb cb = NULL
         if self.cb_func is not None:
-            cb = _object_item_callback
+            cb = _object_item_callback2
 
         cdef List list = after.widget
         item = elm_list_item_insert_after(  list.obj,
@@ -404,50 +409,53 @@ cdef class ListItem(ObjectItem):
 
         if item != NULL:
             self._set_obj(item)
+            self._set_properties_from_keyword_args(self.kwargs)
             return self
         else:
-            Py_DECREF(self)
+            # FIXME: raise RuntimeError?
+            return None
 
-    #def sorted_insert_to(self, List list, cmp_func=None):
-        """Insert a new item into the sorted list object.
+    # TODO:
+    # def sorted_insert_to(self, List list, cmp_func=None):
+    #     """Insert a new item into the sorted list object.
 
-        .. seealso::
-            :py:func:`append_to()`
-            :py:attr:`List.select_mode`
-            :py:func:`efl.elementary.object_item.ObjectItem.delete()`
-            :py:func:`List.clear()`
-            :py:class:`Icon <efl.elementary.icon.Icon>`
+    #     .. seealso::
+    #         :py:func:`append_to()`
+    #         :py:attr:`List.select_mode`
+    #         :py:func:`efl.elementary.object_item.ObjectItem.delete()`
+    #         :py:func:`List.clear()`
+    #         :py:class:`Icon <efl.elementary.icon.Icon>`
 
-        .. note:: This function inserts values into a list object assuming
-            it was sorted and the result will be sorted.
+    #     .. note:: This function inserts values into a list object assuming
+    #         it was sorted and the result will be sorted.
 
-        :param cmp_func: The comparing function to be used to sort list
-                         items **by :py:class:`ListItem` handles**. This
-                         function will receive two items and compare them,
-                         returning a non-negative integer if the second item
-                         should be place after the first, or negative value
-                         if should be placed before.
-        :type  cmp_func: function
+    #     :param cmp_func: The comparing function to be used to sort list
+    #                      items **by :py:class:`ListItem` handles**. This
+    #                      function will receive two items and compare them,
+    #                      returning a non-negative integer if the second item
+    #                      should be place after the first, or negative value
+    #                      if should be placed before.
+    #     :type  cmp_func: function
 
-        :return:        The created item or ``None`` upon failure.
-        :rtype:         :py:class:`ListItem`
+    #     :return:        The created item or ``None`` upon failure.
+    #     :rtype:         :py:class:`ListItem`
 
-        """
-        #cdef Elm_Object_Item *item
+    #     """
+    #     cdef Elm_Object_Item *item
 
-        #item = elm_list_item_sorted_insert(list.obj,
-            #<const_char *>self.label if self.label is not None else NULL,
-            #icon_obj,
-            #end_obj,
-            #cb,
-            #<void*>self,
-            #cmp_f)
+    #     item = elm_list_item_sorted_insert(list.obj,
+    #         <const_char *>self.label if self.label is not None else NULL,
+    #         icon_obj,
+    #         end_obj,
+    #         cb,
+    #         <void*>self,
+    #         cmp_f)
 
-        #if item != NULL:
-            #self._set_obj(item)
-            #return self
-        #else:
-            #Py_DECREF(self)
+    #     if item != NULL:
+    #         self._set_obj(item)
+    #         return self
+    #     else:
+    #         Py_DECREF(self)
 
     property selected:
         """The selected state of an item.
@@ -697,21 +705,129 @@ cdef class List(Object):
     def select_mode_get(self):
         return elm_list_select_mode_get(self.obj)
 
-    def item_append(self, label, evasObject icon = None,
-                    evasObject end = None, callback = None, *args, **kargs):
-        return ListItem(label, icon, end, callback, *args, **kargs).append_to(self)
+    def item_append(self, label = None, evasObject icon = None,
+        evasObject end = None, callback = None, *args, **kargs):
+        cdef:
+            Elm_Object_Item *item
+            Evas_Smart_Cb cb = NULL
+            ListItem ret = ListItem.__new__(ListItem)
 
-    def item_prepend(self, label, evasObject icon = None,
-                    evasObject end = None, callback = None, *args, **kargs):
-        return ListItem(label, icon, end, callback, *args, **kargs).prepend_to(self)
+        if callback is not None:
+            if not callable(callback):
+                raise TypeError
+            ret.cb_func = callback
 
-    def item_insert_before(self, ListItem before, label, evasObject icon = None,
-                    evasObject end = None, callback = None, *args, **kargs):
-        return ListItem(label, icon, end, callback, *args, **kargs).insert_before(before)
+            cb = _object_item_callback
 
-    def item_insert_after(self, ListItem after, label, evasObject icon = None,
-                    evasObject end = None, callback = None, *args, **kargs):
-        return ListItem(label, icon, end, callback, *args, **kargs).insert_after(after)
+        if isinstance(label, unicode): label = PyUnicode_AsUTF8String(label)
+
+        item = elm_list_item_append(self.obj,
+            <const_char *>label if label is not None else NULL,
+            icon.obj if icon is not None else NULL,
+            end.obj if end is not None else NULL,
+            cb, <void*>self)
+
+        if item != NULL:
+            ret._set_obj(item)
+            ret.args = args
+            ret.kwargs = kargs
+            return ret
+        else:
+            return None
+
+    def item_prepend(self, label = None, evasObject icon = None,
+        evasObject end = None, callback = None, *args, **kargs):
+        cdef:
+            Elm_Object_Item *item
+            Evas_Smart_Cb cb = NULL
+            ListItem ret = ListItem.__new__(ListItem)
+
+        if callback is not None:
+            if not callable(callback):
+                raise TypeError
+            ret.cb_func = callback
+
+            cb = _object_item_callback
+
+        if isinstance(label, unicode): label = PyUnicode_AsUTF8String(label)
+
+        item = elm_list_item_prepend(self.obj,
+            <const_char *>label if label is not None else NULL,
+            icon.obj if icon is not None else NULL,
+            end.obj if end is not None else NULL,
+            cb, <void*>self)
+
+        if item != NULL:
+            ret._set_obj(item)
+            ret.args = args
+            ret.kwargs = kargs
+            return ret
+        else:
+            return None
+
+    def item_insert_before(self, ListItem before not None, label = None,
+        evasObject icon = None, evasObject end = None, callback = None,
+        *args, **kargs):
+        cdef:
+            Elm_Object_Item *item
+            Evas_Smart_Cb cb = NULL
+            ListItem ret = ListItem.__new__(ListItem)
+
+        if callback is not None:
+            if not callable(callback):
+                raise TypeError
+            ret.cb_func = callback
+
+            cb = _object_item_callback
+
+        if isinstance(label, unicode): label = PyUnicode_AsUTF8String(label)
+
+        item = elm_list_item_insert_before(self.obj,
+            before.item,
+            <const_char *>label if label is not None else NULL,
+            icon.obj if icon is not None else NULL,
+            end.obj if end is not None else NULL,
+            cb, <void*>self)
+
+        if item != NULL:
+            ret._set_obj(item)
+            ret.args = args
+            ret.kwargs = kargs
+            return ret
+        else:
+            return None
+
+    def item_insert_after(self, ListItem after not None, label = None,
+        evasObject icon = None, evasObject end = None, callback = None,
+        *args, **kargs):
+        cdef:
+            Elm_Object_Item *item
+            Evas_Smart_Cb cb = NULL
+            ListItem ret = ListItem.__new__(ListItem)
+
+        if callback is not None:
+            if not callable(callback):
+                raise TypeError
+            ret.cb_func = callback
+
+            cb = _object_item_callback
+
+        if isinstance(label, unicode): label = PyUnicode_AsUTF8String(label)
+
+        item = elm_list_item_insert_after(self.obj,
+            after.item,
+            <const_char *>label if label is not None else NULL,
+            icon.obj if icon is not None else NULL,
+            end.obj if end is not None else NULL,
+            cb, <void*>self)
+
+        if item != NULL:
+            ret._set_obj(item)
+            ret.args = args
+            ret.kwargs = kargs
+            return ret
+        else:
+            return None
 
     def clear(self):
         """clear()

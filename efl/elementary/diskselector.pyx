@@ -71,10 +71,6 @@ using multiple inheritance, for example::
 
 """
 
-
-
-include "callback_conversions.pxi"
-
 from cpython cimport PyUnicode_AsUTF8String, Py_DECREF
 
 from efl.eo cimport _object_mapping_register
@@ -82,11 +78,15 @@ from efl.utils.conversions cimport _ctouni
 from efl.evas cimport Object as evasObject
 from object cimport Object
 from object_item cimport ObjectItem, _object_item_callback, \
-    _object_item_to_python, _object_item_list_to_python
+    _object_item_to_python, _object_item_list_to_python, _object_item_callback2
 
 from efl.utils.deprecated cimport DEPRECATED
 from scroller cimport elm_scroller_policy_get, elm_scroller_policy_set, \
     elm_scroller_bounce_get, elm_scroller_bounce_set, Elm_Scroller_Policy
+
+def _cb_object_item_conv(long addr):
+    cdef Elm_Object_Item *it = <Elm_Object_Item *>addr
+    return _object_item_to_python(it)
 
 cdef class DiskselectorItem(ObjectItem):
 
@@ -126,7 +126,8 @@ cdef class DiskselectorItem(ObjectItem):
         bytes label
         evasObject icon
 
-    def __init__(self, label, evasObject icon=None, callback=None, *args, **kargs):
+    def __init__(self, label=None, evasObject icon=None, callback=None,
+        cb_data=None, *args, **kargs):
         """
 
         :param label: The label of the diskselector item.
@@ -147,6 +148,7 @@ cdef class DiskselectorItem(ObjectItem):
         self.label = label
         self.icon = icon
         self.cb_func = callback
+        self.cb_data = cb_data
         self.args = args
         self.kwargs = kargs
 
@@ -162,7 +164,7 @@ cdef class DiskselectorItem(ObjectItem):
         cdef Evas_Smart_Cb cb = NULL
 
         if self.cb_func is not None:
-            cb = _object_item_callback
+            cb = _object_item_callback2
 
         item = elm_diskselector_item_append(diskselector.obj,
             <const_char *>self.label if self.label is not None else NULL,
@@ -171,6 +173,7 @@ cdef class DiskselectorItem(ObjectItem):
 
         if item != NULL:
             self._set_obj(item)
+            self._set_properties_from_keyword_args(self.kwargs)
             return self
         else:
             Py_DECREF(self)
@@ -343,7 +346,8 @@ cdef class Diskselector(Object):
         def __get__(self):
             return _object_item_list_to_python(elm_diskselector_items_get(self.obj))
 
-    def item_append(self, label, evasObject icon = None, callback = None, *args, **kwargs):
+    def item_append(self, label, evasObject icon = None, callback = None,
+        *args, **kwargs):
         """item_append(self, unicode label, evas.Object icon = None, callback = None, *args, **kwargs) -> DiskselectorItem
 
         A constructor for :py:class:`DiskselectorItem`
@@ -351,7 +355,29 @@ cdef class Diskselector(Object):
         :see: :py:func`DiskselectorItem.append_to`
 
         """
-        return DiskselectorItem(label, icon, callback, *args, **kwargs).append_to(self)
+        cdef:
+            Elm_Object_Item *item
+            Evas_Smart_Cb cb = NULL
+            DiskselectorItem ret = DiskselectorItem.__new__(DiskselectorItem)
+
+        if callback is not None and callable(callback):
+            cb = _object_item_callback
+
+        if isinstance(label, unicode): label = PyUnicode_AsUTF8String(label)
+
+        item = elm_diskselector_item_append(self.obj,
+            <const_char *>label if label is not None else NULL,
+            icon.obj if icon is not None else NULL,
+            cb, <void*>ret)
+
+        if item != NULL:
+            ret._set_obj(item)
+            ret.cb_func = callback
+            ret.args = args
+            ret.kwargs = kwargs
+            return ret
+        else:
+            return None
 
     property selected_item:
         """Get the selected item.

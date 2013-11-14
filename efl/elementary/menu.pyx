@@ -49,9 +49,8 @@ from cpython cimport PyUnicode_AsUTF8String, Py_DECREF
 from efl.eo cimport _object_mapping_register, object_from_instance
 from efl.utils.conversions cimport _ctouni
 from efl.evas cimport Object as evasObject
-from object_item cimport    _object_item_callback, \
-                            _object_item_list_to_python, \
-                            _object_item_to_python
+from object_item cimport _object_item_callback, _object_item_list_to_python, \
+    _object_item_to_python, _object_item_callback2
 
 cdef class MenuItem(ObjectItem):
 
@@ -62,7 +61,7 @@ cdef class MenuItem(ObjectItem):
         bytes label, icon
 
     def __init__(self, MenuItem parent = None, label = None, icon = None,
-        callback = None, *args, **kargs):
+        callback = None, cb_data = None, *args, **kargs):
 
         if callback is not None:
             if not callable(callback):
@@ -74,6 +73,7 @@ cdef class MenuItem(ObjectItem):
         self.label = label
         self.icon = icon
         self.cb_func = callback
+        self.cb_data = cb_data
         self.args = args
         self.kwargs = kargs
 
@@ -82,7 +82,7 @@ cdef class MenuItem(ObjectItem):
         cdef Evas_Smart_Cb cb = NULL
 
         if self.cb_func is not None:
-            cb = _object_item_callback
+            cb = _object_item_callback2
 
         item = elm_menu_item_add(menu.obj,
             self.parent.item if self.parent is not None else NULL,
@@ -92,6 +92,7 @@ cdef class MenuItem(ObjectItem):
 
         if item != NULL:
             self._set_obj(item)
+            self._set_properties_from_keyword_args(self.kwargs)
             return self
         else:
             Py_DECREF(self)
@@ -350,17 +351,17 @@ cdef class Menu(Object):
     def items_get(self):
         return _object_item_list_to_python(elm_menu_items_get(self.obj))
 
-    def item_add(self, parent = None, label = None, icon = None, callback = None, *args, **kwargs):
+    def item_add(self, MenuItem parent = None, label = None,
+        icon = None, callback = None, *args, **kwargs):
         """item_add(parent = None, label = None, icon = None, callback = None, *args, **kwargs) -> MenuItem
 
         Add an item at the end of the given menu widget
 
         :param parent: The parent menu item (optional)
         :type parent: :py:class:`Object`
-        :param icon: An icon display on the item. The icon will be destroyed
+        :param string icon: An icon display on the item. The icon will be destroyed
             by the menu.
-        :type icon: string
-        :param label: The label of the item.
+        :param string label: The label of the item.
         :type label: string
         :param callback: Function called when the user select the item.
         :type callback: function
@@ -369,7 +370,31 @@ cdef class Menu(Object):
         :rtype: :py:class:`MenuItem`
 
         """
-        return MenuItem(parent, label, icon, callback, *args, **kwargs).add_to(self)
+        cdef:
+            Elm_Object_Item *item
+            Evas_Smart_Cb cb = NULL
+            MenuItem ret = MenuItem.__new__(MenuItem)
+
+        if callback is not None and callable(callback):
+            cb = _object_item_callback
+
+        if isinstance(label, unicode): label = PyUnicode_AsUTF8String(label)
+        if isinstance(icon, unicode): icon = PyUnicode_AsUTF8String(icon)
+
+        item = elm_menu_item_add(self.obj,
+            parent.item if parent is not None else NULL,
+            <const_char *>icon if icon is not None else NULL,
+            <const_char *>label if label is not None else NULL,
+            cb, <void*>ret)
+
+        if item != NULL:
+            ret._set_obj(item)
+            ret.cb_func = callback
+            ret.args = args
+            ret.kwargs = kwargs
+            return ret
+        else:
+            return None
 
     def item_separator_add(self, parent = None):
         """item_separator_add(parent = None) -> MenuSeparatorItem

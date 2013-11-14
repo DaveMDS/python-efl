@@ -72,20 +72,24 @@ Icon types
 
 """
 
-include "callback_conversions.pxi"
-
 from cpython cimport PyUnicode_AsUTF8String, Py_DECREF
 
 from efl.eo cimport _object_mapping_register, object_from_instance
 from efl.utils.conversions cimport _ctouni
 from efl.evas cimport Object as evasObject
-from object_item cimport _object_item_callback, _object_item_list_to_python
+from object_item cimport ObjectItem, _object_item_callback, \
+    _object_item_list_to_python, _object_item_to_python, _object_item_callback2
+from button cimport Button
 
 cimport enums
 
 ELM_ICON_NONE = enums.ELM_ICON_NONE
 ELM_ICON_FILE = enums.ELM_ICON_FILE
 ELM_ICON_STANDARD = enums.ELM_ICON_STANDARD
+
+def _cb_object_item_conv(long addr):
+    cdef Elm_Object_Item *it = <Elm_Object_Item *>addr
+    return _object_item_to_python(it)
 
 cdef class HoverselItem(ObjectItem):
 
@@ -99,7 +103,8 @@ cdef class HoverselItem(ObjectItem):
         Elm_Icon_Type icon_type
 
     def __init__(self, label = None, icon_file = None,
-            icon_type = ELM_ICON_NONE, callback = None, *args, **kargs):
+            icon_type = ELM_ICON_NONE, callback = None, cb_data = None,
+            *args, **kargs):
         """For more information on what ``icon_file`` and ``icon_type`` are,
         see :py:class:`elementary.icon.Icon`.
 
@@ -126,6 +131,7 @@ cdef class HoverselItem(ObjectItem):
                 raise TypeError("callback is not callable")
 
         self.cb_func = callback
+        self.cb_data = cb_data
         self.args = args
         self.kwargs = kargs
 
@@ -146,9 +152,9 @@ cdef class HoverselItem(ObjectItem):
         """
         cdef Evas_Smart_Cb cb = NULL
         if self.cb_func is not None:
-            cb = _object_item_callback
+            cb = _object_item_callback2
 
-        item = elm_hoversel_item_add(   hoversel.obj,
+        item = elm_hoversel_item_add(hoversel.obj,
             <const_char *>self.label if self.label is not None else NULL,
             <const_char *>self.icon_file if self.icon_file is not None else NULL,
             self.icon_type,
@@ -156,9 +162,11 @@ cdef class HoverselItem(ObjectItem):
 
         if item != NULL:
             self._set_obj(item)
+            self._set_properties_from_keyword_args(self.kwargs)
             return self
         else:
-            Py_DECREF(self)
+            # FIXME: raise RuntimeError?
+            return None
 
     property icon:
         """This sets the icon for the given hoversel item.
@@ -328,8 +336,33 @@ cdef class Hoversel(Button):
     def items_get(self):
         return _object_item_list_to_python(elm_hoversel_items_get(self.obj))
 
-    def item_add(self, label = None, icon_file = None, icon_type = ELM_ICON_NONE, callback = None, *args, **kwargs):
-        return HoverselItem(label, icon_file, icon_type, callback, *args, **kwargs).add_to(self)
+    def item_add(self, label = None, icon_file = None,
+        icon_type = ELM_ICON_NONE, callback = None, *args, **kwargs):
+        cdef:
+            Elm_Object_Item *item
+            Evas_Smart_Cb cb = NULL
+            HoverselItem ret = HoverselItem.__new__(HoverselItem)
+
+        if callback is not None and callable(callback):
+            cb = _object_item_callback
+
+        if isinstance(label, unicode): label = PyUnicode_AsUTF8String(label)
+        if isinstance(icon_file, unicode): icon_file = PyUnicode_AsUTF8String(icon_file)
+
+        item = elm_hoversel_item_add(self.obj,
+            <const_char *>label if label is not None else NULL,
+            <const_char *>icon_file if icon_file is not None else NULL,
+            icon_type,
+            cb, <void*>ret)
+
+        if item != NULL:
+            ret._set_obj(item)
+            ret.cb_func = callback
+            ret.args = args
+            ret.kwargs = kwargs
+            return ret
+        else:
+            return None
 
     def callback_clicked_add(self, func, *args, **kwargs):
         """The user clicked the hoversel button and popped up the sel."""

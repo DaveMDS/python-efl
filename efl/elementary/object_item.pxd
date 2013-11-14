@@ -62,12 +62,16 @@ cdef Elm_Object_Item * _object_item_from_python(ObjectItem item) except NULL
 cdef _object_item_list_to_python(const_Eina_List *lst)
 cdef void _object_item_del_cb(void *data, Evas_Object *o, void *event_info) with gil
 cdef void _object_item_callback(void *data, Evas_Object *obj, void *event_info) with gil
+cdef void _object_item_callback2(void *data, Evas_Object *obj, void *event_info) with gil
 
 cdef class ObjectItem(object):
     cdef:
         Elm_Object_Item *item
         object cb_func
+        object cb_data
         tuple args
         dict kwargs
         readonly dict data
         int _set_obj(self, Elm_Object_Item *item) except 0
+
+    cdef int _set_properties_from_keyword_args(self, dict kwargs) except 0

@@ -123,3 +123,5 @@ cdef extern from "Elementary.h":
     # Debug
     void elm_object_tree_dump(const_Evas_Object *top)
     void elm_object_tree_dot_dump(const_Evas_Object *top, const_char *file)
+
+cdef int PY_EFL_ELM_LOG_DOMAIN

@@ -59,16 +59,18 @@ Default text parts of the flipselector items that you can use for are:
 
 """
 
-
-include "callback_conversions.pxi"
-
 from cpython cimport PyUnicode_AsUTF8String
 
 from efl.eo cimport _object_mapping_register
 from efl.utils.conversions cimport _ctouni
 from efl.evas cimport Object as evasObject
 from object cimport Object
-from object_item cimport _object_item_to_python, _object_item_callback, _object_item_list_to_python
+from object_item cimport _object_item_to_python, _object_item_callback, \
+    _object_item_list_to_python, _object_item_callback2
+
+def _cb_object_item_conv(long addr):
+    cdef Elm_Object_Item *it = <Elm_Object_Item *>addr
+    return _object_item_to_python(it)
 
 cdef class FlipSelectorItem(ObjectItem):
 
@@ -88,7 +90,8 @@ cdef class FlipSelectorItem(ObjectItem):
     cdef:
         bytes label
 
-    def __init__(self, label = None, callback = None, *args, **kwargs):
+    def __init__(self, label = None, callback = None, cb_data = None,
+        *args, **kwargs):
         """
 
         The widget's list of labels to show will be appended with the
@@ -133,7 +136,7 @@ cdef class FlipSelectorItem(ObjectItem):
         cdef Evas_Smart_Cb cb = NULL
 
         if self.cb_func is not None:
-            cb = _object_item_callback
+            cb = _object_item_callback2
 
         item = elm_flipselector_item_append(flipselector.obj,
             <const_char *>self.label if self.label is not None else NULL,
@@ -141,9 +144,10 @@ cdef class FlipSelectorItem(ObjectItem):
 
         if item != NULL:
             self._set_obj(item)
+            self._set_properties_from_keyword_args(self.kwargs)
             return self
         else:
-            return
+            return None
 
     def prepend_to(self, FlipSelector flipselector not None):
         """prepend_to(FlipSelector flipselector) -> FlipSelectorItem
@@ -161,7 +165,7 @@ cdef class FlipSelectorItem(ObjectItem):
         cdef Evas_Smart_Cb cb = NULL
 
         if self.cb_func is not None:
-            cb = _object_item_callback
+            cb = _object_item_callback2
 
         item = elm_flipselector_item_prepend(flipselector.obj,
             <const_char *>self.label if self.label is not None else NULL,
@@ -169,6 +173,7 @@ cdef class FlipSelectorItem(ObjectItem):
 
         if item != NULL:
             self._set_obj(item)
+            self._set_properties_from_keyword_args(self.kwargs)
             return self
         else:
             return
@@ -270,7 +275,28 @@ cdef class FlipSelector(Object):
         :see: :py:func:`FlipSelectorItem.append_to`
 
         """
-        return FlipSelectorItem(label, callback, *args, **kwargs).append_to(self)
+        cdef:
+            Elm_Object_Item *item
+            Evas_Smart_Cb cb = NULL
+            FlipSelectorItem ret = FlipSelectorItem.__new__(FlipSelectorItem)
+
+        if callback is not None and callable(callback):
+            cb = _object_item_callback
+
+        if isinstance(label, unicode): label = PyUnicode_AsUTF8String(label)
+
+        item = elm_flipselector_item_append(self.obj,
+            <const_char *>label if label is not None else NULL,
+            cb, <void*>ret)
+
+        if item != NULL:
+            ret._set_obj(item)
+            ret.cb_func = callback
+            ret.args = args
+            ret.kwargs = kwargs
+            return ret
+        else:
+            return None
 
     def item_prepend(self, label = None, callback = None, *args, **kwargs):
         """item_prepend(unicode label = None, callback = None, *args, **kwargs) -> FlipSelectorItem
@@ -280,7 +306,28 @@ cdef class FlipSelector(Object):
         :see: :py:func:`FlipSelectorItem.prepend_to`
 
         """
-        return FlipSelectorItem(label, callback, *args, **kwargs).prepend_to(self)
+        cdef:
+            Elm_Object_Item *item
+            Evas_Smart_Cb cb = NULL
+            FlipSelectorItem ret = FlipSelectorItem.__new__(FlipSelectorItem)
+
+        if callback is not None and callable(callback):
+            cb = _object_item_callback
+
+        if isinstance(label, unicode): label = PyUnicode_AsUTF8String(label)
+
+        item = elm_flipselector_item_prepend(self.obj,
+            <const_char *>label if label is not None else NULL,
+            cb, <void*>ret)
+
+        if item != NULL:
+            ret._set_obj(item)
+            ret.cb_func = callback
+            ret.args = args
+            ret.kwargs = kwargs
+            return ret
+        else:
+            return None
 
     property items:
         """Get the internal list of items in a given flip selector widget.

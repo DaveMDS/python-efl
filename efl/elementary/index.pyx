@@ -66,9 +66,6 @@ reported.
 
 """
 
-
-include "callback_conversions.pxi"
-
 from cpython cimport PyUnicode_AsUTF8String, Py_DECREF
 
 from efl.eo cimport _object_mapping_register
@@ -76,10 +73,13 @@ from efl.utils.conversions cimport _ctouni
 from efl.evas cimport Object as evasObject
 from layout_class cimport LayoutClass
 from object_item cimport _object_item_callback, _object_item_to_python, \
-    elm_object_item_data_get
+    elm_object_item_data_get, _object_item_callback2
 
 import traceback
 
+def _cb_object_item_conv(long addr):
+    cdef Elm_Object_Item *it = <Elm_Object_Item *>addr
+    return _object_item_to_python(it)
 
 cdef int _index_compare_func(const_void *data1, const_void *data2) with gil:
     """Comparison by IndexItem objects"""
@@ -154,7 +154,8 @@ cdef class IndexItem(ObjectItem):
         bytes letter
         object compare_func, data_compare_func
 
-    def __init__(self, letter, callback = None, *args, **kwargs):
+    def __init__(self, letter, callback = None, cb_data = None,
+        *args, **kwargs):
         if callback is not None:
             if not callable(callback):
                 raise TypeError("callback is not callable")
@@ -163,6 +164,7 @@ cdef class IndexItem(ObjectItem):
         self.letter = letter
 
         self.cb_func = callback
+        self.cb_data = cb_data
         self.args = args
         self.kwargs = kwargs
 
@@ -178,7 +180,7 @@ cdef class IndexItem(ObjectItem):
         cdef Elm_Object_Item *item
         cdef Evas_Smart_Cb cb = NULL
         if self.cb_func is not None:
-            cb = _object_item_callback
+            cb = _object_item_callback2
 
         item = elm_index_item_append(index.obj,
             <const_char *>self.letter if self.letter is not None else NULL,
@@ -186,9 +188,11 @@ cdef class IndexItem(ObjectItem):
 
         if item != NULL:
             self._set_obj(item)
+            self._set_properties_from_keyword_args(self.kwargs)
             return self
         else:
-            Py_DECREF(self)
+            # FIXME: raise RuntimeError?
+            return None
 
     def prepend_to(self, Index index not None):
         """
@@ -202,7 +206,7 @@ cdef class IndexItem(ObjectItem):
         cdef Elm_Object_Item *item
         cdef Evas_Smart_Cb cb = NULL
         if self.cb_func is not None:
-            cb = _object_item_callback
+            cb = _object_item_callback2
 
         item = elm_index_item_prepend(index.obj,
             <const_char *>self.letter if self.letter is not None else NULL,
@@ -210,9 +214,11 @@ cdef class IndexItem(ObjectItem):
 
         if item != NULL:
             self._set_obj(item)
+            self._set_properties_from_keyword_args(self.kwargs)
             return self
         else:
-            Py_DECREF(self)
+            # FIXME: raise RuntimeError?
+            return None
 
     def insert_after(self, IndexItem after not None):
         """
@@ -227,7 +233,7 @@ cdef class IndexItem(ObjectItem):
         cdef Index index = after.widget
         cdef Evas_Smart_Cb cb = NULL
         if self.cb_func is not None:
-            cb = _object_item_callback
+            cb = _object_item_callback2
 
         item = elm_index_item_insert_after(index.obj, after.item,
             <const_char *>self.letter if self.letter is not None else NULL,
@@ -235,9 +241,11 @@ cdef class IndexItem(ObjectItem):
 
         if item != NULL:
             self._set_obj(item)
+            self._set_properties_from_keyword_args(self.kwargs)
             return self
         else:
-            Py_DECREF(self)
+            # FIXME: raise RuntimeError?
+            return None
 
     def insert_before(self, IndexItem before not None):
         """
@@ -252,7 +260,7 @@ cdef class IndexItem(ObjectItem):
         cdef Index index = before.widget
         cdef Evas_Smart_Cb cb = NULL
         if self.cb_func is not None:
-            cb = _object_item_callback
+            cb = _object_item_callback2
 
         item = elm_index_item_insert_before(index.obj, before.item,
             <const_char *>self.letter if self.letter is not None else NULL,
@@ -260,9 +268,11 @@ cdef class IndexItem(ObjectItem):
 
         if item != NULL:
             self._set_obj(item)
+            self._set_properties_from_keyword_args(self.kwargs)
             return self
         else:
-            Py_DECREF(self)
+            # FIXME: raise RuntimeError?
+            return None
 
     def insert_sorted(self, Index index not None, compare_func, data_compare_func = None):
         """
@@ -288,7 +298,7 @@ cdef class IndexItem(ObjectItem):
         cdef Elm_Object_Item *item
         cdef Evas_Smart_Cb cb = NULL
         if self.cb_func is not None:
-            cb = _object_item_callback
+            cb = _object_item_callback2
 
         self.compare_func = compare_func
         self.data_compare_func = data_compare_func
@@ -299,9 +309,11 @@ cdef class IndexItem(ObjectItem):
 
         if item != NULL:
             self._set_obj(item)
+            self._set_properties_from_keyword_args(self.kwargs)
             return self
         else:
-            Py_DECREF(self)
+            # FIXME: raise RuntimeError?
+            return None
 
     property selected:
         """Set the selected state of an item.

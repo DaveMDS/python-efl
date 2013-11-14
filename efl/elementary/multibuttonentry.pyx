@@ -70,9 +70,8 @@ from libc.stdlib cimport free
 from libc.string cimport strdup
 from object cimport Object
 import traceback
-from object_item cimport    _object_item_callback, \
-                            _object_item_to_python, \
-                            _object_item_list_to_python
+from object_item cimport _object_item_callback, _object_item_callback2, \
+    _object_item_to_python, _object_item_list_to_python
 
 cdef Eina_Bool _multibuttonentry_filter_callback(Evas_Object *obj, \
     const_char *item_label, void *item_data, void *data) with gil:
@@ -97,7 +96,8 @@ cdef class MultiButtonEntryItem(ObjectItem):
     cdef:
         bytes label
 
-    def __init__(self, label = None, callback = None, *args, **kargs):
+    def __init__(self, label = None, callback = None, cb_data = None,
+        *args, **kargs):
 
         if callback:
             if not callable(callback):
@@ -106,6 +106,7 @@ cdef class MultiButtonEntryItem(ObjectItem):
         if isinstance(label, unicode): label = PyUnicode_AsUTF8String(label)
         self.label = label
         self.cb_func = callback
+        self.cb_data = cb_data
         self.args = args
         self.kwargs = kargs
 
@@ -114,7 +115,7 @@ cdef class MultiButtonEntryItem(ObjectItem):
         cdef Evas_Smart_Cb cb = NULL
 
         if self.cb_func is not None:
-            cb = _object_item_callback
+            cb = _object_item_callback2
 
         item = elm_multibuttonentry_item_append(mbe.obj,
             <const_char *>self.label if self.label is not None else NULL,
@@ -122,6 +123,7 @@ cdef class MultiButtonEntryItem(ObjectItem):
 
         if item != NULL:
             self._set_obj(item)
+            self._set_properties_from_keyword_args(self.kwargs)
             return self
         else:
             Py_DECREF(self)
@@ -131,7 +133,7 @@ cdef class MultiButtonEntryItem(ObjectItem):
         cdef Evas_Smart_Cb cb = NULL
 
         if self.cb_func is not None:
-            cb = _object_item_callback
+            cb = _object_item_callback2
 
         item = elm_multibuttonentry_item_prepend(mbe.obj,
             <const_char *>self.label if self.label is not None else NULL,
@@ -139,6 +141,7 @@ cdef class MultiButtonEntryItem(ObjectItem):
 
         if item != NULL:
             self._set_obj(item)
+            self._set_properties_from_keyword_args(self.kwargs)
             return self
         else:
             Py_DECREF(self)
@@ -149,7 +152,7 @@ cdef class MultiButtonEntryItem(ObjectItem):
         cdef MultiButtonEntry mbe = before.widget
 
         if self.cb_func is not None:
-            cb = _object_item_callback
+            cb = _object_item_callback2
 
         item = elm_multibuttonentry_item_insert_before(mbe.obj,
             before.item,
@@ -158,6 +161,7 @@ cdef class MultiButtonEntryItem(ObjectItem):
 
         if item != NULL:
             self._set_obj(item)
+            self._set_properties_from_keyword_args(self.kwargs)
             return self
         else:
             Py_DECREF(self)
@@ -168,7 +172,7 @@ cdef class MultiButtonEntryItem(ObjectItem):
         cdef MultiButtonEntry mbe = after.widget
 
         if self.cb_func is not None:
-            cb = _object_item_callback
+            cb = _object_item_callback2
 
         item = elm_multibuttonentry_item_insert_after(mbe.obj,
             after.item,
@@ -177,6 +181,7 @@ cdef class MultiButtonEntryItem(ObjectItem):
 
         if item != NULL:
             self._set_obj(item)
+            self._set_properties_from_keyword_args(self.kwargs)
             return self
         else:
             Py_DECREF(self)
@@ -260,16 +265,102 @@ cdef class MultiButtonEntry(Object):
         return bool(elm_multibuttonentry_expanded_get(self.obj))
 
     def item_prepend(self, label, func = None, *args, **kwargs):
-        return MultiButtonEntryItem(label, func, *args, **kwargs).prepend_to(self)
+        cdef:
+            Elm_Object_Item *item
+            Evas_Smart_Cb cb = NULL
+            MultiButtonEntryItem ret = MultiButtonEntryItem.__new__(MultiButtonEntryItem)
+
+        if func is not None and callable(func):
+            cb = _object_item_callback
+
+        if isinstance(label, unicode): label = PyUnicode_AsUTF8String(label)
+
+        item = elm_multibuttonentry_item_prepend(self.obj,
+            <const_char *>label if label is not None else NULL,
+            cb, <void*>ret)
+
+        if item != NULL:
+            ret._set_obj(item)
+            ret.cb_func = func
+            ret.args = args
+            ret.kwargs = kwargs
+            return ret
+        else:
+            return None
 
     def item_append(self, label, func = None, *args, **kwargs):
-        return MultiButtonEntryItem(label, func, *args, **kwargs).append_to(self)
+        cdef:
+            Elm_Object_Item *item
+            Evas_Smart_Cb cb = NULL
+            MultiButtonEntryItem ret = MultiButtonEntryItem.__new__(MultiButtonEntryItem)
+
+        if func is not None and callable(func):
+            cb = _object_item_callback
+
+        if isinstance(label, unicode): label = PyUnicode_AsUTF8String(label)
+
+        item = elm_multibuttonentry_item_append(self.obj,
+            <const_char *>label if label is not None else NULL,
+            cb, <void*>ret)
+
+        if item != NULL:
+            ret._set_obj(item)
+            ret.cb_func = func
+            ret.args = args
+            ret.kwargs = kwargs
+            return ret
+        else:
+            return None
 
     def item_insert_before(self, MultiButtonEntryItem before, label, func = None, *args, **kwargs):
-        return MultiButtonEntryItem(label, func, *args, **kwargs).insert_before(before)
+        cdef:
+            Elm_Object_Item *item
+            Evas_Smart_Cb cb = NULL
+            MultiButtonEntryItem ret = MultiButtonEntryItem.__new__(MultiButtonEntryItem)
+
+        if func is not None and callable(func):
+            cb = _object_item_callback
+
+        if isinstance(label, unicode): label = PyUnicode_AsUTF8String(label)
+
+        item = elm_multibuttonentry_item_insert_before(self.obj,
+            before.item if before is not None else NULL,
+            <const_char *>label if label is not None else NULL,
+            cb, <void*>ret)
+
+        if item != NULL:
+            ret._set_obj(item)
+            ret.cb_func = func
+            ret.args = args
+            ret.kwargs = kwargs
+            return ret
+        else:
+            return None
 
     def item_insert_after(self, MultiButtonEntryItem after, label, func = None, *args, **kwargs):
-        return MultiButtonEntryItem(label, func, *args, **kwargs).insert_after(after)
+        cdef:
+            Elm_Object_Item *item
+            Evas_Smart_Cb cb = NULL
+            MultiButtonEntryItem ret = MultiButtonEntryItem.__new__(MultiButtonEntryItem)
+
+        if func is not None and callable(func):
+            cb = _object_item_callback
+
+        if isinstance(label, unicode): label = PyUnicode_AsUTF8String(label)
+
+        item = elm_multibuttonentry_item_insert_after(self.obj,
+            after.item if after is not None else NULL,
+            <const_char *>label if label is not None else NULL,
+            cb, <void*>ret)
+
+        if item != NULL:
+            ret._set_obj(item)
+            ret.cb_func = func
+            ret.args = args
+            ret.kwargs = kwargs
+            return ret
+        else:
+            return None
 
     property items:
         def __get__(self):
