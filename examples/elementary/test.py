@@ -140,6 +140,7 @@ items = [
             # ("Accessibility 3", "test_access", "access3_clicked"),
             ("Configuration", "test_config", "config_clicked"),
             ("Floating Objects", "test_floating", "floating_clicked"),
+            ("Themes", "test_theme", "theme_clicked"),
         ]),
          ("Naviframe", [
             ("Naviframe", "test_naviframe", "naviframe_clicked"),
