@@ -84,6 +84,7 @@ cdef extern from "Ecore.h":
     ctypedef Eina_Bool (*Ecore_Event_Handler_Cb)(void *data, int type, void *event)
     ctypedef void (*Ecore_End_Cb)(void *user_data, void *func_data)
     ctypedef void (*Ecore_Exe_Cb)(void *data, const_Ecore_Exe *exe)
+    ctypedef Eina_Bool (*Ecore_Timeline_Cb)(void *data, double pos)
 
     ####################################################################
     # Functions
@@ -102,6 +103,7 @@ cdef extern from "Ecore.h":
     double ecore_loop_time_get()
 
     Ecore_Animator *ecore_animator_add(Ecore_Task_Cb func, void *data)
+    Ecore_Animator *ecore_animator_timeline_add(double runtime, Ecore_Timeline_Cb func, void *data)
     void           *ecore_animator_del(Ecore_Animator *animator)
     void            ecore_animator_frametime_set(double frametime)
     double          ecore_animator_frametime_get()

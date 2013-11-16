@@ -72,6 +72,33 @@ cdef class Animator(Eo):
         "Alias for delete()."
         self.delete()
 
+cdef Eina_Bool _ecore_timeline_cb(void *data, double pos) with gil:
+    assert data != NULL
+    cdef:
+        AnimatorTimeline obj = <AnimatorTimeline>data
+        bint ret = False
+
+    try:
+        ret = obj.func(pos, *obj.args, **obj.kargs)
+    except:
+        traceback.print_exc()
+
+    if not ret:
+        obj.delete()
+
+    return ret
+
+cdef class AnimatorTimeline(Animator):
+    def __init__(self, func, double runtime, *args, **kargs):
+        if not callable(func):
+            raise TypeError("Parameter 'func' must be callable")
+        self.func = func
+        self.args = args
+        self.kargs = kargs
+        self._set_obj(ecore_animator_timeline_add(runtime, _ecore_timeline_cb, <void *>self))
+
+    cpdef bint _task_exec(self) except *:
+        return self.func(*self.args, **self.kargs)
 
 def animator_add(func, *args, **kargs):
     """
