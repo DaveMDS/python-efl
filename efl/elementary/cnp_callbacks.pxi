@@ -193,7 +193,6 @@ cdef Evas_Object *py_elm_drag_icon_create_cb(
     :since: 1.8
 
     """
-    print("in drag_icon_create_cb")
     assert data != NULL, "data is NULL"
 
     cdef:
@@ -248,7 +247,6 @@ cdef void py_elm_drag_done_cb(void *data, Evas_Object *obj, Eina_Bool accepted) 
     :since: 1.8
 
     """
-    print("in drag_done_cb")
     assert data != NULL, "data is NULL"
 
     cdef:
@@ -332,7 +330,6 @@ cdef Eina_Bool py_elm_drop_item_container_cb(
     :param yposret: Position relative to item (upper (-1), middle (0), bottom (1)
 
     """
-    print("in drop_item_container_cb")
     assert obj != NULL, "obj is NULL"
 
     cdef:
@@ -416,21 +413,19 @@ cdef Eina_Bool py_elm_item_container_data_get_cb(
     :return: Returns EINA_TRUE, if successful, or EINA_FALSE if not.
 
     """
-    print("in item_container_data_get_cb")
-
     cdef:
-        DragUserInfo ret
+        DragUserInfo ret = DragUserInfo.__new__(DragUserInfo)
         evasObject o = object_from_instance(obj)
         ObjectItem item = _object_item_to_python(it)
 
     try:
-        ret = <DragUserInfo?>o.data["item_container_data_get_cb"](o, item)
+        func = o.data["item_container_data_get_cb"]
+        func(o, item, ret)
     except:
         traceback.print_exc()
         return 0
 
     if ret is not None:
-        print("populating info")
         info.format = ret.format
         info.data = ret._data
         info.icons = python_list_objects_to_eina_list(ret.icons)
