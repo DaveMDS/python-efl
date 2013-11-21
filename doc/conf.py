@@ -45,7 +45,7 @@ except ImportError:
     pass
 else:
     extensions.append('sphinx.ext.inheritance_diagram')
-    graphviz_output_format = "png" # png (default) or svg
+    graphviz_output_format = "svg" # png (default) or svg
     graphviz_dot_args = ["-Gbgcolor=transparent", "-Ncolor=#4399FF", "-Nfontcolor=white", "-Ecolor=blue"]
 
 try:
