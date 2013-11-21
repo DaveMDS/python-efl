@@ -1,4 +1,5 @@
 #! /usr/bin/env python
+# encoding: utf-8
 
 import os
 import sys
@@ -70,11 +71,18 @@ class CleanGenerated(Command):
     def finalize_options(self): pass
     def run(self):
         for lib in "eo", "evas", "ecore", "edje", "edje/edit", "emotion", "elementary", "utils":
-            subprocess.call("rm -rfv efl/{0}/*.c efl/{0}/*.html".format(lib), shell=True)
-        subprocess.call("rm -rfv efl/dbus_mainloop/dbus_mainloop.c efl/dbus_mainloop/dbus_mainloop.html", shell=True)
+            for root, dirs, files in os.walk(os.path.join(script_path, "efl", lib)):
+                for f in files:
+                    if f.endswith(".c") or f.endswith(".html"):
+                        path = os.path.join(root, f)
+                        os.remove(path)
+        dbus_ml_path = os.path.join(script_path, "efl", "dbus_mainloop", "dbus_mainloop.c")
+        if os.path.exists(dbus_ml_path):
+            os.remove(dbus_ml_path)
 
 
 modules = []
+packages = ["efl"]
 
 if set(("build", "build_ext", "install", "bdist", "sdist")) & set(sys.argv):
 
@@ -104,6 +112,7 @@ if set(("build", "build_ext", "install", "bdist", "sdist")) & set(sys.argv):
                             extra_link_args = eo_libs + eina_libs),
         ]
     modules += utils_ext
+    packages.append("efl.utils")
 
     # Evas
     evas_cflags, evas_libs = pkg_config('Evas', 'evas', "1.7.99")
@@ -240,6 +249,7 @@ if set(("build", "build_ext", "install", "bdist", "sdist")) & set(sys.argv):
     )
 
     elm_cflags, elm_libs = pkg_config('Elementary', 'elementary', "1.7.99")
+
     for m in elm_mods:
         e = Extension(
             "elementary." + m,
@@ -250,24 +260,28 @@ if set(("build", "build_ext", "install", "bdist", "sdist")) & set(sys.argv):
             )
         modules.append(e)
 
+    packages.append("efl.elementary")
+
 
 setup(
-    name = "efl",
+    name = "python-efl",
+    fullname = "Python bindings for Enlightenment Foundation Libraries",
+    description = "Python bindings for Enlightenment Foundation Libraries",
     version = "1.7.99",
-    author = "Davide <davemds> Andreoli",
-    author_email = "dave@gurumeditation.it",
-    maintainer = "Davide <davemds> Andreoli",
-    maintainer_email = "dave@gurumeditation.it",
+    author = "Gustavo Sverzut Barbieri, Simon Busch, Boris 'billiob' Faure, Davide 'davemds' Andreoli, Fabiano Fidêncio, Bruno Dilly, Tiago Falcão, Joost Albers, Kai Huuhko, Ulisses Furquim",
+    author_email = "dave@gurumeditation.it, kai.huuhko@gmail.com",
+    maintainer = "Kai Huuhko, Davide <davemds> Andreoli",
+    maintainer_email = "kai.huuhko@gmail.com, dave@gurumeditation.it",
+    contact = "Enlightenment developer mailing list",
+    contact_email = "enlightenment-devel@lists.sourceforge.net",
     url = "http://www.enlightenment.org",
-    description = "Python bindings for the EFL stack",
     license = "GNU Lesser General Public License (LGPL)",
     cmdclass = {
         'build_ext': build_ext,
         'build_doc': BuildDoc,
         'clean_generated_files': CleanGenerated
     },
-    packages = ["efl", "efl.elementary", "efl.utils"],
-    package_data = {"efl": ["efl/dbus_mainloop/e_dbus.h"]},
-    ext_package = "efl",
+    packages = packages,
+    ext_package = "efl", # The prefix for ext modules/packages
     ext_modules = cythonize(modules, include_path=["include"]),
 )

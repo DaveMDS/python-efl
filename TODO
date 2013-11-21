@@ -5,7 +5,6 @@ BUGS
 * EdjeEdit: PartState API does not work
 * Edje.External: The unit test fails
 * Elm.Configuration: example crashes
-* Elm.EdjeExternal: examples don't work properly
 * Elm.Map: overlays_show segfaults, scrollers in examples jump when menu opens
 
 
@@ -26,7 +25,7 @@ TODO
 * Add more logging
 * Evas: SmartObject needs testing, work. Make it inheritable by extension
   classes?
-* Add missing Eo type mappings, mostly in Ecore
+* Check for missing Eo type mappings
 * Check that README has all changes listed
 
 Elementary
@@ -34,13 +33,9 @@ Elementary
 
 * Web needs a lot of work: signals and documentation
 * Review the new container type object item system.
-  Should the instance methods be classmethods instead?
 * Drag-n-Drop (in progress/kuuko)
 * Unit tests, things like top_widget and getting child objects
   can be done easily.
-* Fix Theme API, add a test
-* ObjectItem.data changed to dict (like in Eo). Find out what this affects
-  and document it.
 * Get rid of enums in __init__.py
 * Automate compilation of the example edje files.
 
