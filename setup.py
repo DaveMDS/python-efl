@@ -263,6 +263,10 @@ if set(("build", "build_ext", "install", "bdist", "sdist")) & set(sys.argv):
     packages.append("efl.elementary")
 
 
+# Compatibility
+#compat_packages = ["e_dbus", "ecore", "edje", "elementary", "emotion", "evas"]
+#packages += compat_packages
+
 setup(
     name = "python-efl",
     fullname = "Python bindings for Enlightenment Foundation Libraries",
