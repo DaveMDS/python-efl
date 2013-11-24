@@ -38,4 +38,4 @@ cdef:
     void _object_mapping_register(char *name, object cls) except *
     void _object_mapping_unregister(char *name)
 
-    void _register_decorated_callbacks(object obj)
+    void _register_decorated_callbacks(Eo obj)

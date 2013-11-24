@@ -148,7 +148,7 @@ cdef object object_from_instance(cEo *obj):
     return o
 
 
-cdef void _register_decorated_callbacks(object obj):
+cdef void _register_decorated_callbacks(Eo obj):
     """
 
     Search every attrib of the pyobj for a __decorated_callbacks__ object,
@@ -158,10 +158,12 @@ cdef void _register_decorated_callbacks(object obj):
 
     """
     cdef object attr_name, attrib, func_name, func
+    cdef type cls = type(obj)
 
-    for attr_name in dir(obj):
-        attrib = getattr(obj, attr_name)
-        if hasattr(attrib, "__decorated_callbacks__"):
+    # XXX: This whole thing is really slow. Can we do it better?
+
+    for attr_name, attrib in cls.__dict__.iteritems():
+        if "__decorated_callbacks__" in dir(attrib):
             for (func_name, *args) in getattr(attrib, "__decorated_callbacks__"):
                 func = getattr(obj, func_name)
                 func(*args)
