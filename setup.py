@@ -264,8 +264,8 @@ if set(("build", "build_ext", "install", "bdist", "sdist")) & set(sys.argv):
 
 
 # Compatibility
-#compat_packages = ["e_dbus", "ecore", "edje", "elementary", "emotion", "evas"]
-#packages += compat_packages
+compat_packages = ["e_dbus", "ecore", "edje", "elementary", "emotion", "evas"]
+packages += compat_packages
 
 setup(
     name = "python-efl",
