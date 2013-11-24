@@ -162,7 +162,7 @@ cdef void _register_decorated_callbacks(Eo obj):
 
     # XXX: This whole thing is really slow. Can we do it better?
 
-    for attr_name, attrib in cls.__dict__.iteritems():
+    for attr_name, attrib in cls.__dict__.items():
         if "__decorated_callbacks__" in dir(attrib):
             for (func_name, *args) in getattr(attrib, "__decorated_callbacks__"):
                 func = getattr(obj, func_name)
