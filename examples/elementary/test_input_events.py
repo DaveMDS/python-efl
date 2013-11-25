@@ -12,20 +12,20 @@ from efl.elementary.window import StandardWindow
 EXPAND_BOTH = EVAS_HINT_EXPAND, EVAS_HINT_EXPAND
 FILL_BOTH = EVAS_HINT_FILL, EVAS_HINT_FILL
 
+def filter_cb(obj, text, data):
+    return None
+
 def events_cb(obj, src, event_type, event, data):
 
     entry = data
     append = entry.entry_append
 
     append(utf8_to_markup(
-        "Obj: %r\n\nSrc: %r\n\nEvent: %s\n\n" % (obj, src, event)
+        "Obj: %r\n\nSrc: %r\n\nEvent: %s" % (obj, src, event)
         ))
 
-    if type(src) == Entry:
-        src.entry = ""
-
     if event_type == EVAS_CALLBACK_KEY_UP:
-        append("Modifiers:<br>")
+        append("<br><br>Modifiers:<br>")
         append(utf8_to_markup(
             "Control: %s Shift: %s Alt: %s" % (
                 event.modifier_is_set("Control"),
@@ -33,9 +33,14 @@ def events_cb(obj, src, event_type, event, data):
                 event.modifier_is_set("Alt")
                 )
             ))
+        append("<br><br>This event was handled so it won't propagate to window.<br>")
+        append("---------------------------------------------------------------")
         append("<br><br>")
 
         return True
+
+    append("<br>---------------------------------------------------------------")
+    append("<br><br>")
 
     return False
 
@@ -71,6 +76,7 @@ def elm_input_events_clicked(obj, item=None):
     box.pack_end(btn)
 
     entry.elm_event_callback_add(events_cb, log_entry)
+    entry.markup_filter_append(filter_cb)
     win.elm_event_callback_add(events_cb, log_entry)
 
     win.resize(640, 480)
