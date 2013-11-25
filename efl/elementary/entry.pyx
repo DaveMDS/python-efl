@@ -1385,12 +1385,14 @@ cdef class Entry(Object):
 
         """
         cb_data = (func, data)
+        # TODO: This is now a ref leak. It should be stored somewhere and
+        #       deleted in the remove method.
         Py_INCREF(cb_data)
         elm_entry_markup_filter_append(self.obj,
             py_elm_entry_filter_cb,
             <void *>cb_data)
 
-    def markup_filter_prepend(self, func, data):
+    def markup_filter_prepend(self, func, data=None):
         """Prepend a markup filter function for text inserted in the entry
 
         Prepend the given callback to the list. See elm_entry_markup_filter_append()
@@ -1406,7 +1408,7 @@ cdef class Entry(Object):
             py_elm_entry_filter_cb,
             <void *>cb_data)
 
-    def markup_filter_remove(self, func, data):
+    def markup_filter_remove(self, func, data=None):
         """Remove a markup filter from the list
 
         Removes the given callback from the filter list. See
