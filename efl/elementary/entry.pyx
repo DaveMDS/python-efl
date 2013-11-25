@@ -466,6 +466,8 @@ Icon types
 
 """
 
+from libc.string cimport strdup
+from libc.stdlib cimport free
 from cpython cimport PyUnicode_AsUTF8String, Py_INCREF
 
 from efl.eo cimport _object_mapping_register, object_from_instance
@@ -688,9 +690,11 @@ cdef void py_elm_entry_filter_cb(void *data, Evas_Object *entry, char **text) wi
         traceback.print_exc()
 
     if ret is None:
+        free(text[0])
+        text[0] = NULL
         return
 
-    # TODO: text[0] = <char *>ret
+    text[0] = strdup(<char *>ret)
 
 class EntryAnchorInfo(object):
     """
@@ -1364,7 +1368,7 @@ cdef class Entry(Object):
     #     """
     #     elm_entry_item_provider_remove(self.obj, Elm_Entry_Item_Provider_Cb func, void *data)
 
-    def markup_filter_append(self, func, data):
+    def markup_filter_append(self, func, data=None):
         """Append a markup filter function for text inserted in the entry
 
         Append the given callback to the list. This functions will be called
@@ -1382,7 +1386,9 @@ cdef class Entry(Object):
         """
         cb_data = (func, data)
         Py_INCREF(cb_data)
-        elm_entry_markup_filter_append(self.obj, py_elm_entry_filter_cb, <void *>cb_data)
+        elm_entry_markup_filter_append(self.obj,
+            py_elm_entry_filter_cb,
+            <void *>cb_data)
 
     def markup_filter_prepend(self, func, data):
         """Prepend a markup filter function for text inserted in the entry
@@ -1396,7 +1402,9 @@ cdef class Entry(Object):
         """
         cb_data = (func, data)
         Py_INCREF(cb_data)
-        elm_entry_markup_filter_prepend(self.obj, py_elm_entry_filter_cb, <void *>cb_data)
+        elm_entry_markup_filter_prepend(self.obj,
+            py_elm_entry_filter_cb,
+            <void *>cb_data)
 
     def markup_filter_remove(self, func, data):
         """Remove a markup filter from the list
@@ -1410,7 +1418,9 @@ cdef class Entry(Object):
         """
         cb_data = (func, data)
         Py_INCREF(cb_data)
-        elm_entry_markup_filter_remove(self.obj, py_elm_entry_filter_cb, <void *>cb_data)
+        elm_entry_markup_filter_remove(self.obj,
+            py_elm_entry_filter_cb,
+            <void *>cb_data)
 
     markup_to_utf8 = staticmethod(DEPRECATED("1.8", "Use module level markup_to_utf8() instead.")(Entry_markup_to_utf8))
 
