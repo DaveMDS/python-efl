@@ -15,6 +15,7 @@
 # You should have received a copy of the GNU Lesser General Public License
 # along with this Python-EFL.  If not, see <http://www.gnu.org/licenses/>.
 
+from cpython cimport PyUnicode_AsUTF8String
 
 cdef class EventPoint:
     cdef void _set_obj(self, Evas_Point *obj):
@@ -248,6 +249,7 @@ cdef class EventMouseIn:
 
     def modifier_is_set(self, modifier):
         self._check_validity()
+        if isinstance(modifier, unicode): modifier = PyUnicode_AsUTF8String(modifier)
         return bool(evas_key_modifier_is_set(self.obj.modifiers, modifier))
 
 cdef class EventMouseOut:
@@ -294,6 +296,7 @@ cdef class EventMouseOut:
 
     def modifier_is_set(self, modifier):
         self._check_validity()
+        if isinstance(modifier, unicode): modifier = PyUnicode_AsUTF8String(modifier)
         return bool(evas_key_modifier_is_set(self.obj.modifiers, modifier))
 
 cdef class EventMouseDown:
@@ -349,6 +352,7 @@ cdef class EventMouseDown:
 
     def modifier_is_set(self, modifier):
         self._check_validity()
+        if isinstance(modifier, unicode): modifier = PyUnicode_AsUTF8String(modifier)
         return bool(evas_key_modifier_is_set(self.obj.modifiers, modifier))
 
 cdef class EventMouseUp:
@@ -404,6 +408,7 @@ cdef class EventMouseUp:
 
     def modifier_is_set(self, modifier):
         self._check_validity()
+        if isinstance(modifier, unicode): modifier = PyUnicode_AsUTF8String(modifier)
         return bool(evas_key_modifier_is_set(self.obj.modifiers, modifier))
 
 cdef class EventMouseMove:
@@ -457,6 +462,7 @@ cdef class EventMouseMove:
 
     def modifier_is_set(self, modifier):
         self._check_validity()
+        if isinstance(modifier, unicode): modifier = PyUnicode_AsUTF8String(modifier)
         return bool(evas_key_modifier_is_set(self.obj.modifiers, modifier))
 
 cdef class EventMultiDown:
@@ -540,6 +546,7 @@ cdef class EventMultiDown:
 
     def modifier_is_set(self, modifier):
         self._check_validity()
+        if isinstance(modifier, unicode): modifier = PyUnicode_AsUTF8String(modifier)
         return bool(evas_key_modifier_is_set(self.obj.modifiers, modifier))
 
 cdef class EventMultiUp:
@@ -624,6 +631,7 @@ cdef class EventMultiUp:
 
     def modifier_is_set(self, modifier):
         self._check_validity()
+        if isinstance(modifier, unicode): modifier = PyUnicode_AsUTF8String(modifier)
         return bool(evas_key_modifier_is_set(self.obj.modifiers, modifier))
 
 cdef class EventMultiMove:
@@ -694,6 +702,7 @@ cdef class EventMultiMove:
 
     def modifier_is_set(self, modifier):
         self._check_validity()
+        if isinstance(modifier, unicode): modifier = PyUnicode_AsUTF8String(modifier)
         return bool(evas_key_modifier_is_set(self.obj.modifiers, modifier))
 
 cdef class EventMouseWheel:
@@ -745,6 +754,7 @@ cdef class EventMouseWheel:
 
     def modifier_is_set(self, modifier):
         self._check_validity()
+        if isinstance(modifier, unicode): modifier = PyUnicode_AsUTF8String(modifier)
         return bool(evas_key_modifier_is_set(self.obj.modifiers, modifier))
 
 cdef class EventKeyDown:
@@ -802,6 +812,7 @@ cdef class EventKeyDown:
 
     def modifier_is_set(self, modifier):
         self._check_validity()
+        if isinstance(modifier, unicode): modifier = PyUnicode_AsUTF8String(modifier)
         return bool(evas_key_modifier_is_set(self.obj.modifiers, modifier))
 
 
@@ -860,6 +871,7 @@ cdef class EventKeyUp:
 
     def modifier_is_set(self, modifier):
         self._check_validity()
+        if isinstance(modifier, unicode): modifier = PyUnicode_AsUTF8String(modifier)
         return bool(evas_key_modifier_is_set(self.obj.modifiers, modifier))
 
 cdef class EventHold:
