@@ -76,6 +76,8 @@ items = [
         ]),
          ("Drag & Drop", [
             ("Genlist DnD Default Anim", "test_dnd", "dnd_genlist_default_anim_clicked"),
+            ("Genlist DnD User Anim", "test_dnd", "dnd_genlist_user_anim_clicked"),
+            ("Genlist + Gengrid DnD", "test_dnd", "dnd_genlist_gengrid_clicked"),
         ]),
          ("Edje External", [
             ("Ext Button", "test_external", "edje_external_button_clicked"),
@@ -119,6 +121,7 @@ items = [
             ("Video", "test_video", "video_clicked"),
         ]),
          ("Input", [
+            ("Input events", "test_input_events", "elm_input_events_clicked"),
             ("Gesture Layer", "test_gesture_layer", "gesture_layer_clicked"),
         ]),
          ("Lists", [
