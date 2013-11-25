@@ -5,7 +5,7 @@ from efl.evas import EVAS_HINT_EXPAND, EVAS_HINT_FILL
 from efl import elementary
 from efl.elementary.box import Box
 from efl.elementary.button import Button
-from efl.elementary.entry import Entry, Entry_utf8_to_markup
+from efl.elementary.entry import Entry, utf8_to_markup
 from efl.elementary.object import EVAS_CALLBACK_KEY_UP
 from efl.elementary.window import StandardWindow
 
@@ -17,7 +17,7 @@ def events_cb(obj, src, event_type, event, data):
     entry = data
     append = entry.entry_append
 
-    append(Entry_utf8_to_markup(
+    append(utf8_to_markup(
         "Obj: %r\n\nSrc: %r\n\nEvent: %s\n\n" % (obj, src, event)
         ))
 
@@ -26,7 +26,7 @@ def events_cb(obj, src, event_type, event, data):
 
     if event_type == EVAS_CALLBACK_KEY_UP:
         append("Modifiers:<br>")
-        append(Entry_utf8_to_markup(
+        append(utf8_to_markup(
             "Control: %s Shift: %s Alt: %s" % (
                 event.modifier_is_set("Control"),
                 event.modifier_is_set("Shift"),

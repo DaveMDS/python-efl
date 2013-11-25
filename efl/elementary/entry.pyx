@@ -540,12 +540,24 @@ cdef void _entry_context_menu_callback(void *data, Evas_Object *obj, void *event
     except Exception as e:
         traceback.print_exc()
 
+@DEPRECATED("1.8", "Use markup_to_utf8() instead.")
 def Entry_markup_to_utf8(string):
     if isinstance(string, unicode): string = PyUnicode_AsUTF8String(string)
     return _touni(elm_entry_markup_to_utf8(
         <const_char *>string if string is not None else NULL))
 
+@DEPRECATED("1.8", "Use utf8_to_markup() instead.")
 def Entry_utf8_to_markup(string):
+    if isinstance(string, unicode): string = PyUnicode_AsUTF8String(string)
+    return _touni(elm_entry_utf8_to_markup(
+        <const_char *>string if string is not None else NULL))
+
+def markup_to_utf8(string):
+    if isinstance(string, unicode): string = PyUnicode_AsUTF8String(string)
+    return _touni(elm_entry_markup_to_utf8(
+        <const_char *>string if string is not None else NULL))
+
+def utf8_to_markup(string):
     if isinstance(string, unicode): string = PyUnicode_AsUTF8String(string)
     return _touni(elm_entry_utf8_to_markup(
         <const_char *>string if string is not None else NULL))
@@ -1400,9 +1412,9 @@ cdef class Entry(Object):
         Py_INCREF(cb_data)
         elm_entry_markup_filter_remove(self.obj, py_elm_entry_filter_cb, <void *>cb_data)
 
-    markup_to_utf8 = staticmethod(Entry_markup_to_utf8)
+    markup_to_utf8 = staticmethod(DEPRECATED("1.8", "Use module level markup_to_utf8() instead.")(Entry_markup_to_utf8))
 
-    utf8_to_markup = staticmethod(Entry_utf8_to_markup)
+    utf8_to_markup = staticmethod(DEPRECATED("1.8", "Use module level utf8_to_markup() instead.")(Entry_utf8_to_markup))
 
     property file:
         """The file for the text to display and then edit.
