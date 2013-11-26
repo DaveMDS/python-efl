@@ -32,10 +32,12 @@ in order to share data across application windows.
 Contains functions to select text or a portion of data,
 send it to a buffer, and paste the data into a target.
 
-elm_cnp provides a generic copy and paste facility based on its windowing system.
+elm_cnp provides a generic copy and paste facility based on its windowing
+system.
 It is not necessary to know the details of each windowing system,
 but some terms and behavior are common.
-Currently the X11 window system is widely used, and only X11 functionality is implemented.
+Currently the X11 window system is widely used, and only X11 functionality is
+implemented.
 
 In X11R6 window system, CopyPaste works like a peer-to-peer communication.
 Copying is an operation on an object in an X server.
@@ -75,6 +77,16 @@ Focus direction
 .. data:: ELM_FOCUS_NEXT
 
     Focus next
+
+
+.. _Elm_Input_Event_Type:
+
+Input event types
+=================
+
+.. data:: EVAS_CALLBACK_KEY_DOWN
+.. data:: EVAS_CALLBACK_KEY_UP
+.. data:: EVAS_CALLBACK_MOUSE_WHEEL
 
 
 .. _Elm_Object_Sel_Type:
@@ -260,7 +272,8 @@ cdef void _object_callback(void *data,
         except:
             traceback.print_exc()
 
-cdef bint _event_dispatcher(Object obj, Object src, Evas_Callback_Type t, event_info):
+cdef bint _event_dispatcher(Object obj, Object src, Evas_Callback_Type t,
+    event_info):
     cdef bint ret
     # XXX: This is expensive code
     for func, args, kargs in obj._elm_event_cbs:
@@ -314,7 +327,8 @@ cdef void signal_callback(void *data, Evas_Object *obj,
 
 
 # TODO: Is this handled in Eo now?
-cdef void _event_data_del_cb(void *data, Evas_Object *o, void *event_info) with gil:
+cdef void _event_data_del_cb(void *data, Evas_Object *o,
+    void *event_info) with gil:
     pass
 #     Py_DECREF(<object>data)
 
@@ -408,7 +422,7 @@ cdef class Object(evasObject):
         :param part: The content part name to set (None for the default content)
         :type part: string
         :param content: The new content of the object
-        :type content: :py:class:`evas.object.Object`
+        :type content: :py:class:`efl.evas.Object`
 
         """
         if isinstance(part, unicode): part = PyUnicode_AsUTF8String(part)
@@ -425,7 +439,7 @@ cdef class Object(evasObject):
         :param part: The content part name to get (None for the default content)
         :type part: string
         :return: content of the object or None for any error
-        :rtype: :py:class:`evas.object.Object`
+        :rtype: :py:class:`efl.evas.Object`
 
         """
         if isinstance(part, unicode): part = PyUnicode_AsUTF8String(part)
@@ -489,15 +503,15 @@ cdef class Object(evasObject):
 
         Get a named object from the children
 
-        This function searches the children (or recursively children of
-        children and so on) of the given object looking for a child with the
-        name of *name*. If the child is found the object is returned, or
-        None is returned. You can set the name of an object with
-        :py:attr:`name<efl.evas.Object.name>`. If the name is not unique within the child
-        objects (or the tree is ``recurse`` is greater than 0) then it is
-        undefined as to which child of that name is returned, so ensure the
-        name is unique amongst children. If recurse is set to -1 it will
-        recurse without limit.
+        This function searches the children (or recursively children of children
+        and so on) of the given object looking for a child with the name of
+        *name*. If the child is found the object is returned, or None is
+        returned. You can set the name of an object with
+        :py:attr:`name<efl.evas.Object.name>`. If the name is not unique within
+        the child objects (or the tree is ``recurse`` is greater than 0) then it
+        is undefined as to which child of that name is returned, so ensure the
+        name is unique amongst children. If recurse is set to -1 it will recurse
+        without limit.
 
         :param name: The name of the child to find
         :type name: string
@@ -505,7 +519,7 @@ cdef class Object(evasObject):
             none, 1 is only look at 1 level of children etc.)
         :type recurse: int
         :return: The found object of that name, or None if none is found
-        :rtype: :py:class:`elementary.object.Object`
+        :rtype: :py:class:`~efl.elementary.object.Object`
 
         """
         if isinstance(name, unicode): name = PyUnicode_AsUTF8String(name)
@@ -538,10 +552,9 @@ cdef class Object(evasObject):
         """The disabled state of an Elementary object.
 
         Elementary objects can be **disabled**, in which state they won't
-        receive input and, in general, will be themed differently from
-        their normal state, usually greyed out. Useful for contexts
-        where you don't want your users to interact with some of the
-        parts of you interface.
+        receive input and, in general, will be themed differently from their
+        normal state, usually greyed out. Useful for contexts where you don't
+        want your users to interact with some of the parts of you interface.
 
         :type: bool
 
@@ -556,11 +569,7 @@ cdef class Object(evasObject):
     def disabled_get(self):
         return bool(elm_object_disabled_get(self.obj))
 
-    #
-    # TODO: Remove this? Or make it a module level function. No sense
-    #       in trying to check here since we're guaranteed to be an
-    #       elm object.
-    #
+    @DEPRECATED("1.8", "Use type(obj) instead.")
     def widget_check(self):
         """widget_check() -> bool
 
@@ -605,9 +614,9 @@ cdef class Object(evasObject):
     def top_widget_get(self):
         return object_from_instance(elm_object_top_widget_get(self.obj))
 
-    # FIXME: Now that we have Eo, is this useful anymore?
     property widget_type:
         """The string that represents this Elementary widget.
+
         This is a readonly property.
 
         .. note:: Elementary is weird and exposes itself as a single
@@ -621,7 +630,11 @@ cdef class Object(evasObject):
 
         """
         def __get__(self):
-            return elm_object_widget_type_get(self.obj)
+            return self.widget_type_get()
+
+    @DEPRECATED("1.8", "Use type(obj) instead.")
+    def widget_type_get(self):
+        return elm_object_widget_type_get(self.obj)
 
     def signal_emit(self, emission, source):
         """signal_emit(unicode emission, unicode source)
@@ -638,7 +651,8 @@ cdef class Object(evasObject):
         :type source: string
 
         """
-        if isinstance(emission, unicode): emission = PyUnicode_AsUTF8String(emission)
+        if isinstance(emission, unicode):
+            emission = PyUnicode_AsUTF8String(emission)
         if isinstance(source, unicode): source = PyUnicode_AsUTF8String(source)
         elm_object_signal_emit(self.obj,
             <const_char *>emission if emission is not None else NULL,
@@ -665,8 +679,10 @@ cdef class Object(evasObject):
         d = self._elm_signal_cbs.setdefault(emission, {})
         lst = d.setdefault(source, [])
         if not lst:
-            if isinstance(emission, unicode): emission = PyUnicode_AsUTF8String(emission)
-            if isinstance(source, unicode): source = PyUnicode_AsUTF8String(source)
+            if isinstance(emission, unicode):
+                emission = PyUnicode_AsUTF8String(emission)
+            if isinstance(source, unicode):
+                source = PyUnicode_AsUTF8String(source)
             elm_object_signal_callback_add(self.obj,
                 <const_char *>emission if emission is not None else NULL,
                 <const_char *>source if source is not None else NULL,
@@ -713,7 +729,8 @@ cdef class Object(evasObject):
         d.pop(source)
         if not d:
             self._elm_signal_cbs.pop(emission)
-        if isinstance(emission, unicode): emission = PyUnicode_AsUTF8String(emission)
+        if isinstance(emission, unicode):
+            emission = PyUnicode_AsUTF8String(emission)
         if isinstance(source, unicode): source = PyUnicode_AsUTF8String(source)
         elm_object_signal_callback_del(self.obj,
             <const_char *>emission if emission is not None else NULL,
@@ -721,7 +738,7 @@ cdef class Object(evasObject):
             signal_callback)
 
     #
-    # FIXME: This isn't done as it's supposed to.
+    # FIXME: Review this
     #
     # NOTE: name clash with evas event_callback_*
     def elm_event_callback_add(self, func, *args, **kargs):
@@ -731,7 +748,7 @@ cdef class Object(evasObject):
         on a given Elementary widget
 
         Every widget in an Elementary interface set to receive focus, with
-        :py:func:`focus_allow_set`, will propagate **all** of its key up,
+        :py:attr:`focus_allow`, will propagate **all** of its key up,
         key down and mouse wheel input events up to its parent object, and
         so on. All of the focusable ones in this chain which had an event
         callback set, with this call, will be able to treat those events.
@@ -749,23 +766,26 @@ cdef class Object(evasObject):
         .. note:: Your event callback will be issued on those events taking
             place only if no other child widget has consumed the event already.
 
-        .. note:: Not to be confused with *evas_object_event_callback_add()*,
+        .. note:: Not to be confused with
+            :py:meth:`efl.evas.Object.event_callback_add`,
             which will add event callbacks per type on general Evas objects
             (no event propagation infrastructure taken in account).
 
-        .. note:: Not to be confused with :py:func:`signal_callback_add()`,
+        .. note:: Not to be confused with :py:meth:`signal_callback_add()`,
             which will add callbacks to **signals** coming from a widget's
             theme, not input events.
 
-        .. note:: Not to be confused with *edje_object_signal_callback_add()*,
-            which does the same as :py:func:`signal_callback_add()`, but
+        .. note:: Not to be confused with
+            :py:meth:`efl.edje.Edje.signal_callback_add`,
+            which does the same as :py:meth:`signal_callback_add()`, but
             directly on an Edje object.
 
-        .. note:: Not to be confused with *evas_object_smart_callback_add()*,
+        .. note:: Not to be confused with
+            :py:meth:`efl.evas.Object.smart_callback_add`,
             which adds callbacks to smart objects' **smart events**, and not
             input events.
 
-        .. seealso:: :py:func:`elm_event_callback_del()`
+        .. seealso:: :py:meth:`elm_event_callback_del()`
 
         :param func: The callback function to be executed when the event
             happens
@@ -852,7 +872,8 @@ cdef class Object(evasObject):
             return _ctouni(elm_object_cursor_get(self.obj))
 
         def __set__(self, cursor):
-            if isinstance(cursor, unicode): cursor = PyUnicode_AsUTF8String(cursor)
+            if isinstance(cursor, unicode):
+                cursor = PyUnicode_AsUTF8String(cursor)
             elm_object_cursor_set(self.obj,
                 <const_char *>cursor if cursor is not None else NULL)
 
@@ -869,7 +890,11 @@ cdef class Object(evasObject):
         elm_object_cursor_unset(self.obj)
 
     property cursor_style:
-        """The style for this object cursor."""
+        """The style for this object cursor.
+
+        :type: string
+
+        """
         def __get__(self):
             return _ctouni(elm_object_cursor_style_get(self.obj))
 
@@ -888,6 +913,8 @@ cdef class Object(evasObject):
     property cursor_theme_search_enabled:
         """Whether cursor engine only usage is enabled for this object.
 
+        :type: bool
+
         .. note:: before you set engine only usage you should define a
             cursor with :py:attr:`cursor`
 
@@ -896,7 +923,9 @@ cdef class Object(evasObject):
             return elm_object_cursor_theme_search_enabled_get(self.obj)
 
         def __set__(self, engine_only):
-            elm_object_cursor_theme_search_enabled_set(self.obj, bool(engine_only))
+            elm_object_cursor_theme_search_enabled_set(
+                self.obj, bool(engine_only)
+                )
 
     def cursor_theme_search_enabled_set(self, engine_only):
         elm_object_cursor_theme_search_enabled_set(self.obj, bool(engine_only))
@@ -916,7 +945,7 @@ cdef class Object(evasObject):
             focus will remove the focus from the object, passing it back to
             the previous element in the focus chain list.
 
-        :type focus: bool
+        :type: bool
 
         """
         def __set__(self, focus):
@@ -960,7 +989,9 @@ cdef class Object(evasObject):
 
         """
         def __get__(self):
-            return eina_list_objects_to_python_list(elm_object_focus_custom_chain_get(self.obj))
+            return eina_list_objects_to_python_list(
+                elm_object_focus_custom_chain_get(self.obj)
+                )
 
         def __set__(self, objs):
             elm_object_focus_custom_chain_unset(self.obj)
@@ -979,9 +1010,12 @@ cdef class Object(evasObject):
     def focus_custom_chain_unset(self):
         elm_object_focus_custom_chain_unset(self.obj)
     def focus_custom_chain_get(self):
-        return eina_list_objects_to_python_list(elm_object_focus_custom_chain_get(self.obj))
+        return eina_list_objects_to_python_list(
+            elm_object_focus_custom_chain_get(self.obj)
+            )
 
-    def focus_custom_chain_append(self, Object child not None, Object relative_child=None):
+    def focus_custom_chain_append(self, Object child not None,
+        Object relative_child=None):
         """focus_custom_chain_append(Object child, Object relative_child=None)
 
         Append object to custom focus chain.
@@ -1003,7 +1037,8 @@ cdef class Object(evasObject):
             rel = relative_child.obj
         elm_object_focus_custom_chain_append(self.obj, child.obj, rel)
 
-    def focus_custom_chain_prepend(self, Object child not None, Object relative_child=None):
+    def focus_custom_chain_prepend(self, Object child not None,
+        Object relative_child=None):
         """focus_custom_chain_prepend(Object child, Object relative_child=None)
 
         Prepend object to custom focus chain.
@@ -1053,14 +1088,17 @@ cdef class Object(evasObject):
         :since: 1.8
 
         """
-        return object_from_instance(elm_object_focus_next_object_get(self.obj, direction))
+        return object_from_instance(
+            elm_object_focus_next_object_get(self.obj, direction)
+            )
 
-    def focus_next_object_set(self, evasObject next, Elm_Focus_Direction direction):
+    def focus_next_object_set(self, evasObject next,
+        Elm_Focus_Direction direction):
         """Set next object with specific focus direction.
 
         When focus next object is set with specific focus direction, this object
-        will be the first candidate when finding next focusable object.
-        Focus next object can be registered with six directions that are previous,
+        will be the first candidate when finding next focusable object. Focus
+        next object can be registered with six directions that are previous,
         next, up, down, right, and left.
 
         :param next: Focus next object
@@ -1138,7 +1176,7 @@ cdef class Object(evasObject):
     property mirrored_automatic:
         """The widget's mirrored mode setting. When widget in automatic
         mode, it follows the system mirrored mode set by
-        :py:func:`efl.elementary.general.mirrored_set`.
+        :py:attr:`efl.elementary.configuration.mirrored`.
 
         :type: bool
 
@@ -1386,7 +1424,8 @@ cdef class Object(evasObject):
 
         Remove tooltip from object. If used the :py:func:`tooltip_text_set` the
         internal copy of label will be removed correctly. If used
-        :py:func:`tooltip_content_cb_set`, the data will be unreferred but no freed.
+        :py:func:`tooltip_content_cb_set`, the data will be unreferred but no
+        freed.
 
         """
         elm_object_tooltip_unset(self.obj)
@@ -1435,7 +1474,8 @@ cdef class Object(evasObject):
             <const_char *>domain if domain is not None else NULL,
             <const_char *>text if text is not None else NULL)
 
-    def domain_translatable_part_text_set(self, part = None, domain = None, text = None):
+    def domain_translatable_part_text_set(self, part = None, domain = None,
+        text = None):
         """domain_translatable_part_text_set(part = None, domain = None, text = None)
 
         Set the text for an object's part, marking it as translatable.
@@ -1512,7 +1552,8 @@ cdef class Object(evasObject):
         return _ctouni(elm_object_translatable_part_text_get(self.obj,
             <const_char *>part if part is not None else NULL))
 
-    def domain_part_text_translatable_set(self, part not None, domain not None, bint translatable):
+    def domain_part_text_translatable_set(self, part not None, domain not None,
+        bint translatable):
         """domain_part_text_translatable_set(self, part, domain, bool translatable)
 
         Mark the part text to be translatable or not.
@@ -1676,6 +1717,7 @@ cdef class Object(evasObject):
         """
         return self._callback_del_full(event, None, func)
 
+    # FIXME: Remove this?
     def _get_obj_addr(self):
         """Return the address of the internal save Evas_Object
 
@@ -1688,11 +1730,12 @@ cdef class Object(evasObject):
     # Copy and Paste
     # ==============
 
-    def cnp_selection_set(self, Elm_Sel_Type selection, Elm_Sel_Format format, buf):
+    def cnp_selection_set(self, Elm_Sel_Type selection, Elm_Sel_Format format,
+        buf):
         """Set copy data for a widget.
 
-        Set copy data and take ownership of selection. Format is used for specifying the selection type,
-        and this is used during pasting.
+        Set copy data and take ownership of selection. Format is used for
+        specifying the selection type, and this is used during pasting.
 
         :param selection: Selection type for copying and pasting
         :type selection: :ref:`Elm_Object_Sel_Type`
@@ -1707,19 +1750,22 @@ cdef class Object(evasObject):
         cdef Py_buffer view
         if isinstance(buf, unicode): buf = PyUnicode_AsUTF8String(buf)
         if not PyObject_CheckBuffer(buf):
-            raise TypeError("The provided object does not support buffer interface.")
+            raise TypeError(
+                "The provided object does not support buffer interface."
+                )
         PyObject_GetBuffer(buf, &view, PyBUF_SIMPLE)
-        if not elm_cnp_selection_set(self.obj, selection, format, <const_void *>view.buf, view.itemsize):
+        if not elm_cnp_selection_set(self.obj, selection, format,
+            <const_void *>view.buf, view.itemsize):
             raise RuntimeError("Could not set cnp data for widget.")
         PyBuffer_Release(&view)
 
     def cnp_selection_get(self, selection, format, datacb, udata = None):
         """Retrieve data from a widget that has a selection.
 
-        Gets the current selection data from a widget.
-        The widget input here will usually be elm_entry,
-        in which case ``datacb`` and ``udata`` can be None.
-        If a different widget is passed, ``datacb`` and ``udata`` are used for retrieving data.
+        Gets the current selection data from a widget. The widget input here
+        will usually be elm_entry, in which case ``datacb`` and ``udata`` can be
+        None. If a different widget is passed, ``datacb`` and ``udata`` are used
+        for retrieving data.
 
         :param selection: Selection type for copying and pasting
         :param format: Selection format
@@ -1733,7 +1779,8 @@ cdef class Object(evasObject):
             raise TypeError("datacb is not callable.")
         self.cnp_drop_cb = datacb
         self.cnp_drop_data = udata
-        if not elm_cnp_selection_get(self.obj, selection, format, py_elm_drop_cb, <void *>self):
+        if not elm_cnp_selection_get(self.obj, selection, format,
+            py_elm_drop_cb, <void *>self):
             raise RuntimeError("Could not get cnp data from widget.")
 
     def cnp_selection_clear(self, Elm_Sel_Type selection):
@@ -1750,18 +1797,20 @@ cdef class Object(evasObject):
         if not elm_object_cnp_selection_clear(self.obj, selection):
             raise RuntimeError("Could not clear cnp data from widget.")
 
-    def cnp_selection_loss_callback_set(self, Elm_Sel_Type selection, func, data = None):
+    def cnp_selection_loss_callback_set(self, Elm_Sel_Type selection, func,
+        data = None):
         """Set a function to be called when a selection is lost
 
-        The function ``func`` is set of be called when selection ``selection`` is lost
-        to another process or when elm_cnp_selection_set() is called. If ``func``
-        is NULL then it is not called. ``data`` is passed as the data parameter to
-        the callback functions and selection is passed in as the selection that
-        has been lost.
+        The function ``func`` is set of be called when selection ``selection``
+        is lost to another process or when :py:meth:`cnp_selection_set` is
+        called. If ``func`` is None then it is not called. ``data`` is passed as
+        the data parameter to the callback functions and selection is passed in
+        as the selection that has been lost.
 
-        elm_cnp_selection_set() and elm_object_cnp_selection_clear() automatically
-        set this loss callback to NULL when called. If you wish to take the selection
-        and then be notified of loss please do this (for example)::
+        :py:meth:`cnp_selection_set` and :py:meth:`cnp_selection_clear`
+        automatically set this loss callback to NULL when called. If you wish to
+        take the selection and then be notified of loss please do this
+        (for example)::
 
             obj.cnp_selection_set(ELM_SEL_TYPE_PRIMARY, ELM_SEL_FORMAT_TEXT, "hello")
             obj.cnp_selection_loss_callback_set(ELM_SEL_TYPE_PRIMARY, loss_cb)
@@ -1839,11 +1888,15 @@ cdef class Object(evasObject):
     #     :param format: The drag formats supported by the data
     #     :param data: The drag data itself (a string)
     #     :param action: The drag action to be done
-    #     :param createicon: Function to call to create a drag object, or NULL if not wanted
+    #     :param createicon: Function to call to create a drag object,
+    #         or NULL if not wanted
     #     :param createdata: Application data passed to ``createicon``
-    #     :param dragpos: Function called with each position of the drag, x, y being screen coordinates if possible, and action being the current action.
+    #     :param dragpos: Function called with each position of the drag,
+    #         x, y being screen coordinates if possible, and action being
+    #         the current action.
     #     :param dragdata: Application data passed to ``dragpos``
-    #     :param acceptcb: Function called indicating if drop target accepts (or does not) the drop data while dragging
+    #     :param acceptcb: Function called indicating if drop target accepts
+    #         (or does not) the drop data while dragging
 
     #     :param acceptdata: Application data passed to ``acceptcb``
     #     :param dragdone: Function to call when drag is done
@@ -1854,11 +1907,11 @@ cdef class Object(evasObject):
 
     #     """
     #     if not elm_drag_start(Evas_Object *obj, format,
-    #                                   <const_char *>data, action,
-    #                                   Elm_Drag_Icon_Create_Cb createicon, void *createdata,
-    #                                   Elm_Drag_Pos dragpos, void *dragdata,
-    #                                   Elm_Drag_Accept acceptcb, void *acceptdata,
-    #                                   Elm_Drag_State dragdone, void *donecbdata):
+    #         <const_char *>data, action,
+    #         Elm_Drag_Icon_Create_Cb createicon, void *createdata,
+    #         Elm_Drag_Pos dragpos, void *dragdata,
+    #         Elm_Drag_Accept acceptcb, void *acceptdata,
+    #         Elm_Drag_State dragdone, void *donecbdata):
     #         raise RuntimeError("Could not start drag.")
 
     # def drag_action_set(self, Elm_Xdnd_Action action):
@@ -1873,7 +1926,8 @@ cdef class Object(evasObject):
     #     if not elm_drag_action_set(Evas_Object *obj, action):
     #         raise RuntimeError("Could not set cnp xdnd action.")
 
-    # def drag_item_container_add(self, double tm_to_anim, double tm_to_drag, itemgetcb, data_get):
+    # def drag_item_container_add(self, double tm_to_anim, double tm_to_drag,
+    # itemgetcb, data_get):
     #     """
 
     #     Set a item container (list, genlist, grid) as source of drag
@@ -1887,7 +1941,8 @@ cdef class Object(evasObject):
     #     :since: 1.8
 
     #     """
-    #     if not elm_drag_item_container_add(self.obj, tm_to_anim, tm_to_drag, Elm_Xy_Item_Get_Cb itemgetcb, Elm_Item_Container_Data_Get_Cb data_get):
+    #     if not elm_drag_item_container_add(self.obj, tm_to_anim, tm_to_drag,
+        #     Elm_Xy_Item_Get_Cb itemgetcb, Elm_Item_Container_Data_Get_Cb data_get):
     #         raise RuntimeError
 
     # def drag_item_container_del(self):
@@ -1903,7 +1958,8 @@ cdef class Object(evasObject):
     #     if not elm_drag_item_container_del(self.obj):
     #         raise RuntimeError
 
-    # def drop_item_container_add(self, format, itemgetcb, entercb, enterdata, leavecb, leavedata, poscb, posdata, dropcb, cbdata):
+    # def drop_item_container_add(self, format, itemgetcb, entercb, enterdata,
+    # leavecb, leavedata, poscb, posdata, dropcb, cbdata):
     #     """
 
     #     Set a item container (list, genlist, grid) as target for drop.
