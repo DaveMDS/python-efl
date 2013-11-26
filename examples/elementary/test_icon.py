@@ -6,7 +6,6 @@ import os
 from efl.evas import EVAS_HINT_EXPAND, EVAS_HINT_FILL
 from efl import elementary
 from efl.elementary.window import StandardWindow, Window, ELM_WIN_BASIC
-from efl.elementary.background import Background
 from efl.elementary.box import Box
 from efl.elementary.button import Button
 from efl.elementary.frame import Frame
@@ -48,52 +47,45 @@ def bt_clicked(obj):
 def icon_clicked(obj, item=None):
     win = StandardWindow("icon test", "Icon Test", autodel=True,
         size=(400, 400))
+    win.show()
 
     box = Box(win, size_hint_weight=EXPAND_BOTH)
     win.resize_object_add(box)
     box.show()
 
-    content_box = Box(win, size_hint_weight=EXPAND_BOTH,
-        size_hint_align=FILL_BOTH)
-    win.resize_object_add(content_box)
-    box.pack_end(content_box)
-    content_box.show()
-
-    ic = Icon(win, file=os.path.join(img_path, "logo.png"),
+    ic = Icon(box, file=os.path.join(img_path, "logo.png"),
         resizable=(True, True), size_hint_weight=EXPAND_BOTH,
         size_hint_align=FILL_BOTH)
-    content_box.pack_end(ic)
+    box.pack_end(ic)
     ic.show()
 
-    hbox = Box(win, horizontal=True, size_hint_weight=EXPAND_HORIZ)
+    hbox = Box(box, horizontal=True, size_hint_weight=EXPAND_HORIZ)
     box.pack_end(hbox)
     hbox.show()
 
     # Test Aspect Fixed
-    tg = Check(win, text="Aspect Fixed", state=True)
+    tg = Check(hbox, text="Aspect Fixed", state=True)
     tg.callback_changed_add(aspect_fixed_cb, ic)
     hbox.pack_end(tg)
     tg.show()
 
     # Test Fill Outside
-    tg = Check(win, text="Fill Outside")
+    tg = Check(hbox, text="Fill Outside")
     tg.callback_changed_add(fill_outside_cb, ic)
     hbox.pack_end(tg)
     tg.show()
 
     # Test Smooth
-    tg = Check(win, text="Smooth", state=True)
+    tg = Check(hbox, text="Smooth", state=True)
     tg.callback_changed_add(smooth_cb, ic)
     hbox.pack_end(tg)
     tg.show()
 
     # Test Preload, Prescale
-    bt = Button(win, text="Preload & Prescale")
+    bt = Button(hbox, text="Preload & Prescale")
     bt.callback_clicked_add(bt_clicked)
     hbox.pack_end(bt)
     bt.show()
-
-    win.show()
 
 
 def icon_transparent_clicked(obj, item=None):
