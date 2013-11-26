@@ -24,9 +24,9 @@ cdef class EventPoint:
     cdef void _unset_obj(self):
         self.obj = NULL
 
-    def __str__(self):
+    def __repr__(self):
         self._check_validity()
-        return "%s(%d, %d)" % (type(self).__name__, self.obj.x, self.obj.y)
+        return "<%s(%d, %d)>" % (type(self).__name__, self.obj.x, self.obj.y)
 
     cdef int _check_validity(self) except 0:
         assert self.obj != NULL, "EventPoint object is invalid."
@@ -68,9 +68,9 @@ cdef class EventCoordPoint:
     cdef void _unset_obj(self):
         self.obj = NULL
 
-    def __str__(self):
+    def __repr__(self):
         self._check_validity()
-        return "%s(%d, %d)" % (self.__class__.__name__, self.obj.x, self.obj.y)
+        return "<%s(%d, %d)>" % (type(self).__name__, self.obj.x, self.obj.y)
 
     cdef int _check_validity(self) except 0:
         assert self.obj != NULL, "EventCoordPoint object is invalid."
@@ -112,10 +112,10 @@ cdef class EventPrecisionPoint:
     cdef void _unset_obj(self):
         self.obj = NULL
 
-    def __str__(self):
+    def __repr__(self):
         self._check_validity()
-        return "%s(x=%d, y=%d, xsub=%f, ysub=%f)" % \
-               (self.__class__.__name__, self.obj.x, self.obj.y,
+        return "<%s(x=%d, y=%d, xsub=%f, ysub=%f)>" % \
+               (type(self).__name__, self.obj.x, self.obj.y,
                 self.obj.xsub, self.obj.ysub)
 
     cdef int _check_validity(self) except 0:
@@ -181,9 +181,9 @@ cdef class EventPosition:
         self.output._unset_obj()
         self.canvas._unset_obj()
 
-    def __str__(self):
-        return "%s(output=(%d, %d), canvas=(%d, %d))" % \
-               (self.__class__.__name__, self.output.x, self.output.y,
+    def __repr__(self):
+        return "<%s(output=(%d, %d), canvas=(%d, %d))>" % \
+               (type(self).__name__, self.output.x, self.output.y,
                 self.canvas.x, self.canvas.y)
 
 
@@ -198,9 +198,9 @@ cdef class EventPrecisionPosition:
         self.output._unset_obj()
         self.canvas._unset_obj()
 
-    def __str__(self):
-        return "%s(output=(%d, %d), canvas=(x=%d, y=%d, xsub=%f, ysub=%f))" % \
-               (self.__class__.__name__, self.output.x, self.output.y,
+    def __repr__(self):
+        return "<%s(output=(%d, %d), canvas=(x=%d, y=%d, xsub=%f, ysub=%f))>" % \
+               (type(self).__name__, self.output.x, self.output.y,
                 self.canvas.x, self.canvas.y,
                 self.canvas.xsub, self.canvas.ysub)
 
@@ -219,11 +219,11 @@ cdef class EventMouseIn:
         assert self.obj != NULL, "EventMouseIn object is invalid."
         return 1
 
-    def __str__(self):
+    def __repr__(self):
         self._check_validity()
-        return ("%s(buttons=%d, output=(%d, %d), canvas=(%d, %d), "
-                "timestamp=%d, event_flags=%#x)") % \
-                (self.__class__.__name__, self.obj.buttons,
+        return ("<%s(buttons=%d, output=(%d, %d), canvas=(%d, %d), "
+                "timestamp=%d, event_flags=%#x)>") % \
+                (type(self).__name__, self.obj.buttons,
                  self.obj.output.x, self.obj.output.y,
                  self.obj.canvas.x, self.obj.canvas.y,
                  self.obj.timestamp, self.event_flags)
@@ -266,11 +266,11 @@ cdef class EventMouseOut:
         assert self.obj != NULL, "EventMouseOut object is invalid."
         return 1
 
-    def __str__(self):
+    def __repr__(self):
         self._check_validity()
-        return ("%s(buttons=%d, output=(%d, %d), canvas=(%d, %d), "
-                "timestamp=%d, event_flags=%#x)") % \
-                (self.__class__.__name__, self.obj.buttons,
+        return ("<%s(buttons=%d, output=(%d, %d), canvas=(%d, %d), "
+                "timestamp=%d, event_flags=%#x)>") % \
+                (type(self).__name__, self.obj.buttons,
                  self.obj.output.x, self.obj.output.y,
                  self.obj.canvas.x, self.obj.canvas.y,
                  self.obj.timestamp, self.event_flags)
@@ -313,11 +313,11 @@ cdef class EventMouseDown:
         assert self.obj != NULL, "EventMouseDown object is invalid."
         return 1
 
-    def __str__(self):
+    def __repr__(self):
         self._check_validity()
-        return ("%s(button=%d, output=(%d, %d), canvas=(%d, %d), "
-                "timestamp=%d, event_flags=%#x, flags=%#x)") % \
-                (self.__class__.__name__, self.obj.button,
+        return ("<%s(button=%d, output=(%d, %d), canvas=(%d, %d), "
+                "timestamp=%d, event_flags=%#x, flags=%#x)>") % \
+                (type(self).__name__, self.obj.button,
                  self.obj.output.x, self.obj.output.y,
                  self.obj.canvas.x, self.obj.canvas.y,
                  self.obj.timestamp, self.event_flags, self.flags)
@@ -369,11 +369,11 @@ cdef class EventMouseUp:
         assert self.obj != NULL, "EventMouseUp object is invalid."
         return 1
 
-    def __str__(self):
+    def __repr__(self):
         self._check_validity()
-        return ("%s(button=%d, output=(%d, %d), canvas=(%d, %d), "
-                "timestamp=%d, event_flags=%#x, flags=%#x)") % \
-                (self.__class__.__name__, self.obj.button,
+        return ("<%s(button=%d, output=(%d, %d), canvas=(%d, %d), "
+                "timestamp=%d, event_flags=%#x, flags=%#x)>") % \
+                (type(self).__name__, self.obj.button,
                  self.obj.output.x, self.obj.output.y,
                  self.obj.canvas.x, self.obj.canvas.y,
                  self.obj.timestamp, self.event_flags, self.flags)
@@ -429,12 +429,12 @@ cdef class EventMouseMove:
         assert self.obj != NULL, "EventMouseMove object is invalid."
         return 1
 
-    def __str__(self):
+    def __repr__(self):
         self._check_validity()
-        return ("%s(buttons=%d, output=(%d, %d), canvas=(%d, %d), "
+        return ("<%s(buttons=%d, output=(%d, %d), canvas=(%d, %d), "
                 "prev_output=(%d, %d), prev_canvas=(%d, %d), timestamp=%d, "
-                "event_flags=%#x)") %\
-                (self.__class__.__name__, self.obj.buttons,
+                "event_flags=%#x)>") %\
+                (type(self).__name__, self.obj.buttons,
                  self.obj.cur.output.x, self.obj.cur.output.y,
                  self.obj.cur.canvas.x, self.obj.cur.canvas.y,
                  self.obj.prev.output.x, self.obj.prev.output.y,
@@ -478,12 +478,12 @@ cdef class EventMultiDown:
     cdef int _check_validity(self) except 0:
         assert self.obj != NULL, "EventMultiDown object is invalid."
 
-    def __str__(self):
+    def __repr__(self):
         self._check_validity()
-        return ("%s(device=%d, radius=(%f, x=%f, y=%f), pressure=%f, angle=%f, "
+        return ("<%s(device=%d, radius=(%f, x=%f, y=%f), pressure=%f, angle=%f, "
                 "output=(%d, %d), canvas=(%d, %d, xsub=%f, ysub=%f), "
-                "timestamp=%d, event_flags=%#x, flags=%#x)") % \
-                (self.__class__.__name__, self.obj.device,
+                "timestamp=%d, event_flags=%#x, flags=%#x)>") % \
+                (type(self).__name__, self.obj.device,
                  self.radius, self.radius_x, self.radius_y,
                  self.pressure, self.angle,
                  self.obj.output.x, self.obj.output.y,
@@ -563,12 +563,12 @@ cdef class EventMultiUp:
         assert self.obj != NULL, "EventMultiUp object is invalid."
         return 1
 
-    def __str__(self):
+    def __repr__(self):
         self._check_validity()
-        return ("%s(device=%d, radius=(%f, x=%f, y=%f), pressure=%f, angle=%f, "
+        return ("<%s(device=%d, radius=(%f, x=%f, y=%f), pressure=%f, angle=%f, "
                 "output=(%d, %d), canvas=(%d, %d, xsub=%f, ysub=%f), "
-                "timestamp=%d, event_flags=%#x, flags=%#x)") % \
-                (self.__class__.__name__, self.obj.device,
+                "timestamp=%d, event_flags=%#x, flags=%#x)>") % \
+                (type(self).__name__, self.obj.device,
                  self.radius, self.radius_x, self.radius_y,
                  self.pressure, self.angle,
                  self.obj.output.x, self.obj.output.y,
@@ -648,12 +648,12 @@ cdef class EventMultiMove:
         assert self.obj != NULL, "EventMultiMove object is invalid."
         return 1
 
-    def __str__(self):
+    def __repr__(self):
         self._check_validity()
-        return ("%s(radius=(%f, x=%f, y=%f), pressure=%f, angle=%f, "
+        return ("<%s(radius=(%f, x=%f, y=%f), pressure=%f, angle=%f, "
                 "output=(%d, %d), canvas=(%d, %d, xsub=%f, ysub=%f), "
-                "timestamp=%d, event_flags=%#x)") % \
-                (self.__class__.__name__,
+                "timestamp=%d, event_flags=%#x)>") % \
+                (type(self).__name__,
                  self.radius, self.radius_x, self.radius_y,
                  self.pressure, self.angle,
                  self.obj.cur.output.x, self.obj.cur.output.y,
@@ -719,11 +719,11 @@ cdef class EventMouseWheel:
         assert self.obj != NULL, "EventMouseWheel object is invalid."
         return 1
 
-    def __str__(self):
+    def __repr__(self):
         self._check_validity()
-        return ("%s(direction=%d, z=%d, output=(%d, %d), "
-                "canvas=(%d, %d), timestamp=%d, event_flags=%#x)") % \
-                (self.__class__.__name__, self.obj.direction, self.obj.z,
+        return ("<%s(direction=%d, z=%d, output=(%d, %d), "
+                "canvas=(%d, %d), timestamp=%d, event_flags=%#x)>") % \
+                (type(self).__name__, self.obj.direction, self.obj.z,
                  self.obj.output.x, self.obj.output.y,
                  self.obj.canvas.x, self.obj.canvas.y,
                  self.obj.timestamp, self.event_flags)
@@ -768,11 +768,11 @@ cdef class EventKeyDown:
         assert self.obj != NULL, "EventKeyDown object is invalid."
         return 1
 
-    def __str__(self):
+    def __repr__(self):
         self._check_validity()
-        return ("%s(keyname=%r, key=%r, string=%r, compose=%r, "
-                "timestamp=%d, event_flags=%#x)") % \
-                (self.__class__.__name__, self.keyname,
+        return ("<%s(keyname=%s, key=%s, string=%r, compose=%r, "
+                "timestamp=%d, event_flags=%#x)>") % \
+                (type(self).__name__, self.keyname,
                  self.key, self.string, self.compose,
                  self.obj.timestamp, self.event_flags)
 
@@ -827,11 +827,11 @@ cdef class EventKeyUp:
         assert self.obj != NULL, "EventKeyUp object is invalid."
         return 1
 
-    def __str__(self):
+    def __repr__(self):
         self._check_validity()
-        return ("%s(keyname=%r, key=%r, string=%r, compose=%r, "
-                "timestamp=%d, event_flags=%#x)") % \
-                (self.__class__.__name__, self.keyname,
+        return ("<%s(keyname=%s, key=%s, string=%r, compose=%r, "
+                "timestamp=%d, event_flags=%#x)>") % \
+                (type(self).__name__, self.keyname,
                  self.key, self.string, self.compose,
                  self.obj.timestamp, self.event_flags)
 
@@ -885,10 +885,10 @@ cdef class EventHold:
         assert self.obj != NULL, "EventHold object is invalid."
         return 1
 
-    def __str__(self):
+    def __repr__(self):
         self._check_validity()
-        return ("%s(hold=%d, timestamp=%d, event_flags=%#x)") % \
-                (self.__class__.__name__, self.hold,
+        return ("<%s(hold=%d, timestamp=%d, event_flags=%#x)>") % \
+                (type(self).__name__, self.hold,
                  self.obj.timestamp, self.event_flags)
 
     property hold:
