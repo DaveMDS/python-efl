@@ -93,7 +93,7 @@ Elementary
 ----------
 
 .. toctree:: elementary/elementary
-   :maxdepth: 3
+   :maxdepth: 4
 
 
 DBus integration
