@@ -1,47 +1,58 @@
 
 BUGS
-----
+====
 
 * EdjeEdit: PartState API does not work
 * Edje.External: The unit test fails
-* Elm.Configuration: example crashes
 * Elm.Map: overlays_show segfaults, scrollers in examples jump when menu opens
 
 
 TODO
-----
+====
 
-* edje: complete the unit tests
-* include python-ethumb
-* Review the internal functions and name them consistently
-* Add more documentation for the use of callbacks
-* Review and document our use of exceptions
-* update links and text on:
-  http://www.freedesktop.org/wiki/Software/DBusBindings
-* Check for documentation changes.
+* Improve, review and document our use of exceptions
 * Use more _set_properties_from_keyword_args, replace Evas' _set_common_params
   with it?
-* Check for missing properties <-> getter-/setter-functions
-* Add more logging
-* Evas: SmartObject needs testing, work. Make it inheritable by extension
-  classes?
-* Check for missing Eo type mappings
 * Check that README has all changes listed
+* Overall API review
 
 Elementary
-==========
+----------
 
 * Web needs a lot of work: signals and documentation
 * Review the new container type object item system.
-* Drag-n-Drop (in progress/kuuko)
-* Unit tests, things like top_widget and getting child objects
-  can be done easily.
 * Get rid of enums in __init__.py
-* Automate compilation of the example edje files.
 
+
+TODO (optional)
+===============
+
+* include python-ethumb
+* edje: complete the unit tests
+* update links and text on:
+  http://www.freedesktop.org/wiki/Software/DBusBindings
+  (requires fd.org shell account?)
+* Add more documentation for callbacks, events, etc.
+* Check for missing Eo type mappings
+
+Elm
+---
 * New documentation images with the new default theme.
 * Images missing in the documentation:
    - datetime
    - video
    - web
    - window ?
+* Drag-n-Drop (in progress/kuuko)
+* Automate compilation of the example edje files.
+* Add more examples
+
+
+TODO (future)
+=============
+
+* Review the internal functions and name them consistently
+* Evas: SmartObject needs testing, work. Make it inheritable by extension
+  classes?
+* Elm unit tests, things like top_widget and getting child objects
+  can be done easily.
