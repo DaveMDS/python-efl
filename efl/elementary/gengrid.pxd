@@ -61,6 +61,12 @@ cdef extern from "Elementary.h":
     Elm_Object_Item *       elm_gengrid_first_item_get(Evas_Object *obj)
     Elm_Object_Item *       elm_gengrid_last_item_get(Evas_Object *obj)
     int                     elm_gengrid_item_index_get(Elm_Object_Item *it)
+
+    Elm_Gengrid_Item_Class *elm_gengrid_item_class_new()
+    void                    elm_gengrid_item_class_free(Elm_Gengrid_Item_Class *itc)
+    void                    elm_gengrid_item_class_ref(Elm_Gengrid_Item_Class *itc)
+    void                    elm_gengrid_item_class_unref(Elm_Gengrid_Item_Class *itc)
+
     void                    elm_gengrid_item_select_mode_set(Elm_Object_Item *it, Elm_Object_Select_Mode mode)
     Elm_Object_Select_Mode  elm_gengrid_item_select_mode_get(Elm_Object_Item *it)
     Elm_Object_Item *       elm_gengrid_item_next_get(Elm_Object_Item *item)

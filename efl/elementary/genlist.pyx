@@ -614,11 +614,7 @@ cdef Evas_Object *_py_elm_genlist_item_content_get(void *data, Evas_Object *obj,
         return NULL
 
     if icon is not None:
-        try:
-            return icon.obj
-        except:
-            traceback.print_exc()
-            return NULL
+        return icon.obj
     else:
         return NULL
 
@@ -641,7 +637,7 @@ cdef Eina_Bool _py_elm_genlist_item_state_get(void *data, Evas_Object *obj, cons
     return ret if ret is not None else 0
 
 cdef void _py_elm_genlist_object_item_del(void *data, Evas_Object *obj) with gil:
-    cdef GenlistItem item = <object>data
+    cdef GenlistItem item = <GenlistItem>data
 
     if item is None:
         return
@@ -658,13 +654,16 @@ cdef void _py_elm_genlist_object_item_del(void *data, Evas_Object *obj) with gil
     item._unset_obj()
 
 cdef void _py_elm_genlist_item_func(void *data, Evas_Object *obj, void *event_info) with gil:
-    cdef GenlistItem item = <object>data
-    cdef object func = item.cb_func
+    cdef GenlistItem item
 
-    if func is not None:
+    assert data != NULL, "data is NULL in Genlist select cb"
+
+    item = <GenlistItem>data
+
+    if item.cb_func is not None:
         try:
             o = object_from_instance(obj)
-            func(item, o, item.func_data)
+            item.cb_func(item, o, item.func_data)
         except:
             traceback.print_exc()
 
@@ -722,8 +721,3 @@ class GenlistItemsCount(int):
 include "genlist_item_class.pxi"
 include "genlist_item.pxi"
 include "genlist_widget.pxi"
-
-#class Genlist(GenlistWidget, ScrollableInterface):
-    #pass
-
-_object_mapping_register("Elm_Genlist", Genlist)

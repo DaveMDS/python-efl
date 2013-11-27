@@ -12,25 +12,26 @@ cdef class GengridItemClass:
     constructor parameters.
 
     """
-    cdef Elm_Gengrid_Item_Class obj
-    cdef readonly object _item_style
-    cdef readonly object _text_get_func
-    cdef readonly object _content_get_func
-    cdef readonly object _state_get_func
-    cdef readonly object _del_func
 
-    def __cinit__(self, *a, **ka):
-        self._item_style = "default"
-        self._text_get_func = None
-        self._content_get_func = None
-        self._state_get_func = None
-        self._del_func = None
+    cdef:
+        Elm_Gengrid_Item_Class *cls
+        object _text_get_func
+        object _content_get_func
+        object _state_get_func
+        object _del_func
+        object _item_style
 
-        self.obj.item_style = NULL
-        self.obj.func.text_get = _py_elm_gengrid_item_text_get
-        self.obj.func.content_get = _py_elm_gengrid_item_content_get
-        self.obj.func.state_get = _py_elm_gengrid_item_state_get
-        self.obj.func.del_ = _py_elm_gengrid_object_item_del
+    def __cinit__(self):
+        self.cls = elm_gengrid_item_class_new()
+        self.cls.func.text_get = _py_elm_gengrid_item_text_get
+        self.cls.func.content_get = _py_elm_gengrid_item_content_get
+        self.cls.func.state_get = _py_elm_gengrid_item_state_get
+        # In C the struct member is del but we rename it to del_ in pxd
+        self.cls.func.del_ = _py_elm_gengrid_object_item_del
+
+    def __dealloc__(self):
+        elm_gengrid_item_class_free(self.cls)
+        self.cls = NULL
 
     def __init__(self, item_style=None, text_get_func=None,
                  content_get_func=None, state_get_func=None, del_func=None):
@@ -71,70 +72,83 @@ cdef class GengridItemClass:
             'item_data' is the value given to Gengrid item append/prepend
             methods, it should represent your item model as you want.
         """
-        if text_get_func and not callable(text_get_func):
-            raise TypeError("text_get_func is not callable!")
-        elif text_get_func:
-            self._text_get_func = text_get_func
+        if text_get_func is not None:
+            if callable(text_get_func):
+                self._text_get_func = text_get_func
+            else:
+                raise TypeError("text_get_func is not callable!")
         else:
             self._text_get_func = self.text_get
 
-        if content_get_func and not callable(content_get_func):
-            raise TypeError("content_get_func is not callable!")
-        elif content_get_func:
-            self._content_get_func = content_get_func
+        if content_get_func is not None:
+            if callable(content_get_func):
+                self._content_get_func = content_get_func
+            else:
+                raise TypeError("content_get_func is not callable!")
         else:
             self._content_get_func = self.content_get
 
-        if state_get_func and not callable(state_get_func):
-            raise TypeError("state_get_func is not callable!")
-        elif state_get_func:
-            self._state_get_func = state_get_func
+        if state_get_func is not None:
+            if callable(state_get_func):
+                self._state_get_func = state_get_func
+            else:
+                raise TypeError("state_get_func is not callable!")
         else:
             self._state_get_func = self.state_get
 
-        if del_func and not callable(del_func):
-            raise TypeError("del_func is not callable!")
-        elif del_func:
-            self._del_func = del_func
+        if del_func is not None:
+            if callable(del_func):
+                self._del_func = del_func
+            else:
+                raise TypeError("del_func is not callable!")
         else:
             try:
                 self._del_func = self.delete
             except AttributeError:
                 pass
 
-        a1 = item_style
-        if isinstance(a1, unicode): a1 = PyUnicode_AsUTF8String(a1)
-        if a1 is not None:
-            self._item_style = a1
-        self.obj.item_style = <char *>self._item_style
+        if item_style is not None:
+            if isinstance(item_style, unicode):
+                item_style = PyUnicode_AsUTF8String(item_style)
+            self._item_style = item_style
 
-    def __str__(self):
-        return ("%s(item_style=%r, text_get_func=%s, content_get_func=%s, "
-                "state_get_func=%s, del_func=%s)") % \
-               (self.__class__.__name__,
-                self._item_style,
-                self._text_get_func,
-                self._content_get_func,
-                self._state_get_func,
-                self._del_func)
+            self.cls.item_style = <char *>self._item_style
 
     def __repr__(self):
-        return ("%s(%#x, refcount=%d, Elm_Gengrid_Item_Class=%#x, "
+        return ("<%s(%#x, refcount=%d, Elm_Gengrid_Item_Class=%#x, "
                 "item_style=%r, text_get_func=%s, content_get_func=%s, "
-                "state_get_func=%s, del_func=%s)") % \
-               (self.__class__.__name__,
+                "state_get_func=%s, del_func=%s)>") % \
+               (type(self).__name__,
                 <unsigned long><void *>self,
                 PY_REFCOUNT(self),
-                <unsigned long>&self.obj,
-                self._item_style,
+                <unsigned long>self.cls,
+                _ctouni(self.cls.item_style),
                 self._text_get_func,
                 self._content_get_func,
                 self._state_get_func,
                 self._del_func)
 
+    def ref(self):
+        """Increase the C level reference count."""
+        elm_gengrid_item_class_ref(self.cls)
+
+    def unref(self):
+        """Decrease the C level reference count."""
+        elm_gengrid_item_class_unref(self.cls)
+
+    def free(self):
+        """Free the C level struct."""
+        elm_gengrid_item_class_free(self.cls)
+
     property item_style:
+        """The style of this item class."""
         def __get__(self):
-            return self._item_style
+            return self._item_style.decode("UTF-8")
+
+        def __set__(self, style):
+            if isinstance(style, unicode): style = PyUnicode_AsUTF8String(style)
+            self._item_style = style
+            self.cls.item_style = <char *>style if style is not None else NULL
 
     def text_get(self, evasObject obj, part, item_data):
         """To be called by Gengrid for each item to get its label.

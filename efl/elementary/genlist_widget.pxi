@@ -1048,3 +1048,5 @@ cdef class Genlist(Object):
         cdef Eina_Bool h, v
         elm_scroller_bounce_get(self.obj, &h, &v)
         return (h, v)
+
+_object_mapping_register("Elm_Genlist", Genlist)

@@ -127,24 +127,14 @@ cdef class GenlistItemClass(object):
         self.cls.decorate_item_style = <char *>self._decorate_item_style if self._decorate_item_style is not None else NULL
         self.cls.decorate_all_item_style = <char *>self._decorate_all_item_style if self._decorate_all_item_style is not None else NULL
 
-    def __str__(self):
-        return ("%s(item_style=%r, text_get_func=%s, content_get_func=%s, "
-                "state_get_func=%s, del_func=%s)") % \
-               (self.__class__.__name__,
-                _ctouni(self.cls.item_style),
-                self._text_get_func,
-                self._content_get_func,
-                self._state_get_func,
-                self._del_func)
-
     def __repr__(self):
-        return ("%s(%#x, refcount=%d, Elm_Genlist_Item_Class=%#x, "
+        return ("<%s(%#x, refcount=%d, Elm_Genlist_Item_Class=%#x, "
                 "item_style=%r, text_get_func=%s, content_get_func=%s, "
-                "state_get_func=%s, del_func=%s)") % \
-               (self.__class__.__name__,
+                "state_get_func=%s, del_func=%s)>") % \
+               (type(self).__name__,
                 <unsigned long><void *>self,
                 PY_REFCOUNT(self),
-                <unsigned long>&self.cls,
+                <unsigned long>self.cls,
                 _ctouni(self.cls.item_style),
                 self._text_get_func,
                 self._content_get_func,

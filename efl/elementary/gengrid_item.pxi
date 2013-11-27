@@ -3,8 +3,10 @@ cdef class GengridItem(ObjectItem):
     """An item for the :py:class:`Gengrid` widget."""
 
     cdef:
+        readonly GengridItemClass item_class
+        Elm_Object_Item *parent_item
+        int flags
         object item_data, func_data, compare_func
-        GengridItemClass cls
 
     cdef int _set_obj(self, Elm_Object_Item *item) except 0:
         assert self.item == NULL, "Object must be clean"
@@ -42,10 +44,21 @@ cdef class GengridItem(ObjectItem):
             if not callable(func):
                 raise TypeError("func is not None or callable")
 
-        self.cls = item_class
+        self.item_class = item_class
         self.cb_func = func
         self.item_data = item_data
         self.func_data = func_data
+
+    def __repr__(self):
+        return ("<%s(%#x, refcount=%d, Elm_Object_Item=%#x, "
+                "item_class=%s, func=%s, item_data=%r)>") % \
+               (type(self).__name__,
+                <unsigned long><void*>self,
+                PY_REFCOUNT(self),
+                <unsigned long>self.item,
+                type(self.item_class).__name__,
+                self.cb_func,
+                self.item_data)
 
     def append_to(self, Gengrid gengrid not None):
         """item_append(Gengrid gengrid) -> GengridItem
@@ -61,7 +74,7 @@ cdef class GengridItem(ObjectItem):
             cb = _py_elm_gengrid_item_func
 
         item = elm_gengrid_item_append(gengrid.obj,
-            &self.cls.obj, <void*>self,
+            self.item_class.cls, <void*>self,
             cb, <void*>self)
 
         if item != NULL:
@@ -84,7 +97,7 @@ cdef class GengridItem(ObjectItem):
         if self.cb_func is not None:
             cb = _py_elm_gengrid_item_func
 
-        item = elm_gengrid_item_prepend(gengrid.obj, &self.cls.obj, <void*>self,
+        item = elm_gengrid_item_prepend(gengrid.obj, self.item_class.cls, <void*>self,
             cb, <void*>self)
 
         if item != NULL:
@@ -111,7 +124,7 @@ cdef class GengridItem(ObjectItem):
         if self.cb_func is not None:
             cb = _py_elm_gengrid_item_func
 
-        item = elm_gengrid_item_insert_before(gengrid.obj, &self.cls.obj,
+        item = elm_gengrid_item_insert_before(gengrid.obj, self.item_class.cls,
             <void*>self, before.item, cb, <void*>self)
 
         if item != NULL:
@@ -138,7 +151,7 @@ cdef class GengridItem(ObjectItem):
         if self.cb_func is not None:
             cb = _py_elm_gengrid_item_func
 
-        item = elm_gengrid_item_insert_after(gengrid.obj, &self.cls.obj,
+        item = elm_gengrid_item_insert_after(gengrid.obj, self.item_class.cls,
             <void*>self, after.item, cb, <void*>self)
 
         if item != NULL:
@@ -166,7 +179,7 @@ cdef class GengridItem(ObjectItem):
         if self.cb_func is not None:
             cb = _py_elm_gengrid_item_func
 
-        item = elm_gengrid_item_sorted_insert(gengrid.obj, &self.cls.obj,
+        item = elm_gengrid_item_sorted_insert(gengrid.obj, self.item_class.cls,
             <void*>self, _gengrid_compare_cb, cb, <void*>self)
 
         if item != NULL:
@@ -175,26 +188,6 @@ cdef class GengridItem(ObjectItem):
         else:
             Py_DECREF(self)
             return None
-
-
-
-    def __str__(self):
-        return "%s(item_class=%s, func=%s, item_data=%s)" % \
-               (type(self).__name__,
-                type(self.cls).__name__,
-                self.cb_func,
-                self.item_data)
-
-    def __repr__(self):
-        return ("%s(%#x, refcount=%d, Elm_Object_Item=%#x, "
-                "item_class=%s, func=%s, item_data=%r)") % \
-               (type(self).__name__,
-                <unsigned long><void*>self,
-                PY_REFCOUNT(self),
-                <unsigned long>self.item,
-                type(self.cls).__name__,
-                self.cb_func,
-                self.item_data)
 
     property data:
         """User data for the item."""

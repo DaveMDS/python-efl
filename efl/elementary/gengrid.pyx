@@ -308,52 +308,58 @@ def _cb_object_item_conv(long addr):
     return _object_item_to_python(it)
 
 cdef char *_py_elm_gengrid_item_text_get(void *data, Evas_Object *obj, const_char *part) with gil:
-    cdef GengridItem item = <object>data
-    cdef GengridItemClass itc = item.cls
+    cdef:
+        GengridItem item = <GengridItem>data
+        unicode u = _ctouni(part)
 
-    func = itc._text_get_func
+    func = item.item_class._text_get_func
     if func is None:
         return NULL
 
     try:
         o = object_from_instance(obj)
-        ret = func(o, part, item.item_data)
+        ret = func(o, u, item.item_data)
     except:
         traceback.print_exc()
         return NULL
 
-    if isinstance(ret, unicode): ret = PyUnicode_AsUTF8String(ret)
-    return strdup(ret) if ret is not None else NULL
+    if ret is not None:
+        if isinstance(ret, unicode): ret = PyUnicode_AsUTF8String(ret)
+        return strdup(ret)
+    else:
+        return NULL
 
 cdef Evas_Object *_py_elm_gengrid_item_content_get(void *data, Evas_Object *obj, const_char *part) with gil:
-    cdef GengridItem item = <object>data
-    cdef evasObject icon
-    cdef GengridItemClass itc = item.cls
+    cdef:
+        GengridItem item = <GengridItem>data
+        unicode u = _ctouni(part)
+        evasObject icon
 
-    func = itc._content_get_func
+    func = item.item_class._content_get_func
     if func is None:
         return NULL
 
+    o = object_from_instance(obj)
+
     try:
-        o = object_from_instance(obj)
-        ret = func(o, _ctouni(part), item.item_data)
+        icon = func(o, u, item.item_data)
     except:
         traceback.print_exc()
         return NULL
 
-    if ret is None:
+    if icon is not None:
+        return icon.obj
+    else:
         return NULL
 
-    icon = ret
-    return icon.obj
-
 cdef Eina_Bool _py_elm_gengrid_item_state_get(void *data, Evas_Object *obj, const_char *part) with gil:
-    cdef GengridItem item = <object>data
-    cdef GengridItemClass itc = item.cls
+    cdef:
+        GengridItem item = <GengridItem>data
+        unicode u = _ctouni(part)
 
-    func = itc._state_get_func
+    func = item.item_class._state_get_func
     if func is None:
-        return False
+        return 0
 
     try:
         o = object_from_instance(obj)
@@ -362,36 +368,31 @@ cdef Eina_Bool _py_elm_gengrid_item_state_get(void *data, Evas_Object *obj, cons
         traceback.print_exc()
         return 0
 
-    if ret is not None:
-        return bool(ret)
-    else:
-        return False
+    return ret if ret is not None else 0
 
 cdef void _py_elm_gengrid_object_item_del(void *data, Evas_Object *obj) with gil:
-    cdef GengridItem item = <object>data
-    cdef GengridItemClass itc = item.cls
+    cdef GengridItem item = <GengridItem>data
 
     if item is None:
         return
 
-    func = itc._del_func
+    func = item.item_class._del_func
+
     if func is not None:
         try:
             o = object_from_instance(obj)
             func(o, item.item_data)
         except:
             traceback.print_exc()
+
     item._unset_obj()
-    Py_DECREF(item)
 
 cdef void _py_elm_gengrid_item_func(void *data, Evas_Object *obj, void *event_info) with gil:
     cdef GengridItem item
 
-    print("in item_cb")
-
     assert data != NULL, "data is NULL in Gengrid select cb"
 
-    item = <GengridItem?>data
+    item = <GengridItem>data
 
     if item.cb_func is not None:
         try:
