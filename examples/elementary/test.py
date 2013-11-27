@@ -60,10 +60,16 @@ items = [
             ("Box Vert2", "test_box", "box_vert2_clicked"),
             ("Box Layout", "test_box", "box_layout_clicked"),
             ("Box Layout Transition", "test_box", "box_transition_clicked"),
-            ("Table", "test_table", "table_clicked"),
-            ("Layout", "test_layout", "layout_clicked"),
-            ("Grid", "test_grid", "grid_clicked"),
             ("Frame", "test_frame", "frame_clicked"),
+            ("Grid", "test_grid", "grid_clicked"),
+            ("Layout", "test_layout", "layout_clicked"),
+            ("Table", "test_table", "table_clicked"),
+            ("Table Homogeneous", "test_table", "table2_clicked"),
+            ("Table 3", "test_table", "table3_clicked"),
+            ("Table 4", "test_table", "table4_clicked"),
+            ("Table 5", "test_table", "table5_clicked"),
+            ("Table 6", "test_table", "table6_clicked"),
+            ("Table 7", "test_table", "table7_clicked"),
         ]),
          ("Cursors", [
             ("Cursor", "test_cursor", "cursor_clicked"),
@@ -125,9 +131,7 @@ items = [
             ("Gesture Layer", "test_gesture_layer", "gesture_layer_clicked"),
         ]),
          ("Lists", [
-            ("List", "test_list", "list_clicked"),
-            ("List 2", "test_list", "list2_clicked"),
-            ("List 3", "test_list", "list3_clicked"),
+            ("Gengrid", "test_gengrid", "gengrid_clicked"),
             ("Genlist", "test_genlist", "genlist_clicked"),
             ("Genlist 2", "test_genlist", "genlist2_clicked"),
             ("Genlist Group", "test_genlist", "genlist3_clicked"),
@@ -135,13 +139,16 @@ items = [
             ("Genlist Iteration", "test_genlist", "genlist5_clicked"),
             ("Genlist Decorate Item Mode", "test_genlist", "genlist10_clicked"),
             ("Genlist Decorate All Mode", "test_genlist", "genlist15_clicked"),
-            ("Gengrid", "test_gengrid", "gengrid_clicked"),
+            ("List", "test_list", "list_clicked"),
+            ("List 2", "test_list", "list2_clicked"),
+            ("List 3", "test_list", "list3_clicked"),
         ]),
          ("Miscellaneous", [
             # ("Accessibility", "test_access", "access_clicked"),
             # ("Accessibility 2", "test_access", "access2_clicked"),
             # ("Accessibility 3", "test_access", "access3_clicked"),
             ("Configuration", "test_config", "config_clicked"),
+            ("Copy And Paste", "test_cnp", "cnp_clicked"),
             ("Floating Objects", "test_floating", "floating_clicked"),
             ("Themes", "test_theme", "theme_clicked"),
         ]),
@@ -149,17 +156,17 @@ items = [
             ("Naviframe", "test_naviframe", "naviframe_clicked"),
         ]),
          ("Popups", [
+            ("Ctxpopup", "test_ctxpopup", "ctxpopup_clicked"),
             ("Hover", "test_hover", "hover_clicked"),
             ("Hover 2", "test_hover", "hover2_clicked"),
             ("Notify", "test_notify", "notify_clicked"),
-            ("Tooltip", "test_tooltip", "tooltip_clicked"),
-            ("Ctxpopup", "test_ctxpopup", "ctxpopup_clicked"),
             ("Popup", "test_popup", "popup_clicked"),
+            ("Tooltip", "test_tooltip", "tooltip_clicked"),
         ]),
          ("Range Values", [
-            ("Spinner", "test_spinner", "spinner_clicked"),
             ("Progressbar", "test_progressbar", "progressbar_clicked"),
             ("Slider", "test_slider", "slider_clicked"),
+            ("Spinner", "test_spinner", "spinner_clicked"),
         ]),
          ("Scroller", [
             ("Scroller", "test_scroller", "scroller_clicked"),
@@ -169,10 +176,10 @@ items = [
             ("Color Selector", "test_colorselector", "colorselector_clicked"),
             ("Day Selector", "test_dayselector", "dayselector_clicked"),
             ("Disk Selector", "test_diskselector", "diskselector_clicked"),
-            ("Flip Selector", "test_flipselector", "flipselector_clicked"),
             ("File Selector", "test_fileselector", "fileselector_clicked"),
             ("Fileselector button", "test_fileselector", "fileselector_button_clicked"),
             ("Fileselector entry", "test_fileselector", "fileselector_entry_clicked"),
+            ("Flip Selector", "test_flipselector", "flipselector_clicked"),
             ("Hoversel", "test_hoversel", "hoversel_clicked"),
             ("Index", "test_index", "index_clicked"),
             ("Menu", "test_menu", "menu_clicked"),
@@ -253,7 +260,7 @@ def cb_filter(en, win):
 
 if __name__ == "__main__":
     elementary.init()
-    win = StandardWindow("test", "python-elementary test application")
+    win = StandardWindow("test", "Python EFL test application")
     win.callback_delete_request_add(destroy, "test1", "test2", str3="test3", str4="test4")
 
     box0 = Box(win, size_hint_weight=EXPAND_BOTH)
@@ -261,9 +268,10 @@ if __name__ == "__main__":
     box0.show()
 
     lb = Label(win)
-    lb.text =   "Please select a test from the list below<br>" \
-                "by clicking the test button to show the<br>" \
-                "test window."
+    lb.text = (
+        "Please select a test from the list below by clicking<br>"
+        "the test button to show the test window."
+        )
     lb.show()
 
     fr = Frame(win, text="Information", content=lb)
@@ -286,6 +294,7 @@ if __name__ == "__main__":
 
     en = Entry(win, single_line=True, scrollable=True,
         size_hint_weight=EXPAND_BOTH, size_hint_align=FILL_BOTH)
+    en.part_text_set("guide", "Type widget name here to search.")
     en.callback_changed_add(cb_filter, win)
     bx1.pack_end(en)
     en.show()
@@ -303,7 +312,7 @@ if __name__ == "__main__":
 
     menu_create(None, win)
 
-    win.resize(320, 480)
+    win.resize(480, 480)
     win.show()
     elementary.run()
     elementary.shutdown()
