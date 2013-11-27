@@ -845,8 +845,10 @@ cdef class Window(Object):
             cdef:
                 char **profiles
                 unsigned int count
+                int ret
+
             ret = elm_win_available_profiles_get(self.obj, &profiles, &count)
-            if ret is 0:
+            if ret == 0:
                 raise RuntimeError("No available profiles")
             return array_of_strings_to_python_list(profiles, count)
 
@@ -868,8 +870,10 @@ cdef class Window(Object):
         cdef:
             char **profiles
             unsigned int count
+            int ret
+
         ret = elm_win_available_profiles_get(self.obj, &profiles, &count)
-        if ret is 0:
+        if ret == 0:
             raise RuntimeError("No available profiles")
         return array_of_strings_to_python_list(profiles, count)
 
@@ -1508,7 +1512,7 @@ cdef class Window(Object):
         elm_win_screen_position_get(self.obj, &x, &y)
         return (x, y)
 
-    def socket_listen(self, svcname not None, svcnum, svcsys):
+    def socket_listen(self, svcname, int svcnum, bint svcsys):
         """socket_listen(unicode svcname, int svcnum, bool svcsys)
 
         Create a socket to provide the service for Plug widget

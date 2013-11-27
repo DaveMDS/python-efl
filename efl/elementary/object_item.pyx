@@ -392,7 +392,7 @@ cdef class ObjectItem(object):
     def text_get(self):
         return _ctouni(elm_object_item_text_get(self.item))
 
-    # TODO:
+    # TODO: accessibility
     # property access_info:
     #     """Set the text to read out when in accessibility mode
 
@@ -482,15 +482,18 @@ cdef class ObjectItem(object):
             <const_char *>text if text is not None else NULL)
 
     property tooltip_window_mode:
+        # TODO: document this
         def __set__(self, disable):
-            if not bool(elm_object_item_tooltip_window_mode_set(self.item, disable)):
-                raise RuntimeError("Could not set tooltip_window_mode.")
+            if not elm_object_item_tooltip_window_mode_set(self.item, disable):
+                raise RuntimeWarning("Could not set tooltip_window_mode.")
 
         def __get__(self):
             return bool(elm_object_item_tooltip_window_mode_get(self.item))
 
     def tooltip_window_mode_set(self, disable):
-        return bool(elm_object_item_tooltip_window_mode_set(self.item, disable))
+        if not elm_object_item_tooltip_window_mode_set(self.item, disable):
+            raise RuntimeWarning("Could not set tooltip_window_mode.")
+
     def tooltip_window_mode_get(self):
         return bool(elm_object_item_tooltip_window_mode_get(self.item))
 
@@ -517,6 +520,7 @@ cdef class ObjectItem(object):
         cdef void *cbdata
 
         data = (func, args, kargs)
+        # FIXME: refleak
         Py_INCREF(data)
         cbdata = <void *>data
         elm_object_item_tooltip_content_cb_set(self.item, _tooltip_item_content_create,

@@ -1744,7 +1744,7 @@ cdef class Object(evasObject):
         :param buf: The data selected
         :type buf: An object that supports the new buffer interface
 
-        :raise RuntimeError: if setting cnp data fails.
+        :raise RuntimeWarning: if setting cnp data fails.
 
         """
         cdef Py_buffer view
@@ -1756,7 +1756,7 @@ cdef class Object(evasObject):
         PyObject_GetBuffer(buf, &view, PyBUF_SIMPLE)
         if not elm_cnp_selection_set(self.obj, selection, format,
             <const_void *>view.buf, view.itemsize):
-            raise RuntimeError("Could not set cnp data for widget.")
+            raise RuntimeWarning("Could not set cnp data for widget.")
         PyBuffer_Release(&view)
 
     def cnp_selection_get(self, selection, format, datacb, udata = None):
@@ -1772,7 +1772,7 @@ cdef class Object(evasObject):
         :param datacb: The user data callback if the target widget isn't elm_entry
         :param udata: The user data pointer for ``datacb``
 
-        :raise RuntimeError: if getting cnp data fails.
+        :raise RuntimeWarning: if getting cnp data fails.
 
         """
         if not callable(datacb):
@@ -1781,7 +1781,7 @@ cdef class Object(evasObject):
         self.cnp_drop_data = udata
         if not elm_cnp_selection_get(self.obj, selection, format,
             py_elm_drop_cb, <void *>self):
-            raise RuntimeError("Could not get cnp data from widget.")
+            raise RuntimeWarning("Could not get cnp data from widget.")
 
     def cnp_selection_clear(self, Elm_Sel_Type selection):
         """Clear the selection data of a widget.
@@ -1791,11 +1791,11 @@ cdef class Object(evasObject):
         :param selection: Selection type for copying and pasting
         :type selection: :ref:`Elm_Object_Sel_Type`
 
-        :raise RuntimeError: if clearing cnp data fails.
+        :raise RuntimeWarning: if clearing cnp data fails.
 
         """
         if not elm_object_cnp_selection_clear(self.obj, selection):
-            raise RuntimeError("Could not clear cnp data from widget.")
+            raise RuntimeWarning("Could not clear cnp data from widget.")
 
     def cnp_selection_loss_callback_set(self, Elm_Sel_Type selection, func,
         data = None):

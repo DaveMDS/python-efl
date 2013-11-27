@@ -107,6 +107,8 @@ cdef class Background(LayoutClass):
 
         :type: string file, *optional* string group
 
+        :raise: RuntimeError: if setting the file failed.
+
         """
         def __get__(self):
             cdef const_char *filename, *group

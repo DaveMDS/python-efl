@@ -206,7 +206,7 @@ cdef class Theme(object):
             ret.th = elm_theme_ref_get(self.th)
 
             if ret.th == NULL:
-                raise RuntimeError
+                return None
             else:
                 return ret
 
@@ -219,7 +219,7 @@ cdef class Theme(object):
         ret.th = elm_theme_ref_get(self.th)
 
         if ret.th == NULL:
-            raise RuntimeError
+            return None
         else:
             return ret
 

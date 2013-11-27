@@ -279,14 +279,14 @@ cdef class Fileselector(LayoutClass):
         :type mime_types: list
         :param filter_name: The name to be displayed, ``mime_types`` will be displayed if None
         :type filter_name: string
-        :raise RuntimeError: if setting mime_types failed
+        :raise RuntimeWarning: if setting mime_types failed
 
         .. note:: a sub type of mime can be asterisk(*)
         .. note:: mime type filter is only working with efreet now.
         .. note:: first added filter will be the default filter at the moment.
 
-        :see: :py:func:efl.elementary.need.need_efreet()
-        :see: filters_clear()
+        :see: :py:func:`~efl.elementary.need.need_efreet`
+        :see: :py:meth:`filters_clear`
 
         :since: 1.8
 
@@ -296,7 +296,7 @@ cdef class Fileselector(LayoutClass):
         if isinstance(filter_name, unicode): filter_name = PyUnicode_AsUTF8String(filter_name)
         if not elm_fileselector_mime_types_filter_append(self.obj, mime_types_s,
             <const_char *>filter_name if filter_name is not None else NULL):
-            raise RuntimeError
+            raise RuntimeWarning
 
     def filters_clear(self):
         """

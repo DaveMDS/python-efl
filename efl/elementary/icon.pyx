@@ -218,7 +218,7 @@ cdef class Icon(Image):
         .. seealso:: Image.file
 
         :type: string
-        :raise RuntimeError: when setting the standard icon fails
+        :raise RuntimeWarning: when setting the standard icon fails
 
         """
         def __get__(self):
@@ -227,13 +227,13 @@ cdef class Icon(Image):
             if isinstance(name, unicode): name = PyUnicode_AsUTF8String(name)
             if not elm_icon_standard_set(self.obj,
                 <const_char *>name if name is not None else NULL):
-                    raise RuntimeError("Setting standard icon failed")
+                    raise RuntimeWarning("Setting standard icon failed")
 
     def standard_set(self, name):
         if isinstance(name, unicode): name = PyUnicode_AsUTF8String(name)
         if not elm_icon_standard_set(self.obj,
             <const_char *>name if name is not None else NULL):
-                raise RuntimeError("Setting standard icon failed")
+                raise RuntimeWarning("Setting standard icon failed")
     def standard_get(self):
         return _ctouni(elm_icon_standard_get(self.obj))
 

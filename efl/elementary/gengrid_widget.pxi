@@ -492,7 +492,8 @@ cdef class Gengrid(Object):
         :param tm_to_drag: Time period to wait before start draggind.
         :param itemgetcb: Callback to get Evas_Object pointer for item at (x,y)
         :param data_get:  Callback to get drag info
-        :return: Returns EINA_TRUE, if successful, or EINA_FALSE if not.
+
+        :raise RuntimeError: if setting drag source failed.
 
         :since: 1.8
 
@@ -516,7 +517,7 @@ cdef class Gengrid(Object):
 
         Deletes a item container from drag-source list
 
-        :return: Returns EINA_TRUE, if successful, or EINA_FALSE if not.
+        :raise RuntimeError: if deleting drag source failed.
 
         :since: 1.8
 
@@ -542,7 +543,8 @@ cdef class Gengrid(Object):
         :param posdata: The application data to pass to posdata
         :param dropcb: The function to call when a drop has occurred
         :param cbdata: The application data to pass to dropcb
-        :return: Returns EINA_TRUE, if successful, or EINA_FALSE if not.
+
+        :raise RuntimeError: if setting drop target failed.
 
         :since: 1.8
 
@@ -573,9 +575,7 @@ cdef class Gengrid(Object):
 
         Removes a container from list of drop tragets.
 
-        :param obj: The container object
-        :return: Returns EINA_TRUE, if successful, or EINA_FALSE if not.
-
+        :raise RuntimeError: if deleting drop target failed.
 
         :since: 1.8
 

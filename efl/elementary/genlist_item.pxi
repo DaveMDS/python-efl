@@ -485,19 +485,19 @@ cdef class GenlistItem(ObjectItem):
         It will instead be limited only by the size of the display.
 
         :type: bool
-        :raise RuntimeError: when setting the mode fails
+        :raise RuntimeWarning: when setting the mode fails
 
         """
         def __set__(self, disable):
             if not elm_genlist_item_tooltip_window_mode_set(self.item, disable):
-                raise RuntimeError("Setting tooltip_window_mode failed")
+                raise RuntimeWarning("Setting tooltip_window_mode failed")
 
         def __get__(self):
             return bool(elm_genlist_item_tooltip_window_mode_get(self.item))
 
     def tooltip_window_mode_set(self, disable):
         if not elm_genlist_item_tooltip_window_mode_set(self.item, disable):
-            raise RuntimeError("Setting tooltip_window_mode failed")
+            raise RuntimeWarning("Setting tooltip_window_mode failed")
     def tooltip_window_mode_get(self):
         return bool(elm_genlist_item_tooltip_window_mode_get(self.item))
 

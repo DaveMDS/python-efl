@@ -61,7 +61,7 @@ cdef class Plug(Object):
         self._set_obj(elm_plug_add(parent.obj))
         self._set_properties_from_keyword_args(kwargs)
 
-    def connect(self, svcname, svcnum, svcsys):
+    def connect(self, svcname, int svcnum, bint svcsys):
         """connect(unicode svcname, int svcnum, bool svcsys) -> bool
 
         Connect a plug widget to service provided by socket image.
