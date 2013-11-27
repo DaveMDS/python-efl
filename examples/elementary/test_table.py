@@ -18,8 +18,6 @@ FILL_BOTH = EVAS_HINT_FILL, EVAS_HINT_FILL
 
 def table_clicked(obj, item=None):
     win = StandardWindow("table", "Table", autodel=True)
-    if obj is None:
-        win.callback_delete_request_add(lambda o: elementary.exit())
 
     tb = Table(win, size_hint_weight=EXPAND_BOTH)
     win.resize_object_add(tb)
@@ -59,8 +57,6 @@ def table_clicked(obj, item=None):
 
 def table2_clicked(obj, item=None):
     win = StandardWindow("table2", "Table Homogeneous", autodel=True)
-    if obj is None:
-        win.callback_delete_request_add(lambda o: elementary.exit())
 
     tb = Table(win, homogeneous=True, size_hint_weight=EXPAND_BOTH)
     win.resize_object_add(tb)
@@ -98,7 +94,7 @@ def table2_clicked(obj, item=None):
 
     win.show()
 
-def my_tb_ch(obj, event_info, data):
+def my_tb_ch(obj, data):
     win = data
     tb = win.data["tb"]
     b2 = win.data["b2"]

@@ -21,7 +21,8 @@ from efl.elementary.list import List
 from efl.elementary.icon import Icon
 from efl.elementary.genlist import Genlist, GenlistItem, GenlistItemClass, \
     ELM_GENLIST_ITEM_NONE, ELM_OBJECT_SELECT_MODE_ALWAYS, \
-    ELM_OBJECT_SELECT_MODE_DEFAULT
+    ELM_OBJECT_SELECT_MODE_DEFAULT, ELM_GENLIST_ITEM_GROUP, \
+    ELM_OBJECT_SELECT_MODE_DISPLAY_ONLY
 from efl.elementary.general import cache_all_flush
 from efl.elementary.radio import Radio
 from efl.elementary.check import Check
@@ -372,8 +373,8 @@ def genlist3_clicked(obj, item=None):
     for i in range(300):
         if i % 10 == 0:
             git = gl.item_append(itc_g, i/10,
-                                 flags=elementary.ELM_GENLIST_ITEM_GROUP)
-            git.select_mode_set(elementary.ELM_OBJECT_SELECT_MODE_DISPLAY_ONLY)
+                                 flags=ELM_GENLIST_ITEM_GROUP)
+            git.select_mode_set(ELM_OBJECT_SELECT_MODE_DISPLAY_ONLY)
         gl.item_append(itc_i, i, git)
 
     win.show()

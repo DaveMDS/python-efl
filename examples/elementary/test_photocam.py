@@ -98,7 +98,7 @@ def photocam_clicked(obj):
     # Fit btn
     bt = Button(win, text="Fit", size_hint_weight=EXPAND_BOTH,
         size_hint_align=(0.1, 0.9))
-    bt.callback_clicked_add(lambda b: pc.zoom_mode_set(elementary.ELM_PHOTOCAM_ZOOM_MODE_AUTO_FIT))
+    bt.callback_clicked_add(lambda b: pc.zoom_mode_set(ELM_PHOTOCAM_ZOOM_MODE_AUTO_FIT))
     tb.pack(bt, 0, 2, 1, 1)
     bt.show()
 
@@ -117,7 +117,7 @@ def photocam_clicked(obj):
     # Fill btn
     bt = Button(win, text="Fill", size_hint_weight=EXPAND_BOTH,
         size_hint_align=(0.9, 0.9))
-    bt.callback_clicked_add(lambda b: pc.zoom_mode_set(elementary.ELM_PHOTOCAM_ZOOM_MODE_AUTO_FILL))
+    bt.callback_clicked_add(lambda b: pc.zoom_mode_set(ELM_PHOTOCAM_ZOOM_MODE_AUTO_FILL))
     tb.pack(bt, 2, 2, 1, 1)
     bt.show()
 

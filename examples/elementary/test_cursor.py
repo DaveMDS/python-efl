@@ -1,6 +1,7 @@
 #!/usr/bin/env python
 # encoding: utf-8
 
+import os
 
 from efl.evas import EVAS_HINT_EXPAND, EVAS_HINT_FILL
 from efl import elementary
@@ -13,11 +14,15 @@ from efl.elementary.frame import Frame
 from efl.elementary.clock import Clock
 from efl.elementary.entry import Entry
 from efl.elementary.toolbar import Toolbar
+from efl.elementary.theme import Theme
+from efl.elementary.configuration import Configuration
 
 EXPAND_BOTH = EVAS_HINT_EXPAND, EVAS_HINT_EXPAND
 EXPAND_HORIZ = EVAS_HINT_EXPAND, 0.0
 FILL_BOTH = EVAS_HINT_FILL, EVAS_HINT_FILL
 FILL_HORIZ = EVAS_HINT_FILL, 0.5
+
+script_path = os.path.dirname(os.path.abspath(__file__))
 
 def cursor_clicked(obj, item=None):
     win = StandardWindow("cursors", "Cursors", autodel=True, size=(320,480))
@@ -92,7 +97,9 @@ def cursor2_clicked(obj, item=None):
 def cursor3_clicked(obj, item=None):
     win = StandardWindow("cursors", "Cursors 3", autodel=True, size=(320, 480))
 
-    elementary.theme_extension_add("./cursors.edj")
+    conf = Configuration()
+
+    Theme.default_get().extension_add(os.path.join(script_path, "cursors.edj"))
 
     bx = Box(win, size_hint_weight=EXPAND_BOTH)
     win.resize_object_add(bx)
@@ -127,13 +134,13 @@ def cursor3_clicked(obj, item=None):
     bx.pack_end(bt)
     bt.show()
 
-    elementary.cursor_engine_only_set(False)
+    conf.cursor_engine_only = False
 
     bt = Button(win, text="hand 2 engine only config false", cursor="hand2")
     bx.pack_end(bt)
     bt.show()
 
-    elementary.cursor_engine_only_set(True)
+    conf.cursor_engine_only = True
 
     bt = Button(win, text="hand 2 engine only config true", cursor="hand2")
     bx.pack_end(bt)

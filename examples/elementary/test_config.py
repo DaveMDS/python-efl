@@ -197,8 +197,7 @@ def inlined_add(parent):
     return win
 
 def socket_add(name):
-    win = Window("socket image", ELM_WIN_SOCKET_IMAGE, pos=(0, 0),
-        size=(150, 200))
+    win = Window("socket image", ELM_WIN_SOCKET_IMAGE)
 
     try:
         win.socket_listen(name, 0, False)
@@ -225,6 +224,9 @@ def socket_add(name):
         win.data["lb"] = lb
 
         inlined_add(win)
+
+        win.move(0, 0)
+        win.resize(150, 200)
 
         win.callback_profile_changed_add(win_profile_changed_cb)
         win.show()
