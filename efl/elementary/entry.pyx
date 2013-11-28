@@ -27,17 +27,17 @@ Widget description
 An entry is a convenience widget which shows a box that the user can
 enter text into.
 
-Entries by default don't scroll, so they grow to
-accommodate the entire text, resizing the parent window as needed. This
-can be changed with the :py:attr:`scrollable` function.
+Entries by default don't scroll, so they grow to accommodate the entire text,
+resizing the parent window as needed. This can be changed with the property
+:py:attr:`~efl.elementary.entry.Entry.scrollable`.
 
 They can also be single line or multi line (the default) and when set
 to multi line mode they support text wrapping in any of the modes
-indicated by *Elm_Wrap_Type*.
+indicated by :ref:`Elm_Entry_Wrap_Type`.
 
 Other features include password mode, filtering of inserted text with
-:py:func:`markup_filter_append()` and related functions, inline "items" and
-formatted markup text.
+:py:meth:`~efl.elementary.entry.Entry.markup_filter_append` and related
+functions, inline "items" and formatted markup text.
 
 Scrollable Interface
 ====================
@@ -46,7 +46,7 @@ This widget supports the scrollable interface.
 
 If you wish to control the scolling behaviour using these functions,
 inherit both the widget class and the
-:py:class:`Scrollable<efl.elementary.scroller.Scrollable>` class
+:py:class:`~efl.elementary.scroller.Scrollable` class
 using multiple inheritance, for example::
 
     class ScrollableGenlist(Genlist, Scrollable):
@@ -91,7 +91,7 @@ The ``href`` attribute in the opening tag gives the name that will be
 used to identify the anchor and it can be any valid utf8 string.
 
 When an anchor is clicked, an ``"anchor,clicked"`` signal is emitted with
-an ``Elm_Entry_Anchor_Info`` in the ``event_info`` parameter for the
+an :py:class:`EntryAnchorInfo` in the ``event_info`` parameter for the
 callback function. The same applies for "anchor,in" (mouse in),
 "anchor,out" (mouse out), "anchor,down" (mouse down), and "anchor,up"
 (mouse up) events on an anchor.
@@ -99,7 +99,7 @@ callback function. The same applies for "anchor,in" (mouse in),
 Items
 '''''
 
-Inlined in the text, any other :py:class:`elementary.object.Object` can
+Inlined in the text, any other :py:class:`~efl.elementary.object.Object` can
 be inserted by using <item> tags this way::
 
     <item size=16x16 vsize=full href=emoticon/haha></item>
@@ -131,13 +131,13 @@ are:
 - full: Items will be placed between the descent and ascent, or the
   lowest point in the line and its highest.
 
-After the size for an item is calculated, the entry will request an
-object to place in its space. For this, the functions set with
-:py:func:`item_provider_append()` and related functions will be called
-in order until one of them returns a non-*None* value. If no providers
-are available, or all of them return *None*, then the entry falls back
-to one of the internal defaults, provided the name matches with one of
-them.
+After the size for an item is calculated, the entry will request an object to
+place in its space. For this, the functions set with
+:py:meth:`~efl.elementary.entry.Entry.item_provider_append` and related
+functions will be called in order until one of them returns a non-*None* value.
+If no providers are available, or all of them return *None*, then the entry
+falls back to one of the internal defaults, provided the name matches with one
+of them.
 
 All of the following are currently supported:
 
@@ -193,7 +193,7 @@ There are 2 major ways to change the entry's style:
 
 - Theme - set the "base" field to the desired style.
 - User style - Pushing overrides to the theme style to the textblock object
-  by using evas_object_textblock_style_user_push().
+  by using :py:meth:`~efl.elementary.entry.Entry.text_style_user_push`.
 
 You should modify the theme when you would like to change the style for
 aesthetic reasons. While the user style should be changed when you would
@@ -203,11 +203,11 @@ setting font or font size in a text editor.
 Loading and saving files
 ========================
 
-Entries have convenience functions to load text from a file and save
-changes back to it after a short delay. The automatic saving is enabled
-by default, but can be disabled with :py:attr:`autosave` and files
-can be loaded directly as plain text or have any markup in them
-recognized. See :py:attr:`file` for more details.
+Entries have convenience functions to load text from a file and save changes
+back to it after a short delay. The automatic saving is enabled by default, but
+can be disabled with :py:attr:`~efl.elementary.entry.Entry.autosave` and files
+can be loaded directly as plain text or have any markup in them recognized. See
+:py:attr:`~efl.elementary.entry.Entry.file` for more details.
 
 Emitted signals
 ---------------
@@ -609,7 +609,12 @@ cdef class EntryContextMenuItem(object):
             return (_ctouni(icon_file), _ctouni(icon_group), icon_type)
 
 cdef class FilterLimitSize(object):
-    """Data for the elm_entry_filter_limit_size() entry filter."""
+    """
+
+    Data for the :py:meth:`~efl.elementary.entry.Entry.filter_limit_size`
+    entry filter.
+
+    """
 
     cdef:
         Elm_Entry_Filter_Limit_Size *fltr
@@ -639,7 +644,12 @@ cdef class FilterLimitSize(object):
             return self.fltr.max_byte_count
 
 cdef class FilterAcceptSet(object):
-    """Data for the elm_entry_filter_accept_set() entry filter."""
+    """
+
+    Data for the :py:meth:`~efl.elementary.entry.Entry.filter_accept_set`
+    entry filter.
+
+    """
 
     cdef:
         Elm_Entry_Filter_Accept_Set *fltr
@@ -777,21 +787,22 @@ cdef class Entry(Object):
         - autosave is enabled
 
         :param parent: The parent object
-        :type parent: :py:class:`elementary.object.Object`
-        :return: The new object or None if it cannot be created
-        :rtype: :py:class:`elementary.object.Object`
+        :type parent: :py:class:`~efl.elementary.object.Object`
 
         """
         self._set_obj(elm_entry_add(parent.obj))
         self._set_properties_from_keyword_args(kwargs)
 
     def text_style_user_push(self, style):
-        """Push the style to the top of user style stack.
-        If there is styles in the user style stack, the properties in the top style
-        of user style stack will replace the properties in current theme.
-        The input style is specified in format tag='property=value' (i.e. DEFAULT='font=Sans font_size=60'hilight=' + font_weight=Bold').
+        """text_style_user_push(style)
 
-        :param style: The style user to push
+        Push the style to the top of user style stack. If there is styles in the
+        user style stack, the properties in the top style of user style stack
+        will replace the properties in current theme. The input style is
+        specified in format ``tag='property=value'`` (i.e. ``DEFAULT='font=Sans
+        font_size=60'hilight=' + font_weight=Bold'``).
+
+        :param string style: The style user to push
 
         """
         if isinstance(style, unicode): style = PyUnicode_AsUTF8String(style)
@@ -799,19 +810,23 @@ cdef class Entry(Object):
             <const_char *>style if style is not None else NULL)
 
     def text_style_user_pop(self):
-        """Remove the style in the top of user style stack.
+        """text_style_user_pop()
 
-        :see: :py:func:`text_style_user_push`
+        Remove the style in the top of user style stack.
+
+        :seealso: :py:meth:`text_style_user_push`
 
         """
         elm_entry_text_style_user_pop(self.obj)
 
     def text_style_user_peek(self):
-        """Retrieve the style on the top of user style stack.
+        """text_style_user_peek() -> string
 
-        :return: style on the top of user style stack if exist, otherwise None.
+        Retrieve the style on the top of user style stack.
 
-        :see: :py:func:`text_style_user_push`
+        :return string: style on the top of user style stack if exist, otherwise None.
+
+        :seealso: :py:meth:`text_style_user_push`
 
         """
         return _ctouni(elm_entry_text_style_user_peek(self.obj))
@@ -885,7 +900,7 @@ cdef class Entry(Object):
         return _ctouni(elm_entry_entry_get(self.obj))
 
     def entry_append(self, text):
-        """entry_append(unicode text)
+        """entry_append(text)
 
         Appends ``entry`` to the text of the entry.
 
@@ -894,10 +909,9 @@ cdef class Entry(Object):
 
         The appended text is subject to any filters set for the widget.
 
-        .. seealso:: :py:func:`markup_filter_append()`
+        :seealso: :py:meth:`markup_filter_append`
 
-        :param entry: The text to be displayed
-        :type entry: string
+        :param string entry: The text to be displayed
 
         """
         if isinstance(text, unicode): text = PyUnicode_AsUTF8String(text)
@@ -961,7 +975,7 @@ cdef class Entry(Object):
         change the internal textblock object). This applies to all cursors
         returned from textblock calls, and all the other derivative values.
 
-        :type: Evas_Object
+        :type: :py:class:`~efl.evas.Textblock`
 
         """
         def __get__(self):
@@ -977,13 +991,13 @@ cdef class Entry(Object):
 
         This should be used after modifying the textblock object directly.
 
-        .. seealso:: :py:attr:`textblock`
+        :seealso: :py:attr:`textblock`
 
         """
         elm_entry_calc_force(self.obj)
 
     def entry_insert(self, entry):
-        """entry_insert(unicode entry)
+        """entry_insert(entry)
 
         Inserts the given text into the entry at the current cursor
         position.
@@ -998,7 +1012,7 @@ cdef class Entry(Object):
 
         The inserted text is subject to any filters set for the widget.
 
-        .. seealso:: :py:func:`markup_filter_append()`
+        :seealso: :py:meth:`markup_filter_append`
 
         :param entry: The text to insert
         :type entry: string
@@ -1041,8 +1055,8 @@ cdef class Entry(Object):
         entry.
 
         The only way to change the text of a non-editable entry is to use
-        :py:attr:`text`, :py:func:`entry_insert()` and other related
-        functions and properties.
+        :py:attr:`~efl.elementary.object.Object.text`, :py:meth:`entry_insert`
+        and other related functions and properties.
 
         :type: bool
 
@@ -1050,10 +1064,10 @@ cdef class Entry(Object):
         def __get__(self):
             return bool(elm_entry_editable_get(self.obj))
 
-        def __set__(self, editable):
+        def __set__(self, bint editable):
             elm_entry_editable_set(self.obj, editable)
 
-    def editable_set(self, editable):
+    def editable_set(self, bint editable):
         elm_entry_editable_set(self.obj, editable)
     def editable_get(self):
         return bool(elm_entry_editable_get(self.obj))
@@ -1163,7 +1177,7 @@ cdef class Entry(Object):
         function returns whether any format node exists at the current
         cursor position.
 
-        .. seealso:: cursor_is_visible_format_get()
+        :seealso: :py:meth:`cursor_is_visible_format_get`
 
         :return: True if the current cursor position contains a format node,
             False otherwise.
@@ -1177,7 +1191,7 @@ cdef class Entry(Object):
 
         Gets if the current cursor position holds a visible format node.
 
-        .. seealso:: cursor_is_format_get()
+        :seealso: :py:meth:`cursor_is_format_get`
 
         :return: True if the current cursor is a visible format, False
             if it's an invisible one or no format exists.
@@ -1194,7 +1208,7 @@ cdef class Entry(Object):
         This function returns a string with the utf8 character stored at the
         current cursor position.
         Only the text is returned, any format that may exist will not be part
-        of the return value. You must free the string when done with free().
+        of the return value.
 
         :return: The text pointed by the cursors.
         :rtype: unicode
@@ -1269,13 +1283,15 @@ cdef class Entry(Object):
 
         This clears and frees the items in a entry's contextual (longpress) menu.
 
-        .. seealso:: context_menu_item_add()
+        .. seealso:: :py:meth:`context_menu_item_add`
 
         """
         elm_entry_context_menu_clear(self.obj)
 
     def context_menu_item_add(self, label = None, icon_file = None, Elm_Icon_Type icon_type = enums.ELM_ICON_NONE, func = None, *args, **kwargs):
-        """This adds an item to the entry's contextual menu.
+        """context_menu_item_add(label=None, icon_file=None, Elm_Icon_Type icon_type=enums.ELM_ICON_NONE, func=None, *args, **kwargs)
+
+        This adds an item to the entry's contextual menu.
 
         A longpress on an entry will make the contextual menu show up, if this
         hasn't been disabled with :py:attr:`context_menu_disabled`.
@@ -1374,7 +1390,9 @@ cdef class Entry(Object):
     #     elm_entry_item_provider_remove(self.obj, Elm_Entry_Item_Provider_Cb func, void *data)
 
     def markup_filter_append(self, func, data=None):
-        """Append a markup filter function for text inserted in the entry
+        """markup_filter_append(func, data=None)
+
+        Append a markup filter function for text inserted in the entry
 
         Append the given callback to the list. This functions will be called
         whenever any text is inserted into the entry, with the text to be inserted
@@ -1398,7 +1416,9 @@ cdef class Entry(Object):
             <void *>cb_data)
 
     def markup_filter_prepend(self, func, data=None):
-        """Prepend a markup filter function for text inserted in the entry
+        """markup_filter_prepend(func, data=None)
+
+        Prepend a markup filter function for text inserted in the entry
 
         Prepend the given callback to the list. See elm_entry_markup_filter_append()
         for more information
@@ -1414,7 +1434,9 @@ cdef class Entry(Object):
             <void *>cb_data)
 
     def markup_filter_remove(self, func, data=None):
-        """Remove a markup filter from the list
+        """markup_filter_remove(func, data=None)
+
+        Remove a markup filter from the list
 
         Removes the given callback from the filter list. See
         elm_entry_markup_filter_append() for more information.
@@ -1871,10 +1893,10 @@ cdef class Entry(Object):
         """Parent of the hover popup
 
         The parent object to use by the hover created by the entry when an
-        anchor is clicked. See :py:class:`elementary.hover.Hover` for more
+        anchor is clicked. See :py:class:`~efl.elementary.hover.Hover` for more
         details on this.
 
-        :type: :py:class:`elementary.object.Object`
+        :type: :py:class:`~efl.elementary.object.Object`
 
         """
         def __get__(self):
@@ -1900,7 +1922,7 @@ cdef class Entry(Object):
 
         Setting style to ``None`` means disabling automatic hover.
 
-        .. seealso:: Object.style_set()
+        :seealso: :py:attr:`~efl.elementary.object.Object.style`
 
         :type: string
 
@@ -1935,7 +1957,9 @@ cdef class Entry(Object):
 
     # Copy and paste
     def cnp_selection_get(self, selection, format):
-        """Retrieve data from a widget that has a selection.
+        """cnp_selection_get(selection, format)
+
+        Retrieve data from a widget that has a selection.
 
         Gets the current selection data from a widget.
 
@@ -2081,7 +2105,7 @@ cdef class Entry(Object):
 
     def callback_anchor_clicked_add(self, func, *args, **kwargs):
         """An anchor has been clicked. The event_info
-        parameter for the callback will be an *Elm_Entry_Anchor_Info*.
+        parameter for the callback will be an :py:class:`EntryAnchorInfo`.
 
         """
         self._callback_add_full("anchor,clicked", _entryanchor_conv,
@@ -2093,7 +2117,7 @@ cdef class Entry(Object):
 
     def callback_anchor_in_add(self, func, *args, **kwargs):
         """Mouse cursor has moved into an anchor. The event_info
-        parameter for the callback will be an *Elm_Entry_Anchor_Info*.
+        parameter for the callback will be an :py:class:`EntryAnchorInfo`.
 
         """
         self._callback_add_full("anchor,in", _entryanchor_conv,
@@ -2105,7 +2129,7 @@ cdef class Entry(Object):
 
     def callback_anchor_out_add(self, func, *args, **kwargs):
         """Mouse cursor has moved out of an anchor. The event_info
-        parameter for the callback will be an *Elm_Entry_Anchor_Info*.
+        parameter for the callback will be an :py:class:`EntryAnchorInfo`.
 
         """
         self._callback_add_full("anchor,out", _entryanchor_conv,
@@ -2117,7 +2141,7 @@ cdef class Entry(Object):
 
     def callback_anchor_up_add(self, func, *args, **kwargs):
         """Mouse button has been unpressed on an anchor. The event_info
-        parameter for the callback will be an *Elm_Entry_Anchor_Info*.
+        parameter for the callback will be an :py:class:`EntryAnchorInfo`.
 
         """
         self._callback_add_full("anchor,up", _entryanchor_conv,
@@ -2129,7 +2153,7 @@ cdef class Entry(Object):
 
     def callback_anchor_down_add(self, func, *args, **kwargs):
         """Mouse button has been pressed on an anchor. The event_info
-        parameter for the callback will be an *Elm_Entry_Anchor_Info*.
+        parameter for the callback will be an :py:class:`EntryAnchorInfo`.
 
         """
         self._callback_add_full("anchor,down", _entryanchor_conv,
