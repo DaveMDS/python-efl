@@ -22,6 +22,14 @@ cdef extern from "Elementary.h":
     ctypedef void            (*Elm_Web_Console_Message)     (void *data, Evas_Object *obj, const_char *message, unsigned int line_number, const_char *source_id)
 
     Evas_Object             *elm_web_add(Evas_Object *parent)
+    void                     elm_web_zoom_mode_set(Evas_Object *obj, Elm_Web_Zoom_Mode mode)
+    Elm_Web_Zoom_Mode        elm_web_zoom_mode_get(Evas_Object *obj)
+
+    Eina_Bool                elm_web_window_features_property_get(Elm_Web_Window_Features *wf, Elm_Web_Window_Feature_Flag flag)
+    void                     elm_web_window_features_region_get(Elm_Web_Window_Features *wf, Evas_Coord *x, Evas_Coord *y, Evas_Coord *w, Evas_Coord *h)
+    void                     elm_web_window_features_ref(Elm_Web_Window_Features *wf)
+    void                     elm_web_window_features_unref(Elm_Web_Window_Features *wf)
+
     void                     elm_web_useragent_set(Evas_Object *obj, const_char *user_agent)
     const_char *             elm_web_useragent_get(Evas_Object *obj)
     Evas_Object             *elm_web_webkit_view_get(Evas_Object *obj)
@@ -35,8 +43,10 @@ cdef extern from "Elementary.h":
 
     Eina_Bool                elm_web_tab_propagate_get(Evas_Object *obj)
     void                     elm_web_tab_propagate_set(Evas_Object *obj, Eina_Bool propagate)
-    Eina_Bool                elm_web_uri_set(Evas_Object *obj,char *uri)
-    const_char *             elm_web_uri_get(Evas_Object *obj)
+
+    Eina_Bool                elm_web_url_set(Evas_Object *obj,char *url)
+    const_char *             elm_web_url_get(Evas_Object *obj)
+
     const_char *             elm_web_title_get(Evas_Object *obj)
     void                     elm_web_bg_color_set(Evas_Object *obj, int r, int g, int b, int a)
     void                     elm_web_bg_color_get(Evas_Object *obj, int *r, int *g, int *b, int *a)
@@ -67,14 +77,10 @@ cdef extern from "Elementary.h":
 
     void                     elm_web_zoom_set(Evas_Object *obj, double zoom)
     double                   elm_web_zoom_get(Evas_Object *obj)
-    void                     elm_web_zoom_mode_set(Evas_Object *obj, Elm_Web_Zoom_Mode mode)
-    Elm_Web_Zoom_Mode        elm_web_zoom_mode_get(Evas_Object *obj)
 
     void                     elm_web_region_show(Evas_Object *obj, int x, int y, int w, int h)
     void                     elm_web_region_bring_in(Evas_Object *obj, int x, int y, int w, int h)
     void                     elm_web_inwin_mode_set(Evas_Object *obj, Eina_Bool value)
     Eina_Bool                elm_web_inwin_mode_get(Evas_Object *obj)
 
-    Eina_Bool                elm_web_window_features_property_get(Elm_Web_Window_Features *wf, Elm_Web_Window_Feature_Flag flag)
-    void                     elm_web_window_features_region_get(Elm_Web_Window_Features *wf, Evas_Coord *x, Evas_Coord *y, Evas_Coord *w, Evas_Coord *h)
 

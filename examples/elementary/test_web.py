@@ -1,43 +1,37 @@
 #!/usr/bin/env python
 # encoding: utf-8
 
-from efl import evas
+from efl.evas import EVAS_HINT_EXPAND, EVAS_HINT_FILL
 from efl import ecore
 from efl import elementary
-from efl.elementary.window import Window
+from efl.elementary.window import StandardWindow
 from efl.elementary.background import Background
 from efl.elementary.box import Box
 from efl.elementary.button import Button
 from efl.elementary.entry import Entry
 from efl.elementary.web import Web
 
+EXPAND_BOTH = EVAS_HINT_EXPAND, EVAS_HINT_EXPAND
+EXPAND_HORIZ = EVAS_HINT_EXPAND, 0.0
+FILL_BOTH = EVAS_HINT_FILL, EVAS_HINT_FILL
+FILL_HORIZ = EVAS_HINT_FILL, 0.5
 
 def web_clicked(obj):
     if not elementary.need_web():
         print("EFL-webkit not available!")
         return
 
-    win = Window("web", elementary.ELM_WIN_BASIC)
-    win.title_set("Web")
-    win.autodel_set(True)
+    win = StandardWindow("web", "Web", autodel=True, size=(800, 600))
     if obj is None:
         win.callback_delete_request_add(lambda o: elementary.exit())
 
-    bg = Background(win)
-    win.resize_object_add(bg)
-    bg.size_hint_weight_set(evas.EVAS_HINT_EXPAND, evas.EVAS_HINT_EXPAND)
-    bg.show()
-
-    vbx = Box(win)
+    vbx = Box(win, size_hint_weight=EXPAND_BOTH)
     win.resize_object_add(vbx)
-    vbx.size_hint_weight_set(evas.EVAS_HINT_EXPAND, evas.EVAS_HINT_EXPAND)
     vbx.show()
 
-    web = Web(win)
-    web.uri_set("http://enlightenment.org/")
-    web.size_hint_weight_set(evas.EVAS_HINT_EXPAND, evas.EVAS_HINT_EXPAND)
-    web.size_hint_align_set(evas.EVAS_HINT_FILL, evas.EVAS_HINT_FILL)
-    web.size_hint_min_set(100, 100)
+    web = Web(win, url="http://enlightenment.org/",
+        size_hint_weight=EXPAND_BOTH, size_hint_align=FILL_BOTH,
+        size_hint_min=(100, 100))
     vbx.pack_end(web)
     web.show()
 
@@ -61,43 +55,33 @@ def web_clicked(obj):
     web.console_message_hook_set(console_msg)
 
     # navigation bar:
-    hbx = Box(win)
-    hbx.horizontal_set(True)
-    hbx.size_hint_weight_set(evas.EVAS_HINT_EXPAND, 0.0)
-    hbx.size_hint_align_set(evas.EVAS_HINT_FILL, 0.0)
+    hbx = Box(win, horizontal=True, size_hint_weight=EXPAND_HORIZ,
+        size_hint_align=FILL_HORIZ)
     vbx.pack_start(hbx)
     hbx.show()
 
-    bt = Button(win)
-    bt.text_set("Back")
+    bt = Button(win, text="Back")
     bt.callback_clicked_add(lambda x: web.back())
     hbx.pack_end(bt)
     bt.show()
 
-    bt = Button(win)
-    bt.text_set("Forward")
+    bt = Button(win, text="Forward")
     bt.callback_clicked_add(lambda x: web.forward())
     hbx.pack_end(bt)
     bt.show()
 
-    bt = Button(win)
-    bt.text_set("Reload")
+    bt = Button(win, text="Reload")
     bt.callback_clicked_add(lambda x: web.reload())
     hbx.pack_end(bt)
     bt.show()
 
-    bt = Button(win)
-    bt.text_set("Stop")
+    bt = Button(win, text="Stop")
     bt.callback_clicked_add(lambda x: web.stop())
     hbx.pack_end(bt)
     bt.show()
 
-    en = Entry(win)
-    en.scrollable_set(True)
-    en.editable_set(True)
-    en.single_line_set(True)
-    en.size_hint_weight_set(evas.EVAS_HINT_EXPAND, 0.0)
-    en.size_hint_align_set(evas.EVAS_HINT_FILL, evas.EVAS_HINT_FILL)
+    en = Entry(win, scrollable=True, editable=True, single_line=True,
+        size_hint_weight=EXPAND_HORIZ, size_hint_align=FILL_BOTH)
     hbx.pack_end(en)
     en.show()
 
@@ -116,12 +100,15 @@ def web_clicked(obj):
         win.title_set("Web - %s" % title)
     web.callback_title_changed_add(did_change_title, win)
 
-    win.resize(800, 600)
     win.show()
 
 
 if __name__ == "__main__":
     elementary.init()
+    if not elementary.need_web():
+        elementary.shutdown()
+        raise SystemExit("EFL-webkit not available!")
+
     elementary.policy_set(elementary.ELM_POLICY_QUIT,
                           elementary.ELM_POLICY_QUIT_LAST_WINDOW_CLOSED)
 
