@@ -80,9 +80,9 @@ def slider_clicked(obj):
     bx.pack_end(sl)
     sl.show()
 
-    #TODO: step = step_size_calculate(0, 9)
+    step = step_size_calculate(0, 9)
     sl = Slider(bx, unit_format="%1.0f units", indicator_format="%1.0f",
-        span_size=120, min_max=(0, 9), text="Manual step (TODO)", #TODO: step=step,
+        span_size=120, min_max=(0, 9), text="Manual step", step=step,
         size_hint_align=FILL_HORIZ, size_hint_weight=EXPAND_HORIZ)
     bx.pack_end(sl)
     sl.show()

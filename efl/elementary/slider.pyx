@@ -352,6 +352,30 @@ cdef class Slider(LayoutClass):
     def indicator_show_get(self):
         return bool(elm_slider_indicator_show_get(self.obj))
 
+    property step:
+        """The step by which slider indicator will move.
+
+        This value is used when draggable object is moved automatically i.e., in
+        case of key event when up/down/left/right key is pressed or in case when
+        accessibility is set and flick event is used to inc/dec slider values.
+        By default step value is equal to 0.05.
+
+        :type: double
+        :since: 1.8
+
+        """
+        def __set__(self, double step):
+            elm_slider_step_set(self.obj, step)
+
+        def __get__(self):
+            return elm_slider_step_get(self.obj)
+
+    def step_set(self, double step):
+        elm_slider_step_set(self.obj, step)
+    def step_get(self):
+        return elm_slider_step_get(self.obj)
+
+
     def callback_changed_add(self, func, *args, **kwargs):
         """Whenever the slider value is changed by the user."""
         self._callback_add("changed", func, *args, **kwargs)
