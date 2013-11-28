@@ -413,7 +413,7 @@ cdef class Exe(object):
             Py_buffer buf_view
             bint ret
 
-        if isinstance(buf, (str, unicode)):
+        if isinstance(buf, unicode):
             buf = PyUnicode_AsUTF8String(buf)
 
         PyObject_GetBuffer(buf, &buf_view, 0)
