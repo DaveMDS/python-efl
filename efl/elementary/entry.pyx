@@ -1200,7 +1200,12 @@ cdef class Entry(Object):
         :rtype: unicode
 
         """
-        return _ctouni(elm_entry_cursor_content_get(self.obj))
+        cdef:
+            const_char *text = elm_entry_cursor_content_get(self.obj)
+            unicode ret = _ctouni(text)
+
+        free(<void *>text)
+        return ret
 
     def cursor_geometry_get(self):
         """cursor_geometry_get() -> (int x, int y, int w, int h)
