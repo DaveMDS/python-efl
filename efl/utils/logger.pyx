@@ -43,17 +43,18 @@ cdef tuple log_levels = (
 
 cdef dict loggers = dict()
 
+cdef char log_buf[1024]
+
 cdef void py_eina_log_print_cb(const_Eina_Log_Domain *d,
                               Eina_Log_Level level,
                               const_char *file, const_char *fnc, int line,
                               const_char *fmt, void *data, va_list args) with gil:
     cdef:
-        char tmp[256]
-        cdef unicode msg
-        cdef unicode name = d.name.decode("utf-8")
+        unicode msg
+        unicode name = d.name.decode("utf-8")
 
-    vsprintf(tmp, fmt, args)
-    msg = tmp.decode("utf-8")
+    vsprintf(log_buf, fmt, args)
+    msg = log_buf.decode("utf-8")
 
     rec = logging.LogRecord(name, log_levels[level], file, line, msg, None, None, fnc)
     logger = loggers.get(name, loggers["efl"])
