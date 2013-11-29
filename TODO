@@ -2,7 +2,7 @@
 BUGS
 ====
 
-* EdjeEdit: PartState API does not work
+* EdjeEdit: PartState API does not work (edje edit is disabled for now)
 * Edje.External: The unit test fails
 * Elm.Map: overlays_show segfaults, scrollers in examples jump when menu opens
 
@@ -19,7 +19,6 @@ TODO
 Elementary
 ----------
 
-* Web needs a lot of work: signals and documentation
 * Review the new container type object item system.
 * Get rid of enums in __init__.py
 
@@ -34,6 +33,7 @@ TODO (optional)
   (requires fd.org shell account?)
 * Add more documentation for callbacks, events, etc.
 * Check for missing Eo type mappings
+* Initial Evas GL support (for Elm)
 
 Elm
 ---
@@ -46,6 +46,7 @@ Elm
 * Drag-n-Drop (in progress/kuuko)
 * Automate compilation of the example edje files.
 * Add more examples
+* Prefs
 
 
 TODO (future)
