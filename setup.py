@@ -11,7 +11,7 @@ from distutils.version import StrictVersion
 
 script_path = os.path.dirname(os.path.abspath(__file__))
 
-# Sphinx
+# === Sphinx ===
 try:
     from sphinx.setup_command import BuildDoc
 except ImportError:
@@ -23,7 +23,7 @@ except ImportError:
         def run(self): print("Error: sphinx not found")
 
 
-# pkg-config
+# === pkg-config ===
 def pkg_config(name, require, min_vers=None):
     try:
         sys.stdout.write("Checking for " + name + ": ")
@@ -86,7 +86,7 @@ packages = ["efl"]
 
 if set(("build", "build_ext", "install", "bdist", "sdist")) & set(sys.argv):
 
-    # Eo
+    # === Eo ===
     eo_cflags, eo_libs = pkg_config('Eo', 'eo', "1.7.99")
     eina_cflags, eina_libs = pkg_config('Eina', 'eina', "1.7.99")
     eo_ext = Extension("eo", ["efl/eo/efl.eo"+module_suffix],
@@ -96,7 +96,7 @@ if set(("build", "build_ext", "install", "bdist", "sdist")) & set(sys.argv):
                             extra_link_args = eo_libs + eina_libs)
     modules.append(eo_ext)
 
-    # Utilities
+    # === Utilities ===
     utils_ext = [
         Extension("utils.deprecated", ["efl/utils/deprecated"+module_suffix],
                             include_dirs = ['include/'],
@@ -114,7 +114,7 @@ if set(("build", "build_ext", "install", "bdist", "sdist")) & set(sys.argv):
     modules += utils_ext
     packages.append("efl.utils")
 
-    # Evas
+    # === Evas ===
     evas_cflags, evas_libs = pkg_config('Evas', 'evas', "1.7.99")
     evas_ext = Extension("evas", ["efl/evas/efl.evas"+module_suffix],
                             include_dirs = ['include/'],
@@ -122,7 +122,7 @@ if set(("build", "build_ext", "install", "bdist", "sdist")) & set(sys.argv):
                             extra_link_args = evas_libs + eina_libs)
     modules.append(evas_ext)
 
-    # Ecore
+    # === Ecore ===
     ecore_cflags, ecore_libs = pkg_config('Ecore', 'ecore', "1.7.99")
     efile_cflags, efile_libs = pkg_config('EcoreFile', 'ecore-file', "1.7.99")
     ecore_ext = Extension("ecore", ["efl/ecore/efl.ecore"+module_suffix],
@@ -131,7 +131,7 @@ if set(("build", "build_ext", "install", "bdist", "sdist")) & set(sys.argv):
                             extra_link_args = ecore_libs + efile_libs + eina_libs + evas_libs)
     modules.append(ecore_ext)
 
-    # Edje
+    # === Edje ===
     edje_cflags, edje_libs = pkg_config('Edje', 'edje', "1.7.99")
     edje_ext = Extension("edje", ["efl/edje/efl.edje"+module_suffix],
                             include_dirs = ['include/'],
@@ -139,7 +139,7 @@ if set(("build", "build_ext", "install", "bdist", "sdist")) & set(sys.argv):
                             extra_link_args = edje_libs + eina_libs + evas_libs)
     modules.append(edje_ext)
 
-    # Edje_Edit
+    # === Edje_Edit ===
     # edje_edit_ext = Extension("edje_edit", ["efl/edje/efl.edje_edit"+module_suffix],
     #                         define_macros = [('EDJE_EDIT_IS_UNSTABLE_AND_I_KNOW_ABOUT_IT', None)],
     #                         include_dirs = ['include/'],
@@ -155,7 +155,7 @@ if set(("build", "build_ext", "install", "bdist", "sdist")) & set(sys.argv):
                             extra_link_args = emotion_libs + eina_libs + evas_libs)
     modules.append(emotion_ext)
 
-    # Eldbus
+    # === Eldbus ===
     # eldbus_cflags, eldbus_libs = pkg_config('Eldbus', 'eldbus', "1.7.99")
     # pydbus_cflags, pydbus_libs = pkg_config('dbus-python', 'dbus-python')
     # eldbus_ext = Extension("eldbus", ["efl/eldbus/eldbus"+module_suffix],
@@ -164,7 +164,7 @@ if set(("build", "build_ext", "install", "bdist", "sdist")) & set(sys.argv):
     #                         extra_link_args = eldbus_libs)
     # modules.append(eldbus_ext)
 
-    # dbus mainloop integration
+    # === dbus mainloop integration ===
     dbus_cflags, dbus_libs = pkg_config('DBus', 'dbus-python', "0.83.0")
     dbus_ml_ext = Extension("dbus_mainloop",
                             ["efl/dbus_mainloop/dbus_mainloop"+module_suffix,
@@ -173,7 +173,7 @@ if set(("build", "build_ext", "install", "bdist", "sdist")) & set(sys.argv):
                             extra_link_args = dbus_libs + ecore_libs)
     modules.append(dbus_ml_ext)
 
-    # Elementary
+    # === Elementary ===
     elm_mods = (
         #"access",
         "actionslider",
@@ -263,7 +263,7 @@ if set(("build", "build_ext", "install", "bdist", "sdist")) & set(sys.argv):
     packages.append("efl.elementary")
 
 
-# Compatibility
+# === Compatibility ===
 compat_packages = ["e_dbus", "ecore", "edje", "elementary", "emotion", "evas"]
 packages += compat_packages
 
@@ -284,7 +284,15 @@ setup(
         'build_ext': build_ext,
         'build_doc': BuildDoc,
         'clean_generated_files': CleanGenerated
-    },
+        },
+    package_dir = {
+        "e_dbus": "compat/e_dbus",
+        "ecore": "compat/ecore",
+        "edje": "compat/edje",
+        "elementary": "compat/elementary",
+        "emotion": "compat/emotion",
+        "evas": "compat/evas",
+        },
     packages = packages,
     ext_package = "efl", # The prefix for ext modules/packages
     ext_modules = cythonize(modules, include_path=["include"]),
