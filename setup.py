@@ -155,15 +155,6 @@ if set(("build", "build_ext", "install", "bdist", "sdist")) & set(sys.argv):
                             extra_link_args = emotion_libs + eina_libs + evas_libs)
     modules.append(emotion_ext)
 
-    # === Eldbus ===
-    # eldbus_cflags, eldbus_libs = pkg_config('Eldbus', 'eldbus', "1.7.99")
-    # pydbus_cflags, pydbus_libs = pkg_config('dbus-python', 'dbus-python')
-    # eldbus_ext = Extension("eldbus", ["efl/eldbus/eldbus"+module_suffix],
-    #                         include_dirs = ['include/'],
-    #                         extra_compile_args = eldbus_cflags + pydbus_cflags + ecore_cflags,
-    #                         extra_link_args = eldbus_libs)
-    # modules.append(eldbus_ext)
-
     # === dbus mainloop integration ===
     dbus_cflags, dbus_libs = pkg_config('DBus', 'dbus-python', "0.83.0")
     dbus_ml_ext = Extension("dbus_mainloop",
@@ -202,7 +193,7 @@ if set(("build", "build_ext", "install", "bdist", "sdist")) & set(sys.argv):
         "gengrid",
         "genlist",
         "gesture_layer",
-        "glview",
+        #"glview",
         "grid",
         "hover",
         "hoversel",
