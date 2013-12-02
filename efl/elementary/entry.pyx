@@ -1970,11 +1970,11 @@ cdef class Entry(Object):
         :param selection: Selection type for copying and pasting
         :param format: Selection format
 
-        :raise RuntimeWarning: if getting cnp data fails.
+        :return bool: Whether getting cnp data is successful or not.
 
         """
-        if not elm_cnp_selection_get(self.obj, selection, format, NULL, NULL):
-            raise RuntimeWarning("Could not get cnp data from widget.")
+        return bool(elm_cnp_selection_get(
+            self.obj, selection, format, NULL, NULL))
 
 
     def callback_changed_add(self, func, *args, **kwargs):

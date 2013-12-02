@@ -195,31 +195,27 @@ Defines the kind of action associated with the drop data if for XDND
 
 """
 
-from cpython cimport PyUnicode_AsUTF8String
+from cpython cimport PyObject, Py_INCREF, Py_DECREF, PyObject_GetAttr, \
+    PyObject_GetBuffer, PyBuffer_Release, PyBUF_SIMPLE, PyObject_CheckBuffer, \
+    PyUnicode_AsUTF8String
 
 from efl.eo cimport _object_mapping_register
-from efl.utils.conversions cimport _ctouni
+from efl.utils.conversions cimport _ctouni, eina_list_objects_to_python_list
+from efl.utils.deprecated cimport DEPRECATED
 from efl.evas cimport Object as evasObject
-
-from cpython cimport PyObject, Py_INCREF, Py_DECREF, PyObject_GetAttr, \
-    PyObject_GetBuffer, PyBuffer_Release, PyBUF_SIMPLE, PyObject_CheckBuffer
+from efl.evas cimport EventKeyDown, EventKeyUp, EventMouseWheel, \
+    evas_object_smart_callback_add, evas_object_smart_callback_del
 
 include "cnp_callbacks.pxi"
 include "tooltips.pxi"
 
-from efl.utils.conversions cimport eina_list_objects_to_python_list
-from efl.utils.deprecated cimport DEPRECATED
-
-from efl.evas cimport EventKeyDown, EventKeyUp, EventMouseWheel
-from efl.evas cimport evas_object_smart_callback_add
-from efl.evas cimport evas_object_smart_callback_del
-cimport efl.evas.enums as evasenums
+from theme cimport Theme
 
 import logging
 log = logging.getLogger("elementary")
 import traceback
 
-from theme cimport Theme
+cimport efl.evas.enums as evasenums
 cimport enums
 
 ELM_FOCUS_PREVIOUS = enums.ELM_FOCUS_PREVIOUS
@@ -1744,20 +1740,23 @@ cdef class Object(evasObject):
         :param buf: The data selected
         :type buf: An object that supports the new buffer interface
 
-        :raise RuntimeWarning: if setting cnp data fails.
+        :return bool: Whether setting cnp data was successful or not.
 
         """
-        cdef Py_buffer view
+        cdef:
+            Py_buffer view
+            bint ret
+
         if isinstance(buf, unicode): buf = PyUnicode_AsUTF8String(buf)
         if not PyObject_CheckBuffer(buf):
             raise TypeError(
                 "The provided object does not support buffer interface."
                 )
         PyObject_GetBuffer(buf, &view, PyBUF_SIMPLE)
-        if not elm_cnp_selection_set(self.obj, selection, format,
-            <const_void *>view.buf, view.itemsize):
-            raise RuntimeWarning("Could not set cnp data for widget.")
+        ret = elm_cnp_selection_set(self.obj, selection, format,
+            <const_void *>view.buf, view.itemsize)
         PyBuffer_Release(&view)
+        return ret
 
     def cnp_selection_get(self, selection, format, datacb, udata = None):
         """Retrieve data from a widget that has a selection.
@@ -1772,16 +1771,15 @@ cdef class Object(evasObject):
         :param datacb: The user data callback if the target widget isn't elm_entry
         :param udata: The user data pointer for ``datacb``
 
-        :raise RuntimeWarning: if getting cnp data fails.
+        :return bool: Whether getting cnp data was successful or not.
 
         """
         if not callable(datacb):
             raise TypeError("datacb is not callable.")
         self.cnp_drop_cb = datacb
         self.cnp_drop_data = udata
-        if not elm_cnp_selection_get(self.obj, selection, format,
-            py_elm_drop_cb, <void *>self):
-            raise RuntimeWarning("Could not get cnp data from widget.")
+        return bool(elm_cnp_selection_get(self.obj, selection, format,
+            py_elm_drop_cb, <void *>self))
 
     def cnp_selection_clear(self, Elm_Sel_Type selection):
         """Clear the selection data of a widget.
@@ -1791,11 +1789,10 @@ cdef class Object(evasObject):
         :param selection: Selection type for copying and pasting
         :type selection: :ref:`Elm_Object_Sel_Type`
 
-        :raise RuntimeWarning: if clearing cnp data fails.
+        :return bool: Whether clearing cnp data was successful or not.
 
         """
-        if not elm_object_cnp_selection_clear(self.obj, selection):
-            raise RuntimeWarning("Could not clear cnp data from widget.")
+        return bool(elm_object_cnp_selection_clear(self.obj, selection))
 
     def cnp_selection_loss_callback_set(self, Elm_Sel_Type selection, func,
         data = None):
