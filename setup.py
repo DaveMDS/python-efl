@@ -91,7 +91,7 @@ package_dirs = {}
 if set(("build", "build_ext", "install", "bdist", "sdist")) & set(sys.argv):
 
     # === Eina ===
-    eina_pkg_config = pkg_config('Eina', 'eina', "1.7.99")
+    eina_pkg_config = pkg_config('Eina', 'eina', "1.8.1")
 
     if eina_pkg_config is None:
         raise SystemExit("Eina required but not found!")
@@ -100,7 +100,7 @@ if set(("build", "build_ext", "install", "bdist", "sdist")) & set(sys.argv):
 
 
     # === Eo ===
-    eo_pkg_config = pkg_config('Eo', 'eo', "1.7.99")
+    eo_pkg_config = pkg_config('Eo', 'eo', "1.8.1")
 
     if eo_pkg_config is None:
         raise SystemExit("Eo required but not found!")
@@ -135,7 +135,7 @@ if set(("build", "build_ext", "install", "bdist", "sdist")) & set(sys.argv):
 
 
     # === Evas ===
-    evas_pkg_config = pkg_config('Evas', 'evas', "1.7.99")
+    evas_pkg_config = pkg_config('Evas', 'evas', "1.8.1")
 
     if evas_pkg_config is not None:
 
@@ -153,10 +153,10 @@ if set(("build", "build_ext", "install", "bdist", "sdist")) & set(sys.argv):
 
 
     # === Ecore ===
-    ecore_pkg_config = pkg_config('Ecore', 'ecore', "1.7.99")
-    ecore_file_pkg_config = pkg_config('EcoreFile', 'ecore-file', "1.7.99")
+    ecore_pkg_config = pkg_config('Ecore', 'ecore', "1.8.1")
+    ecore_file_pkg_config = pkg_config('EcoreFile', 'ecore-file', "1.8.1")
 
-    if ecore_pkg_config is not None and ecore_file_pkg_config is not None:
+    if ecore_pkg_config is not None and ecore_file_pkg_config is not None and evas_pkg_config is not None:
 
         ecore_cflags, ecore_libs = ecore_pkg_config
         ecore_file_cflags, ecore_file_libs = ecore_file_pkg_config
@@ -173,9 +173,9 @@ if set(("build", "build_ext", "install", "bdist", "sdist")) & set(sys.argv):
 
 
     # === Edje ===
-    edje_pkg_config = pkg_config('Edje', 'edje', "1.7.99")
+    edje_pkg_config = pkg_config('Edje', 'edje', "1.8.1")
 
-    if edje_pkg_config is not None:
+    if edje_pkg_config is not None and evas_pkg_config is not None:
 
         edje_cflags, edje_libs = edje_pkg_config
 
@@ -199,7 +199,7 @@ if set(("build", "build_ext", "install", "bdist", "sdist")) & set(sys.argv):
 
 
     # Emotion
-    emotion_pkg_config = pkg_config('Emotion', 'emotion', "1.7.99")
+    emotion_pkg_config = pkg_config('Emotion', 'emotion', "1.8.1")
 
     if emotion_pkg_config is not None and evas_pkg_config is not None:
 
@@ -309,9 +309,12 @@ if set(("build", "build_ext", "install", "bdist", "sdist")) & set(sys.argv):
         "window",
     )
 
-    elm_pkg_config = pkg_config('Elementary', 'elementary', "1.7.99")
+    elm_pkg_config = pkg_config('Elementary', 'elementary', "1.8.0")
 
-    if elm_pkg_config is not None and evas_pkg_config is not None:
+    if elm_pkg_config is not None \
+    and evas_pkg_config is not None \
+    and ecore_pkg_config is not None \
+    and emotion_pkg_config is not None:
         elm_cflags, elm_libs = elm_pkg_config
 
         for m in elm_mods:
