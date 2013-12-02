@@ -25,7 +25,7 @@ from efl.elementary.general import *
 from efl.elementary.gengrid import *
 from efl.elementary.genlist import *
 from efl.elementary.gesture_layer import *
-from efl.elementary.glview import *
+#from efl.elementary.glview import *
 from efl.elementary.grid import *
 from efl.elementary.hover import *
 from efl.elementary.hoversel import *

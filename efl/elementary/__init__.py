@@ -58,7 +58,7 @@ __all__ = (
     "gengrid",
     "genlist",
     "gesture_layer",
-    "glview",
+    #"glview",
     "grid",
     "hover",
     "hoversel",
