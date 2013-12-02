@@ -91,7 +91,7 @@ package_dirs = {}
 if set(("build", "build_ext", "install", "bdist", "sdist")) & set(sys.argv):
 
     # === Eina ===
-    eina_pkg_config = pkg_config('Eina', 'eina', "1.8.1")
+    eina_pkg_config = pkg_config('Eina', 'eina', "1.8.0")
 
     if eina_pkg_config is None:
         raise SystemExit("Eina required but not found!")
@@ -100,7 +100,7 @@ if set(("build", "build_ext", "install", "bdist", "sdist")) & set(sys.argv):
 
 
     # === Eo ===
-    eo_pkg_config = pkg_config('Eo', 'eo', "1.8.1")
+    eo_pkg_config = pkg_config('Eo', 'eo', "1.8.0")
 
     if eo_pkg_config is None:
         raise SystemExit("Eo required but not found!")
@@ -135,7 +135,7 @@ if set(("build", "build_ext", "install", "bdist", "sdist")) & set(sys.argv):
 
 
     # === Evas ===
-    evas_pkg_config = pkg_config('Evas', 'evas', "1.8.1")
+    evas_pkg_config = pkg_config('Evas', 'evas', "1.8.0")
 
     if evas_pkg_config is not None:
 
@@ -153,8 +153,8 @@ if set(("build", "build_ext", "install", "bdist", "sdist")) & set(sys.argv):
 
 
     # === Ecore ===
-    ecore_pkg_config = pkg_config('Ecore', 'ecore', "1.8.1")
-    ecore_file_pkg_config = pkg_config('EcoreFile', 'ecore-file', "1.8.1")
+    ecore_pkg_config = pkg_config('Ecore', 'ecore', "1.8.0")
+    ecore_file_pkg_config = pkg_config('EcoreFile', 'ecore-file', "1.8.0")
 
     if ecore_pkg_config is not None and ecore_file_pkg_config is not None and evas_pkg_config is not None:
 
@@ -173,7 +173,7 @@ if set(("build", "build_ext", "install", "bdist", "sdist")) & set(sys.argv):
 
 
     # === Edje ===
-    edje_pkg_config = pkg_config('Edje', 'edje', "1.8.1")
+    edje_pkg_config = pkg_config('Edje', 'edje', "1.8.0")
 
     if edje_pkg_config is not None and evas_pkg_config is not None:
 
@@ -199,7 +199,7 @@ if set(("build", "build_ext", "install", "bdist", "sdist")) & set(sys.argv):
 
 
     # Emotion
-    emotion_pkg_config = pkg_config('Emotion', 'emotion', "1.8.1")
+    emotion_pkg_config = pkg_config('Emotion', 'emotion', "1.8.0")
 
     if emotion_pkg_config is not None and evas_pkg_config is not None:
 
