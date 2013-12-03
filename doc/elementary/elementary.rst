@@ -85,7 +85,6 @@ Modules
    module-gengrid
    module-genlist
    module-gesture_layer
-   module-glview
    module-grid
    module-hover
    module-hoversel
@@ -159,7 +158,6 @@ Inheritance diagram
     efl.elementary.gengrid
     efl.elementary.genlist
     efl.elementary.gesture_layer
-    efl.elementary.glview
     efl.elementary.grid
     efl.elementary.hover
     efl.elementary.hoversel
