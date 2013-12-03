@@ -24,7 +24,7 @@ Widget description
 ------------------
 
 This is a button that, when clicked, creates an Elementary window (or
-inner window) with a :py:class:`elementary.fileselector.Fileselector`
+inner window) with a :py:class:`~efl.elementary.fileselector.Fileselector`
 within.
 
 When a file is chosen, the (inner) window is closed and the button emits
@@ -42,7 +42,7 @@ The following styles are available for this button:
 - ``"hoversel_vertical_entry"``
 
 This widget emits the following signals, besides the ones sent from
-:py:class:`elementary.button.Button`:
+:py:class:`~efl.elementary.button.Button`:
 
 - ``"file,chosen"`` - the user has selected a path which comes as the
   ``event_info`` data
@@ -166,7 +166,8 @@ cdef class FileselectorButton(Button):
         """Enable/disable a tree view in the given file selector button
         widget's internal file selector
 
-        This has the same effect as :py:attr:`Fileselector.expandable`,
+        This has the same effect as
+        :py:attr:`efl.elementary.fileselector.Fileselector.expandable`,
         but now applied to a file selector button's internal file
         selector.
 
@@ -193,7 +194,8 @@ cdef class FileselectorButton(Button):
         selector is to display folders only or the directory contents,
         as well.
 
-        This has the same effect as :py:attr:`Fileselector.folder_only`,
+        This has the same effect as
+        :py:attr:`efl.elementary.fileselector.Fileselector.folder_only`,
         but now applied to a file selector button's internal file
         selector.
 
@@ -216,7 +218,8 @@ cdef class FileselectorButton(Button):
         in a name for a file, in a given file selector button widget's
         internal file selector.
 
-        This has the same effect as :py:attr:`Fileselector.is_save`,
+        This has the same effect as
+        :py:attr:`efl.elementary.fileselector.Fileselector.is_save`,
         but now applied to a file selector button's internal file
         selector.
 
@@ -239,7 +242,8 @@ cdef class FileselectorButton(Button):
         selector will raise an Elementary "inner window", instead of a
         dedicated Elementary window. By default, it won't.
 
-        .. seealso:: :py:class:`elementary.innerwindow.InnerWindow` for more
+        .. seealso::
+            :py:class:`~efl.elementary.innerwindow.InnerWindow` for more
             information on inner windows
 
         :type: bool

@@ -81,7 +81,7 @@ cdef class Grid(Object):
         Pack child at given position and size
 
         :param subobj: The child to pack
-        :type subobj: :py:class:`evas.object.Object`
+        :type subobj: :py:class:`~efl.evas.Object`
         :param x: The virtual x coord at which to pack it
         :type x: Evas_Coord (int)
         :param y: The virtual y coord at which to pack it
@@ -100,7 +100,7 @@ cdef class Grid(Object):
         Unpack a child from a grid object
 
         :param subobj: The child to unpack
-        :type subobj: :py:class:`evas.object.Object`
+        :type subobj: :py:class:`~efl.evas.Object`
 
         """
         elm_grid_unpack(self.obj, subobj.obj)
@@ -119,7 +119,7 @@ cdef class Grid(Object):
     property children:
         """Get the list of the children for the grid.
 
-        :type: tuple of :py:class:`evas.object.Object`
+        :type: tuple of :py:class:`~efl.evas.Object`
 
         """
         def __get__(self):
@@ -134,7 +134,7 @@ def grid_pack_set(evasObject subobj, x, y, w, h):
     Set packing of an existing child at to position and size
 
     :param subobj: The child to set packing of
-    :type subobj: :py:class:`evas.object.Object`
+    :type subobj: :py:class:`~efl.evas.Object`
     :param x: The virtual x coord at which to pack it
     :type x: Evas_Coord (int)
     :param y: The virtual y coord at which to pack it
@@ -153,7 +153,7 @@ def grid_pack_get(evasObject subobj):
     Get packing of a child
 
     :param subobj: The child to query
-    :type subobj: :py:class:`evas.object.Object`
+    :type subobj: :py:class:`~efl.evas.Object`
 
     return: The position and size
     rtype: tuple of Evas_Coords (int)

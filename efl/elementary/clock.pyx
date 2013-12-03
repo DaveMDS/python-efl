@@ -50,7 +50,7 @@ The time display is, by default, in military mode (24h), but an am/pm
 indicator may be optionally shown, too, when it will switch to 12h.
 
 This widget emits the following signals, besides the ones sent from
-:py:class:`elementary.layout.Layout`:
+:py:class:`~efl.elementary.layout_class.LayoutClass`:
 
 - ``changed`` - the clock's user changed the time
 - ``focused`` - When the clock has received focus. (since 1.8)

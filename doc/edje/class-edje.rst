@@ -1,3 +1,5 @@
+.. currentmodule:: efl.edje
+
 :class:`efl.edje.Edje` Class
 ==============================
 

@@ -30,7 +30,8 @@ describe the behavior of elements added to the Layout. Check out the Edje
 documentation and the EDC reference to get more information about what can
 be done with Edje.
 
-Just like :py:class:`List`, :py:class:`Box`, and other container
+Just like :py:class:`~efl.elementary.list.List`,
+:py:class:`~efl.elementary.box.Box`, and other container
 widgets, any object added to the Layout will become its child, meaning
 that it will be deleted if the Layout is deleted, move if the Layout is
 moved, and so on.
@@ -67,47 +68,47 @@ Content (SWALLOW part)
 Box (BOX part)
 
     An Edje ``BOX`` part is very similar to the Elementary
-    :py:class:`elementary.box.Box` widget. It allows one to add objects
-    to the box and have them distributed along its area, accordingly to
-    the specified ``layout`` property (now by ``layout`` we mean the
-    chosen layouting design of the Box, not the Layout widget itself).
+    :py:class:`elementary.box.Box` widget. It allows one to add objects to the
+    box and have them distributed along its area, accordingly to the specified
+    ``layout`` property (now by ``layout`` we mean the chosen layouting design
+    of the Box, not the Layout widget itself).
 
-    A similar effect for having a box with its position, size and other
-    things controlled by the Layout theme would be to create an
-    Elementary :py:class:`Box` widget and add it as a Content in the
+    A similar effect for having a box with its position, size and other things
+    controlled by the Layout theme would be to create an Elementary
+    :py:class:`~efl.elementary.box.Box` widget and add it as a Content in the
     ``SWALLOW`` part.
 
-    The main difference of using the Layout Box is that its behavior,
-    the box properties like layouting format, padding, align, etc. will
-    be all controlled by the theme. This means, for example, that a
-    signal could be sent to the Layout theme (with
-    :py:func:`Object.signal_emit()`) and the theme handled the signal by
-    changing the box padding, or align, or both. Using the Elementary
-    :py:class:`Box` widget is not necessarily harder or easier, it just
-    depends on the circumstances and requirements.
+    The main difference of using the Layout Box is that its behavior, the box
+    properties like layouting format, padding, align, etc. will be all
+    controlled by the theme. This means, for example, that a signal could be
+    sent to the Layout theme (with
+    :py:meth:`~efl.elementary.object.Object.signal_emit`) and the theme handled
+    the signal by changing the box padding, or align, or both. Using the
+    Elementary :py:class:`~efl.elementary.box.Box` widget is not necessarily
+    harder or easier, it just depends on the circumstances and requirements.
 
     The Layout Box can be used through the ``box_`` set of functions.
 
 Table (TABLE part)
 
-    Just like the *Box*, the Layout Table is very similar to the
-    Elementary :py:class:`Table` widget. It allows one to add objects to
-    the Table specifying the row and column where the object should be
-    added, and any column or row span if necessary.
+    Just like the *Box*, the Layout Table is very similar to the Elementary
+    :py:class:`~efl.elementary.table.Table` widget. It allows one to add objects
+    to the Table specifying the row and column where the object should be added,
+    and any column or row span if necessary.
 
-    Again, we could have this design by adding a :py:class:`Table`
-    widget to the ``SWALLOW`` part using
-    :py:func:`Object.part_content_set()`. The same difference happens
-    here when choosing to use the Layout Table (a ``TABLE`` part)
-    instead of the :py:class:`Table` plus ``SWALLOW`` part. It's just a
-    matter of convenience.
+    Again, we could have this design by adding a
+    :py:class:`~efl.elementary.table.Table` widget to the ``SWALLOW`` part using
+    :py:func:`~efl.elementary.object.Object.part_content_set`. The same
+    difference happens here when choosing to use the Layout Table (a ``TABLE``
+    part) instead of the :py:class:`~efl.elementary.table.Table` plus
+    ``SWALLOW`` part. It's just a matter of convenience.
 
     The Layout Table can be used through the ``table_`` set of functions.
 
 Another interesting thing about the Layout widget is that it offers some
-predefined themes that come with the default Elementary theme. These
-themes can be set by :py:attr:`theme`, and provide some basic
-functionality depending on the theme used.
+predefined themes that come with the default Elementary theme. These themes can
+be set by :py:attr:`~efl.elementary.layout_class.LayoutClass.theme`, and provide
+some basic functionality depending on the theme used.
 
 Most of them already send some signals, some already provide a toolbar or
 back and next buttons.

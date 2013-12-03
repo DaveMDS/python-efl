@@ -1,3 +1,5 @@
+.. currentmodule:: efl.emotion
+
 :class:`efl.emotion.Emotion` Class
 ==================================
 

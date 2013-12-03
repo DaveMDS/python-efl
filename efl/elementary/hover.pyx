@@ -43,7 +43,7 @@ Elementary has the following styles for the hover widget:
 - hoversel_vertical
 
 This widget emits the following signals, besides the ones sent from
-:py:class:`elementary.layout.Layout`:
+:py:class:`~efl.elementary.layout_class.LayoutClass`:
 
 - ``"clicked"`` - the user clicked the empty space in the hover to
     dismiss
@@ -67,7 +67,7 @@ Default content parts of the hover widget that you can use for are:
 
 All directions may have contents at the same time, except for "smart".
 This is a special placement hint and its use case depends of the
-calculations coming from :py:func:`best_content_location_get()`. Its use
+calculations coming from :py:meth:`~Hover.best_content_location_get`. Its use
 is for cases when one desires only one hover content, but with a dynamic
 special placement within the hover area. The content's geometry,
 whenever it changes, will be used to decide on a best location, not
@@ -146,7 +146,7 @@ cdef class Hover(LayoutClass):
 
         Setting this will cause the hover to be centered on the target object.
 
-        :type: :py:class:`elementary.object.Object`
+        :type: :py:class:`~efl.elementary.object.Object`
 
         """
         def __get__(self):
@@ -166,7 +166,7 @@ cdef class Hover(LayoutClass):
         This will cause the hover to take up the entire space that the
         parent object fills.
 
-        :type: :py:class:`elementary.object.Object`
+        :type: :py:class:`~efl.elementary.object.Object`
 
         """
         def __set__(self, evasObject parent):

@@ -27,7 +27,7 @@ This is a push-button. Press it and run some function. It can contain
 a simple label and icon object and it also has an autorepeat feature.
 
 This widget emits the following signals, besides the ones sent from
-:py:class:`elementary.layout.Layout`:
+:py:class:`~efl.elementary.layout_class.LayoutClass`:
 
 - ``clicked``: the user clicked the button (press/release).
 - ``repeated``: the user pressed the button without releasing it.
@@ -43,14 +43,14 @@ available:
 - anchor: Like default, but the button fades away when the mouse is not
       over it, leaving only the text or icon.
 - hoversel_vertical: Internally used by
-    :py:class:`elementary.hoversel.Hoversel` to give a continuous look
+    :py:class:`~efl.elementary.hoversel.Hoversel` to give a continuous look
     across its options.
 - hoversel_vertical_entry: Another internal for
-    :py:class:`elementary.hoversel.Hoversel`.
+    :py:class:`~efl.elementary.hoversel.Hoversel`.
 - naviframe: Internally used by
-    :py:class:`elementary.naviframe.Naviframe` for its back button.
+    :py:class:`~efl.elementary.naviframe.Naviframe` for its back button.
 - colorselector: Internally used by
-    :py:class:`elementary.colorselector.Colorselector` for its left and
+    :py:class:`~efl.elementary.colorselector.Colorselector` for its left and
     right buttons.
 
 Default content parts of the button widget that you can use for are:

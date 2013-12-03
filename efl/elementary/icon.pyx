@@ -31,7 +31,7 @@ The icon image requested can be in the Elementary theme in use, or in
 the ``freedesktop.org`` theme paths. It's possible to set the order of
 preference from where an image will be fetched.
 
-This widget inherits from the :py:class:`elementary.image.Image` one, so
+This widget inherits from the :py:class:`~efl.elementary.image.Image` one, so
 that all the functions acting on it also work for icon objects.
 
 You should be using an icon, instead of an image, whenever one of the
@@ -91,7 +91,7 @@ And these are names for some media player specific icons:
 - ``"media_player/stop"``
 
 This widget emits the following signals, besides the ones sent from
-:py:class:`elementary.image.Image`:
+:py:class:`~efl.elementary.image.Image`:
 
 - ``"thumb,done"`` - Setting :py:attr:`thumb` has completed with success
 - ``"thumb,error"`` - Setting :py:attr:`thumb` has failed
@@ -172,11 +172,11 @@ cdef class Icon(Image):
 
         This functions like :py:attr:`elementary.image.Image.file` but
         requires the Ethumb library support to be enabled successfully with
-        elm_need_ethumb(). When set the file indicated has a thumbnail
-        generated and cached on disk for future use or will directly use an
-        existing cached thumbnail if it is valid.
+        :py:func:`efl.elementary.need.need_ethumb`. When set the file indicated
+        has a thumbnail generated and cached on disk for future use or will
+        directly use an existing cached thumbnail if it is valid.
 
-        .. seealso:: Image.file
+        .. seealso:: :py:attr:`~efl.elementary.image.Image.file`
 
         :type: string ``file`` or tuple(string ``file``, string ``group``)
 
@@ -213,9 +213,11 @@ cdef class Icon(Image):
         If name is not found in any of the expected locations and it is the
         absolute path of an image file, this image will be used.
 
-        .. note:: The icon image set can be changed by :py:attr:`elementary.image.Image.file`.
+        .. note::
+            The icon image set can be changed by
+            :py:attr:`~efl.elementary.image.Image.file`.
 
-        .. seealso:: Image.file
+        .. seealso:: :py:attr:`~efl.elementary.image.Image.file`
 
         :type: string
         :raise RuntimeWarning: when setting the standard name fails.

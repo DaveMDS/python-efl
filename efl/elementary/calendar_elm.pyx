@@ -250,7 +250,7 @@ cdef class CalendarMark(object):
         :type mark_time: datetime.date
         :param repeat: Repeat the event following this periodicity. Can be a unique
             mark (that don't repeat), daily, weekly, monthly or annually.
-        :type repeat: :ref:Elm_Calendar_Mark_Repeat_Type`
+        :type repeat: :ref:`Elm_Calendar_Mark_Repeat_Type`
 
         :return: The created mark or ``None`` upon failure.
         :rtype: :py:class:`CalendarMark`
@@ -274,10 +274,10 @@ cdef class CalendarMark(object):
 
         Delete a mark from the calendar.
 
-        If deleting all calendar marks is required, :py:func:`marks_clear()`
+        If deleting all calendar marks is required, ``del`` :py:attr:`marks`
         should be used instead of getting marks list and deleting each one.
 
-        .. seealso:: :py:func:`mark_add()`
+        .. seealso:: :py:meth:`Calendar.mark_add`
 
         :param mark: The mark to be deleted.
         :type mark: :py:class:`CalendarMark`
@@ -430,7 +430,7 @@ cdef class Calendar(LayoutClass):
         :type mark_time: datetime.date
         :param repeat: Repeat the event following this periodicity. Can be a unique
             mark (that don't repeat), daily, weekly, monthly or annually.
-        :type repeat: :ref:`Calendar repeat type <Elm_Calendar_Mark_Repeat_Type>`
+        :type repeat: :ref:`Elm_Calendar_Mark_Repeat_Type`
         :return: The created mark or ``None`` upon failure.
         :rtype: :py:class:`CalendarMark`
 
@@ -476,10 +476,7 @@ cdef class Calendar(LayoutClass):
         When the month is changed, i.e. user selects next or previous month,
         marks will be drawn.
 
-        .. seealso::
-            :py:func:`mark_add()`
-            :py:func:`mark_del()`
-            :py:func:`marks_clear()`
+        :seealso: :py:class:`CalendarMark`
 
         """
         elm_calendar_marks_draw(self.obj)

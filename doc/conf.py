@@ -122,6 +122,8 @@ pygments_style = 'sphinx'
 # A list of ignored prefixes for module index sorting.
 #modindex_common_prefix = []
 
+# Setting this True will show missing references as warnings.
+#nitpicky = True
 
 # -- Options for HTML output ---------------------------------------------------
 

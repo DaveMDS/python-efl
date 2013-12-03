@@ -28,11 +28,10 @@ The check widget allows for toggling a value between true and false.
 
 Check objects are a lot like radio objects in layout and functionality,
 except they do not work as a group, but independently, and only toggle
-the value of a boolean between false and true. :py:attr:`state` sets the
-boolean state and :py:attr:`state` returns the current state.
+the value of a boolean :py:attr:`~Check.state` between false and true.
 
 This widget emits the following signals, besides the ones sent from
-:py:class:`efl.elementary.layout_class.LayoutClass`:
+:py:class:`~efl.elementary.layout_class.LayoutClass`:
 
 - ``changed`` - This is called whenever the user changes the state of
   the check objects.

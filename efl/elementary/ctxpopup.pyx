@@ -54,7 +54,9 @@ Default text parts of the ctxpopup items that you can use for are:
 
 - "default" - Title label in the title area
 
-.. note:: Ctxpopup is a specialization of :py:class:`elementary.hover.Hover`.
+.. note::
+
+    Ctxpopup is a specialization of :py:class:`~efl.elementary.hover.Hover`.
 
 
 Enumerations
@@ -106,6 +108,8 @@ ELM_CTXPOPUP_DIRECTION_UNKNOWN = enums.ELM_CTXPOPUP_DIRECTION_UNKNOWN
 
 cdef class CtxpopupItem(ObjectItem):
 
+    """An item for Ctxpopup widget."""
+
     cdef:
         bytes label
         evasObject icon
@@ -140,7 +144,7 @@ cdef class CtxpopupItem(ObjectItem):
         self.kwargs = kargs
 
     def append_to(self, evasObject ctxpopup):
-        """item_append(unicode label, evas.Object icon, func, *args, **kwargs) -> CtxpopupItem
+        """append_to(Object ctxpopup) -> CtxpopupItem
 
         Add a new item to a ctxpopup object.
 
@@ -148,7 +152,7 @@ cdef class CtxpopupItem(ObjectItem):
             same time. When an item is added, any previous content will be
             removed.
 
-        .. seealso:: :py:attr:`elementary.object.Object.content`
+        .. seealso:: :py:attr:`~efl.elementary.object.Object.content`
 
         :param ctxpopup: The Ctxpopup widget this item is to be appended on
         :type ctxpopup: :py:class:`Ctxpopup`
@@ -186,7 +190,7 @@ cdef class Ctxpopup(LayoutClass):
     property hover_parent:
         """Ctxpopup hover's parent
 
-        :type: :py:class:`evas.object.Object`
+        :type: :py:class:`~efl.evas.Object`
 
         """
         def __get__(self):

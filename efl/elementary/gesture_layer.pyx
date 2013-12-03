@@ -28,20 +28,20 @@ have to implement gesture detection, just set callbacks for gesture states.
 
 In order to use Gesture Layer you start with instantiating this class
 with a parent object parameter. Next 'activate' gesture layer with a
-:py:func:`attach()` call. Usually with same object as target (2nd
+:py:meth:`GestureLayer.attach` call. Usually with same object as target (2nd
 parameter).
 
-Now you need to tell gesture layer what gestures you follow. This is
-done with :py:func:`cb_set()` call. By setting the callback you actually
-saying to gesture layer: I would like to know when the gesture
-``Elm_Gesture_Type`` switches to state ``Elm_Gesture_State``.
+Now you need to tell gesture layer what gestures you follow. This is done with
+:py:meth:`GestureLayer.cb_set` call. By setting the callback you actually saying
+to gesture layer: I would like to know when the gesture ``Elm_Gesture_Type``
+switches to state ``Elm_Gesture_State``.
 
 Next, you need to implement the actual action that follows the input in
 your callback.
 
 Note that if you like to stop being reported about a gesture, just set
 all callbacks referring this gesture to None. (again with
-:py:func:`cb_set()`)
+:py:meth:`GestureLayer.cb_set`)
 
 The information reported by gesture layer to your callback is depending
 on ``Elm_Gesture_Type``:
@@ -528,7 +528,7 @@ cdef class GestureLayer(Object):
         :py:func:`attach()` in order to 'activate' gesture-layer.
 
         :param parent: The gesture layer's parent widget.
-        :type parent: :py:class:`evas.object.Object`
+        :type parent: :py:class:`~efl.evas.Object`
 
         :return: A new gesture layer object.
         :rtype: :py:class:`GestureLayer`
@@ -645,7 +645,7 @@ cdef class GestureLayer(Object):
         from, to report the gestures made upon it back.
 
         :param target: The target object to attach to this object.
-        :type target: :py:class:`evas.object.Object`
+        :type target: :py:class:`~efl.evas.Object`
 
         :return: ``True``, on success, ``False`` otherwise.
         :rtype: bool

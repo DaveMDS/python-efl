@@ -32,10 +32,11 @@ Dayselector also provides the functionality to check whether a day is
 selected or not.
 
 First day of the week is taken from config settings by default. It can be
-altered by using the API :py:attr:`week_start` API.
+altered by using the API :py:attr:`~Dayselector.week_start` API.
 
 APIs are provided for setting the duration of weekend
-:py:attr:`weekend_start` and :py:attr:`weekend_length` does this job.
+:py:attr:`~Dayselector.weekend_start` and :py:attr:`~Dayselector.weekend_length`
+does this job.
 
 Two styles of weekdays and weekends are supported in Dayselector.
 Application can emit signals on individual check objects for setting the
@@ -49,9 +50,9 @@ responsibility to set the styles again by sending corresponding signals.
 "day6" indicates the Saturday part name.
 
 Application can change individual day display string by using the API
-:py:func:`elementary.object.Object.part_text_set()`.
+:py:meth:`efl.elementary.object.Object.part_text_set`.
 
-:py:func:`elementary.object.Object.part_content_set()` API sets the
+:py:meth:`efl.elementary.object.Object.part_content_set` API sets the
 individual day object only if the passed one is a Check widget.
 
 Check object representing a day can be set/get by the application by using
@@ -59,7 +60,7 @@ the elm_object_part_content_set/get APIs thus providing a way to handle
 the different check styles for individual days.
 
 This widget emits the following signals, besides the ones sent from
-:py:class:`elementary.layout.Layout`:
+:py:class:`efl.elementary.layout_class.LayoutClass`:
 
 - ``"dayselector,changed"`` - when the user changes the state of a day.
 - ``"language,changed"`` - the program's language changed
@@ -202,8 +203,8 @@ cdef class Dayselector(LayoutClass):
 
         .. warning:: It must have 7 elements, or it will access invalid memory.
 
-        By default or if set to None, weekdays abbreviations get from system are displayed:
-        E.g. for an en_US locale: "Sun, Mon, Tue, Wed, Thu, Fri, Sat"
+        By default or if set to None, weekdays abbreviations get from system are
+        displayed: E.g. for an en_US locale: "Sun, Mon, Tue, Wed, Thu, Fri, Sat"
 
         The first string should be related to Sunday, the second to Monday...
 

@@ -30,26 +30,26 @@ that defines the details of this arrangement.
 By default, the box will use an internal function to set the layout to
 a single row, either vertical or horizontal. This layout is affected
 by a number of parameters, such as the homogeneous flag set by
-:py:attr:`homogeneous`, the values given by :py:attr:`padding` and
-:py:attr:`align` and the hints set to each object in the box.
+:py:attr:`~Box.homogeneous`, the values given by :py:attr:`~Box.padding` and
+:py:attr:`~Box.align` and the hints set to each object in the box.
 
 For this default layout, it's possible to change the orientation with
-:py:attr:`horizontal`. The box will start in the vertical orientation,
+:py:attr:`~Box.horizontal`. The box will start in the vertical orientation,
 placing its elements ordered from top to bottom. When horizontal is set,
 the order will go from left to right. If the box is set to be
 homogeneous, every object in it will be assigned the same space, that
 of the largest object. Padding can be used to set some spacing between
 the cell given to each object. The alignment of the box, set with
-:py:attr:`align`, determines how the bounding box of all the elements
+:py:attr:`~Box.align`, determines how the bounding box of all the elements
 will be placed within the space given to the box widget itself.
 
 The size hints of each object also affect how they are placed and sized
-within the box. :py:attr:`size_hint_min` will give the minimum
+within the box. :py:attr:`~efl.evas.Object.size_hint_min` will give the minimum
 size the object can have, and the box will use it as the basis for all
 latter calculations. Elementary widgets set their own minimum size as
 needed, so there's rarely any need to use it manually.
 
-:py:attr:`size_hint_weight`, when not in homogeneous mode, is
+:py:attr:`~efl.evas.Object.size_hint_weight`, when not in homogeneous mode, is
 used to tell whether the object will be allocated the minimum size it
 needs or if the space given to it should be expanded. It's important
 to realize that expanding the size given to the object is not the same
@@ -61,7 +61,7 @@ not be expanded. To take as much space possible, set the weight to
 
 Besides how much space each object is allocated, it's possible to control
 how the widget will be placed within that space using
-:py:attr:`size_hint_align`. By default, this value will be 0.5
+:py:attr:`~efl.evas.Object.size_hint_align`. By default, this value will be 0.5
 for both axis, meaning the object will be centered, but any value from
 0.0 (left or top, for the ``x`` and ``y`` axis, respectively) to 1.0
 (right or bottom) can be used. The special value *EVAS_HINT_FILL*, which
@@ -72,7 +72,7 @@ In addition, customized functions to define the layout can be set, which
 allow the application developer to organize the objects within the box
 in any number of ways.
 
-The special :py:func:`layout_transition()` function can be used
+The special :py:meth:`Box.layout_transition` function can be used
 to switch from one layout to another, animating the motion of the
 children of the box.
 
@@ -184,7 +184,7 @@ cdef class Box(Object):
         """By default, the box will be in vertical mode and non-homogeneous.
 
         :param parent: The parent object
-        :type parent: :py:class:`efl.elementary.object.Object`
+        :type parent: :py:class:`~efl.elementary.object.Object`
         :return: The new object or None if it cannot be created
         :rtype: :py:class:`Box`
 
@@ -248,7 +248,7 @@ cdef class Box(Object):
         respectively.
 
         :param subobj: The object to add to the box
-        :type subobj: :py:class:`Object <efl.evas.Object>`
+        :type subobj: :py:class:`~efl.evas.Object`
 
         """
         elm_box_pack_start(self.obj, obj.obj)
@@ -265,7 +265,7 @@ cdef class Box(Object):
         respectively.
 
         :param subobj: The object to add to the box
-        :type subobj: :py:class:`Object <efl.evas.Object>`
+        :type subobj: :py:class:`~efl.evas.Object`
 
         """
         elm_box_pack_end(self.obj, obj.obj)
@@ -281,9 +281,9 @@ cdef class Box(Object):
         above it depending on orientation.
 
         :param subobj: The object to add to the box
-        :type subobj: :py:class:`Object <efl.evas.Object>`
+        :type subobj: :py:class:`~efl.evas.Object`
         :param before: The object before which to add it
-        :type before: :py:class:`Object <efl.evas.Object>`
+        :type before: :py:class:`~efl.evas.Object`
 
         """
         elm_box_pack_before(self.obj, obj.obj, before.obj)
@@ -299,9 +299,9 @@ cdef class Box(Object):
         below it depending on orientation.
 
         :param subobj: The object to add to the box
-        :type subobj: :py:class:`Object <efl.evas.Object>`
+        :type subobj: :py:class:`~efl.evas.Object`
         :param after: The object after which to add it
-        :type after: :py:class:`Object <efl.evas.Object>`
+        :type after: :py:class:`~efl.evas.Object`
 
         """
         elm_box_pack_after(self.obj, obj.obj, after.obj)
@@ -326,7 +326,7 @@ cdef class Box(Object):
         deleting it.
 
         :param subobj: The object to unpack
-        :type subobj: :py:class:`Object <efl.evas.Object>`
+        :type subobj: :py:class:`~efl.evas.Object`
 
         """
         elm_box_unpack(self.obj, obj.obj)
@@ -352,7 +352,7 @@ cdef class Box(Object):
         <efl.evas.Object>`. The order of the list corresponds to the
         packing order the box uses.
 
-        :type: list of :py:class:`Objects <efl.evas.Object>`
+        :type: list of :py:class:`~efl.evas.Object`
 
         """
         def __get__(self):

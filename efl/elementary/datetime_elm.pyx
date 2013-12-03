@@ -205,7 +205,7 @@ To enable a module, set the ELM_MODULES environment variable as shown:
 **export ELM_MODULES="datetime_input_ctxpopup>datetime/api"**
 
 This widget emits the following signals, besides the ones sent from
-:py:class:`elementary.layout.Layout`:
+:py:class:`~efl.elementary.layout_class.LayoutClass`:
 
 - ``changed`` - whenever Datetime field value is changed, this
     signal is sent.
@@ -544,7 +544,7 @@ cdef class Datetime(Object):
 
         Whether a field can be visible/not
 
-        .. seealso:: :py:func:`field_visible_set()`
+        .. seealso:: :py:meth:`field_visible_set`
 
         :param fieldtype: Type of the field. ELM_DATETIME_YEAR etc
         :type fieldtype: :ref:`Elm_Datetime_Field_Type`
@@ -568,7 +568,7 @@ cdef class Datetime(Object):
 
         By default the field visibility is set to True.
 
-        .. seealso:: :py:func:`field_visible_get()`
+        .. seealso:: :py:meth:`field_visible_get`
 
         :param fieldtype: Type of the field. ELM_DATETIME_YEAR etc.
         :type fieldtype: :ref:`Elm_Datetime_Field_Type`

@@ -40,9 +40,9 @@ Naviframe views hold spaces to various elements, which are:
 - title icon and
 - content area.
 
-Becase this widget is a layout, one places content on those areas
-by using :py:func:`content_set()` on the right swallow part names
-expected for each, which are:
+Becase this widget is a layout, one places content on those areas by using
+:py:func:`~efl.elementary.object.Object.part_content_set` on the right swallow
+part names expected for each, which are:
 
 - ``"default"`` - The main content of the current page
 - ``"icon"`` - An icon in the title area of the current page
@@ -51,7 +51,8 @@ expected for each, which are:
 - ``"next_btn"`` - A button of the current page to go to the next
                  page
 
-For text, :py:func:`text_set()` will work here on:
+For text, :py:func:`~efl.elementary.object.Object.part_text_set` will work here
+on:
 
 - ``"default"`` - Title label in the title area of the current
                 page
@@ -59,7 +60,7 @@ For text, :py:func:`text_set()` will work here on:
                  current page
 
 Most of those content objects can be passed at the time of an item
-creation (see :py:func:`item_push()`).
+creation (see :py:meth:`~Naviframe.item_push`).
 
 Naviframe items can have different styles, which affect the
 transition between views, for example. On the default theme, two of
@@ -72,7 +73,7 @@ them are supported:
 
 
 This widget emits the following signals, besides the ones sent from
-:py:class:`elementary.layout_class.LayoutClass`:
+:py:class:`~efl.elementary.layout_class.LayoutClass`:
 
 - ``transition,finished`` - When the transition is finished in
                             changing the item
@@ -134,14 +135,14 @@ cdef class NaviframeItem(ObjectItem):
         :param prev_btn: The button to go to the previous item. If it is
             None, then naviframe will create a back button automatically. The
             name of the prev_btn part is "elm.swallow.prev_btn"
-        :type prev_btn: :py:class:`elementary.button.Button`
+        :type prev_btn: :py:class:`~efl.elementary.button.Button`
         :param next_btn: The button to go to the next item. Or It could be
             just an extra function button. The name of the next_btn part is
             "elm.swallow.next_btn"
-        :type next_btn: :py:class:`elementary.button.Button`
+        :type next_btn: :py:class:`~efl.elementary.button.Button`
         :param content: The main content object. The name of content part is
             "elm.swallow.content"
-        :type content: :py:class:`elementary.object.Object`
+        :type content: :py:class:`~efl.elementary.object.Object`
         :param item_style: The current item style name. ``None`` would be
             default.
         :type item_style: string

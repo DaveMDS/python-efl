@@ -1,3 +1,5 @@
+.. currentmodule:: efl.ecore
+
 :class:`efl.ecore.FdHandler` Class
 ==================================
 

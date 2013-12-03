@@ -181,7 +181,7 @@ cdef class Exe(object):
     *flags*, that will make Ecore monitor process' stdout and stderr,
     emitting events on main loop.
 
-    To write use :py:func:`send`.  To read listen to ``ECORE_EXE_EVENT_DATA``
+    To write use :py:meth:`send`.  To read listen to ``ECORE_EXE_EVENT_DATA``
     or ``ECORE_EXE_EVENT_ERROR`` events (see below). Ecore may
     buffer read and error data until a newline character if asked for
     with the *flags*.  All data will be included in the events
@@ -382,14 +382,14 @@ cdef class Exe(object):
         by this function, this just stops monitoring the stdout/stderr
         and emitting related events.
 
-        To finish the process call ``terminate()`` or ``kill()``.
+        To finish the process call :py:meth:`terminate` or :py:meth:`kill`.
         """
         if self.exe == NULL:
             raise ValueError("%s already deleted" % self.__class__.__name__)
         ecore_exe_free(self.exe)
 
     def free(self):
-        "Alias for ``delete()`` to keep compatibility with C-api."
+        "Alias for :py:meth:`delete` to keep compatibility with C-api."
         self.delete()
 
     def send(self, buf, long size=0):
@@ -574,7 +574,7 @@ cdef class Exe(object):
     def pause(self):
         """Send pause signal (SIGSTOP) to executed process.
 
-        In order to resume application execution, use :py:func:`continue_()`
+        In order to resume application execution, use :py:meth:`continue_`
         """
         ecore_exe_pause(self.exe)
 
@@ -585,7 +585,7 @@ cdef class Exe(object):
     def continue_(self):
         """Send contine signal (SIGCONT) to executed process.
 
-        This resumes application previously paused with :py:func:`pause`
+        This resumes application previously paused with :py:meth:`pause`
 
         """
         ecore_exe_continue(self.exe)

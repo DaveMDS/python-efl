@@ -37,7 +37,7 @@ point values and thus accepts a printf-style format string, like
 It also allows specific values to be replaced by pre-defined labels.
 
 This widget emits the following signals, besides the ones sent from
-:py:class:`elementary.layout.Layout`:
+:py:class:`~efl.elementary.layout_class.LayoutClass`:
 
 - ``"changed"`` - Whenever the spinner value is changed.
 - ``"delay,changed"`` - A short time after the value is changed by
@@ -280,7 +280,7 @@ cdef class Spinner(LayoutClass):
         It will remove a previously added special value. After this, the spinner
         will display the value itself instead of a label.
 
-        :see: elm_spinner_special_value_add() for more details.
+        :see: :py:meth:`special_value_add` for more details.
 
         :since: 1.8
 
@@ -295,7 +295,7 @@ cdef class Spinner(LayoutClass):
         :param value: The replaced value.
         :return: The used label.
 
-        :see: elm_spinner_special_value_add() for more details.
+        :see: :py:meth:`special_value_add` for more details.
 
         :since: 1.8
 

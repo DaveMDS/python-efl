@@ -26,12 +26,12 @@ Widget description
 An inwin is a window inside a window that is useful for a quick popup.
 It does not hover.
 
-It works by creating an object that will occupy the entire window, so it
-must be created using an :py:class:`elementary.window.Window` as parent
-only. The inwin object can be hidden or restacked below every other
-object if it's needed to show what's behind it without destroying it. If
-this is done, the :py:func:`activate()` function can be used to bring it
-back to full visibility again.
+It works by creating an object that will occupy the entire window, so it must be
+created using an :py:class:`~efl.elementary.window.Window` as parent only. The
+inwin object can be hidden or restacked below every other object if it's needed
+to show what's behind it without destroying it. If this is done, the
+:py:meth:`~InnerWindow.activate` function can be used to bring it back to full
+visibility again.
 
 There are three styles available in the default theme. These are:
     - default: The inwin is sized to take over most of the window it's
@@ -63,7 +63,7 @@ cdef class InnerWindow(LayoutClass):
         Activates an inwin object, ensuring its visibility
 
         This function will make sure that the inwin is completely visible
-        by calling :py:func:`show()` and :py:func:`_raise()` on it, to bring it
+        by calling :py:func:`show()` and :py:func:`raise_()` on it, to bring it
         to the front. It also sets the keyboard focus to it, which will be passed
         onto its content.
 
@@ -88,7 +88,7 @@ cdef class InnerWindow(LayoutClass):
 
         Once the content object is set, a previously set one will be deleted.
 
-        :type: :py:class:`evas.object.Object`
+        :type: :py:class:`~efl.evas.Object`
 
         """
         def __get__(self):

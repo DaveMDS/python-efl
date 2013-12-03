@@ -262,10 +262,10 @@ cdef class Hoversel(Button):
 
         The hover parent object, the area that will be darkened when the
         hoversel is clicked. Should probably be the window that the hoversel
-        is in. See :py:class:`elementary.hover.Hover` objects for more
+        is in. See :py:class:`~efl.elementary.hover.Hover` objects for more
         information.
 
-        :type: :py:class:`elementary.object.Object`
+        :type: :py:class:`~efl.elementary.object.Object`
 
         """
         def __set__(self, evasObject parent):

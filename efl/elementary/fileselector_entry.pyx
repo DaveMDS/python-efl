@@ -181,7 +181,8 @@ cdef class FileselectorEntry(Object):
         """Enable/disable a tree view in the given file selector entry
         widget's internal file selector
 
-        This has the same effect as :py:attr:`Fileselector.expandable`,
+        This has the same effect as
+        :py:attr:`efl.elementary.fileselector.Fileselector.expandable`,
         but now applied to a file selector entry's internal file
         selector.
 
@@ -208,7 +209,8 @@ cdef class FileselectorEntry(Object):
         selector is to display folders only or the directory contents,
         as well.
 
-        This has the same effect as :py:attr:`Fileselector.folder_only`,
+        This has the same effect as
+        :py:attr:`efl.elementary.fileselector.Fileselector.folder_only`,
         but now applied to a file selector entry's internal file
         selector.
 
@@ -231,7 +233,8 @@ cdef class FileselectorEntry(Object):
         in a name for a file, in a given file selector entry widget's
         internal file selector.
 
-        This has the same effect as :py:attr:`Fileselector.is_save`,
+        This has the same effect as
+        :py:attr:`efl.elementary.fileselector.Fileselector.is_save`,
         but now applied to a file selector entry's internal file
         selector.
 
@@ -254,8 +257,9 @@ cdef class FileselectorEntry(Object):
         selector will raise an Elementary "inner window", instead of a
         dedicated Elementary window. By default, it won't.
 
-        .. seealso:: :py:class:`InnerWindow` for more information on inner
-            windows
+        .. seealso::
+            :py:class:`~efl.elementary.innerwindow.InnerWindow` for more
+            information on inner windows
 
         :type: bool
 

@@ -62,7 +62,7 @@ This widget supports the scrollable interface.
 
 If you wish to control the scolling behaviour using these functions,
 inherit both the widget class and the
-:py:class:`Scrollable<efl.elementary.scroller.Scrollable>` class
+:py:class:`~efl.elementary.scroller.Scrollable` class
 using multiple inheritance, for example::
 
     class ScrollableGenlist(Genlist, Scrollable):
@@ -101,7 +101,7 @@ cdef class DiskselectorItem(ObjectItem):
     to the right.
 
     Items created with this method can be deleted with
-    :py:func:`elementary.object_item.ObjectItem.delete()`.
+    :py:meth:`~efl.elementary.object_item.ObjectItem.delete`.
 
     If a function is passed as argument, it will be called every time
     this item is selected, i.e., the user stops the diskselector with
@@ -134,8 +134,8 @@ cdef class DiskselectorItem(ObjectItem):
         :type label: string
         :param icon: The icon object to use at left side of the item. An
             icon can be any Evas object, but usually it is an
-            :py:class:`elementary.icon.Icon`.
-        :type icon: :py:class:`evas.object.Object`
+            :py:class:`~efl.elementary.icon.Icon`.
+        :type icon: :py:class:`~efl.evas.Object`
         :param func: The function to call when the item is selected.
         :type func: function
 
@@ -233,7 +233,7 @@ cdef class DiskselectorItem(ObjectItem):
         just after ``item`` and that wasn't deleted.
 
         If it is the last item, ``None`` will be returned.
-        Last item can be get by elm_diskselector_last_item_get().
+        Last item can be get by :py:attr:`Diskselector.last_item`.
 
         .. seealso::
             :py:func:`Diskselector.item_append()`
@@ -326,8 +326,8 @@ cdef class Diskselector(Object):
         Remove all diskselector's items.
 
         .. seealso::
-            :py:func:`elementary.object_item.ObjectItem.delete()`
-            :py:func:`item_append()`
+            :py:meth:`~efl.elementary.object_item.ObjectItem.delete()`
+            :py:meth:`item_append`
 
         """
         elm_diskselector_clear(self.obj)
@@ -336,9 +336,9 @@ cdef class Diskselector(Object):
         """Get a list of all the diskselector items.
 
         .. seealso::
-            :py:func:`item_append()`
-            :py:func:`elementary.object_item.ObjectItem.delete()`
-            :py:func:`clear()`
+            :py:meth:`item_append`
+            :py:meth:`~efl.elementary.object_item.ObjectItem.delete()`
+            :py:meth:`clear`
 
         :type: list of :py:class:`DiskselectorItem`
 
@@ -403,7 +403,7 @@ cdef class Diskselector(Object):
         The list of items follows append order. So it will return the first
         item appended to the widget that wasn't deleted.
 
-        .. seealso:: :py:func:`item_append()` :py:attr:`items`
+        .. seealso:: :py:func:`item_append` :py:attr:`items`
 
         :type: :py:class:`DiskselectorItem`
 
@@ -417,7 +417,7 @@ cdef class Diskselector(Object):
         The list of items follows append order. So it will return last first
         item appended to the widget that wasn't deleted.
 
-        .. seealso:: :py:func:`item_append()` :py:attr:`items`
+        .. seealso:: :py:func:`item_append` :py:attr:`items`
 
         :type: :py:class:`DiskselectorItem`
 

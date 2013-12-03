@@ -32,7 +32,7 @@ The colors can be picked by user from the color set by clicking on
 individual color item on the palette or by selecting it from selector.
 
 This widget emits the following signals, besides the ones sent from
-:py:class:`elementary.layout.Layout`:
+:py:class:`~efl.elementary.layout_class.LayoutClass`:
 
 - ``"changed"`` - When the color value changes on selector
 - ``"color,item,selected"`` - When user clicks on color item.
@@ -87,9 +87,9 @@ def _cb_object_item_conv(long addr):
 
 cdef class ColorselectorPaletteItem(ObjectItem):
 
-    cdef int r, g, b, a
-
     """An item for the :py:class:`Colorselector` widget."""
+
+    cdef int r, g, b, a
 
     def __init__(self, int r, int g, int b, int a, *args, **kwargs):
         self.r, self.g, self.b, self.a = r, g, b, a

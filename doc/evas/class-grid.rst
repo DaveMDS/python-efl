@@ -1,3 +1,5 @@
+.. currentmodule:: efl.evas
+
 :class:`efl.evas.Grid` Class
 ============================
 

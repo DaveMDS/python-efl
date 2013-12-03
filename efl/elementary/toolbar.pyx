@@ -55,7 +55,7 @@ This widget supports the scrollable interface.
 
 If you wish to control the scolling behaviour using these functions,
 inherit both the widget class and the
-:py:class:`Scrollable<efl.elementary.scroller.Scrollable>` class
+:py:class:`~efl.elementary.scroller.Scrollable` class
 using multiple inheritance, for example::
 
     class ScrollableGenlist(Genlist, Scrollable):
@@ -228,8 +228,6 @@ cdef class ToolbarItemState(object):
     cdef Elm_Toolbar_Item_State *state
     cdef object params
 
-    # FIXME
-
     def __init__(self, ToolbarItem it, icon = None, label = None,
         callback = None, *args, **kwargs):
         cdef Evas_Smart_Cb cb = NULL
@@ -310,14 +308,14 @@ cdef class ToolbarItem(ObjectItem):
         be set as **last** item.
 
         Items created with this method can be deleted with
-        :py:func:`ObjectItem.delete()`.
+        :py:meth:`~efl.elementary.object_item.ObjectItem.delete`
 
-        .. seealso:: :py:attr:`ToolbarItem.icon` :py:func:`ObjectItem.delete()`
+        :seealso: :py:attr:`ToolbarItem.icon`
 
         :param toolbar: The toolbar this item should be appended to
         :type toolbar: :py:class:`Toolbar`
         :return: The created item or ``None`` upon failure.
-        :rtype: ToolbarItem
+        :rtype: :py:class:`ToolbarItem`
 
         """
         cdef Elm_Object_Item *item
@@ -345,7 +343,7 @@ cdef class ToolbarItem(ObjectItem):
         be set as **first** item.
 
         Items created with this method can be deleted with
-        :py:func:`ObjectItem.delete()`.
+        :py:meth:`~efl.elementary.object_item.ObjectItem.delete`
 
         :param toolbar: The toolbar this item should be prepended to
         :type toolbar: :py:class:`Toolbar`
@@ -378,7 +376,7 @@ cdef class ToolbarItem(ObjectItem):
         this toolbar will be just after item ``after``.
 
         Items created with this method can be deleted with
-        :py:func:`ObjectItem.delete()`.
+        :py:meth:`~efl.elementary.object_item.ObjectItem.delete`
 
         :param after: The toolbar item to insert after.
         :type after: :py:class:`ToolbarItem`
@@ -414,7 +412,7 @@ cdef class ToolbarItem(ObjectItem):
         this toolbar will be just before item ``before``.
 
         Items created with this method can be deleted with
-        :py:func:`ObjectItem.delete()`.
+        :py:meth:`~efl.elementary.object_item.ObjectItem.delete`
 
         :param before: The toolbar item to insert before.
         :type before: :py:class:`ToolbarItem`
@@ -448,7 +446,7 @@ cdef class ToolbarItem(ObjectItem):
 
         .. note:: If it is the last item, ``None`` will be returned.
 
-        .. seealso:: :py:func:`Toolbar.item_append()`
+        .. seealso:: :py:meth:`Toolbar.item_append`
 
         :type: :py:class:`ToolbarItem`
 
@@ -464,7 +462,7 @@ cdef class ToolbarItem(ObjectItem):
 
         .. note:: If it is the first item, ``None`` will be returned.
 
-        .. seealso:: :py:func:`Toolbar.item_prepend()`
+        .. seealso:: :py:func:`Toolbar.item_prepend`
 
         :type: :py:class:`ToolbarItem`
 
@@ -653,10 +651,12 @@ cdef class ToolbarItem(ObjectItem):
         return elm_toolbar_item_separator_get(self.item)
 
     property menu:
-        """This property has two diffent functionalities. The object you get
-        from it is the :py:class:`Menu` object used by this toolbar item,
-        and setting it to True or False controls whether this item is a menu
-        or not.
+        """
+
+        This property has two diffent functionalities. The object you get from
+        it is the :py:class:`~efl.elementary.menu.Menu` object used by this
+        toolbar item, and setting it to True or False controls whether this item
+        is a menu or not.
 
         If item wasn't set as menu item, getting the value of this property
         sets it to be that.
@@ -666,7 +666,7 @@ cdef class ToolbarItem(ObjectItem):
         and properties.
 
         So, items to be displayed in this item's menu should be added with
-        :py:func:`Menu.item_add()`.
+        :py:func:`efl.elementary.menu.Menu.item_add()`.
 
         The following code exemplifies the most basic usage::
 
@@ -846,7 +846,7 @@ cdef class Toolbar(Object):
     property first_item:
         """Get the first item in the given toolbar widget's list of items.
 
-        .. seealso:: :py:func:`item_append()` :py:attr:`last_item`
+        .. seealso:: :py:func:`item_append` :py:attr:`last_item`
 
         :type: :py:class:`ToolbarItem`
 
@@ -860,7 +860,7 @@ cdef class Toolbar(Object):
     property last_item:
         """Get the last item in the given toolbar widget's list of items.
 
-        .. seealso:: :py:func:`item_prepend()` :py:attr:`first_item`
+        .. seealso:: :py:func:`item_prepend` :py:attr:`first_item`
 
         :type: :py:class:`ToolbarItem`
 

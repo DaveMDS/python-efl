@@ -622,20 +622,21 @@ cdef class Configuration(object):
                     ret.append((_ctouni(text_class), _ctouni(font), size))
                 lst = lst.next
             return ret
-            # TODO: Free the list?
+            # TODO: ElmFontOverlay class?
 
     def font_overlay_set(self, text_class, font, size):
         """font_overlay_set(unicode text_class, unicode font, int size)
 
         Set a font overlay for a given Elementary text class.
 
-        *font* has to be in the format returned by font_fontconfig_name_get().
+        *font* has to be in the format returned by
+        :py:func:`efl.elementary.general.font_fontconfig_name_get`.
 
         .. seealso::
 
             :py:attr:`font_overlay_list`
-            :py:func:`font_overlay_unset()`
-            :py:func:`edje_object_text_class_set()`
+            :py:func:`font_overlay_unset`
+            :py:func:`efl.edje.Edje.text_class_set`
 
         :param text_class: Text class name
         :type text_class: string
@@ -727,7 +728,7 @@ cdef class Configuration(object):
     property cache_flush_interval:
         """The globally configured cache flush interval time, in ticks
 
-        .. seealso:: :py:func:`cache_all_flush()`
+        .. seealso:: :py:func:`efl.elementary.general.cache_all_flush`
 
         .. note:: The ``size`` must be greater than 0. if not, the cache flush
             will be ignored.
@@ -752,7 +753,7 @@ cdef class Configuration(object):
         be re-loaded as it is idle and not rendering or doing anything
         graphically right now.
 
-        .. seealso:: :py:func:`cache_all_flush()`
+        .. seealso:: :py:func:`efl.elementary.general.cache_all_flush`
 
         :type: bool
 
@@ -829,7 +830,7 @@ cdef class Configuration(object):
         Note that it will take effect only to Elementary windows created after
         this is set.
 
-        .. seealso:: :py:class:`elementary.window.Window`
+        .. seealso:: :py:class:`~efl.elementary.window.Window`
 
         :type: bool
 
