@@ -28,7 +28,7 @@ entries while still being fast and low on memory usage. At the same time
 it was also made to be able to do tree structures. But the price to pay
 is more complexity when it comes to usage. If all you want is a simple
 list with icons and a single text, use the normal
-:py:class:`elementary.list.List` object.
+:py:class:`~efl.elementary.list.List` object.
 
 Genlist has a fairly large API, mostly because it's relatively complex,
 trying to be both expansive, powerful and efficient. First we will begin
@@ -228,7 +228,7 @@ This widget supports the scrollable interface.
 
 If you wish to control the scolling behaviour using these functions,
 inherit both the widget class and the
-:py:class:`Scrollable<efl.elementary.scroller.Scrollable>` class
+:py:class:`~efl.elementary.scroller.Scrollable` class
 using multiple inheritance, for example::
 
     class ScrollableGenlist(Genlist, Scrollable):

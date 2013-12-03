@@ -93,8 +93,8 @@ And these are names for some media player specific icons:
 This widget emits the following signals, besides the ones sent from
 :py:class:`~efl.elementary.image.Image`:
 
-- ``"thumb,done"`` - Setting :py:attr:`thumb` has completed with success
-- ``"thumb,error"`` - Setting :py:attr:`thumb` has failed
+- ``"thumb,done"`` - Setting :py:attr:`~Icon.thumb` has completed with success
+- ``"thumb,error"`` - Setting :py:attr:`~Icon.thumb` has failed
 
 
 Enumerations
@@ -170,13 +170,11 @@ cdef class Icon(Image):
         """Set the file (and edje group) that will be used, but use a
         generated thumbnail.
 
-        This functions like :py:attr:`elementary.image.Image.file` but
+        This functions like :py:attr:`~efl.elementary.image.Image.file` but
         requires the Ethumb library support to be enabled successfully with
         :py:func:`efl.elementary.need.need_ethumb`. When set the file indicated
         has a thumbnail generated and cached on disk for future use or will
         directly use an existing cached thumbnail if it is valid.
-
-        .. seealso:: :py:attr:`~efl.elementary.image.Image.file`
 
         :type: string ``file`` or tuple(string ``file``, string ``group``)
 

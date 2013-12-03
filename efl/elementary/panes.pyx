@@ -30,7 +30,7 @@ Panes can be displayed vertically or horizontally, and contents size
 proportion can be customized (homogeneous by default).
 
 This widget emits the following signals, besides the ones sent from
-:py:class:`elementary.layout.Layout`:
+:py:class:`~efl.elementary.layout_class.LayoutClass`:
 
 - ``"press"`` - The panes has been pressed (button wasn't released yet).
 - ``"unpressed"`` - The panes was released after being pressed.

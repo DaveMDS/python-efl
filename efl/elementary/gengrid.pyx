@@ -25,7 +25,7 @@ Widget description
 
 This widget aims to position objects in a grid layout while actually
 creating and rendering only the visible ones, using the same idea as the
-:py:class:`efl.elementary.genlist.Genlist`: the user defines a **class** for
+:py:class:`~efl.elementary.genlist.Genlist`: the user defines a **class** for
 each item, specifying functions that will be called at object creation,
 deletion, etc. When those items are selected by the user, a callback
 function is issued. Users may interact with a gengrid via the mouse (by
@@ -40,7 +40,7 @@ This widget supports the scrollable interface.
 
 If you wish to control the scolling behaviour using these functions,
 inherit both the widget class and the
-:py:class:`Scrollable<efl.elementary.scroller.Scrollable>` class
+:py:class:`~efl.elementary.scroller.Scrollable` class
 using multiple inheritance, for example::
 
     class ScrollableGenlist(Genlist, Scrollable):
@@ -83,7 +83,7 @@ state parts.
 A gengrid item may be at one of several styles. Elementary provides one
 by default - "default", but this can be extended by system or
 application custom themes/overlays/extensions (see
-:py:class:`elementary.theme.Theme` for more details).
+:py:class:`~efl.elementary.theme.Theme` for more details).
 
 Gengrid item classes
 ====================

@@ -326,8 +326,6 @@ cdef class Configuration(object):
 
         :type: int
 
-        :see: elm_config_thumbscroll_flick_distance_tolerance_get()
-
         """
         def __get__(self):
             return elm_config_scroll_thumbscroll_flick_distance_tolerance_get()
@@ -354,8 +352,6 @@ cdef class Configuration(object):
 
         :type: float
 
-        :see: elm_config_thumbscroll_min_friction_get()
-
         """
         def __get__(self):
             return elm_config_scroll_thumbscroll_min_friction_get()
@@ -370,8 +366,6 @@ cdef class Configuration(object):
         velocity.
 
         :type: float
-
-        :see: elm_config_thumbscroll_friction_standard_get()
 
         """
         def __get__(self):

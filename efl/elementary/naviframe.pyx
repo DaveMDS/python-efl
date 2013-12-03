@@ -60,7 +60,7 @@ on:
                  current page
 
 Most of those content objects can be passed at the time of an item
-creation (see :py:meth:`~Naviframe.item_push`).
+creation (see :py:meth:`~NaviframeItem.push_to`).
 
 Naviframe items can have different styles, which affect the
 transition between views, for example. On the default theme, two of
@@ -84,12 +84,13 @@ This widget emits the following signals, besides the ones sent from
 All the parts, for content and text, described here will also be
 reachable by naviframe **items** direct calls:
 
-- :py:func:`part_text_set()`
-- :py:func:`part_text_get()`
-- :py:func:`part_content_set()`
-- :py:func:`part_content_get()`
-- :py:func:`part_content_unset()`
-- :py:func:`signal_emit()`
+- :py:meth:`~efl.elementary.object_item.ObjectItem.delete`
+- :py:meth:`~efl.elementary.object_item.ObjectItem.part_text_set`
+- :py:meth:`~efl.elementary.object_item.ObjectItem.part_text_get`
+- :py:meth:`~efl.elementary.object_item.ObjectItem.part_content_set`
+- :py:meth:`~efl.elementary.object_item.ObjectItem.part_content_get`
+- :py:meth:`~efl.elementary.object_item.ObjectItem.part_content_unset`
+- :py:meth:`~efl.elementary.object_item.ObjectItem.signal_emit`
 
 What happens is that the topmost item of a naviframe will be the
 widget's target layout, when accessed directly. Items lying below
@@ -371,7 +372,7 @@ cdef class Naviframe(LayoutClass):
 
         :return: ``None`` or the content object(if
             :py:attr:`content_preserve_on_pop` is True).
-        :rtype: :py:class:`evas.object.Object`
+        :rtype: :py:class:`~efl.evas.Object`
 
         """
         return object_from_instance(elm_naviframe_item_pop(self.obj))
@@ -453,11 +454,10 @@ cdef class Naviframe(LayoutClass):
         If is True, the contents of the naviframe item will receives events
         from mouse and keyboard during view changing such as item push/pop.
 
-        .. warning:: Events will be blocked by
-            calling :py:func:`freeze_events_set()` internally.
+        .. warning::
+            Events will be blocked by setting
+            :py:attr:`~efl.evas.Object.freeze_events` internally.
             So don't call the API while pushing/popping items.
-
-        .. seealso:: :py:attr:`evas.object.Object.freeze_events`
 
         :type: bool
 

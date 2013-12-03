@@ -44,7 +44,7 @@ the object or applications scaling factor. At any point code can query the
 slider for its value with :py:attr:`Slider.value`.
 
 This widget emits the following signals, besides the ones sent from
-:py:class:`LayoutClass <efl.elementary.layout_class.LayoutClass>`:
+:py:class:`~efl.elementary.layout_class.LayoutClass`:
 
 - ``changed`` - Whenever the slider value is changed by the user.
 - ``slider,drag,start`` - dragging the slider indicator around has
@@ -282,8 +282,8 @@ cdef class Slider(LayoutClass):
         """The value displayed in the slider.
 
         Value will be presented on the unit label following format specified
-        with :py:attr:`unit_format_set()` and on indicator with
-        :py:attr:`indicator_format_set()`.
+        with :py:attr:`unit_format` and on indicator with
+        :py:attr:`indicator_format`.
 
         .. warning:: The value must to be between min and max values. These
             values are set by :py:attr:`min_max`.

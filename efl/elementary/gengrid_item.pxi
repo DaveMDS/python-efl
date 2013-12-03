@@ -343,13 +343,18 @@ cdef class GengridItem(ObjectItem):
 
         data = (func, self, args, kargs)
         Py_INCREF(data)
+        # FIXME: refleak?
         cbdata = <void *>data
         elm_gengrid_item_tooltip_content_cb_set(self.item,
                                                 _tooltip_item_content_create,
                                                 cbdata,
                                                 _tooltip_item_data_del_cb)
 
+    @DEPRECATED("1.8", "Use tooltip_unset() instead")
     def item_tooltip_unset(self):
+        elm_gengrid_item_tooltip_unset(self.item)
+
+    def tooltip_unset(self):
         """item_tooltip_unset()
 
         Unset tooltip from object

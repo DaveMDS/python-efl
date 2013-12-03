@@ -86,7 +86,7 @@ fixed to "out001.png" Some examples of using the shot engine::
 Signals that you can add callbacks for are:
 
 - "delete,request": the user requested to close the window. See
-    :py:attr:`autodel <Window.autodel>`.
+    :py:attr:`~Window.autodel`.
 - "focus,in": window got focus
 - "focus,out": window lost focus
 - "moved": window that holds the canvas was moved
@@ -156,7 +156,7 @@ Window types
 
     The window is a dropdown menu, as when an entry in a menubar is clicked.
 
-    Typically used with :py:attr:`override`. This hint exists for
+    Typically used with :py:attr:`~Window.override`. This hint exists for
     completion only, as the EFL way of implementing a menu would not
     normally use a separate window for its contents.
 
@@ -171,7 +171,7 @@ Window types
 
     A short piece of explanatory text that typically appear after the mouse
     cursor hovers over an object for a while. Typically used with
-    :py:attr:`override` and also not very commonly used in the EFL.
+    :py:attr:`~Window.override` and also not very commonly used in the EFL.
 
 .. data:: ELM_WIN_NOTIFICATION
 
@@ -189,7 +189,7 @@ Window types
     Used to indicate the window is a representation of an object being
     dragged across different windows, or even applications.
 
-    Typically used with :py:attr:`override`.
+    Typically used with :py:attr:`~Window.override`.
 
 .. data:: ELM_WIN_INLINED_IMAGE
 
@@ -452,7 +452,7 @@ cdef class Window(Object):
         For the end user to be able to resize a window by dragging the handles
         or borders provided by the Window Manager, or using any other similar
         mechanism, all of the resize objects in the window should have their
-        :py:attr:`size_hint_weight` set to EVAS_HINT_EXPAND.
+        :py:attr:`~efl.evas.Object.size_hint_weight` set to EVAS_HINT_EXPAND.
 
         Also notice that the window can get resized to the current size of the
         object if the EVAS_HINT_EXPAND is set **after** the call to
@@ -462,7 +462,7 @@ cdef class Window(Object):
         as soon as the object is added to the window).
 
         :param subobj: The resize object to add
-        :type subobj: :py:class:`efl.elementary.object.Object`
+        :type subobj: :py:class:`~efl.elementary.object.Object`
 
         """
         elm_win_resize_object_add(self.obj, subobj.obj)

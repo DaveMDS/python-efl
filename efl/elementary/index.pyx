@@ -34,14 +34,15 @@ user clicks over it's reserved area in the canvas. In its
 default theme, it's an area one ``finger`` wide on
 the right side of the index widget's container.
 
-When items on the index are selected, smart callbacks get
-called, so that its user can make other container objects to
-show a given area or child object depending on the index item
-selected. You'd probably be using an index together with :py:class:`List`,
-:py:class:`Genlist` or :py:class:`Gengrid`.
+When items on the index are selected, smart callbacks get called, so that its
+user can make other container objects to show a given area or child object
+depending on the index item selected. You'd probably be using an index together
+with :py:class:`~efl.elementary.list.List`,
+:py:class:`~efl.elementary.genlist.Genlist` or
+:py:class:`~efl.elementary.gengrid.Gengrid`.
 
 This widget emits the following signals, besides the ones sent from
-:py:class:`elementary.layout.Layout`:
+:py:class:`~efl.elementary.layout_class.LayoutClass`:
 
 - ``"changed"`` - When the selected index item changes. ``event_info``
   is the selected item's data pointer.

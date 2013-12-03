@@ -572,7 +572,7 @@ cdef class ToolbarItem(ObjectItem):
             :py:attr:`icon_file`, or
             :py:attr:`icon_memfile` for details.
 
-        :type: :py:class:`Icon`
+        :type: :py:class:`~efl.elementary.icon.Icon`
 
         """
         def __get__(self):
@@ -662,8 +662,8 @@ cdef class ToolbarItem(ObjectItem):
         sets it to be that.
 
         Once it is set to be a menu, it can be manipulated through
-        :py:attr:`Toolbar.menu_parent` and the :py:class:`Menu` functions
-        and properties.
+        :py:attr:`Toolbar.menu_parent` and the
+        :py:class:`~efl.elementary.menu.Menu` functions and properties.
 
         So, items to be displayed in this item's menu should be added with
         :py:func:`efl.elementary.menu.Menu.item_add()`.
@@ -907,8 +907,9 @@ cdef class Toolbar(Object):
     property more_item:
         """Get the more item.
 
-        The more item can be changed with function
-        :py:attr:`ObjectItem.text` and :py:attr:`ObjectItem.content`.
+        The more item can be changed with
+        :py:attr:`~efl.elementary.object_item.ObjectItem.text` and
+        :py:attr:`~efl.elementary.object_item.ObjectItem.content`.
 
         :type: :py:class:`ToolbarItem`
 
@@ -989,11 +990,7 @@ cdef class Toolbar(Object):
         Each item can be set as item menu, with :py:attr:`ToolbarItem.menu`.
 
         For more details about setting the parent for toolbar menus, see
-        :py:attr:`Menu.parent`.
-
-        .. seealso::
-            :py:attr:`Menu.parent` and
-            :py:attr:`ToolbarItem.menu` for details.
+        :py:attr:`efl.elementary.menu.Menu.parent`.
 
         :type: :py:class:`Object`
 

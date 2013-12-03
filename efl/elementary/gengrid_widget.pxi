@@ -172,10 +172,10 @@ cdef class Gengrid(Object):
     # XXX TODO elm_gengrid_item_sorted_insert()
 
     property selected_item:
-        """This returns the selected item in ``obj``. If multi selection is
-        enabled on ``obj`` (.. seealso:: :py:func:`multi_select_set()),` only
-        the first item in the list is selected, which might not be very
-        useful. For that case, see elm_gengrid_selected_items_get().
+        """This returns the selected item. If multi selection is enabled
+        (:py:attr:`multi_select`), only the first item in the list is selected,
+        which might not be very useful. For that case, see
+        :py:attr:`selected_items`.
 
         :type: :py:class:`GengridItem`
 

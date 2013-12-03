@@ -172,7 +172,7 @@ cdef class ObjectItem(object):
         .. note:: This returns the widget object itself that an item belongs to.
         .. note:: Every elm_object_item supports this API
 
-        :type: :py:class:`elementary.object.Object`
+        :type: :py:class:`~efl.elementary.object.Object`
 
         """
         def __get__(self):
@@ -212,7 +212,7 @@ cdef class ObjectItem(object):
             content)
         :type part: string
         :return: content of the object item or None for any error
-        :rtype: :py:class:`evas.object.Object`
+        :rtype: :py:class:`~efl.evas.Object`
 
         """
         if isinstance(part, unicode): part = PyUnicode_AsUTF8String(part)
@@ -359,7 +359,7 @@ cdef class ObjectItem(object):
 
         :see: :py:func:`domain_translatable_part_text_set`
         :see: :py:func:`part_text_set`
-        :see: :py:func:`efl.elementary.general.policy`
+        :see: :py:func:`efl.elementary.general.policy_set`
 
         :since: 1.8
 

@@ -39,7 +39,7 @@ One can tune various properties of the image, like:
 - aspect ratio during resizes, etc.
 
 An image object may also be made valid source and destination for drag
-and drop actions by setting :py:attr:`editable`.
+and drop actions by setting :py:attr:`~Image.editable`.
 
 Signals that you can add callbacks for are:
 
@@ -143,7 +143,7 @@ class ImageErrorInfo(object):
     by Image when fail to download remote urls.
 
     :var status: The http error code (such as 401)
-    :var open_error: TODOC
+    :var open_error: TODO
 
     """
     def __init__(self):

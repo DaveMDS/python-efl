@@ -1172,7 +1172,7 @@ cdef class Object(evasObject):
     property mirrored_automatic:
         """The widget's mirrored mode setting. When widget in automatic
         mode, it follows the system mirrored mode set by
-        :py:attr:`efl.elementary.configuration.mirrored`.
+        :py:attr:`efl.elementary.configuration.Configuration.mirrored`.
 
         :type: bool
 
@@ -1322,7 +1322,7 @@ cdef class Object(evasObject):
         configuration difficult. Avoid any custom themes at all if it can be
         helped.
 
-        :type: :py:class:`Theme`
+        :type: :py:class:`~efl.elementary.theme.Theme`
 
         """
         def __set__(self, Theme th):

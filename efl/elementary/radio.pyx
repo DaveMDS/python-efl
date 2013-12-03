@@ -33,23 +33,20 @@ are normally used in groups of two or more.
 Radio objects are grouped in a slightly different, compared to other UI
 toolkits. There is no seperate group name/id to remember or manage. The
 members represent the group, there are the group. To make a group, use
-:py:func:`group_add()` and pass existing radio object and the new radio
+:py:meth:`Radio.group_add` and pass existing radio object and the new radio
 object.
 
 The radio object(s) will select from one of a set of integer values, so
 any value they are configuring needs to be mapped to a set of integers.
 To configure what value that radio object represents, use
-elm_radio_state_value_set() to set the integer it represents. The
+:py:meth:`~Radio.state_value_set` to set the integer it represents. The
 value of the whole group (which one is currently selected) is
-represented by the property :py:attr:`value` on any group member. For
+represented by the property :py:attr:`~Radio.value` on any group member. For
 convenience the radio objects are also able to directly set an
-integer(int) to the value that is selected. To specify the pointer to
-this integer to modify, use :py:attr:`value_pointer`. The radio objects
-will modify this directly. That implies the pointer must point to valid
-memory for as long as the radio objects exist.
+integer(int) to the value that is selected.
 
 This widget emits the following signals, besides the ones sent from
-:py:class:`elementary.layout_class.LayoutClass`:
+:py:class:`~efl.elementary.layout_class.LayoutClass`:
 
 - ``changed`` - This is called whenever the user changes the state of one of
     the radio objects within the group of radio objects that work together.
@@ -67,6 +64,7 @@ Default content parts of the radio widget that you can use for are:
 """
 
 from efl.eo cimport _object_mapping_register, object_from_instance
+from efl.utils.deprecated cimport DEPRECATED
 from efl.evas cimport Object as evasObject
 from layout_class cimport LayoutClass
 
@@ -131,7 +129,7 @@ cdef class Radio(LayoutClass):
     def value_get(self):
         return elm_radio_value_get(self.obj)
 
-    #TODO: Check whether this actually works
+    @DEPRECATED("1.8", "Don't use this, only works in C.")
     def value_pointer_set(self, int value):
         """value_pointer_set(value)
 

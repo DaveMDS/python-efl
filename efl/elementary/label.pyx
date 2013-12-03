@@ -45,7 +45,7 @@ Custom themes can of course invent new markup tags and style them any way
 they like.
 
 This widget emits the following signals, besides the ones sent from
-:py:class:`elementary.layout.Layout`:
+:py:class:`~efl.elementary.layout_class.LayoutClass`:
 
 - ``language,changed`` - The program's language changed.
 - ``slide,end`` - The slide is end.

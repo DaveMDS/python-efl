@@ -78,6 +78,7 @@ cdef class MenuItem(ObjectItem):
         self.kwargs = kargs
 
     def add_to(self, Menu menu not None):
+        # TODO: document this
         cdef Elm_Object_Item *item, *parent_obj = NULL
         cdef Evas_Smart_Cb cb = NULL
 
@@ -224,11 +225,14 @@ cdef class MenuItem(ObjectItem):
 
 cdef class MenuSeparatorItem(ObjectItem):
 
+    """A separator type menu item."""
+
     cdef MenuItem parent
     def __init__(self, MenuItem parent):
         self.parent = parent
 
     def add_to(self, Menu menu not None):
+        # TODO: document this
         cdef Elm_Object_Item *item
 
         if self.cb_func is not None:
@@ -245,8 +249,6 @@ cdef class MenuSeparatorItem(ObjectItem):
 
     property is_separator:
         """Returns whether the item is a separator.
-
-        .. seealso:: :py:func:`Menu.item_separator_add()`
 
         :type: bool
 
@@ -301,7 +303,7 @@ cdef class Menu(Object):
     property parent:
         """The parent for the given menu widget.
 
-        :type: :py:class:`Object`
+        :type: :py:class:`~efl.elementary.object.Object`
 
         """
         def __get__(self):
@@ -340,9 +342,9 @@ cdef class Menu(Object):
         elm_menu_close(self.obj)
 
     property items:
-        """Returns a list of ``item``'s items.
+        """Returns a list of ``item``'s.
 
-        :type: tuple of :py:class:`Object`
+        :type: tuple of :py:class:`MenuItem`
 
         """
         def __get__(self):
@@ -358,7 +360,7 @@ cdef class Menu(Object):
         Add an item at the end of the given menu widget
 
         :param parent: The parent menu item (optional)
-        :type parent: :py:class:`Object`
+        :type parent: :py:class:`~efl.elementary.object.Object`
         :param string icon: An icon display on the item. The icon will be destroyed
             by the menu.
         :param string label: The label of the item.
@@ -401,10 +403,10 @@ cdef class Menu(Object):
 
         Add a separator item to menu under ``parent``.
 
-        This item is a :py:class:`Separator`.
+        This item is a :py:class:`~efl.elementary.separator.Separator`.
 
         :param parent: The item to add the separator under
-        :type parent: :py:class:`Object`
+        :type parent: :py:class:`~efl.elementary.object.Object`
         :return: The created item or None on failure
         :rtype: :py:class:`MenuSeparatorItem`
 

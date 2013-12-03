@@ -29,7 +29,7 @@ The list can accept only one or multiple items selection. Also has many
 modes of items displaying.
 
 A list is a very simple type of list widget.  For more robust
-lists, :py:class:`genlist.Genlist` should probably be used.
+lists, :py:class:`~efl.elementary.genlist.Genlist` should probably be used.
 
 Smart callbacks one can listen to:
 
@@ -77,7 +77,7 @@ This widget supports the scrollable interface.
 
 If you wish to control the scolling behaviour using these functions,
 inherit both the widget class and the
-:py:class:`Scrollable<efl.elementary.scroller.Scrollable>` class
+:py:class:`~efl.elementary.scroller.Scrollable` class
 using multiple inheritance, for example::
 
     class ScrollableGenlist(Genlist, Scrollable):
@@ -206,10 +206,10 @@ cdef class ListItem(ObjectItem):
         :param string label: The label of the list item.
         :param  icon: The icon object to use for the left side of the item. An
                       icon can be any Evas object, but usually it is an :py:class:`Icon`.
-        :type   icon: :py:class:`evas.object.Object`
+        :type   icon: :py:class:`~efl.evas.Object`
         :param   end: The icon object to use for the right side of the item. An
                       icon can be any Evas object.
-        :type    end: :py:class:`evas.object.Object`
+        :type    end: :py:class:`~efl.evas.Object`
         :param callable callback: The function to call when the item is clicked.
         :param cb_data: An object associated with the callback.
 
@@ -255,7 +255,7 @@ cdef class ListItem(ObjectItem):
         be set as **last** item.
 
         Items created with this method can be deleted with
-        :py:func:`elementary.object_item.ObjectItem.delete()`.
+        :py:meth:`~elementary.object_item.ObjectItem.delete`.
 
         If a function is passed as argument, it will be called every time this item
         is selected, i.e., the user clicks over an unselected item.
@@ -274,9 +274,9 @@ cdef class ListItem(ObjectItem):
 
         .. seealso::
             :py:attr:`List.select_mode`
-            :py:func:`efl.elementary.object_item.ObjectItem.delete()`
+            :py:meth:`~efl.elementary.object_item.ObjectItem.delete`
             :py:func:`List.clear()`
-            :py:class:`Icon <efl.elementary.icon.Icon>`
+            :py:class:`~efl.elementary.icon.Icon`
 
         :return: The created item or ``None`` upon failure.
         :rtype: :py:class:`ListItem`
@@ -306,11 +306,11 @@ cdef class ListItem(ObjectItem):
         Prepend a new item to the list object.
 
         .. seealso::
-            :py:func:`append_to()`
+            :py:meth:`append_to`
             :py:attr:`List.select_mode`
-            :py:func:`efl.elementary.object_item.ObjectItem.delete()`
-            :py:func:`List.clear()`
-            :py:class:`Icon <efl.elementary.icon.Icon>`
+            :py:meth:`efl.elementary.object_item.ObjectItem.delete`
+            :py:meth:`List.clear`
+            :py:class:`~efl.elementary.icon.Icon`
 
         :param list: The list
         :type  list: List
@@ -343,11 +343,11 @@ cdef class ListItem(ObjectItem):
         Insert a new item into the list object before item *before*.
 
         .. seealso::
-            :py:func:`append_to()`
+            :py:meth:`append_to`
             :py:attr:`List.select_mode`
-            :py:func:`efl.elementary.object_item.ObjectItem.delete()`
-            :py:func:`List.clear()`
-            :py:class:`Icon <efl.elementary.icon.Icon>`
+            :py:meth:`efl.elementary.object_item.ObjectItem.delete`
+            :py:meth:`List.clear`
+            :py:class:`~efl.elementary.icon.Icon`
 
         :param before: The list item to insert before.
         :type  before: :py:class:`ListItem`
@@ -382,11 +382,11 @@ cdef class ListItem(ObjectItem):
         Insert a new item into the list object after item *after*.
 
         .. seealso::
-            :py:func:`append_to()`
+            :py:meth:`append_to`
             :py:attr:`List.select_mode`
-            :py:func:`efl.elementary.object_item.ObjectItem.delete()`
-            :py:func:`List.clear()`
-            :py:class:`Icon <efl.elementary.icon.Icon>`
+            :py:meth:`efl.elementary.object_item.ObjectItem.delete`
+            :py:meth:`List.clear`
+            :py:class:`~efl.elementary.icon.Icon`
 
         :param after: The list item to insert after.
         :type after: :py:class:`ListItem`
@@ -516,7 +516,7 @@ cdef class ListItem(ObjectItem):
         Show the item in the list view.
 
         It won't animate list until item is visible. If such behavior is
-        wanted, use :py:func:`bring_in()` instead.
+        wanted, use :py:meth:`bring_in` instead.
 
         """
         elm_list_item_show(self.item)
@@ -531,7 +531,7 @@ cdef class ListItem(ObjectItem):
 
         This may use animation to do so and take a period of time.
 
-        If animation isn't wanted, :py:func:`show()` can be used.
+        If animation isn't wanted, :py:meth:`show` can be used.
 
         """
         elm_list_item_bring_in(self.item)
@@ -544,7 +544,7 @@ cdef class ListItem(ObjectItem):
         behavior (like deleting the base!), but it might be used to
         feed Edje signals to add more features to row representation.
 
-        :type: :py:class:`edje.Edje`
+        :type: :py:class:`efl.edje.Edje`
 
         """
         def __get__(self):
@@ -559,7 +559,7 @@ cdef class ListItem(ObjectItem):
         .. note:: If the item is the first item, ``None`` will be returned.
 
         .. seealso::
-            :py:func:`append_to()`
+            :py:meth:`append_to`
             :py:attr:`List.items`
 
         :type: :py:class:`ListItem`
@@ -615,7 +615,7 @@ cdef class List(Object):
             li.go()
             li.show()
 
-        .. note:: Call before running :py:func:`show() <efl.evas.Object.show>` on the list object.
+        .. note:: Call before running :py:meth:`~efl.evas.Object.show` on the list object.
         .. warning:: If not called, it won't display the list properly.
 
         """
@@ -835,8 +835,8 @@ cdef class List(Object):
         Remove all list's items.
 
         .. seealso::
-            :py:func:`efl.elementary.object_item.ObjectItem.delete`
-            :py:func:`ListItem.append_to`
+            :py:meth:`~efl.elementary.object_item.ObjectItem.delete`
+            :py:meth:`ListItem.append_to`
 
         """
         elm_list_clear(self.obj)
@@ -845,9 +845,9 @@ cdef class List(Object):
         """Get a list of all the list items.
 
         .. seealso::
-            :py:func:`ListItem.append_to()`
-            :py:func:`efl.elementary.object_item.ObjectItem.delete`
-            :py:func:`clear()`
+            :py:meth:`ListItem.append_to`
+            :py:meth:`~efl.elementary.object_item.ObjectItem.delete`
+            :py:meth:`clear`
 
         :type: tuple of :py:class:`List items <ListItem>`
 

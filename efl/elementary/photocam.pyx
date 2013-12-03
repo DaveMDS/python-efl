@@ -64,7 +64,7 @@ This widget supports the scrollable interface.
 
 If you wish to control the scolling behaviour using these functions,
 inherit both the widget class and the
-:py:class:`Scrollable<efl.elementary.scroller.Scrollable>` class
+:py:class:`~efl.elementary.scroller.Scrollable` class
 using multiple inheritance, for example::
 
     class ScrollableGenlist(Genlist, Scrollable):
@@ -81,7 +81,7 @@ Photocam zoom modes
 
 .. data:: ELM_PHOTOCAM_ZOOM_MODE_MANUAL
 
-    Zoom controlled normally by :py:attr:`zoom`
+    Zoom controlled normally by :py:attr:`~Photocam.zoom`
 
 .. data:: ELM_PHOTOCAM_ZOOM_MODE_AUTO_FIT
 
@@ -184,17 +184,24 @@ cdef class Photocam(Object):
         :raise RuntimeError: when setting the file fails
 
         """
-        def __set__(self, file):
-            if isinstance(file, unicode): file = PyUnicode_AsUTF8String(file)
+        def __set__(self, filename):
+            # TODO: Return EvasLoadError
+            if isinstance(filename, unicode):
+                filename = PyUnicode_AsUTF8String(filename)
             if elm_photocam_file_set(self.obj,
-                <const_char *>file if file is not None else NULL) != 0:
+                <const_char *>filename if filename is not None else NULL) != 0:
                     raise RuntimeError("Could not set file")
 
         def __get__(self):
             return _ctouni(elm_photocam_file_get(self.obj))
 
-    def file_set(self, file):
-        self.file = file
+    def file_set(self, filename):
+        # TODO: Return EvasLoadError
+        if isinstance(filename, unicode):
+            filename = PyUnicode_AsUTF8String(filename)
+        if elm_photocam_file_set(self.obj,
+            <const_char *>filename if filename is not None else NULL) != 0:
+                raise RuntimeError("Could not set file")
     def file_get(self):
         return _ctouni(elm_photocam_file_get(self.obj))
 
@@ -286,7 +293,7 @@ cdef class Photocam(Object):
         elm_photocam_image_region_get(self.obj, &x, &y, &w, &h)
         return (x, y, w, h)
 
-    def image_region_show(self, x, y, w, h):
+    def image_region_show(self, int x, int y, int w, int h):
         """image_region_show(int x, int y, int w, int h)
 
         Set the viewed region of the image
@@ -305,7 +312,7 @@ cdef class Photocam(Object):
         """
         elm_photocam_image_region_show(self.obj, x, y, w, h)
 
-    def image_region_bring_in(self, x, y, w, h):
+    def image_region_bring_in(self, int x, int y, int w, int h):
         """image_region_bring_in(int x, int y, int w, int h)
 
         Bring in the viewed portion of the image

@@ -39,7 +39,7 @@ styles:
 Of all this styles only default shows the title.
 
 This widget emits the following signals, besides the ones sent from
-:py:class:`elementary.layout.Layout`:
+:py:class:`~efl.elementary.layout_class.LayoutClass`:
 
 - ``"clicked"`` - The user has clicked the frame's label
 

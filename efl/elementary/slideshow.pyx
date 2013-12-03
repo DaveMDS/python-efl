@@ -39,9 +39,9 @@ update the widget's code.
 Slideshow items
 ===============
 
-For slideshow items, just like for :py:class:`Genlist` "genlist" ones,
-the user defines a **classes**, specifying functions that will be
-called on the item's creation and deletion times.
+For slideshow items, just like for :py:class:`~efl.elementary.genlist.Genlist`
+ones, the user defines a **classes**, specifying functions that will be called
+on the item's creation and deletion times.
 
 The :py:class:`SlideshowItemClass` class contains the following
 members:
@@ -49,7 +49,7 @@ members:
 - ``get`` - When an item is displayed, this function is
   called, and it's where one should create the item object, de
   facto. For example, the object can be a pure Evas image object
-  or an Elementary :py:class:`Photocam` "photocam" widget.
+  or a :py:class:`~efl.elementary.photocam.Photocam` widget.
 
 - ``delete`` - When an item is no more displayed, this function
   is called, where the user must delete any data associated to
@@ -67,7 +67,7 @@ cached **before** and **after** the current item, in the widget's
 item list.
 
 This widget emits the following signals, besides the ones sent from
-:py:class:`elementary.layout.Layout`:
+:py:class:`efl.elementary.layout_class.LayoutClass`:
 
 - ``"changed"`` - when the slideshow switches its view to a new item.
     event_info parameter in callback contains the current visible item

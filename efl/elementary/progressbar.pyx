@@ -39,14 +39,14 @@ A progress bar may be **inverted**, in which case it gets its values
 inverted, i.e., high values being on the left or top and low values on
 the right or bottom, for horizontal and vertical modes respectively.
 
-The **span** of the progress, as set by :py:attr:`span_size`, is its length
-(horizontally or vertically), unless one puts size hints on the widget
-to expand on desired directions, by any container. That length will be
-scaled by the object or applications scaling factor. Applications can
-query the progress bar for its value with :py:attr:`value`.
+The **span** of the progress, as set by :py:attr:`~Progressbar.span_size`, is
+its length (horizontally or vertically), unless one puts size hints on the
+widget to expand on desired directions, by any container. That length will be
+scaled by the object or applications scaling factor. Applications can query the
+progress bar for its value with :py:attr:`~Progressbar.value`.
 
 This widget emits the following signals, besides the ones sent from
-:py:class:`elementary.layout.Layout`:
+:py:class:`~efl.elementary.layout_class.LayoutClass`:
 
 - ``changed`` - when the value is changed
 - ``focused`` - When the progressbar has received focus. (since 1.8)

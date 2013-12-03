@@ -33,7 +33,7 @@ item can display combination of Text and any Evas_Object like Images or
 other widget.
 
 This widget emits the following signals, besides the ones sent from
-:py:class:`elementary.layout.Layout`:
+:py:class:`~efl.elementary.layout_class.LayoutClass`:
 
 - ``"changed"`` - When the user clicks on a segment item which is not
   previously selected and get selected. The event_info parameter is the
@@ -128,10 +128,11 @@ cdef class SegmentControl(LayoutClass):
         i.e., will be set as **last** item.
 
         If it should be inserted at another position,
-        elm_segment_control_item_insert_at() should be used instead.
+        :py:meth:`item_insert_at` should be used instead.
 
         Items created with this function can be deleted with function
-        :py:func:`ObjectItem.delete()` or :py:func:`item_del_at()`.
+        :py:meth:`efl.elementary.object_item.ObjectItem.delete` or
+        :py:meth:`item_del_at`.
 
         Simple example::
 
@@ -147,14 +148,10 @@ cdef class SegmentControl(LayoutClass):
             centered. If it has icon and label, even that an empty string,
             icon will be smaller and positioned at left.
 
-        .. seealso::
-            :py:func:`SegmentControl.item_insert_at()`
-            :py:func:`ObjectItem.delete()`
-
         :param icon: The icon object to use for the left side of the item. An
-            icon can be any Evas object, but usually it is an icon created
-            with elm_icon_add().
-        :type icon: :py:class:`Object`
+            icon can be any Evas object, but usually it is an
+            :py:class:`~efl.elementary.icon.Icon`.
+        :type icon: :py:class:`~efl.evas.Object`
         :param label: The label of the item. Note that, None is different
             from empty string "".
         :type label: string
@@ -182,11 +179,12 @@ cdef class SegmentControl(LayoutClass):
 
         Index values must be between ``0``, when item will be prepended to
         segment control, and items count, that can be get with
-        elm_segment_control_item_count_get(), case when item will be appended
-        to segment control, just like elm_segment_control_item_add().
+        :py:attr:`item_count`, case when item will be appended
+        to segment control, just like :py:meth:`item_add`.
 
         Items created with this function can be deleted with function
-        elm_object_item_del() or elm_segment_control_item_del_at().
+        :py:meth:`~efl.elementary.object_item.ObjectItem.delete` or
+        :py:meth:`item_del_at`.
 
         .. note:: ``label`` set to ``None`` is different from empty string "".
             If an item only has icon, it will be displayed bigger and
@@ -194,14 +192,14 @@ cdef class SegmentControl(LayoutClass):
             icon will be smaller and positioned at left.
 
         .. seealso::
-            :py:func:`SegmentControl.item_add()`
-            :py:func:`SegmentControl.item_count_get()`
-            :py:func:`ObjectItem.delete()`
+            :py:meth:`item_add`
+            :py:attr:`item_count`
+            :py:meth:`efl.elementary.object_item.ObjectItem.delete`
 
         :param icon: The icon object to use for the left side of the item. An
-            icon can be any Evas object, but usually it is an icon created
-            with elm_icon_add().
-        :type icon: :py:class:`Object`
+            icon can be any Evas object, but usually it is an
+            :py:class:`~efl.elementary.icon.Icon`.
+        :type icon: :py:class:`~efl.evas.Object`
         :param label: The label of the item.
         :type label: string
         :param index: Item position. Value should be between 0 and items count.
@@ -229,8 +227,8 @@ cdef class SegmentControl(LayoutClass):
         Remove a segment control item at given index from its parent,
         deleting it.
 
-        Items can be added with elm_segment_control_item_add() or
-        elm_segment_control_item_insert_at().
+        Items can be added with :py:meth:`item_add` or
+        :py:meth:`item_insert_at`.
 
         :param index: The position of the segment control item to be deleted.
         :type index: int
@@ -257,7 +255,7 @@ cdef class SegmentControl(LayoutClass):
         Index is the position of an item in segment control widget. Its
         range is from ``0`` to <tt> count - 1 </tt>.
         Count is the number of items, that can be get with
-        elm_segment_control_item_count_get().
+        :py:attr:`item_count`.
 
         :param index: The index of the segment item.
         :type index: int
@@ -273,13 +271,9 @@ cdef class SegmentControl(LayoutClass):
         Get the label of item.
 
         The return value is a pointer to the label associated to the item when
-        it was created, with function elm_segment_control_item_add(), or later
-        with function elm_object_item_text_set. If no label
-        was passed as argument, it will return ``None``.
-
-        .. seealso::
-            :py:func:`ObjectItem.text_set()` for more details.
-            :py:func:`SegmentControl.item_add()`
+        it was created, with function :py:meth:`item_add`, or later with
+        function :py:attr:`~efl.elementary.object_item.ObjectItem.text`. If no
+        label was passed as argument, it will return ``None``.
 
         :param index: The index of the segment item.
         :type index: int
@@ -294,28 +288,21 @@ cdef class SegmentControl(LayoutClass):
 
         Get the icon associated to the item.
 
-        The return value is a pointer to the icon associated to the item when
-        it was created, with function elm_segment_control_item_add(), or later
-        with function elm_object_item_part_content_set(). If no icon
-        was passed as argument, it will return ``None``.
-
-        .. seealso::
-            :py:func:`SegmentControl.item_add()`
-            :py:func:`ObjectItem.part_content_set()`
+        The return value is a pointer to the icon associated to the item when it
+        was created, with function :py:meth:`item_add`, or later with function
+        :py:meth:`~efl.elementary.object_item.ObjectItem.part_content_set`. If
+        no icon was passed as argument, it will return ``None``.
 
         :param index: The index of the segment item.
         :type index: int
         :return: The left side icon associated to the item at ``index``.
-        :rtype: :py:class:`Object`
+        :rtype: :py:class:`~efl.evas.Object`
 
         """
         return object_from_instance(elm_segment_control_item_icon_get(self.obj, index))
 
     property item_selected:
-        """Get the selected item.
-
-        The selected item can be unselected with function
-        elm_segment_control_item_selected_set().
+        """The selected item.
 
         The selected item always will be highlighted on segment control.
 

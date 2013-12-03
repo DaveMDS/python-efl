@@ -26,9 +26,11 @@ Widget description
 This is an entry made to be filled with or display a file
 system path string.
 
-Besides the entry itself, the widget has a :py:class:`FileselectorButton`
-on its side, which will raise an internal :py:class:`Fileselector`,
-when clicked, for path selection aided by file system navigation.
+Besides the entry itself, the widget has a
+:py:class:`~efl.elementary.fileselector_button.FileselectorButton` on its side,
+which will raise an internal
+:py:class:`~efl.elementary.fileselector.Fileselector`, when clicked, for path
+selection aided by file system navigation.
 
 This file selector may appear in an Elementary window or in an
 inner window. When a file is chosen from it, the (inner) window

@@ -33,7 +33,7 @@ together yourself. It is intended for a small number of items in the
 hoversel menu (no more than 8), though is capable of many more.
 
 This widget emits the following signals, besides the ones sent from
-:py:class:`elementary.button.Button`:
+:py:class:`~efl.elementary.button.Button`:
 
 - ``"clicked"`` - the user clicked the hoversel button and popped up
     the sel
@@ -106,7 +106,7 @@ cdef class HoverselItem(ObjectItem):
             icon_type = ELM_ICON_NONE, callback = None, cb_data = None,
             *args, **kargs):
         """For more information on what ``icon_file`` and ``icon_type`` are,
-        see :py:class:`elementary.icon.Icon`.
+        see :py:class:`~efl.elementary.icon.Icon`.
 
         :param label: The text label to use for the item (None if not desired)
         :type label: string
@@ -147,7 +147,7 @@ cdef class HoverselItem(ObjectItem):
             use :py:attr:`HoverselItem.icon` right after this function.
 
         :return: The item added.
-        :rtype: Elm_Object_Item
+        :rtype: HoverselItem
 
         """
         cdef Evas_Smart_Cb cb = NULL
@@ -327,7 +327,7 @@ cdef class Hoversel(Button):
 
         .. seealso:: :py:func:`HoverselItem.add()`
 
-        :type: tuple of Elm_Object_Items
+        :type: tuple of :py:class:`HoverselItem`'s
 
         """
         def __get__(self):

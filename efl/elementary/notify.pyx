@@ -95,7 +95,7 @@ cdef class Notify(Object):
         Once the parent object is set, a previously set one will be disconnected
         and replaced.
 
-        :type: :py:class:`Object`
+        :type: :py:class:`~efl.elementary.object.Object`
 
         """
         def __get__(self):
@@ -113,11 +113,11 @@ cdef class Notify(Object):
         """The time interval after which the notify window is going to be
         hidden.
 
-        Setting this starts the timer controlling when the
-        notify is hidden. Since calling :py:func:`show()` on a notify restarts
-        the timer controlling when the notify is hidden, setting this before the
-        notify is shown will in effect mean starting the timer when the notify is
-        shown.
+        Setting this starts the timer controlling when the notify is hidden.
+        Since calling :py:meth:`efl.evas.Object.show` on a notify restarts the
+        timer controlling when the notify is hidden, setting this before the
+        notify is shown will in effect mean starting the timer when the notify
+        is shown.
 
         .. note:: Set a value <= 0.0 to disable a running timer.
 
@@ -141,8 +141,8 @@ cdef class Notify(Object):
     property allow_events:
         """Whether events should be passed to by a click outside its area.
 
-        When True if the user clicks outside the window the events will be caught
-        by the others widgets, else the events are blocked.
+        When True if the user clicks outside the window the events will be
+        caught by the others widgets, else the events are blocked.
 
         .. note:: The default value is True.
 
@@ -169,7 +169,8 @@ cdef class Notify(Object):
         Sets the alignment in which the notify will appear in its parent.
 
         .. note:: To fill the notify box in the parent area, please pass
-            :ref:`ELM_NOTIFY_ALIGN_FILL <ELM_NOTIFY_ALIGN_FILL>` to ``horizontal``, ``vertical``.
+            :ref:`ELM_NOTIFY_ALIGN_FILL` to
+            ``horizontal``, ``vertical``.
 
         :since: 1.8
 

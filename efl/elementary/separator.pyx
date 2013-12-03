@@ -28,7 +28,7 @@ Separator is a very thin object used to separate other objects.
 A separator can be vertical or horizontal.
 
 This widget emits the signals coming from
-:py:class:`elementary.layout_class.LayoutClass`.
+:py:class:`~efl.elementary.layout_class.LayoutClass`.
 
 """
 
