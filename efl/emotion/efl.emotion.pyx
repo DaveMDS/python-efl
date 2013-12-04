@@ -184,16 +184,12 @@ cdef class Emotion(evasObject):
     def __cinit__(self, *a, **ka):
         self._emotion_callbacks = {}
 
-    def __init__(self, Canvas canvas not None, **kargs):
+    def __init__(self, Canvas canvas not None, module_name="gstreamer",
+        module_params=None, **kwargs):
+
         self._set_obj(emotion_object_add(canvas.obj))
         _register_decorated_callbacks(self)
-        self._set_common_params(**kargs)
 
-    def _set_common_params(self, module_name="gstreamer",
-                           module_params=None, size=None, pos=None,
-                           geometry=None, color=None, name=None):
-        evasObject._set_common_params(self, size=size, pos=pos, name=name,
-                                      geometry=geometry, color=color)
         if isinstance(module_name, unicode):
             module_name = PyUnicode_AsUTF8String(module_name)
         if emotion_object_init(self.obj,
@@ -206,6 +202,8 @@ cdef class Emotion(evasObject):
         if isinstance(module_params, dict):
             for opt, val in module_params.iteritems():
                 emotion_object_module_option_set(self.obj, opt, val)
+
+        self._set_properties_from_keyword_args(kwargs)
 
     def __str__(self):
         x, y, w, h = self.geometry_get()
