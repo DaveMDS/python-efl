@@ -200,18 +200,11 @@ cdef class Object(Eo):
 
         return 1
 
-    def _set_common_params(self, size=None, pos=None, geometry=None,
-                           color=None, name=None):
-        if size is not None:
-            self.size_set(*size)
-        if pos is not None:
-            self.pos_set(*pos)
-        if geometry is not None:
-            self.geometry_set(*geometry)
+    cdef int _set_properties_from_keyword_args(self, dict kwargs) except 0:
+        color = kwargs.pop("color", None)
         if color is not None:
             self.color_set(*color_parse(color))
-        if name is not None:
-            self.name_set(name)
+        return Eo._set_properties_from_keyword_args(self, kwargs)
 
     def delete(self):
         """delete()

@@ -37,12 +37,9 @@ cdef class Polygon(Object):
     :type points: tuple of x, y int pairs
 
     """
-    def __init__(self, Canvas canvas not None, **kargs):
+    def __init__(self, Canvas canvas not None, points=None, **kwargs):
         self._set_obj(evas_object_polygon_add(canvas.obj))
-        self._set_common_params(**kargs)
-
-    def _set_common_params(self, points=None, **kargs):
-        Object._set_common_params(self, **kargs)
+        self._set_properties_from_keyword_args(kwargs)
         if points:
             for x, y in points:
                 self.point_add(x, y)

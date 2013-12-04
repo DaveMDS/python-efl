@@ -34,8 +34,9 @@ from efl.utils.conversions cimport eina_list_objects_to_python_list
 
 cdef class Table(Object):
 
-    def __init__(self, Canvas canvas not None):
+    def __init__(self, Canvas canvas not None, **kwargs):
         self._set_obj(evas_object_table_add(canvas.obj))
+        self._set_properties_from_keyword_args(kwargs)
 
     @classmethod
     def add_to(cls, Object parent):

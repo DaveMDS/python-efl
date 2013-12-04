@@ -39,17 +39,9 @@ cdef class Textblock(Object):
 
     """
 
-    def __init__(self, Canvas canvas not None, **kargs):
+    def __init__(self, Canvas canvas not None, **kwargs):
         self._set_obj(evas_object_textblock_add(canvas.obj))
-        self._set_common_params(**kargs)
-
-    def _set_common_params(self, text_markup=None, style=None, **kargs):
-        Object._set_common_params(self, **kargs)
-
-        if style is not None:
-            self.style_set(style)
-        if text_markup is not None:
-            self.text_markup_set(text_markup)
+        self._set_properties_from_keyword_args(kwargs)
 
     property style:
         """Style

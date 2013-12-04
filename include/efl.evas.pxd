@@ -882,7 +882,7 @@ cdef class Map(object):
 
 cdef class Object(Eo):
     cdef list _event_callbacks
-
+    cdef int _set_properties_from_keyword_args(self, dict) except 0
 
 cdef class Rectangle(Object):
     pass

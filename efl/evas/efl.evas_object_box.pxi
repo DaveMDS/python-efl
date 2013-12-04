@@ -42,9 +42,9 @@ cdef class Box(Object):
     :type name: string
 
     """
-    def __init__(self, Canvas canvas not None, **kargs):
+    def __init__(self, Canvas canvas not None, **kwargs):
         self._set_obj(evas_object_box_add(canvas.obj))
-        self._set_common_params(**kargs)
+        self._set_properties_from_keyword_args(kwargs)
 
     property align:
         """Alignment of the whole bounding box of contents

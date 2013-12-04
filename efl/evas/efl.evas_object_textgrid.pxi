@@ -212,8 +212,9 @@ cdef class TextgridCell(object):
 
 cdef class Textgrid(Object):
 
-    def __init__(self, Canvas canvas not None):
+    def __init__(self, Canvas canvas not None, **kwargs):
         self._set_obj(evas_object_textgrid_add(canvas.obj))
+        self._set_properties_from_keyword_args(kwargs)
 
     property size:
         """The size of the textgrid object.

@@ -135,9 +135,9 @@ cdef class Rectangle(Object):
     :type name: string
 
     """
-    def __init__(self, Canvas canvas not None, **kargs):
+    def __init__(self, Canvas canvas not None, **kwargs):
         self._set_obj(evas_object_rectangle_add(canvas.obj))
-        self._set_common_params(**kargs)
+        self._set_properties_from_keyword_args(kwargs)
 
 
 _object_mapping_register("Evas_Rectangle", Rectangle)

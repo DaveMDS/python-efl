@@ -53,24 +53,16 @@ cdef class Text(Object):
 
     """
 
-    def __init__(self, Canvas canvas not None, **kargs):
-        self._set_obj(evas_object_text_add(canvas.obj))
-        self._set_common_params(**kargs)
+    def __init__(self, Canvas canvas not None, font=None, shadow_color=None,
+        glow_color=None, glow2_color=None, outline_color=None, **kwargs):
 
-    def _set_common_params(self, text=None, font=None, font_source=None,
-                           style=None, shadow_color=None, glow_color=None,
-                           glow2_color=None, outline_color=None, **kargs):
-        Object._set_common_params(self, **kargs)
-        if text is not None:
-            self.text_set(text)
-        if font_source:
-            self.font_source_set(font_source)
+        self._set_obj(evas_object_text_add(canvas.obj))
+        self._set_properties_from_keyword_args(kwargs)
+
         if font:
             if not isinstance(font, (tuple, list)):
                 font = (font,)
             self.font_set(*font)
-        if style is not None:
-            self.style_set(style)
         if shadow_color is not None:
             self.shadow_color_set(*color_parse(shadow_color))
         if glow_color is not None:

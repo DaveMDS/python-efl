@@ -140,16 +140,15 @@ cdef class Image(Object):
     :type file: string
 
     """
-    def __init__(self, Canvas canvas not None, **kargs):
+    def __init__(self, Canvas canvas not None, file=None, **kwargs):
         self._set_obj(evas_object_image_add(canvas.obj))
-        self._set_common_params(**kargs)
 
-    def _set_common_params(self, file=None, **kargs):
-        if file:
-            if isinstance(file, str):
+        if file is not None:
+            if not isinstance(file, (list, tuple)):
                 file = (file, None)
             self.file_set(*file)
-        Object._set_common_params(self, **kargs)
+
+        self._set_properties_from_keyword_args(kwargs)
 
     # TODO:
     # def memfile_set(self, data, size=None, format=None, key=None):

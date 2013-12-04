@@ -395,7 +395,7 @@ cdef class SmartObject(Object):
     def __dealloc__(self):
         self._smart_callbacks = None
 
-    def __init__(self, Canvas canvas not None, **kargs):
+    def __init__(self, Canvas canvas not None, **kwargs):
         cdef long addr
         if type(self) is SmartObject:
             raise TypeError("Must not instantiate SmartObject, but subclasses")
@@ -403,7 +403,8 @@ cdef class SmartObject(Object):
             addr = self.__evas_smart_class__
 #             self._add_obj(evas_object_smart_class_get(), self.evas.obj)
             self._set_obj(evas_object_smart_add(canvas.obj, <Evas_Smart*>addr))
-        self._set_common_params(**kargs)
+
+        self._set_properties_from_keyword_args(kwargs)
 
     def member_add(self, Object child):
         """member_add(Object child)
