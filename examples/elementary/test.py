@@ -113,8 +113,6 @@ items = [
         ]),
          ("Geographic", [
             ("Map", "test_map", "map_clicked"),
-            ("Map Overlay", "test_map2", "map_overlays_clicked"),
-            ("Map Route", "test_map3", "map_route_clicked"),
         ]),
          ("Images", [
             ("Icon", "test_icon", "icon_clicked"),
