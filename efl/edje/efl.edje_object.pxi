@@ -127,25 +127,25 @@ cdef class Edje(Object):
     def __cinit__(self, *a, **ka):
         self._signal_callbacks = {}
 
-    def __init__(self, Canvas canvas not None, **kargs):
+    def __init__(self, Canvas canvas not None, file=None, group=None, size=None,
+        geometry=None, **kwargs):
+
         self._set_obj(edje_object_add(canvas.obj))
         _register_decorated_callbacks(self)
-        self._set_common_params(**kargs)
+
+        if file:
+            self.file_set(file, group)
+
+        self._set_properties_from_keyword_args(kwargs)
+
+        if not size and not geometry:
+            w, h = self.size_min_get()
+            self.size_set(w, h)
 
     def __free_wrapper_resources(self, ed):
         self._signal_callbacks.clear()
         self._text_change_cb = None
         self._message_handler_cb = None
-
-    def _set_common_params(self, file=None, group=None, size=None, pos=None,
-                           geometry=None, color=None, name=None):
-        if file:
-            self.file_set(file, group)
-        Object._set_common_params(self, size=size, pos=pos, geometry=geometry,
-                                  color=color, name=name)
-        if not size and not geometry:
-            w, h = self.size_min_get()
-            self.size_set(w, h)
 
     def __str__(self):
         x, y, w, h = self.geometry_get()
