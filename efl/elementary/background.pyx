@@ -65,7 +65,7 @@ Background display modes
 
 from cpython cimport PyUnicode_AsUTF8String
 
-from efl.eo cimport _object_mapping_register
+from efl.eo cimport _object_mapping_register, Eo
 from efl.utils.conversions cimport _ctouni
 from efl.evas cimport Object as evasObject
 from layout_class cimport LayoutClass
@@ -85,6 +85,10 @@ cdef class Background(LayoutClass):
     def __init__(self, evasObject parent, *args, **kwargs):
         self._set_obj(elm_bg_add(parent.obj))
         self._set_properties_from_keyword_args(kwargs)
+
+    cdef int _set_properties_from_keyword_args(self, dict kwargs) except 0:
+        # Bypass the Evas one so that color works as expected
+        return Eo._set_properties_from_keyword_args(self, kwargs)
 
     property file:
         """The file (image or edje collection) giving life for the background.
