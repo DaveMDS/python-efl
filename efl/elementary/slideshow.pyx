@@ -207,16 +207,10 @@ cdef class SlideshowItemClass (object):
             except AttributeError:
                 pass
 
-    def __str__(self):
-        return ("%s(get_func=%s, del_func=%s)") % \
-               (self.__class__.__name__,
-                self._get_func,
-                self._del_func)
-
     def __repr__(self):
-        return ("%s(%#x, refcount=%d, Elm_Slideshow_Item_Class=%#x, "
-                "get_func=%s, del_func=%s)") % \
-               (self.__class__.__name__,
+        return ("<%s(%#x, refcount=%d, Elm_Slideshow_Item_Class=%#x, "
+                "get_func=%s, del_func=%s)>") % \
+               (type(self).__name__,
                 <unsigned long><void *>self,
                 PY_REFCOUNT(self),
                 <unsigned long>&self.obj,
@@ -256,6 +250,16 @@ cdef class SlideshowItem(ObjectItem):
         self.cls = item_class
         self.args = args
         self.kwargs = kwargs
+
+    def __repr__(self):
+        return ("<%s(%#x, refcount=%d, Elm_Object_Item=%#x, "
+                "item_class=%s, item_data=%r)>") % \
+               (type(self).__name__,
+                <unsigned long><void*>self,
+                PY_REFCOUNT(self),
+                <unsigned long>self.obj,
+                type(self.cls).__name__,
+                self.args)
 
     def add_to(self, Slideshow slideshow not None):
         """add_to(Slideshow slideshow) -> SlideshowItem
@@ -335,22 +339,6 @@ cdef class SlideshowItem(ObjectItem):
             return self
         else:
             Py_DECREF(self)
-
-    def __str__(self):
-        return "%s(item_class=%s, item_data=%s)" % \
-               (type(self).__name__,
-                type(self.cls).__name__,
-                self.args)
-
-    def __repr__(self):
-        return ("%s(%#x, refcount=%d, Elm_Object_Item=%#x, "
-                "item_class=%s, item_data=%r)") % \
-               (type(self).__name__,
-                <unsigned long><void*>self,
-                PY_REFCOUNT(self),
-                <unsigned long>self.obj,
-                type(self.cls).__name__,
-                self.args)
 
     property object:
         """Get the real Evas object created to implement the view of a given
