@@ -849,8 +849,9 @@ cdef class Window(Object):
 
             ret = elm_win_available_profiles_get(self.obj, &profiles, &count)
             if ret == 0:
-                raise RuntimeError("No available profiles")
-            return array_of_strings_to_python_list(profiles, count)
+                return None
+            else:
+                return array_of_strings_to_python_list(profiles, count)
 
     def available_profiles_set(self, list profiles):
         cdef:
@@ -874,8 +875,9 @@ cdef class Window(Object):
 
         ret = elm_win_available_profiles_get(self.obj, &profiles, &count)
         if ret == 0:
-            raise RuntimeError("No available profiles")
-        return array_of_strings_to_python_list(profiles, count)
+            return None
+        else:
+            return array_of_strings_to_python_list(profiles, count)
 
     property profile:
         """The profile of a window.
