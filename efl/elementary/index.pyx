@@ -71,6 +71,7 @@ from cpython cimport PyUnicode_AsUTF8String, Py_DECREF
 
 from efl.eo cimport _object_mapping_register
 from efl.utils.conversions cimport _ctouni
+from efl.utils.deprecated cimport DEPRECATED
 from efl.evas cimport Object as evasObject
 from layout_class cimport LayoutClass
 from object_item cimport _object_item_callback, _object_item_to_python, \
@@ -467,6 +468,7 @@ cdef class Index(LayoutClass):
     #     return IndexItem(ELM_INDEX_ITEM_INSERT_SORTED, self, letter,
     #                     None, callback, *args, **kargs)
 
+    @DEPRECATED("1.8", "Broken, don't use.")
     def item_find(self, data):
         """item_find(data) -> IndexItem
 
