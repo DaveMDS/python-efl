@@ -205,10 +205,11 @@ cdef class ListItem(ObjectItem):
 
         :param string label: The label of the list item.
         :param  icon: The icon object to use for the left side of the item. An
-                      icon can be any Evas object, but usually it is an :py:class:`Icon`.
+            icon can be any Evas object, but usually it is an
+            :py:class:`~efl.elementary.icon.Icon`.
         :type   icon: :py:class:`~efl.evas.Object`
         :param   end: The icon object to use for the right side of the item. An
-                      icon can be any Evas object.
+            icon can be any Evas object.
         :type    end: :py:class:`~efl.evas.Object`
         :param callable callback: The function to call when the item is clicked.
         :param cb_data: An object associated with the callback.
@@ -255,7 +256,7 @@ cdef class ListItem(ObjectItem):
         be set as **last** item.
 
         Items created with this method can be deleted with
-        :py:meth:`~elementary.object_item.ObjectItem.delete`.
+        :py:meth:`~efl.elementary.object_item.ObjectItem.delete`.
 
         If a function is passed as argument, it will be called every time this item
         is selected, i.e., the user clicks over an unselected item.

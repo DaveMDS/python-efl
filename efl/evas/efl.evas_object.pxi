@@ -108,23 +108,22 @@ cdef _object_del_callback_from_list(Object obj, int type, func):
 cdef class Object(Eo):
     """ Basic Graphical Object (or actor).
 
-    :py:class:`Objects <efl.evas.Object>` are managed by
-    :py:class:`Canvas <efl.evas.Canvas>` in a non-immediate way, that is,
-    all operations, like moving, resizing, changing the color, etc will
-    not trigger immediate repainting, instead it will save the new state
-    and mark both this object and its Canvas as "dirty" so can be redrawn
-    on :py:func:`Canvas.render() <efl.evas.Canvas.render>` (usually called by the underlying system, when
-    you're entering idle. This means that doesn't matter how many times
-    you're moving an object between frame updates: just the last state
-    will be used, that's why you really should do animations
-    using :py:func:`efl.ecore.animator_add` instead of :py:func:`efl.ecore.timer_add`, since
-    it will call registered functions in one batch and then trigger redraw,
-    instead of calling one function, then redraw, then the next function,
-    and redraw...
+    Objects are managed by :py:class:`Canvas <efl.evas.Canvas>` in a non-
+    immediate way, that is, all operations, like moving, resizing, changing the
+    color, etc will not trigger immediate repainting, instead it will save the
+    new state and mark both this object and its Canvas as "dirty" so can be
+    redrawn on :py:func:`Canvas.render() <efl.evas.Canvas.render>` (usually
+    called by the underlying system, when you're entering idle. This means that
+    doesn't matter how many times you're moving an object between frame updates:
+    just the last state will be used, that's why you really should do animations
+    using :py:func:`~efl.ecore.Animator` instead of
+    :py:class:`~efl.ecore.Timer`, since it will call registered functions in one
+    batch and then trigger redraw, instead of calling one function, then redraw,
+    then the next function, and redraw...
 
     The most important concept for evas object is *clipping*
     (:py:attr:`clip`), usually done by use of
-    :py:class:`Rectangle <efl.evas.Rectangle>` as clipper. Clip objects will
+    :py:class:`~efl.evas.Rectangle` as clipper. Clip objects will
     affect the drawing behavior:
 
     - Limiting visibility

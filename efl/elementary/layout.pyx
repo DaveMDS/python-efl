@@ -68,10 +68,10 @@ Content (SWALLOW part)
 Box (BOX part)
 
     An Edje ``BOX`` part is very similar to the Elementary
-    :py:class:`elementary.box.Box` widget. It allows one to add objects to the
-    box and have them distributed along its area, accordingly to the specified
-    ``layout`` property (now by ``layout`` we mean the chosen layouting design
-    of the Box, not the Layout widget itself).
+    :py:class:`~efl.elementary.box.Box` widget. It allows one to add objects to
+    the box and have them distributed along its area, accordingly to the
+    specified ``layout`` property (now by ``layout`` we mean the chosen
+    layouting design of the Box, not the Layout widget itself).
 
     A similar effect for having a box with its position, size and other things
     controlled by the Layout theme would be to create an Elementary

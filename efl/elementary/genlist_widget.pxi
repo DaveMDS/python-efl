@@ -394,9 +394,9 @@ cdef class Genlist(Object):
         the original item data has changed and the changes are desired to be
         reflected.
 
-        To update just one item, use elm_genlist_item_update().
+        To update just one item, use :py:meth:`Genlist.item_update`.
 
-        .. seealso:: :py:attr:`realized_items` :py:func:`item_update()`
+        .. seealso:: :py:attr:`realized_items`
 
         """
         elm_genlist_realized_items_update(self.obj)

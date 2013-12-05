@@ -274,8 +274,9 @@ cdef class CalendarMark(object):
 
         Delete a mark from the calendar.
 
-        If deleting all calendar marks is required, ``del`` :py:attr:`marks`
-        should be used instead of getting marks list and deleting each one.
+        If deleting all calendar marks is required, ``del``
+        :py:attr:`Calendar.marks` should be used instead of getting marks list
+        and deleting each one.
 
         .. seealso:: :py:meth:`Calendar.mark_add`
 

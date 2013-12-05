@@ -208,28 +208,26 @@ cdef class FlipSelectorItem(ObjectItem):
             return bool(elm_flipselector_item_selected_get(self.item))
 
     property prev:
-        """Gets the item before ``item`` in a flip selector widget's internal list of
-        items.
+        """Gets the item before ``item`` in a flip selector widget's internal
+        list of items.
 
         :type: :py:class:`FlipSelectorItem`
 
-        .. seealso:: :py:func:`item_next_get`
-
         """
         def __get__(self):
-            return _object_item_to_python(elm_flipselector_item_prev_get(self.item))
+            return _object_item_to_python(
+                elm_flipselector_item_prev_get(self.item))
 
     property next:
-        """Gets the item after ``item`` in a flip selector widget's
-        internal list of items.
+        """Gets the item after ``item`` in a flip selector widget's internal
+        list of items.
 
         :type: :py:class:`FlipSelectorItem`
 
-        .. seealso:: :py:func:`item_prev_get`
-
         """
         def __get__(self):
-            return _object_item_to_python(elm_flipselector_item_next_get(self.item))
+            return _object_item_to_python(
+                elm_flipselector_item_next_get(self.item))
 
 cdef class FlipSelector(Object):
 
@@ -345,7 +343,8 @@ cdef class FlipSelector(Object):
 
         """
         def __get__(self):
-            return tuple(_object_item_list_to_python(elm_flipselector_items_get(self.obj)))
+            return tuple(_object_item_list_to_python(
+                elm_flipselector_items_get(self.obj)))
 
     property first_item:
         """Get the first item in the given flip selector widget's list of
@@ -358,7 +357,8 @@ cdef class FlipSelector(Object):
 
         """
         def __get__(self):
-            return _object_item_to_python(elm_flipselector_first_item_get(self.obj))
+            return _object_item_to_python(
+                elm_flipselector_first_item_get(self.obj))
 
     property last_item:
         """Get the last item in the given flip selector widget's list of
@@ -371,7 +371,8 @@ cdef class FlipSelector(Object):
 
         """
         def __get__(self):
-            return _object_item_to_python(elm_flipselector_last_item_get(self.obj))
+            return _object_item_to_python(
+                elm_flipselector_last_item_get(self.obj))
 
     property selected_item:
         """Get the currently selected item in a flip selector widget.
@@ -380,7 +381,8 @@ cdef class FlipSelector(Object):
 
         """
         def __get__(self):
-            return _object_item_to_python(elm_flipselector_selected_item_get(self.obj))
+            return _object_item_to_python(
+                elm_flipselector_selected_item_get(self.obj))
 
     property first_interval:
         """The interval on time updates for a user mouse button hold on a

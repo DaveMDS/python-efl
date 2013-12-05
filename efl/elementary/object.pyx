@@ -1509,7 +1509,9 @@ cdef class Object(evasObject):
     def domain_translatable_text_set(self, domain, text):
         """domain_translatable_text_set(unicode domain, unicode text)
 
-        Convenience function"""
+        A convenience function.
+
+        """
         if isinstance(domain, unicode): domain = PyUnicode_AsUTF8String(domain)
         if isinstance(text, unicode): text = PyUnicode_AsUTF8String(text)
         elm_object_domain_translatable_text_set(self.obj,
@@ -1578,7 +1580,7 @@ cdef class Object(evasObject):
             translatable)
 
     property translatable_text:
-        # TODO: Document this
+        """Translatable text for the main text part of the widget."""
         def __get__(self):
             return self.translatable_text_get()
         def __set__(self, text):

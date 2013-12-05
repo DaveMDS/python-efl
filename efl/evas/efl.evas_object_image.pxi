@@ -61,19 +61,20 @@ cdef class Image(Object):
     other size was set with :py:attr:`load_size`, :py:attr:`load_dpi` or
     :py:attr:`load_scale_down`.
 
-    Pixels will be scaled to match size specified by :py:attr:`fill`
-    using either sampled or smooth methods, these can be specified with
+    Pixels will be scaled to match size specified by :py:attr:`fill` using
+    either sampled or smooth methods, these can be specified with
     :py:attr:`smooth_scale`. The scale will consider borders as specified by
-    :py:attr:`border` and :py:attr:`border_center_fill`, while the former specify
-    the border dimensions (top and bottom will scale horizontally, while
+    :py:attr:`border` and :py:attr:`border_center_fill`, while the former
+    specify the border dimensions (top and bottom will scale horizontally, while
     right and left will do vertically, corners are kept unscaled), the latter
     says whenever the center of the image will be used (useful to create
     frames).
 
     Contents will be tiled using :py:attr:`fill` information in order to paint
-    :py:attr:`geometry<Object.geometry>`, so if you want an image to be drawn
-    just once, you should match every :py:attr:`geometry` = **x, y, w, h** by a call
-    to :py:attr:`fill` = **0, 0, w, h**. :py:class:`FilledImage` does that for you.
+    :py:attr:`~efl.evas.Object.geometry`, so if you want an image to be drawn
+    just once, you should match every :py:attr:`geometry` = **x, y, w, h** by a
+    call to :py:attr:`fill` = **0, 0, w, h**. :py:class:`FilledImage` does that
+    for you.
 
     .. rubric:: Pixel data and buffer API
 
@@ -120,8 +121,8 @@ cdef class Image(Object):
             R = (r * a) / 32; G = (g * a) / 32; B = (b * a) / 32;
 
     .. note:: if an image is resized it will **tile** it's contents respecting
-        geometry set by :py:func:`fill_set()`, so if you want the contents to be
-        **scaled** you need to call :py:func:`fill_set()` with ``x=0, y=0, w=new_width,
+        geometry set by :py:attr:`fill`, so if you want the contents to be
+        **scaled** you need to call :py:attr:`fill` with ``x=0, y=0, w=new_width,
         h=new_height``, or you should use :py:class:`FilledImage` instead.
 
     :param canvas: Evas canvas for this object
@@ -292,7 +293,7 @@ cdef class Image(Object):
 
         :type: bool
 
-        .. seealso:: :py:func:`filled_add`
+        .. seealso:: :py:class:`FilledImage`
 
         """
         def __set__(self, setting):
@@ -425,7 +426,7 @@ cdef class Image(Object):
         """Get the row stride (in pixels) being used to draw this image.
 
         While image have logical dimension of width and height set by
-        :py:func:`image_size_set()`, the line can be a bit larger than width to
+        :py:attr:`image_size`, the line can be a bit larger than width to
         improve memory alignment.
 
         The amount of bytes will change based on colorspace, while using
@@ -434,7 +435,7 @@ cdef class Image(Object):
         data using stride in multiple of 2 bytes and after that an
         alpha plane with data using stride in multiple of 1 byte.
 
-        .. note:: This value can change after :py:func:`image_size_set()`.
+        .. note:: This value can change after setting :py:attr:`image_size`.
         .. note:: Unit is pixels, not bytes.
 
         :type: int
@@ -1104,10 +1105,11 @@ cdef class Image(Object):
 
         If set to False, the source object of the proxy will be invisible.
 
-        This API works differently to :py:func:`show` and :py:func:`hide`.
-        Once source object is hidden by :py:func:`hide` then the proxy object will
-        be hidden as well. Actually in this case both objects are excluded from the
-        Evas internal update circle.
+        This API works differently to :py:func:`~efl.evas.Object.show` and
+        :py:func:`~efl.evas.Object.hide`. Once source object is hidden by
+        :py:func:`~efl.evas.Object.hide` then the proxy object will be hidden as
+        well. Actually in this case both objects are excluded from the Evas
+        internal update circle.
 
         By this API, instead, one can toggle the visibility of a proxy's source
         object remaining the proxy visibility untouched.
@@ -1119,7 +1121,7 @@ cdef class Image(Object):
             If the all of proxies are deleted, then the source visibility of the
             source object will be cancelled.
 
-        .. seealso:: evas_object_image_source_set()
+        .. seealso:: :py:attr:`source`
 
         :since: 1.8
 
@@ -1346,11 +1348,11 @@ cdef class FilledImage(Image):
 
     Image that automatically resize it's contents to fit object size.
 
-    This :py:class:`Image` subclass already calls :py:func:`Image.fill_set`
+    This :py:class:`Image` subclass already calls :py:attr:`Image.fill`
     on resize so it will match and so be scaled to fill the whole area.
 
     :param canvas: The evas canvas for this object
-    :type canvas: :py:class:`Canvas`
+    :type canvas: :py:class:`~efl.evas.Canvas`
     :keyword size: Width and height
     :type size: tuple of ints
     :keyword pos: X and Y

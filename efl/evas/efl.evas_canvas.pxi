@@ -81,8 +81,8 @@ cdef class Canvas(Eo):
     a number of objects (or actors) that will be managed. Object state
     is monitored and redraw is optimized based on changes.
 
-    :ivar rect: :py:class:`efl.evas.Rect` describing object geometry, for
-        easy manipulation. Changing this :py:class:`evas.rect.Rect` will not
+    :ivar rect: :py:class:`~efl.evas.Rect` describing object geometry, for
+        easy manipulation. Changing this :py:class:`~efl.evas.Rect` will not
         affect current geometry, you have to set it again to have this
         behavior.
 
@@ -90,7 +90,7 @@ cdef class Canvas(Eo):
         order to be functional. So far it's impossible to do this
         association directly from Python, so you should create Canvas
         indirectly using ``efl.elementary`` classes, like
-        :py:class:`efl.elementary.Window`.
+        :py:class:`efl.elementary.window.Window`.
 
     """
     def __cinit__(self, *a, **ka):

@@ -134,7 +134,7 @@ Web zoom modes
 
 .. data:: ELM_WEB_ZOOM_MODE_MANUAL
 
-    Zoom controlled normally by :py:attr:`zoom`
+    Zoom controlled normally by :py:attr:`~Web.zoom`
 
 .. data:: ELM_WEB_ZOOM_MODE_AUTO_FIT
 

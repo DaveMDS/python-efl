@@ -39,7 +39,7 @@ object.
 The radio object(s) will select from one of a set of integer values, so
 any value they are configuring needs to be mapped to a set of integers.
 To configure what value that radio object represents, use
-:py:meth:`~Radio.state_value_set` to set the integer it represents. The
+:py:attr:`~Radio.state_value` to set the integer it represents. The
 value of the whole group (which one is currently selected) is
 represented by the property :py:attr:`~Radio.value` on any group member. For
 convenience the radio objects are also able to directly set an

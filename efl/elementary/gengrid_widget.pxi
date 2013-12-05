@@ -266,7 +266,7 @@ cdef class Gengrid(Object):
     property item_size:
         """A gengrid, after creation, has still no information on the size
         to give to each of its cells. So, you most probably will end up
-        with squares one :ref:`Fingers` "finger" wide, the default
+        with squares one :ref:`finger <Fingers>` wide, the default
         size. Use this property to force a custom size for you items,
         making them as big as you wish.
 

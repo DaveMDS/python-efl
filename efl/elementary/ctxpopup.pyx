@@ -122,7 +122,7 @@ cdef class CtxpopupItem(ObjectItem):
             removed.
 
         :param icon: Icon to be set on new item
-        :type icon: :py:class:`evas.object.Object`
+        :type icon: :py:class:`~efl.evas.Object`
         :param label: The Label of the new item
         :type label: string
         :param func: Convenience function called when item selected

@@ -116,9 +116,9 @@ cdef class DiskselectorItem(ObjectItem):
         disk.item_append("label", ic)
 
     .. seealso::
-        :py:func:`elementary.object_item.ObjectItem.delete()`
-        :py:func:`clear()`
-        :py:class:`elementary.image.Image`
+        :py:meth:`~efl.elementary.object_item.ObjectItem.delete`
+        :py:meth:`Diskselector.clear`
+        :py:class:`~efl.elementary.image.Image`
 
     """
 

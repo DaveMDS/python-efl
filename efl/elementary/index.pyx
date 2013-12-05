@@ -454,17 +454,18 @@ cdef class Index(LayoutClass):
         """
         return IndexItem(letter, callback, *args, **kargs).insert_before(before)
 
-    #def item_sorted_insert(self, letter, callback = None, *args, **kargs):
-        """Insert a new item into the given index widget, using ``cmp_func``
-        function to sort items (by item handles).
+    # TODO:
+    # def item_sorted_insert(self, letter, callback = None, *args, **kargs):
+    #     """Insert a new item into the given index widget, using ``cmp_func``
+    #     function to sort items (by item handles).
 
-        A constructor for :py:class:`IndexItem`
+    #     A constructor for :py:class:`IndexItem`
 
-        :see: :py:func:`IndexItem.insert_sorted`
+    #     :see: :py:func:`IndexItem.insert_sorted`
 
-        """
-        #return IndexItem(ELM_INDEX_ITEM_INSERT_SORTED, self, letter,
-                        #None, callback, *args, **kargs)
+    #     """
+    #     return IndexItem(ELM_INDEX_ITEM_INSERT_SORTED, self, letter,
+    #                     None, callback, *args, **kargs)
 
     def item_find(self, data):
         """item_find(data) -> IndexItem
@@ -485,8 +486,9 @@ cdef class Index(LayoutClass):
 
         Removes **all** items from a given index widget.
 
-        If deletion callbacks are set, via :py:func:`delete_cb_set()`,
-        that callback function will be called for each item.
+        If deletion callbacks are set, via
+        :py:meth:`efl.elementary.object_item.ObjectItem.delete_cb_set`, that
+        callback function will be called for each item.
 
         """
         elm_index_item_clear(self.obj)

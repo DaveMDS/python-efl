@@ -241,12 +241,10 @@ cdef class GengridItem(ObjectItem):
         elm_gengrid_item_update(self.item)
 
     property selected:
-        """This sets the selected state of an item. If multi-selection is
+        """The selected state of an item. If multi-selection is
         not enabled on the containing gengrid and *selected* is ``True``,
         any other previously selected items will get unselected in favor of
-        this new one.
-
-        .. seealso:: :py:func:`item_selected_get()`
+        a new one.
 
         """
         def __get__(self):
@@ -317,6 +315,7 @@ cdef class GengridItem(ObjectItem):
                 <const_char *>text if text is not None else NULL)
 
     def tooltip_text_set(self, text):
+        # TODO: document this
         if isinstance(text, unicode): text = PyUnicode_AsUTF8String(text)
         elm_gengrid_item_tooltip_text_set(self.item,
             <const_char *>text if text is not None else NULL)

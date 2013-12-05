@@ -25,8 +25,8 @@ This widget emits the following signals:
 
 - ``clicked`` - the user clicked the image (press/release).
 - ``image,deleted`` - the server side was deleted.
-- ``image,resized`` - the server side was resized. The ``event_info`` parameter of
-    the callback will be ``Evas_Coord_Size`` (two integers).
+- ``image,resized`` - the server side was resized. The ``event_info`` parameter
+    of the callback will be ``Evas_Coord_Size`` (two integers).
 
 .. note::
 
@@ -83,7 +83,7 @@ cdef class Plug(Object):
             <const_char *>svcname if svcname is not None else NULL, svcnum, svcsys))
 
     property image_object:
-        """Get the basic Evas_Image object from this object (widget).
+        """Get the basic Image object from this object (widget).
 
         This function allows one to get the underlying ``Object`` of type
         Image from this elementary widget. It can be useful to do things
@@ -92,7 +92,7 @@ cdef class Plug(Object):
         .. note:: Be careful to not manipulate it, as it is under control of
             elementary.
 
-        :type: :py:class:`Object`
+        :type: :py:class:`~efl.evas.Image`
 
         """
         def __get__(self):

@@ -317,7 +317,7 @@ cdef class Hoversel(Button):
         .. warning:: Should **not** be called while the hoversel is active;
             use :py:attr:`expanded` to check first.
 
-        .. seealso:: :py:func:`HoverselItem.delete()`
+        .. seealso:: :py:meth:`~efl.elementary.object_item.ObjectItem.delete`
 
         """
         elm_hoversel_clear(self.obj)
@@ -325,7 +325,7 @@ cdef class Hoversel(Button):
     property items:
         """Get the list of items within the given hoversel.
 
-        .. seealso:: :py:func:`HoverselItem.add()`
+        .. seealso:: :py:func:`HoverselItem.add_to()`
 
         :type: tuple of :py:class:`HoverselItem`'s
 

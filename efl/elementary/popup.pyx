@@ -23,7 +23,7 @@
 Widget description
 ------------------
 
-This widget is an enhancement of :py:class:`Notify<efl.elementary.notify.Notify>`.
+This widget is an enhancement of :py:class:`~efl.elementary.notify.Notify`.
 In addition to Content area, there are two optional sections namely Title
 area and Action area.
 
@@ -287,7 +287,7 @@ cdef class Popup(Object):
         :param label: The Label of the new item
         :type label: string
         :param icon: Icon to be set on new item
-        :type icon: :py:class:`Object`
+        :type icon: :py:class:`~efl.evas.Object`
         :param func: Convenience function called when item selected
         :type func: function
 

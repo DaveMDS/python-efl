@@ -125,6 +125,29 @@ pygments_style = 'sphinx'
 # Setting this True will show missing references as warnings.
 #nitpicky = True
 
+# nitpick_ignore = [
+#     ('py:obj', 'int'),
+#     ('py:obj', 'float'),
+#     ('py:obj', 'double'),
+#     ('py:obj', 'callable'),
+#     ('py:obj', 'function'),
+#     ('py:obj', 'str'),
+#     ('py:exc', 'RuntimeError'),
+#     ('py:exc', 'RuntimeWarning'),
+#     ('py:exc', 'ValueError'),
+#     ('py:exc', 'TypeError'),
+#     ('py:obj', 'Evas_Coord (int)'),
+#     ('py:obj', 'string'),
+#     ('py:obj', 'list'),
+#     ('py:class', 'object'),
+#     ('py:obj', 'unicode'),
+#     ('py:obj', 'bool'),
+#     ('py:obj', 'tuple of ints'),
+#     ('py:class', 'efl.eo.Eo'),
+#     ('py:attr', 'efl.eo.Eo.data'),
+#     ('py:obj', 'datetime.date'),
+# ]
+
 # -- Options for HTML output ---------------------------------------------------
 
 # The theme to use for HTML and HTML Help pages.  See the documentation for

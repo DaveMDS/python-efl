@@ -580,7 +580,7 @@ cdef class Emotion(evasObject):
         that doesn't contain a video channel is loaded, then this size can be
         ignored.
         The value reported by this function should be consistent with the aspect
-        ratio returned by :py:func:`ratio_get`, but sometimes the information
+        ratio returned by :py:attr:`ratio`, but sometimes the information
         stored in the file is wrong. So use the ratio size reported by
         py:func:`ratio_get()`, since it is more likely going to be accurate.
 

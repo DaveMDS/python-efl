@@ -271,8 +271,8 @@ cdef class SlideshowItem(ObjectItem):
 
         .. seealso::
             :py:class:`SlideshowItemClass`
-            :py:func:`item_sorted_insert()`
-            :py:attr:`efl.elementary.object_item.ObjectItem.data`
+            :py:meth:`sorted_insert`
+            :py:attr:`~efl.elementary.object_item.ObjectItem.data`
 
         :param item_class: The item class for the item
         :type item_class: :py:class:`SlideshowItemClass`
@@ -309,7 +309,7 @@ cdef class SlideshowItem(ObjectItem):
 
         .. seealso::
             :py:class:`SlideshowItemClass`
-            :py:func:`item_add()`
+            :py:meth:`add_to`
 
         :param itc: The item class for the item
         :param func: The comparing function to be used to sort slideshow
@@ -364,7 +364,7 @@ cdef class SlideshowItem(ObjectItem):
         emitting custom signals or hooking lower level callbacks for events
         on that object. Do not delete this object under any circumstances.
 
-        .. seealso:: :py:attr:`ObjectItem.data`
+        .. seealso:: :py:attr:`~efl.elementary.object_item.ObjectItem.data`
 
         :type: :py:class:`Slideshow`
 
@@ -573,7 +573,10 @@ cdef class Slideshow(LayoutClass):
 
         This removes (and deletes) all items in the object, leaving it empty.
 
-        .. seealso:: :py:func:`ObjectItem.delete()`, to remove just one item.
+        .. seealso::
+
+            :py:meth:`~efl.elementary.object_item.ObjectItem.delete`, to remove
+            just one item.
 
         """
         elm_slideshow_clear(self.obj)
@@ -581,13 +584,16 @@ cdef class Slideshow(LayoutClass):
     property items:
         """Get the internal list of items in a given slideshow widget.
 
-        This list is **not** to be modified in any way and must not be
-        freed. Use the list members with functions like
-        :py:func:`ObjectItem.delete()`, :py:attr:`ObjectItem.data`.
+        This list is **not** to be modified in any way and must not be freed.
+        Use the list members with functions like
+        :py:meth:`~efl.elementary.object_item.ObjectItem.delete`,
+        :py:attr:`~efl.elementary.object_item.ObjectItem.data`.
 
-        .. warning:: This list is only valid until ``obj`` object's internal
-            items list is changed. It should be fetched again with another
-            call to this function when changes happen.
+        .. warning::
+
+            This list is only valid until ``obj`` object's internal items list
+            is changed. It should be fetched again with another call to this
+            function when changes happen.
 
         :type: tuple of :py:class:`SlideshowItem`
 

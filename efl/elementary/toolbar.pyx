@@ -274,7 +274,7 @@ cdef class ToolbarItem(ObjectItem):
         enough. The same should be done for ``data``.
 
         Toolbar will load icon image from fdo or current theme. This
-        behavior can be set by :py:attr:`icon_order_lookup` function.
+        behavior can be set by :py:attr:`Toolbar.icon_order_lookup` function.
         If an absolute path is provided it will load it direct from a file.
 
         :param icon: A string with icon name or the absolute path of an
@@ -446,7 +446,7 @@ cdef class ToolbarItem(ObjectItem):
 
         .. note:: If it is the last item, ``None`` will be returned.
 
-        .. seealso:: :py:meth:`Toolbar.item_append`
+        .. seealso:: :py:meth:`ToolbarItem.append_to`
 
         :type: :py:class:`ToolbarItem`
 
@@ -462,7 +462,7 @@ cdef class ToolbarItem(ObjectItem):
 
         .. note:: If it is the first item, ``None`` will be returned.
 
-        .. seealso:: :py:func:`Toolbar.item_prepend`
+        .. seealso:: :py:func:`ToolbarItem.prepend_to`
 
         :type: :py:class:`ToolbarItem`
 
@@ -555,7 +555,7 @@ cdef class ToolbarItem(ObjectItem):
     property object:
         """Get the object of item.
 
-        :type: :py:class:`Object`
+        :type: :py:class:`~efl.evas.Object`
 
         """
         def __get__(self):
@@ -846,7 +846,7 @@ cdef class Toolbar(Object):
     property first_item:
         """Get the first item in the given toolbar widget's list of items.
 
-        .. seealso:: :py:func:`item_append` :py:attr:`last_item`
+        .. seealso:: :py:func:`ToolbarItem.append_to` :py:attr:`last_item`
 
         :type: :py:class:`ToolbarItem`
 
@@ -860,7 +860,7 @@ cdef class Toolbar(Object):
     property last_item:
         """Get the last item in the given toolbar widget's list of items.
 
-        .. seealso:: :py:func:`item_prepend` :py:attr:`first_item`
+        .. seealso:: :py:func:`ToolbarItem.prepend_to` :py:attr:`first_item`
 
         :type: :py:class:`ToolbarItem`
 
@@ -990,9 +990,9 @@ cdef class Toolbar(Object):
         Each item can be set as item menu, with :py:attr:`ToolbarItem.menu`.
 
         For more details about setting the parent for toolbar menus, see
-        :py:attr:`efl.elementary.menu.Menu.parent`.
+        :py:attr:`~efl.elementary.menu.Menu.parent`.
 
-        :type: :py:class:`Object`
+        :type: :py:class:`~efl.elementary.object.Object`
 
         """
         def __get__(self):

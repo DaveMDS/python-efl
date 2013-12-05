@@ -109,7 +109,7 @@ cdef class Table(Object):
             takes that 1 cell.
 
         :param subobj: The subobject to be added to the table
-        :type subobj: :py:class:`evas.object.Object`
+        :type subobj: :py:class:`~efl.evas.Object`
         :param x: Row number
         :type x: int
         :param y: Column number
@@ -128,7 +128,7 @@ cdef class Table(Object):
         Remove child from table.
 
         :param subobj: The subobject
-        :type subobj: :py:class:`evas.object.Object`
+        :type subobj: :py:class:`~efl.evas.Object`
 
         """
         elm_table_unpack(self.obj, subobj.obj)
@@ -170,7 +170,7 @@ def table_pack_set(evasObject subobj, x, y, w, h):
         takes that 1 cell.
 
     :param subobj: The subobject to be modified in the table
-    :type subobj: :py:class:`evas.object.Object`
+    :type subobj: :py:class:`~efl.evas.Object`
     :param x: Row number
     :type x: int
     :param y: Column number
@@ -191,7 +191,7 @@ def table_pack_get(evasObject subobj):
     .. seealso:: :py:func:`table_pack_set`
 
     :param subobj: The subobject to be modified in the table
-    :type subobj: :py:class:`evas.object.Object`
+    :type subobj: :py:class:`~efl.evas.Object`
     :return: Row number, Column number, rowspan, colspan
     :rtype: tuple of ints
 

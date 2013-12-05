@@ -18,13 +18,40 @@
 
 """
 
+.. _General:
+
+General
+=======
+
+General Elementary API. Functions that don't relate to
+Elementary objects specifically.
+
+Here are documented functions which init/shutdown the library,
+that apply to generic Elementary objects, that deal with
+configuration, et cetera.
+
+
+.. _Fingers:
+
+Fingers
+=======
+
+Elementary is designed to be finger-friendly for touchscreens,
+and so in addition to scaling for display resolution, it can
+also scale based on finger "resolution" (or size). You can then
+customize the granularity of the areas meant to receive clicks
+on touchscreens.
+
+Different profiles may have pre-set values for finger sizes.
+
+
 Enumerations
-------------
+============
 
 .. _Elm_Policy:
 
 Policy types
-============
+------------
 
 .. data:: ELM_POLICY_QUIT
 
@@ -34,7 +61,7 @@ Policy types
 .. _Elm_Policy_Quit:
 
 Quit policy types
-=================
+-----------------
 
 .. data:: ELM_POLICY_QUIT_NONE
 

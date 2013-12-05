@@ -45,10 +45,10 @@ cdef class LayoutClass(Object):
     with some more logic on top.
 
     The idea is to make the creation of that widgets as easy as possible,
-    factorizing code on this common base. For example, a button is a
-    layout (that looks like push button) that happens to react on
-    clicks and keyboard events in a special manner, calling its user
-    back on those events. That's no surprise, then, that the :py:class:`Button`
+    factorizing code on this common base. For example, a button is a layout
+    (that looks like push button) that happens to react on clicks and keyboard
+    events in a special manner, calling its user back on those events. That's no
+    surprise, then, that the :py:class:`efl.elementary.button.Button`
     implementation relies on LayoutClass, if you go to check it.
 
     Container parts, here, map directly to Edje parts from the layout's Edje
@@ -64,6 +64,7 @@ cdef class LayoutClass(Object):
     Elm_Layout_Part_Alias_Description, where it's explained in detail.
 
     """
+
     def content_set(self, swallow=None, evasObject content=None):
         """content_set(unicode swallow, Object content)
 
@@ -226,7 +227,7 @@ cdef class LayoutClass(Object):
         theme that will be used as layout.
 
         Note that ``style`` will be the new style too, as in setting
-        :py:attr:`style`.
+        :py:attr:`~efl.elementary.object.Object.style`.
 
         :type: tuple of strings
         :raise RuntimeError: when setting the theme fails
@@ -543,7 +544,7 @@ cdef class LayoutClass(Object):
         Once the object is inserted, it will become child of the table. Its
         lifetime will be bound to the layout, and whenever the layout dies the
         child will be deleted automatically. One should use
-        :py:meth:`table_remove` to make this layout forget about the object.
+        :py:meth:`table_unpack` to make this layout forget about the object.
 
         If ``colspan`` or ``rowspan`` are bigger than 1, that object will occupy
         more space than a single cell.
@@ -555,7 +556,7 @@ cdef class LayoutClass(Object):
         :param part: the box part to pack child.
         :type part: string
         :param child_obj: the child object to pack into table.
-        :type child_obj: :py:class:`efl.evas.Object`
+        :type child_obj: :py:class:`~efl.evas.Object`
         :param col: the column to which the child should be added. (>= 0)
         :type col: int
         :param row: the row to which the child should be added. (>= 0)

@@ -190,7 +190,7 @@ cdef class Hover(LayoutClass):
         ELM_HOVER_AXIS_BOTH or ELM_HOVER_AXIS_NONE has the same effect and
         the returned position may be in either axis.
 
-        .. seealso:: :py:func:`part_content_set()`
+        .. seealso:: :py:meth:`~efl.elementary.object.Object.part_content_set`
 
         :param pref_axis: The preferred orientation axis for the hover
             object to use

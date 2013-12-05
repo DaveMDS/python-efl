@@ -150,7 +150,7 @@ cdef class Textblock(Object):
 
         :type: (int **w**, int **h**)
 
-        :see: :py:attr:`size_native_get`
+        :see: :py:attr:`size_native`
 
         """
         def __get__(self):

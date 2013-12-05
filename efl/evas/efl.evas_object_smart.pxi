@@ -686,9 +686,9 @@ cdef class SmartObject(Object):
 
     # Factory
     def Rectangle(self, **kargs):
-        """Factory of children :py:class:`evas.Rectangle`.
+        """Factory of children :py:class:`~efl.evas.Rectangle`.
 
-        :rtype: :py:class:`Rectangle<evas.Rectangle>`
+        :rtype: :py:class:`~efl.evas.Rectangle`
 
         """
         obj = Rectangle(self.evas, **kargs)
@@ -696,9 +696,9 @@ cdef class SmartObject(Object):
         return obj
 
     def Line(self, **kargs):
-        """Factory of children :py:class:`evas.Line`.
+        """Factory of children :py:class:`~efl.evas.Line`.
 
-        :rtype: :py:class:`Line<evas.Line>`
+        :rtype: :py:class:`~efl.evas.Line`
 
         """
         obj = Line(self.evas, **kargs)

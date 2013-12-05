@@ -24,9 +24,9 @@ Widget description
 
 Display a container in a particular region of the parent.
 
-A timeout can be set to automatically hide the notify. This is so that,
-after an :py:func:`show()` on a notify object, if a timeout was set on it,
-it will **automatically** get hidden after that time.
+A timeout can be set to automatically hide the notify. This is so that, after an
+:py:meth:`~efl.evas.Object.show` on a notify object, if a timeout
+was set on it, it will **automatically** get hidden after that time.
 
 Signals that you can add callbacks for are:
 

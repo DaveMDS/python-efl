@@ -190,7 +190,7 @@ Map zoom modes
 
 .. data:: ELM_MAP_ZOOM_MODE_MANUAL
 
-    Zoom controlled manually by :py:attr:`zoom_set`
+    Zoom controlled manually by :py:attr:`~Map.zoom`
 
     It's set by default.
 

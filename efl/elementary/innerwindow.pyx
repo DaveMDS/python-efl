@@ -62,9 +62,10 @@ cdef class InnerWindow(LayoutClass):
 
         Activates an inwin object, ensuring its visibility
 
-        This function will make sure that the inwin is completely visible
-        by calling :py:func:`show()` and :py:func:`raise_()` on it, to bring it
-        to the front. It also sets the keyboard focus to it, which will be passed
+        This function will make sure that the inwin is completely visible by
+        calling :py:meth:`~efl.evas.Object.show` and
+        :py:meth:`~efl.evas.Object.raise_` on it, to bring it to
+        the front. It also sets the keyboard focus to it, which will be passed
         onto its content.
 
         The object's theme will also receive the signal "elm,action,show" with

@@ -65,7 +65,7 @@ on ``Elm_Gesture_Type``:
 
 Note that we consider a flick as a line-gesture that should be completed
 in flick-time-limit as defined in
-:py:class:`elementary.configuration.Configuration`.
+:py:class:`~efl.elementary.configuration.Configuration`.
 
 ``Elm_Gesture_Zoom_Info`` is the info reported for ``ELM_GESTURE_ZOOM``
 gesture.
@@ -80,7 +80,7 @@ fingers from surface. When user fingers rests on same-spot gesture is
 ended and starts again when fingers moved.
 
 Setting glayer_continues_enable to false in
-:py:class:`elementary.configuration.Configuration` will change this
+:py:class:`~efl.elementary.configuration.Configuration` will change this
 behavior so gesture starts when user touches (a *DOWN* event)
 touch-surface and ends when no fingers touches surface (a *UP* event).
 

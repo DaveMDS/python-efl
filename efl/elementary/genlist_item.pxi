@@ -696,14 +696,14 @@ cdef class GenlistItem(ObjectItem):
         mode is activated on an item, any other selected item is immediately
         unselected. This feature provides an easy way of implementing a new
         kind of animation for selecting an item, without having to entirely
-        rewrite the item style theme. However, the elm_genlist_selected_*
+        rewrite the item style theme. However, the Genlist.selected_*
         API can't be used to get what item is activate for a mode.
 
         The current item style will still be used, but applying a genlist
         mode to an item will select it using a different kind of animation.
 
-        The current active item for a mode can be found by
-        elm_genlist_decorated_item_get().
+        The current active item for a mode can be found at
+        :py:attr:`Genlist.decorated_item`.
 
         The characteristics of genlist mode are:
 
@@ -724,7 +724,7 @@ cdef class GenlistItem(ObjectItem):
 
         :type: (unicode **decorate_it_type**, bool **decorate_it_set**)
 
-        .. seealso:: :py:attr:`mode` :py:attr:`decorated_item`
+        .. seealso:: :py:attr:`Genlist.mode`
 
         """
         def __set__(self, value):
