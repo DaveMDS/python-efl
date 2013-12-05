@@ -55,24 +55,25 @@ def profile_update(win):
     lb = win.data["lb"]
 
     profile = win.profile
+    available_profiles = win.available_profiles
+    if available_profiles is not None:
+        available_profiles = ", ".join(available_profiles)
     lb.text = "Profile: <b>{0}</b><br/>Available profiles: <b>{1}</b>".format(
         profile,
-        ", ".join(win.available_profiles)
+        available_profiles
     )
 
-def bt_profile_set(obj, *args, **kwargs):
-    win = args[0]
+def bt_profile_set(obj, win):
     ad = win.data["ad"]
     rd = ad.curr.rdg.selected_object
     profile = rd.text
-    if profile == "Nothing":
+    if profile != "Nothing":
         ad.win.profile = profile
     else:
         ad.win.profile = None
-        profile_update(ad.win)
+    profile_update(ad.win)
 
-def bt_available_profiles_set(obj, *args, **kwargs):
-    win = args[0]
+def bt_available_profiles_set(obj, win):
     ad = win.data["ad"]
 
     a_profs = []
@@ -88,20 +89,19 @@ def bt_available_profiles_set(obj, *args, **kwargs):
     ad.win.available_profiles = ad.curr.available_profiles
     profile_update(ad.win)
 
-def bt_win_add(obj, *args, **kwargs):
-    win = args[0]
+def bt_win_add(obj, win):
     ad = win.data["ad"]
-    rd = ad.new.rdg.selected
+    rd = ad.new.rdg.selected_object
     profile = rd.text
 
-    if profile == "Nothing":
+    if profile != "Nothing":
         ad.new.profile = profile
 
-    for o in ad.new.cks:
+    for i, o in enumerate(ad.new.cks):
         if o.state:
              profile = o.data["profile"]
              if profile:
-                  ad.new.available_profiles[i] = profile
+                  ad.new.available_profiles.insert(i, profile)
 
     config_clicked(None, ad.new)
 
