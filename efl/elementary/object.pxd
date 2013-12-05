@@ -148,9 +148,12 @@ cdef extern from "Elementary.h":
     void                    elm_object_domain_translatable_part_text_set(Evas_Object *obj, const_char *part, const_char *domain, const_char *text)
     void                    elm_object_domain_translatable_text_set(Evas_Object *obj, const_char *domain, const_char *text)
     void                    elm_object_translatable_text_set(Evas_Object *obj, const_char *text)
+    void                    elm_object_translatable_part_text_set(Evas_Object *obj, const_char *part, const_char *text)
     const_char *            elm_object_translatable_part_text_get(const_Evas_Object *obj, const_char *part)
     const_char *            elm_object_translatable_text_get(Evas_Object *obj)
     void                    elm_object_domain_part_text_translatable_set(Evas_Object *obj, const_char *part, const_char *domain, Eina_Bool translatable)
+    void                    elm_object_part_text_translatable_set(Evas_Object *obj, const_char *part, Eina_Bool translatable)
+    void                    elm_object_domain_text_translatable_set(Evas_Object *obj, const_char *domain, Eina_Bool translatable)
 
     # Access (elm_access.h)
     #TODO: Evas_Object *           elm_access_object_get(const_Evas_Object *obj)

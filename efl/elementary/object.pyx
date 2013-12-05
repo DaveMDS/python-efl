@@ -1518,6 +1518,18 @@ cdef class Object(evasObject):
             <const_char *>domain if domain is not None else NULL,
             <const_char *>text if text is not None else NULL)
 
+    def translatable_part_text_set(self, part, text):
+        """translatable_part_text_set(part, text)
+
+        A convenience function.
+
+        """
+        if isinstance(part, unicode): part = PyUnicode_AsUTF8String(part)
+        if isinstance(text, unicode): text = PyUnicode_AsUTF8String(text)
+        elm_object_translatable_part_text_set(self.obj,
+            <const_char *>part if part is not None else NULL,
+            <const_char *>text if text is not None else NULL)
+
     @DEPRECATED("1.8", "Use :py:func:`translatable_part_text_get` instead.")
     def translatable_text_part_get(self, part):
         """translatable_text_part_get(part) -> unicode"""
@@ -1578,6 +1590,25 @@ cdef class Object(evasObject):
             <const_char *>part,
             <const_char *>domain,
             translatable)
+
+    def part_text_translatable_set(self, part, bint translatable):
+        """part_text_translatable_set(part, bool translatable)
+
+        A convenience function.
+
+        """
+        if isinstance(part, unicode): part = PyUnicode_AsUTF8String(part)
+        elm_object_part_text_translatable_set(self.obj,
+            part, translatable)
+
+    def domain_text_translatable_set(self, domain, bint translatable):
+        """domain_text_translatable_set(domain, bool translatable)
+
+        A convenience function.
+
+        """
+        if isinstance(domain, unicode): domain = PyUnicode_AsUTF8String(domain)
+        elm_object_domain_text_translatable_set(self.obj, domain, translatable)
 
     property translatable_text:
         """Translatable text for the main text part of the widget."""
