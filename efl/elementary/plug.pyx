@@ -41,7 +41,7 @@ This widget emits the following signals:
 
 from cpython cimport PyUnicode_AsUTF8String
 
-from efl.eo cimport _object_mapping_register
+from efl.eo cimport _object_mapping_register, object_from_instance
 from efl.utils.conversions cimport _ctouni
 from efl.evas cimport Object as evasObject
 from object cimport Object
@@ -96,10 +96,7 @@ cdef class Plug(Object):
 
         """
         def __get__(self):
-            cdef evasImage img = evasImage()
-            cdef Evas_Object *obj = elm_plug_image_object_get(self.obj)
-            img.obj = obj
-            return img
+            return object_from_instance(elm_plug_image_object_get(self.obj))
 
 
     def callback_clicked_add(self, func, *args, **kwargs):
