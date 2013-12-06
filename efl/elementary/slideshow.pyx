@@ -288,11 +288,13 @@ cdef class SlideshowItem(ObjectItem):
         cdef Elm_Object_Item *item
 
         item = elm_slideshow_item_add(slideshow.obj, &self.cls.obj, <void*>self)
-        if item != NULL:
-            self._set_obj(item)
-            return self
-        else:
-            Py_DECREF(self)
+
+        if item == NULL:
+            raise RuntimeError("The item could not be added to the widget.")
+
+        self._set_obj(item)
+        self._set_properties_from_keyword_args(self.kwargs)
+        return self
 
     def sorted_insert(self, Slideshow slideshow not None, func not None):
         """sorted_insert(Slideshow slideshow, func) -> SlideshowItem
@@ -334,11 +336,12 @@ cdef class SlideshowItem(ObjectItem):
         item = elm_slideshow_item_sorted_insert(slideshow.obj, &self.cls.obj, \
             <void*>self, compare)
 
-        if item != NULL:
-            self._set_obj(item)
-            return self
-        else:
-            Py_DECREF(self)
+        if item == NULL:
+            raise RuntimeError("The item could not be added to the widget.")
+
+        self._set_obj(item)
+        self._set_properties_from_keyword_args(self.kwargs)
+        return self
 
     property object:
         """Get the real Evas object created to implement the view of a given

@@ -243,24 +243,16 @@ cdef class PopupItem(ObjectItem):
             self.icon.obj if not None else NULL,
             cb, <void *>self)
 
-        if item != NULL:
-            self._set_obj(item)
-            self._set_properties_from_keyword_args(self.kwargs)
-            return self
-        else:
-            # FIXME: raise RuntimeError?
-            return None
+        if item == NULL:
+            raise RuntimeError("The item could not be added to the widget.")
 
-
-    def __str__(self):
-        return "%s(func=%s, item_data=%s)" % \
-               (self.__class__.__name__,
-                self.cb_func,
-                self.args)
+        self._set_obj(item)
+        self._set_properties_from_keyword_args(self.kwargs)
+        return self
 
     def __repr__(self):
-        return ("%s(%#x, refcount=%d, Elm_Object_Item=%#x, "
-                "item_class=%s, func=%s, item_data=%r)") % \
+        return ("<%s(%#x, refcount=%d, Elm_Object_Item=%#x, "
+                "item_class=%s, func=%s, item_data=%r)>") % \
                (self.__class__.__name__,
                 <unsigned long><void*>self,
                 PY_REFCOUNT(self),

@@ -293,13 +293,12 @@ cdef class ListItem(ObjectItem):
             self.icon_obj, self.end_obj,
             cb, <void*>self)
 
-        if item != NULL:
-            self._set_obj(item)
-            self._set_properties_from_keyword_args(self.kwargs)
-            return self
-        else:
-            # FIXME: raise RuntimeError?
-            return None
+        if item == NULL:
+            raise RuntimeError("The item could not be added to the widget.")
+
+        self._set_obj(item)
+        self._set_properties_from_keyword_args(self.kwargs)
+        return self
 
     def prepend_to(self, List list):
         """prepend_to(List list)
@@ -330,13 +329,12 @@ cdef class ListItem(ObjectItem):
             self.icon_obj, self.end_obj,
             cb, <void*>self)
 
-        if item != NULL:
-            self._set_obj(item)
-            self._set_properties_from_keyword_args(self.kwargs)
-            return self
-        else:
-            # FIXME: raise RuntimeError?
-            return None
+        if item == NULL:
+            raise RuntimeError("The item could not be added to the widget.")
+
+        self._set_obj(item)
+        self._set_properties_from_keyword_args(self.kwargs)
+        return self
 
     def insert_before(self, ListItem before):
         """insert_before(ListItem before)
@@ -369,13 +367,12 @@ cdef class ListItem(ObjectItem):
             self.icon_obj, self.end_obj,
             cb, <void*>self)
 
-        if item != NULL:
-            self._set_obj(item)
-            self._set_properties_from_keyword_args(self.kwargs)
-            return self
-        else:
-            # FIXME: raise RuntimeError?
-            return None
+        if item == NULL:
+            raise RuntimeError("The item could not be added to the widget.")
+
+        self._set_obj(item)
+        self._set_properties_from_keyword_args(self.kwargs)
+        return self
 
     def insert_after(self, ListItem after):
         """insert_after(ListItem after)
@@ -408,13 +405,12 @@ cdef class ListItem(ObjectItem):
             self.icon_obj, self.end_obj,
             cb, <void*>self)
 
-        if item != NULL:
-            self._set_obj(item)
-            self._set_properties_from_keyword_args(self.kwargs)
-            return self
-        else:
-            # FIXME: raise RuntimeError?
-            return None
+        if item == NULL:
+            raise RuntimeError("The item could not be added to the widget.")
+
+        self._set_obj(item)
+        self._set_properties_from_keyword_args(self.kwargs)
+        return self
 
     # TODO:
     # def sorted_insert_to(self, List list, cmp_func=None):

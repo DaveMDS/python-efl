@@ -99,13 +99,13 @@ cdef class ColorselectorPaletteItem(ObjectItem):
         cdef Elm_Object_Item *item
         item = elm_colorselector_palette_color_add(
             cs.obj, self.r, self.g, self.b, self.a)
-        if item != NULL:
-            self._set_obj(item)
-            self._set_properties_from_keyword_args(self.kwargs)
-            return self
-        else:
-            # FIXME: raise RuntimeError?
-            return None
+
+        if item == NULL:
+            raise RuntimeError("The item could not be added to the widget.")
+
+        self._set_obj(item)
+        self._set_properties_from_keyword_args(self.kwargs)
+        return self
 
     property color:
         """The palette items color.

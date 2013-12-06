@@ -187,13 +187,12 @@ cdef class IndexItem(ObjectItem):
             <const_char *>self.letter if self.letter is not None else NULL,
             cb, <void*>self)
 
-        if item != NULL:
-            self._set_obj(item)
-            self._set_properties_from_keyword_args(self.kwargs)
-            return self
-        else:
-            # FIXME: raise RuntimeError?
-            return None
+        if item == NULL:
+            raise RuntimeError("The item could not be added to the widget.")
+
+        self._set_obj(item)
+        self._set_properties_from_keyword_args(self.kwargs)
+        return self
 
     def prepend_to(self, Index index not None):
         """
@@ -213,13 +212,12 @@ cdef class IndexItem(ObjectItem):
             <const_char *>self.letter if self.letter is not None else NULL,
             cb, <void*>self)
 
-        if item != NULL:
-            self._set_obj(item)
-            self._set_properties_from_keyword_args(self.kwargs)
-            return self
-        else:
-            # FIXME: raise RuntimeError?
-            return None
+        if item == NULL:
+            raise RuntimeError("The item could not be added to the widget.")
+
+        self._set_obj(item)
+        self._set_properties_from_keyword_args(self.kwargs)
+        return self
 
     def insert_after(self, IndexItem after not None):
         """
@@ -240,13 +238,12 @@ cdef class IndexItem(ObjectItem):
             <const_char *>self.letter if self.letter is not None else NULL,
             cb, <void*>self)
 
-        if item != NULL:
-            self._set_obj(item)
-            self._set_properties_from_keyword_args(self.kwargs)
-            return self
-        else:
-            # FIXME: raise RuntimeError?
-            return None
+        if item == NULL:
+            raise RuntimeError("The item could not be added to the widget.")
+
+        self._set_obj(item)
+        self._set_properties_from_keyword_args(self.kwargs)
+        return self
 
     def insert_before(self, IndexItem before not None):
         """
@@ -267,13 +264,12 @@ cdef class IndexItem(ObjectItem):
             <const_char *>self.letter if self.letter is not None else NULL,
             cb, <void*>self)
 
-        if item != NULL:
-            self._set_obj(item)
-            self._set_properties_from_keyword_args(self.kwargs)
-            return self
-        else:
-            # FIXME: raise RuntimeError?
-            return None
+        if item == NULL:
+            raise RuntimeError("The item could not be added to the widget.")
+
+        self._set_obj(item)
+        self._set_properties_from_keyword_args(self.kwargs)
+        return self
 
     def insert_sorted(self, Index index not None, compare_func, data_compare_func = None):
         """
@@ -308,13 +304,12 @@ cdef class IndexItem(ObjectItem):
             cb, <void*>self,
             _index_compare_func, _index_data_compare_func)
 
-        if item != NULL:
-            self._set_obj(item)
-            self._set_properties_from_keyword_args(self.kwargs)
-            return self
-        else:
-            # FIXME: raise RuntimeError?
-            return None
+        if item == NULL:
+            raise RuntimeError("The item could not be added to the widget.")
+
+        self._set_obj(item)
+        self._set_properties_from_keyword_args(self.kwargs)
+        return self
 
     property selected:
         """Set the selected state of an item.
@@ -351,11 +346,6 @@ cdef class IndexItem(ObjectItem):
     def letter_get(self):
         return _ctouni(elm_index_item_letter_get(self.item))
 
-cdef Elm_Object_Item *_elm_index_item_from_python(IndexItem item):
-    if item is None:
-        return NULL
-    else:
-        return item.item
 
 cdef class Index(LayoutClass):
 

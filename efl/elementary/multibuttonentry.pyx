@@ -110,6 +110,13 @@ cdef class MultiButtonEntryItem(ObjectItem):
         self.args = args
         self.kwargs = kargs
 
+    def __repr__(self):
+        return ("<%s(%#x, refcount=%d, Elm_Object_Item=%#x, "
+                "label=%r, callback=%r, args=%r, kargs=%s)>") % \
+            (self.__class__.__name__, <unsigned long><void *>self,
+             PY_REFCOUNT(self), <unsigned long><void *>self.item,
+             self.text_get(), self.cb_func, self.args, self.kwargs)
+
     def append_to(self, MultiButtonEntry mbe not None):
         cdef Elm_Object_Item *item
         cdef Evas_Smart_Cb cb = NULL
@@ -121,12 +128,12 @@ cdef class MultiButtonEntryItem(ObjectItem):
             <const_char *>self.label if self.label is not None else NULL,
             cb, <void*>self)
 
-        if item != NULL:
-            self._set_obj(item)
-            self._set_properties_from_keyword_args(self.kwargs)
-            return self
-        else:
-            Py_DECREF(self)
+        if item == NULL:
+            raise RuntimeError("The item could not be added to the widget.")
+
+        self._set_obj(item)
+        self._set_properties_from_keyword_args(self.kwargs)
+        return self
 
     def prepend_to(self, MultiButtonEntry mbe not None):
         cdef Elm_Object_Item *item
@@ -139,12 +146,12 @@ cdef class MultiButtonEntryItem(ObjectItem):
             <const_char *>self.label if self.label is not None else NULL,
             cb, <void*>self)
 
-        if item != NULL:
-            self._set_obj(item)
-            self._set_properties_from_keyword_args(self.kwargs)
-            return self
-        else:
-            Py_DECREF(self)
+        if item == NULL:
+            raise RuntimeError("The item could not be added to the widget.")
+
+        self._set_obj(item)
+        self._set_properties_from_keyword_args(self.kwargs)
+        return self
 
     def insert_before(self, MultiButtonEntryItem before not None):
         cdef Elm_Object_Item *item
@@ -159,12 +166,12 @@ cdef class MultiButtonEntryItem(ObjectItem):
             <const_char *>self.label if self.label is not None else NULL,
             cb, <void*>self)
 
-        if item != NULL:
-            self._set_obj(item)
-            self._set_properties_from_keyword_args(self.kwargs)
-            return self
-        else:
-            Py_DECREF(self)
+        if item == NULL:
+            raise RuntimeError("The item could not be added to the widget.")
+
+        self._set_obj(item)
+        self._set_properties_from_keyword_args(self.kwargs)
+        return self
 
     def insert_after(self, MultiButtonEntryItem after not None):
         cdef Elm_Object_Item *item
@@ -179,23 +186,12 @@ cdef class MultiButtonEntryItem(ObjectItem):
             <const_char *>self.label if self.label is not None else NULL,
             cb, <void*>self)
 
-        if item != NULL:
-            self._set_obj(item)
-            self._set_properties_from_keyword_args(self.kwargs)
-            return self
-        else:
-            Py_DECREF(self)
+        if item == NULL:
+            raise RuntimeError("The item could not be added to the widget.")
 
-    def __str__(self):
-        return ("%s(label=%r, callback=%r, args=%r, kargs=%s)") % \
-            (self.__class__.__name__, self.text_get(), self.cb_func, self.args, self.kwargs)
-
-    def __repr__(self):
-        return ("%s(%#x, refcount=%d, Elm_Object_Item=%#x, "
-                "label=%r, callback=%r, args=%r, kargs=%s)") % \
-            (self.__class__.__name__, <unsigned long><void *>self,
-             PY_REFCOUNT(self), <unsigned long><void *>self.item,
-             self.text_get(), self.cb_func, self.args, self.kwargs)
+        self._set_obj(item)
+        self._set_properties_from_keyword_args(self.kwargs)
+        return self
 
     property selected:
         def __get__(self):

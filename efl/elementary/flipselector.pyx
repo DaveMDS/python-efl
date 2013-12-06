@@ -139,12 +139,12 @@ cdef class FlipSelectorItem(ObjectItem):
             <const_char *>self.label if self.label is not None else NULL,
             cb, <void *>self)
 
-        if item != NULL:
-            self._set_obj(item)
-            self._set_properties_from_keyword_args(self.kwargs)
-            return self
-        else:
-            return None
+        if item == NULL:
+            raise RuntimeError("The item could not be added to the widget.")
+
+        self._set_obj(item)
+        self._set_properties_from_keyword_args(self.kwargs)
+        return self
 
     def prepend_to(self, FlipSelector flipselector not None):
         """prepend_to(FlipSelector flipselector) -> FlipSelectorItem
@@ -168,12 +168,12 @@ cdef class FlipSelectorItem(ObjectItem):
             <const_char *>self.label if self.label is not None else NULL,
             cb, <void *>self)
 
-        if item != NULL:
-            self._set_obj(item)
-            self._set_properties_from_keyword_args(self.kwargs)
-            return self
-        else:
-            return
+        if item == NULL:
+            raise RuntimeError("The item could not be added to the widget.")
+
+        self._set_obj(item)
+        self._set_properties_from_keyword_args(self.kwargs)
+        return self
 
     property label:
         """The label of this item

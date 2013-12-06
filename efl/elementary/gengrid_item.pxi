@@ -19,7 +19,7 @@ cdef class GengridItem(ObjectItem):
         self.item = NULL
 
     def __init__(self, GengridItemClass item_class not None, item_data = None, \
-        func = None, func_data = None):
+        func = None, func_data = None, *args, **kwargs):
         """
 
         :param item_class: a valid instance that defines the
@@ -48,6 +48,8 @@ cdef class GengridItem(ObjectItem):
         self.cb_func = func
         self.item_data = item_data
         self.func_data = func_data
+        self.args = args
+        self.kwargs = kwargs
 
     def __repr__(self):
         return ("<%s(%#x, refcount=%d, Elm_Object_Item=%#x, "
@@ -77,12 +79,12 @@ cdef class GengridItem(ObjectItem):
             self.item_class.cls, <void*>self,
             cb, <void*>self)
 
-        if item != NULL:
-            self._set_obj(item)
-            return self
-        else:
-            Py_DECREF(self)
-            return None
+        if item == NULL:
+            raise RuntimeError("The item could not be added to the widget.")
+
+        self._set_obj(item)
+        self._set_properties_from_keyword_args(self.kwargs)
+        return self
 
     def prepend_to(self, Gengrid gengrid not None):
         """item_prepend(Gengrid gengrid) -> GengridItem
@@ -100,12 +102,12 @@ cdef class GengridItem(ObjectItem):
         item = elm_gengrid_item_prepend(gengrid.obj, self.item_class.cls, <void*>self,
             cb, <void*>self)
 
-        if item != NULL:
-            self._set_obj(item)
-            return self
-        else:
-            Py_DECREF(self)
-            return None
+        if item == NULL:
+            raise RuntimeError("The item could not be added to the widget.")
+
+        self._set_obj(item)
+        self._set_properties_from_keyword_args(self.kwargs)
+        return self
 
     def insert_before(self, GengridItem before not None):
         """insert_before(GengridItem before not None) -> GengridItem
@@ -127,12 +129,12 @@ cdef class GengridItem(ObjectItem):
         item = elm_gengrid_item_insert_before(gengrid.obj, self.item_class.cls,
             <void*>self, before.item, cb, <void*>self)
 
-        if item != NULL:
-            self._set_obj(item)
-            return self
-        else:
-            Py_DECREF(self)
-            return None
+        if item == NULL:
+            raise RuntimeError("The item could not be added to the widget.")
+
+        self._set_obj(item)
+        self._set_properties_from_keyword_args(self.kwargs)
+        return self
 
     def insert_after(self, GengridItem after not None):
         """insert_after(GengridItem after not None) -> GengridItem
@@ -154,12 +156,12 @@ cdef class GengridItem(ObjectItem):
         item = elm_gengrid_item_insert_after(gengrid.obj, self.item_class.cls,
             <void*>self, after.item, cb, <void*>self)
 
-        if item != NULL:
-            self._set_obj(item)
-            return self
-        else:
-            Py_DECREF(self)
-            return None
+        if item == NULL:
+            raise RuntimeError("The item could not be added to the widget.")
+
+        self._set_obj(item)
+        self._set_properties_from_keyword_args(self.kwargs)
+        return self
 
     def sorted_insert(self, Gengrid gengrid not None, compare_func not None):
         """insert_after(GengridItem after not None) -> GengridItem
@@ -182,12 +184,12 @@ cdef class GengridItem(ObjectItem):
         item = elm_gengrid_item_sorted_insert(gengrid.obj, self.item_class.cls,
             <void*>self, _gengrid_compare_cb, cb, <void*>self)
 
-        if item != NULL:
-            self._set_obj(item)
-            return self
-        else:
-            Py_DECREF(self)
-            return None
+        if item == NULL:
+            raise RuntimeError("The item could not be added to the widget.")
+
+        self._set_obj(item)
+        self._set_properties_from_keyword_args(self.kwargs)
+        return self
 
     property data:
         """User data for the item."""

@@ -329,12 +329,12 @@ cdef class ToolbarItem(ObjectItem):
             <const_char *>self.label if self.label is not None else NULL,
             cb, <void*>self)
 
-        if item != NULL:
-            self._set_obj(item)
-            self._set_properties_from_keyword_args(self.kwargs)
-            return self
-        else:
-            Py_DECREF(self)
+        if item == NULL:
+            raise RuntimeError("The item could not be added to the widget.")
+
+        self._set_obj(item)
+        self._set_properties_from_keyword_args(self.kwargs)
+        return self
 
     def prepend_to(self, Toolbar toolbar):
         """Prepend item to the toolbar.
@@ -362,12 +362,12 @@ cdef class ToolbarItem(ObjectItem):
             <const_char *>self.label if self.label is not None else NULL,
             cb, <void*>self)
 
-        if item != NULL:
-            self._set_obj(item)
-            self._set_properties_from_keyword_args(self.kwargs)
-            return self
-        else:
-            Py_DECREF(self)
+        if item == NULL:
+            raise RuntimeError("The item could not be added to the widget.")
+
+        self._set_obj(item)
+        self._set_properties_from_keyword_args(self.kwargs)
+        return self
 
     def insert_after(self, ToolbarItem after):
         """Insert a new item into the toolbar object after item ``after``.
@@ -398,12 +398,12 @@ cdef class ToolbarItem(ObjectItem):
             <const_char *>self.label if self.label is not None else NULL,
             cb, <void*>self)
 
-        if item != NULL:
-            self._set_obj(item)
-            self._set_properties_from_keyword_args(self.kwargs)
-            return self
-        else:
-            Py_DECREF(self)
+        if item == NULL:
+            raise RuntimeError("The item could not be added to the widget.")
+
+        self._set_obj(item)
+        self._set_properties_from_keyword_args(self.kwargs)
+        return self
 
     def insert_before(self, ToolbarItem before):
         """Insert a new item into the toolbar object before item ``before``.
@@ -434,12 +434,12 @@ cdef class ToolbarItem(ObjectItem):
             <const_char *>self.label if self.label is not None else NULL,
             cb, <void*>self)
 
-        if item != NULL:
-            self._set_obj(item)
-            self._set_properties_from_keyword_args(self.kwargs)
-            return self
-        else:
-            Py_DECREF(self)
+        if item == NULL:
+            raise RuntimeError("The item could not be added to the widget.")
+
+        self._set_obj(item)
+        self._set_properties_from_keyword_args(self.kwargs)
+        return self
 
     property next:
         """Get the item after ``item`` in toolbar.

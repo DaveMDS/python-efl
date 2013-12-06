@@ -104,7 +104,7 @@ cdef class HoverselItem(ObjectItem):
 
     def __init__(self, label = None, icon_file = None,
             icon_type = ELM_ICON_NONE, callback = None, cb_data = None,
-            *args, **kargs):
+            *args, **kwargs):
         """For more information on what ``icon_file`` and ``icon_type`` are,
         see :py:class:`~efl.elementary.icon.Icon`.
 
@@ -133,7 +133,7 @@ cdef class HoverselItem(ObjectItem):
         self.cb_func = callback
         self.cb_data = cb_data
         self.args = args
-        self.kwargs = kargs
+        self.kwargs = kwargs
 
     def add_to(self, Hoversel hoversel):
         """add_to(Hoversel hoversel)
@@ -160,13 +160,12 @@ cdef class HoverselItem(ObjectItem):
             self.icon_type,
             cb, <void*>self)
 
-        if item != NULL:
-            self._set_obj(item)
-            self._set_properties_from_keyword_args(self.kwargs)
-            return self
-        else:
-            # FIXME: raise RuntimeError?
-            return None
+        if item == NULL:
+            raise RuntimeError("The item could not be added to the widget.")
+
+        self._set_obj(item)
+        self._set_properties_from_keyword_args(self.kwargs)
+        return self
 
     property icon:
         """This sets the icon for the given hoversel item.

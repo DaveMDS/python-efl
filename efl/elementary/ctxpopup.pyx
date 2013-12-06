@@ -171,13 +171,12 @@ cdef class CtxpopupItem(ObjectItem):
             self.icon.obj if self.icon is not None else NULL,
             cb, <void*>self)
 
-        if item != NULL:
-            self._set_obj(item)
-            self._set_properties_from_keyword_args(self.kwargs)
-            return self
-        else:
-            # FIXME: raise RuntimeError?
-            return None
+        if item == NULL:
+            raise RuntimeError("The item could not be added to the widget.")
+
+        self._set_obj(item)
+        self._set_properties_from_keyword_args(self.kwargs)
+        return self
 
 cdef class Ctxpopup(LayoutClass):
 

@@ -70,6 +70,119 @@ cdef class SegmentControlItem(ObjectItem):
 
     """An item for :py:class:`SegmentControl`."""
 
+    cdef:
+        evasObject icon
+        object label
+
+    def __init__(self, evasObject icon = None, label = None, *args, **kwargs):
+        if isinstance(label, unicode): label = PyUnicode_AsUTF8String(label)
+        self.icon = icon
+        self.label = label
+        self.args = args
+        self.kwargs = kwargs
+
+    def add_to(self, SegmentControl sc not None):
+        """item_add(self, evas.Object icon, unicode label = None) -> SegmentControlItem
+
+        Append a new item to the segment control object.
+
+        A new item will be created and appended to the segment control,
+        i.e., will be set as **last** item.
+
+        If it should be inserted at another position,
+        :py:meth:`item_insert_at` should be used instead.
+
+        Items created with this function can be deleted with function
+        :py:meth:`efl.elementary.object_item.ObjectItem.delete` or
+        :py:meth:`item_del_at`.
+
+        Simple example::
+
+            sc = SegmentControl(win)
+            ic = Icon(win)
+            ic.file_set("path/to/image")
+            ic.resizable_set(True, True)
+            sc.item_add(ic, "label")
+            sc.show()
+
+        .. note:: ``label`` set to ``None`` is different from empty string "".
+            If an item only has icon, it will be displayed bigger and
+            centered. If it has icon and label, even that an empty string,
+            icon will be smaller and positioned at left.
+
+        :param icon: The icon object to use for the left side of the item. An
+            icon can be any Evas object, but usually it is an
+            :py:class:`~efl.elementary.icon.Icon`.
+        :type icon: :py:class:`~efl.evas.Object`
+        :param label: The label of the item. Note that, None is different
+            from empty string "".
+        :type label: string
+        :return: The created item or ``None`` upon failure.
+        :rtype: :py:class:`SegmentControlItem`
+
+        """
+        cdef Elm_Object_Item *item
+
+        item = elm_segment_control_item_add(sc.obj,
+            self.icon.obj if self.icon is not None else NULL,
+            <const_char *>self.label if self.label is not None else NULL)
+
+        if item == NULL:
+            raise RuntimeError("The item could not be added to the widget.")
+
+        self._set_obj(item)
+        self._set_properties_from_keyword_args(self.kwargs)
+        return self
+
+    def item_insert_at(self, SegmentControl sc not None, index = 0):
+        """item_insert_at(self, evas.Object icon, unicode label = None, int index = 0) -> SegmentControlItem
+
+        Insert a new item to the segment control object at specified position.
+
+        Index values must be between ``0``, when item will be prepended to
+        segment control, and items count, that can be get with
+        :py:attr:`item_count`, case when item will be appended
+        to segment control, just like :py:meth:`item_add`.
+
+        Items created with this function can be deleted with function
+        :py:meth:`~efl.elementary.object_item.ObjectItem.delete` or
+        :py:meth:`item_del_at`.
+
+        .. note:: ``label`` set to ``None`` is different from empty string "".
+            If an item only has icon, it will be displayed bigger and
+            centered. If it has icon and label, even that an empty string,
+            icon will be smaller and positioned at left.
+
+        .. seealso::
+            :py:meth:`item_add`
+            :py:attr:`item_count`
+            :py:meth:`efl.elementary.object_item.ObjectItem.delete`
+
+        :param icon: The icon object to use for the left side of the item. An
+            icon can be any Evas object, but usually it is an
+            :py:class:`~efl.elementary.icon.Icon`.
+        :type icon: :py:class:`~efl.evas.Object`
+        :param label: The label of the item.
+        :type label: string
+        :param index: Item position. Value should be between 0 and items count.
+        :type index: int
+        :return: The created item or ``None`` upon failure.
+        :rtype: :py:class:`SegmentControlItem`
+
+        """
+        cdef Elm_Object_Item *item
+
+        item = elm_segment_control_item_insert_at(sc.obj,
+            self.icon.obj if self.icon is not None else NULL,
+            <const_char *>self.label if self.label is not None else NULL, index)
+
+        if item == NULL:
+            raise RuntimeError("The item could not be added to the widget.")
+
+        self._set_obj(item)
+        self._set_properties_from_keyword_args(self.kwargs)
+        return self
+
     property index:
         """Get the index of an item.
 

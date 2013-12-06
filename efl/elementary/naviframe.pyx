@@ -124,7 +124,7 @@ cdef class NaviframeItem(ObjectItem):
 
     def __init__(self, title_label = None, evasObject prev_btn = None,
         evasObject next_btn = None, evasObject content = None,
-        item_style = None):
+        item_style = None, *args, **kwargs):
 
         """The following styles are available for this item:
 
@@ -159,6 +159,9 @@ cdef class NaviframeItem(ObjectItem):
         if content is not None:
             self.item_content = content.obj
 
+        self.args = args
+        self.kwargs = kwargs
+
     def push_to(self, Naviframe naviframe):
         """push_to(Naviframe naviframe)
 
@@ -184,11 +187,12 @@ cdef class NaviframeItem(ObjectItem):
             self.item_content,
             <const_char *>self.item_style if self.item_style is not None else NULL)
 
-        if item != NULL:
-            self._set_obj(item)
-            return self
-        else:
-            return None
+        if item == NULL:
+            raise RuntimeError("The item could not be added to the widget.")
+
+        self._set_obj(item)
+        self._set_properties_from_keyword_args(self.kwargs)
+        return self
 
     def insert_before(self, NaviframeItem before):
         """insert_before(NaviframeItem before)
@@ -222,11 +226,12 @@ cdef class NaviframeItem(ObjectItem):
             self.item_content,
             <const_char *>self.item_style if self.item_style is not None else NULL)
 
-        if item != NULL:
-            self._set_obj(item)
-            return self
-        else:
-            return None
+        if item == NULL:
+            raise RuntimeError("The item could not be added to the widget.")
+
+        self._set_obj(item)
+        self._set_properties_from_keyword_args(self.kwargs)
+        return self
 
     def insert_after(self, NaviframeItem after):
         """insert_after(NaviframeItem after)
@@ -260,11 +265,12 @@ cdef class NaviframeItem(ObjectItem):
             self.item_content,
             <const_char *>self.item_style if self.item_style is not None else NULL)
 
-        if item != NULL:
-            self._set_obj(item)
-            return self
-        else:
-            return None
+        if item == NULL:
+            raise RuntimeError("The item could not be added to the widget.")
+
+        self._set_obj(item)
+        self._set_properties_from_keyword_args(self.kwargs)
+        return self
 
     @DEPRECATED("1.8", "Use :py:func:`pop_to` instead.")
     def item_pop_to(self):

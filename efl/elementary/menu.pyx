@@ -91,12 +91,12 @@ cdef class MenuItem(ObjectItem):
             <const_char *>self.label if self.label is not None else NULL,
             cb, <void*>self)
 
-        if item != NULL:
-            self._set_obj(item)
-            self._set_properties_from_keyword_args(self.kwargs)
-            return self
-        else:
-            Py_DECREF(self)
+        if item == NULL:
+            raise RuntimeError("The item could not be added to the widget.")
+
+        self._set_obj(item)
+        self._set_properties_from_keyword_args(self.kwargs)
+        return self
 
     property object:
         """Get the Evas_Object of an Elm_Object_Item
@@ -228,6 +228,7 @@ cdef class MenuSeparatorItem(ObjectItem):
     """A separator type menu item."""
 
     cdef MenuItem parent
+
     def __init__(self, MenuItem parent):
         self.parent = parent
 
@@ -241,11 +242,11 @@ cdef class MenuSeparatorItem(ObjectItem):
         item = elm_menu_item_separator_add(menu.obj,
             self.parent.item if self.parent is not None else NULL)
 
-        if item != NULL:
-            self._set_obj(item)
-            return self
-        else:
-            Py_DECREF(self)
+        if item == NULL:
+            raise RuntimeError("The item could not be added to the widget.")
+
+        self._set_obj(item)
+        return self
 
     property is_separator:
         """Returns whether the item is a separator.

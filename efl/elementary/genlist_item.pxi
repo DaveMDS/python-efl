@@ -12,7 +12,7 @@ cdef class GenlistItem(ObjectItem):
         GenlistItemClass item_class not None, item_data=None,
         GenlistItem parent_item=None,
         Elm_Genlist_Item_Type flags=enums.ELM_GENLIST_ITEM_NONE,
-        func=None, func_data=None):
+        func=None, func_data=None, *args, **kwargs):
         """Create a new GenlistItem.
 
         :param item_data: Data that defines the model of this row.
@@ -59,6 +59,8 @@ cdef class GenlistItem(ObjectItem):
         self.item_data = item_data
         self.cb_func = func
         self.func_data = func_data
+        self.args = args
+        self.kwargs = kwargs
 
     def __dealloc__(self):
         self.parent_item = NULL
@@ -110,12 +112,12 @@ cdef class GenlistItem(ObjectItem):
             <Elm_Genlist_Item_Type>self.flags,
             cb, <void*>self)
 
-        if item is not NULL:
-            self._set_obj(item)
-            return self
-        else:
-            Py_DECREF(self)
-            return None
+        if item == NULL:
+            raise RuntimeError("The item could not be added to the widget.")
+
+        self._set_obj(item)
+        self._set_properties_from_keyword_args(self.kwargs)
+        return self
 
     def prepend_to(self, Genlist genlist not None):
         """prepend_to(Genlist genlist) -> GenlistItem
@@ -140,12 +142,12 @@ cdef class GenlistItem(ObjectItem):
             <Elm_Genlist_Item_Type>self.flags,
             cb,  <void*>self)
 
-        if item is not NULL:
-            self._set_obj(item)
-            return self
-        else:
-            Py_DECREF(self)
-            return None
+        if item == NULL:
+            raise RuntimeError("The item could not be added to the widget.")
+
+        self._set_obj(item)
+        self._set_properties_from_keyword_args(self.kwargs)
+        return self
 
     def insert_before(self, GenlistItem before_item=None):
         """insert_before(GenlistItem before_item=None) -> GenlistItem
@@ -174,12 +176,12 @@ cdef class GenlistItem(ObjectItem):
             <Elm_Genlist_Item_Type>self.flags,
             cb, <void*>self)
 
-        if item is not NULL:
-            self._set_obj(item)
-            return self
-        else:
-            Py_DECREF(self)
-            return None
+        if item == NULL:
+            raise RuntimeError("The item could not be added to the widget.")
+
+        self._set_obj(item)
+        self._set_properties_from_keyword_args(self.kwargs)
+        return self
 
     def insert_after(self, GenlistItem after_item=None):
         """insert_after(GenlistItem after_item=None) -> GenlistItem
@@ -208,12 +210,12 @@ cdef class GenlistItem(ObjectItem):
             <Elm_Genlist_Item_Type>self.flags,
             cb, <void*>self)
 
-        if item is not NULL:
-            self._set_obj(item)
-            return self
-        else:
-            Py_DECREF(self)
-            return None
+        if item == NULL:
+            raise RuntimeError("The item could not be added to the widget.")
+
+        self._set_obj(item)
+        self._set_properties_from_keyword_args(self.kwargs)
+        return self
 
     def sorted_insert(self, Genlist genlist not None, comparison_func):
         """sorted_insert(Genlist genlist, comparison_func) -> GenlistItem
@@ -258,12 +260,12 @@ cdef class GenlistItem(ObjectItem):
             _py_elm_genlist_compare_func,
             cb, <void*>self)
 
-        if item is not NULL:
-            self._set_obj(item)
-            return self
-        else:
-            Py_DECREF(self)
-            return None
+        if item == NULL:
+            raise RuntimeError("The item could not be added to the widget.")
+
+        self._set_obj(item)
+        self._set_properties_from_keyword_args(self.kwargs)
+        return self
 
     property data:
         """User data for the item."""
