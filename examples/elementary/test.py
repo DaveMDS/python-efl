@@ -196,6 +196,8 @@ items = [
         ]),
          ("Times & Dates", [
             ("Calendar", "test_calendar", "calendar_clicked"),
+            ("Calendar 2", "test_calendar", "calendar2_clicked"),
+            ("Calendar 3", "test_calendar", "calendar3_clicked"),
             ("Clock", "test_clock", "clock_clicked"),
             ("Datetime", "test_datetime", "datetime_clicked"),
         ]),
