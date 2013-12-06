@@ -277,7 +277,6 @@ Items' scroll to types
 """
 
 include "tooltips.pxi"
-include "cnp_callbacks.pxi"
 
 from libc.string cimport strdup
 from cpython cimport Py_INCREF, Py_DECREF, PyUnicode_AsUTF8String

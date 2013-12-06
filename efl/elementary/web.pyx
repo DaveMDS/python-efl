@@ -1050,15 +1050,16 @@ cdef class Web(Object):
     def callback_load_started_del(self, func):
         self._callback_del("load,started", func)
 
-    def callback_menubar_visible_get_add(self, func, *args, **kwargs):
-        """Queries if the menubar is visible. Event info
-        is a bool where the callback should set True if
-        the menubar is visible, or False in case it's not."""
-        self._callback_add_full("menubar,visible,get", _cb_bool_conv, func,
-            *args, **kwargs)
+    # def callback_menubar_visible_get_add(self, func, *args, **kwargs):
+    #     """Queries if the menubar is visible. Event info
+    #     is a bool where the callback should set True if
+    #     the menubar is visible, or False in case it's not."""
+    #     # XXX: the cb for this should use the return value, not the bool passed.
+    #     self._callback_add_full("menubar,visible,get", _cb_bool_conv, func,
+    #         *args, **kwargs)
 
-    def callback_menubar_visible_get_del(self, func):
-        self._callback_del_full("menubar,visible,get", _cb_bool_conv, func)
+    # def callback_menubar_visible_get_del(self, func):
+    #     self._callback_del_full("menubar,visible,get", _cb_bool_conv, func)
 
     def callback_menubar_visible_set_add(self, func, *args, **kwargs):
         """Informs menubar visibility. Event info is
@@ -1093,14 +1094,14 @@ cdef class Web(Object):
     def callback_ready_del(self, func):
         self._callback_del("ready", func)
 
-    def callback_scrollbars_visible_get_add(self, func, *args, **kwargs):
-        """Queries visibility of scrollbars. Event info is a bool where the
-        visibility state should be set."""
-        self._callback_add_full("scrollbars,visible,get", _cb_bool_conv, func,
-            *args, **kwargs)
+    # def callback_scrollbars_visible_get_add(self, func, *args, **kwargs):
+    #     """Queries visibility of scrollbars. Event info is a bool where the
+    #     visibility state should be set."""
+    #     self._callback_add_full("scrollbars,visible,get", _cb_bool_conv, func,
+    #         *args, **kwargs)
 
-    def callback_scrollbars_visible_get_del(self, func):
-        self._callback_del_full("scrollbars,visible,get", _cb_bool_conv, func)
+    # def callback_scrollbars_visible_get_del(self, func):
+    #     self._callback_del_full("scrollbars,visible,get", _cb_bool_conv, func)
 
     def callback_scrollbars_visible_set_add(self, func, *args, **kwargs):
         """Informs scrollbars visibility. Event info
@@ -1120,15 +1121,15 @@ cdef class Web(Object):
     def callback_statusbar_text_set_del(self, func):
         self._callback_del_full("statusbar,text,set", _cb_string_conv, func)
 
-    def callback_statusbar_visible_get_add(self, func, *args, **kwargs):
-        """Queries visibility of the status bar.
-        Event info is a bool where the visibility state should
-        be set."""
-        self._callback_add_full("statusbar,visible,get", _cb_bool_conv, func,
-            *args, **kwargs)
+    # def callback_statusbar_visible_get_add(self, func, *args, **kwargs):
+    #     """Queries visibility of the status bar.
+    #     Event info is a bool where the visibility state should
+    #     be set."""
+    #     self._callback_add_full("statusbar,visible,get", _cb_bool_conv, func,
+    #         *args, **kwargs)
 
-    def callback_statusbar_visible_get_del(self, func):
-        self._callback_del_full("statusbar,visible,get", _cb_bool_conv, func)
+    # def callback_statusbar_visible_get_del(self, func):
+    #     self._callback_del_full("statusbar,visible,get", _cb_bool_conv, func)
 
     def callback_statusbar_visible_set_add(self, func, *args, **kwargs):
         """Informs statusbar visibility. Event info is
@@ -1147,14 +1148,14 @@ cdef class Web(Object):
     def callback_title_changed_del(self, func):
         self._callback_del_full("title,changed", _cb_string_conv, func)
 
-    def callback_toolbars_visible_get_add(self, func, *args, **kwargs):
-        """Queries visibility of toolbars. Event info
-        is a bool where the visibility state should be set."""
-        self._callback_add_full("toolbars,visible,get", _cb_bool_conv, func,
-            *args, **kwargs)
+    # def callback_toolbars_visible_get_add(self, func, *args, **kwargs):
+    #     """Queries visibility of toolbars. Event info
+    #     is a bool where the visibility state should be set."""
+    #     self._callback_add_full("toolbars,visible,get", _cb_bool_conv, func,
+    #         *args, **kwargs)
 
-    def callback_toolbars_visible_get_del(self, func):
-        self._callback_del_full("toolbars,visible,get", _cb_bool_conv, func)
+    # def callback_toolbars_visible_get_del(self, func):
+    #     self._callback_del_full("toolbars,visible,get", _cb_bool_conv, func)
 
     def callback_toolbars_visible_set_add(self, func, *args, **kwargs):
         """Informs the visibility of toolbars. Event
