@@ -81,7 +81,7 @@ from cpython cimport PyUnicode_AsUTF8String
 from efl.eo cimport _object_mapping_register
 from efl.utils.conversions cimport _ctouni
 from efl.evas cimport Object as evasObject
-from object cimport Object
+from layout_class cimport LayoutClass
 
 cimport enums
 
@@ -89,9 +89,14 @@ def _cb_string_conv(long addr):
     cdef const_char *s = <const_char *>addr
     return _ctouni(s) if s is not NULL else None
 
-cdef class FileselectorEntry(Object):
+cdef class FileselectorEntry(LayoutClass):
 
-    """This is the class that actually implements the widget."""
+    """This is the class that actually implements the widget.
+
+    .. versionchanged:: 1.8
+        Inherits from LayoutClass.
+
+    """
 
     def __init__(self, evasObject parent, *args, **kwargs):
         self._set_obj(elm_fileselector_entry_add(parent.obj))

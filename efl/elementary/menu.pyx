@@ -462,7 +462,7 @@ cdef class Menu(Object):
     def callback_dismissed_add(self, func, *args, **kwargs):
         """the user clicked the empty space in the menu to dismiss
 
-        :since: 1.8
+        .. versionadded:: 1.8
         """
         self._callback_add("dismissed", func, *args, **kwargs)
 

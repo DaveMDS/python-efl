@@ -260,7 +260,7 @@ cdef class Colorselector(LayoutClass):
     def callback_focused_add(self, func, *args, **kwargs):
         """When the check has received focus.
 
-        :since: 1.8
+        .. versionadded:: 1.8
         """
         self._callback_add("focused", func, *args, **kwargs)
 
@@ -270,7 +270,7 @@ cdef class Colorselector(LayoutClass):
     def callback_unfocused_add(self, func, *args, **kwargs):
         """When the check has lost focus.
 
-        :since: 1.8
+        .. versionadded:: 1.8
         """
         self._callback_add("unfocused", func, *args, **kwargs)
 

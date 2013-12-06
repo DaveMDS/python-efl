@@ -82,8 +82,8 @@ cdef extern from "Elementary.h":
     ctypedef Evas_Object *  (*Elm_Tooltip_Item_Content_Cb)  (void *data, Evas_Object *obj, Evas_Object *tooltip, void *item)
 
     # General
-    void                    elm_init(int argc, char** argv)
-    void                    elm_shutdown()
+    int                     elm_init(int argc, char** argv)
+    int                     elm_shutdown()
     void                    elm_run() nogil
     void                    elm_exit()
 

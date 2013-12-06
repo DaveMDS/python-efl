@@ -441,7 +441,7 @@ cdef class Gengrid(Object):
         :return: The item stored in the object at position ``nth`` or
             ``None``, if there's no item with that index (and on errors)
 
-        :since: 1.8
+        .. versionadded:: 1.8
 
         """
         return _object_item_to_python(elm_gengrid_nth_item_get(self.obj, nth))
@@ -824,7 +824,7 @@ cdef class Gengrid(Object):
     def callback_focused_add(self, func, *args, **kwargs):
         """When the gengrid has received focus.
 
-        :since: 1.8
+        .. versionadded:: 1.8
         """
         self._callback_add("focused", func, *args, **kwargs)
 
@@ -834,7 +834,7 @@ cdef class Gengrid(Object):
     def callback_unfocused_add(self, func, *args, **kwargs):
         """When the gengrid has lost focus.
 
-        :since: 1.8
+        .. versionadded:: 1.8
         """
         self._callback_add("unfocused", func, *args, **kwargs)
 
@@ -843,6 +843,12 @@ cdef class Gengrid(Object):
 
 
     property scroller_policy:
+        """
+
+        .. deprecated:: 1.8
+            You should combine with Scrollable class instead.
+
+        """
         def __get__(self):
             return self.scroller_policy_get()
 
@@ -861,6 +867,12 @@ cdef class Gengrid(Object):
         return (policy_h, policy_v)
 
     property bounce:
+        """
+
+        .. deprecated:: 1.8
+            You should combine with Scrollable class instead.
+
+        """
         def __get__(self):
             return self.bounce_get()
         def __set__(self, value):

@@ -61,6 +61,10 @@ This widget emits the following signals, besides the ones sent from
 - ``done`` - the user has clicked on the "ok" or "cancel"
   buttons (*event_info* is the selection's path)
 
+For text, elm_layout_text_set() will work here on:
+
+- ``ok`` - OK button label if the ok button is set. (since 1.8)
+- ``cancel`` - Cancel button label if the cancel button is set. (since 1.8)
 
 Enumerations
 ------------
@@ -257,7 +261,8 @@ cdef class Fileselector(LayoutClass):
         :py:attr:`selected_paths`.
 
         :type: bool
-        :since: 1.8
+
+        .. versionadded:: 1.8
 
         """
         def __set__(self, bint multi):
@@ -313,7 +318,7 @@ cdef class Fileselector(LayoutClass):
             :py:attr:`multi_select`
             :py:attr:`selected`
 
-        :since: 1.8
+        .. versionadded:: 1.8
 
         """
         def __get__(self):
@@ -338,7 +343,7 @@ cdef class Fileselector(LayoutClass):
         :seealso: :py:func:`~efl.elementary.need.need_efreet`
         :seealso: :py:meth:`filters_clear`
 
-        :since: 1.8
+        .. versionadded:: 1.8
 
         """
         mime_types_s = ",".join(mime_types)
@@ -360,7 +365,7 @@ cdef class Fileselector(LayoutClass):
 
         :seealso: :py:meth:`mime_types_filter_append`
 
-        :since: 1.8
+        .. versionadded:: 1.8
 
         """
         elm_fileselector_filters_clear(self.obj)
@@ -375,7 +380,7 @@ cdef class Fileselector(LayoutClass):
 
         :type: bool
 
-        :since: 1.8
+        .. versionadded:: 1.8
 
         """
         def __set__(self, bint visible):

@@ -341,6 +341,8 @@ cdef extern from "Elementary.h":
 
     ctypedef enum Elm_Policy:
         ELM_POLICY_QUIT
+        ELM_POLICY_EXIT
+        ELM_POLICY_THROTTLE
         ELM_POLICY_LAST
 
     ctypedef enum Elm_Policy_Quit:

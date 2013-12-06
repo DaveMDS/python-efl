@@ -839,7 +839,7 @@ cdef class Object(evasObject):
 
         :type: bool
 
-        :since: 1.8
+        .. versionadded:: 1.8
 
         """
         def __set__(self, bint disabled):
@@ -1081,7 +1081,7 @@ cdef class Object(evasObject):
 
         :see: :py:func:`focus_next`
 
-        :since: 1.8
+        .. versionadded:: 1.8
 
         """
         return object_from_instance(
@@ -1103,7 +1103,7 @@ cdef class Object(evasObject):
 
         :see: :py:func:`focus_next`
 
-        :since: 1.8
+        .. versionadded:: 1.8
 
         """
         elm_object_focus_next_object_set(self.obj, next.obj, direction)
@@ -1113,7 +1113,7 @@ cdef class Object(evasObject):
 
         :return: Current focused or None, if there is no focused object.
 
-        :since: 1.8
+        .. versionadded:: 1.8
 
         """
         def __get__(self):
@@ -1494,7 +1494,7 @@ cdef class Object(evasObject):
         :param domain: The translation domain to use
         :param text: The original, non-translated text to set
 
-        :since: 1.8
+        .. versionadded:: 1.8
 
         """
         if isinstance(part, unicode): part = PyUnicode_AsUTF8String(part)
@@ -1555,7 +1555,7 @@ cdef class Object(evasObject):
 
         :see: :py:func:`translatable_part_text_set`
 
-        :since: 1.8
+        .. versionadded:: 1.8
 
         """
         if isinstance(part, unicode): part = PyUnicode_AsUTF8String(part)
@@ -1581,7 +1581,7 @@ cdef class Object(evasObject):
 
         :seealso: :py:func:`efl.elementary.general.policy_set`
 
-        :since: 1.8
+        .. versionadded:: 1.8
 
         """
         if isinstance(part, unicode): part = PyUnicode_AsUTF8String(part)

@@ -180,7 +180,12 @@ cdef class CtxpopupItem(ObjectItem):
 
 cdef class Ctxpopup(LayoutClass):
 
-    """This is the class that actually implements the widget."""
+    """This is the class that actually implements the widget.
+
+    .. versionchanged:: 1.8
+        Inherits from LayoutClass
+
+    """
 
     def __init__(self, evasObject parent, *args, **kwargs):
         self._set_obj(elm_ctxpopup_add(parent.obj))
@@ -328,7 +333,7 @@ cdef class Ctxpopup(LayoutClass):
     def callback_focused_add(self, func, *args, **kwargs):
         """When the ctxpopup has received focus.
 
-        :since: 1.8
+        .. versionadded:: 1.8
         """
         self._callback_add("focused", func, *args, **kwargs)
 
@@ -338,7 +343,7 @@ cdef class Ctxpopup(LayoutClass):
     def callback_unfocused_add(self, func, *args, **kwargs):
         """When the ctxpopup has lost focus.
 
-        :since: 1.8
+        .. versionadded:: 1.8
         """
         self._callback_add("unfocused", func, *args, **kwargs)
 

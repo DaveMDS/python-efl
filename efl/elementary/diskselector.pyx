@@ -472,7 +472,7 @@ cdef class Diskselector(Object):
     def callback_focused_add(self, func, *args, **kwargs):
         """When the diskselector has received focus.
 
-        :since: 1.8
+        .. versionadded:: 1.8
         """
         self._callback_add("focused", func, *args, **kwargs)
 
@@ -482,7 +482,7 @@ cdef class Diskselector(Object):
     def callback_unfocused_add(self, func, *args, **kwargs):
         """When the diskselector has lost focus.
 
-        :since: 1.8
+        .. versionadded:: 1.8
         """
         self._callback_add("unfocused", func, *args, **kwargs)
 
@@ -491,6 +491,12 @@ cdef class Diskselector(Object):
 
 
     property scroller_policy:
+        """
+
+        .. deprecated:: 1.8
+            You should combine with Scrollable class instead.
+
+        """
         def __get__(self):
             return self.scroller_policy_get()
 
@@ -509,6 +515,12 @@ cdef class Diskselector(Object):
         return (policy_h, policy_v)
 
     property bounce:
+        """
+
+        .. deprecated:: 1.8
+            You should combine with Scrollable class instead.
+
+        """
         def __get__(self):
             return self.bounce_get()
         def __set__(self, value):

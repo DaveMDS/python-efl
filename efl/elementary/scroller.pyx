@@ -264,7 +264,7 @@ cdef class Scrollable(Object):
 
         :type: :ref:`Elm_Scroller_Single_Direction`
 
-        :since: 1.8
+        .. versionadded:: 1.8
 
         """
         def __set__(self, Elm_Scroller_Single_Direction single_dir):
@@ -340,7 +340,7 @@ cdef class Scrollable(Object):
 
         :type: (bool **page_h_snap**, bool **page_v_snap**)
 
-        :since: 1.8
+        .. versionadded:: 1.8
 
 
         """
@@ -450,7 +450,7 @@ cdef class Scrollable(Object):
 
         :type: (int **page_limit_h**, int **page_limit_v**)
 
-        :since: 1.8
+        .. versionadded:: 1.8
 
         """
         def __set__(self, value):
@@ -674,7 +674,7 @@ cdef class Scrollable(Object):
 
         :type: :ref:`Elm_Scroller_Movement_Block`
 
-        :since: 1.8
+        .. versionadded:: 1.8
 
 
         """
@@ -828,7 +828,7 @@ cdef class Scrollable(Object):
     def callback_focused_add(self, func, *args, **kwargs):
         """When the scroller has received focus.
 
-        :since: 1.8
+        .. versionadded:: 1.8
         """
         self._callback_add("focused", func, *args, **kwargs)
 
@@ -838,7 +838,7 @@ cdef class Scrollable(Object):
     def callback_unfocused_add(self, func, *args, **kwargs):
         """When the scroller has lost focus.
 
-        :since: 1.8
+        .. versionadded:: 1.8
         """
         self._callback_add("unfocused", func, *args, **kwargs)
 

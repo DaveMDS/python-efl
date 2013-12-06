@@ -124,6 +124,8 @@ class ImageProgressInfo(object):
     :var now: The amount of data received so far.
     :var total: The total amount of data to download.
 
+    .. versionadded:: 1.8
+
     """
     def __init__(self):
         self.now = 0
@@ -144,6 +146,8 @@ class ImageErrorInfo(object):
 
     :var status: The http error code (such as 401)
     :var open_error: TODO
+
+    .. versionadded:: 1.8
 
     """
     def __init__(self):

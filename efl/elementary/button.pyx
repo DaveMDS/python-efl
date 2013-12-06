@@ -176,7 +176,8 @@ cdef class Button(LayoutClass):
     def callback_focused_add(self, func, *args, **kwargs):
         """When the button has received focus.
 
-        :since: 1.8
+        .. versionadded:: 1.8
+
         """
         self._callback_add("focused", func, *args, **kwargs)
 
@@ -186,7 +187,8 @@ cdef class Button(LayoutClass):
     def callback_unfocused_add(self, func, *args, **kwargs):
         """When the button has lost focus.
 
-        :since: 1.8
+        .. versionadded:: 1.8
+
         """
         self._callback_add("unfocused", func, *args, **kwargs)
 

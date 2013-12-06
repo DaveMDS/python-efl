@@ -474,6 +474,7 @@ from efl.eo cimport _object_mapping_register, object_from_instance
 from efl.utils.conversions cimport _touni, _ctouni
 from efl.evas cimport Object as evasObject
 from object cimport Object
+from layout_class cimport LayoutClass
 from hover cimport Hover
 
 from efl.utils.deprecated cimport DEPRECATED
@@ -544,12 +545,14 @@ cdef void _entry_context_menu_callback(void *data, Evas_Object *obj, void *event
 
 @DEPRECATED("1.8", "Use markup_to_utf8() instead.")
 def Entry_markup_to_utf8(string):
+    """Entry_markup_to_utf8(string)"""
     if isinstance(string, unicode): string = PyUnicode_AsUTF8String(string)
     return _touni(elm_entry_markup_to_utf8(
         <const_char *>string if string is not None else NULL))
 
 @DEPRECATED("1.8", "Use utf8_to_markup() instead.")
 def Entry_utf8_to_markup(string):
+    """Entry_utf8_to_markup(string)"""
     if isinstance(string, unicode): string = PyUnicode_AsUTF8String(string)
     return _touni(elm_entry_utf8_to_markup(
         <const_char *>string if string is not None else NULL))
@@ -569,7 +572,7 @@ cdef class EntryContextMenuItem(object):
 
     Type of contextual item that can be added in to long press menu.
 
-    :since: 1.8
+    .. versionadded:: 1.8
 
     """
     cdef Elm_Entry_Context_Menu_Item *item
@@ -581,7 +584,7 @@ cdef class EntryContextMenuItem(object):
 
         :type: unicode
 
-        :since: 1.8
+        .. versionadded:: 1.8
 
         """
         def __get__(self):
@@ -594,7 +597,7 @@ cdef class EntryContextMenuItem(object):
 
         :type: (unicode **icon_file**, unicode **icon_group**, :ref:`Icon type <Elm_Icon_Type>` **icon_type**)
 
-        :since: 1.8
+        .. versionadded:: 1.8
 
         """
         def __get__(self):
@@ -774,9 +777,14 @@ def _entryanchorhover_conv(long addr):
     eahi.hover_bottom = ehi.hover_bottom
     return eahi
 
-cdef class Entry(Object):
+cdef class Entry(LayoutClass):
 
-    """This is the class that actually implements the widget."""
+    """This is the class that actually implements the widget.
+
+    .. versionchanged:: 1.8
+        Inherits from LayoutClass.
+
+    """
 
     def __init__(self, evasObject parent, *args, **kwargs):
         """By default, entries are:
@@ -1593,7 +1601,7 @@ cdef class Entry(Object):
 
         :type: int
 
-        :since: 1.8
+        .. versionadded:: 1.8
 
         """
         def __set__(self, int variation):
@@ -2195,6 +2203,12 @@ cdef class Entry(Object):
 
 
     property scrollbar_policy:
+        """
+
+        .. deprecated:: 1.8
+            You should combine with Scrollable class instead.
+
+        """
         def __get__(self):
             return self.scrollbar_policy_get()
 
@@ -2213,6 +2227,12 @@ cdef class Entry(Object):
         return (policy_h, policy_v)
 
     property bounce:
+        """
+
+        .. deprecated:: 1.8
+            You should combine with Scrollable class instead.
+
+        """
         def __get__(self):
             return self.bounce_get()
         def __set__(self, value):

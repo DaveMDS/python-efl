@@ -201,10 +201,12 @@ cdef class Label(LayoutClass):
 
     @DEPRECATED("1.8", "Use :py:attr:`slide_mode` instead.")
     def slide_set(self, bint slide):
+        """slide_set(bool slide)"""
         elm_label_slide_mode_set(self.obj,
             ELM_LABEL_SLIDE_MODE_ALWAYS if slide else ELM_LABEL_SLIDE_MODE_NONE)
     @DEPRECATED("1.8", "Use :py:attr:`slide_mode` instead.")
     def slide_get(self):
+        """slide_get() -> bool"""
         return bool(elm_label_slide_mode_get(self.obj))
 
     property slide_duration:
@@ -246,6 +248,8 @@ cdef class Label(LayoutClass):
 
         :type: :ref:`Elm_Label_Slide_Mode`
 
+        .. versionadded:: 1.8
+
         """
         def __get__(self):
             return elm_label_slide_mode_get(self.obj)
@@ -259,7 +263,13 @@ cdef class Label(LayoutClass):
         return elm_label_slide_mode_get(self.obj)
 
     def slide_go(self):
-        """Start the slide effect."""
+        """slide_go()
+
+        Start the slide effect.
+
+        .. versionadded:: 1.8
+
+        """
         elm_label_slide_go(self.obj)
 
     def callback_language_changed_add(self, func, *args, **kwargs):

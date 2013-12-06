@@ -1123,7 +1123,7 @@ cdef class Image(Object):
 
         .. seealso:: :py:attr:`source`
 
-        :since: 1.8
+        .. versionadded:: 1.8
 
         """
         def __set__(self, bint visible):
@@ -1154,7 +1154,7 @@ cdef class Image(Object):
             :py:attr:`source`
             :py:attr:`source_visible`
 
-        :since: 1.8
+        .. versionadded:: 1.8
 
         """
         def __set__(self, bint source):

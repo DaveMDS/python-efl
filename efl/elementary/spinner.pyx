@@ -265,6 +265,8 @@ cdef class Spinner(LayoutClass):
         :param label: The label to be used.
         :type label: unicode
 
+        .. versionadded:: 1.8
+
         """
         if isinstance(label, unicode): label = PyUnicode_AsUTF8String(label)
         elm_spinner_special_value_add(self.obj, value,
@@ -282,7 +284,7 @@ cdef class Spinner(LayoutClass):
 
         :see: :py:meth:`special_value_add` for more details.
 
-        :since: 1.8
+        .. versionadded:: 1.8
 
         """
         elm_spinner_special_value_del(self.obj, value)
@@ -297,7 +299,7 @@ cdef class Spinner(LayoutClass):
 
         :see: :py:meth:`special_value_add` for more details.
 
-        :since: 1.8
+        .. versionadded:: 1.8
 
         """
         return _ctouni(elm_spinner_special_value_get(self.obj, value))
@@ -417,7 +419,7 @@ cdef class Spinner(LayoutClass):
     def callback_focused_add(self, func, *args, **kwargs):
         """When the spinner has received focus.
 
-        :since: 1.8
+        .. versionadded:: 1.8
         """
         self._callback_add("focused", func, *args, **kwargs)
 
@@ -427,7 +429,7 @@ cdef class Spinner(LayoutClass):
     def callback_unfocused_add(self, func, *args, **kwargs):
         """When the spinner has lost focus.
 
-        :since: 1.8
+        .. versionadded:: 1.8
         """
         self._callback_add("unfocused", func, *args, **kwargs)
 

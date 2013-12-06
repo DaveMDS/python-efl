@@ -353,6 +353,7 @@ cdef class GengridItem(ObjectItem):
 
     @DEPRECATED("1.8", "Use tooltip_unset() instead")
     def item_tooltip_unset(self):
+        """item_tooltip_unset()"""
         elm_gengrid_item_tooltip_unset(self.item)
 
     def tooltip_unset(self):

@@ -851,8 +851,9 @@ cdef class Configuration(object):
 
         Clouseau state. True if clouseau was tried to be run.
 
-        :since: 1.8
         :return: True if clouseau was tried to run, False otherwise
+
+        .. versionadded:: 1.8
 
         """
         def __get__(self):
@@ -879,6 +880,8 @@ cdef class Configuration(object):
 
         :type: float
 
+        .. versionadded:: 1.8
+
         """
         def __get__(self):
             return elm_config_glayer_long_tap_start_timeout_get()
@@ -891,6 +894,8 @@ cdef class Configuration(object):
         Get the duration for occurring double tap event of gesture layer.
 
         :return: Timeout for double tap event of gesture layer.
+
+        .. versionadded:: 1.8
 
         """
         def __get__(self):

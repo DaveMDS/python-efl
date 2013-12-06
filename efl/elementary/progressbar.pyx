@@ -153,7 +153,9 @@ cdef class Progressbar(LayoutClass):
         return elm_progressbar_value_get(self.obj)
 
     def part_value_get(self, part not None):
-        """ Get the progress status (in percentage) for the given part.
+        """part_value_get(part) -> int
+
+        Get the progress status (in percentage) for the given part.
 
         This can be used with a progressbar of style: "recording". The recording
         style have two different part that can represent two different progress
@@ -161,14 +163,20 @@ cdef class Progressbar(LayoutClass):
         The default theme provide two parts by default:
         "elm.cur.progressbar" and "elm.cur.progressbar1"
 
+        .. versionadded:: 1.8
+
         """
         if isinstance(part, unicode): part = PyUnicode_AsUTF8String(part)
         return elm_progressbar_part_value_get(self.obj, <const_char *>part)
 
-    def part_value_set(self, part not None, value):
-        """ Set the progress status (in percentage) for the given part.
+    def part_value_set(self, part not None, double value):
+        """part_value_set(part, int value)
+
+        Set the progress status (in percentage) for the given part.
 
         :see: :py:func:`part_value_get` for more info.
+
+        .. versionadded:: 1.8
 
         """
         if isinstance(part, unicode): part = PyUnicode_AsUTF8String(part)
@@ -301,7 +309,7 @@ cdef class Progressbar(LayoutClass):
     def callback_focused_add(self, func, *args, **kwargs):
         """When the progressbar has received focus.
 
-        :since: 1.8
+        .. versionadded:: 1.8
         """
         self._callback_add("focused", func, *args, **kwargs)
 
@@ -311,7 +319,7 @@ cdef class Progressbar(LayoutClass):
     def callback_unfocused_add(self, func, *args, **kwargs):
         """When the progressbar has lost focus.
 
-        :since: 1.8
+        .. versionadded:: 1.8
         """
         self._callback_add("unfocused", func, *args, **kwargs)
 

@@ -652,7 +652,8 @@ cdef class Transit(object):
         :type: bool
 
         :see: :py:attr:`efl.evas.Map.smooth`
-        :since: 1.8
+
+        .. versionadded:: 1.8
 
         """
         def __set__(self, bint smooth):

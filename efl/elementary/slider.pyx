@@ -361,7 +361,8 @@ cdef class Slider(LayoutClass):
         By default step value is equal to 0.05.
 
         :type: double
-        :since: 1.8
+
+        .. versionadded:: 1.8
 
         """
         def __set__(self, double step):
@@ -412,7 +413,7 @@ cdef class Slider(LayoutClass):
     def callback_focused_add(self, func, *args, **kwargs):
         """When the slider has received focus.
 
-        :since: 1.8
+        .. versionadded:: 1.8
         """
         self._callback_add("focused", func, *args, **kwargs)
 
@@ -422,7 +423,7 @@ cdef class Slider(LayoutClass):
     def callback_unfocused_add(self, func, *args, **kwargs):
         """When the slider has lost focus.
 
-        :since: 1.8
+        .. versionadded:: 1.8
         """
         self._callback_add("unfocused", func, *args, **kwargs)
 

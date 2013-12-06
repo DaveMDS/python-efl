@@ -215,7 +215,7 @@ cdef class Dayselector(LayoutClass):
 
         :see: :py:attr:`weekend_start`
 
-        :since: 1.8
+        .. versionadded:: 1.8
 
         """
         def __set__(self, list weekdays):

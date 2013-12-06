@@ -100,7 +100,8 @@ cdef class SelectionData(object):
         """The action to perform with the data
 
         :type: :ref:`Elm_Object_Xdnd_Action`
-        :since: 1.8
+
+        .. versionadded:: 1.8
 
         """
         def __get__(self):
@@ -190,7 +191,8 @@ cdef Evas_Object *py_elm_drag_icon_create_cb(
     :param yoff: A return coordinate for the Y offset at which to place
         the drag icon object relative to the source drag object
     :return: An object to fill the drag window with or NULL if not needed
-    :since: 1.8
+
+    .. versionadded:: 1.8
 
     """
     assert data != NULL, "data is NULL"
@@ -233,7 +235,8 @@ cdef void py_elm_drag_state_cb(void *data, Evas_Object *obj) with gil:
 
     :param data: Application specific data
     :param obj: The object where the drag started
-    :since: 1.8
+
+    .. versionadded:: 1.8
 
     """
     print("in drag_state_cb")
@@ -244,7 +247,8 @@ cdef void py_elm_drag_done_cb(void *data, Evas_Object *obj, Eina_Bool accepted) 
     :param data: Application specific data
     :param obj: The object where the drag started
     :param accepted: TRUE if the droppped-data is accepted on drop
-    :since: 1.8
+
+    .. versionadded:: 1.8
 
     """
     assert data != NULL, "data is NULL"
@@ -265,7 +269,8 @@ cdef void py_elm_drag_accept_cb(void *data, Evas_Object *obj, Eina_Bool doaccept
     :param data: Application specific data
     :param obj: The object where the drag started
     :param doaccept: A boolean as to if the target accepts the drag or not
-    :since: 1.8
+
+    .. versionadded:: 1.8
 
     """
     print("in drag_accept_cb")
@@ -278,7 +283,8 @@ cdef void py_elm_drag_pos_cb(void *data, Evas_Object *obj,
     :param obj: The object where the drag started
     :param x: The X coordinate relative to the top-left of the object
     :param y: The Y coordinate relative to the top-left of the object
-    :since: 1.8
+
+    .. versionadded:: 1.8
 
     """
     print("in drag_pos_cb")
@@ -310,7 +316,8 @@ cdef void py_elm_drag_item_container_pos(
     :param xposret: Position relative to item (left (-1), middle (0), right (1)
     :param yposret: Position relative to item (upper (-1), middle (0), bottom (1)
     :param action: The drag action to be done
-    :since: 1.8
+
+    .. versionadded:: 1.8
 
     """
     print("in drag_item_container_pos")

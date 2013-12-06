@@ -44,6 +44,8 @@ def need_systray():
     :return: True if support exists and initialization succeeded.
     :rtype: bool
 
+    .. versionadded:: 1.8
+
     """
     return bool(elm_need_systray())
 
@@ -58,6 +60,8 @@ def need_sys_notify():
 
     :return: True if support exists and initialization succeeded.
     :rtype: bool
+
+    .. versionadded:: 1.8
 
     """
     return bool(elm_need_sys_notify())
@@ -90,6 +94,8 @@ def need_eldbus():
     :return: True if support exists and initialization succeeded.
     :rtype: bool
 
+    .. versionadded:: 1.8
+
     """
     return bool(elm_need_eldbus())
 
@@ -104,6 +110,8 @@ def need_elocation():
 
     :return: True if support exists and initialization succeeded.
     :rtype: bool
+
+    .. versionadded:: 1.8
 
     """
     return bool(elm_need_elocation())

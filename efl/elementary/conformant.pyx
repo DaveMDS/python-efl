@@ -63,7 +63,9 @@ cdef class Conformant(LayoutClass):
     def callback_virtualkeypad_state_on_add(self, func, *args, **kwargs):
         """if virtualkeypad state is switched to "on".
 
-        :since: 1.8"""
+        .. versionadded:: 1.8
+
+        """
         self._callback_add("virtualkeypad,state,on", func, *args, **kwargs)
 
     def callback_virtualkeypad_state_on_del(self, func):
@@ -72,7 +74,9 @@ cdef class Conformant(LayoutClass):
     def callback_virtualkeypad_state_off_add(self, func, *args, **kwargs):
         """if virtualkeypad state is switched to "off".
 
-        :since: 1.8"""
+        .. versionadded:: 1.8
+
+        """
         self._callback_add("virtualkeypad,state,off", func, *args, **kwargs)
 
     def callback_virtualkeypad_state_off_del(self, func):
@@ -81,7 +85,9 @@ cdef class Conformant(LayoutClass):
     def callback_clipboard_state_on_add(self, func, *args, **kwargs):
         """if clipboard state is switched to "on".
 
-        :since: 1.8"""
+        .. versionadded:: 1.8
+
+        """
         self._callback_add("clipboard,state,on", func, *args, **kwargs)
 
     def callback_clipboard_state_on_del(self, func):
@@ -90,7 +96,9 @@ cdef class Conformant(LayoutClass):
     def callback_clipboard_state_off_add(self, func, *args, **kwargs):
         """if clipboard state is switched to "off".
 
-        :since: 1.8"""
+        .. versionadded:: 1.8
+
+        """
         self._callback_add("clipboard,state,off", func, *args, **kwargs)
 
     def callback_clipboard_state_off_del(self, func):

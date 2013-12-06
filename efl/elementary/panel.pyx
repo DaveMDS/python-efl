@@ -73,6 +73,7 @@ Panel orientation types
 from efl.eo cimport _object_mapping_register
 from efl.evas cimport Object as evasObject
 from object cimport Object
+from layout_class cimport LayoutClass
 
 cimport enums
 
@@ -81,9 +82,14 @@ ELM_PANEL_ORIENT_BOTTOM = enums.ELM_PANEL_ORIENT_BOTTOM
 ELM_PANEL_ORIENT_LEFT = enums.ELM_PANEL_ORIENT_LEFT
 ELM_PANEL_ORIENT_RIGHT = enums.ELM_PANEL_ORIENT_RIGHT
 
-cdef class Panel(Object):
+cdef class Panel(LayoutClass):
 
-    """This is the class that actually implements the widget."""
+    """This is the class that actually implements the widget.
+
+    .. versionchanged:: 1.8
+        Inherits from LayoutClass.
+
+    """
 
     def __init__(self, evasObject parent, *args, **kwargs):
         self._set_obj(elm_panel_add(parent.obj))
@@ -134,7 +140,7 @@ cdef class Panel(Object):
     def callback_focused_add(self, func, *args, **kwargs):
         """When the panel has received focus.
 
-        :since: 1.8
+        .. versionadded:: 1.8
         """
         self._callback_add("focused", func, *args, **kwargs)
 
@@ -144,7 +150,7 @@ cdef class Panel(Object):
     def callback_unfocused_add(self, func, *args, **kwargs):
         """When the panel has lost focus.
 
-        :since: 1.8
+        .. versionadded:: 1.8
         """
         self._callback_add("unfocused", func, *args, **kwargs)
 

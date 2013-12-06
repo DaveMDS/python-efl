@@ -645,7 +645,7 @@ cdef class Genlist(Object):
         :return: The item stored in the object at position ``nth`` or
             ``None``, if there's no item with that index (and on errors)
 
-        :since: 1.8
+        .. versionadded:: 1.8
 
         """
         return _object_item_to_python(elm_genlist_nth_item_get(self.obj, nth))
@@ -999,7 +999,7 @@ cdef class Genlist(Object):
     def callback_focused_add(self, func, *args, **kwargs):
         """When the genlist has received focus.
 
-        :since: 1.8
+        .. versionadded:: 1.8
         """
         self._callback_add("focused", func, *args, **kwargs)
 
@@ -1009,7 +1009,7 @@ cdef class Genlist(Object):
     def callback_unfocused_add(self, func, *args, **kwargs):
         """When the genlist has lost focus.
 
-        :since: 1.8
+        .. versionadded:: 1.8
         """
         self._callback_add("unfocused", func, *args, **kwargs)
 
@@ -1017,6 +1017,12 @@ cdef class Genlist(Object):
         self._callback_del("unfocused", func)
 
     property scroller_policy:
+        """
+
+        .. deprecated:: 1.8
+            You should combine with Scrollable class instead.
+
+        """
         def __get__(self):
             return self.scroller_policy_get()
 
@@ -1035,6 +1041,12 @@ cdef class Genlist(Object):
         return (policy_h, policy_v)
 
     property bounce:
+        """
+
+        .. deprecated:: 1.8
+            You should combine with Scrollable class instead.
+
+        """
         def __get__(self):
             return self.bounce_get()
         def __set__(self, value):

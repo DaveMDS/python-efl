@@ -50,7 +50,7 @@ ELM_NOTIFY_ALIGN_FILL
 
     Use with :py:attr:`Notify.align`
 
-    :since: 1.8
+    .. versionadded:: 1.8
 
 """
 
@@ -172,7 +172,7 @@ cdef class Notify(Object):
             :ref:`ELM_NOTIFY_ALIGN_FILL` to
             ``horizontal``, ``vertical``.
 
-        :since: 1.8
+        .. versionadded:: 1.8
 
         """
         def __set__(self, value):
@@ -217,9 +217,11 @@ cdef class Notify(Object):
 
     @DEPRECATED("1.8", "Use align instead.")
     def orient_set(self, int orient):
+        """orient_set(int orient)"""
         elm_notify_orient_set(self.obj, orient)
     @DEPRECATED("1.8", "Use align instead.")
     def orient_get(self):
+        """orient_get() -> int"""
         return elm_notify_orient_get(self.obj)
 
 

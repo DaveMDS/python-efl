@@ -528,6 +528,8 @@ cdef class Calendar(LayoutClass):
 
         :type: :ref:`Elm_Calendar_Selectable`
 
+        .. versionadded:: 1.8
+
         """
         def __set__(self, Elm_Calendar_Selectable selectable):
             elm_calendar_selectable_set(self.obj, selectable)
@@ -540,8 +542,7 @@ cdef class Calendar(LayoutClass):
 
         :type: datetime.date
 
-        .. versionchanged:: 1.8
-            Returns None when the displayed date cannot be fetched.
+        .. versionadded:: 1.8
 
         """
         def __get__(self):
@@ -570,7 +571,7 @@ cdef class Calendar(LayoutClass):
     def callback_focused_add(self, func, *args, **kwargs):
         """When the calendar has received focus.
 
-        :since: 1.8
+        .. versionadded:: 1.8
         """
         self._callback_add("focused", func, *args, **kwargs)
 
@@ -580,7 +581,7 @@ cdef class Calendar(LayoutClass):
     def callback_unfocused_add(self, func, *args, **kwargs):
         """When the calendar has lost focus.
 
-        :since: 1.8
+        .. versionadded:: 1.8
         """
         self._callback_add("unfocused", func, *args, **kwargs)
 

@@ -177,6 +177,7 @@ from efl.eo cimport _object_mapping_register, PY_REFCOUNT
 from efl.utils.conversions cimport _ctouni
 from efl.evas cimport Object as evasObject
 from object cimport Object
+from layout_class cimport LayoutClass
 from object_item cimport _object_item_callback, _object_item_callback2, \
     _object_item_to_python
 
@@ -260,9 +261,14 @@ cdef class PopupItem(ObjectItem):
                 self.cb_func,
                 self.args)
 
-cdef class Popup(Object):
+cdef class Popup(LayoutClass):
 
-    """This is the class that actually implements the widget."""
+    """This is the class that actually implements the widget.
+
+    .. versionchanged:: 1.8
+        Inherits from LayoutClass.
+
+    """
 
     def __init__(self, evasObject parent, *args, **kwargs):
         self._set_obj(elm_popup_add(parent.obj))
@@ -397,7 +403,7 @@ cdef class Popup(Object):
     def callback_focused_add(self, func, *args, **kwargs):
         """When the popup has received focus.
 
-        :since: 1.8
+        .. versionadded:: 1.8
         """
         self._callback_add("focused", func, *args, **kwargs)
 
@@ -407,7 +413,7 @@ cdef class Popup(Object):
     def callback_unfocused_add(self, func, *args, **kwargs):
         """When the popup has lost focus.
 
-        :since: 1.8
+        .. versionadded:: 1.8
         """
         self._callback_add("unfocused", func, *args, **kwargs)
 
@@ -417,7 +423,7 @@ cdef class Popup(Object):
     def callback_language_changed_add(self, func, *args, **kwargs):
         """the program's language changed
 
-        since: 1.8
+        .. versionadded:: 1.8
         """
         self._callback_add("language,changed", func, *args, **kwargs)
 

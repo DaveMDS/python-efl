@@ -265,8 +265,9 @@ cdef class Thumb(Object):
 
         The aspect for the thumb object.
 
-        :since: 1.8
         :type: :ref:`Ethumb_Thumb_Aspect`
+
+        .. versionadded:: 1.8
 
         """
         def __set__(self, aspect):
@@ -280,8 +281,9 @@ cdef class Thumb(Object):
 
         The FDO size for the thumb object.
 
-        :since: 1.8
         :type: :ref:`Ethumb_Thumb_FDO_Size`
+
+        .. versionadded:: 1.8
 
         """
         def __set__(self, size):
@@ -295,8 +297,9 @@ cdef class Thumb(Object):
 
         The format for the thumb object.
 
-        :since: 1.8
         :type: :ref:`Ethumb_Thumb_Format`
+
+        .. versionadded:: 1.8
 
         """
         def __set__(self, format):
@@ -310,8 +313,9 @@ cdef class Thumb(Object):
 
         The orientation for the thumb object.
 
-        :since: 1.8
         :type: :ref:`Ethumb_Thumb_Orientation`
+
+        .. versionadded:: 1.8
 
         """
         def __set__(self, orient):
@@ -325,8 +329,9 @@ cdef class Thumb(Object):
 
         The size for the thumb object.
 
-        :since: 1.8
         :type: (int tw, int th)
+
+        .. versionadded:: 1.8
 
         """
         def __set__(self, value):
@@ -343,8 +348,9 @@ cdef class Thumb(Object):
 
         Set the crop alignment for the thumb object.
 
-        :since: 1.8
         :type: (double cropx, double cropy)
+
+        .. versionadded:: 1.8
 
         """
         def __set__(self, value):
@@ -361,8 +367,9 @@ cdef class Thumb(Object):
 
         Set the compression for the thumb object.
 
-        :since: 1.8
         :type: int
+
+        .. versionadded:: 1.8
 
         """
         def __set__(self, compress):
@@ -377,9 +384,10 @@ cdef class Thumb(Object):
         """
 
         Set the quality for the thumb object.
-        :since: 1.8
 
         :type: int
+
+        .. versionadded:: 1.8
 
         """
         def __set__(self, int quality):

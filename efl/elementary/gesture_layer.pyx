@@ -658,7 +658,8 @@ cdef class GestureLayer(Object):
         """Gesture layer line min length of an object
 
         :type: int
-        :since: 1.8
+
+        .. versionadded:: 1.8
 
         """
         def __set__(self, int line_min_length):
@@ -671,7 +672,8 @@ cdef class GestureLayer(Object):
         """Gesture layer zoom distance tolerance of an object
 
         :type: int
-        :since: 1.8
+
+        .. versionadded:: 1.8
 
         """
         def __set__(self, int zoom_distance_tolerance):
@@ -684,7 +686,8 @@ cdef class GestureLayer(Object):
         """Gesture layer line distance tolerance of an object
 
         :type: int
-        :since: 1.8
+
+        .. versionadded:: 1.8
 
         """
         def __set__(self, int line_distance_tolerance):
@@ -696,8 +699,9 @@ cdef class GestureLayer(Object):
     property line_angular_tolerance:
         """Gesture layer line angular tolerance of an object
 
-        :since: 1.8
         :type: double
+
+        .. versionadded:: 1.8
 
         """
         def __set__(self, double line_angular_tolerance):
@@ -710,7 +714,8 @@ cdef class GestureLayer(Object):
         """Gesture layer zoom wheel factor of an object
 
         :type: double
-        :since: 1.8
+
+        .. versionadded:: 1.8
 
         """
         def __set__(self, double zoom_wheel_factor):
@@ -723,7 +728,8 @@ cdef class GestureLayer(Object):
         """Gesture layer zoom finger factor of an object
 
         :type: double
-        :since: 1.8
+
+        .. versionadded:: 1.8
 
         """
         def __set__(self, double zoom_finger_factor):
@@ -736,7 +742,8 @@ cdef class GestureLayer(Object):
         """Gesture layer rotate angular tolerance of an object
 
         :type: double
-        :since: 1.8
+
+        .. versionadded:: 1.8
 
         """
         def __set__(self, double rotate_angular_tolerance):
@@ -749,7 +756,8 @@ cdef class GestureLayer(Object):
         """Gesture layer flick time limit (in ms) of an object
 
         :type: int
-        :since: 1.8
+
+        .. versionadded:: 1.8
 
         """
         def __set__(self, unsigned int flick_time_limit_ms):
@@ -762,7 +770,8 @@ cdef class GestureLayer(Object):
         """Gesture layer long tap start timeout of an object
 
         :type: double
-        :since: 1.8
+
+        .. versionadded:: 1.8
 
         """
         def __set__(self, double long_tap_start_timeout):
@@ -775,7 +784,8 @@ cdef class GestureLayer(Object):
         """Gesture layer continues enable of an object
 
         :type: bool
-        :since: 1.8
+
+        .. versionadded:: 1.8
 
         """
         def __set__(self, continues_enable):
@@ -788,7 +798,8 @@ cdef class GestureLayer(Object):
         """Gesture layer double tap timeout of an object
 
         :type: double
-        :since: 1.8
+
+        .. versionadded:: 1.8
 
         """
         def __set__(self, double double_tap_timeout):
@@ -805,7 +816,8 @@ cdef class GestureLayer(Object):
         Set to ZERO if you want GLayer to use system finger size value (default)
 
         :type: int
-        :since: 1.8
+
+        .. versionadded:: 1.8
 
 
         """

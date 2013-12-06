@@ -170,6 +170,7 @@ from efl.eo cimport _object_mapping_register, object_from_instance
 from efl.utils.conversions cimport _ctouni
 from efl.evas cimport Object as evasObject
 from object cimport Object
+from layout_class cimport LayoutClass
 from object_item cimport _object_item_callback, _object_item_to_python, \
     _object_item_callback2
 from menu cimport Menu
@@ -741,7 +742,7 @@ cdef class ToolbarItem(ObjectItem):
 
         :see: :py:func:`bring_in`
 
-        :since: 1.8
+        .. versionadded:: 1.8
 
         """
         elm_toolbar_item_show(self.item, scrollto_type)
@@ -751,17 +752,20 @@ cdef class ToolbarItem(ObjectItem):
 
         :see: :py:func:`show`
 
-        :since: 1.8
+        .. versionadded:: 1.8
 
         """
         elm_toolbar_item_bring_in(self.item, scrollto_type)
 
 
-cdef class Toolbar(Object):
+cdef class Toolbar(LayoutClass):
 
     """
 
-    This is the class that actually implement the widget.
+    This is the class that actually implements the widget.
+
+    .. versionchanged:: 1.8
+        Inherits from LayoutClass.
 
     """
 
@@ -1134,7 +1138,7 @@ cdef class Toolbar(Object):
     def callback_focused_add(self, func, *args, **kwargs):
         """When the toolbar has received focus.
 
-        :since: 1.8
+        .. versionadded:: 1.8
         """
         self._callback_add("focused", func, *args, **kwargs)
 
@@ -1144,7 +1148,7 @@ cdef class Toolbar(Object):
     def callback_unfocused_add(self, func, *args, **kwargs):
         """When the toolbar has lost focus.
 
-        :since: 1.8
+        .. versionadded:: 1.8
         """
         self._callback_add("unfocused", func, *args, **kwargs)
 
@@ -1152,6 +1156,12 @@ cdef class Toolbar(Object):
         self._callback_del("unfocused", func)
 
     property scroller_policy:
+        """
+
+        .. deprecated:: 1.8
+            You should combine with Scrollable class instead.
+
+        """
         def __get__(self):
             return self.scroller_policy_get()
 
@@ -1170,6 +1180,12 @@ cdef class Toolbar(Object):
         return (policy_h, policy_v)
 
     property bounce:
+        """
+
+        .. deprecated:: 1.8
+            You should combine with Scrollable class instead.
+
+        """
         def __get__(self):
             return self.bounce_get()
         def __set__(self, value):

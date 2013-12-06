@@ -48,6 +48,7 @@ Different profiles may have pre-set values for finger sizes.
 Enumerations
 ============
 
+
 .. _Elm_Policy:
 
 Policy types
@@ -56,6 +57,14 @@ Policy types
 .. data:: ELM_POLICY_QUIT
 
     Under which circumstances the application should quit automatically.
+
+.. data:: ELM_POLICY_EXIT
+
+    Defines elm_exit() behaviour. (since 1.8)
+
+.. data:: ELM_POLICY_THROTTLE
+
+    Defines how throttling should work (since 1.8)
 
 
 .. _Elm_Policy_Quit:
@@ -70,6 +79,42 @@ Quit policy types
 .. data:: ELM_POLICY_QUIT_LAST_WINDOW_CLOSED
 
     Quit when the application's last window is closed
+
+
+.. _Elm_Policy_Exit:
+
+Exit policy types
+-----------------
+
+Possible values for the ELM_POLICY_EXIT policy.
+
+.. data:: ELM_POLICY_EXIT_NONE
+
+    Just quit the main loop on exit().
+
+.. data:: ELM_POLICY_EXIT_WINDOWS_DEL
+
+    Delete all the windows after quitting the main loop.
+
+
+.. _Elm_Policy_Throttle:
+
+Throttle policy types
+---------------------
+
+Possible values for the #ELM_POLICY_THROTTLE policy.
+
+.. data:: ELM_POLICY_THROTTLE_CONFIG
+
+    Do whatever elementary config is configured to do.
+
+.. data:: ELM_POLICY_THROTTLE_HIDDEN_ALWAYS
+
+    Always throttle when all windows are no longer visible.
+
+.. data:: ELM_POLICY_THROTTLE_NEVER
+
+    Never throttle when windows are all hidden, regardless of config settings.
 
 
 """
@@ -126,12 +171,21 @@ elm_log = add_logger("efl.elementary")
 cdef int PY_EFL_ELM_LOG_DOMAIN = elm_log.eina_log_domain
 
 def init():
+    """init() -> int
 
-    """Initialize Elementary"""
+    Initialize Elementary
 
+    :return int: The init counter value.
+
+    This function initializes Elementary and increments a counter of the number
+    of calls to it. It returns the new counter's value.
+
+    """
     EINA_LOG_DOM_INFO(PY_EFL_ELM_LOG_DOMAIN,
         "Initializing efl.elementary", NULL)
-    # FIXME: Why pass the cl args to elm_init?
+
+    # FIXME: Why are we passing the cl args to elm_init here?
+
     cdef int argc, i, arg_len
     cdef char **argv, *arg
 
@@ -145,29 +199,62 @@ def init():
         argv[i] = <char *>PyMem_Malloc(arg_len + 1)
         memcpy(argv[i], arg, arg_len + 1)
 
-    elm_init(argc, argv)
+    return elm_init(argc, argv)
 
 def shutdown():
+    """shutdown() -> int
 
-    """Shutdown Elementary"""
+    Shut down Elementary
 
+    :return int: The init counter value.
+
+    This should be called at the end of your application, just before it ceases
+    to do any more processing. This will clean up any permanent resources your
+    application may have allocated via Elementary that would otherwise persist.
+
+    .. note::
+
+        shutdown() will iterate main loop until all ecore_evas are freed. There
+        is a possibility to call your ecore callbacks(timer, animator, event,
+        job, and etc.) in shutdown()
+
+    """
     EINA_LOG_DOM_INFO(PY_EFL_ELM_LOG_DOMAIN,
         "Shutting down efl.elementary", NULL)
-    elm_shutdown()
+    return elm_shutdown()
 
 def run():
+    """run()
 
-    """Begin main loop"""
+    Run Elementary's main loop
 
+    This call should be issued just after all initialization is completed. This
+    function will not return until exit() is called. It will keep looping,
+    running the main (event/processing) loop for Elementary.
+
+    """
     EINA_LOG_DOM_DBG(PY_EFL_ELM_LOG_DOMAIN,
         "Starting up main loop.", NULL)
     with nogil:
         elm_run()
 
 def exit():
+    """exit()
+    Ask to exit Elementary's main loop
 
-    """Exit main loop"""
+    If this call is issued, it will flag the main loop to cease processing and
+    return back to its parent function (usually your elm_main() function). This
+    does not mean the main loop instantly quits. So your ecore callbacks(timer,
+    animator, event, job, and etc.) have chances to be called even after
+    exit().
 
+    .. note::
+
+        By using the appropriate #ELM_POLICY_QUIT on your Elementary
+        applications, you'll be able to get this function called automatically
+        for you.
+
+    """
     EINA_LOG_DOM_DBG(PY_EFL_ELM_LOG_DOMAIN,
         "Ending main loop.", NULL)
     elm_exit()

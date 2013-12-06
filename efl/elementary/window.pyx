@@ -826,6 +826,8 @@ cdef class Window(Object):
 
         :type: list of strings
 
+        .. versionadded:: 1.8
+
         """
         def __set__(self, list profiles):
             cdef:
@@ -883,6 +885,8 @@ cdef class Window(Object):
         """The profile of a window.
 
         :type: unicode
+
+        .. versionadded:: 1.8
 
         """
         def __set__(self, profile):
@@ -1582,7 +1586,8 @@ cdef class Window(Object):
         """Floating mode of a window.
 
         :type: bool
-        :since: 1.8
+
+        .. versionadded:: 1.8
 
         """
         def __set__(self, floating):
@@ -1733,7 +1738,7 @@ cdef class Window(Object):
     def callback_focused_add(self, func, *args, **kwargs):
         """When the window has received focus.
 
-        :since: 1.8
+        .. versionadded:: 1.8
         """
         self._callback_add("focused", func, *args, **kwargs)
 
@@ -1743,7 +1748,7 @@ cdef class Window(Object):
     def callback_unfocused_add(self, func, *args, **kwargs):
         """When the window has lost focus.
 
-        :since: 1.8
+        .. versionadded:: 1.8
         """
         self._callback_add("unfocused", func, *args, **kwargs)
 

@@ -161,10 +161,12 @@ cdef class ObjectItem(object):
 
     @DEPRECATED("1.8", "Use the data attribute (dict) instead.")
     def data_get(self):
+        """data_get() -> tuple"""
         return (self.args, self.kwargs)
 
     @DEPRECATED("1.8", "Use the data attribute (dict) instead.")
     def data_set(self, *args, **kwargs):
+        """data_set(self, *args **kwargs)"""
         self.args = args
         self.kwargs = kwargs
 
@@ -312,7 +314,7 @@ cdef class ObjectItem(object):
         :param domain: The translation domain to use
         :param text: The original, non-translated text to set
 
-        :since: 1.8
+        .. versionadded:: 1.8
 
         """
         if isinstance(part, unicode): part = PyUnicode_AsUTF8String(part)
@@ -336,7 +338,7 @@ cdef class ObjectItem(object):
 
         :return: The original, untranslated string
 
-        :since: 1.8
+        .. versionadded:: 1.8
 
         """
         if isinstance(part, unicode): part = PyUnicode_AsUTF8String(part)
@@ -363,7 +365,7 @@ cdef class ObjectItem(object):
         :see: :py:func:`part_text_set`
         :see: :py:func:`efl.elementary.general.policy_set`
 
-        :since: 1.8
+        .. versionadded:: 1.8
 
         """
         if isinstance(part, unicode): part = PyUnicode_AsUTF8String(part)
