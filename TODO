@@ -4,7 +4,7 @@ BUGS
 
 * EdjeEdit: PartState API does not work (edje edit is disabled for now)
 * Edje.External: The unit test fails (marked as known failure in unittest)
-* Elm.Map: overlays_show segfaults, scrollers in examples jump when menu opens
+* Elm.Map: overlays_show segfaults, scrollers in examples are jumpy
 * Bad binaries produced when build environment is invalid (T504)
 
 
@@ -25,8 +25,6 @@ Elementary
 TODO (optional)
 ===============
 
-* Use more _set_properties_from_keyword_args, replace Evas' _set_common_params
-  with it?
 * update links and text on:
   http://www.freedesktop.org/wiki/Software/DBusBindings
   (requires fd.org shell account?)
@@ -60,3 +58,4 @@ Elm
 * Automate compilation of the example edje files.
 * Add more examples
 * Prefs
+* GLView
