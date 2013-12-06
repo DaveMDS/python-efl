@@ -393,12 +393,19 @@ cdef class Datetime(Object):
 
         Minute: default value range is from 0 to 59.
 
+        :raise RuntimeError: when the max value could not be set.
+
         :type: datetime.datetime
+
+        .. versionchanged:: 1.8
+            Returns None when the max value cannot be fetched, raise
+            RuntimeError when setting the max value failed.
 
         """
         def __get__(self):
             cdef tm time
-            elm_datetime_value_max_get(self.obj, &time)
+            if not elm_datetime_value_max_get(self.obj, &time):
+                return None
             ret = datetime( time.tm_year + 1900,
                             time.tm_mon + 1,
                             time.tm_mday,
@@ -419,7 +426,8 @@ cdef class Datetime(Object):
             time.tm_wday = tmtup.tm_wday
             time.tm_yday = tmtup.tm_yday
             time.tm_isdst = tmtup.tm_isdst
-            elm_datetime_value_max_set(self.obj, &time)
+            if not elm_datetime_value_max_set(self.obj, &time):
+                raise RuntimeError
 
     property value_min:
         """The lower boundary of a field.
@@ -435,12 +443,19 @@ cdef class Datetime(Object):
 
         Minute: default value range is from 0 to 59.
 
+        :raise RuntimeError: when the min value could not be set.
+
         :type: datetime.datetime
+
+        .. versionchanged:: 1.8
+            Returns None when the min value cannot be fetched, raise
+            RuntimeError when setting the min value failed.
 
         """
         def __get__(self):
             cdef tm time
-            elm_datetime_value_min_get(self.obj, &time)
+            if not elm_datetime_value_min_get(self.obj, &time):
+                return None
             ret = datetime( time.tm_year + 1900,
                             time.tm_mon + 1,
                             time.tm_mday,
@@ -461,7 +476,8 @@ cdef class Datetime(Object):
             time.tm_wday = tmtup.tm_wday
             time.tm_yday = tmtup.tm_yday
             time.tm_isdst = tmtup.tm_isdst
-            elm_datetime_value_min_set(self.obj, &time)
+            if not elm_datetime_value_min_set(self.obj, &time):
+                raise RuntimeError
 
     def field_limit_get(self, Elm_Datetime_Field_Type fieldtype):
         """Get the field limits of a field.
@@ -511,12 +527,19 @@ cdef class Datetime(Object):
 
         Minute: default value range is from 0 to 59.
 
+        :raise RuntimeError: when the value could not be set.
+
         :type: datetime.datetime
+
+        .. versionchanged:: 1.8
+            Returns None when the value cannot be fetched, raise RuntimeError
+            when setting the value failed.
 
         """
         def __get__(self):
             cdef tm time
-            elm_datetime_value_get(self.obj, &time)
+            if not elm_datetime_value_get(self.obj, &time):
+                return None
             ret = datetime( time.tm_year + 1900,
                             time.tm_mon + 1,
                             time.tm_mday,
@@ -537,7 +560,8 @@ cdef class Datetime(Object):
             time.tm_wday = tmtup.tm_wday
             time.tm_yday = tmtup.tm_yday
             time.tm_isdst = tmtup.tm_isdst
-            elm_datetime_value_set(self.obj, &time)
+            if not elm_datetime_value_set(self.obj, &time):
+                raise RuntimeError
 
     def field_visible_get(self, fieldtype):
         """field_visible_get(int fieldtype) -> bool

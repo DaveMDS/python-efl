@@ -223,6 +223,10 @@ cdef class Icon(Image):
         :return bool: For 1.7 compatibility standard_set() returns a bool value
             that tells whether setting the standard name was succesful or not.
 
+        .. versionchanged:: 1.8
+            Raises RuntimeWarning when setting the standard name fails,
+            instead of returning a bool.
+
         """
         def __get__(self):
             return _ctouni(elm_icon_standard_get(self.obj))

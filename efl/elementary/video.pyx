@@ -64,6 +64,9 @@ cdef class Video(LayoutClass):
         :type: string
         :raise RuntimeError: when setting the file/uri fails
 
+        .. versionchanged:: 1.8
+            Raises RuntimeError if setting the file/uri fails
+
         """
         def __set__(self, filename):
             if isinstance(filename, unicode): filename = PyUnicode_AsUTF8String(filename)

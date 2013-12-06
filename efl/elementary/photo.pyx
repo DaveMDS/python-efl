@@ -62,6 +62,9 @@ cdef class Photo(Object):
         :type: string
         :raise RuntimeError: when setting the file fails
 
+        .. versionchanged:: 1.8
+            Raises RuntimeError if setting the file fails
+
         """
         def __set__(self, filename):
             if isinstance(filename, unicode): filename = PyUnicode_AsUTF8String(filename)

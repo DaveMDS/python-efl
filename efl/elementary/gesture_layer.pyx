@@ -647,12 +647,12 @@ cdef class GestureLayer(Object):
         :param target: The target object to attach to this object.
         :type target: :py:class:`~efl.evas.Object`
 
-        :return: ``True``, on success, ``False`` otherwise.
-        :rtype: bool
+        .. versionchanged:: 1.8
+            Raise RuntimeError on failure, instead of returning a bool
 
         """
-        return bool(elm_gesture_layer_attach(self.obj, target.obj))
-
+        if not elm_gesture_layer_attach(self.obj, target.obj):
+            raise RuntimeError
 
     property line_min_length:
         """Gesture layer line min length of an object

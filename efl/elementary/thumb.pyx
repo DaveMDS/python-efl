@@ -475,9 +475,15 @@ cdef class Thumb(Object):
 
         :type: bool
 
+        :raise RuntimeError: when cannot be set as editable
+
+        .. versionchanged:: 1.8
+            Raises RuntimeError if cannot be set as editable
+
         """
         def __set__(self, edit):
-            elm_thumb_editable_set(self.obj, edit)
+            if not elm_thumb_editable_set(self.obj, edit):
+                raise RuntimeError
         def __get__(self):
             return bool(elm_thumb_editable_get(self.obj))
 

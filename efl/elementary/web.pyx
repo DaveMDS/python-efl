@@ -512,6 +512,12 @@ cdef class Web(Object):
         return _ctouni(elm_web_url_get(self.obj))
 
     property uri:
+        """
+
+        .. deprecated:: 1.8
+            Use property "url" instead.
+
+        """
         def __get__(self):
             return self.uri_get()
 

@@ -74,13 +74,17 @@ cdef class Plug(Object):
             (set up by socket).
         :type svcsys: bool
 
-        :return: (``True`` = success, ``False`` = error)
-        :rtype: bool
+        :raise RuntimeError: on failure
+
+        .. versionchanged:: 1.8
+            Raises RuntimeError if adding the child fails
 
         """
         if isinstance(svcname, unicode): svcname = PyUnicode_AsUTF8String(svcname)
-        return bool(elm_plug_connect(self.obj,
-            <const_char *>svcname if svcname is not None else NULL, svcnum, svcsys))
+        if not elm_plug_connect(self.obj,
+            <const_char *>svcname if svcname is not None else NULL,
+            svcnum, svcsys):
+            raise RuntimeError
 
     property image_object:
         """Get the basic Image object from this object (widget).

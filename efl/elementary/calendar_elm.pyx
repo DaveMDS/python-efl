@@ -364,21 +364,20 @@ cdef class Calendar(LayoutClass):
         Selected date changes when the user goes to next/previous month or
         select a day pressing over it on calendar.
 
+        :type: datetime.date
+
         .. versionchanged:: 1.8
             Returns None when the selected date cannot be fetched.
-
-        :type: datetime.date
 
         """
         def __get__(self):
             cdef tm time
-            if elm_calendar_selected_time_get(self.obj, &time):
-                ret = date( time.tm_year + 1900,
-                            time.tm_mon + 1,
-                            time.tm_mday)
-                return ret
-            else:
+            if not elm_calendar_selected_time_get(self.obj, &time):
                 return None
+            ret = date( time.tm_year + 1900,
+                        time.tm_mon + 1,
+                        time.tm_mday)
+            return ret
 
         def __set__(self, selected_time):
             cdef tm time
@@ -541,10 +540,14 @@ cdef class Calendar(LayoutClass):
 
         :type: datetime.date
 
+        .. versionchanged:: 1.8
+            Returns None when the displayed date cannot be fetched.
+
         """
         def __get__(self):
             cdef tm time
-            elm_calendar_displayed_time_get(self.obj, &time)
+            if not elm_calendar_displayed_time_get(self.obj, &time):
+                return None
             ret = date( time.tm_year + 1900,
                         time.tm_mon + 1,
                         time.tm_mday)

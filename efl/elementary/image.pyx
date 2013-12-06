@@ -182,6 +182,10 @@ cdef class Image(Object):
         :type: unicode **file** or (unicode **file**, unicode **group**)
         :raise RuntimeError: when setting the file fails
 
+        .. versionchanged:: 1.8
+            Raises RuntimeError when setting the file fails, instead of
+            returning a bool.
+
         """
         def __set__(self, value):
             if isinstance(value, tuple):

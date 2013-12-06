@@ -84,17 +84,18 @@ cdef class LayoutClass(Object):
         :param content: The child that will be added in this layout object
         :type content: :py:class:`~efl.evas.Object`
 
-        :return: ``True`` on success, ``False`` otherwise
-        :rtype: bool
+        .. versionchanged:: 1.8
+            Raises RuntimeError if setting the content fails.
 
         """
         if content is None:
             content = swallow
             swallow = None
         if isinstance(swallow, unicode): swallow = PyUnicode_AsUTF8String(swallow)
-        elm_layout_content_set(self.obj,
+        if not elm_layout_content_set(self.obj,
             <const_char *>swallow if swallow is not None else NULL,
-            content.obj if content is not None else NULL)
+            content.obj if content is not None else NULL):
+            raise RuntimeError
 
     def content_get(self, swallow=None):
         """content_get(unicode swallow) -> Object
@@ -137,7 +138,9 @@ cdef class LayoutClass(Object):
         :type part: string
         :param text: The text to set
         :type text: string
-        :return: ``True`` on success, ``False`` otherwise
+
+        .. versionchanged:: 1.8
+            Raises RuntimeError if setting the text fails
 
         """
         if isinstance(part, unicode): part = PyUnicode_AsUTF8String(part)
@@ -147,9 +150,10 @@ cdef class LayoutClass(Object):
             # as text
             text = part
             part = None
-        elm_layout_text_set(self.obj,
+        if not elm_layout_text_set(self.obj,
             <const_char *>part if part is not None else NULL,
-            <const_char *>text if text is not None else NULL)
+            <const_char *>text if text is not None else NULL):
+            raise RuntimeError
 
     def text_get(self, part=None):
         """text_get(unicode part) -> unicode
@@ -174,6 +178,9 @@ cdef class LayoutClass(Object):
 
         :type: tuple of string
         :raise RuntimeError: when setting the file fails
+
+        .. versionchanged:: 1.8
+            Raises RuntimeError if setting the file fails
 
         """
         def __set__(self, value):
@@ -231,6 +238,9 @@ cdef class LayoutClass(Object):
 
         :type: tuple of strings
         :raise RuntimeError: when setting the theme fails
+
+        .. versionchanged:: 1.8
+            Raises RuntimeError if setting the theme fails
 
         """
         def __set__(self, theme):
@@ -377,7 +387,10 @@ cdef class LayoutClass(Object):
         :param child: the child object to append to box.
         :type child: :py:class:`~efl.evas.Object`
 
-        :raise RuntimeError: when adding the box fails
+        :raise RuntimeError: when adding the child fails
+
+        .. versionchanged:: 1.8
+            Raises RuntimeError if adding the child fails
 
         """
         if isinstance(part, unicode): part = PyUnicode_AsUTF8String(part)
@@ -408,6 +421,9 @@ cdef class LayoutClass(Object):
         :type child: :py:class:`~efl.evas.Object`
 
         :raise RuntimeError: when adding to box fails
+
+        .. versionchanged:: 1.8
+            Raises RuntimeError if adding the child fails
 
         """
         if isinstance(part, unicode): part = PyUnicode_AsUTF8String(part)
@@ -441,6 +457,9 @@ cdef class LayoutClass(Object):
 
         :raise RuntimeError: when inserting to box fails
 
+        .. versionchanged:: 1.8
+            Raises RuntimeError if adding the child fails
+
         """
         if isinstance(part, unicode): part = PyUnicode_AsUTF8String(part)
         if not elm_layout_box_insert_before(self.obj,
@@ -472,6 +491,9 @@ cdef class LayoutClass(Object):
         :type pos: int
 
         :raise RuntimeError: when inserting to box fails
+
+        .. versionchanged:: 1.8
+            Raises RuntimeError if adding the child fails
 
         """
         if isinstance(part, unicode): part = PyUnicode_AsUTF8String(part)
@@ -529,6 +551,9 @@ cdef class LayoutClass(Object):
 
         :raise RuntimeError: when removing all items fails
 
+        .. versionchanged:: 1.8
+            Raises RuntimeError if removing the children fails
+
         """
         if isinstance(part, unicode): part = PyUnicode_AsUTF8String(part)
         if not elm_layout_box_remove_all(self.obj,
@@ -568,6 +593,9 @@ cdef class LayoutClass(Object):
         :type rowspan: int
 
         :raise RuntimeError: when packing an item fails
+
+        .. versionchanged:: 1.8
+            Raises RuntimeError if adding the child fails
 
         """
         if isinstance(part, unicode): part = PyUnicode_AsUTF8String(part)
@@ -624,6 +652,9 @@ cdef class LayoutClass(Object):
         :type clear: bool
 
         :raise RuntimeError: when clearing the table fails
+
+        .. versionchanged:: 1.8
+            Raises RuntimeError if clearing the table fails
 
         """
         if isinstance(part, unicode): part = PyUnicode_AsUTF8String(part)
@@ -730,6 +761,9 @@ cdef class LayoutClass(Object):
 
         :raise RuntimeError: when setting the parts cursor fails
 
+        .. versionchanged:: 1.8
+            Raises RuntimeError if setting the cursor fails
+
         """
         if isinstance(part_name, unicode): part_name = PyUnicode_AsUTF8String(part_name)
         if isinstance(cursor, unicode): cursor = PyUnicode_AsUTF8String(cursor)
@@ -764,6 +798,9 @@ cdef class LayoutClass(Object):
 
         :raise RuntimeError: when unsetting the part cursor fails
 
+        .. versionchanged:: 1.8
+            Raises RuntimeError if unsetting the cursor fails
+
         """
         if isinstance(part_name, unicode): part_name = PyUnicode_AsUTF8String(part_name)
         if not elm_layout_part_cursor_unset(self.obj,
@@ -781,6 +818,9 @@ cdef class LayoutClass(Object):
         :type style: string
 
         :raise RuntimeError: when setting the part cursor style fails
+
+        .. versionchanged:: 1.8
+            Raises RuntimeError if setting the cursor style fails
 
         """
         if isinstance(part_name, unicode): part_name = PyUnicode_AsUTF8String(part_name)
@@ -830,6 +870,9 @@ cdef class LayoutClass(Object):
         :raise RuntimeError: when setting the engine_only setting fails,
             when part does not exist or has no cursor set.
 
+        .. versionchanged:: 1.8
+            Raises RuntimeError if setting the value fails
+
         """
         if isinstance(part_name, unicode): part_name = PyUnicode_AsUTF8String(part_name)
         if not elm_layout_part_cursor_engine_only_set(self.obj,
@@ -860,6 +903,9 @@ cdef class LayoutClass(Object):
         accessibility.
 
         :raise RuntimeError: if accessibility cannot be set.
+
+        .. versionchanged:: 1.8
+            Raises RuntimeError if setting accessibility fails
 
         """
         def __set__(self, can_access):

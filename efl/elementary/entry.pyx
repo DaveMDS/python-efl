@@ -1227,14 +1227,17 @@ cdef class Entry(Object):
         cursor.
 
         :return: Geometry (x, y, w, h)
-        :rtype: tuple of Evas_Coords (int)
+        :rtype: tuple of Evas_Coords (int) or None
+
+        .. versionchanged:: 1.8
+            Returns None when the cursor geometry cannot be fetched.
 
         """
         cdef Evas_Coord x, y, w, h
-        if bool(elm_entry_cursor_geometry_get(self.obj, &x, &y, &w, &h)):
+        if elm_entry_cursor_geometry_get(self.obj, &x, &y, &w, &h):
             return (x, y, w, h)
         else:
-            raise RuntimeError("Fetching cursor geometry failed")
+            return None
 
     property cursor_pos:
         """The cursor position in the entry
@@ -1461,6 +1464,10 @@ cdef class Entry(Object):
 
         :type: (unicode **file_name**, :ref:`Elm_Entry_Text_Format` **file_format**)
         :raise RuntimeError: when setting the file fails
+
+        .. versionchanged:: 1.8
+            Raise RuntimeError when setting the file fails, instead of
+            returning a bool.
 
         """
         def __get__(self):

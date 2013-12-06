@@ -1529,7 +1529,11 @@ cdef class Window(Object):
             system-wide service all users can connect to, otherwise the
             service is private to the user id that created the service.
         :type svcsys: bool
+
         :raise RuntimeError: if the socket could not be created.
+
+        .. versionchanged:: 1.8
+            Raises RuntimeError if creating a socket fails
 
         """
         if isinstance(svcname, unicode): svcname = PyUnicode_AsUTF8String(svcname)
