@@ -151,6 +151,8 @@ cdef class ObjectItem(object):
             )
 
     cdef int _set_properties_from_keyword_args(self, dict kwargs) except 0:
+        if not kwargs:
+            return 1
         cdef list cls_list = dir(self)
         for k, v in kwargs.items():
             assert k in cls_list, "%s has no attribute with the name %s." % (self, k)
