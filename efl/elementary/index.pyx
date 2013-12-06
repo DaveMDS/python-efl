@@ -45,13 +45,12 @@ This widget emits the following signals, besides the ones sent from
 :py:class:`~efl.elementary.layout_class.LayoutClass`:
 
 - ``"changed"`` - When the selected index item changes. ``event_info``
-  is the selected item's data pointer.
+  is the selected item's data.
 - ``"delay,changed"`` - When the selected index item changes, but
   after a small idling period. ``event_info`` is the selected
-  item's data pointer.
+  item's data.
 - ``"selected"`` - When the user releases a mouse button and
-  selects an item. ``event_info`` is the selected item's data
-  pointer.
+  selects an item. ``event_info`` is the selected item's data.
 - ``"level,up"`` - when the user moves a finger from the first
   level to the second level
 - ``"level,down"`` - when the user moves a finger from the second
@@ -289,7 +288,7 @@ cdef class IndexItem(ObjectItem):
             data item should be pointed to by the index item in question,
             ``cmp_data_func`` will be used. If ``cmp_data_func`` returns a
             non-negative value, the previous index item data will be
-            replaced by the given ``item`` pointer. If the previous data need
+            replaced by the given ``item``. If the previous data need
             to be freed, it should be done by the ``cmp_data_func``
             function, because all references to it will be lost. If this
             function is not provided (``None`` is given), index items will

@@ -92,7 +92,7 @@ cdef class FlipSelectorItem(ObjectItem):
         """
 
         The widget's list of labels to show will be appended with the
-        given value. If the user wishes so, a callback function pointer
+        given value. If the user wishes so, a callback function
         can be passed, which will get called when this same item is
         selected.
 
@@ -329,11 +329,9 @@ cdef class FlipSelector(Object):
 
         This list is *not* to be modified in any way and must not be
         freed. Use the list members with functions like
-        elm_object_item_text_set(),
-        elm_object_item_text_get(),
-        elm_object_item_del(),
-        elm_flipselector_item_selected_get(),
-        elm_flipselector_item_selected_set().
+        :py:attr:`efl.elementary.object_item.ObjectItem.text`,
+        :py:meth:`efl.elementary.object_item.ObjectItem.delete`,
+        :py:attr:`FlipselectorItem.selected`.
 
         .. warning:: This list is only valid until ``obj`` object's internal
             items list is changed. It should be fetched again with another
@@ -350,8 +348,9 @@ cdef class FlipSelector(Object):
         """Get the first item in the given flip selector widget's list of
         items.
 
-        .. seealso:: :py:func:`item_append`
-        .. seealso:: :py:attr:`last_item`
+        .. seealso::
+            :py:func:`item_append`
+            :py:attr:`last_item`
 
         :type: :py:class:`FlipSelectorItem`
 
@@ -364,8 +363,9 @@ cdef class FlipSelector(Object):
         """Get the last item in the given flip selector widget's list of
         items.
 
-        .. seealso:: :py:func:`item_prepend`
-        .. seealso:: :py:attr:`first_item`
+        .. seealso::
+            :py:func:`item_prepend`
+            :py:attr:`first_item`
 
         :type: :py:class:`FlipSelectorItem`
 

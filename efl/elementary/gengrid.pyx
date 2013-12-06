@@ -108,19 +108,19 @@ following members:
   the ``part`` one is the name string of one of the existing text parts
   in the Edje group implementing the item's theme. This function
   **must** return a strdup'()ed string, as the caller will free() it
-  when done. See #Elm_Gengrid_Item_Text_Get_Cb.
+  when done. See :py:meth:`GengridItem.text_get`.
 - ``func.content_get`` - This function is called when an item object is
   actually created. The ``data`` parameter will point to the same data
-  passed to elm_gengrid_item_append() and related item creation
+  passed to :py:meth:`GengridItem.append_to` and related item creation
   functions. The ``obj`` parameter is the gengrid object itself, while
   the ``part`` one is the name string of one of the existing (content)
   swallow parts in the Edje group implementing the item's theme. It must
   return ``None,`` when no content is desired, or a valid object handle,
   otherwise. The object will be deleted by the gengrid on its deletion
-  or when the item is "unrealized". See #Elm_Gengrid_Item_Content_Get_Cb.
+  or when the item is "unrealized". See :py:meth:`GengridItem.content_get`.
 - ``func.state_get`` - This function is called when an item object is
   actually created. The ``data`` parameter will point to the same data
-  passed to elm_gengrid_item_append() and related item creation
+  passed to :py:meth:`GengridItem.append_to` and related item creation
   functions. The ``obj`` parameter is the gengrid object itself, while
   the ``part`` one is the name string of one of the state parts in the
   Edje group implementing the item's theme. Return ``False`` for
@@ -133,7 +133,7 @@ following members:
   an item or elm_gengrid_clear() is called on the gengrid. This is
   intended for use when gengrid items are deleted, so any data attached
   to the item (e.g. its data parameter on creation) can be deleted. See
-  #Elm_Gengrid_Item_Del_Cb.
+  :py:meth:`GengridItem.delete`.
 
 Usage hints
 ===========
@@ -191,8 +191,8 @@ Smart events that you can add callbacks for are:
   has its implementing Evas object instantiated, de facto.
   ``event_info`` is the gengrid item that was created. The object
   may be deleted at any time, so it is highly advised to the
-  caller **not** to use the object pointer returned from
-  elm_gengrid_item_object_get(), because it may point to freed
+  caller **not** to use the object returned from
+  :py:attr:`GengridItem.object`, because it may point to freed
   objects.
 - ``unrealized`` - This is called when the implementing Evas
   object for this item is deleted. ``event_info`` is the gengrid

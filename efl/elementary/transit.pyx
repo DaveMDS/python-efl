@@ -438,7 +438,7 @@ cdef class Transit(object):
         .. note:: the ``transit`` object will be deleted after call ``func``
             function.
 
-        :param func: Callback function pointer. This function will be called
+        :param func: Callback function. This function will be called
             before the deletion of the transit.
         :param data: Callback function user data. It is the ``op`` parameter.
 

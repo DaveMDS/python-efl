@@ -25,7 +25,7 @@ ewebkit support.
 Signals that you can add callbacks for are:
 
 - "download,request": A file download has been requested. Event info is
-  a pointer to a Elm_Web_Download
+  a WebDownload instance
 - "editorclient,contents,changed": Editor client's contents changed
 - "editorclient,selection,changed": Editor client's selection changed
 - "frame,created": A new frame was created. Event info is an
@@ -40,41 +40,40 @@ Signals that you can add callbacks for are:
 - "link,hover,out": Mouse cursor left the link
 - "load,document,finished": Loading of a document finished. Event info
   is the frame that finished loading
-- "load,error": Load failed. Event info is a pointer to
-  Elm_Web_Frame_Load_Error
-- "load,finished": Load finished. Event info is NULL on success, on
-  error it's a pointer to Elm_Web_Frame_Load_Error
+- "load,error": Load failed. Event info is a WebFrameLoadError instance
+- "load,finished": Load finished. Event info is None on success, on
+  error it's a WebFrameLoadError instance
 - "load,newwindow,show": A new window was created and is ready to be
   shown
-- "load,progress": Overall load progress. Event info is a pointer to
+- "load,progress": Overall load progress. Event info is
   a double containing a value between 0.0 and 1.0
 - "load,provisional": Started provisional load
 - "load,started": Loading of a document started
 - "menubar,visible,get": Queries if the menubar is visible. Event info
-  is a pointer to Eina_Bool where the callback should set EINA_TRUE if
-  the menubar is visible, or EINA_FALSE in case it's not
+  is a bool where the callback should set True if
+  the menubar is visible, or False in case it's not
 - "menubar,visible,set": Informs menubar visibility. Event info is
-  an Eina_Bool indicating the visibility
+  a bool indicating the visibility
 - "popup,created": A dropdown widget was activated, requesting its
-  popup menu to be created. Event info is a pointer to Elm_Web_Menu
+  popup menu to be created. Event info is a WebMenu instance
 - "popup,willdelete": The web object is ready to destroy the popup
-  object created. Event info is a pointer to Elm_Web_Menu
+  object created. Event info is a WebMenu instance
 - "ready": Page is fully loaded
 - "scrollbars,visible,get": Queries visibility of scrollbars. Event
-  info is a pointer to Eina_Bool where the visibility state should be set
+  info is a bool where the visibility state should be set
 - "scrollbars,visible,set": Informs scrollbars visibility. Event info
   is an Eina_Bool with the visibility state set
-- "statusbar,text,set": Text of the statusbar changed. Even info is
+- "statusbar,text,set": Text of the statusbar changed. Event info is
   a string with the new text
 - "statusbar,visible,get": Queries visibility of the status bar.
-  Event info is a pointer to Eina_Bool where the visibility state should be
+  Event info is a bool where the visibility state should be
   set.
 - "statusbar,visible,set": Informs statusbar visibility. Event info is
   an Eina_Bool with the visibility value
 - "title,changed": Title of the main frame changed. Event info is a
   string with the new title
 - "toolbars,visible,get": Queries visibility of toolbars. Event info
-  is a pointer to Eina_Bool where the visibility state should be set
+  is a bool where the visibility state should be set
 - "toolbars,visible,set": Informs the visibility of toolbars. Event
   info is an Eina_Bool with the visibility state
 - "tooltip,text,set": Show and set text of a tooltip. Event info is
@@ -1005,7 +1004,7 @@ cdef class Web(Object):
     #     self._callback_del("load,document,finished", func)
 
     def callback_load_error_add(self, func, *args, **kwargs):
-        """Load failed. Event info is a pointer to Elm_Web_Frame_Load_Error."""
+        """Load failed. Event info is a WebFrameLoadError instance."""
         self._callback_add_full("load,error", _web_load_frame_error_conv, func,
             *args, **kwargs)
 
@@ -1029,7 +1028,7 @@ cdef class Web(Object):
         self._callback_del("load,newwindow,show", func)
 
     def callback_load_progress_add(self, func, *args, **kwargs):
-        """Overall load progress. Event info is a pointer to a double containing
+        """Overall load progress. Event info is a double containing
         a value between 0.0 and 1.0."""
         self._callback_add_full("load,progress", _web_double_conv, func,
             *args, **kwargs)

@@ -37,7 +37,7 @@ This widget emits the following signals, besides the ones sent from
 
 - ``"changed"`` - When the user clicks on a segment item which is not
   previously selected and get selected. The event_info parameter is the
-  segment item pointer.
+  segment item.
 
 Available styles for it:
 
@@ -270,7 +270,7 @@ cdef class SegmentControl(LayoutClass):
 
         Get the label of item.
 
-        The return value is a pointer to the label associated to the item when
+        The return value is the label associated to the item when
         it was created, with function :py:meth:`item_add`, or later with
         function :py:attr:`~efl.elementary.object_item.ObjectItem.text`. If no
         label was passed as argument, it will return ``None``.
@@ -288,7 +288,7 @@ cdef class SegmentControl(LayoutClass):
 
         Get the icon associated to the item.
 
-        The return value is a pointer to the icon associated to the item when it
+        The return value is the icon associated to the item when it
         was created, with function :py:meth:`item_add`, or later with function
         :py:meth:`~efl.elementary.object_item.ObjectItem.part_content_set`. If
         no icon was passed as argument, it will return ``None``.

@@ -604,7 +604,7 @@ cdef class GenlistItem(ObjectItem):
 
         The theme will respond to this change visually, and a signal
         "expanded" or "contracted" will be sent from the genlist with a
-        pointer to the item that has been expanded/contracted.
+        the item that has been expanded/contracted.
 
         Calling this function won't show or hide any child of this item (if
         it is a parent). You must manually delete and create them on the

@@ -50,9 +50,9 @@ responsibility to set the styles again by sending corresponding signals.
 "day6" indicates the Saturday part name.
 
 Application can change individual day display string by using the API
-:py:meth:`efl.elementary.object.Object.part_text_set`.
+:py:meth:`~efl.elementary.object.Object.part_text_set`.
 
-:py:meth:`efl.elementary.object.Object.part_content_set` API sets the
+:py:meth:`~efl.elementary.object.Object.part_content_set` API sets the
 individual day object only if the passed one is a Check widget.
 
 Check object representing a day can be set/get by the application by using
@@ -60,7 +60,7 @@ the elm_object_part_content_set/get APIs thus providing a way to handle
 the different check styles for individual days.
 
 This widget emits the following signals, besides the ones sent from
-:py:class:`efl.elementary.layout_class.LayoutClass`:
+:py:class:`~efl.elementary.layout_class.LayoutClass`:
 
 - ``"dayselector,changed"`` - when the user changes the state of a day.
 - ``"language,changed"`` - the program's language changed
@@ -213,8 +213,7 @@ cdef class Dayselector(LayoutClass):
             dayselector.weekdays_names = ["Sunday", "Monday", "Tuesday",
                 "Wednesday", "Thursday", "Friday", "Saturday"]
 
-        :see: elm_dayselector_weekdays_name_get()
-        :see: elm_dayselector_weekend_start_set()
+        :see: :py:attr:`weekend_start`
 
         :since: 1.8
 

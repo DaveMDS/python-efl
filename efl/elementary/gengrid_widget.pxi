@@ -625,8 +625,8 @@ cdef class Gengrid(Object):
         has its implementing Evas object instantiated, de facto.
         ``event_info`` is the gengrid item that was created. The object
         may be deleted at any time, so it is highly advised to the
-        caller **not** to use the object pointer returned from
-        elm_gengrid_item_object_get(), because it may point to freed
+        caller **not** to use the object returned from
+        :py:attr:`GengridItem.object`, because it may point to freed
         objects."""
         self._callback_add_full("realized", _cb_object_item_conv,
                                 func, *args, **kwargs)

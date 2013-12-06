@@ -938,10 +938,6 @@ cdef class Entry(Object):
         a string in markup format. None is returned if no selection exists or
         if an error occurred.
 
-        The returned value points to an internal string and should not be freed
-        or modified in any way. If the ``entry`` object is deleted or its
-        contents are changed, the returned pointer should be considered invalid.
-
         :type: string
 
         """
@@ -1395,13 +1391,11 @@ cdef class Entry(Object):
         Append a markup filter function for text inserted in the entry
 
         Append the given callback to the list. This functions will be called
-        whenever any text is inserted into the entry, with the text to be inserted
-        as a parameter. The type of given text is always markup.
-        The callback function is free to alter the text in any way it wants, but
-        it must remember to free the given pointer and update it.
-        If the new text is to be discarded, the function can free it and set its
-        text parameter to NULL. This will also prevent any following filters from
-        being called.
+        whenever any text is inserted into the entry, with the text to be
+        inserted as a parameter. The type of given text is always markup. The
+        callback function is free to alter the text in any way it wants. If the
+        new text is to be discarded, the function can return None. This will
+        also prevent any following filters from being called.
 
         :param func: The function to use as text filter
         :param data: User data to pass to ``func``
@@ -1420,8 +1414,8 @@ cdef class Entry(Object):
 
         Prepend a markup filter function for text inserted in the entry
 
-        Prepend the given callback to the list. See elm_entry_markup_filter_append()
-        for more information
+        Prepend the given callback to the list. See
+        :py:meth:`markup_filter_append` for more information
 
         :param func: The function to use as text filter
         :param data: User data to pass to ``func``
@@ -1439,7 +1433,7 @@ cdef class Entry(Object):
         Remove a markup filter from the list
 
         Removes the given callback from the filter list. See
-        elm_entry_markup_filter_append() for more information.
+        :py:meth:`markup_filter_append` for more information
 
         :param func: The filter function to remove
         :param data: The user data passed when adding the function

@@ -322,15 +322,15 @@ cdef class Genlist(Object):
         return _object_item_to_python(elm_genlist_selected_item_get(self.obj))
 
     property selected_items:
-        """It returns a list of the selected items. This list pointer is
+        """It returns a list of the selected items. This list is
         only valid so long as the selection doesn't change (no items are
         selected or unselected, or unselected implicitly by deletion). The
-        list contains genlist items pointers. The order of the items in this
+        list contains genlist items. The order of the items in this
         list is the order which they were selected, i.e. the first item in
         this list is the first item that was selected, and so on.
 
         .. note:: If not in multi-select mode, consider using function
-            elm_genlist_selected_item_get() instead.
+            :py:attr:`Genlist.selected_item` instead.
 
         .. seealso:: :py:attr:`multi_select` :py:attr:`selected_item`
 
@@ -345,7 +345,7 @@ cdef class Genlist(Object):
 
     property realized_items:
         """This returns a list of the realized items in the genlist. The list
-        contains genlist item pointers. The list must be freed by the
+        contains genlist items. The list must be freed by the
         caller when done with eina_list_free(). The item pointers in the
         list are only valid so long as those items are not deleted or the
         genlist is not deleted.

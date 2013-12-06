@@ -753,7 +753,7 @@ cdef class Object(evasObject):
 
         - Just return ``True`` on *func*. ``False`` will mean the event
             was **not** processed, so the propagation will go on.
-        - The ``event_info`` pointer passed to ``func`` will contain the
+        - The ``event_info`` passed to ``func`` will contain the
             event's structure and, if you OR its ``event_flags`` inner
             value to *EVAS_EVENT_FLAG_ON_HOLD*, you're telling
             Elementary one has already handled it, thus killing the
@@ -1802,7 +1802,7 @@ cdef class Object(evasObject):
         :param selection: Selection type for copying and pasting
         :param format: Selection format
         :param datacb: The user data callback if the target widget isn't elm_entry
-        :param udata: The user data pointer for ``datacb``
+        :param udata: The user data for ``datacb``
 
         :return bool: Whether getting cnp data was successful or not.
 
@@ -1847,7 +1847,7 @@ cdef class Object(evasObject):
 
         :param selection: Selection to be notified of for loss
         :param func: The function to call
-        :param data: The data pointer passed to the function.
+        :param data: The data passed to the function.
 
         """
         if not callable(func):

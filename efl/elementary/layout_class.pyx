@@ -315,7 +315,7 @@ cdef class LayoutClass(Object):
         emitted by the undelying Edje object, with parameters *emission*,
         ``source`` and ``func`` matching exactly those passed to a previous
         call to :py:meth:`~efl.elementary.object.Object.signal_callback_add`.
-        The data pointer that was passed to this call will be returned.
+        The data that was passed to this call will be returned.
 
         :param emission: The signal's name string
         :type emission: string

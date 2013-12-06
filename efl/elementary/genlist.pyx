@@ -44,7 +44,7 @@ multiple different items with different classes, states and styles).
 Genlist will call the functions in this struct (methods) when an item is
 "realized" (i.e., created dynamically, while the user is scrolling the
 grid). All objects will simply be deleted when no longer needed with
-evas_object_del(). The #Elm_Genlist_Item_Class structure contains the
+:py:meth:`~efl.evas.Object.delete`. :py:class:`GenlistItemClass` contains the
 following members:
 
 - ``item_style`` - This is a constant string and simply defines the name
@@ -53,42 +53,41 @@ following members:
 - ``decorate_item_style`` - This is a constant string and simply defines
   the name of the decorate mode item style. It is used to specify
   decorate mode item style. It can be used when you call
-  elm_genlist_item_decorate_mode_set().
+  :py:attr:`GenlistItem.decorate_mode`.
 - ``decorate_all_item_style`` - This is a constant string and simply
   defines the name of the decorate all item style. It is used to specify
   decorate all item style. It can be used to set selection, checking and
   deletion mode. This is used when you call
-  elm_genlist_decorate_mode_set().
+  :py:attr:`Genlist.decorate_mode`.
 - ``func`` - A struct with pointers to functions that will be called when
   an item is going to be actually created. All of them receive a ``data``
   parameter that will point to the same data passed to
-  elm_genlist_item_append() and related item creation functions, and an
+  :py:meth:`GenlistItem.append_to` and related item creation functions, and an
   ``obj`` parameter that points to the genlist object itself.
 
-The function pointers inside ``func`` are ``text_get,`` ``content_get,``
-``state_get`` and ``del.`` The 3 first functions also receive a ``part``
+The function pointers inside ``func`` are ``text_get``, ``content_get``,
+``state_get`` and ``del``. The 3 first functions also receive a ``part``
 parameter described below. A brief description of these functions follows:
 
 - ``text_get`` - The ``part`` parameter is the name string of one of the
   existing text parts in the Edje group implementing the item's theme.
-  This function **must** return a strdup'()ed string, as the caller will
-  free() it when done. See #Elm_Genlist_Item_Text_Get_Cb.
+  See :py:meth:`GenlistItemClass.text_get`.
 - ``content_get`` - The ``part`` parameter is the name string of one of the
   existing (content) swallow parts in the Edje group implementing the
   item's theme. It must return ``None``, when no content is desired, or
   a valid object handle, otherwise.  The object will be deleted by the
   genlist on its deletion or when the item is "unrealized". See
-  #Elm_Genlist_Item_Content_Get_Cb.
+  :py:meth:`GenlistItemClass.content_get`.
 - ``func.state_get`` - The ``part`` parameter is the name string of one of
   the state parts in the Edje group implementing the item's theme. Return
   ``False`` for false/off or ``True`` for true/on. Genlists will
   emit a signal to its theming Edje object with ``"elm,state,xxx,active"``
   and ``"elm"`` as "emission" and "source" arguments, respectively, when
   the state is true (the default is false), where ``xxx`` is the name of
-  the (state) part.  See #Elm_Genlist_Item_State_Get_Cb.
+  the (state) part.  See :py:meth:`GenlistItemClass.state_get`.
 - ``func.del`` - This is intended for use when genlist items are deleted,
   so any data attached to the item (e.g. its data parameter on creation)
-  can be deleted. See #Elm_Genlist_Item_Del_Cb.
+  can be deleted. See :py:meth:`GenlistItemClass.delete`.
 
 Available item styles:
 
@@ -111,12 +110,12 @@ more contents (which are simply objects swallowed into the genlist item's
 theming Edje object) and 0 or more **boolean states**, which have the
 behavior left to the user to define. The Edje part names for each of
 these properties will be looked up, in the theme file for the genlist,
-under the Edje (string) data items named ``"labels",`` ``"contents"``
-and ``"states",`` respectively. For each of those properties, if more
+under the Edje (string) data items named ``labels``, ``contents``
+and ``states``, respectively. For each of those properties, if more
 than one part is provided, they must have names listed separated by
 spaces in the data fields. For the default genlist item theme, we have
-**one** text part (``"elm.text"),`` **two** content parts
-(``"elm.swallow.icon"`` and ``"elm.swallow.end")`` and **no** state parts.
+**one** text part (``elm.text``), **two** content parts
+(``elm.swallow.icon`` and ``elm.swallow.end``) and **no** state parts.
 
 A genlist item may be at one of several styles. Elementary provides one
 by default - "default", but this can be extended by system or application
@@ -141,25 +140,26 @@ a convenience callback that is called when the item is selected and the
 data parameter will be the func_data parameter, ``obj`` be the genlist
 object and event_info will be the genlist item.
 
-elm_genlist_item_append() adds an item to the end of the list, or if
+:py:meth:`GenlistItem.append_to` adds an item to the end of the list, or if
 there is a parent, to the end of all the child items of the parent.
-elm_genlist_item_prepend() is the same but adds to the beginning of
-the list or children list. elm_genlist_item_insert_before() inserts at
-item before another item and elm_genlist_item_insert_after() inserts after
+:py:meth:`GenlistItem.prepend_to` is the same but adds to the beginning of
+the list or children list. :py:meth:`GenlistItem.insert_before` inserts at
+item before another item and :py:meth:`GenlistItem.insert_after` inserts after
 the indicated item.
 
-The application can clear the list with elm_genlist_clear() which deletes
-all the items in the list and elm_object_item_del() will delete a specific
-item. elm_genlist_item_subitems_clear() will clear all items that are
+The application can clear the list with :py:meth:`Genlist.clear` which deletes
+all the items in the list and
+:py:meth:`~efl.elementary.object_item.ObjectItem.delete` will delete a specific
+item. :py:meth:`GenlistItem.subitems_clear` will clear all items that are
 children of the indicated parent item.
 
 To help inspect list items you can jump to the item at the top of the list
-with elm_genlist_first_item_get() which will return the item pointer, and
-similarly elm_genlist_last_item_get() gets the item at the end of the list.
-elm_genlist_item_next_get() and elm_genlist_item_prev_get() get the next
+with :py:attr:`Genlist.first_item` which will return the item pointer, and
+similarly :py:attr:`Genlist.last_item` gets the item at the end of the list.
+:py:attr:`GenlistItem.next` and :py:attr:`GenlistItem.prev` get the next
 and previous items respectively relative to the indicated item. Using
 these calls you can walk the entire item list/tree. Note that as a tree
-the items are flattened in the list, so elm_genlist_item_parent_get() will
+the items are flattened in the list, so :py:attr:`GenlistItem.parent` will
 let you know which item is the parent (and thus know how to skip them if
 wanted).
 
@@ -167,37 +167,36 @@ Multi-selection
 ===============
 
 If the application wants multiple items to be able to be selected,
-elm_genlist_multi_select_set() can enable this. If the list is
-single-selection only (the default), then elm_genlist_selected_item_get()
+:py:attr:`Genlist.multi_select` can enable this. If the list is
+single-selection only (the default), then :py:attr:`Genlist.selected_item`
 will return the selected item, if any, or None if none is selected. If the
-list is multi-select then elm_genlist_selected_items_get() will return a
+list is multi-select then :py:attr:`Genlist.selected_items` will return a
 list (that is only valid as long as no items are modified (added, deleted,
 selected or unselected)).
 
 Usage hints
 ===========
 
-There are also convenience functions. elm_object_item_widget_get() will
-return the genlist object the item belongs to. elm_genlist_item_show()
-will make the scroller scroll to show that specific item so its visible.
-elm_object_item_data_get() returns the data pointer set by the item
-creation functions.
+There are also convenience functions.
+:py:attr:`efl.elementary.object_item.ObjectItem.widget` will return the genlist
+object the item belongs to. :py:meth:`GenlistItem.show` will make the scroller
+scroll to show that specific item so its visible.
+:py:attr:`efl.elementary.object_item.ObjectItem.data` returns the data pointer
+set by the item creation functions.
 
 If an item changes (state of boolean changes, text or contents change),
-then use elm_genlist_item_update() to have genlist update the item with
+then use :py:meth:`GenlistItem.update` to have genlist update the item with
 the new state. Genlist will re-realize the item and thus call the functions
 in the _Elm_Genlist_Item_Class for that item.
 
-To programmatically (un)select an item use elm_genlist_item_selected_set().
-To get its selected state use elm_genlist_item_selected_get(). Similarly
-to expand/contract an item and get its expanded state, use
-elm_genlist_item_expanded_set() and elm_genlist_item_expanded_get(). And
-again to make an item disabled (unable to be selected and appear
-differently) use elm_object_item_disabled_set() to set this and
-elm_object_item_disabled_get() to get the disabled state.
+Use :py:attr:`GenlistItem.selected` to programmatically (un)select an item or
+get its selected state. Similarly to expand/contract an item and get its
+expanded state, use :py:attr:`GenlistItem.expanded`. And again to make an item
+disabled (unable to be selected and appear differently) use
+:py:attr:`GenlistItem.disabled` to set this and get the disabled state.
 
 In general to indicate how the genlist should expand items horizontally to
-fill the list area, use elm_genlist_mode_set(). Valid modes are
+fill the list area, use :py:attr:`Genlist.mode`. Valid modes are
 ELM_LIST_LIMIT, ELM_LIST_COMPRESS and ELM_LIST_SCROLL. The default is
 ELM_LIST_SCROLL. This mode means that if items are too wide to fit, the
 scroller will scroll horizontally. Otherwise items are expanded to
@@ -210,16 +209,17 @@ that uses edjes' ellipsis feature (cutting text off like this: "tex...").
 
 Items will only call their selection func and callback when first becoming
 selected. Any further clicks will do nothing, unless you enable always
-select with elm_genlist_select_mode_set() as ELM_OBJECT_SELECT_MODE_ALWAYS.
+select with :py:attr:`Genlist.select_mode` as ELM_OBJECT_SELECT_MODE_ALWAYS.
 This means even if selected, every click will make the selected callbacks
-be called. elm_genlist_select_mode_set() as ELM_OBJECT_SELECT_MODE_NONE will
+be called. :py:attr:`Genlist.select_mode` as ELM_OBJECT_SELECT_MODE_NONE will
 turn off the ability to select items entirely and they will neither
 appear selected nor call selected callback functions.
 
-Remember that you can create new styles and add your own theme augmentation
-per application with elm_theme_extension_add(). If you absolutely must
-have a specific style that overrides any theme the user or system sets up
-you can use elm_theme_overlay_add() to add such a file.
+Remember that you can create new styles and add your own theme augmentation per
+application with :py:meth:`efl.elementary.theme.Theme.extension_add`. If you
+absolutely must have a specific style that overrides any theme the user or
+system sets up you can use :py:meth:`efl.elementary.theme.Theme.overlay_add` to
+add such a file.
 
 Scrollable Interface
 ====================
@@ -281,23 +281,23 @@ Signals that you can add callbacks for are:
 - ``"unselected"`` - This is called when a user has made an item
   unselected. The event_info parameter is the genlist item that was
   unselected.
-- ``"expanded"`` - This is called when elm_genlist_item_expanded_set() is
+- ``"expanded"`` - This is called when :py:attr:`GenlistItem.expanded` is
   called and the item is now meant to be expanded. The event_info
   parameter is the genlist item that was indicated to expand.  It is the
   job of this callback to then fill in the child items.
-- ``"contracted"`` - This is called when elm_genlist_item_expanded_set() is
+- ``"contracted"`` - This is called when :py:attr:`GenlistItem.expanded` is
   called and the item is now meant to be contracted. The event_info
   parameter is the genlist item that was indicated to contract. It is the
   job of this callback to then delete the child items.
 - ``"expand,request"`` - This is called when a user has indicated they want
   to expand a tree branch item. The callback should decide if the item can
-  expand (has any children) and then call elm_genlist_item_expanded_set()
+  expand (has any children) and then call :py:attr:`GenlistItem.expanded`
   appropriately to set the state. The event_info parameter is the genlist
   item that was indicated to expand.
 - ``"contract,request"`` - This is called when a user has indicated they
   want to contract a tree branch item. The callback should decide if the
   item can contract (has any children) and then call
-  elm_genlist_item_expanded_set() appropriately to set the state. The
+  :py:attr:`GenlistItem.expanded` appropriately to set the state. The
   event_info parameter is the genlist item that was indicated to contract.
 - ``"realized"`` - This is called when the item in the list is created as a
   real evas object. event_info parameter is the genlist item that was
@@ -351,11 +351,11 @@ Signals that you can add callbacks for are:
 - ``"moved"`` - This is called when a genlist item is moved in reorder mode.
 - ``"moved,after"`` - This is called when a genlist item is moved after
   another item in reorder mode. The event_info parameter is the reordered
-  item. To get the relative previous item, use elm_genlist_item_prev_get().
+  item. To get the relative previous item, use :py:attr:`GenlistItem.prev`.
   This signal is called along with "moved" signal.
 - ``"moved,before"`` - This is called when a genlist item is moved before
   another item in reorder mode. The event_info parameter is the reordered
-  item. To get the relative previous item, use elm_genlist_item_next_get().
+  item. To get the relative previous item, use :py:attr:`GenlistItem.next`.
   This signal is called along with "moved" signal.
 - ``"language,changed"`` - This is called when the program's language is
   changed.

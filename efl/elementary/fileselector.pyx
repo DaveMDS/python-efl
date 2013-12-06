@@ -53,7 +53,7 @@ This widget emits the following signals, besides the ones sent from
 
 - ``activated`` - the user activated a file. This can happen by
     double-clicking or pressing Enter key. (**event_info** is a
-    pointer to the activated file path)
+    string with the activated file path)
 - ``selected`` - the user has clicked on a file (when not in
     folders-only mode) or directory (when in folders-only mode)
 - ``directory,open`` - the list has been populated with new
@@ -299,7 +299,7 @@ cdef class Fileselector(LayoutClass):
     property selected_paths:
         """A list of selected paths in the file selector.
 
-        It returns a list of the selected paths. This list pointer is only valid
+        It returns a list of the selected paths. This list is only valid
         so long as the selection doesn't change (no items are selected or
         unselected, or unselected implicitly by deletion). The list contains
         strings. The order of the items in this list is the order which
@@ -392,7 +392,7 @@ cdef class Fileselector(LayoutClass):
     def callback_activated_add(self, func, *args, **kwargs):
         """the user activated a file. This can happen by
         double-clicking or pressing Enter key. (**event_info** is a
-        pointer to the activated file path)."""
+        string with the activated file path)."""
         self._callback_add_full("activated", _cb_string_conv, func,
             *args, **kwargs)
 
@@ -430,7 +430,7 @@ cdef class Fileselector(LayoutClass):
 
     def callback_done_add(self, func, *args, **kwargs):
         """The user has clicked on the "ok" or "cancel" buttons
-        (*event_info* is a pointer to the selection's path)."""
+        (*event_info* is a string with the selection's path)."""
         self._callback_add_full("done", _cb_string_conv,
                                 func, *args, **kwargs)
 
