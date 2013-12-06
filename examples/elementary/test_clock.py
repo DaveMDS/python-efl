@@ -5,7 +5,8 @@ from efl.evas import EVAS_HINT_EXPAND
 from efl import elementary
 from efl.elementary.window import StandardWindow
 from efl.elementary.box import Box
-from efl.elementary.clock import Clock
+from efl.elementary.clock import Clock, ELM_CLOCK_EDIT_HOUR_DECIMAL, \
+    ELM_CLOCK_EDIT_MIN_DECIMAL, ELM_CLOCK_EDIT_SEC_DECIMAL
 
 EXPAND_BOTH = EVAS_HINT_EXPAND, EVAS_HINT_EXPAND
 
@@ -41,10 +42,13 @@ def clock_clicked(obj):
     bx.pack_end(ck)
     ck.show()
 
-    ck = Clock(win, edit=True, show_seconds=True, edit_mode = \
-        elementary.ELM_CLOCK_EDIT_HOUR_DECIMAL | \
-        elementary.ELM_CLOCK_EDIT_MIN_DECIMAL | \
-        elementary.ELM_CLOCK_EDIT_SEC_DECIMAL)
+    ck = Clock(
+        win, edit=True, show_seconds=True, edit_mode = (
+            ELM_CLOCK_EDIT_HOUR_DECIMAL |
+            ELM_CLOCK_EDIT_MIN_DECIMAL |
+            ELM_CLOCK_EDIT_SEC_DECIMAL
+            )
+        )
     bx.pack_end(ck)
     ck.show()
 
