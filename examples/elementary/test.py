@@ -80,11 +80,11 @@ items = [
             ("Panel", "test_panel", "panel_clicked"),
             ("Panes", "test_panes", "panes_clicked"),
         ]),
-         ("Drag & Drop", [
-            ("Genlist DnD Default Anim", "test_dnd", "dnd_genlist_default_anim_clicked"),
-            ("Genlist DnD User Anim", "test_dnd", "dnd_genlist_user_anim_clicked"),
-            ("Genlist + Gengrid DnD", "test_dnd", "dnd_genlist_gengrid_clicked"),
-        ]),
+        #  ("Drag & Drop", [
+        #     ("Genlist DnD Default Anim", "test_dnd", "dnd_genlist_default_anim_clicked"),
+        #     ("Genlist DnD User Anim", "test_dnd", "dnd_genlist_user_anim_clicked"),
+        #     ("Genlist + Gengrid DnD", "test_dnd", "dnd_genlist_gengrid_clicked"),
+        # ]),
          ("Edje External", [
             ("Ext Button", "test_external", "edje_external_button_clicked"),
             ("Ext ProgressBar", "test_external", "edje_external_pbar_clicked"),
