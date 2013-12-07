@@ -1,5 +1,7 @@
 include README INSTALL COPYING AUTHORS
 recursive-include efl *.c *.h
+graft tests
+recursive-exclude tests *.pyc
 graft examples
 recursive-exclude examples *.pyc
 graft doc
