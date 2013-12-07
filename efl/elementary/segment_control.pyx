@@ -250,9 +250,7 @@ cdef class SegmentControl(LayoutClass):
         Simple example::
 
             sc = SegmentControl(win)
-            ic = Icon(win)
-            ic.file_set("path/to/image")
-            ic.resizable_set(True, True)
+            ic = Icon(win, file="path/to/image", resizable=(True, True))
             sc.item_add(ic, "label")
             sc.show()
 

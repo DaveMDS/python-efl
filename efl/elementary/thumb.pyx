@@ -419,7 +419,8 @@ cdef class Thumb(Object):
         This must be called before the objects are created to be sure no object is
         visible and no generation started.
 
-        Example of usage::
+        ..
+            Example of usage:
 
             #include <Elementary.h>
             #ifndef ELM_LIB_QUICKLAUNCH

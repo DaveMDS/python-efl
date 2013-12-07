@@ -110,9 +110,7 @@ cdef class DiskselectorItem(ObjectItem):
     Simple example (with no function callback or data associated)::
 
         disk = Diskselector(win)
-        ic = Icon(win)
-        ic.file_set("path/to/image")
-        ic.resizable_set(EINA_TRUE, EINA_TRUE)
+        ic = Icon(win, file="path/to/image", resizable=(True, True))
         disk.item_append("label", ic)
 
     .. seealso::

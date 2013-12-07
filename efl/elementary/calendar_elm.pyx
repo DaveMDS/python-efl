@@ -217,18 +217,15 @@ cdef class CalendarMark(object):
 
     Example::
 
-        import time
-        from datetime import date
+        from datetime import date, timedelta
 
         cal = Calendar(win)
 
-        current_time = time.time() + 5 * 86400
-        selected_time = date.fromtimestamp(current_time)
-        CalendarMark(cal, "holiday", selected_time, ELM_CALENDAR_ANNUALLY)
+        selected_time = date.today() + timedelta(5)
+        cal.mark_add("holiday", selected_time, ELM_CALENDAR_ANNUALLY)
 
-        current_time = time.time() + 1 * 86400
-        selected_time = date.fromtimestamp(current_time)
-        CalendarMark(cal, "checked", selected_time, ELM_CALENDAR_UNIQUE)
+        selected_time = date.today() + timedelta(1)
+        cal.mark_add("checked", selected_time, ELM_CALENDAR_UNIQUE)
 
         cal.marks_draw()
 

@@ -32,12 +32,14 @@ upon completion).
 
 Example::
 
-    t = elementary.Transit()
+    from efl.elementary.transit import Transit, ELM_TRANSIT_TWEEN_MODE_DECELERATE
+
+    t = Transit()
     t.object_add(obj)
     t.effect_translation_add(0, 0, 280, 280)
     t.duration = 1
     t.auto_reverse = True
-    t.tween_mode = elementary.ELM_TRANSIT_TWEEN_MODE_DECELERATE
+    t.tween_mode = ELM_TRANSIT_TWEEN_MODE_DECELERATE
     t.repeat_times = 3
 
 Some transition effects are used to change the properties of objects. They
