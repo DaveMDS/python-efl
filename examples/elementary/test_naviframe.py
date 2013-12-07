@@ -21,9 +21,6 @@ img_path = os.path.join(script_path, "images")
 def navi_pop(bt, nf):
     nf.item_pop()
 
-def navi_promote(bt, nf, item):
-    item.item_promote()
-
 def title_visible(obj, item):
     item.title_visible = not item.title_visible
 
@@ -81,7 +78,7 @@ def page5(bt, nf):
         fill_inside=True, style="shadow")
 
     item = nf.item_insert_after(nf.top_item_get(), "Page 5", bt, bt2, content, "basic")
-    item.part_text_set("subtitle", "This page is inserted without transition (TODO)")
+    item.part_text_set("subtitle", "This page is inserted without transition")
 
 def page6(bt, nf):
     bt = Button(nf, text="Page 5")
@@ -101,7 +98,7 @@ def page7(bt, nf):
     bt.callback_clicked_add(navi_pop, nf)
 
     bt2 = Button(nf, text="Page 1")
-    bt2.callback_clicked_add(navi_promote, nf, nf.data["page1"])
+    bt2.callback_clicked_add(lambda x: nf.data["page1"].promote())
 
     content = Photo(nf, file=os.path.join(img_path, "sky_02.jpg"),
         fill_inside=True, style="shadow")
@@ -112,7 +109,8 @@ def page7(bt, nf):
 
 def naviframe_clicked(obj):
     win = StandardWindow("naviframe", "Naviframe test", autodel=True,
-        size=(400, 600))
+        size=(400, 400))
+    win.focus_highlight_enabled = True
     if obj is None:
         win.callback_delete_request_add(lambda o: elementary.exit())
 

@@ -109,7 +109,7 @@ def slideshow_clicked(obj):
     bx = Box(win, horizontal=True)
     bx.show()
 
-    no = Notify(win, orient=ELM_NOTIFY_ORIENT_BOTTOM,
+    no = Notify(win, align=(0.5, 1.0),
         size_hint_weight=EXPAND_BOTH, timeout=3.0, content=bx)
     win.resize_object_add(no)
 

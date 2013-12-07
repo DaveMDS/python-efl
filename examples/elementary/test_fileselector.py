@@ -24,11 +24,11 @@ def fs_cb_done(fs, selected, win):
     win.delete()
 
 def fs_cb_selected(fs, selected, win):
-    print(("Selected file:", selected))
-    print(("           or:", fs.selected_get()))
+    print("Selected file: " + selected)
+    print("           or:" + fs.selected_get())
 
 def fs_cb_directory_open(fs, folder, win):
-    print(("Folder open:", folder))
+    print("Folder open: " + folder)
 
 def ck_cb_is_save(bt, fs):
     print("Toggle is save")
@@ -47,10 +47,10 @@ def ck_cb_buttons(bt, fs):
     fs.buttons_ok_cancel = not fs.buttons_ok_cancel
 
 def bt_cb_sel_get(bt, fs):
-    print(("Get Selected:", fs.selected_get()))
+    print("Get Selected:" + fs.selected_get())
 
 def bt_cb_path_get(bt, fs):
-    print(("Get Path:", fs.path_get()))
+    print("Get Path:" + fs.path_get())
 
 def bt_cb_mode_cycle(bt, fs):
     mode = fs.mode + 1

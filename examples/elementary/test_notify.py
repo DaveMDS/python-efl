@@ -1,98 +1,324 @@
 #!/usr/bin/env python
 # encoding: utf-8
 
+from __future__ import print_function
+
 from efl.evas import EVAS_HINT_EXPAND, EVAS_HINT_FILL
 from efl import elementary
 from efl.elementary.window import StandardWindow
 from efl.elementary.box import Box
 from efl.elementary.button import Button
 from efl.elementary.label import Label
-from efl.elementary.notify import Notify, ELM_NOTIFY_ORIENT_TOP, \
-    ELM_NOTIFY_ORIENT_CENTER, ELM_NOTIFY_ORIENT_BOTTOM, \
-    ELM_NOTIFY_ORIENT_LEFT, ELM_NOTIFY_ORIENT_RIGHT, \
-    ELM_NOTIFY_ORIENT_TOP_LEFT, ELM_NOTIFY_ORIENT_TOP_RIGHT, \
-    ELM_NOTIFY_ORIENT_BOTTOM_LEFT, ELM_NOTIFY_ORIENT_BOTTOM_RIGHT
+from efl.elementary.notify import Notify, ELM_NOTIFY_ALIGN_FILL
 from efl.elementary.table import Table
 
 EXPAND_BOTH = EVAS_HINT_EXPAND, EVAS_HINT_EXPAND
 FILL_BOTH = EVAS_HINT_FILL, EVAS_HINT_FILL
 
-def notify_close(bt, notify):
-    notify.hide()
-
-def notify_show(bt, win, orient):
-    notify = Notify(win, repeat_events=False, timeout=5, orient=orient)
-
-    bx = Box(win, size_hint_weight=EXPAND_BOTH, horizontal=True)
-    notify.content_set(bx)
-    bx.show()
-
-    lb = Label(win, text="Text notification")
-    bx.pack_end(lb)
-    lb.show()
-
-    bt = Button(win, text="Close")
-    bt.callback_clicked_add(notify_close, notify)
-    bx.pack_end(bt)
-    bt.show()
-    notify.show()
-
-def notify_clicked(obj):
-    win = StandardWindow("notify", "Notify test", autodel=True, size=(320, 320),
-        size_hint_min=(160, 160), size_hint_max=(320, 320))
+def notify_clicked(obj=None):
+    win = StandardWindow("notify", "Notify", autodel=True, size=(400,400))
     if obj is None:
-        win.callback_delete_request_add(lambda o: elementary.exit())
+        win.callback_delete_request_add(lambda x: elementary.exit())
+    win.show()
 
     tb = Table(win, size_hint_weight=EXPAND_BOTH)
     win.resize_object_add(tb)
     tb.show()
 
-    bt = Button(win, text="Top")
-    bt.callback_clicked_add(notify_show, win, ELM_NOTIFY_ORIENT_TOP)
-    tb.pack(bt, 1, 0, 1, 1)
+    # Notify top
+    bx = Box(win, horizontal=True)
+    bx.show()
+
+    notify = Notify(win, size_hint_weight=EXPAND_BOTH, align=(0.5, 0.0),
+        content=bx)
+
+    lb = Label(win, text="This position is the default.")
+    bx.pack_end(lb)
+    lb.show()
+
+    bt = Button(win, text="Close")
+    bt.callback_clicked_add(lambda x, y=notify: y.hide())
+    bx.pack_end(bt)
     bt.show()
 
-    bt = Button(win, text="Center")
-    bt.callback_clicked_add(notify_show, win, ELM_NOTIFY_ORIENT_CENTER)
-    tb.pack(bt, 1, 1, 1, 1)
-    bt.show()
-
-    bt = Button(win, text="Bottom")
-    bt.callback_clicked_add(notify_show, win, ELM_NOTIFY_ORIENT_BOTTOM)
-    tb.pack(bt, 1, 2, 1, 1)
-    bt.show()
-
-    bt = Button(win, text="Left")
-    bt.callback_clicked_add(notify_show, win, ELM_NOTIFY_ORIENT_LEFT)
-    tb.pack(bt, 0, 1, 1, 1)
-    bt.show()
-
-    bt = Button(win, text="Top Left")
-    bt.callback_clicked_add(notify_show, win, ELM_NOTIFY_ORIENT_TOP_LEFT)
-    tb.pack(bt, 0, 0, 1, 1)
-    bt.show()
-
-    bt = Button(win, text="Bottom Left")
-    bt.callback_clicked_add(notify_show, win, ELM_NOTIFY_ORIENT_BOTTOM_LEFT)
-    tb.pack(bt, 0, 2, 1, 1)
-    bt.show()
-
-    bt = Button(win, text="Right")
-    bt.callback_clicked_add(notify_show, win, ELM_NOTIFY_ORIENT_RIGHT)
+    bt = Button(win, size_hint_align=FILL_BOTH, text="Top")
+    bt.callback_clicked_add(lambda x, y=notify: y.show())
     tb.pack(bt, 2, 1, 1, 1)
     bt.show()
 
-    bt = Button(win, text="Top Right")
-    bt.callback_clicked_add(notify_show, win, ELM_NOTIFY_ORIENT_TOP_RIGHT)
-    tb.pack(bt, 2, 0, 1, 1)
+    # Notify bottom
+    bx = Box(win, horizontal=True)
+    bx.show()
+
+    notify = Notify(win, allow_events=False, size_hint_weight=EXPAND_BOTH,
+        align=(0.5, 1.0), timeout=(5.0), content=bx)
+
+    notify.callback_timeout_add(lambda x: setattr(x, "timeout", 2.0))
+    notify.callback_block_clicked_add(
+        lambda x: print("Notify block area clicked!!"))
+
+    lb = Label(win)
+    lb.text = (
+        "Bottom position. This notify uses a timeout of 5 sec.<br/>"
+        "<b>The events outside the window are blocked.</b>"
+        )
+    bx.pack_end(lb)
+    lb.show()
+
+    bt = Button(win, text="Close")
+    bt.callback_clicked_add(lambda x, y=notify: y.hide())
+    bx.pack_end(bt)
     bt.show()
 
-    bt = Button(win, text="Bottom Right")
-    bt.callback_clicked_add(notify_show, win, ELM_NOTIFY_ORIENT_BOTTOM_RIGHT)
+    bt = Button(win, size_hint_align=FILL_BOTH, text="Bottom")
+    bt.callback_clicked_add(lambda x, y=notify: y.show())
+    tb.pack(bt, 2, 3, 1, 1)
+    bt.show()
+
+    # Notify left
+    bx = Box(win, horizontal=True)
+    bx.show()
+
+    notify = Notify(win, size_hint_weight=EXPAND_BOTH, align=(0.0, 0.5),
+        timeout=10.0, content=bx)
+    notify.callback_timeout_add(lambda x: print("Notify timed out!"))
+
+    lb = Label(win)
+    lb.text = "Left position. This notify uses a timeout of 10 sec."
+    bx.pack_end(lb)
+    lb.show()
+
+    bt = Button(win, text="Close")
+    bt.callback_clicked_add(lambda x, y=notify: y.hide())
+    bx.pack_end(bt)
+    bt.show()
+
+    bt = Button(win, size_hint_align=FILL_BOTH, text="Left")
+    bt.callback_clicked_add(lambda x, y=notify: y.show())
+    tb.pack(bt, 1, 2, 1, 1)
+    bt.show()
+
+    # Notify center
+    bx = Box(win, horizontal=True)
+    bx.show()
+
+    notify = Notify(win, size_hint_weight=EXPAND_BOTH, align=(0.5, 0.5),
+        timeout=10.0, content=bx)
+    notify.callback_timeout_add(lambda x: print("Notify timed out!"))
+
+    lb = Label(win)
+    lb.text = "Center position. This notify uses a timeout of 10 sec."
+    bx.pack_end(lb)
+    lb.show()
+
+    bt = Button(win, text="Close")
+    bt.callback_clicked_add(lambda x, y=notify: y.hide())
+    bx.pack_end(bt)
+    bt.show()
+
+    bt = Button(win, size_hint_align=FILL_BOTH, text="Center")
+    bt.callback_clicked_add(lambda x, y=notify: y.show())
     tb.pack(bt, 2, 2, 1, 1)
     bt.show()
 
-    win.show()
+    # Notify right
+    bx = Box(win, horizontal=True)
+    bx.show()
+
+    notify = Notify(win, size_hint_weight=EXPAND_BOTH, align=(1.0, 0.5),
+        content=bx)
+
+    lb = Label(win, text="Right position.")
+    bx.pack_end(lb)
+    lb.show()
+
+    bt = Button(win, text="Close")
+    bt.callback_clicked_add(lambda x, y=notify: y.hide())
+    bx.pack_end(bt)
+    bt.show()
+
+    bt = Button(win, size_hint_align=FILL_BOTH, text="Right")
+    bt.callback_clicked_add(lambda x, y=notify: y.show())
+    tb.pack(bt, 3, 2, 1, 1)
+    bt.show()
+
+    # Notify top left
+    bx = Box(win, horizontal=True)
+    bx.show()
+
+    notify = Notify(win, size_hint_weight=EXPAND_BOTH, align=(0.0, 0.0),
+        content=bx)
+
+    lb = Label(win, text="Top Left position.")
+    bx.pack_end(lb)
+    lb.show()
+
+    bt = Button(win, text="Close")
+    bt.callback_clicked_add(lambda x, y=notify: y.hide())
+    bx.pack_end(bt)
+    bt.show()
+
+    bt = Button(win, size_hint_align=FILL_BOTH, text="Top Left")
+    bt.callback_clicked_add(lambda x, y=notify: y.show())
+    tb.pack(bt, 1, 1, 1, 1)
+    bt.show()
+
+    # Notify top right
+    bx = Box(win, horizontal=True)
+    bx.show()
+
+    notify = Notify(win, size_hint_weight=EXPAND_BOTH, align=(1.0, 0.0),
+        content=bx)
+
+    lb = Label(win, text="Top Right position.")
+    bx.pack_end(lb)
+    lb.show()
+
+    bt = Button(win, text="Close")
+    bt.callback_clicked_add(lambda x, y=notify: y.hide())
+    bx.pack_end(bt)
+    bt.show()
+
+    bt = Button(win, size_hint_align=FILL_BOTH, text="Top Right")
+    bt.callback_clicked_add(lambda x, y=notify: y.show())
+    tb.pack(bt, 3, 1, 1, 1)
+    bt.show()
+
+    # Notify bottom left
+    bx = Box(win, horizontal=True)
+    bx.show()
+
+    notify = Notify(win, size_hint_weight=EXPAND_BOTH, align=(0.0, 1.0),
+        content=bx)
+
+    lb = Label(win, text="Bottom Left position.")
+    bx.pack_end(lb)
+    lb.show()
+
+    bt = Button(win, text="Close")
+    bt.callback_clicked_add(lambda x, y=notify: y.hide())
+    bx.pack_end(bt)
+    bt.show()
+
+    bt = Button(win, size_hint_align=FILL_BOTH, text="Bottom Left")
+    bt.callback_clicked_add(lambda x, y=notify: y.show())
+    tb.pack(bt, 1, 3, 1, 1)
+    bt.show()
+
+    # Notify bottom right
+    bx = Box(win, horizontal=True)
+    bx.show()
+
+    notify = Notify(win, size_hint_weight=EXPAND_BOTH, align=(1.0, 1.0),
+        content=bx)
+
+    lb = Label(win, text="Bottom Right position.")
+    bx.pack_end(lb)
+    lb.show()
+
+    bt = Button(win, text="Close in 2s")
+    bt.callback_clicked_add(lambda x, y=notify: setattr(y, "timeout", 2.0))
+    bx.pack_end(bt)
+    bt.show()
+
+    bt = Button(win, size_hint_align=FILL_BOTH, text="Bottom Right")
+    bt.callback_clicked_add(lambda x, y=notify: y.show())
+    tb.pack(bt, 3, 3, 1, 1)
+    bt.show()
+
+    # Notify top fill
+    bx = Box(win, horizontal=True)
+    bx.show()
+
+    notify = Notify(win, size_hint_weight=EXPAND_BOTH,
+        align=(ELM_NOTIFY_ALIGN_FILL, 0.0), timeout=5.0, content=bx)
+
+    lb = Label(win)
+    lb.text = (
+        "Fill top. This notify fills horizontal area.<br/>"
+        "<b>notify.align = (ELM_NOTIFY_ALIGN_FILL, 0.0)</b>"
+        )
+    bx.pack_end(lb)
+    lb.show()
+
+    bt = Button(win, text="Close")
+    bt.callback_clicked_add(lambda x, y=notify: y.hide())
+    bx.pack_end(bt)
+    bt.show()
+
+    bt = Button(win, size_hint_align=(EVAS_HINT_FILL, 0.5), text="Top fill")
+    bt.callback_clicked_add(lambda x, y=notify: y.show())
+    tb.pack(bt, 1, 0, 3, 1)
+    bt.show()
+
+    # Notify bottom fill
+    bx = Box(win, horizontal=True)
+    bx.show()
+
+    notify = Notify(win, size_hint_weight=EXPAND_BOTH,
+        align=(ELM_NOTIFY_ALIGN_FILL, 1.0), timeout=5.0, content=bx)
+
+    lb = Label(win, size_hint_weight=EXPAND_BOTH, size_hint_align=(0.0, 0.5))
+    lb.text = (
+        "Fill Bottom. This notify fills horizontal area.<br/>"
+        "<b>notify.align = (ELM_NOTIFY_ALIGN_FILL, 1.0)</b>"
+        )
+    bx.pack_end(lb)
+    lb.show()
+
+    bt = Button(win, text="Close")
+    bt.callback_clicked_add(lambda x, y=notify: y.hide())
+    bx.pack_end(bt)
+    bt.show()
+
+    bt = Button(win, size_hint_align=(EVAS_HINT_FILL, 0.5), text="Bottom fill")
+    bt.callback_clicked_add(lambda x, y=notify: y.show())
+    tb.pack(bt, 1, 4, 3, 1)
+    bt.show()
+
+    # Notify left fill
+    bx = Box(win)
+    bx.show()
+
+    notify = Notify(win, size_hint_weight=EXPAND_BOTH,
+        align=(0.0, ELM_NOTIFY_ALIGN_FILL), timeout=5.0, content=bx)
+
+    lb = Label(win, text="Left fill.")
+    bx.pack_end(lb)
+    lb.show()
+
+    bt = Button(win, text="Close")
+    bt.callback_clicked_add(lambda x, y=notify: y.hide())
+    bx.pack_end(bt)
+    bt.show()
+
+    bt = Button(win, size_hint_align=(0.5, EVAS_HINT_FILL), text="Left fill")
+    bt.callback_clicked_add(lambda x, y=notify: y.show())
+    tb.pack(bt, 0, 1, 1, 3)
+    bt.show()
+
+    # Notify right fill
+    bx = Box(win)
+    bx.show()
+
+    notify = Notify(win, size_hint_weight=EXPAND_BOTH,
+        align=(1.0, ELM_NOTIFY_ALIGN_FILL), timeout=5.0, content=bx)
+
+    lb = Label(win)
+    lb.text = "Right fill."
+    bx.pack_end(lb)
+    lb.show()
+
+    bt = Button(win, text="Close")
+    bt.callback_clicked_add(lambda x, y=notify: y.hide())
+    bx.pack_end(bt)
+    bt.show()
+
+    bt = Button(win, size_hint_align=(0.5, EVAS_HINT_FILL), text="Right fill")
+    bt.callback_clicked_add(lambda x, y=notify: y.show())
+    tb.pack(bt, 4, 1, 1, 3)
+    bt.show()
+
 
 
 if __name__ == "__main__":
