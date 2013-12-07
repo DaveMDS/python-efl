@@ -259,7 +259,7 @@ cdef class Transit(object):
         tuple del_cb_args
         dict del_cb_kwargs
 
-    def __init__(self):
+    def __init__(self, *args, **kwargs):
         """Create new transit.
 
         .. note:: It is not necessary to delete the transit object, it will be
@@ -271,7 +271,17 @@ cdef class Transit(object):
 
         """
         self.obj = elm_transit_add()
+        self._set_properties_from_keyword_args(kwargs)
         Py_INCREF(self)
+
+    cdef int _set_properties_from_keyword_args(self, dict kwargs) except 0:
+        if not kwargs:
+            return 1
+        cdef list cls_list = dir(self)
+        for k, v in kwargs.items():
+            assert k in cls_list, "%s has no attribute with the name %s." % (self, k)
+            setattr(self, k, v)
+        return 1
 
     def delete(self):
         """delete()
