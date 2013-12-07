@@ -19,16 +19,6 @@
 from efl.elementary.general import *
 from efl.elementary.need import *
 
-# XXX: These are deprecated here! Will be removed soon.
-from efl.utils.deprecated import DEPRECATED
-from efl.elementary.theme import theme_overlay_add, theme_extension_add
-from efl.elementary.configuration import preferred_engine_set
-theme_overlay_add = DEPRECATED("1.8", "Use theme module instead.")(theme_overlay_add)
-theme_extension_add = DEPRECATED("1.8", "Use theme module instead.")(theme_extension_add)
-preferred_engine_set = DEPRECATED("1.8", "Use configuration module instead.")(preferred_engine_set)
-ELM_WIN_BASIC = 0
-ELM_OBJECT_SELECT_MODE_ALWAYS = 1
-
 
 __all__ = (
     #"access",
