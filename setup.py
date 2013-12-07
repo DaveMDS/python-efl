@@ -338,7 +338,7 @@ setup(
     name = "python-efl",
     fullname = "Python bindings for Enlightenment Foundation Libraries",
     description = "Python bindings for Enlightenment Foundation Libraries",
-    version = "1.7.99",
+    version = "1.8.0",
     author = "Gustavo Sverzut Barbieri, Simon Busch, Boris 'billiob' Faure, Davide 'davemds' Andreoli, Fabiano Fidêncio, Bruno Dilly, Tiago Falcão, Joost Albers, Kai Huuhko, Ulisses Furquim",
     author_email = "dave@gurumeditation.it, kai.huuhko@gmail.com",
     maintainer = "Kai Huuhko, Davide <davemds> Andreoli",

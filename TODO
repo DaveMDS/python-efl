@@ -8,41 +8,12 @@ BUGS
 * Bad binaries produced when build environment is invalid (T504)
 
 
-TODO
-====
-
-* Improve, review and document our use of exceptions
-* Check that README has all changes listed
-* Overall API review
-
-Elementary
-----------
-
-* Review the new container type object item system.
-* Get rid of enums in __init__.py
-
-
-TODO (optional)
-===============
+TODO (after 1.8)
+================
 
 * update links and text on:
   http://www.freedesktop.org/wiki/Software/DBusBindings
   (requires fd.org shell account?)
-* Add more documentation for callbacks, events, etc.
-* Check for missing Eo type mappings
-
-Elm
----
-* Images missing in the documentation:
-   - datetime
-   - video
-   - web
-   - window ?
-
-
-TODO (future)
-=============
-
 * Review the internal functions and name them consistently
 * Evas: SmartObject needs testing, work. Make it inheritable by extension
   classes?
@@ -51,6 +22,8 @@ TODO (future)
 * include python-ethumb
 * edje: complete the unit tests
 * Initial Evas GL support (for Elm)
+* Add more documentation for callbacks, events, etc.
+* Check for missing Eo type mappings
 
 Elm
 ---
@@ -59,3 +32,8 @@ Elm
 * Add more examples
 * Prefs
 * GLView
+* Images missing in the documentation:
+   - datetime
+   - video
+   - web
+   - window ?
