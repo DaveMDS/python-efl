@@ -469,6 +469,8 @@ cdef class Gengrid(Object):
         based if the coordinate is above or below all items respectively in
         the gengrid.
 
+        .. versionadded:: 1.8
+
         """
         cdef:
             int xposret, yposret

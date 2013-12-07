@@ -1240,6 +1240,8 @@ cdef class Object(evasObject):
 
         :type: int
 
+        .. versionadded:: 1.8
+
         """
         def __get__(self):
             return elm_object_scroll_hold_get(self.obj)
@@ -1273,6 +1275,8 @@ cdef class Object(evasObject):
         """The scroll freeze count.
 
         :type: int
+
+        .. versionadded:: 1.8
 
         """
         def __get__(self):

@@ -361,6 +361,8 @@ def cache_all_flush():
 
     .. note:: Evas caches are flushed for every canvas associated with a window.
 
+    .. versionadded:: 1.8
+
     """
     elm_cache_all_flush()
 
@@ -377,6 +379,8 @@ def font_properties_get(font not None):
         :py:func:`font_fontconfig_name_get`, for one style only (single font
         instance, not family).
 
+    .. versionadded:: 1.8
+
     """
     if isinstance(font, unicode): font = PyUnicode_AsUTF8String(font)
     cdef FontProperties ret = FontProperties.__new__()
@@ -389,6 +393,8 @@ def font_properties_free(FontProperties fp):
     """Free font properties return by font_properties_get().
 
     :param fp: the font properties struct
+
+    .. versionadded:: 1.8
 
     """
     elm_font_properties_free(fp.efp)
@@ -408,6 +414,8 @@ def font_fontconfig_name_get(font_name, style = None):
     .. note:: The reverse translation can be achieved with
         :py:func:`font_properties_get`, for one style only (single font
         instance, not family).
+
+    .. versionadded:: 1.8
 
     """
     cdef:
@@ -458,6 +466,8 @@ def object_tree_dump(evasObject top):
 
     :param top: The root object
 
+    .. versionadded:: 1.8
+
     """
     elm_object_tree_dump(top.obj)
 
@@ -468,6 +478,8 @@ def object_tree_dot_dump(evasObject top, path):
 
     :param top: The root object
     :param path: The path of output file
+
+    .. versionadded:: 1.8
 
     """
     if isinstance(path, unicode): path = PyUnicode_AsUTF8String(path)

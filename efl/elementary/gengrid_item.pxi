@@ -67,6 +67,8 @@ cdef class GengridItem(ObjectItem):
 
         Append a new item (add as last item) to this gengrid.
 
+        .. versionadded:: 1.8
+
         """
         cdef:
             Elm_Object_Item *item
@@ -90,6 +92,8 @@ cdef class GengridItem(ObjectItem):
         """item_prepend(Gengrid gengrid) -> GengridItem
 
         Prepend a new item (add as first item) to this gengrid.
+
+        .. versionadded:: 1.8
 
         """
         cdef:
@@ -116,6 +120,8 @@ cdef class GengridItem(ObjectItem):
 
         :param before: a reference item to use, the new item
             will be inserted before it.
+
+        .. versionadded:: 1.8
 
         """
         cdef:
@@ -144,6 +150,8 @@ cdef class GengridItem(ObjectItem):
         :param after: a reference item to use, the new item
             will be inserted after it.
 
+        .. versionadded:: 1.8
+
         """
         cdef:
             Elm_Object_Item *item
@@ -170,6 +178,8 @@ cdef class GengridItem(ObjectItem):
 
         :param after: a reference item to use, the new item
             will be inserted after it.
+
+        .. versionadded:: 1.8
 
         """
         cdef:

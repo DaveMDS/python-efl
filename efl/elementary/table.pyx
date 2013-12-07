@@ -154,6 +154,8 @@ cdef class Table(Object):
 
         :return: Child of object if find if not return None.
 
+        .. versionadded:: 1.8
+
         """
         return object_from_instance(elm_table_child_get(self.obj, col, row))
 

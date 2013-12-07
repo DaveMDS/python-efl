@@ -147,7 +147,7 @@ cdef class Edje(Object):
         self._text_change_cb = None
         self._message_handler_cb = None
 
-    def __str__(self):
+    def __repr__(self):
         x, y, w, h = self.geometry_get()
         r, g, b, a = self.color_get()
         file, group = self.file_get()
@@ -157,19 +157,9 @@ cdef class Edje(Object):
         else:
             name_str = ""
         clip = bool(self.clip_get() is not None)
-        return ("%s(%sfile=%r, group=%r, geometry=(%d, %d, %d, %d), "
-                "color=(%d, %d, %d, %d), layer=%s, clip=%s, visible=%s)") % \
-               (self.__class__.__name__, name_str, file, group, x, y, w, h,
-                r, g, b, a, self.layer_get(), clip, self.visible_get())
-
-    def __repr__(self):
-        x, y, w, h = self.geometry_get()
-        r, g, b, a = self.color_get()
-        file, group = self.file_get()
-        clip = bool(self.clip_get() is not None)
-        return ("%s(name=%r, file=%r, group=%r, geometry=(%d, %d, %d, %d), "
-                "color=(%d, %d, %d, %d), layer=%s, clip=%r, visible=%s)") % \
-               (self.__class__.__name__, self.name_get(), file, group,
+        return ("<%s(%sfile=%r, group=%r, geometry=(%d, %d, %d, %d), "
+                "color=(%d, %d, %d, %d), layer=%s, clip=%r, visible=%s)>") % \
+               (self.__class__.__name__, name_str, file, group,
                 x, y, w, h, r, g, b, a,
                 self.layer_get(), clip, self.visible_get())
 
@@ -193,6 +183,8 @@ cdef class Edje(Object):
             returns data stored on the Edje (.edj), stored inside a
             *data* section inside the *group* that defines this object.
 
+        :type: string
+
         """
         if isinstance(key, unicode): key = PyUnicode_AsUTF8String(key)
         return _ctouni(edje_object_data_get(self.obj,
@@ -201,8 +193,8 @@ cdef class Edje(Object):
     def file_set(self, file, group):
         """Set the file (.edj) and the group to load the Edje object from.
 
-        :param file: the name of the file to load
-        :param group: the name of the group inside the edj to load
+        :param string file: the name of the file to load
+        :param string group: the name of the group inside the edj to load
 
         :raise EdjeLoadError: if error occurred during load.
 
@@ -218,7 +210,7 @@ cdef class Edje(Object):
         """Get the file and group used to load the object.
 
         :return: the tuple (file, group)
-        :rtype: tuple for str
+        :rtype: tuple of str
 
         """
         cdef const_char *file, *group
@@ -289,6 +281,8 @@ cdef class Edje(Object):
                        will remove it (if it was issued before).
         :type cancel: bool
         :rtype: bool
+
+        .. versionadded:: 1.8
 
         """
         return bool(edje_object_preload(self.obj, cancel))
@@ -362,7 +356,15 @@ cdef class Edje(Object):
             size)
 
     property scale:
-        """The scaling factor for a given Edje object."""
+        """
+
+        The scaling factor for a given Edje object.
+
+        :type: float
+
+        .. versionadded:: 1.8
+
+        """
         def __set__(self, double scale):
             edje_object_scale_set(self.obj, scale)
 
@@ -375,7 +377,15 @@ cdef class Edje(Object):
         return edje_object_scale_get(self.obj)
 
     property mirrored:
-        """The RTL orientation for this object."""
+        """
+
+        The RTL orientation for this object.
+
+        :type: int
+
+        .. versionadded:: 1.8
+
+        """
         def __set__(self, int rtl):
             edje_object_mirrored_set(self.obj, rtl)
 
@@ -432,6 +442,8 @@ cdef class Edje(Object):
         :warning: Be advised that invisible parts in the object obj will be
                   taken into account in this calculation.
 
+        .. versionadded:: 1.8
+
         """
         cdef int w, h
         edje_object_size_min_restricted_calc(self.obj, &w, &h, minw, minh)
@@ -459,6 +471,8 @@ cdef class Edje(Object):
         sense to be sure that's its minimal size hint is always accurate.
 
         :type: bool
+
+        .. versionadded:: 1.8
 
         """
         def __get__(self):

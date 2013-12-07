@@ -82,20 +82,30 @@ cdef class Timer(Eo):
         ecore_timer_thaw(self.obj)
 
     def delay(self, double add):
-        """ Delay the execution of the timer by the given amount
+        """delay(float add)
+
+        Delay the execution of the timer by the given amount
 
         :param add: seconds to add to the timer
         :type add: double
+
+        .. versionadded:: 1.8
 
         """
         ecore_timer_delay(self.obj, add)
 
     def reset(self):
-        "Reset the counter of the timer"
+        """reset()
+
+        Reset the counter of the timer
+
+        .. versionadded:: 1.8
+
+        """
         ecore_timer_reset(self.obj)
 
     property interval:
-        """ The interval (in seconds) between each call of the timer
+        """The interval (in seconds) between each call of the timer
 
         :type: double
 
@@ -112,16 +122,18 @@ cdef class Timer(Eo):
         return ecore_timer_interval_get(self.obj)
 
     property pending:
-        """ The pending time for the timer to expire
+        """The pending time for the timer to expire
 
         :type: double
+
+        .. versionadded:: 1.8
 
         """
 
         def __get__(self):
             return ecore_timer_pending_get(self.obj)
 
-    def ecore_timer_pending_get(self):
+    def pending_get(self):
         ecore_timer_pending_get(self.obj)
 
 

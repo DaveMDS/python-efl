@@ -956,6 +956,8 @@ cdef class Toolbar(LayoutClass):
         transverse length of the toolbar. The default is what the transverse
         length of the item is set according its min value (this property is False).
 
+        .. versionadded:: 1.8
+
         """
         def __set__(self, bint transverse_expanded):
             elm_toolbar_transverse_expanded_set(self.obj, transverse_expanded)
@@ -1100,6 +1102,8 @@ cdef class Toolbar(LayoutClass):
         """Reorder mode
 
         :type: bool
+
+        .. versionadded:: 1.8
 
         """
         def __set__(self, bint reorder_mode):

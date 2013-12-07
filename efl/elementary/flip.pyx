@@ -268,6 +268,8 @@ cdef class Flip(Object):
         Flips the front and back contents using the ``flip_mode`` animation. This
         effectively hides the currently visible content and shows the hidden one.
 
+        .. versionadded:: 1.8
+
         """
         elm_flip_go_to(self.obj, front, flip_mode)
 

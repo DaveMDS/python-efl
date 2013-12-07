@@ -535,6 +535,8 @@ cdef class Transit(object):
 
         :type: (float **v1**, float **v2**) (defaults are 1.0, 0.0)
 
+        .. versionadded:: 1.8
+
         """
         def __set__(self, value):
             cdef float v1, v2

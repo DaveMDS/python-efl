@@ -89,6 +89,33 @@ cdef Eina_Bool _ecore_timeline_cb(void *data, double pos) with gil:
     return ret
 
 cdef class AnimatorTimeline(Animator):
+
+    """
+
+    Add an animator that runs for a limited time
+
+    :param runtime: The time to run in seconds
+    :param func: The function to call when it ticks off
+
+    This is just like a normal :py:class:`Animator` except the animator only
+    runs for a limited time specified in seconds by ``runtime``. Once the
+    runtime the animator has elapsed (animator finished) it will automatically
+    be deleted. The callback function ``func`` can return ECORE_CALLBACK_RENEW
+    to keep the animator running or ECORE_CALLBACK_CANCEL ro stop it and have it
+    be deleted automatically at any time.
+
+    The ``func`` will ALSO be passed a position parameter that will be in value
+    from 0.0 to 1.0 to indicate where along the timeline (0.0 start, 1.0 end)
+    the animator run is at. If the callback wishes not to have a linear
+    transition it can "map" this value to one of several curves and mappings via
+    :py:meth:`Animator.pos_map`.
+
+    .. note:: The default ``frametime`` value is 1/30th of a second.
+
+    .. versionadded:: 1.8
+
+    """
+
     def __init__(self, func, double runtime, *args, **kargs):
         if not callable(func):
             raise TypeError("Parameter 'func' must be callable")

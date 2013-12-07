@@ -131,8 +131,14 @@ def shutdown():
 
 
 def webcams_get():
-    """ Get a list of active and available webcam.
+    """webcams_get() -> list
+
+    Get a list of active and available webcam.
+
     :return: the list of tuple (webcam name, webcam device)
+
+    .. versionadded:: 1.8
+
     """
     cdef const_Eina_List *lst, *itr
     cdef Emotion_Webcam *cam
@@ -150,7 +156,9 @@ def webcams_get():
     return ret
 
 def extension_may_play_get(filename):
-    """ Do we have a chance to play that file?
+    """extension_may_play_get(filename) -> bool
+
+    Do we have a chance to play that file?
 
     This just actually look at the extention of the file, it doesn't check
     the mime-type nor if the file is actually sane. So this is just an
@@ -159,6 +167,8 @@ def extension_may_play_get(filename):
     :param filename: A filename that we want to know if Emotion can play.
     :type filename: str
 
+    .. versionadded:: 1.8
+
     """
     if isinstance(filename, unicode): filename = PyUnicode_AsUTF8String(filename)
     return bool(emotion_object_extension_may_play_get(
@@ -166,7 +176,9 @@ def extension_may_play_get(filename):
 
 
 cdef class Emotion(evasObject):
-    """ The emotion object
+    """
+
+    The Emotion object
 
     :see: :py:mod:`The documentation page<efl.emotion>`
 
@@ -179,6 +191,9 @@ cdef class Emotion(evasObject):
     :param geometry: (x, y, w, h)
     :param color: (r, g, b, a)
     :return: The emotion object instance just created.
+
+    .. versionchanged:: 1.8
+        Keyword argument module_filename was renamed to module_name.
 
     """
     def __cinit__(self, *a, **ka):
@@ -205,26 +220,12 @@ cdef class Emotion(evasObject):
 
         self._set_properties_from_keyword_args(kwargs)
 
-    def __str__(self):
-        x, y, w, h = self.geometry_get()
-        r, g, b, a = self.color_get()
-        name = self.name_get()
-        if name:
-            name_str = "name=%r, "
-        else:
-            name_str = ""
-        return ("%s(%sfile=%r, geometry=(%d, %d, %d, %d), "
-                "color=(%d, %d, %d, %d), layer=%s, clip=%s, visible=%s)") % \
-               (self.__class__.__name__, name_str, self.file_get(), x, y, w, h,
-                r, g, b, a, self.layer_get(), self.clip_get(),
-                self.visible_get())
-
     def __repr__(self):
         x, y, w, h = self.geometry_get()
         r, g, b, a = self.color_get()
-        return ("%s(%#x, type=%r, name=%r, "
+        return ("<%s(%#x, type=%r, name=%r, "
                 "file=%r, geometry=(%d, %d, %d, %d), "
-                "color=(%d, %d, %d, %d), layer=%s, clip=%r, visible=%s) %s") % \
+                "color=(%d, %d, %d, %d), layer=%s, clip=%r, visible=%s) %s>") % \
                (self.__class__.__name__, <unsigned long><void *>self,
                 self.type_get(), self.name_get(), self.file_get(),
                 x, y, w, h, r, g, b, a,
@@ -318,6 +319,9 @@ cdef class Emotion(evasObject):
                   default, an Emotion object doesn't have any border.
 
         :type: tuple of int (l, r, t, b)
+
+        .. versionadded:: 1.8
+
         """
         def __get__(self):
             cdef int l, r, t, b
@@ -346,6 +350,9 @@ cdef class Emotion(evasObject):
         The default color is (0, 0, 0, 0)
 
         :type: tuple of int (r, g, b, a)
+
+        .. versionadded:: 1.8
+
         """
         def __get__(self):
             cdef int r, g, b, a
@@ -400,6 +407,9 @@ cdef class Emotion(evasObject):
                   set the aspect policy to #EMOTION_ASPECT_CUSTOM.
 
         :type: Emotion_Aspect
+
+        .. versionadded:: 1.8
+
         """
         def __get__(self):
             return emotion_object_keep_aspect_get(self.obj)
@@ -417,6 +427,9 @@ cdef class Emotion(evasObject):
         For supported subtitle formats consult the backend's documentation.
 
         :type: str
+
+        .. versionadded:: 1.8
+
         """
         def __get__(self):
             return _ctouni(emotion_object_video_subtitle_file_get(self.obj))
@@ -450,6 +463,9 @@ cdef class Emotion(evasObject):
         *True* means high priority.
 
         :type: bool
+
+        .. versionadded:: 1.8
+
         """
         def __get__(self):
             return bool(emotion_object_priority_get(self.obj))
@@ -480,6 +496,9 @@ cdef class Emotion(evasObject):
           or object resolution if lower
 
         :type: Emotion_Suspend
+
+        .. versionadded:: 1.8
+
         """
         def __get__(self):
             return emotion_object_suspend_get(self.obj)
@@ -561,6 +580,9 @@ cdef class Emotion(evasObject):
         represents the normal speed, 2 double speed, 0.5 half speed and so on.
 
         :type: float
+
+        .. versionadded:: 1.8
+
         """
         def __get__(self):
             return emotion_object_play_speed_get(self.obj)
@@ -1022,6 +1044,8 @@ cdef class Emotion(evasObject):
         Every operation is fully asynchronous and not linked to the actual
         engine used to play the video.
 
+        .. versionadded:: 1.8
+
         """
         emotion_object_last_position_load(self.obj)
 
@@ -1029,6 +1053,8 @@ cdef class Emotion(evasObject):
         """ Save the lastest position if possible
 
         :see: :py:meth:`last_position_load`
+
+        .. versionadded:: 1.8
 
         """
         emotion_object_last_position_save(self.obj)
@@ -1038,10 +1064,14 @@ cdef class Emotion(evasObject):
         emotion object.
 
         This function is usefull when you want to get a direct access to the pixels.
+
+        .. versionadded:: 1.8
+
         """
         return object_from_instance(emotion_object_image_get(self.obj))
 
     property vis:
+        # TODO: document this
         def __get__(self):
             return emotion_object_vis_get(self.obj)
 

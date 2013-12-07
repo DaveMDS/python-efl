@@ -544,6 +544,8 @@ cdef class Index(LayoutClass):
 
         .. note:: Delay time is 0.2 sec by default.
 
+        .. versionadded:: 1.8
+
         """
         def __set__(self, double delay_change_time):
             elm_index_delay_change_time_set(self.obj, delay_change_time)

@@ -50,15 +50,17 @@ cdef class FileMonitor(object):
                 print("ECORE_FILE_EVENT_DELETED_DIRECTORY: '%s'" % path)
             elif event == ecore.ECORE_FILE_EVENT_DELETED_SELF:
                 print("ECORE_FILE_EVENT_DELETED_SELF: '%s'" % path)
-    
+
         ecore.FileMonitor("/tmp", monitor_cb)
         ecore.main_loop_begin()
-    
+
 
     :param path: The complete path of the folder you want to monitor.
     :type path: str
     :param monitor_cb: A callback called when something change in `path`
     :type monitor_cb: callable
+
+    .. versionadded:: 1.8
 
     """
     def __init__(self, path, monitor_cb, *args, **kargs):

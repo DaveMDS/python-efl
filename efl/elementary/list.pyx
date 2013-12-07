@@ -934,6 +934,7 @@ cdef class List(Object):
         based if the coordinate is above or below all items respectively in
         the list.
 
+        .. versionadded:: 1.8
 
         """
         cdef:
@@ -954,6 +955,8 @@ cdef class List(Object):
         its first focusable widget from the left. This is true of course if the selection was made by
         clicking an unfocusable area in an item or selecting it with a key movement. Clicking on a
         focusable widget inside an item will couse this particular item to get focus as usual.
+
+        .. versionadded:: 1.8
 
         """
         def __set__(self, bint enabled):

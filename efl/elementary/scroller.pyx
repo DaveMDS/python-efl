@@ -425,6 +425,9 @@ cdef class Scrollable(Object):
 
         :type: (int **h_pagesize**, int **v_pagesize**)
 
+        .. versionadded:: 1.8
+            Getter for this property
+
         """
         def __set__(self, value):
             h_pagesize, v_pagesize = value

@@ -249,9 +249,19 @@ cdef class WebWindowFeatures(object):
             return x, y, w, h
 
     def ref(self):
+        """
+
+        .. versionadded:: 1.8
+
+        """
         elm_web_window_features_ref(self.wf);
 
     def unref(self):
+        """
+
+        .. versionadded:: 1.8
+
+        """
         elm_web_window_features_unref(self.wf)
 
 cdef class Web(Object):
@@ -493,6 +503,8 @@ cdef class Web(Object):
         :type: string
 
         :raise RuntimeError: if url could not be set
+
+        .. versionadded:: 1.8
 
         """
         def __set__(self, url):

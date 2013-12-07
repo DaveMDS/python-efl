@@ -26,12 +26,12 @@ cdef class Poller(Eo):
     ecore poller parlance) for each added poller. Ecore pollers should only be
     used when the poller doesn't have specific requirements on the exact times
     to poll.
-    
+
     This architecture means that the main loop is only woken up once to handle
     all pollers of that type, this will save power as the CPU has more of a
     chance to go into a low power state the longer it is asleep for, so this
     should be used in situations where power usage is a concern.
-    
+
     For now only 1 core poller type is supported: ECORE_POLLER_CORE, the default
     interval for ECORE_POLLER_CORE is 0.125(or 1/8th) second.
 
@@ -41,19 +41,19 @@ cdef class Poller(Eo):
     defined. Ecore will endeavor to keep pollers synchronized and to call as
     many in 1 wakeup event as possible. If `interval` is not a power of two, the
     closest power of 2 greater than `interval` will be used.
-    
+
     When the poller `func` is called, it must return a value of either
     ECORE_CALLBACK_RENEW(or True) or ECORE_CALLBACK_CANCEL(or False). If it
     returns 1, it will be called again at the next tick, or if it returns
     0 it will be deleted automatically making any references/handles for it
     invalid.
- 
+
     Example::
 
         def poller_cb():
             print("Poller")
             return True
-        
+
         ecore.Poller(4, poller_cb)
 
     :param interval: The poll interval
@@ -62,7 +62,9 @@ cdef class Poller(Eo):
     :type func: callable
     :param poll_type: The ticker type to attach the poller to. Must be ECORE_POLLER_CORE
     :type poll_type: Ecore_Poll_Type
-    
+
+    .. versionadded:: 1.8
+
      """
     def __init__(self, int interval, func, pol_type=0, *args, **kargs):
         if not callable(func):

@@ -168,6 +168,9 @@ cdef class MenuItem(ObjectItem):
 
         :type: tuple of :py:class:`MenuItem`
 
+        .. versionadded:: 1.8
+            Calling del on this property clears the subitems
+
         """
         def __get__(self):
             return _object_item_list_to_python(elm_menu_item_subitems_get(self.item))

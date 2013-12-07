@@ -210,6 +210,8 @@ cdef class LayoutClass(Object):
 
         :see: :py:func:`thaw`
 
+        .. versionadded:: 1.8
+
         """
         return elm_layout_freeze(self.obj)
 
@@ -225,6 +227,8 @@ cdef class LayoutClass(Object):
             thaws will be required.
 
         :see: :py:func:`freeze`
+
+        .. versionadded:: 1.8
 
         """
         return elm_layout_thaw(self.obj)
@@ -904,8 +908,7 @@ cdef class LayoutClass(Object):
 
         :raise RuntimeError: if accessibility cannot be set.
 
-        .. versionchanged:: 1.8
-            Raises RuntimeError if setting accessibility fails
+        .. versionadded:: 1.8
 
         """
         def __set__(self, can_access):

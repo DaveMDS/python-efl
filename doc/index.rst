@@ -29,41 +29,11 @@ and more.
     `EFL Overview <http://trac.enlightenment.org/e/wiki/EFLOverview>`_
     `EFL Documentation <http://web.enlightenment.org/p.php?p=docs>`_
 
-Logging
--------
 
-PyEFL provides `logging <http://docs.python.org/2/library/logging.html>`_
-to loggers which are usually named after their equivalent module,
-f.e. *efl.eo*. There is a root logger called *efl* which also receives
-any messages coming from the underlying C libraries.
+EFL
+---
 
-These loggers have a NullHandler by default and are set to log messages
-with level logging.WARNING and higher. The child loggers propagate
-messages to *efl*, which doesn't propagate to the root Python logger,
-so you need to add handlers to it to get output from it::
-
-    import logging
-    elog = logging.getLogger("efl")
-    elog.addHandler(logging.StreamHandler())
-
-You should also set its level::
-
-    elog.setLevel(logging.INFO)
-
-And you may control the child loggers individually::
-
-    elm_log = logging.getLogger("efl.elementary")
-    elm_log.propagate = False
-    elm_log.addHandler(logging.StreamHandler())
-    elm_log.setLevel(logging.ERROR)
-
-Class properties
-----------------
-
-All class properties have their respective _get/_set methods defined.
-
-These are useful when there are properties with the same name in the
-inheritance tree, or when you're using a lambda.
+.. toctree:: efl.rst
 
 Ecore
 -----

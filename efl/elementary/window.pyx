@@ -766,6 +766,8 @@ cdef class Window(Object):
 
         :type: :py:class:`efl.evas.Object`
 
+        .. versionadded:: 1.8
+
         """
         def __get__(self):
             return object_from_instance(elm_win_main_menu_get(self.obj))
@@ -1064,6 +1066,8 @@ cdef class Window(Object):
             :py:attr:`norender`
             :py:func:`render`
 
+        .. versionadded:: 1.8
+
         """
         elm_win_norender_push(self.obj)
 
@@ -1079,6 +1083,8 @@ cdef class Window(Object):
             :py:attr:`norender`
             :py:func:`render`
 
+        .. versionadded:: 1.8
+
         """
         elm_win_norender_pop(self.obj)
 
@@ -1091,6 +1097,8 @@ cdef class Window(Object):
             :py:func:`norender_push`
             :py:func:`norender_pop`
             :py:func:`render`
+
+        .. versionadded:: 1.8
 
         """
         def __get__(self):
@@ -1114,6 +1122,8 @@ cdef class Window(Object):
             :py:func:`norender_push`
             :py:func:`norender_pop`
             :py:attr:`norender`
+
+        .. versionadded:: 1.8
 
         """
         elm_win_render(self.obj)
@@ -1369,6 +1379,8 @@ cdef class Window(Object):
 
         :type: (int X_DPI, int Y_DPI)
 
+        .. versionadded:: 1.8
+
         """
         def __get__(self):
             cdef int xdpi, ydpi
@@ -1431,6 +1443,8 @@ cdef class Window(Object):
         for the given window, regardless of the global setting for it
 
         :type: bool
+
+        .. versionadded:: 1.8
 
         """
         def __set__(self, bint enabled):
@@ -1582,7 +1596,7 @@ cdef class Window(Object):
     #     """
     #     Ecore_Wl_Window *elm_win_wl_window_get(const Evas_Object *obj)
 
-    property floating:
+    property floating_mode:
         """Floating mode of a window.
 
         :type: bool
@@ -1596,9 +1610,9 @@ cdef class Window(Object):
         def __get__(self):
             return bool(elm_win_floating_mode_get(self.obj))
 
-    def floating_set(self, floating):
+    def floating_mode_set(self, floating):
         elm_win_floating_mode_set(self.obj, floating)
-    def floating_get(self):
+    def floating_mode_get(self):
         return bool(elm_win_floating_mode_get(self.obj))
 
     # TODO:

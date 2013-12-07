@@ -142,15 +142,27 @@ cdef class GenlistItemClass(object):
                 self._del_func)
 
     def ref(self):
-        """Increase the C level reference count."""
+        """Increase the C level reference count.
+
+        .. versionadded:: 1.8
+
+        """
         elm_genlist_item_class_ref(self.cls)
 
     def unref(self):
-        """Decrease the C level reference count."""
+        """Decrease the C level reference count.
+
+        .. versionadded:: 1.8
+
+        """
         elm_genlist_item_class_unref(self.cls)
 
     def free(self):
-        """Free the C level struct."""
+        """Free the C level struct.
+
+        .. versionadded:: 1.8
+
+        """
         elm_genlist_item_class_free(self.cls)
 
     property item_style:

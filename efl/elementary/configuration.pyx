@@ -299,6 +299,8 @@ cdef class Configuration(object):
 
         :type: int
 
+        .. versionadded:: 1.8
+
         """
         def __get__(self):
             return elm_config_scroll_thumbscroll_hold_threshold_get()
@@ -326,6 +328,8 @@ cdef class Configuration(object):
 
         :type: int
 
+        .. versionadded:: 1.8
+
         """
         def __get__(self):
             return elm_config_scroll_thumbscroll_flick_distance_tolerance_get()
@@ -351,6 +355,8 @@ cdef class Configuration(object):
         animations.
 
         :type: float
+
+        .. versionadded:: 1.8
 
         """
         def __get__(self):
@@ -382,6 +388,8 @@ cdef class Configuration(object):
 
         :type: float
 
+        .. versionadded:: 1.8
+
         """
         def __get__(self):
             return elm_config_scroll_thumbscroll_border_friction_get()
@@ -410,6 +418,8 @@ cdef class Configuration(object):
 
         :type: float
 
+        .. versionadded:: 1.8
+
         """
         def __get__(self):
             return elm_config_scroll_thumbscroll_acceleration_threshold_get()
@@ -421,6 +431,8 @@ cdef class Configuration(object):
 
         :type: float
 
+        .. versionadded:: 1.8
+
         """
         def __get__(self):
             return elm_config_scroll_thumbscroll_acceleration_time_limit_get()
@@ -431,6 +443,8 @@ cdef class Configuration(object):
         """The weight for the acceleration.
 
         :type: float
+
+        .. versionadded:: 1.8
 
         """
         def __get__(self):
@@ -458,6 +472,8 @@ cdef class Configuration(object):
         or the native oneis not wanted.
 
         :type: :ref:`Elm_Softcursor_Mode`
+
+        .. versionadded:: 1.8
 
         """
         def __set__(self, Elm_Softcursor_Mode mode):
@@ -672,6 +688,8 @@ cdef class Configuration(object):
 
         :type: bool
 
+        .. versionadded:: 1.8
+
         """
         def __get__(self):
             return bool(elm_config_selection_unfocused_clear_get())
@@ -869,6 +887,8 @@ cdef class Configuration(object):
         :param rotation: The rotation which is related with the indicator service name, in degrees (0-360),
 
         :return: The indicator service name according to the rotation degree.
+
+        .. versionadded:: 1.8
 
         """
         return _ctouni(elm_config_indicator_service_get(rotation))

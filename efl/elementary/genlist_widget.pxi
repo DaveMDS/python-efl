@@ -664,6 +664,8 @@ cdef class Genlist(Object):
         key movement. Clicking on a focusable widget inside an item will
         couse this particular item to get focus as usual.
 
+        .. versionadded:: 1.8
+
         """
         def __set__(self, bint enabled):
             elm_genlist_focus_on_selection_set(self.obj, enabled)

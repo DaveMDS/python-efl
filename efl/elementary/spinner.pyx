@@ -265,8 +265,6 @@ cdef class Spinner(LayoutClass):
         :param label: The label to be used.
         :type label: unicode
 
-        .. versionadded:: 1.8
-
         """
         if isinstance(label, unicode): label = PyUnicode_AsUTF8String(label)
         elm_spinner_special_value_add(self.obj, value,

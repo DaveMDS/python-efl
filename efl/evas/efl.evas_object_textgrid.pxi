@@ -67,7 +67,13 @@ EVAS_TEXTGRID_FONT_STYLE_ITALIC = enums.EVAS_TEXTGRID_FONT_STYLE_ITALIC
 
 
 cdef class TextgridCell(object):
-    """The values that describe each cell."""
+    """
+
+    The values that describe each cell.
+
+    .. versionadded:: 1.8
+
+    """
 
     cdef Evas_Textgrid_Cell *cell
 
@@ -212,6 +218,11 @@ cdef class TextgridCell(object):
 
 cdef class Textgrid(Object):
 
+    """
+
+    .. versionadded:: 1.8
+
+    """
     def __init__(self, Canvas canvas not None, **kwargs):
         self._set_obj(evas_object_textgrid_add(canvas.obj))
         self._set_properties_from_keyword_args(kwargs)

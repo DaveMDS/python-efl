@@ -812,6 +812,8 @@ cdef class Entry(LayoutClass):
 
         :param string style: The style user to push
 
+        .. versionadded:: 1.8
+
         """
         if isinstance(style, unicode): style = PyUnicode_AsUTF8String(style)
         elm_entry_text_style_user_push(self.obj,
@@ -824,6 +826,8 @@ cdef class Entry(LayoutClass):
 
         :seealso: :py:meth:`text_style_user_push`
 
+        .. versionadded:: 1.8
+
         """
         elm_entry_text_style_user_pop(self.obj)
 
@@ -835,6 +839,8 @@ cdef class Entry(LayoutClass):
         :return string: style on the top of user style stack if exist, otherwise None.
 
         :seealso: :py:meth:`text_style_user_push`
+
+        .. versionadded:: 1.8
 
         """
         return _ctouni(elm_entry_text_style_user_peek(self.obj))
@@ -1318,6 +1324,8 @@ cdef class Entry(LayoutClass):
         :param func: The callback to execute when the item is clicked
         :type func: function
 
+        .. versionadded:: 1.8
+
         """
         cdef Evas_Smart_Cb cb = NULL
         if func is not None:
@@ -1411,6 +1419,8 @@ cdef class Entry(LayoutClass):
         :param func: The function to use as text filter
         :param data: User data to pass to ``func``
 
+        .. versionadded:: 1.8
+
         """
         cb_data = (func, data)
         # TODO: This is now a ref leak. It should be stored somewhere and
@@ -1431,6 +1441,8 @@ cdef class Entry(LayoutClass):
         :param func: The function to use as text filter
         :param data: User data to pass to ``func``
 
+        .. versionadded:: 1.8
+
         """
         cb_data = (func, data)
         Py_INCREF(cb_data)
@@ -1449,6 +1461,8 @@ cdef class Entry(LayoutClass):
         :param func: The filter function to remove
         :param data: The user data passed when adding the function
 
+        .. versionadded:: 1.8
+
         """
         cb_data = (func, data)
         Py_INCREF(cb_data)
@@ -1456,9 +1470,19 @@ cdef class Entry(LayoutClass):
             py_elm_entry_filter_cb,
             <void *>cb_data)
 
-    markup_to_utf8 = staticmethod(DEPRECATED("1.8", "Use module level markup_to_utf8() instead.")(Entry_markup_to_utf8))
+    @DEPRECATED("1.8", "Use the module level markup_to_utf8() method instead.")
+    def markup_to_utf8(self, string):
+        """markup_to_utf8(string)"""
+        if isinstance(string, unicode): string = PyUnicode_AsUTF8String(string)
+        return _touni(elm_entry_markup_to_utf8(
+            <const_char *>string if string is not None else NULL))
 
-    utf8_to_markup = staticmethod(DEPRECATED("1.8", "Use module level utf8_to_markup() instead.")(Entry_utf8_to_markup))
+    @DEPRECATED("1.8", "Use the module level utf8_to_markup() method instead.")
+    def utf8_to_markup(self, string):
+        """utf8_to_markup(string)"""
+        if isinstance(string, unicode): string = PyUnicode_AsUTF8String(string)
+        return _touni(elm_entry_utf8_to_markup(
+            <const_char *>string if string is not None else NULL))
 
     property file:
         """The file for the text to display and then edit.
@@ -1572,6 +1596,8 @@ cdef class Entry(LayoutClass):
 
         :type: bool
 
+        .. versionadded:: 1.8
+
         """
         def __set__(self, bint setting):
             elm_entry_end_visible_set(self.obj, setting)
@@ -1620,6 +1646,8 @@ cdef class Entry(LayoutClass):
         """Autocapitalization type on the immodule.
 
         :type: :ref:`Elm_Entry_Autocapital_Type`
+
+        .. versionadded:: 1.8
 
         """
         def __set__(self, Elm_Autocapital_Type autocapital_type):

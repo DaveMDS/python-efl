@@ -9,7 +9,7 @@ cdef extern from "Elementary.h":
     const_char *    elm_slider_unit_format_get(const_Evas_Object *obj)
     void            elm_slider_indicator_format_set(Evas_Object *obj, const_char *indicator)
     const_char *    elm_slider_indicator_format_get(const_Evas_Object *obj)
-    void            elm_slider_indicator_format_function_set(Evas_Object *obj, const_char(*func)(double val), void (*free_func)(const_char *str))
+    # TODO: void            elm_slider_indicator_format_function_set(Evas_Object *obj, const_char(*func)(double val), void (*free_func)(const_char *str))
     # TODO: void           elm_slider_units_format_function_set(Evas_Object *obj, const_char *(*func)(double val), void (*free_func)(const_char *str))
     void            elm_slider_horizontal_set(Evas_Object *obj, Eina_Bool horizontal)
     Eina_Bool       elm_slider_horizontal_get(const_Evas_Object *obj)

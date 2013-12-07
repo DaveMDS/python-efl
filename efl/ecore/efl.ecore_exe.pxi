@@ -344,20 +344,6 @@ cdef class Exe(object):
         Py_DECREF(self)
         return 1
 
-    def __str__(self):
-        if self.exe == NULL:
-            pid = None
-            cmd = None
-            flags = ""
-            data = None
-        else:
-            pid = self.pid
-            cmd = self.cmd
-            flags = exe_flags2str(self.flags)
-            data = None
-        return "%s(pid=%s, cmd=%r, flags=[%s], data=%r)" % \
-            (self.__class__.__name__, pid, cmd, flags, data)
-
     def __repr__(self):
         if self.exe == NULL:
             pid = None
@@ -369,8 +355,8 @@ cdef class Exe(object):
             cmd = self.cmd
             flags = exe_flags2str(self.flags)
             data = None
-        return ("%s(%#x, Ecore_Exe=%#x, refcount=%d, pid=%s, cmd=%r, "
-                "flags=[%s], data=%r)") % \
+        return ("<%s(%#x, Ecore_Exe=%#x, refcount=%d, pid=%s, cmd=%r, "
+                "flags=[%s], data=%r)>") % \
                 (self.__class__.__name__, <unsigned long><void *>self,
                  <unsigned long>self.exe, PY_REFCOUNT(self),
                  pid, cmd, flags, data)

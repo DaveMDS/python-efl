@@ -114,6 +114,8 @@ cdef class Mapbuf(Object):
 
         :type: bool
 
+        .. versionadded:: 1.8
+
         """
         def __set__(self, bint on):
             elm_mapbuf_auto_set(self.obj, on)

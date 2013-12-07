@@ -227,19 +227,18 @@ cdef class Label(LayoutClass):
     def slide_duration_get(self):
         return elm_label_slide_duration_get(self.obj)
 
-    # TODO: In header but not implemented yet?
+    # TODO: What the heck does this do?
     # property slide_area_limit:
     #     """
     #     Slide only if the
 
     #     :type: bool
 
-    #     """
-    #     def __set__(self, bint value):
-    #         elm_label_slide_area_limit_set(self.obj, limit)
+    #     .. versionadded:: 1.8
 
-    #     def __get__(self):
-    #         return elm_label_slide_area_limit_set(self.obj)
+    #     """
+    #     def __set__(self, bint limit):
+    #         elm_label_slide_area_limit_set(self.obj, limit)
 
     property slide_mode:
         """Change the slide mode of the label widget.

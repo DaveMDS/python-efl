@@ -414,6 +414,8 @@ cdef class MultiButtonEntry(Object):
 
         :type: bool
 
+        .. versionadded:: 1.8
+
         """
         def __set__(self, bint editable):
             elm_multibuttonentry_editable_set(self.obj, editable)
