@@ -28,6 +28,9 @@ from efl.elementary.check import Check
 from efl.elementary.entry import Entry
 from efl.elementary.scroller import Scroller
 
+from efl.elementary.configuration import Configuration
+elm_conf = Configuration()
+
 elog.setLevel(logging.DEBUG)
 
 EXPAND_BOTH = EVAS_HINT_EXPAND, EVAS_HINT_EXPAND
@@ -218,7 +221,7 @@ items = [
 
 
 def selected_cb(o, mod, func):
-   exec("from {0} import {1}; {1}(o)".format(mod, func))
+    exec("from {0} import {1}; {1}(o)".format(mod, func))
 
 def menu_create(search, win):
     tbx.clear()
@@ -247,13 +250,10 @@ def menu_create(search, win):
             frame.delete()
 
 def destroy(obj, str1, str2, str3, str4):
-    print("DEBUG: window destroy callback called!")
-    print(("DEBUG: str1='%s', str2='%s', str3='%s', str4='%s'" %(str1, str2,
-                                                                str3, str4)))
     elementary.exit()
 
 def cb_mirroring(toggle):
-    elementary.Configuration().mirrored = toggle.state
+    elm_conf.mirrored = toggle.state
 
 def cb_filter(en, win):
     menu_create(en.text_get(), win)
