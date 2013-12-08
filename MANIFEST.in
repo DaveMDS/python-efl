@@ -1,4 +1,4 @@
-include README INSTALL COPYING AUTHORS changes.html
+include README INSTALL COPYING COPYING.LESSER AUTHORS changes.html
 recursive-include efl *.c *.h
 graft tests
 recursive-exclude tests *.pyc
