@@ -349,6 +349,15 @@ cdef extern from "Elementary.h":
         ELM_POLICY_QUIT_NONE
         ELM_POLICY_QUIT_LAST_WINDOW_CLOSED
 
+    ctypedef enum Elm_Policy_Exit:
+        ELM_POLICY_EXIT_NONE
+        ELM_POLICY_EXIT_WINDOWS_DEL
+
+    ctypedef enum Elm_Policy_Throttle:
+        ELM_POLICY_THROTTLE_CONFIG
+        ELM_POLICY_THROTTLE_HIDDEN_ALWAYS
+        ELM_POLICY_THROTTLE_NEVER
+
     ctypedef enum Elm_Popup_Orient:
         ELM_POPUP_ORIENT_TOP
         ELM_POPUP_ORIENT_CENTER
