@@ -1,7 +1,7 @@
 
-----------------
-PYTHON-EFL 1.8.0
-----------------
+-----------------
+PYTHON-EFL 1.8.99
+-----------------
 
 EFL is a collection of libraries for handling many common tasks a
 developer man have such as data structures, communication, rendering,
@@ -11,6 +11,13 @@ widgets and more. PYTHON-EFL are the python bindings for EFL and Elementary.
 INSTALL
 =======
 For installation instruction see the INSTALL file.
+
+
+CHANGES FROM 1.8 to 1.9
+=======================
+
+Deprecated in 1.9
+-----------------
 
 
 CHANGES FROM 1.7 to 1.8
@@ -28,7 +35,6 @@ CHANGES FROM 1.7 to 1.8
    - efl.elementary.entry.Entry.file_set
    - efl.elementary.fileselector.Fileselector.selected_set
    - efl.elementary.genlist.GenlistItem.tooltip_window_mode_set
-   - efl.elementary.icon.Icon.standard_set
    - efl.elementary.image.Image.file_set
    - efl.elementary.layout_class.LayoutClass.file_set
    - efl.elementary.layout_class.LayoutClass.theme_set

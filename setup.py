@@ -11,6 +11,10 @@ from distutils.version import StrictVersion
 
 script_path = os.path.dirname(os.path.abspath(__file__))
 
+CYTHON_MIN_VERSION = "0.17.0"
+EFL_MIN_VERSION = "1.8.99"
+ELM_MIN_VERSION = "1.8.99"
+
 
 # === Sphinx ===
 try:
@@ -46,19 +50,18 @@ def pkg_config(name, require, min_vers=None):
 # use cython or pre-generated c files
 if os.path.exists(os.path.join(script_path, "efl", "eo", "efl.eo.pyx")):
     module_suffix = ".pyx"
-    min_ver = "0.17.0"
     try:
         from Cython.Distutils import build_ext
         from Cython.Build import cythonize
         import Cython.Compiler.Options
 
-        assert StrictVersion(Cython.__version__) >= StrictVersion(min_ver)
+        assert StrictVersion(Cython.__version__) >= StrictVersion(CYTHON_MIN_VERSION)
         Cython.Compiler.Options.fast_fail = True # Stop compilation on first error
         Cython.Compiler.Options.annotate = False # Generates HTML files with annotated source
         Cython.Compiler.Options.docstrings = True # Set to False to disable docstrings
 
     except (ImportError, AssertionError):
-        print("Requires Cython >= %s (http://cython.org/)" % min_ver)
+        print("Requires Cython >= %s (http://cython.org/)" % CYTHON_MIN_VERSION)
         raise
 else:
     module_suffix = ".c"
@@ -91,7 +94,7 @@ package_dirs = {}
 if set(("build", "build_ext", "install", "bdist", "sdist")) & set(sys.argv):
 
     # === Eina ===
-    eina_pkg_config = pkg_config('Eina', 'eina', "1.8.0")
+    eina_pkg_config = pkg_config('Eina', 'eina', EFL_MIN_VERSION)
 
     if eina_pkg_config is None:
         raise SystemExit("Eina required but not found!")
@@ -100,7 +103,7 @@ if set(("build", "build_ext", "install", "bdist", "sdist")) & set(sys.argv):
 
 
     # === Eo ===
-    eo_pkg_config = pkg_config('Eo', 'eo', "1.8.0")
+    eo_pkg_config = pkg_config('Eo', 'eo', EFL_MIN_VERSION)
 
     if eo_pkg_config is None:
         raise SystemExit("Eo required but not found!")
@@ -135,7 +138,7 @@ if set(("build", "build_ext", "install", "bdist", "sdist")) & set(sys.argv):
 
 
     # === Evas ===
-    evas_pkg_config = pkg_config('Evas', 'evas', "1.8.0")
+    evas_pkg_config = pkg_config('Evas', 'evas', EFL_MIN_VERSION)
 
     if evas_pkg_config is not None:
 
@@ -153,7 +156,7 @@ if set(("build", "build_ext", "install", "bdist", "sdist")) & set(sys.argv):
 
 
     # === Ecore ===
-    ecore_pkg_config = pkg_config('Ecore', 'ecore', "1.8.0")
+    ecore_pkg_config = pkg_config('Ecore', 'ecore', EFL_MIN_VERSION)
     ecore_file_pkg_config = pkg_config('EcoreFile', 'ecore-file', "1.8.0")
 
     if ecore_pkg_config is not None and ecore_file_pkg_config is not None and evas_pkg_config is not None:
@@ -173,7 +176,7 @@ if set(("build", "build_ext", "install", "bdist", "sdist")) & set(sys.argv):
 
 
     # === Edje ===
-    edje_pkg_config = pkg_config('Edje', 'edje', "1.8.0")
+    edje_pkg_config = pkg_config('Edje', 'edje', EFL_MIN_VERSION)
 
     if edje_pkg_config is not None and evas_pkg_config is not None:
 
@@ -199,7 +202,7 @@ if set(("build", "build_ext", "install", "bdist", "sdist")) & set(sys.argv):
 
 
     # Emotion
-    emotion_pkg_config = pkg_config('Emotion', 'emotion', "1.8.0")
+    emotion_pkg_config = pkg_config('Emotion', 'emotion', EFL_MIN_VERSION)
 
     if emotion_pkg_config is not None and evas_pkg_config is not None:
 
@@ -309,7 +312,7 @@ if set(("build", "build_ext", "install", "bdist", "sdist")) & set(sys.argv):
         "window",
     )
 
-    elm_pkg_config = pkg_config('Elementary', 'elementary', "1.8.0")
+    elm_pkg_config = pkg_config('Elementary', 'elementary', ELM_MIN_VERSION)
 
     if elm_pkg_config is not None \
     and evas_pkg_config is not None \
@@ -338,7 +341,7 @@ setup(
     name = "python-efl",
     fullname = "Python bindings for Enlightenment Foundation Libraries",
     description = "Python bindings for Enlightenment Foundation Libraries",
-    version = "1.8.0",
+    version = "1.8.99",
     author = "Gustavo Sverzut Barbieri, Simon Busch, Boris 'billiob' Faure, Davide 'davemds' Andreoli, Fabiano Fidêncio, Bruno Dilly, Tiago Falcão, Joost Albers, Kai Huuhko, Ulisses Furquim",
     author_email = "dave@gurumeditation.it, kai.huuhko@gmail.com",
     maintainer = "Kai Huuhko, Davide <davemds> Andreoli",
