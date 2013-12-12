@@ -41,8 +41,8 @@ cdef extern from "Elementary.h":
     # TODO: void                     elm_web_dialog_file_selector_hook_set(Evas_Object *obj, Elm_Web_Dialog_File_Selector func, void *data)
     void                     elm_web_console_message_hook_set(Evas_Object *obj, Elm_Web_Console_Message func, void *data)
 
-    Eina_Bool                elm_web_tab_propagate_get(Evas_Object *obj)
-    void                     elm_web_tab_propagate_set(Evas_Object *obj, Eina_Bool propagate)
+    # TODO: Eina_Bool                elm_web_tab_propagate_get(Evas_Object *obj)
+    # TODO: void                     elm_web_tab_propagate_set(Evas_Object *obj, Eina_Bool propagate)
 
     Eina_Bool                elm_web_url_set(Evas_Object *obj,char *url)
     const_char *             elm_web_url_get(Evas_Object *obj)

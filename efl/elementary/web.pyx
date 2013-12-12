@@ -470,24 +470,24 @@ cdef class Web(Object):
     def useragent_get(self):
         return _ctouni(elm_web_useragent_get(self.obj))
 
+    # TODO: Not implemented in ewebkit2 backend (yet?)
+    # property tab_propagate:
+    #     """Whether to use tab propagation
 
-    property tab_propagate:
-        """Whether to use tab propagation
+    #     If tab propagation is enabled, whenever the user presses the Tab key,
+    #     Elementary will handle it and switch focus to the next widget.
+    #     The default value is disabled, where WebKit will handle the Tab key to
+    #     cycle focus though its internal objects, jumping to the next widget
+    #     only when that cycle ends.
 
-        If tab propagation is enabled, whenever the user presses the Tab key,
-        Elementary will handle it and switch focus to the next widget.
-        The default value is disabled, where WebKit will handle the Tab key to
-        cycle focus though its internal objects, jumping to the next widget
-        only when that cycle ends.
+    #     :type: bool
 
-        :type: bool
+    #     """
+    #     def __get__(self):
+    #         return bool(elm_web_tab_propagate_get(self.obj))
 
-        """
-        def __get__(self):
-            return bool(elm_web_tab_propagate_get(self.obj))
-
-        def __set__(self, bint propagate):
-            elm_web_tab_propagate_set(self.obj, propagate)
+    #     def __set__(self, bint propagate):
+    #         elm_web_tab_propagate_set(self.obj, propagate)
 
     property url:
         """
@@ -1029,14 +1029,13 @@ cdef class Web(Object):
     def callback_load_error_del(self, func):
         self._callback_del_full("load,error", _web_load_frame_error_conv, func)
 
-    # TODO:
-    # def callback_load_finished_add(self, func, *args, **kwargs):
-    #     """Load finished. Event info is None on success, on error it's
-    #     a pointer to Elm_Web_Frame_Load_Error."""
-    #     self._callback_add("load,finished", func, *args, **kwargs)
+    def callback_load_finished_add(self, func, *args, **kwargs):
+        """Load finished. Event info is None on success, on error it's
+        a pointer to Elm_Web_Frame_Load_Error."""
+        self._callback_add_full("load,finished", _web_load_frame_error_conv, func, *args, **kwargs)
 
-    # def callback_load_finished_del(self, func):
-    #     self._callback_del("load,finished", func)
+    def callback_load_finished_del(self, func):
+        self._callback_del_full("load,finished", _web_load_frame_error_conv, func)
 
     def callback_load_newwindow_show_add(self, func, *args, **kwargs):
         """A new window was created and is ready to be shown."""
