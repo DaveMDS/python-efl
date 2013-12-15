@@ -17,6 +17,7 @@
 
 import traceback
 from cpython cimport PyUnicode_AsUTF8String
+from libc.stdint cimport uintptr_t
 #from efl.eina cimport *
 from efl.eo cimport Eo, object_from_instance, _object_mapping_register
 from efl.utils.conversions cimport _ctouni, _touni

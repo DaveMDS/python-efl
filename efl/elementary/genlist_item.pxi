@@ -81,9 +81,9 @@ cdef class GenlistItem(ObjectItem):
         return ("<%s(%#x, refcount=%d, Elm_Object_Item=%#x, "
                 "item_class=%s, func=%s, item_data=%r)>") % (
             type(self).__name__,
-            <unsigned long><void*>self,
+            <uintptr_t><void*>self,
             PY_REFCOUNT(self),
-            <unsigned long>self.item,
+            <uintptr_t>self.item,
             type(self.item_class).__name__,
             self.cb_func,
             self.item_data

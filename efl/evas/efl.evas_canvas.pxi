@@ -154,7 +154,7 @@ cdef class Canvas(Eo):
         def __get__(self):
             return self.output_method_get()
 
-    def engine_info_set(self, unsigned long ptr):
+    def engine_info_set(self, uintptr_t ptr):
         """Set the engine information pointer.
 
         Note that given value is a pointer, usually acquired with
@@ -182,10 +182,10 @@ cdef class Canvas(Eo):
 
         If in doubt, don't mess with it.
 
-        :return: pointer as integer (unsigned long).
+        :return: pointer as integer (uintptr_t).
 
         """
-        return <unsigned long><void *>evas_engine_info_get(self.obj)
+        return <uintptr_t><void *>evas_engine_info_get(self.obj)
 
     property engine_info:
         def __set__(self, ptr):

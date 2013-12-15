@@ -119,9 +119,9 @@ cdef class GengridItemClass:
                 "item_style=%r, text_get_func=%s, content_get_func=%s, "
                 "state_get_func=%s, del_func=%s)>") % \
                (type(self).__name__,
-                <unsigned long><void *>self,
+                <uintptr_t><void *>self,
                 PY_REFCOUNT(self),
-                <unsigned long>self.cls,
+                <uintptr_t>self.cls,
                 _ctouni(self.cls.item_style),
                 self._text_get_func,
                 self._content_get_func,

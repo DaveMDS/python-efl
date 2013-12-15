@@ -507,6 +507,7 @@ Selection modes
 include "tooltips.pxi"
 
 from cpython cimport PyUnicode_AsUTF8String, Py_DECREF, Py_INCREF
+from libc.stdint cimport uintptr_t
 
 from efl.eo cimport _object_mapping_register, PY_REFCOUNT
 from efl.utils.conversions cimport _ctouni
@@ -569,7 +570,7 @@ ELM_SEL_TYPE_SECONDARY = enums.ELM_SEL_TYPE_SECONDARY
 ELM_SEL_TYPE_XDND = enums.ELM_SEL_TYPE_XDND
 ELM_SEL_TYPE_CLIPBOARD = enums.ELM_SEL_TYPE_CLIPBOARD
 
-def _cb_object_item_conv(long addr):
+def _cb_object_item_conv(uintptr_t addr):
     cdef Elm_Object_Item *it = <Elm_Object_Item *>addr
     return _object_item_to_python(it)
 

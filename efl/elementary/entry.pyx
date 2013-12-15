@@ -468,6 +468,7 @@ Icon types
 
 from libc.string cimport strdup
 from libc.stdlib cimport free
+from libc.stdint cimport uintptr_t
 from cpython cimport PyUnicode_AsUTF8String, Py_INCREF
 
 from efl.eo cimport _object_mapping_register, object_from_instance
@@ -753,7 +754,7 @@ class EntryAnchorHoverInfo(object):
         self.hover_top = False
         self.hover_bottom = False
 
-def _entryanchor_conv(long addr):
+def _entryanchor_conv(uintptr_t addr):
     cdef Elm_Entry_Anchor_Info *ei = <Elm_Entry_Anchor_Info *>addr
     eai = EntryAnchorInfo()
     eai.name = _ctouni(ei.name)
@@ -764,10 +765,10 @@ def _entryanchor_conv(long addr):
     eai.h = ei.h
     return eai
 
-def _entryanchorhover_conv(long addr):
+def _entryanchorhover_conv(uintptr_t addr):
     cdef Elm_Entry_Anchor_Hover_Info *ehi = <Elm_Entry_Anchor_Hover_Info *>addr
     eahi = EntryAnchorHoverInfo()
-    eahi.anchor_info = _entryanchor_conv(<long><void *>ehi.anchor_info)
+    eahi.anchor_info = _entryanchor_conv(<uintptr_t><void *>ehi.anchor_info)
     eahi.hover = object_from_instance(ehi.hover)
     eahi.hover_parent = (ehi.hover_parent.x, ehi.hover_parent.y,
                        ehi.hover_parent.w, ehi.hover_parent.h)

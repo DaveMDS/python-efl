@@ -198,6 +198,7 @@ Defines the kind of action associated with the drop data if for XDND
 from cpython cimport PyObject, Py_INCREF, Py_DECREF, PyObject_GetAttr, \
     PyObject_GetBuffer, PyBuffer_Release, PyBUF_SIMPLE, PyObject_CheckBuffer, \
     PyUnicode_AsUTF8String
+from libc.stdint cimport uintptr_t
 
 from efl.eo cimport _object_mapping_register
 from efl.utils.conversions cimport _ctouni, eina_list_objects_to_python_list
@@ -263,7 +264,7 @@ cdef void _object_callback(void *data,
             if event_conv is None:
                 func(obj, *args, **kargs)
             else:
-                ei = event_conv(<long>event_info)
+                ei = event_conv(<uintptr_t>event_info)
                 func(obj, ei, *args, **kargs)
         except:
             traceback.print_exc()
@@ -1757,7 +1758,7 @@ cdef class Object(evasObject):
         :return: Address of saved Evas_Object
 
         """
-        return <long>self.obj
+        return <uintptr_t>self.obj
 
     #
     # Copy and Paste

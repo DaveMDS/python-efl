@@ -159,6 +159,7 @@ Selection modes
 """
 
 from cpython cimport PyUnicode_AsUTF8String, Py_DECREF
+from libc.stdint cimport uintptr_t
 
 from efl.eo cimport _object_mapping_register, object_from_instance, PY_REFCOUNT
 from efl.utils.conversions cimport _ctouni
@@ -188,7 +189,7 @@ ELM_SCROLLER_POLICY_AUTO = enums.ELM_SCROLLER_POLICY_AUTO
 ELM_SCROLLER_POLICY_ON = enums.ELM_SCROLLER_POLICY_ON
 ELM_SCROLLER_POLICY_OFF = enums.ELM_SCROLLER_POLICY_OFF
 
-def _cb_object_item_conv(long addr):
+def _cb_object_item_conv(uintptr_t addr):
     cdef Elm_Object_Item *it = <Elm_Object_Item *>addr
     return _object_item_to_python(it)
 
@@ -238,9 +239,9 @@ cdef class ListItem(ObjectItem):
                 "callback=%r, cb_data=%r, "
                 "args=%r, kargs=%r)>") % (
         type(self).__name__,
-        <unsigned long><void *>self,
+        <uintptr_t><void *>self,
         PY_REFCOUNT(self),
-        <unsigned long><void *>self.item,
+        <uintptr_t><void *>self.item,
         self.text,
         getattr(self.part_content_get("icon"), "file", None),
         getattr(self.part_content_get("end"), "file", None),

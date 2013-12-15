@@ -67,6 +67,7 @@ reported.
 """
 
 from cpython cimport PyUnicode_AsUTF8String, Py_DECREF
+from libc.stdint cimport uintptr_t
 
 from efl.eo cimport _object_mapping_register
 from efl.utils.conversions cimport _ctouni
@@ -78,7 +79,7 @@ from object_item cimport _object_item_callback, _object_item_to_python, \
 
 import traceback
 
-def _cb_object_item_conv(long addr):
+def _cb_object_item_conv(uintptr_t addr):
     cdef Elm_Object_Item *it = <Elm_Object_Item *>addr
     return _object_item_to_python(it)
 

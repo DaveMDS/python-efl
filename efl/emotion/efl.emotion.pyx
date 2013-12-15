@@ -16,6 +16,7 @@
 # along with this Python-EFL.  If not, see <http://www.gnu.org/licenses/>.
 
 from cpython cimport PyUnicode_AsUTF8String
+from libc.stdint cimport uintptr_t
 
 from efl.eo cimport object_from_instance, _object_mapping_register, \
     _register_decorated_callbacks
@@ -226,7 +227,7 @@ cdef class Emotion(evasObject):
         return ("<%s(%#x, type=%r, name=%r, "
                 "file=%r, geometry=(%d, %d, %d, %d), "
                 "color=(%d, %d, %d, %d), layer=%s, clip=%r, visible=%s) %s>") % \
-               (self.__class__.__name__, <unsigned long><void *>self,
+               (self.__class__.__name__, <uintptr_t><void *>self,
                 self.type_get(), self.name_get(), self.file_get(),
                 x, y, w, h, r, g, b, a,
                 self.layer_get(), self.clip_get(), self.visible_get(),

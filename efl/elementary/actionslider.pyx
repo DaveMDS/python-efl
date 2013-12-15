@@ -88,6 +88,7 @@ Actionslider positions
 
 from cpython cimport PyUnicode_AsUTF8String
 from libc.string cimport const_char
+from libc.stdint cimport uintptr_t
 
 from efl.eo cimport _object_mapping_register
 from efl.utils.conversions cimport _ctouni
@@ -102,7 +103,7 @@ ELM_ACTIONSLIDER_CENTER = enums.ELM_ACTIONSLIDER_CENTER
 ELM_ACTIONSLIDER_RIGHT = enums.ELM_ACTIONSLIDER_RIGHT
 ELM_ACTIONSLIDER_ALL = enums.ELM_ACTIONSLIDER_ALL
 
-def _cb_string_conv(long addr):
+def _cb_string_conv(uintptr_t addr):
     cdef const_char *s = <const_char *>addr
     return _ctouni(s) if s is not NULL else None
 

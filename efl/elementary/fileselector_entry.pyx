@@ -77,6 +77,7 @@ are:
 """
 
 from cpython cimport PyUnicode_AsUTF8String
+from libc.stdint cimport uintptr_t
 
 from efl.eo cimport _object_mapping_register
 from efl.utils.conversions cimport _ctouni
@@ -85,7 +86,7 @@ from layout_class cimport LayoutClass
 
 cimport enums
 
-def _cb_string_conv(long addr):
+def _cb_string_conv(uintptr_t addr):
     cdef const_char *s = <const_char *>addr
     return _ctouni(s) if s is not NULL else None
 

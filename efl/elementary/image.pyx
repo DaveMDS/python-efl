@@ -95,6 +95,7 @@ Image manipulation types
 """
 
 from cpython cimport PyUnicode_AsUTF8String
+from libc.stdint cimport uintptr_t
 
 from efl.eo cimport _object_mapping_register, object_from_instance
 from efl.utils.conversions cimport _ctouni
@@ -111,7 +112,7 @@ ELM_IMAGE_FLIP_VERTICAL = enums.ELM_IMAGE_FLIP_VERTICAL
 ELM_IMAGE_FLIP_TRANSPOSE = enums.ELM_IMAGE_FLIP_TRANSPOSE
 ELM_IMAGE_FLIP_TRANSVERSE = enums.ELM_IMAGE_FLIP_TRANSVERSE
 
-def _cb_string_conv(long addr):
+def _cb_string_conv(uintptr_t addr):
     cdef const_char *s = <const_char *>addr
     return _ctouni(s) if s is not NULL else None
 
@@ -131,7 +132,7 @@ class ImageProgressInfo(object):
         self.now = 0
         self.total = 0
 
-def _image_download_progress_conv(long addr):
+def _image_download_progress_conv(uintptr_t addr):
     cdef Elm_Image_Progress *ip = <Elm_Image_Progress *>addr
     ipi = ImageProgressInfo()
     ipi.now = ip.now
@@ -154,7 +155,7 @@ class ImageErrorInfo(object):
         self.status = 0
         self.open_error = False
 
-def _image_download_error_conv(long addr):
+def _image_download_error_conv(uintptr_t addr):
     cdef Elm_Image_Error *ie = <Elm_Image_Error *>addr
     iei = ImageErrorInfo()
     iei.status = ie.status

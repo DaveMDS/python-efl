@@ -525,7 +525,7 @@ cdef class State:
         lst = edje_edit_state_external_params_list_get(self.edje.obj, self.part,
                                                        self.name, self.value)
         while lst:
-            p = c_edje._ExternalParam_from_ptr(<long>lst.data)
+            p = c_edje._ExternalParam_from_ptr(<uintptr_t>lst.data)
             if p is not None:
                 ret.append(p)
             lst = lst.next

@@ -86,6 +86,7 @@ overlays. Don't use this unless you really know what you are doing.
 """
 
 from cpython cimport PyUnicode_AsUTF8String, Py_INCREF, Py_DECREF
+from libc.stdint cimport uintptr_t
 
 from efl.eo cimport PY_REFCOUNT
 from efl.utils.conversions cimport _ctouni, eina_list_strings_to_python_list
@@ -101,7 +102,7 @@ cdef class Theme(object):
     def __repr__(self):
         return "<%s object at %#x (refcount=%d, order=%s, overlay_list=%s, extension_list=%s)>" % (
             type(self).__name__,
-            <unsigned long>self.th,
+            <uintptr_t>self.th,
             PY_REFCOUNT(self),
             _ctouni(elm_theme_get(self.th)),
             eina_list_strings_to_python_list(elm_theme_overlay_list_get(self.th)),

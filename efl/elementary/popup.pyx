@@ -172,6 +172,7 @@ Wrap modes
 """
 
 from cpython cimport PyUnicode_AsUTF8String, Py_DECREF
+from libc.stdint cimport uintptr_t
 
 from efl.eo cimport _object_mapping_register, PY_REFCOUNT
 from efl.utils.conversions cimport _ctouni
@@ -255,9 +256,9 @@ cdef class PopupItem(ObjectItem):
         return ("<%s(%#x, refcount=%d, Elm_Object_Item=%#x, "
                 "item_class=%s, func=%s, item_data=%r)>") % \
                (self.__class__.__name__,
-                <unsigned long><void*>self,
+                <uintptr_t><void*>self,
                 PY_REFCOUNT(self),
-                <unsigned long>self.item,
+                <uintptr_t>self.item,
                 self.cb_func,
                 self.args)
 

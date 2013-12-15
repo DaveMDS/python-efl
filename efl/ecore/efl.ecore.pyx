@@ -200,6 +200,7 @@ File monitor events
 
 """
 
+from libc.stdint cimport uintptr_t
 import traceback
 from efl.eo cimport Eo, PY_REFCOUNT
 from efl.utils.conversions cimport _ctouni

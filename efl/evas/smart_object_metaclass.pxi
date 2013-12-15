@@ -16,8 +16,9 @@
 # along with this Python-EFL.  If not, see <http://www.gnu.org/licenses/>.
 
 from cpython cimport PyMem_Malloc
+from libc.stdint cimport uintptr_t
 
-cdef long _smart_object_class_new(name) except 0:
+cdef uintptr_t _smart_object_class_new(name) except 0:
     cdef Evas_Smart_Class *cls_def
     cdef Evas_Smart *cls
 
@@ -27,7 +28,7 @@ cdef long _smart_object_class_new(name) except 0:
 
     if isinstance(name, unicode): name = PyUnicode_AsUTF8String(name)
 
-    #_smart_classes.append(<long>cls_def)
+    #_smart_classes.append(<uintptr_t>cls_def)
     cls_def.name = name
     cls_def.version = EVAS_SMART_CLASS_VERSION
     cls_def.add = NULL # use python constructor
@@ -48,7 +49,7 @@ cdef long _smart_object_class_new(name) except 0:
     cls_def.data = NULL
 
     cls = evas_smart_class_new(cls_def);
-    return <long>cls
+    return <uintptr_t>cls
 
 #class EvasSmartObjectMeta(EvasObjectMeta):
 class EvasSmartObjectMeta(type):
@@ -61,7 +62,7 @@ class EvasSmartObjectMeta(type):
         if "__evas_smart_class__" in cls.__dict__:
             return
 
-        cdef long addr
+        cdef uintptr_t addr
         addr = _smart_object_class_new(cls.__name__)
         cls.__evas_smart_class__ = addr
 

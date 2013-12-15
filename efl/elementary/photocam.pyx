@@ -98,6 +98,7 @@ Photocam zoom modes
 """
 
 from cpython cimport PyUnicode_AsUTF8String
+from libc.stdint cimport uintptr_t
 
 from efl.eo cimport _object_mapping_register
 from efl.utils.conversions cimport _ctouni
@@ -135,7 +136,7 @@ class PhotocamProgressInfo(object):
         self.now = 0
         self.total = 0
 
-def _photocam_download_progress_conv(long addr):
+def _photocam_download_progress_conv(uintptr_t addr):
     cdef Elm_Photocam_Progress *pp = <Elm_Photocam_Progress *>addr
     ppi = PhotocamProgressInfo()
     ppi.now = pp.now
@@ -158,7 +159,7 @@ class PhotocamErrorInfo(object):
         self.status = 0
         self.open_error = False
 
-def _photocam_download_error_conv(long addr):
+def _photocam_download_error_conv(uintptr_t addr):
     cdef Elm_Photocam_Error *pe = <Elm_Photocam_Error *>addr
     pei = PhotocamErrorInfo()
     pei.status = pe.status

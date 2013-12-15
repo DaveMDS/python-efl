@@ -95,7 +95,7 @@ cdef class FileMonitor(object):
 
     def __repr__(self):
         return ("%s(%#x, monitor_cb=%s, args=%s, kargs=%s, refcount=%d)") % \
-               (self.__class__.__name__, <unsigned long><void *>self,
+               (self.__class__.__name__, <uintptr_t><void *>self,
                 self.monitor_cb, self.args, self.kargs, PY_REFCOUNT(self))
 
     cdef object _exec_monitor(self, Ecore_File_Event event, const_char *path):
