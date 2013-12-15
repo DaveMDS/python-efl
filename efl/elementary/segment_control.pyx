@@ -54,6 +54,7 @@ Default text parts of the segment control items that you can use for are:
 """
 
 from cpython cimport PyUnicode_AsUTF8String
+from libc.stdint cimport uintptr_t
 
 from efl.eo cimport _object_mapping_register, object_from_instance
 from efl.utils.conversions cimport _ctouni
@@ -62,7 +63,7 @@ from layout_class cimport LayoutClass
 
 from object_item cimport _object_item_to_python
 
-def _cb_object_item_conv(long addr):
+def _cb_object_item_conv(uintptr_t addr):
     cdef Elm_Object_Item *it = <Elm_Object_Item *>addr
     return _object_item_to_python(it)
 

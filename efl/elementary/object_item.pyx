@@ -16,6 +16,7 @@
 # along with this Python-EFL.  If not, see <http://www.gnu.org/licenses/>.
 
 from cpython cimport PyUnicode_AsUTF8String, Py_DECREF, Py_INCREF
+from libc.stdint cimport uintptr_t
 
 from efl.eo cimport _object_mapping_register, object_from_instance, PY_REFCOUNT
 from efl.utils.conversions cimport _ctouni
@@ -144,8 +145,8 @@ cdef class ObjectItem(object):
     def __repr__(self):
         return ("<%s object (ObjectItem) at %#x (obj=%#x, refcount=%d, widget=%s)>") % (
             type(self).__name__,
-            <unsigned long><void *>self,
-            <unsigned long>self.item,
+            <uintptr_t><void *>self,
+            <uintptr_t>self.item,
             PY_REFCOUNT(self),
             repr(object_from_instance(elm_object_item_widget_get(self.item)))
             )

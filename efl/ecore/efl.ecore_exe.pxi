@@ -330,7 +330,7 @@ cdef class Exe(object):
         Py_INCREF(self)
         self.exe = exe
         ecore_exe_callback_pre_free_set(exe, _ecore_exe_pre_free_cb)
-        _ecore_exe_event_mapping[<long><void *>exe] = self
+        _ecore_exe_event_mapping[<uintptr_t><void *>exe] = self
         return 1
 
     cdef int _unset_obj(self) except 0:
@@ -339,7 +339,7 @@ cdef class Exe(object):
             filter.delete()
         self.__callbacks = None
 
-        _ecore_exe_event_mapping.pop(<long><void *>self.exe)
+        _ecore_exe_event_mapping.pop(<uintptr_t><void *>self.exe)
         self.exe = NULL
         Py_DECREF(self)
         return 1
@@ -357,8 +357,8 @@ cdef class Exe(object):
             data = None
         return ("<%s(%#x, Ecore_Exe=%#x, refcount=%d, pid=%s, cmd=%r, "
                 "flags=[%s], data=%r)>") % \
-                (self.__class__.__name__, <unsigned long><void *>self,
-                 <unsigned long>self.exe, PY_REFCOUNT(self),
+                (self.__class__.__name__, <uintptr_t><void *>self,
+                 <uintptr_t>self.exe, PY_REFCOUNT(self),
                  pid, cmd, flags, data)
 
     def delete(self):
@@ -779,7 +779,7 @@ cdef class EventExeAdd(Event):
     cdef int _set_obj(self, void *o) except 0:
         cdef Ecore_Exe_Event_Add *obj
         obj = <Ecore_Exe_Event_Add*>o
-        self.exe = _ecore_exe_event_mapping.get(<long>obj.exe)
+        self.exe = _ecore_exe_event_mapping.get(<uintptr_t>obj.exe)
         if self.exe is None:
             return -1
         return 1
@@ -801,7 +801,7 @@ cdef class EventExeDel(Event):
     cdef int _set_obj(self, void *o) except 0:
         cdef Ecore_Exe_Event_Del *obj
         obj = <Ecore_Exe_Event_Del*>o
-        self.exe = _ecore_exe_event_mapping.get(<long>obj.exe)
+        self.exe = _ecore_exe_event_mapping.get(<uintptr_t>obj.exe)
         if self.exe is None:
             return -1
         self.pid = obj.pid
@@ -841,7 +841,7 @@ cdef class EventExeData(Event):
         cdef Ecore_Exe_Event_Data *obj
         cdef int i
         obj = <Ecore_Exe_Event_Data*>o
-        self.exe = _ecore_exe_event_mapping.get(<long>obj.exe)
+        self.exe = _ecore_exe_event_mapping.get(<uintptr_t>obj.exe)
         if self.exe is None:
             return -1
         self.data = PyUnicode_FromStringAndSize(<char*>obj.data, obj.size)

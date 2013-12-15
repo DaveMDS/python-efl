@@ -73,6 +73,7 @@ Icon types
 """
 
 from cpython cimport PyUnicode_AsUTF8String, Py_DECREF
+from libc.stdint cimport uintptr_t
 
 from efl.eo cimport _object_mapping_register, object_from_instance
 from efl.utils.conversions cimport _ctouni
@@ -87,7 +88,7 @@ ELM_ICON_NONE = enums.ELM_ICON_NONE
 ELM_ICON_FILE = enums.ELM_ICON_FILE
 ELM_ICON_STANDARD = enums.ELM_ICON_STANDARD
 
-def _cb_object_item_conv(long addr):
+def _cb_object_item_conv(uintptr_t addr):
     cdef Elm_Object_Item *it = <Elm_Object_Item *>addr
     return _object_item_to_python(it)
 

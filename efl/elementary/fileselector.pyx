@@ -85,6 +85,7 @@ Fileselector modes
 """
 
 from cpython cimport PyUnicode_AsUTF8String
+from libc.stdint cimport uintptr_t
 
 from efl.eo cimport _object_mapping_register
 from efl.utils.conversions cimport _ctouni, eina_list_strings_to_python_list
@@ -96,7 +97,7 @@ cimport enums
 ELM_FILESELECTOR_LIST = enums.ELM_FILESELECTOR_LIST
 ELM_FILESELECTOR_GRID = enums.ELM_FILESELECTOR_GRID
 
-def _cb_string_conv(long addr):
+def _cb_string_conv(uintptr_t addr):
     cdef const_char *s = <const_char *>addr
     return _ctouni(s) if s is not NULL else None
 

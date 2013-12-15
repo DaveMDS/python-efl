@@ -109,9 +109,9 @@ cdef class FileDownload(object):
     def __repr__(self):
         return ("%s(%#x, completion_cb=%s, progress_cb=%s, args=%s, kargs=%s, "
                 "Ecore_File_Download_Job=%#x, refcount=%d)") % \
-               (self.__class__.__name__, <unsigned long><void *>self,
+               (self.__class__.__name__, <uintptr_t><void *>self,
                 self.completion_cb, self.progress_cb, self.args, self.kargs,
-                <unsigned long>self.job, PY_REFCOUNT(self))
+                <uintptr_t>self.job, PY_REFCOUNT(self))
 
     def __dealloc__(self):
         if self.job != NULL:

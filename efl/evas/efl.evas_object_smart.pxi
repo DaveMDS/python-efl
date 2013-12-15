@@ -396,7 +396,7 @@ cdef class SmartObject(Object):
         self._smart_callbacks = None
 
     def __init__(self, Canvas canvas not None, **kwargs):
-        cdef long addr
+        cdef uintptr_t addr
         if type(self) is SmartObject:
             raise TypeError("Must not instantiate SmartObject, but subclasses")
         if self.obj == NULL:

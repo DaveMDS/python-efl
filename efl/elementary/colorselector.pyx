@@ -68,6 +68,7 @@ Colorselector modes
 """
 
 from cpython cimport PyUnicode_AsUTF8String, Py_DECREF
+from libc.stdint cimport uintptr_t
 
 from efl.eo cimport _object_mapping_register
 from efl.utils.conversions cimport _ctouni
@@ -81,7 +82,7 @@ ELM_COLORSELECTOR_PALETTE = enums.ELM_COLORSELECTOR_PALETTE
 ELM_COLORSELECTOR_COMPONENTS = enums.ELM_COLORSELECTOR_COMPONENTS
 ELM_COLORSELECTOR_BOTH = enums.ELM_COLORSELECTOR_BOTH
 
-def _cb_object_item_conv(long addr):
+def _cb_object_item_conv(uintptr_t addr):
     cdef Elm_Object_Item *it = <Elm_Object_Item *>addr
     return _object_item_to_python(it)
 

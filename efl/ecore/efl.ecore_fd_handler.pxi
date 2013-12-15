@@ -124,9 +124,9 @@ cdef class FdHandler(object):
             flags = flags2str(self.active_get(7))
         return ("%s(%#x, func=%s, args=%s, kargs=%s, fd=%s, flags=[%s], "
                 "Ecore_Fd_Handler=%#x, refcount=%d)") % \
-               (self.__class__.__name__, <unsigned long><void *>self,
+               (self.__class__.__name__, <uintptr_t><void *>self,
                 self.func, self.args, self.kargs, fd, flags,
-                <unsigned long>self.obj, PY_REFCOUNT(self))
+                <uintptr_t>self.obj, PY_REFCOUNT(self))
 
     def __dealloc__(self):
         if self.obj != NULL:

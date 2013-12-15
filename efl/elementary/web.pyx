@@ -146,6 +146,7 @@ Web zoom modes
 """
 
 from cpython cimport PyUnicode_AsUTF8String
+from libc.stdint cimport uintptr_t
 
 from efl.eo cimport _object_mapping_register, object_from_instance
 from efl.utils.deprecated cimport DEPRECATED
@@ -168,23 +169,23 @@ ELM_WEB_ZOOM_MODE_MANUAL = enums.ELM_WEB_ZOOM_MODE_MANUAL
 ELM_WEB_ZOOM_MODE_AUTO_FIT = enums.ELM_WEB_ZOOM_MODE_AUTO_FIT
 ELM_WEB_ZOOM_MODE_AUTO_FILL = enums.ELM_WEB_ZOOM_MODE_AUTO_FILL
 
-def _cb_string_conv(long addr):
+def _cb_string_conv(uintptr_t addr):
     cdef const_char *s = <const_char *>addr
     return _ctouni(s) if s is not NULL else None
 
-def _cb_bool_conv(long addr):
+def _cb_bool_conv(uintptr_t addr):
     cdef Eina_Bool *info = <Eina_Bool *>addr
     if info == NULL:
         return None
     return info[0]
 
-def _web_double_conv(long addr):
+def _web_double_conv(uintptr_t addr):
     cdef double *info = <double *>addr
     if info == NULL:
         return None
     return info[0]
 
-def _web_load_frame_error_conv(long addr):
+def _web_load_frame_error_conv(uintptr_t addr):
     cdef Elm_Web_Frame_Load_Error *err = <Elm_Web_Frame_Load_Error *>addr
     if err == NULL:
         return None
@@ -200,7 +201,7 @@ def _web_load_frame_error_conv(long addr):
     return ret
 
 
-def _web_link_hover_in_conv(long addr):
+def _web_link_hover_in_conv(uintptr_t addr):
     cdef char **info = <char **>addr
     if info == NULL:
         url = title = None

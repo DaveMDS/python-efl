@@ -18,6 +18,7 @@
 from cpython cimport PyObject, Py_INCREF, Py_DECREF, PyUnicode_AsUTF8String
 from libc.stdlib cimport malloc, free
 from libc.string cimport memcpy, strdup
+from libc.stdint cimport uintptr_t
 from efl.eina cimport Eina_Bool, const_Eina_List, eina_list_append, const_void, \
     Eina_Hash, eina_hash_string_superfast_new, eina_hash_add, eina_hash_del, \
     eina_hash_find, EINA_LOG_DOM_DBG, EINA_LOG_DOM_INFO
@@ -122,7 +123,7 @@ cdef object object_from_instance(cEo *obj):
 
     if cls_name == NULL:
         raise ValueError(
-            "Eo object at %#x does not have a type!" % <unsigned long>obj)
+            "Eo object at %#x does not have a type!" % <uintptr_t>obj)
 
     cls_ret = eina_hash_find(object_mapping, cls_name)
 
@@ -130,7 +131,7 @@ cdef object object_from_instance(cEo *obj):
         # TODO: Add here a last ditch effort to import the class from a module
         raise ValueError(
             "Eo object at %#x of type %s does not have a mapping!" % (
-                <unsigned long>obj, cls_name)
+                <uintptr_t>obj, cls_name)
             )
 
     cls = <type>cls_ret
@@ -138,7 +139,7 @@ cdef object object_from_instance(cEo *obj):
     if cls is None:
         raise ValueError(
             "Mapping for Eo object at %#x, type %s, contains None!" % (
-                <unsigned long>obj, cls_name))
+                <uintptr_t>obj, cls_name))
 
     EINA_LOG_DOM_DBG(PY_EFL_EO_LOG_DOMAIN,
         "Constructing a Python object from Eo of type %s.", cls_name)
@@ -219,9 +220,9 @@ cdef class Eo(object):
             eo_do(self.obj, eo_parent_get(&parent))
         return ("<%s object (Eo) at %#x (obj=%#x, parent=%#x, refcount=%d)>") % (
             type(self).__name__,
-            <unsigned long><void *>self,
-            <unsigned long>self.obj,
-            <unsigned long>parent,
+            <uintptr_t><void *>self,
+            <uintptr_t>self.obj,
+            <uintptr_t>parent,
             PY_REFCOUNT(self))
 
     def __nonzero__(self):

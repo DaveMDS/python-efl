@@ -61,6 +61,7 @@ Default text parts of the multibuttonentry items that you can use for are:
 """
 
 from cpython cimport PyUnicode_AsUTF8String, Py_DECREF, Py_INCREF
+from libc.stdint cimport uintptr_t
 
 from efl.eo cimport _object_mapping_register, object_from_instance, PY_REFCOUNT
 from efl.utils.conversions cimport _ctouni
@@ -113,8 +114,8 @@ cdef class MultiButtonEntryItem(ObjectItem):
     def __repr__(self):
         return ("<%s(%#x, refcount=%d, Elm_Object_Item=%#x, "
                 "label=%r, callback=%r, args=%r, kargs=%s)>") % \
-            (self.__class__.__name__, <unsigned long><void *>self,
-             PY_REFCOUNT(self), <unsigned long><void *>self.item,
+            (self.__class__.__name__, <uintptr_t><void *>self,
+             PY_REFCOUNT(self), <uintptr_t><void *>self.item,
              self.text_get(), self.cb_func, self.args, self.kwargs)
 
     def append_to(self, MultiButtonEntry mbe not None):

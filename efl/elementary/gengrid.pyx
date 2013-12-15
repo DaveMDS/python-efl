@@ -279,6 +279,7 @@ Items' scroll to types
 include "tooltips.pxi"
 
 from libc.string cimport strdup
+from libc.stdint cimport uintptr_t
 from cpython cimport Py_INCREF, Py_DECREF, PyUnicode_AsUTF8String
 from efl.eo cimport object_from_instance, _object_mapping_register, PY_REFCOUNT
 from efl.utils.conversions cimport _ctouni, _touni
@@ -302,7 +303,7 @@ ELM_GENLIST_ITEM_SCROLLTO_IN = enums.ELM_GENLIST_ITEM_SCROLLTO_IN
 ELM_GENLIST_ITEM_SCROLLTO_TOP = enums.ELM_GENLIST_ITEM_SCROLLTO_TOP
 ELM_GENLIST_ITEM_SCROLLTO_MIDDLE = enums.ELM_GENLIST_ITEM_SCROLLTO_MIDDLE
 
-def _cb_object_item_conv(long addr):
+def _cb_object_item_conv(uintptr_t addr):
     cdef Elm_Object_Item *it = <Elm_Object_Item *>addr
     return _object_item_to_python(it)
 

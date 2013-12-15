@@ -121,6 +121,7 @@ Possible values for the #ELM_POLICY_THROTTLE policy.
 
 from cpython cimport PyObject, Py_INCREF, Py_DECREF, PyUnicode_AsUTF8String, \
     PyMem_Malloc, PyMem_Free
+from libc.stdint cimport uintptr_t
 
 from efl.evas cimport Object as evasObject
 
