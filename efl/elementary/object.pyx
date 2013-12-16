@@ -78,6 +78,29 @@ Focus direction
 
     Focus next
 
+.. data:: ELM_FOCUS_UP
+
+    Focus up
+
+    .. versionadded:: 1.8.1
+
+.. data:: ELM_FOCUS_DOWN
+
+    Focus down
+
+    .. versionadded:: 1.8.1
+
+.. data:: ELM_FOCUS_RIGHT
+
+    Focus right
+
+    .. versionadded:: 1.8.1
+
+.. data:: ELM_FOCUS_LEFT
+
+    Focus left
+
+    .. versionadded:: 1.8.1
 
 .. _Elm_Input_Event_Type:
 
@@ -221,6 +244,10 @@ cimport enums
 
 ELM_FOCUS_PREVIOUS = enums.ELM_FOCUS_PREVIOUS
 ELM_FOCUS_NEXT = enums.ELM_FOCUS_NEXT
+ELM_FOCUS_UP = enums.ELM_FOCUS_UP
+ELM_FOCUS_DOWN = enums.ELM_FOCUS_DOWN
+ELM_FOCUS_RIGHT = enums.ELM_FOCUS_RIGHT
+ELM_FOCUS_LEFT = enums.ELM_FOCUS_LEFT
 
 EVAS_CALLBACK_KEY_DOWN = evasenums.EVAS_CALLBACK_KEY_DOWN
 EVAS_CALLBACK_KEY_UP = evasenums.EVAS_CALLBACK_KEY_UP

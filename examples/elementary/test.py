@@ -114,6 +114,13 @@ items = [
             ("Entry Anchor", "test_entry", "entry_anchor_clicked"),
             ("MultiButtonEntry", "test_multibuttonentry", "multibuttonentry_clicked"),
         ]),
+         ("Focus", [
+            ("Focus", "test_focus", "focus_clicked"),
+            ("Focus 2", "test_focus", "focus2_clicked"),
+            ("Focus 3", "test_focus", "focus3_clicked"),
+            ("Focus 4", "test_focus", "focus4_clicked"),
+            ("Focus Custom", "test_focus", "focus5_clicked"),
+        ]),
          ("Geographic", [
             ("Map", "test_map", "map_clicked"),
         ]),
