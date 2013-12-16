@@ -145,6 +145,10 @@ cdef extern from "Elementary.h":
     ctypedef enum Elm_Focus_Direction:
         ELM_FOCUS_PREVIOUS
         ELM_FOCUS_NEXT
+        ELM_FOCUS_UP
+        ELM_FOCUS_DOWN
+        ELM_FOCUS_RIGHT
+        ELM_FOCUS_LEFT
 
     ctypedef enum Elm_Genlist_Item_Type:
         ELM_GENLIST_ITEM_NONE
