@@ -17,7 +17,7 @@ ELM_MIN_VERSION = "1.8.99"
 
 
 # XXX: Force default visibility. See phab T504
-if os.environ.has_key("CFLAGS") and "-fvisibility=" in os.environ["CFLAGS"]:
+if os.getenv("CFLAGS") is not None and "-fvisibility=" in os.environ["CFLAGS"]:
     os.environ["CFLAGS"] += " -fvisibility=default"
 
 
