@@ -16,6 +16,11 @@ EFL_MIN_VERSION = "1.8.99"
 ELM_MIN_VERSION = "1.8.99"
 
 
+# XXX: Force default visibility. See phab T504
+if os.environ.has_key("CFLAGS") and "-fvisibility=" in os.environ["CFLAGS"]:
+    os.environ["CFLAGS"] += " -fvisibility=default"
+
+
 # === Sphinx ===
 try:
     from sphinx.setup_command import BuildDoc
