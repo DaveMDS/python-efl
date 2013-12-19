@@ -13,7 +13,7 @@ script_path = os.path.dirname(os.path.abspath(__file__))
 
 
 # XXX: Force default visibility. See phab T504
-if os.environ.has_key("CFLAGS") and "-fvisibility=" in os.environ["CFLAGS"]:
+if os.getenv("CFLAGS") is not None and "-fvisibility=" in os.environ["CFLAGS"]:
     os.environ["CFLAGS"] += " -fvisibility=default"
 
 
