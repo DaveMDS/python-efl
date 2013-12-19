@@ -12,6 +12,11 @@ from distutils.version import StrictVersion
 script_path = os.path.dirname(os.path.abspath(__file__))
 
 
+# XXX: Force default visibility. See phab T504
+if os.environ.has_key("CFLAGS") and "-fvisibility=" in os.environ["CFLAGS"]:
+    os.environ["CFLAGS"] += " -fvisibility=default"
+
+
 # === Sphinx ===
 try:
     from sphinx.setup_command import BuildDoc
