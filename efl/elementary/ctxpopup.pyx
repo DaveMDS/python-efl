@@ -44,15 +44,15 @@ Signals that you can add callbacks for are:
 
 Default content parts of the ctxpopup widget that you can use for are:
 
-- "default" - A content of the ctxpopup
+- ``default`` - A content of the ctxpopup
 
 Default content parts of the ctxpopup items that you can use for are:
 
-- "icon" - An icon in the title area
+- ``icon`` - An icon in the title area
 
 Default text parts of the ctxpopup items that you can use for are:
 
-- "default" - Title label in the title area
+- ``default`` - Title label in the title area
 
 .. note::
 

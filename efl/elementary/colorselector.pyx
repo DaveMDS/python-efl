@@ -18,10 +18,11 @@
 
 """
 
-.. image:: /images/colorselector-preview.png
-
 Widget description
 ------------------
+
+.. image:: /images/colorselector-preview.png
+    :align: left
 
 A Colorselector is a color selection widget.
 

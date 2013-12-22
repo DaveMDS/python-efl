@@ -28,16 +28,16 @@ ex., a person's image (contact).
 Simple, yet with a very specific purpose. It has a decorative frame
 around the inner image itself, on the default theme.
 
-This widget relies on an internal :py:class:`~efl.elementary.icon.Icon`, so that
-the APIs of these two widgets are similar (drag and drop is also possible here,
-for example).
+This widget relies on an internal :py:class:`~efl.elementary.icon.Icon`, so
+that the APIs of these two widgets are similar (drag and drop is also possible
+here, for example).
 
 Signals that you can add callbacks for are:
 
-- ``"clicked"`` - This is called when a user has clicked the photo
-- ``"drag,start"`` - One has started dragging the inner image out of the
-                    photo's frame
-- ``"drag,end"`` - One has dropped the dragged image somewhere
+- ``clicked`` - This is called when a user has clicked the photo
+- ``drag,start`` - One has started dragging the inner image out of the photo's
+  frame
+- ``drag,end`` - One has dropped the dragged image somewhere
 
 """
 

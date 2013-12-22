@@ -32,19 +32,21 @@ proportion can be customized (homogeneous by default).
 This widget emits the following signals, besides the ones sent from
 :py:class:`~efl.elementary.layout_class.LayoutClass`:
 
-- ``"press"`` - The panes has been pressed (button wasn't released yet).
-- ``"unpressed"`` - The panes was released after being pressed.
-- ``"clicked"`` - The panes has been clicked.
-- ``"clicked,double"`` - The panes has been double clicked.
+- ``press`` - The panes has been pressed (button wasn't released yet).
+- ``unpressed`` - The panes was released after being pressed.
+- ``clicked`` - The panes has been clicked.
+- ``clicked,double`` - The panes has been double clicked.
 
 Available styles for it:
 
-- ``"default"``
+- ``default``
 
 Default content parts of the panes widget that you can use are:
 
-- "left" - A leftside content of the panes
-- "right" - A rightside content of the panes
+- ``left`` - A leftside content of the panes
+- ``right`` - A rightside content of the panes
+- ``top`` - A top content of the vertical panes
+- ``bottom`` - A bottom content of the vertical panes
 
 If panes are displayed vertically, left content will be displayed on top.
 

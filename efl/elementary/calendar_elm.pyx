@@ -37,7 +37,7 @@ The API of this widget lets the applications perform other functions, like:
 - setting the year and month format.
 
 This widget emits the following signals, besides the ones sent from
-:py:class:`efl.elementary.layout_class.LayoutClass`:
+:py:class:`~efl.elementary.layout_class.LayoutClass`:
 
 - ``changed`` - emitted when the date in the calendar is changed.
 - ``display,changed`` - emitted when the current month displayed in the

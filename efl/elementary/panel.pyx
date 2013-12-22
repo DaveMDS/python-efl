@@ -35,13 +35,14 @@ Orientations are as follows:
 - ELM_PANEL_ORIENT_BOTTOM
 
 This widget emits the following signals, besides the ones sent from
-:py:class:`LayoutClass<efl.elementary.layout_class.LayoutClass>`:
+:py:class:`~efl.elementary.layout_class.LayoutClass`:
+
 - ``focused`` - When the panel has received focus. (since 1.8)
 - ``unfocused`` - When the panel has lost focus. (since 1.8)
 
 Default content parts of the panel widget that you can use for are:
 
-- "default" - A content of the panel
+- ``default`` - A content of the panel
 
 
 Enumerations

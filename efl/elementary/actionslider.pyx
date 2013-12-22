@@ -42,19 +42,19 @@ When the indicator is released, it will move to its nearest "enabled and
 magnetized" position.
 
 This widget emits the following signals, besides the ones sent from
-:py:class:`efl.elementary.layout_class.LayoutClass`:
+:py:class:`~efl.elementary.layout_class.LayoutClass`:
 
-- **selected** - when user selects an enabled position (the label is
+- ``selected`` - when user selects an enabled position (the label is
   passed as event info)".
-- **pos_changed** - when the indicator reaches any of the
+- ``pos_changed`` - when the indicator reaches any of the
   positions("left", "right" or "center").
 
 Default text parts of the actionslider widget that you can use for are:
 
-- **indicator** - An indicator label of the actionslider
-- **left** - A left label of the actionslider
-- **right** - A right label of the actionslider
-- **center** - A center label of the actionslider
+- ``indicator`` - An indicator label of the actionslider
+- ``left`` - A left label of the actionslider
+- ``right`` - A right label of the actionslider
+- ``center`` - A center label of the actionslider
 
 
 Enumerations

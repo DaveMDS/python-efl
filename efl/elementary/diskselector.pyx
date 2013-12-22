@@ -42,17 +42,17 @@ Smart callbacks one can listen to:
 
 Available styles for it:
 
-- ``"default"``
+- ``default``
 
 Default content parts of the diskselector items that you can use for are:
 
-- "icon" - An icon in the diskselector item
+- ``icon`` - An icon in the diskselector item
 
 Default text parts of the diskselector items that you can use for are:
 
-- "default" - Label of the diskselector item
+- ``default`` - Label of the diskselector item
 
-.. note:: The "scroll,anim,*" and "scroll,drag,*" signals are only emitted
+.. note:: The ``scroll,anim,*`` and ``scroll,drag,*`` signals are only emitted
     by user intervention.
 
 Scrollable Interface

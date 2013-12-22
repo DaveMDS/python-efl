@@ -31,38 +31,38 @@ object that is contained in the scroller. The scroller will always have
 a small minimum size by default as it won't be limited by the contents
 of the scroller.
 
-This widget inherits from :py:class:`efl.elementary.layout_class.LayoutClass`,
+This widget inherits from :py:class:`~efl.elementary.layout_class.LayoutClass`,
 so that all the functions acting on it also work for scroller objects.
 
 This widget emits the following signals, besides the ones sent from
-:py:class:`efl.elementary.layout_class.LayoutClass`
+:py:class:`~efl.elementary.layout_class.LayoutClass`:
 
-- "edge,left" - the left edge of the content has been reached
-- "edge,right" - the right edge of the content has been reached
-- "edge,top" - the top edge of the content has been reached
-- "edge,bottom" - the bottom edge of the content has been reached
-- "scroll" - the content has been scrolled (moved)
-- "scroll,left" - the content has been scrolled (moved) leftwards
-- "scroll,right"  - the content has been scrolled (moved) rightwards
-- "scroll,up"  - the content has been scrolled (moved) upwards
-- "scroll,down" - the content has been scrolled (moved) downwards
-- "scroll,anim,start" - scrolling animation has started
-- "scroll,anim,stop" - scrolling animation has stopped
-- "scroll,drag,start" - dragging the contents around has started
-- "scroll,drag,stop" - dragging the contents around has stopped
-- "vbar,drag" - the vertical scroll bar has been dragged
-- "vbar,press" - the vertical scroll bar has been pressed
-- "vbar,unpress" - the vertical scroll bar has been unpressed
-- "hbar,drag" - the horizontal scroll bar has been dragged
-- "hbar,press" - the horizontal scroll bar has been pressed
-- "hbar,unpress" - the horizontal scroll bar has been unpressed
+- ``edge,left`` - the left edge of the content has been reached
+- ``edge,right`` - the right edge of the content has been reached
+- ``edge,top`` - the top edge of the content has been reached
+- ``edge,bottom`` - the bottom edge of the content has been reached
+- ``scroll`` - the content has been scrolled (moved)
+- ``scroll,left`` - the content has been scrolled (moved) leftwards
+- ``scroll,right``  - the content has been scrolled (moved) rightwards
+- ``scroll,up``  - the content has been scrolled (moved) upwards
+- ``scroll,down`` - the content has been scrolled (moved) downwards
+- ``scroll,anim,start`` - scrolling animation has started
+- ``scroll,anim,stop`` - scrolling animation has stopped
+- ``scroll,drag,start`` - dragging the contents around has started
+- ``scroll,drag,stop`` - dragging the contents around has stopped
+- ``vbar,drag`` - the vertical scroll bar has been dragged
+- ``vbar,press`` - the vertical scroll bar has been pressed
+- ``vbar,unpress`` - the vertical scroll bar has been unpressed
+- ``hbar,drag`` - the horizontal scroll bar has been dragged
+- ``hbar,press`` - the horizontal scroll bar has been pressed
+- ``hbar,unpress`` - the horizontal scroll bar has been unpressed
 - ``scroll,page,changed`` - the visible page has changed
 - ``focused`` - When the scroller has received focus. (since 1.8)
 - ``unfocused`` - When the scroller has lost focus. (since 1.8)
 
 Default content parts of the scroller widget that you can use for are:
 
-- "default" - A content of the scroller
+- ``default`` - A content of the scroller
 
 .. note:: The "scroll,anim,*" and "scroll,drag,*" signals are only emitted by
     user intervention.

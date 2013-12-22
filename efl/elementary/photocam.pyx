@@ -29,31 +29,31 @@ evas loader features in the jpeg loader).
 
 Signals that you can add callbacks for are:
 
-- "clicked" - This is called when a user has clicked the photo without
-    dragging around.
-- "press" - This is called when a user has pressed down on the photo.
-- "longpressed" - This is called when a user has pressed down on the
-    photo for a long time without dragging around.
-- "clicked,double" - This is called when a user has double-clicked the
-    photo.
-- "load" - Photo load begins.
-- "loaded" - This is called when the image file load is complete for
-    the first view (low resolution blurry version).
-- "load,detail" - Photo detailed data load begins.
-- "loaded,detail" - This is called when the image file load is
-    complete for the detailed image data (full resolution needed).
-- "zoom,start" - Zoom animation started.
-- "zoom,stop" - Zoom animation stopped.
-- "zoom,change" - Zoom changed when using an auto zoom mode.
-- "scroll" - the content has been scrolled (moved)
-- "scroll,anim,start" - scrolling animation has started
-- "scroll,anim,stop" - scrolling animation has stopped
-- "scroll,drag,start" - dragging the contents around has started
-- "scroll,drag,stop" - dragging the contents around has stopped
-- "download,start" - remote url download has started
-- "download,progress" - url download in progress
-- "download,end" - remote url download has finished
-- "download,error" - remote url download has finished with errors
+- ``clicked`` - This is called when a user has clicked the photo without
+  dragging around.
+- ``press`` - This is called when a user has pressed down on the photo.
+- ``longpressed`` - This is called when a user has pressed down on the
+  photo for a long time without dragging around.
+- ``clicked,double`` - This is called when a user has double-clicked the
+  photo.
+- ``load`` - Photo load begins.
+- ``loaded`` - This is called when the image file load is complete for
+  the first view (low resolution blurry version).
+- ``load,detail`` - Photo detailed data load begins.
+- ``loaded,detail`` - This is called when the image file load is
+  complete for the detailed image data (full resolution needed).
+- ``zoom,start`` - Zoom animation started.
+- ``zoom,stop`` - Zoom animation stopped.
+- ``zoom,change`` - Zoom changed when using an auto zoom mode.
+- ``scroll`` - the content has been scrolled (moved)
+- ``scroll,anim,start`` - scrolling animation has started
+- ``scroll,anim,stop`` - scrolling animation has stopped
+- ``scroll,drag,start`` - dragging the contents around has started
+- ``scroll,drag,stop`` - dragging the contents around has stopped
+- ``download,start`` - remote url download has started
+- ``download,progress`` - url download in progress
+- ``download,end`` - remote url download has finished
+- ``download,error`` - remote url download has finished with errors
 - ``focused`` - When the photocam has received focus. (since 1.8)
 - ``unfocused`` - When the photocam has lost focus. (since 1.8)
 
@@ -512,28 +512,44 @@ cdef class Photocam(Object):
         self._callback_del("scroll,drag,stop", func)
 
     def callback_download_start_add(self, func, *args, **kwargs):
-        """This is called when you set a remote url and the download start"""
+        """This is called when you set a remote url and the download start
+
+        .. versionadded:: 1.8
+
+        """
         self._callback_add("download,start", func, *args, **kwargs)
 
     def callback_download_start_del(self, func):
         self._callback_del("download,start", func)
 
     def callback_download_progress_add(self, func, *args, **kwargs):
-        """This is called while a remote image download is in progress"""
+        """This is called while a remote image download is in progress
+
+        .. versionadded:: 1.8
+
+        """
         self._callback_add_full("download,progress", _photocam_download_progress_conv, func, *args, **kwargs)
 
     def callback_download_progress_del(self, func):
         self._callback_del_full("download,progress", _photocam_download_progress_conv, func)
 
     def callback_download_done_add(self, func, *args, **kwargs):
-        """This is called when you set a remote url and the download finish"""
+        """This is called when you set a remote url and the download finish
+
+        .. versionadded:: 1.8
+
+        """
         self._callback_add("download,done", func, *args, **kwargs)
 
     def callback_download_done_del(self, func):
         self._callback_del("download,end", func)
 
     def callback_download_error_add(self, func, *args, **kwargs):
-        """This is called in case a download has errors"""
+        """This is called in case a download has errors
+
+        .. versionadded:: 1.8
+
+        """
         self._callback_add_full("download,error", _photocam_download_error_conv, func, *args, **kwargs)
 
     def callback_download_error_del(self, func):

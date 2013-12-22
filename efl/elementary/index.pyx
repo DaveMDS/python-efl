@@ -44,25 +44,24 @@ with :py:class:`~efl.elementary.list.List`,
 This widget emits the following signals, besides the ones sent from
 :py:class:`~efl.elementary.layout_class.LayoutClass`:
 
-- ``"changed"`` - When the selected index item changes. ``event_info``
+- ``changed`` - When the selected index item changes. ``event_info``
   is the selected item's data.
-- ``"delay,changed"`` - When the selected index item changes, but
+- ``delay,changed`` - When the selected index item changes, but
   after a small idling period. ``event_info`` is the selected
   item's data.
-- ``"selected"`` - When the user releases a mouse button and
+- ``selected`` - When the user releases a mouse button and
   selects an item. ``event_info`` is the selected item's data.
-- ``"level,up"`` - when the user moves a finger from the first
+- ``level,up`` - when the user moves a finger from the first
   level to the second level
-- ``"level,down"`` - when the user moves a finger from the second
+- ``level,down`` - when the user moves a finger from the second
   level to the first level
-- ``"language,changed"`` - the program's language changed
+- ``language,changed`` - the program's language changed
 - ``focused`` - When the index has received focus. (since 1.8)
 - ``unfocused`` - When the index has lost focus. (since 1.8)
 
-The ``"delay,changed"`` event is so that it'll wait a small time
-before actually reporting those events and, moreover, just the
-last event happening on those time frames will actually be
-reported.
+The ``delay,changed`` event has a delay on change before the event is actually
+reported and moreover just the last event happening on those time frames will
+actually be reported.
 
 """
 

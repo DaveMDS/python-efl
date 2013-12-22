@@ -41,21 +41,21 @@ configuration options.
 
 This widget emits the following signals:
 
-- ``"clicked"`` - This is called when a user has clicked the
-                 thumbnail object without dragging it around.
-- ``"clicked,double"`` - This is called when a user has double-clicked
-                        the thumbnail object.
-- ``"press"`` - This is called when a user has pressed down over the
-               thumbnail object.
-- ``"generate,start"`` - The thumbnail generation has started.
-- ``"generate,stop"`` - The generation process has stopped.
-- ``"generate,error"`` - The thumbnail generation failed.
-- ``"load,error"`` - The thumbnail image loading failed.
+- ``clicked`` - This is called when a user has clicked the
+  thumbnail object without dragging it around.
+- ``clicked,double`` - This is called when a user has double-clicked
+  the thumbnail object.
+- ``press`` - This is called when a user has pressed down over the
+  thumbnail object.
+- ``generate,start`` - The thumbnail generation has started.
+- ``generate,stop`` - The generation process has stopped.
+- ``generate,error`` - The thumbnail generation failed.
+- ``load,error`` - The thumbnail image loading failed.
 
 Available styles:
 
-- ``"default"``
-- ``"noframe"``
+- ``default``
+- ``noframe``
 
 
 Enumerations

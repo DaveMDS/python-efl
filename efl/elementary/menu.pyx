@@ -36,11 +36,11 @@ Signals that you can add callbacks for are:
 
 Default content parts of the menu items that you can use for are:
 
-- "default" - A main content of the menu item
+- ``default`` - A main content of the menu item
 
 Default text parts of the menu items that you can use for are:
 
-- "default" - label in the menu item
+- ``default`` - label in the menu item
 
 """
 

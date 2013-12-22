@@ -31,33 +31,29 @@ supported (depending on Evas and Ecore-Evas compilation setup and
 modules actually installed at runtime) are (listed in order of best
 supported and most likely to be complete and work to lowest quality).
 
-- "x11", "x", "software-x11", "software_x11" (Software rendering in
-    X11)
-- "gl", "opengl", "opengl-x11", "opengl_x11" (OpenGL or OpenGL-ES2
-    rendering in X11)
-- "shot:..." (Virtual screenshot renderer - renders to output file
-    and exits)
-- "fb", "software-fb", "software_fb" (Linux framebuffer direct
-    software rendering)
-- "sdl", "software-sdl", "software_sdl" (SDL software rendering to
-    SDL buffer)
-- "gl-sdl", "gl_sdl", "opengl-sdl", "opengl_sdl" (OpenGL or
-    OpenGL-ES2 rendering using SDL as the buffer)
-- "gdi", "software-gdi", "software_gdi" (Windows WIN32 rendering via
-    GDI with software)
+- "x11", "x", "software-x11", "software_x11" (Software rendering in X11)
+- "gl", "opengl", "opengl-x11", "opengl_x11" (OpenGL or OpenGL-ES2 rendering in
+  X11)
+- "shot:..." (Virtual screenshot renderer - renders to output file and exits)
+- "fb", "software-fb", "software_fb" (Linux framebuffer direct software
+  rendering)
+- "sdl", "software-sdl", "software_sdl" (SDL software rendering to SDL buffer)
+- "gl-sdl", "gl_sdl", "opengl-sdl", "opengl_sdl" (OpenGL or OpenGL-ES2
+  rendering using SDL as the buffer)
+- "gdi", "software-gdi", "software_gdi" (Windows WIN32 rendering via GDI with
+  software)
 - "dfb", "directfb" (Rendering to a DirectFB window)
-- "x11-8", "x8", "software-8-x11", "software_8_x11" (Rendering in
-    grayscale using dedicated 8bit software engine in X11)
-- "x11-16", "x16", "software-16-x11", "software_16_x11" (Rendering in
-    X11 using 16bit software engine)
+- "x11-8", "x8", "software-8-x11", "software_8_x11" (Rendering in grayscale
+  using dedicated 8bit software engine in X11)
+- "x11-16", "x16", "software-16-x11", "software_16_x11" (Rendering in X11 using
+  16bit software engine)
 - "wince-gdi", "software-16-wince-gdi", "software_16_wince_gdi"
-    (Windows CE rendering via GDI with 16bit software renderer)
-- "sdl-16", "software-16-sdl", "software_16_sdl" (Rendering to SDL
-    buffer with 16bit software renderer)
-- "ews" (rendering to EWS - Ecore + Evas Single Process Windowing
-    System)
-- "gl-cocoa", "gl_cocoa", "opengl-cocoa", "opengl_cocoa" (OpenGL
-    rendering in Cocoa)
+  (Windows CE rendering via GDI with 16bit software renderer)
+- "sdl-16", "software-16-sdl", "software_16_sdl" (Rendering to SDL buffer with
+  16bit software renderer)
+- "ews" (rendering to EWS - Ecore + Evas Single Process Windowing System)
+- "gl-cocoa", "gl_cocoa", "opengl-cocoa", "opengl_cocoa" (OpenGL rendering in
+  Cocoa)
 - "psl1ght" (PS3 rendering using PSL1GHT)
 
 All engines use a simple string to select the engine to render, EXCEPT
@@ -85,24 +81,24 @@ fixed to "out001.png" Some examples of using the shot engine::
 
 Signals that you can add callbacks for are:
 
-- "delete,request": the user requested to close the window. See
-    :py:attr:`~Window.autodel`.
-- "focus,in": window got focus
-- "focus,out": window lost focus
-- "moved": window that holds the canvas was moved
-- "withdrawn": window is still managed normally but removed from view
-- "iconified": window is minimized (perhaps into an icon or taskbar)
-- "normal": window is in a normal state (not withdrawn or iconified)
-- "stick": window has become sticky (shows on all desktops)
-- "unstick": window has stopped being sticky
-- "fullscreen": window has become fullscreen
-- "unfullscreen": window has stopped being fullscreen
-- "maximized": window has been maximized
-- "unmaximized": window has stopped being maximized
-- "ioerr": there has been a low-level I/O error with the display system
-- "indicator,prop,changed": an indicator's property has been changed
-- "rotation,changed": window rotation has been changed
-- "profile,changed": profile of the window has been changed
+- ``delete,request``: the user requested to close the window. See
+  :py:attr:`~Window.autodel`.
+- ``focus,in``: window got focus
+- ``focus,out``: window lost focus
+- ``moved``: window that holds the canvas was moved
+- ``withdrawn``: window is still managed normally but removed from view
+- ``iconified``: window is minimized (perhaps into an icon or taskbar)
+- ``normal``: window is in a normal state (not withdrawn or iconified)
+- ``stick``: window has become sticky (shows on all desktops)
+- ``unstick``: window has stopped being sticky
+- ``fullscreen``: window has become fullscreen
+- ``unfullscreen``: window has stopped being fullscreen
+- ``maximized``: window has been maximized
+- ``unmaximized``: window has stopped being maximized
+- ``ioerr``: there has been a low-level I/O error with the display system
+- ``indicator,prop,changed``: an indicator's property has been changed
+- ``rotation,changed``: window rotation has been changed
+- ``profile,changed``: profile of the window has been changed
 - ``focused`` - When the window has received focus. (since 1.8)
 - ``unfocused`` - When the window has lost focus. (since 1.8)
 

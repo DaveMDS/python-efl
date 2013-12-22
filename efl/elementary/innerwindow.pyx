@@ -34,13 +34,14 @@ to show what's behind it without destroying it. If this is done, the
 visibility again.
 
 There are three styles available in the default theme. These are:
-    - default: The inwin is sized to take over most of the window it's
-        placed in.
-    - minimal: The size of the inwin will be the minimum necessary to show
-        its contents.
-    - minimal_vertical: Horizontally, the inwin takes as much space as
-        possible, but it's sized vertically the most it needs to fit its
-        contents.
+
+- default: The inwin is sized to take over most of the window it's
+  placed in.
+- minimal: The size of the inwin will be the minimum necessary to show
+  its contents.
+- minimal_vertical: Horizontally, the inwin takes as much space as
+  possible, but it's sized vertically the most it needs to fit its
+  contents.
 
 """
 

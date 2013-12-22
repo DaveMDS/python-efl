@@ -30,6 +30,10 @@ when you have a complex interface, with a lot of elements, and will
 need to resize or move it frequently (the content object and its
 children).
 
+Default content parts of the mapbuf widget that you can use are:
+
+- ``default`` - The main content of the mapbuf
+
 """
 
 from efl.eo cimport _object_mapping_register

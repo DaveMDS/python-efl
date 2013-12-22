@@ -40,13 +40,13 @@ This widget emits the following signals, besides the ones sent from
 
 Default content parts of the check widget that you can use for are:
 
-- "icon" - An icon of the check
+- ``icon`` - An icon of the check
 
 Default text parts of the check widget that you can use for are:
 
-- "default" - A label of the check
-- "on" - On state label of the check
-- "off" - Off state label of the check
+- ``default`` - A label of the check
+- ``on`` - On state label of the check
+- ``off`` - Off state label of the check
 
 """
 

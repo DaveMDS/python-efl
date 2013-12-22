@@ -31,20 +31,20 @@ space required for such stuff, and when they popup, as a keyboard
 shows when an entry is selected, conformant content won't change.
 
 This widget emits the following signals, besides the ones sent from
-:py:class:`efl.elementary.layout_class.LayoutClass`:
+:py:class:`~efl.elementary.layout_class.LayoutClass`:
 
-- "virtualkeypad,state,on": if virtualkeypad state is switched to "on".
-- "virtualkeypad,state,off": if virtualkeypad state is switched to "off".
-- "clipboard,state,on": if clipboard state is switched to "on".
-- "clipboard,state,off": if clipboard state is switched to "off".
+- ``virtualkeypad,state,on``: if virtualkeypad state is switched to ``on``.
+- ``virtualkeypad,state,off``: if virtualkeypad state is switched to ``off``.
+- ``clipboard,state,on``: if clipboard state is switched to ``on``.
+- ``clipboard,state,off``: if clipboard state is switched to ``off``.
 
 In all cases, the ``event`` parameter of the callback will be None.
 
 Available styles for it:
-    - ``"default"``
+    - ``default``
 
 Default content parts of the conformant widget that you can use for are:
-    - "default" - A content of the conformant
+    - ``default`` - A content of the conformant
 
 """
 

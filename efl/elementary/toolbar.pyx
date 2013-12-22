@@ -33,20 +33,20 @@ Items can have multiple states, or show menus when selected by the user.
 
 Smart callbacks one can listen to:
 
-- "clicked" - when the user clicks on a toolbar item and becomes selected.
-- "longpressed" - when the toolbar is pressed for a certain amount of time.
-- "language,changed" - when the program language changes.
+- ``clicked`` - when the user clicks on a toolbar item and becomes selected.
+- ``longpressed`` - when the toolbar is pressed for a certain amount of time.
+- ``language,changed`` - when the program language changes.
 - ``focused`` - When the toolbar has received focus. (since 1.8)
 - ``unfocused`` - When the toolbar has lost focus. (since 1.8)
 
 Available styles for it:
 
-- ``"default"``
-- ``"transparent"`` - no background or shadow, just show the content
+- ``default``
+- ``transparent`` - no background or shadow, just show the content
 
 Default text parts of the toolbar items that you can use for are:
 
-- "default" - label of the toolbar item
+- ``default`` - label of the toolbar item
 
 Scrollable Interface
 ====================

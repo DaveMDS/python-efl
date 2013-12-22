@@ -67,12 +67,12 @@ cached **before** and **after** the current item, in the widget's
 item list.
 
 This widget emits the following signals, besides the ones sent from
-:py:class:`efl.elementary.layout_class.LayoutClass`:
+:py:class:`~efl.elementary.layout_class.LayoutClass`:
 
-- ``"changed"`` - when the slideshow switches its view to a new item.
-    event_info parameter in callback contains the current visible item
-- ``"transition,end"`` - when a slide transition ends. event_info
-    parameter in callback contains the current visible item
+- ``changed`` - when the slideshow switches its view to a new item.
+  event_info parameter in callback contains the current visible item
+- ``transition,end`` - when a slide transition ends. event_info
+  parameter in callback contains the current visible item
 - ``focused`` - When the slideshow has received focus. (since 1.8)
 - ``unfocused`` - When the slideshow has lost focus. (since 1.8)
 
