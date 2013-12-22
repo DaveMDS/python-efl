@@ -45,25 +45,27 @@ Elementary has the following styles for the hover widget:
 This widget emits the following signals, besides the ones sent from
 :py:class:`~efl.elementary.layout_class.LayoutClass`:
 
-- ``"clicked"`` - the user clicked the empty space in the hover to
-    dismiss
-- ``"smart,changed"`` - a content object placed under the "smart"
-    policy was replaced to a new slot direction.
+- ``clicked`` - the user clicked the empty space in the hover to
+  dismiss.
+- ``dismissed`` - the user clicked the empty space in the hover to dismiss.
+  (since 1.8)
+- ``smart,changed`` - a content object placed under the "smart"
+  policy was replaced to a new slot direction.
 - ``focused`` - When the hover has received focus. (since 1.8)
 - ``unfocused`` - When the hover has lost focus. (since 1.8)
 
 Default content parts of the hover widget that you can use for are:
 
-- ``"left"``
-- ``"top-left"``
-- ``"top"``
-- ``"top-right"``
-- ``"right"``
-- ``"bottom-right"``
-- ``"bottom"``
-- ``"bottom-left"``
-- ``"middle"``
-- ``"smart"``
+- ``left``
+- ``top-left``
+- ``top``
+- ``top-right``
+- ``right``
+- ``bottom-right``
+- ``bottom``
+- ``bottom-left``
+- ``middle``
+- ``smart``
 
 All directions may have contents at the same time, except for "smart".
 This is a special placement hint and its use case depends of the
@@ -221,6 +223,17 @@ cdef class Hover(LayoutClass):
 
     def callback_clicked_del(self, func):
         self._callback_del("clicked", func)
+
+    def callback_dismissed_add(self, func, *args, **kwargs):
+        """the user clicked the empty space in the hover to dismiss
+
+        .. versionadded:: 1.8.1
+
+        """
+        self._callback_add("dismissed", func, *args, **kwargs)
+
+    def callback_dismissed_del(self, func):
+        self._callback_del("dismissed", func)
 
     def callback_smart_changed_add(self, func, *args, **kwargs):
         """a content object placed under the "smart" policy was replaced to a

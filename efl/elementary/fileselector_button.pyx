@@ -36,26 +36,27 @@ would have instantiating one directly.
 
 The following styles are available for this button:
 
-- ``"default"``
-- ``"anchor"``
-- ``"hoversel_vertical"``
-- ``"hoversel_vertical_entry"``
+- ``default``
+- ``anchor``
+- ``hoversel_vertical``
+- ``hoversel_vertical_entry``
 
 This widget emits the following signals, besides the ones sent from
 :py:class:`~efl.elementary.button.Button`:
 
-- ``"file,chosen"`` - the user has selected a path which comes as the
+- ``file,chosen`` - the user has selected a path which comes as the
   ``event_info`` data
+- ``language,changed`` - the program's language changed
 
 Default text parts of the fileselector_button widget that you can use for
 are:
 
-- "default" - Label of the fileselector_button
+- ``default`` - Label of the fileselector_button
 
 Default content parts of the fileselector_button widget that you can use
 for are:
 
-- "icon" - Icon of the fileselector_button
+- ``icon`` - Icon of the fileselector_button
 
 
 """
@@ -270,5 +271,15 @@ cdef class FileselectorButton(Button):
     def callback_file_chosen_del(self, func):
         self._callback_del_full("file,chosen", _cb_string_conv, func)
 
+    def callback_language_changed_add(self, func, *args, **kwargs):
+        """The program's language changed.
+
+        .. versionadded:: 1.8.1
+
+        """
+        self._callback_add("language,changed", func, *args, **kwargs)
+
+    def callback_language_changed_del(self, func):
+        self._callback_del("language,changed", func)
 
 _object_mapping_register("Elm_Fileselector_Button", FileselectorButton)
