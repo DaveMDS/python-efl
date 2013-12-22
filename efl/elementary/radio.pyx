@@ -55,11 +55,11 @@ This widget emits the following signals, besides the ones sent from
 
 Default text parts of the radio widget that you can use for are:
 
-- "default" - Label of the radio
+- ``default`` - Label of the radio
 
 Default content parts of the radio widget that you can use for are:
 
-- "icon" - An icon of the radio
+- ``icon`` - An icon of the radio
 
 """
 

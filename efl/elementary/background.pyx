@@ -34,7 +34,7 @@ background, like setting it to tiled, centered, scaled or stretched.
 
 Default content parts of the bg widget that you can use for are:
 
-- **overlay** - overlay of the bg
+- ``overlay`` - overlay of the bg
 
 
 Enumerations

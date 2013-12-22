@@ -54,23 +54,23 @@ This widget emits the following signals, besides the ones sent from
 
 This widget has the following styles:
 
-    - ``default``
-    - ``wheel`` (simple style, no text, no progression, only "pulse"
-      effect is available)
-    - ``double`` (style with two independent progress indicators)
+- ``default``
+- ``wheel`` (simple style, no text, no progression, only "pulse"
+  effect is available)
+- ``double`` (style with two independent progress indicators)
 
 Default text parts of the progressbar widget that you can use for are:
 
-    - ``default`` - Label of the progressbar
+- ``default`` - Label of the progressbar
 
 Default content parts of the progressbar widget that you can use for are:
 
-    - ``icon`` - An icon of the progressbar
+- ``icon`` - An icon of the progressbar
 
 Default part names for the "recording" style:
 
-    - ``elm.cur.progressbar`` - The "main" indicator bar
-    - ``elm.cur.progressbar1`` - The "secondary" indicator bar
+- ``elm.cur.progressbar`` - The "main" indicator bar
+- ``elm.cur.progressbar1`` - The "secondary" indicator bar
 
 """
 

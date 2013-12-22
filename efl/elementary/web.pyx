@@ -24,73 +24,73 @@ ewebkit support.
 
 Signals that you can add callbacks for are:
 
-- "download,request": A file download has been requested. Event info is
+- ``download,request``: A file download has been requested. Event info is
   a WebDownload instance
-- "editorclient,contents,changed": Editor client's contents changed
-- "editorclient,selection,changed": Editor client's selection changed
-- "frame,created": A new frame was created. Event info is an
+- ``editorclient,contents,changed``: Editor client's contents changed
+- ``editorclient,selection,changed``: Editor client's selection changed
+- ``frame,created``: A new frame was created. Event info is an
   Evas_Object which can be handled with WebKit's ewk_frame API
-- "icon,received": An icon was received by the main frame
-- "inputmethod,changed": Input method changed. Event info is an
+- ``icon,received``: An icon was received by the main frame
+- ``inputmethod,changed``: Input method changed. Event info is an
   Eina_Bool indicating whether it's enabled or not
-- "js,windowobject,clear": JS window object has been cleared
-- "link,hover,in": Mouse cursor is hovering over a link. Event info
+- ``js,windowobject,clear``: JS window object has been cleared
+- ``link,hover,in``: Mouse cursor is hovering over a link. Event info
   is a tuple, where the first string contains the URL the link
   points to, and the second one the title of the link
-- "link,hover,out": Mouse cursor left the link
-- "load,document,finished": Loading of a document finished. Event info
+- ``link,hover,out``: Mouse cursor left the link
+- ``load,document,finished``: Loading of a document finished. Event info
   is the frame that finished loading
-- "load,error": Load failed. Event info is a WebFrameLoadError instance
-- "load,finished": Load finished. Event info is None on success, on
+- ``load,error``: Load failed. Event info is a WebFrameLoadError instance
+- ``load,finished``: Load finished. Event info is None on success, on
   error it's a WebFrameLoadError instance
-- "load,newwindow,show": A new window was created and is ready to be
+- ``load,newwindow,show``: A new window was created and is ready to be
   shown
-- "load,progress": Overall load progress. Event info is
+- ``load,progress``: Overall load progress. Event info is
   a double containing a value between 0.0 and 1.0
-- "load,provisional": Started provisional load
-- "load,started": Loading of a document started
-- "menubar,visible,get": Queries if the menubar is visible. Event info
+- ``load,provisional``: Started provisional load
+- ``load,started``: Loading of a document started
+- ``menubar,visible,get``: Queries if the menubar is visible. Event info
   is a bool where the callback should set True if
   the menubar is visible, or False in case it's not
-- "menubar,visible,set": Informs menubar visibility. Event info is
+- ``menubar,visible,set``: Informs menubar visibility. Event info is
   a bool indicating the visibility
-- "popup,created": A dropdown widget was activated, requesting its
+- ``popup,created``: A dropdown widget was activated, requesting its
   popup menu to be created. Event info is a WebMenu instance
-- "popup,willdelete": The web object is ready to destroy the popup
+- ``popup,willdelete``: The web object is ready to destroy the popup
   object created. Event info is a WebMenu instance
-- "ready": Page is fully loaded
-- "scrollbars,visible,get": Queries visibility of scrollbars. Event
+- ``ready``: Page is fully loaded
+- ``scrollbars,visible,get``: Queries visibility of scrollbars. Event
   info is a bool where the visibility state should be set
-- "scrollbars,visible,set": Informs scrollbars visibility. Event info
+- ``scrollbars,visible,set``: Informs scrollbars visibility. Event info
   is an Eina_Bool with the visibility state set
-- "statusbar,text,set": Text of the statusbar changed. Event info is
+- ``statusbar,text,set``: Text of the statusbar changed. Event info is
   a string with the new text
-- "statusbar,visible,get": Queries visibility of the status bar.
+- ``statusbar,visible,get``: Queries visibility of the status bar.
   Event info is a bool where the visibility state should be
   set.
-- "statusbar,visible,set": Informs statusbar visibility. Event info is
+- ``statusbar,visible,set``: Informs statusbar visibility. Event info is
   an Eina_Bool with the visibility value
-- "title,changed": Title of the main frame changed. Event info is a
+- ``title,changed``: Title of the main frame changed. Event info is a
   string with the new title
-- "toolbars,visible,get": Queries visibility of toolbars. Event info
+- ``toolbars,visible,get``: Queries visibility of toolbars. Event info
   is a bool where the visibility state should be set
-- "toolbars,visible,set": Informs the visibility of toolbars. Event
+- ``toolbars,visible,set``: Informs the visibility of toolbars. Event
   info is an Eina_Bool with the visibility state
-- "tooltip,text,set": Show and set text of a tooltip. Event info is
+- ``tooltip,text,set``: Show and set text of a tooltip. Event info is
   a string with the text to show
-- "uri,changed": URI of the main frame changed. Event info is a string (deprecated. use "url,changed" instead)
-- "url,changed": URL of the main frame changed. Event info is a string
+- ``uri,changed``: URI of the main frame changed. Event info is a string (deprecated. use ``url,changed`` instead)
+- ``url,changed``: URL of the main frame changed. Event info is a string
   with the new URI
-- "view,resized": The web object internal's view changed sized
-- "windows,close,request": A JavaScript request to close the current
+- ``view,resized``: The web object internal's view changed sized
+- ``windows,close,request``: A JavaScript request to close the current
   window was requested
-- "zoom,animated,end": Animated zoom finished
-- "focused" : When the web has received focus. (since 1.8)
-- "unfocused" : When the web has lost focus. (since 1.8)
+- ``zoom,animated,end``: Animated zoom finished
+- ``focused`` : When the web has received focus. (since 1.8)
+- ``unfocused`` : When the web has lost focus. (since 1.8)
 
 available styles:
 
-- default
+- ``default``
 
 
 Enumerations
@@ -316,11 +316,11 @@ cdef class Web(Object):
     #     return the internal reference. Be careful using it as it may
     #     interfere with elm_web behavior.
 
-    #     @return The internal ewk_view object or @c NULL if it does not
+    #     :return: The internal ewk_view object or **None** if it does not
     #             exist. (Failure to create or Elementary compiled without
     #             ewebkit)
 
-    #     @see elm_web_add()
+    #     :see: elm_web_add()
 
     #     """
     #     def __get__(self):
@@ -339,11 +339,11 @@ cdef class Web(Object):
     #     This hook will be called when a request to create a new window is
     #     issued from the web page loaded.
     #     There is no default implementation for this feature, so leaving this
-    #     unset or passing @c NULL in @p func will prevent new windows from
+    #     unset or passing **None** in @p func will prevent new windows from
     #     opening.
 
-    #     @param func The hook function to be called when a window is requested
-    #     @param data User data
+    #     :param func: The hook function to be called when a window is requested
+    #     :param data: User data
 
     #     """
     #     elm_web_window_create_hook_set(self.obj,
@@ -356,13 +356,13 @@ cdef class Web(Object):
     #     Sets the function to call when an alert dialog
 
     #     This hook will be called when a JavaScript alert dialog is requested.
-    #     If no function is set or @c NULL is passed in @p func, the default
+    #     If no function is set or **None** is passed in @p func, the default
     #     implementation will take place.
 
-    #     @param func The callback function to be used
-    #     @param data User data
+    #     :param func: The callback function to be used
+    #     :param data: User data
 
-    #     @see elm_web_inwin_mode_set()
+    #     :see: elm_web_inwin_mode_set()
 
     #     """
     #     elm_web_dialog_alert_hook_set(self.obj,
@@ -375,13 +375,13 @@ cdef class Web(Object):
     #     Sets the function to call when an confirm dialog
 
     #     This hook will be called when a JavaScript confirm dialog is requested.
-    #     If no function is set or @c NULL is passed in @p func, the default
+    #     If no function is set or **None** is passed in @p func, the default
     #     implementation will take place.
 
-    #     @param func The callback function to be used
-    #     @param data User data
+    #     :param func: The callback function to be used
+    #     :param data: User data
 
-    #     @see elm_web_inwin_mode_set()
+    #     :see: elm_web_inwin_mode_set()
 
     #     """
     #     elm_web_dialog_confirm_hook_set(self.obj,
@@ -394,13 +394,13 @@ cdef class Web(Object):
     #     Sets the function to call when an prompt dialog
 
     #     This hook will be called when a JavaScript prompt dialog is requested.
-    #     If no function is set or @c NULL is passed in @p func, the default
+    #     If no function is set or **None** is passed in @p func, the default
     #     implementation will take place.
 
-    #     @param func The callback function to be used
-    #     @param data User data
+    #     :param func: The callback function to be used
+    #     :param data: User data
 
-    #     @see elm_web_inwin_mode_set()
+    #     :see: elm_web_inwin_mode_set()
 
     #     """
     #     elm_web_dialog_prompt_hook_set(self.obj,
@@ -414,13 +414,13 @@ cdef class Web(Object):
 
     #     This hook will be called when a JavaScript file selector dialog is
     #     requested.
-    #     If no function is set or @c NULL is passed in @p func, the default
+    #     If no function is set or **None** is passed in @p func, the default
     #     implementation will take place.
 
-    #     @param func The callback function to be used
-    #     @param data User data
+    #     :param func: The callback function to be used
+    #     :param data: User data
 
-    #     @see elm_web_inwin_mode_set()
+    #     :see: elm_web_inwin_mode_set()
 
     #     """
     #     elm_web_dialog_file_selector_hook_set(self.obj,
@@ -435,8 +435,8 @@ cdef class Web(Object):
         This hook will be called when a console message is emitted from
         JavaScript. There is no default implementation for this feature.
 
-        @param func The callback function to be used
-        @param data User data
+        :param func: The callback function to be used
+        :param data: User data
 
         """
         self._console_message_hook = func
@@ -567,10 +567,10 @@ cdef class Web(Object):
         This is the color that will be used by default when the loaded page
         does not set it's own. Color values are pre-multiplied.
 
-        @param r Red component
-        @param g Green component
-        @param b Blue component
-        @param a Alpha component
+        :param r: Red component
+        :param g: Green component
+        :param b: Blue component
+        :param a: Alpha component
 
         """
         def __set__(self, value):
@@ -590,8 +590,8 @@ cdef class Web(Object):
 
         The string returned must be freed by the user when it's done with it.
 
-        @return A newly allocated string, or @c NULL if nothing is selected or an
-        error occurred
+        :return: A newly allocated string, or **None** if nothing is selected or an
+            error occurred
 
         """
         def __get__(self):
@@ -606,9 +606,9 @@ cdef class Web(Object):
         it needs to tell the web object which item was selected by calling this
         function with the index corresponding to the item.
 
-        @param index The index selected
+        :param index: The index selected
 
-        @see elm_web_popup_destroy()
+        :see: elm_web_popup_destroy()
 
         """
         elm_web_popup_selected_set(self.obj, index)
@@ -623,8 +623,8 @@ cdef class Web(Object):
         will later emit an "popup,willdelete" signal to notify the user that
         any memory and objects related to this popup can be freed.
 
-        @return @c EINA_TRUE if the menu was successfully destroyed, or @c EINA_FALSE
-        if there was no menu to destroy
+        :return: **True** if the menu was successfully destroyed, or **False**
+            if there was no menu to destroy
 
         """
         return bool(elm_web_popup_destroy(self.obj))
@@ -634,13 +634,13 @@ cdef class Web(Object):
 
         Searches the given string in a document.
 
-        @param string String to search
-        @param case_sensitive If search should be case sensitive or not
-        @param forward If search is from cursor and on or backwards
-        @param wrap If search should wrap at the end
+        :param string: String to search
+        :param case_sensitive: If search should be case sensitive or not
+        :param forward: If search is from cursor and on or backwards
+        :param wrap: If search should wrap at the end
 
-        @return @c EINA_TRUE if the given string was found, @c EINA_FALSE if not
-        or failure
+        :return: **True** if the given string was found, **False** if not
+            or failure
 
         """
         if isinstance(string, unicode): string = PyUnicode_AsUTF8String(string)
@@ -653,12 +653,12 @@ cdef class Web(Object):
 
         Marks matches of the given string in a document.
 
-        @param string String to match
-        @param case_sensitive If match should be case sensitive or not
-        @param highlight If matches should be highlighted
-        @param limit Maximum amount of matches, or zero to unlimited
+        :param string: String to match
+        :param case_sensitive: If match should be case sensitive or not
+        :param highlight: If matches should be highlighted
+        :param limit: Maximum amount of matches, or zero to unlimited
 
-        @return number of matched @a string
+        :return: number of matched @a string
 
         """
         if isinstance(string, unicode): string = PyUnicode_AsUTF8String(string)
@@ -669,7 +669,7 @@ cdef class Web(Object):
 
         Clears all marked matches in the document
 
-        @return @c EINA_TRUE on success, @c EINA_FALSE otherwise
+        :return: **True** on success, **False** otherwise
 
         """
         if not elm_web_text_matches_unmark_all(self.obj):
@@ -698,12 +698,12 @@ cdef class Web(Object):
 
         Get the overall loading progress of the page
 
-        Returns the estimated loading progress of the page, with a value between
-        0.0 and 1.0. This is an estimated progress accounting for all the frames
-        included in the page.
+        Returns the estimated loading progress of the page, with a value
+        between 0.0 and 1.0. This is an estimated progress accounting for all
+        the frames included in the page.
 
-        @return A value between 0.0 and 1.0 indicating the progress, or -1.0 on
-        failure
+        :return: A value between 0.0 and 1.0 indicating the progress, or -1.0
+            on failure
 
         """
         def __get__(self):
@@ -716,9 +716,9 @@ cdef class Web(Object):
 
         Cancels the loading of the current page in the web object. This will
         cause a "load,error" signal to be emitted, with the is_cancellation
-        flag set to @c EINA_TRUE.
+        flag set to **True**.
 
-        @return @c EINA_TRUE if the cancel was successful, @c EINA_FALSE otherwise
+        :return: **True** if the cancel was successful, **False** otherwise
 
         """
         if not elm_web_stop(self.obj):
@@ -729,7 +729,7 @@ cdef class Web(Object):
 
         Requests a reload of the current document in the object
 
-        @return @c EINA_TRUE on success, @c EINA_FALSE otherwise
+        :return: **True** on success, **False** otherwise
 
         """
         if not elm_web_reload(self.obj):
@@ -740,7 +740,7 @@ cdef class Web(Object):
 
         Requests a reload of the current document, avoiding any existing caches
 
-        @return @c EINA_TRUE on success, @c EINA_FALSE otherwise
+        :return: **True** on success, **False** otherwise
 
         """
         if not elm_web_reload_full(self.obj):
@@ -753,12 +753,12 @@ cdef class Web(Object):
 
         This is equivalent to calling elm_web_object_navigate(obj, -1);
 
-        @return @c EINA_TRUE on success, @c EINA_FALSE otherwise
+        :return: **True** on success, **False** otherwise
 
-        @see elm_web_history_enabled_set()
-        @see elm_web_back_possible()
-        @see elm_web_forward()
-        @see elm_web_navigate()
+        :see: elm_web_history_enabled_set()
+        :see: elm_web_back_possible()
+        :see: elm_web_forward()
+        :see: elm_web_navigate()
 
         """
         if not elm_web_back(self.obj):
@@ -771,12 +771,12 @@ cdef class Web(Object):
 
         This is equivalent to calling elm_web_object_navigate(obj, 1);
 
-        @return @c EINA_TRUE on success, @c EINA_FALSE otherwise
+        :return: **True** on success, **False** otherwise
 
-        @see elm_web_history_enabled_set()
-        @see elm_web_forward_possible_get()
-        @see elm_web_back()
-        @see elm_web_navigate()
+        :see: elm_web_history_enabled_set()
+        :see: elm_web_forward_possible_get()
+        :see: elm_web_back()
+        :see: elm_web_navigate()
 
         """
         if not elm_web_forward(self.obj):
@@ -790,14 +790,14 @@ cdef class Web(Object):
         The @p steps value can be a negative integer to back in history, or a
         positive to move forward.
 
-        @param steps The number of steps to jump
+        :param steps: The number of steps to jump
 
-        @return @c EINA_TRUE on success, @c EINA_FALSE on error or if not enough
-        history exists to jump the given number of steps
+        :return: **True** on success, **False** on error or if not enough
+            history exists to jump the given number of steps
 
-        @see elm_web_history_enabled_set()
-        @see elm_web_back()
-        @see elm_web_forward()
+        :see: elm_web_history_enabled_set()
+        :see: elm_web_back()
+        :see: elm_web_forward()
 
         """
         return bool(elm_web_navigate(self.obj, steps))
@@ -807,8 +807,8 @@ cdef class Web(Object):
 
         Queries whether it's possible to go back in history
 
-        @return @c EINA_TRUE if it's possible to back in history, @c EINA_FALSE
-        otherwise
+        :return: **True** if it's possible to back in history, **False**
+            otherwise
 
         """
         def __get__(self):
@@ -819,8 +819,8 @@ cdef class Web(Object):
 
         Queries whether it's possible to go forward in history
 
-        @return @c EINA_TRUE if it's possible to forward in history, @c EINA_FALSE
-        otherwise
+        :return: **True** if it's possible to forward in history, **False**
+            otherwise
 
         """
         def __get__(self):
@@ -833,10 +833,10 @@ cdef class Web(Object):
 
         The @p steps value can be a negative integer to back in history, or a
         positive to move forward.
-        @param steps The number of steps to check for
+        :param steps: The number of steps to check for
 
-        @return @c EINA_TRUE if enough history exists to perform the given jump,
-        @c EINA_FALSE otherwise
+        :return: **True** if enough history exists to perform the given jump,
+            **False** otherwise
 
         """
         return bool(elm_web_navigate_possible_get(self.obj, steps))
@@ -897,10 +897,10 @@ cdef class Web(Object):
 
         Shows the given region in the web object
 
-        @param x The x coordinate of the region to show
-        @param y The y coordinate of the region to show
-        @param w The width of the region to show
-        @param h The height of the region to show
+        :param x: The x coordinate of the region to show
+        :param y: The y coordinate of the region to show
+        :param w: The width of the region to show
+        :param h: The height of the region to show
 
         """
         elm_web_region_show(self.obj, x, y, w, h)
@@ -913,10 +913,10 @@ cdef class Web(Object):
         Like elm_web_region_show(), but it animates the scrolling of the object
         to show the area
 
-        @param x The x coordinate of the region to show
-        @param y The y coordinate of the region to show
-        @param w The width of the region to show
-        @param h The height of the region to show
+        :param x: The x coordinate of the region to show
+        :param y: The y coordinate of the region to show
+        :param w: The width of the region to show
+        :param h: The height of the region to show
 
         """
         elm_web_region_bring_in(self.obj, x, y, w, h)

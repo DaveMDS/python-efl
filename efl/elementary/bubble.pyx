@@ -40,13 +40,13 @@ The bubble widget contains 5 important visual elements:
 The position of the arrow, icon, label and info depends on which corner is
 selected. The four available corners are:
 
-- **top_left** - Default
-- **top_right**
-- **bottom_left**
-- **bottom_right**
+- ``top_left`` - Default
+- ``top_right``
+- ``bottom_left``
+- ``bottom_right``
 
 This widget emits the following signals, besides the ones sent from
-:py:class:`efl.elementary.layout_class.LayoutClass`:
+:py:class:`~efl.elementary.layout_class.LayoutClass`:
 
 - ``clicked`` - This is called when a user has clicked the bubble.
 - ``focused`` - When the bubble has received focus. (since 1.8)
@@ -54,13 +54,13 @@ This widget emits the following signals, besides the ones sent from
 
 Default content parts of the bubble that you can use for are:
 
-- **default** - A content of the bubble
-- **icon** - An icon of the bubble
+- ``default`` - A content of the bubble
+- ``icon`` - An icon of the bubble
 
 Default text parts of the button widget that you can use for are:
 
-- **default** - Label of the bubble
-- **info** - info of the bubble
+- ``default`` - Label of the bubble
+- ``info`` - info of the bubble
 
 
 Enumerations

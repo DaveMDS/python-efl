@@ -181,7 +181,7 @@ XDND action
 
 Defines the kind of action associated with the drop data if for XDND
 
-:since: 1.8
+.. versionadded:: 1.8
 
 .. data:: ELM_XDND_ACTION_UNKNOWN
 

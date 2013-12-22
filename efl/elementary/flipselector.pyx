@@ -38,21 +38,21 @@ the current selection.
 This widget emits the following signals, besides the ones sent from
 :py:class:`~efl.elementary.layout_class.LayoutClass`:
 
-- ``"selected"`` - when the widget's selected text item is changed
-- ``"overflowed"`` - when the widget's current selection is changed
+- ``selected`` - when the widget's selected text item is changed
+- ``overflowed`` - when the widget's current selection is changed
   from the first item in its list to the last
-- ``"underflowed"`` - when the widget's current selection is changed
+- ``underflowed`` - when the widget's current selection is changed
   from the last item in its list to the first
 - ``focused`` - When the flipselector has received focus. (since 1.8)
 - ``unfocused`` - When the flipselector has lost focus. (since 1.8)
 
 Available styles for it:
 
-- ``"default"``
+- ``default``
 
 Default text parts of the flipselector items that you can use for are:
 
-- "default" - label of the flipselector item
+- ``default`` - label of the flipselector item
 
 """
 

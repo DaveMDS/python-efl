@@ -59,16 +59,16 @@ Smart callbacks one can listen to:
 
 Available styles for it:
 
-- ``"default"``
+- ``default``
 
 Default content parts of the list items that you can use for are:
 
-- "start" - A start position object in the list item
-- "end" - A end position object in the list item
+- ``start`` - A start position object in the list item
+- ``end`` - A end position object in the list item
 
 Default text parts of the list items that you can use for are:
 
-- "default" - label in the list item
+- ``default`` - label in the list item
 
 Scrollable Interface
 ====================

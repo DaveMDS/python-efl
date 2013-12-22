@@ -274,18 +274,18 @@ cdef class Player(LayoutClass):
     The player widget emits the following signals, besides the ones
     sent from :py:class:`~efl.elementary.layout_class.LayoutClass`:
 
-    - ``"forward,clicked"`` - the user clicked the forward button.
-    - ``"info,clicked"`` - the user clicked the info button.
-    - ``"next,clicked"`` - the user clicked the next button.
-    - ``"pause,clicked"`` - the user clicked the pause button.
-    - ``"play,clicked"`` - the user clicked the play button.
-    - ``"prev,clicked"`` - the user clicked the prev button.
-    - ``"rewind,clicked"`` - the user clicked the rewind button.
-    - ``"stop,clicked"`` - the user clicked the stop button.
+    - ``forward,clicked`` - the user clicked the forward button.
+    - ``info,clicked`` - the user clicked the info button.
+    - ``next,clicked`` - the user clicked the next button.
+    - ``pause,clicked`` - the user clicked the pause button.
+    - ``play,clicked`` - the user clicked the play button.
+    - ``prev,clicked`` - the user clicked the prev button.
+    - ``rewind,clicked`` - the user clicked the rewind button.
+    - ``stop,clicked`` - the user clicked the stop button.
 
     Default content parts of the player widget that you can use for are:
 
-    - "video" - A video of the player
+    - ``video`` - A video of the player
 
     """
 

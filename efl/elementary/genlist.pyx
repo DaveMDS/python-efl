@@ -271,95 +271,95 @@ Genlist smart events
 
 Signals that you can add callbacks for are:
 
-- ``"activated"`` - The user has double-clicked or pressed
+- ``activated`` - The user has double-clicked or pressed
   (enter|return|spacebar) on an item. The ``event_info`` parameter is the
   item that was activated.
-- ``"clicked,double"`` - The user has double-clicked an item.  The
+- ``clicked,double`` - The user has double-clicked an item.  The
   ``event_info`` parameter is the item that was double-clicked.
-- ``"selected"`` - This is called when a user has made an item selected.
+- ``selected`` - This is called when a user has made an item selected.
   The event_info parameter is the genlist item that was selected.
-- ``"unselected"`` - This is called when a user has made an item
+- ``unselected`` - This is called when a user has made an item
   unselected. The event_info parameter is the genlist item that was
   unselected.
-- ``"expanded"`` - This is called when :py:attr:`GenlistItem.expanded` is
+- ``expanded`` - This is called when :py:attr:`GenlistItem.expanded` is
   called and the item is now meant to be expanded. The event_info
   parameter is the genlist item that was indicated to expand.  It is the
   job of this callback to then fill in the child items.
-- ``"contracted"`` - This is called when :py:attr:`GenlistItem.expanded` is
+- ``contracted`` - This is called when :py:attr:`GenlistItem.expanded` is
   called and the item is now meant to be contracted. The event_info
   parameter is the genlist item that was indicated to contract. It is the
   job of this callback to then delete the child items.
-- ``"expand,request"`` - This is called when a user has indicated they want
+- ``expand,request`` - This is called when a user has indicated they want
   to expand a tree branch item. The callback should decide if the item can
   expand (has any children) and then call :py:attr:`GenlistItem.expanded`
   appropriately to set the state. The event_info parameter is the genlist
   item that was indicated to expand.
-- ``"contract,request"`` - This is called when a user has indicated they
+- ``contract,request`` - This is called when a user has indicated they
   want to contract a tree branch item. The callback should decide if the
   item can contract (has any children) and then call
   :py:attr:`GenlistItem.expanded` appropriately to set the state. The
   event_info parameter is the genlist item that was indicated to contract.
-- ``"realized"`` - This is called when the item in the list is created as a
+- ``realized`` - This is called when the item in the list is created as a
   real evas object. event_info parameter is the genlist item that was
   created.
-- ``"unrealized"`` - This is called just before an item is unrealized.
+- ``unrealized`` - This is called just before an item is unrealized.
   After this call content objects provided will be deleted and the item
   object itself delete or be put into a floating cache.
-- ``"drag,start,up"`` - This is called when the item in the list has been
+- ``drag,start,up`` - This is called when the item in the list has been
   dragged (not scrolled) up.
-- ``"drag,start,down"`` - This is called when the item in the list has been
+- ``drag,start,down`` - This is called when the item in the list has been
   dragged (not scrolled) down.
-- ``"drag,start,left"`` - This is called when the item in the list has been
+- ``drag,start,left`` - This is called when the item in the list has been
   dragged (not scrolled) left.
-- ``"drag,start,right"`` - This is called when the item in the list has
+- ``drag,start,right`` - This is called when the item in the list has
   been dragged (not scrolled) right.
-- ``"drag,stop"`` - This is called when the item in the list has stopped
+- ``drag,stop`` - This is called when the item in the list has stopped
   being dragged.
-- ``"drag"`` - This is called when the item in the list is being dragged.
-- ``"longpressed"`` - This is called when the item is pressed for a certain
+- ``drag`` - This is called when the item in the list is being dragged.
+- ``longpressed`` - This is called when the item is pressed for a certain
   amount of time. By default it's 1 second. The event_info parameter is the
   longpressed genlist item.
-- ``"scroll,anim,start"`` - This is called when scrolling animation has
+- ``scroll,anim,start`` - This is called when scrolling animation has
   started.
-- ``"scroll,anim,stop"`` - This is called when scrolling animation has
+- ``scroll,anim,stop`` - This is called when scrolling animation has
   stopped.
-- ``"scroll,drag,start"`` - This is called when dragging the content has
+- ``scroll,drag,start`` - This is called when dragging the content has
   started.
-- ``"scroll,drag,stop"`` - This is called when dragging the content has
+- ``scroll,drag,stop`` - This is called when dragging the content has
   stopped.
-- ``"edge,top"`` - This is called when the genlist is scrolled until
+- ``edge,top`` - This is called when the genlist is scrolled until
   the top edge.
-- ``"edge,bottom"`` - This is called when the genlist is scrolled
+- ``edge,bottom`` - This is called when the genlist is scrolled
   until the bottom edge.
-- ``"edge,left"`` - This is called when the genlist is scrolled
+- ``edge,left`` - This is called when the genlist is scrolled
   until the left edge.
-- ``"edge,right"`` - This is called when the genlist is scrolled
+- ``edge,right`` - This is called when the genlist is scrolled
   until the right edge.
-- ``"multi,swipe,left"`` - This is called when the genlist is multi-touch
+- ``multi,swipe,left`` - This is called when the genlist is multi-touch
   swiped left.
-- ``"multi,swipe,right"`` - This is called when the genlist is multi-touch
+- ``multi,swipe,right`` - This is called when the genlist is multi-touch
   swiped right.
-- ``"multi,swipe,up"`` - This is called when the genlist is multi-touch
+- ``multi,swipe,up`` - This is called when the genlist is multi-touch
   swiped up.
-- ``"multi,swipe,down"`` - This is called when the genlist is multi-touch
+- ``multi,swipe,down`` - This is called when the genlist is multi-touch
   swiped down.
-- ``"multi,pinch,out"`` - This is called when the genlist is multi-touch
+- ``multi,pinch,out`` - This is called when the genlist is multi-touch
   pinched out.
-- ``multi,pinch,in"`` - This is called when the genlist is multi-touch
+- ``multi,pinch,in`` - This is called when the genlist is multi-touch
   pinched in.
-- ``"swipe"`` - This is called when the genlist is swiped.
-- ``"moved"`` - This is called when a genlist item is moved in reorder mode.
-- ``"moved,after"`` - This is called when a genlist item is moved after
+- ``swipe`` - This is called when the genlist is swiped.
+- ``moved`` - This is called when a genlist item is moved in reorder mode.
+- ``moved,after`` - This is called when a genlist item is moved after
   another item in reorder mode. The event_info parameter is the reordered
   item. To get the relative previous item, use :py:attr:`GenlistItem.prev`.
   This signal is called along with "moved" signal.
-- ``"moved,before"`` - This is called when a genlist item is moved before
+- ``moved,before`` - This is called when a genlist item is moved before
   another item in reorder mode. The event_info parameter is the reordered
   item. To get the relative previous item, use :py:attr:`GenlistItem.next`.
   This signal is called along with "moved" signal.
-- ``"language,changed"`` - This is called when the program's language is
+- ``language,changed`` - This is called when the program's language is
   changed.
-- ``"tree,effect,finished"`` - This is called when a genlist tree effect
+- ``tree,effect,finished`` - This is called when a genlist tree effect
   is finished.
 - ``highlighted`` - an item in the list is highlighted. This is called when
   the user presses an item or keyboard selection is done so the item is

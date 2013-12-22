@@ -62,12 +62,12 @@ the different check styles for individual days.
 This widget emits the following signals, besides the ones sent from
 :py:class:`~efl.elementary.layout_class.LayoutClass`:
 
-- ``"dayselector,changed"`` - when the user changes the state of a day.
-- ``"language,changed"`` - the program's language changed
+- ``dayselector,changed`` - when the user changes the state of a day.
+- ``language,changed`` - the program's language changed
 
 Available styles for dayselector are:
 
-- default
+- ``default``
 
 
 Enumerations

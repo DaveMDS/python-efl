@@ -87,20 +87,28 @@ Signals that you can add callbacks for are:
 
 Styles available for Popup
 
-- "default"
+- ``default``
+
+Default contents parts of the popup items that you can use are:
+
+- ``default`` -Item's icon
+
+Default text parts of the popup items that you can use are:
+
+- ``default`` - Item's label
 
 Default contents parts of the popup widget that you can use for are:
 
-- "default" - The content of the popup
-- "title,icon" - Title area's icon
-- "button1" - 1st button of the action area
-- "button2" - 2nd button of the action area
-- "button3" - 3rd button of the action area
+- ``default`` - The content of the popup
+- ``title,icon`` - Title area's icon
+- ``button1`` - 1st button of the action area
+- ``button2`` - 2nd button of the action area
+- ``button3`` - 3rd button of the action area
 
 Default text parts of the popup widget that you can use for are:
 
-- "title,text" - This operates on Title area's label
-- "default" - content-text set in the content area of the widget
+- ``title,text`` - This operates on Title area's label
+- ``default`` - content-text set in the content area of the widget
 
 
 Enumerations

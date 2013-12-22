@@ -39,27 +39,27 @@ This widget emits the following signals, besides the ones sent from
 Also, defined in the default theme, the button has the following styles
 available:
 
-- default: a normal button.
-- anchor: Like default, but the button fades away when the mouse is not
+- ``default``: a normal button.
+- ``anchor``: Like default, but the button fades away when the mouse is not
       over it, leaving only the text or icon.
-- hoversel_vertical: Internally used by
+- ``hoversel_vertical``: Internally used by
     :py:class:`~efl.elementary.hoversel.Hoversel` to give a continuous look
     across its options.
-- hoversel_vertical_entry: Another internal for
+- ``hoversel_vertical_entry``: Another internal for
     :py:class:`~efl.elementary.hoversel.Hoversel`.
-- naviframe: Internally used by
+- ``naviframe``: Internally used by
     :py:class:`~efl.elementary.naviframe.Naviframe` for its back button.
-- colorselector: Internally used by
+- ``colorselector``: Internally used by
     :py:class:`~efl.elementary.colorselector.Colorselector` for its left and
     right buttons.
 
 Default content parts of the button widget that you can use for are:
 
-- "icon" - An icon of the button
+- ``icon`` - An icon of the button
 
 Default text parts of the button widget that you can use for are:
 
-- "default" - Label of the button
+- ``default`` - Label of the button
 
 """
 

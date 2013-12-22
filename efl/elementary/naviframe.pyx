@@ -44,20 +44,16 @@ Becase this widget is a layout, one places content on those areas by using
 :py:func:`~efl.elementary.object.Object.part_content_set` on the right swallow
 part names expected for each, which are:
 
-- ``"default"`` - The main content of the current page
-- ``"icon"`` - An icon in the title area of the current page
-- ``"prev_btn"`` - A button of the current page to go to the
-                 previous page
-- ``"next_btn"`` - A button of the current page to go to the next
-                 page
+- ``default`` - The main content of the current page
+- ``icon`` - An icon in the title area of the current page
+- ``prev_btn`` - A button of the current page to go to the previous page
+- ``next_btn`` - A button of the current page to go to the next page
 
 For text, :py:func:`~efl.elementary.object.Object.part_text_set` will work here
 on:
 
-- ``"default"`` - Title label in the title area of the current
-                page
-- ``"subtitle"`` - Sub-title label in the title area of the
-                 current page
+- ``default`` - Title label in the title area of the current page
+- ``subtitle`` - Sub-title label in the title area of the current page
 
 Most of those content objects can be passed at the time of an item
 creation (see :py:meth:`~NaviframeItem.push_to`).
@@ -66,17 +62,16 @@ Naviframe items can have different styles, which affect the
 transition between views, for example. On the default theme, two of
 them are supported:
 
-- ``"basic"``   - views are switched sliding horizontally, one after
-              the other
-- ``"overlap"`` - like the previous one, but the previous view stays
-              at its place and is ovelapped by the new
+- ``basic``   - views are switched sliding horizontally, one after the other
+- ``overlap`` - like the previous one, but the previous view stays at its place
+  and is ovelapped by the new
 
 
 This widget emits the following signals, besides the ones sent from
 :py:class:`~efl.elementary.layout_class.LayoutClass`:
 
-- ``transition,finished`` - When the transition is finished in
-                            changing the item
+- ``transition,finished`` - When the transition is finished in changing the
+  item
 - ``title,clicked`` - User clicked title area
 - ``focused`` - When the naviframe has received focus. (since 1.8)
 - ``unfocused`` - When the naviframe has lost focus. (since 1.8)

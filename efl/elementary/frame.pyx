@@ -36,20 +36,20 @@ styles:
 - outdent_top
 - outdent_bottom
 
-Of all this styles only default shows the title.
+Out of all these styles only default shows the title.
 
 This widget emits the following signals, besides the ones sent from
 :py:class:`~efl.elementary.layout_class.LayoutClass`:
 
-- ``"clicked"`` - The user has clicked the frame's label
+- ``clicked`` - The user has clicked the frame's label
 
 Default content parts of the frame widget that you can use for are:
 
-- "default" - A content of the frame
+- ``default`` - A content of the frame
 
 Default text parts of the frame widget that you can use for are:
 
-- "default" - Label of the frame
+- ``default`` - Label of the frame
 
 """
 

@@ -26,7 +26,7 @@ This widget emits the following signals:
 - ``clicked`` - the user clicked the image (press/release).
 - ``image,deleted`` - the server side was deleted.
 - ``image,resized`` - the server side was resized. The ``event_info`` parameter
-    of the callback will be ``Evas_Coord_Size`` (two integers).
+  of the callback will be ``Evas_Coord_Size`` (two integers).
 
 .. note::
 

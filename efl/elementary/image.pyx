@@ -43,14 +43,14 @@ and drop actions by setting :py:attr:`~Image.editable`.
 
 Signals that you can add callbacks for are:
 
-- ``"drop"`` - This is called when a user has dropped an image
-    typed object onto the object in question -- the
-    event info argument is the path to that image file
-- ``"clicked"`` - This is called when a user has clicked the image
-- ``"download,start"`` - remote url download has started
-- ``"download,progress"`` - url download in progress
-- ``"download,end"`` - remote url download has finished
-- ``"download,error"`` - remote url download has finished with errors
+- ``drop`` - This is called when a user has dropped an image
+  typed object onto the object in question -- the
+  event info argument is the path to that image file
+- ``clicked`` - This is called when a user has clicked the image
+- ``download,start`` - remote url download has started
+- ``download,progress`` - url download in progress
+- ``download,end`` - remote url download has finished
+- ``download,error`` - remote url download has finished with errors
 
 Enumerations
 ------------
@@ -551,28 +551,44 @@ cdef class Image(Object):
         self._callback_del_full("drop", _cb_string_conv, func)
 
     def callback_download_start_add(self, func, *args, **kwargs):
-        """This is called when you set a remote url and the download start"""
+        """This is called when you set a remote url and the download start
+
+        .. versionadded:: 1.8
+
+        """
         self._callback_add("download,start", func, *args, **kwargs)
 
     def callback_download_start_del(self, func):
         self._callback_del("download,start", func)
 
     def callback_download_progress_add(self, func, *args, **kwargs):
-        """This is called while a remote image download is in progress"""
+        """This is called while a remote image download is in progress
+
+        .. versionadded:: 1.8
+
+        """
         self._callback_add_full("download,progress", _image_download_progress_conv, func, *args, **kwargs)
 
     def callback_download_progress_del(self, func):
         self._callback_del_full("download,progress", _image_download_progress_conv, func)
 
     def callback_download_done_add(self, func, *args, **kwargs):
-        """This is called when you set a remote url and the download finish"""
+        """This is called when you set a remote url and the download finish
+
+        .. versionadded:: 1.8
+
+        """
         self._callback_add("download,done", func, *args, **kwargs)
 
     def callback_download_done_del(self, func):
         self._callback_del("download,end", func)
 
     def callback_download_error_add(self, func, *args, **kwargs):
-        """This is called in case a download has errors"""
+        """This is called in case a download has errors
+
+        .. versionadded:: 1.8
+
+        """
         self._callback_add_full("download,error", _image_download_error_conv, func, *args, **kwargs)
 
     def callback_download_error_del(self, func):

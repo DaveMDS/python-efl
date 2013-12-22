@@ -214,51 +214,52 @@ Emitted signals
 
 This widget emits the following signals:
 
-- "changed": The text within the entry was changed.
-- "changed,user": The text within the entry was changed because of user
+- ``changed``: The text within the entry was changed.
+- ``changed,user``: The text within the entry was changed because of user
   interaction.
-- "activated": The enter key was pressed on a single line entry.
-- "aborted": The escape key was pressed on a single line entry. (since 1.7)
-- "press": A mouse button has been pressed on the entry.
-- "longpressed": A mouse button has been pressed and held for a couple
+- ``activated``: The enter key was pressed on a single line entry.
+- ``aborted``: The escape key was pressed on a single line entry. (since 1.7)
+- ``press``: A mouse button has been pressed on the entry.
+- ``longpressed``: A mouse button has been pressed and held for a couple
   seconds.
-- "clicked": The entry has been clicked (mouse press and release).
-- "clicked,double": The entry has been double clicked.
-- "clicked,triple": The entry has been triple clicked.
-- "focused": The entry has received focus.
-- "unfocused": The entry has lost focus.
-- "selection,paste": A paste of the clipboard contents was requested.
-- "selection,copy": A copy of the selected text into the clipboard was
+- ``clicked``: The entry has been clicked (mouse press and release).
+- ``clicked,double``: The entry has been double clicked.
+- ``clicked,triple``: The entry has been triple clicked.
+- ``focused``: The entry has received focus.
+- ``unfocused``: The entry has lost focus.
+- ``selection,paste``: A paste of the clipboard contents was requested.
+- ``selection,copy``: A copy of the selected text into the clipboard was
   requested.
-- "selection,cut": A cut of the selected text into the clipboard was
+- ``selection,cut``: A cut of the selected text into the clipboard was
   requested.
-- "selection,start": A selection has begun and no previous selection
+- ``selection,start``: A selection has begun and no previous selection
   existed.
-- "selection,changed": The current selection has changed.
-- "selection,cleared": The current selection has been cleared.
-- "cursor,changed": The cursor has changed position.
-- "anchor,clicked": An anchor has been clicked. The event_info
+- ``selection,changed``: The current selection has changed.
+- ``selection,cleared``: The current selection has been cleared.
+- ``cursor,changed``: The cursor has changed position.
+- ``anchor,clicked``: An anchor has been clicked. The event_info
   parameter for the callback will be an :py:class:`EntryAnchorInfo`.
-- "anchor,in": Mouse cursor has moved into an anchor. The event_info
+- ``anchor,in``: Mouse cursor has moved into an anchor. The event_info
   parameter for the callback will be an :py:class:`EntryAnchorInfo`.
-- "anchor,out": Mouse cursor has moved out of an anchor. The event_info
+- ``anchor,out``: Mouse cursor has moved out of an anchor. The event_info
   parameter for the callback will be an :py:class:`EntryAnchorInfo`.
-- "anchor,up": Mouse button has been unpressed on an anchor. The event_info
+- ``anchor,up``: Mouse button has been unpressed on an anchor. The event_info
   parameter for the callback will be an :py:class:`EntryAnchorInfo`.
-- "anchor,down": Mouse button has been pressed on an anchor. The event_info
+- ``anchor,down``: Mouse button has been pressed on an anchor. The event_info
   parameter for the callback will be an :py:class:`EntryAnchorInfo`.
-- "preedit,changed": The preedit string has changed.
-- "language,changed": Program language changed.
-- "text,set,done": Whole text has been set to the entry.
+- ``preedit,changed``: The preedit string has changed.
+- ``language,changed``: Program language changed.
+- ``text,set,done``: Whole text has been set to the entry.
 
 Default content parts of the entry items that you can use for are:
 
-- "icon" - An icon in the entry
-- "end" - A content in the end of the entry
+- ``icon`` - An icon in the entry
+- ``end`` - A content in the end of the entry
 
 Default text parts of the entry that you can use for are:
 
-- "default" - text of the entry
+- ``default`` - text of the entry
+- ``guide`` - placeholder of the entry
 
 
 Enumerations

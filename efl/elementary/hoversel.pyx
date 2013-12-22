@@ -35,19 +35,19 @@ hoversel menu (no more than 8), though is capable of many more.
 This widget emits the following signals, besides the ones sent from
 :py:class:`~efl.elementary.button.Button`:
 
-- ``"clicked"`` - the user clicked the hoversel button and popped up
-    the sel
-- ``"selected"`` - an item in the hoversel list is selected. event_info
-    is the item
-- ``"dismissed"`` - the hover is dismissed
+- ``clicked`` - the user clicked the hoversel button and popped up
+  the sel
+- ``selected`` - an item in the hoversel list is selected. event_info
+  is the item
+- ``dismissed`` - the hover is dismissed
 
 Default content parts of the hoversel widget that you can use for are:
 
-- "icon" - An icon of the hoversel
+- ``icon`` - An icon of the hoversel
 
 Default text parts of the hoversel widget that you can use for are:
 
-- "default" - Label of the hoversel
+- ``default`` - Label of the hoversel
 
 
 Enumerations

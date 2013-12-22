@@ -42,31 +42,31 @@ It supports some basic but yet nice features:
 Signals you can listen to
 =========================
 
-- "clicked" - Called when a user has clicked the map without dragging around.
-- "clicked,double" - Called when a user has double-clicked the map.
-- "press" - This is called when a user has pressed down on the map.
-- "longpressed" - This is called when a user has pressed down on the map
+- ``clicked`` - Called when a user has clicked the map without dragging around.
+- ``clicked,double`` - Called when a user has double-clicked the map.
+- ``press`` - This is called when a user has pressed down on the map.
+- ``longpressed`` - This is called when a user has pressed down on the map
   for a long time without dragging around.
-- "scroll" - the content has been scrolled (moved).
-- "scroll,drag,start" - dragging the contents around has started.
-- "scroll,drag,stop" - dragging the contents around has stopped.
-- "scroll,anim,start" - scrolling animation has started.
-- "scroll,anim,stop" - scrolling animation has stopped.
-- "zoom,start" - Zoom animation started.
-- "zoom,stop" - Zoom animation stopped.
-- "zoom,change" - Zoom changed when using an auto zoom mode.
-- "tile,load" - A map tile image load begins.
-- "tile,loaded" -  A map tile image load ends.
-- "tile,loaded,fail" -  A map tile image load fails.
-- "route,load" - Route request begins.
-- "route,loaded" - Route request ends.
-- "route,loaded,fail" - Route request fails.
-- "name,load" - Name request begins.
-- "name,loaded" - Name request ends.
-- "name,loaded,fail" - Name request fails.
-- "overlay,clicked" - A overlay is clicked.
-- "loaded" - when a map is finally loaded.
-- "language,changed" - the program's language changed
+- ``scroll`` - the content has been scrolled (moved).
+- ``scroll,drag,start`` - dragging the contents around has started.
+- ``scroll,drag,stop`` - dragging the contents around has stopped.
+- ``scroll,anim,start`` - scrolling animation has started.
+- ``scroll,anim,stop`` - scrolling animation has stopped.
+- ``zoom,start`` - Zoom animation started.
+- ``zoom,stop`` - Zoom animation stopped.
+- ``zoom,change`` - Zoom changed when using an auto zoom mode.
+- ``tile,load`` - A map tile image load begins.
+- ``tile,loaded`` -  A map tile image load ends.
+- ``tile,loaded,fail`` -  A map tile image load fails.
+- ``route,load`` - Route request begins.
+- ``route,loaded`` - Route request ends.
+- ``route,loaded,fail`` - Route request fails.
+- ``name,load`` - Name request begins.
+- ``name,loaded`` - Name request ends.
+- ``name,loaded,fail`` - Name request fails.
+- ``overlay,clicked`` - A overlay is clicked.
+- ``loaded`` - when a map is finally loaded.
+- ``language,changed`` - the program's language changed
 - ``focused`` - When the map has received focus. (since 1.8)
 - ``unfocused`` - When the map has lost focus. (since 1.8)
 

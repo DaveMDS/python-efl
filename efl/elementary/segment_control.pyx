@@ -35,21 +35,21 @@ other widget.
 This widget emits the following signals, besides the ones sent from
 :py:class:`~efl.elementary.layout_class.LayoutClass`:
 
-- ``"changed"`` - When the user clicks on a segment item which is not
+- ``changed`` - When the user clicks on a segment item which is not
   previously selected and get selected. The event_info parameter is the
   segment item.
 
 Available styles for it:
 
-- ``"default"``
+- ``default``
 
 Default content parts of the segment control items that you can use for are:
 
-- "icon" - An icon in a segment control item
+- ``icon`` - An icon in a segment control item
 
 Default text parts of the segment control items that you can use for are:
 
-- "default" - Title label in a segment control item
+- ``default`` - Title label in a segment control item
 
 """
 
