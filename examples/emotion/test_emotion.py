@@ -1,5 +1,6 @@
 #!/usr/bin/env python
 
+import os
 import optparse
 import subprocess
 
@@ -8,17 +9,11 @@ from efl import edje
 from efl import emotion
 from efl.emotion import Emotion
 from efl import elementary
-from efl.elementary.window import Window
+from efl.elementary.window import Window, ELM_WIN_BASIC
 
 
-def pkgconfig_variable(pkg, var):
-    output = subprocess.check_output(["pkg-config", "--variable=" + var, pkg])
-    return output.decode("utf-8").strip()
-
-
-prefix_dir = pkgconfig_variable("emotion", "prefix")
-data_dir = prefix_dir + "/share/emotion/data"
-theme_file = data_dir + "/theme.edj"
+script_path = os.path.dirname(os.path.abspath(__file__))
+theme_file = os.path.join(script_path, "theme.edj")
 
 
 class MyDecoratedEmotion(Emotion):
@@ -201,7 +196,7 @@ class MovieWindow(edje.Edje):
         print("spu button num: %d" % vid.spu_button_count)
 
     def vid_button_change_cb(self, vid):
-        print ("spu button: %s" % vid.spu_button)
+        print("spu button: %s" % vid.spu_button)
 
 
 class AppKeyboardEvents(object):
@@ -236,6 +231,11 @@ class AppKeyboardEvents(object):
             print("\tvideo channels: %d" % mw.vid.video_channel_count())
             print("\tspu channels: %d" % mw.vid.spu_channel_count())
             print("\tseekable: %s" % mw.vid.seekable)
+
+    def toggle_pause(win):
+        for mw in win.data["movie_windows"]:
+            mw.vid.play = not mw.vid.play
+            print("play is now %s" % mw.vid.play)
 
     def fullscreen_change(win):
         win.fullscreen = not win.fullscreen
@@ -288,6 +288,7 @@ class AppKeyboardEvents(object):
         "s": (shaped_change,),
         "b": (bordless_change,),
         "q": (main_delete_request,),
+        "p": (toggle_pause,),
         }
     def __call__(self, win, info):
         try:
@@ -338,12 +339,11 @@ if __name__ == "__main__"or True:
     elementary.init()
 
     # elementary window
-    win = Window("test-emotion", elementary.ELM_WIN_BASIC)
+    win = Window("test-emotion", ELM_WIN_BASIC)
     win.title_set("python-emotion test application")
     win.callback_delete_request_add(lambda o: elementary.exit())
     win.on_key_down_add(AppKeyboardEvents())
 
-    
     # edje main scene object
     scene = edje.Edje(win.evas, file=theme_file, group="background")
     win.resize_object_add(scene)
