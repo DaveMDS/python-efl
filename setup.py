@@ -33,18 +33,34 @@ except ImportError:
 def pkg_config(name, require, min_vers=None):
     try:
         sys.stdout.write("Checking for " + name + ": ")
-        ver = subprocess.check_output(["pkg-config", "--modversion", require]).decode("utf-8").strip()
+
+        call = subprocess.Popen(
+            ["pkg-config", "--modversion", require], stdout=subprocess.PIPE)
+        out, err = call.communicate()
+        ver = out.decode("utf-8").strip()
+
         if min_vers is not None:
-            assert 0 == subprocess.call(["pkg-config", "--atleast-version", min_vers, require])
-        cflags = subprocess.check_output(["pkg-config", "--cflags", require]).decode("utf-8").split()
-        libs = subprocess.check_output(["pkg-config", "--libs", require]).decode("utf-8").split()
+            assert 0 == subprocess.call(
+                ["pkg-config", "--atleast-version", min_vers, require])
+
+        call = subprocess.Popen(
+            ["pkg-config", "--cflags", require], stdout=subprocess.PIPE)
+        out, err = call.communicate()
+        cflags = out.decode("utf-8").split()
+
+        call = subprocess.Popen(
+            ["pkg-config", "--libs", require], stdout=subprocess.PIPE)
+        out, err = call.communicate()
+        libs = out.decode("utf-8").split()
+
         sys.stdout.write("OK, found " + ver + "\n")
+
         return (cflags, libs)
     except (OSError, subprocess.CalledProcessError):
         print("Did not find " + name + " with 'pkg-config'.")
         return None
     except (AssertionError):
-        print(name + " version mismatch. Found: " + ver + "  Needed: " + min_vers)
+        print(name+" version mismatch. Found: "+ver+"  Needed: "+min_vers)
         return None
 
 

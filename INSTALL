@@ -2,8 +2,8 @@
 1. REQUIREMENTS:
 ----------------
 
- * Python 2.7 or higher (http://www.python.org/)
-   - Tested with Python 2.7 / 3.2
+ * Python 2.6 or higher (http://www.python.org/)
+   - Tested with Python 2.6 / 2.7 / 3.2 / 3.3
 
  * Cython 0.17.0 or higher (http://cython.org/)
    - Tested with Cython 0.17.1
@@ -88,6 +88,8 @@
  The tests/ folder contains all the unit tests available, you can run individual
  tests or use the 00_run_all_tests.py in each folder or even in the tests/ base
  dir to run all the tests at once.
+
+ Python 2.7 is required for running the tests.
 
  The scripts in examples/ folder must be run by the user as they require
  user interaction.

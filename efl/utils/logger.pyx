@@ -110,7 +110,9 @@ cdef object add_logger(object name):
     else:
         log.propagate = True
         log.setLevel(logging.WARNING)
-    log.addHandler(logging.NullHandler())
+
+    if PY_VERSION_HEX >= 0x02070000:
+        log.addHandler(logging.NullHandler())
 
     logging.setLoggerClass(logging.Logger)
 
