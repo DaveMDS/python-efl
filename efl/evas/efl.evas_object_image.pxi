@@ -497,99 +497,99 @@ cdef class Image(Object):
 
         PyBuffer_Release(&view)
 
-    def image_data_memoryview_get(self, bint for_writing=False, bint simple=True):
-        """image_data_memoryview_get(bool for_writing) -> MemoryView
+    # def image_data_memoryview_get(self, bint for_writing=False, bint simple=True):
+    #     """image_data_memoryview_get(bool for_writing) -> MemoryView
 
-        Get a MemoryView object to the raw image data of the given image object.
+    #     Get a MemoryView object to the raw image data of the given image object.
 
-        :param bool for_writing: Whether the data being retrieved will be
-                modified or not.
-        :param bool simple: Whether the MemoryView is 1D or 2D
-        :return MemoryView: The raw image data.
+    #     :param bool for_writing: Whether the data being retrieved will be
+    #             modified or not.
+    #     :param bool simple: Whether the MemoryView is 1D or 2D
+    #     :return MemoryView: The raw image data.
 
-        This method returns a MemoryView object to an image object's internal pixel
-        buffer, for reading only or read/write. If you request it for
-        writing, the image will be marked dirty so that it gets redrawn at
-        the next update.
+    #     This method returns a MemoryView object to an image object's internal pixel
+    #     buffer, for reading only or read/write. If you request it for
+    #     writing, the image will be marked dirty so that it gets redrawn at
+    #     the next update.
 
-        Each time you call this method on an image object, its data
-        buffer will have an internal reference counter
-        incremented. Decrement it back by using
-        :py:func:`image_data_set`.
+    #     Each time you call this method on an image object, its data
+    #     buffer will have an internal reference counter
+    #     incremented. Decrement it back by using
+    #     :py:func:`image_data_set`.
 
-        This is best suited for when you want to modify an existing image,
-        without changing its dimensions.
+    #     This is best suited for when you want to modify an existing image,
+    #     without changing its dimensions.
 
-        .. note::
-            The contents' format returned by it depend on the color
-            space of the given image object.
+    #     .. note::
+    #         The contents' format returned by it depend on the color
+    #         space of the given image object.
 
-        .. note::
-            You may want to use :py:func:`image_data_update_add` to
-            inform data changes, if you did any.
+    #     .. note::
+    #         You may want to use :py:func:`image_data_update_add` to
+    #         inform data changes, if you did any.
 
-        """
-        cdef int stride, h, bpp, cspace, have_alpha, img_size
+    #     """
+    #     cdef int stride, h, bpp, cspace, have_alpha, img_size
 
-        stride = evas_object_image_stride_get(self.obj)
-        evas_object_image_size_get(self.obj, NULL, &h)
-        cspace = evas_object_image_colorspace_get(self.obj)
-        have_alpha = evas_object_image_alpha_get(self.obj)
+    #     stride = evas_object_image_stride_get(self.obj)
+    #     evas_object_image_size_get(self.obj, NULL, &h)
+    #     cspace = evas_object_image_colorspace_get(self.obj)
+    #     have_alpha = evas_object_image_alpha_get(self.obj)
 
-        bpp = 0
-        if cspace == EVAS_COLORSPACE_ARGB8888:
-            bpp = 4
-            format = "L"
-        elif cspace == EVAS_COLORSPACE_RGB565_A5P:
-            if have_alpha == 0:
-                bpp = 2
-                format = "H"
-            else:
-                pass #bpp = 3
-                # XXX: There's no type that has three bytes.
-                #      Is the format string actually used?
-        if bpp == 0:
-            raise ValueError("Unsupported colorspace")
+    #     bpp = 0
+    #     if cspace == EVAS_COLORSPACE_ARGB8888:
+    #         bpp = 4
+    #         format = "L"
+    #     elif cspace == EVAS_COLORSPACE_RGB565_A5P:
+    #         if have_alpha == 0:
+    #             bpp = 2
+    #             format = "H"
+    #         else:
+    #             pass #bpp = 3
+    #             # XXX: There's no type that has three bytes.
+    #             #      Is the format string actually used?
+    #     if bpp == 0:
+    #         raise ValueError("Unsupported colorspace")
 
-        img_size = stride * h * bpp
+    #     img_size = stride * h * bpp
 
-        cdef Py_buffer *img_buf = <Py_buffer *>PyMem_Malloc(sizeof(Py_buffer))
-        if img_buf == NULL:
-            raise MemoryError
+    #     cdef Py_buffer *img_buf = <Py_buffer *>PyMem_Malloc(sizeof(Py_buffer))
+    #     if img_buf == NULL:
+    #         raise MemoryError
 
-        cdef:
-            Py_ssize_t simple_shape[1]
-            Py_ssize_t shape[2]
-            Py_ssize_t strides[2]
-            Py_ssize_t suboffsets[2]
+    #     cdef:
+    #         Py_ssize_t simple_shape[1]
+    #         Py_ssize_t shape[2]
+    #         Py_ssize_t strides[2]
+    #         Py_ssize_t suboffsets[2]
 
-        if simple:
-            simple_shape[0] = img_size
-        else:
-            shape[0] = stride / bpp
-            shape[1] = h
-            strides[0] = stride
-            strides[1] = h * bpp
-            suboffsets[0] = -1
-            suboffsets[1] = -1
+    #     if simple:
+    #         simple_shape[0] = img_size
+    #     else:
+    #         shape[0] = stride / bpp
+    #         shape[1] = h
+    #         strides[0] = stride
+    #         strides[1] = h * bpp
+    #         suboffsets[0] = -1
+    #         suboffsets[1] = -1
 
-        img_buf.buf = evas_object_image_data_get(self.obj, for_writing)
-        img_buf.len = img_size
-        img_buf.readonly = not for_writing
-        img_buf.format = format
-        if simple:
-            img_buf.ndim = 1
-            img_buf.shape = simple_shape
-            img_buf.strides = NULL
-            img_buf.suboffsets = NULL
-        else:
-            img_buf.ndim = 2
-            img_buf.shape = shape
-            img_buf.strides = strides
-            img_buf.suboffsets = suboffsets
-        img_buf.itemsize = bpp
+    #     img_buf.buf = evas_object_image_data_get(self.obj, for_writing)
+    #     img_buf.len = img_size
+    #     img_buf.readonly = not for_writing
+    #     img_buf.format = format
+    #     if simple:
+    #         img_buf.ndim = 1
+    #         img_buf.shape = simple_shape
+    #         img_buf.strides = NULL
+    #         img_buf.suboffsets = NULL
+    #     else:
+    #         img_buf.ndim = 2
+    #         img_buf.shape = shape
+    #         img_buf.strides = strides
+    #         img_buf.suboffsets = suboffsets
+    #     img_buf.itemsize = bpp
 
-        return <object>PyMemoryView_FromBuffer(img_buf)
+    #     return <object>PyMemoryView_FromBuffer(img_buf)
 
 
     # TODO:
