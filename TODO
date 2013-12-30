@@ -1,16 +1,17 @@
 
 BUGS
 ====
-
-* EdjeEdit: PartState API does not work (edje edit is disabled for now)
-* Edje.External: The unit test fails (marked as known failure in unittest)
+* EdjeEdit: PartState API does not work
 * Elm.Map: overlays_show segfaults, scrollers in examples are jumpy
-* Bad binaries produced when build environment is invalid (T504)
 
+Failing unit tests
+------------------
+* tests.edje.test_04_edit: testPartEffect (marked as known failure)
+* tests.edje.test_04_edit: testGroupDel (skipped, segfault)
+* tests.edje.test_04_edit: testExternal (skipped, TODO)
 
 TODO (after 1.8)
 ================
-
 * update links and text on:
   http://www.freedesktop.org/wiki/Software/DBusBindings
   (requires fd.org shell account?)
