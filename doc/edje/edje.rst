@@ -72,6 +72,7 @@ Reference
    :maxdepth: 4
 
    class-edje
+   class-edje_edit
 
 
 Inheritance diagram

@@ -78,7 +78,7 @@ class TestEdjeEditGeneral(unittest.TestCase):
     def testGroupDel(self):
         self.o.group_add("test_new_group2")
         self.o.group_del("test_new_group2")
-        self.assertFalse(o.group_exist("test_new_group2"))
+        self.assertFalse(self.o.group_exist("test_new_group2"))
 
     def testData(self):
         self.assertIn("key1", self.o.data)
@@ -98,8 +98,8 @@ class TestEdjeEditGeneral(unittest.TestCase):
         self.o.data_rename("key5", "key55")
         self.assertEqual(self.o.data_get("key55"), "value5")
 
-        # self.o.data_del("key44")       # FIXME this crash badly
-        # self.assertNotIn("key44", self.o.data)
+        self.o.data_del("key44")       # FIXME this crash badly
+        self.assertNotIn("key44", self.o.data)
 
     def testGroupData(self):
         self.assertIn("key3", self.o.group_data)
@@ -218,7 +218,6 @@ class TestEdjeEditParts(unittest.TestCase):
         p.rename("rect")
         self.assertEqual(p.name, "rect")
 
-    @unittest.skip("segfault") # FIXME
     def testPartAdd(self):
         self.o.part_add("new_part", EDJE_PART_TYPE_RECTANGLE)
         self.assertTrue(self.o.part_exist("new_part"))
@@ -227,13 +226,11 @@ class TestEdjeEditParts(unittest.TestCase):
         p = self.o.part_get("new_part")
         self.assertIsInstance(p, Part)
 
-    @unittest.skip("part_del() crash") # TODO FIXME
     def testPartDel(self):
         self.assertTrue(self.o.part_exist("rect"))
         self.o.part_del("rect")
         self.assertFalse(self.o.part_exist("rect"))
 
-    @unittest.skip("cause segfault") # TODO FIXME
     def testPartStacking(self):
         # print(self.o.parts)
         p = self.o.part_get("rect")
@@ -245,7 +242,6 @@ class TestEdjeEditParts(unittest.TestCase):
         self.assertEqual(p.below_get(), "bg")
         self.assertEqual(p.above_get(), "label")
 
-    @unittest.skip("cause segfault") # TODO FIXME
     def testPartClip(self):
         p = self.o.part_get("edit_test")
         self.assertEqual(p.clip_to, "test_clip")
@@ -268,6 +264,7 @@ class TestEdjeEditParts(unittest.TestCase):
         p.repeat_events = True
         self.assertEqual(p.repeat_events, True)
 
+    @unittest.expectedFailure
     def testPartEffect(self):
         p = self.o.part_get("edit_test")
         self.assertEqual(p.effect, 18)
@@ -403,7 +400,7 @@ class TestEdjeEditPrograms(unittest.TestCase):
         p.targets_clear()
         self.assertEqual(p.targets_get(), [])
 
-    @unittest.skip("Program.after_add() does not work")
+    #@unittest.skip("Program.after_add() does not work")
     def testProgramAfters(self):
         p = self.o.program_get("prog1")
         self.assertEqual(p.afters_get(), ["prog2", "prog3"])
@@ -429,7 +426,7 @@ class TestEdjeEditPrograms(unittest.TestCase):
         p.api = ("new_name", "new_desc")
         self.assertEqual(p.api, ("new_name", "new_desc"))
 
-    @unittest.skip("Program.script does not work")
+    #@unittest.skip("Program.script does not work")
     def testProgramScript(self):
         p = self.o.program_get("emit_back_message")
         print(p.script)
@@ -449,7 +446,7 @@ class TestEdjeEditPartStates(unittest.TestCase):
         self.canvas.delete()
         os.remove(theme_file)
 
-    @unittest.skip("segfault") # FIXME
+    #@unittest.skip("segfault") # FIXME
     def testPartStates(self):
         p = self.o.part_get("edit_test")
         self.assertEqual(p.states, ["default 0.00","state1 0.00","state2 0.00","state2 0.10"])
@@ -459,24 +456,24 @@ class TestEdjeEditPartStates(unittest.TestCase):
         self.assertEqual(p.states, ["default 0.00","state1 0.00","state2 0.00","state2 0.10","state9 0.10"])
 
         # state_selected      TODO FIXME state_selected_set does not work
-        # self.assertEqual(p.state_selected_get(), ("default", 0.0))
-        # p.state_selected_set("state2", 0.1)
-        # self.assertEqual(p.state_selected_get(), ("state2", 0.1))
+        self.assertEqual(p.state_selected_get(), ("default", 0.0))
+        p.state_selected_set("state2", 0.1)
+        self.assertEqual(p.state_selected_get(), ("state2", 0.1))
 
         # state del()         TODO FIXME state_del does not work
-        # p.state_del("state9", 0.1)
-        # self.assertEqual(p.states, ["default 0.00","state1 0.00","state2 0.00","state2 0.10"])
+        p.state_del("state9", 0.1)
+        self.assertEqual(p.states, ["default 0.00","state1 0.00","state2 0.00","state2 0.10"])
 
     # TODO test state_copy
 
-    @unittest.skip("state_exist does not work") # TODO FIXME
+    #@unittest.skip("state_exist does not work") # TODO FIXME
     def testPartStateExist(self):
         p = self.o.part_get("edit_test")
         self.assertFalse(p.state_exist("stateNOTEXISTS", 0.1))
         self.assertTrue(p.state_exist("state1", 0.0))
         self.assertTrue(p.state_exist("state2", 0.1))
 
-    @unittest.skip("PartState does not work") # TODO FIXME
+    #@unittest.skip("PartState does not work") # TODO FIXME
     def testPartStateProps(self):
         p = self.o.part_get("edit_test")
         s = p.state_get("state1", 0.0)

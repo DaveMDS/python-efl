@@ -17,6 +17,7 @@
 
 from efl.utils.conversions cimport _touni, _ctouni, \
     eina_list_strings_to_python_list
+from efl.eo cimport _register_decorated_callbacks
 from efl.edje cimport Edje_Part_Type
 from efl.edje import EDJE_PART_TYPE_EXTERNAL
 
@@ -30,9 +31,20 @@ EDJE_EDIT_IMAGE_COMP_LOSSY = 3
 
 cdef class EdjeEdit(Edje):
 
-    def __init__(self, Canvas canvas not None, **kargs):
+    def __init__(self, Canvas canvas not None, file=None, group=None, size=None,
+        geometry=None, **kwargs):
+
         self._set_obj(edje_edit_object_add(canvas.obj))
-        self._set_common_params(**kargs)
+        _register_decorated_callbacks(self)
+
+        if file:
+            self.file_set(file, group)
+
+        self._set_properties_from_keyword_args(kwargs)
+
+        if not size and not geometry:
+            w, h = self.size_min_get()
+            self.size_set(w, h)
 
     # General
     def compiler_get(self):
