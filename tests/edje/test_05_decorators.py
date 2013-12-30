@@ -43,7 +43,6 @@ class MyEdje(Edje):
         expected_text_parts.remove(part)
 
 
-@unittest.expectedFailure # TODO XXX "zoom,stop" remains
 class TestEdjeDecoratedCallbacks(unittest.TestCase):
     def setUp(self):
         self.canvas = evas.Canvas(method="buffer",
