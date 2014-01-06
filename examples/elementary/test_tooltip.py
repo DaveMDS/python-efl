@@ -4,7 +4,7 @@
 import os
 
 from efl.evas import EVAS_HINT_EXPAND, EVAS_HINT_FILL
-from efl.ecore import Timer
+from efl.ecore import Timer, timer_add
 from efl import elementary
 from efl.elementary.window import StandardWindow
 from efl.elementary.box import Box
@@ -126,8 +126,7 @@ def tooltip_clicked(obj):
             del data["timer"]
             obj.text_set("Icon tooltip, click to start changed timed")
             return
-        data["timer"] = ecore.timer_add(1.5, _tt_icon_replace_timer_cb, obj,
-                                        data)
+        data["timer"] = timer_add(1.5, _tt_icon_replace_timer_cb, obj, data)
         obj.text_set("Icon tooltip, click to stop changed timed")
 
     bt = Button(win, text="Icon tooltip, click to start changed timed")
@@ -160,8 +159,7 @@ def tooltip_clicked(obj):
             del data["timer"]
             obj.text_set("Icon tooltip style, click to start changed timed")
             return
-        data["timer"] = ecore.timer_add(1.5, _tt_style_replace_timer_cb, obj,
-                                        data)
+        data["timer"] = timer_add(1.5, _tt_style_replace_timer_cb, obj, data)
         obj.text_set("Icon tooltip, click to stop changed timed")
 
     bt = Button(win, text="Icon tooltip style, click to start changed timed")
