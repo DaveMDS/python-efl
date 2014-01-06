@@ -26,7 +26,7 @@ import types
 
 include "smart_object_metaclass.pxi"
 _install_metaclass(EvasSmartObjectMeta, SmartObject)
-
+_install_metaclass(EvasSmartObjectMeta, ClippedSmartObject)
 
 
 cdef void _smart_object_delete(Evas_Object *o) with gil:
@@ -401,7 +401,6 @@ cdef class SmartObject(Object):
             raise TypeError("Must not instantiate SmartObject, but subclasses")
         if self.obj == NULL:
             addr = self.__evas_smart_class__
-#             self._add_obj(evas_object_smart_class_get(), self.evas.obj)
             self._set_obj(evas_object_smart_add(canvas.obj, <Evas_Smart*>addr))
 
         self._set_properties_from_keyword_args(kwargs)
@@ -705,51 +704,58 @@ cdef class SmartObject(Object):
         self.member_add(obj)
         return obj
 
-#     def Image(self, **kargs):
-#         """Factory of children :py:class:`evas.Image`.
-#         :rtype: :py:class:`Image<evas.Image>`
-#         """
-#         obj = Image(self.evas, **kargs)
-#         self.member_add(obj)
-#         return obj
+    def Image(self, **kargs):
+        """Factory of children :py:class:`evas.Image`.
 
-#     def FilledImage(self, **kargs):
-#         """Factory of :py:class:`evas.FilledImage` associated with this canvas.
-#         :rtype: :py:class:`FilledImage<evas.FilledImage>`
-#         """
-#         obj = FilledImage(self.evas, **kargs)
-#         self.member_add(obj)
-#         return obj
-#
-#     def Polygon(self, **kargs):
-#         """Factory of children :py:class:`evas.Polygon`.
-#         :rtype: :py:class:`Polygon<evas.Polygon>`
-#         """
-#         obj = Polygon(self.evas, **kargs)
-#         self.member_add(obj)
-#         return obj
-#
-#     def Text(self, **kargs):
-#         """Factory of children :py:class:`evas.Text`.
-#         :rtype: :py:class:`Text<evas.Text>`
-#         """
-#         obj = Text(self.evas, **kargs)
-#         self.member_add(obj)
-#         return obj
-#
-#     def Textblock(self, **kargs):
-#         """Factory of children :py:class:`evas.Textblock`.
-#         :rtype: :py:class:`Textblock<evas.Textblock>`
-#         """
-#         obj = Textblock(self.evas, **kargs)
-#         self.member_add(obj)
-#         return obj
+        :rtype: :py:class:`Image<evas.Image>`
+
+        """
+        obj = Image(self.evas, **kargs)
+        self.member_add(obj)
+        return obj
+
+    def FilledImage(self, **kargs):
+        """Factory of :py:class:`evas.FilledImage` associated with this canvas.
+
+        :rtype: :py:class:`FilledImage<evas.FilledImage>`
+
+        """
+        obj = FilledImage(self.evas, **kargs)
+        self.member_add(obj)
+        return obj
+
+    def Polygon(self, **kargs):
+        """Factory of children :py:class:`evas.Polygon`.
+
+        :rtype: :py:class:`Polygon<evas.Polygon>`
+
+        """
+        obj = Polygon(self.evas, **kargs)
+        self.member_add(obj)
+        return obj
+
+    def Text(self, **kargs):
+        """Factory of children :py:class:`evas.Text`.
+
+        :rtype: :py:class:`Text<evas.Text>`
+
+        """
+        obj = Text(self.evas, **kargs)
+        self.member_add(obj)
+        return obj
+
+    def Textblock(self, **kargs):
+        """Factory of children :py:class:`evas.Textblock`.
+
+        :rtype: :py:class:`Textblock<evas.Textblock>`
+
+        """
+        obj = Textblock(self.evas, **kargs)
+        self.member_add(obj)
+        return obj
 
 _object_mapping_register("Evas_Smart", SmartObject)
 
-# cdef extern from "Evas.h": # hack to force type to be known
-#     cdef PyTypeObject PyEvasSmartObject_Type # hack to install metaclass
-# _install_metaclass(&PyEvasSmartObject_Type, EvasSmartObjectMeta)
 
 
 cdef class ClippedSmartObject(SmartObject):
@@ -839,6 +845,3 @@ cdef class ClippedSmartObject(SmartObject):
 
 _object_mapping_register("Evas_Smart_Clipped", ClippedSmartObject)
 
-# cdef extern from "Evas.h": # hack to force type to be known
-#     cdef PyTypeObject PyEvasClippedSmartObject_Type # hack to install metaclass
-# _install_metaclass(&PyEvasClippedSmartObject_Type, EvasSmartObjectMeta)
