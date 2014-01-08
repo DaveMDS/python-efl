@@ -280,6 +280,25 @@ cdef class Clock(LayoutClass):
     def first_interval_get(self):
         return elm_clock_first_interval_get(self.obj)
 
+    property pause:
+        """ The paused state of the clock widget
+
+        :type: bool
+
+        .. versionadded:: 1.9
+
+        """
+        def __get__(self):
+            return bool(elm_clock_pause_get(self.obj))
+
+        def __set__(self, value):
+            elm_clock_pause_set(self.obj, value)
+
+    def pause_set(self, value):
+        elm_clock_pause_set(self.obj, value)
+    def pause_get(self):
+        return bool(elm_clock_pause_get(self.obj))
+
     def callback_changed_add(self, func, *args, **kwargs):
         """The clock's user changed the time"""
         self._callback_add("changed", func, *args, **kwargs)

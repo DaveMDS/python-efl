@@ -15,3 +15,5 @@ cdef extern from "Elementary.h":
     Eina_Bool                elm_clock_show_seconds_get(Evas_Object *obj)
     void                     elm_clock_first_interval_set(Evas_Object *obj, double interval)
     double                   elm_clock_first_interval_get(Evas_Object *obj)
+    Eina_Bool                elm_clock_pause_get(Evas_Object *obj)
+    void                     elm_clock_pause_set(Evas_Object *obj, Eina_Bool pause)
