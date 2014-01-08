@@ -129,9 +129,46 @@ cdef class Mapbuf(Object):
 
     def auto_set(self, bint on):
         elm_mapbuf_auto_set(self.obj, on)
-
     def auto_get(self):
         return bool(elm_mapbuf_auto_get(self.obj))
+
+    def point_color_set(self, int idx, int r, int g, int b, int a):
+        """Set the color of a vertex in the mapbuf.
+
+        This sets the color of the vertex in the mapbuf. Colors will be linearly
+        interpolated between vertex points through the mapbuf. Color will multiply
+        the "texture" pixels (like GL_MODULATE in OpenGL). The default color of
+        a vertex in a mapbuf is white solid (255, 255, 255, 255) which means it will
+        have no affect on modifying the texture pixels.
+
+        :param idx: index of point to change. Must be smaller than mapbuf size.
+        :param r: red (0 - 255)
+        :param g: green (0 - 255)
+        :param b: blue (0 - 255)
+        :param a: alpha (0 - 255)
+
+        .. versionadded:: 1.9
+
+        """
+        elm_mapbuf_point_color_set(self.obj, idx, r, g, b, a)
+        
+    def point_color_get(self, int idx):
+        """Get the color on a vertex in the mapbuf.
+
+        This gets the color set by :py:func:`point_color_set()` on the given vertex
+        of the mapbuf.
+
+        :param idx: index of point to query. Must be smaller than mapbuf size.
+        :return: the color of the point
+        :rtype: tuple (r, g, b, a)
+
+        .. versionadded:: 1.9
+
+        """
+        cdef int r, g, b, a
+
+        elm_mapbuf_point_color_get(self.obj, idx, &r, &g, &b, &a)
+        return (r, g, b, a)
 
 
 _object_mapping_register("Elm_Mapbuf", Mapbuf)

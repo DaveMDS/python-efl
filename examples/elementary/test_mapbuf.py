@@ -110,6 +110,7 @@ def mapbuf_clicked(obj, item=None):
         tb.pack(pad, 6, 1, 1, 10)
 
         mb = Mapbuf(win, content=tb)
+        mb.point_color_set(k % 4, 255, 0, 0, 255)
         mb_list.append(mb)
         bx.pack_end(mb)
         mb.show()
