@@ -1,6 +1,6 @@
 from efl.eina cimport Eina_Bool, const_Eina_List
 from efl.evas cimport Evas_Object, const_Evas_Object
-from enums cimport Elm_Fileselector_Mode
+from enums cimport Elm_Fileselector_Mode, Elm_Fileselector_Sort
 from libc.string cimport const_char
 
 cdef extern from "Elementary.h":
@@ -26,3 +26,5 @@ cdef extern from "Elementary.h":
     void                    elm_fileselector_filters_clear(Evas_Object *obj)
     void                    elm_fileselector_hidden_visible_set(Evas_Object *obj, Eina_Bool visible)
     Eina_Bool               elm_fileselector_hidden_visible_get(const_Evas_Object *obj)
+    Elm_Fileselector_Sort   elm_fileselector_sort_method_get(const_Evas_Object *obj)
+    void                    elm_fileselector_sort_method_set(Evas_Object *obj, Elm_Fileselector_Sort method)

@@ -82,7 +82,61 @@ Fileselector modes
 
     Layout as a grid
 
+.. _Elm_Fileselector_Sort:
+
+Fileselector sort method
+========================
+
+.. data:: ELM_FILESELECTOR_SORT_BY_FILENAME_ASC
+
+    Sort by filename in ascending order
+
+    .. versionadded:: 1.9
+
+.. data:: ELM_FILESELECTOR_SORT_BY_FILENAME_DESC
+
+    Sort by filename in descending order
+
+    .. versionadded:: 1.9
+
+.. data:: ELM_FILESELECTOR_SORT_BY_TYPE_ASC
+
+    Sort by file type in ascending order
+
+    .. versionadded:: 1.9
+
+.. data:: ELM_FILESELECTOR_SORT_BY_TYPE_DESC
+
+    Sort by file type in descending order
+
+    .. versionadded:: 1.9
+
+.. data:: ELM_FILESELECTOR_SORT_BY_SIZE_ASC
+
+    Sort by file size in ascending order
+
+    .. versionadded:: 1.9
+
+.. data:: ELM_FILESELECTOR_SORT_BY_SIZE_DESC
+
+    Sort by file size in descending order
+
+    .. versionadded:: 1.9
+
+.. data:: ELM_FILESELECTOR_SORT_BY_MODIFIED_ASC
+
+    Sort by file modification date in ascending order
+
+    .. versionadded:: 1.9
+
+.. data:: ELM_FILESELECTOR_SORT_BY_MODIFIED_DESC
+
+    Sort by file modification date in descending order
+
+    .. versionadded:: 1.9
+
 """
+
 
 from cpython cimport PyUnicode_AsUTF8String
 from libc.stdint cimport uintptr_t
@@ -96,6 +150,16 @@ cimport enums
 
 ELM_FILESELECTOR_LIST = enums.ELM_FILESELECTOR_LIST
 ELM_FILESELECTOR_GRID = enums.ELM_FILESELECTOR_GRID
+
+ELM_FILESELECTOR_SORT_BY_FILENAME_ASC = enums.ELM_FILESELECTOR_SORT_BY_FILENAME_ASC
+ELM_FILESELECTOR_SORT_BY_FILENAME_DESC = enums.ELM_FILESELECTOR_SORT_BY_FILENAME_DESC
+ELM_FILESELECTOR_SORT_BY_TYPE_ASC = enums.ELM_FILESELECTOR_SORT_BY_TYPE_ASC
+ELM_FILESELECTOR_SORT_BY_TYPE_DESC = enums.ELM_FILESELECTOR_SORT_BY_TYPE_DESC
+ELM_FILESELECTOR_SORT_BY_SIZE_ASC = enums.ELM_FILESELECTOR_SORT_BY_SIZE_ASC
+ELM_FILESELECTOR_SORT_BY_SIZE_DESC = enums.ELM_FILESELECTOR_SORT_BY_SIZE_DESC
+ELM_FILESELECTOR_SORT_BY_MODIFIED_ASC = enums.ELM_FILESELECTOR_SORT_BY_MODIFIED_ASC
+ELM_FILESELECTOR_SORT_BY_MODIFIED_DESC = enums.ELM_FILESELECTOR_SORT_BY_MODIFIED_DESC
+ELM_FILESELECTOR_SORT_LAST = enums.ELM_FILESELECTOR_SORT_LAST
 
 def _cb_string_conv(uintptr_t addr):
     cdef const_char *s = <const_char *>addr
@@ -252,6 +316,25 @@ cdef class Fileselector(LayoutClass):
         elm_fileselector_mode_set(self.obj, mode)
     def mode_get(self):
         return elm_fileselector_mode_get(self.obj)
+
+    property sort_method:
+        """The way files are sorted in the fileselector.
+
+        :type: :ref:`Elm_Fileselector_Sort`
+
+        .. versionadded:: 1.9
+
+        """
+        def __get__(self):
+            return elm_fileselector_sort_method_get(self.obj)
+
+        def __set__(self, method):
+            elm_fileselector_sort_method_set(self.obj, method)
+
+    def sort_method_set(self, method):
+        elm_fileselector_sort_method_set(self.obj, method)
+    def sort_method_get(self):
+        return elm_fileselector_sort_method_get(self.obj)
 
     property multi_select:
         """Multi-selection in the file selector widget.

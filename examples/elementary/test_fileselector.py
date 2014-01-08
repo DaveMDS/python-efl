@@ -12,7 +12,7 @@ from efl.elementary.label import Label
 from efl.elementary.button import Button
 from efl.elementary.check import Check
 from efl.elementary.list import List
-from efl.elementary.fileselector import Fileselector
+from efl.elementary.fileselector import Fileselector, ELM_FILESELECTOR_SORT_LAST
 from efl.elementary.fileselector_button import FileselectorButton
 from efl.elementary.fileselector_entry import FileselectorEntry
 from efl.elementary.separator import Separator
@@ -46,6 +46,10 @@ def ck_cb_buttons(bt, fs):
     print("Toggle buttons_ok_cancel")
     fs.buttons_ok_cancel = not fs.buttons_ok_cancel
 
+def ck_cb_hidden(bt, fs):
+    print("Toggle hidden_visible")
+    fs.hidden_visible = not fs.hidden_visible
+
 def bt_cb_sel_get(bt, fs):
     print("Get Selected:" + fs.selected_get())
 
@@ -56,6 +60,9 @@ def bt_cb_mode_cycle(bt, fs):
     mode = fs.mode + 1
     fs.mode_set(mode if mode < 2 else 0)
 
+def bt_cb_sort_cycle(bt, fs):
+    sort_method = fs.sort_method + 1
+    fs.sort_method = sort_method if sort_method < ELM_FILESELECTOR_SORT_LAST else 0
 
 def fileselector_clicked(obj, item=None):
     win = StandardWindow("fileselector", "File selector test", autodel=True,
@@ -102,6 +109,11 @@ def fileselector_clicked(obj, item=None):
     hbox.pack_end(ck)
     ck.show()
 
+    ck = Check(win, text="hidden", state=fs.hidden_visible)
+    ck.callback_changed_add(ck_cb_hidden, fs)
+    hbox.pack_end(ck)
+    ck.show()
+
     hbox = Box(win, horizontal=True)
     vbox.pack_end(hbox)
     hbox.show()
@@ -118,6 +130,11 @@ def fileselector_clicked(obj, item=None):
 
     bt = Button(win, text="mode cycle")
     bt.callback_clicked_add(bt_cb_mode_cycle, fs)
+    hbox.pack_end(bt)
+    bt.show()
+
+    bt = Button(win, text="sort_method cycle")
+    bt.callback_clicked_add(bt_cb_sort_cycle, fs)
     hbox.pack_end(bt)
     bt.show()
 
