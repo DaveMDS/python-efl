@@ -1,6 +1,6 @@
 
 ----------------
-PYTHON-EFL 1.8.0
+PYTHON-EFL 1.8.1
 ----------------
 
 EFL is a collection of libraries for handling many common tasks a
@@ -15,6 +15,8 @@ For installation instruction see the INSTALL file.
 
 CHANGES FROM 1.7 to 1.8
 =======================
+
+See also changes.html.
 
 * added efl container package
 * ecore.file.Download => efl.ecore.FileDownload
