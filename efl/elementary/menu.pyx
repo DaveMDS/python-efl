@@ -79,8 +79,10 @@ cdef class MenuItem(ObjectItem):
 
     def add_to(self, Menu menu not None):
         # TODO: document this
-        cdef Elm_Object_Item *item, *parent_obj = NULL
-        cdef Evas_Smart_Cb cb = NULL
+        cdef:
+            Elm_Object_Item *item
+            Elm_Object_Item *parent_obj = NULL
+            Evas_Smart_Cb cb = NULL
 
         if self.cb_func is not None:
             cb = _object_item_callback2

@@ -109,8 +109,11 @@ cdef class NaviframeItem(ObjectItem):
 
     """An item for the Naviframe widget."""
 
-    cdef object label, item_style
-    cdef Evas_Object *prev_btn, *next_btn, *item_content
+    cdef:
+        object label, item_style
+        Evas_Object *prev_btn
+        Evas_Object *next_btn
+        Evas_Object *item_content
 
     def __cinit__(self):
         self.prev_btn = NULL

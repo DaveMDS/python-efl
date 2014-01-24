@@ -213,7 +213,9 @@ cdef class Edje(Object):
         :rtype: tuple of str
 
         """
-        cdef const_char *file, *group
+        cdef:
+            const_char *file
+            const_char *group
         edje_object_file_get(self.obj, &file, &group)
         return (_ctouni(file), _ctouni(group))
 

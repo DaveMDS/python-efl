@@ -590,9 +590,12 @@ cdef class Configuration(object):
 
         """
         def __get__(self):
-            cdef Eina_List *lst
-            cdef Elm_Text_Class *data
-            cdef const_char *name, *desc
+            cdef:
+                Eina_List *lst
+                Elm_Text_Class *data
+                const_char *name
+                const_char *desc
+
             ret = []
             lst = elm_config_text_classes_list_get()
             while lst:
@@ -617,10 +620,13 @@ cdef class Configuration(object):
 
         """
         def __get__(self):
-            cdef const_Eina_List *lst
-            cdef Elm_Font_Overlay *data
-            cdef const_char *text_class, *font
-            cdef Evas_Font_Size size
+            cdef:
+                const_Eina_List *lst
+                Elm_Font_Overlay *data
+                const_char *text_class
+                const_char *font
+                Evas_Font_Size size
+
             ret = []
             lst = elm_config_font_overlay_list_get()
             while lst:

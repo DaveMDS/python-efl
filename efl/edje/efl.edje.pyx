@@ -260,7 +260,9 @@ def color_class_del(color_class):
 
 
 def color_class_list():
-    cdef Eina_List *lst, *itr
+    cdef:
+        Eina_List *lst
+        Eina_List *itr
     ret = []
     lst = edje_color_class_list()
     itr = lst
@@ -290,7 +292,9 @@ def text_class_del(text_class):
 
 
 def text_class_list():
-    cdef Eina_List *lst, *itr
+    cdef:
+        Eina_List *lst
+        Eina_List *itr
     ret = []
     lst = edje_text_class_list()
     itr = lst

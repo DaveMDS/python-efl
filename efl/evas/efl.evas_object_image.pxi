@@ -192,7 +192,10 @@ cdef class Image(Object):
 
         """
         def __get__(self):
-            cdef const_char *file, *key
+            cdef:
+                const_char *file
+                const_char *key
+
             evas_object_image_file_get(self.obj, &file, &key)
             return (_ctouni(file), _ctouni(key))
 
@@ -223,7 +226,10 @@ cdef class Image(Object):
             raise EvasLoadError(err, filename, key)
 
     def file_get(self):
-        cdef const_char *file, *key
+        cdef:
+            const_char *file
+            const_char *key
+
         evas_object_image_file_get(self.obj, &file, &key)
         return (_ctouni(file), _ctouni(key))
 

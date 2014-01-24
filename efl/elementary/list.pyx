@@ -198,7 +198,8 @@ cdef class ListItem(ObjectItem):
     """An item for the list widget."""
     cdef:
         object label
-        Evas_Object *icon_obj, *end_obj
+        Evas_Object *icon_obj
+        Evas_Object *end_obj
 
     def __init__(self, label = None, evasObject icon = None,
         evasObject end = None, callback = None, cb_data = None, *args, **kargs):

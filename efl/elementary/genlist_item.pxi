@@ -161,7 +161,8 @@ cdef class GenlistItem(ObjectItem):
 
         """
         cdef:
-            Elm_Object_Item *item, *before
+            Elm_Object_Item *item
+            Elm_Object_Item *before
             Genlist genlist = before_item.widget
             Evas_Smart_Cb cb = NULL
 
@@ -195,7 +196,8 @@ cdef class GenlistItem(ObjectItem):
 
         """
         cdef:
-            Elm_Object_Item *item, *after
+            Elm_Object_Item *item
+            Elm_Object_Item *after
             Genlist genlist = after_item.widget
             Evas_Smart_Cb cb = NULL
 

@@ -141,9 +141,12 @@ def webcams_get():
     .. versionadded:: 1.8
 
     """
-    cdef const_Eina_List *lst, *itr
-    cdef Emotion_Webcam *cam
-    cdef const_char *name, *device
+    cdef:
+        const_Eina_List *lst
+        const_Eina_List *itr
+        Emotion_Webcam *cam
+        const_char *name
+        const_char *device
 
     ret = []
     lst = emotion_webcams_get()

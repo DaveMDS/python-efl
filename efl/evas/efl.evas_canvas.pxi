@@ -389,9 +389,12 @@ cdef class Canvas(Eo):
         :return: children objects.
         :rtype: List of :py:class:`efl.evas.Object`
         """
-        cdef Eina_List *objs, *itr
-        cdef int ip, ih
-        cdef Evas_Object *o
+        cdef:
+            Eina_List *objs
+            Eina_List *itr
+            int ip, ih
+            Evas_Object *o
+
         ip = include_pass_events_objects
         ih = include_hidden_objects
         objs = evas_objects_at_xy_get(self.obj, x, y, ip, ih)
@@ -419,9 +422,12 @@ cdef class Canvas(Eo):
         :return: children objects.
         :rtype: List of :py:class:`efl.evas.Object`
         """
-        cdef Eina_List *objs, *itr
-        cdef int ip, ih
-        cdef Evas_Object *o
+        cdef:
+            Eina_List *objs
+            Eina_List *itr
+            int ip, ih
+            Evas_Object *o
+
         ip = include_pass_events_objects
         ih = include_hidden_objects
         objs = evas_objects_in_rectangle_get(self.obj, x, y, w, h, ip, ih)
@@ -554,8 +560,11 @@ cdef class Canvas(Eo):
     def font_available_list(self):
         """:rtype: list of str"""
         # TODO: use list conv func
-        cdef void *p
-        cdef Eina_List *itr, *head
+        cdef:
+            void *p
+            Eina_List *itr
+            Eina_List *head
+
         lst = []
         p = <void*>evas_font_available_list(self.obj) # avoid warning
         head = <Eina_List*>p

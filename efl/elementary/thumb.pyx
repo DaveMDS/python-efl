@@ -236,7 +236,10 @@ cdef class Thumb(Object):
                 <const_char *>file_name if file_name is not None else NULL,
                 <const_char *>key if key is not None else NULL)
         def __get__(self):
-            cdef const_char *file_name, *key
+            cdef:
+                const_char *file_name
+                const_char *key
+
             elm_thumb_file_get(self.obj, &file_name, &key)
             return(_ctouni(file_name), _ctouni(key))
 
@@ -255,7 +258,10 @@ cdef class Thumb(Object):
 
         """
         def __get__(self):
-            cdef const_char *path, *key
+            cdef:
+                const_char *path
+                const_char *key
+
             elm_thumb_path_get(self.obj, &path, &key)
             return(_ctouni(path), _ctouni(key))
 

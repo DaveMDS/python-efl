@@ -115,7 +115,10 @@ cdef class Background(LayoutClass):
 
         """
         def __get__(self):
-            cdef const_char *filename, *group
+            cdef:
+                const_char *filename
+                const_char *group
+
             elm_bg_file_get(self.obj, &filename, &group)
             return (_ctouni(filename), _ctouni(group))
 
@@ -141,7 +144,10 @@ cdef class Background(LayoutClass):
             <const_char *>group if group is not None else NULL):
                 raise RuntimeError("Could not set background file.")
     def file_get(self):
-        cdef const_char *filename, *group
+        cdef:
+            const_char *filename
+            const_char *group
+
         elm_bg_file_get(self.obj, &filename, &group)
         return (_ctouni(filename), _ctouni(group))
 

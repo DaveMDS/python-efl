@@ -111,14 +111,18 @@ cdef extern from "Edje.h":
         double default "def", min, max, step
 
     ctypedef struct aux_external_param_info_string:
-        char *default "def", *accept_fmt, *deny_fmt
+        char *default "def"
+        char *accept_fmt
+        char *deny_fmt
 
     ctypedef struct aux_external_param_info_bool:
         unsigned int default "def"
-        char *false_str, *true_str
+        char *false_str
+        char *true_str
 
     ctypedef struct aux_external_param_info_choice:
-        char *default "def", **choices
+        char *default "def"
+        char **choices
 
     ctypedef union aux_external_param_info:
         aux_external_param_info_int i

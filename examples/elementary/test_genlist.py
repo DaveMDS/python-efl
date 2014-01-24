@@ -4,7 +4,7 @@
 import time
 import sys
 import os
-if sys.version_info < (3,): range = xrange
+#if sys.version_info < (3,): range = xrange
 
 from efl import evas
 from efl.evas import EVAS_HINT_EXPAND, EVAS_HINT_FILL, \

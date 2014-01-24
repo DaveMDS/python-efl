@@ -193,8 +193,11 @@ cdef class HoverselItem(ObjectItem):
                     a3)
 
         def __get__(self):
-            cdef const_char *icon_file, *icon_group
-            cdef Elm_Icon_Type icon_type
+            cdef:
+                const_char *icon_file
+                const_char *icon_group
+                Elm_Icon_Type icon_type
+
             if self.item == NULL:
                 a1 = self.icon_file.decode("UTF-8")
                 a2 = self.icon_group.decode("UTF-8")
@@ -218,8 +221,11 @@ cdef class HoverselItem(ObjectItem):
                 <const_char *>a2 if a2 is not None else NULL,
                 a3)
     def icon_get(self):
-        cdef const_char *icon_file, *icon_group
-        cdef Elm_Icon_Type icon_type
+        cdef:
+            const_char *icon_file
+            const_char *icon_group
+            Elm_Icon_Type icon_type
+
         if self.item == NULL:
             a1 = self.icon_file.decode("UTF-8")
             a2 = self.icon_group.decode("UTF-8")

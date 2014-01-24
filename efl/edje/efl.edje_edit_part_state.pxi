@@ -64,7 +64,10 @@ cdef class State:
                                          self.value))
     """
     def rel1_to_get(self):
-        cdef const_char  *tx, *ty
+        cdef:
+            const_char *tx
+            const_char *ty
+
         tx = edje_edit_state_rel1_to_x_get(self.edje.obj, self.part, self.name,
                                            self.value)
         ty = edje_edit_state_rel1_to_y_get(self.edje.obj, self.part, self.name,

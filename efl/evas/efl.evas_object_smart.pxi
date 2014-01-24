@@ -537,7 +537,10 @@ cdef class SmartObject(Object):
         Default implementation to delete all children.
 
         """
-        cdef Eina_List *lst, *itr
+        cdef:
+            Eina_List *lst
+            Eina_List *itr
+
         lst = evas_object_smart_members_get(self.obj)
         itr = lst
         while itr:

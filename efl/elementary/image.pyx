@@ -206,7 +206,10 @@ cdef class Image(Object):
                     raise RuntimeError("Could not set file.")
 
         def __get__(self):
-            cdef const_char *filename, *group
+            cdef:
+                const_char *filename
+                const_char *group
+
             elm_image_file_get(self.obj, &filename, &group)
             return (_ctouni(filename), _ctouni(group))
 
@@ -218,7 +221,10 @@ cdef class Image(Object):
             <const_char *>group if group is not None else NULL):
                 raise RuntimeError("Could not set file.")
     def file_get(self):
-        cdef const_char *filename, *group
+        cdef:
+            const_char *filename
+            const_char *group
+
         elm_image_file_get(self.obj, &filename, &group)
         return (_ctouni(filename), _ctouni(group))
 

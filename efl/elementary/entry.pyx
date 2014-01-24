@@ -604,7 +604,8 @@ cdef class EntryContextMenuItem(object):
         """
         def __get__(self):
             cdef:
-                const_char *icon_file, *icon_group
+                const_char *icon_file
+                const_char *icon_group
                 Elm_Icon_Type icon_type
             elm_entry_context_menu_item_icon_get(self.item,
                 &icon_file,
