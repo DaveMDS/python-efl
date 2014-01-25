@@ -74,6 +74,19 @@ are:
 
 - ``button icon`` - Button icon of the fileselector_entry
 
+Fileselector Interface
+======================
+
+This widget supports the fileselector interface.
+
+If you wish to control the fileselector part using these functions,
+inherit both the widget class and the
+:py:class:`~efl.elementary.fileselector.Fileselector` class
+using multiple inheritance, for example::
+
+    class CustomFileselectorButton(Fileselector, FileselectorButton):
+        def __init__(self, canvas, *args, **kwargs):
+            FileselectorButton.__init__(self, canvas)
 
 """
 
@@ -84,6 +97,14 @@ from efl.eo cimport _object_mapping_register
 from efl.utils.conversions cimport _ctouni
 from efl.evas cimport Object as evasObject
 from layout_class cimport LayoutClass
+
+from efl.utils.deprecated cimport DEPRECATED
+from fileselector cimport elm_fileselector_path_set, \
+    elm_fileselector_path_get, elm_fileselector_expandable_set, \
+    elm_fileselector_expandable_get, elm_fileselector_folder_only_set, \
+    elm_fileselector_folder_only_get, elm_fileselector_is_save_set, \
+    elm_fileselector_is_save_get, elm_fileselector_selected_set, \
+    elm_fileselector_selected_get
 
 cimport enums
 
@@ -160,107 +181,6 @@ cdef class FileselectorEntry(LayoutClass):
         elm_fileselector_entry_window_size_get(self.obj, &w, &h)
         return (w, h)
 
-    property path:
-        """The initial file system path and the entry's path string for
-        a given file selector entry widget
-
-        It must be a **directory** path, which will have the contents
-        displayed initially in the file selector's view. The default initial
-        path is the ``"HOME"`` environment variable's value.
-
-        :type: string
-
-        """
-        def __get__(self):
-            return _ctouni(elm_fileselector_entry_path_get(self.obj))
-
-        def __set__(self, path):
-            if isinstance(path, unicode): path = PyUnicode_AsUTF8String(path)
-            elm_fileselector_entry_path_set(self.obj,
-                <const_char *>path if path is not None else NULL)
-
-    def path_set(self, path):
-        if isinstance(path, unicode): path = PyUnicode_AsUTF8String(path)
-        elm_fileselector_entry_path_set(self.obj,
-            <const_char *>path if path is not None else NULL)
-    def path_get(self):
-        return _ctouni(elm_fileselector_entry_path_get(self.obj))
-
-    property expandable:
-        """Enable/disable a tree view in the given file selector entry
-        widget's internal file selector
-
-        This has the same effect as
-        :py:attr:`efl.elementary.fileselector.Fileselector.expandable`,
-        but now applied to a file selector entry's internal file
-        selector.
-
-        .. note:: There's no way to put a file selector entry's internal
-            file selector in "grid mode", as one may do with "pure" file
-            selectors.
-
-        :type: bool
-
-        """
-        def __get__(self):
-            return bool(elm_fileselector_entry_expandable_get(self.obj))
-
-        def __set__(self, expand):
-            elm_fileselector_entry_expandable_set(self.obj, expand)
-
-    def expandable_set(self, expand):
-        elm_fileselector_entry_expandable_set(self.obj, expand)
-    def expandable_get(self):
-        return bool(elm_fileselector_entry_expandable_get(self.obj))
-
-    property folder_only:
-        """Whether a given file selector entry widget's internal file
-        selector is to display folders only or the directory contents,
-        as well.
-
-        This has the same effect as
-        :py:attr:`efl.elementary.fileselector.Fileselector.folder_only`,
-        but now applied to a file selector entry's internal file
-        selector.
-
-        :type: bool
-
-        """
-        def __get__(self):
-            return bool(elm_fileselector_entry_folder_only_get(self.obj))
-
-        def __set__(self, folder_only):
-            elm_fileselector_entry_folder_only_set(self.obj, folder_only)
-
-    def folder_only_set(self, folder_only):
-        elm_fileselector_entry_folder_only_set(self.obj, folder_only)
-    def folder_only_get(self):
-        return bool(elm_fileselector_entry_folder_only_get(self.obj))
-
-    property is_save:
-        """Enable/disable the file name entry box where the user can type
-        in a name for a file, in a given file selector entry widget's
-        internal file selector.
-
-        This has the same effect as
-        :py:attr:`efl.elementary.fileselector.Fileselector.is_save`,
-        but now applied to a file selector entry's internal file
-        selector.
-
-        :type: bool
-
-        """
-        def __get__(self):
-            return bool(elm_fileselector_entry_is_save_get(self.obj))
-
-        def __set__(self, is_save):
-            elm_fileselector_entry_is_save_set(self.obj, is_save)
-
-    def is_save_set(self, is_save):
-        elm_fileselector_entry_is_save_set(self.obj, is_save)
-    def is_save_get(self):
-        return bool(elm_fileselector_entry_is_save_get(self.obj))
-
     property inwin_mode:
         """Whether a given file selector entry widget's internal file
         selector will raise an Elementary "inner window", instead of a
@@ -284,31 +204,120 @@ cdef class FileselectorEntry(LayoutClass):
     def inwin_mode_get(self):
         return bool(elm_fileselector_entry_inwin_mode_get(self.obj))
 
-    property selected:
-        """The initial file system path for a given file selector entry
-        widget
 
-        It must be a **directory** path, which will have the contents
-        displayed initially in the file selector's view. The default initial
-        path is the ``"HOME"`` environment variable's value.
+    property path:
+        """
 
-        :type: string
+        :see: :py:attr:`~efl.elementary.fileselector.Fileselector.path`
+
+        .. deprecated:: 1.9
+            Combine with Fileselector class instead
 
         """
         def __get__(self):
-            return _ctouni(elm_fileselector_entry_selected_get(self.obj))
+            return self.path_get()
+
+        def __set__(self, path):
+            self.path_set(path)
+
+    @DEPRECATED("1.9", "Combine with Fileselector class instead")
+    def path_set(self, path):
+        if isinstance(path, unicode): path = PyUnicode_AsUTF8String(path)
+        elm_fileselector_path_set(self.obj,
+            <const_char *>path if path is not None else NULL)
+    @DEPRECATED("1.9", "Combine with Fileselector class instead")
+    def path_get(self):
+        return _ctouni(elm_fileselector_path_get(self.obj))
+
+    property expandable:
+        """
+
+        :see: :py:attr:`~efl.elementary.fileselector.Fileselector.expandable`
+
+        .. deprecated:: 1.9
+            Combine with Fileselector class instead
+
+        """
+        def __get__(self):
+            return self.expandable_get()
+
+        def __set__(self, expand):
+            self.expandable_set(expand)
+
+    @DEPRECATED("1.9", "Combine with Fileselector class instead")
+    def expandable_set(self, expand):
+        elm_fileselector_expandable_set(self.obj, expand)
+    @DEPRECATED("1.9", "Combine with Fileselector class instead")
+    def expandable_get(self):
+        return bool(elm_fileselector_expandable_get(self.obj))
+
+    property folder_only:
+        """
+
+        :see: :py:attr:`~efl.elementary.fileselector.Fileselector.folder_only`
+
+        .. deprecated:: 1.9
+            Combine with Fileselector class instead
+
+        """
+        def __get__(self):
+            return self.folder_only_get()
+
+        def __set__(self, folder_only):
+            self.folder_only_set(folder_only)
+
+    @DEPRECATED("1.9", "Combine with Fileselector class instead")
+    def folder_only_set(self, folder_only):
+        elm_fileselector_folder_only_set(self.obj, folder_only)
+    @DEPRECATED("1.9", "Combine with Fileselector class instead")
+    def folder_only_get(self):
+        return bool(elm_fileselector_folder_only_get(self.obj))
+
+    property is_save:
+        """
+
+        :see: :py:attr:`~efl.elementary.fileselector.Fileselector.is_save`
+
+        .. deprecated:: 1.9
+            Combine with Fileselector class instead
+
+        """
+        def __get__(self):
+            return self.is_save_get()
+
+        def __set__(self, is_save):
+            self.is_save_set(is_save)
+
+    @DEPRECATED("1.9", "Combine with Fileselector class instead")
+    def is_save_set(self, is_save):
+        elm_fileselector_is_save_set(self.obj, is_save)
+    @DEPRECATED("1.9", "Combine with Fileselector class instead")
+    def is_save_get(self):
+        return bool(elm_fileselector_is_save_get(self.obj))
+
+    property selected:
+        """
+
+        :see: :py:attr:`~efl.elementary.fileselector.Fileselector.selected`
+
+        .. deprecated:: 1.9
+            Combine with Fileselector class instead
+
+        """
+        def __get__(self):
+            return _ctouni(elm_fileselector_selected_get(self.obj))
 
         def __set__(self, path):
             if isinstance(path, unicode): path = PyUnicode_AsUTF8String(path)
-            elm_fileselector_entry_selected_set(self.obj,
+            elm_fileselector_selected_set(self.obj,
                 <const_char *>path if path is not None else NULL)
 
     def selected_set(self, path):
         if isinstance(path, unicode): path = PyUnicode_AsUTF8String(path)
-        elm_fileselector_entry_selected_set(self.obj,
+        elm_fileselector_selected_set(self.obj,
             <const_char *>path if path is not None else NULL)
     def selected_get(self):
-        return _ctouni(elm_fileselector_entry_selected_get(self.obj))
+        return _ctouni(elm_fileselector_selected_get(self.obj))
 
     def callback_changed_add(self, func, *args, **kwargs):
         """The text within the entry was changed."""
@@ -317,10 +326,16 @@ cdef class FileselectorEntry(LayoutClass):
     def callback_changed_del(self, func):
         self._callback_del("changed", func)
 
+    @DEPRECATED("1.9", "Combine with Fileselector class instead")
     def callback_activated_add(self, func, *args, **kwargs):
-        """The entry has had editing finished and changes are to be committed."""
+        """callback_activated_add(func)
+
+        :see: :py:meth:`~efl.elementary.fileselector.Fileselector.callback_activated_add`
+
+        """
         self._callback_add("activated", func, *args, **kwargs)
 
+    @DEPRECATED("1.9", "Combine with Fileselector class instead")
     def callback_activated_del(self, func):
         self._callback_del("activated", func)
 

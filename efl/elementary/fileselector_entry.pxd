@@ -1,5 +1,4 @@
 from efl.evas cimport Eina_Bool, Evas_Object, Evas_Coord
-from enums cimport Elm_Fileselector_Mode
 from libc.string cimport const_char
 
 cdef extern from "Elementary.h":
@@ -8,16 +7,5 @@ cdef extern from "Elementary.h":
     const_char *            elm_fileselector_entry_window_title_get(Evas_Object *obj)
     void                    elm_fileselector_entry_window_size_set(Evas_Object *obj, Evas_Coord width, Evas_Coord height)
     void                    elm_fileselector_entry_window_size_get(Evas_Object *obj, Evas_Coord *width, Evas_Coord *height)
-    void                    elm_fileselector_entry_path_set(Evas_Object *obj, const_char *path)
-    const_char *            elm_fileselector_entry_path_get(Evas_Object *obj)
-    void                    elm_fileselector_entry_expandable_set(Evas_Object *obj, Eina_Bool value)
-    Eina_Bool               elm_fileselector_entry_expandable_get(Evas_Object *obj)
-    void                    elm_fileselector_entry_folder_only_set(Evas_Object *obj, Eina_Bool value)
-    Eina_Bool               elm_fileselector_entry_folder_only_get(Evas_Object *obj)
-    void                    elm_fileselector_entry_is_save_set(Evas_Object *obj, Eina_Bool value)
-    Eina_Bool               elm_fileselector_entry_is_save_get(Evas_Object *obj)
     void                    elm_fileselector_entry_inwin_mode_set(Evas_Object *obj, Eina_Bool value)
     Eina_Bool               elm_fileselector_entry_inwin_mode_get(Evas_Object *obj)
-    void                    elm_fileselector_entry_selected_set(Evas_Object *obj, const_char *path)
-    const_char *            elm_fileselector_entry_selected_get(Evas_Object *obj)
-
