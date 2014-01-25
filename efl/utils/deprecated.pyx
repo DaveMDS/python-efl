@@ -39,8 +39,25 @@ cdef class DEPRECATED(object):
         update_wrapper(wrapper, f, assigned=assignments)
 
         # Version is required for the deprecated directive
-        if wrapper.__doc__ is not None and self.version is not None:
-            wrapper.__doc__ += "\n\n.. deprecated:: %s\n    %s\n" % (self.version, self.message)
+
+        doc = wrapper.__doc__
+
+        if doc is not None and self.version is not None:
+            lines = doc.expandtabs().splitlines()
+
+            indent = 0
+            if len(lines) >= 2:
+                for line in lines[1:]:
+                    stripped = line.lstrip()
+                    if stripped:
+                        indent = len(line) - len(stripped)
+                        break
+
+            wrapper.__doc__ += "\n\n"
+
+            wrapper.__doc__ += indent * " " + ".. deprecated:: %s\n" % (self.version,)
+
+            wrapper.__doc__ += (indent + 4) * " " + "%s\n" % (self.message,)
 
         return wrapper
 
