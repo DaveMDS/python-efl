@@ -1490,6 +1490,39 @@ cdef class Object(evasObject):
     def tooltip_window_mode_get(self):
         return bool(elm_object_tooltip_window_mode_get(self.obj))
 
+    def tooltip_move_freeze_push(self):
+        """tooltip_move_freeze_push()
+
+        This increments the tooltip movement freeze count by one. If the count
+        is more than 0, the tooltip position will be fixed.
+
+        .. versionadded:: 1.9
+
+        """
+        elm_object_tooltip_move_freeze_push(self.obj)
+
+    def tooltip_move_freeze_pop(self):
+        """tooltip_move_freeze_pop()
+
+        This decrements the tooltip freeze count by one. If the count
+        is more than 0, the tooltip position will be fixed.
+
+        .. versionadded:: 1.9
+
+        """
+        elm_object_tooltip_move_freeze_pop(self.obj)
+
+    def tooltip_move_freeze_get(self):
+        """tooltip_move_freeze_get()
+
+        Get the movement freeze count of the object
+
+        .. versionadded:: 1.9
+
+        """
+        return elm_object_tooltip_move_freeze_get(self.obj)
+
+
     #Translatable text
     @DEPRECATED("1.8", "Use :py:func:`domain_translatable_part_text_set` instead.")
     def domain_translatable_text_part_set(self, part, domain, text):
