@@ -20,9 +20,18 @@ def cb_slide_radio(radio, lb):
     lb.style = radio.text
 
 def cb_slider_duration(slider, lb):
-    lb.slide = False
     lb.slide_duration = slider.value
-    lb.slide = True
+    lb.slide_go()
+
+    sl_spd = lb.data["slider_speed"]
+    sl_spd.value = lb.slide_speed
+
+def cb_slider_speed(slider, lb):
+    lb.slide_speed = slider.value
+    lb.slide_go()
+
+    sl_dur = lb.data["slider_duration"]
+    sl_dur.value = lb.slide_duration
 
 def label_clicked(obj):
     win = StandardWindow("label", "Label test", autodel=True, size=(280, 400))
@@ -85,49 +94,60 @@ def label_clicked(obj):
     gd.pack(lb, 5, 15, 90, 15)
     lb.show()
 
-    lb = Label(win, "Test Label Slide:", size_hint_align=(0.0, 0.5))
-    gd.pack(lb, 5, 40, 90, 15)
+    lb = Label(win, text="Test Label Slide:", size_hint_align=(0.0, 0.5))
+    gd.pack(lb, 5, 30, 90, 15)
     lb.show()
 
+
     rect = Rectangle(win.evas, color=(255, 125, 125, 255))
-    gd.pack(rect, 5, 50, 90, 15)
+    gd.pack(rect, 5, 40, 90, 15)
     rect.show()
 
     lb = Label(win, slide_mode=ELM_LABEL_SLIDE_MODE_AUTO, style="slide_short",
-        size_hint_align=(0.0, 0.5))
+                    size_hint_align=(0.0, 0.5), slide_duration=15)
     lb.text = "This is a label set to slide. " \
               "If set slide to true the text of the label " \
               "will slide/scroll through the length of label." \
               "This only works with the themes \"slide_short\", " \
               "\"slide_long\" and \"slide_bounce\"."
-    gd.pack(lb, 5, 50, 90, 15)
+    gd.pack(lb, 5, 40, 90, 15)
     lb.show()
 
     rd = Radio(win, state_value=1, text="slide_short")
-    gd.pack(rd, 5, 65, 30, 15)
+    gd.pack(rd, 5, 55, 30, 15)
     rd.callback_changed_add(cb_slide_radio, lb)
     rd.show()
     rdg = rd
 
     rd = Radio(win, state_value=2, text="slide_long")
     rd.group_add(rdg)
-    gd.pack(rd, 35, 65, 30, 15)
+    gd.pack(rd, 35, 55, 30, 15)
     rd.callback_changed_add(cb_slide_radio, lb)
     rd.show()
 
     rd = Radio(win, state_value=3, text="slide_bounce")
     rd.group_add(rdg)
-    gd.pack(rd, 65, 65, 30, 15)
+    gd.pack(rd, 65, 55, 30, 15)
     rd.callback_changed_add(cb_slide_radio, lb)
     rd.show()
 
-    sl = Slider(win, text="Slide Duration", unit_format="%1.1f units",
-        min_max=(1, 20), value=10, size_hint_align=FILL_HORIZ,
-        size_hint_weight=EXPAND_HORIZ)
-    sl.callback_changed_add(cb_slider_duration, lb)
-    gd.pack(sl, 5, 80, 90, 15)
-    sl.show()
+    sl_dur = Slider(win, text="Slide Duration", unit_format="%1.1f secs",
+                    min_max=(1, 40), value=15, size_hint_align=FILL_HORIZ,
+                    size_hint_weight=EXPAND_HORIZ)
+    sl_dur.callback_changed_add(cb_slider_duration, lb)
+    gd.pack(sl_dur, 5, 70, 90, 15)
+    sl_dur.show()
 
+    sl_spd = Slider(win, text="Slide Speed", unit_format="%1.1f px/sec",
+        min_max=(10, 300), value=10, size_hint_align=FILL_HORIZ,
+        size_hint_weight=EXPAND_HORIZ)
+    sl_spd.callback_changed_add(cb_slider_speed, lb)
+    gd.pack(sl_spd, 5, 80, 90, 15)
+    sl_spd.show()
+
+    lb.data["slider_duration"] = sl_dur
+    lb.data["slider_speed"] = sl_spd
+    
     win.show()
 
 

@@ -215,6 +215,10 @@ cdef class Label(LayoutClass):
 
         :type: float
 
+        .. note:: If you set the speed of the slide using :py:attr:`slide_speed`
+                  you cannot get the correct duration using this function until
+                  the label is actually rendered and resized.
+
         """
         def __get__(self):
             return elm_label_slide_duration_get(self.obj)
@@ -226,6 +230,29 @@ cdef class Label(LayoutClass):
         elm_label_slide_duration_set(self.obj, duration)
     def slide_duration_get(self):
         return elm_label_slide_duration_get(self.obj)
+
+    property slide_speed:
+        """The speed of the slide animation in px per seconds
+
+        :type: float
+
+        .. note:: If you set the duration of the slide using :py:attr:`slide_duration`
+                  you cannot get the correct speed using this function until
+                  the label is actually rendered and resized.
+
+        .. versionadded:: 1.9
+
+        """
+        def __get__(self):
+            return elm_label_slide_speed_get(self.obj)
+
+        def __set__(self, speed):
+            elm_label_slide_speed_set(self.obj, speed)
+
+    def slide_speed_set(self, speed):
+        elm_label_slide_speed_set(self.obj, speed)
+    def slide_speed_get(self):
+        return elm_label_slide_speed_get(self.obj)
 
     # TODO: What the heck does this do?
     # property slide_area_limit:

@@ -11,6 +11,8 @@ cdef extern from "Elementary.h":
     Eina_Bool             elm_label_ellipsis_get(Evas_Object *obj)
     void                  elm_label_slide_duration_set(Evas_Object *obj, double duration)
     double                elm_label_slide_duration_get(Evas_Object *obj)
+    void                  elm_label_slide_speed_set(Evas_Object *obj, double speed)
+    double                elm_label_slide_speed_get(Evas_Object *obj)
 # TODO:    void                    elm_label_slide_area_limit_set(Evas_Object *obj, Eina_Bool limit)
     void                  elm_label_slide_mode_set(Evas_Object *obj, Elm_Label_Slide_Mode mode)
     Elm_Label_Slide_Mode  elm_label_slide_mode_get(const_Evas_Object *obj)
