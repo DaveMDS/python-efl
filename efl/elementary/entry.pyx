@@ -250,6 +250,8 @@ This widget emits the following signals:
 - ``preedit,changed``: The preedit string has changed.
 - ``language,changed``: Program language changed.
 - ``text,set,done``: Whole text has been set to the entry.
+- ``rejected``: .Called when some of inputs are rejected by the filter. (since 1.9)
+
 
 Default content parts of the entry items that you can use for are:
 
@@ -2231,6 +2233,17 @@ cdef class Entry(LayoutClass):
 
     def callback_text_set_done_del(self, func):
         self._callback_del("text,set,done", func)
+
+    def callback_rejected_add(self, func, *args, **kwargs):
+        """Called when some of inputs are rejected by the filter.
+
+        .. versionadded:: 1.9
+
+        """
+        self._callback_add("rejected", func, *args, **kwargs)
+
+    def callback_text_set_done_del(self, func):
+        self._callback_del("rejected", func)
 
 
     property scrollbar_policy:
