@@ -1099,6 +1099,21 @@ cdef class Entry(LayoutClass):
         This selects all text within the entry."""
         elm_entry_select_all(self.obj)
 
+    def select_region_set(self, int start, int end):
+        """select_region_set()
+
+        This selects a region of text within the entry.
+
+        :param start: The starting position
+        :type start: int
+        :param end: The ending position
+        :type end: int
+
+        .. versionadded: 1.9
+
+        """
+        elm_entry_select_region_set(self.obj, start, end)
+
     def cursor_next(self):
         """cursor_next()
 
