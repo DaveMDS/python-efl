@@ -32,12 +32,23 @@ class MovieWindow(edje.Edje):
         self.vid.file = media_file
         self.vid.smooth_scale = True
         self.vid.play = True
+        self.vid.audio_volume = 0.5
+
+        if options.position:
+            self.vid.last_position_load()
 
         # edje scene object
+        if options.reflex:
+            group = "video_controller/reflex"
+        else:
+            group = "video_controller"
         edje.Edje.__init__(self, canvas, size=(320, 240),
-                           file=theme_file, group="video_controller")
-        self.part_drag_value_set("video_speed", 0.0, 1.0)
-        self.part_text_set("video_speed_txt", "1.0")
+                           file=theme_file, group=group)
+        self.part_drag_value_set("video_alpha", 0.0, 1.0)
+        self.part_text_set("video_alpha_txt", "alpha 255")
+        self.part_drag_value_set("video_volume", 0.0, 0.5)
+        self.part_text_set("video_volume_txt", "vol 0.50")
+        
         self.part_swallow("video_swallow", self.vid)
         self.data["moving"] = False
         self.data["resizing"] = False
@@ -69,8 +80,10 @@ class MovieWindow(edje.Edje):
                                   self.frame_signal_stop_cb)
         self.signal_callback_add("drag", "video_progress",
                                   self.frame_signal_jump_cb)
-        self.signal_callback_add("drag", "video_speed",
+        self.signal_callback_add("drag", "video_alpha",
                                   self.frame_signal_alpha_cb)
+        self.signal_callback_add("drag", "video_volume",
+                                  self.frame_signal_volume_cb)
 
         self.signal_callback_add("frame_move", "start",
                                   self.frame_signal_move_start_cb)
@@ -91,12 +104,12 @@ class MovieWindow(edje.Edje):
         pos = vid.position
         length = vid.play_length
         lh = length / 3600
-        lm = length / 60 - (lh * 60)
-        ls = length - (lm * 60)
+        lm = (length % 3600) / 60
+        ls = length % 60
         ph = pos / 3600
-        pm = pos / 60 - (ph * 60)
-        ps = pos - (pm * 60)
-        pf = pos * 100 - (ps * 100) - (pm * 60 * 100) - (ph * 60 * 60 * 100)
+        pm = (pos % 3600) / 60
+        ps = pos % 60
+        pf = (pos % 1) * 100
         buf = "%i:%02i:%02i.%02i / %i:%02i:%02i" % (ph, pm, ps, pf, lh, lm, ls)
         self.part_text_set("video_progress_txt", buf)
         if length > 0:
@@ -124,8 +137,13 @@ class MovieWindow(edje.Edje):
     def frame_signal_alpha_cb(self, frame, emission, source):
         x, y = frame.part_drag_value_get(source)
         spd = int(255 * y)
-        frame.color = (spd, spd, spd, spd)
-        frame.part_text_set("video_speed_txt", "%0.0f" % spd)
+        self.vid.color = (spd, spd, spd, spd)
+        frame.part_text_set("video_alpha_txt", "alpha %0.0f" % spd)
+
+    def frame_signal_volume_cb(self, frame, emission, source):
+        x, vol = frame.part_drag_value_get(source)
+        self.vid.audio_volume = vol
+        frame.part_text_set("video_volume_txt", "vol %.2f" % vol)
 
     def frame_signal_move_start_cb(self, frame, emission, source):
         self.data["moving"] = True
@@ -174,8 +192,9 @@ class MovieWindow(edje.Edje):
             self.size = (w, h)
 
     def vid_decode_stop_cb(self, vid):
-        vid.position = 0.0
-        vid.play = True
+        if options.loop:
+            vid.position = 0.0
+            vid.play = True
 
     def vid_channels_change_cb(self, vid):
         print("Channels: %d audio, %d video, %d spu" % \
@@ -320,13 +339,23 @@ def cmdline_parse():
                       action="callback", callback=parse_geometry,
                       default=(800, 600),
                       help="use given window geometry")
+    engines = ("gstreamer1", "vlc", "gstreamer", "xine")
     parser.add_option("-e", "--engine", type="choice",
-                      choices=("xine", "gstreamer", "vlc"), default="gstreamer",
-                      help=("multimedia engine to use (xine, gstreamer or vlc) "
-                            "default=%default") )
+                      choices=engines, default=engines[0],
+                      help=("multimedia engine to use {} "
+                            "default=%default").format(engines) )
     parser.add_option("-w", "--webcams", action="store_true",
                       default=False,
-                      help=("show all the available webcams streams") )
+                      help=("show all the available v4l streams") )
+    parser.add_option("-r", "--reflex", action="store_true",
+                      default=False,
+                      help=("show video reflex effect") )
+    parser.add_option("-l", "--loop", action="store_true",
+                      default=False,
+                      help=("restart the video when end reached") )
+    parser.add_option("-p", "--position", action="store_true",
+                      default=False,
+                      help=("start the video from last know position") )
     options, args = parser.parse_args()
     if not args and not options.webcams:
         parser.error("missing filename or the -w option")
