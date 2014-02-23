@@ -133,6 +133,9 @@ cdef extern from "Elementary.h":
     void                    elm_entry_input_panel_return_key_disabled_set(Evas_Object *obj, Eina_Bool disabled)
     Eina_Bool               elm_entry_input_panel_return_key_disabled_get(Evas_Object *obj)
     void                    elm_entry_input_panel_return_key_autoenabled_set(Evas_Object *obj, Eina_Bool disabled)
+    Eina_Bool               elm_entry_input_panel_show_on_demand_get(const_Evas_Object *obj)
+    void                    elm_entry_input_panel_show_on_demand_set(Evas_Object *obj, Eina_Bool ondemand)
+
     void                    elm_entry_imf_context_reset(Evas_Object *obj)
     void                    elm_entry_prediction_allow_set(Evas_Object *obj, Eina_Bool allow)
     Eina_Bool               elm_entry_prediction_allow_get(Evas_Object *obj)

@@ -1647,6 +1647,28 @@ cdef class Entry(LayoutClass):
     def input_panel_layout_variation_get(self):
         return elm_entry_input_panel_layout_variation_get(self.obj)
 
+    property input_panel_show_on_demand:
+        """Input panel show on demand.
+
+        Set the attribute to show the input panel in case of only
+        an user's explicit Mouse Up event.
+
+        :type: bool
+
+        .. versionadded:: 1.9
+
+        """
+        def __set__(self, ondemand):
+            elm_entry_input_panel_show_on_demand_set(self.obj, ondemand)
+
+        def __get__(self):
+            return bool(elm_entry_input_panel_show_on_demand_get(self.obj))
+
+    def input_panel_show_on_demand_set(self, ondemand):
+        elm_entry_input_panel_show_on_demand_set(self.obj, ondemand)
+    def input_panel_show_on_demand_get(self):
+        return bool(elm_entry_input_panel_show_on_demand_get(self.obj))
+
     property autocapital_type:
         """Autocapitalization type on the immodule.
 
