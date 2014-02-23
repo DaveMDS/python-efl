@@ -514,6 +514,7 @@ cdef extern from "Elementary.h":
         ELM_WEB_ZOOM_MODE_AUTO_FILL
 
     ctypedef enum Elm_Win_Type:
+        ELM_WIN_UNKNOWN
         ELM_WIN_BASIC
         ELM_WIN_DIALOG_BASIC
         ELM_WIN_DESKTOP

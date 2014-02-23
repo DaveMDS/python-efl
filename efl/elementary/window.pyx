@@ -111,6 +111,10 @@ Enumerations
 Window types
 ============
 
+.. data:: ELM_WIN_UNKNOWN
+
+    Unknown window type (since 1.9)
+
 .. data:: ELM_WIN_BASIC
 
     A normal window.
@@ -363,6 +367,7 @@ from efl.evas cimport Evas, evas_object_evas_get, Image as evasImage
 
 cimport enums
 
+ELM_WIN_UNKNOWN = enums.ELM_WIN_UNKNOWN
 ELM_WIN_BASIC = enums.ELM_WIN_BASIC
 ELM_WIN_DIALOG_BASIC = enums.ELM_WIN_DIALOG_BASIC
 ELM_WIN_DESKTOP = enums.ELM_WIN_DESKTOP
@@ -498,6 +503,19 @@ cdef class Window(Object):
             <const_char *>title if title is not None else NULL)
     def title_get(self):
         return _ctouni(elm_win_title_get(self.obj))
+
+    def type_get(self):
+        """type_get()
+
+        Get the type of a window.
+
+        :return: The type of the window
+        :return type: Elm_Win_Type
+
+        .. versionadded: 1.9
+        
+        """
+        return elm_win_type_get(self.obj)
 
     property icon_name:
         """The icon name of the window.

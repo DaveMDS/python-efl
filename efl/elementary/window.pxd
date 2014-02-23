@@ -18,6 +18,7 @@ cdef extern from "Elementary.h":
     void                     elm_win_resize_object_del(Evas_Object *obj, Evas_Object* subobj)
     void                     elm_win_title_set(Evas_Object *obj, const_char *title)
     const_char *             elm_win_title_get(Evas_Object *obj)
+    Elm_Win_Type             elm_win_type_get(Evas_Object *obj)
     void                     elm_win_icon_name_set(Evas_Object *obj, const_char *icon_name)
     const_char *             elm_win_icon_name_get(Evas_Object *obj)
     void                     elm_win_role_set(Evas_Object *obj, const_char *role)
