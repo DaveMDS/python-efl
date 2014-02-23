@@ -40,6 +40,7 @@ This widget emits the following signals, besides the ones sent from
 - ``selected`` - an item in the hoversel list is selected. event_info
   is the item
 - ``dismissed`` - the hover is dismissed
+- ``expanded`` - the hover is expanded (since 1.9)
 
 Default content parts of the hoversel widget that you can use for are:
 
@@ -390,6 +391,17 @@ cdef class Hoversel(Button):
 
     def callback_dismissed_del(self, func):
         self._callback_del("dismissed", func)
+
+    def callback_expanded_add(self, func, *args, **kwargs):
+        """The hover is expanded.
+        
+        .. versionadded:: 1.9
+
+        """
+        self._callback_add("expanded", func, *args, **kwargs)
+
+    def callback_expanded_del(self, func):
+        self._callback_del("expanded", func)
 
 
 _object_mapping_register("Elm_Hoversel", Hoversel)
