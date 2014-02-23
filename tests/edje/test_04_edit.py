@@ -52,7 +52,7 @@ class TestEdjeEditGeneral(unittest.TestCase):
 
     def testGeneral(self):
         self.assertEqual(self.o.compiler_get(), "edje_cc")
-        self.assertEqual(self.o.file_get(), (unicode(theme_file), u"main"))
+        self.assertEqual(self.o.file_get(), (theme_file, "main"))
         # self.o.print_internal_status() # FIXME this crash badly
 
     def testGroup(self):

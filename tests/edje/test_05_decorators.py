@@ -13,8 +13,7 @@ theme_file = os.path.join(theme_path, "theme.edj")
 
 
 expected_signals = ["edje,state,ltr", "load", "edje,state,ltr", "resize",
-                    "cursor,changed", "changed", "zoom,stop", "emit,message",
-                    "emit,message"]
+                    "cursor,changed", "changed", "emit,message", "emit,message"]
 expected_signals2 = ["load", "resize"]
 expected_messages = [33, 33]
 expected_text_parts = ["label", "label"]
