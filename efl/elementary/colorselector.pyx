@@ -230,6 +230,35 @@ cdef class Colorselector(LayoutClass):
     def palette_name_get(self):
         return _ctouni(elm_colorselector_palette_name_get(self.obj))
 
+    def palette_items_get(self):
+        """palette_items_get()
+
+        Get a list of palette items (colors).
+
+        :return: A list of palette Items.
+        :rtype: list of :py:class:`ColorselectorPaletteItem`
+
+        .. versionadded:: 1.9
+        
+        """
+        cdef:
+            const_Eina_List *lst = elm_colorselector_palette_items_get(self.obj)
+            Elm_Object_Item *obj_item
+            int r, g, b, a
+            list ret = list()
+            ColorselectorPaletteItem item
+
+        while lst:
+            obj_item = <Elm_Object_Item *>lst.data
+            elm_colorselector_palette_item_color_get(obj_item, &r, &g, &b, &a)
+            item = ColorselectorPaletteItem(r, g, b, a)
+            item._set_obj(obj_item)
+            ret.append(item)
+            lst = lst.next
+
+        return ret
+
+
     def callback_changed_add(self, func, *args, **kwargs):
         """When the color value changes on selector"""
         self._callback_add("changed", func, *args, **kwargs)

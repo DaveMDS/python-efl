@@ -1,4 +1,4 @@
-from efl.evas cimport Evas_Object
+from efl.evas cimport Evas_Object, const_Evas_Object, const_Eina_List
 from object_item cimport Elm_Object_Item
 from enums cimport Elm_Colorselector_Mode
 from libc.string cimport const_char
@@ -15,3 +15,4 @@ cdef extern from "Elementary.h":
     void                    elm_colorselector_palette_clear(Evas_Object *obj)
     void                    elm_colorselector_palette_name_set(Evas_Object *obj, const_char *palette_name)
     const_char *            elm_colorselector_palette_name_get(Evas_Object *obj)
+    const_Eina_List *       elm_colorselector_palette_items_get(const_Evas_Object *obj)

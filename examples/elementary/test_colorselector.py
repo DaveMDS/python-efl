@@ -85,6 +85,9 @@ def colorselector_clicked(obj):
     cs.palette_color_add(255, 255, 119, 255)
     cs.palette_color_add(133, 100, 255, 255)
 
+    last_item = cs.palette_items_get()[-1]
+    last_item.color = (255, 0, 0, 255)
+
     hbox = Box(win, horizontal=True, size_hint_align=FILL_AND_ALIGN_TOP,
         size_hint_weight=EXPAND_HORIZ)
     vbox.pack_end(hbox)
