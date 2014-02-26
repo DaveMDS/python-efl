@@ -3,6 +3,8 @@ BUGS
 ====
 * EdjeEdit: PartState API does not work
 * Elm.Map: overlays_show segfaults, scrollers in examples are jumpy
+* Entry.markup_filter_append() and Fileselector.custom_filter_append() are
+  leaking badly, fix and check all other place that have the same issue.
 
 Failing unit tests
 ------------------

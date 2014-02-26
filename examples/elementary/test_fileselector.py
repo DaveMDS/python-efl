@@ -6,19 +6,26 @@ import os
 from efl.evas import EVAS_HINT_EXPAND, EVAS_HINT_FILL
 from efl import elementary
 from efl.elementary.window import StandardWindow
-from efl.elementary.box import Box
+from efl.elementary.box import Box, ELM_BOX_LAYOUT_FLOW_HORIZONTAL
 from efl.elementary.frame import Frame
 from efl.elementary.label import Label
 from efl.elementary.button import Button
 from efl.elementary.check import Check
-from efl.elementary.list import List
-from efl.elementary.fileselector import Fileselector, ELM_FILESELECTOR_SORT_LAST
-from efl.elementary.fileselector_button import FileselectorButton
-from efl.elementary.fileselector_entry import FileselectorEntry
+from efl.elementary.hoversel import Hoversel
+from efl.elementary.radio import Radio
+from efl.elementary.slider import Slider
 from efl.elementary.separator import Separator
+from efl.elementary.fileselector import Fileselector, \
+    ELM_FILESELECTOR_SORT_LAST, ELM_FILESELECTOR_LIST, ELM_FILESELECTOR_GRID, \
+    ELM_FILESELECTOR_SORT_BY_FILENAME_ASC, ELM_FILESELECTOR_SORT_BY_FILENAME_DESC, \
+    ELM_FILESELECTOR_SORT_BY_TYPE_ASC, ELM_FILESELECTOR_SORT_BY_TYPE_DESC, \
+    ELM_FILESELECTOR_SORT_BY_SIZE_ASC, ELM_FILESELECTOR_SORT_BY_SIZE_DESC, \
+    ELM_FILESELECTOR_SORT_BY_MODIFIED_ASC, ELM_FILESELECTOR_SORT_BY_MODIFIED_DESC
+
 
 EXPAND_BOTH = EVAS_HINT_EXPAND, EVAS_HINT_EXPAND
 FILL_BOTH = EVAS_HINT_FILL, EVAS_HINT_FILL
+
 
 def fs_cb_done(fs, selected, win):
     win.delete()
@@ -46,241 +53,203 @@ def ck_cb_buttons(bt, fs):
     print("Toggle buttons_ok_cancel")
     fs.buttons_ok_cancel = not fs.buttons_ok_cancel
 
+def ck_cb_multi_select(bt, fs):
+    print("Toggle multi_select")
+    fs.multi_select = not fs.multi_select
+
 def ck_cb_hidden(bt, fs):
     print("Toggle hidden_visible")
     fs.hidden_visible = not fs.hidden_visible
 
 def bt_cb_sel_get(bt, fs):
-    print("Get Selected:" + fs.selected_get())
+    print("Get Selected:" + fs.selected)
 
 def bt_cb_path_get(bt, fs):
-    print("Get Path:" + fs.path_get())
+    print("Get Path:" + fs.path)
 
-def bt_cb_mode_cycle(bt, fs):
-    mode = fs.mode + 1
-    fs.mode_set(mode if mode < 2 else 0)
+def bt_cb_paths_get(bt, fs):
+    print("Get Path:" + str(fs.selected_paths))
 
-def bt_cb_sort_cycle(bt, fs):
-    sort_method = fs.sort_method + 1
-    fs.sort_method = sort_method if sort_method < ELM_FILESELECTOR_SORT_LAST else 0
+def rd_cb_mode(rd, fs):
+    mode = rd.value
+    fs.mode_set(mode)
+
+def sl_cb_thumb_size(sl, fs):
+    val = int(sl.value)
+    fs.thumbnail_size = (val, val)
+
+def hs_cb_sort_method(hs, item, fs, method):
+    fs.sort_method = method
+
+def custom_filter_all(path, is_dir, data):
+    return True
+
+def custom_filter_edje(path, is_dir, data):
+    if is_dir or path.endswith(".edc") or path.endswith(".edj"):
+        return True
+    return False
 
 def fileselector_clicked(obj, item=None):
-    win = StandardWindow("fileselector", "File selector test", autodel=True,
-        size=(240,350))
+    win = StandardWindow("fileselector", "File selector test",
+                         autodel=True, size=(500,500))
 
-    vbox = Box(win, size_hint_weight=EXPAND_BOTH)
-    win.resize_object_add(vbox)
-    vbox.show()
+    box1 = Box(win, horizontal=True, size_hint_weight=EXPAND_BOTH)
+    win.resize_object_add(box1)
+    box1.show()
 
-    fs = Fileselector(win, is_save=True, expandable=True, folder_only=True,
-        path=os.getenv("HOME"), size_hint_weight=EXPAND_BOTH,
-        size_hint_align=FILL_BOTH)
+    fs = Fileselector(win, is_save=True, expandable=False, folder_only=False,
+                      path=os.getenv("HOME"), size_hint_weight=EXPAND_BOTH,
+                      size_hint_align=FILL_BOTH)
     fs.callback_done_add(fs_cb_done, win)
     fs.callback_selected_add(fs_cb_selected, win)
     fs.callback_directory_open_add(fs_cb_directory_open, win)
-    vbox.pack_end(fs)
+    box1.pack_end(fs)
     fs.show()
 
-    sep = Separator(win, horizontal=True)
-    vbox.pack_end(sep)
+    fs.custom_filter_append(custom_filter_all, filter_name="All Files")
+    fs.custom_filter_append(custom_filter_edje, filter_name="Edje Files")
+    fs.mime_types_filter_append(["text/*"], "Text Files")
+    fs.mime_types_filter_append(["image/*"], "Image Files")
+
+
+    sep = Separator(win)
+    box1.pack_end(sep)
     sep.show()
 
-    hbox = Box(win, horizontal=True)
-    vbox.pack_end(hbox)
-    hbox.show()
+    vbox = Box(win)
+    box1.pack_end(vbox)
+    vbox.show()
+
+    # Options frame
+    fr = Frame(win, text="Options")
+    vbox.pack_end(fr)
+    fr.show()
+
+    fbox1 = Box(win)
+    fr.content = fbox1
+    fbox1.show()
+
+    fbox2 = Box(win, horizontal=True)
+    fbox1.pack_end(fbox2)
+    fbox2.show()
 
     ck = Check(win, text="is_save", state=fs.is_save)
     ck.callback_changed_add(ck_cb_is_save, fs)
-    hbox.pack_end(ck)
+    fbox2.pack_end(ck)
     ck.show()
 
     ck = Check(win, text="folder_only", state=fs.folder_only)
     ck.callback_changed_add(ck_cb_folder_only, fs)
-    hbox.pack_end(ck)
+    fbox2.pack_end(ck)
     ck.show()
 
     ck = Check(win, text="expandable", state=fs.expandable)
     ck.callback_changed_add(ck_cb_expandable, fs)
-    hbox.pack_end(ck)
+    fbox2.pack_end(ck)
+    ck.show()
+
+    fbox2 = Box(win, horizontal=True)
+    fbox1.pack_end(fbox2)
+    fbox2.show()
+
+    ck = Check(win, text="multiple selection", state=fs. multi_select)
+    ck.callback_changed_add(ck_cb_multi_select, fs)
+    fbox2.pack_end(ck)
     ck.show()
 
     ck = Check(win, text="buttons", state=fs.buttons_ok_cancel)
     ck.callback_changed_add(ck_cb_buttons, fs)
-    hbox.pack_end(ck)
+    fbox2.pack_end(ck)
     ck.show()
 
     ck = Check(win, text="hidden", state=fs.hidden_visible)
     ck.callback_changed_add(ck_cb_hidden, fs)
-    hbox.pack_end(ck)
+    fbox2.pack_end(ck)
     ck.show()
 
-    hbox = Box(win, horizontal=True)
-    vbox.pack_end(hbox)
-    hbox.show()
+    # Getters frame
+    fr = Frame(win, text="Getters", size_hint_align=FILL_BOTH)
+    vbox.pack_end(fr)
+    fr.show()
+
+    fbox = Box(win, horizontal=True)
+    fr.content = fbox
+    fbox.show()
 
     bt = Button(win, text="selected_get")
     bt.callback_clicked_add(bt_cb_sel_get, fs)
-    hbox.pack_end(bt)
+    fbox.pack_end(bt)
     bt.show()
 
     bt = Button(win, text="path_get")
     bt.callback_clicked_add(bt_cb_path_get, fs)
-    hbox.pack_end(bt)
+    fbox.pack_end(bt)
     bt.show()
 
-    bt = Button(win, text="mode cycle")
-    bt.callback_clicked_add(bt_cb_mode_cycle, fs)
-    hbox.pack_end(bt)
+    bt = Button(win, text="selected_paths")
+    bt.callback_clicked_add(bt_cb_paths_get, fs)
+    fbox.pack_end(bt)
     bt.show()
 
-    bt = Button(win, text="sort_method cycle")
-    bt.callback_clicked_add(bt_cb_sort_cycle, fs)
-    hbox.pack_end(bt)
-    bt.show()
+    # Mode frame
+    fr = Frame(win, text="Mode", size_hint_align=FILL_BOTH)
+    vbox.pack_end(fr)
+    fr.show()
 
-    win.resize(240, 350)
-    win.show()
+    fbox = Box(win, horizontal=True)
+    fr.content = fbox
+    fbox.show()
 
+    rdg = rd = Radio(win, text="List", state_value=ELM_FILESELECTOR_LIST)
+    rd.callback_changed_add(rd_cb_mode, fs)
+    fbox.pack_end(rd)
+    rd.show()
 
-def fileselector_button_clicked(obj, item=None):
-    win = StandardWindow("fileselector", "File selector test", autodel=True,
-        size=(240, 350))
+    rd = Radio(win, text="Grid", state_value=ELM_FILESELECTOR_GRID)
+    rd.callback_changed_add(rd_cb_mode, fs)
+    rd.group_add(rdg)
+    fbox.pack_end(rd)
+    rd.show()
 
-    vbox = Box(win, size_hint_weight=EXPAND_BOTH)
-    win.resize_object_add(vbox)
-    vbox.show()
+    # Thumbsize frame
+    fr = Frame(win, text="Thumbnail size", size_hint_align=FILL_BOTH)
+    vbox.pack_end(fr)
+    fr.show()
 
-    fse = FileselectorButton(win, text="Select a file", inwin_mode=False,
-        size_hint_align=FILL_BOTH, size_hint_weight=EXPAND_BOTH)
-    vbox.pack_end(fse)
-    fse.show()
+    sl = Slider(win, min_max=(4, 130), unit_format="%.0f px",
+                value=fs.thumbnail_size[0])
+    sl.callback_delay_changed_add(sl_cb_thumb_size, fs)
+    fr.content = sl
+    sl.show()
 
-    sep = Separator(win, horizontal=True)
-    vbox.pack_end(sep)
-    sep.show()
+    # Sort method frame
+    fr = Frame(win, text="Sort method", size_hint_align=FILL_BOTH)
+    vbox.pack_end(fr)
+    fr.show()
 
-    hbox = Box(win, horizontal=True, size_hint_weight=EXPAND_BOTH)
-    vbox.pack_end(hbox)
-    hbox.show()
-
-    ck = Check(win, text="inwin", state=fse.inwin_mode)
-    ck.callback_changed_add(ck_entry_cb_inwin, fse)
-    hbox.pack_end(ck)
-    ck.show()
-
-    ck = Check(win, text="folder_only", state=fse.folder_only)
-    ck.callback_changed_add(ck_entry_cb_folder_only, fse)
-    hbox.pack_end(ck)
-    ck.show()
-
-    ck = Check(win, text="is_save", state=fse.is_save)
-    ck.callback_changed_add(ck_entry_cb_is_save, fse)
-    hbox.pack_end(ck)
-    ck.show()
-
-    ck = Check(win, text="expandable", state=fse.expandable)
-    ck.callback_changed_add(ck_entry_cb_expandable, fse)
-    hbox.pack_end(ck)
-    ck.show()
-
-    win.show()
-
-
-def ck_entry_cb_is_save(bt, fse):
-    print("Toggle is save")
-    fse.is_save = not fse.is_save
-
-def ck_entry_cb_inwin(bt, fse):
-    print("Toggle inwin mode")
-    fse.inwin_mode = not fse.inwin_mode
-
-def ck_entry_cb_folder_only(bt, fse):
-    print("Toggle folder_only")
-    fse.folder_only = not fse.folder_only
-
-def ck_entry_cb_expandable(bt, fse):
-    print("Toggle expandable")
-    fse.expandable = not fse.expandable
-
-
-def fileselector_entry_clicked(obj, item=None):
-    win = StandardWindow("fileselector", "File selector test", autodel=True,
-        size=(240, 150))
-
-    vbox = Box(win, size_hint_weight=EXPAND_BOTH)
-    win.resize_object_add(vbox)
-    vbox.show()
-
-    fse = FileselectorEntry(win, text="Select a file", inwin_mode=False,
-        size_hint_align=FILL_BOTH, size_hint_weight=EXPAND_BOTH)
-    vbox.pack_end(fse)
-    fse.show()
-
-    sep = Separator(win, horizontal=True)
-    vbox.pack_end(sep)
-    sep.show()
-
-    hbox = Box(win, horizontal=True, size_hint_weight=EXPAND_BOTH)
-    vbox.pack_end(hbox)
-    hbox.show()
-
-    ck = Check(win, text="inwin", state=fse.inwin_mode)
-    ck.callback_changed_add(ck_entry_cb_inwin, fse)
-    hbox.pack_end(ck)
-    ck.show()
-
-    ck = Check(win, text="folder_only", state=fse.folder_only)
-    ck.callback_changed_add(ck_entry_cb_folder_only, fse)
-    hbox.pack_end(ck)
-    ck.show()
-
-    ck = Check(win, text="is_save", state=fse.is_save)
-    ck.callback_changed_add(ck_entry_cb_is_save, fse)
-    hbox.pack_end(ck)
-    ck.show()
-
-    ck = Check(win, text="expandable", state=fse.expandable)
-    ck.callback_changed_add(ck_entry_cb_expandable, fse)
-    hbox.pack_end(ck)
-    ck.show()
+    hs = Hoversel(win, text="File name (asc)")
+    sorts = (
+        ("File name (asc)", ELM_FILESELECTOR_SORT_BY_FILENAME_ASC),
+        ("File name (desc)", ELM_FILESELECTOR_SORT_BY_FILENAME_DESC),
+        ("Type (asc)", ELM_FILESELECTOR_SORT_BY_TYPE_ASC),
+        ("Type (desc)", ELM_FILESELECTOR_SORT_BY_TYPE_DESC),
+        ("Size (asc)", ELM_FILESELECTOR_SORT_BY_SIZE_ASC),
+        ("Size (desc)", ELM_FILESELECTOR_SORT_BY_SIZE_DESC),
+        ("Modified time (asc)", ELM_FILESELECTOR_SORT_BY_MODIFIED_ASC),
+        ("Modified time (desc)", ELM_FILESELECTOR_SORT_BY_MODIFIED_DESC),
+    )
+    for sort in sorts:
+        hs.item_add(label=sort[0], callback=hs_cb_sort_method, fs=fs, method=sort[1])
+    fr.content = hs
+    hs.show()
 
     win.show()
 
 
 if __name__ == "__main__":
     elementary.init()
-    win = StandardWindow("test", "python-elementary test application",
-        size=(320,520))
-    win.callback_delete_request_add(lambda o: elementary.exit())
 
-    box0 = Box(win, size_hint_weight=EXPAND_BOTH)
-    win.resize_object_add(box0)
-    box0.show()
+    fileselector_clicked(None)
 
-    lb = Label(win)
-    lb.text_set("Please select a test from the list below<br>"
-                 "by clicking the test button to show the<br>"
-                 "test window.")
-    lb.show()
-
-    fr = Frame(win, text="Information", content=lb)
-    box0.pack_end(fr)
-    fr.show()
-
-    items = [("Fileselector", fileselector_clicked),
-             ("Fileselector Button", fileselector_button_clicked),
-             ("Fileselector Entry", fileselector_entry_clicked),
-            ]
-
-    li = List(win, size_hint_weight=EXPAND_BOTH, size_hint_align=FILL_BOTH)
-    box0.pack_end(li)
-    li.show()
-
-    for item in items:
-        li.item_append(item[0], callback=item[1])
-
-    li.go()
-
-    win.show()
     elementary.run()
     elementary.shutdown()

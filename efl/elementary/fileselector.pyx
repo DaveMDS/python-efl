@@ -138,7 +138,7 @@ Fileselector sort method
 """
 
 
-from cpython cimport PyUnicode_AsUTF8String
+from cpython cimport PyUnicode_AsUTF8String, Py_INCREF
 from libc.stdint cimport uintptr_t
 
 from efl.eo cimport _object_mapping_register
@@ -147,6 +147,8 @@ from efl.evas cimport Object as evasObject
 from layout_class cimport LayoutClass
 
 cimport enums
+
+import traceback
 
 ELM_FILESELECTOR_LIST = enums.ELM_FILESELECTOR_LIST
 ELM_FILESELECTOR_GRID = enums.ELM_FILESELECTOR_GRID
@@ -164,6 +166,15 @@ ELM_FILESELECTOR_SORT_LAST = enums.ELM_FILESELECTOR_SORT_LAST
 def _cb_string_conv(uintptr_t addr):
     cdef const_char *s = <const_char *>addr
     return _ctouni(s) if s is not NULL else None
+
+cdef Eina_Bool py_elm_fileselector_custom_filter_cb(const_char *path, Eina_Bool is_dir, void *data) with gil:
+    cb_func, cb_data = <object>data
+    try:
+        return cb_func(_ctouni(path), is_dir, cb_data)
+    except:
+        traceback.print_exc()
+        return 0
+
 
 cdef class Fileselector(LayoutClass):
 
@@ -425,6 +436,7 @@ cdef class Fileselector(LayoutClass):
         .. note:: first added filter will be the default filter at the moment.
 
         :seealso: :py:func:`~efl.elementary.need.need_efreet`
+        :seealso: :py:meth:`custom_filter_append`
         :seealso: :py:meth:`filters_clear`
 
         .. versionadded:: 1.8
@@ -436,6 +448,36 @@ cdef class Fileselector(LayoutClass):
         if not elm_fileselector_mime_types_filter_append(self.obj, mime_types_s,
             <const_char *>filter_name if filter_name is not None else NULL):
             raise RuntimeWarning
+
+    def custom_filter_append(self, func, data=None, filter_name=None):
+        """custom_filter_append(func, data=None, filter_name=None)
+
+        Append custom filter into filter list.
+
+        :param func: The function to call when manipulating files and directories.
+        :type func: callable
+        :param data: The data to be passed to the function.
+        :param filter_name: The name to be displayed, "custom" will be displayed if None
+        :type filter_name: string
+
+        .. note:: filter  function signature is: func(path, is_dir, data)
+        .. note:: first added filter will be the default filter at the moment.
+
+        :seealso: :py:meth:`mime_types_filter_append`
+        :seealso: :py:meth:`filters_clear`
+
+        .. versionadded:: 1.9
+
+        """
+        cb_data = (func, data)
+        # TODO: This is now a ref leak. It should be stored somewhere and
+        #       deleted in the remove method.
+        Py_INCREF(cb_data)
+
+        if isinstance(filter_name, unicode): filter_name = PyUnicode_AsUTF8String(filter_name)
+        elm_fileselector_custom_filter_append(self.obj,
+            py_elm_fileselector_custom_filter_cb, <void *>cb_data,
+            <const_char *>filter_name if filter_name is not None else NULL)
 
     def filters_clear(self):
         """
@@ -477,6 +519,29 @@ cdef class Fileselector(LayoutClass):
         elm_fileselector_hidden_visible_set(self.obj, visible)
     def hidden_visible_get(self):
         return bool(elm_fileselector_hidden_visible_get(self.obj))
+
+    property thumbnail_size:
+        """ The size (in pixels) for the thumbnail images.
+
+        :type: tuple (w, h)
+
+        .. versionadded:: 1.9
+
+        """
+        def __set__(self, size):
+            elm_fileselector_thumbnail_size_set(self.obj, size[0], size[1])
+
+        def __get__(self):
+            cdef Evas_Coord w, h
+            elm_fileselector_thumbnail_size_get(self.obj, &w, &h)
+            return (w, h)
+
+    def thumbnail_size_set(self, w, h):
+        elm_fileselector_thumbnail_size_set(self.obj, w, h)
+    def thumbnail_size_get(self):
+        cdef Evas_Coord w, h
+        elm_fileselector_thumbnail_size_get(self.obj, &w, &h)
+        return (w, h)
 
     def callback_activated_add(self, func, *args, **kwargs):
         """the user activated a file. This can happen by
