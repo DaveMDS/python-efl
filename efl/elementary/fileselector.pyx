@@ -443,7 +443,7 @@ cdef class Fileselector(LayoutClass):
 
         """
         mime_types_s = ",".join(mime_types)
-        if isinstance(mime_types_s, unicode): mime_types_s = PyUnicode_AsUTF8String(mime_types)
+        if isinstance(mime_types_s, unicode): mime_types_s = PyUnicode_AsUTF8String(mime_types_s)
         if isinstance(filter_name, unicode): filter_name = PyUnicode_AsUTF8String(filter_name)
         if not elm_fileselector_mime_types_filter_append(self.obj, mime_types_s,
             <const_char *>filter_name if filter_name is not None else NULL):
