@@ -131,6 +131,26 @@ cdef class ColorselectorPaletteItem(ObjectItem):
     def color_set(self, r, g, b, a):
         elm_colorselector_palette_item_color_set(self.item, r, g, b, a)
 
+    property selected:
+        """Whenever the palette item is selected or not.
+
+        :type: bool
+
+        .. versionadded:: 1.9
+
+        """
+        def __get__(self):
+            return bool(elm_colorselector_palette_item_selected_get(self.item))
+
+        def __set__(self, bint selected):
+            elm_colorselector_palette_item_selected_set(self.item, selected)
+
+    def selected_get(self):
+        return bool(elm_colorselector_palette_item_selected_get(self.item))
+    def selected_set(self, bint selected):
+        elm_colorselector_palette_item_selected_set(self.item, selected)
+
+
 cdef class Colorselector(LayoutClass):
 
     """This is the class that actually implements the widget."""
@@ -242,22 +262,28 @@ cdef class Colorselector(LayoutClass):
         
         """
         cdef:
-            const_Eina_List *lst = elm_colorselector_palette_items_get(self.obj)
-            Elm_Object_Item *obj_item
-            int r, g, b, a
             list ret = list()
-            ColorselectorPaletteItem item
+            const_Eina_List *lst = elm_colorselector_palette_items_get(self.obj)
 
         while lst:
-            obj_item = <Elm_Object_Item *>lst.data
-            elm_colorselector_palette_item_color_get(obj_item, &r, &g, &b, &a)
-            item = ColorselectorPaletteItem(r, g, b, a)
-            item._set_obj(obj_item)
-            ret.append(item)
+            ret.append(_object_item_to_python(<Elm_Object_Item *>lst.data))
             lst = lst.next
 
         return ret
 
+    def palette_selected_item_get(self):
+        """palette_selected_item_get()
+
+        Get the selected item in the palette.
+
+        :return: the selected item.
+        :rtype: list of :py:class:`ColorselectorPaletteItem`
+
+        .. versionadded:: 1.9
+
+        """
+        cdef Elm_Object_Item *it = elm_colorselector_palette_selected_item_get(self.obj)
+        return _object_item_to_python(it)
 
     def callback_changed_add(self, func, *args, **kwargs):
         """When the color value changes on selector"""

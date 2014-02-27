@@ -40,6 +40,15 @@ def cb_cs_item_lp(cs, item, rect):
     b = (b * a) / 255
     rect.color = (r, g, b, a)
 
+def selected_item_get(bt, cs):
+    item = cs.palette_selected_item_get() 
+    print("Selected: {}".format(item.color if item is not None else None))
+
+def palette_items(bt, cs):
+    for item in cs.palette_items_get():
+        print("Item: {} {}".format(item.color, "<- selected" if item.selected else ""))
+
+
 def colorselector_clicked(obj):
     win = StandardWindow("colorselector", "ColorSelector test",
         autodel=True, size=(350,350))
@@ -108,6 +117,23 @@ def colorselector_clicked(obj):
     bt = Button(win, text="Both", size_hint_align=FILL_AND_ALIGN_TOP,
         size_hint_weight=EXPAND_HORIZ)
     bt.callback_clicked_add(lambda btn: cs.mode_set(ELM_COLORSELECTOR_BOTH))
+    hbox.pack_end(bt)
+    bt.show()
+
+    hbox = Box(win, horizontal=True, size_hint_align=FILL_BOTH,
+        size_hint_weight=EXPAND_HORIZ)
+    vbox.pack_end(hbox)
+    hbox.show()
+
+    bt = Button(win, text="palette items", size_hint_align=FILL_BOTH,
+        size_hint_weight=EXPAND_HORIZ)
+    bt.callback_clicked_add(palette_items, cs)
+    hbox.pack_end(bt)
+    bt.show()
+    
+    bt = Button(win, text="palette selected item", size_hint_align=FILL_BOTH,
+        size_hint_weight=EXPAND_HORIZ)
+    bt.callback_clicked_add(selected_item_get, cs)
     hbox.pack_end(bt)
     bt.show()
 
