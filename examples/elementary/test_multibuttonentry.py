@@ -61,6 +61,10 @@ def cb_print(btn, mbe):
     for i in mbe.items:
         print(i.text)
 
+def custom_format_func(count):
+    return "+ {} rabbits".format(count)
+
+
 def multibuttonentry_clicked(obj, item=None):
     win = StandardWindow("multibuttonentry", "MultiButtonEntry test",
         autodel=True, size=(320, 320))
@@ -145,6 +149,23 @@ def multibuttonentry_clicked(obj, item=None):
     bt = Button(win, text="print", size_hint_align=FILL_HORIZ,
         size_hint_weight=EXPAND_HORIZ)
     bt.callback_clicked_add(cb_print, mbe)
+    hbox.pack_end(bt)
+    bt.show()
+
+
+    hbox = Box(win, horizontal=True, size_hint_weight=EXPAND_HORIZ)
+    vbox.pack_end(hbox)
+    hbox.show()
+
+    bt = Button(win, text="Change format function",
+                size_hint_align=FILL_HORIZ, size_hint_weight=EXPAND_HORIZ)
+    bt.callback_clicked_add(lambda b: mbe.format_function_set(custom_format_func))
+    hbox.pack_end(bt)
+    bt.show()
+
+    bt = Button(win, text="Unset format function",
+                size_hint_align=FILL_HORIZ, size_hint_weight=EXPAND_HORIZ)
+    bt.callback_clicked_add(lambda b: mbe.format_function_set(None))
     hbox.pack_end(bt)
     bt.show()
 

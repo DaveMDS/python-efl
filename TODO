@@ -3,8 +3,13 @@ BUGS
 ====
 * EdjeEdit: PartState API does not work
 * Elm.Map: overlays_show segfaults, scrollers in examples are jumpy
-* Entry.markup_filter_append() and Fileselector.custom_filter_append() are
-  leaking badly, fix and check all other place that have the same issue.
+* Elementary: when we use custom function callbacks we usually leak some
+    reference around, some examples:
+    - Entry.markup_filter_append()
+    - Fileselector.custom_filter_append()
+    - Multibuttonentry.format_function_set()
+    - Multibuttonentry.filter_append()
+    - Multibuttonentry.filterprepend()
 
 Failing unit tests
 ------------------

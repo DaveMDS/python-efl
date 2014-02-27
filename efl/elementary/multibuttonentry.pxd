@@ -1,10 +1,11 @@
 from efl.evas cimport Eina_Bool, const_Eina_List, Evas_Object, const_Evas_Object, Evas_Smart_Cb
 from object_item cimport Elm_Object_Item, const_Elm_Object_Item, ObjectItem
-from libc.string cimport const_char
+from libc.string cimport const_char, const_void
 
 cdef extern from "Elementary.h":
 
     ctypedef Eina_Bool (*Elm_Multibuttonentry_Item_Filter_Cb)(Evas_Object *obj, const_char *item_label, void *item_data, void *data)
+    ctypedef char * (*Elm_Multibuttonentry_Format_Cb)(int count, void *data)
 
     Evas_Object             *elm_multibuttonentry_add(Evas_Object *parent)
     Evas_Object             *elm_multibuttonentry_entry_get(const_Evas_Object *obj)
@@ -28,3 +29,4 @@ cdef extern from "Elementary.h":
     # TODO: void                     elm_multibuttonentry_item_filter_remove(Evas_Object *obj, Elm_Multibuttonentry_Item_Filter_Cb func, void *data)
     void                    elm_multibuttonentry_editable_set(Evas_Object *obj, Eina_Bool editable)
     Eina_Bool               elm_multibuttonentry_editable_get(const_Evas_Object *obj)
+    void                    elm_multibuttonentry_format_function_set(Evas_Object *obj, Elm_Multibuttonentry_Format_Cb f_func, const_void *data)

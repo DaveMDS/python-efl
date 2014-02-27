@@ -92,6 +92,18 @@ cdef Eina_Bool _multibuttonentry_filter_callback(Evas_Object *obj, \
 
     return ret
 
+cdef char * _multibuttonentry_format_cb(int count, void *data) with gil:
+    (callback, a, ka) = <object>data
+
+    try:
+        ret = callback(count, *a, **ka)
+    except:
+        traceback.print_exc()
+
+    # TODO leak here
+    return strdup(ret)
+
+
 cdef class MultiButtonEntryItem(ObjectItem):
 
     """An item for the MultiButtonEntry widget."""
@@ -431,6 +443,32 @@ cdef class MultiButtonEntry(Object):
 
     def editable_get(self):
         return bool(elm_multibuttonentry_editable_get(self.obj))
+
+    def format_function_set(self, func, *args, **kwargs):
+        """format_function_set(func, *args, **kwargs)
+
+        Set a function to format the string that will be used to display
+        the hidden items counter.
+
+        :param func: The actual format function.
+                     signature: (int count, args, kwargs)->string
+        :type func: callable
+
+        .. note:: Setting ``func`` to `None` will restore the default format.
+
+        .. versionadded:: 1.9
+
+        """
+        if func is None:
+            elm_multibuttonentry_format_function_set(self.obj, NULL, NULL)
+            return
+
+        cbdata = (func, args, kwargs)
+        elm_multibuttonentry_format_function_set(self.obj,
+                                                _multibuttonentry_format_cb,
+                                                <void *>cbdata)
+        # TODO leak here
+        Py_INCREF(cbdata)
 
     def callback_item_selected_add(self, func, *args, **kwargs):
         self._callback_add("item,selected", func, *args, **kwargs)
