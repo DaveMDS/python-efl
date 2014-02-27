@@ -316,6 +316,29 @@ cdef class Ctxpopup(LayoutClass):
         """
         elm_ctxpopup_dismiss(self.obj)
 
+    property auto_hide_disabled:
+        """Set ctxpopup auto hide mode triggered by ctxpopup policy.
+
+        Use this property when you want ctxpopup not to hide automatically.
+        By default, ctxpopup is dismissed whenever mouse clicked its background
+        area, language is changed, and its parent geometry is updated(changed).
+        
+        :type: bool
+
+        .. versionadded:: 1.9
+
+        """
+        def __get__(self):
+            return bool(elm_ctxpopup_auto_hide_disabled_get(self.obj))
+
+        def __set__(self, disabled):
+            elm_ctxpopup_auto_hide_disabled_set(self.obj, disabled)
+
+    def auto_hide_disabled_get(self):
+        return bool(elm_ctxpopup_auto_hide_disabled_get(self.obj))
+    def auto_hide_disabled_set(self, disabled):
+        elm_ctxpopup_auto_hide_disabled_set(self.obj, disabled)
+
     def callback_dismissed_add(self, func, *args, **kwargs):
         """the ctxpopup was dismissed"""
         self._callback_add("dismissed", func, *args, **kwargs)
