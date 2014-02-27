@@ -96,12 +96,14 @@ cdef char * _multibuttonentry_format_cb(int count, void *data) with gil:
     (callback, a, ka) = <object>data
 
     try:
-        ret = callback(count, *a, **ka)
+        s = callback(count, *a, **ka)
+        if isinstance(s, unicode): s = PyUnicode_AsUTF8String(s)
     except:
         traceback.print_exc()
+        return NULL
 
     # TODO leak here
-    return strdup(ret)
+    return strdup(<char *>s)
 
 
 cdef class MultiButtonEntryItem(ObjectItem):
