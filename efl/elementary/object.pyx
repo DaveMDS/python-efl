@@ -1150,6 +1150,30 @@ cdef class Object(evasObject):
     def focused_object_get(self):
         return object_from_instance(elm_object_focused_object_get(self.obj))
 
+    property focus_highlight_style:
+        """The focus highlight style name to be used.
+
+        :type: string
+
+        .. note:: This overrides the style which is set by
+                  :py:func:`Win.focus_highlight_style_set()`.
+
+        .. versionadded:: 1.9
+
+        """
+        def __set__(self, style):
+            if isinstance(style, unicode): style = PyUnicode_AsUTF8String(style)
+            elm_object_focus_highlight_style_set(self.obj,
+                    <const_char *>style if style is not None else NULL)
+        def __get__(self):
+            return elm_object_focus_highlight_style_get(self.obj)
+
+    def focus_highlight_style_set(self, style):
+        if isinstance(style, unicode): style = PyUnicode_AsUTF8String(style)
+        elm_object_focus_highlight_style_set(self.obj,
+                <const_char *>style if style is not None else NULL)
+    def focus_highlight_style_get(self):
+        return elm_object_focus_highlight_style_get(self.obj)
 
     property tree_focus_allow:
         """Whether the Elementary object and its children are focusable

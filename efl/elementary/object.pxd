@@ -104,6 +104,8 @@ cdef extern from "Elementary.h":
     Evas_Object *           elm_object_focused_object_get(const_Evas_Object *obj)
     void                    elm_object_tree_focus_allow_set(Evas_Object *obj, Eina_Bool focusable)
     Eina_Bool               elm_object_tree_focus_allow_get(Evas_Object *obj)
+    Eina_Bool               elm_object_focus_highlight_style_set(Evas_Object *obj, const_char *style)
+    const_char *            elm_object_focus_highlight_style_get(const_Evas_Object *obj)
 
     # Object - Mirroring (elm_mirroring.h)
     Eina_Bool               elm_object_mirrored_get(Evas_Object *obj)
