@@ -22,7 +22,7 @@ def navi_pop(bt, nf):
     nf.item_pop()
 
 def title_visible(obj, item):
-    item.title_visible = not item.title_visible
+    item.title_enabled = (not item.title_enabled, True)
 
 def page2(bt, nf):
     ic = Icon(nf, file=os.path.join(img_path, "icon_right_arrow.png"))
@@ -63,7 +63,7 @@ def page4(bt, nf):
     ic = Icon(nf, file=os.path.join(img_path, "logo_small.png"))
     item.part_content_set("icon", ic)
     item.part_text_set("subtitle", "Title area visibility test")
-    item.title_visible_set(False)
+    item.title_enabled = (False, False)
 
     content.callback_clicked_add(title_visible, item)
 

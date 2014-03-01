@@ -70,8 +70,8 @@ them are supported:
 This widget emits the following signals, besides the ones sent from
 :py:class:`~efl.elementary.layout_class.LayoutClass`:
 
-- ``transition,finished`` - When the transition is finished in changing the
-  item
+- ``transition,finished`` - When the transition is finished in changing the item
+- ``title,transition,finished`` -  When the title area's transition is finished
 - ``title,clicked`` - User clicked title area
 - ``focused`` - When the naviframe has received focus. (since 1.8)
 - ``unfocused`` - When the naviframe has lost focus. (since 1.8)
@@ -334,6 +334,9 @@ cdef class NaviframeItem(ObjectItem):
 
         :type: bool
 
+        .. deprecated:: 1.9
+            Use :py:attr:`title_enabled` instead.
+
         """
         def __get__(self):
             return bool(elm_naviframe_item_title_visible_get(self.item))
@@ -341,10 +344,63 @@ cdef class NaviframeItem(ObjectItem):
         def __set__(self, visible):
             elm_naviframe_item_title_visible_set(self.item, visible)
 
+    @DEPRECATED("1.9", "Use :py:func:`title_enabled_set` instead.")
     def title_visible_set(self, visible):
         elm_naviframe_item_title_visible_set(self.item, visible)
+    @DEPRECATED("1.9", "Use :py:func:`title_enabled_get` instead.")
     def title_visible_get(self):
         return bool(elm_naviframe_item_title_visible_get(self.item))
+
+    property title_enabled:
+        """Enable/Disable the title area and the transition effect.
+
+        When the title area is disabled, then the controls would be hidden so as
+        to expand the content area to full-size.
+
+        :type: getter: bool - setter: (bool, bool)
+
+        .. note:: This property is somehow strange, the setter and the getter
+                  have different param numbers. The second param in the setter
+                  choose if the title transition should be animated or not
+
+        .. seealso:: :py:func:`title_enabled_set` and :py:func:`title_enabled_set`
+
+        .. versionadded:: 1.9
+
+        """
+        def __get__(self):
+            return bool(elm_naviframe_item_title_enabled_get(self.item))
+
+        def __set__(self, value):
+            enabled, transition = value
+            elm_naviframe_item_title_enabled_set(self.item, enabled, transition)
+
+    def title_enabled_set(self, enabled, transition):
+        """title_enabled_set(self, enabled, transition)
+
+        Enable/Disable the title area with transition effect.
+
+        :param enabled: if `True`, title area will be visible, hidden otherwise.
+        :type enabled: bool
+        :param transition: if `True`, transition effect of the title will be visible.
+        :type transition: bool
+
+        .. versionadded:: 1.9
+
+        """
+        elm_naviframe_item_title_enabled_set(self.item, enabled, transition)
+
+    def title_enabled_get(self):
+        """title_enabled_get() -> bool
+
+        :return: `True` if the title is visible.
+        :rtype: bool
+
+        .. versionadded:: 1.9
+
+        """
+        return bool(elm_naviframe_item_title_enabled_get(self.item))
+
 
 cdef class Naviframe(LayoutClass):
 
@@ -510,6 +566,13 @@ cdef class Naviframe(LayoutClass):
 
     def callback_transition_finished_del(self, func):
         self._callback_del("transition,finished", func)
+
+    def callback_title_transition_finished_add(self, func, *args, **kwargs):
+        """When the title transition is finished."""
+        self._callback_add("title,transition,finished", func, *args, **kwargs)
+
+    def callback_title_transition_finished_del(self, func):
+        self._callback_del("title,transition,finished", func)
 
     def callback_title_clicked_add(self, func, *args, **kwargs):
         """User clicked title area."""

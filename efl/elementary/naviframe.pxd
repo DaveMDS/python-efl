@@ -18,6 +18,8 @@ cdef extern from "Elementary.h":
     const_char *             elm_naviframe_item_style_get(Elm_Object_Item *it)
     void                     elm_naviframe_item_title_visible_set(Elm_Object_Item *it, Eina_Bool visible)
     Eina_Bool                elm_naviframe_item_title_visible_get(Elm_Object_Item *it)
+    void                     elm_naviframe_item_title_enabled_set(Elm_Object_Item *it, Eina_Bool enabled, Eina_Bool transition)
+    Eina_Bool                elm_naviframe_item_title_enabled_get(Elm_Object_Item *it)
     void                     elm_naviframe_prev_btn_auto_pushed_set(Evas_Object *obj, Eina_Bool auto_pushed)
     Eina_Bool                elm_naviframe_prev_btn_auto_pushed_get(Evas_Object *obj)
     Eina_List               *elm_naviframe_items_get(Evas_Object *obj)
