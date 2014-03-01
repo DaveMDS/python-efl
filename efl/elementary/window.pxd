@@ -118,6 +118,15 @@ cdef extern from "Elementary.h":
     void                     elm_win_screen_position_get(Evas_Object *obj, int *x, int *y)
     Eina_Bool                elm_win_socket_listen(Evas_Object *obj, const_char *svcname, int svcnum, Eina_Bool svcsys)
 
+    Eina_Bool                elm_win_wm_rotation_supported_get(const_Evas_Object *obj)
+    void                     elm_win_wm_rotation_preferred_rotation_set(const_Evas_Object *obj, int rotation)
+    int                      elm_win_wm_rotation_preferred_rotation_get(const_Evas_Object *obj)
+    void                     elm_win_wm_rotation_available_rotations_set(Evas_Object *obj, int *rotations, unsigned int count)
+    Eina_Bool                elm_win_wm_rotation_available_rotations_get(const_Evas_Object *obj, int **rotations, unsigned int *count)
+    void                     elm_win_wm_rotation_manual_rotation_done_set(Evas_Object *obj, Eina_Bool set)
+    Eina_Bool                elm_win_wm_rotation_manual_rotation_done_get(const_Evas_Object *obj)
+    void                     elm_win_wm_rotation_manual_rotation_done(Evas_Object *obj)
+    
     # X specific call - wont't work on non-x engines (return 0)
     Ecore_X_Window           elm_win_xwindow_get(Evas_Object *obj)
     # TODO: Ecore_Wl_Window         *elm_win_wl_window_get(const_Evas_Object *obj)

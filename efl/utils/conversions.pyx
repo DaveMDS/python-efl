@@ -91,6 +91,49 @@ cdef const_char ** python_list_strings_to_array_of_strings(list strings) except 
 
     return array
 
+cdef list array_of_ints_to_python_list(int *array, int array_length):
+    """
+
+    Converts an array of ints to a python list.
+
+    UNTESTED (used in Win.wm_rotation_available_rotations)
+
+    """
+    cdef:
+        list ret = list()
+        int i
+
+    for i in range(array_length):
+        ret.append(array[i])
+
+    return ret
+
+cdef int * python_list_ints_to_array_of_ints(list ints) except NULL:
+    """
+
+    Converts a python list to an array of ints.
+
+    UNTESTED (used in Win.wm_rotation_available_rotations)
+
+    Note: Remember to free the array when it's no longer needed.
+
+    """
+    cdef:
+        int *array = NULL
+        unsigned int i
+        unsigned int arr_len = len(ints)
+
+    if arr_len == 0:
+        return NULL
+
+    array = <int *>malloc(arr_len * sizeof(int))
+    if not array:
+        raise MemoryError()
+
+    for i in range(arr_len):
+        array[i] = ints[i]
+
+    return array
 
 cdef list eina_list_strings_to_python_list(const_Eina_List *lst):
     cdef:

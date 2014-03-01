@@ -362,7 +362,8 @@ from libc.string cimport memcpy
 
 from object cimport Object
 from efl.utils.conversions cimport python_list_strings_to_array_of_strings, \
-    array_of_strings_to_python_list
+    array_of_strings_to_python_list, python_list_ints_to_array_of_ints, \
+    array_of_ints_to_python_list
 from efl.evas cimport Evas, evas_object_evas_get, Image as evasImage
 
 cimport enums
@@ -1571,6 +1572,108 @@ cdef class Window(Object):
         if isinstance(svcname, unicode): svcname = PyUnicode_AsUTF8String(svcname)
         if not elm_win_socket_listen(self.obj, <const_char *>svcname, svcnum, svcsys):
             raise RuntimeError("Could not create a socket.")
+
+    property wm_rotation_supported:
+        """Whether window manager supports window rotation or not.
+
+        The window manager rotation allows the WM to controls the rotation of
+        application windows. It is designed to support synchronized rotation
+        for the multiple application windows at same time.
+
+        :type: bool
+
+        .. versionadded:: 1.9
+
+        """
+        def __get__(self):
+            return bool(elm_win_wm_rotation_supported_get(self.obj))
+
+    def wm_rotation_supported_get(self):
+        return bool(elm_win_wm_rotation_supported_get(self.obj))
+
+    property wm_rotation_preferred_rotation:
+        """The preferred rotation value.
+
+        This is used to set the orientation of the window to a specific fixed
+        angle in degrees, 0-360 counter-clockwise.
+
+        :type: int
+
+        .. versionadded:: 1.9
+
+        """
+        def __get__(self):
+            return elm_win_wm_rotation_preferred_rotation_get(self.obj)
+        def __set__(self, int rotation):
+            elm_win_wm_rotation_preferred_rotation_set(self.obj, rotation)
+
+    def wm_rotation_preferred_rotation_get(self):
+        return elm_win_wm_rotation_preferred_rotation_get(self.obj)
+    def wm_rotation_preferred_rotation_set(self, int rotation):
+        elm_win_wm_rotation_preferred_rotation_set(self.obj, rotation)
+
+    property wm_rotation_available_rotations:
+        """List of available window rotations.
+
+        :type: list of int
+
+        .. versionadded:: 1.9
+
+        """
+        def __get__(self):
+            cdef:
+                int *rots
+                unsigned int count
+
+            elm_win_wm_rotation_available_rotations_get(self.obj, &rots, &count)
+            return array_of_ints_to_python_list(rots, count)
+
+        def __set__(self, rotations):
+            cdef:
+                int *rots = python_list_ints_to_array_of_ints(rotations)
+                unsigned int count = len(rotations)
+
+            elm_win_wm_rotation_available_rotations_set(self.obj, rots, count)
+            free(rots)
+
+    def wm_rotation_available_rotations_get(self):
+        return self.wm_rotation_available_rotations
+    def wm_rotation_available_rotations_set(self, list rotations):
+        self.wm_rotation_available_rotations = rotations
+
+    property wm_rotation_manual_done:
+        """The manual rotation done mode.
+
+        This is used to set the manual rotation done mode.
+        The message of rotation done is sent to WM after rendering its canvas
+        but, if this property is set to `True`, the user should call the
+        :py:func:`wm_rotation_manual_rotation_done` explicitly to sends
+        the message.
+
+        :type: bool
+
+        .. versionadded:: 1.9
+
+        """
+        def __get__(self):
+            return bool(elm_win_wm_rotation_manual_rotation_done_get(self.obj))
+        def __set__(self, bint manual):
+            elm_win_wm_rotation_manual_rotation_done_set(self.obj, manual)
+
+    def wm_rotation_manual_done_get(self):
+        return bool(elm_win_wm_rotation_manual_rotation_done_get(self.obj))
+    def wm_rotation_manual_done_set(self, bint manual):
+        elm_win_wm_rotation_manual_rotation_done_set(self.obj, manual)
+
+    def wm_rotation_manual_rotation_done(self):
+        """wm_rotation_manual_rotation_done()
+
+        This function is used to notify the rotation done to WM manually.
+
+        .. versionadded:: 1.9
+
+        """
+        elm_win_wm_rotation_manual_rotation_done(self.obj)
 
     property xwindow_xid:
         """Returns the X Window id.
