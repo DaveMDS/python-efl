@@ -1,7 +1,7 @@
-from efl.evas cimport Eina_Bool, Eina_List, Eina_Compare_Cb, \
+from efl.evas cimport Eina_Bool, Eina_List, const_Eina_List, Eina_Compare_Cb, \
     Evas_Object, const_Evas_Object, Evas_Smart_Cb, Evas_Coord
 from object cimport Object
-from object_item cimport Elm_Object_Item
+from object_item cimport Elm_Object_Item, const_Elm_Object_Item
 from general cimport Elm_Tooltip_Item_Content_Cb
 from enums cimport Elm_Scroller_Policy, Elm_List_Mode, Elm_Object_Select_Mode, \
     Elm_Genlist_Item_Type, Elm_Genlist_Item_Scrollto_Type, \
@@ -87,6 +87,8 @@ cdef extern from "Elementary.h":
 
     Elm_Object_Item *       elm_genlist_item_parent_get(Elm_Object_Item *it)
     void                    elm_genlist_item_subitems_clear(Elm_Object_Item *item)
+    unsigned int            elm_genlist_item_subitems_count(const_Elm_Object_Item *it)
+    const_Eina_List *       elm_genlist_item_subitems_get(const_Elm_Object_Item *it)
     void                    elm_genlist_item_expanded_set(Elm_Object_Item *item, Eina_Bool expanded)
     Eina_Bool               elm_genlist_item_expanded_get(Elm_Object_Item *item)
     int                     elm_genlist_item_expanded_depth_get(Elm_Object_Item *it)

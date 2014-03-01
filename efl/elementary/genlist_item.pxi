@@ -602,6 +602,40 @@ cdef class GenlistItem(ObjectItem):
         """
         elm_genlist_item_subitems_clear(self.item)
 
+    def subitems_count(self):
+        """subitems_count() -> int
+
+        Get the number of subitems.
+
+        :return: The number of subitems, 0 on error.
+        :rtype: int
+
+        .. versionadded:: 1.9
+
+        """
+        elm_genlist_item_subitems_count(self.item)
+
+    def subitems_get(self):
+        """subitems_get() -> list
+
+        Get the list of subitems.
+
+        :return: The list of subitems.
+        :rype: list of :py:class:`GenlistItem`
+
+        .. versionadded:: 1.9
+
+        """
+        cdef:
+            Eina_List *l = elm_genlist_item_subitems_get(self.item)
+            list ret = list()
+
+        while l:
+            ret.append(object_from_instance(<Evas_Object*>l.data))
+            l = l.next
+
+        return ret
+
     property expanded:
         """This function flags the item of type #ELM_GENLIST_ITEM_TREE as
         expanded or not.
