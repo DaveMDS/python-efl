@@ -41,6 +41,9 @@ def layout_clicked(obj):
     ly.part_content_set("element3", bt)
     bt.show()
 
+    for o in ly.content_swallow_list_get():
+        print("Swallowed: " + str(o))
+
     win.show()
 
 

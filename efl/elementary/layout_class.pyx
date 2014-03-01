@@ -20,7 +20,7 @@ from cpython cimport PyUnicode_AsUTF8String
 
 from efl.eo cimport object_from_instance
 from efl.utils.conversions cimport _ctouni
-from efl.evas cimport Object as evasObject
+from efl.evas cimport Object as evasObject, eina_list_free
 from object cimport Object
 
 import traceback
@@ -924,6 +924,28 @@ cdef class LayoutClass(Object):
 
     def edje_object_can_access_get(self):
         return bool(elm_layout_edje_object_can_access_get(self.obj))
+
+    def content_swallow_list_get(self):
+        """content_swallow_list_get() -> list
+
+        Get the list of objects swallowed into the layout.
+
+        :return: a list of swallowed objects.
+        :rtype: list of objects.
+
+        .. versionadded:: 1.9
+        
+        """
+        cdef:
+            Eina_List *l = elm_layout_content_swallow_list_get(self.obj)
+            list ret = list()
+
+        while l:
+            ret.append(object_from_instance(<Evas_Object*>l.data))
+            l = l.next
+        eina_list_free(l)
+
+        return ret
 
     property icon:
         """The icon object in a layout that follows the Elementary naming
