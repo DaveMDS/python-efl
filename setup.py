@@ -11,9 +11,14 @@ from distutils.version import StrictVersion
 
 script_path = os.path.dirname(os.path.abspath(__file__))
 
+# python-efl version
+VERSION = "1.9"
+RELEASE = "1.9.0"
+
+# dependencies
 CYTHON_MIN_VERSION = "0.17.0"
-EFL_MIN_VERSION = "1.8.99"
-ELM_MIN_VERSION = "1.8.99"
+EFL_MIN_VERSION = "1.9.0"
+ELM_MIN_VERSION = "1.9.0"
 
 
 # XXX: Force default visibility. See phab T504
@@ -362,7 +367,7 @@ setup(
     name = "python-efl",
     fullname = "Python bindings for Enlightenment Foundation Libraries",
     description = "Python bindings for Enlightenment Foundation Libraries",
-    version = "1.8.99",
+    version = RELEASE,
     author = "Gustavo Sverzut Barbieri, Simon Busch, Boris 'billiob' Faure, Davide Andreoli, Fabiano Fidêncio, Bruno Dilly, Tiago Falcão, Joost Albers, Kai Huuhko, Ulisses Furquim",
     author_email = "dave@gurumeditation.it, kai.huuhko@gmail.com",
     maintainer = "Kai Huuhko, Davide Andreoli",
@@ -375,6 +380,12 @@ setup(
         'build_ext': build_ext,
         'build_doc': BuildDoc,
         'clean_generated_files': CleanGenerated
+        },
+    command_options = {
+        'build_doc': {
+            'version': ('setup.py', VERSION),
+            'release': ('setup.py', RELEASE)
+            }
         },
     package_dir = package_dirs,
     packages = packages,
