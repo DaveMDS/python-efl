@@ -41,6 +41,29 @@ Tips
 * cython does automatic dict <-> struct conversion with basic struct members
 
 
+Release process instructions
+============================
+
+* Change versions in the top part of setup.py (ex: 1.9 and 1.9.0)
+* Update the changes.html file
+    setup.py build_doc -b changes ...and manually merge
+* Git push and wait jenkins to generate the 2 tarballs
+* Test the generated tarball
+* Put the tarballs on download.e.org/rel/bindings/python
+* Create and push the tag for the release
+    git tag -a v1.9.0 && git push origin v1.9.0
+* Create and push the branch for stable backporting
+    git branch python-efl-1.9 && git push origin python-efl-1.9
+* Write the blog post on phame (Official Announcements)
+* Annouce the release to release@lists.enlightenment.org
+* Update download link on website
+* Change versions again in setup.py (ex: 1.9 and 1.9.99)
+* Raise efl and elementary requirements in setup.py (to 1.9.99)
+
+more info at:
+phab.enlightenment.org/w/release_procedure/
+
+
 Discussion
 ==========
 

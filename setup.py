@@ -8,17 +8,18 @@ from distutils.core import setup, Command
 from distutils.extension import Extension
 from distutils.version import StrictVersion
 
-
 script_path = os.path.dirname(os.path.abspath(__file__))
+
 
 # python-efl version
 VERSION = "1.9"
-RELEASE = "1.9.0"
+RELEASE = "1.9.99"
+
 
 # dependencies
 CYTHON_MIN_VERSION = "0.17.0"
-EFL_MIN_VERSION = "1.9.0"
-ELM_MIN_VERSION = "1.9.0"
+EFL_MIN_VERSION = "1.9.99"
+ELM_MIN_VERSION = "1.9.99"
 
 
 # XXX: Force default visibility. See phab T504
