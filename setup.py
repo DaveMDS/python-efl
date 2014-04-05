@@ -138,28 +138,41 @@ if set(("build", "build_ext", "install", "bdist", "sdist")) & set(sys.argv):
         eo_cflags, eo_libs = eo_pkg_config
 
         eo_ext = Extension("eo", ["efl/eo/efl.eo"+module_suffix],
-                                define_macros = [('EFL_BETA_API_SUPPORT', None)],
-                                include_dirs = ['include/'],
-                                extra_compile_args = eo_cflags,
-                                extra_link_args = eo_libs + eina_libs)
+            define_macros = [('EFL_BETA_API_SUPPORT', None)],
+            include_dirs = ['include/'],
+            extra_compile_args = eo_cflags,
+            extra_link_args = eo_libs + eina_libs
+            )
+        eo_ext.cython_directives = {
+            "c_string_type": "unicode",
+            "c_string_encoding": "utf-8",
+            }
         modules.append(eo_ext)
 
 
     # === Utilities ===
     utils_ext = [
         Extension("utils.deprecated", ["efl/utils/deprecated"+module_suffix],
-                            include_dirs = ['include/'],
-                            extra_compile_args = eina_cflags,
-                            extra_link_args = eina_libs),
+            include_dirs = ['include/'],
+            extra_compile_args = eina_cflags,
+            extra_link_args = eina_libs
+            ),
         Extension("utils.conversions", ["efl/utils/conversions"+module_suffix],
-                            include_dirs = ['include/'],
-                            extra_compile_args = eo_cflags,
-                            extra_link_args = eo_libs + eina_libs),
+            include_dirs = ['include/'],
+            extra_compile_args = eo_cflags,
+            extra_link_args = eo_libs + eina_libs,
+            ),
         Extension("utils.logger", ["efl/utils/logger"+module_suffix],
-                            include_dirs = ['include/'],
-                            extra_compile_args = eina_cflags,
-                            extra_link_args = eina_libs),
+            include_dirs = ['include/'],
+            extra_compile_args = eina_cflags,
+            extra_link_args = eina_libs,
+            ),
         ]
+    for e in utils_ext:
+        e.cython_directives = {
+            "c_string_type": "unicode",
+            "c_string_encoding": "utf-8",
+            }
     modules += utils_ext
     packages.append("efl.utils")
 
@@ -172,9 +185,14 @@ if set(("build", "build_ext", "install", "bdist", "sdist")) & set(sys.argv):
         evas_cflags, evas_libs = evas_pkg_config
 
         evas_ext = Extension("evas", ["efl/evas/efl.evas"+module_suffix],
-                                include_dirs = ['include/'],
-                                extra_compile_args = evas_cflags,
-                                extra_link_args = evas_libs + eina_libs)
+            include_dirs = ['include/'],
+            extra_compile_args = evas_cflags,
+            extra_link_args = evas_libs + eina_libs,
+            )
+        evas_ext.cython_directives = {
+            "c_string_type": "unicode",
+            "c_string_encoding": "utf-8",
+            }
         modules.append(evas_ext)
 
         # compatibility
@@ -192,9 +210,14 @@ if set(("build", "build_ext", "install", "bdist", "sdist")) & set(sys.argv):
         ecore_file_cflags, ecore_file_libs = ecore_file_pkg_config
 
         ecore_ext = Extension("ecore", ["efl/ecore/efl.ecore"+module_suffix],
-                                include_dirs = ['include/'],
-                                extra_compile_args = ecore_cflags + ecore_file_cflags,
-                                extra_link_args = ecore_libs + ecore_file_libs + eina_libs + evas_libs)
+            include_dirs = ['include/'],
+            extra_compile_args = ecore_cflags + ecore_file_cflags,
+            extra_link_args = ecore_libs + ecore_file_libs + eina_libs + evas_libs,
+            )
+        ecore_ext.cython_directives = {
+            "c_string_type": "unicode",
+            "c_string_encoding": "utf-8",
+            }
         modules.append(ecore_ext)
 
         # compatibility
@@ -210,9 +233,14 @@ if set(("build", "build_ext", "install", "bdist", "sdist")) & set(sys.argv):
         edje_cflags, edje_libs = edje_pkg_config
 
         edje_ext = Extension("edje", ["efl/edje/efl.edje"+module_suffix],
-                                include_dirs = ['include/'],
-                                extra_compile_args = edje_cflags,
-                                extra_link_args = edje_libs + eina_libs + evas_libs)
+            include_dirs = ['include/'],
+            extra_compile_args = edje_cflags,
+            extra_link_args = edje_libs + eina_libs + evas_libs,
+            )
+        edje_ext.cython_directives = {
+            "c_string_type": "unicode",
+            "c_string_encoding": "utf-8",
+            }
         modules.append(edje_ext)
 
         # compatibility
@@ -221,10 +249,15 @@ if set(("build", "build_ext", "install", "bdist", "sdist")) & set(sys.argv):
 
         # --- Edje_Edit ---
         edje_edit_ext = Extension("edje_edit", ["efl/edje/efl.edje_edit"+module_suffix],
-                                define_macros = [('EDJE_EDIT_IS_UNSTABLE_AND_I_KNOW_ABOUT_IT', None)],
-                                include_dirs = ['include/'],
-                                extra_compile_args = edje_cflags,
-                                extra_link_args = edje_libs + eina_libs + evas_libs)
+            define_macros = [('EDJE_EDIT_IS_UNSTABLE_AND_I_KNOW_ABOUT_IT', None)],
+            include_dirs = ['include/'],
+            extra_compile_args = edje_cflags,
+            extra_link_args = edje_libs + eina_libs + evas_libs,
+            )
+        edje_edit_ext.cython_directives = {
+            "c_string_type": "unicode",
+            "c_string_encoding": "utf-8",
+            }
         modules.append(edje_edit_ext)
 
 
@@ -236,9 +269,14 @@ if set(("build", "build_ext", "install", "bdist", "sdist")) & set(sys.argv):
         emotion_cflags, emotion_libs = emotion_pkg_config
 
         emotion_ext = Extension("emotion", ["efl/emotion/efl.emotion"+module_suffix],
-                                include_dirs = ['include/'],
-                                extra_compile_args = emotion_cflags,
-                                extra_link_args = emotion_libs + eina_libs + evas_libs)
+            include_dirs = ['include/'],
+            extra_compile_args = emotion_cflags,
+            extra_link_args = emotion_libs + eina_libs + evas_libs,
+            )
+        emotion_ext.cython_directives = {
+            "c_string_type": "unicode",
+            "c_string_encoding": "utf-8",
+            }
         modules.append(emotion_ext)
 
         # compatibility
@@ -252,11 +290,17 @@ if set(("build", "build_ext", "install", "bdist", "sdist")) & set(sys.argv):
     if dbus_pkg_config is not None and ecore_pkg_config is not None:
         dbus_cflags, dbus_libs = dbus_pkg_config
 
-        dbus_ml_ext = Extension("dbus_mainloop",
-                                ["efl/dbus_mainloop/dbus_mainloop"+module_suffix,
-                                 "efl/dbus_mainloop/e_dbus.c"],
-                                extra_compile_args = dbus_cflags + ecore_cflags,
-                                extra_link_args = dbus_libs + ecore_libs)
+        dbus_ml_ext = Extension(
+            "dbus_mainloop",
+            ["efl/dbus_mainloop/dbus_mainloop"+module_suffix,
+             "efl/dbus_mainloop/e_dbus.c"],
+            extra_compile_args = dbus_cflags + ecore_cflags,
+            extra_link_args = dbus_libs + ecore_libs,
+            )
+        dbus_ml_ext.cython_directives = {
+            "c_string_type": "unicode",
+            "c_string_encoding": "utf-8",
+            }
         modules.append(dbus_ml_ext)
 
         # compatibility
@@ -353,8 +397,12 @@ if set(("build", "build_ext", "install", "bdist", "sdist")) & set(sys.argv):
                 ["efl/elementary/" + m + module_suffix],
                 include_dirs = ["include/"],
                 extra_compile_args = elm_cflags,
-                extra_link_args = elm_libs + eina_libs + evas_libs
+                extra_link_args = elm_libs + eina_libs + evas_libs,
                 )
+            e.cython_directives = {
+                "c_string_type": "unicode",
+                "c_string_encoding": "utf-8",
+                }
             modules.append(e)
 
         packages.append("efl.elementary")
