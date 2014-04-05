@@ -17,8 +17,8 @@ Failing unit tests
 * tests.edje.test_04_edit: testGroupDel (skipped, segfault)
 * tests.edje.test_04_edit: testExternal (skipped, TODO)
 
-TODO (after 1.8)
-================
+TODO
+====
 * update links and text on:
   http://www.freedesktop.org/wiki/Software/DBusBindings
   (requires fd.org shell account?)

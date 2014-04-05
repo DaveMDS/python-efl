@@ -44,20 +44,33 @@ Tips
 Release process instructions
 ============================
 
+* Announce at release@lists.enlightenment.org that you are planning for the
+  release
 * Change versions in the top part of setup.py (ex: 1.9 and 1.9.0)
 * Update the changes.html file
     setup.py build_doc -b changes ...and manually merge
 * Git push and wait jenkins to generate the 2 tarballs
-* Test the generated tarball
-* Put the tarballs on download.e.org/rel/bindings/python
+* Test the generated tarballs
+* scp tarballs to
+  download.enlightenment.org/srv/web/download.enlightenment.org/public_html/pre-releases
+* Announce at release@lists.enlightenment.org that tarballs are ready for
+  testing
+
+... wait 24 hours, fix any issues found. In the mean time you can prepare the
+    release announcement for phame/ml.
+
+* ssh to dl.e.org and mv the tarballs to
+  /srv/web/download.enlightenment.org/rel/bindings/python
 * Create and push the tag for the release
     git tag -a v1.9.0 && git push origin v1.9.0
 * Create and push the branch for stable backporting
     git branch python-efl-1.9 && git push origin python-efl-1.9
-* Write the blog post on phame (Official Announcements)
-* Annouce the release to release@lists.enlightenment.org
-* Update download link on website
-* Change versions again in setup.py (ex: 1.9 and 1.9.99)
+* Publish the blog post on phame (Official Announcements)
+* Announce the release to announce@lists.enlightenment.org with cc to devel
+  etc.
+* Update download link on website (clone website/www.git, edit, and use the
+  update link found in the url below)
+* Change versions again in setup.py (ex: 1.10 and 1.9.99)
 * Raise efl and elementary requirements in setup.py (to 1.9.99)
 
 more info at:

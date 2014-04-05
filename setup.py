@@ -12,7 +12,7 @@ script_path = os.path.dirname(os.path.abspath(__file__))
 
 
 # python-efl version
-VERSION = "1.9"
+VERSION = "1.10"
 RELEASE = "1.9.99"
 
 
