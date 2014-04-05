@@ -322,7 +322,7 @@ cdef class Ctxpopup(LayoutClass):
         Use this property when you want ctxpopup not to hide automatically.
         By default, ctxpopup is dismissed whenever mouse clicked its background
         area, language is changed, and its parent geometry is updated(changed).
-        
+
         :type: bool
 
         .. versionadded:: 1.9
@@ -373,4 +373,4 @@ cdef class Ctxpopup(LayoutClass):
     def callback_unfocused_del(self, func):
         self._callback_del("unfocused", func)
 
-_object_mapping_register("Elm_Ctxpopup", Ctxpopup)
+_object_mapping_register("Elc_Ctxpopup", Ctxpopup)

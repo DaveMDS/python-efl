@@ -394,7 +394,7 @@ cdef class Hoversel(Button):
 
     def callback_expanded_add(self, func, *args, **kwargs):
         """The hover is expanded.
-        
+
         .. versionadded:: 1.9
 
         """
@@ -404,4 +404,4 @@ cdef class Hoversel(Button):
         self._callback_del("expanded", func)
 
 
-_object_mapping_register("Elm_Hoversel", Hoversel)
+_object_mapping_register("Elc_Hoversel", Hoversel)
