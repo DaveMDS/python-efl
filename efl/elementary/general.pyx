@@ -119,7 +119,7 @@ Possible values for the #ELM_POLICY_THROTTLE policy.
 
 """
 
-from cpython cimport PyObject, Py_INCREF, Py_DECREF, PyUnicode_AsUTF8String, \
+from cpython cimport PyObject, Py_INCREF, Py_DECREF, \
     PyMem_Malloc, PyMem_Free
 from libc.stdint cimport uintptr_t
 
@@ -162,7 +162,6 @@ cdef class FontProperties(object):
     property name:
         """:type: unicode"""
         def __set__(self, value):
-            if isinstance(value, unicode): value = PyUnicode_AsUTF8String(value)
             self.efp.name = value
 
         def __get__(self):
@@ -204,7 +203,6 @@ def init():
     argv = <char **>PyMem_Malloc(argc * sizeof(char *))
     for i in range(argc):
         t = sys.argv[i]
-        if isinstance(t, unicode): t = PyUnicode_AsUTF8String(t)
         arg = t
         arg_len = len(arg)
         argv[i] = <char *>PyMem_Malloc(arg_len + 1)
@@ -361,7 +359,6 @@ def language_set(lang not None):
     :param lang: Language to set, must be the full name of the locale
 
     """
-    if isinstance(lang, unicode): lang = PyUnicode_AsUTF8String(lang)
     elm_language_set(<const char *>lang)
 
 def cache_all_flush():
@@ -393,7 +390,6 @@ def font_properties_get(font not None):
     .. versionadded:: 1.8
 
     """
-    if isinstance(font, unicode): font = PyUnicode_AsUTF8String(font)
     cdef FontProperties ret = FontProperties.__new__()
 
     ret.efp = elm_font_properties_get(<const char *>font)
@@ -432,8 +428,6 @@ def font_fontconfig_name_get(font_name, style = None):
     cdef:
         unicode ret
         char *fc_name
-    if isinstance(font_name, unicode): font_name = PyUnicode_AsUTF8String(font_name)
-    if isinstance(style, unicode): style = PyUnicode_AsUTF8String(style)
     fc_name = elm_font_fontconfig_name_get(
         <const char *>font_name,
         <const char *>style if style is not None else NULL
@@ -493,5 +487,4 @@ def object_tree_dot_dump(evasObject top, path):
     .. versionadded:: 1.8
 
     """
-    if isinstance(path, unicode): path = PyUnicode_AsUTF8String(path)
     elm_object_tree_dot_dump(top.obj, <const char *>path)

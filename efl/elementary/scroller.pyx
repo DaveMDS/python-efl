@@ -140,8 +140,6 @@ Type that blocks the scroll movement in one or more direction.
 
 """
 
-from cpython cimport PyUnicode_AsUTF8String
-
 from efl.evas cimport Evas_Object, Object as evasObject
 from efl.eo cimport object_from_instance, _object_mapping_register
 from efl.utils.conversions cimport _ctouni, _touni
@@ -182,8 +180,6 @@ cdef class Scrollable(Object):
         """custom_widget_base_theme_set(widget, base)
 
         """
-        if isinstance(widget, unicode): widget = PyUnicode_AsUTF8String(widget)
-        if isinstance(base, unicode): base = PyUnicode_AsUTF8String(base)
         elm_scroller_custom_widget_base_theme_set(self.obj,
             <const char *>widget if widget is not None else NULL,
             <const char *>base if base is not None else NULL)

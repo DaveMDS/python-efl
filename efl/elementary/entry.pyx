@@ -472,7 +472,7 @@ Icon types
 from libc.string cimport strdup
 from libc.stdlib cimport free
 from libc.stdint cimport uintptr_t
-from cpython cimport PyUnicode_AsUTF8String, Py_INCREF
+from cpython cimport Py_INCREF
 
 from efl.eo cimport _object_mapping_register, object_from_instance
 from efl.utils.conversions cimport _touni, _ctouni
@@ -550,24 +550,20 @@ cdef void _entry_context_menu_callback(void *data, Evas_Object *obj, void *event
 @DEPRECATED("1.8", "Use markup_to_utf8() instead.")
 def Entry_markup_to_utf8(string):
     """Entry_markup_to_utf8(string)"""
-    if isinstance(string, unicode): string = PyUnicode_AsUTF8String(string)
     return _touni(elm_entry_markup_to_utf8(
         <const char *>string if string is not None else NULL))
 
 @DEPRECATED("1.8", "Use utf8_to_markup() instead.")
 def Entry_utf8_to_markup(string):
     """Entry_utf8_to_markup(string)"""
-    if isinstance(string, unicode): string = PyUnicode_AsUTF8String(string)
     return _touni(elm_entry_utf8_to_markup(
         <const char *>string if string is not None else NULL))
 
 def markup_to_utf8(string):
-    if isinstance(string, unicode): string = PyUnicode_AsUTF8String(string)
     return _touni(elm_entry_markup_to_utf8(
         <const char *>string if string is not None else NULL))
 
 def utf8_to_markup(string):
-    if isinstance(string, unicode): string = PyUnicode_AsUTF8String(string)
     return _touni(elm_entry_utf8_to_markup(
         <const char *>string if string is not None else NULL))
 
@@ -669,7 +665,6 @@ cdef class FilterAcceptSet(object):
 
         """
         def __set__(self, value):
-            if isinstance(value, unicode): value = PyUnicode_AsUTF8String(value)
             self.fltr.accepted = value
 
         def __get__(self):
@@ -682,7 +677,6 @@ cdef class FilterAcceptSet(object):
 
         """
         def __set__(self, value):
-            if isinstance(value, unicode): value = PyUnicode_AsUTF8String(value)
             self.fltr.rejected = value
 
         def __get__(self):
@@ -820,7 +814,6 @@ cdef class Entry(LayoutClass):
         .. versionadded:: 1.8
 
         """
-        if isinstance(style, unicode): style = PyUnicode_AsUTF8String(style)
         elm_entry_text_style_user_push(self.obj,
             <const char *>style if style is not None else NULL)
 
@@ -907,12 +900,10 @@ cdef class Entry(LayoutClass):
             return _ctouni(elm_entry_entry_get(self.obj))
 
         def __set__(self, entry):
-            if isinstance(entry, unicode): entry = PyUnicode_AsUTF8String(entry)
             elm_entry_entry_set(self.obj,
                 <const char *>entry if entry is not None else NULL)
 
     def entry_set(self, entry):
-        if isinstance(entry, unicode): entry = PyUnicode_AsUTF8String(entry)
         elm_entry_entry_set(self.obj,
             <const char *>entry if entry is not None else NULL)
     def entry_get(self):
@@ -933,7 +924,6 @@ cdef class Entry(LayoutClass):
         :param string entry: The text to be displayed
 
         """
-        if isinstance(text, unicode): text = PyUnicode_AsUTF8String(text)
         elm_entry_entry_append(self.obj,
             <const char *>text if text is not None else NULL)
 
@@ -1033,7 +1023,6 @@ cdef class Entry(LayoutClass):
         :type entry: string
 
         """
-        if isinstance(entry, unicode): entry = PyUnicode_AsUTF8String(entry)
         elm_entry_entry_insert(self.obj,
             <const char *>entry if entry is not None else NULL)
 
@@ -1354,9 +1343,6 @@ cdef class Entry(LayoutClass):
             cb = _entry_context_menu_callback
         data = (func, args, kwargs)
 
-        if isinstance(label, unicode): label = PyUnicode_AsUTF8String(label)
-        if isinstance(icon_file, unicode): icon_file = PyUnicode_AsUTF8String(icon_file)
-
         elm_entry_context_menu_item_add(self.obj,
             <const char *>label if label is not None else NULL,
             <const char *>icon_file if icon_file is not None else NULL,
@@ -1493,14 +1479,12 @@ cdef class Entry(LayoutClass):
     @DEPRECATED("1.8", "Use the module level markup_to_utf8() method instead.")
     def markup_to_utf8(self, string):
         """markup_to_utf8(string)"""
-        if isinstance(string, unicode): string = PyUnicode_AsUTF8String(string)
         return _touni(elm_entry_markup_to_utf8(
             <const char *>string if string is not None else NULL))
 
     @DEPRECATED("1.8", "Use the module level utf8_to_markup() method instead.")
     def utf8_to_markup(self, string):
         """utf8_to_markup(string)"""
-        if isinstance(string, unicode): string = PyUnicode_AsUTF8String(string)
         return _touni(elm_entry_utf8_to_markup(
             <const char *>string if string is not None else NULL))
 
@@ -1532,7 +1516,6 @@ cdef class Entry(LayoutClass):
             file_name, file_format = value
             a1 = file_name
             a2 = file_format
-            if isinstance(a1, unicode): a1 = PyUnicode_AsUTF8String(a1)
             if not elm_entry_file_set(self.obj,
                 <const char *>a1 if a1 is not None else NULL,
                 a2 if a2 is not None else enums.ELM_TEXT_FORMAT_PLAIN_UTF8):
@@ -1541,7 +1524,6 @@ cdef class Entry(LayoutClass):
     def file_set(self, file_name, file_format):
         a1 = file_name
         a2 = file_format
-        if isinstance(a1, unicode): a1 = PyUnicode_AsUTF8String(a1)
         if not elm_entry_file_set(self.obj,
             <const char *>a1 if a1 is not None else NULL,
             a2 if a2 is not None else enums.ELM_TEXT_FORMAT_PLAIN_UTF8):
@@ -2010,12 +1992,10 @@ cdef class Entry(LayoutClass):
             return _ctouni(elm_entry_anchor_hover_style_get(self.obj))
 
         def __set__(self, style):
-            if isinstance(style, unicode): style = PyUnicode_AsUTF8String(style)
             elm_entry_anchor_hover_style_set(self.obj,
                 <const char *>style if style is not None else NULL)
 
     def anchor_hover_style_set(self, style):
-        if isinstance(style, unicode): style = PyUnicode_AsUTF8String(style)
         elm_entry_anchor_hover_style_set(self.obj,
             <const char *>style if style is not None else NULL)
     def anchor_hover_style_get(self):

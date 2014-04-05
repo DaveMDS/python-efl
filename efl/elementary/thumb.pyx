@@ -173,8 +173,6 @@ Thumb orientation
 
 """
 
-from cpython cimport PyUnicode_AsUTF8String
-
 from efl.eo cimport _object_mapping_register
 from efl.utils.conversions cimport _ctouni
 from efl.evas cimport Object as evasObject
@@ -252,8 +250,6 @@ cdef class Thumb(Object):
             else:
                 file_name = value
                 key = None
-            if isinstance(file_name, unicode): file_name = PyUnicode_AsUTF8String(file_name)
-            if isinstance(key, unicode): key = PyUnicode_AsUTF8String(key)
             elm_thumb_file_set(self.obj,
                 <const char *>file_name if file_name is not None else NULL,
                 <const char *>key if key is not None else NULL)

@@ -20,7 +20,7 @@ from efl.eina cimport Eina_Log_Domain, Eina_Log_Level, \
     eina_log_level_get, eina_log_domain_level_get, eina_log_domain_level_set, \
     eina_log_print, EINA_LOG_DOM_DBG, EINA_LOG_DOM_INFO, EINA_LOG_DOM_WARN, \
     EINA_LOG_DOM_ERR, EINA_LOG_DOM_CRIT
-from cpython cimport PyUnicode_AsUTF8String, PY_VERSION_HEX
+from cpython cimport PY_VERSION_HEX
 
 import logging
 import types
@@ -72,7 +72,6 @@ eina_log_print_cb_set(py_eina_log_print_cb, NULL)
 
 def setLevel(self, lvl):
     cname = self.name
-    if isinstance(cname, unicode): cname = PyUnicode_AsUTF8String(cname)
     eina_log_domain_level_set(cname, log_levels.index(lvl))
     logging.Logger.setLevel(self, lvl)
 
@@ -80,7 +79,6 @@ class PyEFLLogger(logging.Logger):
 
     def __init__(self, name):
         cname = name
-        if isinstance(cname, unicode): cname = PyUnicode_AsUTF8String(cname)
         self.eina_log_domain = eina_log_domain_register(cname, NULL)
         loggers[name] = self
         logging.Logger.__init__(self, name)
@@ -97,7 +95,6 @@ cdef object add_logger(object name):
         # The logger has been instantiated already so lets add our own
         # initialization for it.
         cname = name
-        if isinstance(cname, unicode): cname = PyUnicode_AsUTF8String(cname)
         log.eina_log_domain = eina_log_domain_register(cname, NULL)
         loggers[name] = log
         lvl = log.getEffectiveLevel()

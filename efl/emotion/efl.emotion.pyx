@@ -15,7 +15,6 @@
 # You should have received a copy of the GNU Lesser General Public License
 # along with this Python-EFL.  If not, see <http://www.gnu.org/licenses/>.
 
-from cpython cimport PyUnicode_AsUTF8String
 from libc.stdint cimport uintptr_t
 
 from efl.eo cimport object_from_instance, _object_mapping_register, \
@@ -174,7 +173,6 @@ def extension_may_play_get(filename):
     .. versionadded:: 1.8
 
     """
-    if isinstance(filename, unicode): filename = PyUnicode_AsUTF8String(filename)
     return bool(emotion_object_extension_may_play_get(
         <const char *>filename if filename is not None else NULL))
 
@@ -209,8 +207,6 @@ cdef class Emotion(evasObject):
         self._set_obj(emotion_object_add(canvas.obj))
         _register_decorated_callbacks(self)
 
-        if isinstance(module_name, unicode):
-            module_name = PyUnicode_AsUTF8String(module_name)
         if emotion_object_init(self.obj,
             <const char *>module_name if module_name is not None else NULL) == 0:
             raise EmotionModuleInitError("failed to initialize module '%s'" %
@@ -256,14 +252,12 @@ cdef class Emotion(evasObject):
             return _ctouni(emotion_object_file_get(self.obj))
 
         def __set__(self, value):
-            if isinstance(value, unicode): value = PyUnicode_AsUTF8String(value)
             emotion_object_file_set(self.obj,
                 <const char *> value if value is not None else NULL)
 
     def file_get(self):
         return _ctouni(emotion_object_file_get(self.obj))
     def file_set(self, file_name):
-        if isinstance(file_name, unicode): file_name = PyUnicode_AsUTF8String(file_name)
         emotion_object_file_set(self.obj,
             <const char *> file_name if file_name is not None else NULL)
 
@@ -439,14 +433,12 @@ cdef class Emotion(evasObject):
             return _ctouni(emotion_object_video_subtitle_file_get(self.obj))
 
         def __set__(self, value):
-            if isinstance(value, unicode): value = PyUnicode_AsUTF8String(value)
             emotion_object_video_subtitle_file_set(self.obj,
                 <const char *>value if value is not None else NULL)
 
     def video_subtitle_file_get(self):
         return _ctouni(emotion_object_video_subtitle_file_get(self.obj))
     def video_subtitle_file_set(self, file_name):
-        if isinstance(file_name, unicode): file_name = PyUnicode_AsUTF8String(file_name)
         emotion_object_video_subtitle_file_set(self.obj,
             <const char *>file_name if file_name is not None else NULL)
 
@@ -1121,7 +1113,6 @@ cdef class Emotion(evasObject):
         e = intern(event)
         lst = self._emotion_callbacks.setdefault(e, [])
         if not lst:
-            if isinstance(event, unicode): event = PyUnicode_AsUTF8String(event)
             evas_object_smart_callback_add(self.obj,
                 <const char *>event if event is not None else NULL,
                 _emotion_callback, <void *>e)
@@ -1155,7 +1146,6 @@ cdef class Emotion(evasObject):
         if lst:
             return
         self._emotion_callbacks.pop(event)
-        if isinstance(event, unicode): event = PyUnicode_AsUTF8String(event)
         evas_object_smart_callback_del(self.obj,
             <const char *>event if event is not None else NULL,
             _emotion_callback)

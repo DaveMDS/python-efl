@@ -74,7 +74,6 @@ using multiple inheritance, for example::
 
 """
 
-from cpython cimport PyUnicode_AsUTF8String
 from libc.stdint cimport uintptr_t
 
 from efl.eo cimport _object_mapping_register
@@ -121,12 +120,10 @@ cdef class FileselectorButton(Button):
             return _ctouni(elm_fileselector_button_window_title_get(self.obj))
 
         def __set__(self, title):
-            if isinstance(title, unicode): title = PyUnicode_AsUTF8String(title)
             elm_fileselector_button_window_title_set(self.obj,
                 <const char *>title if title is not None else NULL)
 
     def window_title_set(self, title):
-        if isinstance(title, unicode): title = PyUnicode_AsUTF8String(title)
         elm_fileselector_button_window_title_set(self.obj,
             <const char *>title if title is not None else NULL)
     def window_title_get(self):
@@ -201,7 +198,6 @@ cdef class FileselectorButton(Button):
 
     @DEPRECATED("1.9", "Combine with Fileselector class instead")
     def path_set(self, path):
-        if isinstance(path, unicode): path = PyUnicode_AsUTF8String(path)
         elm_fileselector_path_set(self.obj,
             <const char *>path if path is not None else NULL)
     @DEPRECATED("1.9", "Combine with Fileselector class instead")

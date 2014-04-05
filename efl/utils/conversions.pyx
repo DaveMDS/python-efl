@@ -17,7 +17,6 @@
 
 from libc.stdlib cimport malloc, free
 from libc.string cimport strdup
-from cpython cimport PyUnicode_AsUTF8String
 
 from efl.c_eo cimport Eo as cEo
 from efl.eo cimport Eo, object_from_instance
@@ -86,7 +85,6 @@ cdef const char ** python_list_strings_to_array_of_strings(list strings) except 
 
     for i in range(arr_len):
         s = strings[i]
-        if isinstance(s, unicode): s = PyUnicode_AsUTF8String(s)
         array[i] = <const char *>strdup(s)
 
     return array
@@ -150,7 +148,6 @@ cdef list eina_list_strings_to_python_list(const Eina_List *lst):
 cdef Eina_List *python_list_strings_to_eina_list(list strings):
     cdef Eina_List *lst = NULL
     for s in strings:
-        if isinstance(s, unicode): s = PyUnicode_AsUTF8String(s)
         lst = eina_list_append(lst, eina_stringshare_add(s))
     return lst
 

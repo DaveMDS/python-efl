@@ -15,9 +15,6 @@
 # You should have received a copy of the GNU Lesser General Public License
 # along with this Python-EFL.  If not, see <http://www.gnu.org/licenses/>.
 
-from cpython cimport PyUnicode_AsUTF8String
-
-
 cdef void _file_monitor_cb(void *data, Ecore_File_Monitor *em, Ecore_File_Event event, const char *path) with gil:
     obj = <FileMonitor>data
     try:
@@ -72,7 +69,6 @@ cdef class FileMonitor(object):
         self.args = args
         self.kargs = kargs
 
-        if isinstance(path, unicode): path = PyUnicode_AsUTF8String(path)
         self.mon = ecore_file_monitor_add(
                             <const char *>path if path is not None else NULL,
                             _file_monitor_cb, <void *>self)

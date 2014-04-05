@@ -89,7 +89,7 @@ Ctxpopup arrow directions
 
 """
 
-from cpython cimport PyUnicode_AsUTF8String, Py_DECREF
+from cpython cimport Py_DECREF
 
 from efl.eo cimport _object_mapping_register, object_from_instance
 from efl.utils.conversions cimport _ctouni
@@ -135,7 +135,6 @@ cdef class CtxpopupItem(ObjectItem):
             if not callable(callback):
                 raise TypeError("callback is not callable")
 
-        if isinstance(label, unicode): label = PyUnicode_AsUTF8String(label)
         self.label = label
         self.icon = icon
         self.cb_func = callback
@@ -245,8 +244,6 @@ cdef class Ctxpopup(LayoutClass):
 
         if func is not None and callable(func):
             cb = _object_item_callback
-
-        if isinstance(label, unicode): label = PyUnicode_AsUTF8String(label)
 
         item = elm_ctxpopup_item_append(self.obj,
             <const char *>label if label is not None else NULL,

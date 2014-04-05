@@ -141,8 +141,6 @@ Icon type
 
 """
 
-from cpython cimport PyUnicode_AsUTF8String
-
 from efl.eo cimport _object_mapping_register
 from efl.utils.conversions cimport _ctouni
 from efl.evas cimport Object as evasObject
@@ -185,15 +183,11 @@ cdef class Icon(Image):
             else:
                 filename = value
                 group = None
-            if isinstance(filename, unicode): filename = PyUnicode_AsUTF8String(filename)
-            if isinstance(group, unicode): group = PyUnicode_AsUTF8String(group)
             elm_icon_thumb_set(self.obj,
                 <const char *>filename if filename is not None else NULL,
                 <const char *>group if group is not None else NULL)
 
     def thumb_set(self, filename, group = None):
-        if isinstance(filename, unicode): filename = PyUnicode_AsUTF8String(filename)
-        if isinstance(group, unicode): group = PyUnicode_AsUTF8String(group)
         elm_icon_thumb_set(self.obj,
             <const char *>filename if filename is not None else NULL,
             <const char *>group if group is not None else NULL)
@@ -232,13 +226,11 @@ cdef class Icon(Image):
             return _ctouni(elm_icon_standard_get(self.obj))
 
         def __set__(self, name):
-            if isinstance(name, unicode): name = PyUnicode_AsUTF8String(name)
             if not elm_icon_standard_set(self.obj,
                 <const char *>name if name is not None else NULL):
                     raise RuntimeWarning("Setting standard icon failed")
 
     def standard_set(self, name):
-        if isinstance(name, unicode): name = PyUnicode_AsUTF8String(name)
         return elm_icon_standard_set(self.obj,
             <const char *>name if name is not None else NULL)
     def standard_get(self):

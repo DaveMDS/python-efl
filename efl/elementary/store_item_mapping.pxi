@@ -21,7 +21,6 @@ cdef class StoreItemMapping(object):
 
         """
         def __set__(self, value):
-            if isinstance(value, unicode): value = PyUnicode_AsUTF8String(value)
             self.mapping.part = strdup(value)
 
         def __get__(self):
@@ -156,21 +155,18 @@ cdef class StoreItemMappingEmpty(StoreItemMapping):
 
 cdef class StoreItemMappingNone(StoreItemMappingEmpty):
     def __init__(self, part, data):
-        if isinstance(part, unicode): part = PyUnicode_AsUTF8String(part)
         self.mapping.type = enums.ELM_STORE_ITEM_MAPPING_NONE
         self.mapping.part = part
         self.mapping.offset = 0
 
 cdef class StoreItemMappingLabel(StoreItemMappingEmpty):
     def __init__(self, part, data):
-        if isinstance(part, unicode): part = PyUnicode_AsUTF8String(part)
         self.mapping.type = enums.ELM_STORE_ITEM_MAPPING_LABEL
         self.mapping.part = part
         self.mapping.offset = 0
 
 cdef class StoreItemMappingState(StoreItemMappingEmpty):
     def __init__(self, part, data):
-        if isinstance(part, unicode): part = PyUnicode_AsUTF8String(part)
         self.mapping.type = enums.ELM_STORE_ITEM_MAPPING_STATE
         self.mapping.part = part
         self.mapping.offset = 0
@@ -182,7 +178,6 @@ cdef class StoreItemMappingPhoto(StoreItemMapping):
     cdef Elm_Store_Item_Mapping_Photo details
 
     def __init__(self, part, data, size):
-        if isinstance(part, unicode): part = PyUnicode_AsUTF8String(part)
         self.mapping.type = enums.ELM_STORE_ITEM_MAPPING_PHOTO
         self.mapping.part = part
         self.mapping.offset = 0

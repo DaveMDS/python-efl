@@ -73,8 +73,6 @@ Default text parts of the slider widget that you can use for are:
 
 """
 
-from cpython cimport PyUnicode_AsUTF8String
-
 from efl.eo cimport _object_mapping_register
 from efl.utils.conversions cimport _ctouni
 from efl.evas cimport Object as evasObject
@@ -139,12 +137,10 @@ cdef class Slider(LayoutClass):
             return _ctouni(elm_slider_unit_format_get(self.obj))
 
         def __set__(self, unit_format):
-            if isinstance(unit_format, unicode): unit_format = PyUnicode_AsUTF8String(unit_format)
             elm_slider_unit_format_set(self.obj,
                 <const char *>unit_format if unit_format is not None else NULL)
 
     def unit_format_set(self, unit_format):
-        if isinstance(unit_format, unicode): unit_format = PyUnicode_AsUTF8String(unit_format)
         elm_slider_unit_format_set(self.obj,
             <const char *>unit_format if unit_format is not None else NULL)
     def unit_format_get(self):
@@ -174,12 +170,10 @@ cdef class Slider(LayoutClass):
             return _ctouni(elm_slider_indicator_format_get(self.obj))
 
         def __set__(self, ind_format):
-            if isinstance(ind_format, unicode): ind_format = PyUnicode_AsUTF8String(ind_format)
             elm_slider_indicator_format_set(self.obj,
                 <const char *>ind_format if ind_format is not None else NULL)
 
     def indicator_format_set(self, ind_format):
-        if isinstance(ind_format, unicode): ind_format = PyUnicode_AsUTF8String(ind_format)
         elm_slider_indicator_format_set(self.obj,
             <const char *>ind_format if ind_format is not None else NULL)
     def indicator_format_get(self):

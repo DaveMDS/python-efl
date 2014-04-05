@@ -78,7 +78,7 @@ This widget emits the following signals, besides the ones sent from
 
 """
 
-from cpython cimport PyUnicode_AsUTF8String, Py_INCREF, Py_DECREF
+from cpython cimport Py_INCREF, Py_DECREF
 from libc.stdint cimport uintptr_t
 
 from efl.eo cimport _object_mapping_register, object_from_instance, PY_REFCOUNT
@@ -512,7 +512,6 @@ cdef class Slideshow(LayoutClass):
 
         """
         def __set__(self, transition):
-            if isinstance(transition, unicode): transition = PyUnicode_AsUTF8String(transition)
             elm_slideshow_transition_set(self.obj,
                 <const char *>transition if transition is not None else NULL)
         def __get__(self):
@@ -630,7 +629,6 @@ cdef class Slideshow(LayoutClass):
 
         """
         def __set__(self, layout):
-            if isinstance(layout, unicode): layout = PyUnicode_AsUTF8String(layout)
             elm_slideshow_layout_set(self.obj,
                 <const char *>layout if layout is not None else NULL)
         def __get__(self):

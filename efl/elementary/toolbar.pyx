@@ -164,7 +164,7 @@ Where to position the item in the toolbar.
 
 """
 
-from cpython cimport PyUnicode_AsUTF8String, Py_INCREF, Py_DECREF
+from cpython cimport Py_INCREF, Py_DECREF
 
 from efl.eo cimport _object_mapping_register, object_from_instance
 from efl.utils.conversions cimport _ctouni
@@ -240,8 +240,6 @@ cdef class ToolbarItemState(object):
 
         self.params = (callback, args, kwargs)
 
-        if isinstance(icon, unicode): icon = PyUnicode_AsUTF8String(icon)
-        if isinstance(label, unicode): label = PyUnicode_AsUTF8String(label)
         self.state = elm_toolbar_item_state_add(it.item,
             <const char *>icon if icon is not None else NULL,
             <const char *>label if label is not None else NULL,
@@ -291,8 +289,6 @@ cdef class ToolbarItem(ObjectItem):
             if not callable(callback):
                 raise TypeError("callback is not callable")
 
-        if isinstance(icon, unicode): icon = PyUnicode_AsUTF8String(icon)
-        if isinstance(label, unicode): label = PyUnicode_AsUTF8String(label)
         self.icon = icon
         self.label = label
         self.cb_func = callback
@@ -542,12 +538,10 @@ cdef class ToolbarItem(ObjectItem):
             return _ctouni(elm_toolbar_item_icon_get(self.item))
 
         def __set__(self, ic):
-            if isinstance(ic, unicode): ic = PyUnicode_AsUTF8String(ic)
             elm_toolbar_item_icon_set(self.item,
                 <const char *>ic if ic is not None else NULL)
 
     def icon_set(self, ic):
-        if isinstance(ic, unicode): ic = PyUnicode_AsUTF8String(ic)
         elm_toolbar_item_icon_set(self.item,
             <const char *>ic if ic is not None else NULL)
     def icon_get(self):
@@ -622,8 +616,6 @@ cdef class ToolbarItem(ObjectItem):
             self.icon_file_set(file_name, key)
 
     def icon_file_set(self, file_name, key):
-        if isinstance(file_name, unicode): file_name = PyUnicode_AsUTF8String(file_name)
-        if isinstance(key, unicode): key = PyUnicode_AsUTF8String(key)
         if not elm_toolbar_item_icon_file_set(self.item,
             <const char *>file_name if file_name is not None else NULL,
             <const char *>key if key is not None else NULL):
@@ -821,8 +813,6 @@ cdef class Toolbar(LayoutClass):
         if callback is not None and callable(callback):
             cb = _object_item_callback
 
-        if isinstance(icon, unicode): icon = PyUnicode_AsUTF8String(icon)
-        if isinstance(label, unicode): label = PyUnicode_AsUTF8String(label)
 
         item = elm_toolbar_item_append(self.obj,
             <const char *>icon if icon is not None else NULL,
@@ -886,7 +876,6 @@ cdef class Toolbar(LayoutClass):
         :rtype: :py:class:`ToolbarItem`
 
         """
-        if isinstance(label, unicode): label = PyUnicode_AsUTF8String(label)
         return _object_item_to_python(elm_toolbar_item_find_by_label(self.obj,
             <const char *>label if label is not None else NULL))
 

@@ -280,7 +280,7 @@ include "tooltips.pxi"
 
 from libc.string cimport strdup
 from libc.stdint cimport uintptr_t
-from cpython cimport Py_INCREF, Py_DECREF, PyUnicode_AsUTF8String
+from cpython cimport Py_INCREF, Py_DECREF
 from efl.eo cimport object_from_instance, _object_mapping_register, PY_REFCOUNT
 from efl.utils.conversions cimport _ctouni, _touni
 
@@ -324,7 +324,6 @@ cdef char *_py_elm_gengrid_item_text_get(void *data, Evas_Object *obj, const cha
         return NULL
 
     if ret is not None:
-        if isinstance(ret, unicode): ret = PyUnicode_AsUTF8String(ret)
         return strdup(ret)
     else:
         return NULL

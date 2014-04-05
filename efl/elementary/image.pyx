@@ -94,7 +94,6 @@ Image manipulation types
 
 """
 
-from cpython cimport PyUnicode_AsUTF8String
 from libc.stdint cimport uintptr_t
 
 from efl.eo cimport _object_mapping_register, object_from_instance
@@ -198,8 +197,6 @@ cdef class Image(Object):
             else:
                 filename = value
                 group = None
-            if isinstance(filename, unicode): filename = PyUnicode_AsUTF8String(filename)
-            if isinstance(group, unicode): group = PyUnicode_AsUTF8String(group)
             if not elm_image_file_set(self.obj,
                 <const char *>filename if filename is not None else NULL,
                 <const char *>group if group is not None else NULL):
@@ -214,8 +211,6 @@ cdef class Image(Object):
             return (_ctouni(filename), _ctouni(group))
 
     def file_set(self, filename, group = None):
-        if isinstance(filename, unicode): filename = PyUnicode_AsUTF8String(filename)
-        if isinstance(group, unicode): group = PyUnicode_AsUTF8String(group)
         if not elm_image_file_set(self.obj,
             <const char *>filename if filename is not None else NULL,
             <const char *>group if group is not None else NULL):

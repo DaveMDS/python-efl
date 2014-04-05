@@ -85,7 +85,7 @@ overlays. Don't use this unless you really know what you are doing.
 
 """
 
-from cpython cimport PyUnicode_AsUTF8String, Py_INCREF, Py_DECREF
+from cpython cimport Py_INCREF, Py_DECREF
 from libc.stdint cimport uintptr_t
 
 from efl.eo cimport PY_REFCOUNT
@@ -243,7 +243,6 @@ cdef class Theme(object):
         :param string item: The Edje file path to be used
 
         """
-        if isinstance(item, unicode): item = PyUnicode_AsUTF8String(item)
         elm_theme_overlay_add(self.th,
             <const char *>item)
 
@@ -258,7 +257,6 @@ cdef class Theme(object):
         :type item: string
 
         """
-        if isinstance(item, unicode): item = PyUnicode_AsUTF8String(item)
         elm_theme_overlay_del(self.th,
             <const char *>item)
 
@@ -299,7 +297,6 @@ cdef class Theme(object):
         :type item: string
 
         """
-        if isinstance(item, unicode): item = PyUnicode_AsUTF8String(item)
         elm_theme_extension_add(self.th,
             <const char *>item)
 
@@ -314,7 +311,6 @@ cdef class Theme(object):
         :type item: string
 
         """
-        if isinstance(item, unicode): item = PyUnicode_AsUTF8String(item)
         elm_theme_extension_del(self.th,
             <const char *>item)
 
@@ -348,7 +344,6 @@ cdef class Theme(object):
 
         """
         def __set__(self, theme not None):
-            if isinstance(theme, unicode): theme = PyUnicode_AsUTF8String(theme)
             elm_theme_set(self.th,
                 <const char *>theme if theme is not None else NULL)
 
@@ -356,7 +351,6 @@ cdef class Theme(object):
             return _ctouni(elm_theme_get(self.th))
 
     def order_set(self, theme not None):
-        if isinstance(theme, unicode): theme = PyUnicode_AsUTF8String(theme)
         elm_theme_set(self.th,
             <const char *>theme if theme is not None else NULL)
 
@@ -416,7 +410,6 @@ cdef class Theme(object):
         :rtype: string
 
         """
-        if isinstance(key, unicode): key = PyUnicode_AsUTF8String(key)
         return _ctouni(elm_theme_data_get(self.th,
             <const char *>key if key is not None else NULL))
 
@@ -442,7 +435,6 @@ def theme_list_item_path_get(f not None, bint in_search_path):
 
     """
     cdef Eina_Bool path = in_search_path
-    if isinstance(f, unicode): f = PyUnicode_AsUTF8String(f)
     return _ctouni(elm_theme_list_item_path_get(
         <const char *>f if f is not None else NULL, &path))
 
@@ -477,11 +469,9 @@ def theme_name_available_list():
 
 # for compatibility
 def theme_overlay_add(item not None):
-    if isinstance(item, unicode): item = PyUnicode_AsUTF8String(item)
     elm_theme_overlay_add(NULL,
         <const char *>item)
 
 def theme_extension_add(item not None):
-    if isinstance(item, unicode): item = PyUnicode_AsUTF8String(item)
     elm_theme_extension_add(NULL,
         <const char *>item)

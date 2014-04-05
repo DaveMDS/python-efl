@@ -158,7 +158,7 @@ Selection modes
 
 """
 
-from cpython cimport PyUnicode_AsUTF8String, Py_DECREF
+from cpython cimport Py_DECREF
 from libc.stdint cimport uintptr_t
 
 from efl.eo cimport _object_mapping_register, object_from_instance, PY_REFCOUNT
@@ -217,7 +217,6 @@ cdef class ListItem(ObjectItem):
         :param cb_data: An object associated with the callback.
 
         """
-        if isinstance(label, unicode): label = PyUnicode_AsUTF8String(label)
         self.label = label
 
         if icon is not None:
@@ -718,8 +717,6 @@ cdef class List(Object):
 
             cb = _object_item_callback
 
-        if isinstance(label, unicode): label = PyUnicode_AsUTF8String(label)
-
         item = elm_list_item_append(self.obj,
             <const char *>label if label is not None else NULL,
             icon.obj if icon is not None else NULL,
@@ -747,8 +744,6 @@ cdef class List(Object):
             ret.cb_func = callback
 
             cb = _object_item_callback
-
-        if isinstance(label, unicode): label = PyUnicode_AsUTF8String(label)
 
         item = elm_list_item_prepend(self.obj,
             <const char *>label if label is not None else NULL,
@@ -779,8 +774,6 @@ cdef class List(Object):
 
             cb = _object_item_callback
 
-        if isinstance(label, unicode): label = PyUnicode_AsUTF8String(label)
-
         item = elm_list_item_insert_before(self.obj,
             before.item,
             <const char *>label if label is not None else NULL,
@@ -810,8 +803,6 @@ cdef class List(Object):
             ret.cb_func = callback
 
             cb = _object_item_callback
-
-        if isinstance(label, unicode): label = PyUnicode_AsUTF8String(label)
 
         item = elm_list_item_insert_after(self.obj,
             after.item,

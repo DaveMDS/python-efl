@@ -74,8 +74,6 @@ Default part names for the "recording" style:
 
 """
 
-from cpython cimport PyUnicode_AsUTF8String
-
 from efl.eo cimport _object_mapping_register
 from efl.utils.conversions cimport _ctouni
 from efl.evas cimport Object as evasObject
@@ -166,7 +164,6 @@ cdef class Progressbar(LayoutClass):
         .. versionadded:: 1.8
 
         """
-        if isinstance(part, unicode): part = PyUnicode_AsUTF8String(part)
         return elm_progressbar_part_value_get(self.obj, <const char *>part)
 
     def part_value_set(self, part not None, double value):
@@ -179,7 +176,6 @@ cdef class Progressbar(LayoutClass):
         .. versionadded:: 1.8
 
         """
-        if isinstance(part, unicode): part = PyUnicode_AsUTF8String(part)
         elm_progressbar_part_value_set(self.obj, <const char *>part, value)
 
     property span_size:
@@ -229,12 +225,10 @@ cdef class Progressbar(LayoutClass):
             return _ctouni(elm_progressbar_unit_format_get(self.obj))
 
         def __set__(self, unit_format):
-            if isinstance(unit_format, unicode): unit_format = PyUnicode_AsUTF8String(unit_format)
             elm_progressbar_unit_format_set(self.obj,
                 <const char *>unit_format if unit_format is not None else NULL)
 
     def unit_format_set(self, unit_format):
-        if isinstance(unit_format, unicode): unit_format = PyUnicode_AsUTF8String(unit_format)
         elm_progressbar_unit_format_set(self.obj,
             <const char *>unit_format if unit_format is not None else NULL)
     def unit_format_get(self):

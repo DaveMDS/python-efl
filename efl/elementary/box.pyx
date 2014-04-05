@@ -125,8 +125,6 @@ Box layout modes
 
 """
 
-from cpython cimport PyUnicode_AsUTF8String
-
 from efl.eo cimport _object_mapping_register
 from efl.utils.conversions cimport _ctouni
 from efl.evas cimport Object as evasObject

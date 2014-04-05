@@ -177,8 +177,6 @@ cdef class Image(Object):
     #     :param key: The image key in file, or ``None``.
 
     #     """
-    #     if isinstance(format, unicode): format = PyUnicode_AsUTF8String(format)
-    #     if isinstance(key, unicode): key = PyUnicode_AsUTF8String(key)
     #     evas_object_image_memfile_set(self.obj, data, size,
     #         <char *>format if format is not None else NULL,
     #         <char *>key if key is not None else NULL)
@@ -205,8 +203,6 @@ cdef class Image(Object):
             else:
                 filename, key = value
             cdef int err
-            if isinstance(filename, unicode): filename = PyUnicode_AsUTF8String(filename)
-            if isinstance(key, unicode): key = PyUnicode_AsUTF8String(key)
             evas_object_image_file_set(self.obj,
                 <const char *>filename if filename is not None else NULL,
                 <const char *>key if key is not None else NULL)
@@ -216,8 +212,6 @@ cdef class Image(Object):
 
     def file_set(self, filename, key=None):
         cdef int err
-        if isinstance(filename, unicode): filename = PyUnicode_AsUTF8String(filename)
-        if isinstance(key, unicode): key = PyUnicode_AsUTF8String(key)
         evas_object_image_file_set(self.obj,
             <const char *>filename if filename is not None else NULL,
             <const char *>key if key is not None else NULL)
@@ -745,9 +739,6 @@ cdef class Image(Object):
         :type flags: unicode
 
         """
-        if isinstance(filename, unicode): filename = PyUnicode_AsUTF8String(filename)
-        if isinstance(key, unicode): key = PyUnicode_AsUTF8String(key)
-        if isinstance(flags, unicode): flags = PyUnicode_AsUTF8String(flags)
         evas_object_image_save(self.obj, filename,
             <const char *>key if key is not None else NULL,
             <const char *>flags if flags is not None else NULL)
@@ -1402,7 +1393,6 @@ def extension_can_load(filename):
     .. note:: This function is threadsafe.
 
     """
-    if isinstance(filename, unicode): filename = PyUnicode_AsUTF8String(filename)
     return bool(evas_object_image_extension_can_load_get(
         <const char *>filename))
 

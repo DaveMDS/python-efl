@@ -179,7 +179,7 @@ Wrap modes
 
 """
 
-from cpython cimport PyUnicode_AsUTF8String, Py_DECREF
+from cpython cimport Py_DECREF
 from libc.stdint cimport uintptr_t
 
 from efl.eo cimport _object_mapping_register, PY_REFCOUNT
@@ -233,7 +233,6 @@ cdef class PopupItem(ObjectItem):
             if not callable(func):
                 raise TypeError("func is not None or callable")
 
-        if isinstance(label, unicode): label = PyUnicode_AsUTF8String(label)
         self.label = label
         self.icon = icon
         self.cb_func = func
@@ -315,7 +314,6 @@ cdef class Popup(LayoutClass):
         if func is not None and callable(func):
             cb = _object_item_callback
 
-        if isinstance(label, unicode): label = PyUnicode_AsUTF8String(label)
 
         item = elm_popup_item_append(self.obj,
             <const char *>label if label is not None else NULL,

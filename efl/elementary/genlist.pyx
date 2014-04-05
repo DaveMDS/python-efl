@@ -506,7 +506,7 @@ Selection modes
 
 include "tooltips.pxi"
 
-from cpython cimport PyUnicode_AsUTF8String, Py_DECREF, Py_INCREF
+from cpython cimport Py_DECREF, Py_INCREF
 from libc.stdint cimport uintptr_t
 
 from efl.eo cimport _object_mapping_register, PY_REFCOUNT
@@ -591,7 +591,6 @@ cdef char *_py_elm_genlist_item_text_get(void *data, Evas_Object *obj, const cha
         return NULL
 
     if ret is not None:
-        if isinstance(ret, unicode): ret = PyUnicode_AsUTF8String(ret)
         return strdup(ret)
     else:
         return NULL

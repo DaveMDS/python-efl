@@ -18,7 +18,7 @@
 import traceback
 import warnings
 
-from cpython cimport PyMem_Malloc, PyMem_Free, PyUnicode_AsUTF8String
+from cpython cimport PyMem_Malloc, PyMem_Free
 cimport libc.stdlib
 from libc.stdint cimport uintptr_t
 
@@ -156,7 +156,6 @@ def thaw():
 
 
 def fontset_append_set(fonts):
-    if isinstance(fonts, unicode): fonts = PyUnicode_AsUTF8String(fonts)
     edje_fontset_append_set(<const char *>fonts if fonts is not None else NULL)
 
 
@@ -166,7 +165,6 @@ def fontset_append_get():
 
 def file_collection_list(file):
     cdef Eina_List *lst
-    if isinstance(file, unicode): file = PyUnicode_AsUTF8String(file)
     lst = edje_file_collection_list(
                 <const char *>file if file is not None else NULL)
     ret = eina_list_strings_to_python_list(lst)
@@ -175,8 +173,6 @@ def file_collection_list(file):
 
 
 def file_group_exists(file, group):
-    if isinstance(file, unicode): file = PyUnicode_AsUTF8String(file)
-    if isinstance(group, unicode): group = PyUnicode_AsUTF8String(group)
     return bool(edje_file_group_exists(
             <const char *>file if file is not None else NULL,
             <const char *>group if group is not None else NULL))
@@ -184,8 +180,6 @@ def file_group_exists(file, group):
 
 def file_data_get(file, key):
     cdef char *s
-    if isinstance(file, unicode): file = PyUnicode_AsUTF8String(file)
-    if isinstance(key, unicode): key = PyUnicode_AsUTF8String(key)
     s = edje_file_data_get(
                 <const char *>file if file is not None else NULL,
                 <const char *>key if key is not None else NULL)
@@ -233,8 +227,6 @@ def color_class_set(color_class,
                     int r, int g, int b, int a,
                     int r2, int g2, int b2, int a2,
                     int r3, int g3, int b3, int a3):
-    if isinstance(color_class, unicode):
-        color_class = PyUnicode_AsUTF8String(color_class)
     edje_color_class_set(
             <const char *>color_class if color_class is not None else NULL,
             r, g, b, a, r2, g2, b2, a2, r3, g3, b3, a3)
@@ -244,8 +236,6 @@ def color_class_get(color_class):
     cdef int r, g, b, a
     cdef int r2, g2, b2, a2
     cdef int r3, g3, b3, a3
-    if isinstance(color_class, unicode):
-        color_class = PyUnicode_AsUTF8String(color_class)
     edje_color_class_get(
             <const char *>color_class if color_class is not None else NULL,
             &r, &g, &b, &a, &r2, &g2, &b2, &a2, &r3, &g3, &b3, &a3)
@@ -253,8 +243,6 @@ def color_class_get(color_class):
 
 
 def color_class_del(color_class):
-    if isinstance(color_class, unicode):
-        color_class = PyUnicode_AsUTF8String(color_class)
     edje_color_class_del(
         <const char *>color_class if color_class is not None else NULL)
 
@@ -275,10 +263,6 @@ def color_class_list():
 
 
 def text_class_set(text_class, font, int size):
-    if isinstance(text_class, unicode):
-        text_class = PyUnicode_AsUTF8String(text_class)
-    if isinstance(font, unicode):
-        font = PyUnicode_AsUTF8String(font)
     edje_text_class_set(
         <const char *>text_class if text_class is not None else NULL,
         <const char *>font if font is not None else NULL,
@@ -286,7 +270,6 @@ def text_class_set(text_class, font, int size):
 
 
 def text_class_del(text_class):
-    if isinstance(text_class, unicode): text_class = PyUnicode_AsUTF8String(text_class)
     edje_text_class_del(
         <const char *>text_class if text_class is not None else NULL)
 
@@ -333,7 +316,6 @@ def available_modules_get():
 
 
 def module_load(name):
-    if isinstance(name, unicode): name = PyUnicode_AsUTF8String(name)
     return bool(edje_module_load(
                     <const char *>name if name is not None else NULL))
 

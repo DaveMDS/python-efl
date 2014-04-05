@@ -138,7 +138,7 @@ Fileselector sort method
 """
 
 
-from cpython cimport PyUnicode_AsUTF8String, Py_INCREF
+from cpython cimport Py_INCREF
 from libc.stdint cimport uintptr_t
 
 from efl.eo cimport _object_mapping_register
@@ -288,12 +288,10 @@ cdef class Fileselector(LayoutClass):
             return _ctouni(elm_fileselector_path_get(self.obj))
 
         def __set__(self, path):
-            if isinstance(path, unicode): path = PyUnicode_AsUTF8String(path)
             elm_fileselector_path_set(self.obj,
                 <const char *>path if path is not None else NULL)
 
     def path_set(self, path):
-        if isinstance(path, unicode): path = PyUnicode_AsUTF8String(path)
         elm_fileselector_path_set(self.obj,
             <const char *>path if path is not None else NULL)
     def path_get(self):
@@ -383,13 +381,11 @@ cdef class Fileselector(LayoutClass):
             return _ctouni(elm_fileselector_selected_get(self.obj))
 
         def __set__(self, path):
-            if isinstance(path, unicode): path = PyUnicode_AsUTF8String(path)
             if not elm_fileselector_selected_set(self.obj,
                 <const char *>path if path is not None else NULL):
                     raise RuntimeError("Setting the selected path failed")
 
     def selected_set(self, path):
-        if isinstance(path, unicode): path = PyUnicode_AsUTF8String(path)
         if not elm_fileselector_selected_set(self.obj,
             <const char *>path if path is not None else NULL):
                 raise RuntimeError("Setting the selected path failed")
@@ -443,8 +439,6 @@ cdef class Fileselector(LayoutClass):
 
         """
         mime_types_s = ",".join(mime_types)
-        if isinstance(mime_types_s, unicode): mime_types_s = PyUnicode_AsUTF8String(mime_types_s)
-        if isinstance(filter_name, unicode): filter_name = PyUnicode_AsUTF8String(filter_name)
         if not elm_fileselector_mime_types_filter_append(self.obj, mime_types_s,
             <const char *>filter_name if filter_name is not None else NULL):
             raise RuntimeWarning
@@ -474,7 +468,6 @@ cdef class Fileselector(LayoutClass):
         #       deleted in the remove method.
         Py_INCREF(cb_data)
 
-        if isinstance(filter_name, unicode): filter_name = PyUnicode_AsUTF8String(filter_name)
         elm_fileselector_custom_filter_append(self.obj,
             py_elm_fileselector_custom_filter_cb, <void *>cb_data,
             <const char *>filter_name if filter_name is not None else NULL)

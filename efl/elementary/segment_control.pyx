@@ -53,7 +53,6 @@ Default text parts of the segment control items that you can use for are:
 
 """
 
-from cpython cimport PyUnicode_AsUTF8String
 from libc.stdint cimport uintptr_t
 
 from efl.eo cimport _object_mapping_register, object_from_instance
@@ -76,7 +75,6 @@ cdef class SegmentControlItem(ObjectItem):
         object label
 
     def __init__(self, evasObject icon = None, label = None, *args, **kwargs):
-        if isinstance(label, unicode): label = PyUnicode_AsUTF8String(label)
         self.icon = icon
         self.label = label
         self.args = args
@@ -274,7 +272,6 @@ cdef class SegmentControl(LayoutClass):
         cdef SegmentControlItem ret = SegmentControlItem()
         cdef Elm_Object_Item *item
 
-        if isinstance(label, unicode): label = PyUnicode_AsUTF8String(label)
         item = elm_segment_control_item_add(self.obj,
             icon.obj if icon is not None else NULL,
             <const char *>label if label is not None else NULL)
@@ -323,7 +320,6 @@ cdef class SegmentControl(LayoutClass):
         cdef SegmentControlItem ret = SegmentControlItem()
         cdef Elm_Object_Item *item
 
-        if isinstance(label, unicode): label = PyUnicode_AsUTF8String(label)
         item = elm_segment_control_item_insert_at(self.obj,
             icon.obj if icon is not None else NULL,
             <const char *>label if label is not None else NULL, index)

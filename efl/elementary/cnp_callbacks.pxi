@@ -392,7 +392,6 @@ cdef class DragUserInfo(object):
             return _ctouni(self._data)
 
         def __set__(self, value):
-            if isinstance(value, unicode): value = PyUnicode_AsUTF8String(value)
             self._data = value
 
     # Elm_Sel_Format format;

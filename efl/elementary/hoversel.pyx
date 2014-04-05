@@ -73,7 +73,7 @@ Icon types
 
 """
 
-from cpython cimport PyUnicode_AsUTF8String, Py_DECREF
+from cpython cimport Py_DECREF
 from libc.stdint cimport uintptr_t
 
 from efl.eo cimport _object_mapping_register, object_from_instance
@@ -122,8 +122,6 @@ cdef class HoverselItem(ObjectItem):
         :type callback: function
 
         """
-        if isinstance(label, unicode): label = PyUnicode_AsUTF8String(label)
-        if isinstance(icon_file, unicode): icon_file = PyUnicode_AsUTF8String(icon_file)
         self.label = label
         self.icon_file = icon_file
         self.icon_type = icon_type
@@ -181,8 +179,6 @@ cdef class HoverselItem(ObjectItem):
         def __set__(self, value):
             icon_file, icon_group, icon_type = value
             a1, a2, a3 = icon_file, icon_group, icon_type
-            if isinstance(a1, unicode): a1 = PyUnicode_AsUTF8String(a1)
-            if isinstance(a2, unicode): a2 = PyUnicode_AsUTF8String(a2)
             if self.item == NULL:
                 self.icon_file = a1
                 self.icon_group = a2
@@ -210,8 +206,6 @@ cdef class HoverselItem(ObjectItem):
 
     def icon_set(self, icon_file, icon_group, icon_type):
         a1, a2, a3 = icon_file, icon_group, icon_type
-        if isinstance(a1, unicode): a1 = PyUnicode_AsUTF8String(a1)
-        if isinstance(a2, unicode): a2 = PyUnicode_AsUTF8String(a2)
         if self.item == NULL:
             self.icon_file = a1
             self.icon_group = a2
@@ -352,9 +346,6 @@ cdef class Hoversel(Button):
 
         if callback is not None and callable(callback):
             cb = _object_item_callback
-
-        if isinstance(label, unicode): label = PyUnicode_AsUTF8String(label)
-        if isinstance(icon_file, unicode): icon_file = PyUnicode_AsUTF8String(icon_file)
 
         item = elm_hoversel_item_add(self.obj,
             <const char *>label if label is not None else NULL,

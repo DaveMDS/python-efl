@@ -101,8 +101,6 @@ Elm_Softcursor_Mode
 
 """
 
-from cpython cimport PyUnicode_AsUTF8String
-
 from efl.utils.conversions cimport _ctouni, eina_list_strings_to_python_list
 
 cimport enums
@@ -167,7 +165,6 @@ cdef class Configuration(object):
         def __get__(self):
             return _ctouni(elm_config_profile_get())
         def __set__(self, profile):
-            if isinstance(profile, unicode): profile = PyUnicode_AsUTF8String(profile)
             elm_config_profile_set(<const char *>profile if profile is not None else NULL)
 
     def profile_dir_get(self, profile, bint is_user):
@@ -186,7 +183,6 @@ cdef class Configuration(object):
         :rtype: string
 
         """
-        if isinstance(profile, unicode): profile = PyUnicode_AsUTF8String(profile)
         return _ctouni(elm_config_profile_dir_get(
             <const char *>profile if profile is not None else NULL,
             is_user))
@@ -559,7 +555,6 @@ cdef class Configuration(object):
         def __get__(self):
             return _ctouni(elm_config_engine_get())
         def __set__(self, engine):
-            if isinstance(engine, unicode): engine = PyUnicode_AsUTF8String(engine)
             elm_config_engine_set(
                 <const char *>engine if engine is not None else NULL)
 
@@ -579,7 +574,6 @@ cdef class Configuration(object):
         def __get__(self):
             return _ctouni(elm_config_preferred_engine_get())
         def __set__(self, engine):
-            if isinstance(engine, unicode): engine = PyUnicode_AsUTF8String(engine)
             elm_config_preferred_engine_set(
                 <const char *>engine if engine is not None else NULL)
 
@@ -664,8 +658,6 @@ cdef class Configuration(object):
         """
         a1 = text_class
         a2 = font
-        if isinstance(a1, unicode): a1 = PyUnicode_AsUTF8String(a1)
-        if isinstance(a2, unicode): a2 = PyUnicode_AsUTF8String(a2)
         elm_config_font_overlay_set(
             <const char *>a1 if a1 is not None else NULL,
             <const char *>a2 if a2 is not None else NULL,
@@ -715,7 +707,6 @@ cdef class Configuration(object):
 
         """
         a1 = text_class
-        if isinstance(a1, unicode): a1 = PyUnicode_AsUTF8String(a1)
         elm_config_font_overlay_unset(
             <const char *>a1 if a1 is not None else NULL)
 
@@ -953,14 +944,12 @@ def focus_highlight_animate_set(animate):
 def preferred_engine_get():
     return _ctouni(elm_config_preferred_engine_get())
 def preferred_engine_set(engine):
-    if isinstance(engine, unicode): engine = PyUnicode_AsUTF8String(engine)
     elm_config_preferred_engine_set(
         <const char *>engine if engine is not None else NULL)
 
 def engine_get():
     return _ctouni(elm_config_engine_get())
 def engine_set(engine):
-    if isinstance(engine, unicode): engine = PyUnicode_AsUTF8String(engine)
     elm_config_engine_set(
         <const char *>engine if engine is not None else NULL)
 

@@ -249,8 +249,6 @@ Datetime fields
 
 """
 
-from cpython cimport PyUnicode_AsUTF8String
-
 from efl.eo cimport _object_mapping_register
 from efl.utils.conversions cimport _ctouni
 from efl.evas cimport Object as evasObject
@@ -375,7 +373,6 @@ cdef class Datetime(Object):
         def __get__(self):
             return _ctouni(elm_datetime_format_get(self.obj))
         def __set__(self, fmt):
-            if isinstance(fmt, unicode): fmt = PyUnicode_AsUTF8String(fmt)
             elm_datetime_format_set(self.obj,
                 <const char *>fmt if fmt is not None else NULL)
 

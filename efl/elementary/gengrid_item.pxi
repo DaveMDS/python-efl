@@ -322,13 +322,11 @@ cdef class GengridItem(ObjectItem):
 
         """
         def __set__(self, text):
-            if isinstance(text, unicode): text = PyUnicode_AsUTF8String(text)
             elm_gengrid_item_tooltip_text_set(self.item,
                 <const char *>text if text is not None else NULL)
 
     def tooltip_text_set(self, text):
         # TODO: document this
-        if isinstance(text, unicode): text = PyUnicode_AsUTF8String(text)
         elm_gengrid_item_tooltip_text_set(self.item,
             <const char *>text if text is not None else NULL)
 
@@ -391,12 +389,10 @@ cdef class GengridItem(ObjectItem):
             return _ctouni(elm_gengrid_item_tooltip_style_get(self.item))
 
         def __set__(self, style):
-            if isinstance(style, unicode): style = PyUnicode_AsUTF8String(style)
             elm_gengrid_item_tooltip_style_set(self.item,
                 <const char *>style if style is not None else NULL)
 
     def tooltip_style_set(self, style=None):
-        if isinstance(style, unicode): style = PyUnicode_AsUTF8String(style)
         elm_gengrid_item_tooltip_style_set(self.item,
             <const char *>style if style is not None else NULL)
     def tooltip_style_get(self):
@@ -425,7 +421,6 @@ cdef class GengridItem(ObjectItem):
             return _ctouni(elm_gengrid_item_cursor_get(self.item))
 
         def __set__(self, cursor):
-            if isinstance(cursor, unicode): cursor = PyUnicode_AsUTF8String(cursor)
             elm_gengrid_item_cursor_set(self.item,
                 <const char *>cursor if cursor is not None else NULL)
 
@@ -433,7 +428,6 @@ cdef class GengridItem(ObjectItem):
             elm_gengrid_item_cursor_unset(self.item)
 
     def cursor_set(self, cursor):
-        if isinstance(cursor, unicode): cursor = PyUnicode_AsUTF8String(cursor)
         elm_gengrid_item_cursor_set(self.item,
             <const char *>cursor if cursor is not None else NULL)
     def cursor_get(self):
@@ -447,12 +441,10 @@ cdef class GengridItem(ObjectItem):
             return _ctouni(elm_gengrid_item_cursor_style_get(self.item))
 
         def __set__(self, style):
-            if isinstance(style, unicode): style = PyUnicode_AsUTF8String(style)
             elm_gengrid_item_cursor_style_set(self.item,
                 <const char *>style if style is not None else NULL)
 
     def cursor_style_set(self, style=None):
-        if isinstance(style, unicode): style = PyUnicode_AsUTF8String(style)
         elm_gengrid_item_cursor_style_set(self.item,
             <const char *>style if style is not None else NULL)
     def cursor_style_get(self):

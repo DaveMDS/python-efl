@@ -115,10 +115,6 @@ cdef class GenlistItemClass(object):
         a2 = decorate_item_style
         a3 = decorate_all_item_style
 
-        if isinstance(a1, unicode): a1 = PyUnicode_AsUTF8String(a1)
-        if isinstance(a2, unicode): a2 = PyUnicode_AsUTF8String(a2)
-        if isinstance(a3, unicode): a3 = PyUnicode_AsUTF8String(a3)
-
         self._item_style = a1
         self._decorate_item_style = a2
         self._decorate_all_item_style = a3
@@ -171,7 +167,6 @@ cdef class GenlistItemClass(object):
             return self._item_style.decode("UTF-8")
 
         def __set__(self, style):
-            if isinstance(style, unicode): style = PyUnicode_AsUTF8String(style)
             self._item_style = style
             self.cls.item_style = <char *>style if style is not None else NULL
 
@@ -181,7 +176,6 @@ cdef class GenlistItemClass(object):
             return self._decorate_item_style.decode("UTF-8")
 
         def __set__(self, style):
-            if isinstance(style, unicode): style = PyUnicode_AsUTF8String(style)
             self._decorate_item_style = style
             self.cls.decorate_item_style = <char *>style if style is not None else NULL
 
@@ -191,7 +185,6 @@ cdef class GenlistItemClass(object):
             return self._decorate_all_item_style.decode("UTF-8")
 
         def __set__(self, style):
-            if isinstance(style, unicode): style = PyUnicode_AsUTF8String(style)
             self._decorate_all_item_style = style
             self.cls.decorate_all_item_style = <char *>style if style is not None else NULL
 

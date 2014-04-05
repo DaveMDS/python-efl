@@ -167,7 +167,7 @@ Days
 
 """
 
-from cpython cimport PyUnicode_AsUTF8String, PyMem_Malloc, PyMem_Free
+from cpython cimport PyMem_Malloc, PyMem_Free
 
 from efl.utils.conversions cimport _ctouni, array_of_strings_to_python_list, \
     python_list_strings_to_array_of_strings
@@ -261,7 +261,6 @@ cdef class CalendarMark(object):
         time.tm_wday = tmtup.tm_wday
         time.tm_yday = tmtup.tm_yday
         time.tm_isdst = tmtup.tm_isdst
-        if isinstance(mark_type, unicode): mark_type = PyUnicode_AsUTF8String(mark_type)
         self.obj = elm_calendar_mark_add(cal.obj,
             <const char *>mark_type if mark_type is not None else NULL,
             &time, repeat)
