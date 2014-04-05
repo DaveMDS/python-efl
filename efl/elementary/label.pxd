@@ -1,4 +1,4 @@
-from efl.evas cimport Eina_Bool, const_Evas_Object, Evas_Object, Evas_Coord
+from efl.evas cimport Eina_Bool, Evas_Object, Evas_Coord
 from enums cimport Elm_Wrap_Type, Elm_Label_Slide_Mode
 
 cdef extern from "Elementary.h":
@@ -15,5 +15,5 @@ cdef extern from "Elementary.h":
     double                elm_label_slide_speed_get(Evas_Object *obj)
 # TODO:    void                    elm_label_slide_area_limit_set(Evas_Object *obj, Eina_Bool limit)
     void                  elm_label_slide_mode_set(Evas_Object *obj, Elm_Label_Slide_Mode mode)
-    Elm_Label_Slide_Mode  elm_label_slide_mode_get(const_Evas_Object *obj)
+    Elm_Label_Slide_Mode  elm_label_slide_mode_get(const Evas_Object *obj)
     void                  elm_label_slide_go(Evas_Object *obj)

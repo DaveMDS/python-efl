@@ -552,24 +552,24 @@ def Entry_markup_to_utf8(string):
     """Entry_markup_to_utf8(string)"""
     if isinstance(string, unicode): string = PyUnicode_AsUTF8String(string)
     return _touni(elm_entry_markup_to_utf8(
-        <const_char *>string if string is not None else NULL))
+        <const char *>string if string is not None else NULL))
 
 @DEPRECATED("1.8", "Use utf8_to_markup() instead.")
 def Entry_utf8_to_markup(string):
     """Entry_utf8_to_markup(string)"""
     if isinstance(string, unicode): string = PyUnicode_AsUTF8String(string)
     return _touni(elm_entry_utf8_to_markup(
-        <const_char *>string if string is not None else NULL))
+        <const char *>string if string is not None else NULL))
 
 def markup_to_utf8(string):
     if isinstance(string, unicode): string = PyUnicode_AsUTF8String(string)
     return _touni(elm_entry_markup_to_utf8(
-        <const_char *>string if string is not None else NULL))
+        <const char *>string if string is not None else NULL))
 
 def utf8_to_markup(string):
     if isinstance(string, unicode): string = PyUnicode_AsUTF8String(string)
     return _touni(elm_entry_utf8_to_markup(
-        <const_char *>string if string is not None else NULL))
+        <const char *>string if string is not None else NULL))
 
 cdef class EntryContextMenuItem(object):
     """
@@ -606,8 +606,8 @@ cdef class EntryContextMenuItem(object):
         """
         def __get__(self):
             cdef:
-                const_char *icon_file
-                const_char *icon_group
+                const char *icon_file
+                const char *icon_group
                 Elm_Icon_Type icon_type
             elm_entry_context_menu_item_icon_get(self.item,
                 &icon_file,
@@ -822,7 +822,7 @@ cdef class Entry(LayoutClass):
         """
         if isinstance(style, unicode): style = PyUnicode_AsUTF8String(style)
         elm_entry_text_style_user_push(self.obj,
-            <const_char *>style if style is not None else NULL)
+            <const char *>style if style is not None else NULL)
 
     def text_style_user_pop(self):
         """text_style_user_pop()
@@ -909,12 +909,12 @@ cdef class Entry(LayoutClass):
         def __set__(self, entry):
             if isinstance(entry, unicode): entry = PyUnicode_AsUTF8String(entry)
             elm_entry_entry_set(self.obj,
-                <const_char *>entry if entry is not None else NULL)
+                <const char *>entry if entry is not None else NULL)
 
     def entry_set(self, entry):
         if isinstance(entry, unicode): entry = PyUnicode_AsUTF8String(entry)
         elm_entry_entry_set(self.obj,
-            <const_char *>entry if entry is not None else NULL)
+            <const char *>entry if entry is not None else NULL)
     def entry_get(self):
         return _ctouni(elm_entry_entry_get(self.obj))
 
@@ -935,7 +935,7 @@ cdef class Entry(LayoutClass):
         """
         if isinstance(text, unicode): text = PyUnicode_AsUTF8String(text)
         elm_entry_entry_append(self.obj,
-            <const_char *>text if text is not None else NULL)
+            <const char *>text if text is not None else NULL)
 
     property is_empty:
         """Gets whether the entry is empty.
@@ -978,7 +978,7 @@ cdef class Entry(LayoutClass):
         done to the textblock returned by this function should be followed by
         a call to :py:func:`calc_force()`.
 
-        The return value is marked as const_as an additional warning.
+        The return value is marked as const as an additional warning.
         One should not use the returned object with any of the generic evas
         functions (geometry_get/resize/move and etc), but only with the textblock
         functions; The former will either not work at all, or break the correct
@@ -1035,7 +1035,7 @@ cdef class Entry(LayoutClass):
         """
         if isinstance(entry, unicode): entry = PyUnicode_AsUTF8String(entry)
         elm_entry_entry_insert(self.obj,
-            <const_char *>entry if entry is not None else NULL)
+            <const char *>entry if entry is not None else NULL)
 
     property line_wrap:
         """The line wrap type to use on multi-line entries.
@@ -1245,7 +1245,7 @@ cdef class Entry(LayoutClass):
 
         """
         cdef:
-            const_char *text = elm_entry_cursor_content_get(self.obj)
+            const char *text = elm_entry_cursor_content_get(self.obj)
             unicode ret = _ctouni(text)
 
         free(<void *>text)
@@ -1358,8 +1358,8 @@ cdef class Entry(LayoutClass):
         if isinstance(icon_file, unicode): icon_file = PyUnicode_AsUTF8String(icon_file)
 
         elm_entry_context_menu_item_add(self.obj,
-            <const_char *>label if label is not None else NULL,
-            <const_char *>icon_file if icon_file is not None else NULL,
+            <const char *>label if label is not None else NULL,
+            <const char *>icon_file if icon_file is not None else NULL,
             icon_type,
             cb,
             <void *>data if func is not None else NULL)
@@ -1495,14 +1495,14 @@ cdef class Entry(LayoutClass):
         """markup_to_utf8(string)"""
         if isinstance(string, unicode): string = PyUnicode_AsUTF8String(string)
         return _touni(elm_entry_markup_to_utf8(
-            <const_char *>string if string is not None else NULL))
+            <const char *>string if string is not None else NULL))
 
     @DEPRECATED("1.8", "Use the module level utf8_to_markup() method instead.")
     def utf8_to_markup(self, string):
         """utf8_to_markup(string)"""
         if isinstance(string, unicode): string = PyUnicode_AsUTF8String(string)
         return _touni(elm_entry_utf8_to_markup(
-            <const_char *>string if string is not None else NULL))
+            <const char *>string if string is not None else NULL))
 
     property file:
         """The file for the text to display and then edit.
@@ -1523,7 +1523,7 @@ cdef class Entry(LayoutClass):
 
         """
         def __get__(self):
-            cdef const_char *file
+            cdef const char *file
             cdef Elm_Text_Format format
             elm_entry_file_get(self.obj, &file, &format)
             return (_ctouni(file), format)
@@ -1534,7 +1534,7 @@ cdef class Entry(LayoutClass):
             a2 = file_format
             if isinstance(a1, unicode): a1 = PyUnicode_AsUTF8String(a1)
             if not elm_entry_file_set(self.obj,
-                <const_char *>a1 if a1 is not None else NULL,
+                <const char *>a1 if a1 is not None else NULL,
                 a2 if a2 is not None else enums.ELM_TEXT_FORMAT_PLAIN_UTF8):
                 raise RuntimeError("Could not set file")
 
@@ -1543,11 +1543,11 @@ cdef class Entry(LayoutClass):
         a2 = file_format
         if isinstance(a1, unicode): a1 = PyUnicode_AsUTF8String(a1)
         if not elm_entry_file_set(self.obj,
-            <const_char *>a1 if a1 is not None else NULL,
+            <const char *>a1 if a1 is not None else NULL,
             a2 if a2 is not None else enums.ELM_TEXT_FORMAT_PLAIN_UTF8):
             raise RuntimeError("Could not set file")
     def file_get(self):
-        cdef const_char *file
+        cdef const char *file
         cdef Elm_Text_Format format
         elm_entry_file_get(self.obj, &file, &format)
         return (_ctouni(file), format)
@@ -1779,7 +1779,7 @@ cdef class Entry(LayoutClass):
     #     :param len: the length of data, in bytes, to send to the input panel
 
     #     """
-    #     elm_entry_input_panel_imdata_set(self.obj, const_void *data, int len)
+    #     elm_entry_input_panel_imdata_set(self.obj, const void *data, int len)
 
     # TODO:
     # def input_panel_imdata_get(self, data, length):
@@ -2012,12 +2012,12 @@ cdef class Entry(LayoutClass):
         def __set__(self, style):
             if isinstance(style, unicode): style = PyUnicode_AsUTF8String(style)
             elm_entry_anchor_hover_style_set(self.obj,
-                <const_char *>style if style is not None else NULL)
+                <const char *>style if style is not None else NULL)
 
     def anchor_hover_style_set(self, style):
         if isinstance(style, unicode): style = PyUnicode_AsUTF8String(style)
         elm_entry_anchor_hover_style_set(self.obj,
-            <const_char *>style if style is not None else NULL)
+            <const char *>style if style is not None else NULL)
     def anchor_hover_style_get(self):
         return _ctouni(elm_entry_anchor_hover_style_get(self.obj))
 

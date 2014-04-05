@@ -171,7 +171,7 @@ cdef class Object(Eo):
 
     def __repr__(self):
         cdef:
-            const_char *name = evas_object_name_get(self.obj)
+            const char *name = evas_object_name_get(self.obj)
             bint clipped = evas_object_clip_get(self.obj) is not NULL
             int layer = evas_object_layer_get(self.obj)
             bint visible = evas_object_visible_get(self.obj)
@@ -1212,14 +1212,14 @@ cdef class Object(Eo):
         def __set__(self, value):
             if isinstance(value, unicode): value = PyUnicode_AsUTF8String(value)
             evas_object_name_set(self.obj,
-                <const_char *>value if value is not None else NULL)
+                <const char *>value if value is not None else NULL)
 
     def name_get(self):
         return _ctouni(evas_object_name_get(self.obj))
     def name_set(self, value):
         if isinstance(value, unicode): value = PyUnicode_AsUTF8String(value)
         evas_object_name_set(self.obj,
-            <const_char *>value if value is not None else NULL)
+            <const char *>value if value is not None else NULL)
 
     property focus:
         """Whenever object currently have the focus.
@@ -1764,7 +1764,7 @@ cdef class Object(Eo):
 
         """
         if isinstance(keyname, unicode): keyname = PyUnicode_AsUTF8String(keyname)
-        if not evas_object_key_grab(self.obj, <const_char *>keyname, modifiers, not_modifiers, exclusive):
+        if not evas_object_key_grab(self.obj, <const char *>keyname, modifiers, not_modifiers, exclusive):
             raise RuntimeError("Could not grab key.")
 
     def key_ungrab(self, keyname not None, Evas_Modifier_Mask modifiers, Evas_Modifier_Mask not_modifiers):
@@ -1786,7 +1786,7 @@ cdef class Object(Eo):
 
         """
         if isinstance(keyname, unicode): keyname = PyUnicode_AsUTF8String(keyname)
-        evas_object_key_ungrab(self.obj, <const_char *>keyname, modifiers, not_modifiers)
+        evas_object_key_ungrab(self.obj, <const char *>keyname, modifiers, not_modifiers)
 
     property is_frame_object:
         """:type: bool"""

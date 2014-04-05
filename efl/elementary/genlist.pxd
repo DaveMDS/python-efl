@@ -1,18 +1,16 @@
-from efl.evas cimport Eina_Bool, Eina_List, const_Eina_List, Eina_Compare_Cb, \
-    Evas_Object, const_Evas_Object, Evas_Smart_Cb, Evas_Coord
+from efl.evas cimport Eina_Bool, Eina_List, Eina_Compare_Cb, \
+    Evas_Object, Evas_Smart_Cb, Evas_Coord
 from object cimport Object
-from object_item cimport Elm_Object_Item, const_Elm_Object_Item
+from object_item cimport Elm_Object_Item
 from general cimport Elm_Tooltip_Item_Content_Cb
 from enums cimport Elm_Scroller_Policy, Elm_List_Mode, Elm_Object_Select_Mode, \
     Elm_Genlist_Item_Type, Elm_Genlist_Item_Scrollto_Type, \
     Elm_Genlist_Item_Field_Type
-from libc.string cimport const_char
-from libc.stdlib cimport const_void
 
 cdef extern from "Elementary.h":
-    ctypedef char           *(*GenlistItemLabelGetFunc)     (void *data, Evas_Object *obj, const_char *part)
-    ctypedef Evas_Object    *(*GenlistItemIconGetFunc)      (void *data, Evas_Object *obj, const_char *part)
-    ctypedef Eina_Bool       (*GenlistItemStateGetFunc)     (void *data, Evas_Object *obj, const_char *part)
+    ctypedef char           *(*GenlistItemLabelGetFunc)     (void *data, Evas_Object *obj, const char *part)
+    ctypedef Evas_Object    *(*GenlistItemIconGetFunc)      (void *data, Evas_Object *obj, const char *part)
+    ctypedef Eina_Bool       (*GenlistItemStateGetFunc)     (void *data, Evas_Object *obj, const char *part)
     ctypedef void            (*GenlistItemDelFunc)          (void *data, Evas_Object *obj)
 
     ctypedef struct Elm_Genlist_Item_Class_Func:
@@ -22,9 +20,9 @@ cdef extern from "Elementary.h":
         GenlistItemDelFunc del_ "del"
 
     ctypedef struct Elm_Genlist_Item_Class:
-        const_char *item_style
-        const_char *decorate_item_style
-        const_char *decorate_all_item_style
+        const char *item_style
+        const char *decorate_item_style
+        const char *decorate_all_item_style
         Elm_Genlist_Item_Class_Func func
 
     Evas_Object *           elm_genlist_add(Evas_Object *parent)
@@ -62,18 +60,18 @@ cdef extern from "Elementary.h":
     void                    elm_genlist_item_class_ref(Elm_Genlist_Item_Class *itc)
     void                    elm_genlist_item_class_unref(Elm_Genlist_Item_Class *itc)
 
-    void                    elm_genlist_item_tooltip_text_set(Elm_Object_Item *item, const_char *text)
+    void                    elm_genlist_item_tooltip_text_set(Elm_Object_Item *item, const char *text)
     void                    elm_genlist_item_tooltip_content_cb_set(Elm_Object_Item *item, Elm_Tooltip_Item_Content_Cb func, void *data, Evas_Smart_Cb del_cb)
     void                    elm_genlist_item_tooltip_unset(Elm_Object_Item *item)
-    void                    elm_genlist_item_tooltip_style_set(Elm_Object_Item *item, const_char *style)
-    const_char *            elm_genlist_item_tooltip_style_get(Elm_Object_Item *item)
+    void                    elm_genlist_item_tooltip_style_set(Elm_Object_Item *item, const char *style)
+    const char *            elm_genlist_item_tooltip_style_get(Elm_Object_Item *item)
     Eina_Bool               elm_genlist_item_tooltip_window_mode_set(Elm_Object_Item *it, Eina_Bool disable)
     Eina_Bool               elm_genlist_item_tooltip_window_mode_get(Elm_Object_Item *it)
-    void                    elm_genlist_item_cursor_set(Elm_Object_Item *item, const_char *cursor)
-    const_char *            elm_genlist_item_cursor_get(Elm_Object_Item *it)
+    void                    elm_genlist_item_cursor_set(Elm_Object_Item *item, const char *cursor)
+    const char *            elm_genlist_item_cursor_get(Elm_Object_Item *it)
     void                    elm_genlist_item_cursor_unset(Elm_Object_Item *item)
-    void                    elm_genlist_item_cursor_style_set(Elm_Object_Item *item, const_char *style)
-    const_char *            elm_genlist_item_cursor_style_get(Elm_Object_Item *item)
+    void                    elm_genlist_item_cursor_style_set(Elm_Object_Item *item, const char *style)
+    const char *            elm_genlist_item_cursor_style_get(Elm_Object_Item *item)
     void                    elm_genlist_item_cursor_engine_only_set(Elm_Object_Item *item, Eina_Bool engine_only)
     Eina_Bool               elm_genlist_item_cursor_engine_only_get(Elm_Object_Item *item)
 
@@ -87,17 +85,17 @@ cdef extern from "Elementary.h":
 
     Elm_Object_Item *       elm_genlist_item_parent_get(Elm_Object_Item *it)
     void                    elm_genlist_item_subitems_clear(Elm_Object_Item *item)
-    unsigned int            elm_genlist_item_subitems_count(const_Elm_Object_Item *it)
-    const_Eina_List *       elm_genlist_item_subitems_get(const_Elm_Object_Item *it)
+    unsigned int            elm_genlist_item_subitems_count(const Elm_Object_Item *it)
+    const Eina_List *       elm_genlist_item_subitems_get(const Elm_Object_Item *it)
     void                    elm_genlist_item_expanded_set(Elm_Object_Item *item, Eina_Bool expanded)
     Eina_Bool               elm_genlist_item_expanded_get(Elm_Object_Item *item)
     int                     elm_genlist_item_expanded_depth_get(Elm_Object_Item *it)
     void                    elm_genlist_item_all_contents_unset(Elm_Object_Item *it, Eina_List **l)
     void                    elm_genlist_item_promote(Elm_Object_Item *it)
     void                    elm_genlist_item_demote(Elm_Object_Item *it)
-    void                    elm_genlist_item_fields_update(Elm_Object_Item *item, const_char *parts, Elm_Genlist_Item_Field_Type itf)
-    void                    elm_genlist_item_decorate_mode_set(Elm_Object_Item *it, const_char *decorate_it_type, Eina_Bool decorate_it_set)
-    const_char *            elm_genlist_item_decorate_mode_get(Elm_Object_Item *it)
+    void                    elm_genlist_item_fields_update(Elm_Object_Item *item, const char *parts, Elm_Genlist_Item_Field_Type itf)
+    void                    elm_genlist_item_decorate_mode_set(Elm_Object_Item *it, const char *decorate_it_type, Eina_Bool decorate_it_set)
+    const char *            elm_genlist_item_decorate_mode_get(Elm_Object_Item *it)
 
     Elm_Object_Item *       elm_genlist_decorated_item_get(Evas_Object *obj)
     void                    elm_genlist_reorder_mode_set(Evas_Object *obj, Eina_Bool reorder_mode)
@@ -115,9 +113,9 @@ cdef extern from "Elementary.h":
     Eina_Bool               elm_genlist_highlight_mode_get(Evas_Object *obj)
     void                    elm_genlist_select_mode_set(Evas_Object *obj, Elm_Object_Select_Mode mode)
     Elm_Object_Select_Mode  elm_genlist_select_mode_get(Evas_Object *obj)
-    Elm_Object_Item *       elm_genlist_nth_item_get(const_Evas_Object *obj, unsigned int nth)
+    Elm_Object_Item *       elm_genlist_nth_item_get(const Evas_Object *obj, unsigned int nth)
     void                    elm_genlist_focus_on_selection_set(Evas_Object *obj, Eina_Bool enabled)
-    Eina_Bool               elm_genlist_focus_on_selection_get(const_Evas_Object *obj)
+    Eina_Bool               elm_genlist_focus_on_selection_get(const Evas_Object *obj)
 
 cdef class GenlistItemClass(object):
     cdef:

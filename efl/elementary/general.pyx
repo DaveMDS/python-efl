@@ -362,7 +362,7 @@ def language_set(lang not None):
 
     """
     if isinstance(lang, unicode): lang = PyUnicode_AsUTF8String(lang)
-    elm_language_set(<const_char *>lang)
+    elm_language_set(<const char *>lang)
 
 def cache_all_flush():
     """cache_all_flush()
@@ -396,7 +396,7 @@ def font_properties_get(font not None):
     if isinstance(font, unicode): font = PyUnicode_AsUTF8String(font)
     cdef FontProperties ret = FontProperties.__new__()
 
-    ret.efp = elm_font_properties_get(<const_char *>font)
+    ret.efp = elm_font_properties_get(<const char *>font)
 
     return ret
 
@@ -435,8 +435,8 @@ def font_fontconfig_name_get(font_name, style = None):
     if isinstance(font_name, unicode): font_name = PyUnicode_AsUTF8String(font_name)
     if isinstance(style, unicode): style = PyUnicode_AsUTF8String(style)
     fc_name = elm_font_fontconfig_name_get(
-        <const_char *>font_name,
-        <const_char *>style if style is not None else NULL
+        <const char *>font_name,
+        <const char *>style if style is not None else NULL
         )
 
     ret = _touni(fc_name)
@@ -494,4 +494,4 @@ def object_tree_dot_dump(evasObject top, path):
 
     """
     if isinstance(path, unicode): path = PyUnicode_AsUTF8String(path)
-    elm_object_tree_dot_dump(top.obj, <const_char *>path)
+    elm_object_tree_dot_dump(top.obj, <const char *>path)

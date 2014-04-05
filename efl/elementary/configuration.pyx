@@ -168,7 +168,7 @@ cdef class Configuration(object):
             return _ctouni(elm_config_profile_get())
         def __set__(self, profile):
             if isinstance(profile, unicode): profile = PyUnicode_AsUTF8String(profile)
-            elm_config_profile_set(<const_char *>profile if profile is not None else NULL)
+            elm_config_profile_set(<const char *>profile if profile is not None else NULL)
 
     def profile_dir_get(self, profile, bint is_user):
         """profile_dir_get(unicode profile, bool is_user)
@@ -188,7 +188,7 @@ cdef class Configuration(object):
         """
         if isinstance(profile, unicode): profile = PyUnicode_AsUTF8String(profile)
         return _ctouni(elm_config_profile_dir_get(
-            <const_char *>profile if profile is not None else NULL,
+            <const char *>profile if profile is not None else NULL,
             is_user))
 
     property profile_list:
@@ -561,7 +561,7 @@ cdef class Configuration(object):
         def __set__(self, engine):
             if isinstance(engine, unicode): engine = PyUnicode_AsUTF8String(engine)
             elm_config_engine_set(
-                <const_char *>engine if engine is not None else NULL)
+                <const char *>engine if engine is not None else NULL)
 
     property preferred_engine:
         """Get Elementary's preferred engine to use.
@@ -581,7 +581,7 @@ cdef class Configuration(object):
         def __set__(self, engine):
             if isinstance(engine, unicode): engine = PyUnicode_AsUTF8String(engine)
             elm_config_preferred_engine_set(
-                <const_char *>engine if engine is not None else NULL)
+                <const char *>engine if engine is not None else NULL)
 
     property text_classes_list:
         """Get Elementary's list of supported text classes.
@@ -593,8 +593,8 @@ cdef class Configuration(object):
             cdef:
                 Eina_List *lst
                 Elm_Text_Class *data
-                const_char *name
-                const_char *desc
+                const char *name
+                const char *desc
 
             ret = []
             lst = elm_config_text_classes_list_get()
@@ -621,10 +621,10 @@ cdef class Configuration(object):
         """
         def __get__(self):
             cdef:
-                const_Eina_List *lst
+                const Eina_List *lst
                 Elm_Font_Overlay *data
-                const_char *text_class
-                const_char *font
+                const char *text_class
+                const char *font
                 Evas_Font_Size size
 
             ret = []
@@ -667,8 +667,8 @@ cdef class Configuration(object):
         if isinstance(a1, unicode): a1 = PyUnicode_AsUTF8String(a1)
         if isinstance(a2, unicode): a2 = PyUnicode_AsUTF8String(a2)
         elm_config_font_overlay_set(
-            <const_char *>a1 if a1 is not None else NULL,
-            <const_char *>a2 if a2 is not None else NULL,
+            <const char *>a1 if a1 is not None else NULL,
+            <const char *>a2 if a2 is not None else NULL,
             size)
 
     # TODO:
@@ -717,7 +717,7 @@ cdef class Configuration(object):
         a1 = text_class
         if isinstance(a1, unicode): a1 = PyUnicode_AsUTF8String(a1)
         elm_config_font_overlay_unset(
-            <const_char *>a1 if a1 is not None else NULL)
+            <const char *>a1 if a1 is not None else NULL)
 
     def font_overlay_apply(self):
         """font_overlay_apply()
@@ -955,14 +955,14 @@ def preferred_engine_get():
 def preferred_engine_set(engine):
     if isinstance(engine, unicode): engine = PyUnicode_AsUTF8String(engine)
     elm_config_preferred_engine_set(
-        <const_char *>engine if engine is not None else NULL)
+        <const char *>engine if engine is not None else NULL)
 
 def engine_get():
     return _ctouni(elm_config_engine_get())
 def engine_set(engine):
     if isinstance(engine, unicode): engine = PyUnicode_AsUTF8String(engine)
     elm_config_engine_set(
-        <const_char *>engine if engine is not None else NULL)
+        <const char *>engine if engine is not None else NULL)
 
 def scale_get():
     return elm_config_scale_get()

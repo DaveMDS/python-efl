@@ -167,7 +167,7 @@ cdef class Progressbar(LayoutClass):
 
         """
         if isinstance(part, unicode): part = PyUnicode_AsUTF8String(part)
-        return elm_progressbar_part_value_get(self.obj, <const_char *>part)
+        return elm_progressbar_part_value_get(self.obj, <const char *>part)
 
     def part_value_set(self, part not None, double value):
         """part_value_set(part, int value)
@@ -180,7 +180,7 @@ cdef class Progressbar(LayoutClass):
 
         """
         if isinstance(part, unicode): part = PyUnicode_AsUTF8String(part)
-        elm_progressbar_part_value_set(self.obj, <const_char *>part, value)
+        elm_progressbar_part_value_set(self.obj, <const char *>part, value)
 
     property span_size:
         """The (exact) length of the bar region of a given progress bar widget.
@@ -231,12 +231,12 @@ cdef class Progressbar(LayoutClass):
         def __set__(self, unit_format):
             if isinstance(unit_format, unicode): unit_format = PyUnicode_AsUTF8String(unit_format)
             elm_progressbar_unit_format_set(self.obj,
-                <const_char *>unit_format if unit_format is not None else NULL)
+                <const char *>unit_format if unit_format is not None else NULL)
 
     def unit_format_set(self, unit_format):
         if isinstance(unit_format, unicode): unit_format = PyUnicode_AsUTF8String(unit_format)
         elm_progressbar_unit_format_set(self.obj,
-            <const_char *>unit_format if unit_format is not None else NULL)
+            <const char *>unit_format if unit_format is not None else NULL)
     def unit_format_get(self):
         return _ctouni(elm_progressbar_unit_format_get(self.obj))
 

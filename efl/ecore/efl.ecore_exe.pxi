@@ -153,7 +153,7 @@ cdef object _ecore_exe_event_mapping
 _ecore_exe_event_mapping = {}
 
 
-cdef void _ecore_exe_pre_free_cb(void *data, const_Ecore_Exe *exe) with gil:
+cdef void _ecore_exe_pre_free_cb(void *data, const Ecore_Exe *exe) with gil:
     cdef Exe obj
     try:
         if data == NULL:
@@ -411,7 +411,7 @@ cdef class Exe(object):
                 "given size (%d) is larger than buffer size (%d)." %
                 (size, buf_view.len))
 
-        ret = ecore_exe_send(self.exe, <const_void *>buf_view.buf, buf_view.len)
+        ret = ecore_exe_send(self.exe, <const void *>buf_view.buf, buf_view.len)
         PyBuffer_Release(&buf_view)
         return ret
 
@@ -449,7 +449,7 @@ cdef class Exe(object):
         :rtype: str or None
 
         """
-        cdef const_char *cmd = ecore_exe_cmd_get(self.exe)
+        cdef const char *cmd = ecore_exe_cmd_get(self.exe)
         if cmd != NULL:
             return cmd
         return None
@@ -500,7 +500,7 @@ cdef class Exe(object):
         :rtype: str or None
 
         """
-        cdef const_char *tag = ecore_exe_tag_get(self.exe)
+        cdef const char *tag = ecore_exe_tag_get(self.exe)
         if tag != NULL:
             return tag
         return None

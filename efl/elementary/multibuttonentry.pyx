@@ -77,7 +77,7 @@ from object_item cimport _object_item_callback, _object_item_callback2, \
     _object_item_to_python, _object_item_list_to_python
 
 cdef Eina_Bool _multibuttonentry_filter_callback(Evas_Object *obj, \
-    const_char *item_label, void *item_data, void *data) with gil:
+    const char *item_label, void *item_data, void *data) with gil:
 
     cdef:
         MultiButtonEntry mbe = object_from_instance(obj)
@@ -142,7 +142,7 @@ cdef class MultiButtonEntryItem(ObjectItem):
             cb = _object_item_callback2
 
         item = elm_multibuttonentry_item_append(mbe.obj,
-            <const_char *>self.label if self.label is not None else NULL,
+            <const char *>self.label if self.label is not None else NULL,
             cb, <void*>self)
 
         if item == NULL:
@@ -160,7 +160,7 @@ cdef class MultiButtonEntryItem(ObjectItem):
             cb = _object_item_callback2
 
         item = elm_multibuttonentry_item_prepend(mbe.obj,
-            <const_char *>self.label if self.label is not None else NULL,
+            <const char *>self.label if self.label is not None else NULL,
             cb, <void*>self)
 
         if item == NULL:
@@ -180,7 +180,7 @@ cdef class MultiButtonEntryItem(ObjectItem):
 
         item = elm_multibuttonentry_item_insert_before(mbe.obj,
             before.item,
-            <const_char *>self.label if self.label is not None else NULL,
+            <const char *>self.label if self.label is not None else NULL,
             cb, <void*>self)
 
         if item == NULL:
@@ -200,7 +200,7 @@ cdef class MultiButtonEntryItem(ObjectItem):
 
         item = elm_multibuttonentry_item_insert_after(mbe.obj,
             after.item,
-            <const_char *>self.label if self.label is not None else NULL,
+            <const char *>self.label if self.label is not None else NULL,
             cb, <void*>self)
 
         if item == NULL:
@@ -289,7 +289,7 @@ cdef class MultiButtonEntry(Object):
         if isinstance(label, unicode): label = PyUnicode_AsUTF8String(label)
 
         item = elm_multibuttonentry_item_prepend(self.obj,
-            <const_char *>label if label is not None else NULL,
+            <const char *>label if label is not None else NULL,
             cb, <void*>ret)
 
         if item != NULL:
@@ -313,7 +313,7 @@ cdef class MultiButtonEntry(Object):
         if isinstance(label, unicode): label = PyUnicode_AsUTF8String(label)
 
         item = elm_multibuttonentry_item_append(self.obj,
-            <const_char *>label if label is not None else NULL,
+            <const char *>label if label is not None else NULL,
             cb, <void*>ret)
 
         if item != NULL:
@@ -338,7 +338,7 @@ cdef class MultiButtonEntry(Object):
 
         item = elm_multibuttonentry_item_insert_before(self.obj,
             before.item if before is not None else NULL,
-            <const_char *>label if label is not None else NULL,
+            <const char *>label if label is not None else NULL,
             cb, <void*>ret)
 
         if item != NULL:
@@ -363,7 +363,7 @@ cdef class MultiButtonEntry(Object):
 
         item = elm_multibuttonentry_item_insert_after(self.obj,
             after.item if after is not None else NULL,
-            <const_char *>label if label is not None else NULL,
+            <const char *>label if label is not None else NULL,
             cb, <void*>ret)
 
         if item != NULL:

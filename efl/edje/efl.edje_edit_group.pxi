@@ -51,5 +51,5 @@ cdef class Group(object):
 
     def rename(self, name not None):
         if isinstance(name, unicode): name = name.encode("UTF-8")
-        return bool(edje_edit_group_name_set(self.edje.obj, <const_char *>name))
+        return bool(edje_edit_group_name_set(self.edje.obj, <const char *>name))
 

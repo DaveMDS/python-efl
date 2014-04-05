@@ -142,11 +142,11 @@ def webcams_get():
 
     """
     cdef:
-        const_Eina_List *lst
-        const_Eina_List *itr
+        const Eina_List *lst
+        const Eina_List *itr
         Emotion_Webcam *cam
-        const_char *name
-        const_char *device
+        const char *name
+        const char *device
 
     ret = []
     lst = emotion_webcams_get()
@@ -176,7 +176,7 @@ def extension_may_play_get(filename):
     """
     if isinstance(filename, unicode): filename = PyUnicode_AsUTF8String(filename)
     return bool(emotion_object_extension_may_play_get(
-        <const_char *>filename if filename is not None else NULL))
+        <const char *>filename if filename is not None else NULL))
 
 
 cdef class Emotion(evasObject):
@@ -212,7 +212,7 @@ cdef class Emotion(evasObject):
         if isinstance(module_name, unicode):
             module_name = PyUnicode_AsUTF8String(module_name)
         if emotion_object_init(self.obj,
-            <const_char *>module_name if module_name is not None else NULL) == 0:
+            <const char *>module_name if module_name is not None else NULL) == 0:
             raise EmotionModuleInitError("failed to initialize module '%s'" %
                                          module_name)
 
@@ -258,14 +258,14 @@ cdef class Emotion(evasObject):
         def __set__(self, value):
             if isinstance(value, unicode): value = PyUnicode_AsUTF8String(value)
             emotion_object_file_set(self.obj,
-                <const_char *> value if value is not None else NULL)
+                <const char *> value if value is not None else NULL)
 
     def file_get(self):
         return _ctouni(emotion_object_file_get(self.obj))
     def file_set(self, file_name):
         if isinstance(file_name, unicode): file_name = PyUnicode_AsUTF8String(file_name)
         emotion_object_file_set(self.obj,
-            <const_char *> file_name if file_name is not None else NULL)
+            <const char *> file_name if file_name is not None else NULL)
 
     property play:
         """ The play/pause state of the emotion object.
@@ -441,14 +441,14 @@ cdef class Emotion(evasObject):
         def __set__(self, value):
             if isinstance(value, unicode): value = PyUnicode_AsUTF8String(value)
             emotion_object_video_subtitle_file_set(self.obj,
-                <const_char *>value if value is not None else NULL)
+                <const char *>value if value is not None else NULL)
 
     def video_subtitle_file_get(self):
         return _ctouni(emotion_object_video_subtitle_file_get(self.obj))
     def video_subtitle_file_set(self, file_name):
         if isinstance(file_name, unicode): file_name = PyUnicode_AsUTF8String(file_name)
         emotion_object_video_subtitle_file_set(self.obj,
-            <const_char *>file_name if file_name is not None else NULL)
+            <const char *>file_name if file_name is not None else NULL)
 
     property priority:
         """ Raise the priority of an object so it will have a priviledged
@@ -1018,7 +1018,7 @@ cdef class Emotion(evasObject):
         :return: all the know meta info for the media file
         :rtype: dict
         """
-        cdef const_char *info
+        cdef const char *info
         ret = dict()
         lst = (("title", EMOTION_META_INFO_TRACK_TITLE),
                ("artist", EMOTION_META_INFO_TRACK_ARTIST),
@@ -1123,7 +1123,7 @@ cdef class Emotion(evasObject):
         if not lst:
             if isinstance(event, unicode): event = PyUnicode_AsUTF8String(event)
             evas_object_smart_callback_add(self.obj,
-                <const_char *>event if event is not None else NULL,
+                <const char *>event if event is not None else NULL,
                 _emotion_callback, <void *>e)
         lst.append((func, args, kargs))
 
@@ -1157,7 +1157,7 @@ cdef class Emotion(evasObject):
         self._emotion_callbacks.pop(event)
         if isinstance(event, unicode): event = PyUnicode_AsUTF8String(event)
         evas_object_smart_callback_del(self.obj,
-            <const_char *>event if event is not None else NULL,
+            <const char *>event if event is not None else NULL,
             _emotion_callback)
 
     def on_frame_decode_add(self, func, *args, **kargs):

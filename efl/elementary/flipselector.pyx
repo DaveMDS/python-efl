@@ -137,7 +137,7 @@ cdef class FlipSelectorItem(ObjectItem):
             cb = _object_item_callback2
 
         item = elm_flipselector_item_append(flipselector.obj,
-            <const_char *>self.label if self.label is not None else NULL,
+            <const char *>self.label if self.label is not None else NULL,
             cb, <void *>self)
 
         if item == NULL:
@@ -166,7 +166,7 @@ cdef class FlipSelectorItem(ObjectItem):
             cb = _object_item_callback2
 
         item = elm_flipselector_item_prepend(flipselector.obj,
-            <const_char *>self.label if self.label is not None else NULL,
+            <const char *>self.label if self.label is not None else NULL,
             cb, <void *>self)
 
         if item == NULL:
@@ -282,7 +282,7 @@ cdef class FlipSelector(Object):
         if isinstance(label, unicode): label = PyUnicode_AsUTF8String(label)
 
         item = elm_flipselector_item_append(self.obj,
-            <const_char *>label if label is not None else NULL,
+            <const char *>label if label is not None else NULL,
             cb, <void*>ret)
 
         if item != NULL:
@@ -313,7 +313,7 @@ cdef class FlipSelector(Object):
         if isinstance(label, unicode): label = PyUnicode_AsUTF8String(label)
 
         item = elm_flipselector_item_prepend(self.obj,
-            <const_char *>label if label is not None else NULL,
+            <const char *>label if label is not None else NULL,
             cb, <void*>ret)
 
         if item != NULL:

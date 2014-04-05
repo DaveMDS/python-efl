@@ -265,7 +265,7 @@ cdef class Textgrid(Object):
             a1 = font_source
             if isinstance(a1, unicode): a1 = PyUnicode_AsUTF8String(a1)
             evas_object_textgrid_font_source_set(self.obj,
-                <const_char *>a1 if a1 is not None else NULL)
+                <const char *>a1 if a1 is not None else NULL)
 
         def __get__(self):
             return _ctouni(evas_object_textgrid_font_source_get(self.obj))
@@ -293,12 +293,12 @@ cdef class Textgrid(Object):
             a1 = font_name
             if isinstance(a1, unicode): a1 = PyUnicode_AsUTF8String(a1)
             evas_object_textgrid_font_set(self.obj,
-                <const_char *>a1 if a1 is not None else NULL,
+                <const char *>a1 if a1 is not None else NULL,
                 font_size)
 
         def __get__(self):
             cdef:
-                const_char *font_name
+                const char *font_name
                 Evas_Font_Size font_size
             evas_object_textgrid_font_get(self.obj, &font_name, &font_size)
             # font_name is owned by Evas, don't free it

@@ -255,12 +255,12 @@ cdef class Thumb(Object):
             if isinstance(file_name, unicode): file_name = PyUnicode_AsUTF8String(file_name)
             if isinstance(key, unicode): key = PyUnicode_AsUTF8String(key)
             elm_thumb_file_set(self.obj,
-                <const_char *>file_name if file_name is not None else NULL,
-                <const_char *>key if key is not None else NULL)
+                <const char *>file_name if file_name is not None else NULL,
+                <const char *>key if key is not None else NULL)
         def __get__(self):
             cdef:
-                const_char *file_name
-                const_char *key
+                const char *file_name
+                const char *key
 
             elm_thumb_file_get(self.obj, &file_name, &key)
             return(_ctouni(file_name), _ctouni(key))
@@ -281,8 +281,8 @@ cdef class Thumb(Object):
         """
         def __get__(self):
             cdef:
-                const_char *path
-                const_char *key
+                const char *path
+                const char *key
 
             elm_thumb_path_get(self.obj, &path, &key)
             return(_ctouni(path), _ctouni(key))

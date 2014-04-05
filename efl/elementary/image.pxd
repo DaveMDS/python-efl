@@ -1,10 +1,6 @@
 from efl.evas cimport Eina_Bool, Evas_Object
 from object cimport Object
 from enums cimport Elm_Image_Orient
-from libc.string cimport const_char
-
-cdef extern from *:
-    ctypedef void const_void "const void"
 
 cdef extern from "Elementary.h":
     ctypedef struct Elm_Image_Progress:
@@ -16,9 +12,9 @@ cdef extern from "Elementary.h":
         Eina_Bool open_error
 
     Evas_Object             *elm_image_add(Evas_Object *parent)
-    Eina_Bool                elm_image_memfile_set(Evas_Object *obj, const_void *img, size_t size, const_char *format, const_char *key)
-    Eina_Bool                elm_image_file_set(Evas_Object *obj, const_char *file, const_char *group)
-    void                     elm_image_file_get(Evas_Object *obj, const_char **file, const_char **group)
+    Eina_Bool                elm_image_memfile_set(Evas_Object *obj, const void *img, size_t size, const char *format, const char *key)
+    Eina_Bool                elm_image_file_set(Evas_Object *obj, const char *file, const char *group)
+    void                     elm_image_file_get(Evas_Object *obj, const char **file, const char **group)
     void                     elm_image_smooth_set(Evas_Object *obj, Eina_Bool smooth)
     Eina_Bool                elm_image_smooth_get(Evas_Object *obj)
     void                     elm_image_object_size_get(Evas_Object *obj, int *w, int *h)

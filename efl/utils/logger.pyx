@@ -15,8 +15,7 @@
 # You should have received a copy of the GNU Lesser General Public License
 # along with this Python-EFL.  If not, see <http://www.gnu.org/licenses/>.
 
-from libc.string cimport const_char
-from efl.eina cimport Eina_Log_Domain, const_Eina_Log_Domain, Eina_Log_Level, \
+from efl.eina cimport Eina_Log_Domain, Eina_Log_Level, \
     eina_log_print_cb_set, eina_log_domain_register, eina_log_level_set, \
     eina_log_level_get, eina_log_domain_level_get, eina_log_domain_level_set, \
     eina_log_print, EINA_LOG_DOM_DBG, EINA_LOG_DOM_INFO, EINA_LOG_DOM_WARN, \
@@ -31,7 +30,7 @@ cdef extern from "stdarg.h":
         pass
 
 cdef extern from "stdio.h":
-    int vsprintf(char *, const_char *fmt, va_list args)
+    int vsprintf(char *, const char *fmt, va_list args)
 
 cdef extern from "Python.h":
     void PyEval_InitThreads()
@@ -51,9 +50,9 @@ cdef char log_buf[1024]
 
 PyEval_InitThreads()
 
-cdef void py_eina_log_print_cb(const_Eina_Log_Domain *d, Eina_Log_Level level,
-    const_char *file, const_char *fnc, int line,
-    const_char *fmt, void *data, va_list args) with gil:
+cdef void py_eina_log_print_cb(const Eina_Log_Domain *d, Eina_Log_Level level,
+    const char *file, const char *fnc, int line,
+    const char *fmt, void *data, va_list args) with gil:
 
     cdef:
         unicode msg, name

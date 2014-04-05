@@ -109,7 +109,7 @@ from fileselector cimport elm_fileselector_path_set, \
 cimport enums
 
 def _cb_string_conv(uintptr_t addr):
-    cdef const_char *s = <const_char *>addr
+    cdef const char *s = <const char *>addr
     return _ctouni(s) if s is not NULL else None
 
 cdef class FileselectorEntry(LayoutClass):
@@ -144,12 +144,12 @@ cdef class FileselectorEntry(LayoutClass):
         def __set__(self, title):
             if isinstance(title, unicode): title = PyUnicode_AsUTF8String(title)
             elm_fileselector_entry_window_title_set(self.obj,
-                <const_char *>title if title is not None else NULL)
+                <const char *>title if title is not None else NULL)
 
     def window_title_set(self, title):
         if isinstance(title, unicode): title = PyUnicode_AsUTF8String(title)
         elm_fileselector_entry_window_title_set(self.obj,
-            <const_char *>title if title is not None else NULL)
+            <const char *>title if title is not None else NULL)
     def window_title_get(self):
         return _ctouni(elm_fileselector_entry_window_title_get(self.obj))
 
@@ -224,7 +224,7 @@ cdef class FileselectorEntry(LayoutClass):
     def path_set(self, path):
         if isinstance(path, unicode): path = PyUnicode_AsUTF8String(path)
         elm_fileselector_path_set(self.obj,
-            <const_char *>path if path is not None else NULL)
+            <const char *>path if path is not None else NULL)
     @DEPRECATED("1.9", "Combine with Fileselector class instead")
     def path_get(self):
         return _ctouni(elm_fileselector_path_get(self.obj))
@@ -310,12 +310,12 @@ cdef class FileselectorEntry(LayoutClass):
         def __set__(self, path):
             if isinstance(path, unicode): path = PyUnicode_AsUTF8String(path)
             elm_fileselector_selected_set(self.obj,
-                <const_char *>path if path is not None else NULL)
+                <const char *>path if path is not None else NULL)
 
     def selected_set(self, path):
         if isinstance(path, unicode): path = PyUnicode_AsUTF8String(path)
         elm_fileselector_selected_set(self.obj,
-            <const_char *>path if path is not None else NULL)
+            <const char *>path if path is not None else NULL)
     def selected_get(self):
         return _ctouni(elm_fileselector_selected_get(self.obj))
 

@@ -135,10 +135,10 @@ cdef class Canvas(Eo):
         elif isinstance(method, unicode):
             method = PyUnicode_AsUTF8String(method)
             engine_id = evas_render_method_lookup(
-                <const_char *>method if method is not None else NULL)
+                <const char *>method if method is not None else NULL)
         elif isinstance(method, str):
             engine_id = evas_render_method_lookup(
-                <const_char *>method if method is not None else NULL)
+                <const char *>method if method is not None else NULL)
         else:
             raise TypeError("method must be integer or string")
 
@@ -494,7 +494,7 @@ cdef class Canvas(Eo):
         """
         if isinstance(name, unicode): name = PyUnicode_AsUTF8String(name)
         return object_from_instance(evas_object_name_find(self.obj,
-            <const_char *>name if name is not None else NULL))
+            <const char *>name if name is not None else NULL))
 
     def image_cache_flush(self):
         evas_image_cache_flush(self.obj)
@@ -539,17 +539,17 @@ cdef class Canvas(Eo):
     def font_path_append(self, path):
         if isinstance(path, unicode): path = PyUnicode_AsUTF8String(path)
         evas_font_path_append(self.obj,
-            <const_char *>path if path is not None else NULL)
+            <const char *>path if path is not None else NULL)
 
     def font_path_prepend(self, path):
         if isinstance(path, unicode): path = PyUnicode_AsUTF8String(path)
         evas_font_path_prepend(self.obj,
-            <const_char *>path if path is not None else NULL)
+            <const char *>path if path is not None else NULL)
 
     def font_path_list(self):
         """:rtype: list of str"""
         # TODO: use list conv func
-        cdef const_Eina_List *itr
+        cdef const Eina_List *itr
         lst = []
         itr = evas_font_path_list(self.obj)
         while itr != NULL:

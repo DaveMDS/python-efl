@@ -164,10 +164,10 @@ ELM_FILESELECTOR_SORT_BY_MODIFIED_DESC = enums.ELM_FILESELECTOR_SORT_BY_MODIFIED
 ELM_FILESELECTOR_SORT_LAST = enums.ELM_FILESELECTOR_SORT_LAST
 
 def _cb_string_conv(uintptr_t addr):
-    cdef const_char *s = <const_char *>addr
+    cdef const char *s = <const char *>addr
     return _ctouni(s) if s is not NULL else None
 
-cdef Eina_Bool py_elm_fileselector_custom_filter_cb(const_char *path, Eina_Bool is_dir, void *data) with gil:
+cdef Eina_Bool py_elm_fileselector_custom_filter_cb(const char *path, Eina_Bool is_dir, void *data) with gil:
     cb_func, cb_data = <object>data
     try:
         return cb_func(_ctouni(path), is_dir, cb_data)
@@ -290,12 +290,12 @@ cdef class Fileselector(LayoutClass):
         def __set__(self, path):
             if isinstance(path, unicode): path = PyUnicode_AsUTF8String(path)
             elm_fileselector_path_set(self.obj,
-                <const_char *>path if path is not None else NULL)
+                <const char *>path if path is not None else NULL)
 
     def path_set(self, path):
         if isinstance(path, unicode): path = PyUnicode_AsUTF8String(path)
         elm_fileselector_path_set(self.obj,
-            <const_char *>path if path is not None else NULL)
+            <const char *>path if path is not None else NULL)
     def path_get(self):
         return _ctouni(elm_fileselector_path_get(self.obj))
 
@@ -385,13 +385,13 @@ cdef class Fileselector(LayoutClass):
         def __set__(self, path):
             if isinstance(path, unicode): path = PyUnicode_AsUTF8String(path)
             if not elm_fileselector_selected_set(self.obj,
-                <const_char *>path if path is not None else NULL):
+                <const char *>path if path is not None else NULL):
                     raise RuntimeError("Setting the selected path failed")
 
     def selected_set(self, path):
         if isinstance(path, unicode): path = PyUnicode_AsUTF8String(path)
         if not elm_fileselector_selected_set(self.obj,
-            <const_char *>path if path is not None else NULL):
+            <const char *>path if path is not None else NULL):
                 raise RuntimeError("Setting the selected path failed")
     def selected_get(self):
         return _ctouni(elm_fileselector_selected_get(self.obj))
@@ -446,7 +446,7 @@ cdef class Fileselector(LayoutClass):
         if isinstance(mime_types_s, unicode): mime_types_s = PyUnicode_AsUTF8String(mime_types_s)
         if isinstance(filter_name, unicode): filter_name = PyUnicode_AsUTF8String(filter_name)
         if not elm_fileselector_mime_types_filter_append(self.obj, mime_types_s,
-            <const_char *>filter_name if filter_name is not None else NULL):
+            <const char *>filter_name if filter_name is not None else NULL):
             raise RuntimeWarning
 
     def custom_filter_append(self, func, data=None, filter_name=None):
@@ -477,7 +477,7 @@ cdef class Fileselector(LayoutClass):
         if isinstance(filter_name, unicode): filter_name = PyUnicode_AsUTF8String(filter_name)
         elm_fileselector_custom_filter_append(self.obj,
             py_elm_fileselector_custom_filter_cb, <void *>cb_data,
-            <const_char *>filter_name if filter_name is not None else NULL)
+            <const char *>filter_name if filter_name is not None else NULL)
 
     def filters_clear(self):
         """

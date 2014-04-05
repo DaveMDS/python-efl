@@ -240,13 +240,13 @@ cdef class Colorselector(LayoutClass):
             s = palette_name
             if isinstance(s, unicode): s = PyUnicode_AsUTF8String(s)
             elm_colorselector_palette_name_set(self.obj,
-                <const_char *>s if s is not None else NULL)
+                <const char *>s if s is not None else NULL)
 
     def palette_name_set(self, palette_name):
         s = palette_name
         if isinstance(s, unicode): s = PyUnicode_AsUTF8String(s)
         elm_colorselector_palette_name_set(self.obj,
-            <const_char *>s if s is not None else NULL)
+            <const char *>s if s is not None else NULL)
     def palette_name_get(self):
         return _ctouni(elm_colorselector_palette_name_get(self.obj))
 
@@ -263,7 +263,7 @@ cdef class Colorselector(LayoutClass):
         """
         cdef:
             list ret = list()
-            const_Eina_List *lst = elm_colorselector_palette_items_get(self.obj)
+            const Eina_List *lst = elm_colorselector_palette_items_get(self.obj)
 
         while lst:
             ret.append(_object_item_to_python(<Elm_Object_Item *>lst.data))

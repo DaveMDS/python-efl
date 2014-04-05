@@ -166,7 +166,7 @@ cdef class DiskselectorItem(ObjectItem):
             cb = _object_item_callback2
 
         item = elm_diskselector_item_append(diskselector.obj,
-            <const_char *>self.label if self.label is not None else NULL,
+            <const char *>self.label if self.label is not None else NULL,
             self.icon.obj if self.icon is not None else NULL,
             cb, <void*>self)
 
@@ -365,7 +365,7 @@ cdef class Diskselector(Object):
         if isinstance(label, unicode): label = PyUnicode_AsUTF8String(label)
 
         item = elm_diskselector_item_append(self.obj,
-            <const_char *>label if label is not None else NULL,
+            <const char *>label if label is not None else NULL,
             icon.obj if icon is not None else NULL,
             cb, <void*>ret)
 

@@ -193,8 +193,8 @@ cdef class Image(Object):
         """
         def __get__(self):
             cdef:
-                const_char *file
-                const_char *key
+                const char *file
+                const char *key
 
             evas_object_image_file_get(self.obj, &file, &key)
             return (_ctouni(file), _ctouni(key))
@@ -208,8 +208,8 @@ cdef class Image(Object):
             if isinstance(filename, unicode): filename = PyUnicode_AsUTF8String(filename)
             if isinstance(key, unicode): key = PyUnicode_AsUTF8String(key)
             evas_object_image_file_set(self.obj,
-                <const_char *>filename if filename is not None else NULL,
-                <const_char *>key if key is not None else NULL)
+                <const char *>filename if filename is not None else NULL,
+                <const char *>key if key is not None else NULL)
             err = evas_object_image_load_error_get(self.obj)
             if err != EVAS_LOAD_ERROR_NONE:
                 raise EvasLoadError(err, filename, key)
@@ -219,16 +219,16 @@ cdef class Image(Object):
         if isinstance(filename, unicode): filename = PyUnicode_AsUTF8String(filename)
         if isinstance(key, unicode): key = PyUnicode_AsUTF8String(key)
         evas_object_image_file_set(self.obj,
-            <const_char *>filename if filename is not None else NULL,
-            <const_char *>key if key is not None else NULL)
+            <const char *>filename if filename is not None else NULL,
+            <const char *>key if key is not None else NULL)
         err = evas_object_image_load_error_get(self.obj)
         if err != EVAS_LOAD_ERROR_NONE:
             raise EvasLoadError(err, filename, key)
 
     def file_get(self):
         cdef:
-            const_char *file
-            const_char *key
+            const char *file
+            const char *key
 
         evas_object_image_file_get(self.obj, &file, &key)
         return (_ctouni(file), _ctouni(key))
@@ -749,8 +749,8 @@ cdef class Image(Object):
         if isinstance(key, unicode): key = PyUnicode_AsUTF8String(key)
         if isinstance(flags, unicode): flags = PyUnicode_AsUTF8String(flags)
         evas_object_image_save(self.obj, filename,
-            <const_char *>key if key is not None else NULL,
-            <const_char *>flags if flags is not None else NULL)
+            <const char *>key if key is not None else NULL,
+            <const char *>flags if flags is not None else NULL)
 
     # TODO:
     # def image_pixels_import(self, pixels):
@@ -1404,5 +1404,5 @@ def extension_can_load(filename):
     """
     if isinstance(filename, unicode): filename = PyUnicode_AsUTF8String(filename)
     return bool(evas_object_image_extension_can_load_get(
-        <const_char *>filename))
+        <const char *>filename))
 

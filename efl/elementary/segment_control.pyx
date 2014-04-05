@@ -126,7 +126,7 @@ cdef class SegmentControlItem(ObjectItem):
 
         item = elm_segment_control_item_add(sc.obj,
             self.icon.obj if self.icon is not None else NULL,
-            <const_char *>self.label if self.label is not None else NULL)
+            <const char *>self.label if self.label is not None else NULL)
 
         if item == NULL:
             raise RuntimeError("The item could not be added to the widget.")
@@ -175,7 +175,7 @@ cdef class SegmentControlItem(ObjectItem):
 
         item = elm_segment_control_item_insert_at(sc.obj,
             self.icon.obj if self.icon is not None else NULL,
-            <const_char *>self.label if self.label is not None else NULL, index)
+            <const char *>self.label if self.label is not None else NULL, index)
 
         if item == NULL:
             raise RuntimeError("The item could not be added to the widget.")
@@ -277,7 +277,7 @@ cdef class SegmentControl(LayoutClass):
         if isinstance(label, unicode): label = PyUnicode_AsUTF8String(label)
         item = elm_segment_control_item_add(self.obj,
             icon.obj if icon is not None else NULL,
-            <const_char *>label if label is not None else NULL)
+            <const char *>label if label is not None else NULL)
         if item != NULL:
             ret._set_obj(item)
             return ret
@@ -326,7 +326,7 @@ cdef class SegmentControl(LayoutClass):
         if isinstance(label, unicode): label = PyUnicode_AsUTF8String(label)
         item = elm_segment_control_item_insert_at(self.obj,
             icon.obj if icon is not None else NULL,
-            <const_char *>label if label is not None else NULL, index)
+            <const char *>label if label is not None else NULL, index)
         if item != NULL:
             ret._set_obj(item)
             return ret

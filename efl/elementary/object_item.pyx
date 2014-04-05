@@ -63,7 +63,7 @@ cdef _object_item_to_python(Elm_Object_Item *it):
 
     return item
 
-cdef _object_item_list_to_python(const_Eina_List *lst):
+cdef _object_item_list_to_python(const Eina_List *lst):
     cdef Elm_Object_Item *it
     ret = []
     while lst:
@@ -204,7 +204,7 @@ cdef class ObjectItem(object):
         """
         if isinstance(part, unicode): part = PyUnicode_AsUTF8String(part)
         elm_object_item_part_content_set(self.item,
-            <const_char *>part if part is not None else NULL, content.obj)
+            <const char *>part if part is not None else NULL, content.obj)
 
     def part_content_get(self, part):
         """part_content_get(unicode part) -> Object
@@ -222,7 +222,7 @@ cdef class ObjectItem(object):
         """
         if isinstance(part, unicode): part = PyUnicode_AsUTF8String(part)
         return object_from_instance(elm_object_item_part_content_get(self.item,
-            <const_char *>part if part is not None else NULL))
+            <const char *>part if part is not None else NULL))
 
     def part_content_unset(self, part):
         """part_content_unset(unicode part)
@@ -238,7 +238,7 @@ cdef class ObjectItem(object):
         """
         if isinstance(part, unicode): part = PyUnicode_AsUTF8String(part)
         return object_from_instance(elm_object_item_part_content_unset(self.item,
-            <const_char *>part if part is not None else NULL))
+            <const char *>part if part is not None else NULL))
 
     property content:
         """The default content part of this ObjectItem."""
@@ -274,8 +274,8 @@ cdef class ObjectItem(object):
         if isinstance(part, unicode): part = PyUnicode_AsUTF8String(part)
         if isinstance(text, unicode): text = PyUnicode_AsUTF8String(text)
         elm_object_item_part_text_set(self.item,
-            <const_char *>part if part is not None else NULL,
-            <const_char *>text if text is not None else NULL)
+            <const char *>part if part is not None else NULL,
+            <const char *>text if text is not None else NULL)
 
     def part_text_get(self, part):
         """part_text_set(unicode part) -> unicode text
@@ -292,7 +292,7 @@ cdef class ObjectItem(object):
         """
         if isinstance(part, unicode): part = PyUnicode_AsUTF8String(part)
         return _ctouni(elm_object_item_part_text_get(self.item,
-            <const_char *>part if part is not None else NULL))
+            <const char *>part if part is not None else NULL))
 
     def domain_translatable_part_text_set(self, part = None, domain = None, text = None):
         """domain_translatable_part_text_set(part = None, domain = None, text = None)
@@ -322,9 +322,9 @@ cdef class ObjectItem(object):
         if isinstance(domain, unicode): domain = PyUnicode_AsUTF8String(domain)
         if isinstance(text, unicode): text = PyUnicode_AsUTF8String(text)
         elm_object_item_domain_translatable_part_text_set(self.item,
-            <const_char *>part if part is not None else NULL,
-            <const_char *>domain if domain is not None else NULL,
-            <const_char *>text if text is not None else NULL)
+            <const char *>part if part is not None else NULL,
+            <const char *>domain if domain is not None else NULL,
+            <const char *>text if text is not None else NULL)
 
     def translatable_part_text_get(self, part = None):
         """translatable_part_text_get(part = None)
@@ -344,7 +344,7 @@ cdef class ObjectItem(object):
         """
         if isinstance(part, unicode): part = PyUnicode_AsUTF8String(part)
         return _ctouni(elm_object_item_translatable_part_text_get(self.item,
-            <const_char *>part if part is not None else NULL))
+            <const char *>part if part is not None else NULL))
 
     def domain_part_text_translatable_set(self, part not None, domain not None, bint translatable):
         """domain_part_text_translatable_set(self, part, domain, bool translatable)
@@ -372,8 +372,8 @@ cdef class ObjectItem(object):
         if isinstance(part, unicode): part = PyUnicode_AsUTF8String(part)
         if isinstance(domain, unicode): domain = PyUnicode_AsUTF8String(domain)
         elm_object_item_domain_part_text_translatable_set(self.item,
-            <const_char *>part,
-            <const_char *>domain,
+            <const char *>part,
+            <const char *>domain,
             translatable)
 
     property text:
@@ -388,12 +388,12 @@ cdef class ObjectItem(object):
         def __set__(self, text):
             if isinstance(text, unicode): text = PyUnicode_AsUTF8String(text)
             elm_object_item_text_set(self.item,
-                <const_char *>text if text is not None else NULL)
+                <const char *>text if text is not None else NULL)
 
     def text_set(self, text):
         if isinstance(text, unicode): text = PyUnicode_AsUTF8String(text)
         elm_object_item_text_set(self.item,
-            <const_char *>text if text is not None else NULL)
+            <const char *>text if text is not None else NULL)
     def text_get(self):
         return _ctouni(elm_object_item_text_get(self.item))
 
@@ -407,12 +407,12 @@ cdef class ObjectItem(object):
     #     def __set__(self, txt):
     #         if isinstance(txt, unicode): txt = PyUnicode_AsUTF8String(txt)
     #         elm_object_item_access_info_set(self.item,
-    #             <const_char *>txt if txt is not None else NULL)
+    #             <const char *>txt if txt is not None else NULL)
 
     # def access_info_set(self, txt):
     #     if isinstance(txt, unicode): txt = PyUnicode_AsUTF8String(txt)
     #     elm_object_item_access_info_set(self.item,
-    #         <const_char *>txt if txt is not None else NULL)
+    #         <const char *>txt if txt is not None else NULL)
 
     def signal_emit(self, emission, source):
         """signal_emit(unicode emission, unicode source)
@@ -432,8 +432,8 @@ cdef class ObjectItem(object):
         if isinstance(emission, unicode): emission = PyUnicode_AsUTF8String(emission)
         if isinstance(source, unicode): source = PyUnicode_AsUTF8String(source)
         elm_object_item_signal_emit(self.item,
-            <const_char *>emission if emission is not None else NULL,
-            <const_char *>source if source is not None else NULL)
+            <const char *>emission if emission is not None else NULL,
+            <const char *>source if source is not None else NULL)
 
     property disabled:
         """The disabled state of an widget item.
@@ -484,7 +484,7 @@ cdef class ObjectItem(object):
         """
         if isinstance(text, unicode): text = PyUnicode_AsUTF8String(text)
         elm_object_item_tooltip_text_set(self.item,
-            <const_char *>text if text is not None else NULL)
+            <const char *>text if text is not None else NULL)
 
     property tooltip_window_mode:
         # TODO: document this
@@ -555,7 +555,7 @@ cdef class ObjectItem(object):
         def __set__(self, style):
             if isinstance(style, unicode): style = PyUnicode_AsUTF8String(style)
             elm_object_item_tooltip_style_set(self.item,
-                <const_char *>style if style is not None else NULL)
+                <const char *>style if style is not None else NULL)
 
         def __get__(self):
             return _ctouni(elm_object_item_tooltip_style_get(self.item))
@@ -566,7 +566,7 @@ cdef class ObjectItem(object):
     def tooltip_style_set(self, style=None):
         if isinstance(style, unicode): style = PyUnicode_AsUTF8String(style)
         elm_object_item_tooltip_style_set(self.item,
-            <const_char *>style if style is not None else NULL)
+            <const char *>style if style is not None else NULL)
     def tooltip_style_get(self):
         return _ctouni(elm_object_item_tooltip_style_get(self.item))
 
@@ -579,7 +579,7 @@ cdef class ObjectItem(object):
         def __set__(self, cursor):
             if isinstance(cursor, unicode): cursor = PyUnicode_AsUTF8String(cursor)
             elm_object_item_cursor_set(self.item,
-                <const_char *>cursor if cursor is not None else NULL)
+                <const char *>cursor if cursor is not None else NULL)
 
         def __get__(self):
             return _ctouni(elm_object_item_cursor_get(self.item))
@@ -590,7 +590,7 @@ cdef class ObjectItem(object):
     def cursor_set(self, cursor):
         if isinstance(cursor, unicode): cursor = PyUnicode_AsUTF8String(cursor)
         elm_object_item_cursor_set(self.item,
-            <const_char *>cursor if cursor is not None else NULL)
+            <const char *>cursor if cursor is not None else NULL)
     def cursor_get(self):
         return _ctouni(elm_object_item_cursor_get(self.item))
     def cursor_unset(self):
@@ -606,7 +606,7 @@ cdef class ObjectItem(object):
         def __set__(self, style):
             if isinstance(style, unicode): style = PyUnicode_AsUTF8String(style)
             elm_object_item_cursor_style_set(self.item,
-                <const_char *>style if style is not None else NULL)
+                <const char *>style if style is not None else NULL)
 
         def __get__(self):
             return _ctouni(elm_object_item_cursor_style_get(self.item))
@@ -617,7 +617,7 @@ cdef class ObjectItem(object):
     def cursor_style_set(self, style=None):
         if isinstance(style, unicode): style = PyUnicode_AsUTF8String(style)
         elm_object_item_cursor_style_set(self.item,
-            <const_char *>style if style is not None else NULL)
+            <const char *>style if style is not None else NULL)
     def cursor_style_get(self):
         return _ctouni(elm_object_item_cursor_style_get(self.item))
 

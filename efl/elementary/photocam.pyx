@@ -194,7 +194,7 @@ cdef class Photocam(Object):
             if isinstance(filename, unicode):
                 filename = PyUnicode_AsUTF8String(filename)
             if elm_photocam_file_set(self.obj,
-                <const_char *>filename if filename is not None else NULL) != 0:
+                <const char *>filename if filename is not None else NULL) != 0:
                     raise RuntimeError("Could not set file")
 
         def __get__(self):
@@ -205,7 +205,7 @@ cdef class Photocam(Object):
         if isinstance(filename, unicode):
             filename = PyUnicode_AsUTF8String(filename)
         if elm_photocam_file_set(self.obj,
-            <const_char *>filename if filename is not None else NULL) != 0:
+            <const char *>filename if filename is not None else NULL) != 0:
                 raise RuntimeError("Could not set file")
     def file_get(self):
         return _ctouni(elm_photocam_file_get(self.obj))

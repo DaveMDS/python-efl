@@ -291,7 +291,7 @@ cdef class ListItem(ObjectItem):
             cb = _object_item_callback2
 
         item = elm_list_item_append(list.obj,
-            <const_char *>self.label if self.label is not None else NULL,
+            <const char *>self.label if self.label is not None else NULL,
             self.icon_obj, self.end_obj,
             cb, <void*>self)
 
@@ -327,7 +327,7 @@ cdef class ListItem(ObjectItem):
             cb = _object_item_callback2
 
         item = elm_list_item_prepend(   list.obj,
-            <const_char *>self.label if self.label is not None else NULL,
+            <const char *>self.label if self.label is not None else NULL,
             self.icon_obj, self.end_obj,
             cb, <void*>self)
 
@@ -365,7 +365,7 @@ cdef class ListItem(ObjectItem):
         cdef List list = before.widget
         item = elm_list_item_insert_before( list.obj,
             before.item,
-            <const_char *>self.label if self.label is not None else NULL,
+            <const char *>self.label if self.label is not None else NULL,
             self.icon_obj, self.end_obj,
             cb, <void*>self)
 
@@ -403,7 +403,7 @@ cdef class ListItem(ObjectItem):
         cdef List list = after.widget
         item = elm_list_item_insert_after(  list.obj,
             after.item,
-            <const_char *>self.label if self.label is not None else NULL,
+            <const char *>self.label if self.label is not None else NULL,
             self.icon_obj, self.end_obj,
             cb, <void*>self)
 
@@ -443,7 +443,7 @@ cdef class ListItem(ObjectItem):
     #     cdef Elm_Object_Item *item
 
     #     item = elm_list_item_sorted_insert(list.obj,
-    #         <const_char *>self.label if self.label is not None else NULL,
+    #         <const char *>self.label if self.label is not None else NULL,
     #         icon_obj,
     #         end_obj,
     #         cb,
@@ -721,7 +721,7 @@ cdef class List(Object):
         if isinstance(label, unicode): label = PyUnicode_AsUTF8String(label)
 
         item = elm_list_item_append(self.obj,
-            <const_char *>label if label is not None else NULL,
+            <const char *>label if label is not None else NULL,
             icon.obj if icon is not None else NULL,
             end.obj if end is not None else NULL,
             cb, <void*>self)
@@ -751,7 +751,7 @@ cdef class List(Object):
         if isinstance(label, unicode): label = PyUnicode_AsUTF8String(label)
 
         item = elm_list_item_prepend(self.obj,
-            <const_char *>label if label is not None else NULL,
+            <const char *>label if label is not None else NULL,
             icon.obj if icon is not None else NULL,
             end.obj if end is not None else NULL,
             cb, <void*>self)
@@ -783,7 +783,7 @@ cdef class List(Object):
 
         item = elm_list_item_insert_before(self.obj,
             before.item,
-            <const_char *>label if label is not None else NULL,
+            <const char *>label if label is not None else NULL,
             icon.obj if icon is not None else NULL,
             end.obj if end is not None else NULL,
             cb, <void*>self)
@@ -815,7 +815,7 @@ cdef class List(Object):
 
         item = elm_list_item_insert_after(self.obj,
             after.item,
-            <const_char *>label if label is not None else NULL,
+            <const char *>label if label is not None else NULL,
             icon.obj if icon is not None else NULL,
             end.obj if end is not None else NULL,
             cb, <void*>self)

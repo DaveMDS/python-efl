@@ -412,7 +412,7 @@ cdef class GenlistItem(ObjectItem):
         """
         if isinstance(text, unicode): text = PyUnicode_AsUTF8String(text)
         elm_genlist_item_tooltip_text_set(self.item,
-            <const_char *>text if text is not None else NULL)
+            <const char *>text if text is not None else NULL)
 
     def tooltip_content_cb_set(self, func, *args, **kargs):
         """tooltip_content_cb_set(func, *args, **kargs)
@@ -472,7 +472,7 @@ cdef class GenlistItem(ObjectItem):
         def __set__(self, style):
             if isinstance(style, unicode): style = PyUnicode_AsUTF8String(style)
             elm_genlist_item_tooltip_style_set(self.item,
-                <const_char *>style if style is not None else NULL)
+                <const char *>style if style is not None else NULL)
 
         def __get__(self):
             return _ctouni(elm_genlist_item_tooltip_style_get(self.item))
@@ -480,7 +480,7 @@ cdef class GenlistItem(ObjectItem):
     def tooltip_style_set(self, style=None):
         if isinstance(style, unicode): style = PyUnicode_AsUTF8String(style)
         elm_genlist_item_tooltip_style_set(self.item,
-            <const_char *>style if style is not None else NULL)
+            <const char *>style if style is not None else NULL)
     def tooltip_style_get(self):
         return _ctouni(elm_genlist_item_tooltip_style_get(self.item))
 
@@ -517,7 +517,7 @@ cdef class GenlistItem(ObjectItem):
         def __set__(self, cursor):
             if isinstance(cursor, unicode): cursor = PyUnicode_AsUTF8String(cursor)
             elm_genlist_item_cursor_set(self.item,
-                <const_char *>cursor if cursor is not None else NULL)
+                <const char *>cursor if cursor is not None else NULL)
 
         def __get__(self):
             return _ctouni(elm_genlist_item_cursor_get(self.item))
@@ -528,7 +528,7 @@ cdef class GenlistItem(ObjectItem):
     def cursor_set(self, cursor):
         if isinstance(cursor, unicode): cursor = PyUnicode_AsUTF8String(cursor)
         elm_genlist_item_cursor_set(self.item,
-            <const_char *>cursor if cursor is not None else NULL)
+            <const char *>cursor if cursor is not None else NULL)
     def cursor_get(self):
         return _ctouni(elm_genlist_item_cursor_get(self.item))
     def cursor_unset(self):
@@ -546,7 +546,7 @@ cdef class GenlistItem(ObjectItem):
         def __set__(self, style):
             if isinstance(style, unicode): style = PyUnicode_AsUTF8String(style)
             elm_genlist_item_cursor_style_set(self.item,
-                <const_char *>style if style is not None else NULL)
+                <const char *>style if style is not None else NULL)
 
         def __get__(self):
             return _ctouni(elm_genlist_item_cursor_style_get(self.item))
@@ -554,7 +554,7 @@ cdef class GenlistItem(ObjectItem):
     def cursor_style_set(self, style=None):
         if isinstance(style, unicode): style = PyUnicode_AsUTF8String(style)
         elm_genlist_item_cursor_style_set(self.item,
-            <const_char *>style if style is not None else NULL)
+            <const char *>style if style is not None else NULL)
     def cursor_style_get(self):
         return _ctouni(elm_genlist_item_cursor_style_get(self.item))
 
@@ -726,7 +726,7 @@ cdef class GenlistItem(ObjectItem):
         """
         if isinstance(parts, unicode): parts = PyUnicode_AsUTF8String(parts)
         elm_genlist_item_fields_update(self.item,
-            <const_char *>parts if parts is not None else NULL,
+            <const char *>parts if parts is not None else NULL,
             itf)
 
     property decorate_mode:
@@ -776,7 +776,7 @@ cdef class GenlistItem(ObjectItem):
         a1 = decorate_it_type
         if isinstance(a1, unicode): a1 = PyUnicode_AsUTF8String(a1)
         elm_genlist_item_decorate_mode_set(self.item,
-            <const_char *>a1 if a1 is not None else NULL,
+            <const char *>a1 if a1 is not None else NULL,
             decorate_it_set)
     def decorate_mode_get(self):
         return _ctouni(elm_genlist_item_decorate_mode_get(self.item))

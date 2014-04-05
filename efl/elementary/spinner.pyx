@@ -92,12 +92,12 @@ cdef class Spinner(LayoutClass):
         def __set__(self, label_format):
             if isinstance(label_format, unicode): label_format = PyUnicode_AsUTF8String(label_format)
             elm_spinner_label_format_set(self.obj,
-                <const_char *>label_format if label_format is not None else NULL)
+                <const char *>label_format if label_format is not None else NULL)
 
     def label_format_set(self, label_format):
         if isinstance(label_format, unicode): label_format = PyUnicode_AsUTF8String(label_format)
         elm_spinner_label_format_set(self.obj,
-            <const_char *>label_format if label_format is not None else NULL)
+            <const char *>label_format if label_format is not None else NULL)
     def label_format_get(self):
         return _ctouni(elm_spinner_label_format_get(self.obj))
 
@@ -268,7 +268,7 @@ cdef class Spinner(LayoutClass):
         """
         if isinstance(label, unicode): label = PyUnicode_AsUTF8String(label)
         elm_spinner_special_value_add(self.obj, value,
-            <const_char *>label if label is not None else NULL)
+            <const char *>label if label is not None else NULL)
 
     def special_value_del(self, double value):
         """special_value_del(float value)

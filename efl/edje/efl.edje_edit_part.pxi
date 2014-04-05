@@ -18,7 +18,7 @@
 
 cdef class Part(object):
     cdef EdjeEdit edje
-    cdef const_char *name
+    cdef const char *name
 
     def __init__(self, EdjeEdit e not None, name not None):
         if isinstance(name, unicode): name = name.encode("UTF-8")
@@ -38,15 +38,15 @@ cdef class Part(object):
         cdef Eina_Bool ret
         if isinstance(newname, unicode): newname = newname.encode("UTF-8")
         ret = edje_edit_part_name_set(self.edje.obj, self.name,
-                    <const_char *>newname if newname is not None else NULL)
+                    <const char *>newname if newname is not None else NULL)
         if ret == 0:
             return False
-        eina_stringshare_replace(&self.name, <const_char *>newname)
+        eina_stringshare_replace(&self.name, <const char *>newname)
         return True
 
     def above_get(self):
         cdef:
-            const_char *part
+            const char *part
             object ret
         part = edje_edit_part_above_get(self.edje.obj, self.name)
         ret = _ctouni(part)
@@ -55,7 +55,7 @@ cdef class Part(object):
 
     def below_get(self):
         cdef:
-            const_char *part
+            const char *part
             object ret
         part = edje_edit_part_below_get(self.edje.obj, self.name)
         ret = _ctouni(part)
@@ -88,30 +88,30 @@ cdef class Part(object):
     def state_add(self, sname, double value=0.0):
         if isinstance(sname, unicode): sname = sname.encode("UTF-8")
         return bool(edje_edit_state_add(self.edje.obj, self.name,
-                    <const_char *>sname if sname is not None else NULL,
+                    <const char *>sname if sname is not None else NULL,
                     value))
 
     def state_del(self, sname, double value=0.0):
         if isinstance(sname, unicode): sname = sname.encode("UTF-8")
         return bool(edje_edit_state_del(self.edje.obj, self.name,
-                    <const_char *>sname if sname is not None else NULL,
+                    <const char *>sname if sname is not None else NULL,
                     value))
 
     def state_exist(self, sname, double value=0.0):
         if isinstance(sname, unicode): sname = sname.encode("UTF-8")
         return bool(edje_edit_state_exist(self.edje.obj, self.name,
-                    <const_char *>sname if sname is not None else NULL,
+                    <const char *>sname if sname is not None else NULL,
                     value))
 
     def state_copy(self, sfrom, double vfrom, sto, double vto):
         if isinstance(sfrom, unicode): sfrom = sfrom.encode("UTF-8")
         if isinstance(sto, unicode): sto = sto.encode("UTF-8")
         return bool(edje_edit_state_copy(self.edje.obj, self.name,
-                    <const_char *>sfrom if sfrom is not None else NULL, vfrom,
-                    <const_char *>sto if sto is not None else NULL, vto))
+                    <const char *>sfrom if sfrom is not None else NULL, vfrom,
+                    <const char *>sto if sto is not None else NULL, vto))
 
     def state_selected_get(self):
-        cdef const_char *sel
+        cdef const char *sel
         cdef double val
         sel = edje_edit_part_selected_state_get(self.edje.obj, self.name, &val)
         if sel == NULL: return None
@@ -123,12 +123,12 @@ cdef class Part(object):
     def state_selected_set(self, state, double value=0.0):
         if isinstance(state, unicode): state = state.encode("UTF-8")
         edje_edit_part_selected_state_set(self.edje.obj, self.name,
-                <const_char *>state if state is not None else NULL,
+                <const char *>state if state is not None else NULL,
                 value)
 
     property clip_to:
         def __get__(self):
-            cdef const_char *clipper
+            cdef const char *clipper
             clipper = edje_edit_part_clip_to_get(self.edje.obj, self.name)
             ret = _ctouni(clipper)
             edje_edit_string_free(clipper)
@@ -137,14 +137,14 @@ cdef class Part(object):
         def __set__(self, clipper):
             if isinstance(clipper, unicode): clipper = clipper.encode("UTF-8")
             edje_edit_part_clip_to_set(self.edje.obj, self.name,
-                    <const_char *>clipper if clipper is not None else NULL)
+                    <const char *>clipper if clipper is not None else NULL)
 
         def __del__(self):
             edje_edit_part_clip_to_set(self.edje.obj, self.name, NULL)
 
     property source:
         def __get__(self):
-            cdef const_char *source
+            cdef const char *source
             source = edje_edit_part_source_get(self.edje.obj, self.name)
             ret = _ctouni(source)
             edje_edit_string_free(source)
@@ -153,7 +153,7 @@ cdef class Part(object):
         def __set__(self, source):
             if isinstance(source, unicode): source = source.encode("UTF-8")
             edje_edit_part_source_set(self.edje.obj, self.name,
-                        <const_char *>source if source is not None else NULL)
+                        <const char *>source if source is not None else NULL)
 
         def __del__(self):
             edje_edit_part_source_set(self.edje.obj, self.name, NULL)
@@ -234,7 +234,7 @@ cdef class Part(object):
 
     property drag_confine:
         def __get__(self):
-            cdef const_char *confine
+            cdef const char *confine
             confine = edje_edit_part_drag_confine_get(self.edje.obj, self.name)
             ret = _ctouni(confine)
             edje_edit_string_free(confine)
@@ -243,11 +243,11 @@ cdef class Part(object):
         def __set__(self, confine):
             if isinstance(confine, unicode): confine = confine.encode("UTF-8")
             edje_edit_part_drag_confine_set(self.edje.obj, self.name,
-                        <const_char *>confine if confine is not None else NULL)
+                        <const char *>confine if confine is not None else NULL)
 
     property drag_event:
         def __get__(self):
-            cdef const_char *event
+            cdef const char *event
             event = edje_edit_part_drag_event_get(self.edje.obj, self.name)
             ret = _ctouni(event)
             edje_edit_string_free(event)
@@ -256,13 +256,13 @@ cdef class Part(object):
         def __set__(self, event):
             if isinstance(event, unicode): event = event.encode("UTF-8")
             edje_edit_part_drag_event_set(self.edje.obj, self.name,
-                            <const_char *>event if event is not None else NULL)
+                            <const char *>event if event is not None else NULL)
 
     property api:
         def __get__(self):
             cdef:
-                const_char *name
-                const_char *desc
+                const char *name
+                const char *desc
             name = edje_edit_part_api_name_get(self.edje.obj, self.name)
             desc = edje_edit_part_api_description_get(self.edje.obj, self.name)
             n, d = _ctouni(name), _ctouni(desc)
@@ -276,6 +276,6 @@ cdef class Part(object):
             if isinstance(name, unicode): name = name.encode("UTF-8")
             if isinstance(desc, unicode): desc = desc.encode("UTF-8")
             edje_edit_part_api_name_set(self.edje.obj, self.name,
-                            <const_char *>name if name is not None else NULL)
+                            <const char *>name if name is not None else NULL)
             edje_edit_part_api_description_set(self.edje.obj, self.name,
-                            <const_char *>desc if desc is not None else NULL)
+                            <const char *>desc if desc is not None else NULL)

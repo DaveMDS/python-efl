@@ -141,12 +141,12 @@ cdef class Slider(LayoutClass):
         def __set__(self, unit_format):
             if isinstance(unit_format, unicode): unit_format = PyUnicode_AsUTF8String(unit_format)
             elm_slider_unit_format_set(self.obj,
-                <const_char *>unit_format if unit_format is not None else NULL)
+                <const char *>unit_format if unit_format is not None else NULL)
 
     def unit_format_set(self, unit_format):
         if isinstance(unit_format, unicode): unit_format = PyUnicode_AsUTF8String(unit_format)
         elm_slider_unit_format_set(self.obj,
-            <const_char *>unit_format if unit_format is not None else NULL)
+            <const char *>unit_format if unit_format is not None else NULL)
     def unit_format_get(self):
         return _ctouni(elm_slider_unit_format_get(self.obj))
 
@@ -176,12 +176,12 @@ cdef class Slider(LayoutClass):
         def __set__(self, ind_format):
             if isinstance(ind_format, unicode): ind_format = PyUnicode_AsUTF8String(ind_format)
             elm_slider_indicator_format_set(self.obj,
-                <const_char *>ind_format if ind_format is not None else NULL)
+                <const char *>ind_format if ind_format is not None else NULL)
 
     def indicator_format_set(self, ind_format):
         if isinstance(ind_format, unicode): ind_format = PyUnicode_AsUTF8String(ind_format)
         elm_slider_indicator_format_set(self.obj,
-            <const_char *>ind_format if ind_format is not None else NULL)
+            <const char *>ind_format if ind_format is not None else NULL)
     def indicator_format_get(self):
         return _ctouni(elm_slider_indicator_format_get(self.obj))
 

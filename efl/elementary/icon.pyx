@@ -188,15 +188,15 @@ cdef class Icon(Image):
             if isinstance(filename, unicode): filename = PyUnicode_AsUTF8String(filename)
             if isinstance(group, unicode): group = PyUnicode_AsUTF8String(group)
             elm_icon_thumb_set(self.obj,
-                <const_char *>filename if filename is not None else NULL,
-                <const_char *>group if group is not None else NULL)
+                <const char *>filename if filename is not None else NULL,
+                <const char *>group if group is not None else NULL)
 
     def thumb_set(self, filename, group = None):
         if isinstance(filename, unicode): filename = PyUnicode_AsUTF8String(filename)
         if isinstance(group, unicode): group = PyUnicode_AsUTF8String(group)
         elm_icon_thumb_set(self.obj,
-            <const_char *>filename if filename is not None else NULL,
-            <const_char *>group if group is not None else NULL)
+            <const char *>filename if filename is not None else NULL,
+            <const char *>group if group is not None else NULL)
 
     property standard:
         """The icon standards name.
@@ -234,13 +234,13 @@ cdef class Icon(Image):
         def __set__(self, name):
             if isinstance(name, unicode): name = PyUnicode_AsUTF8String(name)
             if not elm_icon_standard_set(self.obj,
-                <const_char *>name if name is not None else NULL):
+                <const char *>name if name is not None else NULL):
                     raise RuntimeWarning("Setting standard icon failed")
 
     def standard_set(self, name):
         if isinstance(name, unicode): name = PyUnicode_AsUTF8String(name)
         return elm_icon_standard_set(self.obj,
-            <const_char *>name if name is not None else NULL)
+            <const char *>name if name is not None else NULL)
     def standard_get(self):
         return _ctouni(elm_icon_standard_get(self.obj))
 

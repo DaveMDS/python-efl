@@ -1,27 +1,27 @@
-from efl.evas cimport Eina_Bool, Eina_List, const_Eina_List, Evas_Coord, Evas_Object, Evas_Font_Size
-from libc.string cimport const_char
+from efl.evas cimport Eina_Bool, Eina_List, Evas_Coord, Evas_Object, \
+    Evas_Font_Size
 from enums cimport Elm_Softcursor_Mode
 
 cdef extern from "Elementary.h":
     ctypedef struct Elm_Font_Overlay:
-        const_char *text_class
-        const_char *font
+        const char *text_class
+        const char *font
         Evas_Font_Size size
 
     ctypedef struct Elm_Text_Class:
-        const_char *name
-        const_char *desc
+        const char *name
+        const char *desc
 
     Eina_Bool               elm_config_save()
     void                    elm_config_reload()
     void                    elm_config_all_flush()
 
-    const_char *            elm_config_profile_get()
-    const_char *            elm_config_profile_dir_get(const_char *profile, Eina_Bool is_user)
-    void                    elm_config_profile_dir_free(const_char *p_dir)
+    const char *            elm_config_profile_get()
+    const char *            elm_config_profile_dir_get(const char *profile, Eina_Bool is_user)
+    void                    elm_config_profile_dir_free(const char *p_dir)
     Eina_List *             elm_config_profile_list_get()
     void                    elm_config_profile_list_free(Eina_List *l)
-    void                    elm_config_profile_set(const_char *profile)
+    void                    elm_config_profile_set(const char *profile)
 
     Eina_Bool               elm_config_scroll_bounce_enabled_get()
     void                    elm_config_scroll_bounce_enabled_set(Eina_Bool enabled)
@@ -77,20 +77,20 @@ cdef extern from "Elementary.h":
     double                  elm_config_password_show_last_timeout_get()
     void                    elm_config_password_show_last_timeout_set(double password_show_last_timeout)
 
-    const_char *            elm_config_engine_get()
-    void                    elm_config_engine_set(const_char *engine)
-    const_char *            elm_config_preferred_engine_get()
-    void                    elm_config_preferred_engine_set(const_char *engine)
+    const char *            elm_config_engine_get()
+    void                    elm_config_engine_set(const char *engine)
+    const char *            elm_config_preferred_engine_get()
+    void                    elm_config_preferred_engine_set(const char *engine)
 
     Eina_List *             elm_config_text_classes_list_get()
     void                    elm_config_text_classes_list_free(Eina_List *list)
     Eina_List *             elm_config_font_overlay_list_get()
-    void                    elm_config_font_overlay_set(const_char *text_class, const_char *font, Evas_Font_Size size)
+    void                    elm_config_font_overlay_set(const char *text_class, const char *font, Evas_Font_Size size)
     #TODO: Eina_Bool               elm_config_access_get()
     #TODO: void                    elm_config_access_set(Eina_Bool is_access)
     Eina_Bool               elm_config_selection_unfocused_clear_get()
     void                    elm_config_selection_unfocused_clear_set(Eina_Bool enabled)
-    void                    elm_config_font_overlay_unset(const_char *text_class)
+    void                    elm_config_font_overlay_unset(const char *text_class)
     void                    elm_config_font_overlay_apply()
     Evas_Coord              elm_config_finger_size_get()
     void                    elm_config_finger_size_set(Evas_Coord size)
@@ -118,7 +118,7 @@ cdef extern from "Elementary.h":
     Eina_Bool               elm_config_clouseau_enabled_get()
     void                    elm_config_clouseau_enabled_set(Eina_Bool enabled)
 
-    const_char *            elm_config_indicator_service_get(int rotation)
+    const char *            elm_config_indicator_service_get(int rotation)
 
     double                  elm_config_glayer_long_tap_start_timeout_get()
     void                    elm_config_glayer_long_tap_start_timeout_set(double long_tap_timeout)

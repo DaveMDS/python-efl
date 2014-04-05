@@ -1,5 +1,4 @@
 from cpython cimport PyObject
-from libc.string cimport const_char
 
 cdef extern from "dbus/dbus.h":
     ctypedef int dbus_bool_t
@@ -11,7 +10,7 @@ cdef extern from "dbus/dbus-python.h":
     ctypedef dbus_bool_t (*_dbus_py_srv_setup_func)(DBusServer *, void *)
     ctypedef void (*_dbus_py_free_func)(void *)
     PyObject *DBusPyNativeMainLoop_New4(_dbus_py_conn_setup_func conn_func, _dbus_py_srv_setup_func srv_func, _dbus_py_free_func free_func, void *)
-    int import_dbus_bindings(const_char *this_module_name)
+    int import_dbus_bindings(const char *this_module_name)
 
 cdef extern from "Ecore.h":
     int ecore_init()

@@ -15,11 +15,9 @@
 # You should have received a copy of the GNU Lesser General Public License
 # along with this Python-EFL.  If not, see <http://www.gnu.org/licenses/>.
 
-from libc.string cimport const_char
-
 from efl.c_eo cimport Eo as cEo
 
-from efl.eina cimport Eina_List, const_Eina_List
+from efl.eina cimport Eina_List
 
 cdef:
     class Eo(object):

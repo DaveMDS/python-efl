@@ -26,7 +26,7 @@ cdef extern from "Elementary.h":
 
     struct _Elm_Drag_User_Info:
         Elm_Sel_Format format
-        const_char *data
+        const char *data
         Eina_List *icons
         Elm_Xdnd_Action action
         Elm_Drag_Icon_Create_Cb createicon
@@ -56,13 +56,13 @@ cdef extern from "Elementary.h":
       Elm_Drop_Item_Container_Cb dropcb, void *cbdata)
     Eina_Bool elm_drop_item_container_del(Evas_Object *obj)
 
-    Eina_Bool               elm_cnp_selection_set(Evas_Object *obj, Elm_Sel_Type selection, Elm_Sel_Format format, const_void *buf, size_t buflen)
+    Eina_Bool               elm_cnp_selection_set(Evas_Object *obj, Elm_Sel_Type selection, Elm_Sel_Format format, const void *buf, size_t buflen)
     Eina_Bool               elm_cnp_selection_get(Evas_Object *obj, Elm_Sel_Type selection, Elm_Sel_Format format, Elm_Drop_Cb datacb, void *udata)
     Eina_Bool               elm_object_cnp_selection_clear(Evas_Object *obj, Elm_Sel_Type selection)
-    void                    elm_cnp_selection_loss_callback_set(Evas_Object *obj, Elm_Sel_Type selection, Elm_Selection_Loss_Cb func, const_void *data)
+    void                    elm_cnp_selection_loss_callback_set(Evas_Object *obj, Elm_Sel_Type selection, Elm_Selection_Loss_Cb func, const void *data)
     # Eina_Bool               elm_drop_target_add(Evas_Object *obj, Elm_Sel_Format format, Elm_Drag_State entercb, void *enterdata, Elm_Drag_State leavecb, void *leavedata, Elm_Drag_Pos poscb, void *posdata, Elm_Drop_Cb dropcb, void *cbdata)
     # Eina_Bool               elm_drop_target_del(Evas_Object *obj)
-    # Eina_Bool               elm_drag_start(Evas_Object *obj, Elm_Sel_Format format, const_char *data, Elm_Xdnd_Action action, Elm_Drag_Icon_Create_Cb createicon, void *createdata, Elm_Drag_Pos dragpos, void *dragdata, Elm_Drag_Accept acceptcb, void *acceptdata, Elm_Drag_State dragdone, void *donecbdata)
+    # Eina_Bool               elm_drag_start(Evas_Object *obj, Elm_Sel_Format format, const char *data, Elm_Xdnd_Action action, Elm_Drag_Icon_Create_Cb createicon, void *createdata, Elm_Drag_Pos dragpos, void *dragdata, Elm_Drag_Accept acceptcb, void *acceptdata, Elm_Drag_State dragdone, void *donecbdata)
     # Eina_Bool               elm_drag_action_set(Evas_Object *obj, Elm_Xdnd_Action action)
 
 cdef class SelectionData(object):
@@ -89,7 +89,7 @@ cdef class SelectionData(object):
     property data:
         def __get__(self):
             # TODO: void *
-            return <const_char *>self.sel_data.data
+            return <const char *>self.sel_data.data
 
     property len:
         """:type: size_t"""
@@ -385,7 +385,7 @@ cdef class DragUserInfo(object):
         public list icons
         public object createicon, createdata, dragpos, dragdata
         public object acceptcb, acceptdata, dragdone, donecbdata
-        const_char *_data
+        const char *_data
 
     property data:
         def __get__(self):

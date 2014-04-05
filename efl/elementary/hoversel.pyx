@@ -157,8 +157,8 @@ cdef class HoverselItem(ObjectItem):
             cb = _object_item_callback2
 
         item = elm_hoversel_item_add(hoversel.obj,
-            <const_char *>self.label if self.label is not None else NULL,
-            <const_char *>self.icon_file if self.icon_file is not None else NULL,
+            <const char *>self.label if self.label is not None else NULL,
+            <const char *>self.icon_file if self.icon_file is not None else NULL,
             self.icon_type,
             cb, <void*>self)
 
@@ -189,14 +189,14 @@ cdef class HoverselItem(ObjectItem):
                 self.icon_type = a3
             else:
                 elm_hoversel_item_icon_set(self.item,
-                    <const_char *>a1 if a1 is not None else NULL,
-                    <const_char *>a2 if a2 is not None else NULL,
+                    <const char *>a1 if a1 is not None else NULL,
+                    <const char *>a2 if a2 is not None else NULL,
                     a3)
 
         def __get__(self):
             cdef:
-                const_char *icon_file
-                const_char *icon_group
+                const char *icon_file
+                const char *icon_group
                 Elm_Icon_Type icon_type
 
             if self.item == NULL:
@@ -218,13 +218,13 @@ cdef class HoverselItem(ObjectItem):
             self.icon_type = a3
         else:
             elm_hoversel_item_icon_set(self.item,
-                <const_char *>a1 if a1 is not None else NULL,
-                <const_char *>a2 if a2 is not None else NULL,
+                <const char *>a1 if a1 is not None else NULL,
+                <const char *>a2 if a2 is not None else NULL,
                 a3)
     def icon_get(self):
         cdef:
-            const_char *icon_file
-            const_char *icon_group
+            const char *icon_file
+            const char *icon_group
             Elm_Icon_Type icon_type
 
         if self.item == NULL:
@@ -357,8 +357,8 @@ cdef class Hoversel(Button):
         if isinstance(icon_file, unicode): icon_file = PyUnicode_AsUTF8String(icon_file)
 
         item = elm_hoversel_item_add(self.obj,
-            <const_char *>label if label is not None else NULL,
-            <const_char *>icon_file if icon_file is not None else NULL,
+            <const char *>label if label is not None else NULL,
+            <const char *>icon_file if icon_file is not None else NULL,
             icon_type,
             cb, <void*>ret)
 

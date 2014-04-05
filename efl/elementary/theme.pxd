@@ -17,7 +17,6 @@
 #
 
 from efl.evas cimport Eina_Bool, Eina_List
-from libc.string cimport const_char
 
 cdef extern from "Elementary.h":
 
@@ -29,21 +28,21 @@ cdef extern from "Elementary.h":
     void                     elm_theme_ref_set(Elm_Theme *th, Elm_Theme *thref)
     Elm_Theme               *elm_theme_ref_get(Elm_Theme *th)
     Elm_Theme               *elm_theme_default_get()
-    void                     elm_theme_overlay_add(Elm_Theme *th, const_char *item)
-    void                     elm_theme_overlay_del(Elm_Theme *th, const_char *item)
+    void                     elm_theme_overlay_add(Elm_Theme *th, const char *item)
+    void                     elm_theme_overlay_del(Elm_Theme *th, const char *item)
     Eina_List               *elm_theme_overlay_list_get(Elm_Theme *th)
-    void                     elm_theme_extension_add(Elm_Theme *th, const_char *item)
-    void                     elm_theme_extension_del(Elm_Theme *th, const_char *item)
+    void                     elm_theme_extension_add(Elm_Theme *th, const char *item)
+    void                     elm_theme_extension_del(Elm_Theme *th, const char *item)
     Eina_List               *elm_theme_extension_list_get(Elm_Theme *th)
-    void                     elm_theme_set(Elm_Theme *th, const_char *theme)
+    void                     elm_theme_set(Elm_Theme *th, const char *theme)
     char                    *elm_theme_get(Elm_Theme *th)
     Eina_List               *elm_theme_list_get(Elm_Theme *th)
-    char                    *elm_theme_list_item_path_get(const_char *f, Eina_Bool *in_search_path)
+    char                    *elm_theme_list_item_path_get(const char *f, Eina_Bool *in_search_path)
     void                     elm_theme_flush(Elm_Theme *th)
     void                     elm_theme_full_flush()
     Eina_List               *elm_theme_name_available_list_new()
     void                     elm_theme_name_available_list_free(Eina_List *list)
-    char                    *elm_theme_data_get(Elm_Theme *th, const_char *key)
+    char                    *elm_theme_data_get(Elm_Theme *th, const char *key)
 
 cdef class Theme(object):
     cdef Elm_Theme *th

@@ -82,7 +82,7 @@ cdef class Plug(Object):
         """
         if isinstance(svcname, unicode): svcname = PyUnicode_AsUTF8String(svcname)
         if not elm_plug_connect(self.obj,
-            <const_char *>svcname if svcname is not None else NULL,
+            <const char *>svcname if svcname is not None else NULL,
             svcnum, svcsys):
             raise RuntimeError
 

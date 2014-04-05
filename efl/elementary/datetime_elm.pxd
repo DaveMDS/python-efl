@@ -1,12 +1,11 @@
 from efl.evas cimport Evas_Object, Eina_Bool
 from general cimport tm
 from enums cimport Elm_Datetime_Field_Type
-from libc.string cimport const_char
 
 cdef extern from "Elementary.h":
     Evas_Object *           elm_datetime_add(Evas_Object *parent)
-    const_char *            elm_datetime_format_get(Evas_Object *obj)
-    void                    elm_datetime_format_set(Evas_Object *obj, const_char *fmt)
+    const char *            elm_datetime_format_get(Evas_Object *obj)
+    void                    elm_datetime_format_set(Evas_Object *obj, const char *fmt)
     Eina_Bool               elm_datetime_value_max_get(Evas_Object *obj, tm *maxtime)
     Eina_Bool               elm_datetime_value_max_set(Evas_Object *obj, tm *maxtime)
     Eina_Bool               elm_datetime_value_min_get(Evas_Object *obj, tm *mintime)

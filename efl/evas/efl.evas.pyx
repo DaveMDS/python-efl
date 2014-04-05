@@ -184,7 +184,7 @@ def render_method_lookup(name):
     """
     if isinstance(name, unicode): name = PyUnicode_AsUTF8String(name)
     return evas_render_method_lookup(
-        <const_char *>name if name is not None else NULL)
+        <const char *>name if name is not None else NULL)
 
 
 def render_method_list():

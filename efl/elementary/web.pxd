@@ -1,25 +1,24 @@
 from efl.evas cimport Eina_Bool, Eina_List, Evas_Object, Evas_Coord
 from enums cimport Elm_Web_Window_Feature_Flag, Elm_Web_Zoom_Mode
-from libc.string cimport const_char
 
 cdef extern from "Elementary.h":
 
     ctypedef struct Elm_Web_Frame_Load_Error:
         int code
         Eina_Bool is_cancellation
-        const_char *domain
-        const_char *description
-        const_char *failing_url
+        const char *domain
+        const char *description
+        const char *failing_url
         Evas_Object *frame
 
     ctypedef struct Elm_Web_Window_Features
 
     ctypedef Evas_Object    *(*Elm_Web_Window_Open)         (void *data, Evas_Object *obj, Eina_Bool js, Elm_Web_Window_Features *window_features)
-    ctypedef Evas_Object    *(*Elm_Web_Dialog_Alert)        (void *data, Evas_Object *obj, const_char *message)
-    ctypedef Evas_Object    *(*Elm_Web_Dialog_Confirm)      (void *data, Evas_Object *obj, const_char *message, Eina_Bool *ret)
-    ctypedef Evas_Object    *(*Elm_Web_Dialog_Prompt)       (void *data, Evas_Object *obj, const_char *message, const_char *def_value, char **value, Eina_Bool *ret)
+    ctypedef Evas_Object    *(*Elm_Web_Dialog_Alert)        (void *data, Evas_Object *obj, const char *message)
+    ctypedef Evas_Object    *(*Elm_Web_Dialog_Confirm)      (void *data, Evas_Object *obj, const char *message, Eina_Bool *ret)
+    ctypedef Evas_Object    *(*Elm_Web_Dialog_Prompt)       (void *data, Evas_Object *obj, const char *message, const char *def_value, char **value, Eina_Bool *ret)
     ctypedef Evas_Object    *(*Elm_Web_Dialog_File_Selector)(void *data, Evas_Object *obj, Eina_Bool allows_multiple, Eina_List *accept_types, Eina_List **selected, Eina_Bool *ret)
-    ctypedef void            (*Elm_Web_Console_Message)     (void *data, Evas_Object *obj, const_char *message, unsigned int line_number, const_char *source_id)
+    ctypedef void            (*Elm_Web_Console_Message)     (void *data, Evas_Object *obj, const char *message, unsigned int line_number, const char *source_id)
 
     Evas_Object             *elm_web_add(Evas_Object *parent)
     void                     elm_web_zoom_mode_set(Evas_Object *obj, Elm_Web_Zoom_Mode mode)
@@ -30,8 +29,8 @@ cdef extern from "Elementary.h":
     void                     elm_web_window_features_ref(Elm_Web_Window_Features *wf)
     void                     elm_web_window_features_unref(Elm_Web_Window_Features *wf)
 
-    void                     elm_web_useragent_set(Evas_Object *obj, const_char *user_agent)
-    const_char *             elm_web_useragent_get(Evas_Object *obj)
+    void                     elm_web_useragent_set(Evas_Object *obj, const char *user_agent)
+    const char *             elm_web_useragent_get(Evas_Object *obj)
     Evas_Object             *elm_web_webkit_view_get(Evas_Object *obj)
 
     # TODO: void                     elm_web_window_create_hook_set(Evas_Object *obj, Elm_Web_Window_Open func, void *data)
@@ -45,9 +44,9 @@ cdef extern from "Elementary.h":
     # TODO: void                     elm_web_tab_propagate_set(Evas_Object *obj, Eina_Bool propagate)
 
     Eina_Bool                elm_web_url_set(Evas_Object *obj,char *url)
-    const_char *             elm_web_url_get(Evas_Object *obj)
+    const char *             elm_web_url_get(Evas_Object *obj)
 
-    const_char *             elm_web_title_get(Evas_Object *obj)
+    const char *             elm_web_title_get(Evas_Object *obj)
     void                     elm_web_bg_color_set(Evas_Object *obj, int r, int g, int b, int a)
     void                     elm_web_bg_color_get(Evas_Object *obj, int *r, int *g, int *b, int *a)
 
@@ -55,8 +54,8 @@ cdef extern from "Elementary.h":
     void                     elm_web_popup_selected_set(Evas_Object *obj, int index)
     Eina_Bool                elm_web_popup_destroy(Evas_Object *obj)
 
-    Eina_Bool                elm_web_text_search(Evas_Object *obj, const_char *string, Eina_Bool case_sensitive, Eina_Bool forward, Eina_Bool wrap)
-    unsigned int             elm_web_text_matches_mark(Evas_Object *obj, const_char *string, Eina_Bool case_sensitive, Eina_Bool highlight, unsigned int limit)
+    Eina_Bool                elm_web_text_search(Evas_Object *obj, const char *string, Eina_Bool case_sensitive, Eina_Bool forward, Eina_Bool wrap)
+    unsigned int             elm_web_text_matches_mark(Evas_Object *obj, const char *string, Eina_Bool case_sensitive, Eina_Bool highlight, unsigned int limit)
     Eina_Bool                elm_web_text_matches_unmark_all(Evas_Object *obj)
     Eina_Bool                elm_web_text_matches_highlight_set(Evas_Object *obj, Eina_Bool highlight)
     Eina_Bool                elm_web_text_matches_highlight_get(Evas_Object *obj)

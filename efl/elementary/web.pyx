@@ -170,7 +170,7 @@ ELM_WEB_ZOOM_MODE_AUTO_FIT = enums.ELM_WEB_ZOOM_MODE_AUTO_FIT
 ELM_WEB_ZOOM_MODE_AUTO_FILL = enums.ELM_WEB_ZOOM_MODE_AUTO_FILL
 
 def _cb_string_conv(uintptr_t addr):
-    cdef const_char *s = <const_char *>addr
+    cdef const char *s = <const char *>addr
     return _ctouni(s) if s is not NULL else None
 
 def _cb_bool_conv(uintptr_t addr):
@@ -211,7 +211,7 @@ def _web_link_hover_in_conv(uintptr_t addr):
     return (url, title)
 
 
-cdef void _web_console_message_hook(void *data, Evas_Object *obj, const_char *message, unsigned int line_number, const_char *source_id) with gil:
+cdef void _web_console_message_hook(void *data, Evas_Object *obj, const char *message, unsigned int line_number, const char *source_id) with gil:
     cdef Web self = <Web>data
 
     try:

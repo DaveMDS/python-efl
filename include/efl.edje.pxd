@@ -156,8 +156,7 @@ cdef extern from "Edje.h":
         void *data
 
 
-    ctypedef Edje_External_Type const_Edje_External_Type "const Edje_External_Type"
-    ctypedef void (*Edje_Signal_Cb)(void *data, Evas_Object *obj, const_char *emission, const_char *source)
+    ctypedef void (*Edje_Signal_Cb)(void *data, Evas_Object *obj, const char *emission, const char *source)
 
     ####################################################################
     # Engine
@@ -371,7 +370,7 @@ cdef class ExternalParam:
 cdef class ExternalParamInfo:
     cdef Edje_External_Param_Info *obj
     cdef readonly object external_type
-    cdef const_Edje_External_Type *_external_type_obj
+    cdef const Edje_External_Type *_external_type_obj
     cdef _set_external_type(self, t)
 
 
@@ -398,7 +397,7 @@ cdef class ExternalParamInfoChoice(ExternalParamInfo):
 cdef class ExternalType:
     cdef object _name
     cdef object _parameters_info
-    cdef const_Edje_External_Type *_obj
+    cdef const Edje_External_Type *_obj
 
 
 cdef class Edje(Object):

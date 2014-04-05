@@ -179,11 +179,11 @@ cdef class NaviframeItem(ObjectItem):
         """
         cdef Elm_Object_Item *item = elm_naviframe_item_push(
             naviframe.obj,
-            <const_char *>self.label if self.label is not None else NULL,
+            <const char *>self.label if self.label is not None else NULL,
             self.prev_btn,
             self.next_btn,
             self.item_content,
-            <const_char *>self.item_style if self.item_style is not None else NULL)
+            <const char *>self.item_style if self.item_style is not None else NULL)
 
         if item == NULL:
             raise RuntimeError("The item could not be added to the widget.")
@@ -218,11 +218,11 @@ cdef class NaviframeItem(ObjectItem):
         item = elm_naviframe_item_insert_before(
             naviframe.obj,
             before.item,
-            <const_char *>self.label if self.label is not None else NULL,
+            <const char *>self.label if self.label is not None else NULL,
             self.prev_btn,
             self.next_btn,
             self.item_content,
-            <const_char *>self.item_style if self.item_style is not None else NULL)
+            <const char *>self.item_style if self.item_style is not None else NULL)
 
         if item == NULL:
             raise RuntimeError("The item could not be added to the widget.")
@@ -257,11 +257,11 @@ cdef class NaviframeItem(ObjectItem):
         item = elm_naviframe_item_insert_after(
             naviframe.obj,
             after.item,
-            <const_char *>self.label if self.label is not None else NULL,
+            <const char *>self.label if self.label is not None else NULL,
             self.prev_btn,
             self.next_btn,
             self.item_content,
-            <const_char *>self.item_style if self.item_style is not None else NULL)
+            <const char *>self.item_style if self.item_style is not None else NULL)
 
         if item == NULL:
             raise RuntimeError("The item could not be added to the widget.")
@@ -317,12 +317,12 @@ cdef class NaviframeItem(ObjectItem):
         def __set__(self, style):
             if isinstance(style, unicode): style = PyUnicode_AsUTF8String(style)
             elm_naviframe_item_style_set(self.item,
-                <const_char *>style if style is not None else NULL)
+                <const char *>style if style is not None else NULL)
 
     def style_set(self, style):
         if isinstance(style, unicode): style = PyUnicode_AsUTF8String(style)
         elm_naviframe_item_style_set(self.item,
-            <const_char *>style if style is not None else NULL)
+            <const char *>style if style is not None else NULL)
     def style_get(self):
         return _ctouni(elm_naviframe_item_style_get(self.item))
 

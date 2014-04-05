@@ -56,7 +56,7 @@ cdef class Textblock(Object):
             self.style_set(value)
 
     def style_get(self):
-        cdef const_Evas_Textblock_Style *style
+        cdef const Evas_Textblock_Style *style
         style = evas_object_textblock_style_get(self.obj)
         return _ctouni(evas_textblock_style_get(style))
 
@@ -64,7 +64,7 @@ cdef class Textblock(Object):
         cdef Evas_Textblock_Style *style = evas_textblock_style_new()
         if isinstance(value, unicode): value = PyUnicode_AsUTF8String(value)
         evas_textblock_style_set(style,
-            <const_char *>value if value is not None else NULL)
+            <const char *>value if value is not None else NULL)
         evas_object_textblock_style_set(self.obj, style)
         evas_textblock_style_free(style)
 
@@ -86,7 +86,7 @@ cdef class Textblock(Object):
     def text_markup_set(self, value):
         if isinstance(value, unicode): value = PyUnicode_AsUTF8String(value)
         evas_object_textblock_text_markup_set(self.obj,
-            <const_char *>value if value is not None else NULL)
+            <const char *>value if value is not None else NULL)
 
     property replace_char:
         """Replacement character
@@ -106,7 +106,7 @@ cdef class Textblock(Object):
     def replace_char_set(self, value):
         if isinstance(value, unicode): value = PyUnicode_AsUTF8String(value)
         evas_object_textblock_replace_char_set(self.obj,
-            <const_char *>value if value is not None else NULL)
+            <const char *>value if value is not None else NULL)
 
     def line_number_geometry_get(self, int index):
         """line_number_geometry_get(int index) -> (int x, int y, int w, int h)

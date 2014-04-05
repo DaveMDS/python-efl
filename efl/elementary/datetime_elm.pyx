@@ -377,7 +377,7 @@ cdef class Datetime(Object):
         def __set__(self, fmt):
             if isinstance(fmt, unicode): fmt = PyUnicode_AsUTF8String(fmt)
             elm_datetime_format_set(self.obj,
-                <const_char *>fmt if fmt is not None else NULL)
+                <const char *>fmt if fmt is not None else NULL)
 
     property value_max:
         """The upper boundary of a field.

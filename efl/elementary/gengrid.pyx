@@ -307,7 +307,7 @@ def _cb_object_item_conv(uintptr_t addr):
     cdef Elm_Object_Item *it = <Elm_Object_Item *>addr
     return _object_item_to_python(it)
 
-cdef char *_py_elm_gengrid_item_text_get(void *data, Evas_Object *obj, const_char *part) with gil:
+cdef char *_py_elm_gengrid_item_text_get(void *data, Evas_Object *obj, const char *part) with gil:
     cdef:
         GengridItem item = <GengridItem>data
         unicode u = _ctouni(part)
@@ -329,7 +329,7 @@ cdef char *_py_elm_gengrid_item_text_get(void *data, Evas_Object *obj, const_cha
     else:
         return NULL
 
-cdef Evas_Object *_py_elm_gengrid_item_content_get(void *data, Evas_Object *obj, const_char *part) with gil:
+cdef Evas_Object *_py_elm_gengrid_item_content_get(void *data, Evas_Object *obj, const char *part) with gil:
     cdef:
         GengridItem item = <GengridItem>data
         unicode u = _ctouni(part)
@@ -352,7 +352,7 @@ cdef Evas_Object *_py_elm_gengrid_item_content_get(void *data, Evas_Object *obj,
     else:
         return NULL
 
-cdef Eina_Bool _py_elm_gengrid_item_state_get(void *data, Evas_Object *obj, const_char *part) with gil:
+cdef Eina_Bool _py_elm_gengrid_item_state_get(void *data, Evas_Object *obj, const char *part) with gil:
     cdef:
         GengridItem item = <GengridItem>data
         unicode u = _ctouni(part)
@@ -401,7 +401,7 @@ cdef void _py_elm_gengrid_item_func(void *data, Evas_Object *obj, void *event_in
         except:
             traceback.print_exc()
 
-cdef int _gengrid_compare_cb(const_void *data1, const_void *data2) with gil:
+cdef int _gengrid_compare_cb(const void *data1, const void *data2) with gil:
     cdef:
         Elm_Object_Item *citem1 = <Elm_Object_Item *>data1
         Elm_Object_Item *citem2 = <Elm_Object_Item *>data2

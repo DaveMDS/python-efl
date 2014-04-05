@@ -18,7 +18,7 @@
 from cpython cimport PyUnicode_AsUTF8String
 
 
-cdef void _file_monitor_cb(void *data, Ecore_File_Monitor *em, Ecore_File_Event event, const_char *path) with gil:
+cdef void _file_monitor_cb(void *data, Ecore_File_Monitor *em, Ecore_File_Event event, const char *path) with gil:
     obj = <FileMonitor>data
     try:
         obj._exec_monitor(event, path)
@@ -74,7 +74,7 @@ cdef class FileMonitor(object):
 
         if isinstance(path, unicode): path = PyUnicode_AsUTF8String(path)
         self.mon = ecore_file_monitor_add(
-                            <const_char *>path if path is not None else NULL,
+                            <const char *>path if path is not None else NULL,
                             _file_monitor_cb, <void *>self)
         if not self.mon:
             raise SystemError("could not monitor '%s'" % (path))
@@ -98,7 +98,7 @@ cdef class FileMonitor(object):
                (self.__class__.__name__, <uintptr_t><void *>self,
                 self.monitor_cb, self.args, self.kargs, PY_REFCOUNT(self))
 
-    cdef object _exec_monitor(self, Ecore_File_Event event, const_char *path):
+    cdef object _exec_monitor(self, Ecore_File_Event event, const char *path):
         if self.monitor_cb:
             return self.monitor_cb(event, _ctouni(path), *self.args, **self.kargs)
         return 0

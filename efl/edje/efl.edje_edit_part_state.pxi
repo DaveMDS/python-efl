@@ -19,7 +19,7 @@
 cdef class State:
     cdef EdjeEdit edje
     cdef object part
-    cdef const_char *name
+    cdef const char *name
     cdef object part_obj
     cdef object value
 
@@ -51,11 +51,11 @@ cdef class State:
         if isinstance(new_name, unicode): new_name = new_name.encode("UTF-8")
         ret = edje_edit_state_name_set(self.edje.obj, self.part,
                         self.name, self.value,
-                        <const_char *>new_name if new_name is not None else NULL,
+                        <const char *>new_name if new_name is not None else NULL,
                         new_value if new_value is not None else self.value)
         if ret == 0:
             return False
-        eina_stringshare_replace(&self.name, <const_char *>new_name)
+        eina_stringshare_replace(&self.name, <const char *>new_name)
         return True
     """
     def copy_from(self, from_state, from_value=0.0):
@@ -65,8 +65,8 @@ cdef class State:
     """
     def rel1_to_get(self):
         cdef:
-            const_char *tx
-            const_char *ty
+            const char *tx
+            const char *ty
 
         tx = edje_edit_state_rel1_to_x_get(self.edje.obj, self.part, self.name,
                                            self.value)
@@ -188,7 +188,7 @@ cdef class State:
                                           self.value, y)
 
     def rel2_to_get(self):
-        cdef const_char_ptr tx, ty
+        cdef const char_ptr tx, ty
         tx = edje_edit_state_rel2_to_x_get(self.edje.obj, self.part, self.name,
                                            self.value)
         ty = edje_edit_state_rel2_to_y_get(self.edje.obj, self.part, self.name,
@@ -505,7 +505,7 @@ cdef class State:
                 edje_edit_state_visible_set(self.edje.obj, self.part, self.name,                                            self.value, 0)
 
     def color_class_get(self):
-        cdef const_char_ptr cc
+        cdef const char_ptr cc
         cc = edje_edit_state_color_class_get(self.edje.obj, self.part,
                                              self.name, self.value)
         if cc == NULL:
@@ -523,7 +523,7 @@ cdef class State:
                                             self.name, self.value, cc)
 
     def external_params_get(self):
-        cdef evas.c_evas.const_Eina_List *lst
+        cdef evas.c_evas.const Eina_List *lst
         ret = []
         lst = edje_edit_state_external_params_list_get(self.edje.obj, self.part,
                                                        self.name, self.value)
@@ -537,7 +537,7 @@ cdef class State:
     def external_param_get(self, param):
         cdef c_edje.Edje_External_Param_Type type
         cdef void *value
-        cdef const_char_ptr s
+        cdef const char_ptr s
 
         if not edje_edit_state_external_param_get(self.edje.obj, self.part,
                                                   self.name, self.value, param,
@@ -567,7 +567,7 @@ cdef class State:
         return None
 
     def external_param_set(self, param, value):
-        cdef const_char_ptr expected
+        cdef const char_ptr expected
 
         if isinstance(value, bool):
             return self.external_param_bool_set(param, value)
@@ -620,7 +620,7 @@ cdef class State:
         return value
 
     def external_param_string_get(self, param):
-        cdef const_char_ptr value
+        cdef const char_ptr value
 
         if not edje_edit_state_external_param_string_get(
             self.edje.obj, self.part, self.name, self.value, param, &value):
@@ -629,7 +629,7 @@ cdef class State:
             return value
 
     def external_param_choice_get(self, param):
-        cdef const_char_ptr value
+        cdef const char_ptr value
 
         if not edje_edit_state_external_param_choice_get(
             self.edje.obj, self.part, self.name, self.value, param, &value):
@@ -664,7 +664,7 @@ cdef class State:
                 self.edje.obj, self.part, self.name, self.value, param, value))
 
     def text_get(self):
-        cdef const_char_ptr t
+        cdef const char_ptr t
         t = edje_edit_state_text_get(self.edje.obj, self.part, self.name,
                                      self.value)
         if t == NULL:
@@ -684,7 +684,7 @@ cdef class State:
             self.text_set(text)
 
     def font_get(self):
-        cdef const_char_ptr f
+        cdef const char_ptr f
         f = edje_edit_state_font_get(self.edje.obj, self.part, self.name,
                                      self.value)
         if f == NULL:
@@ -779,7 +779,7 @@ cdef class State:
             self.text_fit_set(*value)
 
     def image_get(self):
-        cdef const_char_ptr img
+        cdef const char_ptr img
         img = edje_edit_state_image_get(self.edje.obj, self.part, self.name,
                                         self.value)
         if img == NULL:

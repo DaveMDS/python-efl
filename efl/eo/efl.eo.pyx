@@ -19,17 +19,17 @@ from cpython cimport PyObject, Py_INCREF, Py_DECREF, PyUnicode_AsUTF8String
 from libc.stdlib cimport malloc, free
 from libc.string cimport memcpy, strdup
 from libc.stdint cimport uintptr_t
-from efl.eina cimport Eina_Bool, const_Eina_List, eina_list_append, const_void, \
+from efl.eina cimport Eina_Bool, Eina_List, eina_list_append, \
     Eina_Hash, eina_hash_string_superfast_new, eina_hash_add, eina_hash_del, \
     eina_hash_find, EINA_LOG_DOM_DBG, EINA_LOG_DOM_INFO
 from efl.c_eo cimport Eo as cEo, eo_init, eo_shutdown, eo_del, eo_do, \
     eo_class_name_get, eo_class_get, eo_base_data_set, eo_base_data_get, \
     eo_base_data_del, eo_event_callback_add, eo_event_callback_del, \
-    Eo_Event_Description, const_Eo_Event_Description, \
+    Eo_Event_Description, \
     eo_parent_get, EO_EV_DEL, EO_BASE_BASE_ID, eo_base_class_get, \
     eo_event_freeze, eo_event_thaw, eo_event_freeze_get, \
     eo_event_global_freeze, eo_event_global_thaw, eo_event_global_freeze_get, \
-    const_Eo, eo_parent_set
+    eo_parent_set
 
 cimport efl.eo.enums as enums
 
@@ -57,20 +57,20 @@ init()
 def event_global_freeze_get():
     cdef int fcount
     eo_do(
-        <const_Eo *>eo_base_class_get(),
+        <const cEo *>eo_base_class_get(),
         eo_event_global_freeze_get(&fcount),
         )
     return fcount
 
 def event_global_freeze():
     eo_do(
-        <const_Eo *>eo_base_class_get(),
+        <const cEo *>eo_base_class_get(),
         eo_event_global_freeze(),
         )
 
 def event_global_thaw():
     eo_do(
-        <const_Eo *>eo_base_class_get(),
+        <const cEo *>eo_base_class_get(),
         eo_event_global_thaw()
         )
 
@@ -108,7 +108,7 @@ cdef object object_from_instance(cEo *obj):
     cdef:
         void *data
         Eo o
-        const_char *cls_name = eo_class_name_get(eo_class_get(obj))
+        const char *cls_name = eo_class_name_get(eo_class_get(obj))
         type cls
         void *cls_ret
 
@@ -181,15 +181,15 @@ EO_CALLBACK_CONTINUE = enums.EO_CALLBACK_CONTINUE
 
 
 cdef Eina_Bool _eo_event_del_cb(void *data, cEo *obj,
-    const_Eo_Event_Description *desc, void *event_info) with gil:
+    const Eo_Event_Description *desc, void *event_info) with gil:
     cdef:
         Eo self = <Eo>data
-        const_char *cls_name = eo_class_name_get(eo_class_get(obj))
+        const char *cls_name = eo_class_name_get(eo_class_get(obj))
 
     EINA_LOG_DOM_DBG(PY_EFL_EO_LOG_DOMAIN, "Deleting Eo: %s", cls_name)
 
     eo_do(self.obj,
-        eo_event_callback_del(EO_EV_DEL, _eo_event_del_cb, <const_void *>self))
+        eo_event_callback_del(EO_EV_DEL, _eo_event_del_cb, <const void *>self))
     eo_do(self.obj, eo_base_data_del("python-eo"))
     self.obj = NULL
     Py_DECREF(self)
@@ -235,7 +235,7 @@ cdef class Eo(object):
         self.obj = obj
         eo_do(self.obj, eo_base_data_set("python-eo", <void *>self, NULL))
         eo_do(self.obj,
-            eo_event_callback_add(EO_EV_DEL, _eo_event_del_cb, <const_void *>self))
+            eo_event_callback_add(EO_EV_DEL, _eo_event_del_cb, <const void *>self))
         Py_INCREF(self)
 
         return 1

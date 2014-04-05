@@ -1,7 +1,6 @@
-from efl.evas cimport Eina_Bool, Evas_Object, const_Evas_Object
+from efl.evas cimport Eina_Bool, Evas_Object
 from enums cimport Elm_Illume_Command, Elm_Win_Type, Elm_Win_Indicator_Mode, \
     Elm_Win_Indicator_Opacity_Mode, Elm_Win_Keyboard_Mode
-from libc.string cimport const_char
 
 cdef extern from "Ecore_X.h":
     ctypedef unsigned int Ecore_X_ID
@@ -12,19 +11,19 @@ cdef extern from "Ecore_X.h":
     # ctypedef struct Ecore_Wl_Window
 
 cdef extern from "Elementary.h":
-    Evas_Object             *elm_win_add(Evas_Object *parent, const_char *name, Elm_Win_Type type)
-    Evas_Object             *elm_win_util_standard_add(const_char *name, const_char *title)
+    Evas_Object             *elm_win_add(Evas_Object *parent, const char *name, Elm_Win_Type type)
+    Evas_Object             *elm_win_util_standard_add(const char *name, const char *title)
     void                     elm_win_resize_object_add(Evas_Object *obj, Evas_Object* subobj)
     void                     elm_win_resize_object_del(Evas_Object *obj, Evas_Object* subobj)
-    void                     elm_win_title_set(Evas_Object *obj, const_char *title)
-    const_char *             elm_win_title_get(Evas_Object *obj)
+    void                     elm_win_title_set(Evas_Object *obj, const char *title)
+    const char *             elm_win_title_get(Evas_Object *obj)
     Elm_Win_Type             elm_win_type_get(Evas_Object *obj)
-    void                     elm_win_icon_name_set(Evas_Object *obj, const_char *icon_name)
-    const_char *             elm_win_icon_name_get(Evas_Object *obj)
-    void                     elm_win_role_set(Evas_Object *obj, const_char *role)
-    const_char *             elm_win_role_get(Evas_Object *obj)
+    void                     elm_win_icon_name_set(Evas_Object *obj, const char *icon_name)
+    const char *             elm_win_icon_name_get(Evas_Object *obj)
+    void                     elm_win_role_set(Evas_Object *obj, const char *role)
+    const char *             elm_win_role_get(Evas_Object *obj)
     void                     elm_win_icon_object_set(Evas_Object* obj, Evas_Object* icon)
-    const_Evas_Object       *elm_win_icon_object_get(Evas_Object*)
+    const Evas_Object       *elm_win_icon_object_get(Evas_Object*)
     void                     elm_win_autodel_set(Evas_Object *obj, Eina_Bool autodel)
     Eina_Bool                elm_win_autodel_get(Evas_Object *obj)
     void                     elm_win_activate(Evas_Object *obj)
@@ -41,7 +40,7 @@ cdef extern from "Elementary.h":
     Eina_Bool                elm_win_override_get(Evas_Object *obj)
     void                     elm_win_fullscreen_set(Evas_Object *obj, Eina_Bool fullscreen)
     Eina_Bool                elm_win_fullscreen_get(Evas_Object *obj)
-    Evas_Object          *elm_win_main_menu_get(const_Evas_Object *obj)
+    Evas_Object          *elm_win_main_menu_get(const Evas_Object *obj)
     void                     elm_win_maximized_set(Evas_Object *obj, Eina_Bool maximized)
     Eina_Bool                elm_win_maximized_get(Evas_Object *obj)
     void                     elm_win_iconified_set(Evas_Object *obj, Eina_Bool iconified)
@@ -49,10 +48,10 @@ cdef extern from "Elementary.h":
     void                     elm_win_withdrawn_set(Evas_Object *obj, Eina_Bool withdrawn)
     Eina_Bool                elm_win_withdrawn_get(Evas_Object *obj)
 
-    void                  elm_win_available_profiles_set(Evas_Object *obj, const_char **profiles, unsigned int count)
+    void                  elm_win_available_profiles_set(Evas_Object *obj, const char **profiles, unsigned int count)
     Eina_Bool             elm_win_available_profiles_get(Evas_Object *obj, char ***profiles, unsigned int *count)
-    void                  elm_win_profile_set(Evas_Object *obj, const_char *profile)
-    const_char           *elm_win_profile_get(const_Evas_Object *obj)
+    void                  elm_win_profile_set(Evas_Object *obj, const char *profile)
+    const char           *elm_win_profile_get(const Evas_Object *obj)
 
     void                     elm_win_urgent_set(Evas_Object *obj, Eina_Bool urgent)
     Eina_Bool                elm_win_urgent_get(Evas_Object *obj)
@@ -96,14 +95,14 @@ cdef extern from "Elementary.h":
     void                     elm_win_screen_constrain_set(Evas_Object *obj, Eina_Bool constrain)
     Eina_Bool                elm_win_screen_constrain_get(Evas_Object *obj)
     void                     elm_win_screen_size_get(Evas_Object *obj, int *x, int *y, int *w, int *h)
-    void                     elm_win_screen_dpi_get(const_Evas_Object *obj, int *xdpi, int *ydpi)
+    void                     elm_win_screen_dpi_get(const Evas_Object *obj, int *xdpi, int *ydpi)
 
     void                     elm_win_focus_highlight_enabled_set(Evas_Object *obj, Eina_Bool enabled)
     Eina_Bool                elm_win_focus_highlight_enabled_get(Evas_Object *obj)
-    void                     elm_win_focus_highlight_style_set(Evas_Object *obj, const_char *style)
-    const_char *             elm_win_focus_highlight_style_get(Evas_Object *obj)
+    void                     elm_win_focus_highlight_style_set(Evas_Object *obj, const char *style)
+    const char *             elm_win_focus_highlight_style_get(Evas_Object *obj)
     void                     elm_win_focus_highlight_animate_set(Evas_Object *obj, Eina_Bool enabled)
-    Eina_Bool                elm_win_focus_highlight_animate_get(const_Evas_Object *obj)
+    Eina_Bool                elm_win_focus_highlight_animate_get(const Evas_Object *obj)
 
     void                     elm_win_keyboard_mode_set(Evas_Object *obj, Elm_Win_Keyboard_Mode mode)
     Elm_Win_Keyboard_Mode    elm_win_keyboard_mode_get(Evas_Object *obj)
@@ -116,22 +115,22 @@ cdef extern from "Elementary.h":
     Elm_Win_Indicator_Opacity_Mode elm_win_indicator_opacity_get(Evas_Object *obj)
 
     void                     elm_win_screen_position_get(Evas_Object *obj, int *x, int *y)
-    Eina_Bool                elm_win_socket_listen(Evas_Object *obj, const_char *svcname, int svcnum, Eina_Bool svcsys)
+    Eina_Bool                elm_win_socket_listen(Evas_Object *obj, const char *svcname, int svcnum, Eina_Bool svcsys)
 
-    Eina_Bool                elm_win_wm_rotation_supported_get(const_Evas_Object *obj)
-    void                     elm_win_wm_rotation_preferred_rotation_set(const_Evas_Object *obj, int rotation)
-    int                      elm_win_wm_rotation_preferred_rotation_get(const_Evas_Object *obj)
+    Eina_Bool                elm_win_wm_rotation_supported_get(const Evas_Object *obj)
+    void                     elm_win_wm_rotation_preferred_rotation_set(const Evas_Object *obj, int rotation)
+    int                      elm_win_wm_rotation_preferred_rotation_get(const Evas_Object *obj)
     void                     elm_win_wm_rotation_available_rotations_set(Evas_Object *obj, int *rotations, unsigned int count)
-    Eina_Bool                elm_win_wm_rotation_available_rotations_get(const_Evas_Object *obj, int **rotations, unsigned int *count)
+    Eina_Bool                elm_win_wm_rotation_available_rotations_get(const Evas_Object *obj, int **rotations, unsigned int *count)
     void                     elm_win_wm_rotation_manual_rotation_done_set(Evas_Object *obj, Eina_Bool set)
-    Eina_Bool                elm_win_wm_rotation_manual_rotation_done_get(const_Evas_Object *obj)
+    Eina_Bool                elm_win_wm_rotation_manual_rotation_done_get(const Evas_Object *obj)
     void                     elm_win_wm_rotation_manual_rotation_done(Evas_Object *obj)
-    
+
     # X specific call - wont't work on non-x engines (return 0)
     Ecore_X_Window           elm_win_xwindow_get(Evas_Object *obj)
-    # TODO: Ecore_Wl_Window         *elm_win_wl_window_get(const_Evas_Object *obj)
+    # TODO: Ecore_Wl_Window         *elm_win_wl_window_get(const Evas_Object *obj)
 
     void                     elm_win_floating_mode_set(Evas_Object *obj, Eina_Bool floating)
-    Eina_Bool                elm_win_floating_mode_get(const_Evas_Object *obj)
+    Eina_Bool                elm_win_floating_mode_get(const Evas_Object *obj)
 
-    # TODO: Ecore_Window          elm_win_window_id_get(const_Evas_Object *obj)
+    # TODO: Ecore_Window          elm_win_window_id_get(const Evas_Object *obj)

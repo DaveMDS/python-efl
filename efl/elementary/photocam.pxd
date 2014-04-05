@@ -1,7 +1,6 @@
 from efl.evas cimport Eina_Bool, Evas_Object
 from efl.evas.enums cimport Evas_Load_Error
 from enums cimport Elm_Photocam_Zoom_Mode
-from libc.string cimport const_char
 
 cdef extern from "Elementary.h":
     ctypedef struct Elm_Photocam_Progress:
@@ -13,8 +12,8 @@ cdef extern from "Elementary.h":
         Eina_Bool open_error
 
     Evas_Object             *elm_photocam_add(Evas_Object *parent)
-    Evas_Load_Error          elm_photocam_file_set(Evas_Object *obj, const_char *file)
-    const_char *             elm_photocam_file_get(Evas_Object *obj)
+    Evas_Load_Error          elm_photocam_file_set(Evas_Object *obj, const char *file)
+    const char *             elm_photocam_file_get(Evas_Object *obj)
     void                     elm_photocam_zoom_set(Evas_Object *obj, double zoom)
     double                   elm_photocam_zoom_get(Evas_Object *obj)
     void                     elm_photocam_zoom_mode_set(Evas_Object *obj, Elm_Photocam_Zoom_Mode mode)

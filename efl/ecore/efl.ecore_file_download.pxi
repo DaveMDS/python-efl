@@ -17,14 +17,14 @@
 
 from cpython cimport PyUnicode_AsUTF8String
 
-cdef void _completion_cb(void *data, const_char *file, int status) with gil:
+cdef void _completion_cb(void *data, const char *file, int status) with gil:
     obj = <FileDownload>data
     try:
         obj._exec_completion(file, status)
     except Exception, e:
         traceback.print_exc()
 
-cdef int _progress_cb(void *data, const_char *file, long int dltotal,
+cdef int _progress_cb(void *data, const char *file, long int dltotal,
                     long int dlnow, long int ultotal, long int ulnow) with gil:
     obj = <FileDownload>data
     try:
@@ -92,8 +92,8 @@ cdef class FileDownload(object):
         if isinstance(url, unicode): url = PyUnicode_AsUTF8String(url)
         if isinstance(dst, unicode): dst = PyUnicode_AsUTF8String(dst)
         if not ecore_file_download(
-            <const_char *>url if url is not None else NULL,
-            <const_char *>dst if dst is not None else NULL,
+            <const char *>url if url is not None else NULL,
+            <const char *>dst if dst is not None else NULL,
             _completion_cb, _progress_cb,
             <void *>self, &job):
                 raise SystemError("could not download '%s' to %s" % (url, dst))
@@ -122,11 +122,11 @@ cdef class FileDownload(object):
         self.args = None
         self.kargs = None
 
-    cdef object _exec_completion(self, const_char *file, int status):
+    cdef object _exec_completion(self, const char *file, int status):
         if self.completion_cb:
             self.completion_cb(_ctouni(file), status, *self.args, **self.kargs)
 
-    cdef object _exec_progress(self, const_char *file, long int dltotal,
+    cdef object _exec_progress(self, const char *file, long int dltotal,
                             long int dlnow, long int ultotal, long int ulnow):
         if self.progress_cb:
             return self.progress_cb(_ctouni(file), dltotal, dlnow, ultotal, ulnow,
@@ -185,4 +185,4 @@ def file_download_protocol_available(protocol):
     """
     if isinstance(protocol, unicode): protocol = PyUnicode_AsUTF8String(protocol)
     return bool(ecore_file_download_protocol_available(
-                    <const_char *>protocol if protocol is not None else NULL))
+                    <const char *>protocol if protocol is not None else NULL))

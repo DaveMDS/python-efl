@@ -83,7 +83,7 @@ Enumerations
 
 .. data:: ELM_STORE_ITEM_MAPPING_LABEL
 
-    const_char * -> label
+    const char * -> label
 
 .. data:: ELM_STORE_ITEM_MAPPING_STATE
 
@@ -155,7 +155,7 @@ cdef void store_item_unfetch_cb(void *data, Elm_Store_Item *sti) with gil:
 
     it.sti = NULL
 
-cdef void *store_item_mapping_cb(void *data, Elm_Store_Item *sti, const_char *part) with gil:
+cdef void *store_item_mapping_cb(void *data, Elm_Store_Item *sti, const char *part) with gil:
     """Custom mapping function to call"""
     pass
 
@@ -314,7 +314,7 @@ cdef class Store(object):
         def __set__(self, value):
             if isinstance(directory, unicode): directory = PyUnicode_AsUTF8String(directory)
             elm_store_filesystem_directory_set(self.st,
-                <const_char *>directory if directory is not None else NULL)
+                <const char *>directory if directory is not None else NULL)
 
         def __get__(self):
             return _ctouni(elm_store_filesystem_directory_get(self.st))
@@ -322,7 +322,7 @@ cdef class Store(object):
     def filesystem_directory_set(self, directory):
         if isinstance(directory, unicode): directory = PyUnicode_AsUTF8String(directory)
         elm_store_filesystem_directory_set(self.st,
-            <const_char *>directory if directory is not None else NULL)
+            <const char *>directory if directory is not None else NULL)
 
     def filesystem_directory_get(self):
         return _ctouni(elm_store_filesystem_directory_get(self.st))
@@ -383,7 +383,7 @@ cdef class Store(object):
         Py_INCREF(data)
 
         elm_store_list_func_set(self.st, store_fs_item_list_cb,
-            <const_void *>data)
+            <const void *>data)
 
     def fetch_func_set(self, func, *args, **kwargs):
         """Set the function used to deal with fetching of items
@@ -406,7 +406,7 @@ cdef class Store(object):
         Py_INCREF(data)
 
         elm_store_fetch_func_set(self.st, store_item_fetch_cb,
-            <const_void *>data)
+            <const void *>data)
 
     def unfetch_func_set(self, func, *args, **kwargs):
         """Set the function used to free the structure allocated for the item
@@ -425,7 +425,7 @@ cdef class Store(object):
         Py_INCREF(data)
 
         elm_store_unfetch_func_set(self.st, store_item_unfetch_cb,
-            <const_void *>data)
+            <const void *>data)
 
     property fetch_thread:
         """Enable or disable fetching in a thread for Store

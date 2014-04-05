@@ -32,10 +32,10 @@ cdef unicode _touni(char* s):
     return s.decode('UTF-8', 'strict') if s else None
 
 
-cdef unicode _ctouni(const_char *s):
+cdef unicode _ctouni(const char *s):
     """
 
-    Converts a const_char * to a python string object
+    Converts a const char * to a python string object
 
     """
     return s.decode('UTF-8', 'strict') if s else None
@@ -58,7 +58,7 @@ cdef list array_of_strings_to_python_list(char **array, int array_length):
     return ret
 
 
-cdef const_char ** python_list_strings_to_array_of_strings(list strings) except NULL:
+cdef const char ** python_list_strings_to_array_of_strings(list strings) except NULL:
     """
 
     Converts a python list to an array of strings.
@@ -67,27 +67,27 @@ cdef const_char ** python_list_strings_to_array_of_strings(list strings) except 
 
     """
     cdef:
-        const_char **array = NULL
-        const_char *string
+        const char **array = NULL
+        const char *string
         unsigned int str_len, i
         unsigned int arr_len = len(strings)
 
     # TODO: Should we just return NULL in this case?
     if arr_len == 0:
-        array = <const_char **>malloc(sizeof(const_char*))
+        array = <const char **>malloc(sizeof(const char*))
         if not array:
             raise MemoryError()
         array[0] = NULL
         return array
 
-    array = <const_char **>malloc(arr_len * sizeof(const_char*))
+    array = <const char **>malloc(arr_len * sizeof(const char*))
     if not array:
         raise MemoryError()
 
     for i in range(arr_len):
         s = strings[i]
         if isinstance(s, unicode): s = PyUnicode_AsUTF8String(s)
-        array[i] = <const_char *>strdup(s)
+        array[i] = <const char *>strdup(s)
 
     return array
 
@@ -135,13 +135,13 @@ cdef int * python_list_ints_to_array_of_ints(list ints) except NULL:
 
     return array
 
-cdef list eina_list_strings_to_python_list(const_Eina_List *lst):
+cdef list eina_list_strings_to_python_list(const Eina_List *lst):
     cdef:
-        const_char *s
+        const char *s
         list ret = []
         Eina_List *itr = <Eina_List *>lst
     while itr:
-        s = <const_char *>itr.data
+        s = <const char *>itr.data
         ret.append(_ctouni(s))
         itr = itr.next
     return ret
@@ -155,7 +155,7 @@ cdef Eina_List *python_list_strings_to_eina_list(list strings):
     return lst
 
 
-cdef list eina_list_objects_to_python_list(const_Eina_List *lst):
+cdef list eina_list_objects_to_python_list(const Eina_List *lst):
     cdef list ret = list()
     while lst:
         ret.append(object_from_instance(<cEo *>lst.data))

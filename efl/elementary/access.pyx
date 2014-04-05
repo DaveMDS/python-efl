@@ -79,7 +79,7 @@ cdef class Accessible(Object):
         """
         if isinstance(text, unicode): text = PyUnicode_AsUTF8String(text)
         elm_access_info_set(self.obj, type,
-            <const_char *>text if text is not None else NULL)
+            <const char *>text if text is not None else NULL)
 
     def info_get(self, int type):
         """Get text to give information for specific type.
@@ -114,7 +114,7 @@ cdef class Accessible(Object):
     #     if not callable(func):
     #         raise TypeError("func is not callable.")
 
-    #     elm_access_info_cb_set(self.obj, type, access_info_cb, <const_void *>self)
+    #     elm_access_info_cb_set(self.obj, type, access_info_cb, <const void *>self)
 
     # def activate_cb_set(self, func, *args, **kwargs):
     #     """Set activate callback to activate highlight object.

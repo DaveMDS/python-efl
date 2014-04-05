@@ -157,7 +157,7 @@ def thaw():
 
 def fontset_append_set(fonts):
     if isinstance(fonts, unicode): fonts = PyUnicode_AsUTF8String(fonts)
-    edje_fontset_append_set(<const_char *>fonts if fonts is not None else NULL)
+    edje_fontset_append_set(<const char *>fonts if fonts is not None else NULL)
 
 
 def fontset_append_get():
@@ -168,7 +168,7 @@ def file_collection_list(file):
     cdef Eina_List *lst
     if isinstance(file, unicode): file = PyUnicode_AsUTF8String(file)
     lst = edje_file_collection_list(
-                <const_char *>file if file is not None else NULL)
+                <const char *>file if file is not None else NULL)
     ret = eina_list_strings_to_python_list(lst)
     edje_file_collection_list_free(lst)
     return ret
@@ -178,8 +178,8 @@ def file_group_exists(file, group):
     if isinstance(file, unicode): file = PyUnicode_AsUTF8String(file)
     if isinstance(group, unicode): group = PyUnicode_AsUTF8String(group)
     return bool(edje_file_group_exists(
-            <const_char *>file if file is not None else NULL,
-            <const_char *>group if group is not None else NULL))
+            <const char *>file if file is not None else NULL,
+            <const char *>group if group is not None else NULL))
 
 
 def file_data_get(file, key):
@@ -187,8 +187,8 @@ def file_data_get(file, key):
     if isinstance(file, unicode): file = PyUnicode_AsUTF8String(file)
     if isinstance(key, unicode): key = PyUnicode_AsUTF8String(key)
     s = edje_file_data_get(
-                <const_char *>file if file is not None else NULL,
-                <const_char *>key if key is not None else NULL)
+                <const char *>file if file is not None else NULL,
+                <const char *>key if key is not None else NULL)
     ret = _touni(s)
     libc.stdlib.free(s)
     return ret
@@ -236,7 +236,7 @@ def color_class_set(color_class,
     if isinstance(color_class, unicode):
         color_class = PyUnicode_AsUTF8String(color_class)
     edje_color_class_set(
-            <const_char *>color_class if color_class is not None else NULL,
+            <const char *>color_class if color_class is not None else NULL,
             r, g, b, a, r2, g2, b2, a2, r3, g3, b3, a3)
 
 
@@ -247,7 +247,7 @@ def color_class_get(color_class):
     if isinstance(color_class, unicode):
         color_class = PyUnicode_AsUTF8String(color_class)
     edje_color_class_get(
-            <const_char *>color_class if color_class is not None else NULL,
+            <const char *>color_class if color_class is not None else NULL,
             &r, &g, &b, &a, &r2, &g2, &b2, &a2, &r3, &g3, &b3, &a3)
     return (r, g, b, a, r2, g2, b2, a2, r3, g3, b3, a3)
 
@@ -256,7 +256,7 @@ def color_class_del(color_class):
     if isinstance(color_class, unicode):
         color_class = PyUnicode_AsUTF8String(color_class)
     edje_color_class_del(
-        <const_char *>color_class if color_class is not None else NULL)
+        <const char *>color_class if color_class is not None else NULL)
 
 
 def color_class_list():
@@ -280,15 +280,15 @@ def text_class_set(text_class, font, int size):
     if isinstance(font, unicode):
         font = PyUnicode_AsUTF8String(font)
     edje_text_class_set(
-        <const_char *>text_class if text_class is not None else NULL,
-        <const_char *>font if font is not None else NULL,
+        <const char *>text_class if text_class is not None else NULL,
+        <const char *>font if font is not None else NULL,
         size)
 
 
 def text_class_del(text_class):
     if isinstance(text_class, unicode): text_class = PyUnicode_AsUTF8String(text_class)
     edje_text_class_del(
-        <const_char *>text_class if text_class is not None else NULL)
+        <const char *>text_class if text_class is not None else NULL)
 
 
 def text_class_list():
@@ -323,7 +323,7 @@ def extern_object_aspect_set(Object obj, int aspect, int w, int h):
 
 
 def available_modules_get():
-    cdef const_Eina_List *lst
+    cdef const Eina_List *lst
     lst = edje_available_modules_get()
     ret = []
     while lst:
@@ -335,7 +335,7 @@ def available_modules_get():
 def module_load(name):
     if isinstance(name, unicode): name = PyUnicode_AsUTF8String(name)
     return bool(edje_module_load(
-                    <const_char *>name if name is not None else NULL))
+                    <const char *>name if name is not None else NULL))
 
 
 include "efl.edje_message.pxi"

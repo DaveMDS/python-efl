@@ -263,7 +263,7 @@ cdef class CalendarMark(object):
         time.tm_isdst = tmtup.tm_isdst
         if isinstance(mark_type, unicode): mark_type = PyUnicode_AsUTF8String(mark_type)
         self.obj = elm_calendar_mark_add(cal.obj,
-            <const_char *>mark_type if mark_type is not None else NULL,
+            <const char *>mark_type if mark_type is not None else NULL,
             &time, repeat)
 
     def delete(self):
@@ -448,7 +448,7 @@ cdef class Calendar(LayoutClass):
         def __get__(self):
             cdef:
                 Elm_Calendar_Mark *obj
-                const_Eina_List *lst = elm_calendar_marks_get(self.obj)
+                const Eina_List *lst = elm_calendar_marks_get(self.obj)
                 list ret = list()
                 CalendarMark o
 

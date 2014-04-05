@@ -82,7 +82,7 @@ def _cb_object_item_conv(uintptr_t addr):
     cdef Elm_Object_Item *it = <Elm_Object_Item *>addr
     return _object_item_to_python(it)
 
-cdef int _index_compare_func(const_void *data1, const_void *data2) with gil:
+cdef int _index_compare_func(const void *data1, const void *data2) with gil:
     """Comparison by IndexItem objects"""
     cdef:
         Elm_Object_Item *citem1 = <Elm_Object_Item *>data1
@@ -108,7 +108,7 @@ cdef int _index_compare_func(const_void *data1, const_void *data2) with gil:
     else:
         return 0
 
-cdef int _index_data_compare_func(const_void *data1, const_void *data2) with gil:
+cdef int _index_data_compare_func(const void *data1, const void *data2) with gil:
     """Comparison by IndexItem data"""
     cdef:
         IndexItem item1 = <object>data1
@@ -184,7 +184,7 @@ cdef class IndexItem(ObjectItem):
             cb = _object_item_callback2
 
         item = elm_index_item_append(index.obj,
-            <const_char *>self.letter if self.letter is not None else NULL,
+            <const char *>self.letter if self.letter is not None else NULL,
             cb, <void*>self)
 
         if item == NULL:
@@ -209,7 +209,7 @@ cdef class IndexItem(ObjectItem):
             cb = _object_item_callback2
 
         item = elm_index_item_prepend(index.obj,
-            <const_char *>self.letter if self.letter is not None else NULL,
+            <const char *>self.letter if self.letter is not None else NULL,
             cb, <void*>self)
 
         if item == NULL:
@@ -235,7 +235,7 @@ cdef class IndexItem(ObjectItem):
             cb = _object_item_callback2
 
         item = elm_index_item_insert_after(index.obj, after.item,
-            <const_char *>self.letter if self.letter is not None else NULL,
+            <const char *>self.letter if self.letter is not None else NULL,
             cb, <void*>self)
 
         if item == NULL:
@@ -261,7 +261,7 @@ cdef class IndexItem(ObjectItem):
             cb = _object_item_callback2
 
         item = elm_index_item_insert_before(index.obj, before.item,
-            <const_char *>self.letter if self.letter is not None else NULL,
+            <const char *>self.letter if self.letter is not None else NULL,
             cb, <void*>self)
 
         if item == NULL:
@@ -300,7 +300,7 @@ cdef class IndexItem(ObjectItem):
         self.compare_func = compare_func
         self.data_compare_func = data_compare_func
         item = elm_index_item_sorted_insert(index.obj,
-            <const_char *>self.letter if self.letter is not None else NULL,
+            <const char *>self.letter if self.letter is not None else NULL,
             cb, <void*>self,
             _index_compare_func, _index_data_compare_func)
 

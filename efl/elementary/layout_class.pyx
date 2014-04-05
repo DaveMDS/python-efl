@@ -26,7 +26,7 @@ from object cimport Object
 import traceback
 
 cdef void layout_signal_callback(void *data, Evas_Object *obj,
-                    const_char *emission, const_char *source) with gil:
+                    const char *emission, const char *source) with gil:
     cdef Object self = object_from_instance(obj)
     lst = tuple(<object>data)
     for func, args, kargs in lst:
@@ -93,7 +93,7 @@ cdef class LayoutClass(Object):
             swallow = None
         if isinstance(swallow, unicode): swallow = PyUnicode_AsUTF8String(swallow)
         if not elm_layout_content_set(self.obj,
-            <const_char *>swallow if swallow is not None else NULL,
+            <const char *>swallow if swallow is not None else NULL,
             content.obj if content is not None else NULL):
             raise RuntimeError
 
@@ -110,7 +110,7 @@ cdef class LayoutClass(Object):
         """
         if isinstance(swallow, unicode): swallow = PyUnicode_AsUTF8String(swallow)
         return object_from_instance(elm_layout_content_get(self.obj,
-            <const_char *>swallow if swallow is not None else NULL))
+            <const char *>swallow if swallow is not None else NULL))
 
     def content_unset(self, swallow=None):
         """content_unset(unicode swallow)
@@ -127,7 +127,7 @@ cdef class LayoutClass(Object):
         """
         if isinstance(swallow, unicode): swallow = PyUnicode_AsUTF8String(swallow)
         return object_from_instance(elm_layout_content_unset(self.obj,
-            <const_char *>swallow if swallow is not None else NULL))
+            <const char *>swallow if swallow is not None else NULL))
 
     def text_set(self, part=None, text=None):
         """text_set(unicode part, unicode text)
@@ -151,8 +151,8 @@ cdef class LayoutClass(Object):
             text = part
             part = None
         if not elm_layout_text_set(self.obj,
-            <const_char *>part if part is not None else NULL,
-            <const_char *>text if text is not None else NULL):
+            <const char *>part if part is not None else NULL,
+            <const char *>text if text is not None else NULL):
             raise RuntimeError
 
     def text_get(self, part=None):
@@ -170,7 +170,7 @@ cdef class LayoutClass(Object):
         # With part=None it should do the same as elm_object_text_get
         if isinstance(part, unicode): part = PyUnicode_AsUTF8String(part)
         return _ctouni(elm_layout_text_get(self.obj,
-            <const_char *>part if part is not None else NULL))
+            <const char *>part if part is not None else NULL))
 
     property file:
         """Set the file path and group of the edje file that will be used as
@@ -188,16 +188,16 @@ cdef class LayoutClass(Object):
             if isinstance(filename, unicode): filename = PyUnicode_AsUTF8String(filename)
             if isinstance(group, unicode): group = PyUnicode_AsUTF8String(group)
             if not elm_layout_file_set(self.obj,
-                <const_char *>filename if filename is not None else NULL,
-                <const_char *>group if group is not None else NULL):
+                <const char *>filename if filename is not None else NULL,
+                <const char *>group if group is not None else NULL):
                     raise RuntimeError("Could not set file.")
 
     def file_set(self, filename, group = None):
         if isinstance(filename, unicode): filename = PyUnicode_AsUTF8String(filename)
         if isinstance(group, unicode): group = PyUnicode_AsUTF8String(group)
         if not elm_layout_file_set(self.obj,
-            <const_char *>filename if filename is not None else NULL,
-            <const_char *>group if group is not None else NULL):
+            <const char *>filename if filename is not None else NULL,
+            <const char *>group if group is not None else NULL):
                 raise RuntimeError("Could not set file.")
 
     def freeze(self):
@@ -253,9 +253,9 @@ cdef class LayoutClass(Object):
             if isinstance(group, unicode): group = PyUnicode_AsUTF8String(group)
             if isinstance(style, unicode): style = PyUnicode_AsUTF8String(style)
             if not elm_layout_theme_set(self.obj,
-                <const_char *>clas if clas is not None else NULL,
-                <const_char *>group if group is not None else NULL,
-                <const_char *>style if style is not None else NULL):
+                <const char *>clas if clas is not None else NULL,
+                <const char *>group if group is not None else NULL,
+                <const char *>style if style is not None else NULL):
                     raise RuntimeError("Could not set theme.")
 
     def theme_set(self, clas, group, style):
@@ -263,9 +263,9 @@ cdef class LayoutClass(Object):
         if isinstance(group, unicode): group = PyUnicode_AsUTF8String(group)
         if isinstance(style, unicode): style = PyUnicode_AsUTF8String(style)
         if not elm_layout_theme_set(self.obj,
-            <const_char *>clas if clas is not None else NULL,
-            <const_char *>group if group is not None else NULL,
-            <const_char *>style if style is not None else NULL):
+            <const char *>clas if clas is not None else NULL,
+            <const char *>group if group is not None else NULL,
+            <const char *>style if style is not None else NULL):
                 raise RuntimeError("Could not set theme.")
 
     def signal_emit(self, emission, source):
@@ -287,8 +287,8 @@ cdef class LayoutClass(Object):
         if isinstance(emission, unicode): emission = PyUnicode_AsUTF8String(emission)
         if isinstance(source, unicode): source = PyUnicode_AsUTF8String(source)
         elm_layout_signal_emit(self.obj,
-            <const_char *>emission if emission is not None else NULL,
-            <const_char *>source if source is not None else NULL)
+            <const char *>emission if emission is not None else NULL,
+            <const char *>source if source is not None else NULL)
 
     def signal_callback_add(self, emission, source, func, *args, **kwargs):
         """Add a callback for a (Edje) signal emitted by a layout widget's
@@ -317,8 +317,8 @@ cdef class LayoutClass(Object):
             if isinstance(emission, unicode): emission = PyUnicode_AsUTF8String(emission)
             if isinstance(source, unicode): source = PyUnicode_AsUTF8String(source)
             elm_layout_signal_callback_add(self.obj,
-                <const_char *>emission if emission is not None else NULL,
-                <const_char *>source if source is not None else NULL,
+                <const char *>emission if emission is not None else NULL,
+                <const char *>source if source is not None else NULL,
                 layout_signal_callback, <void*>lst)
         lst.append((func, args, kwargs))
 
@@ -366,8 +366,8 @@ cdef class LayoutClass(Object):
         if isinstance(emission, unicode): emission = PyUnicode_AsUTF8String(emission)
         if isinstance(source, unicode): source = PyUnicode_AsUTF8String(source)
         elm_layout_signal_callback_del(self.obj,
-            <const_char *>emission if emission is not None else NULL,
-            <const_char *>source if source is not None else NULL,
+            <const char *>emission if emission is not None else NULL,
+            <const char *>source if source is not None else NULL,
             layout_signal_callback)
 
     def box_append(self, part, evasObject child):
@@ -399,7 +399,7 @@ cdef class LayoutClass(Object):
         """
         if isinstance(part, unicode): part = PyUnicode_AsUTF8String(part)
         if not elm_layout_box_append(self.obj,
-            <const_char *>part if part is not None else NULL,
+            <const char *>part if part is not None else NULL,
             child.obj):
                 raise RuntimeError("Could not add to box")
 
@@ -432,7 +432,7 @@ cdef class LayoutClass(Object):
         """
         if isinstance(part, unicode): part = PyUnicode_AsUTF8String(part)
         if not elm_layout_box_prepend(self.obj,
-            <const_char *>part if part is not None else NULL,
+            <const char *>part if part is not None else NULL,
             child.obj):
                 raise RuntimeError("Could not add to box")
 
@@ -467,7 +467,7 @@ cdef class LayoutClass(Object):
         """
         if isinstance(part, unicode): part = PyUnicode_AsUTF8String(part)
         if not elm_layout_box_insert_before(self.obj,
-            <const_char *>part if part is not None else NULL,
+            <const char *>part if part is not None else NULL,
             child.obj, reference.obj):
                 raise RuntimeError("Could not add to box")
 
@@ -502,7 +502,7 @@ cdef class LayoutClass(Object):
         """
         if isinstance(part, unicode): part = PyUnicode_AsUTF8String(part)
         if not elm_layout_box_insert_at(self.obj,
-            <const_char *>part if part is not None else NULL,
+            <const char *>part if part is not None else NULL,
             child.obj, pos):
                 raise RuntimeError("Could not add to box")
 
@@ -530,7 +530,7 @@ cdef class LayoutClass(Object):
         """
         if isinstance(part, unicode): part = PyUnicode_AsUTF8String(part)
         return object_from_instance(elm_layout_box_remove(self.obj,
-            <const_char *>part if part is not None else NULL,
+            <const char *>part if part is not None else NULL,
             child.obj))
 
     def box_remove_all(self, part, clear):
@@ -561,7 +561,7 @@ cdef class LayoutClass(Object):
         """
         if isinstance(part, unicode): part = PyUnicode_AsUTF8String(part)
         if not elm_layout_box_remove_all(self.obj,
-            <const_char *>part if part is not None else NULL,
+            <const char *>part if part is not None else NULL,
             clear):
                 raise RuntimeError("Could not remove all items from box")
 
@@ -604,7 +604,7 @@ cdef class LayoutClass(Object):
         """
         if isinstance(part, unicode): part = PyUnicode_AsUTF8String(part)
         if not elm_layout_table_pack(self.obj,
-            <const_char *>part if part is not None else NULL,
+            <const char *>part if part is not None else NULL,
             child_obj.obj, col, row, colspan, rowspan):
                 raise RuntimeError("Could not pack an item to the table")
 
@@ -632,7 +632,7 @@ cdef class LayoutClass(Object):
         """
         if isinstance(part, unicode): part = PyUnicode_AsUTF8String(part)
         return object_from_instance(elm_layout_table_unpack(self.obj,
-            <const_char *>part if part is not None else NULL,
+            <const char *>part if part is not None else NULL,
             child_obj.obj))
 
     def table_clear(self, part, clear):
@@ -663,7 +663,7 @@ cdef class LayoutClass(Object):
         """
         if isinstance(part, unicode): part = PyUnicode_AsUTF8String(part)
         if not elm_layout_table_clear(self.obj,
-            <const_char *>part if part is not None else NULL,
+            <const char *>part if part is not None else NULL,
             clear):
                 raise RuntimeError("Could not clear the table")
 
@@ -728,7 +728,7 @@ cdef class LayoutClass(Object):
         """
         if isinstance(key, unicode): key = PyUnicode_AsUTF8String(key)
         return _ctouni(elm_layout_data_get(self.obj,
-            <const_char *>key if key is not None else NULL))
+            <const char *>key if key is not None else NULL))
 
     def sizing_eval(self):
         """sizing_eval()
@@ -772,8 +772,8 @@ cdef class LayoutClass(Object):
         if isinstance(part_name, unicode): part_name = PyUnicode_AsUTF8String(part_name)
         if isinstance(cursor, unicode): cursor = PyUnicode_AsUTF8String(cursor)
         if not elm_layout_part_cursor_set(self.obj,
-            <const_char *>part_name if part_name is not None else NULL,
-            <const_char *>cursor if cursor is not None else NULL):
+            <const char *>part_name if part_name is not None else NULL,
+            <const char *>cursor if cursor is not None else NULL):
                 raise RuntimeError("Could not set cursor to part")
 
     def part_cursor_get(self, part_name):
@@ -789,7 +789,7 @@ cdef class LayoutClass(Object):
         """
         if isinstance(part_name, unicode): part_name = PyUnicode_AsUTF8String(part_name)
         return _ctouni(elm_layout_part_cursor_get(self.obj,
-            <const_char *>part_name if part_name is not None else NULL))
+            <const char *>part_name if part_name is not None else NULL))
 
     def part_cursor_unset(self, part_name):
         """part_cursor_unset(unicode part_name) -> bool
@@ -808,7 +808,7 @@ cdef class LayoutClass(Object):
         """
         if isinstance(part_name, unicode): part_name = PyUnicode_AsUTF8String(part_name)
         if not elm_layout_part_cursor_unset(self.obj,
-            <const_char *>part_name if part_name is not None else NULL):
+            <const char *>part_name if part_name is not None else NULL):
                 raise RuntimeError("Could not unset part cursor")
 
     def part_cursor_style_set(self, part_name, style):
@@ -830,8 +830,8 @@ cdef class LayoutClass(Object):
         if isinstance(part_name, unicode): part_name = PyUnicode_AsUTF8String(part_name)
         if isinstance(style, unicode): style = PyUnicode_AsUTF8String(style)
         if not elm_layout_part_cursor_style_set(self.obj,
-            <const_char *>part_name if part_name is not None else NULL,
-            <const_char *>style if style is not None else NULL):
+            <const char *>part_name if part_name is not None else NULL,
+            <const char *>style if style is not None else NULL):
                 raise RuntimeError("Could not set cursor style to part")
 
     def part_cursor_style_get(self, part_name):
@@ -849,7 +849,7 @@ cdef class LayoutClass(Object):
         """
         if isinstance(part_name, unicode): part_name = PyUnicode_AsUTF8String(part_name)
         return _ctouni(elm_layout_part_cursor_style_get(self.obj,
-            <const_char *>part_name if part_name is not None else NULL))
+            <const char *>part_name if part_name is not None else NULL))
 
     def part_cursor_engine_only_set(self, part_name, engine_only):
         """part_cursor_engine_only_set(unicode part_name, bool engine_only) -> bool
@@ -880,7 +880,7 @@ cdef class LayoutClass(Object):
         """
         if isinstance(part_name, unicode): part_name = PyUnicode_AsUTF8String(part_name)
         if not elm_layout_part_cursor_engine_only_set(self.obj,
-            <const_char *>part_name if part_name is not None else NULL,
+            <const char *>part_name if part_name is not None else NULL,
             engine_only):
                 raise RuntimeError("Could not set cursor engine_only to part")
 
@@ -898,7 +898,7 @@ cdef class LayoutClass(Object):
         """
         if isinstance(part_name, unicode): part_name = PyUnicode_AsUTF8String(part_name)
         return bool(elm_layout_part_cursor_engine_only_get(self.obj,
-            <const_char *>part_name if part_name is not None else NULL))
+            <const char *>part_name if part_name is not None else NULL))
 
     property edje_object_can_access:
         """Set accessibility to all texblock(text) parts in the layout object

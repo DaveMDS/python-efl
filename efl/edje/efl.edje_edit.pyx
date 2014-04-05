@@ -48,7 +48,7 @@ cdef class EdjeEdit(Edje):
 
     # General
     def compiler_get(self):
-        cdef const_char *s = edje_edit_compiler_get(self.obj)
+        cdef const char *s = edje_edit_compiler_get(self.obj)
         r = _ctouni(s)
         if s != NULL:
             edje_edit_string_free(s)
@@ -71,17 +71,17 @@ cdef class EdjeEdit(Edje):
     def group_add(self, name):
         if isinstance(name, unicode): name = name.encode("UTF-8")
         return bool(edje_edit_group_add(self.obj,
-                        <const_char *>name if name is not None else NULL))
+                        <const char *>name if name is not None else NULL))
 
     def group_del(self, name):
         if isinstance(name, unicode): name = name.encode("UTF-8")
         return bool(edje_edit_group_del(self.obj,
-                        <const_char *>name if name is not None else NULL))
+                        <const char *>name if name is not None else NULL))
 
     def group_exist(self, name):
         if isinstance(name, unicode): name = name.encode("UTF-8")
         return bool(edje_edit_group_exist(self.obj,
-                        <const_char *>name if name is not None else NULL))
+                        <const char *>name if name is not None else NULL))
 
     # Data
     property data:
@@ -96,8 +96,8 @@ cdef class EdjeEdit(Edje):
 
     def data_get(self, name):
         if isinstance(name, unicode): name = name.encode("UTF-8")
-        cdef const_char *val = edje_edit_data_value_get(self.obj,
-                               <const_char *>name if name is not None else NULL)
+        cdef const char *val = edje_edit_data_value_get(self.obj,
+                               <const char *>name if name is not None else NULL)
         r = _ctouni(val)
         edje_edit_string_free(val)
         return r
@@ -107,27 +107,27 @@ cdef class EdjeEdit(Edje):
         if isinstance(value, unicode): value = value.encode("UTF-8")
 
         return bool(edje_edit_data_value_set(self.obj,
-                        <const_char *>name if name is not None else NULL,
-                        <const_char *>value if value is not None else NULL))
+                        <const char *>name if name is not None else NULL,
+                        <const char *>value if value is not None else NULL))
 
     def data_add(self, name, value):
         if isinstance(name, unicode): name = name.encode("UTF-8")
         if isinstance(value, unicode): value = value.encode("UTF-8")
         return bool(edje_edit_data_add(self.obj,
-                        <const_char *>name if name is not None else NULL,
-                        <const_char *>value if value is not None else NULL))
+                        <const char *>name if name is not None else NULL,
+                        <const char *>value if value is not None else NULL))
 
     def data_rename(self, old, new):
         if isinstance(old, unicode): old = old.encode("UTF-8")
         if isinstance(new, unicode): new = new.encode("UTF-8")
         return bool(edje_edit_data_name_set(self.obj,
-                        <const_char *>old if old is not None else NULL,
-                        <const_char *>new if new is not None else NULL))
+                        <const char *>old if old is not None else NULL,
+                        <const char *>new if new is not None else NULL))
 
     def data_del(self, name):
         if isinstance(name, unicode): name = name.encode("UTF-8")
         return bool(edje_edit_data_del(self.obj,
-                        <const_char *>name if name is not None else NULL))
+                        <const char *>name if name is not None else NULL))
 
     # Group Data
     property group_data:
@@ -141,10 +141,10 @@ cdef class EdjeEdit(Edje):
             return ret
 
     def group_data_get(self, name):
-        cdef const_char *val
+        cdef const char *val
         if isinstance(name, unicode): name = name.encode("UTF-8")
         val = edje_edit_group_data_value_get(self.obj,
-                    <const_char *>name if name is not None else NULL)
+                    <const char *>name if name is not None else NULL)
         r = _ctouni(val)
         edje_edit_string_free(val)
         return r
@@ -153,27 +153,27 @@ cdef class EdjeEdit(Edje):
         if isinstance(name, unicode): name = name.encode("UTF-8")
         if isinstance(value, unicode): value = value.encode("UTF-8")
         return bool(edje_edit_group_data_value_set(self.obj,
-                        <const_char *>name if name is not None else NULL,
-                        <const_char *>value if value is not None else NULL))
+                        <const char *>name if name is not None else NULL,
+                        <const char *>value if value is not None else NULL))
 
     def group_data_add(self, name, value):
         if isinstance(name, unicode): name = name.encode("UTF-8")
         if isinstance(value, unicode): value = value.encode("UTF-8")
         return bool(edje_edit_group_data_add(self.obj,
-                        <const_char *>name if name is not None else NULL,
-                        <const_char *>value if value is not None else NULL))
+                        <const char *>name if name is not None else NULL,
+                        <const char *>value if value is not None else NULL))
 
     def group_data_rename(self, old, new):
         if isinstance(old, unicode): old = old.encode("UTF-8")
         if isinstance(new, unicode): new = new.encode("UTF-8")
         return bool(edje_edit_group_data_name_set(self.obj,
-                        <const_char *>old if old is not None else NULL,
-                        <const_char *>new if new is not None else NULL))
+                        <const char *>old if old is not None else NULL,
+                        <const char *>new if new is not None else NULL))
 
     def group_data_del(self, name):
         if isinstance(name, unicode): name = name.encode("UTF-8")
         return bool(edje_edit_group_data_del(self.obj,
-                        <const_char *>name if name is not None else NULL))
+                        <const char *>name if name is not None else NULL))
 
     # Text Style
     property text_styles:
@@ -190,12 +190,12 @@ cdef class EdjeEdit(Edje):
     def text_style_add(self, name):
         if isinstance(name, unicode): name = name.encode("UTF-8")
         return bool(edje_edit_style_add(self.obj,
-                        <const_char *>name if name is not None else NULL))
+                        <const char *>name if name is not None else NULL))
 
     def text_style_del(self, name):
         if isinstance(name, unicode): name = name.encode("UTF-8")
         edje_edit_style_del(self.obj,
-                            <const_char *>name if name is not None else NULL)
+                            <const char *>name if name is not None else NULL)
         return True
 
     # Color Classes
@@ -213,12 +213,12 @@ cdef class EdjeEdit(Edje):
     def color_class_add(self, name):
         if isinstance(name, unicode): name = name.encode("UTF-8")
         return bool(edje_edit_color_class_add(self.obj,
-                            <const_char *>name if name is not None else NULL))
+                            <const char *>name if name is not None else NULL))
 
     def color_class_del(self, name):
         if isinstance(name, unicode): name = name.encode("UTF-8")
         return bool(edje_edit_color_class_del(self.obj,
-                            <const_char *>name if name is not None else NULL))
+                            <const char *>name if name is not None else NULL))
 
     # Externals
     property externals:
@@ -232,12 +232,12 @@ cdef class EdjeEdit(Edje):
     def external_add(self, name):
         if isinstance(name, unicode): name = name.encode("UTF-8")
         return bool(edje_edit_external_add(self.obj,
-                            <const_char *>name if name is not None else NULL))
+                            <const char *>name if name is not None else NULL))
 
     def external_del(self, name):
         if isinstance(name, unicode): name = name.encode("UTF-8")
         return bool(edje_edit_external_del(self.obj,
-                            <const_char *>name if name is not None else NULL))
+                            <const char *>name if name is not None else NULL))
 
     # Fonts
     property fonts:
@@ -252,13 +252,13 @@ cdef class EdjeEdit(Edje):
         if isinstance(font, unicode): font = font.encode("UTF-8")
         if isinstance(alias, unicode): alias = alias.encode("UTF-8")
         return bool(edje_edit_font_add(self.obj,
-                        <const_char *>font if font is not None else NULL,
-                        <const_char *>alias if alias is not None else NULL))
+                        <const char *>font if font is not None else NULL,
+                        <const char *>alias if alias is not None else NULL))
 
     def font_del(self, alias):
         if isinstance(alias, unicode): alias = alias.encode("UTF-8")
         return bool(edje_edit_font_del(self.obj,
-                        <const_char *>alias if alias is not None else NULL))
+                        <const char *>alias if alias is not None else NULL))
 
     # Parts
     property parts:
@@ -278,7 +278,7 @@ cdef class EdjeEdit(Edje):
         if isinstance(name, unicode): name = name.encode("UTF-8")
         if type != EDJE_PART_TYPE_EXTERNAL:
             return bool(edje_edit_part_add(self.obj,
-                               <const_char *>name if name is not None else NULL,
+                               <const char *>name if name is not None else NULL,
                                <Edje_Part_Type>type))
         else:
             return bool(edje_edit_part_external_add(self.obj, name, source))
@@ -286,12 +286,12 @@ cdef class EdjeEdit(Edje):
     def part_del(self, name):
         if isinstance(name, unicode): name = name.encode("UTF-8")
         return bool(edje_edit_part_del(self.obj,
-                            <const_char *>name if name is not None else NULL))
+                            <const char *>name if name is not None else NULL))
 
     def part_exist(self, name):
         if isinstance(name, unicode): name = name.encode("UTF-8")
         return bool(edje_edit_part_exist(self.obj,
-                            <const_char *>name if name is not None else NULL))
+                            <const char *>name if name is not None else NULL))
 
     # Images
     property images:
@@ -305,17 +305,17 @@ cdef class EdjeEdit(Edje):
     def image_id_get(self, image):
         if isinstance(image, unicode): image = image.encode("UTF-8")
         return edje_edit_image_id_get(self.obj,
-                    <const_char *>image if image is not None else NULL)
+                    <const char *>image if image is not None else NULL)
 
     def image_add(self, path):
         if isinstance(path, unicode): path = path.encode("UTF-8")
         return bool(edje_edit_image_add(self.obj,
-                    <const_char *>path if path is not None else NULL))
+                    <const char *>path if path is not None else NULL))
 
     def image_del(self, image):
         if isinstance(image, unicode): image = image.encode("UTF-8")
         return bool(edje_edit_image_del(self.obj,
-                    <const_char *>image if image is not None else NULL))
+                    <const char *>image if image is not None else NULL))
 
     # Programs
     property programs:
@@ -335,17 +335,17 @@ cdef class EdjeEdit(Edje):
     def program_add(self, name):
         if isinstance(name, unicode): name = name.encode("UTF-8")
         return bool(edje_edit_program_add(self.obj,
-                            <const_char *>name if name is not None else NULL))
+                            <const char *>name if name is not None else NULL))
 
     def program_del(self, name):
         if isinstance(name, unicode): name = name.encode("UTF-8")
         return bool(edje_edit_program_del(self.obj,
-                            <const_char *>name if name is not None else NULL))
+                            <const char *>name if name is not None else NULL))
 
     def program_exist(self, name):
         if isinstance(name, unicode): name = name.encode("UTF-8")
         return bool(edje_edit_program_exist(self.obj,
-                            <const_char *>name if name is not None else NULL))
+                            <const char *>name if name is not None else NULL))
     """
     property error:
         def __get__(self):
@@ -378,7 +378,7 @@ cdef class EdjeEdit(Edje):
 
     property script_errors:
         def __get__(self):
-            cdef const_Eina_List *lst
+            cdef const Eina_List *lst
             cdef Edje_Edit_Script_Error *se
             ret = []
             lst = edje_edit_script_error_list_get(self.obj)
@@ -396,7 +396,7 @@ cdef class EdjeEdit(Edje):
 
 cdef class Text_Style(object):
     cdef EdjeEdit edje
-    cdef const_char *name
+    cdef const char *name
 
     def __init__(self, EdjeEdit e not None, name not None):
         if isinstance(name, unicode): name = name.encode("UTF-8")
@@ -420,17 +420,17 @@ cdef class Text_Style(object):
     def tag_add(self, name not None):
         if isinstance(name, unicode): name = name.encode("UTF-8")
         return bool(edje_edit_style_tag_add(self.edje.obj, self.name,
-                                            <const_char *>name))
+                                            <const char *>name))
 
     def tag_del(self, name not None):
         if isinstance(name, unicode): name = name.encode("UTF-8")
-        edje_edit_style_tag_del(self.edje.obj, self.name, <const_char *>name)
+        edje_edit_style_tag_del(self.edje.obj, self.name, <const char *>name)
         return True
 
 
 cdef class Text_Style_Tag(object):
     cdef Text_Style text_style
-    cdef const_char *name
+    cdef const char *name
 
     def __init__(self, Text_Style text_style not None, name not None):
         if isinstance(name, unicode): name = name.encode("UTF-8")
@@ -451,13 +451,13 @@ cdef class Text_Style_Tag(object):
         if isinstance(newname, unicode): newname = newname.encode("UTF-8")
         edje_edit_style_tag_name_set(self.text_style.edje.obj,
                         self.text_style.name, self.name,
-                        <const_char *>newname)
-        eina_stringshare_replace(&self.name, <const_char *>newname)
+                        <const char *>newname)
+        eina_stringshare_replace(&self.name, <const char *>newname)
         return True
 
     property value:
         def __get__(self):
-            cdef const_char *val
+            cdef const char *val
             val =  edje_edit_style_tag_value_get(self.text_style.edje.obj,
                                                 self.text_style.name, self.name)
             ret = _ctouni(val)
@@ -467,13 +467,13 @@ cdef class Text_Style_Tag(object):
             if isinstance(value, unicode): value = value.encode("UTF-8")
             edje_edit_style_tag_value_set(self.text_style.edje.obj,
                             self.text_style.name, self.name,
-                            <const_char *>value if value is not None else NULL)
+                            <const char *>value if value is not None else NULL)
 
 
 
 cdef class Color_Class(object):
     cdef EdjeEdit edje
-    cdef const_char *name
+    cdef const char *name
 
     def __init__(self, EdjeEdit e not None, name not None):
         if isinstance(name, unicode): name = name.encode("UTF-8")
@@ -494,10 +494,10 @@ cdef class Color_Class(object):
         cdef Eina_Bool ret
         if isinstance(newname, unicode): newname = newname.encode("UTF-8")
         ret = edje_edit_color_class_name_set(self.edje.obj, self.name,
-                                             <const_char *>newname)
+                                             <const char *>newname)
         if ret == 0:
             return False
-        eina_stringshare_replace(&self.name, <const_char *>newname)
+        eina_stringshare_replace(&self.name, <const char *>newname)
         return True
 
     def colors_get(self):

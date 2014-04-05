@@ -395,7 +395,7 @@ cdef class MapName(object):
         data = (self, func, args, kwargs)
         if isinstance(address, unicode): address = PyUnicode_AsUTF8String(address)
         self.name = elm_map_name_add(map.obj,
-            <const_char *>address if address is not None else NULL,
+            <const char *>address if address is not None else NULL,
             lon, lat, _map_name_callback, <void *>data)
         Py_INCREF(data)
         # XXX: why incref self in __init__?
@@ -1228,13 +1228,13 @@ cdef class Map(Object):
             if isinstance(user_agent, unicode):
                 user_agent = PyUnicode_AsUTF8String(user_agent)
             elm_map_user_agent_set(self.obj,
-                <const_char *>user_agent if user_agent is not None else NULL)
+                <const char *>user_agent if user_agent is not None else NULL)
 
     def user_agent_set(self, user_agent):
         if isinstance(user_agent, unicode):
             user_agent = PyUnicode_AsUTF8String(user_agent)
         elm_map_user_agent_set(self.obj,
-            <const_char *>user_agent if user_agent is not None else NULL)
+            <const char *>user_agent if user_agent is not None else NULL)
     def user_agent_get(self):
         return _ctouni(elm_map_user_agent_get(self.obj))
 
@@ -1493,7 +1493,7 @@ cdef class Map(Object):
         .. seealso:: :py:func:`source_set`, :py:func:`source_get`
 
         """
-        cdef const_char **lst
+        cdef const char **lst
 
         i = 0
         ret = []
@@ -1536,7 +1536,7 @@ cdef class Map(Object):
         if isinstance(source_name, unicode):
             source_name = PyUnicode_AsUTF8String(source_name)
         elm_map_source_set(self.obj, source_type,
-            <const_char *>source_name if source_name is not None else NULL)
+            <const char *>source_name if source_name is not None else NULL)
 
     def source_get(self, source_type):
         """ Get the name of currently used source for a specific type.

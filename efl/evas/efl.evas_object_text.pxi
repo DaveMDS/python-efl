@@ -96,7 +96,7 @@ cdef class Text(Object):
     def font_source_set(self, value):
         if isinstance(value, unicode): value = PyUnicode_AsUTF8String(value)
         evas_object_text_font_source_set(self.obj,
-            <const_char *>value if value is not None else NULL)
+            <const char *>value if value is not None else NULL)
 
     property font:
         """Set the font family and size on a given text object.
@@ -122,7 +122,7 @@ cdef class Text(Object):
             self.font_set(*spec)
 
     def font_get(self):
-        cdef const_char *f
+        cdef const char *f
         cdef int size
         evas_object_text_font_get(self.obj, &f, &size)
         return (_ctouni(f), size)
@@ -130,7 +130,7 @@ cdef class Text(Object):
     def font_set(self, font, int size=10):
         if isinstance(font, unicode): font = PyUnicode_AsUTF8String(font)
         evas_object_text_font_set(self.obj,
-            <const_char *>font if font is not None else NULL,
+            <const char *>font if font is not None else NULL,
             size)
 
     property text:
@@ -151,7 +151,7 @@ cdef class Text(Object):
     def text_set(self, value):
         if isinstance(value, unicode): value = PyUnicode_AsUTF8String(value)
         evas_object_text_text_set(self.obj,
-            <const_char *>value if value is not None else NULL)
+            <const char *>value if value is not None else NULL)
 
     property ascent:
         """:type: int"""

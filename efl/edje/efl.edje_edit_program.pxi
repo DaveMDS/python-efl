@@ -18,7 +18,7 @@
 
 cdef class Program(object):
     cdef EdjeEdit edje
-    cdef const_char *name
+    cdef const char *name
 
     def __init__(self, EdjeEdit e not None, name not None):
         if isinstance(name, unicode): name = name.encode("UTF-8")
@@ -38,10 +38,10 @@ cdef class Program(object):
         cdef Eina_Bool ret
         if isinstance(newname, unicode): newname = newname.encode("UTF-8")
         ret = edje_edit_program_name_set(self.edje.obj, self.name,
-                    <const_char *>newname if newname is not None else NULL)
+                    <const char *>newname if newname is not None else NULL)
         if ret == 0:
             return False
-        eina_stringshare_replace(&self.name, <const_char *>newname)
+        eina_stringshare_replace(&self.name, <const char *>newname)
         return True
 
     def edje_get(self):
@@ -53,7 +53,7 @@ cdef class Program(object):
     # XXX TODO: add (or better convert) all this to properties
     #       like is done in Part()
     def source_get(self):
-        cdef const_char *s
+        cdef const char *s
         s = edje_edit_program_source_get(self.edje.obj, self.name)
         ret = _ctouni(s)
         edje_edit_string_free(s)
@@ -62,10 +62,10 @@ cdef class Program(object):
     def source_set(self, source):
         if isinstance(source, unicode): source = source.encode("UTF-8")
         return bool(edje_edit_program_source_set(self.edje.obj, self.name,
-                    <const_char *>source if source is not None else NULL))
+                    <const char *>source if source is not None else NULL))
 
     def signal_get(self):
-        cdef const_char *s
+        cdef const char *s
         s = edje_edit_program_signal_get(self.edje.obj, self.name)
         ret = _ctouni(s)
         edje_edit_string_free(s)
@@ -74,7 +74,7 @@ cdef class Program(object):
     def signal_set(self, signal):
         if isinstance(signal, unicode): signal = signal.encode("UTF-8")
         return bool(edje_edit_program_signal_set(self.edje.obj, self.name,
-                    <const_char *>signal if signal is not None else NULL))
+                    <const char *>signal if signal is not None else NULL))
 
     def in_from_get(self):
         return edje_edit_program_in_from_get(self.edje.obj, self.name)
@@ -106,12 +106,12 @@ cdef class Program(object):
     def target_add(self, target):
         if isinstance(target, unicode): target = target.encode("UTF-8")
         return bool(edje_edit_program_target_add(self.edje.obj, self.name,
-                    <const_char *>target if target is not None else NULL))
+                    <const char *>target if target is not None else NULL))
 
     def target_del(self, target):
         if isinstance(target, unicode): target = target.encode("UTF-8")
         return bool(edje_edit_program_target_del(self.edje.obj, self.name,
-                    <const_char *>target if target is not None else NULL))
+                    <const char *>target if target is not None else NULL))
 
     def targets_clear(self):
         return bool(edje_edit_program_targets_clear(self.edje.obj, self.name))
@@ -126,18 +126,18 @@ cdef class Program(object):
     def after_add(self, after):
         if isinstance(after, unicode): after = after.encode("UTF-8")
         return bool(edje_edit_program_after_add(self.edje.obj, self.name,
-                    <const_char *>after if after is not None else NULL))
+                    <const char *>after if after is not None else NULL))
 
     def after_del(self, after):
         if isinstance(after, unicode): after = after.encode("UTF-8")
         return bool(edje_edit_program_after_del(self.edje.obj, self.name,
-                    <const_char *>after if after is not None else NULL))
+                    <const char *>after if after is not None else NULL))
 
     def afters_clear(self):
         return bool(edje_edit_program_afters_clear(self.edje.obj, self.name))
 
     def state_get(self):
-        cdef const_char *s
+        cdef const char *s
         s = edje_edit_program_state_get(self.edje.obj, self.name)
         ret = _ctouni(s)
         edje_edit_string_free(s)
@@ -146,7 +146,7 @@ cdef class Program(object):
     def state_set(self, state):
         if isinstance(state, unicode): state = state.encode("UTF-8")
         return bool(edje_edit_program_state_set(self.edje.obj, self.name,
-                    <const_char *>state if state is not None else NULL))
+                    <const char *>state if state is not None else NULL))
 
     def value_get(self):
         return edje_edit_program_value_get(self.edje.obj, self.name)
@@ -155,7 +155,7 @@ cdef class Program(object):
         return bool(edje_edit_program_value_set(self.edje.obj, self.name, v))
 
     def state2_get(self):
-        cdef const_char *s
+        cdef const char *s
         s = edje_edit_program_state2_get(self.edje.obj, self.name)
         ret = _ctouni(s)
         edje_edit_string_free(s)
@@ -164,7 +164,7 @@ cdef class Program(object):
     def state2_set(self, state):
         if isinstance(state, unicode): state = state.encode("UTF-8")
         return bool(edje_edit_program_state2_set(self.edje.obj, self.name,
-                    <const_char *>state if state is not None else NULL))
+                    <const char *>state if state is not None else NULL))
 
     def value2_get(self):
         return edje_edit_program_value2_get(self.edje.obj, self.name)
@@ -187,8 +187,8 @@ cdef class Program(object):
     property api:
         def __get__(self):
             cdef:
-                const_char *name
-                const_char *desc
+                const char *name
+                const char *desc
             name = edje_edit_program_api_name_get(self.edje.obj, self.name)
             desc = edje_edit_program_api_description_get(self.edje.obj, self.name)
             n, d = _ctouni(name), _ctouni(desc)
@@ -202,9 +202,9 @@ cdef class Program(object):
             if isinstance(name, unicode): name = name.encode("UTF-8")
             if isinstance(desc, unicode): desc = desc.encode("UTF-8")
             edje_edit_program_api_name_set(self.edje.obj, self.name,
-                    <const_char *>name if name is not None else NULL)
+                    <const char *>name if name is not None else NULL)
             edje_edit_program_api_description_set(self.edje.obj, self.name,
-                    <const_char *>desc if desc is not None else NULL)
+                    <const char *>desc if desc is not None else NULL)
 
     property script:
         def __get__(self):
@@ -217,7 +217,7 @@ cdef class Program(object):
         def __set__(self, code):
             if isinstance(code, unicode): code = code.encode("UTF-8")
             edje_edit_script_program_set(self.edje.obj, self.name,
-                    <const_char *>code if code is not None else NULL)
+                    <const char *>code if code is not None else NULL)
 
         def __del__(self):
             edje_edit_script_program_set(self.edje.obj, self.name, NULL)

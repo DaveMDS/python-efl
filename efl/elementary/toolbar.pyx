@@ -243,8 +243,8 @@ cdef class ToolbarItemState(object):
         if isinstance(icon, unicode): icon = PyUnicode_AsUTF8String(icon)
         if isinstance(label, unicode): label = PyUnicode_AsUTF8String(label)
         self.state = elm_toolbar_item_state_add(it.item,
-            <const_char *>icon if icon is not None else NULL,
-            <const_char *>label if label is not None else NULL,
+            <const char *>icon if icon is not None else NULL,
+            <const char *>label if label is not None else NULL,
             cb, <void*>self)
         if self.state == NULL:
             Py_DECREF(self)
@@ -326,8 +326,8 @@ cdef class ToolbarItem(ObjectItem):
             cb = _object_item_callback2
 
         item = elm_toolbar_item_append(toolbar.obj,
-            <const_char *>self.icon if self.icon is not None else NULL,
-            <const_char *>self.label if self.label is not None else NULL,
+            <const char *>self.icon if self.icon is not None else NULL,
+            <const char *>self.label if self.label is not None else NULL,
             cb, <void*>self)
 
         if item == NULL:
@@ -359,8 +359,8 @@ cdef class ToolbarItem(ObjectItem):
             cb = _object_item_callback2
 
         item = elm_toolbar_item_prepend(toolbar.obj,
-            <const_char *>self.icon if self.icon is not None else NULL,
-            <const_char *>self.label if self.label is not None else NULL,
+            <const char *>self.icon if self.icon is not None else NULL,
+            <const char *>self.label if self.label is not None else NULL,
             cb, <void*>self)
 
         if item == NULL:
@@ -395,8 +395,8 @@ cdef class ToolbarItem(ObjectItem):
 
         item = elm_toolbar_item_insert_after(toolbar,
             after.item,
-            <const_char *>self.icon if self.icon is not None else NULL,
-            <const_char *>self.label if self.label is not None else NULL,
+            <const char *>self.icon if self.icon is not None else NULL,
+            <const char *>self.label if self.label is not None else NULL,
             cb, <void*>self)
 
         if item == NULL:
@@ -431,8 +431,8 @@ cdef class ToolbarItem(ObjectItem):
 
         item = elm_toolbar_item_insert_before(toolbar,
             before.item,
-            <const_char *>self.icon if self.icon is not None else NULL,
-            <const_char *>self.label if self.label is not None else NULL,
+            <const char *>self.icon if self.icon is not None else NULL,
+            <const char *>self.label if self.label is not None else NULL,
             cb, <void*>self)
 
         if item == NULL:
@@ -544,12 +544,12 @@ cdef class ToolbarItem(ObjectItem):
         def __set__(self, ic):
             if isinstance(ic, unicode): ic = PyUnicode_AsUTF8String(ic)
             elm_toolbar_item_icon_set(self.item,
-                <const_char *>ic if ic is not None else NULL)
+                <const char *>ic if ic is not None else NULL)
 
     def icon_set(self, ic):
         if isinstance(ic, unicode): ic = PyUnicode_AsUTF8String(ic)
         elm_toolbar_item_icon_set(self.item,
-            <const_char *>ic if ic is not None else NULL)
+            <const char *>ic if ic is not None else NULL)
     def icon_get(self):
         return _ctouni(elm_toolbar_item_icon_get(self.item))
 
@@ -625,8 +625,8 @@ cdef class ToolbarItem(ObjectItem):
         if isinstance(file_name, unicode): file_name = PyUnicode_AsUTF8String(file_name)
         if isinstance(key, unicode): key = PyUnicode_AsUTF8String(key)
         if not elm_toolbar_item_icon_file_set(self.item,
-            <const_char *>file_name if file_name is not None else NULL,
-            <const_char *>key if key is not None else NULL):
+            <const char *>file_name if file_name is not None else NULL,
+            <const char *>key if key is not None else NULL):
                 raise RuntimeError("Could not set icon_file.")
 
     property separator:
@@ -825,8 +825,8 @@ cdef class Toolbar(LayoutClass):
         if isinstance(label, unicode): label = PyUnicode_AsUTF8String(label)
 
         item = elm_toolbar_item_append(self.obj,
-            <const_char *>icon if icon is not None else NULL,
-            <const_char *>label if label is not None else NULL,
+            <const char *>icon if icon is not None else NULL,
+            <const char *>label if label is not None else NULL,
             cb, <void*>ret)
 
         if item != NULL:
@@ -888,7 +888,7 @@ cdef class Toolbar(LayoutClass):
         """
         if isinstance(label, unicode): label = PyUnicode_AsUTF8String(label)
         return _object_item_to_python(elm_toolbar_item_find_by_label(self.obj,
-            <const_char *>label if label is not None else NULL))
+            <const char *>label if label is not None else NULL))
 
     property selected_item:
         """The selected item.

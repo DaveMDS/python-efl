@@ -72,7 +72,6 @@ cdef extern from "Ecore.h":
 
     ctypedef struct Ecore_Fd_Handler
     ctypedef struct Ecore_Exe
-    ctypedef Ecore_Exe const_Ecore_Exe "const Ecore_Exe"
 
     ####################################################################
     # Other typedefs
@@ -83,7 +82,7 @@ cdef extern from "Ecore.h":
     ctypedef void (*Ecore_Fd_Prep_Cb)(void *data, Ecore_Fd_Handler *fd_handler)
     ctypedef Eina_Bool (*Ecore_Event_Handler_Cb)(void *data, int type, void *event)
     ctypedef void (*Ecore_End_Cb)(void *user_data, void *func_data)
-    ctypedef void (*Ecore_Exe_Cb)(void *data, const_Ecore_Exe *exe)
+    ctypedef void (*Ecore_Exe_Cb)(void *data, const Ecore_Exe *exe)
     ctypedef Eina_Bool (*Ecore_Timeline_Cb)(void *data, double pos)
 
     ####################################################################
@@ -108,7 +107,7 @@ cdef extern from "Ecore.h":
     void            ecore_animator_frametime_set(double frametime)
     double          ecore_animator_frametime_get()
 
-    Ecore_Poller *ecore_poller_add(Ecore_Poller_Type type, int interval, Ecore_Task_Cb func, const_void *data)
+    Ecore_Poller *ecore_poller_add(Ecore_Poller_Type type, int interval, Ecore_Task_Cb func, const void *data)
     void         *ecore_poller_del(Ecore_Poller *poller)
     Eina_Bool     ecore_poller_poller_interval_set(Ecore_Poller *poller, int interval)
     int           ecore_poller_poller_interval_get(Ecore_Poller *poller)
@@ -149,7 +148,7 @@ cdef extern from "Ecore.h":
     int                   ecore_exe_run_priority_get()
     Ecore_Exe            *ecore_exe_pipe_run(char *exe_cmd, Ecore_Exe_Flags flags, void *data)
     void                  ecore_exe_callback_pre_free_set(Ecore_Exe *exe, Ecore_Exe_Cb func)
-    int                   ecore_exe_send(Ecore_Exe *exe, const_void *data, int size)
+    int                   ecore_exe_send(Ecore_Exe *exe, const void *data, int size)
     void                  ecore_exe_close_stdin(Ecore_Exe *exe)
     void                  ecore_exe_auto_limits_set(Ecore_Exe *exe, int start_bytes, int end_bytes, int start_lines, int end_lines)
     Ecore_Exe_Event_Data *ecore_exe_event_data_get(Ecore_Exe *exe, Ecore_Exe_Flags flags)
@@ -157,8 +156,8 @@ cdef extern from "Ecore.h":
     void                 *ecore_exe_free(Ecore_Exe *exe)
     int                   ecore_exe_pid_get(Ecore_Exe *exe)
     void                  ecore_exe_tag_set(Ecore_Exe *exe, char *tag)
-    const_char *       ecore_exe_tag_get(Ecore_Exe *exe)
-    const_char *       ecore_exe_cmd_get(Ecore_Exe *exe)
+    const char *       ecore_exe_tag_get(Ecore_Exe *exe)
+    const char *       ecore_exe_cmd_get(Ecore_Exe *exe)
     void                 *ecore_exe_data_get(Ecore_Exe *exe)
     Ecore_Exe_Flags       ecore_exe_flags_get(Ecore_Exe *exe)
     void                  ecore_exe_pause(Ecore_Exe *exe)
@@ -176,25 +175,25 @@ cdef extern from "Ecore_File.h":
     ctypedef struct Ecore_File_Download_Job
     ctypedef struct Ecore_File_Monitor
 
-    ctypedef void (*Ecore_File_Download_Completion_Cb)(void *data, const_char *file, int status)
-    ctypedef int  (*Ecore_File_Download_Progress_Cb)(void *data, const_char *file, long int dltotal, long int dlnow, long int ultotal, long int ulnow)
-    ctypedef void (*Ecore_File_Monitor_Cb)(void *data, Ecore_File_Monitor *em, Ecore_File_Event event, const_char *path)
+    ctypedef void (*Ecore_File_Download_Completion_Cb)(void *data, const char *file, int status)
+    ctypedef int  (*Ecore_File_Download_Progress_Cb)(void *data, const char *file, long int dltotal, long int dlnow, long int ultotal, long int ulnow)
+    ctypedef void (*Ecore_File_Monitor_Cb)(void *data, Ecore_File_Monitor *em, Ecore_File_Event event, const char *path)
 
 
     int       ecore_file_init()
     int       ecore_file_shutdown()
     void      ecore_file_download_abort(Ecore_File_Download_Job *job)
     void      ecore_file_download_abort_all()
-    Eina_Bool ecore_file_download_protocol_available(const_char *protocol)
-    Eina_Bool ecore_file_download(const_char *url, const_char *dst,
+    Eina_Bool ecore_file_download_protocol_available(const char *protocol)
+    Eina_Bool ecore_file_download(const char *url, const char *dst,
                                   Ecore_File_Download_Completion_Cb completion_cb,
                                   Ecore_File_Download_Progress_Cb progress_cb,
                                   void *data,
                                   Ecore_File_Download_Job **job_ret)
 
-    Ecore_File_Monitor *ecore_file_monitor_add(const_char *path, Ecore_File_Monitor_Cb func, void *data)
+    Ecore_File_Monitor *ecore_file_monitor_add(const char *path, Ecore_File_Monitor_Cb func, void *data)
     void                ecore_file_monitor_del(Ecore_File_Monitor *ecore_file_monitor)
-    const_char         *ecore_file_monitor_path_get(Ecore_File_Monitor *ecore_file_monitor)
+    const char         *ecore_file_monitor_path_get(Ecore_File_Monitor *ecore_file_monitor)
 
 
 ####################################################################
@@ -334,8 +333,8 @@ cdef class FileDownload:
     cdef readonly object args
     cdef readonly object kargs
 
-    cdef object _exec_completion(self, const_char *file, int status)
-    cdef object _exec_progress(self, const_char *file,
+    cdef object _exec_completion(self, const char *file, int status)
+    cdef object _exec_progress(self, const char *file,
                                long int dltotal, long int dlnow,
                                long int ultotal, long int ulnow)
 
@@ -346,4 +345,4 @@ cdef class FileMonitor:
     cdef readonly object args
     cdef readonly object kargs
 
-    cdef object _exec_monitor(self, Ecore_File_Event event, const_char *path)
+    cdef object _exec_monitor(self, Ecore_File_Event event, const char *path)

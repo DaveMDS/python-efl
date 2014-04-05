@@ -245,7 +245,7 @@ cdef class Theme(object):
         """
         if isinstance(item, unicode): item = PyUnicode_AsUTF8String(item)
         elm_theme_overlay_add(self.th,
-            <const_char *>item)
+            <const char *>item)
 
     def overlay_del(self, item not None):
         """overlay_del(unicode item)
@@ -260,7 +260,7 @@ cdef class Theme(object):
         """
         if isinstance(item, unicode): item = PyUnicode_AsUTF8String(item)
         elm_theme_overlay_del(self.th,
-            <const_char *>item)
+            <const char *>item)
 
     property overlay_list:
         """Get the list of registered overlays for the given theme
@@ -301,7 +301,7 @@ cdef class Theme(object):
         """
         if isinstance(item, unicode): item = PyUnicode_AsUTF8String(item)
         elm_theme_extension_add(self.th,
-            <const_char *>item)
+            <const char *>item)
 
     def extension_del(self, item not None):
         """extension_del(unicode item)
@@ -316,7 +316,7 @@ cdef class Theme(object):
         """
         if isinstance(item, unicode): item = PyUnicode_AsUTF8String(item)
         elm_theme_extension_del(self.th,
-            <const_char *>item)
+            <const char *>item)
 
     property extension_list:
         """Get the list of registered extensions for the given theme
@@ -350,7 +350,7 @@ cdef class Theme(object):
         def __set__(self, theme not None):
             if isinstance(theme, unicode): theme = PyUnicode_AsUTF8String(theme)
             elm_theme_set(self.th,
-                <const_char *>theme if theme is not None else NULL)
+                <const char *>theme if theme is not None else NULL)
 
         def __get__(self):
             return _ctouni(elm_theme_get(self.th))
@@ -358,7 +358,7 @@ cdef class Theme(object):
     def order_set(self, theme not None):
         if isinstance(theme, unicode): theme = PyUnicode_AsUTF8String(theme)
         elm_theme_set(self.th,
-            <const_char *>theme if theme is not None else NULL)
+            <const char *>theme if theme is not None else NULL)
 
     def order_get(self):
         return _ctouni(elm_theme_get(self.th))
@@ -418,7 +418,7 @@ cdef class Theme(object):
         """
         if isinstance(key, unicode): key = PyUnicode_AsUTF8String(key)
         return _ctouni(elm_theme_data_get(self.th,
-            <const_char *>key if key is not None else NULL))
+            <const char *>key if key is not None else NULL))
 
 def theme_list_item_path_get(f not None, bint in_search_path):
     """theme_list_item_path_get(unicode f, bool in_search_path) -> unicode
@@ -444,7 +444,7 @@ def theme_list_item_path_get(f not None, bint in_search_path):
     cdef Eina_Bool path = in_search_path
     if isinstance(f, unicode): f = PyUnicode_AsUTF8String(f)
     return _ctouni(elm_theme_list_item_path_get(
-        <const_char *>f if f is not None else NULL, &path))
+        <const char *>f if f is not None else NULL, &path))
 
 def theme_full_flush():
     """theme_full_flush()
@@ -479,9 +479,9 @@ def theme_name_available_list():
 def theme_overlay_add(item not None):
     if isinstance(item, unicode): item = PyUnicode_AsUTF8String(item)
     elm_theme_overlay_add(NULL,
-        <const_char *>item)
+        <const char *>item)
 
 def theme_extension_add(item not None):
     if isinstance(item, unicode): item = PyUnicode_AsUTF8String(item)
     elm_theme_extension_add(NULL,
-        <const_char *>item)
+        <const char *>item)

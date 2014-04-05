@@ -133,7 +133,7 @@ cdef void _py_elm_slideshow_item_del(void *data, Evas_Object *obj) with gil:
     #item._unset_obj()
     #Py_DECREF(item)
 
-cdef int _py_elm_slideshow_compare_func(const_void *data1, const_void *data2) with gil:
+cdef int _py_elm_slideshow_compare_func(const void *data1, const void *data2) with gil:
     cdef SlideshowItem item1    = <object>data1
     cdef SlideshowItem item2    = <object>data2
     cdef object func            = item1.compare_func
@@ -514,7 +514,7 @@ cdef class Slideshow(LayoutClass):
         def __set__(self, transition):
             if isinstance(transition, unicode): transition = PyUnicode_AsUTF8String(transition)
             elm_slideshow_transition_set(self.obj,
-                <const_char *>transition if transition is not None else NULL)
+                <const char *>transition if transition is not None else NULL)
         def __get__(self):
             return _ctouni(elm_slideshow_transition_get(self.obj))
 
@@ -632,7 +632,7 @@ cdef class Slideshow(LayoutClass):
         def __set__(self, layout):
             if isinstance(layout, unicode): layout = PyUnicode_AsUTF8String(layout)
             elm_slideshow_layout_set(self.obj,
-                <const_char *>layout if layout is not None else NULL)
+                <const char *>layout if layout is not None else NULL)
         def __get__(self):
             return _ctouni(elm_slideshow_layout_get(self.obj))
 

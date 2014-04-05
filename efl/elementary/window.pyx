@@ -434,7 +434,7 @@ cdef class Window(Object):
         """
         if isinstance(name, unicode): name = PyUnicode_AsUTF8String(name)
         self._set_obj(elm_win_add(parent.obj if parent is not None else NULL,
-            <const_char *>name if name is not None else NULL,
+            <const char *>name if name is not None else NULL,
             type))
         self._set_properties_from_keyword_args(kwargs)
 
@@ -496,12 +496,12 @@ cdef class Window(Object):
         def __set__(self, title):
             if isinstance(title, unicode): title = PyUnicode_AsUTF8String(title)
             elm_win_title_set(self.obj,
-                <const_char *>title if title is not None else NULL)
+                <const char *>title if title is not None else NULL)
 
     def title_set(self, title):
         if isinstance(title, unicode): title = PyUnicode_AsUTF8String(title)
         elm_win_title_set(self.obj,
-            <const_char *>title if title is not None else NULL)
+            <const char *>title if title is not None else NULL)
     def title_get(self):
         return _ctouni(elm_win_title_get(self.obj))
 
@@ -532,7 +532,7 @@ cdef class Window(Object):
     def icon_name_set(self, icon_name):
         if isinstance(icon_name, unicode): icon_name = PyUnicode_AsUTF8String(icon_name)
         elm_win_icon_name_set(self.obj,
-            <const_char *>icon_name if icon_name is not None else NULL)
+            <const char *>icon_name if icon_name is not None else NULL)
     def icon_name_get(self):
         return _ctouni(elm_win_icon_name_get(self.obj))
 
@@ -550,7 +550,7 @@ cdef class Window(Object):
     def role_set(self, role):
         if isinstance(role, unicode): role = PyUnicode_AsUTF8String(role)
         elm_win_role_set(self.obj,
-            <const_char *>role if role is not None else NULL)
+            <const char *>role if role is not None else NULL)
     def role_get(self):
         return _ctouni(elm_win_role_get(self.obj))
 
@@ -848,7 +848,7 @@ cdef class Window(Object):
         """
         def __set__(self, list profiles):
             cdef:
-                const_char **array
+                const char **array
                 unsigned int arr_len = len(profiles)
                 unsigned int i
 
@@ -874,7 +874,7 @@ cdef class Window(Object):
 
     def available_profiles_set(self, list profiles):
         cdef:
-            const_char **array
+            const char **array
             unsigned int arr_len = len(profiles)
             unsigned int i
 
@@ -909,7 +909,7 @@ cdef class Window(Object):
         def __set__(self, profile):
             if isinstance(profile, unicode): profile = PyUnicode_AsUTF8String(profile)
             elm_win_profile_set(self.obj,
-                <const_char *>profile if profile is not None else NULL)
+                <const char *>profile if profile is not None else NULL)
 
         def __get__(self):
             return _ctouni(elm_win_profile_get(self.obj))
@@ -917,7 +917,7 @@ cdef class Window(Object):
     def profile_set(self, profile):
         if isinstance(profile, unicode): profile = PyUnicode_AsUTF8String(profile)
         elm_win_profile_set(self.obj,
-            <const_char *>profile if profile is not None else NULL)
+            <const char *>profile if profile is not None else NULL)
     def profile_get(self):
         return _ctouni(elm_win_profile_get(self.obj))
 
@@ -1440,12 +1440,12 @@ cdef class Window(Object):
         def __set__(self, style):
             if isinstance(style, unicode): style = PyUnicode_AsUTF8String(style)
             elm_win_focus_highlight_style_set(self.obj,
-                <const_char *>style if style is not None else NULL)
+                <const char *>style if style is not None else NULL)
 
     def focus_highlight_style_set(self, style):
         if isinstance(style, unicode): style = PyUnicode_AsUTF8String(style)
         elm_win_focus_highlight_style_set(self.obj,
-            <const_char *>style if style is not None else NULL)
+            <const char *>style if style is not None else NULL)
     def focus_highlight_style_get(self):
         return _ctouni(elm_win_focus_highlight_style_get(self.obj))
 
@@ -1570,7 +1570,7 @@ cdef class Window(Object):
 
         """
         if isinstance(svcname, unicode): svcname = PyUnicode_AsUTF8String(svcname)
-        if not elm_win_socket_listen(self.obj, <const_char *>svcname, svcnum, svcsys):
+        if not elm_win_socket_listen(self.obj, <const char *>svcname, svcnum, svcsys):
             raise RuntimeError("Could not create a socket.")
 
     property wm_rotation_supported:
@@ -1909,6 +1909,6 @@ cdef class StandardWindow(Window):
         if isinstance(name, unicode): name = PyUnicode_AsUTF8String(name)
         if isinstance(title, unicode): title = PyUnicode_AsUTF8String(title)
         self._set_obj(elm_win_util_standard_add(
-            <const_char *>name if name is not None else NULL,
-            <const_char *>title if title is not None else NULL))
+            <const char *>name if name is not None else NULL,
+            <const char *>title if title is not None else NULL))
         self._set_properties_from_keyword_args(kwargs)

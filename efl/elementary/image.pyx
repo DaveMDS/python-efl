@@ -113,7 +113,7 @@ ELM_IMAGE_FLIP_TRANSPOSE = enums.ELM_IMAGE_FLIP_TRANSPOSE
 ELM_IMAGE_FLIP_TRANSVERSE = enums.ELM_IMAGE_FLIP_TRANSVERSE
 
 def _cb_string_conv(uintptr_t addr):
-    cdef const_char *s = <const_char *>addr
+    cdef const char *s = <const char *>addr
     return _ctouni(s) if s is not NULL else None
 
 class ImageProgressInfo(object):
@@ -201,14 +201,14 @@ cdef class Image(Object):
             if isinstance(filename, unicode): filename = PyUnicode_AsUTF8String(filename)
             if isinstance(group, unicode): group = PyUnicode_AsUTF8String(group)
             if not elm_image_file_set(self.obj,
-                <const_char *>filename if filename is not None else NULL,
-                <const_char *>group if group is not None else NULL):
+                <const char *>filename if filename is not None else NULL,
+                <const char *>group if group is not None else NULL):
                     raise RuntimeError("Could not set file.")
 
         def __get__(self):
             cdef:
-                const_char *filename
-                const_char *group
+                const char *filename
+                const char *group
 
             elm_image_file_get(self.obj, &filename, &group)
             return (_ctouni(filename), _ctouni(group))
@@ -217,13 +217,13 @@ cdef class Image(Object):
         if isinstance(filename, unicode): filename = PyUnicode_AsUTF8String(filename)
         if isinstance(group, unicode): group = PyUnicode_AsUTF8String(group)
         if not elm_image_file_set(self.obj,
-            <const_char *>filename if filename is not None else NULL,
-            <const_char *>group if group is not None else NULL):
+            <const char *>filename if filename is not None else NULL,
+            <const char *>group if group is not None else NULL):
                 raise RuntimeError("Could not set file.")
     def file_get(self):
         cdef:
-            const_char *filename
-            const_char *group
+            const char *filename
+            const char *group
 
         elm_image_file_get(self.obj, &filename, &group)
         return (_ctouni(filename), _ctouni(group))

@@ -89,8 +89,8 @@ cdef class MenuItem(ObjectItem):
 
         item = elm_menu_item_add(menu.obj,
             self.parent.item if self.parent is not None else NULL,
-            <const_char *>self.icon if self.icon is not None else NULL,
-            <const_char *>self.label if self.label is not None else NULL,
+            <const char *>self.icon if self.icon is not None else NULL,
+            <const char *>self.label if self.label is not None else NULL,
             cb, <void*>self)
 
         if item == NULL:
@@ -128,12 +128,12 @@ cdef class MenuItem(ObjectItem):
         def __set__(self, icon):
             if isinstance(icon, unicode): icon = PyUnicode_AsUTF8String(icon)
             elm_menu_item_icon_name_set(self.item,
-                <const_char *>icon if icon is not None else NULL)
+                <const char *>icon if icon is not None else NULL)
 
     def icon_name_set(self, icon):
         if isinstance(icon, unicode): icon = PyUnicode_AsUTF8String(icon)
         elm_menu_item_icon_name_set(self.item,
-            <const_char *>icon if icon is not None else NULL)
+            <const char *>icon if icon is not None else NULL)
     def icon_name_get(self):
         return _ctouni(elm_menu_item_icon_name_get(self.item))
 
@@ -391,8 +391,8 @@ cdef class Menu(Object):
 
         item = elm_menu_item_add(self.obj,
             parent.item if parent is not None else NULL,
-            <const_char *>icon if icon is not None else NULL,
-            <const_char *>label if label is not None else NULL,
+            <const char *>icon if icon is not None else NULL,
+            <const char *>label if label is not None else NULL,
             cb, <void*>ret)
 
         if item != NULL:

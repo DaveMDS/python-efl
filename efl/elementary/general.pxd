@@ -16,15 +16,14 @@
 # along with this Python-EFL.  If not, see <http://www.gnu.org/licenses/>.
 #
 
-from efl.evas cimport Eina_List, Eina_Bool, const_Eina_List
-from efl.evas cimport Evas_Object, const_Evas_Object, Evas_Smart_Cb, \
-    Evas_Font_Size, Evas_Coord
+from efl.evas cimport Eina_List, Eina_Bool
+from efl.evas cimport Evas_Object, Evas_Smart_Cb, Evas_Font_Size, Evas_Coord
 from efl.evas.enums cimport Evas_Callback_Type
 #from efl.evas cimport Evas_Load_Error
 #from efl.evas cimport Evas_Event_Flags
 from enums cimport Elm_Policy, Elm_Policy_Quit
-from libc.string cimport const_char, memcpy, strdup
-from libc.stdlib cimport const_void, free
+from libc.string cimport memcpy, strdup
+from libc.stdlib cimport free
 
 cdef extern from "time.h":
     struct tm:
@@ -39,13 +38,13 @@ cdef extern from "time.h":
         int tm_isdst
 
         long int tm_gmtoff
-        const_char *tm_zone
+        const char *tm_zone
 
 cdef extern from "Ecore.h":
     ctypedef void (*Ecore_Cb)(void *data)
 
 cdef extern from "Edje.h":
-    ctypedef void (*Edje_Signal_Cb)(void *data, Evas_Object *obj, const_char *emission, const_char *source)
+    ctypedef void (*Edje_Signal_Cb)(void *data, Evas_Object *obj, const char *emission, const char *source)
 
 cdef extern from "Elementary.h":
     #colors
@@ -56,7 +55,7 @@ cdef extern from "Elementary.h":
         unsigned int a
 
     ctypedef struct _Elm_Custom_Palette:
-        const_char *palette_name
+        const char *palette_name
         Eina_List *color_list
 
     #event
@@ -64,17 +63,17 @@ cdef extern from "Elementary.h":
 
     #font
     ctypedef struct Elm_Font_Overlay:
-        const_char *text_class
-        const_char *font
+        const char *text_class
+        const char *font
         Evas_Font_Size size
 
     #text
     ctypedef struct Elm_Text_Class:
-        const_char *name
-        const_char *desc
+        const char *name
+        const char *desc
 
     ctypedef struct Elm_Font_Properties:
-        const_char *name
+        const char *name
         Eina_List  *styles
 
     #tooltip
@@ -104,7 +103,7 @@ cdef extern from "Elementary.h":
     int                     elm_policy_get(unsigned int policy)
 
     # General - Language
-    void                    elm_language_set(const_char *lang)
+    void                    elm_language_set(const char *lang)
 
     # Cache
     void                    elm_cache_all_flush()
@@ -113,15 +112,15 @@ cdef extern from "Elementary.h":
     void                    elm_coords_finger_size_adjust(int times_w, Evas_Coord *w, int times_h, Evas_Coord *h)
 
     # Font (elm_font.h)
-    Elm_Font_Properties *   elm_font_properties_get(const_char *font)
+    Elm_Font_Properties *   elm_font_properties_get(const char *font)
     void                    elm_font_properties_free(Elm_Font_Properties *efp)
-    char *                  elm_font_fontconfig_name_get(const_char *name, const_char *style)
+    char *                  elm_font_fontconfig_name_get(const char *name, const char *style)
     void                    elm_font_fontconfig_name_free(char *name)
     # TODO: Eina_Hash *             elm_font_available_hash_add(Eina_List *list)
     # TODO: void                    elm_font_available_hash_del(Eina_Hash *hash)
 
     # Debug
-    void elm_object_tree_dump(const_Evas_Object *top)
-    void elm_object_tree_dot_dump(const_Evas_Object *top, const_char *file)
+    void elm_object_tree_dump(const Evas_Object *top)
+    void elm_object_tree_dot_dump(const Evas_Object *top, const char *file)
 
 cdef int PY_EFL_ELM_LOG_DOMAIN
