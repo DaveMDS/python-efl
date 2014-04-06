@@ -143,10 +143,6 @@ if set(("build", "build_ext", "install", "bdist", "sdist")) & set(sys.argv):
             extra_compile_args = eo_cflags,
             extra_link_args = eo_libs + eina_libs
             )
-        eo_ext.cython_directives = {
-            "c_string_type": "unicode",
-            "c_string_encoding": "utf-8",
-            }
         modules.append(eo_ext)
 
 
@@ -168,11 +164,6 @@ if set(("build", "build_ext", "install", "bdist", "sdist")) & set(sys.argv):
             extra_link_args = eina_libs,
             ),
         ]
-    for e in utils_ext:
-        e.cython_directives = {
-            "c_string_type": "unicode",
-            "c_string_encoding": "utf-8",
-            }
     modules += utils_ext
     packages.append("efl.utils")
 
@@ -189,10 +180,6 @@ if set(("build", "build_ext", "install", "bdist", "sdist")) & set(sys.argv):
             extra_compile_args = evas_cflags,
             extra_link_args = evas_libs + eina_libs,
             )
-        evas_ext.cython_directives = {
-            "c_string_type": "unicode",
-            "c_string_encoding": "utf-8",
-            }
         modules.append(evas_ext)
 
         # compatibility
@@ -214,10 +201,6 @@ if set(("build", "build_ext", "install", "bdist", "sdist")) & set(sys.argv):
             extra_compile_args = ecore_cflags + ecore_file_cflags,
             extra_link_args = ecore_libs + ecore_file_libs + eina_libs + evas_libs,
             )
-        ecore_ext.cython_directives = {
-            "c_string_type": "unicode",
-            "c_string_encoding": "utf-8",
-            }
         modules.append(ecore_ext)
 
         # compatibility
@@ -237,10 +220,6 @@ if set(("build", "build_ext", "install", "bdist", "sdist")) & set(sys.argv):
             extra_compile_args = edje_cflags,
             extra_link_args = edje_libs + eina_libs + evas_libs,
             )
-        edje_ext.cython_directives = {
-            "c_string_type": "unicode",
-            "c_string_encoding": "utf-8",
-            }
         modules.append(edje_ext)
 
         # compatibility
@@ -254,10 +233,6 @@ if set(("build", "build_ext", "install", "bdist", "sdist")) & set(sys.argv):
             extra_compile_args = edje_cflags,
             extra_link_args = edje_libs + eina_libs + evas_libs,
             )
-        edje_edit_ext.cython_directives = {
-            "c_string_type": "unicode",
-            "c_string_encoding": "utf-8",
-            }
         modules.append(edje_edit_ext)
 
 
@@ -273,10 +248,6 @@ if set(("build", "build_ext", "install", "bdist", "sdist")) & set(sys.argv):
             extra_compile_args = emotion_cflags,
             extra_link_args = emotion_libs + eina_libs + evas_libs,
             )
-        emotion_ext.cython_directives = {
-            "c_string_type": "unicode",
-            "c_string_encoding": "utf-8",
-            }
         modules.append(emotion_ext)
 
         # compatibility
@@ -297,10 +268,6 @@ if set(("build", "build_ext", "install", "bdist", "sdist")) & set(sys.argv):
             extra_compile_args = dbus_cflags + ecore_cflags,
             extra_link_args = dbus_libs + ecore_libs,
             )
-        dbus_ml_ext.cython_directives = {
-            "c_string_type": "unicode",
-            "c_string_encoding": "utf-8",
-            }
         modules.append(dbus_ml_ext)
 
         # compatibility
@@ -399,10 +366,6 @@ if set(("build", "build_ext", "install", "bdist", "sdist")) & set(sys.argv):
                 extra_compile_args = elm_cflags,
                 extra_link_args = elm_libs + eina_libs + evas_libs,
                 )
-            e.cython_directives = {
-                "c_string_type": "unicode",
-                "c_string_encoding": "utf-8",
-                }
             modules.append(e)
 
         packages.append("efl.elementary")
@@ -439,5 +402,10 @@ setup(
     package_dir = package_dirs,
     packages = packages,
     ext_package = "efl", # The prefix for ext modules/packages
-    ext_modules = cythonize(modules, include_path=["include"]),
+    ext_modules = cythonize(modules, include_path=["include"],
+                            compiler_directives={
+                                "c_string_type": "unicode",
+                                "c_string_encoding": "utf-8",
+                                }
+                            ),
 )
