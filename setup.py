@@ -357,8 +357,8 @@ setup(
     ext_package = "efl", # The prefix for ext modules/packages
     ext_modules = cythonize(modules, include_path=["include"],
                             compiler_directives={
-                                "c_string_type": "unicode",
-                                "c_string_encoding": "utf-8",
+                                #"c_string_type": "unicode",
+                                #"c_string_encoding": "utf-8",
                                 "embedsignature": True,
                                 }
                             ),
