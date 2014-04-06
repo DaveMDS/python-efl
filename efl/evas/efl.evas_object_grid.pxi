@@ -73,9 +73,7 @@ cdef class Grid(Object):
         return bool(evas_object_grid_mirrored_get(self.obj))
 
     def pack(self, Object child not None, int x, int y, int w, int h):
-        """pack(Object child, int x, int y, int w, int h)
-
-        Add a new child to a grid object.
+        """Add a new child to a grid object.
 
         :param child: The child object to add.
         :param x: The virtual x coordinate of the child
@@ -89,9 +87,7 @@ cdef class Grid(Object):
             raise RuntimeError("Could not pack child to grid.")
 
     def unpack(self, Object child not None):
-        """unpack(Object child)
-
-        Remove child from grid.
+        """Remove child from grid.
 
         :param child:
         :raise RuntimeError: if removing the child fails.
@@ -107,9 +103,7 @@ cdef class Grid(Object):
             raise RuntimeError("Could not remove child from grid.")
 
     def clear(self, bint clear):
-        """clear(bool clear)
-
-        Faster way to remove all child objects from a grid object.
+        """Faster way to remove all child objects from a grid object.
 
         :param clear: if True, it will delete just removed children.
 
@@ -117,9 +111,7 @@ cdef class Grid(Object):
         evas_object_grid_clear(self.obj, clear)
 
     def pack_get(self, Object child not None):
-        """pack_get(Object child) -> tuple
-
-        Get the pack options for a grid child
+        """Get the pack options for a grid child
 
         Get the pack x, y, width and height in virtual coordinates set by
         evas_object_grid_pack()

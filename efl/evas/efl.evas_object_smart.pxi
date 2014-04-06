@@ -449,9 +449,7 @@ cdef class SmartObject(Object):
             return self.members_get()
 
     def callback_add(self, char *event, func, *args, **kargs):
-        """callback_add(event, func, *args, **kargs)
-
-        Add a callback for the smart event specified by event.
+        """Add a callback for the smart event specified by event.
 
         :param event: Event name
         :param func:

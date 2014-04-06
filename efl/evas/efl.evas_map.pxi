@@ -64,9 +64,7 @@ cdef class Map(object):
         self.map = NULL
 
     def util_points_populate_from_object_full(self, Object obj, Evas_Coord z):
-        """util_points_populate_from_object_full(Object obj, Evas_Coord z)
-
-        Populate source and destination map points to match exactly object.
+        """Populate source and destination map points to match exactly object.
 
         Usually one initialize map of an object to match it's original
         position and size, then transform these with evas_map_util_*
@@ -83,9 +81,7 @@ cdef class Map(object):
         evas_map_util_points_populate_from_object_full(self.map, obj.obj, z)
 
     def util_points_populate_from_object(self, Object obj):
-        """util_points_populate_from_object(Object obj)
-
-        Populate source and destination map points to match exactly object.
+        """Populate source and destination map points to match exactly object.
 
         Usually one initialize map of an object to match it's original
         position and size, then transform these with evas_map_util_*
@@ -101,9 +97,7 @@ cdef class Map(object):
         evas_map_util_points_populate_from_object(self.map, obj.obj)
 
     def util_points_populate_from_geometry(self, Evas_Coord x, Evas_Coord y, Evas_Coord w, Evas_Coord h, Evas_Coord z):
-        """util_points_populate_from_geometry(Evas_Coord x, Evas_Coord y, Evas_Coord w, Evas_Coord h, Evas_Coord z)
-
-        Populate source and destination map points to match given geometry.
+        """Populate source and destination map points to match given geometry.
 
         Similar to evas_map_util_points_populate_from_object_full(), this
         call takes raw values instead of querying object's unmapped
@@ -122,8 +116,7 @@ cdef class Map(object):
         evas_map_util_points_populate_from_geometry(self.map, x, y, w, h, z)
 
     def util_points_color_set(self, int r, int g, int b, int a):
-        """util_points_color_set(int r, int g, int b, int a)
-        Set color of all points to given color.
+        """Set color of all points to given color.
 
         This call is useful to reuse maps after they had 3d lightning or
         any other colorization applied before.
@@ -137,9 +130,7 @@ cdef class Map(object):
         evas_map_util_points_color_set(self.map, r, g, b, a)
 
     def util_rotate(self, double degrees, Evas_Coord cx, Evas_Coord cy):
-        """util_rotate(double degrees, Evas_Coord cx, Evas_Coord cy)
-
-        Change the map to apply the given rotation.
+        """Change the map to apply the given rotation.
 
         This rotates the indicated map's coordinates around the center coordinate
         given by *cx* and *cy* as the rotation center. The points will have their
@@ -155,9 +146,7 @@ cdef class Map(object):
         evas_map_util_rotate(self.map, degrees, cx, cy)
 
     def util_zoom(self, double zoomx, double zoomy, Evas_Coord cx, Evas_Coord cy):
-        """util_zoom(double zoomx, double zoomy, Evas_Coord cx, Evas_Coord cy)
-
-        Change the map to apply the given zooming.
+        """Change the map to apply the given zooming.
 
         Like evas_map_util_rotate(), this zooms the points of the map from a center
         point. That center is defined by *cx* and *cy*. The *zoomx* and *zoomy*
@@ -174,9 +163,7 @@ cdef class Map(object):
         evas_map_util_zoom(self.map, zoomx, zoomy, cx, cy)
 
     def util_3d_rotate(self, double dx, double dy, double dz, Evas_Coord cx, Evas_Coord cy, Evas_Coord cz):
-        """util_3d_rotate(double dx, double dy, double dz, Evas_Coord cx, Evas_Coord cy, Evas_Coord cz)
-
-        Rotate the map around 3 axes in 3D
+        """Rotate the map around 3 axes in 3D
 
         This will rotate not just around the "Z" axis as in evas_map_util_rotate()
         (which is a convenience call for those only wanting 2D). This will rotate
@@ -196,9 +183,7 @@ cdef class Map(object):
         evas_map_util_3d_rotate(self.map, dx, dy, dz, cx, cy, cz)
 
     def util_quat_rotate(self, double qx, double qy, double qz, double qw, double cx, double cy, double cz):
-        """util_quat_rotate(double qx, double qy, double qz, double qw, double cx, double cy, double cz)
-
-        Rotate the map in 3D using a unit quaternion.
+        """Rotate the map in 3D using a unit quaternion.
 
         This will rotate in 3D using a unit quaternion. Like with
         evas_map_util_3d_rotate() you provide a center point
@@ -220,9 +205,7 @@ cdef class Map(object):
         evas_map_util_quat_rotate(self.map, qx, qy, qz, qw, cx, cy, cz)
 
     def util_3d_lighting(self, Evas_Coord lx, Evas_Coord ly, Evas_Coord lz, int lr, int lg, int lb, int ar, int ag, int ab):
-        """util_3d_lighting(Evas_Coord lx, Evas_Coord ly, Evas_Coord lz, int lr, int lg, int lb, int ar, int ag, int ab)
-
-        Perform lighting calculations on the given Map
+        """Perform lighting calculations on the given Map
 
         This is used to apply lighting calculations (from a single light source)
         to a given map. The R, G and B values of each vertex will be modified to
@@ -246,9 +229,7 @@ cdef class Map(object):
         evas_map_util_3d_lighting(self.map, lx, ly, lz, lr, lg, lb, ar, ag, ab)
 
     def util_3d_perspective(self, Evas_Coord px, Evas_Coord py, Evas_Coord z0, Evas_Coord foc):
-        """util_3d_perspective(Evas_Coord px, Evas_Coord py, Evas_Coord z0, Evas_Coord foc)
-
-        Apply a perspective transform to the map
+        """Apply a perspective transform to the map
 
         This applies a given perspective (3D) to the map coordinates. X, Y and Z
         values are used. The px and py points specify the "infinite distance" point
@@ -349,9 +330,7 @@ cdef class Map(object):
         return evas_map_count_get(self.map)
 
     def point_coord_set(self, int idx, Evas_Coord x, Evas_Coord y, Evas_Coord z):
-        """point_coord_set(int idx, Evas_Coord x, Evas_Coord y, Evas_Coord z)
-
-        Change the map point's coordinate.
+        """Change the map point's coordinate.
 
         This sets the fixed point's coordinate in the map. Note that points
         describe the outline of a quadrangle and are ordered either clockwise
@@ -377,9 +356,7 @@ cdef class Map(object):
         evas_map_point_coord_set(self.map, idx, x, y, z)
 
     def point_coord_get(self, int idx):
-        """point_coord_get(int idx)
-
-        Get the map point's coordinate.
+        """Get the map point's coordinate.
 
         This returns the coordinates of the given point in the map.
 
@@ -402,9 +379,7 @@ cdef class Map(object):
     #         self.point_coord_set(*value)
 
     def point_image_uv_set(self, int idx, double u, double v):
-        """point_image_uv_set(int idx, double u, double v)
-
-        Change the map point's U and V texture source point
+        """Change the map point's U and V texture source point
 
         This sets the U and V coordinates for the point. This determines which
         coordinate in the source image is mapped to the given point, much like
@@ -419,9 +394,7 @@ cdef class Map(object):
         evas_map_point_image_uv_set(self.map, idx, u, v)
 
     def point_image_uv_get(self, int idx):
-        """point_image_uv_get(int idx)
-
-        Get the map point's U and V texture source points
+        """Get the map point's U and V texture source points
 
         This returns the texture points set by evas_map_point_image_uv_set().
 
@@ -444,9 +417,7 @@ cdef class Map(object):
     #         self.point_image_uv_set(*value)
 
     def point_color_set(self, int idx, int r, int g, int b, int a):
-        """point_color_set(int idx, int r, int g, int b, int a)
-
-        Set the color of a vertex in the map
+        """Set the color of a vertex in the map
 
         This sets the color of the vertex in the map. Colors will be linearly
         interpolated between vertex points through the map. Color will multiply
@@ -464,9 +435,7 @@ cdef class Map(object):
         evas_map_point_color_set(self.map, idx, r, g, b, a)
 
     def point_color_get(self, int idx):
-        """point_color_get(int idx)
-
-        Get the color set on a vertex in the map
+        """Get the color set on a vertex in the map
 
         This gets the color set by point_color_set() on the given vertex
         of the map.

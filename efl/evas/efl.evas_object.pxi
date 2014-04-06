@@ -271,25 +271,15 @@ cdef class Object(Eo):
 
 
     def raise_(self):
-        """raise_()
-
-        Raise to the top of its layer.
-
-        """
+        """Raise to the top of its layer."""
         evas_object_raise(self.obj)
 
     def lower(self):
-        """lower()
-
-        Lower to the bottom of its layer.
-
-        """
+        """Lower to the bottom of its layer. """
         evas_object_lower(self.obj)
 
     def stack_above(self, Object above):
-        """stack_above(Object above)
-
-        Reorder to be above the given one.
+        """Reorder to be above the given one.
 
         :param above:
         :type above: :py:class:`efl.evas.Object`
@@ -298,9 +288,7 @@ cdef class Object(Eo):
         evas_object_stack_above(self.obj, above.obj)
 
     def stack_below(self, Object below):
-        """stack_below(Object below)
-
-        Reorder to be below the given one.
+        """Reorder to be below the given one.
 
         :param below:
         :type below: :py:class:`efl.evas.Object`
@@ -405,9 +393,7 @@ cdef class Object(Eo):
         evas_object_resize(self.obj, w, h)
 
     def resize(self, int w, int h):
-        """resize(int w, int h)
-
-        Same as assigning to :py:attr:`size`.
+        """Same as assigning to :py:attr:`size`.
 
         :param w: Width.
         :type w: int
@@ -947,9 +933,7 @@ cdef class Object(Eo):
         evas_object_size_hint_padding_set(self.obj, l, r, t, b)
 
     def move(self, int x, int y):
-        """move(int x, int y)
-
-        Same as assigning to :py:attr:`pos`.
+        """Same as assigning to :py:attr:`pos`.
 
         :param x:
         :type x: int
@@ -960,9 +944,7 @@ cdef class Object(Eo):
         evas_object_move(self.obj, x, y)
 
     def move_relative(self, int dx, int dy):
-        """move_relative(int dx, int dy)
-
-        Move relatively to objects current position.
+        """Move relatively to objects current position.
 
         :param dx:
         :type dx: int
@@ -1187,7 +1169,6 @@ cdef class Object(Eo):
     def clip_unset(self):
         evas_object_clip_unset(self.obj)
 
-
     property clipees:
         """Objects that this object clips.
 
@@ -1237,9 +1218,7 @@ cdef class Object(Eo):
         evas_object_focus_set(self.obj, value)
 
     def event_callback_add(self, Evas_Callback_Type type, func, *args, **kargs):
-        """event_callback_add(Evas_Callback_Type type, func, *args, **kargs)
-
-        Add a new callback for the given event.
+        """Add a new callback for the given event.
 
         :param type: an integer with event type code, like
             *EVAS_CALLBACK_MOUSE_IN*, *EVAS_CALLBACK_KEY_DOWN* and
@@ -1274,9 +1253,7 @@ cdef class Object(Eo):
                 evas_object_event_callback_add(self.obj, type, cb, <void*>self)
 
     def event_callback_del(self, Evas_Callback_Type type, func):
-        """event_callback_del(Evas_Callback_Type type, func)
-
-        Remove callback for the given event.
+        """Remove callback for the given event.
 
         :param type: an integer with event type code.
         :type type: int

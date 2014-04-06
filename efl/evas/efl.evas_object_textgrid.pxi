@@ -202,7 +202,6 @@ cdef class TextgridCell(object):
             return <bint>self.cell.bg_extended
 
     property double_width:
-
         """If the codepoint is merged with the following cell to the right
         visually (cells must be in pairs with 2nd cell being a duplicate in
         all ways except codepoint is 0)
@@ -327,9 +326,7 @@ cdef class Textgrid(Object):
             return (w, h)
 
     def palette_set(self, Evas_Textgrid_Palette pal, int idx, int r, int g, int b, int a):
-        """palette_set(Evas_Textgrid_Palette pal, int idx, int r, int g, int b, int a)
-
-        The set color to the given palette at the given index of the given textgrid object.
+        """The set color to the given palette at the given index of the given textgrid object.
 
         :param pal: The type of the palette to set the color.
         :param idx: The index of the paletter to wich the color is stored.
@@ -355,9 +352,7 @@ cdef class Textgrid(Object):
         evas_object_textgrid_palette_set(self.obj, pal, idx, r, g, b, a)
 
     def palette_get(self, Evas_Textgrid_Palette pal, int idx):
-        """palette_get(Evas_Textgrid_Palette pal, int idx) -> (int r, int g, int b, int a)
-
-        The retrieve color to the given palette at the given index of the given textgrid object.
+        """The retrieve color to the given palette at the given index of the given textgrid object.
 
         :param pal: The type of the palette to set the color.
         :param idx: The index of the paletter to wich the color is stored.
@@ -389,9 +384,7 @@ cdef class Textgrid(Object):
             return evas_object_textgrid_supported_font_styles_get(self.obj)
 
     def cellrow_set(self, int y, list row not None):
-        """cellrow_set(int y, list row)
-
-        Set the string at the given row of the given textgrid object.
+        """Set the string at the given row of the given textgrid object.
 
         :param y: The row index of the grid.
         :type y: int
@@ -425,9 +418,7 @@ cdef class Textgrid(Object):
         evas_object_textgrid_cellrow_set(self.obj, y, crow[0])
 
     def cellrow_get(self, int y):
-        """cellrow_get(int y) -> list
-
-        Get the string at the given row of the given textgrid object.
+        """Get the string at the given row of the given textgrid object.
 
         :param y: The row index of the grid.
         :return: A pointer to the first cell of the given row.
@@ -460,9 +451,7 @@ cdef class Textgrid(Object):
         return ret
 
     def update_add(self, int x, int y, int w, int h):
-        """update_add(int x, int y, int w, int h)
-
-        Indicate for evas that part of a textgrid region (cells) has been updated.
+        """Indicate for evas that part of a textgrid region (cells) has been updated.
 
         :param x: The rect region of cells top-left x (column)
         :param y: The rect region of cells top-left y (row)

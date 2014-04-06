@@ -638,9 +638,7 @@ cdef class Image(Object):
     #     evas_object_image_data_copy_set(self.obj, void *data)
 
     def image_data_update_add(self, x, y, w, h):
-        """image_data_update_add(int x, int y, int w, int h)
-
-        Mark a sub-region of the image to be redrawn.
+        """Mark a sub-region of the image to be redrawn.
 
         This function schedules a particular rectangular region
         to be updated (redrawn) at the next render.
@@ -694,9 +692,7 @@ cdef class Image(Object):
         evas_object_image_smooth_scale_set(self.obj, value)
 
     def preload(self, int cancel=0):
-        """preload(bool cancel=False)
-
-        Preload image data asynchronously.
+        """Preload image data asynchronously.
 
         This will request Evas to create a thread to load image data
         from file, decompress and convert to pre-multiplied format
@@ -726,9 +722,7 @@ cdef class Image(Object):
         evas_object_image_reload(self.obj)
 
     def save(self, filename, key=None, flags=None):
-        """save(unicode filename, unicode key=None, unicode flags=None)
-
-        Save image to file.
+        """Save image to file.
 
         :param filename: where to save.
         :type filename: unicode
@@ -989,7 +983,6 @@ cdef class Image(Object):
     #     Evas_Video_Surface *evas_object_image_video_surface_get(self.obj)
 
     property scale_hint:
-
         """The scale hint value of the image object in the canvas,
         which will affect how Evas is to cache scaled versions of its
         original source image.
@@ -1257,9 +1250,7 @@ cdef class Image(Object):
         return evas_object_image_animated_loop_count_get(self.obj)
 
     def animated_frame_duration_get(self, int start_frame, int fram_num):
-        """animated_frame_duration_get(int start_frame, int fram_num) -> double
-
-        Get the duration of a sequence of frames.
+        """Get the duration of a sequence of frames.
 
         :param start_frame: The first frame
         :type start_frame: int
@@ -1340,10 +1331,7 @@ cdef void _cb_on_filled_image_resize(void *data, Evas *e,
 
 
 cdef class FilledImage(Image):
-
-    """
-
-    Image that automatically resize it's contents to fit object size.
+    """Image that automatically resize it's contents to fit object size.
 
     This :py:class:`Image` subclass already calls :py:attr:`Image.fill`
     on resize so it will match and so be scaled to fill the whole area.
@@ -1381,9 +1369,7 @@ cdef class FilledImage(Image):
 _object_mapping_register("Evas_FilledImage", FilledImage)
 
 def extension_can_load(filename):
-    """extension_can_load(unicode filename) -> bool
-
-    Check if a file extension is supported by :py:class:`Image`.
+    """Check if a file extension is supported by :py:class:`Image`.
 
     :param filename: The file to check
     :type filename: unicode

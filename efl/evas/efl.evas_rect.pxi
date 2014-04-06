@@ -17,9 +17,7 @@
 
 
 cdef class Rect(object):
-    """
-
-    Type to store and manipulate rectangular coordinates.
+    """Type to store and manipulate rectangular coordinates.
 
     This class provides the description of a rectangle and means to
     access and modify its properties in an easy way.
@@ -437,9 +435,7 @@ cdef class Rect(object):
                     self.y0 <= o.top and o.bottom <= self.y1)
 
     def contains(self, obj):
-        """contains(obj) -> bool
-
-        Checks if contains given rectangle.
+        """Checks if contains given rectangle.
 
         :param obj:
         :rtype: bool
@@ -448,9 +444,7 @@ cdef class Rect(object):
         return obj in self
 
     def contains_point(self, x, y):
-        """contains_point(x, y) -> bool
-
-        Checks if contains the given point.
+        """Checks if contains the given point.
 
         :param x:
         :type x: int
@@ -463,9 +457,7 @@ cdef class Rect(object):
                     self.y0 <= y <= self.y1)
 
     def intercepts(self, obj):
-        """intercepts(obj) -> bool
-
-        Checks if intercepts given rectangle.
+        """Checks if intercepts given rectangle.
 
         :param obj:
         :rtype: bool
@@ -499,9 +491,7 @@ cdef class Rect(object):
         return bool((a or b) and (c or d))
 
     def clip(self, obj):
-        """clip(obj) -> Rect
-
-        Returns a new Rect that represents current cropped inside parameter.
+        """Returns a new Rect that represents current cropped inside parameter.
 
         :param obj:
         :rtype: Rect
@@ -536,9 +526,7 @@ cdef class Rect(object):
             return Rect(0, 0, 0, 0)
 
     def union(self, obj):
-        """union(obj) -> Rect
-
-        Returns a new Rect that covers both rectangles.
+        """Returns a new Rect that covers both rectangles.
 
         :param obj:
         :rtype: Rect
@@ -568,9 +556,7 @@ cdef class Rect(object):
         return Rect(left, top, right - left, bottom - top)
 
     def clamp(self, obj):
-        """clamp(obj) -> Rect
-
-        Returns a new Rect that represents current moved inside given
+        """Returns a new Rect that represents current moved inside given
         parameter.
 
         If given rectangle is smaller, it'll be centered.
@@ -614,9 +600,7 @@ cdef class Rect(object):
         return ret
 
     def move_by(self, int offset_x, int offset_y):
-        """move_by(int offset_x, int offset_y) -> Rect
-
-        Returns a new Rect that represents current moved by given offsets.
+        """Returns a new Rect that represents current moved by given offsets.
 
         :param offset_x:
         :type offset_x: int
@@ -628,9 +612,7 @@ cdef class Rect(object):
         return Rect(self.x0 + offset_x, self.y0 + offset_y, self._w, self._h)
 
     def inflate(self, int amount_w, int amount_h):
-        """inflate(int amount_w, int amount_h)
-
-        Returns a new Rect that represents current inflated by given amount.
+        """Returns a new Rect that represents current inflated by given amount.
 
         :param amount_x:
         :type amount_x: int

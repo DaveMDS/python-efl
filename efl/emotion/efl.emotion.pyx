@@ -131,9 +131,7 @@ def shutdown():
 
 
 def webcams_get():
-    """webcams_get() -> list
-
-    Get a list of active and available webcam.
+    """Get a list of active and available webcam.
 
     :return: the list of tuple (webcam name, webcam device)
 
@@ -159,9 +157,7 @@ def webcams_get():
     return ret
 
 def extension_may_play_get(filename):
-    """extension_may_play_get(filename) -> bool
-
-    Do we have a chance to play that file?
+    """Do we have a chance to play that file?
 
     This just actually look at the extention of the file, it doesn't check
     the mime-type nor if the file is actually sane. So this is just an

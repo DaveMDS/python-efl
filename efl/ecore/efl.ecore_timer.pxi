@@ -82,9 +82,7 @@ cdef class Timer(Eo):
         ecore_timer_thaw(self.obj)
 
     def delay(self, double add):
-        """delay(float add)
-
-        Delay the execution of the timer by the given amount
+        """Delay the execution of the timer by the given amount
 
         :param add: seconds to add to the timer
         :type add: double
@@ -95,9 +93,7 @@ cdef class Timer(Eo):
         ecore_timer_delay(self.obj, add)
 
     def reset(self):
-        """reset()
-
-        Reset the counter of the timer
+        """Reset the counter of the timer
 
         .. versionadded:: 1.8
 

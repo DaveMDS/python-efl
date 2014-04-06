@@ -199,8 +199,7 @@ cdef class FdHandler(object):
         return bool(ecore_main_fd_handler_active_get(self.obj, ECORE_FD_ERROR))
 
     def prepare_callback_set(self, func, *args, **kargs):
-        """
-        Set a function to call becore doing the select() on the fd.
+        """Set a function to call becore doing the select() on the fd.
 
         Expected signature::
 
@@ -220,8 +219,7 @@ cdef class FdHandler(object):
 
 
 def fd_handler_add(fd, int flags, func, *args, **kargs):
-    """
-    :py:class:`FdHandler` factory, for C-api compatibility.
+    """:py:class:`FdHandler` factory, for C-api compatibility.
 
     ``func`` signature::
 

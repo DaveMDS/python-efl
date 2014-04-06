@@ -17,7 +17,6 @@
 
 
 cdef class Textblock(Object):
-
     """A Textblock.
 
     :param canvas: Evas canvas for this object
@@ -106,9 +105,7 @@ cdef class Textblock(Object):
             <const char *>value if value is not None else NULL)
 
     def line_number_geometry_get(self, int index):
-        """line_number_geometry_get(int index) -> (int x, int y, int w, int h)
-
-        Retrieve position and dimension information of a specific line.
+        """Retrieve position and dimension information of a specific line.
 
         This function is used to obtain the **x**, **y**, **width** and **height**
         of a the line located at **index** within this object.
@@ -124,11 +121,7 @@ cdef class Textblock(Object):
             return (x, y, w, h)
 
     def clear(self):
-        """clear()
-
-        Clear the Textblock
-
-        """
+        """Clear the Textblock"""
         evas_object_textblock_clear(self.obj)
 
     property size_formatted:

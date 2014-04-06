@@ -174,9 +174,7 @@ cdef class Table(Object):
         return bool(evas_object_table_mirrored_get(self.obj))
 
     def pack_get(self, Object child):
-        """pack_get(Object child)
-
-        Get packing location of a child of table
+        """Get packing location of a child of table
 
         :param child: The child object to add.
         :param col: pointer to store relative-horizontal position to place child.
@@ -194,9 +192,7 @@ cdef class Table(Object):
             return (col, row, colspan, rowspan)
 
     def pack(self, Object child, unsigned short col, unsigned short row, unsigned short colspan, unsigned short rowspan):
-        """pack(Object child, unsigned short col, unsigned short row, unsigned short colspan, unsigned short rowspan)
-
-        Add a new child to a table object or set its current packing.
+        """Add a new child to a table object or set its current packing.
 
         :param child: The child object to add.
         :param col: relative-horizontal position to place child.
@@ -211,9 +207,7 @@ cdef class Table(Object):
             raise RuntimeError("Could not pack the child to the table.")
 
     def unpack(self, Object child):
-        """unpack(Object child)
-
-        Remove child from table.
+        """Remove child from table.
 
         .. note::
 
@@ -228,9 +222,7 @@ cdef class Table(Object):
             raise RuntimeError("Could not remove child from the table.")
 
     def clear(self, clear):
-        """clear(clear)
-
-        Faster way to remove all child objects from a table object.
+        """Faster way to remove all child objects from a table object.
 
         :param clear: if True, it will delete just removed children.
 
@@ -259,9 +251,7 @@ cdef class Table(Object):
         return (cols, rows)
 
     def children_get(self):
-        """children_get() -> list
-
-        Get the list of children for the table.
+        """Get the list of children for the table.
 
         :type: list of Objects
 
@@ -273,9 +263,7 @@ cdef class Table(Object):
         return ret
 
     def child_get(self, int col, int row):
-        """child_get(int col, int row) -> Object
-
-        Get the child of the table at the given coordinates
+        """Get the child of the table at the given coordinates
 
         :param col:
         :type col: int

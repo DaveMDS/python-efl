@@ -17,10 +17,7 @@
 
 
 cdef class Text(Object):
-
-    """
-
-    Text.
+    """Text.
 
     :param canvas: Evas canvas for this object
     :type canvas: Canvas
@@ -207,9 +204,7 @@ cdef class Text(Object):
         return evas_object_text_inset_get(self.obj)
 
     def char_pos_get(self, int char_index):
-        """char_pos_get(int char_index) -> (x, y, w, h)
-
-        Retrieve position and dimension information of a character.
+        """Retrieve position and dimension information of a character.
 
         This function is used to obtain the **x**, **y**, **width** and **height**
         of a the character located at **char_index** within this object.
@@ -226,9 +221,7 @@ cdef class Text(Object):
             return (x, y, w, h)
 
     def char_coords_get(self, int x, int y):
-        """char_coords_get(int x, int y)
-
-        Retrieve position and dimension information of a character at
+        """Retrieve position and dimension information of a character at
         desired position.
 
         Like :py:func:`char_pos_get`, but instead of providing the character

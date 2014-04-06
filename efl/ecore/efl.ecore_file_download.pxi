@@ -138,8 +138,7 @@ cdef class FileDownload(object):
 
 
 def file_download(url, dst, completion_cb, progress_cb, *args, **kargs):
-    """
-    efl.ecore.FileDownload} factory, for C-api compatibility.
+    """efl.ecore.FileDownload} factory, for C-api compatibility.
 
     :param url: The complete url to download
     :param dst: Where to download the file
@@ -156,21 +155,18 @@ def file_download(url, dst, completion_cb, progress_cb, *args, **kargs):
     return FileDownload(url, dst, completion_cb, progress_cb, *args, **kargs)
 
 def file_download_abort(instance):
-    """
-    C-api compatibility
+    """C-api compatibility
     Abort the given download an free internal resources
     """
     instance.abort()
 
 def file_download_abort_all():
-    """
-    This will abort all the download currently in progrss, use with caution.
+    """This will abort all the download currently in progrss, use with caution.
     """
     ecore_file_download_abort_all()
 
 def file_download_protocol_available(protocol):
-    """
-    Check if the given download protocol is available, available protocols
+    """Check if the given download protocol is available, available protocols
     are: "http://", "ftp://" and "file://". Note that ecore can be
     compiled without CURL support and thus http and ftp could not be available
 

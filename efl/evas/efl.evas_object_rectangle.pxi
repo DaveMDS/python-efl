@@ -17,9 +17,7 @@
 
 
 cdef class Rectangle(Object):
-    """
-
-    A rectangle.
+    """A rectangle.
 
     There is only one function to deal with rectangle objects, this may make
     this function seem useless given there are no functions to manipulate

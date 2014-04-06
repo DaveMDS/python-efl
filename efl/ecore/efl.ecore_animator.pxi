@@ -17,10 +17,7 @@
 
 
 cdef class Animator(Eo):
-
-    """
-
-    Creates an animator to tick off at every animaton tick during main loop
+    """Creates an animator to tick off at every animaton tick during main loop
     execution.
 
     This class represents an animator that will call the given ``func``
@@ -89,10 +86,7 @@ cdef Eina_Bool _ecore_timeline_cb(void *data, double pos) with gil:
     return ret
 
 cdef class AnimatorTimeline(Animator):
-
-    """
-
-    Add an animator that runs for a limited time
+    """Add an animator that runs for a limited time
 
     :param runtime: The time to run in seconds
     :param func: The function to call when it ticks off
@@ -128,9 +122,7 @@ cdef class AnimatorTimeline(Animator):
         return self.func(*self.args, **self.kargs)
 
 def animator_add(func, *args, **kargs):
-    """
-
-    Animator factory, for C-api compatibility.
+    """Animator factory, for C-api compatibility.
 
     func signature::
 

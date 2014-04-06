@@ -345,9 +345,7 @@ cdef class Edje(Object):
             size)
 
     property scale:
-        """
-
-        The scaling factor for a given Edje object.
+        """The scaling factor for a given Edje object.
 
         :type: float
 
@@ -366,9 +364,7 @@ cdef class Edje(Object):
         return edje_object_scale_get(self.obj)
 
     property mirrored:
-        """
-
-        The RTL orientation for this object.
+        """The RTL orientation for this object.
 
         :type: int
 
@@ -439,8 +435,7 @@ cdef class Edje(Object):
         return (w, h)
 
     def parts_extends_calc(self):
-        """
-        Calculate the geometry of the region, relative to a given Edje
+        """Calculate the geometry of the region, relative to a given Edje
         object's area, *occupied by all parts in the object*
 
         :return: (x, y, w, h)
@@ -481,8 +476,7 @@ cdef class Edje(Object):
                         <const char *>part if part is not None else NULL))
 
     def part_object_get(self, part):
-        """
-        Get the efl.evas.Object that represents this part.
+        """Get the efl.evas.Object that represents this part.
 
         .. warning::
             You should never modify the state of the returned object
