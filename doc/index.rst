@@ -35,6 +35,13 @@ EFL
 
 .. toctree:: efl.rst
 
+
+EO
+---
+
+.. toctree:: eo/eo.rst
+
+
 Ecore
 -----
 

@@ -200,8 +200,7 @@ cdef Eina_Bool _eo_event_del_cb(void *data, cEo *obj,
 cdef class Eo(object):
     """
 
-    Base class used by all the Eo object in the bindings, its not meant to be
-    used by users, but only by internal classes.
+    Base class used by all the object in the EFL.
 
     """
 
@@ -250,27 +249,59 @@ cdef class Eo(object):
         return 1
 
     def delete(self):
+        """Delete the object and free internal resources.
+
+        .. note:: This will not delete the python object, but only the internal
+            C one. The python object will be automatically deleted by the
+            garbage collector when there are no more reference to it.
+
+        """
         eo_del(self.obj)
 
     def is_deleted(self):
-        "Check if the object has been deleted thus leaving the object shallow"
+        """Check if the object has been deleted thus leaving the object shallow.
+
+        :return: True if the object has been deleted yet, False otherwise.
+        :rtype: bool
+
+        """
         return bool(self.obj == NULL)
 
     def parent_set(self, Eo parent):
+        """Set the parent object.
+
+        :param parent: The object to set as parent.
+        :type parent: :class:`Eo`
+
+        """
         eo_do(self.obj, eo_parent_set(parent.obj))
 
     def parent_get(self):
+        """Get the parent object.
+
+        :return: The parent object
+        :rtype: :class:`Eo`
+
+        """
         cdef cEo *parent = NULL
         eo_do(self.obj, eo_parent_get(&parent))
         return object_from_instance(parent)
 
     def event_freeze(self):
+        """Pause event propagation for this object."""
         eo_do(self.obj, eo_event_freeze())
 
     def event_thaw(self):
+        """Restart event propagation for this object."""
         eo_do(self.obj, eo_event_thaw())
 
     def event_freeze_get(self):
+        """Get the event freeze count for this object.
+
+        :return: the freeze count
+        :rtype: int
+        
+        """
         cdef int fcount
         eo_do(self.obj, eo_event_freeze_get(&fcount))
         return fcount
