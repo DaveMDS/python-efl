@@ -359,6 +359,7 @@ setup(
                             compiler_directives={
                                 "c_string_type": "unicode",
                                 "c_string_encoding": "utf-8",
+                                "embedsignature": True,
                                 }
                             ),
 )

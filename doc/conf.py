@@ -24,13 +24,13 @@ d = "lib.%s-%s-%d.%d" % (
         sys.version_info[1]
     )
 sys.path.insert(0, os.path.abspath("../build/"+d))
-
 #sys.path.insert(0, os.path.abspath('../build/lib.linux-i686-3.2'))
+
 
 # -- General configuration -----------------------------------------------------
 
 # If your documentation needs a minimal Sphinx version, state it here.
-#needs_sphinx = '1.0'
+needs_sphinx = '1.1'
 
 # Add any Sphinx extension module names here, as strings. They can be extensions
 # coming with Sphinx (named 'sphinx.ext.*') or your custom ones.
@@ -46,7 +46,8 @@ except ImportError:
 else:
     extensions.append('sphinx.ext.inheritance_diagram')
     graphviz_output_format = "svg" # png (default) or svg
-    graphviz_dot_args = ["-Gbgcolor=transparent", "-Ncolor=#4399FF", "-Nfontcolor=white", "-Ecolor=blue"]
+    graphviz_dot_args = ["-Gbgcolor=transparent", "-Ncolor=#4399FF",
+                         "-Nfontcolor=white", "-Ecolor=blue"]
 
 try:
     import sphinxcontrib.youtube
@@ -55,13 +56,6 @@ except ImportError:
 else:
     extensions.append('sphinxcontrib.youtube')
 
-autodoc_default_flags = [
-    'members',
-    #'inherited-members',
-    'show-inheritance'
-]
-autoclass_content = "both"
-autodoc_docstring_signature = True
 
 # Add any paths that contain templates here, relative to this directory.
 templates_path = ['_templates']
@@ -147,6 +141,36 @@ pygments_style = 'sphinx'
 #     ('py:attr', 'efl.eo.Eo.data'),
 #     ('py:obj', 'datetime.date'),
 # ]
+
+
+# -- Autodoc configuration -----------------------------------------------------
+
+autodoc_default_flags = [
+    'members',
+    'show-inheritance',
+    # 'inherited-members',
+    # 'undoc-members',
+]
+autoclass_content = "both"
+autodoc_docstring_signature = True
+# autodoc_member_order = "bysource"
+
+def setup(app):
+    app.connect('autodoc-process-signature', autodoc_process_signature)
+
+def autodoc_process_signature(app, what, name, obj, options, signature, return_annotation):
+    """Cleanup params: remove the 'self' param and all the cython types"""
+
+    if what not in ('function', 'method'):
+        return
+
+    params = list()
+    for param in (p.strip() for p in signature[1:-1].split(',')):
+        if param != 'self':
+            params.append(param.rpartition(' ')[2])
+
+    return ('(%s)' % ', '.join(params), return_annotation)
+
 
 # -- Options for HTML output ---------------------------------------------------
 
