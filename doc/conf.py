@@ -156,7 +156,9 @@ autodoc_docstring_signature = True
 # autodoc_member_order = "bysource"
 
 def setup(app):
+    from sphinx.ext.autodoc import cut_lines
     app.connect('autodoc-process-signature', autodoc_process_signature)
+    app.connect('autodoc-process-docstring', cut_lines(2, what=['class']))
 
 def autodoc_process_signature(app, what, name, obj, options, signature, return_annotation):
     """Cleanup params: remove the 'self' param and all the cython types"""
