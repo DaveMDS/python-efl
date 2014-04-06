@@ -67,11 +67,9 @@ def pkg_config(name, require, min_vers=None):
 
         return (cflags, libs)
     except (OSError, subprocess.CalledProcessError):
-        print("Did not find " + name + " with 'pkg-config'.")
-        return None
+        raise SystemExit("Did not find " + name + " with 'pkg-config'.")
     except (AssertionError):
-        print(name+" version mismatch. Found: "+ver+"  Needed: "+min_vers)
-        return None
+        raise SystemExit(name+" version mismatch. Found: "+ver+"  Needed: "+min_vers)
 
 
 # use cython or pre-generated c files
@@ -121,29 +119,18 @@ package_dirs = {}
 if set(("build", "build_ext", "install", "bdist", "sdist")) & set(sys.argv):
 
     # === Eina ===
-    eina_pkg_config = pkg_config('Eina', 'eina', EFL_MIN_VERSION)
-
-    if eina_pkg_config is None:
-        raise SystemExit("Eina required but not found!")
-    else:
-        eina_cflags, eina_libs = eina_pkg_config
+    eina_cflags, eina_libs = pkg_config('Eina', 'eina', EFL_MIN_VERSION)
 
 
     # === Eo ===
-    eo_pkg_config = pkg_config('Eo', 'eo', EFL_MIN_VERSION)
-
-    if eo_pkg_config is None:
-        raise SystemExit("Eo required but not found!")
-    else:
-        eo_cflags, eo_libs = eo_pkg_config
-
-        eo_ext = Extension("eo", ["efl/eo/efl.eo"+module_suffix],
-            define_macros = [('EFL_BETA_API_SUPPORT', None)],
-            include_dirs = ['include/'],
-            extra_compile_args = eo_cflags,
-            extra_link_args = eo_libs + eina_libs
-            )
-        modules.append(eo_ext)
+    eo_cflags, eo_libs = pkg_config('Eo', 'eo', EFL_MIN_VERSION)
+    eo_ext = Extension("eo", ["efl/eo/efl.eo"+module_suffix],
+                       define_macros = [('EFL_BETA_API_SUPPORT', None)],
+                       include_dirs = ['include/'],
+                       extra_compile_args = eo_cflags,
+                       extra_link_args = eo_libs + eina_libs
+                      )
+    modules.append(eo_ext)
 
 
     # === Utilities ===
@@ -169,110 +156,84 @@ if set(("build", "build_ext", "install", "bdist", "sdist")) & set(sys.argv):
 
 
     # === Evas ===
-    evas_pkg_config = pkg_config('Evas', 'evas', EFL_MIN_VERSION)
+    evas_cflags, evas_libs = pkg_config('Evas', 'evas', EFL_MIN_VERSION)
+    evas_ext = Extension("evas", ["efl/evas/efl.evas"+module_suffix],
+                         include_dirs = ['include/'],
+                         extra_compile_args = evas_cflags,
+                         extra_link_args = evas_libs + eina_libs,
+                        )
+    modules.append(evas_ext)
 
-    if evas_pkg_config is not None:
-
-        evas_cflags, evas_libs = evas_pkg_config
-
-        evas_ext = Extension("evas", ["efl/evas/efl.evas"+module_suffix],
-            include_dirs = ['include/'],
-            extra_compile_args = evas_cflags,
-            extra_link_args = evas_libs + eina_libs,
-            )
-        modules.append(evas_ext)
-
-        # compatibility
-        packages.append("evas")
-        package_dirs["evas"] = "compat/evas"
+    # compatibility
+    packages.append("evas")
+    package_dirs["evas"] = "compat/evas"
 
 
     # === Ecore ===
-    ecore_pkg_config = pkg_config('Ecore', 'ecore', EFL_MIN_VERSION)
-    ecore_file_pkg_config = pkg_config('EcoreFile', 'ecore-file', "1.8.0")
+    ecore_cflags, ecore_libs = pkg_config('Ecore', 'ecore', EFL_MIN_VERSION)
+    ecore_file_cflags, ecore_file_libs = pkg_config('EcoreFile', 'ecore-file', "1.8.0")
+    ecore_ext = Extension("ecore", ["efl/ecore/efl.ecore"+module_suffix],
+                          include_dirs = ['include/'],
+                          extra_compile_args = ecore_cflags + ecore_file_cflags,
+                          extra_link_args = ecore_libs + ecore_file_libs + eina_libs + evas_libs,
+                         )
+    modules.append(ecore_ext)
 
-    if ecore_pkg_config is not None and ecore_file_pkg_config is not None and evas_pkg_config is not None:
-
-        ecore_cflags, ecore_libs = ecore_pkg_config
-        ecore_file_cflags, ecore_file_libs = ecore_file_pkg_config
-
-        ecore_ext = Extension("ecore", ["efl/ecore/efl.ecore"+module_suffix],
-            include_dirs = ['include/'],
-            extra_compile_args = ecore_cflags + ecore_file_cflags,
-            extra_link_args = ecore_libs + ecore_file_libs + eina_libs + evas_libs,
-            )
-        modules.append(ecore_ext)
-
-        # compatibility
-        packages.append("ecore")
-        package_dirs["ecore"] = "compat/ecore"
+    # compatibility
+    packages.append("ecore")
+    package_dirs["ecore"] = "compat/ecore"
 
 
     # === Edje ===
-    edje_pkg_config = pkg_config('Edje', 'edje', EFL_MIN_VERSION)
+    edje_cflags, edje_libs = pkg_config('Edje', 'edje', EFL_MIN_VERSION)
+    edje_ext = Extension("edje", ["efl/edje/efl.edje"+module_suffix],
+                         include_dirs = ['include/'],
+                         extra_compile_args = edje_cflags,
+                         extra_link_args = edje_libs + eina_libs + evas_libs,
+                        )
+    modules.append(edje_ext)
 
-    if edje_pkg_config is not None and evas_pkg_config is not None:
+    # compatibility
+    packages.append("edje")
+    package_dirs["edje"] = "compat/edje"
 
-        edje_cflags, edje_libs = edje_pkg_config
-
-        edje_ext = Extension("edje", ["efl/edje/efl.edje"+module_suffix],
-            include_dirs = ['include/'],
-            extra_compile_args = edje_cflags,
-            extra_link_args = edje_libs + eina_libs + evas_libs,
-            )
-        modules.append(edje_ext)
-
-        # compatibility
-        packages.append("edje")
-        package_dirs["edje"] = "compat/edje"
-
-        # --- Edje_Edit ---
-        edje_edit_ext = Extension("edje_edit", ["efl/edje/efl.edje_edit"+module_suffix],
-            define_macros = [('EDJE_EDIT_IS_UNSTABLE_AND_I_KNOW_ABOUT_IT', None)],
-            include_dirs = ['include/'],
-            extra_compile_args = edje_cflags,
-            extra_link_args = edje_libs + eina_libs + evas_libs,
-            )
-        modules.append(edje_edit_ext)
+    # --- Edje_Edit ---
+    edje_edit_ext = Extension("edje_edit", ["efl/edje/efl.edje_edit"+module_suffix],
+                              define_macros = [('EDJE_EDIT_IS_UNSTABLE_AND_I_KNOW_ABOUT_IT', None)],
+                              include_dirs = ['include/'],
+                              extra_compile_args = edje_cflags,
+                              extra_link_args = edje_libs + eina_libs + evas_libs,
+                             )
+    modules.append(edje_edit_ext)
 
 
-    # Emotion
-    emotion_pkg_config = pkg_config('Emotion', 'emotion', EFL_MIN_VERSION)
+    # === Emotion ===
+    emotion_cflags, emotion_libs = pkg_config('Emotion', 'emotion', EFL_MIN_VERSION)
+    emotion_ext = Extension("emotion", ["efl/emotion/efl.emotion"+module_suffix],
+                            include_dirs = ['include/'],
+                            extra_compile_args = emotion_cflags,
+                            extra_link_args = emotion_libs + eina_libs + evas_libs,
+                           )
+    modules.append(emotion_ext)
 
-    if emotion_pkg_config is not None and evas_pkg_config is not None:
-
-        emotion_cflags, emotion_libs = emotion_pkg_config
-
-        emotion_ext = Extension("emotion", ["efl/emotion/efl.emotion"+module_suffix],
-            include_dirs = ['include/'],
-            extra_compile_args = emotion_cflags,
-            extra_link_args = emotion_libs + eina_libs + evas_libs,
-            )
-        modules.append(emotion_ext)
-
-        # compatibility
-        packages.append("emotion")
-        package_dirs["emotion"] = "compat/emotion"
+    # compatibility
+    packages.append("emotion")
+    package_dirs["emotion"] = "compat/emotion"
 
 
     # === dbus mainloop integration ===
-    dbus_pkg_config = pkg_config('DBus', 'dbus-python', "0.83.0")
+    dbus_cflags, dbus_libs = pkg_config('DBus', 'dbus-python', "0.83.0")
+    dbus_ml_ext = Extension("dbus_mainloop",
+                            ["efl/dbus_mainloop/dbus_mainloop"+module_suffix,
+                             "efl/dbus_mainloop/e_dbus.c"],
+                            extra_compile_args = dbus_cflags + ecore_cflags,
+                            extra_link_args = dbus_libs + ecore_libs,
+                           )
+    modules.append(dbus_ml_ext)
 
-    if dbus_pkg_config is not None and ecore_pkg_config is not None:
-        dbus_cflags, dbus_libs = dbus_pkg_config
-
-        dbus_ml_ext = Extension(
-            "dbus_mainloop",
-            ["efl/dbus_mainloop/dbus_mainloop"+module_suffix,
-             "efl/dbus_mainloop/e_dbus.c"],
-            extra_compile_args = dbus_cflags + ecore_cflags,
-            extra_link_args = dbus_libs + ecore_libs,
-            )
-        modules.append(dbus_ml_ext)
-
-        # compatibility
-        packages.append("e_dbus")
-        package_dirs["e_dbus"] = "compat/e_dbus"
+    # compatibility
+    packages.append("e_dbus")
+    package_dirs["e_dbus"] = "compat/e_dbus"
 
 
     # === Elementary ===
@@ -350,29 +311,21 @@ if set(("build", "build_ext", "install", "bdist", "sdist")) & set(sys.argv):
         "window",
     )
 
-    elm_pkg_config = pkg_config('Elementary', 'elementary', ELM_MIN_VERSION)
+    elm_cflags, elm_libs = pkg_config('Elementary', 'elementary', ELM_MIN_VERSION)
+    for m in elm_mods:
+        e = Extension("elementary." + m,
+                      ["efl/elementary/" + m + module_suffix],
+                      include_dirs = ["include/"],
+                      extra_compile_args = elm_cflags,
+                      extra_link_args = elm_libs + eina_libs + evas_libs,
+                     )
+        modules.append(e)
 
-    if elm_pkg_config is not None \
-    and evas_pkg_config is not None \
-    and ecore_pkg_config is not None \
-    and emotion_pkg_config is not None:
-        elm_cflags, elm_libs = elm_pkg_config
+    packages.append("efl.elementary")
 
-        for m in elm_mods:
-            e = Extension(
-                "elementary." + m,
-                ["efl/elementary/" + m + module_suffix],
-                include_dirs = ["include/"],
-                extra_compile_args = elm_cflags,
-                extra_link_args = elm_libs + eina_libs + evas_libs,
-                )
-            modules.append(e)
-
-        packages.append("efl.elementary")
-
-        # compatibility
-        packages.append("elementary")
-        package_dirs["elementary"] = "compat/elementary"
+    # compatibility
+    packages.append("elementary")
+    package_dirs["elementary"] = "compat/elementary"
 
 
 setup(
