@@ -242,9 +242,7 @@ cdef class Flip(Object):
         elm_flip_perspective_set(self.obj, foc, x, y)
 
     def go(self, Elm_Flip_Mode flip_mode):
-        """go(Elm_Flip_Mode flip_mode)
-
-        Runs the flip animation
+        """Runs the flip animation
 
         Flips the front and back contents using the ``flip_mode`` animation. This
         effectively hides the currently visible content and shows the hidden one.
@@ -256,9 +254,7 @@ cdef class Flip(Object):
         elm_flip_go(self.obj, flip_mode)
 
     def flip_go_to(self, bint front, Elm_Flip_Mode flip_mode):
-        """flip_go_to(bool front, Elm_Flip_Mode flip_mode)
-
-        Runs the flip animation to front or back.
+        """Runs the flip animation to front or back.
 
         :param front: if True, makes front visible, otherwise makes back.
         :type front: bool
@@ -303,9 +299,7 @@ cdef class Flip(Object):
         return elm_flip_interaction_get(self.obj)
 
     def interaction_direction_enabled_set(self, direction, enable):
-        """interaction_direction_enabled_set(int direction, bool enable)
-
-        Set which directions of the flip respond to interactive flip
+        """Set which directions of the flip respond to interactive flip
 
         By default all directions are disabled, so you may want to enable the
         desired directions for flipping if you need interactive flipping.
@@ -323,9 +317,7 @@ cdef class Flip(Object):
         elm_flip_interaction_direction_enabled_set(self.obj, direction, enable)
 
     def interaction_direction_enabled_get(self, direction):
-        """interaction_direction_enabled_get(int direction) -> bool
-
-        Get the enabled state of that flip direction
+        """Get the enabled state of that flip direction
 
         Gets the enabled state set by
         :py:func:`interaction_direction_enabled_set()`
@@ -341,9 +333,7 @@ cdef class Flip(Object):
         return elm_flip_interaction_direction_enabled_get(self.obj, direction)
 
     def interaction_direction_hitsize_set(self, direction, hitsize):
-        """interaction_direction_hitsize_set(int direction, float hitsize)
-
-        Set the amount of the flip that is sensitive to interactive flip
+        """Set the amount of the flip that is sensitive to interactive flip
 
         Set the amount of the flip that is sensitive to interactive flip,
         with 0 representing no area in the flip and 1 representing the
@@ -362,9 +352,7 @@ cdef class Flip(Object):
         elm_flip_interaction_direction_hitsize_set(self.obj, direction, hitsize)
 
     def interaction_direction_hitsize_get(self, direction):
-        """interaction_direction_hitsize_get(int direction) -> float
-
-        Get the amount of the flip that is sensitive to interactive flip
+        """Get the amount of the flip that is sensitive to interactive flip
 
         Returns the amount of sensitive area set by
         :py:func:`interaction_direction_hitsize_set()`.

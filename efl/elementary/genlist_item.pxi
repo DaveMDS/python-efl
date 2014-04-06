@@ -90,9 +90,7 @@ cdef class GenlistItem(ObjectItem):
             )
 
     def append_to(self, Genlist genlist not None):
-        """append_to(Genlist genlist) -> GenlistItem
-
-        Append a new item (add as last row) to this genlist.
+        """Append a new item (add as last row) to this genlist.
 
         :param genlist: The Genlist upon which this item is to be appended.
         :type genlist: :py:class:`Genlist`
@@ -120,9 +118,7 @@ cdef class GenlistItem(ObjectItem):
         return self
 
     def prepend_to(self, Genlist genlist not None):
-        """prepend_to(Genlist genlist) -> GenlistItem
-
-        Prepend a new item (add as first row) to this Genlist.
+        """Prepend a new item (add as first row) to this Genlist.
 
         :param genlist: The Genlist upon which this item is to be prepended.
         :type genlist: :py:class:`Genlist`
@@ -150,9 +146,7 @@ cdef class GenlistItem(ObjectItem):
         return self
 
     def insert_before(self, GenlistItem before_item=None):
-        """insert_before(GenlistItem before_item=None) -> GenlistItem
-
-        Insert a new item (row) before another item in this genlist.
+        """Insert a new item (row) before another item in this genlist.
 
         :param before_item: a reference item to use, the new item
             will be inserted before it.
@@ -185,9 +179,7 @@ cdef class GenlistItem(ObjectItem):
         return self
 
     def insert_after(self, GenlistItem after_item=None):
-        """insert_after(GenlistItem after_item=None) -> GenlistItem
-
-        Insert a new item (row) after another item in this genlist.
+        """Insert a new item (row) after another item in this genlist.
 
         :param after_item: a reference item to use, the new item
             will be inserted after it.
@@ -220,9 +212,7 @@ cdef class GenlistItem(ObjectItem):
         return self
 
     def sorted_insert(self, Genlist genlist not None, comparison_func):
-        """sorted_insert(Genlist genlist, comparison_func) -> GenlistItem
-
-        Insert a new item into the sorted genlist object
+        """Insert a new item into the sorted genlist object
 
         :param genlist: The Genlist object
         :type genlist: :py:class:`Genlist`
@@ -330,9 +320,7 @@ cdef class GenlistItem(ObjectItem):
         return ret
 
     def show(self, scrollto_type = enums.ELM_GENLIST_ITEM_SCROLLTO_IN):
-        """show(int scrollto_type = ELM_GENLIST_ITEM_SCROLLTO_IN)
-
-        This causes genlist to jump to the item and show it (by
+        """This causes genlist to jump to the item and show it (by
         jumping to that position), if it is not fully visible.
 
         :type: :ref:`Elm_Genlist_Item_Scrollto_Type`
@@ -343,9 +331,7 @@ cdef class GenlistItem(ObjectItem):
         elm_genlist_item_show(self.item, scrollto_type)
 
     def bring_in(self, scrollto_type = enums.ELM_GENLIST_ITEM_SCROLLTO_IN):
-        """bring_in(int scrollto_type = ELM_GENLIST_ITEM_SCROLLTO_IN)
-
-        This causes genlist to jump to the item and show it (by
+        """This causes genlist to jump to the item and show it (by
         animatedly scrolling), if it is not fully visible.
         This may use animation and take a some time to do so.
 
@@ -357,9 +343,7 @@ cdef class GenlistItem(ObjectItem):
         elm_genlist_item_bring_in(self.item, scrollto_type)
 
     def update(self):
-        """update()
-
-        This updates an item by calling all the item class functions again
+        """This updates an item by calling all the item class functions again
         to get the contents, texts and states. Use this when the original
         item data has changed and the changes are desired to be reflected.
 
@@ -401,9 +385,7 @@ cdef class GenlistItem(ObjectItem):
         return elm_genlist_item_index_get(self.item)
 
     def tooltip_text_set(self, text):
-        """tooltip_text_set(unicode text)
-
-        Set the text to be shown in the tooltip object
+        """Set the text to be shown in the tooltip object
 
         Setup the text as tooltip object. The object can have only one
         tooltip, so any previous tooltip data is removed.
@@ -414,9 +396,7 @@ cdef class GenlistItem(ObjectItem):
             <const char *>text if text is not None else NULL)
 
     def tooltip_content_cb_set(self, func, *args, **kargs):
-        """tooltip_content_cb_set(func, *args, **kargs)
-
-        Set the content to be shown in the tooltip object
+        """Set the content to be shown in the tooltip object
 
         Setup the tooltip to object. The object can have only one tooltip,
         so any previews tooltip data is removed. ``func(args,kargs)`` will
@@ -442,9 +422,7 @@ cdef class GenlistItem(ObjectItem):
                                                 _tooltip_item_data_del_cb)
 
     def tooltip_unset(self):
-        """tooltip_unset()
-
-        Unset tooltip from object
+        """Unset tooltip from object
 
         Remove tooltip from object. If used the :py:func:`tooltip_text_set`
         the internal copy of label will be removed correctly. If used
@@ -587,18 +565,14 @@ cdef class GenlistItem(ObjectItem):
         return _object_item_to_python(elm_genlist_item_parent_get(self.item))
 
     def subitems_clear(self):
-        """subitems_clear()
-
-        This removes all items that are children (and their descendants)
+        """This removes all items that are children (and their descendants)
         of the item.
 
         """
         elm_genlist_item_subitems_clear(self.item)
 
     def subitems_count(self):
-        """subitems_count() -> int
-
-        Get the number of subitems.
+        """Get the number of subitems.
 
         :return: The number of subitems, 0 on error.
         :rtype: int
@@ -609,9 +583,7 @@ cdef class GenlistItem(ObjectItem):
         elm_genlist_item_subitems_count(self.item)
 
     def subitems_get(self):
-        """subitems_get() -> list
-
-        Get the list of subitems.
+        """Get the list of subitems.
 
         :return: The list of subitems.
         :rype: list of :py:class:`GenlistItem`
@@ -670,9 +642,7 @@ cdef class GenlistItem(ObjectItem):
         return elm_genlist_item_expanded_depth_get(self.item)
 
     def all_contents_unset(self):
-        """all_contents_unset() -> list
-
-        This instructs genlist to release references to contents in the
+        """This instructs genlist to release references to contents in the
         item, meaning that they will no longer be managed by genlist and are
         floating "orphans" that can be re-used elsewhere if the user wants to.
 
@@ -682,25 +652,15 @@ cdef class GenlistItem(ObjectItem):
         return _object_item_list_to_python(lst)
 
     def promote(self):
-        """promote()
-
-        Promote an item to the top of the list
-
-        """
+        """Promote an item to the top of the list"""
         elm_genlist_item_promote(self.item)
 
     def demote(self):
-        """demote()
-
-        Demote an item to the end of the list
-
-        """
+        """Demote an item to the end of the list"""
         elm_genlist_item_demote(self.item)
 
     def fields_update(self, parts, Elm_Genlist_Item_Field_Type itf):
-        """fields_update(unicode parts, itf)
-
-        This updates an item's part by calling item's fetching functions again
+        """This updates an item's part by calling item's fetching functions again
         to get the contents, texts and states. Use this when the original
         item data has changed and the changes are desired to be reflected.
         Parts argument is used for globbing to match '*', '?', and '.'

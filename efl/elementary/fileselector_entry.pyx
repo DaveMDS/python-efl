@@ -322,7 +322,7 @@ cdef class FileselectorEntry(LayoutClass):
 
     @DEPRECATED("1.9", "Combine with Fileselector class instead")
     def callback_activated_add(self, func, *args, **kwargs):
-        """callback_activated_add(func)
+        """
 
         :see: :py:meth:`~efl.elementary.fileselector.Fileselector.callback_activated_add`
 

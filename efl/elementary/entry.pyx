@@ -801,9 +801,7 @@ cdef class Entry(LayoutClass):
         self._set_properties_from_keyword_args(kwargs)
 
     def text_style_user_push(self, style):
-        """text_style_user_push(style)
-
-        Push the style to the top of user style stack. If there is styles in the
+        """Push the style to the top of user style stack. If there is styles in the
         user style stack, the properties in the top style of user style stack
         will replace the properties in current theme. The input style is
         specified in format ``tag='property=value'`` (i.e. ``DEFAULT='font=Sans
@@ -818,9 +816,7 @@ cdef class Entry(LayoutClass):
             <const char *>style if style is not None else NULL)
 
     def text_style_user_pop(self):
-        """text_style_user_pop()
-
-        Remove the style in the top of user style stack.
+        """Remove the style in the top of user style stack.
 
         :seealso: :py:meth:`text_style_user_push`
 
@@ -830,9 +826,7 @@ cdef class Entry(LayoutClass):
         elm_entry_text_style_user_pop(self.obj)
 
     def text_style_user_peek(self):
-        """text_style_user_peek() -> string
-
-        Retrieve the style on the top of user style stack.
+        """Retrieve the style on the top of user style stack.
 
         :return string: style on the top of user style stack if exist, otherwise None.
 
@@ -910,9 +904,7 @@ cdef class Entry(LayoutClass):
         return _ctouni(elm_entry_entry_get(self.obj))
 
     def entry_append(self, text):
-        """entry_append(text)
-
-        Appends ``entry`` to the text of the entry.
+        """Appends ``entry`` to the text of the entry.
 
         Adds the text in ``entry`` to the end of any text already present in
         the widget.
@@ -990,9 +982,7 @@ cdef class Entry(LayoutClass):
         return object_from_instance(elm_entry_textblock_get(self.obj))
 
     def calc_force(self):
-        """calc_force()
-
-        Forces calculation of the entry size and text layouting.
+        """Forces calculation of the entry size and text layouting.
 
         This should be used after modifying the textblock object directly.
 
@@ -1002,9 +992,7 @@ cdef class Entry(LayoutClass):
         elm_entry_calc_force(self.obj)
 
     def entry_insert(self, entry):
-        """entry_insert(entry)
-
-        Inserts the given text into the entry at the current cursor
+        """Inserts the given text into the entry at the current cursor
         position.
 
         This inserts text at the cursor position as if it was typed by the
@@ -1077,21 +1065,15 @@ cdef class Entry(LayoutClass):
         return bool(elm_entry_editable_get(self.obj))
 
     def select_none(self):
-        """select_none()
-
-        This drops any existing text selection within the entry."""
+        """This drops any existing text selection within the entry."""
         elm_entry_select_none(self.obj)
 
     def select_all(self):
-        """select_all()
-
-        This selects all text within the entry."""
+        """This selects all text within the entry."""
         elm_entry_select_all(self.obj)
 
     def select_region_set(self, int start, int end):
-        """select_region_set()
-
-        This selects a region of text within the entry.
+        """This selects a region of text within the entry.
 
         :param start: The starting position
         :type start: int
@@ -1104,9 +1086,7 @@ cdef class Entry(LayoutClass):
         elm_entry_select_region_set(self.obj, start, end)
 
     def cursor_next(self):
-        """cursor_next()
-
-        This moves the cursor one place to the right within the entry.
+        """This moves the cursor one place to the right within the entry.
 
         :return: True upon success, False upon failure
         :rtype: bool
@@ -1115,9 +1095,7 @@ cdef class Entry(LayoutClass):
         return bool(elm_entry_cursor_next(self.obj))
 
     def cursor_prev(self):
-        """cursor_prev()
-
-        This moves the cursor one place to the left within the entry.
+        """This moves the cursor one place to the left within the entry.
 
         :return: True upon success, False upon failure
         :rtype: bool
@@ -1126,9 +1104,7 @@ cdef class Entry(LayoutClass):
         return bool(elm_entry_cursor_prev(self.obj))
 
     def cursor_up(self):
-        """cursor_up()
-
-        This moves the cursor one line up within the entry.
+        """This moves the cursor one line up within the entry.
 
         :return: True upon success, False upon failure
         :rtype: bool
@@ -1137,9 +1113,7 @@ cdef class Entry(LayoutClass):
         return bool(elm_entry_cursor_up(self.obj))
 
     def cursor_down(self):
-        """cursor_down()
-
-        This moves the cursor one line down within the entry.
+        """This moves the cursor one line down within the entry.
 
         :return: True upon success, False upon failure
         :rtype: bool
@@ -1148,47 +1122,33 @@ cdef class Entry(LayoutClass):
         return bool(elm_entry_cursor_down(self.obj))
 
     def cursor_begin_set(self):
-        """cursor_begin_set()
-
-        This moves the cursor to the beginning of the entry."""
+        """This moves the cursor to the beginning of the entry."""
         elm_entry_cursor_begin_set(self.obj)
 
     def cursor_end_set(self):
-        """cursor_end_set()
-
-        This moves the cursor to the end of the entry."""
+        """This moves the cursor to the end of the entry."""
         elm_entry_cursor_end_set(self.obj)
 
     def cursor_line_begin_set(self):
-        """cursor_line_begin_set()
-
-        This moves the cursor to the beginning of the current line."""
+        """This moves the cursor to the beginning of the current line."""
         elm_entry_cursor_line_begin_set(self.obj)
 
     def cursor_line_end_set(self):
-        """cursor_line_end_set()
-
-        This moves the cursor to the end of the current line."""
+        """This moves the cursor to the end of the current line."""
         elm_entry_cursor_line_end_set(self.obj)
 
     def cursor_selection_begin(self):
-        """cursor_selection_begin()
-
-        This begins a selection within the entry as though the user were
+        """This begins a selection within the entry as though the user were
         holding down the mouse button to make a selection."""
         elm_entry_cursor_selection_begin(self.obj)
 
     def cursor_selection_end(self):
-        """cursor_selection_end()
-
-        This ends a selection within the entry as though the user had
+        """This ends a selection within the entry as though the user had
         just released the mouse button while making a selection."""
         elm_entry_cursor_selection_end(self.obj)
 
     def cursor_is_format_get(self):
-        """cursor_is_format_get() -> bool
-
-        Gets whether a format node exists at the current cursor position.
+        """Gets whether a format node exists at the current cursor position.
 
         A format node is anything that defines how the text is rendered. It
         can be a visible format node, such as a line break or a paragraph
@@ -1206,9 +1166,7 @@ cdef class Entry(LayoutClass):
         return bool(elm_entry_cursor_is_format_get(self.obj))
 
     def cursor_is_visible_format_get(self):
-        """cursor_is_visible_format_get -> bool
-
-        Gets if the current cursor position holds a visible format node.
+        """Gets if the current cursor position holds a visible format node.
 
         :seealso: :py:meth:`cursor_is_format_get`
 
@@ -1220,9 +1178,7 @@ cdef class Entry(LayoutClass):
         return bool(elm_entry_cursor_is_visible_format_get(self.obj))
 
     def cursor_content_get(self):
-        """cursor_content_get() -> unicode
-
-        Gets the character pointed by the cursor at its current position.
+        """Gets the character pointed by the cursor at its current position.
 
         This function returns a string with the utf8 character stored at the
         current cursor position.
@@ -1241,9 +1197,7 @@ cdef class Entry(LayoutClass):
         return ret
 
     def cursor_geometry_get(self):
-        """cursor_geometry_get() -> (int x, int y, int w, int h)
-
-        This function returns the geometry of the cursor.
+        """This function returns the geometry of the cursor.
 
         It's useful if you want to draw something on the cursor (or where it is),
         or for example in the case of scrolled entry where you want to show the
@@ -1283,27 +1237,19 @@ cdef class Entry(LayoutClass):
         return elm_entry_cursor_pos_get(self.obj)
 
     def selection_cut(self):
-        """selection_cut()
-
-        This executes a "cut" action on the selected text in the entry."""
+        """This executes a "cut" action on the selected text in the entry."""
         elm_entry_selection_cut(self.obj)
 
     def selection_copy(self):
-        """selection_copy()
-
-        This executes a "copy" action on the selected text in the entry."""
+        """This executes a "copy" action on the selected text in the entry."""
         elm_entry_selection_copy(self.obj)
 
     def selection_paste(self):
-        """selection_paste()
-
-        This executes a "paste" action in the entry."""
+        """This executes a "paste" action in the entry."""
         elm_entry_selection_paste(self.obj)
 
     def context_menu_clear(self):
-        """context_menu_clear()
-
-        This clears and frees the items in a entry's contextual (longpress) menu.
+        """This clears and frees the items in a entry's contextual (longpress) menu.
 
         .. seealso:: :py:meth:`context_menu_item_add`
 
@@ -1311,9 +1257,7 @@ cdef class Entry(LayoutClass):
         elm_entry_context_menu_clear(self.obj)
 
     def context_menu_item_add(self, label = None, icon_file = None, Elm_Icon_Type icon_type = enums.ELM_ICON_NONE, func = None, *args, **kwargs):
-        """context_menu_item_add(label=None, icon_file=None, Elm_Icon_Type icon_type=enums.ELM_ICON_NONE, func=None, *args, **kwargs)
-
-        This adds an item to the entry's contextual menu.
+        """This adds an item to the entry's contextual menu.
 
         A longpress on an entry will make the contextual menu show up, if this
         hasn't been disabled with :py:attr:`context_menu_disabled`.
@@ -1411,9 +1355,7 @@ cdef class Entry(LayoutClass):
     #     elm_entry_item_provider_remove(self.obj, Elm_Entry_Item_Provider_Cb func, void *data)
 
     def markup_filter_append(self, func, data=None):
-        """markup_filter_append(func, data=None)
-
-        Append a markup filter function for text inserted in the entry
+        """Append a markup filter function for text inserted in the entry
 
         Append the given callback to the list. This functions will be called
         whenever any text is inserted into the entry, with the text to be
@@ -1437,9 +1379,7 @@ cdef class Entry(LayoutClass):
             <void *>cb_data)
 
     def markup_filter_prepend(self, func, data=None):
-        """markup_filter_prepend(func, data=None)
-
-        Prepend a markup filter function for text inserted in the entry
+        """Prepend a markup filter function for text inserted in the entry
 
         Prepend the given callback to the list. See
         :py:meth:`markup_filter_append` for more information
@@ -1457,9 +1397,7 @@ cdef class Entry(LayoutClass):
             <void *>cb_data)
 
     def markup_filter_remove(self, func, data=None):
-        """markup_filter_remove(func, data=None)
-
-        Remove a markup filter from the list
+        """Remove a markup filter from the list
 
         Removes the given callback from the filter list. See
         :py:meth:`markup_filter_append` for more information
@@ -1478,13 +1416,11 @@ cdef class Entry(LayoutClass):
 
     @DEPRECATED("1.8", "Use the module level markup_to_utf8() method instead.")
     def markup_to_utf8(self, string):
-        """markup_to_utf8(string)"""
         return _touni(elm_entry_markup_to_utf8(
             <const char *>string if string is not None else NULL))
 
     @DEPRECATED("1.8", "Use the module level utf8_to_markup() method instead.")
     def utf8_to_markup(self, string):
-        """utf8_to_markup(string)"""
         return _touni(elm_entry_utf8_to_markup(
             <const char *>string if string is not None else NULL))
 
@@ -1535,9 +1471,7 @@ cdef class Entry(LayoutClass):
         return (_ctouni(file), format)
 
     def file_save(self):
-        """file_save()
-
-        This function writes any changes made to the file set with
+        """This function writes any changes made to the file set with
         :py:attr:`file`.
 
         """
@@ -1704,9 +1638,7 @@ cdef class Entry(LayoutClass):
         return bool(elm_entry_input_panel_enabled_get(self.obj))
 
     def input_panel_show(self):
-        """input_panel_show()
-
-        Show the input panel (virtual keyboard) based on the input panel
+        """Show the input panel (virtual keyboard) based on the input panel
         property of entry such as layout, autocapital types, and so on.
 
         Note that input panel is shown or hidden automatically according to the
@@ -1718,9 +1650,7 @@ cdef class Entry(LayoutClass):
         elm_entry_input_panel_show(self.obj)
 
     def input_panel_hide(self):
-        """input_panel_hide()
-
-        Hide the input panel (virtual keyboard).
+        """Hide the input panel (virtual keyboard).
 
         Note that input panel is shown or hidden automatically according to the
         focus state of entry widget.
@@ -1831,9 +1761,7 @@ cdef class Entry(LayoutClass):
         elm_entry_input_panel_return_key_autoenabled_set(self.obj, enabled)
 
     def imf_context_reset(self):
-        """imf_context_reset()
-
-        Reset the input method context of the entry if needed.
+        """Reset the input method context of the entry if needed.
 
         This can be necessary in the case where modifying the buffer would
         confuse on-going input method behavior. This will typically cause
@@ -2002,9 +1930,7 @@ cdef class Entry(LayoutClass):
         return _ctouni(elm_entry_anchor_hover_style_get(self.obj))
 
     def anchor_hover_end(self):
-        """anchor_hover_end()
-
-        Ends the hover popup in the entry
+        """Ends the hover popup in the entry
 
         When an anchor is clicked, the entry widget will create a hover
         object to use as a popup with user provided content. This function
@@ -2016,9 +1942,7 @@ cdef class Entry(LayoutClass):
 
     # Copy and paste
     def cnp_selection_get(self, selection, format):
-        """cnp_selection_get(selection, format)
-
-        Retrieve data from a widget that has a selection.
+        """Retrieve data from a widget that has a selection.
 
         Gets the current selection data from a widget.
 

@@ -417,9 +417,7 @@ cdef class Fileselector(LayoutClass):
                 elm_fileselector_selected_paths_get(self.obj))
 
     def mime_types_filter_append(self, list mime_types, filter_name=None):
-        """mime_types_filter_append(list mime_types, str filter_name=None)
-
-        Append mime types filter into filter list
+        """Append mime types filter into filter list
 
         :param mime_types: mime types to be allowed.
         :type mime_types: list
@@ -444,9 +442,7 @@ cdef class Fileselector(LayoutClass):
             raise RuntimeWarning
 
     def custom_filter_append(self, func, data=None, filter_name=None):
-        """custom_filter_append(func, data=None, filter_name=None)
-
-        Append custom filter into filter list.
+        """Append custom filter into filter list.
 
         :param func: The function to call when manipulating files and directories.
         :type func: callable
@@ -473,9 +469,7 @@ cdef class Fileselector(LayoutClass):
             <const char *>filter_name if filter_name is not None else NULL)
 
     def filters_clear(self):
-        """
-
-        Clear all filters registered
+        """Clear all filters registered
 
         .. note::
 

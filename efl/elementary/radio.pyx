@@ -77,9 +77,7 @@ cdef class Radio(LayoutClass):
         self._set_properties_from_keyword_args(kwargs)
 
     def group_add(self, evasObject group):
-        """group_add(evas.Object group)
-
-        Add this radio to a group of other radio objects
+        """Add this radio to a group of other radio objects
 
         Radio objects work in groups. Each member should have a different
         integer value assigned. In order to have them work as a group, they
@@ -131,9 +129,7 @@ cdef class Radio(LayoutClass):
 
     @DEPRECATED("1.8", "Don't use this, only works in C.")
     def value_pointer_set(self, int value):
-        """value_pointer_set(value)
-
-        Set a convenience pointer to a integer to change when radio group
+        """Set a convenience pointer to a integer to change when radio group
         value changes.
 
         This sets a pointer to a integer, that, in addition to the radio

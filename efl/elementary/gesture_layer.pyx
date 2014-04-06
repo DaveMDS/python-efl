@@ -538,9 +538,7 @@ cdef class GestureLayer(Object):
         self._set_properties_from_keyword_args(kwargs)
 
     def cb_set(self, Elm_Gesture_Type idx, Elm_Gesture_State cb_type, callback, *args, **kwargs):
-        """cb_set(Elm_Gesture_Type idx, Elm_Gesture_State cb_type, callback, *args, **kwargs)
-
-        Use this function to set callbacks to be notified about change of
+        """Use this function to set callbacks to be notified about change of
         state of gesture. When a user registers a callback with this function
         this means this gesture has to be tested.
 
@@ -635,9 +633,7 @@ cdef class GestureLayer(Object):
             return elm_gesture_layer_rotate_step_get(self.obj)
 
     def attach(self, evasObject target):
-        """attach(evas.Object target)
-
-        Attach a given gesture layer widget to an Evas object, thus setting
+        """Attach a given gesture layer widget to an Evas object, thus setting
         the widget's **target**.
 
         A gesture layer target may be whichever Evas object one chooses.

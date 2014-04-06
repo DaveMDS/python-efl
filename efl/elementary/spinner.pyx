@@ -240,9 +240,7 @@ cdef class Spinner(LayoutClass):
         return elm_spinner_editable_get(self.obj)
 
     def special_value_add(self, value, label):
-        """special_value_add(float value, unicode label)
-
-        Set a special string to display in the place of the numerical value.
+        """Set a special string to display in the place of the numerical value.
 
         It's useful for cases when a user should select an item that is
         better indicated by a label than a value. For example, weekdays or months.
@@ -266,9 +264,7 @@ cdef class Spinner(LayoutClass):
             <const char *>label if label is not None else NULL)
 
     def special_value_del(self, double value):
-        """special_value_del(float value)
-
-        Delete the special string display in the place of the numerical value.
+        """Delete the special string display in the place of the numerical value.
 
         :param value: The replaced value.
 
@@ -283,9 +279,7 @@ cdef class Spinner(LayoutClass):
         elm_spinner_special_value_del(self.obj, value)
 
     def special_value_get(self, double value):
-        """special_value_get(float value) -> unicode
-
-        Get the special string display in the place of the numerical value.
+        """Get the special string display in the place of the numerical value.
 
         :param value: The replaced value.
         :return: The used label.

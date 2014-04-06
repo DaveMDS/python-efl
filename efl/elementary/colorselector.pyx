@@ -200,9 +200,7 @@ cdef class Colorselector(LayoutClass):
         return elm_colorselector_mode_get(self.obj)
 
     def palette_color_add(self, r, g, b, a):
-        """palette_color_add(int r, int g, int b, int a) -> ColorselectorPaletteItem
-
-        Add a new color item to palette.
+        """Add a new color item to palette.
 
         :param r: r-value of color
         :type r: int
@@ -219,9 +217,7 @@ cdef class Colorselector(LayoutClass):
         return ColorselectorPaletteItem(r, g, b, a).add_to(self)
 
     def palette_clear(self):
-        """palette_clear()
-
-        Clear the palette items."""
+        """Clear the palette items."""
         elm_colorselector_palette_clear(self.obj)
 
     property palette_name:
@@ -249,9 +245,7 @@ cdef class Colorselector(LayoutClass):
         return _ctouni(elm_colorselector_palette_name_get(self.obj))
 
     def palette_items_get(self):
-        """palette_items_get()
-
-        Get a list of palette items (colors).
+        """Get a list of palette items (colors).
 
         :return: A list of palette Items.
         :rtype: list of :py:class:`ColorselectorPaletteItem`
@@ -270,9 +264,7 @@ cdef class Colorselector(LayoutClass):
         return ret
 
     def palette_selected_item_get(self):
-        """palette_selected_item_get()
-
-        Get the selected item in the palette.
+        """Get the selected item in the palette.
 
         :return: the selected item.
         :rtype: list of :py:class:`ColorselectorPaletteItem`

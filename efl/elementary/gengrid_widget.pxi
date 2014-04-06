@@ -9,9 +9,7 @@ cdef class Gengrid(Object):
         self._set_properties_from_keyword_args(kwargs)
 
     def clear(self):
-        """clear()
-
-        Remove all items from a given gengrid widget."""
+        """Remove all items from a given gengrid widget."""
         elm_gengrid_clear(self.obj)
 
     property multi_select:
@@ -63,9 +61,7 @@ cdef class Gengrid(Object):
 
     def item_append(self, GengridItemClass item_class not None,
                     item_data, func=None):
-        """item_append(self, GengridItemClass item_class, item_data, func=None) -> GengridItem
-
-        Append a new item (add as last item) to this gengrid.
+        """Append a new item (add as last item) to this gengrid.
 
         :param item_class: a valid instance that defines the
             behavior of this item. See :py:class:`GengridItemClass`.
@@ -89,9 +85,7 @@ cdef class Gengrid(Object):
 
     def item_prepend(self, GengridItemClass item_class not None,
                      item_data, func=None):
-        """item_prepend(self, GengridItemClass item_class, item_data, func=None) -> GengridItem
-
-        Prepend a new item (add as first item) to this gengrid.
+        """Prepend a new item (add as first item) to this gengrid.
 
         :param item_class: a valid instance that defines the
             behavior of this item. See :py:class:`GengridItemClass`.
@@ -116,9 +110,7 @@ cdef class Gengrid(Object):
     def item_insert_before(self, GengridItemClass item_class not None,
                            item_data, GengridItem before_item=None,
                            func=None):
-        """item_insert_before(self, GengridItemClass item_class, item_data, GengridItem before_item=None, func=None) -> GengridItem
-
-        Insert a new item before another item in this gengrid.
+        """Insert a new item before another item in this gengrid.
 
         :param item_class: a valid instance that defines the
             behavior of this item. See :py:class:`GengridItemClass`.
@@ -145,9 +137,7 @@ cdef class Gengrid(Object):
     def item_insert_after(self, GengridItemClass item_class not None,
                           item_data, GengridItem after_item=None,
                           func=None):
-        """item_insert_after(self, GengridItemClass item_class, item_data, GengridItem after_item=None, func=None) -> GengridItem
-
-        Insert a new item after another item in this gengrid.
+        """Insert a new item after another item in this gengrid.
 
         :param item_class: a valid instance that defines the
             behavior of this item. See :py:class:`GengridItemClass`.
@@ -218,9 +208,7 @@ cdef class Gengrid(Object):
         return _object_item_list_to_python(elm_gengrid_realized_items_get(self.obj))
 
     def realized_items_update(self):
-        """realized_items_update()
-
-        This updates all realized items by calling all the item class
+        """This updates all realized items by calling all the item class
         functions again to get the contents, texts and states. Use this when
         the original item data has changed and the changes are desired to be
         reflected.
@@ -431,9 +419,7 @@ cdef class Gengrid(Object):
         return bool(elm_gengrid_highlight_mode_get(self.obj))
 
     def nth_item_get(self, unsigned int nth):
-        """nth_item_get(int nth) -> :py:class:`GengridItem`
-
-        Get the nth item, in a given gengrid widget, placed at position
+        """Get the nth item, in a given gengrid widget, placed at position
         ``nth``, in its internal items list
 
         :param nth: The number of the item to grab (0 being the first)
@@ -447,9 +433,7 @@ cdef class Gengrid(Object):
         return _object_item_to_python(elm_gengrid_nth_item_get(self.obj, nth))
 
     def at_xy_item_get(self, int x, int y):
-        """at_xy_item_get(int x, int y) -> (GengridItem, int xposret, int yposret)
-
-        Get the item that is at the x, y canvas coords.
+        """Get the item that is at the x, y canvas coords.
 
         :param x: The input x coordinate
         :param y: The input y coordinate

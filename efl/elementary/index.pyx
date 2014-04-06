@@ -390,9 +390,7 @@ cdef class Index(LayoutClass):
         return elm_index_item_level_get(self.obj)
 
     def selected_item_get(self, level):
-        """selected_item_get(int level) -> IndexItem
-
-        Returns the last selected item, for a given index widget.
+        """Returns the last selected item, for a given index widget.
 
         :param level: ``0`` or ``1``, the currently implemented levels.
         :type level: int
@@ -404,9 +402,7 @@ cdef class Index(LayoutClass):
         return _object_item_to_python(elm_index_selected_item_get(self.obj, level))
 
     def item_append(self, letter, callback = None, *args, **kargs):
-        """item_append(unicode letter, callback = None, *args, **kargs) -> IndexItem
-
-        A constructor for :py:class:`IndexItem`
+        """A constructor for :py:class:`IndexItem`
 
         :see: :py:func:`IndexItem.append_to`
 
@@ -414,9 +410,7 @@ cdef class Index(LayoutClass):
         return IndexItem(letter, callback, *args, **kargs).append_to(self)
 
     def item_prepend(self, letter, callback = None, *args, **kargs):
-        """item_prepend(unicode letter, callback = None, *args, **kargs) -> IndexItem
-
-        A constructor for :py:class:`IndexItem`
+        """A constructor for :py:class:`IndexItem`
 
         :see: :py:func:`IndexItem.prepend_to`
 
@@ -424,9 +418,7 @@ cdef class Index(LayoutClass):
         return IndexItem(letter, callback, *args, **kargs).prepend_to(self)
 
     def item_insert_after(self, IndexItem after, letter, callback = None, *args, **kargs):
-        """item_insert_after(IndexItem after, unicode letter, callback = None, *args, **kargs) -> IndexItem
-
-        A constructor for :py:class:`IndexItem`
+        """A constructor for :py:class:`IndexItem`
 
         :see: :py:func:`IndexItem.insert_after`
 
@@ -434,9 +426,7 @@ cdef class Index(LayoutClass):
         return IndexItem(letter, callback, *args, **kargs).insert_after(after)
 
     def item_insert_before(self, IndexItem before, letter, callback = None, *args, **kargs):
-        """item_insert_before(IndexItem before, unicode letter, callback = None, *args, **kargs) -> IndexItem
-
-        A constructor for :py:class:`IndexItem`
+        """A constructor for :py:class:`IndexItem`
 
         :see: :py:func:`IndexItem.insert_before`
 
@@ -458,9 +448,7 @@ cdef class Index(LayoutClass):
 
     @DEPRECATED("1.8", "Broken, don't use.")
     def item_find(self, data):
-        """item_find(data) -> IndexItem
-
-        Find a given index widget's item, **using item data**.
+        """Find a given index widget's item, **using item data**.
 
         :param data: The item data pointed to by the desired index item
         :return: The index item handle, if found, or ``None`` otherwise
@@ -472,9 +460,7 @@ cdef class Index(LayoutClass):
         # return _object_item_to_python(elm_index_item_find(self.obj, <void*>data))
 
     def item_clear(self):
-        """item_clear()
-
-        Removes **all** items from a given index widget.
+        """Removes **all** items from a given index widget.
 
         If deletion callbacks are set, via
         :py:meth:`efl.elementary.object_item.ObjectItem.delete_cb_set`, that
@@ -484,9 +470,7 @@ cdef class Index(LayoutClass):
         elm_index_item_clear(self.obj)
 
     def level_go(self, level):
-        """level_go(int level)
-
-        Go to a given items level on a index widget
+        """Go to a given items level on a index widget
 
         :param level: The index level (one of ``0`` or ``1``)
         :type level: int

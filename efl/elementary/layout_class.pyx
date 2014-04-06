@@ -63,9 +63,7 @@ cdef class LayoutClass(Object):
     """
 
     def content_set(self, swallow=None, evasObject content=None):
-        """content_set(unicode swallow, Object content)
-
-        Set the layout content.
+        """Set the layout content.
 
         Once the content object is set, a previously set one will be deleted.
         If you want to keep that old content object, use the
@@ -94,9 +92,7 @@ cdef class LayoutClass(Object):
             raise RuntimeError
 
     def content_get(self, swallow=None):
-        """content_get(unicode swallow) -> Object
-
-        Get the child object in the given content part.
+        """Get the child object in the given content part.
 
         :param swallow: The SWALLOW part to get its content
         :type swallow: string
@@ -108,9 +104,7 @@ cdef class LayoutClass(Object):
             <const char *>swallow if swallow is not None else NULL))
 
     def content_unset(self, swallow=None):
-        """content_unset(unicode swallow)
-
-        Unset the layout content.
+        """Unset the layout content.
 
         Unparent and return the content object which was set for this part.
 
@@ -124,9 +118,7 @@ cdef class LayoutClass(Object):
             <const char *>swallow if swallow is not None else NULL))
 
     def text_set(self, part=None, text=None):
-        """text_set(unicode part, unicode text)
-
-        Set the text of the given part
+        """Set the text of the given part
 
         :param part: The TEXT part where to set the text
         :type part: string
@@ -148,9 +140,7 @@ cdef class LayoutClass(Object):
             raise RuntimeError
 
     def text_get(self, part=None):
-        """text_get(unicode part) -> unicode
-
-        Get the text set in the given part
+        """Get the text set in the given part
 
         :param part: The TEXT part to retrieve the text off
         :type part: string
@@ -250,9 +240,7 @@ cdef class LayoutClass(Object):
                 raise RuntimeError("Could not set theme.")
 
     def signal_emit(self, emission, source):
-        """signal_emit(unicode emission, unicode source)
-
-        Send a (Edje) signal to a given layout widget's underlying Edje
+        """Send a (Edje) signal to a given layout widget's underlying Edje
         object.
 
         This function sends a signal to the underlying Edje object. An Edje
@@ -346,9 +334,7 @@ cdef class LayoutClass(Object):
             layout_signal_callback)
 
     def box_append(self, part, evasObject child):
-        """box_append(unicode part, Object child) -> bool
-
-        Append child to layout box part.
+        """Append child to layout box part.
 
         Once the object is appended, it will become child of the layout. Its
         lifetime will be bound to the layout, whenever the layout dies the
@@ -378,9 +364,7 @@ cdef class LayoutClass(Object):
                 raise RuntimeError("Could not add to box")
 
     def box_prepend(self, part, evasObject child):
-        """box_prepend(unicode part, Object child) -> bool
-
-        Prepend child to layout box part.
+        """Prepend child to layout box part.
 
         Once the object is prepended, it will become child of the layout. Its
         lifetime will be bound to the layout, whenever the layout dies the
@@ -410,9 +394,7 @@ cdef class LayoutClass(Object):
                 raise RuntimeError("Could not add to box")
 
     def box_insert_before(self, part, evasObject child, evasObject reference):
-        """box_insert_before(unicode part, Object child, Object reference) -> bool
-
-        Insert child to layout box part before a reference object.
+        """Insert child to layout box part before a reference object.
 
         Once the object is inserted, it will become child of the layout. Its
         lifetime will be bound to the layout, whenever the layout dies the
@@ -444,9 +426,7 @@ cdef class LayoutClass(Object):
                 raise RuntimeError("Could not add to box")
 
     def box_insert_at(self, part, evasObject child, pos):
-        """box_insert_at(unicode part, Object child, int pos) -> bool
-
-        Insert child to layout box part at a given position.
+        """Insert child to layout box part at a given position.
 
         Once the object is inserted, it will become child of the layout. Its
         lifetime will be bound to the layout, whenever the layout dies the
@@ -478,9 +458,7 @@ cdef class LayoutClass(Object):
                 raise RuntimeError("Could not add to box")
 
     def box_remove(self, part, evasObject child):
-        """box_remove(unicode part, Object child) -> evas.Object
-
-        Remove a child of the given part box.
+        """Remove a child of the given part box.
 
         The object will be removed from the box part and its lifetime will
         not be handled by the layout anymore. This is equivalent to
@@ -504,9 +482,7 @@ cdef class LayoutClass(Object):
             child.obj))
 
     def box_remove_all(self, part, clear):
-        """box_remove_all(unicode part, bool clear) -> bool
-
-        Remove all children of the given part box.
+        """Remove all children of the given part box.
 
         The objects will be removed from the box part and their lifetime will
         not be handled by the layout anymore. This is equivalent to
@@ -535,9 +511,7 @@ cdef class LayoutClass(Object):
                 raise RuntimeError("Could not remove all items from box")
 
     def table_pack(self, part, evasObject child_obj, col, row, colspan, rowspan):
-        """table_pack(unicode part, Object child_obj, int col, int row, int colspan, int rowspan) -> bool
-
-        Insert child to layout table part.
+        """Insert child to layout table part.
 
         Once the object is inserted, it will become child of the table. Its
         lifetime will be bound to the layout, and whenever the layout dies the
@@ -577,9 +551,7 @@ cdef class LayoutClass(Object):
                 raise RuntimeError("Could not pack an item to the table")
 
     def table_unpack(self, part, evasObject child_obj):
-        """table_unpack(unicode part, Object child_obj) -> Object
-
-        Unpack (remove) a child of the given part table.
+        """Unpack (remove) a child of the given part table.
 
         The object will be unpacked from the table part and its lifetime
         will not be handled by the layout anymore. This is equivalent to
@@ -603,9 +575,7 @@ cdef class LayoutClass(Object):
             child_obj.obj))
 
     def table_clear(self, part, clear):
-        """table_clear(unicode part, bool clear) -> bool
-
-        Remove all the child objects of the given part table.
+        """Remove all the child objects of the given part table.
 
         The objects will be removed from the table part and their lifetime will
         not be handled by the layout anymore. This is equivalent to
@@ -665,9 +635,7 @@ cdef class LayoutClass(Object):
         return object_from_instance(elm_layout_edje_get(self.obj))
 
     def data_get(self, key):
-        """data_get(unicode key) -> unicode
-
-        Get the edje data from the given layout
+        """Get the edje data from the given layout
 
         This function fetches data specified inside the edje theme of this
         layout. This function returns None if data is not found.
@@ -696,9 +664,7 @@ cdef class LayoutClass(Object):
             <const char *>key if key is not None else NULL))
 
     def sizing_eval(self):
-        """sizing_eval()
-
-        Eval sizing
+        """Eval sizing
 
         Manually forces a sizing re-evaluation. This is useful when the
         minimum size required by the edje theme of this layout has changed.
@@ -719,9 +685,7 @@ cdef class LayoutClass(Object):
         elm_layout_sizing_eval(self.obj)
 
     def part_cursor_set(self, part_name, cursor):
-        """part_cursor_set(unicode part_name, unicode cursor) -> bool
-
-        Sets a specific cursor for an edje part.
+        """Sets a specific cursor for an edje part.
 
         :param part_name: a part from loaded edje group.
         :type part_name: string
@@ -740,9 +704,7 @@ cdef class LayoutClass(Object):
                 raise RuntimeError("Could not set cursor to part")
 
     def part_cursor_get(self, part_name):
-        """part_cursor_get(unicode part_name) -> unicode
-
-        Get the cursor to be shown when mouse is over an edje part
+        """Get the cursor to be shown when mouse is over an edje part
 
         :param part_name: a part from loaded edje group.
         :type part_name: string
@@ -754,9 +716,7 @@ cdef class LayoutClass(Object):
             <const char *>part_name if part_name is not None else NULL))
 
     def part_cursor_unset(self, part_name):
-        """part_cursor_unset(unicode part_name) -> bool
-
-        Unsets a cursor previously set with :py:meth:`part_cursor_set`.
+        """Unsets a cursor previously set with :py:meth:`part_cursor_set`.
 
         :param part_name: a part from loaded edje group, that had a cursor set
             with :py:meth:`part_cursor_set`.
@@ -773,9 +733,7 @@ cdef class LayoutClass(Object):
                 raise RuntimeError("Could not unset part cursor")
 
     def part_cursor_style_set(self, part_name, style):
-        """part_cursor_style_set(unicode part_name, unicode style) -> bool
-
-        Sets a specific cursor style for an edje part.
+        """Sets a specific cursor style for an edje part.
 
         :param part_name: a part from loaded edje group.
         :type part_name: string
@@ -794,9 +752,7 @@ cdef class LayoutClass(Object):
                 raise RuntimeError("Could not set cursor style to part")
 
     def part_cursor_style_get(self, part_name):
-        """part_cursor_get(unicode part_name) -> unicode
-
-        Gets a specific cursor style for an edje part.
+        """Gets a specific cursor style for an edje part.
 
         :param part_name: a part from loaded edje group.
         :type part_name: string
@@ -810,9 +766,7 @@ cdef class LayoutClass(Object):
             <const char *>part_name if part_name is not None else NULL))
 
     def part_cursor_engine_only_set(self, part_name, engine_only):
-        """part_cursor_engine_only_set(unicode part_name, bool engine_only) -> bool
-
-        Sets if the cursor set should be searched on the theme or should use
+        """Sets if the cursor set should be searched on the theme or should use
         the provided by the engine, only.
 
         .. note:: Before you set if should look on theme you should define a
@@ -842,9 +796,7 @@ cdef class LayoutClass(Object):
                 raise RuntimeError("Could not set cursor engine_only to part")
 
     def part_cursor_engine_only_get(self, part_name):
-        """part_cursor_engine_only_get(unicode part_name) -> bool
-
-        Gets a specific cursor engine_only for an edje part.
+        """Gets a specific cursor engine_only for an edje part.
 
         :param part_name: a part from loaded edje group.
         :type part_name: string
@@ -882,9 +834,7 @@ cdef class LayoutClass(Object):
         return bool(elm_layout_edje_object_can_access_get(self.obj))
 
     def content_swallow_list_get(self):
-        """content_swallow_list_get() -> list
-
-        Get the list of objects swallowed into the layout.
+        """Get the list of objects swallowed into the layout.
 
         :return: a list of swallowed objects.
         :rtype: list of objects.

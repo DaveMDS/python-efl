@@ -176,9 +176,7 @@ cdef class Hover(LayoutClass):
             return object_from_instance(elm_hover_parent_get(self.obj))
 
     def best_content_location_get(self, pref_axis):
-        """best_content_location_get(int pref_axis) -> unicode
-
-        Returns the best swallow location for content in the hover.
+        """Returns the best swallow location for content in the hover.
 
         Best is defined here as the location at which there is the most
         available space.
@@ -204,9 +202,7 @@ cdef class Hover(LayoutClass):
         return _ctouni(elm_hover_best_content_location_get(self.obj, pref_axis))
 
     def dismiss(self):
-        """dismiss()
-
-        Dismiss a hover object
+        """Dismiss a hover object
 
         Use this function to simulate clicking outside the hover to dismiss
         it. In this way, the hover will be hidden and the "clicked" signal

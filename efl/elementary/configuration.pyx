@@ -115,9 +115,7 @@ cdef class Configuration(object):
     """The configuration class"""
 
     def save(self):
-        """save()
-
-        Save back Elementary's configuration, so that it will persist on
+        """Save back Elementary's configuration, so that it will persist on
         future sessions.
 
         This function will take effect -- thus, do I/O -- immediately. Use
@@ -132,9 +130,7 @@ cdef class Configuration(object):
         return bool(elm_config_save())
 
     def reload(self):
-        """reload()
-
-        Reload Elementary's configuration, bounded to current selected
+        """Reload Elementary's configuration, bounded to current selected
         profile.
 
         Useful when you want to force reloading of configuration values for
@@ -148,9 +144,7 @@ cdef class Configuration(object):
         elm_config_reload()
 
     def all_flush(self):
-        """all_flush()
-
-        Flush all config settings then apply those settings to all
+        """Flush all config settings then apply those settings to all
         applications using elementary on the current display."""
         elm_config_all_flush()
 
@@ -168,9 +162,7 @@ cdef class Configuration(object):
             elm_config_profile_set(<const char *>profile if profile is not None else NULL)
 
     def profile_dir_get(self, profile, bint is_user):
-        """profile_dir_get(unicode profile, bool is_user)
-
-        Get an Elementary's profile directory path in the filesystem. One
+        """Get an Elementary's profile directory path in the filesystem. One
         may want to fetch a system profile's dir or a user one (fetched
         inside $HOME).
 
@@ -635,9 +627,7 @@ cdef class Configuration(object):
             # TODO: ElmFontOverlay class?
 
     def font_overlay_set(self, text_class, font, size):
-        """font_overlay_set(unicode text_class, unicode font, int size)
-
-        Set a font overlay for a given Elementary text class.
+        """Set a font overlay for a given Elementary text class.
 
         *font* has to be in the format returned by
         :py:func:`efl.elementary.general.font_fontconfig_name_get`.
@@ -695,9 +685,7 @@ cdef class Configuration(object):
             elm_config_selection_unfocused_clear_set(enabled)
 
     def font_overlay_unset(self, text_class):
-        """font_overlay_unset(unicode text_class)
-
-        Unset a font overlay for a given Elementary text class.
+        """Unset a font overlay for a given Elementary text class.
 
         This will bring back text elements belonging to text class
         ``text_class`` back to their default font settings.
@@ -711,9 +699,7 @@ cdef class Configuration(object):
             <const char *>a1 if a1 is not None else NULL)
 
     def font_overlay_apply(self):
-        """font_overlay_apply()
-
-        Apply the changes made with :py:func:`font_overlay_set()` and
+        """Apply the changes made with :py:func:`font_overlay_set()` and
         :py:func:`font_overlay_unset()` on the current Elementary window.
 
         This applies all font overlays set to all objects in the UI.

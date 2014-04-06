@@ -63,9 +63,7 @@ cdef class GengridItem(ObjectItem):
                 self.item_data)
 
     def append_to(self, Gengrid gengrid not None):
-        """item_append(Gengrid gengrid) -> GengridItem
-
-        Append a new item (add as last item) to this gengrid.
+        """Append a new item (add as last item) to this gengrid.
 
         .. versionadded:: 1.8
 
@@ -89,9 +87,7 @@ cdef class GengridItem(ObjectItem):
         return self
 
     def prepend_to(self, Gengrid gengrid not None):
-        """item_prepend(Gengrid gengrid) -> GengridItem
-
-        Prepend a new item (add as first item) to this gengrid.
+        """Prepend a new item (add as first item) to this gengrid.
 
         .. versionadded:: 1.8
 
@@ -114,9 +110,7 @@ cdef class GengridItem(ObjectItem):
         return self
 
     def insert_before(self, GengridItem before not None):
-        """insert_before(GengridItem before not None) -> GengridItem
-
-        Insert a new item before another item in this gengrid.
+        """Insert a new item before another item in this gengrid.
 
         :param before: a reference item to use, the new item
             will be inserted before it.
@@ -143,9 +137,7 @@ cdef class GengridItem(ObjectItem):
         return self
 
     def insert_after(self, GengridItem after not None):
-        """insert_after(GengridItem after not None) -> GengridItem
-
-        Insert a new item after another item in this gengrid.
+        """Insert a new item after another item in this gengrid.
 
         :param after: a reference item to use, the new item
             will be inserted after it.
@@ -172,9 +164,7 @@ cdef class GengridItem(ObjectItem):
         return self
 
     def sorted_insert(self, Gengrid gengrid not None, compare_func not None):
-        """insert_after(GengridItem after not None) -> GengridItem
-
-        Insert a new item after another item in this gengrid.
+        """Insert a new item after another item in this gengrid.
 
         :param after: a reference item to use, the new item
             will be inserted after it.
@@ -242,9 +232,7 @@ cdef class GengridItem(ObjectItem):
         return elm_gengrid_item_index_get(self.item)
 
     def update(self):
-        """update()
-
-        This updates an item by calling all the item class functions
+        """This updates an item by calling all the item class functions
         again to get the contents, texts and states. Use this when the
         original item data has changed and you want the changes to be
         reflected.
@@ -271,9 +259,7 @@ cdef class GengridItem(ObjectItem):
         return bool(elm_gengrid_item_selected_get(self.item))
 
     def show(self, scrollto_type = ELM_GENLIST_ITEM_SCROLLTO_IN):
-        """show(int scrollto_type = ELM_GENLIST_ITEM_SCROLLTO_IN)
-
-        This causes gengrid to **redraw** its viewport's contents to the
+        """This causes gengrid to **redraw** its viewport's contents to the
         region containing the given ``item``, if it is not fully
         visible.
 
@@ -285,9 +271,7 @@ cdef class GengridItem(ObjectItem):
         elm_gengrid_item_show(self.item, scrollto_type)
 
     def bring_in(self, scrollto_type = ELM_GENLIST_ITEM_SCROLLTO_IN):
-        """bring_in(int scrollto_type = ELM_GENLIST_ITEM_SCROLLTO_IN)
-
-        This causes gengrid to jump to the item and show
+        """This causes gengrid to jump to the item and show
         it (by scrolling), if it is not fully visible. This will use
         animation to do so and take a period of time to complete.
 
@@ -331,9 +315,7 @@ cdef class GengridItem(ObjectItem):
             <const char *>text if text is not None else NULL)
 
     def tooltip_content_cb_set(self, func, *args, **kargs):
-        """tooltip_content_cb_set(func, *args, **kargs)
-
-        Set the content to be shown in the tooltip object
+        """Set the content to be shown in the tooltip object
 
         Setup the tooltip to object. The object can have only one tooltip,
         so any previews tooltip data is removed. ``func(args, kargs)`` will
@@ -361,13 +343,10 @@ cdef class GengridItem(ObjectItem):
 
     @DEPRECATED("1.8", "Use tooltip_unset() instead")
     def item_tooltip_unset(self):
-        """item_tooltip_unset()"""
         elm_gengrid_item_tooltip_unset(self.item)
 
     def tooltip_unset(self):
-        """item_tooltip_unset()
-
-        Unset tooltip from object
+        """Unset tooltip from object
 
         Remove tooltip from object. If used the :py:func:`tooltip_text_set`
         the internal copy of label will be removed correctly. If used

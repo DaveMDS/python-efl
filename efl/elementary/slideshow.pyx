@@ -263,9 +263,7 @@ cdef class SlideshowItem(ObjectItem):
                 self.args)
 
     def add_to(self, Slideshow slideshow not None):
-        """add_to(Slideshow slideshow) -> SlideshowItem
-
-        Add (append) a new item in a given slideshow widget.
+        """Add (append) a new item in a given slideshow widget.
 
         Add a new item to ``obj's`` internal list of items, appending it.
         The item's class must contain the function really fetching the
@@ -298,9 +296,7 @@ cdef class SlideshowItem(ObjectItem):
         return self
 
     def sorted_insert(self, Slideshow slideshow not None, func not None):
-        """sorted_insert(Slideshow slideshow, func) -> SlideshowItem
-
-        Insert a new item into the given slideshow widget, using the ``func``
+        """Insert a new item into the given slideshow widget, using the ``func``
         function to sort items (by item handles).
 
         Add a new item to ``obj``'s internal list of items, in a position
@@ -365,9 +361,7 @@ cdef class SlideshowItem(ObjectItem):
             return object_from_instance(elm_slideshow_item_object_get(self.item))
 
     def show(self):
-        """show()
-
-        Display a given slideshow widget's item, programmatically.
+        """Display a given slideshow widget's item, programmatically.
 
         The change between the current item and this item will use the
         transition the slideshow object is set to use.
@@ -386,9 +380,7 @@ cdef class Slideshow(LayoutClass):
         self._set_properties_from_keyword_args(kwargs)
 
     def item_add(self, SlideshowItemClass item_class not None, *args, **kwargs):
-        """item_add(SlideshowItemClass item_class, *args, **kwargs) -> SlideshowItem
-
-        Add (append) a new item in a given slideshow widget.
+        """Add (append) a new item in a given slideshow widget.
 
         Add a new item to ``obj's`` internal list of items, appending it.
         The item's class must contain the function really fetching the
@@ -413,9 +405,7 @@ cdef class Slideshow(LayoutClass):
 
     def item_sorted_insert(self, SlideshowItemClass item_class not None,
                             func not None, *args, **kwargs):
-        """item_sorted_insert(SlideshowItemClass item_class, func, *args, **kwargs) -> SlideshowItem
-
-        Insert a new item into the given slideshow widget, using the ``func``
+        """Insert a new item into the given slideshow widget, using the ``func``
         function to sort items (by item handles).
 
         Add a new item to ``obj``'s internal list of items, in a position
@@ -443,9 +433,7 @@ cdef class Slideshow(LayoutClass):
         return SlideshowItem(item_class, *args, **kwargs).sorted_insert(self, func)
 
     def next(self):
-        """next()
-
-        Slide to the **next** item, in a given slideshow widget
+        """Slide to the **next** item, in a given slideshow widget
 
         The sliding animation the object is set to use will be the
         transition effect used, after this call is issued.
@@ -457,9 +445,7 @@ cdef class Slideshow(LayoutClass):
         elm_slideshow_next(self.obj)
 
     def previous(self):
-        """previous()
-
-        Slide to the **previous** item, in a given slideshow widget
+        """Slide to the **previous** item, in a given slideshow widget
 
         The sliding animation the object is set to use will be the
         transition effect used, after this call is issued.
@@ -558,9 +544,7 @@ cdef class Slideshow(LayoutClass):
             return bool(elm_slideshow_loop_get(self.obj))
 
     def clear(self):
-        """clear()
-
-        Remove all items from a given slideshow widget.
+        """Remove all items from a given slideshow widget.
 
         This removes (and deletes) all items in the object, leaving it empty.
 
@@ -602,9 +586,7 @@ cdef class Slideshow(LayoutClass):
             return _object_item_to_python(elm_slideshow_item_current_get(self.obj))
 
     def nth_item_get(self, nth):
-        """nth_item_get(int nth) -> SlideshowItem
-
-        Get the the item, in a given slideshow widget, placed at position
+        """Get the the item, in a given slideshow widget, placed at position
         ``nth`` in its internal items list.
 
         :param nth: The number of the item to grab a handle to (0 being the

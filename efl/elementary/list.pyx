@@ -249,9 +249,7 @@ cdef class ListItem(ObjectItem):
         self.args, self.kwargs)
 
     def append_to(self, List list):
-        """append_to(List list)
-
-        Append a new item to the list object.
+        """Append a new item to the list object.
 
         A new item will be created and appended to the list, i.e., will
         be set as **last** item.
@@ -302,9 +300,7 @@ cdef class ListItem(ObjectItem):
         return self
 
     def prepend_to(self, List list):
-        """prepend_to(List list)
-
-        Prepend a new item to the list object.
+        """Prepend a new item to the list object.
 
         .. seealso::
             :py:meth:`append_to`
@@ -338,9 +334,7 @@ cdef class ListItem(ObjectItem):
         return self
 
     def insert_before(self, ListItem before):
-        """insert_before(ListItem before)
-
-        Insert a new item into the list object before item *before*.
+        """Insert a new item into the list object before item *before*.
 
         .. seealso::
             :py:meth:`append_to`
@@ -376,9 +370,7 @@ cdef class ListItem(ObjectItem):
         return self
 
     def insert_after(self, ListItem after):
-        """insert_after(ListItem after)
-
-        Insert a new item into the list object after item *after*.
+        """Insert a new item into the list object after item *after*.
 
         .. seealso::
             :py:meth:`append_to`
@@ -509,9 +501,7 @@ cdef class ListItem(ObjectItem):
         return bool(elm_list_item_separator_get(self.item))
 
     def show(self):
-        """show()
-
-        Show the item in the list view.
+        """Show the item in the list view.
 
         It won't animate list until item is visible. If such behavior is
         wanted, use :py:meth:`bring_in` instead.
@@ -520,9 +510,7 @@ cdef class ListItem(ObjectItem):
         elm_list_item_show(self.item)
 
     def bring_in(self):
-        """bring_in()
-
-        Bring in the given item to list view.
+        """Bring in the given item to list view.
 
         This causes list to jump to the given item and show it
         (by scrolling), if it is not fully visible.
@@ -601,9 +589,7 @@ cdef class List(Object):
         self._set_properties_from_keyword_args(kwargs)
 
     def go(self):
-        """go()
-
-        Starts the list.
+        """Starts the list.
 
         Example::
 
@@ -820,9 +806,7 @@ cdef class List(Object):
             return None
 
     def clear(self):
-        """clear()
-
-        Remove all list's items.
+        """Remove all list's items.
 
         .. seealso::
             :py:meth:`~efl.elementary.object_item.ObjectItem.delete`

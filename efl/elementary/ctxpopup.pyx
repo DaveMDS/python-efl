@@ -143,9 +143,7 @@ cdef class CtxpopupItem(ObjectItem):
         self.kwargs = kargs
 
     def append_to(self, evasObject ctxpopup):
-        """append_to(Object ctxpopup) -> CtxpopupItem
-
-        Add a new item to a ctxpopup object.
+        """Add a new item to a ctxpopup object.
 
         .. warning:: Ctxpopup can't hold both an item list and a content at the
             same time. When an item is added, any previous content will be
@@ -230,9 +228,7 @@ cdef class Ctxpopup(LayoutClass):
 
     def item_append(self, label, evasObject icon = None, func = None,
         *args, **kwargs):
-        """item_append(unicode label, evas.Object icon, func, *args, **kwargs) -> CtxpopupItem
-
-        A constructor for a :py:class:`CtxpopupItem`.
+        """A constructor for a :py:class:`CtxpopupItem`.
 
         :see: :py:func:`CtxpopupItem.append_to`
 
@@ -302,9 +298,7 @@ cdef class Ctxpopup(LayoutClass):
         return elm_ctxpopup_direction_get(self.obj)
 
     def dismiss(self):
-        """dismiss()
-
-        Dismiss a ctxpopup object
+        """Dismiss a ctxpopup object
 
         Use this function to simulate clicking outside the ctxpopup to
         dismiss it. In this way, the ctxpopup will be hidden and the

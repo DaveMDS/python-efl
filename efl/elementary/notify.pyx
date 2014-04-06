@@ -215,11 +215,9 @@ cdef class Notify(Object):
 
     @DEPRECATED("1.8", "Use align instead.")
     def orient_set(self, int orient):
-        """orient_set(int orient)"""
         elm_notify_orient_set(self.obj, orient)
     @DEPRECATED("1.8", "Use align instead.")
     def orient_get(self):
-        """orient_get() -> int"""
         return elm_notify_orient_get(self.obj)
 
 

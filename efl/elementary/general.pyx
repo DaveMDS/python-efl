@@ -179,9 +179,7 @@ elm_log = add_logger("efl.elementary")
 cdef int PY_EFL_ELM_LOG_DOMAIN = elm_log.eina_log_domain
 
 def init():
-    """init() -> int
-
-    Initialize Elementary
+    """Initialize Elementary
 
     :return int: The init counter value.
 
@@ -211,9 +209,7 @@ def init():
     return elm_init(argc, argv)
 
 def shutdown():
-    """shutdown() -> int
-
-    Shut down Elementary
+    """Shut down Elementary
 
     :return int: The init counter value.
 
@@ -233,9 +229,7 @@ def shutdown():
     return elm_shutdown()
 
 def run():
-    """run()
-
-    Run Elementary's main loop
+    """Run Elementary's main loop
 
     This call should be issued just after all initialization is completed. This
     function will not return until exit() is called. It will keep looping,
@@ -248,8 +242,7 @@ def run():
         elm_run()
 
 def exit():
-    """exit()
-    Ask to exit Elementary's main loop
+    """Ask to exit Elementary's main loop
 
     If this call is issued, it will flag the main loop to cease processing and
     return back to its parent function (usually your elm_main() function). This
@@ -269,9 +262,7 @@ def exit():
     elm_exit()
 
 def policy_set(Elm_Policy policy, value):
-    """policy_set(Elm_Policy policy, value) -> bool
-
-    Set new policy value.
+    """Set new policy value.
 
     This will emit the ecore event ELM_EVENT_POLICY_CHANGED in the main
     loop giving the event information Elm_Event_Policy_Changed with
@@ -293,9 +284,7 @@ def policy_set(Elm_Policy policy, value):
     return bool(elm_policy_set(policy, value))
 
 def policy_get(Elm_Policy policy):
-    """policy_get(Elm_Policy policy) -> value
-
-    Gets the policy value set for given identifier.
+    """Gets the policy value set for given identifier.
 
     :param policy: policy identifier as in Elm_Policy.
     :type policy: :ref:`Elm_Policy`
@@ -307,9 +296,7 @@ def policy_get(Elm_Policy policy):
     return elm_policy_get(policy)
 
 def coords_finger_size_adjust(int times_w, int w, int times_h, int h):
-    """coords_finger_size_adjust(int times_w, int w, int times_h, int h) -> tuple
-
-    Adjust size of an element for finger usage.
+    """Adjust size of an element for finger usage.
 
     :param times_w: How many fingers should fit horizontally
     :type times_w: int
@@ -340,9 +327,7 @@ def coords_finger_size_adjust(int times_w, int w, int times_h, int h):
     return (width, height)
 
 def language_set(lang not None):
-    """language_set(unicode lang)
-
-    Change the language of the current application
+    """Change the language of the current application
 
     The ``lang`` passed must be the full name of the locale to use, for
     example ``en_US.utf8`` or ``es_ES@euro``.
@@ -362,9 +347,7 @@ def language_set(lang not None):
     elm_language_set(<const char *>lang)
 
 def cache_all_flush():
-    """cache_all_flush()
-
-    Frees all data that was in cache and is not currently being used to reduce
+    """Frees all data that was in cache and is not currently being used to reduce
     memory usage. This frees Edje's, Evas' and Eet's cache.
 
     .. note:: Evas caches are flushed for every canvas associated with a window.
@@ -375,9 +358,7 @@ def cache_all_flush():
     elm_cache_all_flush()
 
 def font_properties_get(font not None):
-    """font_properties_get(unicode font) -> FontProperties
-
-    Translate a font (family) name string in fontconfig's font names
+    """Translate a font (family) name string in fontconfig's font names
     syntax into a FontProperties object.
 
     :param font: The font name and styles string
@@ -408,9 +389,7 @@ def font_properties_free(FontProperties fp):
     Py_DECREF(fp)
 
 def font_fontconfig_name_get(font_name, style = None):
-    """font_fontconfig_name_get(unicode font_name, unicode style = None) -> unicode
-
-    Translate a font name, bound to a style, into fontconfig's font names
+    """Translate a font name, bound to a style, into fontconfig's font names
     syntax.
 
     :param font_name: The font (family) name
@@ -465,9 +444,7 @@ def font_fontconfig_name_get(font_name, style = None):
 #     elm_font_available_hash_del(Eina_Hash *hash)
 
 def object_tree_dump(evasObject top):
-    """object_tree_dump(Object top)
-
-    Print Tree object hierarchy in stdout
+    """Print Tree object hierarchy in stdout
 
     :param top: The root object
 
@@ -477,9 +454,7 @@ def object_tree_dump(evasObject top):
     elm_object_tree_dump(top.obj)
 
 def object_tree_dot_dump(evasObject top, path):
-    """object_tree_dot_dump(Object top, unicode path)
-
-    Print Elm Objects tree hierarchy in file as dot(graphviz) syntax.
+    """Print Elm Objects tree hierarchy in file as dot(graphviz) syntax.
 
     :param top: The root object
     :param path: The path of output file

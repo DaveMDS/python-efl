@@ -105,9 +105,7 @@ cdef class Frame(LayoutClass):
         return elm_frame_collapse_get(self.obj)
 
     def collapse_go(self, collapse):
-        """collapse_go(bool collapse)
-
-        Manually collapse a frame with animations
+        """Manually collapse a frame with animations
 
         Use this to toggle the collapsed state of a frame, triggering
         animations.

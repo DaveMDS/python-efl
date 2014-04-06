@@ -29,11 +29,7 @@ cdef class Genlist(Object):
         return 0
 
     def clear(self):
-        """clear()
-
-        Remove all items from a given genlist widget.
-
-        """
+        """Remove all items from a given genlist widget."""
         elm_genlist_clear(self.obj)
 
     property multi_select:
@@ -98,9 +94,7 @@ cdef class Genlist(Object):
                     GenlistItem parent_item=None,
                     int flags=ELM_GENLIST_ITEM_NONE,
                     func=None):
-        """item_append(item_class not None, item_data, parent_item=None, flags=ELM_GENLIST_ITEM_NONE, func=None) -> GenlistItem
-
-        Append a new item (add as last row) to this genlist.
+        """Append a new item (add as last row) to this genlist.
 
         :param item_class: a valid instance that defines the
             behavior of this row. See :py:class:`GenlistItemClass`.
@@ -138,9 +132,7 @@ cdef class Genlist(Object):
                         GenlistItem parent_item=None,
                         int flags=ELM_GENLIST_ITEM_NONE,
                         func=None):
-        """item_prepend(item_class not None, item_data, parent_item=None, flags=ELM_GENLIST_ITEM_NONE, func=None) -> GenlistItem
-
-        Prepend a new item (add as first row) to this genlist.
+        """Prepend a new item (add as first row) to this genlist.
 
         :param item_class: a valid instance that defines the
             behavior of this row. See :py:class:`GenlistItemClass`.
@@ -179,9 +171,7 @@ cdef class Genlist(Object):
                             int flags=ELM_GENLIST_ITEM_NONE,
                             func=None
                             ):
-        """item_insert_before(item_class not None, item_data, before_item=None, flags=ELM_GENLIST_ITEM_NONE, func=None) -> GenlistItem
-
-        Insert a new item before another item to this genlist.
+        """Insert a new item before another item to this genlist.
 
         :param item_class: a valid instance that defines the
             behavior of this row. See :py:class:`GenlistItemClass`.
@@ -217,9 +207,7 @@ cdef class Genlist(Object):
                             int flags=ELM_GENLIST_ITEM_NONE,
                             func=None
                             ):
-        """item_insert_after(item_class not None, item_data, after_item=None, flags=ELM_GENLIST_ITEM_NONE, func=None) -> GenlistItem
-
-        Insert a new item after another item to this genlist.
+        """Insert a new item after another item to this genlist.
 
         :param item_class: a valid instance that defines the
             behavior of this row. See :py:class:`GenlistItemClass`.
@@ -257,9 +245,7 @@ cdef class Genlist(Object):
                             func=None
                             #API XXX: *args, **kwargs
                             ):
-        """item_sorted_insert(item_class not None, item_data, comparison_func not None, parent_item=None, flags=ELM_GENLIST_ITEM_NONE, func=None) -> GenlistItem
-
-        This inserts a new item in the genlist based on a user defined
+        """This inserts a new item in the genlist based on a user defined
         comparison function.
 
         :param item_class: a valid instance that defines the
@@ -389,9 +375,7 @@ cdef class Genlist(Object):
 
 
     def realized_items_update(self):
-        """realized_items_update()
-
-        This updates all realized items by calling all the item class
+        """This updates all realized items by calling all the item class
         functions again to get the contents, texts and states. Use this when
         the original item data has changed and the changes are desired to be
         reflected.
@@ -487,9 +471,7 @@ cdef class Genlist(Object):
         return elm_genlist_longpress_timeout_get(self.obj)
 
     def at_xy_item_get(self, int x, int y):
-        """at_xy_item_get(int x, int y) -> GenlistItem
-
-        Get the item that is at the x, y canvas coords.
+        """Get the item that is at the x, y canvas coords.
 
         :param x: The input x coordinate
         :param y: The input y coordinate

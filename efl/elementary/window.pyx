@@ -436,9 +436,7 @@ cdef class Window(Object):
         self._set_properties_from_keyword_args(kwargs)
 
     def resize_object_add(self, evasObject subobj):
-        """resize_object_add(evas.Object subobj)
-
-        Add ``subobj`` as a resize object of the window.
+        """Add ``subobj`` as a resize object of the window.
 
         Setting an object as a resize object of the window means that the
         ``subobj`` child's size and position will be controlled by the window
@@ -467,9 +465,7 @@ cdef class Window(Object):
         elm_win_resize_object_add(self.obj, subobj.obj)
 
     def resize_object_del(self, evasObject subobj):
-        """resize_object_del(evas.Object subobj)
-
-        Delete ``subobj`` as a resize object of the window.
+        """Delete ``subobj`` as a resize object of the window.
 
         This function removes the object ``subobj`` from the resize objects of
         the window. It will not delete the object itself, which will be
@@ -615,9 +611,7 @@ cdef class Window(Object):
         elm_win_activate(self.obj)
 
     def lower(self):
-        """lower()
-
-        Lower a window object.
+        """Lower a window object.
 
         Places the window at the bottom of the stack, so that no other
         window is covered by it.
@@ -629,9 +623,7 @@ cdef class Window(Object):
         elm_win_lower(self.obj)
 
     def _raise(self):
-        """_raise()
-
-        Raise a window object.
+        """Raise a window object.
 
         Places the window at the top of the stack, so that it's not covered
         by any other window.
@@ -643,9 +635,7 @@ cdef class Window(Object):
         elm_win_raise(self.obj)
 
     def center(self, h, v):
-        """center(bool h, bool v)
-
-        Center a window on its screen
+        """Center a window on its screen
 
         This function centers window horizontally and/or vertically
         based on the values of ``h`` and ``v``.
@@ -1050,9 +1040,7 @@ cdef class Window(Object):
         return elm_win_layer_get(self.obj)
 
     def norender_push(self):
-        """norender_push()
-
-        This pushes (incriments) the norender counter on the window
+        """This pushes (incriments) the norender counter on the window
 
         There are some occasions where you wish to suspend rendering on a window.
         You may be "sleeping" and have nothing to update and do not want animations
@@ -1078,8 +1066,7 @@ cdef class Window(Object):
         elm_win_norender_push(self.obj)
 
     def norender_pop(self):
-        """norender_pop()
-        This pops (decrements) the norender counter on the window
+        """This pops (decrements) the norender counter on the window
 
         Once norender has gone back to 0, then automatic rendering will continue
         in the given window. If it is already at 0, this will have no effect.
@@ -1114,9 +1101,7 @@ cdef class Window(Object):
         return elm_win_norender_get(self.obj)
 
     def render(self):
-        """render()
-
-        This manually asks evas to render the window now
+        """This manually asks evas to render the window now
 
         You should NEVER call this unless you really know what you are doing and
         why. Never call this unless you are asking for performance degredation
@@ -1295,9 +1280,7 @@ cdef class Window(Object):
         elm_win_prop_focus_skip_set(self.obj, skip)
 
     def illume_command_send(self, command, *args, **kwargs):
-        """illume_command_send(command, *args, **kwargs)
-
-        Send a command to the windowing environment
+        """Send a command to the windowing environment
 
         This is intended to work in touchscreen or small screen device
         environments where there is a more simplistic window management
@@ -1537,9 +1520,7 @@ cdef class Window(Object):
         return (x, y)
 
     def socket_listen(self, svcname, int svcnum, bint svcsys):
-        """socket_listen(unicode svcname, int svcnum, bool svcsys)
-
-        Create a socket to provide the service for Plug widget
+        """Create a socket to provide the service for Plug widget
 
         :param svcname: The name of the service to be advertised. ensure
             that it is unique.
@@ -1654,9 +1635,7 @@ cdef class Window(Object):
         elm_win_wm_rotation_manual_rotation_done_set(self.obj, manual)
 
     def wm_rotation_manual_rotation_done(self):
-        """wm_rotation_manual_rotation_done()
-
-        This function is used to notify the rotation done to WM manually.
+        """This function is used to notify the rotation done to WM manually.
 
         .. versionadded:: 1.9
 

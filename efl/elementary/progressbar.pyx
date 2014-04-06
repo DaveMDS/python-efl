@@ -151,9 +151,7 @@ cdef class Progressbar(LayoutClass):
         return elm_progressbar_value_get(self.obj)
 
     def part_value_get(self, part not None):
-        """part_value_get(part) -> int
-
-        Get the progress status (in percentage) for the given part.
+        """Get the progress status (in percentage) for the given part.
 
         This can be used with a progressbar of style: "recording". The recording
         style have two different part that can represent two different progress
@@ -167,9 +165,7 @@ cdef class Progressbar(LayoutClass):
         return elm_progressbar_part_value_get(self.obj, <const char *>part)
 
     def part_value_set(self, part not None, double value):
-        """part_value_set(part, int value)
-
-        Set the progress status (in percentage) for the given part.
+        """Set the progress status (in percentage) for the given part.
 
         :see: :py:func:`part_value_get` for more info.
 

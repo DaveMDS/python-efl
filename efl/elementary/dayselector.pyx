@@ -134,9 +134,7 @@ cdef class Dayselector(LayoutClass):
         self._set_properties_from_keyword_args(kwargs)
 
     def day_selected_set(self, day, selected):
-        """day_selected_set(int day, bool selected)
-
-        Set the state of given Dayselector_Day.
+        """Set the state of given Dayselector_Day.
 
         :param day: The day that the user want to set state.
         :type day: :ref:`Elm_Dayselector_Day`
@@ -147,9 +145,7 @@ cdef class Dayselector(LayoutClass):
         elm_dayselector_day_selected_set(self.obj, day, selected)
 
     def day_selected_get(self, day):
-        """day_selected_get(int day) -> bool
-
-        Get the state of given Dayselector_Day.
+        """Get the state of given Dayselector_Day.
 
         :param day: The day that the user want to know state.
         :type day: :ref:`Elm_Dayselector_Day`

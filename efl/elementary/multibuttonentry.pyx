@@ -437,9 +437,7 @@ cdef class MultiButtonEntry(Object):
         return bool(elm_multibuttonentry_editable_get(self.obj))
 
     def format_function_set(self, func, *args, **kwargs):
-        """format_function_set(func, *args, **kwargs)
-
-        Set a function to format the string that will be used to display
+        """Set a function to format the string that will be used to display
         the hidden items counter.
 
         :param func: The actual format function.

@@ -216,9 +216,7 @@ cdef class Thumb(Object):
         self._set_properties_from_keyword_args(kwargs)
 
     def reload(self):
-        """reload()
-
-        Reload thumbnail if it was generated before.
+        """Reload thumbnail if it was generated before.
 
         This is useful if the ethumb client configuration changed, like its
         size, aspect or any other property one set in the handle returned

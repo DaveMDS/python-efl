@@ -561,9 +561,7 @@ cdef class Datetime(Object):
                 raise RuntimeError
 
     def field_visible_get(self, fieldtype):
-        """field_visible_get(int fieldtype) -> bool
-
-        Whether a field can be visible/not
+        """Whether a field can be visible/not
 
         .. seealso:: :py:meth:`field_visible_set`
 
@@ -576,9 +574,7 @@ cdef class Datetime(Object):
         return bool(elm_datetime_field_visible_get(self.obj, fieldtype))
 
     def field_visible_set(self, fieldtype, visible):
-        """field_visible_set(int fieldtype, bool visible)
-
-        Set a field to be visible or not.
+        """Set a field to be visible or not.
 
         Setting this API True does not ensure that the field is visible,
         apart from this, the field's format must be present in Datetime

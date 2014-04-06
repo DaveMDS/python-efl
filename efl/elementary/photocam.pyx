@@ -294,9 +294,7 @@ cdef class Photocam(Object):
         return (x, y, w, h)
 
     def image_region_show(self, int x, int y, int w, int h):
-        """image_region_show(int x, int y, int w, int h)
-
-        Set the viewed region of the image
+        """Set the viewed region of the image
 
         This shows the region of the image without using animation.
 
@@ -313,9 +311,7 @@ cdef class Photocam(Object):
         elm_photocam_image_region_show(self.obj, x, y, w, h)
 
     def image_region_bring_in(self, int x, int y, int w, int h):
-        """image_region_bring_in(int x, int y, int w, int h)
-
-        Bring in the viewed portion of the image
+        """Bring in the viewed portion of the image
 
         This shows the region of the image using animation.
 

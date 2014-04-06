@@ -297,9 +297,7 @@ cdef class ToolbarItem(ObjectItem):
         self.kwargs = kwargs
 
     def append_to(self, Toolbar toolbar):
-        """append_to(Toolbar toolbar) -> ToolbarItem
-
-        Append item to the toolbar.
+        """Append item to the toolbar.
 
         A new item will be created and appended to the toolbar, i.e., will
         be set as **last** item.
@@ -866,9 +864,7 @@ cdef class Toolbar(LayoutClass):
         return _object_item_to_python(elm_toolbar_last_item_get(self.obj))
 
     def item_find_by_label(self, label):
-        """item_find_by_label(unicode label) -> ToolbarItem
-
-        Returns a toolbar item by its label.
+        """Returns a toolbar item by its label.
 
         :param label: The label of the item to find.
         :type label: string
@@ -1045,9 +1041,7 @@ cdef class Toolbar(LayoutClass):
         return elm_toolbar_horizontal_get(self.obj)
 
     def items_count(self):
-        """items_count()
-
-        Get the number of items in a toolbar
+        """Get the number of items in a toolbar
 
         :return: The number of items in toolbar
         :rtype: int

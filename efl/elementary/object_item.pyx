@@ -162,12 +162,10 @@ cdef class ObjectItem(object):
 
     @DEPRECATED("1.8", "Use the data attribute (dict) instead.")
     def data_get(self):
-        """data_get() -> tuple"""
         return (self.args, self.kwargs)
 
     @DEPRECATED("1.8", "Use the data attribute (dict) instead.")
     def data_set(self, *args, **kwargs):
-        """data_set(self, *args **kwargs)"""
         self.args = args
         self.kwargs = kwargs
 
@@ -187,9 +185,7 @@ cdef class ObjectItem(object):
         return object_from_instance(elm_object_item_widget_get(self.item))
 
     def part_content_set(self, part, Object content not None):
-        """part_content_set(unicode part, Object content)
-
-        Set a content of an object item
+        """Set a content of an object item
 
         This sets a new object to an item as a content object. If any object
         was already set as a content object in the same part, previous
@@ -206,9 +202,7 @@ cdef class ObjectItem(object):
             <const char *>part if part is not None else NULL, content.obj)
 
     def part_content_get(self, part):
-        """part_content_get(unicode part) -> Object
-
-        Get a content of an object item
+        """Get a content of an object item
 
         .. note:: Elementary object items may have many contents
 
@@ -223,9 +217,7 @@ cdef class ObjectItem(object):
             <const char *>part if part is not None else NULL))
 
     def part_content_unset(self, part):
-        """part_content_unset(unicode part)
-
-        Unset a content of an object item
+        """Unset a content of an object item
 
         .. note:: Elementary object items may have many contents
 
@@ -256,9 +248,7 @@ cdef class ObjectItem(object):
         return object_from_instance(elm_object_item_content_unset(self.item))
 
     def part_text_set(self, part, text):
-        """part_text_set(unicode part, unicode text)
-
-        Sets the text of a given part of this object.
+        """Sets the text of a given part of this object.
 
         .. seealso:: :py:attr:`text` and :py:func:`part_text_get()`
 
@@ -273,9 +263,7 @@ cdef class ObjectItem(object):
             <const char *>text if text is not None else NULL)
 
     def part_text_get(self, part):
-        """part_text_set(unicode part) -> unicode text
-
-        Gets the text of a given part of this object.
+        """Gets the text of a given part of this object.
 
         .. seealso:: text_get() and :py:func:`part_text_set()`
 
@@ -289,9 +277,7 @@ cdef class ObjectItem(object):
             <const char *>part if part is not None else NULL))
 
     def domain_translatable_part_text_set(self, part = None, domain = None, text = None):
-        """domain_translatable_part_text_set(part = None, domain = None, text = None)
-
-        Set the text for an object item's part, marking it as translatable.
+        """Set the text for an object item's part, marking it as translatable.
 
         The string to set as ``text`` must be the original one. Do not pass the
         return of ``gettext()`` here. Elementary will translate the string
@@ -318,9 +304,7 @@ cdef class ObjectItem(object):
             <const char *>text if text is not None else NULL)
 
     def translatable_part_text_get(self, part = None):
-        """translatable_part_text_get(part = None)
-
-        Gets the original string set as translatable for an object item.
+        """Gets the original string set as translatable for an object item.
 
         When setting translated strings, the function elm_object_item_part_text_get()
         will return the translation returned by ``gettext()``. To get the original
@@ -337,9 +321,7 @@ cdef class ObjectItem(object):
             <const char *>part if part is not None else NULL))
 
     def domain_part_text_translatable_set(self, part not None, domain not None, bint translatable):
-        """domain_part_text_translatable_set(self, part, domain, bool translatable)
-
-        Mark the part text to be translatable or not.
+        """Mark the part text to be translatable or not.
 
         Once you mark the part text to be translatable, the text will be translated
         internally regardless of :py:func:`part_text_set` and
@@ -399,9 +381,7 @@ cdef class ObjectItem(object):
     #         <const char *>txt if txt is not None else NULL)
 
     def signal_emit(self, emission, source):
-        """signal_emit(unicode emission, unicode source)
-
-        Send a signal to the edje object of the widget item.
+        """Send a signal to the edje object of the widget item.
 
         This function sends a signal to the edje object of the obj item. An
         edje program can respond to a signal by specifying matching
@@ -444,20 +424,14 @@ cdef class ObjectItem(object):
         #elm_object_item_del_cb_set(self.item, del_cb)
 
     def delete(self):
-        """delete()
-
-        Delete this ObjectItem.
-
-        """
+        """Delete this ObjectItem."""
         if self.item == NULL:
             raise ValueError("Object already deleted")
         elm_object_item_del(self.item)
         Py_DECREF(self)
 
     def tooltip_text_set(self, text):
-        """tooltip_text_set(unicode text)
-
-        Set the text to be shown in the tooltip object
+        """Set the text to be shown in the tooltip object
 
         Setup the text as tooltip object. The object can have only one
         tooltip, so any previous tooltip data is removed. Internally, this
@@ -484,9 +458,7 @@ cdef class ObjectItem(object):
         return bool(elm_object_item_tooltip_window_mode_get(self.item))
 
     def tooltip_content_cb_set(self, func, *args, **kargs):
-        """tooltip_content_cb_set(func, *args, **kargs)
-
-        Set the content to be shown in the tooltip object
+        """Set the content to be shown in the tooltip object
 
         Setup the tooltip to object. The object can have only one tooltip,
         so any previews tooltip data is removed. ``func(owner, tooltip,
@@ -513,9 +485,7 @@ cdef class ObjectItem(object):
                                           cbdata, _tooltip_item_data_del_cb)
 
     def tooltip_unset(self):
-        """tooltip_unset()
-
-        Unset tooltip from object
+        """Unset tooltip from object
 
         Remove tooltip from object. If used the :py:func:`tooltip_text_set`
         the internal copy of label will be removed correctly. If used

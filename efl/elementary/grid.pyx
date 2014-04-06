@@ -76,9 +76,7 @@ cdef class Grid(Object):
         return (w, h)
 
     def pack(self, evasObject subobj, x, y, w, h):
-        """pack(evas.Object subobj, int x, int y, int w, int h)
-
-        Pack child at given position and size
+        """Pack child at given position and size
 
         :param subobj: The child to pack
         :type subobj: :py:class:`~efl.evas.Object`
@@ -95,9 +93,7 @@ cdef class Grid(Object):
         elm_grid_pack(self.obj, subobj.obj, x, y, w, h)
 
     def unpack(self, evasObject subobj):
-        """unpack(evas.Object subobj)
-
-        Unpack a child from a grid object
+        """Unpack a child from a grid object
 
         :param subobj: The child to unpack
         :type subobj: :py:class:`~efl.evas.Object`
@@ -106,9 +102,7 @@ cdef class Grid(Object):
         elm_grid_unpack(self.obj, subobj.obj)
 
     def clear(self, clear):
-        """clear(bool clear)
-
-        Faster way to remove all child objects from a grid object.
+        """Faster way to remove all child objects from a grid object.
 
         :param clear: If True, will also delete the just removed children
         :type clear: bool
@@ -129,9 +123,7 @@ cdef class Grid(Object):
         return eina_list_objects_to_python_list(elm_grid_children_get(self.obj))
 
 def grid_pack_set(evasObject subobj, x, y, w, h):
-    """grid_pack_set(evas.Object subobj, int x, int y, int w, int h)
-
-    Set packing of an existing child at to position and size
+    """Set packing of an existing child at to position and size
 
     :param subobj: The child to set packing of
     :type subobj: :py:class:`~efl.evas.Object`
@@ -148,9 +140,7 @@ def grid_pack_set(evasObject subobj, x, y, w, h):
     elm_grid_pack_set(subobj.obj, x, y, w, h)
 
 def grid_pack_get(evasObject subobj):
-    """grid_pack_get(evas.Object subobj) -> (int x, int y, int w, int h)
-
-    Get packing of a child
+    """Get packing of a child
 
     :param subobj: The child to query
     :type subobj: :py:class:`~efl.evas.Object`

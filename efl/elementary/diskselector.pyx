@@ -151,9 +151,7 @@ cdef class DiskselectorItem(ObjectItem):
         self.kwargs = kargs
 
     def append_to(self, Diskselector diskselector):
-        """append_to(self, Diskselector diskselector) -> DiskselectorItem
-
-        Appends a new item to the diskselector object.
+        """Appends a new item to the diskselector object.
 
         :return: The created item or ``None`` upon failure.
         :rtype: :py:class:`DiskselectorItem`
@@ -319,9 +317,7 @@ cdef class Diskselector(Object):
             return elm_diskselector_display_item_num_get(self.obj)
 
     def clear(self):
-        """clear()
-
-        Remove all diskselector's items.
+        """Remove all diskselector's items.
 
         .. seealso::
             :py:meth:`~efl.elementary.object_item.ObjectItem.delete()`
@@ -346,9 +342,7 @@ cdef class Diskselector(Object):
 
     def item_append(self, label, evasObject icon = None, callback = None,
         *args, **kwargs):
-        """item_append(self, unicode label, evas.Object icon = None, callback = None, *args, **kwargs) -> DiskselectorItem
-
-        A constructor for :py:class:`DiskselectorItem`
+        """A constructor for :py:class:`DiskselectorItem`
 
         :see: :py:func`DiskselectorItem.append_to`
 

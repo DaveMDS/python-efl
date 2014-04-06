@@ -59,9 +59,7 @@ cdef class InnerWindow(LayoutClass):
         self._set_properties_from_keyword_args(kwargs)
 
     def activate(self):
-        """activate()
-
-        Activates an inwin object, ensuring its visibility
+        """Activates an inwin object, ensuring its visibility
 
         This function will make sure that the inwin is completely visible by
         calling :py:meth:`~efl.evas.Object.show` and

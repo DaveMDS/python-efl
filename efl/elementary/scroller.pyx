@@ -185,9 +185,7 @@ cdef class Scrollable(Object):
             <const char *>base if base is not None else NULL)
 
     def content_min_limit(self, w, h):
-        """content_min_limit(bool w, bool h)
-
-        Make the scroller minimum size limited to the minimum size of the
+        """Make the scroller minimum size limited to the minimum size of the
         content
 
         By default the scroller will be as small as its design allows,
@@ -204,9 +202,7 @@ cdef class Scrollable(Object):
         elm_scroller_content_min_limit(self.obj, w, h)
 
     def region_show(self, x, y, w, h):
-        """region_show(int x, int y, int w, int h)
-
-        Show a specific virtual region within the scroller content object
+        """Show a specific virtual region within the scroller content object
 
         This will ensure all (or part if it does not fit) of the designated
         region in the virtual content object (0, 0 starting at the top-left
@@ -519,9 +515,7 @@ cdef class Scrollable(Object):
         return (h_pagenumber, v_pagenumber)
 
     def page_show(self, h_pagenumber, v_pagenumber):
-        """page_show(int h_pagenumber, int v_pagenumber)
-
-        Show a specific virtual region within the scroller content object
+        """Show a specific virtual region within the scroller content object
         by page number.
 
         0, 0 of the indicated page is located at the top-left of the viewport.
@@ -546,9 +540,7 @@ cdef class Scrollable(Object):
         elm_scroller_page_show(self.obj, h_pagenumber, v_pagenumber)
 
     def page_bring_in(self, h_pagenumber, v_pagenumber):
-        """page_show(int h_pagenumber, int v_pagenumber)
-
-        Show a specific virtual region within the scroller content object by page number.
+        """Show a specific virtual region within the scroller content object by page number.
 
         0, 0 of the indicated page is located at the top-left of the viewport.
         This will slide to the page with animation.
@@ -572,9 +564,7 @@ cdef class Scrollable(Object):
         elm_scroller_page_bring_in(self.obj, h_pagenumber, v_pagenumber)
 
     def region_bring_in(self, x, y, w, h):
-        """page_show(int x, int y, int w, int h)
-
-        Show a specific virtual region within the scroller content object.
+        """Show a specific virtual region within the scroller content object.
 
         This will ensure all (or part if it does not fit) of the designated
         region in the virtual content object (0, 0 starting at the top-left of the

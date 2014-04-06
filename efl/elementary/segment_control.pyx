@@ -81,9 +81,7 @@ cdef class SegmentControlItem(ObjectItem):
         self.kwargs = kwargs
 
     def add_to(self, SegmentControl sc not None):
-        """item_add(self, evas.Object icon, unicode label = None) -> SegmentControlItem
-
-        Append a new item to the segment control object.
+        """Append a new item to the segment control object.
 
         A new item will be created and appended to the segment control,
         i.e., will be set as **last** item.
@@ -134,9 +132,7 @@ cdef class SegmentControlItem(ObjectItem):
         return self
 
     def item_insert_at(self, SegmentControl sc not None, index = 0):
-        """item_insert_at(self, evas.Object icon, unicode label = None, int index = 0) -> SegmentControlItem
-
-        Insert a new item to the segment control object at specified position.
+        """Insert a new item to the segment control object at specified position.
 
         Index values must be between ``0``, when item will be prepended to
         segment control, and items count, that can be get with
@@ -232,9 +228,7 @@ cdef class SegmentControl(LayoutClass):
         self._set_properties_from_keyword_args(kwargs)
 
     def item_add(self, evasObject icon = None, label = None):
-        """item_add(self, evas.Object icon, unicode label = None) -> SegmentControlItem
-
-        Append a new item to the segment control object.
+        """Append a new item to the segment control object.
 
         A new item will be created and appended to the segment control,
         i.e., will be set as **last** item.
@@ -282,9 +276,7 @@ cdef class SegmentControl(LayoutClass):
             return None
 
     def item_insert_at(self, evasObject icon = None, label = None, index = 0):
-        """item_insert_at(self, evas.Object icon, unicode label = None, int index = 0) -> SegmentControlItem
-
-        Insert a new item to the segment control object at specified position.
+        """Insert a new item to the segment control object at specified position.
 
         Index values must be between ``0``, when item will be prepended to
         segment control, and items count, that can be get with
@@ -330,9 +322,7 @@ cdef class SegmentControl(LayoutClass):
             return None
 
     def item_del_at(self, index):
-        """item_del_at(int index)
-
-        Remove a segment control item at given index from its parent,
+        """Remove a segment control item at given index from its parent,
         deleting it.
 
         Items can be added with :py:meth:`item_add` or
@@ -356,9 +346,7 @@ cdef class SegmentControl(LayoutClass):
             return elm_segment_control_item_count_get(self.obj)
 
     def item_get(self, index):
-        """item_get(int index) -> SegmentControlItem
-
-        Get the item placed at specified index.
+        """Get the item placed at specified index.
 
         Index is the position of an item in segment control widget. Its
         range is from ``0`` to <tt> count - 1 </tt>.
@@ -374,9 +362,7 @@ cdef class SegmentControl(LayoutClass):
         return _object_item_to_python(elm_segment_control_item_get(self.obj, index))
 
     def item_label_get(self, index):
-        """item_label_get(int index) -> unicode
-
-        Get the label of item.
+        """Get the label of item.
 
         The return value is the label associated to the item when
         it was created, with function :py:meth:`item_add`, or later with
@@ -392,9 +378,7 @@ cdef class SegmentControl(LayoutClass):
         return _ctouni(elm_segment_control_item_label_get(self.obj, index))
 
     def item_icon_get(self, index):
-        """item_icon_get(int index) -> evas.Object
-
-        Get the icon associated to the item.
+        """Get the icon associated to the item.
 
         The return value is the icon associated to the item when it
         was created, with function :py:meth:`item_add`, or later with function

@@ -266,9 +266,7 @@ cdef class CalendarMark(object):
             &time, repeat)
 
     def delete(self):
-        """delete()
-
-        Delete a mark from the calendar.
+        """Delete a mark from the calendar.
 
         If deleting all calendar marks is required, ``del``
         :py:attr:`Calendar.marks` should be used instead of getting marks list
@@ -417,9 +415,7 @@ cdef class Calendar(LayoutClass):
     #         elm_calendar_format_function_set(self.obj, format_func)
 
     def mark_add(self, mark_type, mark_time, Elm_Calendar_Mark_Repeat_Type repeat):
-        """mark_add(mark_type, mark_time, Elm_Calendar_Mark_Repeat_Type repeat) -> CalendarMark
-
-        A constructor for a :py:class:`CalendarMark`.
+        """A constructor for a :py:class:`CalendarMark`.
 
         :param mark_type: A string used to define the type of mark. It will be
             emitted to the theme, that should display a related modification on these
@@ -465,9 +461,7 @@ cdef class Calendar(LayoutClass):
             elm_calendar_marks_clear(self.obj)
 
     def marks_draw(self):
-        """marks_draw()
-
-        Draw calendar marks.
+        """Draw calendar marks.
 
         Should be used after adding, removing or clearing marks.
         It will go through the entire marks list updating the calendar.

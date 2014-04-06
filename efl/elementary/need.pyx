@@ -18,9 +18,7 @@
 from efl.utils.deprecated cimport DEPRECATED
 
 def need_efreet():
-    """need_efreet() -> bool
-
-    Request that your elementary application needs Efreet
+    """Request that your elementary application needs Efreet
 
     This initializes the Efreet library when called and if support exists
     it returns True, otherwise returns False. This must be called
@@ -33,9 +31,7 @@ def need_efreet():
     return bool(elm_need_efreet())
 
 def need_systray():
-    """need_systray() -> bool
-
-    Request that your elementary application needs Elm_Systray
+    """Request that your elementary application needs Elm_Systray
 
     This initializes the Elm_Systray when called and, if support exists,
     returns True, otherwise returns False. This must be called
@@ -50,9 +46,7 @@ def need_systray():
     return bool(elm_need_systray())
 
 def need_sys_notify():
-    """need_sys_notify() -> bool
-
-    Request that your elementary application needs Elm_Sys_Notify
+    """Request that your elementary application needs Elm_Sys_Notify
 
     This initializes the Elm_Sys_Notify when called and if support exists
     it returns True, otherwise returns False. This must be called
@@ -68,9 +62,7 @@ def need_sys_notify():
 
 @DEPRECATED("1.8", "Use :py:func:`need_eldbus` for eldbus (v2) support. Old API is deprecated.")
 def need_e_dbus():
-    """need_e_dbus() -> bool
-
-    Request that your elementary application needs e_dbus
+    """Request that your elementary application needs e_dbus
 
     This initializes the e_dbus library when called and if support exists
     it returns True, otherwise returns False. This must be called
@@ -83,9 +75,7 @@ def need_e_dbus():
     return bool(elm_need_eldbus())
 
 def need_eldbus():
-    """need_eldbus() -> bool
-
-    Request that your elementary application needs eldbus
+    """Request that your elementary application needs eldbus
 
     This initializes the edbus (aka v2) library when called and if
     support exists it returns True, otherwise returns
@@ -100,9 +90,7 @@ def need_eldbus():
     return bool(elm_need_eldbus())
 
 def need_elocation():
-    """need_elocation() -> bool
-
-    Request that your elementary application needs elocation
+    """Request that your elementary application needs elocation
 
     This initializes the elocation library when called and if
     support exists it returns True, otherwise returns
@@ -117,9 +105,7 @@ def need_elocation():
     return bool(elm_need_elocation())
 
 def need_ethumb():
-    """need_ethumb() -> bool
-
-    Request that your elementary application needs ethumb
+    """Request that your elementary application needs ethumb
 
     This initializes the Ethumb library when called and if support exists
     it returns True, otherwise returns False.
@@ -133,9 +119,7 @@ def need_ethumb():
     return bool(elm_need_ethumb())
 
 def need_web():
-    """need_web() -> bool
-
-    Request that your elementary application needs web support
+    """Request that your elementary application needs web support
 
     This initializes the Ewebkit library when called and if support exists
     it returns True, otherwise returns False.

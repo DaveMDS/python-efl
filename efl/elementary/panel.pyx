@@ -133,9 +133,7 @@ cdef class Panel(LayoutClass):
         return elm_panel_hidden_get(self.obj)
 
     def toggle(self):
-        """toggle()
-
-        Toggle the hidden state of the panel from code."""
+        """Toggle the hidden state of the panel from code."""
         elm_panel_toggle(self.obj)
 
     def callback_focused_add(self, func, *args, **kwargs):

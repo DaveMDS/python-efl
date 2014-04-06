@@ -117,9 +117,7 @@ cdef class FlipSelectorItem(ObjectItem):
         self.kwargs = kwargs
 
     def append_to(self, FlipSelector flipselector not None):
-        """append_to(FlipSelector flipselector) -> FlipSelectorItem
-
-        Append a (text) item to a flip selector widget
+        """Append a (text) item to a flip selector widget
 
         :param flipselector: The widget to append this item to
         :type flipselector: :py:class:`FlipSelector`
@@ -146,9 +144,7 @@ cdef class FlipSelectorItem(ObjectItem):
         return self
 
     def prepend_to(self, FlipSelector flipselector not None):
-        """prepend_to(FlipSelector flipselector) -> FlipSelectorItem
-
-        Append a (text) item to a flip selector widget
+        """Append a (text) item to a flip selector widget
 
         :param flipselector: The widget to prepend this item to
         :type flipselector: :py:class:`FlipSelector`
@@ -236,9 +232,7 @@ cdef class FlipSelector(Object):
         self._set_properties_from_keyword_args(kwargs)
 
     def next(self):
-        """next()
-
-        Programmatically select the next item of a flip selector widget
+        """Programmatically select the next item of a flip selector widget
 
         .. note:: The selection will be animated. Also, if it reaches the
             end of its list of member items, it will continue with the first
@@ -248,9 +242,7 @@ cdef class FlipSelector(Object):
         elm_flipselector_flip_next(self.obj)
 
     def prev(self):
-        """prev()
-
-        Programmatically select the previous item of a flip selector
+        """Programmatically select the previous item of a flip selector
         widget
 
         .. note:: The selection will be animated.  Also, if it reaches the
@@ -261,9 +253,7 @@ cdef class FlipSelector(Object):
         elm_flipselector_flip_prev(self.obj)
 
     def item_append(self, label = None, callback = None, *args, **kwargs):
-        """item_append(unicode label = None, callback = None, *args, **kwargs) -> FlipSelectorItem
-
-        A constructor for a :py:class:`FlipSelectorItem`
+        """A constructor for a :py:class:`FlipSelectorItem`
 
         :see: :py:func:`FlipSelectorItem.append_to`
 
@@ -290,9 +280,7 @@ cdef class FlipSelector(Object):
             return None
 
     def item_prepend(self, label = None, callback = None, *args, **kwargs):
-        """item_prepend(unicode label = None, callback = None, *args, **kwargs) -> FlipSelectorItem
-
-        A constructor for a :py:class:`FlipSelectorItem`
+        """A constructor for a :py:class:`FlipSelectorItem`
 
         :see: :py:func:`FlipSelectorItem.prepend_to`
 

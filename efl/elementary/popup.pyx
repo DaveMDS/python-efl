@@ -283,9 +283,7 @@ cdef class Popup(LayoutClass):
         self._set_properties_from_keyword_args(kwargs)
 
     def item_append(self, label, evasObject icon, func = None, *args, **kwargs):
-        """item_append(unicode label, evas.Object icon, func = None, *args, **kwargs) -> PopupItem
-
-        Add a new item to a Popup object
+        """Add a new item to a Popup object
 
         Both an item list and a content cannot be set at the same time!
         Once you add an item, the previous content will be removed.
