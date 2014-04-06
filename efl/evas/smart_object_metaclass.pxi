@@ -26,6 +26,8 @@ cdef uintptr_t _smart_object_class_new(name) except 0:
     if cls_def == NULL:
         return 0
 
+    if isinstance(name, unicode): name = PyUnicode_AsUTF8String(name)
+
     #_smart_classes.append(<uintptr_t>cls_def)
     cls_def.name = name
     cls_def.version = EVAS_SMART_CLASS_VERSION

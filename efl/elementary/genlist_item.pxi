@@ -392,6 +392,7 @@ cdef class GenlistItem(ObjectItem):
         Internally, this method calls :py:func:`tooltip_content_cb_set`
 
         """
+        if isinstance(text, unicode): text = PyUnicode_AsUTF8String(text)
         elm_genlist_item_tooltip_text_set(self.item,
             <const char *>text if text is not None else NULL)
 
@@ -447,6 +448,7 @@ cdef class GenlistItem(ObjectItem):
 
         """
         def __set__(self, style):
+            if isinstance(style, unicode): style = PyUnicode_AsUTF8String(style)
             elm_genlist_item_tooltip_style_set(self.item,
                 <const char *>style if style is not None else NULL)
 
@@ -454,6 +456,7 @@ cdef class GenlistItem(ObjectItem):
             return _ctouni(elm_genlist_item_tooltip_style_get(self.item))
 
     def tooltip_style_set(self, style=None):
+        if isinstance(style, unicode): style = PyUnicode_AsUTF8String(style)
         elm_genlist_item_tooltip_style_set(self.item,
             <const char *>style if style is not None else NULL)
     def tooltip_style_get(self):
@@ -490,6 +493,7 @@ cdef class GenlistItem(ObjectItem):
 
         """
         def __set__(self, cursor):
+            if isinstance(cursor, unicode): cursor = PyUnicode_AsUTF8String(cursor)
             elm_genlist_item_cursor_set(self.item,
                 <const char *>cursor if cursor is not None else NULL)
 
@@ -500,6 +504,7 @@ cdef class GenlistItem(ObjectItem):
             elm_genlist_item_cursor_unset(self.item)
 
     def cursor_set(self, cursor):
+        if isinstance(cursor, unicode): cursor = PyUnicode_AsUTF8String(cursor)
         elm_genlist_item_cursor_set(self.item,
             <const char *>cursor if cursor is not None else NULL)
     def cursor_get(self):
@@ -517,6 +522,7 @@ cdef class GenlistItem(ObjectItem):
 
         """
         def __set__(self, style):
+            if isinstance(style, unicode): style = PyUnicode_AsUTF8String(style)
             elm_genlist_item_cursor_style_set(self.item,
                 <const char *>style if style is not None else NULL)
 
@@ -524,6 +530,7 @@ cdef class GenlistItem(ObjectItem):
             return _ctouni(elm_genlist_item_cursor_style_get(self.item))
 
     def cursor_style_set(self, style=None):
+        if isinstance(style, unicode): style = PyUnicode_AsUTF8String(style)
         elm_genlist_item_cursor_style_set(self.item,
             <const char *>style if style is not None else NULL)
     def cursor_style_get(self):
@@ -677,6 +684,7 @@ cdef class GenlistItem(ObjectItem):
         .. seealso:: :py:func:`update()`
 
         """
+        if isinstance(parts, unicode): parts = PyUnicode_AsUTF8String(parts)
         elm_genlist_item_fields_update(self.item,
             <const char *>parts if parts is not None else NULL,
             itf)
@@ -726,6 +734,7 @@ cdef class GenlistItem(ObjectItem):
 
     def decorate_mode_set(self, decorate_it_type, decorate_it_set):
         a1 = decorate_it_type
+        if isinstance(a1, unicode): a1 = PyUnicode_AsUTF8String(a1)
         elm_genlist_item_decorate_mode_set(self.item,
             <const char *>a1 if a1 is not None else NULL,
             decorate_it_set)

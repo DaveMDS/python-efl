@@ -145,6 +145,7 @@ Web zoom modes
 
 """
 
+from cpython cimport PyUnicode_AsUTF8String
 from libc.stdint cimport uintptr_t
 
 from efl.eo cimport _object_mapping_register, object_from_instance
@@ -455,12 +456,16 @@ cdef class Web(Object):
 
         """
         def __set__(self, user_agent):
+            if isinstance(user_agent, unicode):
+                user_agent = PyUnicode_AsUTF8String(user_agent)
             elm_web_useragent_set(self.obj, user_agent)
 
         def __get__(self):
             return _ctouni(elm_web_useragent_get(self.obj))
 
     def useragent_set(self, user_agent):
+        if isinstance(user_agent, unicode):
+            user_agent = PyUnicode_AsUTF8String(user_agent)
         elm_web_useragent_set(self.obj, user_agent)
 
     def useragent_get(self):
@@ -504,6 +509,7 @@ cdef class Web(Object):
 
         """
         def __set__(self, url):
+            if isinstance(url, unicode): url = PyUnicode_AsUTF8String(url)
             if not elm_web_url_set(self.obj, url):
                 raise RuntimeWarning
 
@@ -511,6 +517,7 @@ cdef class Web(Object):
             return _ctouni(elm_web_url_get(self.obj))
 
     def url_set(self, url):
+        if isinstance(url, unicode): url = PyUnicode_AsUTF8String(url)
         if not elm_web_url_set(self.obj, url):
             raise RuntimeWarning
 
@@ -636,6 +643,7 @@ cdef class Web(Object):
             or failure
 
         """
+        if isinstance(string, unicode): string = PyUnicode_AsUTF8String(string)
         return bool(elm_web_text_search(self.obj,
             string, case_sensitive, forward, wrap))
 
@@ -653,6 +661,7 @@ cdef class Web(Object):
         :return: number of matched @a string
 
         """
+        if isinstance(string, unicode): string = PyUnicode_AsUTF8String(string)
         return elm_web_text_matches_mark(self.obj, string, case_sensitive, highlight, limit)
 
     def text_matches_unmark_all(self):

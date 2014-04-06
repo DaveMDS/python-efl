@@ -97,6 +97,7 @@ Photocam zoom modes
 
 """
 
+from cpython cimport PyUnicode_AsUTF8String
 from libc.stdint cimport uintptr_t
 
 from efl.eo cimport _object_mapping_register
@@ -190,6 +191,8 @@ cdef class Photocam(Object):
         """
         def __set__(self, filename):
             # TODO: Return EvasLoadError
+            if isinstance(filename, unicode):
+                filename = PyUnicode_AsUTF8String(filename)
             if elm_photocam_file_set(self.obj,
                 <const char *>filename if filename is not None else NULL) != 0:
                     raise RuntimeError("Could not set file")
@@ -199,6 +202,8 @@ cdef class Photocam(Object):
 
     def file_set(self, filename):
         # TODO: Return EvasLoadError
+        if isinstance(filename, unicode):
+            filename = PyUnicode_AsUTF8String(filename)
         if elm_photocam_file_set(self.obj,
             <const char *>filename if filename is not None else NULL) != 0:
                 raise RuntimeError("Could not set file")

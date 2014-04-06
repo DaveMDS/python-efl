@@ -62,7 +62,7 @@ Default text parts of the multibuttonentry items that you can use for are:
 
 """
 
-from cpython cimport Py_DECREF, Py_INCREF
+from cpython cimport PyUnicode_AsUTF8String, Py_DECREF, Py_INCREF
 from libc.stdint cimport uintptr_t
 
 from efl.eo cimport _object_mapping_register, object_from_instance, PY_REFCOUNT
@@ -97,6 +97,7 @@ cdef char * _multibuttonentry_format_cb(int count, void *data) with gil:
 
     try:
         s = callback(count, *a, **ka)
+        if isinstance(s, unicode): s = PyUnicode_AsUTF8String(s)
     except:
         traceback.print_exc()
         return NULL
@@ -119,6 +120,7 @@ cdef class MultiButtonEntryItem(ObjectItem):
             if not callable(callback):
                 raise TypeError("callback is not callable")
 
+        if isinstance(label, unicode): label = PyUnicode_AsUTF8String(label)
         self.label = label
         self.cb_func = callback
         self.cb_data = cb_data
@@ -284,6 +286,8 @@ cdef class MultiButtonEntry(Object):
         if func is not None and callable(func):
             cb = _object_item_callback
 
+        if isinstance(label, unicode): label = PyUnicode_AsUTF8String(label)
+
         item = elm_multibuttonentry_item_prepend(self.obj,
             <const char *>label if label is not None else NULL,
             cb, <void*>ret)
@@ -305,6 +309,8 @@ cdef class MultiButtonEntry(Object):
 
         if func is not None and callable(func):
             cb = _object_item_callback
+
+        if isinstance(label, unicode): label = PyUnicode_AsUTF8String(label)
 
         item = elm_multibuttonentry_item_append(self.obj,
             <const char *>label if label is not None else NULL,
@@ -328,6 +334,8 @@ cdef class MultiButtonEntry(Object):
         if func is not None and callable(func):
             cb = _object_item_callback
 
+        if isinstance(label, unicode): label = PyUnicode_AsUTF8String(label)
+
         item = elm_multibuttonentry_item_insert_before(self.obj,
             before.item if before is not None else NULL,
             <const char *>label if label is not None else NULL,
@@ -350,6 +358,8 @@ cdef class MultiButtonEntry(Object):
 
         if func is not None and callable(func):
             cb = _object_item_callback
+
+        if isinstance(label, unicode): label = PyUnicode_AsUTF8String(label)
 
         item = elm_multibuttonentry_item_insert_after(self.obj,
             after.item if after is not None else NULL,

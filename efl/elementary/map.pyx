@@ -205,7 +205,7 @@ Map zoom modes
 
 """
 
-from cpython cimport Py_INCREF, Py_DECREF
+from cpython cimport PyUnicode_AsUTF8String, Py_INCREF, Py_DECREF
 
 from efl.eo cimport _object_mapping_register, object_from_instance
 from efl.utils.conversions cimport _ctouni
@@ -393,6 +393,7 @@ cdef class MapName(object):
             raise TypeError("func must be callable")
 
         data = (self, func, args, kwargs)
+        if isinstance(address, unicode): address = PyUnicode_AsUTF8String(address)
         self.name = elm_map_name_add(map.obj,
             <const char *>address if address is not None else NULL,
             lon, lat, _map_name_callback, <void *>data)
@@ -1224,10 +1225,14 @@ cdef class Map(Object):
             return _ctouni(elm_map_user_agent_get(self.obj))
 
         def __set__(self, user_agent):
+            if isinstance(user_agent, unicode):
+                user_agent = PyUnicode_AsUTF8String(user_agent)
             elm_map_user_agent_set(self.obj,
                 <const char *>user_agent if user_agent is not None else NULL)
 
     def user_agent_set(self, user_agent):
+        if isinstance(user_agent, unicode):
+            user_agent = PyUnicode_AsUTF8String(user_agent)
         elm_map_user_agent_set(self.obj,
             <const char *>user_agent if user_agent is not None else NULL)
     def user_agent_get(self):
@@ -1528,6 +1533,8 @@ cdef class Map(Object):
         .. seealso:: :py:func:`sources_get`, :py:func:`source_get`
 
         """
+        if isinstance(source_name, unicode):
+            source_name = PyUnicode_AsUTF8String(source_name)
         elm_map_source_set(self.obj, source_type,
             <const char *>source_name if source_name is not None else NULL)
 

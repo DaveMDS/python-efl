@@ -108,6 +108,8 @@ cdef class GengridItemClass:
                 pass
 
         if item_style is not None:
+            if isinstance(item_style, unicode):
+                item_style = PyUnicode_AsUTF8String(item_style)
             self._item_style = item_style
 
             self.cls.item_style = <char *>self._item_style
@@ -156,6 +158,7 @@ cdef class GengridItemClass:
             return self._item_style.decode("UTF-8")
 
         def __set__(self, style):
+            if isinstance(style, unicode): style = PyUnicode_AsUTF8String(style)
             self._item_style = style
             self.cls.item_style = <char *>style if style is not None else NULL
 

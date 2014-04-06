@@ -68,7 +68,7 @@ Colorselector modes
 
 """
 
-from cpython cimport Py_DECREF
+from cpython cimport PyUnicode_AsUTF8String, Py_DECREF
 from libc.stdint cimport uintptr_t
 
 from efl.eo cimport _object_mapping_register
@@ -234,11 +234,13 @@ cdef class Colorselector(LayoutClass):
             return _ctouni(elm_colorselector_palette_name_get(self.obj))
         def __set__(self, palette_name):
             s = palette_name
+            if isinstance(s, unicode): s = PyUnicode_AsUTF8String(s)
             elm_colorselector_palette_name_set(self.obj,
                 <const char *>s if s is not None else NULL)
 
     def palette_name_set(self, palette_name):
         s = palette_name
+        if isinstance(s, unicode): s = PyUnicode_AsUTF8String(s)
         elm_colorselector_palette_name_set(self.obj,
             <const char *>s if s is not None else NULL)
     def palette_name_get(self):
@@ -251,7 +253,7 @@ cdef class Colorselector(LayoutClass):
         :rtype: list of :py:class:`ColorselectorPaletteItem`
 
         .. versionadded:: 1.9
-
+        
         """
         cdef:
             list ret = list()

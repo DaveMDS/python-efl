@@ -44,7 +44,7 @@ Default text parts of the menu items that you can use for are:
 
 """
 
-from cpython cimport Py_DECREF
+from cpython cimport PyUnicode_AsUTF8String, Py_DECREF
 
 from efl.eo cimport _object_mapping_register, object_from_instance
 from efl.utils.conversions cimport _ctouni
@@ -67,6 +67,8 @@ cdef class MenuItem(ObjectItem):
             if not callable(callback):
                 raise TypeError("callback is not callable")
 
+        if isinstance(icon, unicode): icon = PyUnicode_AsUTF8String(icon)
+        if isinstance(label, unicode): label = PyUnicode_AsUTF8String(label)
         self.parent = parent
         self.label = label
         self.icon = icon
@@ -124,10 +126,12 @@ cdef class MenuItem(ObjectItem):
             return _ctouni(elm_menu_item_icon_name_get(self.item))
 
         def __set__(self, icon):
+            if isinstance(icon, unicode): icon = PyUnicode_AsUTF8String(icon)
             elm_menu_item_icon_name_set(self.item,
                 <const char *>icon if icon is not None else NULL)
 
     def icon_name_set(self, icon):
+        if isinstance(icon, unicode): icon = PyUnicode_AsUTF8String(icon)
         elm_menu_item_icon_name_set(self.item,
             <const char *>icon if icon is not None else NULL)
     def icon_name_get(self):
@@ -375,6 +379,9 @@ cdef class Menu(Object):
 
         if callback is not None and callable(callback):
             cb = _object_item_callback
+
+        if isinstance(label, unicode): label = PyUnicode_AsUTF8String(label)
+        if isinstance(icon, unicode): icon = PyUnicode_AsUTF8String(icon)
 
         item = elm_menu_item_add(self.obj,
             parent.item if parent is not None else NULL,

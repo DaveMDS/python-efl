@@ -15,6 +15,8 @@
 # You should have received a copy of the GNU Lesser General Public License
 # along with this Python-EFL.  If not, see <http://www.gnu.org/licenses/>.
 
+from cpython cimport PyUnicode_AsUTF8String
+
 cdef extern from "Python.h":
     object PyUnicode_FromStringAndSize(char *s, Py_ssize_t len)
     int PyObject_GetBuffer(obj, Py_buffer *view, int flags)
@@ -310,6 +312,7 @@ cdef class Exe(object):
         if flags is None:
             flags = 0
 
+        if isinstance(exe_cmd, unicode): exe_cmd = PyUnicode_AsUTF8String(exe_cmd)
         self._set_obj(exe_cmd, flags)
         self.__data = data
         self.__callbacks = {}
@@ -395,6 +398,9 @@ cdef class Exe(object):
         cdef:
             Py_buffer buf_view
             bint ret
+
+        if isinstance(buf, unicode):
+            buf = PyUnicode_AsUTF8String(buf)
 
         PyObject_GetBuffer(buf, &buf_view, 0)
 

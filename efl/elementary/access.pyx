@@ -15,6 +15,8 @@
 # You should have received a copy of the GNU Lesser General Public License
 # along with this Python-EFL.  If not, see <http://www.gnu.org/licenses/>.
 
+from cpython cimport PyUnicode_AsUTF8String
+
 from efl.eo cimport _object_mapping_register
 from efl.utils.conversions cimport _touni
 from efl.evas cimport Object as evasObject
@@ -75,6 +77,7 @@ cdef class Accessible(Object):
         :see: elm_access_info_cb_set
 
         """
+        if isinstance(text, unicode): text = PyUnicode_AsUTF8String(text)
         elm_access_info_set(self.obj, type,
             <const char *>text if text is not None else NULL)
 

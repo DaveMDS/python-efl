@@ -35,6 +35,8 @@ These widgets emit the following signals, besides the ones sent from
 
 """
 
+from cpython cimport PyUnicode_AsUTF8String
+
 from efl.eo cimport _object_mapping_register, object_from_instance
 from efl.utils.conversions cimport _ctouni
 from efl.evas cimport Object as evasObject
@@ -67,12 +69,14 @@ cdef class Video(LayoutClass):
 
         """
         def __set__(self, filename):
+            if isinstance(filename, unicode): filename = PyUnicode_AsUTF8String(filename)
             if not elm_video_file_set(self.obj,
                 <const char *>filename if filename is not None else NULL):
                     raise RuntimeError("Could not set file.")
 
     # NOTE: clash with layout.file_set
     def file_set(self, filename, group = None):
+        if isinstance(filename, unicode): filename = PyUnicode_AsUTF8String(filename)
         if not elm_video_file_set(self.obj,
             <const char *>filename if filename is not None else NULL):
                 raise RuntimeError("Could not set file.")

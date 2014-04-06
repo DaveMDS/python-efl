@@ -1191,12 +1191,14 @@ cdef class Object(Eo):
             return _ctouni(evas_object_name_get(self.obj))
 
         def __set__(self, value):
+            if isinstance(value, unicode): value = PyUnicode_AsUTF8String(value)
             evas_object_name_set(self.obj,
                 <const char *>value if value is not None else NULL)
 
     def name_get(self):
         return _ctouni(evas_object_name_get(self.obj))
     def name_set(self, value):
+        if isinstance(value, unicode): value = PyUnicode_AsUTF8String(value)
         evas_object_name_set(self.obj,
             <const char *>value if value is not None else NULL)
 
@@ -1738,6 +1740,7 @@ cdef class Object(Eo):
         :see: evas_key_modifier_add
 
         """
+        if isinstance(keyname, unicode): keyname = PyUnicode_AsUTF8String(keyname)
         if not evas_object_key_grab(self.obj, <const char *>keyname, modifiers, not_modifiers, exclusive):
             raise RuntimeError("Could not grab key.")
 
@@ -1759,6 +1762,7 @@ cdef class Object(Eo):
         :see: evas_focus_get
 
         """
+        if isinstance(keyname, unicode): keyname = PyUnicode_AsUTF8String(keyname)
         evas_object_key_ungrab(self.obj, <const char *>keyname, modifiers, not_modifiers)
 
     property is_frame_object:

@@ -19,7 +19,7 @@ import traceback
 import types
 from functools import update_wrapper
 
-from cpython cimport PY_VERSION_HEX
+from cpython cimport PY_VERSION_HEX, PyUnicode_AsUTF8String
 
 from efl.eina cimport EINA_LOG_DOM_WARN
 from efl.utils.logger cimport PY_EFL_LOG_DOMAIN
@@ -98,6 +98,7 @@ class WRAPPER(object):
             msg += " " + self.message
 
         msg2 = msg
+        if isinstance(msg2, unicode): msg2 = PyUnicode_AsUTF8String(msg2)
 
         EINA_LOG_DOM_WARN(PY_EFL_LOG_DOMAIN, msg2, NULL)
 

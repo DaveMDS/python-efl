@@ -39,6 +39,8 @@ This widget emits the following signals:
 
 """
 
+from cpython cimport PyUnicode_AsUTF8String
+
 from efl.eo cimport _object_mapping_register, object_from_instance
 from efl.utils.conversions cimport _ctouni
 from efl.evas cimport Object as evasObject
@@ -76,6 +78,7 @@ cdef class Plug(Object):
             Raises RuntimeError if adding the child fails
 
         """
+        if isinstance(svcname, unicode): svcname = PyUnicode_AsUTF8String(svcname)
         if not elm_plug_connect(self.obj,
             <const char *>svcname if svcname is not None else NULL,
             svcnum, svcsys):

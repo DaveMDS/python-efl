@@ -65,7 +65,7 @@ actually be reported.
 
 """
 
-from cpython cimport Py_DECREF
+from cpython cimport PyUnicode_AsUTF8String, Py_DECREF
 from libc.stdint cimport uintptr_t
 
 from efl.eo cimport _object_mapping_register
@@ -161,6 +161,7 @@ cdef class IndexItem(ObjectItem):
             if not callable(callback):
                 raise TypeError("callback is not callable")
 
+        if isinstance(letter, unicode): letter = PyUnicode_AsUTF8String(letter)
         self.letter = letter
 
         self.cb_func = callback

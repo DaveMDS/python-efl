@@ -71,7 +71,7 @@ using multiple inheritance, for example::
 
 """
 
-from cpython cimport Py_DECREF
+from cpython cimport PyUnicode_AsUTF8String, Py_DECREF
 from libc.stdint cimport uintptr_t
 
 from efl.eo cimport _object_mapping_register
@@ -143,6 +143,7 @@ cdef class DiskselectorItem(ObjectItem):
             if not callable(callback):
                 raise TypeError("callback is not callable")
 
+        if isinstance(label, unicode): label = PyUnicode_AsUTF8String(label)
         self.label = label
         self.icon = icon
         self.cb_func = callback
@@ -354,6 +355,8 @@ cdef class Diskselector(Object):
 
         if callback is not None and callable(callback):
             cb = _object_item_callback
+
+        if isinstance(label, unicode): label = PyUnicode_AsUTF8String(label)
 
         item = elm_diskselector_item_append(self.obj,
             <const char *>label if label is not None else NULL,

@@ -63,6 +63,8 @@ Background display modes
 
 """
 
+from cpython cimport PyUnicode_AsUTF8String
+
 from efl.eo cimport _object_mapping_register, Eo
 from efl.utils.conversions cimport _ctouni
 from efl.evas cimport Object as evasObject
@@ -127,12 +129,16 @@ cdef class Background(LayoutClass):
             else:
                 filename = value
                 group = ""
+            if isinstance(filename, unicode): filename = PyUnicode_AsUTF8String(filename)
+            if isinstance(group, unicode): group = PyUnicode_AsUTF8String(group)
             if not elm_bg_file_set(self.obj,
                 <const char *>filename if filename is not None else NULL,
                 <const char *>group if group is not None else NULL):
                     raise RuntimeError("Could not set background file.")
 
     def file_set(self, filename, group = None):
+        if isinstance(filename, unicode): filename = PyUnicode_AsUTF8String(filename)
+        if isinstance(group, unicode): group = PyUnicode_AsUTF8String(group)
         if not elm_bg_file_set(self.obj,
             <const char *>filename if filename is not None else NULL,
             <const char *>group if group is not None else NULL):

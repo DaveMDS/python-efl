@@ -262,6 +262,7 @@ cdef class Textgrid(Object):
         """
         def __set__(self, font_source):
             a1 = font_source
+            if isinstance(a1, unicode): a1 = PyUnicode_AsUTF8String(a1)
             evas_object_textgrid_font_source_set(self.obj,
                 <const char *>a1 if a1 is not None else NULL)
 
@@ -289,6 +290,7 @@ cdef class Textgrid(Object):
             cdef int font_size
             font_name, font_size = value
             a1 = font_name
+            if isinstance(a1, unicode): a1 = PyUnicode_AsUTF8String(a1)
             evas_object_textgrid_font_set(self.obj,
                 <const char *>a1 if a1 is not None else NULL,
                 font_size)

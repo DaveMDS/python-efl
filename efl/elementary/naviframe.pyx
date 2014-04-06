@@ -93,6 +93,8 @@ the top one can be interacted with this way.
 
 """
 
+from cpython cimport PyUnicode_AsUTF8String
+
 from efl.eo cimport _object_mapping_register, object_from_instance
 from efl.utils.conversions cimport _ctouni
 from efl.evas cimport Object as evasObject
@@ -145,6 +147,7 @@ cdef class NaviframeItem(ObjectItem):
         :type item_style: string
 
         """
+        if isinstance(title_label, unicode): title_label = PyUnicode_AsUTF8String(title_label)
         self.label = title_label
 
         if prev_btn is not None:
@@ -298,10 +301,12 @@ cdef class NaviframeItem(ObjectItem):
             return _ctouni(elm_naviframe_item_style_get(self.item))
 
         def __set__(self, style):
+            if isinstance(style, unicode): style = PyUnicode_AsUTF8String(style)
             elm_naviframe_item_style_set(self.item,
                 <const char *>style if style is not None else NULL)
 
     def style_set(self, style):
+        if isinstance(style, unicode): style = PyUnicode_AsUTF8String(style)
         elm_naviframe_item_style_set(self.item,
             <const char *>style if style is not None else NULL)
     def style_get(self):

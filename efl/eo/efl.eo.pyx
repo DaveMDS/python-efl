@@ -15,7 +15,7 @@
 # You should have received a copy of the GNU Lesser General Public License
 # along with this Python-EFL.  If not, see <http://www.gnu.org/licenses/>.
 
-from cpython cimport PyObject, Py_INCREF, Py_DECREF
+from cpython cimport PyObject, Py_INCREF, Py_DECREF, PyUnicode_AsUTF8String
 from libc.stdlib cimport malloc, free
 from libc.string cimport memcpy, strdup
 from libc.stdint cimport uintptr_t
@@ -92,6 +92,7 @@ cdef void _object_mapping_register(char *name, object cls) except *:
         raise ValueError("Object type name '%s' already registered." % name)
 
     cdef object cls_name = cls.__name__
+    if isinstance(cls_name, unicode): cls_name = PyUnicode_AsUTF8String(cls_name)
 
     EINA_LOG_DOM_DBG(PY_EFL_EO_LOG_DOMAIN,
         "REGISTER: %s => %s", <char *>name, <char *>cls_name)

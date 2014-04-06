@@ -144,7 +144,7 @@ Tween modes
 
 """
 
-from cpython cimport Py_INCREF, Py_DECREF
+from cpython cimport PyUnicode_AsUTF8String, Py_INCREF, Py_DECREF
 
 from efl.eo cimport _object_mapping_register
 from efl.utils.conversions cimport _ctouni

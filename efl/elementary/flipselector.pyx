@@ -56,6 +56,7 @@ Default text parts of the flipselector items that you can use for are:
 
 """
 
+from cpython cimport PyUnicode_AsUTF8String
 from libc.stdint cimport uintptr_t
 
 from efl.eo cimport _object_mapping_register
@@ -111,6 +112,7 @@ cdef class FlipSelectorItem(ObjectItem):
             if not callable(callback):
                 raise TypeError("callback is not callable")
 
+        if isinstance(label, unicode): label = PyUnicode_AsUTF8String(label)
         self.label = label
         self.cb_func = callback
         self.args = args
@@ -177,6 +179,7 @@ cdef class FlipSelectorItem(ObjectItem):
 
         """
         def __set__(self, value):
+            if isinstance(value, unicode): value = PyUnicode_AsUTF8String(value)
             self.label = value
 
         def __get__(self):
@@ -266,6 +269,8 @@ cdef class FlipSelector(Object):
         if callback is not None and callable(callback):
             cb = _object_item_callback
 
+        if isinstance(label, unicode): label = PyUnicode_AsUTF8String(label)
+
         item = elm_flipselector_item_append(self.obj,
             <const char *>label if label is not None else NULL,
             cb, <void*>ret)
@@ -292,6 +297,8 @@ cdef class FlipSelector(Object):
 
         if callback is not None and callable(callback):
             cb = _object_item_callback
+
+        if isinstance(label, unicode): label = PyUnicode_AsUTF8String(label)
 
         item = elm_flipselector_item_prepend(self.obj,
             <const char *>label if label is not None else NULL,

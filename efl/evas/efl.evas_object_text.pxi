@@ -91,6 +91,7 @@ cdef class Text(Object):
         return _ctouni(evas_object_text_font_source_get(self.obj))
 
     def font_source_set(self, value):
+        if isinstance(value, unicode): value = PyUnicode_AsUTF8String(value)
         evas_object_text_font_source_set(self.obj,
             <const char *>value if value is not None else NULL)
 
@@ -124,6 +125,7 @@ cdef class Text(Object):
         return (_ctouni(f), size)
 
     def font_set(self, font, int size=10):
+        if isinstance(font, unicode): font = PyUnicode_AsUTF8String(font)
         evas_object_text_font_set(self.obj,
             <const char *>font if font is not None else NULL,
             size)
@@ -144,6 +146,7 @@ cdef class Text(Object):
         return _ctouni(evas_object_text_text_get(self.obj))
 
     def text_set(self, value):
+        if isinstance(value, unicode): value = PyUnicode_AsUTF8String(value)
         evas_object_text_text_set(self.obj,
             <const char *>value if value is not None else NULL)
 

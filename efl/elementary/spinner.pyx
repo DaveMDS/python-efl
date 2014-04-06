@@ -55,6 +55,8 @@ Available styles for it:
 
 """
 
+from cpython cimport PyUnicode_AsUTF8String
+
 from efl.eo cimport _object_mapping_register
 from efl.utils.conversions cimport _ctouni
 from efl.evas cimport Object as evasObject
@@ -88,10 +90,12 @@ cdef class Spinner(LayoutClass):
             return _ctouni(elm_spinner_label_format_get(self.obj))
 
         def __set__(self, label_format):
+            if isinstance(label_format, unicode): label_format = PyUnicode_AsUTF8String(label_format)
             elm_spinner_label_format_set(self.obj,
                 <const char *>label_format if label_format is not None else NULL)
 
     def label_format_set(self, label_format):
+        if isinstance(label_format, unicode): label_format = PyUnicode_AsUTF8String(label_format)
         elm_spinner_label_format_set(self.obj,
             <const char *>label_format if label_format is not None else NULL)
     def label_format_get(self):
@@ -260,6 +264,7 @@ cdef class Spinner(LayoutClass):
         :type label: unicode
 
         """
+        if isinstance(label, unicode): label = PyUnicode_AsUTF8String(label)
         elm_spinner_special_value_add(self.obj, value,
             <const char *>label if label is not None else NULL)
 
