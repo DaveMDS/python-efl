@@ -8,4 +8,4 @@ cdef extern from "Elementary.h":
     void                     elm_photo_fill_inside_set(Evas_Object *obj, Eina_Bool fill)
     void                     elm_photo_editable_set(Evas_Object *obj, Eina_Bool editable)
     void                     elm_photo_aspect_fixed_set(Evas_Object *obj, Eina_Bool fixed)
-    Eina_Bool                elm_photo_aspect_fixed_get(Evas_Object *obj)
+    Eina_Bool                elm_photo_aspect_fixed_get(const Evas_Object *obj)

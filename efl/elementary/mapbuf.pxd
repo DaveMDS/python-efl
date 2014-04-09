@@ -10,5 +10,5 @@ cdef extern from "Elementary.h":
     Eina_Bool                elm_mapbuf_alpha_get(const Evas_Object *obj)
     void                     elm_mapbuf_auto_set(Evas_Object *obj, Eina_Bool on)
     Eina_Bool                elm_mapbuf_auto_get(const Evas_Object *obj)
-    void                     elm_mapbuf_point_color_get(Evas_Object *obj, int idx, int *r, int *g, int *b, int *a)
+    void                     elm_mapbuf_point_color_get(const Evas_Object *obj, int idx, int *r, int *g, int *b, int *a)
     void                     elm_mapbuf_point_color_set(Evas_Object *obj, int idx, int r, int g, int b, int a)

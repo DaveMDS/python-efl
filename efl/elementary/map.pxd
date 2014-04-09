@@ -33,7 +33,7 @@ cdef extern from "Elementary.h":
     Eina_Bool                elm_map_wheel_disabled_get(const Evas_Object *obj)
     void                     elm_map_user_agent_set(Evas_Object *obj, char *user_agent)
     char                    *elm_map_user_agent_get(const Evas_Object *obj)
-    Eina_List               *elm_map_overlays_get(Evas_Object *obj)
+    Eina_List               *elm_map_overlays_get(const Evas_Object *obj)
     Elm_Map_Overlay         *elm_map_overlay_add(Evas_Object *obj, double lon, double lat)
     void                     elm_map_overlay_del(Elm_Map_Overlay *overlay)
     Elm_Map_Overlay_Type     elm_map_overlay_type_get(Elm_Map_Overlay *overlay)

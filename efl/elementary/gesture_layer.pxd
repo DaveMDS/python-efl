@@ -42,12 +42,12 @@ cdef extern from "Elementary.h":
 
     # Gesture layer
     void                     elm_gesture_layer_cb_set(Evas_Object *obj, Elm_Gesture_Type idx, Elm_Gesture_State cb_type, Elm_Gesture_Event_Cb cb, void *data)
-    Eina_Bool                elm_gesture_layer_hold_events_get(Evas_Object *obj)
+    Eina_Bool                elm_gesture_layer_hold_events_get(const Evas_Object *obj)
     void                     elm_gesture_layer_hold_events_set(Evas_Object *obj, Eina_Bool hold_events)
     void                     elm_gesture_layer_zoom_step_set(Evas_Object *obj, double step)
-    double                   elm_gesture_layer_zoom_step_get(Evas_Object *obj)
+    double                   elm_gesture_layer_zoom_step_get(const Evas_Object *obj)
     void                     elm_gesture_layer_rotate_step_set(Evas_Object *obj, double step)
-    double                   elm_gesture_layer_rotate_step_get(Evas_Object *obj)
+    double                   elm_gesture_layer_rotate_step_get(const Evas_Object *obj)
     Eina_Bool                elm_gesture_layer_attach(Evas_Object *obj, Evas_Object *target)
     Evas_Object             *elm_gesture_layer_add(Evas_Object *parent)
 
