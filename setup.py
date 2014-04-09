@@ -65,6 +65,8 @@ def pkg_config(name, require, min_vers=None):
 
         sys.stdout.write("OK, found " + ver + "\n")
 
+        cflags = list(set(cflags))
+
         return (cflags, libs)
     except (OSError, subprocess.CalledProcessError):
         raise SystemExit("Did not find " + name + " with 'pkg-config'.")
@@ -174,7 +176,7 @@ if set(("build", "build_ext", "install", "bdist", "sdist")) & set(sys.argv):
     ecore_file_cflags, ecore_file_libs = pkg_config('EcoreFile', 'ecore-file', "1.8.0")
     ecore_ext = Extension("ecore", ["efl/ecore/efl.ecore"+module_suffix],
                           include_dirs = ['include/'],
-                          extra_compile_args = ecore_cflags + ecore_file_cflags,
+                          extra_compile_args = list(set(ecore_cflags + ecore_file_cflags)),
                           extra_link_args = ecore_libs + ecore_file_libs + eina_libs + evas_libs,
                          )
     modules.append(ecore_ext)
@@ -226,7 +228,7 @@ if set(("build", "build_ext", "install", "bdist", "sdist")) & set(sys.argv):
     dbus_ml_ext = Extension("dbus_mainloop",
                             ["efl/dbus_mainloop/dbus_mainloop"+module_suffix,
                              "efl/dbus_mainloop/e_dbus.c"],
-                            extra_compile_args = dbus_cflags + ecore_cflags,
+                            extra_compile_args = list(set(dbus_cflags + ecore_cflags)),
                             extra_link_args = dbus_libs + ecore_libs,
                            )
     modules.append(dbus_ml_ext)
