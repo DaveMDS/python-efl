@@ -162,7 +162,7 @@ cdef class Client:
         self._on_connect_callback = None
         self._on_server_die_callback = None
 
-    def __str__(self):
+    def __repr__(self):
         f, k = self.file
         tf, tk = self.thumb_path
         w, h = self.size
@@ -171,18 +171,16 @@ cdef class Client:
         aspect = ("KEEP", "IGNORE", "CROP")[self.aspect]
         if self.aspect == 2:
             aspect = "CROP[%f, %f]" % self.crop
-        return ("%s(file=(%r, %r), thumb=(%r, %r), exists=%s, size=%dx%d, "
-                "format=%s, aspect=%s, quality=%d, compress=%d, "
-                "directory=%r, category=%r)") % \
-                (self.__class__.__name__, f, k, tf, tk, self.thumb_exists(),
-                 w, h, format, aspect, self.quality, self.compress,
-                 self.directory, self.category)
-
-    def __repr__(self):
-        f, k = self.file
-        tf, tk = self.thumb_path
-        return "%s(obj=%#x, file=(%r, %r), thumb=(%r, %r), exists=%s)" % \
-            (self.__class__.__name__, <uintptr_t><void *>self, f, k, tf, tk, self.thumb_exists())
+        return (
+            "<%s(obj=%#x, file=(%r, %r), thumb=(%r, %r), exists=%s, "
+            "size=%dx%d, format=%s, aspect=%s, quality=%d, compress=%d, "
+            "directory=%r, category=%r)>"
+            ) % (
+            type(self).__name__, <uintptr_t><void *>self, f, k,
+            tf, tk, self.thumb_exists(),
+            w, h, format, aspect, self.quality, self.compress,
+            self.directory, self.category
+            )
 
     def on_server_die_callback_set(self, func, *args, **kargs):
         """Function to call when server dies.
