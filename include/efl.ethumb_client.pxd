@@ -1,19 +1,19 @@
-# Copyright (C) 2009 by ProFUSION embedded systems
+# Copyright (C) 2007-2013 various contributors (see AUTHORS)
 #
-# This file is part of Python-Ethumb.
+# This file is part of Python-EFL.
 #
-# Python-Ethumb is free software you can redistribute it and/or
+# Python-EFL is free software; you can redistribute it and/or
 # modify it under the terms of the GNU Lesser General Public
-# License as published by the Free Software Foundation either
-# version 2.1 of the License, or (at your option) any later version.
+# License as published by the Free Software Foundation; either
+# version 3 of the License, or (at your option) any later version.
 #
-# Python-Ethumb is distributed in the hope that it will be useful,
-# but WITHOUT ANY WARRANTY without even the implied warranty of
+# Python-EFL is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
 # MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
 # Lesser General Public License for more details.
 #
 # You should have received a copy of the GNU Lesser General Public License
-# along with this Python-Ethumb.  If not, see <http://www.gnu.org/licenses/>.
+# along with this Python-EFL.  If not, see <http://www.gnu.org/licenses/>.
 
 from efl.eina cimport Eina_Bool, Eina_Free_Cb
 from efl.ethumb.enums cimport Ethumb_Thumb_Orientation
