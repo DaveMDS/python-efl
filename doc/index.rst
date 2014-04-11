@@ -54,6 +54,12 @@ Evas
 .. toctree:: evas/evas
 
 
+Ethumb
+------
+
+.. toctree:: ethumb/ethumb
+
+
 Edje
 ----
 

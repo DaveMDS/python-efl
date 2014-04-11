@@ -25,9 +25,7 @@ TODO
 * Review the internal functions and name them consistently
 * Evas: SmartObject needs testing, work. Make it inheritable by extension
   classes?
-* Elm unit tests, things like top_widget and getting child objects
-  can be done easily.
-* include python-ethumb
+* Improve ethumb
 * edje: complete the unit tests
 * Initial Evas GL support (for Elm)
 * Add more documentation for callbacks, events, etc.
@@ -40,6 +38,7 @@ Elm
 * Add more examples
 * Prefs
 * GLView
+* Unit tests
 * Images missing in the documentation:
    - datetime
    - video

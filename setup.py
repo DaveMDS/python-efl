@@ -186,6 +186,24 @@ if set(("build", "build_ext", "install", "bdist", "sdist")) & set(sys.argv):
     package_dirs["ecore"] = "compat/ecore"
 
 
+    # === Ethumb ===
+    ethumb_cflags, ethumb_libs = pkg_config('Ethumb', 'ethumb', EFL_MIN_VERSION)
+    ethumb_ext = Extension("ethumb", ["efl/ethumb/efl.ethumb"+module_suffix],
+                         include_dirs = ['include/'],
+                         extra_compile_args = ethumb_cflags,
+                         extra_link_args = ethumb_libs + eina_libs,
+                        )
+    modules.append(ethumb_ext)
+
+    ethumb_client_cflags, ethumb_client_libs = pkg_config('Ethumb_Client', 'ethumb_client', EFL_MIN_VERSION)
+    ethumb_client_ext = Extension("ethumb_client", ["efl/ethumb/efl.ethumb_client"+module_suffix],
+                         include_dirs = ['include/'],
+                         extra_compile_args = ethumb_client_cflags,
+                         extra_link_args = ethumb_client_libs + eina_libs,
+                        )
+    modules.append(ethumb_client_ext)
+
+
     # === Edje ===
     edje_cflags, edje_libs = pkg_config('Edje', 'edje', EFL_MIN_VERSION)
     edje_ext = Extension("edje", ["efl/edje/efl.edje"+module_suffix],
