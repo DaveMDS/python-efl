@@ -242,7 +242,7 @@ def genlist2_clicked(obj, item=None):
         while gli:
             gli.update()
             print(i)
-            i = i + 1
+            i += 1
             gli = gli.next_get()
 
     bt = Button(win, text="U", size_hint_align=FILL_BOTH,
@@ -273,7 +273,7 @@ def genlist2_clicked(obj, item=None):
         i = 0
     def my_gl_add(bt, gl, itc1):
         gl.item_append(itc1, MyGlAdd.i, func=gl_item_sel)
-        MyGlAdd.i = MyGlAdd.i + 1
+        MyGlAdd.i += 1
 
     bt = Button(win, text="+", size_hint_align=FILL_BOTH,
         size_hint_weight=EXPAND_HORIZ)
@@ -309,7 +309,7 @@ def genlist2_clicked(obj, item=None):
         if gli:
             gl.item_insert_before(itc1, MyGlInsertBefore.i, gli,
                 func=gl_item_sel)
-            MyGlInsertBefore.i = MyGlInsertBefore.i + 1
+            MyGlInsertBefore.i += 1
         else:
             print("no item selected")
 
@@ -326,7 +326,7 @@ def genlist2_clicked(obj, item=None):
         gli = gl.selected_item_get()
         if gli:
             gl.item_insert_after(itc1, MyGlInsertAfter.i, gli, func=gl_item_sel)
-            MyGlInsertAfter.i = MyGlInsertAfter.i + 1
+            MyGlInsertAfter.i += 1
         else:
             print("no item selected")
 

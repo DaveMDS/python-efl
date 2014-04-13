@@ -1050,7 +1050,7 @@ cdef class Edje(Object):
         i = 0
         for s in data:
             m.str[i] = s
-            i = i + 1
+            i += 1
 
         edje_object_message_send(self.obj, EDJE_MESSAGE_STRING_SET, id,
                                  <void*>m)
@@ -1086,7 +1086,7 @@ cdef class Edje(Object):
         i = 0
         for f in data:
             m.val[i] = f
-            i = i + 1
+            i += 1
 
         edje_object_message_send(self.obj, EDJE_MESSAGE_STRING_INT_SET, id,
                                  <void*>m)
@@ -1107,7 +1107,7 @@ cdef class Edje(Object):
         i = 0
         for f in data:
             m.val[i] = f
-            i = i + 1
+            i += 1
 
         edje_object_message_send(self.obj, EDJE_MESSAGE_STRING_FLOAT_SET, id,
                                  <void*>m)
@@ -1125,7 +1125,7 @@ cdef class Edje(Object):
         i = 0
         for f in data:
             m.val[i] = f
-            i = i + 1
+            i += 1
 
         edje_object_message_send(self.obj, EDJE_MESSAGE_INT_SET, id,
                                  <void*>m)
@@ -1143,7 +1143,7 @@ cdef class Edje(Object):
         i = 0
         for f in data:
             m.val[i] = f
-            i = i + 1
+            i += 1
 
         edje_object_message_send(self.obj, EDJE_MESSAGE_FLOAT_SET, id,
                                  <void*>m)

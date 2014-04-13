@@ -64,7 +64,7 @@ def scroller_clicked(obj):
                 size_hint_weight=EXPAND_BOTH, size_hint_align=FILL_BOTH,
                 size_hint_min=(318, 318))
 
-            n = n + 1
+            n += 1
             if n >= 9:
                 n = 0
             tb.pack(bg2, i, j, 1, 1)

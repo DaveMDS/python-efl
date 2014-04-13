@@ -72,7 +72,7 @@ def set_api_state(api):
 def api_bt_clicked(bt, a):
     print("clicked event on API Button: api_state=<%d>\n" % a["state"])
     set_api_state(a)
-    a["state"] = a["state"] + 1
+    a["state"] += 1
     bt.text = "Next API function (%d)" % a["state"]
     if a["state"] == API_STATE_LAST:
         bt.disabled = True
