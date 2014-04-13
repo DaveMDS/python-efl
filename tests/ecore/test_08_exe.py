@@ -36,7 +36,7 @@ class TestExe(unittest.TestCase):
             print("   Event   : %s" % repr(event))
             for l in event.lines:
                 print("         %s" % repr(l))
-            print
+            print()
 
         exe = ecore.Exe("ls -la", flags)
         exe.on_add_event_add(on_add, 1, c=3, b=2)

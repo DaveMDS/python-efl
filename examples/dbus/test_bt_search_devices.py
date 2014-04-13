@@ -6,20 +6,20 @@ from efl import ecore
 
 
 def disc_started_signal():
-        print "Signal: DiscoveryStarted()"
+    print("Signal: DiscoveryStarted()")
 
 
 def rem_dev_found_signal(address, cls, rssi):
-        print "Signal: RemoteDeviceFound(%s, %s, %s)" % (address, cls, rssi)
+    print("Signal: RemoteDeviceFound(%s, %s, %s)" % (address, cls, rssi))
 
 
 def rem_dev_name_signal(address, name):
-        print "Signal: RemoteNameUpdated(%s, %s)" % (address, name)
+    print("Signal: RemoteNameUpdated(%s, %s)" % (address, name))
 
 
 def disc_completed_signal():
-        print "Signal: DiscoveryCompleted()"
-        ecore.idler_add(ecore.main_loop_quit)
+    print("Signal: DiscoveryCompleted()")
+    ecore.idler_add(ecore.main_loop_quit)
 
 
 dbus_ml = dbus_mainloop.DBusEcoreMainLoop()

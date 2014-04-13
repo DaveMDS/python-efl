@@ -227,12 +227,12 @@ def focus_clicked(obj, item=None):
 
 # Focus 2
 def _focus_obj(bt, newfocus):
-    print newfocus
+    print(newfocus)
     newfocus.focus = True
 
 def _focus_layout_part(bt, layout):
     newfocus = layout.edje.part_object_get("sky")
-    print newfocus
+    print(newfocus)
     newfocus.focus = True
     
 
@@ -308,12 +308,12 @@ def focus2_clicked(obj, item=None):
 focused = None
 def _focused_cb(obj):
     global focused
-    print obj
+    print(obj)
     focused = obj
 
 def _unfocused_cb(obj):
     global focused
-    print obj
+    print(obj)
     focused = None
 
 def _add_cb(bt, win, bx):
@@ -383,12 +383,12 @@ def _win_highlight_animate_cb(chk, win):
     win.focus_highlight_animate = chk.state
 
 def _custom_chain_cb(chk, bx):
-    print chk.state
+    print(chk.state)
     if chk.state is True:
         i = 0
         custom_chain = []
         for child in bx.children:
-            print child
+            print(child)
             if i == 0:
                 c = child   
                 custom_chain.append(child)

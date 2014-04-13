@@ -6,7 +6,7 @@ from efl import ecore
 
 
 def print_name_owner_changed(obj, old, new):
-    print "Obj = '%s', Old = '%s', New = '%s'" % (obj, old, new)
+    print("Obj = '%s', Old = '%s', New = '%s'" % (obj, old, new))
 
 
 dbus_ml = dbus_mainloop.DBusEcoreMainLoop()

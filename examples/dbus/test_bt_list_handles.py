@@ -9,13 +9,13 @@ from efl import ecore
 def print_remote_handles(adapter, bdaddr):
     handles = [hex(int(h)) \
                for h in list(adapter.GetRemoteServiceHandles(bdaddr, ""))]
-    print "Handles:", handles
+    print("Handles:", handles)
     ecore.idler_add(ecore.main_loop_quit)
     return False
 
 
 if len(sys.argv) != 2:
-    print "USAGE: %s <bdaddr>" % sys.argv[0]
+    print("USAGE: %s <bdaddr>" % sys.argv[0])
     sys.exit(1)
 
 dbus_ml = dbus_mainloop.DBusEcoreMainLoop()

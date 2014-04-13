@@ -14,17 +14,17 @@ def emit_signal(obj):
 
 
 def hello_signal_handler(hello_string):
-    print "Received signal (by connecting using remote " \
-          "object) and it says: %s" % hello_string
+    print("Received signal (by connecting using remote "
+          "object) and it says: %s" % hello_string)
 
 
 def catchall_hello_signals_handler(hello_string):
-    print "Received a hello signal and it says: %s" % hello_string
+    print("Received a hello signal and it says: %s" % hello_string)
 
 
 def catchall_testservice_interface_handler(hello_string, dbus_message):
-    print "com.example.TestService interface says %s " \
-          "when it sent signal %s" % (hello_string, dbus_message.get_member())
+    print("com.example.TestService interface says %s "
+          "when it sent signal %s" % (hello_string, dbus_message.get_member()))
 
 
 dbus_ml = dbus_mainloop.DBusEcoreMainLoop()
