@@ -22,6 +22,7 @@ from cpython cimport PyMem_Malloc, PyMem_Free, PyUnicode_AsUTF8String
 cimport libc.stdlib
 from libc.stdint cimport uintptr_t
 
+from efl.eina cimport eina_list_free, eina_stringshare_del, Eina_Stringshare
 from efl.eo cimport _object_mapping_register, object_from_instance, \
     _register_decorated_callbacks
 

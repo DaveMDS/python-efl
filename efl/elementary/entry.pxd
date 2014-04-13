@@ -1,7 +1,7 @@
 from efl.evas cimport Eina_Bool, Eina_Rectangle, Evas_Object, \
     Evas_Coord, Evas_Smart_Cb
 from enums cimport Elm_Wrap_Type, Elm_Text_Format, Elm_Cnp_Mode, \
-    Elm_Scroller_Policy, Elm_Input_Panel_Layout, Elm_Input_Panel_Lang, \
+    Elm_Input_Panel_Layout, Elm_Input_Panel_Lang, \
     Elm_Input_Panel_Lang, Elm_Input_Panel_Return_Key_Type, \
     Elm_Autocapital_Type, Elm_Icon_Type, Elm_Sel_Type, Elm_Sel_Format, \
     Elm_Xdnd_Action

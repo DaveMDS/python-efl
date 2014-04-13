@@ -62,19 +62,18 @@ Default text parts of the multibuttonentry items that you can use for are:
 
 """
 
-from cpython cimport PyUnicode_AsUTF8String, Py_DECREF, Py_INCREF
+from cpython cimport PyUnicode_AsUTF8String, Py_INCREF
 from libc.stdint cimport uintptr_t
 
 from efl.eo cimport _object_mapping_register, object_from_instance, PY_REFCOUNT
 from efl.utils.conversions cimport _ctouni
 from efl.evas cimport Object as evasObject
 
-from libc.stdlib cimport free
 from libc.string cimport strdup
 from object cimport Object
 import traceback
 from object_item cimport _object_item_callback, _object_item_callback2, \
-    _object_item_to_python, _object_item_list_to_python
+    _object_item_to_python, _object_item_list_to_python, ObjectItem
 
 cdef Eina_Bool _multibuttonentry_filter_callback(Evas_Object *obj, \
     const char *item_label, void *item_data, void *data) with gil:

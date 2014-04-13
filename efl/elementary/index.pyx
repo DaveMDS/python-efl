@@ -65,7 +65,7 @@ actually be reported.
 
 """
 
-from cpython cimport PyUnicode_AsUTF8String, Py_DECREF
+from cpython cimport PyUnicode_AsUTF8String
 from libc.stdint cimport uintptr_t
 
 from efl.eo cimport _object_mapping_register
@@ -73,8 +73,8 @@ from efl.utils.conversions cimport _ctouni
 from efl.utils.deprecated cimport DEPRECATED
 from efl.evas cimport Object as evasObject
 from layout_class cimport LayoutClass
-from object_item cimport _object_item_callback, _object_item_to_python, \
-    elm_object_item_data_get, _object_item_callback2
+from object_item cimport _object_item_to_python, elm_object_item_data_get, \
+    _object_item_callback2, ObjectItem
 
 import traceback
 

@@ -44,13 +44,13 @@ Default text parts of the menu items that you can use for are:
 
 """
 
-from cpython cimport PyUnicode_AsUTF8String, Py_DECREF
+from cpython cimport PyUnicode_AsUTF8String
 
 from efl.eo cimport _object_mapping_register, object_from_instance
 from efl.utils.conversions cimport _ctouni
 from efl.evas cimport Object as evasObject
 from object_item cimport _object_item_callback, _object_item_list_to_python, \
-    _object_item_to_python, _object_item_callback2
+    _object_item_to_python, _object_item_callback2, ObjectItem
 
 cdef class MenuItem(ObjectItem):
 

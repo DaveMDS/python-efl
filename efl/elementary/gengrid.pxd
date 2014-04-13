@@ -2,8 +2,7 @@ from efl.evas cimport Eina_Bool, Eina_List, Evas_Object, Evas_Smart_Cb, \
     Evas_Coord, Eina_Compare_Cb
 from object_item cimport Elm_Object_Item
 from general cimport Elm_Tooltip_Item_Content_Cb
-from enums cimport Elm_Genlist_Item_Scrollto_Type, Elm_Scroller_Policy, \
-    Elm_Object_Select_Mode
+from enums cimport Elm_Genlist_Item_Scrollto_Type, Elm_Object_Select_Mode
 
 cdef extern from "Elementary.h":
     ctypedef char           *(*GengridItemLabelGetFunc)     (void *data, Evas_Object *obj, const char *part)

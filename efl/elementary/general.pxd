@@ -17,13 +17,8 @@
 #
 
 from efl.evas cimport Eina_List, Eina_Bool
-from efl.evas cimport Evas_Object, Evas_Smart_Cb, Evas_Font_Size, Evas_Coord
+from efl.evas cimport Evas_Object, Evas_Font_Size, Evas_Coord
 from efl.evas.enums cimport Evas_Callback_Type
-#from efl.evas cimport Evas_Load_Error
-#from efl.evas cimport Evas_Event_Flags
-from enums cimport Elm_Policy, Elm_Policy_Quit
-from libc.string cimport memcpy, strdup
-from libc.stdlib cimport free
 
 cdef extern from "time.h":
     struct tm:

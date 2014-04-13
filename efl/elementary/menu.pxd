@@ -1,7 +1,7 @@
 from efl.evas cimport Eina_Bool, Eina_List, Evas_Object, Evas_Coord, \
     Evas_Smart_Cb
 from object cimport Object
-from object_item cimport Elm_Object_Item, ObjectItem
+from object_item cimport Elm_Object_Item
 
 cdef extern from "Elementary.h":
     Evas_Object             *elm_menu_add(Evas_Object *parent)

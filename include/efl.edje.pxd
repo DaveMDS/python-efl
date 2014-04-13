@@ -15,9 +15,8 @@
 # You should have received a copy of the GNU Lesser General Public License
 # along with this Python-EFL.  If not, see <http://www.gnu.org/licenses/>.
 
-from efl.eina cimport *
-from efl.evas cimport Object, Canvas, \
-    Evas_Object, Evas, Evas_Font_Size, Evas_Coord
+from efl.eina cimport Eina_Bool, Eina_List, Eina_Iterator
+from efl.evas cimport Object, Evas_Object, Evas, Evas_Font_Size, Evas_Coord
 
 
 cdef extern from "Edje.h":

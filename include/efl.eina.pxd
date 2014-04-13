@@ -16,8 +16,6 @@
 # along with this Python-EFL.  If not, see <http://www.gnu.org/licenses/>.
 
 from cpython cimport va_list
-from libc.stdlib cimport malloc, free
-from libc.string cimport memcpy, strdup
 
 cdef extern from "time.h":
     struct tm:

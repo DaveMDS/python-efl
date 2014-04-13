@@ -15,7 +15,6 @@
 # You should have received a copy of the GNU Lesser General Public License
 # along with this Python-EFL.  If not, see <http://www.gnu.org/licenses/>.
 
-from cpython cimport PyObject, Py_INCREF, Py_DECREF
 from efl.evas cimport Eina_Bool, Eina_List, \
     Evas_Object, Evas_Smart_Cb, Evas_Coord
 from efl.evas.enums cimport Evas_Callback_Type

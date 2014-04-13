@@ -71,11 +71,10 @@ using multiple inheritance, for example::
 
 """
 
-from cpython cimport PyUnicode_AsUTF8String, Py_DECREF
+from cpython cimport PyUnicode_AsUTF8String
 from libc.stdint cimport uintptr_t
 
 from efl.eo cimport _object_mapping_register
-from efl.utils.conversions cimport _ctouni
 from efl.evas cimport Object as evasObject
 from object cimport Object
 from object_item cimport ObjectItem, _object_item_callback, \

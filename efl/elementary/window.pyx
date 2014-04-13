@@ -357,14 +357,12 @@ from efl.eo cimport _object_mapping_register, object_from_instance
 from efl.utils.conversions cimport _ctouni
 from efl.evas cimport Object as evasObject
 
-from libc.stdlib cimport malloc, free
-from libc.string cimport memcpy
+from libc.stdlib cimport free
 
 from object cimport Object
 from efl.utils.conversions cimport python_list_strings_to_array_of_strings, \
     array_of_strings_to_python_list, python_list_ints_to_array_of_ints, \
     array_of_ints_to_python_list
-from efl.evas cimport Evas, evas_object_evas_get, Image as evasImage
 
 cimport enums
 

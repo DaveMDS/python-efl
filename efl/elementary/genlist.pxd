@@ -1,9 +1,8 @@
 from efl.evas cimport Eina_Bool, Eina_List, Eina_Compare_Cb, \
     Evas_Object, Evas_Smart_Cb, Evas_Coord
-from object cimport Object
 from object_item cimport Elm_Object_Item
 from general cimport Elm_Tooltip_Item_Content_Cb
-from enums cimport Elm_Scroller_Policy, Elm_List_Mode, Elm_Object_Select_Mode, \
+from enums cimport Elm_List_Mode, Elm_Object_Select_Mode, \
     Elm_Genlist_Item_Type, Elm_Genlist_Item_Scrollto_Type, \
     Elm_Genlist_Item_Field_Type
 

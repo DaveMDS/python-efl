@@ -1,7 +1,7 @@
 from efl.evas cimport Eina_Bool, Eina_List, Eina_Compare_Cb, \
     Evas_Object, Evas_Smart_Cb, Evas_Coord
-from object_item cimport Elm_Object_Item, ObjectItem
-from enums cimport Elm_List_Mode, Elm_Object_Select_Mode, Elm_Scroller_Policy
+from object_item cimport Elm_Object_Item
+from enums cimport Elm_List_Mode, Elm_Object_Select_Mode
 
 cdef extern from "Elementary.h":
     Evas_Object             *elm_list_add(Evas_Object *parent)

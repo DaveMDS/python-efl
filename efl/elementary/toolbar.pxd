@@ -1,5 +1,5 @@
 from efl.evas cimport Eina_Bool, Evas_Object, Evas_Smart_Cb
-from object_item cimport Elm_Object_Item, ObjectItem
+from object_item cimport Elm_Object_Item
 from enums cimport Elm_Object_Select_Mode, Elm_Toolbar_Shrink_Mode, \
     Elm_Icon_Lookup_Order, Elm_Toolbar_Item_Scrollto_Type
 

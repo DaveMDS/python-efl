@@ -18,7 +18,7 @@
 from cpython cimport PyUnicode_AsUTF8String, Py_DECREF, Py_INCREF
 from libc.stdint cimport uintptr_t
 
-from efl.eo cimport _object_mapping_register, object_from_instance, PY_REFCOUNT
+from efl.eo cimport PY_REFCOUNT
 from efl.utils.conversions cimport _ctouni
 from efl.utils.deprecated cimport DEPRECATED
 from efl.evas cimport Object as evasObject
@@ -32,8 +32,6 @@ include "tooltips.pxi"
 # cdef void _tooltip_item_data_del_cb(void *data, Evas_Object *o, void *event_info) with gil:
 #    Py_DECREF(<object>data)
 
-from efl.utils.conversions cimport python_list_objects_to_eina_list, \
-    eina_list_objects_to_python_list
 from object cimport Object
 import traceback
 

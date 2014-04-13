@@ -15,7 +15,7 @@
 # You should have received a copy of the GNU Lesser General Public License
 # along with this Python-EFL.  If not, see <http://www.gnu.org/licenses/>.
 
-from libc.stdlib cimport malloc, free
+from libc.stdlib cimport malloc
 from libc.string cimport strdup
 from cpython cimport PyUnicode_AsUTF8String
 

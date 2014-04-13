@@ -142,9 +142,8 @@ Type that blocks the scroll movement in one or more direction.
 
 from cpython cimport PyUnicode_AsUTF8String
 
-from efl.evas cimport Evas_Object, Object as evasObject
-from efl.eo cimport object_from_instance, _object_mapping_register
-from efl.utils.conversions cimport _ctouni, _touni
+from efl.evas cimport Object as evasObject
+from efl.eo cimport _object_mapping_register
 
 from object cimport Object
 from layout_class cimport LayoutClass

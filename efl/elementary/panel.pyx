@@ -73,7 +73,6 @@ Panel orientation types
 
 from efl.eo cimport _object_mapping_register
 from efl.evas cimport Object as evasObject
-from object cimport Object
 from layout_class cimport LayoutClass
 
 cimport enums

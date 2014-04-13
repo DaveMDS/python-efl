@@ -477,9 +477,7 @@ from cpython cimport PyUnicode_AsUTF8String, Py_INCREF
 from efl.eo cimport _object_mapping_register, object_from_instance
 from efl.utils.conversions cimport _touni, _ctouni
 from efl.evas cimport Object as evasObject
-from object cimport Object
 from layout_class cimport LayoutClass
-from hover cimport Hover
 
 from efl.utils.deprecated cimport DEPRECATED
 from scroller cimport elm_scroller_policy_get, elm_scroller_policy_set, \

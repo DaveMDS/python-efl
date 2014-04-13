@@ -17,6 +17,8 @@
 
 from cpython cimport PyUnicode_AsUTF8String
 
+from efl.utils.conversions cimport _ctouni
+
 cdef class EventPoint:
     cdef void _set_obj(self, Evas_Point *obj):
         self.obj = obj

@@ -1,3 +1,5 @@
+from efl.eo cimport _object_mapping_register, PY_REFCOUNT
+
 #include "cnp_callbacks.pxi"
 
 cdef class Genlist(Object):

@@ -66,7 +66,7 @@ class EvasSmartObjectMeta(type):
         addr = _smart_object_class_new(cls.__name__)
         cls.__evas_smart_class__ = addr
 
-from cpython cimport PyObject, PyTypeObject, Py_INCREF
+from cpython cimport PyObject, PyTypeObject
 
 cdef void _install_metaclass(meta, cls):
     #Py_INCREF(meta)

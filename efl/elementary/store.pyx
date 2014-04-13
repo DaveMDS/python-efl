@@ -106,7 +106,6 @@ Enumerations
 from libc.string cimport strdup
 from cpython cimport Py_INCREF, Py_DECREF
 from efl.eo cimport _ctouni, _touni
-from object cimport Object
 from object_item cimport _object_item_to_python
 from genlist cimport GenlistItemClass
 

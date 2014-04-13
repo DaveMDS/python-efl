@@ -100,8 +100,8 @@ from efl.utils.conversions cimport _ctouni
 from efl.evas cimport Object as evasObject
 from layout_class cimport LayoutClass
 
-from object_item cimport    _object_item_to_python, \
-                            _object_item_list_to_python
+from object_item cimport _object_item_to_python, _object_item_list_to_python, \
+    ObjectItem
 
 from efl.utils.deprecated cimport DEPRECATED
 

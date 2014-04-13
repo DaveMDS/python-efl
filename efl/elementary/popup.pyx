@@ -179,16 +179,14 @@ Wrap modes
 
 """
 
-from cpython cimport PyUnicode_AsUTF8String, Py_DECREF
+from cpython cimport PyUnicode_AsUTF8String
 from libc.stdint cimport uintptr_t
 
 from efl.eo cimport _object_mapping_register, PY_REFCOUNT
-from efl.utils.conversions cimport _ctouni
 from efl.evas cimport Object as evasObject
-from object cimport Object
 from layout_class cimport LayoutClass
 from object_item cimport _object_item_callback, _object_item_callback2, \
-    _object_item_to_python
+    ObjectItem
 
 cimport enums
 

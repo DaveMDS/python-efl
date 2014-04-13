@@ -1,7 +1,6 @@
 from efl.eina cimport Eina_List
 from efl.evas cimport Eina_Bool, Evas_Object, Evas_Smart_Cb
-from object_item cimport Elm_Object_Item, ObjectItem
-from enums cimport Elm_Scroller_Policy
+from object_item cimport Elm_Object_Item
 
 cdef extern from "Elementary.h":
     Evas_Object             *elm_diskselector_add(Evas_Object *parent)

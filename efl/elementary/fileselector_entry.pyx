@@ -106,8 +106,6 @@ from fileselector cimport elm_fileselector_path_set, \
     elm_fileselector_is_save_get, elm_fileselector_selected_set, \
     elm_fileselector_selected_get
 
-cimport enums
-
 def _cb_string_conv(uintptr_t addr):
     cdef const char *s = <const char *>addr
     return _ctouni(s) if s is not NULL else None

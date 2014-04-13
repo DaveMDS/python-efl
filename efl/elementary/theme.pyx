@@ -85,7 +85,7 @@ overlays. Don't use this unless you really know what you are doing.
 
 """
 
-from cpython cimport PyUnicode_AsUTF8String, Py_INCREF, Py_DECREF
+from cpython cimport PyUnicode_AsUTF8String
 from libc.stdint cimport uintptr_t
 
 from efl.eo cimport PY_REFCOUNT

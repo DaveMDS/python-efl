@@ -167,9 +167,9 @@ Days
 
 """
 
-from cpython cimport PyUnicode_AsUTF8String, PyMem_Malloc, PyMem_Free
+from cpython cimport PyUnicode_AsUTF8String
 
-from efl.utils.conversions cimport _ctouni, array_of_strings_to_python_list, \
+from efl.utils.conversions cimport array_of_strings_to_python_list, \
     python_list_strings_to_array_of_strings
 from efl.eo cimport _object_mapping_register
 from efl.evas cimport Object as evasObject

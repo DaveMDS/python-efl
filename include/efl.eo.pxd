@@ -17,8 +17,6 @@
 
 from efl.c_eo cimport Eo as cEo
 
-from efl.eina cimport Eina_List
-
 cdef:
     class Eo(object):
         cdef:

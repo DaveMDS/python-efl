@@ -60,11 +60,10 @@ from cpython cimport PyUnicode_AsUTF8String
 from libc.stdint cimport uintptr_t
 
 from efl.eo cimport _object_mapping_register
-from efl.utils.conversions cimport _ctouni
 from efl.evas cimport Object as evasObject
 from object cimport Object
 from object_item cimport _object_item_to_python, _object_item_callback, \
-    _object_item_list_to_python, _object_item_callback2
+    _object_item_list_to_python, _object_item_callback2, ObjectItem
 
 def _cb_object_item_conv(uintptr_t addr):
     cdef Elm_Object_Item *it = <Elm_Object_Item *>addr

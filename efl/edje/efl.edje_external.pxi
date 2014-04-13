@@ -15,6 +15,8 @@
 # You should have received a copy of the GNU Lesser General Public License
 # along with this Python-EFL.  If not, see <http://www.gnu.org/licenses/>.
 
+from efl.eina cimport Eina_Hash_Tuple, eina_iterator_next, eina_iterator_free
+from efl.evas cimport Canvas
 
 cdef class ExternalParam:
     property name:

@@ -1,5 +1,4 @@
-from efl.evas cimport Eina_Bool, Eina_List, Evas_Coord, Evas_Object, \
-    Evas_Font_Size
+from efl.evas cimport Eina_Bool, Eina_List, Evas_Coord, Evas_Font_Size
 from enums cimport Elm_Softcursor_Mode
 
 cdef extern from "Elementary.h":

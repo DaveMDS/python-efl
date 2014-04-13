@@ -21,8 +21,6 @@ cdef extern from "Python.h":
 from cpython.buffer cimport Py_buffer, PyObject_CheckBuffer, \
     PyObject_GetBuffer, PyBuffer_Release, PyBUF_SIMPLE
 
-from cpython.mem cimport PyMem_Malloc, PyMem_Realloc, PyMem_Free
-
 
 cdef int _data_size_get(Evas_Object *obj):
     cdef int stride, h, bpp, cspace, have_alpha

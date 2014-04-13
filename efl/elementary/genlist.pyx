@@ -509,7 +509,6 @@ include "tooltips.pxi"
 from cpython cimport PyUnicode_AsUTF8String, Py_DECREF, Py_INCREF
 from libc.stdint cimport uintptr_t
 
-from efl.eo cimport _object_mapping_register, PY_REFCOUNT
 from efl.utils.conversions cimport _ctouni
 from efl.evas cimport Object as evasObject
 
@@ -520,7 +519,8 @@ from scroller cimport elm_scroller_policy_get, elm_scroller_policy_set, \
 from object_item cimport ObjectItem, _object_item_to_python, \
     elm_object_item_widget_get, _object_item_from_python, \
     _object_item_list_to_python, elm_object_item_data_get
-from general cimport strdup
+from libc.string cimport strdup
+from object cimport Object
 
 from general cimport PY_EFL_ELM_LOG_DOMAIN
 from efl.eina cimport EINA_LOG_DOM_DBG, EINA_LOG_DOM_INFO, EINA_LOG_DOM_WARN, \

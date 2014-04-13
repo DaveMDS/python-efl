@@ -16,10 +16,9 @@
 # along with this Python-EFL.  If not, see <http://www.gnu.org/licenses/>.
 
 from cpython cimport PyObject, Py_INCREF, Py_DECREF, PyUnicode_AsUTF8String
-from libc.stdlib cimport malloc, free
-from libc.string cimport memcpy, strdup
+
 from libc.stdint cimport uintptr_t
-from efl.eina cimport Eina_Bool, Eina_List, eina_list_append, \
+from efl.eina cimport Eina_Bool, \
     Eina_Hash, eina_hash_string_superfast_new, eina_hash_add, eina_hash_del, \
     eina_hash_find, EINA_LOG_DOM_DBG, EINA_LOG_DOM_INFO
 from efl.c_eo cimport Eo as cEo, eo_init, eo_shutdown, eo_del, eo_do, \

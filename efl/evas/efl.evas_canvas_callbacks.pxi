@@ -15,6 +15,7 @@
 # You should have received a copy of the GNU Lesser General Public License
 # along with this Python-EFL.  If not, see <http://www.gnu.org/licenses/>.
 
+import traceback
 
 cdef int cb_canvas_dispatcher(Canvas self, event, int type) except 0:
     # iterate over copy since users may delete callback from callback

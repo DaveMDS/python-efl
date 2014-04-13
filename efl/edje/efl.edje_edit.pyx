@@ -15,10 +15,15 @@
 # You should have received a copy of the GNU Lesser General Public License
 # along with this Python-EFL.  If not, see <http://www.gnu.org/licenses/>.
 
+from libc.stdlib cimport free
+
+from efl.eina cimport eina_stringshare_add, eina_stringshare_del, \
+    eina_stringshare_replace
 from efl.utils.conversions cimport _touni, _ctouni, \
     eina_list_strings_to_python_list
 from efl.eo cimport _register_decorated_callbacks
-from efl.edje cimport Edje_Part_Type
+from efl.evas cimport Canvas
+from efl.edje cimport Edje_Part_Type, Edje
 from efl.edje import EDJE_PART_TYPE_EXTERNAL
 
 

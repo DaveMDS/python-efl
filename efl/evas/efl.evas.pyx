@@ -15,12 +15,6 @@
 # You should have received a copy of the GNU Lesser General Public License
 # along with this Python-EFL.  If not, see <http://www.gnu.org/licenses/>.
 
-import traceback
-from cpython cimport PyUnicode_AsUTF8String
-from libc.stdint cimport uintptr_t
-#from efl.eina cimport *
-from efl.eo cimport Eo, object_from_instance, _object_mapping_register
-from efl.utils.conversions cimport _ctouni, _touni
 cimport efl.evas.enums as enums
 
 EVAS_LAYER_MIN = enums.EVAS_LAYER_MIN

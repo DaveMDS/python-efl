@@ -108,12 +108,10 @@ Dayselector days
 
 """
 
-from cpython cimport PyUnicode_AsUTF8String
-
 from efl.eo cimport _object_mapping_register
 from efl.evas cimport Object as evasObject
 from efl.utils.conversions cimport python_list_strings_to_array_of_strings, \
-    eina_list_strings_to_python_list, _ctouni
+    eina_list_strings_to_python_list
 from layout_class cimport LayoutClass
 
 cimport enums

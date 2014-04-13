@@ -1,6 +1,6 @@
-from efl.evas cimport Eina_Bool, Evas_Object, Evas_Coord, Eina_List
+from efl.evas cimport Eina_Bool, Evas_Object, Eina_List
 from efl.evas cimport Evas_Smart_Cb
-from object_item cimport Elm_Object_Item, ObjectItem
+from object_item cimport Elm_Object_Item
 
 cdef extern from "Elementary.h":
     Evas_Object             *elm_flipselector_add(Evas_Object *parent)

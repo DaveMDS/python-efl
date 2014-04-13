@@ -144,10 +144,8 @@ Tween modes
 
 """
 
-from cpython cimport PyUnicode_AsUTF8String, Py_INCREF, Py_DECREF
+from cpython cimport Py_INCREF, Py_DECREF
 
-from efl.eo cimport _object_mapping_register
-from efl.utils.conversions cimport _ctouni
 from efl.evas cimport Object as evasObject
 from efl.utils.conversions cimport eina_list_objects_to_python_list, \
     python_list_strings_to_eina_list

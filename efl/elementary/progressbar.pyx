@@ -80,8 +80,6 @@ from efl.eo cimport _object_mapping_register
 from efl.utils.conversions cimport _ctouni
 from efl.evas cimport Object as evasObject
 from layout_class cimport LayoutClass
-from object cimport Object
-
 
 cdef class Progressbar(LayoutClass):
 

@@ -15,6 +15,9 @@
 # You should have received a copy of the GNU Lesser General Public License
 # along with this Python-EFL.  If not, see <http://www.gnu.org/licenses/>.
 
+from libc.stdint cimport uintptr_t
+from cpython cimport PyUnicode_AsUTF8String
+from efl.eo cimport Eo, object_from_instance, _object_mapping_register
 
 # cdef int _canvas_free_wrapper_resources(Canvas canvas) except 0:
 #     cdef int i

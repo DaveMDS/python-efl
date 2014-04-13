@@ -1,5 +1,4 @@
 from efl.evas cimport Eina_Bool, Eina_List, Evas_Object, Evas_Coord
-from enums cimport Elm_Box_CLayout
 
 cdef extern from "Ecore.h":
     ctypedef void (*Ecore_Cb)(void *data)

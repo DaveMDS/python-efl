@@ -1,5 +1,4 @@
 from efl.evas cimport Eina_Bool, Evas_Object
-from enums cimport Elm_Notify_Orient
 
 cdef extern from "Elementary.h":
     Evas_Object             *elm_notify_add(Evas_Object *parent)

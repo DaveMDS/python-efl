@@ -169,11 +169,9 @@ from cpython cimport PyUnicode_AsUTF8String, Py_INCREF, Py_DECREF
 from efl.eo cimport _object_mapping_register, object_from_instance
 from efl.utils.conversions cimport _ctouni
 from efl.evas cimport Object as evasObject
-from object cimport Object
 from layout_class cimport LayoutClass
 from object_item cimport _object_item_callback, _object_item_to_python, \
-    _object_item_callback2
-from menu cimport Menu
+    _object_item_callback2, ObjectItem
 
 from efl.utils.deprecated cimport DEPRECATED
 from scroller cimport elm_scroller_policy_get, elm_scroller_policy_set, \

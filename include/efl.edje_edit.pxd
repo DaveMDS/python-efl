@@ -15,11 +15,11 @@
 # You should have received a copy of the GNU Lesser General Public License
 # along with this Python-EFL.  If not, see <http://www.gnu.org/licenses/>.
 
-from efl.eina cimport *
-from efl.evas cimport Canvas, Evas_Event_Flags
+from efl.eina cimport Eina_Bool, Eina_List
+from efl.evas cimport Evas_Event_Flags
 from efl.evas cimport Evas_Object, Evas
-from efl.edje cimport Edje, Edje_Part_Type, Edje_Text_Effect, Edje_Tween_Mode, \
-                      Edje_Action_Type
+from efl.edje cimport Edje_Part_Type, Edje_Text_Effect, Edje_Tween_Mode, \
+    Edje_Action_Type
 
 
 cdef extern from "Edje_Edit.h":

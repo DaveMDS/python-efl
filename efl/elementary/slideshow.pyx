@@ -78,7 +78,7 @@ This widget emits the following signals, besides the ones sent from
 
 """
 
-from cpython cimport PyUnicode_AsUTF8String, Py_INCREF, Py_DECREF
+from cpython cimport PyUnicode_AsUTF8String, Py_INCREF
 from libc.stdint cimport uintptr_t
 
 from efl.eo cimport _object_mapping_register, object_from_instance, PY_REFCOUNT
@@ -89,7 +89,8 @@ from efl.utils.conversions cimport eina_list_strings_to_python_list
 from layout_class cimport LayoutClass
 
 import traceback
-from object_item cimport _object_item_to_python, _object_item_list_to_python
+from object_item cimport _object_item_to_python, _object_item_list_to_python, \
+    ObjectItem
 
 def _cb_object_item_conv(uintptr_t addr):
     cdef Elm_Object_Item *it = <Elm_Object_Item *>addr

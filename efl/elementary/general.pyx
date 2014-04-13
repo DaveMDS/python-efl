@@ -119,9 +119,8 @@ Possible values for the #ELM_POLICY_THROTTLE policy.
 
 """
 
-from cpython cimport PyObject, Py_INCREF, Py_DECREF, PyUnicode_AsUTF8String, \
-    PyMem_Malloc, PyMem_Free
-from libc.stdint cimport uintptr_t
+from cpython cimport PyUnicode_AsUTF8String, PyMem_Malloc, Py_DECREF
+from libc.string cimport memcpy
 
 from efl.evas cimport Object as evasObject
 
@@ -134,8 +133,9 @@ from efl.utils.logger cimport add_logger
 from efl.eina cimport EINA_LOG_DOM_DBG, EINA_LOG_DOM_INFO, \
     EINA_LOG_DOM_WARN, EINA_LOG_DOM_ERR, EINA_LOG_DOM_CRIT
 
+from enums cimport Elm_Policy
+
 import sys
-import traceback
 
 cimport enums
 

@@ -1,5 +1,5 @@
 from efl.evas cimport Evas_Object, Eina_Bool, Eina_List
-from object_item cimport Elm_Object_Item, ObjectItem
+from object_item cimport Elm_Object_Item
 
 cdef extern from "Elementary.h":
     Evas_Object             *elm_naviframe_add(Evas_Object *parent)

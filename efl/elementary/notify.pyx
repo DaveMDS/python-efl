@@ -54,10 +54,7 @@ ELM_NOTIFY_ALIGN_FILL
 
 """
 
-from cpython cimport PyUnicode_AsUTF8String
-
 from efl.eo cimport _object_mapping_register, object_from_instance
-from efl.utils.conversions cimport _ctouni
 from efl.evas cimport Object as evasObject
 from object cimport Object
 from efl.utils.deprecated cimport DEPRECATED

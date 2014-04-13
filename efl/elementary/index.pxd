@@ -1,6 +1,5 @@
 from efl.evas cimport Eina_Bool, Eina_Compare_Cb, Evas_Object, Evas_Smart_Cb
-from object cimport Object
-from object_item cimport Elm_Object_Item, ObjectItem
+from object_item cimport Elm_Object_Item
 
 cdef extern from "Elementary.h":
     Evas_Object             *elm_index_add(Evas_Object *parent)

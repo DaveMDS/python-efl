@@ -1,5 +1,5 @@
 from efl.evas cimport Eina_Bool, Evas_Object, Evas_Smart_Cb
-from object_item cimport Elm_Object_Item, ObjectItem
+from object_item cimport Elm_Object_Item
 from enums cimport Elm_Wrap_Type, Elm_Popup_Orient
 
 cdef extern from "Elementary.h":
