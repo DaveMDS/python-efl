@@ -477,17 +477,17 @@ cdef class Rect(object):
         top = o.top
         bottom = o.bottom
 
-        a = left <= self.x0 and self.x0 <= right
-        b = left <= self.x1 and self.x1 <= right
-        c = top <= self.y0 and self.y0 <= bottom
-        d = top <= self.y1 and self.y1 <= bottom
+        a = left <= self.x0 <= right
+        b = left <= self.x1 <= right
+        c = top <= self.y0 <= bottom
+        d = top <= self.y1 <= bottom
         if (a or b) and (c or d):
             return True
 
-        a = self.x0 <= left and left <= self.x1
-        b = self.x0 <= right and right <= self.x1
-        c = self.y0 <= top and top <= self.y1
-        d = self.y0 <= bottom and bottom <= self.y1
+        a = self.x0 <= left <= self.x1
+        b = self.x0 <= right <= self.x1
+        c = self.y0 <= top <= self.y1
+        d = self.y0 <= bottom <= self.y1
         return bool((a or b) and (c or d))
 
     def clip(self, obj):
