@@ -175,7 +175,7 @@ def zoom_move(event_info, *args, **kwargs):
 
     print("zoom move <%d,%d> <%f>" % (p.x, p.y, p.zoom))
     po.zoom = po.base_zoom * p.zoom
-    apply_changes(po);
+    apply_changes(po)
     return EVAS_EVENT_FLAG_NONE
 
 def zoom_end(event_info, *args, **kwargs):

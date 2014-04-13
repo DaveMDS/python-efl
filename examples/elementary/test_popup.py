@@ -23,7 +23,7 @@ def cb_bnt_close(btn, popup):
     popup.delete()
 
 def cb_btn_restack(btn, popup):
-    im = FilledImage(popup.evas);
+    im = FilledImage(popup.evas)
     im.file = os.path.join(img_path, "mystrale_2.jpg")
     im.move(40, 40)
     im.resize(500, 320)

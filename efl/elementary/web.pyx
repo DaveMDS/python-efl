@@ -252,7 +252,7 @@ cdef class WebWindowFeatures(object):
         .. versionadded:: 1.8
 
         """
-        elm_web_window_features_ref(self.wf);
+        elm_web_window_features_ref(self.wf)
 
     def unref(self):
         """

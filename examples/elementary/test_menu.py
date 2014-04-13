@@ -20,13 +20,13 @@ def menu_populate_4(menu, item):
 
     menu.item_separator_add(item)
 
-    item3 = menu.item_add(item, "Disabled item", "document-print");
+    item3 = menu.item_add(item, "Disabled item", "document-print")
     item3.disabled = True
 
-    item3 = menu.item_add(item, "Disabled item", "mail-send");
+    item3 = menu.item_add(item, "Disabled item", "mail-send")
     item3.disabled = True
 
-    item3 = menu.item_add(item, "Disabled item", "refresh");
+    item3 = menu.item_add(item, "Disabled item", "refresh")
     item3.disabled = True
 
 def menu_populate_3(menu, item):
@@ -36,7 +36,7 @@ def menu_populate_3(menu, item):
 
     menu.item_separator_add(item)
 
-    item3 = menu.item_add(item, "Disabled item", "clock");
+    item3 = menu.item_add(item, "Disabled item", "clock")
     item3.disabled = True
 
 def menu_populate_2(menu, item):
@@ -48,11 +48,11 @@ def menu_populate_2(menu, item):
 
     menu.item_separator_add(item)
 
-    item2 = menu.item_add(item, "menu 2", "refresh");
+    item2 = menu.item_add(item, "menu 2", "refresh")
 
     menu.item_separator_add(item)
 
-    item3 = menu.item_add(item, "Disabled item", "mail-send");
+    item3 = menu.item_add(item, "Disabled item", "mail-send")
     item3.disabled = True
 
     menu_populate_4(menu, item2)

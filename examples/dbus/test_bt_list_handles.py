@@ -19,7 +19,7 @@ if len(sys.argv) != 2:
     sys.exit(1)
 
 dbus_ml = dbus_mainloop.DBusEcoreMainLoop()
-bus = dbus.SystemBus(mainloop=dbus_ml);
+bus = dbus.SystemBus(mainloop=dbus_ml)
 
 obj = bus.get_object("org.bluez", "/org/bluez/hci0")
 adapter = dbus.Interface(obj, "org.bluez.Adapter")

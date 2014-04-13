@@ -88,31 +88,31 @@ def list_clicked(obj, item=None):
     bt = Button(win, text="Hello", size_hint_weight=EXPAND_BOTH,
         size_hint_align=(0.9, 0.5))
     bt.callback_clicked_add(my_list_show_it, it1)
-    tb2.pack(bt, 0, 0, 1, 1);
+    tb2.pack(bt, 0, 0, 1, 1)
     bt.show()
 
     bt = Button(win, text="How", size_hint_weight=EXPAND_BOTH,
         size_hint_align=(0.9, 0.5))
     bt.callback_clicked_add(my_list_show_it, it2)
-    tb2.pack(bt, 0, 1, 1, 1);
+    tb2.pack(bt, 0, 1, 1, 1)
     bt.show()
 
     bt = Button(win, text="doing", size_hint_weight=EXPAND_BOTH,
         size_hint_align=(0.9, 0.5))
     bt.callback_clicked_add(my_list_show_it, it3)
-    tb2.pack(bt, 0, 2, 1, 1);
+    tb2.pack(bt, 0, 2, 1, 1)
     bt.show()
 
     bt = Button(win, text="Here", size_hint_weight=EXPAND_BOTH,
         size_hint_align=(0.9, 0.5))
     bt.callback_clicked_add(my_list_show_it, it4)
-    tb2.pack(bt, 0, 3, 1, 1);
+    tb2.pack(bt, 0, 3, 1, 1)
     bt.show()
 
     bt = Button(win, text="Maybe this...", size_hint_weight=EXPAND_BOTH,
         size_hint_align=(0.9, 0.5))
     bt.callback_clicked_add(my_list_show_it, it5)
-    tb2.pack(bt, 0, 4, 1, 1);
+    tb2.pack(bt, 0, 4, 1, 1)
     bt.show()
 
     tb2.show()

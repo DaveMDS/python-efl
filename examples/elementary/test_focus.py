@@ -399,7 +399,7 @@ def _custom_chain_cb(chk, bx):
                 bx.focus_custom_chain_append(child, c)
                 c = child
             elif i == 3:
-                bx.focus_custom_chain_prepend(child, c);
+                bx.focus_custom_chain_prepend(child, c)
             i += 1
         
     else:
@@ -412,7 +412,7 @@ def focus4_clicked(obj, item=None):
     win.focus_highlight_animate = True
 
     fr = Frame(win, style="pad_large",
-              size_hint_weight=EXPAND_BOTH);
+              size_hint_weight=EXPAND_BOTH)
     win.resize_object_add(fr)
     fr.show()
 
@@ -513,7 +513,7 @@ def focus5_clicked(obj, item=None):
     win.focus_highlight_style = "glow"
 
     fr = Frame(win, style="pad_large",
-              size_hint_weight=EXPAND_BOTH);
+              size_hint_weight=EXPAND_BOTH)
     win.resize_object_add(fr)
     fr.show()
 

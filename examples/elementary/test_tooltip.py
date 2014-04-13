@@ -174,13 +174,13 @@ def tooltip_clicked(obj):
         value = data.get("value")
         data["value"] = not value
         if value:
-            obj.text_set("Unlocked tooltip visibility");
+            obj.text_set("Unlocked tooltip visibility")
             obj.tooltip_hide()
         else:
-            obj.text_set("Locked tooltip visibility");
+            obj.text_set("Locked tooltip visibility")
             obj.tooltip_show()
 
-    bt = Button(win, text="Unlocked tooltip visibility");
+    bt = Button(win, text="Unlocked tooltip visibility")
     bt.tooltip_text_set(
         "This tooltip is unlocked visible,<br> click the button to lock!")
     data = dict()
@@ -190,13 +190,13 @@ def tooltip_clicked(obj):
 
     def _tt_move_freeze_toggle(obj, *args, **kargs):
         if obj.tooltip_move_freeze_get():
-            obj.text_set("Unfreezed tooltip movement");
+            obj.text_set("Unfreezed tooltip movement")
             obj.tooltip_move_freeze_pop()
         else:
-            obj.text_set("Freezed tooltip movement");
+            obj.text_set("Freezed tooltip movement")
             obj.tooltip_move_freeze_push()
 
-    bt = Button(win, text="Freezed tooltip movement");
+    bt = Button(win, text="Freezed tooltip movement")
     bt.tooltip_text_set(
         "This tooltip has freezed movement,<br> click the button to unfreeze!")
     bt.tooltip_move_freeze_push()

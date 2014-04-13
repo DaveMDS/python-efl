@@ -124,7 +124,7 @@ def actionslider_clicked(obj):
     acts.part_text_set("left", "Left")
     acts.part_text_set("center", "Center")
     acts.part_text_set("right", "Right")
-    acts.text_set("Go");
+    acts.text_set("Go")
     acts.callback_selected_add(_pos_selected_cb)
     bx.pack_end(acts)
     acts.show()

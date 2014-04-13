@@ -1768,13 +1768,13 @@ cdef class Object(Eo):
     property is_frame_object:
         """:type: bool"""
         def __set__(self, bint is_frame):
-            evas_object_is_frame_object_set(self.obj, is_frame);
+            evas_object_is_frame_object_set(self.obj, is_frame)
 
         def __get__(self):
             return bool(evas_object_is_frame_object_get(self.obj))
 
     def is_frame_object_set(self, bint is_frame):
-        evas_object_is_frame_object_set(self.obj, is_frame);
+        evas_object_is_frame_object_set(self.obj, is_frame)
 
     def is_frame_object_get(self):
         return bool(evas_object_is_frame_object_get(self.obj))

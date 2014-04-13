@@ -48,7 +48,7 @@ cdef uintptr_t _smart_object_class_new(name) except 0:
     cls_def.interfaces = NULL
     cls_def.data = NULL
 
-    cls = evas_smart_class_new(cls_def);
+    cls = evas_smart_class_new(cls_def)
     return <uintptr_t>cls
 
 #class EvasSmartObjectMeta(EvasObjectMeta):
