@@ -40,7 +40,7 @@ class Basics(unittest.TestCase):
         self.assertTrue(self.edj.save())
 
         self.edj.delete()
-	self.edj = None
+        self.edj = None
         self.edj = edje.edit.EdjeEdit(
             self.canvas.evas, file="test.edj", group="main")
 
@@ -74,8 +74,8 @@ class Basics(unittest.TestCase):
 
         self.edj.delete()
         other.delete()
-	self.edj = None
-	other = None
+        self.edj = None
+        other = None
         self.edj = edje.edit.EdjeEdit(
             self.canvas.evas, file="test.edj", group="main")
         other = edje.edit.EdjeEdit(
@@ -104,7 +104,7 @@ class Basics(unittest.TestCase):
         self.assertFalse(self.edj.group_add("new"))
         new = edje.edit.EdjeEdit(self.canvas.evas, file="test.edj", group="new")
         new.save()
-	new.delete()
+        new.delete()
         self.assertTrue("new" in edje.file_collection_list("test.edj"))
         self.assertTrue(self.edj.group_add("new2"))
         self.assertTrue(self.edj.group_add(""))
