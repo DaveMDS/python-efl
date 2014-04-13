@@ -189,14 +189,11 @@ def _web_load_frame_error_conv(uintptr_t addr):
     cdef Elm_Web_Frame_Load_Error *err = <Elm_Web_Frame_Load_Error *>addr
     if err == NULL:
         return None
-    ret = {
-        "code": err.code,
-        "is_cancellation": bool(err.is_cancellation),
-        }
-    ret["domain"] = _ctouni(err.domain) if err.domain else None
-    ret["description"] = _ctouni(err.description) if err.description else None
-    ret["failing_url"] = _ctouni(err.failing_url) if err.failing_url else None
-    ret["frame"] = object_from_instance(err.frame) if err.frame else None
+    ret = {"code": err.code, "is_cancellation": bool(err.is_cancellation),
+           "domain": _ctouni(err.domain) if err.domain else None,
+           "description": _ctouni(err.description) if err.description else None,
+           "failing_url": _ctouni(err.failing_url) if err.failing_url else None,
+           "frame": object_from_instance(err.frame) if err.frame else None}
 
     return ret
 
