@@ -311,12 +311,10 @@ def gesture_layer_clicked(obj):
     win.resize_object_add(bg)
     bg.show()
 
-    photos = []
-
-    photos.append(photo_object_add(win, None,
-        os.path.join(img_path, "pol_sky.png"), 200, 200, 365, 400, 0))
-    photos.append(photo_object_add(win, None,
-        os.path.join(img_path, "pol_twofish.png"), 40, 300, 365, 400, 45))
+    photos = [photo_object_add(win, None,
+                               os.path.join(img_path, "pol_sky.png"), 200, 200, 365, 400, 0),
+              photo_object_add(win, None,
+                               os.path.join(img_path, "pol_twofish.png"), 40, 300, 365, 400, 45)]
 
     en = Entry(win, line_wrap=ELM_WRAP_MIXED)
     en.text = "You can use whatever object you want, even entries like this."
