@@ -1,8 +1,3 @@
-:mod:`efl.eo` Module
-=======================
-
-.. module:: efl.eo
-
 
 What is Eo?
 --------------
@@ -20,10 +15,11 @@ number of methods from derived class, like :meth:`Eo.delete()` or
 :meth:`Eo.is_deleted()`
 
 
-Reference
----------
+API Reference
+-------------
 
 .. toctree::
    :maxdepth: 4
 
+   eo_module.rst
    eo_class.rst
