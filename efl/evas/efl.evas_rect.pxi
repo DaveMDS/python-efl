@@ -131,7 +131,7 @@ cdef class Rect(object):
                (self.__class__.__name__, self.x0, self.y0, self._w, self._h)
 
     property x:
-        ":type: int"
+        """:type: int"""
         def __get__(self):
             return self.x0
 
@@ -141,7 +141,7 @@ cdef class Rect(object):
             self.cx = x + self._w/2
 
     property left: # same as "x"
-        ":type: int"
+        """:type: int"""
         def __get__(self):
             return self.x0
 
@@ -151,7 +151,7 @@ cdef class Rect(object):
             self.cx = x + self._w/2
 
     property right:
-        ":type: int"
+        """:type: int"""
         def __get__(self):
             return self.x1
 
@@ -161,7 +161,7 @@ cdef class Rect(object):
             self.cx = self.x0 + self._w/2
 
     property center_x:
-        ":type: int"
+        """:type: int"""
         def __get__(self):
             return self.cx
 
@@ -171,7 +171,7 @@ cdef class Rect(object):
             self.cx = cx
 
     property y:
-        ":type: int"
+        """:type: int"""
         def __get__(self):
             return self.y0
 
@@ -181,7 +181,7 @@ cdef class Rect(object):
             self.cy = y + self._h/2
 
     property top: # same as "y"
-        ":type: int"
+        """:type: int"""
         def __get__(self):
             return self.y0
 
@@ -191,7 +191,7 @@ cdef class Rect(object):
             self.cy = y + self._h/2
 
     property bottom:
-        ":type: int"
+        """:type: int"""
         def __get__(self):
             return self.y1
 
@@ -201,7 +201,7 @@ cdef class Rect(object):
             self.cy = self.y0 + self._h/2
 
     property center_y:
-        ":type: int"
+        """:type: int"""
         def __get__(self):
             return self.cy
 
@@ -211,7 +211,7 @@ cdef class Rect(object):
             self.cy = cy
 
     property w:
-        ":type: int"
+        """:type: int"""
         def __get__(self):
             return self._w
 
@@ -221,7 +221,7 @@ cdef class Rect(object):
             self.cx = self.x0 + w/2
 
     property width:
-        ":type: int"
+        """:type: int"""
         def __get__(self):
             return self._w
 
@@ -231,7 +231,7 @@ cdef class Rect(object):
             self.cx = self.x0 + w/2
 
     property h:
-        ":type: int"
+        """:type: int"""
         def __get__(self):
             return self._h
 
@@ -241,7 +241,7 @@ cdef class Rect(object):
             self.cy = self.y0 + h/2
 
     property height:
-        ":type: int"
+        """:type: int"""
         def __get__(self):
             return self._h
 
@@ -251,7 +251,7 @@ cdef class Rect(object):
             self.cy = self.y0 + h/2
 
     property center:
-        ":type: (int **x**, int **y**)"
+        """:type: (int **x**, int **y**)"""
         def __get__(self):
             return (self.cx, self.cy)
 
@@ -269,7 +269,7 @@ cdef class Rect(object):
             self.cy = cy
 
     property top_left:
-        ":type: (int **x**, int **y**)"
+        """:type: (int **x**, int **y**)"""
         def __get__(self):
             return (self.x0, self.y0)
 
@@ -286,7 +286,7 @@ cdef class Rect(object):
             self.cy = y + self._h/2
 
     property top_right:
-        ":type: (int **x**, int **y**)"
+        """:type: (int **x**, int **y**)"""
         def __get__(self):
             return (self.x1, self.y0)
 
@@ -303,7 +303,7 @@ cdef class Rect(object):
             self.cy = y + self._h/2
 
     property bottom_left:
-        ":type: (int **x**, int **y**)"
+        """:type: (int **x**, int **y**)"""
         def __get__(self):
             return (self.x0, self.y1)
 
@@ -320,7 +320,7 @@ cdef class Rect(object):
             self.cy = self.y0 + self._h/2
 
     property bottom_right:
-        ":type: (int **x**, int **y**)"
+        """:type: (int **x**, int **y**)"""
         def __get__(self):
             return (self.x1, self.y1)
 
@@ -337,7 +337,7 @@ cdef class Rect(object):
             self.cy = self.y0 + self._h/2
 
     property pos:
-        ":type: (int **x**, int **y**)"
+        """:type: (int **x**, int **y**)"""
         def __get__(self):
             return (self.x0, self.y0)
 
@@ -354,7 +354,7 @@ cdef class Rect(object):
             self.cy = y + self._h/2
 
     property size:
-        ":type: (int **w**, int **h**)"
+        """:type: (int **w**, int **h**)"""
         def __get__(self):
             return (self._w, self._h)
 
@@ -371,12 +371,12 @@ cdef class Rect(object):
             self.cy = self.y0 + h/2
 
     property area:
-        ":type: (int **w**, int **h**)"
+        """:type: (int **w**, int **h**)"""
         def __get__(self):
             return self._w * self._h
 
     def normalize(self):
-        "Normalize coordinates so both width and height are positive."
+        """Normalize coordinates so both width and height are positive."""
         cdef int tmp
         if self._w < 0:
             tmp = self.x0
@@ -391,7 +391,7 @@ cdef class Rect(object):
             self._h = -self._h
 
     def __richcmp__(a, b, int op):
-        "Compares two rectangles for (in)equality"
+        """Compares two rectangles for (in)equality"""
         cdef Rect o1, o2
         cdef int res
         if isinstance(a, Rect):
@@ -417,12 +417,12 @@ cdef class Rect(object):
             raise TypeError("unsupported comparison operation")
 
     def __nonzero__(self):
-        "Checks if all coordinates are not zero."
+        """Checks if all coordinates are not zero."""
         return bool(self.x0 != 0 and self._w != 0 and \
                     self.y0 != 0 and self._h != 0)
 
     def __contains__(self, obj):
-        "Checks if contains given rectangle."
+        """Checks if contains given rectangle."""
         cdef Rect o
         if isinstance(obj, Rect):
             o = obj

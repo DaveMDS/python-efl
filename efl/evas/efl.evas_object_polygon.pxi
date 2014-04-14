@@ -52,7 +52,7 @@ cdef class Polygon(Object):
         evas_object_polygon_point_add(self.obj, x, y)
 
     def points_clear(self):
-        "Remove all the points from the polygon"
+        """Remove all the points from the polygon"""
         evas_object_polygon_points_clear(self.obj)
 
 

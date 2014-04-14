@@ -1157,99 +1157,99 @@ cdef class Emotion(evasObject):
             _emotion_callback)
 
     def on_frame_decode_add(self, func, *args, **kargs):
-        "Same as calling: callback_add('frame_decode', func, ...)"
+        """Same as calling: callback_add('frame_decode', func, ...)"""
         self.callback_add("frame_decode", func, *args, **kargs)
 
     def on_frame_decode_del(self, func):
-        "Same as calling: callback_del('frame_decode', func)"
+        """Same as calling: callback_del('frame_decode', func)"""
         self.callback_del("frame_decode", func)
 
     def on_frame_resize_add(self, func, *args, **kargs):
-        "Same as calling: callback_add('frame_resize', func, ...)"
+        """Same as calling: callback_add('frame_resize', func, ...)"""
         self.callback_add("frame_resize", func, *args, **kargs)
 
     def on_frame_resize_del(self, func):
-        "Same as calling: callback_del('frame_resize', func)"
+        """Same as calling: callback_del('frame_resize', func)"""
         self.callback_del("frame_resize", func)
 
     def on_length_change_add(self, func, *args, **kargs):
-        "Same as calling: callback_add('length_change', func, ...)"
+        """Same as calling: callback_add('length_change', func, ...)"""
         self.callback_add("length_change", func, *args, **kargs)
 
     def on_length_change_del(self, func):
-        "Same as calling: callback_del('length_change', func)"
+        """Same as calling: callback_del('length_change', func)"""
         self.callback_del("length_change", func)
 
     def on_decode_stop_add(self, func, *args, **kargs):
-        "Same as calling: callback_add('decode_stop', func, ...)"
+        """Same as calling: callback_add('decode_stop', func, ...)"""
         self.callback_add("decode_stop", func, *args, **kargs)
 
     def on_decode_stop_del(self, func):
-        "Same as calling: callback_del('decode_stop', func)"
+        """Same as calling: callback_del('decode_stop', func)"""
         self.callback_del("decode_stop", func)
 
     def on_channels_change_add(self, func, *args, **kargs):
-        "Same as calling: callback_add('channels_change', func, ...)"
+        """Same as calling: callback_add('channels_change', func, ...)"""
         self.callback_add("channels_change", func, *args, **kargs)
 
     def on_channels_change_del(self, func):
-        "Same as calling: callback_del('channels_change', func)"
+        """Same as calling: callback_del('channels_change', func)"""
         self.callback_del("channels_change", func)
 
     def on_title_change_add(self, func, *args, **kargs):
-        "Same as calling: callback_add('title_change', func, ...)"
+        """Same as calling: callback_add('title_change', func, ...)"""
         self.callback_add("title_change", func, *args, **kargs)
 
     def on_title_change_del(self, func):
-        "Same as calling: callback_del('title_change', func)"
+        """Same as calling: callback_del('title_change', func)"""
         self.callback_del("title_change", func)
 
     def on_progress_change_add(self, func, *args, **kargs):
-        "Same as calling: callback_add('progress_change', func, ...)"
+        """Same as calling: callback_add('progress_change', func, ...)"""
         self.callback_add("progress_change", func, *args, **kargs)
 
     def on_progress_change_del(self, func):
-        "Same as calling: callback_del('progress_change', func)"
+        """Same as calling: callback_del('progress_change', func)"""
         self.callback_del("progress_change", func)
 
     def on_ref_change_add(self, func, *args, **kargs):
-        "Same as calling: callback_add('ref_change', func, ...)"
+        """Same as calling: callback_add('ref_change', func, ...)"""
         self.callback_add("ref_change", func, *args, **kargs)
 
     def on_ref_change_del(self, func):
-        "Same as calling: callback_del('ref_change', func)"
+        """Same as calling: callback_del('ref_change', func)"""
         self.callback_del("ref_change", func)
 
     def on_button_num_change_add(self, func, *args, **kargs):
-        "Same as calling: callback_add('button_num_change', func, ...)"
+        """Same as calling: callback_add('button_num_change', func, ...)"""
         self.callback_add("button_num_change", func, *args, **kargs)
 
     def on_button_num_change_del(self, func):
-        "Same as calling: callback_del('button_num_change', func)"
+        """Same as calling: callback_del('button_num_change', func)"""
         self.callback_del("button_num_change", func)
 
     def on_button_change_add(self, func, *args, **kargs):
-        "Same as calling: callback_add('button_change', func, ...)"
+        """Same as calling: callback_add('button_change', func, ...)"""
         self.callback_add("button_change", func, *args, **kargs)
 
     def on_button_change_del(self, func):
-        "Same as calling: callback_del('button_change', func)"
+        """Same as calling: callback_del('button_change', func)"""
         self.callback_del("button_change", func)
 
     def on_playback_finished_add(self, func, *args, **kargs):
-        "Same as calling: callback_add('playback_finished', func, ...)"
+        """Same as calling: callback_add('playback_finished', func, ...)"""
         self.callback_add("playback_finished", func, *args, **kargs)
 
     def on_playback_finished_del(self, func):
-        "Same as calling: callback_del('playback_finished', func)"
+        """Same as calling: callback_del('playback_finished', func)"""
         self.callback_del("playback_finished", func)
 
     def on_audio_level_change_add(self, func, *args, **kargs):
-        "Same as calling: callback_add('audio_level_change', func, ...)"
+        """Same as calling: callback_add('audio_level_change', func, ...)"""
         self.callback_add("audio_level_change", func, *args, **kargs)
 
     def on_audio_level_change_del(self, func):
-        "Same as calling: callback_del('audio_level_change', func)"
+        """Same as calling: callback_del('audio_level_change', func)"""
         self.callback_del("audio_level_change", func)
 
 

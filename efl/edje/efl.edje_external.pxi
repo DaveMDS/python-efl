@@ -477,7 +477,7 @@ cdef class ExternalIterator:
             eina_iterator_free(self.obj)
 
 def external_type_get(char *type_name):
-    "Gets the instance that represents an ExternalType of the given name."
+    """Gets the instance that represents an ExternalType of the given name."""
     cdef const Edje_External_Type *obj = edje_external_type_get(type_name)
     cdef ExternalType ret
     if obj == NULL:

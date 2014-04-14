@@ -66,19 +66,19 @@ cdef class Timer(Eo):
         return self.func(*self.args, **self.kargs)
 
     def delete(self):
-        "Stop callback emission and free internal resources."
+        """Stop callback emission and free internal resources."""
         ecore_timer_del(self.obj)
 
     def stop(self):
-        "Alias for ``delete()``"
+        """Alias for ``delete()``"""
         self.delete()
 
     def freeze(self):
-        "Pauses a running timer."
+        """Pauses a running timer."""
         ecore_timer_freeze(self.obj)
 
     def thaw(self):
-        "Resumes a frozen (paused) timer."
+        """Resumes a frozen (paused) timer."""
         ecore_timer_thaw(self.obj)
 
     def delay(self, double add):

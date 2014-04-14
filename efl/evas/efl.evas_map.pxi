@@ -59,7 +59,7 @@ cdef class Map(object):
         self.map = evas_map_new(count)
 
     def delete(self):
-        "delete the map object"
+        """delete the map object"""
         evas_map_free(self.map)
         self.map = NULL
 

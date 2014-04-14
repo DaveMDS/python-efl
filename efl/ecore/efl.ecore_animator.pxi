@@ -62,11 +62,11 @@ cdef class Animator(Eo):
         return self.func(*self.args, **self.kargs)
 
     def delete(self):
-        "Stop callback emission and free internal resources."
+        """Stop callback emission and free internal resources."""
         ecore_animator_del(self.obj)
 
     def stop(self):
-        "Alias for delete()."
+        """Alias for delete()."""
         self.delete()
 
 cdef Eina_Bool _ecore_timeline_cb(void *data, double pos) with gil:

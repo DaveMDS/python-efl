@@ -63,11 +63,11 @@ cdef class Idler(Eo):
         return self.func(*self.args, **self.kargs)
 
     def delete(self):
-        "Stop callback emission and free internal resources."
+        """Stop callback emission and free internal resources."""
         ecore_idler_del(self.obj)
 
     def stop(self):
-        "Alias for stop()."
+        """Alias for stop()."""
         self.delete()
 
 
@@ -107,7 +107,7 @@ cdef class IdleEnterer(Idler):
         self._set_obj(ecore_idle_enterer_add(_ecore_task_cb, <void *>self))
 
     def delete(self):
-        "Stop callback emission and free internal resources."
+        """Stop callback emission and free internal resources."""
         ecore_idle_enterer_del(self.obj)
 
 

@@ -140,14 +140,14 @@ cdef class FdHandler(object):
         return self.func(self, *self.args, **self.kargs)
 
     def delete(self):
-        "Stop callback emission and free internal resources."
+        """Stop callback emission and free internal resources."""
         if self.obj != NULL:
             ecore_main_fd_handler_del(self.obj)
             self.obj = NULL
             Py_DECREF(self)
 
     def stop(self):
-        "Alias for ``delete``."
+        """Alias for ``delete``."""
         self.delete()
 
     def fd_get(self):
@@ -187,15 +187,15 @@ cdef class FdHandler(object):
         ecore_main_fd_handler_active_set(self.obj, v)
 
     def can_read(self):
-        ":rtype: bool"
+        """:rtype: bool"""
         return bool(ecore_main_fd_handler_active_get(self.obj, ECORE_FD_READ))
 
     def can_write(self):
-        ":rtype: bool"
+        """:rtype: bool"""
         return bool(ecore_main_fd_handler_active_get(self.obj, ECORE_FD_WRITE))
 
     def has_error(self):
-        ":rtype: bool"
+        """:rtype: bool"""
         return bool(ecore_main_fd_handler_active_get(self.obj, ECORE_FD_ERROR))
 
     def prepare_callback_set(self, func, *args, **kargs):

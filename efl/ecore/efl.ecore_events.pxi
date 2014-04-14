@@ -68,7 +68,7 @@ cdef class Event(object):
 
 cdef class EventHandler(object):
     def __init__(self, int type, func, *args, **kargs):
-        ":parm type: event type, as registered with ecore_event_type_new()."
+        """:parm type: event type, as registered with ecore_event_type_new()."""
         if not callable(func):
             raise TypeError("Parameter 'func' must be callable")
         event_cls = _event_type_mapping.get(type, None)

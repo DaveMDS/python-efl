@@ -375,7 +375,7 @@ cdef class Exe(object):
         ecore_exe_free(self.exe)
 
     def free(self):
-        "Alias for :py:meth:`delete` to keep compatibility with C-api."
+        """Alias for :py:meth:`delete` to keep compatibility with C-api."""
         self.delete()
 
     def send(self, buf, long size=0):
