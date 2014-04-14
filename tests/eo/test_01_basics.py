@@ -1,16 +1,14 @@
 #!/usr/bin/env python
 
-from efl import eo
 from efl.eo import Eo
 
-eo.init()
+import unittest
 
-import os, unittest
 
 class TestBasics(unittest.TestCase):
 
     def setUp(self):
-        self.o = eo.Eo.__new__(eo.Eo)
+        self.o = Eo.__new__(Eo)
 
     def tearDown(self):
         self.o.delete()

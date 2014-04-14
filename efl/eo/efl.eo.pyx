@@ -22,13 +22,12 @@ from efl.eina cimport Eina_Bool, \
     Eina_Hash, eina_hash_string_superfast_new, eina_hash_add, eina_hash_del, \
     eina_hash_find, EINA_LOG_DOM_DBG, EINA_LOG_DOM_INFO
 from efl.c_eo cimport Eo as cEo, eo_init, eo_shutdown, eo_del, eo_do, \
-    eo_class_name_get, eo_class_get, eo_base_data_set, eo_base_data_get, \
-    eo_base_data_del, eo_event_callback_add, eo_event_callback_del, \
-    Eo_Event_Description, \
-    eo_parent_get, EO_EV_DEL, EO_BASE_BASE_ID, eo_base_class_get, \
+    eo_class_name_get, eo_class_get, eo_base_class_get,\
+    eo_key_data_set, eo_key_data_get, eo_key_data_del, \
+    eo_event_callback_add, eo_event_callback_del, EO_EV_DEL, \
+    eo_parent_get, eo_parent_set, Eo_Event_Description, \
     eo_event_freeze, eo_event_thaw, eo_event_freeze_get, \
-    eo_event_global_freeze, eo_event_global_thaw, eo_event_global_freeze_get, \
-    eo_parent_set
+    eo_event_global_freeze, eo_event_global_thaw, eo_event_global_freeze_get
 
 cimport efl.eo.enums as enums
 
@@ -55,23 +54,17 @@ init()
 
 def event_global_freeze_get():
     cdef int fcount
-    eo_do(
-        <const cEo *>eo_base_class_get(),
-        eo_event_global_freeze_get(&fcount),
-        )
+    fcount = <int>eo_do(<const cEo *>eo_base_class_get(),
+                        eo_event_global_freeze_get())
     return fcount
 
 def event_global_freeze():
-    eo_do(
-        <const cEo *>eo_base_class_get(),
-        eo_event_global_freeze(),
-        )
+    eo_do(<const cEo *>eo_base_class_get(),
+          eo_event_global_freeze())
 
 def event_global_thaw():
-    eo_do(
-        <const cEo *>eo_base_class_get(),
-        eo_event_global_thaw()
-        )
+    eo_do(<const cEo *>eo_base_class_get(),
+          eo_event_global_thaw())
 
 ######################################################################
 
@@ -114,7 +107,7 @@ cdef object object_from_instance(cEo *obj):
     if obj == NULL:
         return None
 
-    eo_do(obj, eo_base_data_get("python-eo", &data))
+    data = eo_do(obj, eo_key_data_get("python-eo"))
     if data != NULL:
         EINA_LOG_DOM_DBG(PY_EFL_EO_LOG_DOMAIN,
             "Returning a Python object instance for Eo of type %s.", cls_name)
@@ -180,7 +173,8 @@ EO_CALLBACK_CONTINUE = enums.EO_CALLBACK_CONTINUE
 
 
 cdef Eina_Bool _eo_event_del_cb(void *data, cEo *obj,
-    const Eo_Event_Description *desc, void *event_info) with gil:
+                                const Eo_Event_Description *desc,
+                                void *event_info) with gil:
     cdef:
         Eo self = <Eo>data
         const char *cls_name = eo_class_name_get(eo_class_get(obj))
@@ -189,7 +183,7 @@ cdef Eina_Bool _eo_event_del_cb(void *data, cEo *obj,
 
     eo_do(self.obj,
         eo_event_callback_del(EO_EV_DEL, _eo_event_del_cb, <const void *>self))
-    eo_do(self.obj, eo_base_data_del("python-eo"))
+    eo_do(self.obj, eo_key_data_del("python-eo"))
     self.obj = NULL
     Py_DECREF(self)
 
@@ -215,7 +209,7 @@ cdef class Eo(object):
     def __repr__(self):
         cdef cEo *parent = NULL
         if self.obj != NULL:
-            eo_do(self.obj, eo_parent_get(&parent))
+            parent = <cEo *>eo_do(self.obj, eo_parent_get())
         return ("<%s object (Eo) at %#x (obj=%#x, parent=%#x, refcount=%d)>") % (
             type(self).__name__,
             <uintptr_t><void *>self,
@@ -231,7 +225,7 @@ cdef class Eo(object):
         assert obj != NULL, "Cannot set a NULL object"
 
         self.obj = obj
-        eo_do(self.obj, eo_base_data_set("python-eo", <void *>self, NULL))
+        eo_do(self.obj, eo_key_data_set("python-eo", <void *>self, NULL))
         eo_do(self.obj,
             eo_event_callback_add(EO_EV_DEL, _eo_event_del_cb, <const void *>self))
         Py_INCREF(self)
@@ -282,8 +276,7 @@ cdef class Eo(object):
         :rtype: :class:`Eo`
 
         """
-        cdef cEo *parent = NULL
-        eo_do(self.obj, eo_parent_get(&parent))
+        cdef cEo *parent = <cEo *>eo_do(self.obj, eo_parent_get())
         return object_from_instance(parent)
 
     def event_freeze(self):
@@ -301,6 +294,5 @@ cdef class Eo(object):
         :rtype: int
         
         """
-        cdef int fcount
-        eo_do(self.obj, eo_event_freeze_get(&fcount))
+        cdef int fcount = <int>eo_do(self.obj, eo_event_freeze_get())
         return fcount

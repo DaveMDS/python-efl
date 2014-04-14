@@ -28,22 +28,21 @@ cdef extern from "Eo.h":
     ctypedef struct Eo_Event_Description:
         const char *name
         const char *doc
+        Eina_Bool unfreezable
 
-    ctypedef unsigned int Eo_Op
-
-    ctypedef Eo_Op EO_BASE_BASE_ID
 
     ####################################################################
     # Eo Events
     #
     cdef const Eo_Event_Description *EO_EV_DEL
 
+
     ####################################################################
     # Other typedefs
     #
     ctypedef Eina_Bool (*Eo_Event_Cb)(void *data, Eo *obj, const Eo_Event_Description *desc, void *event_info)
 
-    ctypedef void (*eo_base_data_free_func)(void *)
+    ctypedef void (*eo_key_data_free_func)(void *)
 
 
     ####################################################################
@@ -58,32 +57,31 @@ cdef extern from "Eo.h":
     int eo_ref_get(const Eo *obj)
     void eo_del(const Eo *obj)
 
-    Eo_Op eo_wref_add(Eo *obj)
+    void eo_wref_add(Eo **wref)
 
-    Eina_Bool eo_do(Eo *obj, ...)
-    Eina_Bool eo_class_do(Eo_Class *cls, ...)
+    void *eo_do(Eo *obj, ...)
     const Eo_Class *eo_base_class_get()
 
-    Eo_Op eo_base_data_set(const char *key, const void *data, eo_base_data_free_func free_func)
-    Eo_Op eo_base_data_get(const char *key, void **data)
-    Eo_Op eo_base_data_del(const char *key)
+    void  eo_key_data_set(const char *key, const void *data, eo_key_data_free_func free_func)
+    void *eo_key_data_get(const char *key)
+    void  eo_key_data_del(const char *key)
 
     const Eo_Class *eo_class_get(const Eo *obj)
     const char *eo_class_name_get(const Eo_Class *klass)
 
-    Eo_Op eo_parent_set(Eo *parent)
-    Eo_Op eo_parent_get(Eo **parent)
+    void eo_parent_set(Eo *parent)
+    Eo  *eo_parent_get()
 
-    Eo_Op eo_event_callback_forwarder_add(const Eo_Event_Description *desc, Eo *new_obj)
-    Eo_Op eo_event_callback_forwarder_del(const Eo_Event_Description *desc, Eo *new_obj)
+    void eo_event_callback_forwarder_add(const Eo_Event_Description *desc, Eo *new_obj)
+    void eo_event_callback_forwarder_del(const Eo_Event_Description *desc, Eo *new_obj)
 
-    Eo_Op eo_event_freeze()
-    Eo_Op eo_event_thaw()
-    Eo_Op eo_event_freeze_get(int *fcount)
+    void eo_event_freeze()
+    void eo_event_thaw()
+    int eo_event_freeze_get()
 
-    Eo_Op eo_event_global_freeze()
-    Eo_Op eo_event_global_thaw()
-    Eo_Op eo_event_global_freeze_get(int *fcount)
+    void eo_event_global_freeze()
+    void eo_event_global_thaw()
+    int eo_event_global_freeze_get()
 
-    Eo_Op eo_event_callback_add(const Eo_Event_Description *desc, Eo_Event_Cb cb, const void *data)
-    Eo_Op eo_event_callback_del(const Eo_Event_Description *desc, Eo_Event_Cb cb, const void *data)
+    void eo_event_callback_add(const Eo_Event_Description *desc, Eo_Event_Cb cb, const void *data)
+    void eo_event_callback_del(const Eo_Event_Description *desc, Eo_Event_Cb cb, const void *data)
