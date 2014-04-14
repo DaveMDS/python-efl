@@ -236,7 +236,7 @@ cdef class Table(Object):
 
             columns and rows are virtual entities, one can specify a table
             with a single object that takes 4 columns and 5 rows. The only
-            difference for a single cell table is that paddings will be
+            difference for a single cell table is that padding will be
             accounted proportionally.
 
         """

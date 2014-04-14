@@ -178,7 +178,7 @@ cdef class Box(Object):
             _Evas_Object_Box_Api::insert_before smart function.
 
         """
-        # TODO: raise exception if unsuccesful
+        # TODO: raise exception if unsuccessful
         evas_object_box_insert_before(self.obj, child.obj, reference.obj)
 
     def insert_after(self, Object child, Object reference):
@@ -206,7 +206,7 @@ cdef class Box(Object):
             _Evas_Object_Box_Api::insert_after smart function.
 
         """
-        # TODO: raise exception if unsuccesful
+        # TODO: raise exception if unsuccessful
         evas_object_box_insert_after(self.obj, child.obj, reference.obj)
 
     def insert_at(self, Object child, unsigned int pos):

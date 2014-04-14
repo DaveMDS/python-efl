@@ -750,7 +750,7 @@ cdef class Image(Object):
 
     #     :param pixels: The pixel source to be imported.
     #     :type pixels: Evas_Pixel_Import_Source *
-    #     :return: Whether the import was succesful
+    #     :return: Whether the import was successful
     #     :rtype: bool
 
     #     This function imports pixels from a given source to a given canvas image.

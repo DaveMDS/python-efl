@@ -287,7 +287,7 @@ cdef class Configuration(object):
 
     property scroll_thumbscroll_hold_threshold:
         """The number of pixels the range which can be scrolled,
-        while the scroller is holded.
+        while the scroller is held.
 
         :type: int
 

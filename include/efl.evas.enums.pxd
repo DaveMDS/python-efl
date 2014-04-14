@@ -144,7 +144,7 @@ cdef extern from "Evas.h":
     ctypedef enum Evas_Display_Mode:
         # object's display mode type related with compress/expand or etc mode
         EVAS_DISPLAY_MODE_NONE # Default mode
-        EVAS_DISPLAY_MODE_COMPRESS # Use this mode want to give comppress display mode hint to object
+        EVAS_DISPLAY_MODE_COMPRESS # Use this mode want to give compress display mode hint to object
         EVAS_DISPLAY_MODE_EXPAND # Use this mode want to give expand display mode hint to object
         EVAS_DISPLAY_MODE_DONT_CHANGE # Use this mode when object should not change display mode
 

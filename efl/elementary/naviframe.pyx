@@ -64,7 +64,7 @@ them are supported:
 
 - ``basic``   - views are switched sliding horizontally, one after the other
 - ``overlap`` - like the previous one, but the previous view stays at its place
-  and is ovelapped by the new
+  and is overlapped by the new
 
 
 This widget emits the following signals, besides the ones sent from

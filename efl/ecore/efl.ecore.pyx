@@ -347,7 +347,7 @@ _orig_subprocess = None
 
 def subprocess_warning(*a, **ka):
     print("""    DEVELOPER WARNING:
-        Using subprocess (Popen and derivates) with Ecore is a bad idea.
+        Using subprocess (Popen and derivatives) with Ecore is a bad idea.
 
         Ecore will set some signal handlers subprocess module depends and this
         may cause this module to operate unexpectedly.

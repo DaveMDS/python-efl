@@ -222,7 +222,7 @@ cdef class Icon(Image):
         :raise RuntimeWarning: when setting the standard name fails.
 
         :return bool: For 1.7 compatibility standard_set() returns a bool value
-            that tells whether setting the standard name was succesful or not.
+            that tells whether setting the standard name was successful or not.
 
         .. versionchanged:: 1.8
             Raises RuntimeWarning when setting the standard name fails,

@@ -203,9 +203,9 @@ scroller will scroll horizontally. Otherwise items are expanded to
 fill the width of the viewport of the scroller. If it is
 ELM_LIST_LIMIT, items will be expanded to the viewport width
 if larger than the item, but genlist widget with is
-limited to the largest item. D not use ELM_LIST_LIMIT mode with homogenous
+limited to the largest item. D not use ELM_LIST_LIMIT mode with homogeneous
 mode turned on. ELM_LIST_COMPRESS can be combined with a different style
-that uses edjes' ellipsis feature (cutting text off like this: "tex...").
+that uses Edje's ellipsis feature (cutting text off like this: "tex...").
 
 Items will only call their selection func and callback when first becoming
 selected. Any further clicks will do nothing, unless you enable always
@@ -226,7 +226,7 @@ Scrollable Interface
 
 This widget supports the scrollable interface.
 
-If you wish to control the scolling behaviour using these functions,
+If you wish to control the scrolling behaviour using these functions,
 inherit both the widget class and the
 :py:class:`~efl.elementary.scroller.Scrollable` class
 using multiple inheritance, for example::

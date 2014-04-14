@@ -31,7 +31,7 @@ icon object. While it's possible to have a group of only one radio they,
 are normally used in groups of two or more.
 
 Radio objects are grouped in a slightly different, compared to other UI
-toolkits. There is no seperate group name/id to remember or manage. The
+toolkits. There is no separate group name/id to remember or manage. The
 members represent the group, there are the group. To make a group, use
 :py:meth:`Radio.group_add` and pass existing radio object and the new radio
 object.

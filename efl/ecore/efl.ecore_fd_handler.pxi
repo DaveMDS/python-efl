@@ -64,7 +64,7 @@ cdef class FdHandler(object):
     When the handler ``func`` is called, it must return a value of
     either *True* or *False* (remember that Python returns *None* if no value
     is explicitly returned and *None* evaluates to *False*). If it returns
-    *True*, it will continue to montior the given file descriptor, or if
+    *True*, it will continue to monitor the given file descriptor, or if
     it returns *False* it will be deleted automatically making any
     references/handles for it invalid.
 
@@ -199,7 +199,7 @@ cdef class FdHandler(object):
         return bool(ecore_main_fd_handler_active_get(self.obj, ECORE_FD_ERROR))
 
     def prepare_callback_set(self, func, *args, **kargs):
-        """Set a function to call becore doing the select() on the fd.
+        """Set a function to call before doing the select() on the fd.
 
         Expected signature::
 

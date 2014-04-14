@@ -253,6 +253,7 @@ from cpython cimport PyUnicode_AsUTF8String
 
 from efl.eo cimport _object_mapping_register
 from efl.utils.conversions cimport _ctouni
+from efl.utils.deprecated cimport DEPRECATED
 from efl.evas cimport Object as evasObject
 from object cimport Object
 
@@ -605,7 +606,12 @@ cdef class Datetime(Object):
     def callback_changed_del(self, func):
         self._callback_del("changed", func)
 
+    @DEPRECATED("1.10", "Use callback_language_changed_add instead.")
     def callback_languge_changed_add(self, func, *args, **kwargs):
+        """Whenever system locale changes, this signal is sent."""
+        self._callback_add("language,changed", func, *args, **kwargs)
+
+    def callback_language_changed_add(self, func, *args, **kwargs):
         """Whenever system locale changes, this signal is sent."""
         self._callback_add("language,changed", func, *args, **kwargs)
 

@@ -60,7 +60,7 @@ class TestEdjeDecoratedCallbacks(unittest.TestCase):
         ecore.Timer(0.1, lambda: o.part_text_set("label", "asd"))
         ecore.Timer(0.1, lambda: o.part_text_set("label", "asd2"))
 
-        # ask the edje obj to send a messagge, two times
+        # ask the edje obj to send a message, two times
         ecore.Timer(0.1, lambda: o.signal_emit("emit,message", ""))
         ecore.Timer(0.1, lambda: o.signal_emit("emit,message", ""))
 

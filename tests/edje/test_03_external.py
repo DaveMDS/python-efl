@@ -64,16 +64,16 @@ class TestElementaryExternal(unittest.TestCase):
         elm_as = self.theme.part_external_object_get("ext_elm_actionslider")
         self.assertIsInstance(elm_as, Actionslider)
 
-        # check values setted in edc (from external)
+        # check values set in edc (from external)
         self.assertEqual(self.theme.part_external_param_get("ext_elm_actionslider", "label"), "ActionSlideR")
 
-        # check values setted in edc (from object)
+        # check values set in edc (from object)
         self.assertEqual(elm_as.text, "ActionSlideR")
 
         # do params set
         self.theme.part_external_param_set("ext_elm_actionslider", "label", "new text")
 
-        # recheck setted values
+        # recheck set values
         self.assertEqual(self.theme.part_external_param_get("ext_elm_actionslider", "label"), "new text")
         self.assertEqual(elm_as.text, "new text")
 
@@ -111,7 +111,7 @@ class TestElementaryExternal(unittest.TestCase):
         elm_clock = self.theme.part_external_object_get("ext_elm_clock")
         self.assertIsInstance(elm_clock, Clock)
 
-        # check values setted in edc (from external)
+        # check values set in edc (from external)
         self.assertEqual(self.theme.part_external_param_get("ext_elm_clock", "hours"), 23)
         self.assertEqual(self.theme.part_external_param_get("ext_elm_clock", "minutes"), 58)
         self.assertEqual(self.theme.part_external_param_get("ext_elm_clock", "seconds"), 59)
@@ -119,7 +119,7 @@ class TestElementaryExternal(unittest.TestCase):
         self.assertEqual(self.theme.part_external_param_get("ext_elm_clock", "am/pm"), True)
         self.assertEqual(self.theme.part_external_param_get("ext_elm_clock", "show seconds"), True)
 
-        # check values setted in edc (from object)
+        # check values set in edc (from object)
         self.assertEqual(elm_clock.time, (23, 58, 59))
         self.assertEqual(elm_clock.edit, True)
         self.assertEqual(elm_clock.show_am_pm, True)
@@ -133,7 +133,7 @@ class TestElementaryExternal(unittest.TestCase):
         self.theme.part_external_param_set("ext_elm_clock", "am/pm", False)
         self.theme.part_external_param_set("ext_elm_clock", "show seconds", False)
 
-        # recheck setted values
+        # recheck set values
         self.assertEqual(elm_clock.time, (2, 3, 4))
         self.assertEqual(elm_clock.edit, False)
         self.assertEqual(elm_clock.show_am_pm, False)

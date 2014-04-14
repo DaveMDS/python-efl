@@ -314,7 +314,7 @@ cdef class LayoutClass(Object):
         """Remove a signal-triggered callback from a given layout widget.
 
         This function removes the **last** callback attached to a signal
-        emitted by the undelying Edje object, with parameters *emission*,
+        emitted by the underlying Edje object, with parameters *emission*,
         ``source`` and ``func`` matching exactly those passed to a previous
         call to :py:meth:`~efl.elementary.object.Object.signal_callback_add`.
         The data that was passed to this call will be returned.
@@ -853,7 +853,7 @@ cdef class LayoutClass(Object):
             <const char *>part_name if part_name is not None else NULL))
 
     property edje_object_can_access:
-        """Set accessibility to all texblock(text) parts in the layout object
+        """Set accessibility to all textblock(text) parts in the layout object
 
         Makes it possible for all textblock(text) parts in the layout to have
         accessibility.

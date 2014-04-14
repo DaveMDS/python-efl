@@ -167,7 +167,7 @@ cdef class SlideshowItemClass (object):
 
     :param get_func: if provided will override the behavior
         defined by :py:func:`get()` in this class. Its purpose is
-        to return the icon object to be used (swalloed) by a
+        to return the icon object to be used (swallowed) by a
         given part and row. This function should have the
         signature:
         ``func(obj, item_data) -> obj``

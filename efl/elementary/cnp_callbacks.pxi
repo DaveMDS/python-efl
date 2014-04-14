@@ -246,7 +246,7 @@ cdef void py_elm_drag_done_cb(void *data, Evas_Object *obj, Eina_Bool accepted) 
 
     :param data: Application specific data
     :param obj: The object where the drag started
-    :param accepted: TRUE if the droppped-data is accepted on drop
+    :param accepted: TRUE if the dropped-data is accepted on drop
 
     .. versionadded:: 1.8
 

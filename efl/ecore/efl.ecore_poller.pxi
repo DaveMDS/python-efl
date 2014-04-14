@@ -58,7 +58,7 @@ cdef class Poller(Eo):
 
     :param interval: The poll interval
     :type interval: int
-    :param func: The cunction to call at every intervat
+    :param func: The function to call at every interval
     :type func: callable
     :param poll_type: The ticker type to attach the poller to. Must be ECORE_POLLER_CORE
     :type poll_type: Ecore_Poll_Type

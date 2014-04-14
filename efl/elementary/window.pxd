@@ -126,7 +126,7 @@ cdef extern from "Elementary.h":
     Eina_Bool                elm_win_wm_rotation_manual_rotation_done_get(const Evas_Object *obj)
     void                     elm_win_wm_rotation_manual_rotation_done(Evas_Object *obj)
 
-    # X specific call - wont't work on non-x engines (return 0)
+    # X specific call - won't work on non-x engines (return 0)
     Ecore_X_Window           elm_win_xwindow_get(const Evas_Object *obj)
     # TODO: Ecore_Wl_Window         *elm_win_wl_window_get(const Evas_Object *obj)
 

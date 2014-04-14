@@ -1047,7 +1047,7 @@ cdef class Window(Object):
         return elm_win_layer_get(self.obj)
 
     def norender_push(self):
-        """This pushes (incriments) the norender counter on the window
+        """This pushes (increments) the norender counter on the window
 
         There are some occasions where you wish to suspend rendering on a window.
         You may be "sleeping" and have nothing to update and do not want animations
@@ -1111,7 +1111,7 @@ cdef class Window(Object):
         """This manually asks evas to render the window now
 
         You should NEVER call this unless you really know what you are doing and
-        why. Never call this unless you are asking for performance degredation
+        why. Never call this unless you are asking for performance degradation
         and possibly weird behavior. Windows get automatically rendered when the
         application goes idle so there is never a need to call this UNLESS you
         have enabled "norender" mode.

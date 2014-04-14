@@ -304,7 +304,7 @@ cdef void _map_name_callback(void *data, Evas_Object *map, Elm_Map_Name *name) w
 cdef class MapRoute(object):
     """
 
-    This class represent a calcolated route.
+    This class represents a calculated route.
 
     A route will be traced by point on coordinates to point on coordinates
     , using the route service set with :py:func:`Map.source_set()`.
@@ -773,17 +773,17 @@ cdef class MapOverlayClass(MapOverlay):
     property members:
         """ The overlay members of the class overlay.
 
-        The group overlays are virtualy overlays. Those are shown and hidden
+        The group overlays are virtually overlays. Those are shown and hidden
         dynamically. You can add callback to the class overlay. If one of the
         group overlays in this class is clicked, callback will be called and
         return a virtual group overlays.
 
         You can change the state (hidden, paused, etc.) or set the content
-        or icon of the group overlays by chaning the state of the class overlay.
+        or icon of the group overlays by changing the state of the class overlay.
 
         :type: list of :py:class:`MapOverlay`
 
-        .. warning:: Do not modifty the group overlay itself.
+        .. warning:: Do not modify the group overlay itself.
 
         """
         def __get__(self):
@@ -1637,7 +1637,7 @@ cdef class Map(Object):
         self._callback_add("clicked", func, *args, **kwargs)
 
     def callback_clicked_del(self, func):
-        """ Delete a previuosly attached callback """
+        """ Delete a previously attached callback """
         self._callback_del("clicked", func)
 
     def callback_clicked_double_add(self, func, *args, **kwargs):
@@ -1645,7 +1645,7 @@ cdef class Map(Object):
         self._callback_add("clicked,double", func, *args, **kwargs)
 
     def callback_clicked_double_del(self, func):
-        """ Delete a previuosly attached callback """
+        """ Delete a previously attached callback """
         self._callback_del("clicked,double", func)
 
     def callback_press_add(self, func, *args, **kwargs):
@@ -1653,7 +1653,7 @@ cdef class Map(Object):
         self._callback_add("press", func, *args, **kwargs)
 
     def callback_press_del(self, func):
-        """ Delete a previuosly attached callback """
+        """ Delete a previously attached callback """
         self._callback_del("press", func)
 
     def callback_longpressed_add(self, func, *args, **kwargs):
@@ -1661,7 +1661,7 @@ cdef class Map(Object):
         self._callback_add("longpressed", func, *args, **kwargs)
 
     def callback_longpressed_del(self, func):
-        """ Delete a previuosly attached callback """
+        """ Delete a previously attached callback """
         self._callback_del("longpressed", func)
 
     def callback_scroll_add(self, func, *args, **kwargs):
@@ -1669,7 +1669,7 @@ cdef class Map(Object):
         self._callback_add("scroll", func, *args, **kwargs)
 
     def callback_scroll_del(self, func):
-        """ Delete a previuosly attached callback """
+        """ Delete a previously attached callback """
         self._callback_del("scroll", func)
 
     def callback_scroll_drag_start_add(self, func, *args, **kwargs):
@@ -1677,7 +1677,7 @@ cdef class Map(Object):
         self._callback_add("scroll,drag,start", func, *args, **kwargs)
 
     def callback_scroll_drag_start_del(self, func):
-        """ Delete a previuosly attached callback """
+        """ Delete a previously attached callback """
         self._callback_del("scroll,drag,start", func)
 
     def callback_scroll_drag_stop_add(self, func, *args, **kwargs):
@@ -1685,7 +1685,7 @@ cdef class Map(Object):
         self._callback_add("scroll,drag,stop", func, *args, **kwargs)
 
     def callback_scroll_drag_stop_del(self, func):
-        """ Delete a previuosly attached callback """
+        """ Delete a previously attached callback """
         self._callback_del("scroll,drag,stop", func)
 
     def callback_scroll_anim_start_add(self, func, *args, **kwargs):
@@ -1693,7 +1693,7 @@ cdef class Map(Object):
         self._callback_add("scroll,anim,start", func, *args, **kwargs)
 
     def callback_scroll_anim_start_del(self, func):
-        """ Delete a previuosly attached callback """
+        """ Delete a previously attached callback """
         self._callback_del("scroll,anim,start", func)
 
     def callback_scroll_anim_stop_add(self, func, *args, **kwargs):
@@ -1701,7 +1701,7 @@ cdef class Map(Object):
         self._callback_add("scroll,anim,stop", func, *args, **kwargs)
 
     def callback_scroll_anim_stop_del(self, func):
-        """ Delete a previuosly attached callback """
+        """ Delete a previously attached callback """
         self._callback_del("scroll,anim,stop", func)
 
     def callback_zoom_start_add(self, func, *args, **kwargs):
@@ -1709,7 +1709,7 @@ cdef class Map(Object):
         self._callback_add("zoom,start", func, *args, **kwargs)
 
     def callback_zoom_start_del(self, func):
-        """ Delete a previuosly attached callback """
+        """ Delete a previously attached callback """
         self._callback_del("zoom,start", func)
 
     def callback_zoom_stop_add(self, func, *args, **kwargs):
@@ -1717,7 +1717,7 @@ cdef class Map(Object):
         self._callback_add("zoom,stop", func, *args, **kwargs)
 
     def callback_zoom_stop_del(self, func):
-        """ Delete a previuosly attached callback """
+        """ Delete a previously attached callback """
         self._callback_del("zoom,stop", func)
 
     def callback_zoom_change_add(self, func, *args, **kwargs):
@@ -1725,7 +1725,7 @@ cdef class Map(Object):
         self._callback_add("zoom,change", func, *args, **kwargs)
 
     def callback_zoom_change_del(self, func):
-        """ Delete a previuosly attached callback """
+        """ Delete a previously attached callback """
         self._callback_del("zoom,change", func)
 
     def callback_tile_load_add(self, func, *args, **kwargs):
@@ -1733,7 +1733,7 @@ cdef class Map(Object):
         self._callback_add("tile,load", func, *args, **kwargs)
 
     def callback_tile_load_del(self, func):
-        """ Delete a previuosly attached callback """
+        """ Delete a previously attached callback """
         self._callback_del("tile,load", func)
 
     def callback_tile_loaded_add(self, func, *args, **kwargs):
@@ -1741,7 +1741,7 @@ cdef class Map(Object):
         self._callback_add("tile,loaded", func, *args, **kwargs)
 
     def callback_tile_loaded_del(self, func):
-        """ Delete a previuosly attached callback """
+        """ Delete a previously attached callback """
         self._callback_del("tile,loaded", func)
 
     def callback_tile_loaded_fail_add(self, func, *args, **kwargs):
@@ -1749,7 +1749,7 @@ cdef class Map(Object):
         self._callback_add("tile,loaded,fail", func, *args, **kwargs)
 
     def callback_tile_loaded_fail_del(self, func):
-        """ Delete a previuosly attached callback """
+        """ Delete a previously attached callback """
         self._callback_del("tile,loaded,fail", func)
 
     def callback_route_load_add(self, func, *args, **kwargs):
@@ -1757,7 +1757,7 @@ cdef class Map(Object):
         self._callback_add("route,load", func, *args, **kwargs)
 
     def callback_route_load_del(self, func):
-        """ Delete a previuosly attached callback """
+        """ Delete a previously attached callback """
         self._callback_del("route,load", func)
 
     def callback_route_loaded_add(self, func, *args, **kwargs):
@@ -1765,7 +1765,7 @@ cdef class Map(Object):
         self._callback_add("route,loaded", func, *args, **kwargs)
 
     def callback_route_loaded_del(self, func):
-        """ Delete a previuosly attached callback """
+        """ Delete a previously attached callback """
         self._callback_del("route,loaded", func)
 
     def callback_route_loaded_fail_add(self, func, *args, **kwargs):
@@ -1773,7 +1773,7 @@ cdef class Map(Object):
         self._callback_add("route,loaded,fail", func, *args, **kwargs)
 
     def callback_route_loaded_fail_del(self, func):
-        """ Delete a previuosly attached callback """
+        """ Delete a previously attached callback """
         self._callback_del("route,loaded,fail", func)
 
     def callback_name_load_add(self, func, *args, **kwargs):
@@ -1781,7 +1781,7 @@ cdef class Map(Object):
         self._callback_add("name,load", func, *args, **kwargs)
 
     def callback_name_load_del(self, func):
-        """ Delete a previuosly attached callback """
+        """ Delete a previously attached callback """
         self._callback_del("name,load", func)
 
     def callback_name_loaded_add(self, func, *args, **kwargs):
@@ -1789,7 +1789,7 @@ cdef class Map(Object):
         self._callback_add("name,loaded", func, *args, **kwargs)
 
     def callback_name_loaded_del(self, func):
-        """ Delete a previuosly attached callback """
+        """ Delete a previously attached callback """
         self._callback_del("name,loaded", func)
 
     def callback_name_loaded_fail_add(self, func, *args, **kwargs):
@@ -1797,7 +1797,7 @@ cdef class Map(Object):
         self._callback_add("name,loaded,fail", func, *args, **kwargs)
 
     def callback_name_loaded_fail_del(self, func):
-        """ Delete a previuosly attached callback """
+        """ Delete a previously attached callback """
         self._callback_del("name,loaded,fail", func)
 
     def callback_overlay_clicked_add(self, func, *args, **kwargs):
@@ -1805,7 +1805,7 @@ cdef class Map(Object):
         self._callback_add("overlay,clicked", func, *args, **kwargs)
 
     def callback_overlay_clicked_del(self, func):
-        """ Delete a previuosly attached callback """
+        """ Delete a previously attached callback """
         self._callback_del("overlay,clicked", func)
 
     def callback_overlay_del_add(self, func, *args, **kwargs):
@@ -1813,7 +1813,7 @@ cdef class Map(Object):
         self._callback_add("overlay,del", func, *args, **kwargs)
 
     def callback_overlay_del_del(self, func):
-        """ Delete a previuosly attached callback """
+        """ Delete a previously attached callback """
         self._callback_del("overlay,del", func)
 
     def callback_loaded_add(self, func, *args, **kwargs):
@@ -1821,7 +1821,7 @@ cdef class Map(Object):
         self._callback_add("loaded", func, *args, **kwargs)
 
     def callback_loaded_del(self, func):
-        """ Delete a previuosly attached callback """
+        """ Delete a previously attached callback """
         self._callback_del("loaded", func)
 
     def callback_language_changed_add(self, func, *args, **kwargs):
@@ -1829,7 +1829,7 @@ cdef class Map(Object):
         self._callback_add("language,changed", func, *args, **kwargs)
 
     def callback_language_changed_del(self, func):
-        """ Delete a previuosly attached callback """
+        """ Delete a previously attached callback """
         self._callback_del("language,changed", func)
 
     def callback_focused_add(self, func, *args, **kwargs):

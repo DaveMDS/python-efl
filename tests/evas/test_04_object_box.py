@@ -33,7 +33,7 @@ class TestBoxBasics(unittest.TestCase):
         self.assertEqual(box1.pos, pos)
         box1.delete()
 
-        # cleate box2 using geometry
+        # create box2 using geometry
         box2 = evas.Box(self.canvas, name="box2", color=color, geometry=geometry)
         self.assertEqual(box2.name, "box2")
         self.assertEqual(box2.color, color)

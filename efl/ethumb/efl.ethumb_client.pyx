@@ -444,7 +444,7 @@ cdef class Client:
 
         This will create an edje object that will have image swallowed
         in. This can be used to simulate Polaroid or wood frames in
-        the generated image. Remeber it is bad to modify the original
+        the generated image. Remember it is bad to modify the original
         contents of thumbnails, but sometimes it's useful to have it
         composited and avoid runtime overhead.
 

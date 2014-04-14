@@ -150,7 +150,7 @@ def file_download(url, dst, completion_cb, progress_cb, *args, **kargs):
                           Expected signature::
                             completion_cb(file, status, *args, **kargs)
     :param progress_cb: The function to called while the download progress
-                        advance. Ecpected signature::
+                        advance. Expected signature::
                             progress_cb(file, dltotal, dlnow, uptotal, upnow, *args, **kargs): int
 
     :return: a new FileDownload instance
@@ -165,7 +165,7 @@ def file_download_abort(instance):
     instance.abort()
 
 def file_download_abort_all():
-    """This will abort all the download currently in progrss, use with caution.
+    """This will abort all the download currently in progress, use with caution.
     """
     ecore_file_download_abort_all()
 

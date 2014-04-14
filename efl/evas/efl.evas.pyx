@@ -286,13 +286,13 @@ class EvasLoadError(Exception):
         elif code == enums.EVAS_LOAD_ERROR_DOES_NOT_EXIST:
             msg = "File (or file path) does not exist"
         elif code == enums.EVAS_LOAD_ERROR_PERMISSION_DENIED:
-            msg = "Permission deinied to an existing file (or path)"
+            msg = "Permission denied to an existing file (or path)"
         elif code == enums.EVAS_LOAD_ERROR_RESOURCE_ALLOCATION_FAILED:
             msg = "Allocation of resources failure prevented load"
         elif code == enums.EVAS_LOAD_ERROR_CORRUPT_FILE:
             msg = "File corrupt (but was detected as a known format)"
         elif code == enums.EVAS_LOAD_ERROR_UNKNOWN_FORMAT:
-            msg = "File is not a known format"
+            msg = "File is not in a known format"
         self.code = code
         self.file = filename
         self.key = key

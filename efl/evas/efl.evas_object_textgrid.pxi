@@ -359,7 +359,7 @@ cdef class Textgrid(Object):
         """The retrieve color to the given palette at the given index of the given textgrid object.
 
         :param pal: The type of the palette to set the color.
-        :param idx: The index of the paletter to wich the color is stored.
+        :param idx: The index of the palette to which the color is stored.
         :rtype: (int **r**, int **g**, int **b**, int **a**)
 
         This function retrieves the color for the palette of type **pal** at the

@@ -21,6 +21,6 @@ cdef extern from "Ethumb.h":
 
     ctypedef enum Ethumb_Thumb_Aspect:
         ETHUMB_THUMB_KEEP_ASPECT # keep original proportion between width and height
-        ETHUMB_THUMB_IGNORE_ASPECT # ignore aspect and foce it to match thumbnail's width and height
+        ETHUMB_THUMB_IGNORE_ASPECT # ignore aspect and force it to match thumbnail's width and height
         ETHUMB_THUMB_CROP # keep aspect but crop (cut) the largest dimension
 

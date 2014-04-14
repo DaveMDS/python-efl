@@ -235,7 +235,7 @@ cdef class GLView(LayoutClass):
         By default, the render policy is set to ELM_GLVIEW_RENDER_POLICY_ON_DEMAND.
         This policy is set such that during the render loop, glview is only
         redrawn if it needs to be redrawn. (i.e. when it is visible) If the policy
-        is set to ELM_GLVIEWW_RENDER_POLICY_ALWAYS, it redraws regardless of
+        is set to ELM_GLVIEW_RENDER_POLICY_ALWAYS, it redraws regardless of
         whether it is visible or needs redrawing.
 
         """

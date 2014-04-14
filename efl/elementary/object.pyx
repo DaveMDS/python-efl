@@ -1977,7 +1977,7 @@ cdef class Object(evasObject):
     #     Set a item container (list, genlist, grid) as source of drag
 
     #     :param tm_to_anim: Time period to wait before start animation.
-    #     :param tm_to_drag: Time period to wait before start draggind.
+    #     :param tm_to_drag: Time period to wait before start dragging.
     #     :param itemgetcb: Callback to get Evas_Object pointer for item at (x,y)
     #     :param data_get:  Callback to get drag info
     #     :return: Returns EINA_TRUE, if successful, or EINA_FALSE if not.
@@ -2035,7 +2035,7 @@ cdef class Object(evasObject):
     # def drop_item_container_del(self):
     #     """
 
-    #     Removes a container from list of drop tragets.
+    #     Removes a container from list of drop targets.
 
     #     :param obj: The container object
     #     :return: Returns EINA_TRUE, if successful, or EINA_FALSE if not.

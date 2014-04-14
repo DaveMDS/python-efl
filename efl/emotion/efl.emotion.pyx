@@ -184,7 +184,7 @@ cdef class Emotion(evasObject):
 
     :param evas: The canvas where the object will be added to.
     :type evas: efl.evas.Canvas
-    :param module_name: name of the engien to use (gstreamer, xine, vlc or generic)
+    :param module_name: name of the engine to use (gstreamer, xine, vlc or generic)
     :param module_params: Extra parameters, module specific
     :param size: (w, h)
     :param pos: (x, y)
@@ -389,7 +389,7 @@ cdef class Emotion(evasObject):
           EVAS_ASPECT_CONTROL_HORIZONTAL size hint.
         - ``EMOTION_ASPECT_KEEP_HEIGHT`` respect the video aspect ratio, fitting
           the video height inside the object height. This option is similar to
-          EVAS_ASPECT_CONTROL_VERTIAL size hint.
+          EVAS_ASPECT_CONTROL_VERTICAL size hint.
         - ``EMOTION_ASPECT_KEEP_BOTH`` respect the video aspect ratio, fitting both
           its width and height inside the object area. This option is similar to
           EVAS_ASPECT_CONTROL_BOTH size hint. It's the effect called letterboxing.
@@ -447,16 +447,16 @@ cdef class Emotion(evasObject):
             <const char *>file_name if file_name is not None else NULL)
 
     property priority:
-        """ Raise the priority of an object so it will have a priviledged
+        """ Raise the priority of an object so it will have a privileged
         access to hardware resource.
 
         Hardware have a few dedicated hardware pipeline that process the video
         at no cost for the CPU. Especially on SoC, you mostly have one (on
         mobile phone SoC) or two (on Set Top Box SoC) when Picture in Picture
         is needed. And most application just have a few video stream that really
-        deserve high frame rate, hiogh quality output. That's why this call is for.
+        deserve high frame rate, high quality output. That's why this call is for.
 
-        .. note:: If Emotion can't acquire a priviledged hardware ressource,
+        .. note:: If Emotion can't acquire a privileged hardware resource,
                   it will fallback to the no-priority path. This work on the
                   first asking first get basis system.
 
@@ -1038,7 +1038,7 @@ cdef class Emotion(evasObject):
     def last_position_load(self):
         """ Load the last known position if available
 
-        By using Xattr, Emotion is able, if the system permitt it, to store
+        By using Xattr, Emotion is able, if the system permits it, to store
         and retrieve the latest position. It should trigger some smart
         callback to let the application know when it succeed or fail.
         Every operation is fully asynchronous and not linked to the actual
@@ -1050,7 +1050,7 @@ cdef class Emotion(evasObject):
         emotion_object_last_position_load(self.obj)
 
     def last_position_save(self):
-        """ Save the lastest position if possible
+        """ Save the last position if possible
 
         :see: :py:meth:`last_position_load`
 
@@ -1063,7 +1063,7 @@ cdef class Emotion(evasObject):
         """ Get the actual image object (:py:class:`efl.evas.Object`) of the
         emotion object.
 
-        This function is usefull when you want to get a direct access to the pixels.
+        This function is useful when you want to get a direct access to the pixels.
 
         .. versionadded:: 1.8
 
@@ -1102,7 +1102,7 @@ cdef class Emotion(evasObject):
 
             func(object, *args, **kwargs)
 
-        .. note:: Any extra params givento the function (both positional
+        .. note:: Any extra params given to the function (both positional
                   and keyword arguments) will be passed back in the
                   callback function.
 

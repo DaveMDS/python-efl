@@ -771,7 +771,7 @@ cdef class ClippedSmartObject(SmartObject):
     object size), this means that you should clip this object to another
     object clipper to get its contents restricted. This is the default
     because many times what we want are contents that can overflow SmartObject
-    boudaries (ie: members with animations coming in from outside).
+    boundaries (ie: members with animations coming in from outside).
 
     :ivar clipper: the internal object used for clipping. You shouldn't
        mess with it.

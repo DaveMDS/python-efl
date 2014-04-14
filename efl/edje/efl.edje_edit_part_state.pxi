@@ -737,6 +737,7 @@ cdef class State:
         def __set__(self, align):
             self.text_align_set(*align)
 
+    # FIXME: These should be ellipsis, not elipsis. Was this API ever released?
     def text_elipsis_get(self):
         return edje_edit_state_text_elipsis_get(self.edje.obj, self.part,
                                                 self.name, self.value)

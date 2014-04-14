@@ -60,7 +60,7 @@ Scrollable Interface
 
 This widget supports the scrollable interface.
 
-If you wish to control the scolling behaviour using these functions,
+If you wish to control the scrolling behaviour using these functions,
 inherit both the widget class and the
 :py:class:`~efl.elementary.scroller.Scrollable` class
 using multiple inheritance, for example::

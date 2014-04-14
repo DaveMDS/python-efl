@@ -173,7 +173,7 @@ cdef class Exe(object):
     Note that the process handle is only valid until a child process
     terminated event is received.  After all handlers for the child
     process terminated event have been called, the handle will be
-    freed by Ecore. In this case the Python wrapper becames "shallow"
+    freed by Ecore. In this case the Python wrapper becomes "shallow"
     and all operations will fail or return bogus/dummy values,
     although it should not crash.
 
@@ -569,7 +569,7 @@ cdef class Exe(object):
         self.pause()
 
     def continue_(self):
-        """Send contine signal (SIGCONT) to executed process.
+        """Send continue signal (SIGCONT) to executed process.
 
         This resumes application previously paused with :py:meth:`pause`
 
@@ -583,7 +583,7 @@ cdef class Exe(object):
     def interrupt(self):
         """Send interrupt signal (SIGINT) to executed process.
 
-        .. note:: Python usually installs SIGINT hanlder to generate
+        .. note:: Python usually installs SIGINT handler to generate
                   *KeyboardInterrupt*, however Ecore will *override*
                   this handler with its own that generates
                   *ECORE_EVENT_SIGNAL_EXIT* in its main loop for the

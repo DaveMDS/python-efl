@@ -50,7 +50,7 @@ cdef class GenlistItemClass(object):
 
         :param content_get_func: if provided will override the behavior
             defined by :py:func:`content_get()` in this class. Its purpose is
-            to return the icon object to be used (swalloed) by a
+            to return the icon object to be used (swallowed) by a
             given part and row. This function should have the
             signature:
             ``func(obj, part, item_data) -> obj``
@@ -64,7 +64,7 @@ cdef class GenlistItemClass(object):
 
         :param del_func: if provided will override the behavior
             defined by ``delete()`` in this class. Its purpose is to be
-            called when row is deleted, thus finalizing resouces
+            called when row is deleted, thus finalizing resources
             and similar. This function should have the signature:
             ``func(obj, part, item_data)``
 

@@ -131,7 +131,7 @@ cdef class Object(Eo):
     - Modulating color
 
     Clips respects the hierarchy: the minimum area and the composed color
-    will be used used at the end, if one object is not visible, othe lower
+    will be used used at the end, if one object is not visible, the lower
     objects (clipped by it) will not be visible as well. Clipping is the
     recommended way of doing fade out/in effect, instead of changing object's
     color, clip it to a rectangle and change its color: this will work as
@@ -183,7 +183,7 @@ cdef class Object(Eo):
 
         name_str = "name=%s, " % name if name is not NULL else ""
 
-        return ("<%s (%sgeometry=(%d, %d, %d, %d), color=(%d, %d, %d, %d), "
+        return ("<%s (%s geometry=(%d, %d, %d, %d), color=(%d, %d, %d, %d), "
                 "layer=%s, clip=%s, visible=%s)>") % (
             Eo.__repr__(self),
             name_str,
