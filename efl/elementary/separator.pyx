@@ -51,15 +51,15 @@ cdef class Separator(LayoutClass):
 
         """
         def __get__(self):
-            return elm_separator_horizontal_get(self.obj)
+            return bool(elm_separator_horizontal_get(self.obj))
 
-        def __set__(self, b):
+        def __set__(self, bint b):
             elm_separator_horizontal_set(self.obj, b)
 
-    def horizontal_set(self, b):
+    def horizontal_set(self, bint b):
         elm_separator_horizontal_set(self.obj, b)
     def horizontal_get(self):
-        return elm_separator_horizontal_get(self.obj)
+        return bool(elm_separator_horizontal_get(self.obj))
 
 
 _object_mapping_register("Elm_Separator", Separator)
