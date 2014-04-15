@@ -209,30 +209,30 @@ cdef void cb_object_device_changed(void *data, Evas *e,
 
 cdef void cb_object_canvas_focus_in(void *data, Evas *e,
                                     Evas_Object *obj, void *e_inf) with gil:
-    print "EVAS_CALLBACK_FOCUS_IN is not supported by object."
+    print("EVAS_CALLBACK_FOCUS_IN is not supported by object.")
 
 
 cdef void cb_object_canvas_focus_out(void *data, Evas *e,
                                      Evas_Object *obj, void *e_inf) with gil:
-    print "EVAS_CALLBACK_FOCUS_OUT is not supported by object."
+    print("EVAS_CALLBACK_FOCUS_OUT is not supported by object.")
 
 
 cdef void cb_object_render_flush_pre(void *data, Evas *e,
                                      Evas_Object *obj, void *e_inf) with gil:
-    print "EVAS_CALLBACK_RENDER_FLUSH_PRE is not supported by object."
+    print("EVAS_CALLBACK_RENDER_FLUSH_PRE is not supported by object.")
 
 
 cdef void cb_object_render_flush_post(void *data, Evas *e,
                                       Evas_Object *obj, void *e_inf) with gil:
-    print "EVAS_CALLBACK_RENDER_FLUSH_POST is not supported by object."
+    print("EVAS_CALLBACK_RENDER_FLUSH_POST is not supported by object.")
 
 cdef void cb_object_canvas_object_focus_in(void *data, Evas *e,
                                            Evas_Object *obj, void *e_inf) with gil:
-    print "EVAS_CALLBACK_CANVAS_OBJECT_FOCUS_IN is not supported by object."
+    print("EVAS_CALLBACK_CANVAS_OBJECT_FOCUS_IN is not supported by object.")
 
 cdef void cb_object_canvas_object_focus_out(void *data, Evas *e,
                                             Evas_Object *obj, void *e_inf) with gil:
-    print "EVAS_CALLBACK_CANVAS_OBJECT_FOCUS_OUT is not supported by object."
+    print("EVAS_CALLBACK_CANVAS_OBJECT_FOCUS_OUT is not supported by object.")
 
 cdef void cb_object_image_unloaded(void *data, Evas *e,
                                    Evas_Object *obj, void *e_inf) with gil:
@@ -240,12 +240,11 @@ cdef void cb_object_image_unloaded(void *data, Evas *e,
 
 cdef void cb_object_canvas_render_pre(void *data, Evas *e,
                                       Evas_Object *obj, void *e_inf) with gil:
-    print "EVAS_CALLBACK_RENDER_PRE is not supported by object."
+    print("EVAS_CALLBACK_RENDER_PRE is not supported by object.")
 
 cdef void cb_object_canvas_render_post(void *data, Evas *e,
                                        Evas_Object *obj, void *e_inf) with gil:
-    print "EVAS_CALLBACK_RENDER_POST is not supported by object."
-
+    print("EVAS_CALLBACK_RENDER_POST is not supported by object.")
 
 cdef int evas_object_event_callbacks_len
 cdef Evas_Object_Event_Cb evas_object_event_callbacks[34]
