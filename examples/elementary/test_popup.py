@@ -46,7 +46,7 @@ def cb_popup_center_title_text_1button(li, item, win):
     popup.part_content_set("button1", bt)
     popup.show()
 
-def cb_popup_center_title_text_1button(li, item, win):
+def cb_popup_center_title_text_2button(li, item, win):
     popup = Popup(win, size_hint_weight=EXPAND_BOTH)
     popup.text = "This Popup has title area, content area and " \
                  "action area set, action area has one button Close"
@@ -184,7 +184,7 @@ def popup_clicked(obj):
     li.item_append("popup-center-text + 1 button", None, None,
                    cb_popup_center_title_text_1button, win)
     li.item_append("popup-center-title + text + 1 button", None, None,
-                   cb_popup_center_title_text_1button, win)
+                   cb_popup_center_title_text_2button, win)
     li.item_append("popup-center-title + text (block,clicked handling)", None, None,
                    cb_popup_center_title_text_block_clicked_event, win)
     li.item_append("popup-bottom-title + text + 3 buttons", None, None,
