@@ -214,7 +214,7 @@ cdef void _toolbar_item_state_callback(void *data, Evas_Object *obj, void *event
     try:
         o = object_from_instance(obj)
         callback(o, item, *a, **ka)
-    except Exception as e:
+    except Exception:
         traceback.print_exc()
 
     # The C item will be freed unless this is done

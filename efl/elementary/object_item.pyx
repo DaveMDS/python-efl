@@ -85,7 +85,7 @@ cdef void _object_item_callback(void *data, Evas_Object *obj, void *event_info) 
     try:
         o = object_from_instance(obj)
         item.cb_func(o, item, *item.args, **item.kwargs)
-    except:
+    except Exception:
         traceback.print_exc()
 
 cdef void _object_item_callback2(void *data, Evas_Object *obj, void *event_info) with gil:
@@ -94,7 +94,7 @@ cdef void _object_item_callback2(void *data, Evas_Object *obj, void *event_info)
     try:
         o = object_from_instance(obj)
         item.cb_func(o, item, item.cb_data)
-    except:
+    except Exception:
         traceback.print_exc()
 
 cdef class ObjectItem(object):

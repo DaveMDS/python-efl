@@ -102,7 +102,7 @@ cdef int _index_compare_func(const void *data1, const void *data2) with gil:
     if ret is not None:
         try:
             return ret
-        except:
+        except Exception:
             traceback.print_exc()
             return 0
     else:
@@ -126,7 +126,7 @@ cdef int _index_data_compare_func(const void *data1, const void *data2) with gil
     if ret is not None:
         try:
             return ret
-        except:
+        except Exception:
             traceback.print_exc()
             return 0
     else:

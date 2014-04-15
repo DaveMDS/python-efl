@@ -542,7 +542,7 @@ cdef void _entry_context_menu_callback(void *data, Evas_Object *obj, void *event
     try:
         o = object_from_instance(obj)
         callback(o, *a, **ka)
-    except Exception as e:
+    except Exception:
         traceback.print_exc()
 
 @DEPRECATED("1.8", "Use markup_to_utf8() instead.")
@@ -702,7 +702,7 @@ cdef void py_elm_entry_filter_cb(void *data, Evas_Object *entry, char **text) wi
     cb_func, cb_data = <object>data
     try:
         ret = cb_func(en, _touni(text[0]), cb_data)
-    except:
+    except Exception:
         traceback.print_exc()
 
     if ret is None:

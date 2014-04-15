@@ -27,7 +27,7 @@ cdef void text_change_cb(void *data,
     func, args, kargs = self._text_change_cb
     try:
         func(self, _ctouni(part), *args, **kargs)
-    except Exception, e:
+    except Exception:
         traceback.print_exc()
 
 
@@ -42,7 +42,7 @@ cdef void message_handler_cb(void *data,
     func, args, kargs = self._message_handler_cb
     try:
         func(self, Message_from_type(type, id, msg), *args, **kargs)
-    except Exception, e:
+    except Exception:
         traceback.print_exc()
 
 
@@ -54,7 +54,7 @@ cdef void signal_cb(void *data, Evas_Object *obj,
     for func, args, kargs in lst:
         try:
             func(self, _ctouni(emission), _ctouni(source), *args, **kargs)
-        except Exception, e:
+        except Exception:
             traceback.print_exc()
 
 

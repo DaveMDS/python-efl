@@ -108,7 +108,7 @@ cdef Evas_Object *_py_elm_slideshow_item_get(void *data, Evas_Object *obj) with 
     try:
         o = object_from_instance(obj)
         ret = func(o, *item.args, **item.kwargs)
-    except:
+    except Exception:
         traceback.print_exc()
         return NULL
 
@@ -127,7 +127,7 @@ cdef void _py_elm_slideshow_item_del(void *data, Evas_Object *obj) with gil:
         try:
             o = object_from_instance(obj)
             func(o, *item.args, **item.kwargs)
-        except:
+        except Exception:
             traceback.print_exc()
 
     # XXX: SlideShow item handling is weird
@@ -146,7 +146,7 @@ cdef int _py_elm_slideshow_compare_func(const void *data1, const void *data2) wi
     if ret is not None:
         try:
             return ret
-        except:
+        except Exception:
             traceback.print_exc()
             return 0
     else:

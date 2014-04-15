@@ -49,7 +49,7 @@ cdef void obj_free_cb(void *data, Evas *e,
         for func, args, kargs in lst:
             try:
                 func(self, *args, **kargs)
-            except:
+            except Exception:
                 traceback.print_exc()
 
     _object_unregister_callbacks(self)

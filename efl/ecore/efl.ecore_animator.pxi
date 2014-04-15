@@ -77,7 +77,7 @@ cdef Eina_Bool _ecore_timeline_cb(void *data, double pos) with gil:
 
     try:
         ret = obj.func(pos, *obj.args, **obj.kargs)
-    except:
+    except Exception:
         traceback.print_exc()
 
     if not ret:

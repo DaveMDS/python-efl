@@ -586,7 +586,7 @@ cdef char *_py_elm_genlist_item_text_get(void *data, Evas_Object *obj, const cha
     try:
         o = object_from_instance(obj)
         ret = func(o, u, item.item_data)
-    except:
+    except Exception:
         traceback.print_exc()
         return NULL
 
@@ -610,7 +610,7 @@ cdef Evas_Object *_py_elm_genlist_item_content_get(void *data, Evas_Object *obj,
 
     try:
         icon = func(o, u, item.item_data)
-    except:
+    except Exception:
         traceback.print_exc()
         return NULL
 
@@ -631,7 +631,7 @@ cdef Eina_Bool _py_elm_genlist_item_state_get(void *data, Evas_Object *obj, cons
     try:
         o = object_from_instance(obj)
         ret = func(o, u, item.item_data)
-    except:
+    except Exception:
         traceback.print_exc()
         return 0
 
@@ -649,7 +649,7 @@ cdef void _py_elm_genlist_object_item_del(void *data, Evas_Object *obj) with gil
         try:
             o = object_from_instance(obj)
             func(o, item.item_data)
-        except:
+        except Exception:
             traceback.print_exc()
 
     item._unset_obj()
@@ -665,7 +665,7 @@ cdef void _py_elm_genlist_item_func(void *data, Evas_Object *obj, void *event_in
         try:
             o = object_from_instance(obj)
             item.cb_func(item, o, item.func_data)
-        except:
+        except Exception:
             traceback.print_exc()
 
 cdef int _py_elm_genlist_compare_func(const void *data1, const void *data2) with gil:
@@ -687,7 +687,7 @@ cdef int _py_elm_genlist_compare_func(const void *data1, const void *data2) with
     if ret is not None:
         try:
             return ret
-        except:
+        except Exception:
             traceback.print_exc()
             return 0
     else:

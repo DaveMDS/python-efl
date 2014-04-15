@@ -25,7 +25,7 @@ cdef void fd_handler_prepare_cb(void *data, Ecore_Fd_Handler *fdh) with gil:
     func, args, kargs = obj._prepare_callback
     try:
         func(obj, *args, **kargs)
-    except Exception, e:
+    except Exception:
         traceback.print_exc()
 
 
@@ -46,7 +46,7 @@ cdef Eina_Bool fd_handler_cb(void *data, Ecore_Fd_Handler *fdh) with gil:
 
     try:
         r = bool(obj._exec())
-    except Exception, e:
+    except Exception:
         traceback.print_exc()
         r = 0
 
@@ -94,7 +94,7 @@ cdef class FdHandler(object):
             if not isinstance(fd, (int, long)):
                 try:
                     fd = fd.fileno()
-                except AttributeError, e:
+                except AttributeError:
                     raise ValueError("fd must be integer or have fileno()")
 
             self.obj = ecore_main_fd_handler_add(fd,

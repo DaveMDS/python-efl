@@ -206,7 +206,7 @@ cdef void elm_transit_effect_transition_cb(Elm_Transit_Effect *effect, Elm_Trans
 
     try:
         fect.transition_cb(tsit, progress)
-    except:
+    except Exception:
         traceback.print_exc()
 
 cdef void elm_transit_effect_end_cb(Elm_Transit_Effect *effect, Elm_Transit *transit) with gil:
@@ -216,7 +216,7 @@ cdef void elm_transit_effect_end_cb(Elm_Transit_Effect *effect, Elm_Transit *tra
 
     try:
         fect.end_cb(tsit)
-    except:
+    except Exception:
         traceback.print_exc()
 
     Py_DECREF(fect)
@@ -235,7 +235,7 @@ cdef void elm_transit_del_cb(void *data, Elm_Transit *transit) with gil:
 
     try:
         trans.del_cb(trans, *args, **kwargs)
-    except:
+    except Exception:
         traceback.print_exc()
 
     trans.obj = NULL

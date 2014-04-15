@@ -469,7 +469,7 @@ cdef Evas_Event_Flags _gesture_layer_taps_event_cb(void *data, void *event_info)
     try:
         ret = callback(ei, *args, **kwargs)
         return <Evas_Event_Flags>ret if ret is not None else EVAS_EVENT_FLAG_NONE
-    except Exception as e:
+    except Exception:
         traceback.print_exc()
 
 cdef Evas_Event_Flags _gesture_layer_momentum_event_cb(void *data, void *event_info) with gil:
@@ -479,7 +479,7 @@ cdef Evas_Event_Flags _gesture_layer_momentum_event_cb(void *data, void *event_i
     try:
         ret = callback(ei, *args, **kwargs)
         return <Evas_Event_Flags>ret if ret is not None else EVAS_EVENT_FLAG_NONE
-    except Exception as e:
+    except Exception:
         traceback.print_exc()
 
 cdef Evas_Event_Flags _gesture_layer_line_event_cb(void *data, void *event_info) with gil:
@@ -489,7 +489,7 @@ cdef Evas_Event_Flags _gesture_layer_line_event_cb(void *data, void *event_info)
     try:
         ret = callback(ei, *args, **kwargs)
         return <Evas_Event_Flags>ret if ret is not None else EVAS_EVENT_FLAG_NONE
-    except Exception as e:
+    except Exception:
         traceback.print_exc()
 
 cdef Evas_Event_Flags _gesture_layer_zoom_event_cb(void *data, void *event_info) with gil:
@@ -499,7 +499,7 @@ cdef Evas_Event_Flags _gesture_layer_zoom_event_cb(void *data, void *event_info)
     try:
         ret = callback(ei, *args, **kwargs)
         return <Evas_Event_Flags>ret if ret is not None else EVAS_EVENT_FLAG_NONE
-    except Exception as e:
+    except Exception:
         traceback.print_exc()
 
 cdef Evas_Event_Flags _gesture_layer_rotate_event_cb(void *data, void *event_info) with gil:

@@ -213,7 +213,7 @@ cdef void _web_console_message_hook(void *data, Evas_Object *obj, const char *me
 
     try:
         self._console_message_hook(self, _ctouni(message), line_number, _ctouni(source_id))
-    except Exception, e:
+    except Exception:
         traceback.print_exc()
 
 cdef class WebWindowFeatures(object):

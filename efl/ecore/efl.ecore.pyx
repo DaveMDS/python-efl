@@ -254,7 +254,7 @@ cdef Eina_Bool _ecore_task_cb(void *data) with gil:
 
     try:
         ret = obj._task_exec()
-    except Exception, e:
+    except Exception:
         traceback.print_exc()
         ret = 0
 

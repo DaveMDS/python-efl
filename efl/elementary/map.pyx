@@ -269,7 +269,7 @@ cdef void _map_overlay_get_callback(void *data, Evas_Object *map, Elm_Map_Overla
     try:
         (func, args, kwargs) = <object>data
         func(obj, _elm_map_overlay_to_python(overlay), *args, **kwargs)
-    except Exception, e:
+    except Exception:
         traceback.print_exc()
 
 cdef void _map_overlay_del_cb(void *data, Evas_Object *map, Elm_Map_Overlay *overlay) with gil:
@@ -283,7 +283,7 @@ cdef void _map_route_callback(void *data, Evas_Object *map, Elm_Map_Route *route
     (proute, func, args, kwargs) = <object>data
     try:
         func(obj, proute, *args, **kwargs)
-    except Exception, e:
+    except Exception:
         traceback.print_exc()
 
     Py_DECREF(<object>data)
@@ -295,7 +295,7 @@ cdef void _map_name_callback(void *data, Evas_Object *map, Elm_Map_Name *name) w
     (pname, func, args, kwargs) = <object>data
     try:
         func(obj, pname, *args, **kwargs)
-    except Exception, e:
+    except Exception:
         traceback.print_exc()
 
     Py_DECREF(<object>data)

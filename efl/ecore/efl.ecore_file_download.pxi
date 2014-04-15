@@ -21,7 +21,7 @@ cdef void _completion_cb(void *data, const char *file, int status) with gil:
     obj = <FileDownload>data
     try:
         obj._exec_completion(file, status)
-    except Exception, e:
+    except Exception:
         traceback.print_exc()
 
 cdef int _progress_cb(void *data, const char *file, long int dltotal,
@@ -29,7 +29,7 @@ cdef int _progress_cb(void *data, const char *file, long int dltotal,
     obj = <FileDownload>data
     try:
         return obj._exec_progress(file, dltotal, dlnow, ultotal, ulnow)
-    except Exception, e:
+    except Exception:
         traceback.print_exc()
 
 

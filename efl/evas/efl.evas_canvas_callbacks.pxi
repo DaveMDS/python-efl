@@ -23,7 +23,7 @@ cdef int cb_canvas_dispatcher(Canvas self, event, int type) except 0:
     for func, args, kargs in lst:
         try:
             func(self, event, *args, **kargs)
-        except Exception, e:
+        except Exception:
             traceback.print_exc()
     return 1
 
@@ -34,7 +34,7 @@ cdef int cb_canvas_dispatcher2(Canvas self, int type) except 0:
     for func, args, kargs in lst:
         try:
             func(self, *args, **kargs)
-        except Exception, e:
+        except Exception:
             traceback.print_exc()
     return 1
 

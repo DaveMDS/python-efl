@@ -154,7 +154,7 @@ cdef Elm_Object_Item *py_elm_xy_item_get_cb(Evas_Object *obj, Evas_Coord x, Evas
     try:
         ret = o.data["xy_item_get_cb"](o, x, y)
         it, xpos1, ypos1 = ret
-    except:
+    except Exception:
         traceback.print_exc()
         return NULL
 
@@ -212,7 +212,7 @@ cdef Evas_Object *py_elm_drag_icon_create_cb(
 
     try:
         ret = createicon(win1, xoff1, yoff1, createdata)
-    except:
+    except Exception:
         traceback.print_exc()
         return NULL
 
@@ -260,7 +260,7 @@ cdef void py_elm_drag_done_cb(void *data, Evas_Object *obj, Eina_Bool accepted) 
 
     try:
         donecb(o, <bint>accepted, donedata)
-    except:
+    except Exception:
         traceback.print_exc()
 
 cdef void py_elm_drag_accept_cb(void *data, Evas_Object *obj, Eina_Bool doaccept) with gil:
@@ -297,7 +297,7 @@ cdef void py_elm_drag_pos_cb(void *data, Evas_Object *obj,
 
     try:
         dragpos(o, x, y, action, dragdata)
-    except:
+    except Exception:
         traceback.print_exc()
 
 cdef void py_elm_drag_item_container_pos(
@@ -354,7 +354,7 @@ cdef Eina_Bool py_elm_drop_item_container_cb(
 
     try:
         ret = cb(o, item, evdata, xposret, yposret, cbdata)
-    except:
+    except Exception:
         traceback.print_exc()
         return 0
 
@@ -428,7 +428,7 @@ cdef Eina_Bool py_elm_item_container_data_get_cb(
     try:
         func = o.data["item_container_data_get_cb"]
         func(o, item, ret)
-    except:
+    except Exception:
         traceback.print_exc()
         return 0
 

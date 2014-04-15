@@ -35,63 +35,63 @@ cdef void _smart_object_delete(Evas_Object *o) with gil:
 
     try:
         obj._m_delete(obj)
-    except Exception, e:
+    except Exception:
         traceback.print_exc()
 
     if type(obj.delete) is types.MethodType:
         try:
             del obj.delete
-        except AttributeError, e:
+        except AttributeError:
             pass
     if type(obj.move) is types.MethodType:
         try:
             del obj.move
-        except AttributeError, e:
+        except AttributeError:
             pass
     if type(obj.resize) is types.MethodType:
         try:
             del obj.resize
-        except AttributeError, e:
+        except AttributeError:
             pass
     if type(obj.show) is types.MethodType:
         try:
             del obj.show
-        except AttributeError, e:
+        except AttributeError:
             pass
     if type(obj.hide) is types.MethodType:
         try:
             del obj.hide
-        except AttributeError, e:
+        except AttributeError:
             pass
     if type(obj.color_set) is types.MethodType:
         try:
             del obj.color_set
-        except AttributeError, e:
+        except AttributeError:
             pass
     if type(obj.clip_set) is types.MethodType:
         try:
             del obj.clip_set
-        except AttributeError, e:
+        except AttributeError:
             pass
     if type(obj.clip_unset) is types.MethodType:
         try:
             del obj.clip_unset
-        except AttributeError, e:
+        except AttributeError:
             pass
     if type(obj.calculate) is types.MethodType:
         try:
             del obj.calculate
-        except AttributeError, e:
+        except AttributeError:
             pass
     if type(obj.member_add) is types.MethodType:
         try:
             del obj.member_add
-        except AttributeError, e:
+        except AttributeError:
             pass
     if type(obj.member_del) is types.MethodType:
         try:
             del obj.member_del
-        except AttributeError, e:
+        except AttributeError:
             pass
 
     obj._smart_callbacks = None
@@ -115,7 +115,7 @@ cdef void _smart_object_move(Evas_Object *o,
     if obj._m_move is not None:
         try:
             obj._m_move(obj, x, y)
-        except Exception, e:
+        except Exception:
             traceback.print_exc()
 
 
@@ -126,7 +126,7 @@ cdef void _smart_object_resize(Evas_Object *o,
     if obj._m_resize is not None:
         try:
             obj._m_resize(obj, w, h)
-        except Exception, e:
+        except Exception:
             traceback.print_exc()
 
 
@@ -136,7 +136,7 @@ cdef void _smart_object_show(Evas_Object *o) with gil:
     if obj._m_show is not None:
         try:
             obj._m_show(obj)
-        except Exception, e:
+        except Exception:
             traceback.print_exc()
 
 
@@ -146,7 +146,7 @@ cdef void _smart_object_hide(Evas_Object *o) with gil:
     if obj._m_hide is not None:
         try:
             obj._m_hide(obj)
-        except Exception, e:
+        except Exception:
             traceback.print_exc()
 
 
@@ -157,7 +157,7 @@ cdef void _smart_object_color_set(Evas_Object *o,
     if obj._m_color_set is not None:
         try:
             obj._m_color_set(obj, r, g, b, a)
-        except Exception, e:
+        except Exception:
             traceback.print_exc()
 
 
@@ -169,7 +169,7 @@ cdef void _smart_object_clip_set(Evas_Object *o, Evas_Object *clip) with gil:
     if obj._m_clip_set is not None:
         try:
             obj._m_clip_set(obj, other)
-        except Exception, e:
+        except Exception:
             traceback.print_exc()
 
 
@@ -179,7 +179,7 @@ cdef void _smart_object_clip_unset(Evas_Object *o) with gil:
     if obj._m_clip_unset is not None:
         try:
             obj._m_clip_unset(obj)
-        except Exception, e:
+        except Exception:
             traceback.print_exc()
 
 
@@ -189,7 +189,7 @@ cdef void _smart_object_calculate(Evas_Object *o) with gil:
     if obj._m_calculate is not None:
         try:
             obj._m_calculate(obj)
-        except Exception, e:
+        except Exception:
             traceback.print_exc()
 
 
@@ -201,7 +201,7 @@ cdef void _smart_object_member_add(Evas_Object *o, Evas_Object *clip) with gil:
     if obj._m_member_add is not None:
         try:
             obj._m_member_add(obj, other)
-        except Exception, e:
+        except Exception:
             traceback.print_exc()
 
 
@@ -213,7 +213,7 @@ cdef void _smart_object_member_del(Evas_Object *o, Evas_Object *clip) with gil:
     if obj._m_member_del is not None:
         try:
             obj._m_member_del(obj, other)
-        except Exception, e:
+        except Exception:
             traceback.print_exc()
 
 
@@ -228,7 +228,7 @@ cdef void _smart_callback(void *data,
     for func, args, kargs in lst:
         try:
             func(obj, ei, *args, **kargs)
-        except Exception, e:
+        except Exception:
             traceback.print_exc()
 
 
@@ -493,7 +493,7 @@ cdef class SmartObject(Object):
         """
         try:
             lst = self._smart_callbacks[event]
-        except KeyError, e:
+        except KeyError:
             raise ValueError("Unknown event %r" % event)
 
         i = -1

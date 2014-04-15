@@ -293,7 +293,7 @@ cdef void _object_callback(void *data,
             else:
                 ei = event_conv(<uintptr_t>event_info)
                 func(obj, ei, *args, **kargs)
-        except:
+        except Exception:
             traceback.print_exc()
 
 cdef bint _event_dispatcher(Object obj, Object src, Evas_Callback_Type t,
@@ -303,7 +303,7 @@ cdef bint _event_dispatcher(Object obj, Object src, Evas_Callback_Type t,
     for func, args, kargs in obj._elm_event_cbs:
         try:
             ret = func(obj, src, t, event_info, *args, **kargs)
-        except:
+        except Exception:
             traceback.print_exc()
         else:
             return ret
@@ -346,7 +346,7 @@ cdef void signal_callback(void *data, Evas_Object *obj,
     for func, args, kargs in lst:
         try:
             func(self, _ctouni(emission), _ctouni(source), *args, **kargs)
-        except:
+        except Exception:
             traceback.print_exc()
 
 

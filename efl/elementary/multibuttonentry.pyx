@@ -86,7 +86,7 @@ cdef Eina_Bool _multibuttonentry_filter_callback(Evas_Object *obj, \
 
     try:
         ret = callback(mbe, _ctouni(item_label), *a, **ka)
-    except:
+    except Exception:
         traceback.print_exc()
 
     return ret
@@ -97,7 +97,7 @@ cdef char * _multibuttonentry_format_cb(int count, void *data) with gil:
     try:
         s = callback(count, *a, **ka)
         if isinstance(s, unicode): s = PyUnicode_AsUTF8String(s)
-    except:
+    except Exception:
         traceback.print_exc()
         return NULL
 

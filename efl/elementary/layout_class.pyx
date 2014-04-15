@@ -32,7 +32,7 @@ cdef void layout_signal_callback(void *data, Evas_Object *obj,
     for func, args, kargs in lst:
         try:
             func(self, _ctouni(emission), _ctouni(source), *args, **kargs)
-        except Exception, e:
+        except Exception:
             traceback.print_exc()
 
 cdef class LayoutClass(Object):

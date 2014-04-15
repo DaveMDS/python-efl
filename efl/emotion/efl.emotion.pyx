@@ -115,7 +115,7 @@ cdef void _emotion_callback(void *data, Evas_Object *o, void *ei) with gil:
     for func, args, kargs in lst:
         try:
             func(obj, *args, **kargs)
-        except Exception, e:
+        except Exception:
             import traceback
             traceback.print_exc()
 
@@ -1136,7 +1136,7 @@ cdef class Emotion(evasObject):
         """
         try:
             lst = self._emotion_callbacks[event]
-        except KeyError, e:
+        except KeyError:
             raise ValueError("function %s not associated with event %r" %
                              (func, event))
 

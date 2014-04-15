@@ -171,7 +171,7 @@ cdef Eina_Bool py_elm_fileselector_custom_filter_cb(const char *path, Eina_Bool 
     cb_func, cb_data = <object>data
     try:
         return cb_func(_ctouni(path), is_dir, cb_data)
-    except:
+    except Exception:
         traceback.print_exc()
         return 0
 

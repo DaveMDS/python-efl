@@ -31,7 +31,7 @@ cdef void _connect_cb(void *data, Ethumb_Client *client, Eina_Bool success) with
     try:
         func, args, kargs = self._on_connect_callback
         func(self, s, *args, **kargs)
-    except Exception, e:
+    except Exception:
         traceback.print_exc()
 
     if not s and self.obj != NULL:
@@ -46,7 +46,7 @@ cdef void _on_server_die_cb(void *data, Ethumb_Client *client) with gil:
         try:
             func, args, kargs = self._on_server_die_callback
             func(self, *args, **kargs)
-        except Exception, e:
+        except Exception:
             traceback.print_exc()
 
     if self.obj != NULL:
@@ -65,7 +65,7 @@ cdef void _generated_cb(void *data, Ethumb_Client *client, int id, const char *f
     s = bool(success != 0)
     try:
         func(self, id, f, k, tp, tk, s, *args, **kargs)
-    except Exception, e:
+    except Exception:
         traceback.print_exc()
 
 cdef void _generated_cb_free_data(void *data) with gil:

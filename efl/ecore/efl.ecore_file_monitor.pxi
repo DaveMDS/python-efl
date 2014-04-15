@@ -22,7 +22,7 @@ cdef void _file_monitor_cb(void *data, Ecore_File_Monitor *em, Ecore_File_Event 
     obj = <FileMonitor>data
     try:
         obj._exec_monitor(event, path)
-    except Exception, e:
+    except Exception:
         traceback.print_exc()
 
 

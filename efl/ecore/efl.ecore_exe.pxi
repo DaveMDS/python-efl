@@ -83,10 +83,10 @@ cdef Eina_Bool _exe_event_filter_cb(void *data, int type, void *event) with gil:
         for cb in cbs:
             try:
                 cb[0](self.owner, e, *cb[1], **cb[2])
-            except:
+            except Exception:
                 traceback.print_exc()
 
-    except:
+    except Exception:
         traceback.print_exc()
 
     return 1 # always return true, no matter what
@@ -128,7 +128,7 @@ cdef class ExeEventFilter:
     def callback_del(self, func, args, kargs):
         try:
             self.callbacks.remove((func, args, kargs))
-        except ValueError, e:
+        except ValueError:
             raise ValueError(
                 "callback is not registered: %s, args=%s, kargs=%s" %
                 (func, args, kargs))
@@ -161,7 +161,7 @@ cdef void _ecore_exe_pre_free_cb(void *data, const Ecore_Exe *exe) with gil:
         else:
             obj = <Exe>data
             obj._unset_obj()
-    except Exception, e:
+    except Exception:
         traceback.print_exc()
 
 

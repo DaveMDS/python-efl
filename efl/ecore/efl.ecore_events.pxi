@@ -41,7 +41,7 @@ cdef Eina_Bool event_handler_cb(void *data, int type, void *event) with gil:
 
     try:
         r = handler._exec(event)
-    except Exception, e:
+    except Exception:
         traceback.print_exc()
         r = 0
 

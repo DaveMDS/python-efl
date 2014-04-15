@@ -120,7 +120,7 @@ cdef Eina_Bool store_fs_item_list_cb(void *data, Elm_Store_Item_Info *info) with
     func, args, kwargs = <object>data
     try:
         ret = func(ifs, args, kwargs)
-    except Exception, e:
+    except Exception:
         traceback.print_exc()
 
     ifs.info_fs = NULL
@@ -137,7 +137,7 @@ cdef void store_item_fetch_cb(void *data, Elm_Store_Item *sti) with gil:
     func, args, kwargs = <object>data
     try:
         func(it, args, kwargs)
-    except Exception, e:
+    except Exception:
         traceback.print_exc()
 
     it.sti = NULL
@@ -149,7 +149,7 @@ cdef void store_item_unfetch_cb(void *data, Elm_Store_Item *sti) with gil:
     func, args, kwargs = <object>data
     try:
         func(it, args, kwargs)
-    except Exception, e:
+    except Exception:
         traceback.print_exc()
 
     it.sti = NULL
