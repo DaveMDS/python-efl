@@ -365,12 +365,12 @@ cdef class GenlistItem(ObjectItem):
         """
         elm_genlist_item_item_class_update(self.item, itc.cls)
 
-    #TODO: def item_class_get(self):
-        """This returns the Genlist_Item_Class for the given item. It can be
-        used to examine the function pointers and item_style.
-
-        """
-        #return elm_genlist_item_item_class_get(self.item)
+    # TODO: def item_class_get(self):
+    #     """This returns the Genlist_Item_Class for the given item. It can be
+    #     used to examine the function pointers and item_style.
+    #
+    #     """
+    #     return elm_genlist_item_item_class_get(self.item)
 
     property index:
         """Get the index of the item. It is only valid once displayed.

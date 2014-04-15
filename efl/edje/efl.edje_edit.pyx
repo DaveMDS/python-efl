@@ -351,15 +351,14 @@ cdef class EdjeEdit(Edje):
         if isinstance(name, unicode): name = name.encode("UTF-8")
         return bool(edje_edit_program_exist(self.obj,
                             <const char *>name if name is not None else NULL))
-    """
-    property error:
-        def __get__(self):
-            last_error = c_evas.eina_error_get()
-            if last_error:
-               return c_evas.eina_error_msg_get(last_error)
 
-            return None
-    """
+    # property error:
+    #     def __get__(self):
+    #         last_error = c_evas.eina_error_get()
+    #         if last_error:
+    #            return c_evas.eina_error_msg_get(last_error)
+    #
+    #         return None
 
     # Scripts
     property script:
