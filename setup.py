@@ -6,7 +6,7 @@ import sys
 import subprocess
 from distutils.core import setup, Command
 from distutils.extension import Extension
-from distutils.version import StrictVersion
+from distutils.version import StrictVersion, LooseVersion
 
 script_path = os.path.dirname(os.path.abspath(__file__))
 
@@ -76,20 +76,36 @@ def pkg_config(name, require, min_vers=None):
 
 # use cython or pre-generated c files
 if os.path.exists(os.path.join(script_path, "efl", "eo", "efl.eo.pyx")):
+
     module_suffix = ".pyx"
+
     try:
         from Cython.Distutils import build_ext
         from Cython.Build import cythonize
         import Cython.Compiler.Options
+    except ImportError:
+        raise SystemExit("Requires Cython >= %s (http://cython.org/)" % CYTHON_MIN_VERSION)
 
-        assert StrictVersion(Cython.__version__) >= StrictVersion(CYTHON_MIN_VERSION)
-        Cython.Compiler.Options.fast_fail = True # Stop compilation on first error
-        Cython.Compiler.Options.annotate = False # Generates HTML files with annotated source
-        Cython.Compiler.Options.docstrings = True # Set to False to disable docstrings
+    try:
+        try:
+            assert StrictVersion(Cython.__version__) >= StrictVersion(CYTHON_MIN_VERSION)
+        except ValueError:
+            print("Your Cython version string (%s) is weird. We'll attempt to "
+                "check that it's higher than the minimum required: %s, but this "
+                "is unreliable.\n"
+                "If you run into any problems during or after installation it may "
+                "be caused by version of Cython that's too old." % (
+                    Cython.__version__, CYTHON_MIN_VERSION
+                    )
+                )
+            assert LooseVersion(Cython.__version__) >= LooseVersion(CYTHON_MIN_VERSION)
+    except AssertionError:
+        raise SystemExit("Requires Cython >= %s (http://cython.org/)" % CYTHON_MIN_VERSION)
 
-    except (ImportError, AssertionError):
-        print("Requires Cython >= %s (http://cython.org/)" % CYTHON_MIN_VERSION)
-        raise
+    Cython.Compiler.Options.fast_fail = True # Stop compilation on first error
+    Cython.Compiler.Options.annotate = False # Generates HTML files with annotated source
+    Cython.Compiler.Options.docstrings = True # Set to False to disable docstrings
+
 else:
     module_suffix = ".c"
     from distutils.command.build_ext import build_ext
