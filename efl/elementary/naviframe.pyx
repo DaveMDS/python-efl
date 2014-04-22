@@ -581,4 +581,4 @@ cdef class Naviframe(LayoutClass):
     def callback_unfocused_del(self, func):
         self._callback_del("unfocused", func)
 
-_object_mapping_register("Elc_Naviframe", Naviframe)
+_object_mapping_register("Elm_Naviframe", Naviframe)

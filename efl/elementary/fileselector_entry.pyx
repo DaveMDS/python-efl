@@ -429,4 +429,4 @@ cdef class FileselectorEntry(LayoutClass):
     def callback_language_changed_del(self, func):
         self._callback_del("language,changed", func)
 
-_object_mapping_register("Elc_Fileselector_Entry", FileselectorEntry)
+_object_mapping_register("Elm_Fileselector_Entry", FileselectorEntry)

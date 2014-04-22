@@ -363,4 +363,4 @@ cdef class Player(LayoutClass):
     def callback_unfocused_del(self, func):
         self._callback_del("unfocused", func)
 
-_object_mapping_register("Elc_Player", Player)
+_object_mapping_register("Elm_Player", Player)

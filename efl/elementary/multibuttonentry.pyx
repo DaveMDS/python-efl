@@ -530,4 +530,4 @@ cdef class MultiButtonEntry(Object):
         self._callback_del("expand,state,changed", func)
 
 
-_object_mapping_register("Elc_Multibuttonentry", MultiButtonEntry)
+_object_mapping_register("Elm_Multibuttonentry", MultiButtonEntry)

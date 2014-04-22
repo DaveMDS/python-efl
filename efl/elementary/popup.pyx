@@ -436,4 +436,4 @@ cdef class Popup(LayoutClass):
         self._callback_del("language,changed", func)
 
 
-_object_mapping_register("Elc_Popup", Popup)
+_object_mapping_register("Elm_Popup", Popup)

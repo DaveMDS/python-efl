@@ -586,4 +586,4 @@ cdef class Fileselector(LayoutClass):
         self._callback_del_full("done", _cb_string_conv, func)
 
 
-_object_mapping_register("Elc_Fileselector", Fileselector)
+_object_mapping_register("Elm_Fileselector", Fileselector)
