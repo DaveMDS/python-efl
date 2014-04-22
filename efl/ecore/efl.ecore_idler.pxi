@@ -151,9 +151,11 @@ cdef class IdleExiter(Idler):
 def idler_add(func, *args, **kargs):
     """efl.ecore.Idler factory, for C-api compatibility.
 
-    :param func: function to call when system is idle.
-                Expected signature::
-                    func(*args, **kargs): bool
+    :param func:
+        function to call when system is idle.
+        Expected signature::
+
+            func(*args, **kargs): bool
 
     :return: a new Idler instance
     :rtype: efl.ecore.Idler

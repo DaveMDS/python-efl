@@ -1,7 +1,3 @@
-:mod:`efl.ecore` Module
-=======================
-
-.. module:: efl.ecore
 
 What is Ecore?
 --------------
@@ -86,12 +82,13 @@ give path) is created/deleted/modified.
 
 
 
-Reference
----------
+API Reference
+-------------
 
 .. toctree::
    :maxdepth: 4
 
+   ecore_module
    timer
    animator
    poller

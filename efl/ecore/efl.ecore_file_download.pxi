@@ -142,19 +142,22 @@ cdef class FileDownload(object):
 
 
 def file_download(url, dst, completion_cb, progress_cb, *args, **kargs):
-    """efl.ecore.FileDownload} factory, for C-api compatibility.
+    """:class:`efl.ecore.FileDownload` factory, for C-api compatibility.
 
     :param url: The complete url to download
     :param dst: Where to download the file
     :param completion_cb: The function called when the download end
                           Expected signature::
-                            completion_cb(file, status, *args, **kargs)
+
+                            completion_cb(file, status, \*args, \**kargs)
+
     :param progress_cb: The function to called while the download progress
                         advance. Expected signature::
-                            progress_cb(file, dltotal, dlnow, uptotal, upnow, *args, **kargs): int
 
-    :return: a new FileDownload instance
-    :rtype: `efl.ecore.Download`
+                            progress_cb(file, dltotal, dlnow, uptotal, upnow, \*args, \**kargs): int
+
+    :return: a new :class:`efl.ecore.FileDownload` instance
+    :rtype: :class:`efl.ecore.FileDownload`
     """
     return FileDownload(url, dst, completion_cb, progress_cb, *args, **kargs)
 

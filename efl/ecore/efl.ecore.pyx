@@ -78,7 +78,7 @@ Flags for executing a child with its stdin and/or stdout piped back.
 
 .. data:: ECORE_EXE_USE_SH
 
-    Use /bin/sh to run the command.
+    Use /bin/sh to run the command
 
 .. data:: ECORE_EXE_NOT_LEADER
 
@@ -86,18 +86,31 @@ Flags for executing a child with its stdin and/or stdout piped back.
 
 .. data:: ECORE_EXE_TERM_WITH_PARENT
 
-    Makes child receive SIGTERM when parent dies.
+    Makes child receive SIGTERM when parent dies
 
 
 Callback return values
 ======================
-ECORE_CALLBACK_CANCEL  EINA_FALSE /**< Return value to remove a callback */
-ECORE_CALLBACK_RENEW   EINA_TRUE /**< Return value to keep a callback */
+
+.. data:: ECORE_CALLBACK_CANCEL
+
+    Return value to remove a callback, it will not be called again
+
+.. data:: ECORE_CALLBACK_RENEW
+
+    Return value to keep a callback
+
 
 Event return values
 ===================
-ECORE_CALLBACK_PASS_ON EINA_TRUE /**< Return value to pass event to next handler */
-ECORE_CALLBACK_DONE    EINA_FALSE /**< Return value to stop event handling */
+
+.. data:: ECORE_CALLBACK_PASS_ON
+
+    Return value to pass event to next handler
+
+.. data:: ECORE_CALLBACK_DONE
+
+    Return value to stop event handling
 
 
 .. _Ecore_Pos_Map:
