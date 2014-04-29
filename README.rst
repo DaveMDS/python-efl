@@ -1,4 +1,3 @@
-
 -----------------
 PYTHON-EFL 1.9.99
 -----------------
@@ -10,14 +9,15 @@ widgets and more. PYTHON-EFL are the python bindings for EFL and Elementary.
 
 INSTALL
 =======
+
 For installation instruction see the INSTALL file.
 
 
 CHANGES FROM 1.9 to 1.10
-=======================
+========================
 
 Deprecated in 1.10
------------------
+------------------
 
 
 CHANGES FROM 1.8 to 1.9
