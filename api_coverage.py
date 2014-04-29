@@ -85,6 +85,8 @@ def get_capis(inc_path, prefix):
 
     for path, dirs, files in os.walk(inc_path):
         for f in files:
+            if not f.endswith("legacy.h"):
+                continue
             open_args = (os.path.join(path, f),)
             open_kwargs = dict(mode="r")
             if sys.version_info[0] > 2: open_kwargs["encoding"] = "UTF-8"
@@ -106,20 +108,21 @@ def get_pyapis(pxd_path, header_name, prefix):
 
     for path, dirs, files in os.walk(pxd_path):
         for f in files:
-            if f.endswith(".pxd"):
-                open_args = (os.path.join(path, f),)
-                open_kwargs = dict(mode="r")
-                if sys.version_info[0] > 2: open_kwargs["encoding"] = "UTF-8"
+            if not f.endswith(".pxd"):
+                continue
+            open_args = (os.path.join(path, f),)
+            open_kwargs = dict(mode="r")
+            if sys.version_info[0] > 2: open_kwargs["encoding"] = "UTF-8"
 
-                with open(*open_args, **open_kwargs) as pxd:
-                    pyapi = pxd.read()
+            with open(*open_args, **open_kwargs) as pxd:
+                pyapi = pxd.read()
 
-                    cdef = re.search(pyapi_pattern1, pyapi)
-                    if cdef:
-                        matches = re.finditer(pyapi_pattern2, cdef.group(2))
-                        for match in matches:
-                            func = match.group(1)
-                            pyapis.append(func)
+                cdef = re.search(pyapi_pattern1, pyapi)
+                if cdef:
+                    matches = re.finditer(pyapi_pattern2, cdef.group(2))
+                    for match in matches:
+                        func = match.group(1)
+                        pyapis.append(func)
 
     return pyapis
 
