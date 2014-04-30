@@ -26,7 +26,9 @@
 -----------------------
 
  Once EFL is built and installed in your desired destination, proceed with
- building the wrapper.
+ building the wrapper. If you downloaded a tarball with pre-generated
+ C sources you can proceed to use those, or force distutils to use pyx
+ sources by setting the environment variable USE_CYTHON to 1.
 
 
  * BUILDING WITH GCC/G++ (Linux, OS X, etc.)
@@ -40,6 +42,10 @@
  * BUILDING WITH MINGW (Windows)
 
    python setup.py build -c mingw32
+
+ * FORCING PYX SOURCES FOR BUILD
+
+   env USE_CYTHON=1 python setup.py build
 
 
 

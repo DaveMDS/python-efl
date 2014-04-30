@@ -84,7 +84,11 @@ def pkg_config(name, require, min_vers=None):
 
 
 # use cython or pre-generated c files
-if os.path.exists(os.path.join(script_path, "efl", "eo", "efl.eo.pyx")):
+
+if os.getenv("USE_CYTHON") or \
+    not os.path.exists(
+        os.path.join(script_path, "efl", "eo", "efl.eo.c")
+        ):
 
     module_suffix = ".pyx"
 
