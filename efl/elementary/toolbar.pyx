@@ -679,6 +679,7 @@ cdef class ToolbarItem(ObjectItem):
 
         """
         def __get__(self):
+            import efl.elementary.menu  # XXX: Hack for class not being known
             return object_from_instance(elm_toolbar_item_menu_get(self.item))
 
         def __set__(self, menu):
@@ -687,6 +688,7 @@ cdef class ToolbarItem(ObjectItem):
     def menu_set(self, menu):
         elm_toolbar_item_menu_set(self.item, menu)
     def menu_get(self):
+        import efl.elementary.menu  # XXX: Hack for class not being known
         return object_from_instance(elm_toolbar_item_menu_get(self.item))
 
 
