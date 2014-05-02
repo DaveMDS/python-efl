@@ -84,6 +84,8 @@ Signals that you can add callbacks for are:
 - ``focused`` - When the popup has received focus. (since 1.8)
 - ``unfocused`` - When the popup has lost focus. (since 1.8)
 - ``language,changed`` - the program's language changed (since 1.8)
+- ``item,focused`` - the popup item has received focus. (since 1.10)
+- ``item,unfocused`` - the popup item has lost focus. (since 1.10)
 
 Styles available for Popup
 
@@ -186,7 +188,7 @@ from efl.eo cimport _object_mapping_register, PY_REFCOUNT
 from efl.evas cimport Object as evasObject
 from layout_class cimport LayoutClass
 from object_item cimport _object_item_callback, _object_item_callback2, \
-    ObjectItem
+    ObjectItem, _object_item_to_python
 
 cimport enums
 
@@ -205,6 +207,11 @@ ELM_WRAP_NONE = enums.ELM_WRAP_NONE
 ELM_WRAP_CHAR = enums.ELM_WRAP_CHAR
 ELM_WRAP_WORD = enums.ELM_WRAP_WORD
 ELM_WRAP_MIXED = enums.ELM_WRAP_MIXED
+
+
+def _cb_object_item_conv(uintptr_t addr):
+    cdef Elm_Object_Item *it = <Elm_Object_Item *>addr
+    return _object_item_to_python(it)
 
 cdef class PopupItem(ObjectItem):
 
@@ -435,5 +442,26 @@ cdef class Popup(LayoutClass):
     def callback_language_changed_del(self, func):
         self._callback_del("language,changed", func)
 
+    def callback_item_focused_add(self, func, *args, **kwargs):
+        """When the popup item has received focus.
+        
+        .. versionadded:: 1.10
+
+        """
+        self._callback_add_full("item,focused", _cb_object_item_conv, func, *args, **kwargs)
+
+    def callback_item_focused_del(self, func):
+        self._callback_del_full("item,focused", _cb_object_item_conv, func)
+
+    def callback_item_unfocused_add(self, func, *args, **kwargs):
+        """When the popup item has lost focus.
+
+        .. versionadded:: 1.10
+
+        """
+        self._callback_add_full("item,unfocused", _cb_object_item_conv, func, *args, **kwargs)
+
+    def callback_item_unfocused_del(self, func):
+        self._callback_del_full("item,unfocused", _cb_object_item_conv, func)
 
 _object_mapping_register("Elm_Popup", Popup)
