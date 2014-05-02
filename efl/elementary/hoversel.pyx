@@ -41,6 +41,8 @@ This widget emits the following signals, besides the ones sent from
   is the item
 - ``dismissed`` - the hover is dismissed
 - ``expanded`` - the hover is expanded (since 1.9)
+- ``item,focused`` - the hoversel item has received focus. (since 1.10)
+- ``item,unfocused`` - the hoversel item has lost focus. (since 1.10)
 
 Default content parts of the hoversel widget that you can use for are:
 
@@ -395,5 +397,26 @@ cdef class Hoversel(Button):
     def callback_expanded_del(self, func):
         self._callback_del("expanded", func)
 
+    def callback_item_focused_add(self, func, *args, **kwargs):
+        """When the hoversel item has received focus.
+        
+        .. versionadded:: 1.10
+
+        """
+        self._callback_add_full("item,focused", _cb_object_item_conv, func, *args, **kwargs)
+
+    def callback_item_focused_del(self, func):
+        self._callback_del_full("item,focused", _cb_object_item_conv, func)
+
+    def callback_item_unfocused_add(self, func, *args, **kwargs):
+        """When the hoversel item has lost focus.
+
+        .. versionadded:: 1.10
+
+        """
+        self._callback_add_full("item,unfocused", _cb_object_item_conv, func, *args, **kwargs)
+
+    def callback_item_unfocused_del(self, func):
+        self._callback_del_full("item,unfocused", _cb_object_item_conv, func)
 
 _object_mapping_register("Elm_Hoversel", Hoversel)
