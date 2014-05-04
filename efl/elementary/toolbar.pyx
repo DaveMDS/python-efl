@@ -38,6 +38,8 @@ Smart callbacks one can listen to:
 - ``language,changed`` - when the program language changes.
 - ``focused`` - When the toolbar has received focus. (since 1.8)
 - ``unfocused`` - When the toolbar has lost focus. (since 1.8)
+- ``item,focused`` - When the toolbar item has received focus. (since 1.10)
+- ``item,unfocused`` - When the toolbar item has lost focus. (since 1.10)
 
 Available styles for it:
 
@@ -165,6 +167,7 @@ Where to position the item in the toolbar.
 """
 
 from cpython cimport PyUnicode_AsUTF8String, Py_INCREF, Py_DECREF
+from libc.stdint cimport uintptr_t
 
 from efl.eo cimport _object_mapping_register, object_from_instance
 from efl.utils.conversions cimport _ctouni
@@ -205,6 +208,10 @@ ELM_TOOLBAR_ITEM_SCROLLTO_LAST = enums.ELM_TOOLBAR_ITEM_SCROLLTO_LAST
 
 
 import traceback
+
+def _cb_object_item_conv(uintptr_t addr):
+    cdef Elm_Object_Item *it = <Elm_Object_Item *>addr
+    return _object_item_to_python(it)
 
 cdef void _toolbar_item_state_callback(void *data, Evas_Object *obj, void *event_info) with gil:
     cdef ToolbarItemState state = <object>data
@@ -1152,6 +1159,28 @@ cdef class Toolbar(LayoutClass):
 
     def callback_unfocused_del(self, func):
         self._callback_del("unfocused", func)
+
+    def callback_item_focused_add(self, func, *args, **kwargs):
+        """When the toolbar item has received focus.
+
+        .. versionadded:: 1.10
+
+        """
+        self._callback_add_full("item,focused", _cb_object_item_conv, func, *args, **kwargs)
+
+    def callback_item_focused_del(self, func):
+        self._callback_del_full("item,focused", _cb_object_item_conv, func)
+
+    def callback_item_unfocused_add(self, func, *args, **kwargs):
+        """When the toolbar item has lost focus.
+
+        .. versionadded:: 1.10
+
+        """
+        self._callback_add_full("item,unfocused", _cb_object_item_conv, func, *args, **kwargs)
+
+    def callback_item_unfocused_del(self, func):
+        self._callback_del_full("item,unfocused", _cb_object_item_conv, func)
 
     property scroller_policy:
         """
