@@ -844,6 +844,54 @@ cdef class Configuration(object):
         def __set__(self, bint animate):
             elm_config_focus_highlight_animate_set(animate)
 
+    property focus_highlight_clip_disabled:
+        """Whether the focus highlight clip feature is disabled.
+
+        If disabled return True, else return False.
+        If focus highlight clip feature is not disabled the focus highlight
+        can be clipped.
+
+        :type: bool
+
+        .. versionadded:: 1.10
+
+        """
+        def __get__(self):
+            return bool(elm_config_focus_highlight_clip_disabled_get())
+        def __set__(self, bint disabled):
+            elm_config_focus_highlight_clip_disabled_set(disabled)
+
+    property focus_move_policy:
+        """The focus movement policy.
+
+        How the focus is moved to another object. It can be
+        ELM_FOCUS_MOVE_POLICY_CLICK or ELM_FOCUS_MOVE_POLICY_IN. The first
+        means elementary focus is moved on elementary object click. The
+        second means elementary focus is moved on elementary object mouse in.
+
+        :type: Elm_Focus_Move_Policy
+
+        .. versionadded:: 1.10
+
+        """
+        def __get__(self):
+            return elm_config_focus_move_policy_get()
+        def __set__(self, policy):
+            elm_config_focus_move_policy_set(policy)
+
+    property focus_on_selection:
+        """Elementary item focus on selection.
+
+        :type: bool
+
+        .. versionadded:: 1.10
+
+        """
+        def __get__(self):
+            return bool(elm_config_item_focus_on_selection_get())
+        def __set__(self, bint enabled):
+            elm_config_item_focus_on_selection_set(enabled)
+
     property mirrored:
         """Get the system mirrored mode. This determines the default
         mirrored mode of widgets.
@@ -935,6 +983,21 @@ def focus_highlight_animate_get():
     return elm_config_focus_highlight_animate_get()
 def focus_highlight_animate_set(animate):
     elm_config_focus_highlight_animate_set(animate)
+
+def focus_highlight_clip_disabled_get():
+    return elm_config_focus_highlight_clip_disabled_get()
+def focus_highlight_clip_disabled_set(disabled):
+    elm_config_focus_highlight_clip_disabled_set(disabled)
+
+def focus_move_policy_get():
+    return elm_config_focus_move_policy_get()
+def focus_move_policy_set(policy):
+    elm_config_focus_move_policy_set(policy)
+
+def item_focus_on_selection_get():
+    return elm_config_item_focus_on_selection_get()
+def item_focus_on_selection_set(enabled):
+    elm_config_item_focus_on_selection_set(enabled)
 
 def preferred_engine_get():
     return _ctouni(elm_config_preferred_engine_get())

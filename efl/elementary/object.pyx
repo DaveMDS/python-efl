@@ -102,6 +102,23 @@ Focus direction
 
     .. versionadded:: 1.8.1
 
+.. _Elm_Focus_Move_Policy
+
+Focus move policy
+=================
+
+.. data:: ELM_FOCUS_MOVE_POLICY_CLICK
+
+    Give focus to object when they are clicked
+
+    .. versionadded:: 1.10
+
+.. data:: ELM_FOCUS_MOVE_POLICY_IN
+
+    Give focus to object on mouse-in
+
+    .. versionadded:: 1.10
+
 .. _Elm_Input_Event_Type:
 
 Input event types
@@ -248,6 +265,9 @@ ELM_FOCUS_UP = enums.ELM_FOCUS_UP
 ELM_FOCUS_DOWN = enums.ELM_FOCUS_DOWN
 ELM_FOCUS_RIGHT = enums.ELM_FOCUS_RIGHT
 ELM_FOCUS_LEFT = enums.ELM_FOCUS_LEFT
+
+ELM_FOCUS_MOVE_POLICY_CLICK = enums.ELM_FOCUS_MOVE_POLICY_CLICK
+ELM_FOCUS_MOVE_POLICY_IN = enums.ELM_FOCUS_MOVE_POLICY_IN
 
 EVAS_CALLBACK_KEY_DOWN = evasenums.EVAS_CALLBACK_KEY_DOWN
 EVAS_CALLBACK_KEY_UP = evasenums.EVAS_CALLBACK_KEY_UP

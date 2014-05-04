@@ -161,6 +161,10 @@ cdef extern from "Elementary.h":
         ELM_FOCUS_RIGHT
         ELM_FOCUS_LEFT
 
+    ctypedef enum Elm_Focus_Move_Policy:
+        ELM_FOCUS_MOVE_POLICY_CLICK
+        ELM_FOCUS_MOVE_POLICY_IN
+
     ctypedef enum Elm_Genlist_Item_Type:
         ELM_GENLIST_ITEM_NONE
         ELM_GENLIST_ITEM_TREE
