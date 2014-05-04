@@ -827,6 +827,27 @@ cdef class Gengrid(Object):
     def callback_unfocused_del(self, func):
         self._callback_del("unfocused", func)
 
+    def callback_item_focused_add(self, func, *args, **kwargs):
+        """When the gengrid item has received focus.
+
+        .. versionadded:: 1.10
+
+        """
+        self._callback_add_full("item,focused", _cb_object_item_conv, func, *args, **kwargs)
+
+    def callback_item_focused_del(self, func):
+        self._callback_del_full("item,focused", _cb_object_item_conv, func)
+
+    def callback_item_unfocused_add(self, func, *args, **kwargs):
+        """When the gengrid item has lost focus.
+
+        .. versionadded:: 1.10
+
+        """
+        self._callback_add_full("item,unfocused", _cb_object_item_conv, func, *args, **kwargs)
+
+    def callback_item_unfocused_del(self, func):
+        self._callback_del_full("item,unfocused", _cb_object_item_conv, func)
 
     property scroller_policy:
         """

@@ -248,7 +248,8 @@ Smart events that you can add callbacks for are:
   be translated.
 - ``focused`` - When the gengrid has received focus. (since 1.8)
 - ``unfocused`` - When the gengrid has lost focus. (since 1.8)
-
+- ``item,focused`` - When the gengrid item has received focus. (since 1.10)
+- ``item,unfocused`` - When the gengrid item has lost focus. (since 1.10)
 
 Enumerations
 ------------
