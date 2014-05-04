@@ -115,8 +115,8 @@ cdef extern from "Elementary.h":
     void                    elm_config_focus_highlight_clip_disabled_set(Eina_Bool disabled)
     Elm_Focus_Move_Policy   elm_config_focus_move_policy_get()
     void                    elm_config_focus_move_policy_set(Elm_Focus_Move_Policy policy)
-    Eina_Bool               elm_config_item_focus_on_selection_get()
-    void                    elm_config_item_focus_on_selection_set(Eina_Bool enabled)
+    Eina_Bool               elm_config_item_select_on_focus_disabled_get()
+    void                    elm_config_item_select_on_focus_disabled_set(Eina_Bool disabled)
 
 
     Eina_Bool               elm_config_mirrored_get()

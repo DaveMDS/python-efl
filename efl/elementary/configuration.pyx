@@ -879,7 +879,7 @@ cdef class Configuration(object):
         def __set__(self, policy):
             elm_config_focus_move_policy_set(policy)
 
-    property item_focus_on_selection:
+    property item_select_on_focus_disabled:
         """Elementary item focus on selection.
 
         :type: bool
@@ -888,9 +888,9 @@ cdef class Configuration(object):
 
         """
         def __get__(self):
-            return bool(elm_config_item_focus_on_selection_get())
-        def __set__(self, bint enabled):
-            elm_config_item_focus_on_selection_set(enabled)
+            return bool(elm_config_item_select_on_focus_disabled_get())
+        def __set__(self, bint disabled):
+            elm_config_item_select_on_focus_disabled_set(disabled)
 
     property mirrored:
         """Get the system mirrored mode. This determines the default
@@ -994,10 +994,10 @@ def focus_move_policy_get():
 def focus_move_policy_set(policy):
     elm_config_focus_move_policy_set(policy)
 
-def item_focus_on_selection_get():
-    return elm_config_item_focus_on_selection_get()
-def item_focus_on_selection_set(enabled):
-    elm_config_item_focus_on_selection_set(enabled)
+def item_select_on_focus_disabled_get(self):
+    return bool(elm_config_item_select_on_focus_disabled_get())
+def item_select_on_focus_disabled_set(self, bint disabled):
+    elm_config_item_select_on_focus_disabled_set(disabled)
 
 def preferred_engine_get():
     return _ctouni(elm_config_preferred_engine_get())
