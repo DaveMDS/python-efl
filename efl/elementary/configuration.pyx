@@ -879,7 +879,7 @@ cdef class Configuration(object):
         def __set__(self, policy):
             elm_config_focus_move_policy_set(policy)
 
-    property focus_on_selection:
+    property item_focus_on_selection:
         """Elementary item focus on selection.
 
         :type: bool
