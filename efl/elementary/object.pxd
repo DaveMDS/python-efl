@@ -29,6 +29,8 @@ cdef extern from "Edje.h":
 cdef extern from "Elementary.h":
     ctypedef struct Elm_Theme
 
+    ctypedef struct Elm_Object_Item
+
     ctypedef struct Elm_Selection_Data:
         Evas_Coord       x, y
         Elm_Sel_Format   format
@@ -103,6 +105,7 @@ cdef extern from "Elementary.h":
     Eina_Bool               elm_object_tree_focus_allow_get(const Evas_Object *obj)
     Eina_Bool               elm_object_focus_highlight_style_set(Evas_Object *obj, const char *style)
     const char *            elm_object_focus_highlight_style_get(const Evas_Object *obj)
+    Elm_Object_Item *       elm_object_focused_item_get(const Evas_Object *obj)
 
     # Object - Mirroring (elm_mirroring.h)
     Eina_Bool               elm_object_mirrored_get(const Evas_Object *obj)

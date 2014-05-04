@@ -609,6 +609,24 @@ cdef class ObjectItem(object):
     def cursor_engine_only_get(self):
         return elm_object_item_cursor_engine_only_get(self.item)
 
+    property focus:
+        """Whether the item is focused or not.
+
+        .. versionadded:: 1.10
+
+        """
+        def __set__(self, focused):
+            elm_object_item_focus_set(self.item, bool(focused))
+
+        def __get__(self):
+            return elm_object_item_focus_get(self.item)
+
+    def focus_set(self, focused):
+        elm_object_item_focus_set(self.item, bool(focused))
+    def focus_get(self):
+        return elm_object_item_focus_get(self.item)
+
+    
     # TODO: Accessibility
     # def access_unregister(self):
     #     """Unregister accessible object of the object item.

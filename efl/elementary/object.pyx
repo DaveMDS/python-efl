@@ -1122,6 +1122,21 @@ cdef class Object(evasObject):
     def focused_object_get(self):
         return object_from_instance(elm_object_focused_object_get(self.obj))
 
+    property focused_item:
+        """The focused object item in an object tree.
+
+        :return: Current focused item or None, if there is no focused item.
+
+        .. versionadded:: 1.10
+
+        """
+        def __get__(self):
+            return _object_item_to_python(elm_object_focused_item_get(self.obj))
+
+    def focused_item_get(self):
+        return _object_item_to_python(elm_object_focused_item_get(self.obj))
+
+
     property focus_highlight_style:
         """The focus highlight style name to be used.
 
