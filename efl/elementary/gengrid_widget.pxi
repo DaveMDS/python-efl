@@ -355,6 +355,26 @@ cdef class Gengrid(Object):
     def reorder_mode_get(self, mode):
         return bool(elm_gengrid_reorder_mode_get(self.obj))
 
+    def reorder_mode_start(self, tween_mode):
+        """Enable the gengrid widget mode reordered with keys.
+
+        :param tween_mode: Position mappings for animation
+        :type tween_mode: `efl.ecore.Ecore_Pos_Map`
+
+        .. versionadded:: 1.10
+
+        """
+        elm_gengrid_reorder_mode_start(self.obj, tween_mode)
+
+    def reorder_mode_stop(self):
+        """Stop the gengrid widget mode reorder.
+
+        .. versionadded:: 1.10
+
+        """
+        elm_gengrid_reorder_mode_stop(self.obj)
+
+
     property filled:
         """The fill state of the whole grid of items of a gengrid
         within its given viewport. By default, this value is False, meaning
@@ -848,6 +868,28 @@ cdef class Gengrid(Object):
 
     def callback_item_unfocused_del(self, func):
         self._callback_del_full("item,unfocused", _cb_object_item_conv, func)
+
+    def callback_item_reorder_anim_start_add(self, func, *args, **kwargs):
+        """When a gengrid item movement has just started by keys.
+
+        .. versionadded:: 1.10
+
+        """
+        self._callback_add_full("item,reorder,anim,start", _cb_object_item_conv, func, *args, **kwargs)
+
+    def callback_item_reorder_anim_start_del(self, func):
+        self._callback_del_full("item,reorder,anim,start", _cb_object_item_conv, func)
+
+    def callback_item_reorder_anim_stop_add(self, func, *args, **kwargs):
+        """When a gengrid item movement just stopped in reorder mode.
+
+        .. versionadded:: 1.10
+
+        """
+        self._callback_add_full("item,reorder,anim,stop", _cb_object_item_conv, func, *args, **kwargs)
+
+    def callback_item_reorder_anim_stop_del(self, func):
+        self._callback_del_full("item,reorder,anim,stop", _cb_object_item_conv, func)
 
     property scroller_policy:
         """

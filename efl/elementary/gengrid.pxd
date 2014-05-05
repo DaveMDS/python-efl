@@ -3,6 +3,7 @@ from efl.evas cimport Eina_Bool, Eina_List, Evas_Object, Evas_Smart_Cb, \
 from object_item cimport Elm_Object_Item
 from general cimport Elm_Tooltip_Item_Content_Cb
 from enums cimport Elm_Genlist_Item_Scrollto_Type, Elm_Object_Select_Mode
+from efl.ecore.enums cimport Ecore_Pos_Map
 
 cdef extern from "Elementary.h":
     ctypedef char           *(*GengridItemLabelGetFunc)     (void *data, Evas_Object *obj, const char *part)
@@ -46,6 +47,8 @@ cdef extern from "Elementary.h":
     void                    elm_gengrid_align_get(const Evas_Object *obj,  double *align_x, double *align_y)
     void                    elm_gengrid_reorder_mode_set(Evas_Object *obj, Eina_Bool reorder_mode)
     Eina_Bool               elm_gengrid_reorder_mode_get(const Evas_Object *obj)
+    void                    elm_gengrid_reorder_mode_start(Evas_Object *obj, Ecore_Pos_Map tween_mode)
+    void                    elm_gengrid_reorder_mode_stop(Evas_Object *obj)
     void                    elm_gengrid_page_show(Evas_Object *obj, int h_pagenum, int v_pagenum)
     void                    elm_gengrid_filled_set(Evas_Object *obj, Eina_Bool fill)
     Eina_Bool               elm_gengrid_filled_get(const Evas_Object *obj)

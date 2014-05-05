@@ -250,6 +250,11 @@ Smart events that you can add callbacks for are:
 - ``unfocused`` - When the gengrid has lost focus. (since 1.8)
 - ``item,focused`` - When the gengrid item has received focus. (since 1.10)
 - ``item,unfocused`` - When the gengrid item has lost focus. (since 1.10)
+- ``item,reorder,anim,start`` - This is called when a gengrid item movement
+  has just started by keys in reorder mode. The parameter is the item that
+  is going to move. (since 1.10)
+- ``item,reorder,anim,stop`` - This is called when a gengrid item movement just
+  stopped in reorder mode. The parameter is the item that was moved. (since 1.10)
 
 Enumerations
 ------------
