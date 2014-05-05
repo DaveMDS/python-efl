@@ -269,6 +269,8 @@ cdef extern from "Elementary.h":
         ELM_INPUT_PANEL_LAYOUT_HEX
         ELM_INPUT_PANEL_LAYOUT_TERMINAL
         ELM_INPUT_PANEL_LAYOUT_PASSWORD
+        ELM_INPUT_PANEL_LAYOUT_DATETIME
+        ELM_INPUT_PANEL_LAYOUT_EMOTICON
 
     ctypedef enum Elm_Input_Panel_Return_Key_Type:
         ELM_INPUT_PANEL_RETURN_KEY_TYPE_DEFAULT
@@ -279,6 +281,7 @@ cdef extern from "Elementary.h":
         ELM_INPUT_PANEL_RETURN_KEY_TYPE_NEXT
         ELM_INPUT_PANEL_RETURN_KEY_TYPE_SEARCH
         ELM_INPUT_PANEL_RETURN_KEY_TYPE_SEND
+        ELM_INPUT_PANEL_RETURN_KEY_TYPE_SIGNIN
 
     ctypedef enum Elm_Label_Slide_Mode:
         ELM_LABEL_SLIDE_MODE_NONE
