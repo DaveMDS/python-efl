@@ -65,6 +65,9 @@ cdef class LayoutClass(Object):
 
     """
 
+    def __cinit__(self):
+        self._elm_layout_signal_cbs = {}
+
     def content_set(self, swallow=None, evasObject content=None):
         """Set the layout content.
 
@@ -884,7 +887,7 @@ cdef class LayoutClass(Object):
         :rtype: list of objects.
 
         .. versionadded:: 1.9
-        
+
         """
         cdef:
             Eina_List *l = elm_layout_content_swallow_list_get(self.obj)
