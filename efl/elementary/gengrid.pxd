@@ -92,4 +92,3 @@ cdef extern from "Elementary.h":
     Eina_Bool               elm_gengrid_item_cursor_engine_only_get(const Elm_Object_Item *item)
     Elm_Object_Item *       elm_gengrid_nth_item_get(const Evas_Object *obj, unsigned int nth)
     Elm_Object_Item *       elm_gengrid_at_xy_item_get(const Evas_Object *obj, Evas_Coord x, Evas_Coord y, int *xposret, int *yposret)
-    void                    elm_gengrid_focus_direction_allow_set(Evas_Object *obj, Eina_Bool flag)
