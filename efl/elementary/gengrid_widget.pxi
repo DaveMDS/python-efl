@@ -483,6 +483,18 @@ cdef class Gengrid(Object):
         ret = elm_gengrid_at_xy_item_get(self.obj, x, y, &xposret, &yposret)
         return _object_item_to_python(ret), xposret, yposret
 
+    property focus_direction_allow:
+        """Set if gengrid should manage focus direction.
+
+        :type: bool
+
+        .. versionadded:: 1.10
+
+        """
+        def __set__(self, bint allow):
+            elm_gengrid_focus_direction_allow_set(self.obj, allow)
+    def focus_direction_allow_set(self, bint allow):
+        elm_gengrid_focus_direction_allow_set(self.obj, allow)
 
     #
     # TODO: Drag and Drop
