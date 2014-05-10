@@ -276,6 +276,50 @@ def color_rgb_to_hsv(int r, int g, int b):
     evas_color_rgb_to_hsv(r, g, b, &h, &s, &v)
     return (h, s, v)
 
+def font_path_global_clear():
+    """Removes all font paths loaded
+
+    .. versionadded: 1.10
+
+    """
+    evas_font_path_global_clear()
+
+def font_path_global_append(path):
+    """Appends a font path to the list of font paths used by the application
+
+    .. versionadded: 1.10
+
+    """
+    if isinstance(path, unicode): path = PyUnicode_AsUTF8String(path)
+    evas_font_path_global_append(
+        <const char *>path if path is not None else NULL)
+
+def font_path_global_prepend(path):
+    """Prepends a font path to the list of font paths used by the application
+
+    .. versionadded: 1.10
+
+    """
+    if isinstance(path, unicode): path = PyUnicode_AsUTF8String(path)
+    evas_font_path_global_prepend(
+        <const char *>path if path is not None else NULL)
+
+def font_path_global_list():
+    """Retrieves the list of font paths used by the application
+
+    .. versionadded: 1.10
+
+    """
+    cdef Eina_List *lst = evas_font_path_global_list()
+
+    ret = []
+    while lst != NULL:
+        ret.append(<char*> lst.data)
+        lst = lst.next
+
+    return ret
+
+
 
 class EvasLoadError(Exception):
     def __init__(self, int code, filename, key):

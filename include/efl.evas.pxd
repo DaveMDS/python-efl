@@ -275,6 +275,11 @@ cdef extern from "Evas.h":
     int evas_init()
     int evas_shutdown()
 
+    void              evas_font_path_global_clear()
+    void              evas_font_path_global_append(const char *path)
+    void              evas_font_path_global_prepend(const char *path)
+    const Eina_List * evas_font_path_global_list()
+
 
     ####################################################################
     # Canvas
