@@ -15,6 +15,15 @@ script_path = os.path.dirname(os.path.abspath(__file__))
 VERSION = "1.10"
 RELEASE = "1.9.99"
 
+# Add git commit count for dev builds
+if RELEASE.split(".")[2] == "99":
+    call = subprocess.Popen(
+        ["git", "log", "--oneline"], stdout=subprocess.PIPE)
+    out, err = call.communicate()
+    log = out.decode("utf-8").strip()
+    if log:
+        ver = log.count("\n")
+        RELEASE += "a" + str(ver)
 
 # dependencies
 CYTHON_MIN_VERSION = "0.19"
