@@ -80,6 +80,8 @@ cdef extern from "Elementary.h":
     void                    elm_config_engine_set(const char *engine)
     const char *            elm_config_preferred_engine_get()
     void                    elm_config_preferred_engine_set(const char *engine)
+    const char *            elm_config_accel_preference_get()
+    void                    elm_config_accel_preference_set(const char *pref)
 
     Eina_List *             elm_config_text_classes_list_get()
     void                    elm_config_text_classes_list_free(Eina_List *list)

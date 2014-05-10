@@ -575,6 +575,33 @@ cdef class Configuration(object):
             elm_config_preferred_engine_set(
                 <const char *>engine if engine is not None else NULL)
 
+    property accel_preference:
+        """Elementary's acceleration preferences for new windows
+
+        Note that it will take effect only to Elementary windows created after
+        this is called. The value is a freeform string that indicates
+        what kind of acceleration is preferred. This may or may not be honored,
+        but a best attempt will be made. Known strings are as follows:
+
+        * "gl", "opengl": try use opengl.
+        * "3d": try and use a 3d acceleration unit.
+        * "hw", "hardware", "accel": try any acceleration unit (best possible)
+
+        .. note:: This takes precedence over engine preferences set with
+                  :attr:`preferred_engine`
+
+        :type: string
+
+        .. versionadded:: 1.10
+
+        """
+        def __get__(self):
+            return _ctouni(elm_config_accel_preference_get())
+        def __set__(self, pref):
+            if isinstance(pref, unicode): pref = PyUnicode_AsUTF8String(pref)
+            elm_config_accel_preference_set(
+                <const char *>pref if pref is not None else NULL)
+
     property text_classes_list:
         """Get Elementary's list of supported text classes.
 
@@ -1005,6 +1032,13 @@ def preferred_engine_set(engine):
     if isinstance(engine, unicode): engine = PyUnicode_AsUTF8String(engine)
     elm_config_preferred_engine_set(
         <const char *>engine if engine is not None else NULL)
+
+def accel_preference_get():
+    return _ctouni(elm_config_accel_preference_get())
+def _accel_preference_set(pref):
+    if isinstance(pref, unicode): pref = PyUnicode_AsUTF8String(pref)
+    elm_config_accel_preference_set(
+        <const char *>pref if pref is not None else NULL)
 
 def engine_get():
     return _ctouni(elm_config_engine_get())
