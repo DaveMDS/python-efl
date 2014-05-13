@@ -451,6 +451,9 @@ cdef class Window:
         ecore_x_netwm_window_state_set(self.xid, _states, len(states))
         PyMem_Free(<void*>_states)
 
+    def keyboard_grab(self):
+        return bool(ecore_x_keyboard_grab(self.xid))
+
 def Window_from_xid(unsigned long xid):
     """Create a Python wrapper for given window id.
 

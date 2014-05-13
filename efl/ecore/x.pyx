@@ -233,5 +233,9 @@ def window_at_xy_begin_get(Window begin, int x, int y):
     return Window_from_xid(xid)
 
 
+def keyboard_ungrab():
+    ecore_x_keyboard_ungrab()
+
+
 include "x_window.pxi"
 include "x_events.pxi"
