@@ -346,3 +346,6 @@ cdef class FileMonitor:
     cdef readonly object kargs
 
     cdef object _exec_monitor(self, Ecore_File_Event event, const char *path)
+
+cdef object _event_mapping_register(int type, cls)
+cdef object _event_mapping_unregister(int type)

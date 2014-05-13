@@ -89,6 +89,7 @@ API Reference
    :maxdepth: 4
 
    ecore_module
+   x
    timer
    animator
    poller

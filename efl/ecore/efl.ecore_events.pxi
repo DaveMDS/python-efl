@@ -18,7 +18,7 @@
 
 cdef object _event_type_mapping = dict()
 
-def _event_mapping_register(int type, cls):
+cdef object _event_mapping_register(int type, cls):
     if type in _event_type_mapping:
         raise ValueError("event type '%d' already registered." % type)
     if not issubclass(cls, Event):
@@ -26,7 +26,7 @@ def _event_mapping_register(int type, cls):
     _event_type_mapping[type] = cls
 
 
-def _event_mapping_unregister(int type):
+cdef object _event_mapping_unregister(int type):
     _event_type_mapping.pop(type)
 
 
