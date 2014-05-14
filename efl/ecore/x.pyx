@@ -17,6 +17,7 @@
 
 #from cpython cimport PyObject, Py_INCREF, Py_DECREF
 from cpython cimport PyMem_Malloc, PyMem_Free
+from libc.string cimport PyUnicode_AsUTF8String
 
 
 def init(name=None):
@@ -25,13 +26,9 @@ def init(name=None):
     :param name: display target name, if None, default will be used.
     :rtype: int
     """
-    cdef char *s
     cdef int i
-    if name is None:
-        s = NULL
-    else:
-        s = name
-    i = ecore_x_init(s)
+    if isinstance(name, unicode): name = PyUnicode_AsUTF8String(name)
+    i = ecore_x_init(s if name is not None else NULL)
     x_events_register()
     return i
 

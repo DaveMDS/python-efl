@@ -16,12 +16,13 @@
 # along with this Python-EFL.  If not, see <http://www.gnu.org/licenses/>.
 
 from efl.ecore cimport EventHandler
+from efl.utils.conversions cimport _ctouni as _charp_to_str
 
-cdef object _charp_to_str(const char *p):
-    if p != NULL:
-        return p
-    else:
-        return None
+# cdef object _charp_to_str(const char *p):
+#     if p != NULL:
+#         return p
+#     else:
+#         return None
 
 
 cdef class EventKey(Event):
