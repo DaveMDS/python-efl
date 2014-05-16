@@ -7,89 +7,130 @@ import subprocess
 import argparse
 
 c_exclude_list = [
-    "elm_app", # These are only useful for C apps
-    "elm_widget", # Custom widgets, probably not feasible for us to provide
-    "elm_quicklaunch", # Is quicklaunch relevant for us?
-    "emotion_object_extension_may_play_fast_get", # this optimization does not work from py
-    "edje_edit_", # Disabled
-    "ecore_thread_", # python has his own thread abstraction library
-    "ecore_pipe_", # python has his own pipe abstraction library
-    "ecore_getopt_", # python has his own getopt implementation
-    "ecore_coroutine_", # python has someting similar...maybe
-    "ecore_fork_", # low level stuff, not to be exposed
-    "ecore_timer_dump", # this is just usefull for debugging
-    "ecore_throttle_", # I don't know what this is :/  - davemds
-    "elm_check_state_pointer_set", # Cannot be implemented in Python
-    "elm_access", # Access disabled until 1.9
-    "elm_config_access", # Access disabled until 1.9
-    "elm_object_item_access", # Access disabled until 1.9
+    "elm_app",  # These are only useful for C apps
+    "elm_widget",  # Custom widgets, probably not feasible for us to provide
+    "elm_quicklaunch",  # Is quicklaunch relevant for us?
+    "emotion_object_extension_may_play_fast_get",   # this optimization does
+                                                    # not work from py
+    "edje_edit_",  # Disabled
+    "ecore_thread_",  # python has his own thread abstraction library
+    "ecore_pipe_",  # python has his own pipe abstraction library
+    "ecore_getopt_",  # python has his own getopt implementation
+    "ecore_coroutine_",  # python has someting similar...maybe
+    "ecore_fork_",  # low level stuff, not to be exposed
+    "ecore_timer_dump",  # this is just usefull for debugging
+    "ecore_throttle_",  # I don't know what this is :/  - davemds
+    "elm_check_state_pointer_set",  # Cannot be implemented in Python
+    "elm_access",  # Access disabled until 1.9
+    "elm_config_access",  # Access disabled until 1.9
+    "elm_object_item_access",  # Access disabled until 1.9
 ]
 c_excludes = "|".join(c_exclude_list)
 
 py_exclude_list = [
-    "elm_naviframe_item_simple_push", # macro
-    "elm_object_item_content", # macro
-    "elm_object_item_text", # macro
-    "elm_object_content", # macro
-    "elm_object_text", # macro
-    "elm_layout_end", # macros
-    "elm_layout_icon", # macros
-    "elm_object_domain_translatable_text", # macros
-    "elm_object_tooltip_translatable_text", # macros
-    "elm_object_translatable_text", # macros
-    "elm_access", # Access disabled until 1.9
-    "elm_config_access", # Access disabled until 1.9
-    "elm_object_item_access", # Access disabled until 1.9
+    "elm_naviframe_item_simple_push",  # macro
+    "elm_object_item_content",  # macro
+    "elm_object_item_text",  # macro
+    "elm_object_content",  # macro
+    "elm_object_text",  # macro
+    "elm_layout_end",  # macros
+    "elm_layout_icon",  # macros
+    "elm_object_domain_translatable_text",  # macros
+    "elm_object_tooltip_translatable_text",  # macros
+    "elm_object_translatable_text",  # macros
+    "elm_access",  # Access disabled until 1.9
+    "elm_config_access",  # Access disabled until 1.9
+    "elm_object_item_access",  # Access disabled until 1.9
 ]
 py_excludes = "|".join(py_exclude_list)
-
-parser = argparse.ArgumentParser()
-parser.add_argument("--python", action="store_true", default=False, help="Show Python API coverage")
-parser.add_argument("--c", action="store_true", default=False, help="Show C API coverage")
-parser.add_argument("libs", nargs="+", help="Possible values are eo, evas, ecore, ecore-file, edje, emotion, elementary and all.")
-args = parser.parse_args()
-
-libs = args.libs[:]
-
-if libs == ["all"]:
-    libs = ["eo", "evas", "ecore", "ecore-file", "edje", "emotion", "elementary"]
 
 params = {
     "eo": ("include", "Eo", "eo"),
     "evas": ("include", "Evas", "evas"),
-    "ecore": ("include", "Ecore", "ecore"),
-    "ecore-file": ("include", "Ecore_File", "ecore_file"),
+    "ecore": ("efl/ecore", "Ecore", "ecore"),
+    "ecore-file": ("efl/ecore", "Ecore_File", "ecore_file"),
+    "ecore-x": ("efl/ecore", "Ecore_X", "ecore_x"),
     "edje": ("include", "Edje", "edje"),
     "emotion": ("include", "Emotion", "emotion"),
     "elementary": ("efl/elementary", "Elementary", "elm"),
 }
 
+EFL_MIN_VERSION = "1.9.99"
+
+parser = argparse.ArgumentParser(
+    description="Reports EFL vs. Python-EFL API functions coverage"
+    )
+api_group = parser.add_argument_group("api")
+api_group.add_argument(
+    "--python",
+    action="store_true", default=False,
+    help="Show Python API coverage"
+    )
+api_group.add_argument(
+    "--c",
+    action="store_true", default=False,
+    help="Show C API coverage"
+    )
+parser.add_argument(
+    "libs",
+    nargs="*",
+    choices=(params.keys() + ["all"]),
+    default="all"
+    )
+args = parser.parse_args()
+
+if "all" in args.libs:
+    args.libs = params.keys()
+
+if not args.python and not args.c:
+    args.python = True
+    args.c = True
+
+
 def pkg_config(require, min_vers=None):
     name = require.capitalize()
     try:
-        sys.stdout.write("Checking for " + name + ": ")
-        ver = subprocess.check_output(["pkg-config", "--modversion", require]).decode("utf-8").strip()
+        sys.stdout.write("Checking for %s: " % (name))
+        ver = subprocess.check_output(
+            ["pkg-config", "--modversion", require]
+            ).decode("utf-8").strip()
         if min_vers is not None:
-            assert 0 == subprocess.call(["pkg-config", "--atleast-version", min_vers, require])
-        cflags = subprocess.check_output(["pkg-config", "--cflags-only-I", require]).decode("utf-8").split()
+            assert 0 == subprocess.call(
+                ["pkg-config", "--atleast-version", min_vers, require]
+                )
+        cflags = subprocess.check_output(
+            ["pkg-config", "--cflags-only-I", require]
+            ).decode("utf-8").split()
         sys.stdout.write("OK, found " + ver + "\n")
         return cflags
     except (OSError, subprocess.CalledProcessError):
-        raise SystemExit("Failed to find" + name + "with 'pkg-config'.  Please make sure that it is installed and available on your system path.")
+        raise SystemExit(
+            "Failed to find %s with 'pkg-config'.  Please make sure that it "
+            "is installed and available on your system path."
+            ) % (name)
     except (AssertionError):
-        raise SystemExit("Failed to match version. Found: " + ver + "  Needed: " + min_vers)
+        raise SystemExit(
+            "Failed to match version. Found: %s  Needed: %s" % (ver, min_vers)
+            )
+
 
 def get_capis(inc_path, prefix):
     capis = []
-    capi_pattern = re.compile("^ *EAPI [A-Za-z_ *\n]+ *\**\n?(?!" + c_excludes + ")(" + prefix + "_\w+) *\(", flags = re.S|re.M)
+    capi_pattern = re.compile(
+        "^ *EAPI [A-Za-z_ *\n]+ *\**\n?(?!" +
+        c_excludes + ")(" + prefix +
+        "_\w+) *\(",
+        flags=re.S | re.M
+        )
 
     for path, dirs, files in os.walk(inc_path):
         for f in files:
-            if not f.endswith("legacy.h"):
+            if f.endswith(".eo.h") or not f.endswith(".h"):
                 continue
             open_args = (os.path.join(path, f),)
             open_kwargs = dict(mode="r")
-            if sys.version_info[0] > 2: open_kwargs["encoding"] = "UTF-8"
+            if sys.version_info[0] > 2:
+                open_kwargs["encoding"] = "UTF-8"
 
             with open(*open_args, **open_kwargs) as header:
                 capi = header.read()
@@ -101,10 +142,17 @@ def get_capis(inc_path, prefix):
 
     return capis
 
+
 def get_pyapis(pxd_path, header_name, prefix):
     pyapis = []
-    pyapi_pattern1 = re.compile('(cdef extern from "' + header_name + '\.h":\n)(.+)', flags = re.S)
-    pyapi_pattern2 = re.compile("^ +[a-zA-Z _*]+?(?!" + py_excludes + ")(" + prefix + "_\w+)\(", flags = re.M)
+    pyapi_pattern1 = re.compile(
+        '(cdef extern from "' + header_name + '\.h":\n)(.+)',
+        flags=re.S
+        )
+    pyapi_pattern2 = re.compile(
+        "^ +[a-zA-Z _*]+?(?!" + py_excludes + ")(" + prefix + "_\w+)\(",
+        flags=re.M
+        )
 
     for path, dirs, files in os.walk(pxd_path):
         for f in files:
@@ -112,7 +160,8 @@ def get_pyapis(pxd_path, header_name, prefix):
                 continue
             open_args = (os.path.join(path, f),)
             open_kwargs = dict(mode="r")
-            if sys.version_info[0] > 2: open_kwargs["encoding"] = "UTF-8"
+            if sys.version_info[0] > 2:
+                open_kwargs["encoding"] = "UTF-8"
 
             with open(*open_args, **open_kwargs) as pxd:
                 pyapi = pxd.read()
@@ -127,9 +176,9 @@ def get_pyapis(pxd_path, header_name, prefix):
     return pyapis
 
 
-for lib in libs:
+for lib in args.libs:
 
-    inc_paths = pkg_config(lib, "1.7.99")
+    inc_paths = pkg_config(lib, EFL_MIN_VERSION)
     inc_path = None
     for p in inc_paths:
         if lib in p:
@@ -154,14 +203,24 @@ for lib in libs:
         if args.c and d in pyapis:
             print("{0} is missing from C API".format(d))
 
-    if args.python or args.c: print("\n---")
+    if args.python or args.c:
+        print("\n---")
 
     if args.python:
-        print("Number of functions missing from Python API: {0}".format(len(capis - capis.intersection(pyapis))))
+        print(
+            "Number of functions missing from Python API: {0}".format(
+                len(capis - capis.intersection(pyapis))
+                )
+            )
     if args.c:
-        print("Number of functions missing from C API: {0}".format(len(pyapis - capis.intersection(pyapis))))
+        print(
+            "Number of functions missing from C API: {0}".format(
+                len(pyapis - capis.intersection(pyapis))
+                )
+            )
 
-    if args.python or args.c: print("---")
+    if args.python or args.c:
+        print("---")
 
     if args.python:
         print("Python API functions: {0}".format(len(pyapis)))
@@ -169,8 +228,11 @@ for lib in libs:
         print("C API functions: {0}".format(len(capis)))
 
     if args.python and len(capis) > 0:
-        percentage = float(len(capis.intersection(pyapis))) / float(len(capis)) * 100.0
+        percentage = \
+            float(len(capis.intersection(pyapis))) / \
+            float(len(capis)) * 100.0
         print("===")
         print("Bindings coverage {0:.2f}%".format(percentage))
 
-    if args.python or args.c: print("---\n")
+    if args.python or args.c:
+        print("---\n")
