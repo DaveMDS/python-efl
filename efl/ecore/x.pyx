@@ -16,8 +16,7 @@
 # along with this Python-EFL.  If not, see <http://www.gnu.org/licenses/>.
 
 #from cpython cimport PyObject, Py_INCREF, Py_DECREF
-from cpython cimport PyMem_Malloc, PyMem_Free
-from libc.string cimport PyUnicode_AsUTF8String
+from cpython cimport PyMem_Malloc, PyMem_Free, PyUnicode_AsUTF8String
 
 
 def init(name=None):
@@ -28,7 +27,7 @@ def init(name=None):
     """
     cdef int i
     if isinstance(name, unicode): name = PyUnicode_AsUTF8String(name)
-    i = ecore_x_init(s if name is not None else NULL)
+    i = ecore_x_init(<char *>name if name is not None else NULL)
     x_events_register()
     return i
 
