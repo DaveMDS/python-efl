@@ -116,6 +116,7 @@ def pkg_config(require, min_vers=None):
 
 def get_capis(inc_path, prefix):
     capis = []
+    capilns = []
     capi_pattern = re.compile(
         "^ *EAPI [A-Za-z_ *\n]+ *\**\n?(?!" +
         c_excludes + ")(" + prefix +
@@ -135,18 +136,28 @@ def get_capis(inc_path, prefix):
             with open(*open_args, **open_kwargs) as header:
                 capi = header.read()
 
+                line_starts = []
+                i = 0
+                header.seek(0)
+                for line in header:
+                    line_starts.append(i)
+                    i += len(line)
                 matches = re.finditer(capi_pattern, capi)
                 for match in matches:
                     func = match.group(1)
+                    start = match.start()
+                    line_n = line_starts.index(start) + 1
+                    capilns.append((f, line_n))
                     capis.append(func)
 
-    return capis
+    return capilns, capis
 
 
 def get_pyapis(pxd_path, header_name, prefix):
+    pyapilns = []
     pyapis = []
     pyapi_pattern1 = re.compile(
-        '(cdef extern from "' + header_name + '\.h":\n)(.+)',
+        'cdef extern from "' + header_name + '\.h":\n(.+)',
         flags=re.S
         )
     pyapi_pattern2 = re.compile(
@@ -165,15 +176,24 @@ def get_pyapis(pxd_path, header_name, prefix):
 
             with open(*open_args, **open_kwargs) as pxd:
                 pyapi = pxd.read()
-
                 cdef = re.search(pyapi_pattern1, pyapi)
                 if cdef:
-                    matches = re.finditer(pyapi_pattern2, cdef.group(2))
+                    offset = cdef.start(1)
+                    line_starts = []
+                    i = 0
+                    pxd.seek(0)
+                    for line in pxd:
+                        line_starts.append(i)
+                        i += len(line)
+                    matches = re.finditer(pyapi_pattern2, cdef.group(1))
                     for match in matches:
                         func = match.group(1)
+                        start = match.start() + offset
+                        line_n = line_starts.index(start) + 1
+                        pyapilns.append((f, line_n))
                         pyapis.append(func)
 
-    return pyapis
+    return pyapilns, pyapis
 
 
 for lib in args.libs:
@@ -190,18 +210,34 @@ for lib in args.libs:
 
     pxd_path, header_name, prefix = params[lib]
 
-    capis = get_capis(inc_path, prefix)
-    pyapis = get_pyapis(pxd_path, header_name, prefix)
+    c_api_line_ns, c_apis = get_capis(inc_path, prefix)
+    py_api_line_ns, py_apis = get_pyapis(pxd_path, header_name, prefix)
 
-    capis = set(capis)
-    pyapis = set(pyapis)
+    capis = set(c_apis)
+    pyapis = set(py_apis)
     differences = capis.union(pyapis) - capis.intersection(pyapis)
 
     for d in sorted(differences):
-        if args.python and d in capis:
-            print("{0} is missing from Python API".format(d))
-        if args.c and d in pyapis:
-            print("{0} is missing from C API".format(d))
+        if args.python:
+            try:
+                i = c_apis.index(d)
+                line_f, line_n = c_api_line_ns[i]
+            except ValueError:
+                pass
+            else:
+                print("{0} line {1}: {2} is missing from Python API".format(
+                    line_f, line_n, d
+                    ))
+        if args.c:
+            try:
+                i = py_apis.index(d)
+                line_f, line_n = py_api_line_ns[i]
+            except ValueError:
+                pass
+            else:
+                print("{0} line {1}: {2} is missing from C API".format(
+                    line_f, line_n, d
+                    ))
 
     if args.python or args.c:
         print("\n---")
