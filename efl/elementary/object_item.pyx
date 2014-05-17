@@ -665,7 +665,7 @@ cdef class ObjectItem(object):
     #         elm_object_item_access_order_unset(self.item)
 
 
-    property track:
+    property track_object:
         """The track object of the item.
 
         .. note::
@@ -687,9 +687,9 @@ cdef class ObjectItem(object):
 
         .. warning::
 
-            After use the track object, please call ``del item.track`` to free
-            the track object properly. **Don't call ``obj.delete()`` on the
-            track object.**
+            After use the track object, please call ``del item.track_object``
+            to free the track object properly. **Don't call ``obj.delete()`` on
+            the track object.**
 
         .. versionadded:: 1.10
 
@@ -701,11 +701,11 @@ cdef class ObjectItem(object):
             elm_object_item_untrack(self.item)
 
     def track(self):
-        """Same as ``item.track``"""
+        """Same as ``item.track_object``"""
         return object_from_instance(elm_object_item_track(self.item))
 
     def untrack(self):
-        """Same as ``del item.track``"""
+        """Same as ``del item.track_object``"""
         elm_object_item_untrack(self.item)
 
     property track_count:
@@ -714,11 +714,12 @@ cdef class ObjectItem(object):
         .. note::
 
             This gets the reference count for the track object. Whenever you
-            get the tracking object with :py:attr:`track` the reference count
-            is increased by one. Likewise the reference count is decreased when
-            you call ``del item.track``. Unless the reference count reaches
-            zero the track object won't be deleted so please make sure to call
-            ``del item.track`` as many times as :py:attr:`track`.
+            get the tracking object with :py:attr:`track_object` the reference
+            count is increased by one. Likewise the reference count is
+            decreased when you call ``del item.track_object``. Unless the
+            reference count reaches zero the track object won't be deleted so
+            please make sure to call ``del item.track_object`` as many times as
+            getting :py:attr:`track_object`.
 
         .. versionadded:: 1.10
 
