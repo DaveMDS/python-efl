@@ -90,7 +90,6 @@ if not args.python and not args.c:
 def pkg_config(require, min_vers=None):
     name = require.capitalize()
     try:
-        sys.stdout.write("Checking for %s: " % (name))
         ver = subprocess.check_output(
             ["pkg-config", "--modversion", require]
             ).decode("utf-8").strip()
@@ -101,7 +100,6 @@ def pkg_config(require, min_vers=None):
         cflags = subprocess.check_output(
             ["pkg-config", "--cflags-only-I", require]
             ).decode("utf-8").split()
-        sys.stdout.write("OK, found " + ver + "\n")
         return cflags
     except (OSError, subprocess.CalledProcessError):
         raise SystemExit(
@@ -196,6 +194,15 @@ def get_pyapis(pxd_path, header_name, prefix):
     return pyapilns, pyapis
 
 
+rows, columns = os.popen('stty size', 'r').read().split()
+
+print(
+    "{0:=^{columns}}".format(
+        "Python-EFL API coverage report ", columns=columns
+        )
+    )
+print("")
+
 for lib in args.libs:
 
     inc_paths = pkg_config(lib, EFL_MIN_VERSION)
@@ -217,30 +224,47 @@ for lib in args.libs:
     pyapis = set(py_apis)
     differences = capis.union(pyapis) - capis.intersection(pyapis)
 
-    for d in sorted(differences):
-        if args.python:
+    if args.python:
+        s = " %s API missing from Python-EFL " % (lib.capitalize())
+        print(
+            "{0:-^{columns}}".format(
+                s, columns=int(columns)
+                )
+            )
+        for d in sorted(differences):
             try:
                 i = c_apis.index(d)
                 line_f, line_n = c_api_line_ns[i]
             except ValueError:
                 pass
             else:
-                print("{0} line {1}: {2} is missing from Python API".format(
-                    line_f, line_n, d
+                print("{0:{third}}{1:5}: {2}".format(
+                    line_f, line_n, d, third=int(columns)/3
                     ))
-        if args.c:
+
+        print("{0:-<{columns}}".format("", columns=columns))
+        print("")
+
+    if args.c:
+        s = " %s API in Python-EFL but not in C " % (lib.capitalize())
+        print(
+            "{0:-^{columns}}".format(
+                s, columns=int(columns)
+                )
+            )
+        for d in sorted(differences):
             try:
                 i = py_apis.index(d)
                 line_f, line_n = py_api_line_ns[i]
             except ValueError:
                 pass
             else:
-                print("{0} line {1}: {2} is missing from C API".format(
+                print("{0:20}{1:5}: {2}".format(
                     line_f, line_n, d
                     ))
 
-    if args.python or args.c:
-        print("\n---")
+        print("{0:-<{columns}}".format("", columns=columns))
+        print("")
 
     if args.python:
         print(
