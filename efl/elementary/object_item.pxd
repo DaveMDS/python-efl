@@ -55,6 +55,12 @@ cdef extern from "Elementary.h":
     #TODO: const Eina_List *elm_object_item_access_order_get(const Elm_Object_Item *item)
     #TODO: void            elm_object_item_access_order_unset(Elm_Object_Item *item)
 
+    Evas_Object *   elm_object_item_track(Elm_Object_Item *it)
+    void            elm_object_item_untrack(Elm_Object_Item *it)
+    int             elm_object_item_track_get(const Elm_Object_Item *it)
+    void            elm_object_item_style_set(Elm_Object_Item *it, const char *part)
+    const char *    elm_object_item_style_get(Elm_Object_Item *it)
+
 
 
 cdef _object_item_to_python(Elm_Object_Item *it)

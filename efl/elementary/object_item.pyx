@@ -626,7 +626,7 @@ cdef class ObjectItem(object):
     def focus_get(self):
         return elm_object_item_focus_get(self.item)
 
-    
+
     # TODO: Accessibility
     # def access_unregister(self):
     #     """Unregister accessible object of the object item.
@@ -664,3 +664,94 @@ cdef class ObjectItem(object):
     #     def __del__(self):
     #         elm_object_item_access_order_unset(self.item)
 
+
+    property track:
+        """The track object of the item.
+
+        .. note::
+
+            This returns a rectangle object that represents the object items
+            internal object. If you wish to, for example, get the geometry or
+            visibility of the item you can use Evas API properties of the track
+            object such as :py:attr:`~efl.evas.Object.geometry` or
+            :py:attr:`~efl.evas.Object.visible`. Note that the widget items
+            may, or may not, actually have an internal object so this API will
+            return None if the tracking object doesn't exist. Additionally, the
+            widget item is managed/controlled by the widget, which means the
+            widget item may be changed (moved, resized even deleted) anytime by
+            its own widget. Do not attempt to change the track object, and
+            don't keep around a reference to the track object unless it's
+            really required, instead get the track object at the moment you
+            need to refer to it. Otherwise you need to add some callbacks to
+            the track object to track its attributes' changes.
+
+        .. warning::
+
+            After use the track object, please call ``del item.track`` to free
+            the track object properly. **Don't call ``obj.delete()`` on the
+            track object.**
+
+        .. versionadded:: 1.10
+
+        """
+        def __get__(self):
+            return object_from_instance(elm_object_item_track(self.item))
+
+        def __del__(self):
+            elm_object_item_untrack(self.item)
+
+    def track(self):
+        """Same as ``item.track``"""
+        return object_from_instance(elm_object_item_track(self.item))
+
+    def untrack(self):
+        """Same as ``del item.track``"""
+        elm_object_item_untrack(self.item)
+
+    property track_count:
+        """The track object reference count.
+
+        .. note::
+
+            This gets the reference count for the track object. Whenever you
+            get the tracking object with :py:attr:`track` the reference count
+            is increased by one. Likewise the reference count is decreased when
+            you call ``del item.track``. Unless the reference count reaches
+            zero the track object won't be deleted so please make sure to call
+            ``del item.track`` as many times as :py:attr:`track`.
+
+        .. versionadded:: 1.10
+
+        """
+        def __get__(self):
+            return elm_object_item_track_get(self.item)
+
+    def track_get(self):
+        """Same as ``item.track_count``"""
+        return elm_object_item_track_get(self.item)
+
+    property style:
+        """The style of an object item.
+
+        :type: string
+
+        .. versionadded:: 1.10
+
+        """
+        def __set__(self, style):
+            if isinstance(style, unicode): style = PyUnicode_AsUTF8String(style)
+            elm_object_item_style_set(self.item,
+                <const char *>style if style is not None else NULL
+                )
+
+        def __get__(self):
+            return _ctouni(elm_object_item_style_get(self.item))
+
+    def style_set(self, style):
+        if isinstance(style, unicode): style = PyUnicode_AsUTF8String(style)
+        elm_object_item_style_set(self.item,
+            <const char *>style if style is not None else NULL
+            )
+
+    def style_get(self):
+        return _ctouni(elm_object_item_style_get(self.item))
