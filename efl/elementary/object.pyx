@@ -119,6 +119,30 @@ Focus move policy
 
     .. versionadded:: 1.10
 
+.. _Elm_Focus_Autoscroll_Mode
+
+Focus autoscroll mode
+=====================
+
+.. data:: ELM_FOCUS_AUTOSCROLL_MODE_SHOW
+
+    Directly show the focused region or item automatically.
+
+    .. versionadded:: 1.10
+
+.. data:: ELM_FOCUS_AUTOSCROLL_MODE_NONE
+
+    Do not show the focused region or item automatically.
+
+    .. versionadded:: 1.10
+
+.. data:: ELM_FOCUS_AUTOSCROLL_MODE_BRING_IN
+
+    Bring_in the focused region or item automatically which might
+    invole the scrolling
+
+    .. versionadded:: 1.10
+
 .. _Elm_Input_Event_Type:
 
 Input event types
@@ -268,6 +292,10 @@ ELM_FOCUS_LEFT = enums.ELM_FOCUS_LEFT
 
 ELM_FOCUS_MOVE_POLICY_CLICK = enums.ELM_FOCUS_MOVE_POLICY_CLICK
 ELM_FOCUS_MOVE_POLICY_IN = enums.ELM_FOCUS_MOVE_POLICY_IN
+
+ELM_FOCUS_AUTOSCROLL_MODE_SHOW = enums.ELM_FOCUS_AUTOSCROLL_MODE_SHOW
+ELM_FOCUS_AUTOSCROLL_MODE_NONE = enums.ELM_FOCUS_AUTOSCROLL_MODE_NONE
+ELM_FOCUS_AUTOSCROLL_MODE_BRING_IN = enums.ELM_FOCUS_AUTOSCROLL_MODE_BRING_IN
 
 EVAS_CALLBACK_KEY_DOWN = evasenums.EVAS_CALLBACK_KEY_DOWN
 EVAS_CALLBACK_KEY_UP = evasenums.EVAS_CALLBACK_KEY_UP

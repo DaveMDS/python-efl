@@ -165,6 +165,11 @@ cdef extern from "Elementary.h":
         ELM_FOCUS_MOVE_POLICY_CLICK
         ELM_FOCUS_MOVE_POLICY_IN
 
+    ctypedef enum Elm_Focus_Autoscroll_Mode:
+        ELM_FOCUS_AUTOSCROLL_MODE_SHOW
+        ELM_FOCUS_AUTOSCROLL_MODE_NONE
+        ELM_FOCUS_AUTOSCROLL_MODE_BRING_IN
+
     ctypedef enum Elm_Genlist_Item_Type:
         ELM_GENLIST_ITEM_NONE
         ELM_GENLIST_ITEM_TREE

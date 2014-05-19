@@ -1,5 +1,6 @@
 from efl.evas cimport Eina_Bool, Eina_List, Evas_Coord, Evas_Font_Size
-from enums cimport Elm_Softcursor_Mode, Elm_Focus_Move_Policy
+from enums cimport Elm_Softcursor_Mode, Elm_Focus_Move_Policy, \
+    Elm_Focus_Autoscroll_Mode
 
 cdef extern from "Elementary.h":
     ctypedef struct Elm_Font_Overlay:
@@ -119,7 +120,8 @@ cdef extern from "Elementary.h":
     void                    elm_config_focus_move_policy_set(Elm_Focus_Move_Policy policy)
     Eina_Bool               elm_config_item_select_on_focus_disabled_get()
     void                    elm_config_item_select_on_focus_disabled_set(Eina_Bool disabled)
-
+    Elm_Focus_Autoscroll_Mode elm_config_focus_autoscroll_mode_get()
+    void                    elm_config_focus_autoscroll_mode_set(Elm_Focus_Autoscroll_Mode mode)
 
     Eina_Bool               elm_config_mirrored_get()
     void                    elm_config_mirrored_set(Eina_Bool mirrored)

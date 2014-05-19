@@ -919,6 +919,26 @@ cdef class Configuration(object):
         def __set__(self, bint disabled):
             elm_config_item_select_on_focus_disabled_set(disabled)
 
+
+    property focus_autoscroll_mode:
+        """Focus Autoscroll Mode
+
+        When a region or an item is focused and it resides inside any scroller,
+        elementary will automatically scroll the focused area to the visible
+        viewport.
+
+        :type: Elm_Focus_Autoscroll_Mode
+
+        .. versionadded:: 1.10
+
+        """
+        def __get__(self):
+            return elm_config_focus_autoscroll_mode_get()
+        def __set__(self, Elm_Focus_Autoscroll_Mode mode):
+            elm_config_focus_autoscroll_mode_set(mode)
+
+
+
     property mirrored:
         """Get the system mirrored mode. This determines the default
         mirrored mode of widgets.
