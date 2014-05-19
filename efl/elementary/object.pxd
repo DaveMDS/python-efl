@@ -128,6 +128,8 @@ cdef extern from "Elementary.h":
     void                    elm_object_scroll_lock_y_set(Evas_Object *obj, Eina_Bool lock)
     Eina_Bool               elm_object_scroll_lock_x_get(const Evas_Object *obj)
     Eina_Bool               elm_object_scroll_lock_y_get(const Evas_Object *obj)
+    void                    elm_object_scroll_item_loop_enabled_set(Evas_Object *obj, Eina_Bool enable)
+    Eina_Bool               elm_object_scroll_item_loop_enabled_get(const Evas_Object *obj)
 
     # Object - Theme (elm_theme.h)
     void                    elm_object_theme_set(Evas_Object *obj, Elm_Theme *th)

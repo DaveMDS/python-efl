@@ -1360,6 +1360,30 @@ cdef class Object(evasObject):
     def scroll_lock_y_get(self):
         return bool(elm_object_scroll_lock_y_get(self.obj))
 
+    property scroll_item_loop_enabled:
+        """Enable item loop feature of the given widget
+
+        If this is True, item selection/focus will loop internally.
+        This means if arrow keys are pressed at end of scroller's item,
+        screen is moved to opposite side.
+
+        :type: bool
+
+        .. versionadded:: 1.10
+
+        """
+        def __get__(self):
+            return bool(elm_object_scroll_item_loop_enabled_get(self.obj))
+
+        def __set__(self, enable):
+            elm_object_scroll_item_loop_enabled_set(self.obj, enable)
+
+    def scroll_item_loop_enabled_set(self, enable):
+        elm_object_scroll_item_loop_enabled_set(self.obj, enable)
+    def scroll_item_loop_enabled_get(self):
+        return bool(elm_object_scroll_item_loop_enabled_get(self.obj))
+
+
     #
     # Theme
     # =====
