@@ -784,11 +784,8 @@ cdef class EventExeAdd(Event):
             return -1
         return 1
 
-    def __str__(self):
-        return "%s(exe=%s)" % (self.__class__.__name__, self.exe)
-
     def __repr__(self):
-        return "%s(exe=%r)" % (self.__class__.__name__, self.exe)
+        return "<%s(exe=%r)>" % (self.__class__.__name__, self.exe)
 
 
 cdef class EventExeDel(Event):
@@ -811,15 +808,9 @@ cdef class EventExeDel(Event):
         self.signalled = bool(obj.signalled)
         return 1
 
-    def __str__(self):
-        return ("%s(pid=%s, exit_code=%s, exit_signal=%s, exited=%s, "
-                "signalled=%s, exe=%s)") % \
-                (self.__class__.__name__, self.pid, self.exit_code,
-                 self.exit_signal, self.exited, self.signalled, self.exe)
-
     def __repr__(self):
-        return ("%s(pid=%s, exit_code=%s, exit_signal=%s, exited=%s, "
-                "signalled=%s, exe=%r)") % \
+        return ("<%s(pid=%s, exit_code=%s, exit_signal=%s, exited=%s, "
+                "signalled=%s, exe=%r)>") % \
                 (self.__class__.__name__, self.pid, self.exit_code,
                  self.exit_signal, self.exited, self.signalled, self.exe)
 
@@ -858,20 +849,12 @@ cdef class EventExeData(Event):
 
         return 1
 
-    def __str__(self):
-        if self.lines is None:
-            count = None
-        else:
-            count = len(self.lines)
-        return "%s(size=%d, lines=#%d, exe=%s)" % \
-            (self.__class__.__name__, self.size, count, self.exe)
-
     def __repr__(self):
         if self.lines is None:
             count = None
         else:
             count = len(self.lines)
-        return "%s(size=%d, lines=#%d, exe=%r)" % \
+        return "<%s(size=%d, lines=#%d, exe=%r)>" % \
             (self.__class__.__name__, self.size, count, self.exe)
 
 
