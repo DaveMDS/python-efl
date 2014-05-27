@@ -280,6 +280,30 @@ Items' scroll to types
 
     Scroll to the middle of viewport
 
+
+.. _Elm_Gengrid_Object_Multi_Select_Mode:
+
+Multi-select mode
+=================
+
+.. data:: ELM_OBJECT_MULTI_SELECT_MODE_DEFAULT
+
+    Default multiple select mode
+
+    .. versionadded:: 1.10
+
+.. data:: ELM_OBJECT_MULTI_SELECT_MODE_WITH_CONTROL
+
+    Disallow mutiple selection when clicked without control key pressed
+
+    .. versionadded:: 1.10
+
+.. data:: ELM_OBJECT_MULTI_SELECT_MODE_MAX
+
+    Value unknown
+
+    .. versionadded:: 1.10
+
 """
 
 include "tooltips.pxi"
@@ -308,6 +332,10 @@ ELM_GENLIST_ITEM_SCROLLTO_NONE = enums.ELM_GENLIST_ITEM_SCROLLTO_NONE
 ELM_GENLIST_ITEM_SCROLLTO_IN = enums.ELM_GENLIST_ITEM_SCROLLTO_IN
 ELM_GENLIST_ITEM_SCROLLTO_TOP = enums.ELM_GENLIST_ITEM_SCROLLTO_TOP
 ELM_GENLIST_ITEM_SCROLLTO_MIDDLE = enums.ELM_GENLIST_ITEM_SCROLLTO_MIDDLE
+
+ELM_OBJECT_MULTI_SELECT_MODE_DEFAULT = enums.ELM_OBJECT_MULTI_SELECT_MODE_DEFAULT
+ELM_OBJECT_MULTI_SELECT_MODE_WITH_CONTROL = enums.ELM_OBJECT_MULTI_SELECT_MODE_WITH_CONTROL
+ELM_OBJECT_MULTI_SELECT_MODE_MAX = enums.ELM_OBJECT_MULTI_SELECT_MODE_MAX
 
 def _cb_object_item_conv(uintptr_t addr):
     cdef Elm_Object_Item *it = <Elm_Object_Item *>addr

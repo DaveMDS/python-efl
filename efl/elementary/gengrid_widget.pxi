@@ -36,6 +36,31 @@ cdef class Gengrid(Object):
     def multi_select_get(self):
         return bool(elm_gengrid_multi_select_get(self.obj))
 
+
+    property multi_select_mode:
+        """Gengrid multi select mode.
+
+        - ELM_OBJECT_MULTI_SELECT_MODE_DEFAULT : select/unselect items whenever each
+          item is clicked.
+        - ELM_OBJECT_MULTI_SELECT_MODE_WITH_CONTROL : Only one item will be selected
+          although multi-selection is enabled, if clicked without pressing control
+          key. This mode is only available with multi-selection.
+
+        (If getting mode is failed, it returns ELM_OBJECT_MULTI_SELECT_MODE_MAX)
+
+        :see: :py:attr:`multi_select`
+
+        :type: :ref:`Elm_Gengrid_Object_Multi_Select_Mode`
+
+        .. versionadded:: 1.10
+
+        """
+        def __set__(self, Elm_Object_Multi_Select_Mode mode):
+            elm_gengrid_multi_select_mode_set(self.obj, mode)
+
+        def __get__(self):
+            return elm_gengrid_multi_select_mode_get(self.obj)
+
     property horizontal:
         """When in "horizontal mode" (``True),`` items will be placed
         in **columns**, from top to bottom and, when the space for a
@@ -58,6 +83,19 @@ cdef class Gengrid(Object):
         elm_gengrid_horizontal_set(self.obj, bool(setting))
     def horizontal_get(self):
         return bool(elm_gengrid_horizontal_get(self.obj))
+
+    property page_size:
+        """Set a given gengrid widget's scrolling page size
+
+        :type: (int h_pagesize, int v_pagesize)
+
+        .. versionadded:: 1.10
+
+        """
+        def __set__(self, value):
+            cdef Evas_Coord h_pagesize, v_pagesize
+            h_pagesize, v_pagesize = value
+            elm_gengrid_page_size_set(self.obj, h_pagesize, v_pagesize)
 
     def item_append(self, GengridItemClass item_class not None,
                     item_data, func=None):
@@ -244,6 +282,24 @@ cdef class Gengrid(Object):
     def last_item_get(self):
         return _object_item_to_python(elm_gengrid_last_item_get(self.obj))
 
+    property wheel_disabled:
+        """Enable or disable mouse wheel to be used to scroll the gengrid.
+
+        Mouse wheel can be used for the user to scroll up and down the gengrid.
+
+        It's enabled by default.
+
+        :type: bool
+
+        .. versionadded:: 1.10
+
+        """
+        def __set__(self, bint disabled):
+            elm_gengrid_wheel_disabled_set(self.obj, disabled)
+
+        def __get__(self):
+            return bool(elm_gengrid_wheel_disabled_get(self.obj))
+
     property items_count:
         """Return how many items are currently in a list.
 
@@ -394,6 +450,24 @@ cdef class Gengrid(Object):
         elm_gengrid_filled_set(self.obj, bool(fill))
     def filled_get(self, fill):
         return bool(elm_gengrid_filled_get(self.obj))
+
+    property page_relative:
+        """Gengrid widget's scrolling page size, relative to its viewport size.
+
+        :type: (float h_pagerel, float v_pagerel)
+
+        .. versionadded:: 1.10
+
+        """
+        def __set__(self, value):
+            cdef double h_pagerel, v_pagerel
+            h_pagerel, v_pagerel = value
+            elm_gengrid_page_relative_set(self.obj, h_pagerel, v_pagerel)
+
+        def __get__(self):
+            cdef double h_pagerel, v_pagerel
+            elm_gengrid_page_relative_get(self.obj, &h_pagerel, &v_pagerel)
+            return h_pagerel, v_pagerel
 
     property select_mode:
         """Item select mode in the gengrid widget. Possible values are:

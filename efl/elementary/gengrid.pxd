@@ -1,8 +1,10 @@
 from efl.evas cimport Eina_Bool, Eina_List, Evas_Object, Evas_Smart_Cb, \
     Evas_Coord, Eina_Compare_Cb
+from efl.c_eo cimport Eo
 from object_item cimport Elm_Object_Item
 from general cimport Elm_Tooltip_Item_Content_Cb
-from enums cimport Elm_Genlist_Item_Scrollto_Type, Elm_Object_Select_Mode
+from enums cimport Elm_Genlist_Item_Scrollto_Type, Elm_Object_Select_Mode, \
+    Elm_Object_Multi_Select_Mode
 from efl.ecore.enums cimport Ecore_Pos_Map
 
 cdef extern from "Elementary.h":
@@ -25,8 +27,11 @@ cdef extern from "Elementary.h":
     void                    elm_gengrid_clear(Evas_Object *obj)
     void                    elm_gengrid_multi_select_set(Evas_Object *obj, Eina_Bool multi)
     Eina_Bool               elm_gengrid_multi_select_get(const Evas_Object *obj)
+    void                    elm_gengrid_multi_select_mode_set(Eo *obj, Elm_Object_Multi_Select_Mode mode)
+    Elm_Object_Multi_Select_Mode elm_gengrid_multi_select_mode_get(const Eo *obj)
     void                    elm_gengrid_horizontal_set(Evas_Object *obj, Eina_Bool setting)
     Eina_Bool               elm_gengrid_horizontal_get(const Evas_Object *obj)
+    void                    elm_gengrid_page_size_set(Eo *obj, Evas_Coord h_pagesize, Evas_Coord v_pagesize)
     Elm_Object_Item *       elm_gengrid_item_append(Evas_Object *obj, Elm_Gengrid_Item_Class *itc, const void *data, Evas_Smart_Cb func, const void *func_data)
     Elm_Object_Item *       elm_gengrid_item_prepend(Evas_Object *obj, Elm_Gengrid_Item_Class *itc, const void *data, Evas_Smart_Cb func, const void *func_data)
     Elm_Object_Item *       elm_gengrid_item_insert_before(Evas_Object *obj, Elm_Gengrid_Item_Class *itc, const void *data, Elm_Object_Item *before, Evas_Smart_Cb func, const void *func_data)
@@ -38,6 +43,8 @@ cdef extern from "Elementary.h":
     void                    elm_gengrid_realized_items_update(Evas_Object *obj)
     Elm_Object_Item *       elm_gengrid_first_item_get(const Evas_Object *obj)
     Elm_Object_Item *       elm_gengrid_last_item_get(const Evas_Object *obj)
+    void                    elm_gengrid_wheel_disabled_set(Eo *obj, Eina_Bool disabled)
+    Eina_Bool               elm_gengrid_wheel_disabled_get(const Eo *obj)
     unsigned int            elm_gengrid_items_count(Evas_Object *obj)
     void                    elm_gengrid_item_size_set(Evas_Object *obj, Evas_Coord w, Evas_Coord h)
     void                    elm_gengrid_item_size_get(const Evas_Object *obj, Evas_Coord *w, Evas_Coord *h)
@@ -52,6 +59,8 @@ cdef extern from "Elementary.h":
     void                    elm_gengrid_page_show(Evas_Object *obj, int h_pagenum, int v_pagenum)
     void                    elm_gengrid_filled_set(Evas_Object *obj, Eina_Bool fill)
     Eina_Bool               elm_gengrid_filled_get(const Evas_Object *obj)
+    void                    elm_gengrid_page_relative_set(Eo *obj, double h_pagerel, double v_pagerel)
+    void                    elm_gengrid_page_relative_get(const Eo *obj, double *h_pagerel, double *v_pagerel)
     void                    elm_gengrid_select_mode_set(Evas_Object *obj, Elm_Object_Select_Mode mode)
     Elm_Object_Select_Mode  elm_gengrid_select_mode_get(const Evas_Object *obj)
     void                    elm_gengrid_highlight_mode_set(Evas_Object *obj, Eina_Bool highlight)

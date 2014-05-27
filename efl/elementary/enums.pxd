@@ -353,6 +353,11 @@ cdef extern from "Elementary.h":
         ELM_OBJECT_SELECT_MODE_DISPLAY_ONLY
         ELM_OBJECT_SELECT_MODE_MAX
 
+    ctypedef enum Elm_Object_Multi_Select_Mode:
+        ELM_OBJECT_MULTI_SELECT_MODE_DEFAULT # default multiple select mode
+        ELM_OBJECT_MULTI_SELECT_MODE_WITH_CONTROL # disallow mutiple selection when clicked without control key pressed
+        ELM_OBJECT_MULTI_SELECT_MODE_MAX
+
     ctypedef enum Elm_Panel_Orient:
         ELM_PANEL_ORIENT_TOP
         ELM_PANEL_ORIENT_BOTTOM
