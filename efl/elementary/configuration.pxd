@@ -12,6 +12,19 @@ cdef extern from "Elementary.h":
         const char *name
         const char *desc
 
+    ctypedef struct Elm_Color_Class:
+        const char *name
+        const char *desc
+
+    
+    ctypedef struct _Elm_Color_Overlay_Color:
+        int r, g, b, a
+
+    ctypedef struct Elm_Color_Overlay:
+        const char *color_class
+        _Elm_Color_Overlay_Color color, outline, shadow
+
+
     Eina_Bool               elm_config_save()
     void                    elm_config_reload()
     void                    elm_config_all_flush()
@@ -83,6 +96,13 @@ cdef extern from "Elementary.h":
     void                    elm_config_preferred_engine_set(const char *engine)
     const char *            elm_config_accel_preference_get()
     void                    elm_config_accel_preference_set(const char *pref)
+
+    Eina_List *             elm_config_color_classes_list_get()
+    void                    elm_config_color_classes_list_free(Eina_List *list)
+    const Eina_List *       elm_config_color_overlay_list_get()
+    void                    elm_config_color_overlay_set(const char *color_class, int r, int g, int b, int a, int r2, int g2, int b2, int a2, int r3, int g3, int b3, int a3)
+    void                    elm_config_color_overlay_unset(const char *color_class)
+    void                    elm_config_color_overlay_apply()
 
     Eina_List *             elm_config_text_classes_list_get()
     void                    elm_config_text_classes_list_free(Eina_List *list)

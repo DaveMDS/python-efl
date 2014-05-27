@@ -688,6 +688,120 @@ cdef class Configuration(object):
             <const char *>a2 if a2 is not None else NULL,
             size)
 
+    property color_classes_list:
+        """Get Elementary's list of supported color classes.
+
+        :type: list of tuples (color_class_name, color_class_description)
+
+        .. versionadded:: 1.10
+        
+        """
+        def __get__(self):
+            cdef:
+                Eina_List *lst = elm_config_color_classes_list_get()
+                Eina_List *itr = lst
+                Elm_Color_Class *data
+                const char *name
+                const char *desc
+
+            ret = []
+            while itr:
+                data = <Elm_Color_Class *>itr.data
+                if data != NULL:
+                    name = data.name
+                    desc = data.desc
+                    ret.append((_ctouni(name), _ctouni(desc)))
+                itr = itr.next
+            elm_config_color_classes_list_free(lst)
+            return ret
+
+    property color_overlay_list:
+        """Get Elementary's list of color overlays
+
+        Return the overlays setted using color_overlay_set()
+
+        :type: list of tuples (color_class, (r, g, b, a), (r2, g2, b2, a2), (r3, g3, b3, a3))
+
+        .. versionadded:: 1.10
+        
+        """
+        def __get__(self):
+            cdef:
+                Eina_List *lst = elm_config_color_overlay_list_get()
+                Elm_Color_Overlay *ov
+                const char *color_class
+
+            ret = []
+            while lst:
+                ov = <Elm_Color_Overlay *>lst.data
+                if ov != NULL:
+                    color_class = ov.color_class
+                    ret.append((
+                        _ctouni(color_class),
+                        (ov.color.r, ov.color.g, ov.color.b, ov.color.a),
+                        (ov.outline.r, ov.outline.g, ov.outline.b, ov.outline.a),
+                        (ov.shadow.r, ov.shadow.g, ov.shadow.b, ov.shadow.a)
+                    ))
+
+                lst = lst.next
+            return ret
+
+    def color_overlay_set(self, cc, int r,  int g,  int b,  int a,
+                                    int r2, int g2, int b2, int a2,
+                                    int r3, int g3, int b3, int a3):
+        """Set a color overlay for a given Elementary color class.
+
+        The first color is the object, the second is the text outline, and
+        the third is the text shadow. (Note that the second two only apply
+        to text parts).
+
+        Setting color emits a signal "color_class,set" with source being
+        the given color class in all edje objects.
+
+        :param cc: The color class name
+        :param r: Object Red value
+        :param g: Object Green value
+        :param b: Object Blue value
+        :param a: Object Alpha value
+        :param r2: Outline Red value
+        :param g2: Outline Green value
+        :param b2: Outline Blue value
+        :param a2: Outline Alpha value
+        :param r3: Shadow Red value
+        :param g3: Shadow Green value
+        :param b3: Shadow Blue value
+        :param a3: Shadow Alpha value
+
+        .. versionadded:: 1.10
+        
+        """
+        if isinstance(cc, unicode): cc = PyUnicode_AsUTF8String(cc)
+        elm_config_color_overlay_set(<const char *>cc,
+                                     r, g, b, a, r2, g2, b2, a2, r3, g3, b3, a3) 
+
+    def color_overlay_unset(self, cc):
+        """Unset a color overlay for a given Elementary color class.
+
+        This will bring back color elements belonging to color_class back
+        to their default color settings.
+
+        :param cc: The color class name
+
+        .. versionadded:: 1.10
+        
+        """
+        if isinstance(cc, unicode): cc = PyUnicode_AsUTF8String(cc)
+        elm_config_color_overlay_unset(cc)
+
+    def color_overlay_apply(self):
+        """Apply the changes made with color_overlay_set() and
+        color_overlay_unset() on the current Elementary window.
+
+        .. versionadded:: 1.10
+        
+        """
+        elm_config_color_overlay_apply()
+
     # TODO:
     # property access:
     #     """Access mode
