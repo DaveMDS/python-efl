@@ -588,3 +588,14 @@ cdef extern from "Elementary.h":
         ELM_XDND_ACTION_LIST
         ELM_XDND_ACTION_LINK
         ELM_XDND_ACTION_DESCRIPTION
+
+cdef extern from "Edje.h":
+    ctypedef enum Edje_Channel:
+        EDJE_CHANNEL_EFFECT # Standard audio effects
+        EDJE_CHANNEL_BACKGROUND # Background audio sounds
+        EDJE_CHANNEL_MUSIC # Music audio
+        EDJE_CHANNEL_FOREGROUND # Foreground audio sounds
+        EDJE_CHANNEL_INTERFACE # Sounds related to the interface
+        EDJE_CHANNEL_INPUT # Sounds related to regular input
+        EDJE_CHANNEL_ALERT # Sounds for major alerts
+        EDJE_CHANNEL_ALL # All audio channels (convenience)

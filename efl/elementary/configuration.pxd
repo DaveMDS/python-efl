@@ -1,6 +1,6 @@
 from efl.evas cimport Eina_Bool, Eina_List, Evas_Coord, Evas_Font_Size
 from enums cimport Elm_Softcursor_Mode, Elm_Focus_Move_Policy, \
-    Elm_Focus_Autoscroll_Mode
+    Elm_Focus_Autoscroll_Mode, Edje_Channel
 
 cdef extern from "Elementary.h":
     ctypedef struct Elm_Font_Overlay:
@@ -16,7 +16,7 @@ cdef extern from "Elementary.h":
         const char *name
         const char *desc
 
-    
+
     ctypedef struct _Elm_Color_Overlay_Color:
         int r, g, b, a
 
@@ -155,3 +155,12 @@ cdef extern from "Elementary.h":
     void                    elm_config_glayer_long_tap_start_timeout_set(double long_tap_timeout)
     double                  elm_config_glayer_double_tap_timeout_get()
     void                    elm_config_glayer_double_tap_timeout_set(double double_tap_timeout)
+
+    Eina_Bool               elm_config_magnifier_enable_get()
+    void                    elm_config_magnifier_enable_set(Eina_Bool enable)
+    double                  elm_config_magnifier_scale_get()
+    void                    elm_config_magnifier_scale_set(double scale)
+    Eina_Bool               elm_config_audio_mute_get(Edje_Channel channel)
+    void                    elm_config_audio_mute_set(Edje_Channel channel, Eina_Bool mute)
+    Eina_Bool               elm_config_atspi_mode_get()
+    void                    elm_config_atspi_mode_set(Eina_Bool is_atspi)

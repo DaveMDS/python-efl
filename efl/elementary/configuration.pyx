@@ -79,6 +79,15 @@ The following are the available engines:
 - "psl1ght"
 
 
+ATSPI AT-SPI2 Accessibility
+===========================
+
+Elementary widgets support Linux Accessibility standard. For more
+information please visit:
+http://www.linuxfoundation.org/collaborate/workgroups/accessibility/atk/at-spi/at-spi_on_d-bus
+
+
+
 Enumerations
 ------------
 
@@ -99,6 +108,44 @@ Elm_Softcursor_Mode
 
     Never use a softcursor
 
+
+.. _Edje_Channel:
+
+Audio Channels
+==============
+
+.. data:: EDJE_CHANNEL_EFFECT
+
+    Standard audio effects
+
+.. data:: EDJE_CHANNEL_BACKGROUND
+
+    Background audio sounds
+
+.. data:: EDJE_CHANNEL_MUSIC
+
+    Music audio
+
+.. data:: EDJE_CHANNEL_FOREGROUND
+
+    Foreground audio sounds
+
+.. data:: EDJE_CHANNEL_INTERFACE
+
+    Sounds related to the interface
+
+.. data:: EDJE_CHANNEL_INPUT
+
+    Sounds related to regular input
+
+.. data:: EDJE_CHANNEL_ALERT
+
+    Sounds for major alerts
+
+.. data:: EDJE_CHANNEL_ALL
+
+    All audio channels (convenience)
+
 """
 
 from cpython cimport PyUnicode_AsUTF8String
@@ -110,6 +157,15 @@ cimport enums
 ELM_SOFTCURSOR_MODE_AUTO = enums.ELM_SOFTCURSOR_MODE_AUTO
 ELM_SOFTCURSOR_MODE_ON = enums.ELM_SOFTCURSOR_MODE_ON
 ELM_SOFTCURSOR_MODE_OFF = enums.ELM_SOFTCURSOR_MODE_OFF
+
+EDJE_CHANNEL_EFFECT = enums.EDJE_CHANNEL_EFFECT
+EDJE_CHANNEL_BACKGROUND = enums.EDJE_CHANNEL_BACKGROUND
+EDJE_CHANNEL_MUSIC = enums.EDJE_CHANNEL_MUSIC
+EDJE_CHANNEL_FOREGROUND = enums.EDJE_CHANNEL_FOREGROUND
+EDJE_CHANNEL_INTERFACE = enums.EDJE_CHANNEL_INTERFACE
+EDJE_CHANNEL_INPUT = enums.EDJE_CHANNEL_INPUT
+EDJE_CHANNEL_ALERT = enums.EDJE_CHANNEL_ALERT
+EDJE_CHANNEL_ALL = enums.EDJE_CHANNEL_ALL
 
 
 cdef class Configuration(object):
@@ -694,7 +750,7 @@ cdef class Configuration(object):
         :type: list of tuples (color_class_name, color_class_description)
 
         .. versionadded:: 1.10
-        
+
         """
         def __get__(self):
             cdef:
@@ -723,7 +779,7 @@ cdef class Configuration(object):
         :type: list of tuples (color_class, (r, g, b, a), (r2, g2, b2, a2), (r3, g3, b3, a3))
 
         .. versionadded:: 1.10
-        
+
         """
         def __get__(self):
             cdef:
@@ -773,11 +829,11 @@ cdef class Configuration(object):
         :param a3: Shadow Alpha value
 
         .. versionadded:: 1.10
-        
+
         """
         if isinstance(cc, unicode): cc = PyUnicode_AsUTF8String(cc)
         elm_config_color_overlay_set(<const char *>cc,
-                                     r, g, b, a, r2, g2, b2, a2, r3, g3, b3, a3) 
+                                     r, g, b, a, r2, g2, b2, a2, r3, g3, b3, a3)
 
     def color_overlay_unset(self, cc):
         """Unset a color overlay for a given Elementary color class.
@@ -788,7 +844,7 @@ cdef class Configuration(object):
         :param cc: The color class name
 
         .. versionadded:: 1.10
-        
+
         """
         if isinstance(cc, unicode): cc = PyUnicode_AsUTF8String(cc)
         elm_config_color_overlay_unset(cc)
@@ -798,7 +854,7 @@ cdef class Configuration(object):
         color_overlay_unset() on the current Elementary window.
 
         .. versionadded:: 1.10
-        
+
         """
         elm_config_color_overlay_apply()
 
@@ -1123,6 +1179,73 @@ cdef class Configuration(object):
             return elm_config_glayer_double_tap_timeout_get()
         def __set__(self, double double_tap_timeout):
             elm_config_glayer_double_tap_timeout_set(double_tap_timeout)
+
+    property magnifier_enabled:
+        """The magnifier enabled state for entries
+
+        :type: bool
+
+        .. versionadded:: 1.10
+
+        """
+        def __get__(self):
+            return bool(elm_config_magnifier_enable_get())
+
+        def __set__(self, bint enable):
+            elm_config_magnifier_enable_set(enable)
+
+    property magnifier_scale:
+        """The amount of scaling the magnifer does
+
+        :type: float
+
+        .. versionadded:: 1.10
+
+        """
+        def __get__(self):
+            return elm_config_magnifier_scale_get()
+
+        def __set__(self, double scale):
+            elm_config_magnifier_scale_set(scale)
+
+    def audio_mute_get(self, Edje_Channel channel):
+        """Get the mute state of an audio channel for effects
+
+        :param channel: The channel to get the mute state of
+        :return: The mute state
+
+        .. versionadded:: 1.10
+
+        """
+        return bool(elm_config_audio_mute_get(channel))
+
+    def audio_mute_set(self, Edje_Channel channel, bint mute):
+        """Set the mute state of the specified channel
+
+        :param channel: The channel to set the mute state of
+        :param mute: The mute state to set
+
+        .. versionadded:: 1.10
+
+        """
+        elm_config_audio_mute_set(channel, mute)
+
+    property atspi_mode:
+        """ATSPI mode
+
+        :type: bool
+
+        .. note:: Enables Linux Accessibility support for Elementary widgets.
+
+        .. versionadded:: 1.10
+
+        """
+        def __get__(self):
+            return bool(elm_config_atspi_mode_get())
+
+        def __set__(self, bint is_atspi):
+            elm_config_atspi_mode_set(is_atspi)
+
 
 #For compatibility
 def config_finger_size_get():
