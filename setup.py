@@ -13,7 +13,7 @@ script_path = os.path.dirname(os.path.abspath(__file__))
 
 # python-efl version
 VERSION = "1.10"
-RELEASE = "1.9.99"
+RELEASE = "1.10.0"
 
 # Add git commit count for dev builds
 if RELEASE.split(".")[2] == "99":
@@ -27,8 +27,8 @@ if RELEASE.split(".")[2] == "99":
 
 # dependencies
 CYTHON_MIN_VERSION = "0.19"
-EFL_MIN_VERSION = "1.9.99"
-ELM_MIN_VERSION = "1.9.99"
+EFL_MIN_VERSION = "1.10.0"
+ELM_MIN_VERSION = "1.10.0"
 
 
 # XXX: Force default visibility. See phab T504
