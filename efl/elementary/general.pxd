@@ -19,6 +19,7 @@
 from efl.evas cimport Eina_List, Eina_Bool
 from efl.evas cimport Evas_Object, Evas_Font_Size, Evas_Coord
 from efl.evas.enums cimport Evas_Callback_Type
+from enums cimport Elm_Sys_Notify_Closed_Reason, Elm_Sys_Notify_Urgency
 
 cdef extern from "time.h":
     struct tm:
@@ -117,5 +118,27 @@ cdef extern from "Elementary.h":
     # Debug
     void elm_object_tree_dump(const Evas_Object *top)
     void elm_object_tree_dot_dump(const Evas_Object *top, const char *file)
+
+    # sys_notify.h
+    ctypedef void (*Elm_Sys_Notify_Send_Cb)(void *data, unsigned int id)
+
+    ctypedef struct Elm_Sys_Notify_Notification_Closed:
+        unsigned int id # ID of the notification.
+        Elm_Sys_Notify_Closed_Reason reason # The Reason the notification was closed.
+
+    ctypedef struct Elm_Sys_Notify_Action_Invoked:
+        unsigned int id # ID of the notification.
+        char *action_key # The key of the action invoked. These match the keys sent over in the list of actions.
+
+    void      elm_sys_notify_close(unsigned int id)
+    void      elm_sys_notify_send(  unsigned int replaces_id,
+                                    const char *icon,
+                                    const char *summary,
+                                    const char *body,
+                                    Elm_Sys_Notify_Urgency urgency,
+                                    int timeout,
+                                    Elm_Sys_Notify_Send_Cb cb,
+                                    const void *cb_data)
+
 
 cdef int PY_EFL_ELM_LOG_DOMAIN

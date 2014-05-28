@@ -447,6 +447,20 @@ cdef extern from "Elementary.h":
         ELM_STORE_ITEM_MAPPING_CUSTOM
         ELM_STORE_ITEM_MAPPING_LAST
 
+    ctypedef enum Elm_Sys_Notify_Closed_Reason:
+        ELM_SYS_NOTIFY_CLOSED_EXPIRED # The notification expired.
+        ELM_SYS_NOTIFY_CLOSED_DISMISSED # The notification was dismissed by the user.
+        ELM_SYS_NOTIFY_CLOSED_REQUESTED # The notification was closed by a call to CloseNotification method.
+        ELM_SYS_NOTIFY_CLOSED_UNDEFINED # Undefined/reserved reasons.
+
+    ctypedef enum Elm_Sys_Notify_Urgency:
+        ELM_SYS_NOTIFY_URGENCY_LOW
+        ELM_SYS_NOTIFY_URGENCY_NORMAL
+        ELM_SYS_NOTIFY_URGENCY_CRITICAL
+
+    int ELM_EVENT_SYS_NOTIFY_NOTIFICATION_CLOSED
+    int ELM_EVENT_SYS_NOTIFY_ACTION_INVOKED
+
     ctypedef enum Elm_Text_Format:
         ELM_TEXT_FORMAT_PLAIN_UTF8
         ELM_TEXT_FORMAT_MARKUP_UTF8

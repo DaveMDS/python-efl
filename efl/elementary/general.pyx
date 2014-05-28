@@ -117,9 +117,56 @@ Possible values for the #ELM_POLICY_THROTTLE policy.
     Never throttle when windows are all hidden, regardless of config settings.
 
 
+.. _Elm_Sys_Notify_Closed_Reason:
+
+Notify close reasons
+--------------------
+
+The reason the notification was closed
+
+.. versionadded:: 1.10
+
+.. data:: ELM_SYS_NOTIFY_CLOSED_EXPIRED
+
+    The notification expired.
+
+.. data:: ELM_SYS_NOTIFY_CLOSED_DISMISSED
+
+    The notification was dismissed by the user.
+
+.. data:: ELM_SYS_NOTIFY_CLOSED_REQUESTED
+
+    The notification was closed by a call to CloseNotification method.
+
+.. data:: ELM_SYS_NOTIFY_CLOSED_UNDEFINED
+
+    Undefined/reserved reasons.
+
+
+.. _Elm_Sys_Notify_Urgency:
+
+Urgency levels of a notification
+
+:see: :py:func:`sys_notify_send`
+
+.. versionadded:: 1.10
+
+.. data:: ELM_SYS_NOTIFY_URGENCY_LOW
+
+    Low
+
+.. data:: ELM_SYS_NOTIFY_URGENCY_NORMAL
+
+    Normal
+
+.. data:: ELM_SYS_NOTIFY_URGENCY_CRITICAL
+
+    Critical
+
+
 """
 
-from cpython cimport PyUnicode_AsUTF8String, PyMem_Malloc, Py_DECREF
+from cpython cimport PyUnicode_AsUTF8String, PyMem_Malloc, Py_DECREF, Py_INCREF
 from libc.string cimport memcpy
 
 from efl.evas cimport Object as evasObject
@@ -133,11 +180,14 @@ from efl.utils.logger cimport add_logger
 from efl.eina cimport EINA_LOG_DOM_DBG, EINA_LOG_DOM_INFO, \
     EINA_LOG_DOM_WARN, EINA_LOG_DOM_ERR, EINA_LOG_DOM_CRIT
 
+from efl.ecore cimport Event, EventHandler, _event_mapping_register
+
+from efl.elementary.need cimport elm_need_sys_notify
+
+cimport enums
 from enums cimport Elm_Policy
 
 import sys
-
-cimport enums
 
 ELM_POLICY_QUIT = enums.ELM_POLICY_QUIT
 ELM_POLICY_EXIT = enums.ELM_POLICY_EXIT
@@ -152,6 +202,112 @@ ELM_POLICY_EXIT_WINDOWS_DEL = enums.ELM_POLICY_EXIT_WINDOWS_DEL
 ELM_POLICY_THROTTLE_CONFIG = enums.ELM_POLICY_THROTTLE_CONFIG
 ELM_POLICY_THROTTLE_HIDDEN_ALWAYS = enums.ELM_POLICY_THROTTLE_HIDDEN_ALWAYS
 ELM_POLICY_THROTTLE_NEVER = enums.ELM_POLICY_THROTTLE_NEVER
+
+ELM_SYS_NOTIFY_CLOSED_EXPIRED = enums.ELM_SYS_NOTIFY_CLOSED_EXPIRED
+ELM_SYS_NOTIFY_CLOSED_DISMISSED = enums.ELM_SYS_NOTIFY_CLOSED_DISMISSED
+ELM_SYS_NOTIFY_CLOSED_REQUESTED = enums.ELM_SYS_NOTIFY_CLOSED_REQUESTED
+ELM_SYS_NOTIFY_CLOSED_UNDEFINED = enums.ELM_SYS_NOTIFY_CLOSED_UNDEFINED
+
+ELM_SYS_NOTIFY_URGENCY_LOW = enums.ELM_SYS_NOTIFY_URGENCY_LOW
+ELM_SYS_NOTIFY_URGENCY_NORMAL = enums.ELM_SYS_NOTIFY_URGENCY_NORMAL
+ELM_SYS_NOTIFY_URGENCY_CRITICAL = enums.ELM_SYS_NOTIFY_URGENCY_CRITICAL
+
+ELM_EVENT_SYS_NOTIFY_NOTIFICATION_CLOSED = enums.ELM_EVENT_SYS_NOTIFY_NOTIFICATION_CLOSED
+ELM_EVENT_SYS_NOTIFY_ACTION_INVOKED = enums.ELM_EVENT_SYS_NOTIFY_ACTION_INVOKED
+
+import traceback
+
+cdef void py_elm_sys_notify_send_cb(void *data, unsigned int id):
+    cdef object func, func_data
+    func, func_data = <object>data
+    # FIXME: Is this cb called more than once? Py_DECREF if not.
+    try:
+        func(func_data, id)
+    except Exception:
+        traceback.print_exc()
+
+cdef class SysNotifyNotificationClosed(Event):
+
+    cdef Elm_Sys_Notify_Notification_Closed *obj
+
+    cdef int _set_obj(self, void *o) except 0:
+        self.obj = <Elm_Sys_Notify_Notification_Closed*>o
+        return 1
+
+    def __repr__(self):
+        # TODO: int -> string for 'reason'
+        return "<%s(id=%d, reason=%s)>" % \
+            (type(self).__name__, self.id, self.reason)
+
+    property id:
+        """ID of the notification.
+
+        :type: int
+
+        """
+        def __get__(self):
+            return self.obj.id
+
+    property reason:
+        """The Reason the notification was closed.
+
+        :type: :ref:`Elm_Sys_Notify_Closed_Reason`
+
+        """
+        def __get__(self):
+            return self.obj.reason
+
+cdef class SysNotifyActionInvoked(Event):
+
+    cdef Elm_Sys_Notify_Action_Invoked *obj
+
+    cdef int _set_obj(self, void *o) except 0:
+        self.obj = <Elm_Sys_Notify_Action_Invoked*>o
+        return 1
+
+    def __repr__(self):
+        return "<%s(id=%d, action_key=%s)>" % \
+            (type(self).__name__, self.id, self.action_key)
+
+    property id:
+        """ID of the notification.
+
+        :type: int
+
+        """
+        def __get__(self):
+            return self.obj.id
+
+    property action_key:
+        """The key of the action invoked. These match the keys sent over in the
+        list of actions.
+
+        :type: string
+
+        """
+        def __get__(self):
+            return _touni(self.obj.action_key)
+
+if elm_need_sys_notify():
+    _event_mapping_register(
+        enums.ELM_EVENT_SYS_NOTIFY_NOTIFICATION_CLOSED,
+        SysNotifyNotificationClosed
+        )
+
+    def on_sys_notify_notification_closed(func, *args, **kargs):
+        return EventHandler(
+            enums.ELM_EVENT_SYS_NOTIFY_NOTIFICATION_CLOSED, func, *args, **kargs
+            )
+
+    _event_mapping_register(
+        enums.ELM_EVENT_SYS_NOTIFY_ACTION_INVOKED,
+        SysNotifyActionInvoked
+        )
+
+    def on_sys_notify_action_invoked(func, *args, **kargs):
+        return EventHandler(
+            enums.ELM_EVENT_SYS_NOTIFY_NOTIFICATION_CLOSED, func, *args, **kargs
+            )
 
 cdef class FontProperties(object):
 
@@ -470,3 +626,61 @@ def object_tree_dot_dump(evasObject top, path):
     """
     if isinstance(path, unicode): path = PyUnicode_AsUTF8String(path)
     elm_object_tree_dot_dump(top.obj, <const char *>path)
+
+def sys_notify_close(unsigned int id):
+    """Causes a notification to be forcefully closed and removed from the user's
+    view. It can be used, for example, in the event that what the notification
+    pertains to is no longer relevant, or to cancel a notification * with no
+    expiration time.
+
+    :param id: Notification id
+
+    .. note:: If the notification no longer exists,
+        an empty D-BUS Error message is sent back.
+
+    .. versionadded:: 1.10
+
+    """
+    elm_sys_notify_close(id)
+
+def sys_notify_send(
+    unsigned int replaces_id=0,
+    icon=None, summary=None, body=None,
+    Elm_Sys_Notify_Urgency urgency=enums.ELM_SYS_NOTIFY_URGENCY_NORMAL,
+    int timeout=-1, cb=None, cb_data=None
+    ):
+    """Sends a notification to the notification server.
+
+    :param replaces_id: Notification ID that this notification replaces.
+        The value 0 means a new notification.
+    :param icon: The optional program icon of the calling application.
+    :param summary: The summary text briefly describing the notification.
+    :param body: The optional detailed body text. Can be empty.
+    :param urgency: The urgency level.
+    :param timeout: Timeout display in milliseconds.
+    :param cb: Callback used to retrieve the notification id
+        return by the Notification Server.
+    :param cb_data: Optional context data
+
+    .. versionadded:: 1.10
+
+    """
+    if cb is not None:
+        if not callable(cb):
+            raise TypeError("cb must be callable")
+        py_cb_data = (cb, cb_data)
+        Py_INCREF(py_cb_data)
+
+    if isinstance(icon, unicode): icon = PyUnicode_AsUTF8String(icon)
+    if isinstance(summary, unicode): summary = PyUnicode_AsUTF8String(summary)
+    if isinstance(body, unicode): body = PyUnicode_AsUTF8String(body)
+    elm_sys_notify_send(
+        replaces_id,
+        <const char *>icon if icon is not None else NULL,
+        <const char *>summary if summary is not None else NULL,
+        <const char *>body if body is not None else NULL,
+        urgency,
+        timeout,
+        <Elm_Sys_Notify_Send_Cb>py_elm_sys_notify_send_cb if cb is not None else NULL,
+        <const void *>py_cb_data if cb is not None else NULL
+        )
