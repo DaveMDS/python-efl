@@ -124,44 +124,57 @@ Notify close reasons
 
 The reason the notification was closed
 
-.. versionadded:: 1.10
-
 .. data:: ELM_SYS_NOTIFY_CLOSED_EXPIRED
 
     The notification expired.
+
+    .. versionadded:: 1.10
 
 .. data:: ELM_SYS_NOTIFY_CLOSED_DISMISSED
 
     The notification was dismissed by the user.
 
+    .. versionadded:: 1.10
+
 .. data:: ELM_SYS_NOTIFY_CLOSED_REQUESTED
 
     The notification was closed by a call to CloseNotification method.
+
+    .. versionadded:: 1.10
 
 .. data:: ELM_SYS_NOTIFY_CLOSED_UNDEFINED
 
     Undefined/reserved reasons.
 
+    .. versionadded:: 1.10
+
 
 .. _Elm_Sys_Notify_Urgency:
+
+Notify urgency levels
+---------------------
 
 Urgency levels of a notification
 
 :see: :py:func:`sys_notify_send`
 
-.. versionadded:: 1.10
-
 .. data:: ELM_SYS_NOTIFY_URGENCY_LOW
 
     Low
+
+    .. versionadded:: 1.10
 
 .. data:: ELM_SYS_NOTIFY_URGENCY_NORMAL
 
     Normal
 
+    .. versionadded:: 1.10
+
 .. data:: ELM_SYS_NOTIFY_URGENCY_CRITICAL
 
     Critical
+
+    .. versionadded:: 1.10
 
 
 """
