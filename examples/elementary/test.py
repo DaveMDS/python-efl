@@ -202,6 +202,9 @@ items = [
          ("Stored Surface Buffer", [
             ("Launcher", "test_mapbuf", "mapbuf_clicked"),
         ]),
+         ("System", [
+            ("Notification", "test_sys_notify", "sys_notify_clicked"),
+        ]),
          ("Text", [
             ("Label", "test_label", "label_clicked"),
         ]),
