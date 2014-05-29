@@ -5,7 +5,6 @@ from efl.evas import EVAS_HINT_EXPAND, EVAS_HINT_FILL
 from efl import ecore
 from efl import elementary
 from efl.elementary.window import StandardWindow
-from efl.elementary.background import Background
 from efl.elementary.box import Box
 from efl.elementary.button import Button
 from efl.elementary.entry import Entry
@@ -15,6 +14,7 @@ EXPAND_BOTH = EVAS_HINT_EXPAND, EVAS_HINT_EXPAND
 EXPAND_HORIZ = EVAS_HINT_EXPAND, 0.0
 FILL_BOTH = EVAS_HINT_FILL, EVAS_HINT_FILL
 FILL_HORIZ = EVAS_HINT_FILL, 0.5
+
 
 def web_clicked(obj):
     if not elementary.need_web():
@@ -29,25 +29,68 @@ def web_clicked(obj):
     win.resize_object_add(vbx)
     vbx.show()
 
-    web = Web(win, url="http://enlightenment.org/",
+    web = Web(
+        win, url="http://enlightenment.org/",
         size_hint_weight=EXPAND_BOTH, size_hint_align=FILL_BOTH,
-        size_hint_min=(100, 100))
+        size_hint_min=(100, 100)
+        )
     vbx.pack_end(web)
     web.show()
 
     # Debug:
     def dbg(*args):
-        print(("DEBUG: %s" % args[-1], " ".join(repr(x) for x in args[1:-1])))
-    web.callback_link_hover_in_add(dbg, "link in")
-    web.callback_link_hover_out_add(dbg, "link out")
+        print("DEBUG: %s %s" % (
+            args[-1], " ".join(repr(x) for x in args[1:-1])
+            ))
 
-    web.callback_uri_changed_add(dbg, "uri")
-    web.callback_title_changed_add(dbg, "title")
+    #web.callback_download_request_add(dbg, "download request")
+    web.callback_editorclient_contents_changed_add(
+        dbg, "editor client contents changed")
+    web.callback_editorclient_selection_changed_add(
+        dbg, "editor client selection changed")
+    #web.callback_frame_created_add(dbg, frame created)
+    web.callback_icon_received_add(dbg, "icon received")
+    web.callback_inputmethod_changed_add(dbg, "input method changed")
+    web.callback_js_windowobject_clear_add(dbg, "js window object clear")
+    web.callback_link_hover_in_add(dbg, "link hover in")
+    web.callback_link_hover_out_add(dbg, "link hover out")
+
+    #web.callback_load_document_finished_add(dbg, "load document finished")
+    web.callback_load_error_add(dbg, "load error")
     web.callback_load_finished_add(dbg, "load finished")
-    web.callback_load_finished_add(dbg, "load error")
+    web.callback_load_newwindow_show_add(dbg, "load new window show")
     web.callback_load_progress_add(dbg, "load progress")
     web.callback_load_provisional_add(dbg, "load provisional")
     web.callback_load_started_add(dbg, "load started")
+
+    #web.callback_menubar_visible_get_add(dbg, "menubar visible get")
+    web.callback_menubar_visible_set_add(dbg, "menubar visible set")
+
+    #web.callback_popup_created_add(dbg, "popup created")
+    #web.callback_popup_willdelete_add(dbg, "popup will delete")
+
+    web.callback_ready_add(dbg, "ready")
+
+    #web.callback_scrollbars_visible_get_add(dbg, "scrollbars visible get")
+    web.callback_scrollbars_visible_set_add(dbg, "scrollbars visible set")
+
+    web.callback_statusbar_text_set_add(dbg, "statusbar text set")
+    #web.callback_statusbar_visible_get_add(dbg, "statusbar visible get")
+    web.callback_statusbar_visible_set_add(dbg, "statusbar visible set")
+
+    web.callback_title_changed_add(dbg, "title changed")
+
+    #web.callback_toolbars_visible_get_add(dbg, "toolbars visible get")
+    web.callback_toolbars_visible_set_add(dbg, "toolbars visible set")
+
+    web.callback_tooltip_text_set_add(dbg, "tooltip text set")
+    web.callback_uri_changed_add(dbg, "uri changed")
+    web.callback_view_resized_add(dbg, "view resized")
+    web.callback_windows_close_request_add(dbg, "windows close request")
+    web.callback_zoom_animated_end_add(dbg, "zoom animated end")
+
+    web.callback_focused_add(dbg, "focused")
+    web.callback_unfocused_add(dbg, "unfocused")
 
     # JS debug to console:
     def console_msg(obj, msg, line, src):
@@ -55,8 +98,10 @@ def web_clicked(obj):
     web.console_message_hook_set(console_msg)
 
     # navigation bar:
-    hbx = Box(win, horizontal=True, size_hint_weight=EXPAND_HORIZ,
-        size_hint_align=FILL_HORIZ)
+    hbx = Box(
+        win, horizontal=True, size_hint_weight=EXPAND_HORIZ,
+        size_hint_align=FILL_HORIZ
+        )
     vbx.pack_start(hbx)
     hbx.show()
 
@@ -80,8 +125,10 @@ def web_clicked(obj):
     hbx.pack_end(bt)
     bt.show()
 
-    en = Entry(win, scrollable=True, editable=True, single_line=True,
-        size_hint_weight=EXPAND_HORIZ, size_hint_align=FILL_BOTH)
+    en = Entry(
+        win, scrollable=True, editable=True, single_line=True,
+        size_hint_weight=EXPAND_HORIZ, size_hint_align=FILL_BOTH
+        )
     hbx.pack_end(en)
     en.show()
 
