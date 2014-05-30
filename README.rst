@@ -1,34 +1,29 @@
------------------
+#################
 PYTHON-EFL 1.10.0
------------------
+#################
 
 EFL is a collection of libraries for handling many common tasks a
 developer man have such as data structures, communication, rendering,
 widgets and more. PYTHON-EFL are the python bindings for EFL and Elementary.
 
-
+*******
 INSTALL
-=======
+*******
 
 For installation instruction see the INSTALL file.
 
+*******
+CHANGES
+*******
 
-CHANGES FROM 1.9 to 1.10
-========================
+VERSIONS AFTER 1.8
+==================
 
-Deprecated in 1.10
-------------------
-
-
-CHANGES FROM 1.8 to 1.9
-=======================
-
-Deprecated in 1.9
------------------
+See changes.html
 
 
-CHANGES FROM 1.7 to 1.8
-=======================
+FROM 1.7 to 1.8
+===============
 
 * added efl container package
 * ecore.file.Download => efl.ecore.FileDownload
