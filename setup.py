@@ -171,7 +171,7 @@ class CleanGenerated(Command):
 
 modules = []
 packages = ["efl"]
-package_dirs = {}
+#package_dirs = {}  # Use this if you put packages in non-root paths
 
 if set(("build", "build_ext", "install", "bdist", "sdist")) & set(sys.argv):
 
@@ -223,10 +223,6 @@ if set(("build", "build_ext", "install", "bdist", "sdist")) & set(sys.argv):
     )
     modules.append(evas_ext)
 
-    # compatibility
-    packages.append("evas")
-    package_dirs["evas"] = "compat/evas"
-
     # === Ecore ===
     ecore_cflags, ecore_libs = pkg_config('Ecore', 'ecore', EFL_MIN_VERSION)
     ecore_file_cflags, ecore_file_libs = pkg_config(
@@ -266,10 +262,6 @@ if set(("build", "build_ext", "install", "bdist", "sdist")) & set(sys.argv):
     modules += ecore_exts
     packages.append("efl.ecore")
 
-    # compatibility
-    packages.append("ecore")
-    package_dirs["ecore"] = "compat/ecore"
-
     # === Ethumb ===
     ethumb_cflags, ethumb_libs = pkg_config(
         'Ethumb', 'ethumb', EFL_MIN_VERSION)
@@ -301,10 +293,6 @@ if set(("build", "build_ext", "install", "bdist", "sdist")) & set(sys.argv):
     )
     modules.append(edje_ext)
 
-    # compatibility
-    packages.append("edje")
-    package_dirs["edje"] = "compat/edje"
-
     # --- Edje_Edit ---
     edje_edit_ext = Extension(
         "edje_edit", ["efl/edje/efl.edje_edit" + module_suffix],
@@ -327,10 +315,6 @@ if set(("build", "build_ext", "install", "bdist", "sdist")) & set(sys.argv):
     )
     modules.append(emotion_ext)
 
-    # compatibility
-    packages.append("emotion")
-    package_dirs["emotion"] = "compat/emotion"
-
     # === dbus mainloop integration ===
     dbus_cflags, dbus_libs = pkg_config('DBus', 'dbus-python', "0.83.0")
     dbus_ml_ext = Extension(
@@ -341,10 +325,6 @@ if set(("build", "build_ext", "install", "bdist", "sdist")) & set(sys.argv):
         extra_link_args=dbus_libs + ecore_libs,
         )
     modules.append(dbus_ml_ext)
-
-    # compatibility
-    packages.append("e_dbus")
-    package_dirs["e_dbus"] = "compat/e_dbus"
 
     # === Elementary ===
     elm_mods = (
@@ -435,10 +415,6 @@ if set(("build", "build_ext", "install", "bdist", "sdist")) & set(sys.argv):
 
     packages.append("efl.elementary")
 
-    # compatibility
-    packages.append("elementary")
-    package_dirs["elementary"] = "compat/elementary"
-
 
 setup(
     name="python-efl",
@@ -468,7 +444,7 @@ setup(
             'release': ('setup.py', RELEASE)
         }
     },
-    package_dir=package_dirs,
+    #package_dir=package_dirs,
     packages=packages,
     ext_package="efl",  # The prefix for ext modules/packages
     ext_modules=cythonize(
