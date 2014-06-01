@@ -16,6 +16,7 @@
 # along with this Python-EFL.  If not, see <http://www.gnu.org/licenses/>.
 
 cimport efl.evas.enums as enums
+from efl.utils.conversions cimport eina_list_strings_to_python_list
 
 EVAS_LAYER_MIN = enums.EVAS_LAYER_MIN
 EVAS_LAYER_MAX = enums.EVAS_LAYER_MAX
@@ -310,14 +311,7 @@ def font_path_global_list():
     .. versionadded: 1.10
 
     """
-    cdef Eina_List *lst = evas_font_path_global_list()
-
-    ret = []
-    while lst != NULL:
-        ret.append(<char*> lst.data)
-        lst = lst.next
-
-    return ret
+    return eina_list_strings_to_python_list(evas_font_path_global_list())
 
 
 
