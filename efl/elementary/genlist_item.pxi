@@ -598,15 +598,9 @@ cdef class GenlistItem(ObjectItem):
         .. versionadded:: 1.9
 
         """
-        cdef:
-            Eina_List *l = elm_genlist_item_subitems_get(self.item)
-            list ret = list()
-
-        while l:
-            ret.append(object_from_instance(<Evas_Object*>l.data))
-            l = l.next
-
-        return ret
+        return _object_item_list_to_python(
+            elm_genlist_item_subitems_get(self.item)
+            )
 
     property expanded:
         """This function flags the item of type #ELM_GENLIST_ITEM_TREE as

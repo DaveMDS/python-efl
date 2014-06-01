@@ -508,7 +508,7 @@ cdef class Window(Object):
         :return type: Elm_Win_Type
 
         .. versionadded: 1.9
-        
+
         """
         return elm_win_type_get(self.obj)
 
@@ -836,7 +836,7 @@ cdef class Window(Object):
         """
         def __set__(self, list profiles):
             cdef:
-                const char **array
+                const char **array = NULL
                 unsigned int arr_len = len(profiles)
                 unsigned int i
 
@@ -862,7 +862,7 @@ cdef class Window(Object):
 
     def available_profiles_set(self, list profiles):
         cdef:
-            const char **array
+            const char **array = NULL
             unsigned int arr_len = len(profiles)
             unsigned int i
 

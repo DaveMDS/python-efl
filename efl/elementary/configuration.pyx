@@ -783,7 +783,7 @@ cdef class Configuration(object):
         """
         def __get__(self):
             cdef:
-                Eina_List *lst = elm_config_color_overlay_list_get()
+                const Eina_List *lst = elm_config_color_overlay_list_get()
                 Elm_Color_Overlay *ov
                 const char *color_class
 
