@@ -39,11 +39,14 @@ This widget emits the following signals, besides the ones sent from
 - ``item,selected`` - this is called when an item is selected by
   api, user interaction, and etc. this is also called when a
   user press back space while cursor is on the first field of
-  entry.
+  entry. event_info contains the item.
 - ``item,added`` - when a new multi-button entry item is added.
+  event_info contains the item.
 - ``item,deleted`` - when a multi-button entry item is deleted.
+  event_info contains the item.
 - ``item,clicked`` - this is called when an item is clicked by user
   interaction. Both "item,selected" and "item,clicked" are needed.
+  event_info contains the item.
 - ``clicked`` - when multi-button entry is clicked.
 - ``focused`` - when multi-button entry is focused.
 - ``unfocused`` - when multi-button entry is unfocused.
@@ -67,13 +70,18 @@ from libc.stdint cimport uintptr_t
 
 from efl.eo cimport _object_mapping_register, object_from_instance, PY_REFCOUNT
 from efl.utils.conversions cimport _ctouni
-from efl.evas cimport Object as evasObject
+from efl.evas cimport Object as evasObject, evas_object_smart_callback_add
 
 from libc.string cimport strdup
 from object cimport Object
 import traceback
 from object_item cimport _object_item_callback, _object_item_callback2, \
-    _object_item_to_python, _object_item_list_to_python, ObjectItem
+    _object_item_to_python, _object_item_list_to_python, ObjectItem, \
+    elm_object_item_data_get
+
+def _cb_object_item_conv(uintptr_t addr):
+    cdef Elm_Object_Item *it = <Elm_Object_Item *>addr
+    return _object_item_to_python(it)
 
 cdef Eina_Bool _multibuttonentry_filter_callback(Evas_Object *obj, \
     const char *item_label, void *item_data, void *data) with gil:
@@ -235,17 +243,27 @@ cdef class MultiButtonEntryItem(ObjectItem):
     def next_get(self):
         return _object_item_to_python(elm_multibuttonentry_item_next_get(self.item))
 
+cdef void _py_elm_mbe_item_added_cb(
+    void *data, Evas_Object *o, void *event_info) with gil:
+    cdef:
+        MultiButtonEntryItem it
+        Elm_Object_Item *item = <Elm_Object_Item *>event_info
+
+    if elm_object_item_data_get(item) == NULL:
+        it = MultiButtonEntryItem.__new__(MultiButtonEntryItem)
+        it._set_obj(item)
+
 cdef class MultiButtonEntry(Object):
 
     """This is the class that actually implements the widget."""
 
     def __init__(self, evasObject parent, *args, **kwargs):
         self._set_obj(elm_multibuttonentry_add(parent.obj))
+        evas_object_smart_callback_add(
+            self.obj, "item,added",
+            _py_elm_mbe_item_added_cb, NULL
+            )
         self._set_properties_from_keyword_args(kwargs)
-        #
-        # TODO: Add callbacks for item added and item deleted, inject
-        #       the python instance into Elm_Object_Item's data
-        #
 
     property entry:
         """The Entry object child of the multibuttonentry.
@@ -470,28 +488,28 @@ cdef class MultiButtonEntry(Object):
         Py_INCREF(cbdata)
 
     def callback_item_selected_add(self, func, *args, **kwargs):
-        self._callback_add("item,selected", func, *args, **kwargs)
+        self._callback_add_full("item,selected", _cb_object_item_conv, func, *args, **kwargs)
 
     def callback_item_selected_del(self, func):
-        self._callback_del("item,selected", func)
+        self._callback_del_full("item,selected", _cb_object_item_conv, func)
 
     def callback_item_added_add(self, func, *args, **kwargs):
-        self._callback_add("item,added", func, *args, **kwargs)
+        self._callback_add_full("item,added", _cb_object_item_conv, func, *args, **kwargs)
 
     def callback_item_added_del(self, func):
-        self._callback_del("item,added", func)
+        self._callback_del_full("item,added", _cb_object_item_conv, func)
 
     def callback_item_deleted_add(self, func, *args, **kwargs):
-        self._callback_add("item,deleted", func, *args, **kwargs)
+        self._callback_add_full("item,deleted", _cb_object_item_conv, func, *args, **kwargs)
 
     def callback_item_deleted_del(self, func):
-        self._callback_del("item,deleted", func)
+        self._callback_del_full("item,deleted", _cb_object_item_conv, func)
 
     def callback_item_clicked_add(self, func, *args, **kwargs):
-        self._callback_add("item,clicked", func, *args, **kwargs)
+        self._callback_add_full("item,clicked", _cb_object_item_conv, func, *args, **kwargs)
 
     def callback_item_clicked_del(self, func):
-        self._callback_del("item,clicked", func)
+        self._callback_del_full("item,clicked", _cb_object_item_conv, func)
 
     def callback_clicked_add(self, func, *args, **kwargs):
         self._callback_add("clicked", func, *args, **kwargs)
