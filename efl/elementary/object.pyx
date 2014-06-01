@@ -102,7 +102,7 @@ Focus direction
 
     .. versionadded:: 1.8.1
 
-.. _Elm_Focus_Move_Policy
+.. _Elm_Focus_Move_Policy:
 
 Focus move policy
 =================
@@ -119,7 +119,7 @@ Focus move policy
 
     .. versionadded:: 1.10
 
-.. _Elm_Focus_Autoscroll_Mode
+.. _Elm_Focus_Autoscroll_Mode:
 
 Focus autoscroll mode
 =====================

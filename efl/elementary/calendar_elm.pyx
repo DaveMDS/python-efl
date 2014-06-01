@@ -203,7 +203,9 @@ ELM_DAY_LAST = enums.ELM_DAY_LAST
 
 cdef class CalendarMark(object):
 
-    """An item for the Calendar widget.
+    """
+
+    An item for the Calendar widget.
 
     A mark that will be drawn in the calendar respecting the insertion
     time and periodicity. It will emit the type as signal to the widget theme.
@@ -235,7 +237,7 @@ cdef class CalendarMark(object):
 
     def __init__(self, evasObject cal, mark_type, mark_time,
             Elm_Calendar_Mark_Repeat_Type repeat):
-        """
+        """Create a new Calendar mark
 
         :param mark_type: A string used to define the type of mark. It will be
             emitted to the theme, that should display a related modification on these

@@ -3,6 +3,8 @@
 
 .. module:: efl.evas
 
+.. _evas_main_intro:
+
 What is Evas?
 -------------
 
@@ -27,6 +29,7 @@ wish, thus keeping it small and lean. It has several display
 back-ends, letting it display on several display systems, making it
 portable for cross-device and cross-platform development.
 
+.. _evas_main_intro_not_evas:
 
 What Evas is not?
 -----------------
@@ -41,6 +44,7 @@ should be polled from various sources and fed to Evas. Similarly, it will
 not create windows or report windows updates to your system, rather just
 drawing the pixels and reporting to the user the areas that were changed.
 
+.. _evas_main_work:
 
 How does Evas work?
 -------------------
