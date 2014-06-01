@@ -661,7 +661,7 @@ cdef class Configuration(object):
     property text_classes_list:
         """Get Elementary's list of supported text classes.
 
-        :type: list of :ref:`Elm_Text_Class`
+        :type: list of tuples (name, desc)
 
         """
         def __get__(self):
@@ -691,7 +691,7 @@ cdef class Configuration(object):
         the default font properties for that class coming from the theme in
         use. There is no need to free this list.
 
-        :type: list of :ref:`Elm_Font_Overlay`
+        :type: list of tuples (text_class, font, size)
 
         """
         def __get__(self):
@@ -732,7 +732,7 @@ cdef class Configuration(object):
         :param font:  Font name and style string
         :type font: string
         :param size:  Font size
-        :type size: :ref:`Evas_Font_Size`
+        :type size: int
 
         """
         a1 = text_class
