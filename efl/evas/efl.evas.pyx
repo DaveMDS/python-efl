@@ -17,6 +17,10 @@
 
 cimport efl.evas.enums as enums
 from efl.utils.conversions cimport eina_list_strings_to_python_list
+from efl.eina cimport EINA_LOG_DOM_DBG, EINA_LOG_DOM_INFO, EINA_LOG_DOM_WARN
+from efl.utils.logger cimport add_logger
+
+cdef int PY_EFL_EVAS_LOG_DOMAIN = add_logger(__name__).eina_log_domain
 
 EVAS_LAYER_MIN = enums.EVAS_LAYER_MIN
 EVAS_LAYER_MAX = enums.EVAS_LAYER_MAX
@@ -152,6 +156,7 @@ EVAS_ASPECT_CONTROL_BOTH = enums.EVAS_ASPECT_CONTROL_BOTH
 EVAS_SMART_CLASS_VERSION = enums.EVAS_SMART_CLASS_VERSION
 
 def init():
+    EINA_LOG_DOM_INFO(PY_EFL_EVAS_LOG_DOMAIN, "Initializing efl.evas", NULL)
     # when changing these, also change __init__.py!
 #     if evas_object_event_callbacks_len != EVAS_CALLBACK_LAST:
 #         raise SystemError("Number of object callbacks changed from %d to %d." %
@@ -163,6 +168,7 @@ def init():
 
 
 def shutdown():
+    EINA_LOG_DOM_INFO(PY_EFL_EVAS_LOG_DOMAIN, "Shutting down efl.evas", NULL)
     return evas_shutdown()
 
 

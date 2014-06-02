@@ -5,7 +5,9 @@ import logging
 elog = logging.getLogger("efl")
 elog.setLevel(logging.INFO)
 
-elog_form = logging.Formatter("[%(name)s] %(levelname)s - %(message)s")
+elog_form = logging.Formatter(
+    "[%(name)s] %(levelname)s in %(funcName)s:%(lineno)d - %(message)s"
+    )
 elog_hdlr = logging.StreamHandler()
 elog_hdlr.setFormatter(elog_form)
 
@@ -13,6 +15,9 @@ elog.addHandler(elog_hdlr)
 
 eolog = logging.getLogger("efl.eo")
 eolog.setLevel(logging.INFO)
+
+evaslog = logging.getLogger("efl.evas")
+evaslog.setLevel(logging.INFO)
 
 import os
 

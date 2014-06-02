@@ -30,8 +30,14 @@ _install_metaclass(EvasSmartObjectMeta, ClippedSmartObject)
 
 
 cdef void _smart_object_delete(Evas_Object *o) with gil:
-    cdef SmartObject obj
-    obj = <SmartObject>evas_object_data_get(o, "python-eo")
+    cdef:
+        void *tmp
+        SmartObject obj
+    tmp = evas_object_data_get(o, "python-eo")
+    if tmp == NULL:
+        EINA_LOG_DOM_WARN(PY_EFL_EVAS_LOG_DOMAIN, "obj is NULL!", NULL)
+        return
+    obj = <SmartObject>tmp
 
     try:
         obj._m_delete(obj)
@@ -110,8 +116,14 @@ cdef void _smart_object_delete(Evas_Object *o) with gil:
 
 cdef void _smart_object_move(Evas_Object *o,
                              Evas_Coord x, Evas_Coord y) with gil:
-    cdef SmartObject obj
-    obj = <SmartObject>evas_object_data_get(o, "python-eo")
+    cdef:
+        void *tmp
+        SmartObject obj
+    tmp = evas_object_data_get(o, "python-eo")
+    if tmp == NULL:
+        EINA_LOG_DOM_WARN(PY_EFL_EVAS_LOG_DOMAIN, "obj is NULL!", NULL)
+        return
+    obj = <SmartObject>tmp
     if obj._m_move is not None:
         try:
             obj._m_move(obj, x, y)
@@ -121,8 +133,14 @@ cdef void _smart_object_move(Evas_Object *o,
 
 cdef void _smart_object_resize(Evas_Object *o,
                                Evas_Coord w, Evas_Coord h) with gil:
-    cdef SmartObject obj
-    obj = <SmartObject>evas_object_data_get(o, "python-eo")
+    cdef:
+        void *tmp
+        SmartObject obj
+    tmp = evas_object_data_get(o, "python-eo")
+    if tmp == NULL:
+        EINA_LOG_DOM_WARN(PY_EFL_EVAS_LOG_DOMAIN, "obj is NULL!", NULL)
+        return
+    obj = <SmartObject>tmp
     if obj._m_resize is not None:
         try:
             obj._m_resize(obj, w, h)
@@ -131,8 +149,14 @@ cdef void _smart_object_resize(Evas_Object *o,
 
 
 cdef void _smart_object_show(Evas_Object *o) with gil:
-    cdef SmartObject obj
-    obj = <SmartObject>evas_object_data_get(o, "python-eo")
+    cdef:
+        void *tmp
+        SmartObject obj
+    tmp = evas_object_data_get(o, "python-eo")
+    if tmp == NULL:
+        EINA_LOG_DOM_WARN(PY_EFL_EVAS_LOG_DOMAIN, "obj is NULL!", NULL)
+        return
+    obj = <SmartObject>tmp
     if obj._m_show is not None:
         try:
             obj._m_show(obj)
@@ -141,8 +165,14 @@ cdef void _smart_object_show(Evas_Object *o) with gil:
 
 
 cdef void _smart_object_hide(Evas_Object *o) with gil:
-    cdef SmartObject obj
-    obj = <SmartObject>evas_object_data_get(o, "python-eo")
+    cdef:
+        void *tmp
+        SmartObject obj
+    tmp = evas_object_data_get(o, "python-eo")
+    if tmp == NULL:
+        EINA_LOG_DOM_WARN(PY_EFL_EVAS_LOG_DOMAIN, "obj is NULL!", NULL)
+        return
+    obj = <SmartObject>tmp
     if obj._m_hide is not None:
         try:
             obj._m_hide(obj)
@@ -152,8 +182,14 @@ cdef void _smart_object_hide(Evas_Object *o) with gil:
 
 cdef void _smart_object_color_set(Evas_Object *o,
                                   int r, int g, int b, int a) with gil:
-    cdef SmartObject obj
-    obj = <SmartObject>evas_object_data_get(o, "python-eo")
+    cdef:
+        void *tmp
+        SmartObject obj
+    tmp = evas_object_data_get(o, "python-eo")
+    if tmp == NULL:
+        EINA_LOG_DOM_WARN(PY_EFL_EVAS_LOG_DOMAIN, "obj is NULL!", NULL)
+        return
+    obj = <SmartObject>tmp
     if obj._m_color_set is not None:
         try:
             obj._m_color_set(obj, r, g, b, a)
@@ -162,9 +198,15 @@ cdef void _smart_object_color_set(Evas_Object *o,
 
 
 cdef void _smart_object_clip_set(Evas_Object *o, Evas_Object *clip) with gil:
-    cdef SmartObject obj
-    cdef Object other
-    obj = <SmartObject>evas_object_data_get(o, "python-eo")
+    cdef:
+        void *tmp
+        SmartObject obj
+        Object other
+    tmp = evas_object_data_get(o, "python-eo")
+    if tmp == NULL:
+        EINA_LOG_DOM_WARN(PY_EFL_EVAS_LOG_DOMAIN, "obj is NULL!", NULL)
+        return
+    obj = <SmartObject>tmp
     other = object_from_instance(clip)
     if obj._m_clip_set is not None:
         try:
@@ -174,8 +216,14 @@ cdef void _smart_object_clip_set(Evas_Object *o, Evas_Object *clip) with gil:
 
 
 cdef void _smart_object_clip_unset(Evas_Object *o) with gil:
-    cdef SmartObject obj
-    obj = <SmartObject>evas_object_data_get(o, "python-eo")
+    cdef:
+        void *tmp
+        SmartObject obj
+    tmp = evas_object_data_get(o, "python-eo")
+    if tmp == NULL:
+        EINA_LOG_DOM_WARN(PY_EFL_EVAS_LOG_DOMAIN, "obj is NULL!", NULL)
+        return
+    obj = <SmartObject>tmp
     if obj._m_clip_unset is not None:
         try:
             obj._m_clip_unset(obj)
@@ -184,8 +232,14 @@ cdef void _smart_object_clip_unset(Evas_Object *o) with gil:
 
 
 cdef void _smart_object_calculate(Evas_Object *o) with gil:
-    cdef SmartObject obj
-    obj = <SmartObject>evas_object_data_get(o, "python-eo")
+    cdef:
+        void *tmp
+        SmartObject obj
+    tmp = evas_object_data_get(o, "python-eo")
+    if tmp == NULL:
+        EINA_LOG_DOM_WARN(PY_EFL_EVAS_LOG_DOMAIN, "obj is NULL!", NULL)
+        return
+    obj = <SmartObject>tmp
     if obj._m_calculate is not None:
         try:
             obj._m_calculate(obj)
@@ -194,9 +248,15 @@ cdef void _smart_object_calculate(Evas_Object *o) with gil:
 
 
 cdef void _smart_object_member_add(Evas_Object *o, Evas_Object *clip) with gil:
-    cdef SmartObject obj
-    cdef Object other
-    obj = <SmartObject>evas_object_data_get(o, "python-eo")
+    cdef:
+        void *tmp
+        SmartObject obj
+        Object other
+    tmp = evas_object_data_get(o, "python-eo")
+    if tmp == NULL:
+        EINA_LOG_DOM_WARN(PY_EFL_EVAS_LOG_DOMAIN, "obj is NULL!", NULL)
+        return
+    obj = <SmartObject>tmp
     other = object_from_instance(clip)
     if obj._m_member_add is not None:
         try:
@@ -206,9 +266,15 @@ cdef void _smart_object_member_add(Evas_Object *o, Evas_Object *clip) with gil:
 
 
 cdef void _smart_object_member_del(Evas_Object *o, Evas_Object *clip) with gil:
-    cdef SmartObject obj
-    cdef Object other
-    obj = <SmartObject>evas_object_data_get(o, "python-eo")
+    cdef:
+        void *tmp
+        SmartObject obj
+        Object other
+    tmp = evas_object_data_get(o, "python-eo")
+    if tmp == NULL:
+        EINA_LOG_DOM_WARN(PY_EFL_EVAS_LOG_DOMAIN, "obj is NULL!", NULL)
+        return
+    obj = <SmartObject>tmp
     other = object_from_instance(clip)
     if obj._m_member_del is not None:
         try:
@@ -219,9 +285,16 @@ cdef void _smart_object_member_del(Evas_Object *o, Evas_Object *clip) with gil:
 
 cdef void _smart_callback(void *data,
                           Evas_Object *o, void *event_info) with gil:
-    cdef SmartObject obj
-    cdef object event, ei
-    obj = <SmartObject>evas_object_data_get(o, "python-eo")
+
+    cdef:
+        void *tmp
+        SmartObject obj
+        object event, ei
+    tmp = evas_object_data_get(o, "python-eo")
+    if tmp == NULL:
+        EINA_LOG_DOM_WARN(PY_EFL_EVAS_LOG_DOMAIN, "obj is NULL!", NULL)
+        return
+    obj = <SmartObject>tmp
     event = <object>data
     ei = <object>event_info
     lst = tuple(obj._smart_callbacks[event])
