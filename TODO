@@ -10,6 +10,7 @@ BUGS
     - Multibuttonentry.format_function_set()
     - Multibuttonentry.filter_append()
     - Multibuttonentry.filterprepend()
+* Evas: SmartObject callbacks broken when object is deleted
 
 Failing unit tests
 ------------------
