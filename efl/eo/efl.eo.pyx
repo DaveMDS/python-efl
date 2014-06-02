@@ -26,8 +26,8 @@ from efl.c_eo cimport Eo as cEo, eo_init, eo_shutdown, eo_del, eo_do, \
     eo_key_data_set, eo_key_data_get, eo_key_data_del, \
     eo_event_callback_add, eo_event_callback_del, EO_EV_DEL, \
     eo_parent_get, eo_parent_set, Eo_Event_Description, \
-    eo_event_freeze, eo_event_thaw, eo_event_freeze_get, \
-    eo_event_global_freeze, eo_event_global_thaw, eo_event_global_freeze_get
+    eo_event_freeze, eo_event_thaw, eo_event_freeze_count_get, \
+    eo_event_global_freeze, eo_event_global_thaw, eo_event_global_freeze_count_get
 
 cimport efl.eo.enums as enums
 
@@ -52,10 +52,10 @@ def shutdown():
 
 init()
 
-def event_global_freeze_get():
+def event_global_freeze_count_get():
     cdef int fcount
     fcount = <int>eo_do(<const cEo *>eo_base_class_get(),
-                        eo_event_global_freeze_get())
+                        eo_event_global_freeze_count_get())
     return fcount
 
 def event_global_freeze():
@@ -287,12 +287,12 @@ cdef class Eo(object):
         """Restart event propagation for this object."""
         eo_do(self.obj, eo_event_thaw())
 
-    def event_freeze_get(self):
+    def event_freeze_count_get(self):
         """Get the event freeze count for this object.
 
         :return: the freeze count
         :rtype: int
         
         """
-        cdef int fcount = <int>eo_do(self.obj, eo_event_freeze_get())
+        cdef int fcount = <int>eo_do(self.obj, eo_event_freeze_count_get())
         return fcount

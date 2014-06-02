@@ -77,11 +77,11 @@ cdef extern from "Eo.h":
 
     void eo_event_freeze()
     void eo_event_thaw()
-    int eo_event_freeze_get()
+    int eo_event_freeze_count_get()
 
     void eo_event_global_freeze()
     void eo_event_global_thaw()
-    int eo_event_global_freeze_get()
+    int eo_event_global_freeze_count_get()
 
     void eo_event_callback_add(const Eo_Event_Description *desc, Eo_Event_Cb cb, const void *data)
     void eo_event_callback_del(const Eo_Event_Description *desc, Eo_Event_Cb cb, const void *data)
