@@ -279,18 +279,14 @@ def selected_cb(o, mod, func):
 def menu_create(search, win):
     tbx.clear()
     for category in items:
-        frame = Frame(
-            win, size_hint_weight=EXPAND_BOTH,
-            size_hint_align=FILL_BOTH, text=category[0]
-            )
+        frame = Frame(win, size_hint_weight=EXPAND_BOTH,
+                      size_hint_align=FILL_BOTH, text=category[0])
         frame.show()
         tbx.pack_end(frame)
 
-        tbx2 = Box(
-            win, layout=ELM_BOX_LAYOUT_FLOW_HORIZONTAL,
-            size_hint_weight=(EVAS_HINT_EXPAND, 0.0),
-            size_hint_align=(EVAS_HINT_FILL, 0.0)
-            )
+        tbx2 = Box(win, layout=ELM_BOX_LAYOUT_FLOW_HORIZONTAL,
+                   size_hint_weight=(EVAS_HINT_EXPAND, 0.0),
+                   size_hint_align=(EVAS_HINT_FILL, 0.0))
         frame.content_set(tbx2)
         tbx2.show()
 
@@ -321,19 +317,16 @@ def cb_filter(en, win):
 if __name__ == "__main__":
     elementary.init()
     win = StandardWindow("test", "Python EFL test application")
-    win.callback_delete_request_add(
-        destroy, "test1", "test2", str3="test3", str4="test4"
-        )
+    win.callback_delete_request_add(destroy, "test1", "test2",
+                                    str3="test3", str4="test4")
 
     box0 = Box(win, size_hint_weight=EXPAND_BOTH)
     win.resize_object_add(box0)
     box0.show()
 
     lb = Label(win)
-    lb.text = (
-        "Please select a test from the list below by clicking<br>"
-        "the test button to show the test window."
-        )
+    lb.text = ("Please select a test from the list below by clicking<br>"
+               "the test button to show the test window.")
     lb.show()
 
     fr = Frame(win, text="Information", content=lb)
@@ -345,10 +338,8 @@ if __name__ == "__main__":
     box0.pack_end(tg)
     tg.show()
 
-    bx1 = Box(
-        win, size_hint_weight=(EVAS_HINT_EXPAND, 0.0),
-        size_hint_align=(EVAS_HINT_FILL, 0.0), horizontal=True
-        )
+    bx1 = Box(win, size_hint_weight=(EVAS_HINT_EXPAND, 0.0),
+              size_hint_align=(EVAS_HINT_FILL, 0.0), horizontal=True)
     box0.pack_end(bx1)
     bx1.show()
 
@@ -356,27 +347,21 @@ if __name__ == "__main__":
     bx1.pack_end(lb)
     lb.show()
 
-    en = Entry(
-        win, single_line=True, scrollable=True,
-        size_hint_weight=EXPAND_BOTH, size_hint_align=FILL_BOTH
-        )
+    en = Entry(win, single_line=True, scrollable=True,
+               size_hint_weight=EXPAND_BOTH, size_hint_align=FILL_BOTH)
     en.part_text_set("guide", "Type widget name here to search.")
     en.callback_changed_add(cb_filter, win)
     bx1.pack_end(en)
     en.show()
     en.focus_set(True)
 
-    sc = Scroller(
-        win, size_hint_weight=EXPAND_BOTH, size_hint_align=FILL_BOTH,
-        bounce=(False, True)
-        )
+    sc = Scroller(win, size_hint_weight=EXPAND_BOTH, size_hint_align=FILL_BOTH,
+                  bounce=(False, True))
     sc.show()
     box0.pack_end(sc)
 
-    tbx = Box(
-        win, size_hint_weight=(EVAS_HINT_EXPAND, 0.0),
-        size_hint_align=(EVAS_HINT_FILL, 0.0)
-        )
+    tbx = Box(win, size_hint_weight=(EVAS_HINT_EXPAND, 0.0),
+              size_hint_align=(EVAS_HINT_FILL, 0.0))
     sc.content_set(tbx)
     tbx.show()
 
