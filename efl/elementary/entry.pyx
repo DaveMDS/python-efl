@@ -719,17 +719,20 @@ cdef void py_elm_entry_filter_cb(void *data, Evas_Object *entry, char **text) wi
     """
     cdef:
         Entry en = object_from_instance(entry)
+        object ret
 
-    cb_func, cb_data = <object>data
-    try:
-        ret = cb_func(en, _touni(text[0]), cb_data)
-    except Exception:
-        traceback.print_exc()
+    for cb_func, cb_data in en.markup_filters:
+        try:
+            ret = cb_func(en, _touni(text[0]), cb_data)
+        except Exception:
+            traceback.print_exc()
 
     if ret is None:
         free(text[0])
         text[0] = NULL
         return
+
+    if isinstance(ret, unicode): ret = PyUnicode_AsUTF8String(ret)
 
     text[0] = strdup(<char *>ret)
 
@@ -809,6 +812,11 @@ cdef class Entry(LayoutClass):
         Inherits from LayoutClass.
 
     """
+
+    cdef list markup_filters
+
+    def __cinit__(self):
+        self.markup_filters = []
 
     def __init__(self, evasObject parent, *args, **kwargs):
         """By default, entries are:
@@ -1403,13 +1411,16 @@ cdef class Entry(LayoutClass):
         .. versionadded:: 1.8
 
         """
+        if not callable(func):
+            raise TypeError("func must be callable")
+
+        if not self.markup_filters:
+            elm_entry_markup_filter_append(self.obj,
+                py_elm_entry_filter_cb,
+                NULL)
+
         cb_data = (func, data)
-        # TODO: This is now a ref leak. It should be stored somewhere and
-        #       deleted in the remove method.
-        Py_INCREF(cb_data)
-        elm_entry_markup_filter_append(self.obj,
-            py_elm_entry_filter_cb,
-            <void *>cb_data)
+        self.markup_filters.append(cb_data)
 
     def markup_filter_prepend(self, func, data=None):
         """Prepend a markup filter function for text inserted in the entry
@@ -1423,11 +1434,16 @@ cdef class Entry(LayoutClass):
         .. versionadded:: 1.8
 
         """
+        if not callable(func):
+            raise TypeError("func must be callable")
+
+        if not self.markup_filters:
+            elm_entry_markup_filter_append(self.obj,
+                py_elm_entry_filter_cb,
+                NULL)
+
         cb_data = (func, data)
-        Py_INCREF(cb_data)
-        elm_entry_markup_filter_prepend(self.obj,
-            py_elm_entry_filter_cb,
-            <void *>cb_data)
+        self.markup_filters.insert(0, cb_data)
 
     def markup_filter_remove(self, func, data=None):
         """Remove a markup filter from the list
@@ -1441,11 +1457,24 @@ cdef class Entry(LayoutClass):
         .. versionadded:: 1.8
 
         """
-        cb_data = (func, data)
-        Py_INCREF(cb_data)
+        f = None
+        d = None
+        lst = self.markup_filters
+
+        for i, (f, d) in enumerate(lst):
+            if func is f and data is d:
+                break
+
+        if f is not func or d is not data:
+            raise ValueError("Callback was not registered with this object.")
+
+        lst.pop(i)
+        if lst:
+            return
+
         elm_entry_markup_filter_remove(self.obj,
             py_elm_entry_filter_cb,
-            <void *>cb_data)
+            NULL)
 
     @DEPRECATED("1.8", "Use the module level markup_to_utf8() method instead.")
     def markup_to_utf8(self, string):

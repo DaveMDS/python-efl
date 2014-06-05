@@ -5,7 +5,6 @@ BUGS
 * Elm.Map: overlays_show segfaults, scrollers in examples are jumpy
 * Elementary: when we use custom function callbacks we usually leak some
     reference around, some examples:
-    - Entry.markup_filter_append()
     - Fileselector.custom_filter_append()
     - Multibuttonentry.format_function_set()
     - Multibuttonentry.filter_append()
