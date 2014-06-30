@@ -880,4 +880,4 @@ cdef class Canvas(Eo):
         return Box(self, **kargs)
 
 
-_object_mapping_register("Evas", Canvas)
+_object_mapping_register("Evas_Canvas", Canvas)
