@@ -42,7 +42,7 @@ cdef Evas_Object *_tooltip_item_content_create(void *data, Evas_Object *o, Evas_
     tooltip = object_from_instance(t)
     item = _object_item_to_python(<Elm_Object_Item *>it)
     (func, args, kargs) = <object>data
-    ret = func(obj, item, *args, **kargs)
+    ret = func(obj, item, tooltip, *args, **kargs)
     if not ret:
        return NULL
     return ret.obj

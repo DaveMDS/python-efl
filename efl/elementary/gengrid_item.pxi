@@ -319,11 +319,11 @@ cdef class GengridItem(ObjectItem):
     def tooltip_content_cb_set(self, func, *args, **kargs):
         """Set the content to be shown in the tooltip object
 
-        Setup the tooltip to object. The object can have only one tooltip,
-        so any previews tooltip data is removed. ``func(args, kargs)`` will
-        be called every time that need show the tooltip and it should return a
-        valid Evas_Object. This object is then managed fully by tooltip system
-        and is deleted when the tooltip is gone.
+        Setup the tooltip to object. The object can have only one tooltip, so
+        any previews tooltip data is removed. ``func(owner, item, tooltip,
+        args, kargs)`` will be called every time that need show the tooltip and
+        it should return a valid Evas_Object. This object is then managed fully
+        by tooltip system and is deleted when the tooltip is gone.
 
         :param func: Function to be create tooltip content, called when
             need show tooltip.
@@ -334,9 +334,9 @@ cdef class GengridItem(ObjectItem):
 
         cdef void *cbdata
 
-        data = (func, self, args, kargs)
+        data = (func, args, kargs)
         Py_INCREF(data)
-        # FIXME: refleak?
+        # DECREF is in data_del_cb
         cbdata = <void *>data
         elm_gengrid_item_tooltip_content_cb_set(self.item,
                                                 _tooltip_item_content_create,
