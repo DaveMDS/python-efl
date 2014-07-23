@@ -48,7 +48,15 @@
 
 
 
-3. INSTALLATION:
+3. CLEANUP:
+-----------
+ * For cleaning up
+
+   python setup.py clean_generated_files
+
+
+
+4. INSTALLATION:
 ----------------
 
  * For system-wide installation (needs administrator privileges):
@@ -69,7 +77,7 @@
 
 
 
-4. DOCUMENTATION:
+5. DOCUMENTATION:
 -----------------
 
  To build the docs for the bindings you need to have Sphinx installed, for
@@ -87,7 +95,7 @@
        up with empty documentation.
 
 
-5. TESTS and EXAMPLES:
+6. TESTS and EXAMPLES:
 ----------------------
 
  The tests/ folder contains all the unit tests available, you can run individual
@@ -101,7 +109,7 @@
 
 
 
-6. UNINSTALL:
+7. UNINSTALL:
 -------------
 
  Unfortunately setup.py does not provide a way to remove the installed packages,
