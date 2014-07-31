@@ -1303,6 +1303,23 @@ cdef extern from "Ecore_X.h":
 
     void ecore_x_e_virtual_keyboard_state_set(Ecore_X_Window win, Ecore_X_Virtual_Keyboard_State state)
 
+    Eina_Bool ecore_x_screensaver_event_available_get()
+    int ecore_x_screensaver_idle_time_get()
+    void ecore_x_screensaver_set(int timeout, int interval, int prefer_blanking, int allow_exposures)
+    void ecore_x_screensaver_timeout_set(int timeout)
+    int ecore_x_screensaver_timeout_get()
+    void ecore_x_screensaver_blank_set(int timeout)
+    int ecore_x_screensaver_blank_get()
+    void ecore_x_screensaver_expose_set(int timeout)
+    int ecore_x_screensaver_expose_get()
+    void ecore_x_screensaver_interval_set(int timeout)
+    int ecore_x_screensaver_interval_get()
+    void ecore_x_screensaver_event_listen_set(Eina_Bool on)
+    Eina_Bool ecore_x_screensaver_custom_blanking_enable()
+    Eina_Bool ecore_x_screensaver_custom_blanking_disable()
+    void ecore_x_screensaver_supend()
+    void ecore_x_screensaver_resume()
+
 
 from efl.ecore cimport Event
 

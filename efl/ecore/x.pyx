@@ -233,5 +233,70 @@ def keyboard_ungrab():
     ecore_x_keyboard_ungrab()
 
 
+def screensaver_event_available_get():
+    """ .. versionadded:: 1.11 """
+    return bool(ecore_x_screensaver_event_available_get())
+
+def screensaver_idle_time_get():
+    """ .. versionadded:: 1.11 """
+    return ecore_x_screensaver_idle_time_get()
+
+def screensaver_set(int timeout, int interval, int prefer_blanking, int allow_exposures):
+    """ .. versionadded:: 1.11 """
+    ecore_x_screensaver_set(timeout, interval, prefer_blanking, allow_exposures)
+
+def screensaver_timeout_set(int timeout):
+    """ .. versionadded:: 1.11 """
+    ecore_x_screensaver_timeout_set(timeout)
+
+def screensaver_timeout_get():
+    """ .. versionadded:: 1.11 """
+    return ecore_x_screensaver_timeout_get()
+
+def screensaver_blank_set(int timeout):
+    """ .. versionadded:: 1.11 """
+    ecore_x_screensaver_blank_set(timeout)
+
+def screensaver_blank_get():
+    """ .. versionadded:: 1.11 """
+    return ecore_x_screensaver_blank_get()
+
+def screensaver_expose_set(int timeout):
+    """ .. versionadded:: 1.11 """
+    ecore_x_screensaver_expose_set(timeout)
+
+def screensaver_expose_get():
+    """ .. versionadded:: 1.11 """
+    return ecore_x_screensaver_expose_get()
+
+def screensaver_interval_set(int timeout):
+    """ .. versionadded:: 1.11 """
+    ecore_x_screensaver_interval_set(timeout)
+
+def screensaver_interval_get():
+    """ .. versionadded:: 1.11 """
+    return ecore_x_screensaver_interval_get()
+
+def screensaver_event_listen_set(Eina_Bool on):
+    """ .. versionadded:: 1.11 """
+    ecore_x_screensaver_event_listen_set(on)
+
+def screensaver_custom_blanking_enable():
+    """ .. versionadded:: 1.11 """
+    return bool(ecore_x_screensaver_custom_blanking_enable())
+
+def screensaver_custom_blanking_disable():
+    """ .. versionadded:: 1.11 """
+    return bool(ecore_x_screensaver_custom_blanking_disable())
+
+def screensaver_supend():
+    """ .. versionadded:: 1.11 """
+    ecore_x_screensaver_supend()
+
+def screensaver_resume():
+    """ .. versionadded:: 1.11 """
+    ecore_x_screensaver_resume()
+
+
 include "x_window.pxi"
 include "x_events.pxi"
