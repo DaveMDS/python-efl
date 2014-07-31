@@ -125,6 +125,68 @@ cdef class Panes(LayoutClass):
         def __set__(self, size):
             elm_panes_content_right_size_set(self.obj, size)
 
+    property content_left_min_relative_size:
+        """The relative minimum size of panes widget's left side.
+
+        The value must be between 0.0 and 1.0 representing size
+        proportion of minimum size of left side.
+
+        :type: float
+
+        .. versionadded:: 1.11
+
+        """
+        def __get__(self):
+            return elm_panes_content_left_min_relative_size_get(self.obj)
+        def __set__(self, size):
+            elm_panes_content_left_min_relative_size_set(self.obj, size)
+
+    property content_right_min_relative_size:
+        """The relative minimum size of panes widget's right side.
+
+        The value must be between 0.0 and 1.0 representing size
+        proportion of minimum size of right side.
+
+        :type: float
+
+        .. versionadded:: 1.11
+
+        """
+        def __get__(self):
+            return elm_panes_content_right_min_relative_size_get(self.obj)
+        def __set__(self, size):
+            elm_panes_content_right_min_relative_size_set(self.obj, size)
+
+    property content_left_min_size:
+        """The absolute minimum size of panes widget's left side.
+
+        The value represent the minimum size of left side in pixels.
+
+        :type: int
+
+        .. versionadded:: 1.11
+
+        """
+        def __get__(self):
+            return elm_panes_content_left_min_size_get(self.obj)
+        def __set__(self, size):
+            elm_panes_content_left_min_size_set(self.obj, size)
+
+    property content_right_min_size:
+        """The absolute minimum size of panes widget's right side.
+
+        The value represent the minimum size of right side in pixels.
+
+        :type: int
+
+        .. versionadded:: 1.11
+
+        """
+        def __get__(self):
+            return elm_panes_content_right_min_size_get(self.obj)
+        def __set__(self, size):
+            elm_panes_content_right_min_size_set(self.obj, size)
+
     property horizontal:
         """The orientation of a given panes widget.
 

@@ -18,7 +18,8 @@ def panes_clicked(obj):
     if obj is None:
         win.callback_delete_request_add(lambda o: elementary.exit())
 
-    panes = Panes(win, size_hint_weight=EXPAND_BOTH, size_hint_align=FILL_BOTH)
+    panes = Panes(win, content_left_min_relative_size=0.3,
+                  size_hint_weight=EXPAND_BOTH, size_hint_align=FILL_BOTH)
     win.resize_object_add(panes)
     panes.callback_clicked_add(cb_panes, "clicked")
     panes.callback_clicked_double_add(cb_panes, "clicked,double")
@@ -30,9 +31,9 @@ def panes_clicked(obj):
     panes.part_content_set("left", bt)
     bt.show()
 
-    panes_h = Panes(win, horizontal=True, size_hint_weight=EXPAND_BOTH,
-        size_hint_align=FILL_BOTH)
-    panes_h.horizontal = True
+    panes_h = Panes(win, horizontal=True,
+                    size_hint_weight=EXPAND_BOTH, size_hint_align=FILL_BOTH,
+                    content_left_min_size=30, content_right_min_size=100)
     panes.part_content_set("right", panes_h)
     panes_h.show()
 

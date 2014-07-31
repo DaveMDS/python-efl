@@ -1107,6 +1107,8 @@ cdef class Map(Object):
         :param lat: The latitude to center at
         :type lat: float
 
+        .. versionadded:: 1.11
+
         """
         elm_map_region_zoom_bring_in(self.obj, zoom, lon, lat)
 
