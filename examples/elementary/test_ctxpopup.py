@@ -59,9 +59,32 @@ def cb_item1(li, item):
     it = item_new(cp, "Sate date and time", "clock")
     it.disabled = True
 
+    ic = Icon(cp, standard="home", resizable=(False,False))
+    cp.item_prepend("Prepended item", ic, cb_items)
+
     (x, y) = li.evas.pointer_canvas_xy_get()
     cp.move(x, y)
     cp.show()
+
+    print("\n### Testing items getters 1")
+    for it in cp.items:
+        print("ITEM: " + it.text)
+
+    print("\n### Testing items getters 2")
+    print("FIRST ITEM: " + cp.first_item.text)
+    print("LAST ITEM: " + cp.last_item.text)
+
+    print("\n### Testing items getters 3")
+    it = cp.first_item
+    while it:
+        print("ITEM: " + it.text)
+        it = it.next
+
+    print("\n### Testing items getters 4")
+    it = cp.last_item
+    while it:
+        print("ITEM: " + it.text)
+        it = it.prev
 
 def cb_item2(li, item):
     cp = Ctxpopup(li)

@@ -95,7 +95,7 @@ from efl.eo cimport _object_mapping_register, object_from_instance
 from efl.evas cimport Object as evasObject
 from layout_class cimport LayoutClass
 from object_item cimport ObjectItem, _object_item_callback, \
-    _object_item_callback2
+    _object_item_callback2, _object_item_to_python, _object_item_list_to_python
 
 cimport enums
 
@@ -175,6 +175,63 @@ cdef class CtxpopupItem(ObjectItem):
         self._set_properties_from_keyword_args(self.kwargs)
         return self
 
+    def prepend_to(self, evasObject ctxpopup):
+        """Prepend a new item to a ctxpopup object.
+
+        .. warning:: Ctxpopup can't hold both an item list and a content at the
+            same time. When an item is added, any previous content will be
+            removed.
+
+        .. seealso:: :py:attr:`~efl.elementary.object.Object.content`
+
+        :param ctxpopup: The Ctxpopup widget this item is to be prepended on
+        :type ctxpopup: :py:class:`Ctxpopup`
+        :return: The item added or ``None``, on errors
+        :rtype: :py:class:`CtxpopupItem`
+
+        ..versionadded:: 1.11
+
+        """
+        cdef Elm_Object_Item *item
+        cdef Evas_Smart_Cb cb = NULL
+
+        if self.cb_func is not None:
+            cb = _object_item_callback2
+
+        item = elm_ctxpopup_item_prepend(ctxpopup.obj,
+                <const char *>self.label if self.label is not None else NULL,
+                self.icon.obj if self.icon is not None else NULL,
+                cb, <void*>self)
+
+        if item == NULL:
+            raise RuntimeError("The item could not be added to the widget.")
+
+        self._set_obj(item)
+        self._set_properties_from_keyword_args(self.kwargs)
+        return self
+
+    property prev:
+        """ The previous item.
+
+        :type: :py:class:`CtxpopupItem`
+
+        ..versionadded:: 1.11
+
+        """
+        def __get__(self):
+            return _object_item_to_python(elm_ctxpopup_item_prev_get(self.item))
+
+    property next:
+        """ The next item.
+
+        :type: :py:class:`CtxpopupItem`
+
+        ..versionadded:: 1.11
+
+        """
+        def __get__(self):
+            return _object_item_to_python(elm_ctxpopup_item_next_get(self.item))
+
 cdef class Ctxpopup(LayoutClass):
 
     """This is the class that actually implements the widget.
@@ -226,8 +283,8 @@ cdef class Ctxpopup(LayoutClass):
     def horizontal_get(self):
         return bool(elm_ctxpopup_horizontal_get(self.obj))
 
-    def item_append(self, label, evasObject icon = None, func = None,
-        *args, **kwargs):
+    def item_append(self, label, evasObject icon=None,
+                    func=None, *args, **kwargs):
         """A constructor for a :py:class:`CtxpopupItem`.
 
         :see: :py:func:`CtxpopupItem.append_to`
@@ -256,6 +313,85 @@ cdef class Ctxpopup(LayoutClass):
             return ret
         else:
             return None
+
+    def item_prepend(self, label, evasObject icon=None,
+                     func=None, *args, **kwargs):
+        """A constructor for a :py:class:`CtxpopupItem`.
+
+        :see: :py:func:`CtxpopupItem.prepend_to`
+
+        ..versionadded:: 1.11
+
+        """
+        cdef:
+            Elm_Object_Item *item
+            Evas_Smart_Cb cb = NULL
+            CtxpopupItem ret = CtxpopupItem.__new__(CtxpopupItem)
+
+        if func is not None and callable(func):
+            cb = _object_item_callback
+
+        if isinstance(label, unicode): label = PyUnicode_AsUTF8String(label)
+
+        item = elm_ctxpopup_item_prepend(self.obj,
+                    <const char *>label if label is not None else NULL,
+                    icon.obj if icon is not None else NULL,
+                    cb, <void*>ret)
+
+        if item != NULL:
+            ret._set_obj(item)
+            ret.cb_func = func
+            ret.args = args
+            ret.kwargs = kwargs
+            return ret
+        else:
+            return None
+
+    property items:
+        """ Get the list of items in the ctxpopup widget.
+
+        This list is not to be modified in any way and is only valid until
+        the object internal items list is changed. It should be fetched again
+        with another call to this function when changes happen.
+
+        :type: list of :py:class:`CtxpopupItem`
+
+        ..versionadded:: 1.11
+
+        """
+        def __get__(self):
+            return _object_item_list_to_python(elm_ctxpopup_items_get(self.obj))
+
+    def items_get(self):
+        return _object_item_list_to_python(elm_ctxpopup_items_get(self.obj))
+
+    property first_item:
+        """ The first item of the Ctxpopup.
+
+        :type: :py:class:`CtxpopupItem`
+
+        ..versionadded:: 1.11
+
+        """
+        def __get__(self):
+            return _object_item_to_python(elm_ctxpopup_first_item_get(self.obj))
+
+    def first_item_get(self):
+        return _object_item_to_python(elm_ctxpopup_first_item_get(self.obj))
+
+    property last_item:
+        """ The last item of the Ctxpopup.
+
+        :type: :py:class:`CtxpopupItem`
+
+        ..versionadded:: 1.11
+
+        """
+        def __get__(self):
+            return _object_item_to_python(elm_ctxpopup_last_item_get(self.obj))
+
+    def last_item_get(self):
+        return _object_item_to_python(elm_ctxpopup_last_item_get(self.obj))
 
     property direction_priority:
         """The direction priority order of a ctxpopup.
