@@ -22,6 +22,7 @@ cdef extern from "Elementary.h":
     int                      elm_map_zoom_max_get(const Evas_Object *obj)
     void                     elm_map_region_get(const Evas_Object *obj, double *lon, double *lat)
     void                     elm_map_region_bring_in(Evas_Object *obj, double lon, double lat)
+    void                     elm_map_region_zoom_bring_in(Evas_Object *obj, int zoom, double lon, double lat)
     void                     elm_map_region_show(Evas_Object *obj, double lon, double lat)
     void                     elm_map_canvas_to_region_convert(const Evas_Object *obj, Evas_Coord x, Evas_Coord y, double *lon, double *lat)
     void                     elm_map_region_to_canvas_convert(const Evas_Object *obj, double lon, double lat, Evas_Coord *x, Evas_Coord *y)

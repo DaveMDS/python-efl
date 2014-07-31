@@ -1092,6 +1092,24 @@ cdef class Map(Object):
         """
         elm_map_region_show(self.obj, lon, lat)
 
+    def region_zoom_bring_in(self, zoom, lon, lat):
+        """ Animatedly set the zoom level of the map and bring in given
+        coordinates to the center of the map.
+
+        This causes map to zoom into specific zoom level and also move to the
+        given lat and lon coordinates and show it (by scrolling) in the
+        center of the viewport concurrently.
+
+        :param zoom: The zoom level to set
+        :type zoom: int
+        :param lon: The longitude to center at
+        :type lon: float
+        :param lat: The latitude to center at
+        :type lat: float
+
+        """
+        elm_map_region_zoom_bring_in(self.obj, zoom, lon, lat)
+
     def canvas_to_region_convert(self, x, y):
         """ Convert canvas coordinates into geographic coordinates.
 
