@@ -4,7 +4,7 @@ from object_item cimport Elm_Object_Item
 from general cimport Elm_Tooltip_Item_Content_Cb
 from enums cimport Elm_List_Mode, Elm_Object_Select_Mode, \
     Elm_Genlist_Item_Type, Elm_Genlist_Item_Scrollto_Type, \
-    Elm_Genlist_Item_Field_Type
+    Elm_Genlist_Item_Field_Type, Elm_Glob_Match_Flags
 
 cdef extern from "Elementary.h":
     ctypedef char           *(*GenlistItemLabelGetFunc)     (void *data, Evas_Object *obj, const char *part)
@@ -81,6 +81,7 @@ cdef extern from "Elementary.h":
     void                    elm_genlist_longpress_timeout_set(Evas_Object *obj, double timeout)
     double                  elm_genlist_longpress_timeout_get(const Evas_Object *obj)
     Elm_Object_Item *       elm_genlist_at_xy_item_get(const Evas_Object *obj, Evas_Coord x, Evas_Coord y, int *posret)
+    Elm_Object_Item *       elm_genlist_search_by_text_item_get(const Evas_Object *obj, Elm_Object_Item *item_to_search_from, const char *part_name, const char *pattern, Elm_Glob_Match_Flags flags)
 
     Elm_Object_Item *       elm_genlist_item_parent_get(const Elm_Object_Item *it)
     void                    elm_genlist_item_subitems_clear(Elm_Object_Item *item)

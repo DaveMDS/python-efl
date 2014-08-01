@@ -177,6 +177,43 @@ Urgency levels of a notification
     .. versionadded:: 1.10
 
 
+.. _Elm_Glob_Match_Flags:
+
+Glob matching
+-------------
+
+Glob matching bitfiled flags
+
+.. data:: ELM_GLOB_MATCH_NO_ESCAPE
+
+    Treat backslash as an ordinary character instead of escape.
+
+    .. versionadded:: 1.11
+
+.. data:: ELM_GLOB_MATCH_PATH
+
+    Match a slash in string only with a slash in pattern and not by an
+    asterisk (*) or a question mark (?) metacharacter, nor by a bracket
+    expression ([]) containing a slash.
+
+    .. versionadded:: 1.11
+
+.. data:: ELM_GLOB_MATCH_PERIOD
+
+    Leading period in string has to be matched exactly by a period in
+    pattern. A period is considered to be leading if it is the first
+    character in string, or if both ELM_GLOB_MATCH_PATH is set and the
+    period immediately follows a slash.
+
+    .. versionadded:: 1.11
+
+.. data:: ELM_GLOB_MATCH_NOCASE
+
+    The pattern is matched case-insensitively.
+
+    .. versionadded:: 1.11
+
+
 """
 
 from cpython cimport PyUnicode_AsUTF8String, PyMem_Malloc, Py_DECREF, Py_INCREF
@@ -227,6 +264,11 @@ ELM_SYS_NOTIFY_URGENCY_CRITICAL = enums.ELM_SYS_NOTIFY_URGENCY_CRITICAL
 
 ELM_EVENT_SYS_NOTIFY_NOTIFICATION_CLOSED = enums.ELM_EVENT_SYS_NOTIFY_NOTIFICATION_CLOSED
 ELM_EVENT_SYS_NOTIFY_ACTION_INVOKED = enums.ELM_EVENT_SYS_NOTIFY_ACTION_INVOKED
+
+ELM_GLOB_MATCH_NO_ESCAPE = enums.ELM_GLOB_MATCH_NO_ESCAPE
+ELM_GLOB_MATCH_PATH = enums.ELM_GLOB_MATCH_PATH
+ELM_GLOB_MATCH_PERIOD = enums.ELM_GLOB_MATCH_PERIOD
+ELM_GLOB_MATCH_NOCASE = enums.ELM_GLOB_MATCH_NOCASE
 
 import traceback
 

@@ -181,6 +181,7 @@ items = [
         ("Genlist Iteration", "test_genlist", "genlist5_clicked"),
         ("Genlist Decorate Item Mode", "test_genlist", "genlist10_clicked"),
         ("Genlist Decorate All Mode", "test_genlist", "genlist15_clicked"),
+        ("Genlist Search By Text", "test_genlist", "genlist20_clicked"),
         ("List", "test_list", "list_clicked"),
         ("List 2", "test_list", "list2_clicked"),
         ("List 3", "test_list", "list3_clicked"),

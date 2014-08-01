@@ -23,9 +23,10 @@ from efl.elementary.genlist import Genlist, GenlistItem, GenlistItemClass, \
     ELM_GENLIST_ITEM_NONE, ELM_OBJECT_SELECT_MODE_ALWAYS, \
     ELM_OBJECT_SELECT_MODE_DEFAULT, ELM_GENLIST_ITEM_GROUP, \
     ELM_OBJECT_SELECT_MODE_DISPLAY_ONLY
-from efl.elementary.general import cache_all_flush
+from efl.elementary.general import cache_all_flush, ELM_GLOB_MATCH_NOCASE
 from efl.elementary.radio import Radio
 from efl.elementary.check import Check
+from efl.elementary.entry import Entry
 
 EXPAND_BOTH = EVAS_HINT_EXPAND, EVAS_HINT_EXPAND
 EXPAND_HORIZ = EVAS_HINT_EXPAND, 0.0
@@ -647,6 +648,88 @@ def genlist15_clicked(obj, item=None):
 
     win.show()
 
+### Genlist search by text
+cities = ("Albany","Annapolis","Atlanta","Augusta","Austin","Baton Rouge",
+"Bismarck","Boise","Boston","Carson City","Charleston","Cheyenne","Columbia",
+"Columbus","Concord","Denver","Des Moines","Dover","Frankfort","Harrisburg",
+"Hartford","Helena","Honolulu","Indianapolis","Jackson","Jefferson City",
+"Juneau","Lansing","Lincoln","Little Rock","Madison","Montgomery","Montpelier",
+"Nashville","Oklahoma City","Olympia","Phoenix","Pierre","Providence",
+"Raleigh","Richmond","Sacramento","Saint Paul","Salem","Salt Lake City",
+"Santa Fe","Springfield","Tallahassee","Topeka","Trenton"
+)
+
+class ItemClass20(GenlistItemClass):
+    def text_get(self, obj, part, data):
+        if part == "elm.text":
+            return data
+
+    def content_get(self, obj, part, data):
+        if part == "elm.swallow.icon":
+            return Icon(obj, file=os.path.join(img_path, "logo_small.png"))
+
+def genlist20_search_cb(en, gl, tg):
+    flags = ELM_GLOB_MATCH_NOCASE if tg.state == False else 0
+    from_item = gl.selected_item.next if gl.selected_item else None
+
+    item = gl.search_by_text_item_get(from_item, "elm.text", en.text, flags)
+    if item:
+        item.selected = True
+        en.focus = True
+    elif gl.selected_item:
+        gl.selected_item.selected = False
+        
+
+def genlist20_clicked(obj, item=None):
+    win = StandardWindow("genlist-search-by-text",
+        "Genlist Search By Text", autodel=True, size=(300, 520))
+
+    gl = Genlist(win, size_hint_align=FILL_BOTH, size_hint_weight=EXPAND_BOTH)
+
+    bx = Box(win, size_hint_weight=EXPAND_BOTH)
+    win.resize_object_add(bx)
+    bx.show()
+
+    lb = Label(win)
+    lb.text = \
+    "<align=left>This example show the usage of search_by_text_item_get().<br>" \
+    "Enter a search string and press Enter to show the next result.<br>" \
+    "Search will start from the selected item (not included).<br>" \
+    "You can search using glob patterns.</align>"
+    fr = Frame(win, text="Information", content=lb,
+               size_hint_weight=EXPAND_HORIZ, size_hint_align=FILL_HORIZ)
+    bx.pack_end(fr)
+    fr.show()
+
+    tg = Check(win, style="toggle", text="Case Sensitive Search");
+    bx.pack_end(tg)
+    tg.show()
+
+    bx_entry = Box(win, horizontal=True,
+                   size_hint_weight=EXPAND_HORIZ, size_hint_align=FILL_HORIZ)
+    bx.pack_end(bx_entry)
+    bx_entry.show()
+
+    lb = Label(win, text="Search:")
+    bx_entry.pack_end(lb)
+    lb.show()
+
+    en = Entry(win, single_line=True, scrollable=True,
+               size_hint_weight=EXPAND_HORIZ, size_hint_align=FILL_HORIZ)
+    en.part_text_set("guide", "Type the search query")
+    en.callback_activated_add(genlist20_search_cb, gl, tg)
+    bx_entry.pack_end(en)
+    en.show()
+    en.focus = True
+
+    bx.pack_end(gl)
+    gl.show()
+
+    itc20 = ItemClass20()
+    for name in cities:
+        gl.item_append(itc20, name)
+
+    win.show()
 
 if __name__ == "__main__":
     elementary.init()
@@ -676,6 +759,7 @@ if __name__ == "__main__":
         ("Genlist Iteration", genlist5_clicked),
         ("Genlist Decorate Item Mode", genlist10_clicked),
         ("Genlist Decorate All Mode", genlist15_clicked),
+        ("Genlist Search By Text", genlist20_clicked),
     ]
 
     li = List(win, size_hint_weight=EXPAND_BOTH, size_hint_align=FILL_BOTH)

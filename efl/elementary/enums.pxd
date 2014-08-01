@@ -188,6 +188,12 @@ cdef extern from "Elementary.h":
         ELM_GENLIST_ITEM_SCROLLTO_TOP
         ELM_GENLIST_ITEM_SCROLLTO_MIDDLE
 
+    ctypedef enum Elm_Glob_Match_Flags:
+        ELM_GLOB_MATCH_NO_ESCAPE
+        ELM_GLOB_MATCH_PATH
+        ELM_GLOB_MATCH_PERIOD
+        ELM_GLOB_MATCH_NOCASE
+        
     ctypedef enum Elm_Gesture_State:
         ELM_GESTURE_STATE_UNDEFINED
         ELM_GESTURE_STATE_START
