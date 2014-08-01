@@ -116,6 +116,15 @@ def gengrid_clicked(obj):
     tb.pack(bt, 1, 1, 1, 1)
     bt.show()
 
+    # reorder mode
+    def reorder_mode_changed(bt, gg):
+        gg.reorder_mode = bt.state
+
+    bt = Check(win, text="Reorder mode enable")
+    bt.callback_changed_add(reorder_mode_changed, gg)
+    tb.pack(bt, 2, 1, 2, 1)
+    bt.show()
+
     # bounce h
     def bounce_h_changed(bt, gg):
         (h_bounce, v_bounce) = gg.bounce_get()

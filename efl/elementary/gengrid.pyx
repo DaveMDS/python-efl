@@ -304,6 +304,24 @@ Multi-select mode
 
     .. versionadded:: 1.10
 
+
+.. _Elm_Gengrid_Reorder_Type:
+
+Reorder type
+============
+
+.. data:: ELM_GENGRID_REORDER_TYPE_NORMAL
+
+    Normal reorder mode
+
+    .. versionadded:: 1.11
+
+.. data:: ELM_GENGRID_REORDER_TYPE_SWAP
+
+    Swap reorder mode
+
+    .. versionadded:: 1.11
+
 """
 
 include "tooltips.pxi"
@@ -336,6 +354,9 @@ ELM_GENLIST_ITEM_SCROLLTO_MIDDLE = enums.ELM_GENLIST_ITEM_SCROLLTO_MIDDLE
 ELM_OBJECT_MULTI_SELECT_MODE_DEFAULT = enums.ELM_OBJECT_MULTI_SELECT_MODE_DEFAULT
 ELM_OBJECT_MULTI_SELECT_MODE_WITH_CONTROL = enums.ELM_OBJECT_MULTI_SELECT_MODE_WITH_CONTROL
 ELM_OBJECT_MULTI_SELECT_MODE_MAX = enums.ELM_OBJECT_MULTI_SELECT_MODE_MAX
+
+ELM_GENGRID_REORDER_TYPE_NORMAL = enums.ELM_GENGRID_REORDER_TYPE_NORMAL
+ELM_GENGRID_REORDER_TYPE_SWAP = enums.ELM_GENGRID_REORDER_TYPE_SWAP
 
 def _cb_object_item_conv(uintptr_t addr):
     cdef Elm_Object_Item *it = <Elm_Object_Item *>addr

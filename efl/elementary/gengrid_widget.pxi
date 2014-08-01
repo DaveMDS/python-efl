@@ -431,6 +431,23 @@ cdef class Gengrid(Object):
         elm_gengrid_reorder_mode_stop(self.obj)
 
 
+    property reorder_type:
+        """ Set the order type.
+
+        This affect the way items are moved (when in reorder mode) with the
+        keyboard arrows.
+
+        :type: :ref:`Elm_Gengrid_Reorder_Type`
+
+        .. versionadded:: 1.11
+        
+        """
+        def __set__(self, value):
+            elm_gengrid_reorder_type_set(self.obj, value)
+
+    def reorder_type_set(self, value):
+        elm_gengrid_reorder_type_set(self.obj, value)
+
     property filled:
         """The fill state of the whole grid of items of a gengrid
         within its given viewport. By default, this value is False, meaning

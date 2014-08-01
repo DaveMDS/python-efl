@@ -170,6 +170,10 @@ cdef extern from "Elementary.h":
         ELM_FOCUS_AUTOSCROLL_MODE_NONE
         ELM_FOCUS_AUTOSCROLL_MODE_BRING_IN
 
+    ctypedef enum Elm_Gengrid_Reorder_Type:
+        ELM_GENGRID_REORDER_TYPE_NORMAL
+        ELM_GENGRID_REORDER_TYPE_SWAP
+
     ctypedef enum Elm_Genlist_Item_Type:
         ELM_GENLIST_ITEM_NONE
         ELM_GENLIST_ITEM_TREE

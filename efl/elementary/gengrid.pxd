@@ -4,7 +4,7 @@ from efl.c_eo cimport Eo
 from object_item cimport Elm_Object_Item
 from general cimport Elm_Tooltip_Item_Content_Cb
 from enums cimport Elm_Genlist_Item_Scrollto_Type, Elm_Object_Select_Mode, \
-    Elm_Object_Multi_Select_Mode, Elm_Glob_Match_Flags
+    Elm_Object_Multi_Select_Mode, Elm_Glob_Match_Flags, Elm_Gengrid_Reorder_Type
 from efl.ecore.enums cimport Ecore_Pos_Map
 
 cdef extern from "Elementary.h":
@@ -56,6 +56,7 @@ cdef extern from "Elementary.h":
     Eina_Bool               elm_gengrid_reorder_mode_get(const Evas_Object *obj)
     void                    elm_gengrid_reorder_mode_start(Evas_Object *obj, Ecore_Pos_Map tween_mode)
     void                    elm_gengrid_reorder_mode_stop(Evas_Object *obj)
+    void                    elm_gengrid_reorder_type_set(Evas_Object *obj, Elm_Gengrid_Reorder_Type reorder_type)
     void                    elm_gengrid_page_show(Evas_Object *obj, int h_pagenum, int v_pagenum)
     void                    elm_gengrid_filled_set(Evas_Object *obj, Eina_Bool fill)
     Eina_Bool               elm_gengrid_filled_get(const Evas_Object *obj)
