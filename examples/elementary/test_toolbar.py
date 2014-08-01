@@ -48,6 +48,20 @@ def tb_4a(obj, it, ph):
 def tb_5(obj, it, ph):
     ph.file = None
 
+def cb_clicked(tb):
+    print("CLICKED")
+    print(tb)
+
+def cb_item_focused(tb, item):
+    print("ITEM FOCUSED")
+    print(tb)
+    print(item)
+
+def cb_selected(tb, item):
+    print("SELECTED")
+    print(tb)
+    print(item)
+
 def toolbar_clicked(obj, item=None):
     win = StandardWindow("toolbar", "Toolbar", autodel=True, size=(320, 300))
     if obj is None:
@@ -62,6 +76,9 @@ def toolbar_clicked(obj, item=None):
 
     tb = Toolbar(win, homogeneous=False, size_hint_weight=(0.0, 0.0),
         size_hint_align=(EVAS_HINT_FILL, 0.0))
+    tb.callback_clicked_add(cb_clicked)
+    tb.callback_selected_add(cb_selected)
+    tb.callback_item_focused_add(cb_item_focused)
 
     ph1 = Photo(win, size=40, file=os.path.join(img_path, "plant_01.jpg"),
         size_hint_weight=EXPAND_BOTH, size_hint_align=ALIGN_CENTER)

@@ -1182,6 +1182,28 @@ cdef class Toolbar(LayoutClass):
     def callback_item_unfocused_del(self, func):
         self._callback_del_full("item,unfocused", _cb_object_item_conv, func)
 
+    def callback_selected_add(self, func, *args, **kwargs):
+        """When the toolbar item is selected.
+
+        .. versionadded:: 1.11
+
+        """
+        self._callback_add_full("selected", _cb_object_item_conv, func, *args, **kwargs)
+
+    def callback_selected_del(self, func):
+        self._callback_del_full("selected", _cb_object_item_conv, func)
+
+    def callback_unselected_add(self, func, *args, **kwargs):
+        """When the toolbar item is unselected.
+
+        .. versionadded:: 1.11
+
+        """
+        self._callback_add_full("unselected", _cb_object_item_conv, func, *args, **kwargs)
+
+    def callback_unselected_del(self, func):
+        self._callback_del_full("unselected", _cb_object_item_conv, func)
+
     property scroller_policy:
         """
 
