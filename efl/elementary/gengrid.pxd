@@ -4,7 +4,7 @@ from efl.c_eo cimport Eo
 from object_item cimport Elm_Object_Item
 from general cimport Elm_Tooltip_Item_Content_Cb
 from enums cimport Elm_Genlist_Item_Scrollto_Type, Elm_Object_Select_Mode, \
-    Elm_Object_Multi_Select_Mode
+    Elm_Object_Multi_Select_Mode, Elm_Glob_Match_Flags
 from efl.ecore.enums cimport Ecore_Pos_Map
 
 cdef extern from "Elementary.h":
@@ -101,3 +101,5 @@ cdef extern from "Elementary.h":
     Eina_Bool               elm_gengrid_item_cursor_engine_only_get(const Elm_Object_Item *item)
     Elm_Object_Item *       elm_gengrid_nth_item_get(const Evas_Object *obj, unsigned int nth)
     Elm_Object_Item *       elm_gengrid_at_xy_item_get(const Evas_Object *obj, Evas_Coord x, Evas_Coord y, int *xposret, int *yposret)
+    Elm_Object_Item *       elm_gengrid_search_by_text_item_get(const Evas_Object *obj, Elm_Object_Item *item_to_search_from, const char *part_name, const char *pattern, Elm_Glob_Match_Flags flags)
+

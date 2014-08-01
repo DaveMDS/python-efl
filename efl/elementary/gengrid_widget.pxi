@@ -558,6 +558,46 @@ cdef class Gengrid(Object):
         return _object_item_to_python(ret), xposret, yposret
 
 
+    def search_by_text_item_get(self, GengridItem item_to_search_from,
+                                part_name, pattern, Elm_Glob_Match_Flags flags):
+        """Search gengrid item by given string.
+
+        This function uses globs (like "\*.jpg") for searching and takes
+        search flags as last parameter. That is a bitfield with values
+        to be ored together or 0 for no flags.
+
+        :param item_to_search_from: item to start search from, or None to
+            search from the first item.
+        :type item_to_search_from: :py:class:`GengridItem`
+        :param part_name: Name of the TEXT part of gengrid item to search
+            string in (usually "elm.text").
+        :type part_name: string
+        :param pattern: The search pattern.
+        :type pattern: string
+        :param flags: Search flags
+        :type flags: :ref:`Elm_Glob_Match_Flags`
+
+        :return: The first item found
+        :rtype: :py:class:`GengridItem`
+
+        .. versionadded:: 1.11
+
+        """
+        cdef Elm_Object_Item *from_item = NULL
+
+        if isinstance(part_name, unicode):
+            part_name = PyUnicode_AsUTF8String(part_name)
+        if isinstance(pattern, unicode):
+            pattern = PyUnicode_AsUTF8String(pattern)
+        if item_to_search_from is not None:
+            from_item = _object_item_from_python(item_to_search_from)
+
+        return _object_item_to_python(elm_gengrid_search_by_text_item_get(
+                    self.obj, from_item,
+                    <const char *>part_name if part_name is not None else NULL,
+                    <const char *>pattern if pattern is not None else NULL,
+                    flags))
+
     #
     # TODO: Drag and Drop
     # =============

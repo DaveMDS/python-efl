@@ -10,7 +10,10 @@ from efl.elementary.window import StandardWindow
 from efl.elementary.background import Background
 from efl.elementary.button import Button
 from efl.elementary.check import Check
+from efl.elementary.entry import Entry
 from efl.elementary.image import Image
+from efl.elementary.label import Label
+from efl.elementary.general import ELM_GLOB_MATCH_NOCASE
 from efl.elementary.gengrid import Gengrid, GengridItemClass
 from efl.elementary.slider import Slider
 from efl.elementary.table import Table
@@ -67,7 +70,7 @@ def gengrid_clicked(obj):
     global item_count
     item_count = 25
 
-    win = StandardWindow("gengrid", "Gengrid", autodel=True, size=(480, 800))
+    win = StandardWindow("gengrid", "Gengrid", autodel=True, size=(480, 600))
     if obj is None:
         win.callback_delete_request_add(lambda o: elementary.exit())
 
@@ -331,6 +334,31 @@ def gengrid_clicked(obj):
     bt.callback_clicked_add(ins_after_clicked, gg)
     tb.pack(bt, 4, 5, 1, 1)
     bt.show()
+
+    # search_by_text_item_get
+    def search_cb(en, gg):
+        flags = ELM_GLOB_MATCH_NOCASE
+        from_item = gg.selected_item.next if gg.selected_item else None
+
+        item = gg.search_by_text_item_get(from_item, "elm.text", en.text, flags)
+        if item:
+            item.selected = True
+            en.focus = True
+        elif gg.selected_item:
+            gg.selected_item.selected = False
+        
+    lb = Label(win, text="Search:")
+    tb.pack(lb, 2, 6, 1, 1)
+    lb.show()
+
+    en = Entry(win, single_line=True, scrollable=True,
+               size_hint_weight=EXPAND_HORIZ, size_hint_align=FILL_HORIZ)
+    en.part_text_set("guide", "Type the search query")
+    en.callback_activated_add(search_cb, gg)
+    tb.pack(en, 3, 6, 3, 1)
+    en.show()
+    en.focus = True
+    
 
     print(gg)
 
