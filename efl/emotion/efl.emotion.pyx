@@ -223,11 +223,10 @@ cdef class Emotion(evasObject):
     def __repr__(self):
         x, y, w, h = self.geometry_get()
         r, g, b, a = self.color_get()
-        return ("<%s(%#x, type=%r, name=%r, "
-                "file=%r, geometry=(%d, %d, %d, %d), "
+        return ("<%s(%#x, name=%r, file=%r, geometry=(%d, %d, %d, %d), "
                 "color=(%d, %d, %d, %d), layer=%s, clip=%r, visible=%s) %s>") % \
                (self.__class__.__name__, <uintptr_t><void *>self,
-                self.type_get(), self.name_get(), self.file_get(),
+                self.name_get(), self.file_get(),
                 x, y, w, h, r, g, b, a,
                 self.layer_get(), self.clip_get(), self.visible_get(),
                 evasObject.__repr__(self))
