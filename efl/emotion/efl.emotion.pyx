@@ -1251,6 +1251,90 @@ cdef class Emotion(evasObject):
         """Same as calling: callback_del('audio_level_change', func)"""
         self.callback_del("audio_level_change", func)
 
+    def on_position_update_add(self, func, *args, **kargs):
+        """Same as calling: callback_add('position_update', func, ...)
+
+           .. versionadded:: 1.11 """
+        self.callback_add("position_update", func, *args, **kargs)
+
+    def on_position_update_del(self, func):
+        """Same as calling: callback_del('position_update', func)
+
+           .. versionadded:: 1.11 """
+        self.callback_del("position_update", func)
+
+    def on_playback_started_add(self, func, *args, **kargs):
+        """Same as calling: callback_add('playback_started', func, ...)
+
+           .. versionadded:: 1.11 """
+        self.callback_add("playback_started", func, *args, **kargs)
+
+    def on_playback_started_del(self, func):
+        """Same as calling: callback_del('playback_started', func)
+
+           .. versionadded:: 1.11 """
+        self.callback_del("playback_started", func)
+
+    def on_open_done_add(self, func, *args, **kargs):
+        """Same as calling: callback_add('open_done', func, ...)
+
+           .. versionadded:: 1.11 """
+        self.callback_add("open_done", func, *args, **kargs)
+
+    def on_open_done_del(self, func):
+        """Same as calling: callback_del('open_done', func)
+
+           .. versionadded:: 1.11 """
+        self.callback_del("open_done", func)
+
+    def on_position_save_succeed_add(self, func, *args, **kargs):
+        """Same as calling: callback_add('position_save,succeed', func, ...)
+
+           .. versionadded:: 1.11 """
+        self.callback_add("position_save,succeed", func, *args, **kargs)
+
+    def on_position_save_succeed_del(self, func):
+        """Same as calling: callback_del('position_save,succeed', func)
+
+           .. versionadded:: 1.11 """
+        self.callback_del("position_save,succeed", func)
+
+    def on_position_save_failed_add(self, func, *args, **kargs):
+        """Same as calling: callback_add('position_save,failed', func, ...)
+
+           .. versionadded:: 1.11 """
+        self.callback_add("position_save,failed", func, *args, **kargs)
+
+    def on_position_save_failed_del(self, func):
+        """Same as calling: callback_del('position_save,failed', func)
+
+           .. versionadded:: 1.11 """
+        self.callback_del("position_save,failed", func)
+
+    def on_position_load_succeed_add(self, func, *args, **kargs):
+        """Same as calling: callback_add('position_load,succeed', func, ...)
+
+           .. versionadded:: 1.11 """
+        self.callback_add("position_load,succeed", func, *args, **kargs)
+
+    def on_position_load_succeed_del(self, func):
+        """Same as calling: callback_del('position_load,succeed', func)
+
+           .. versionadded:: 1.11 """
+        self.callback_del("position_load,succeed", func)
+
+    def on_position_load_failed_add(self, func, *args, **kargs):
+        """Same as calling: callback_add('position_load,failed', func, ...)
+
+           .. versionadded:: 1.11 """
+        self.callback_add("position_load,failed", func, *args, **kargs)
+
+    def on_position_load_failed_del(self, func):
+        """Same as calling: callback_del('position_load,failed', func)
+
+            .. versionadded:: 1.11 """
+        self.callback_del("position_load,failed", func)
+
 
 # decorator
 def on_event(event_name):

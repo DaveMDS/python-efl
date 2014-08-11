@@ -74,6 +74,10 @@ a list of interesting signals:
  - ``ref_change``
  - ``button_num_change``
  - ``button_change``
+ - ``position_save,succeed``
+ - ``position_save,failed``
+ - ``position_load,succeed``
+ - ``position_load,failed``
 
 
 Reference
