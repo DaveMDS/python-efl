@@ -7,16 +7,23 @@ import subprocess
 from distutils.core import setup, Command
 from distutils.extension import Extension
 from distutils.version import StrictVersion, LooseVersion
+from efl import __version_info__ as vers
 
 script_path = os.path.dirname(os.path.abspath(__file__))
 
 
-# python-efl version
-VERSION = "1.11"
-RELEASE = "1.10.99"
+# python-efl version (change in efl/__init__.py)
+RELEASE = "%d.%d.%d" % (vers[0], vers[1], vers[2])
+VERSION = "%d.%d" % (vers[0], vers[1] if vers[2] < 99 else vers[1] + 1)
+
+# dependencies
+CYTHON_MIN_VERSION = "0.19"
+EFL_MIN_VERSION = RELEASE
+ELM_MIN_VERSION = RELEASE
+
 
 # Add git commit count for dev builds
-if RELEASE.split(".")[2] == "99":
+if vers[2] >= 99:
     call = subprocess.Popen(
         ["git", "log", "--oneline"], stdout=subprocess.PIPE)
     out, err = call.communicate()
@@ -24,11 +31,6 @@ if RELEASE.split(".")[2] == "99":
     if log:
         ver = log.count("\n")
         RELEASE += "a" + str(ver)
-
-# dependencies
-CYTHON_MIN_VERSION = "0.19"
-EFL_MIN_VERSION = "1.10.99"
-ELM_MIN_VERSION = "1.10.99"
 
 
 # XXX: Force default visibility. See phab T504
