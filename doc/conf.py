@@ -26,6 +26,10 @@ d = "lib.%s-%s-%d.%d" % (
 sys.path.insert(0, os.path.abspath("../build/"+d))
 #sys.path.insert(0, os.path.abspath('../build/lib.linux-i686-3.2'))
 
+# Delete any previously imported efl package
+if "efl" in sys.modules:
+    del sys.modules["efl"]
+
 
 # -- General configuration -----------------------------------------------------
 
