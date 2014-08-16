@@ -410,7 +410,7 @@ if set(("build", "build_ext", "install", "bdist", "sdist")) & set(sys.argv):
             "elementary." + m,
             ["efl/elementary/" + m + module_suffix],
             include_dirs=["include/"],
-            extra_compile_args=elm_cflags,
+            extra_compile_args=elm_cflags + ecore_x_cflags,
             extra_link_args=elm_libs + eina_libs + evas_libs,
             )
         modules.append(e)
