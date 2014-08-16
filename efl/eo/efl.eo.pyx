@@ -95,7 +95,7 @@ cdef void _object_mapping_unregister(char *name):
     eina_hash_del(object_mapping, name, NULL)
 
 
-cdef object object_from_instance(cEo *obj):
+cdef api object object_from_instance(cEo *obj):
     """ Create a python object from a C Eo object pointer. """
     cdef:
         void *data
@@ -139,6 +139,10 @@ cdef object object_from_instance(cEo *obj):
     o = cls.__new__(cls)
     o._set_obj(obj)
     return o
+
+cdef api cEo *instance_from_object(object obj):
+    cdef Eo o = obj
+    return o.obj
 
 
 cdef void _register_decorated_callbacks(Eo obj):

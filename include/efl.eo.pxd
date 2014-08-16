@@ -30,8 +30,11 @@ cdef:
 
     int PY_REFCOUNT(object o)
 
-    object object_from_instance(cEo *obj)
     void _object_mapping_register(char *name, object cls) except *
     void _object_mapping_unregister(char *name)
 
     void _register_decorated_callbacks(Eo obj)
+
+cdef api:
+    object object_from_instance(cEo *obj)
+    cEo *instance_from_object(object o)
