@@ -13,7 +13,7 @@ script_path = os.path.dirname(os.path.abspath(__file__))
 
 # python-efl version
 VERSION = "1.10"
-RELEASE = "1.10.0"
+RELEASE = "1.10.1"
 
 # Add git commit count for dev builds
 if RELEASE.split(".")[2] == "99":
