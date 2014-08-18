@@ -23,15 +23,20 @@ ELM_MIN_VERSION = RELEASE
 
 
 # Add git commit count for dev builds
-if vers[2] >= 99:
-    call = subprocess.Popen(
-        ["git", "log", "--oneline"], stdout=subprocess.PIPE)
-    out, err = call.communicate()
-    log = out.decode("utf-8").strip()
-    if log:
-        ver = log.count("\n")
-        RELEASE += "a" + str(ver)
-
+if vers[2] == 99:
+    try:
+        call = subprocess.Popen(
+            ["git", "log", "--oneline"], stdout=subprocess.PIPE)
+        out, err = call.communicate()
+    except Exception:
+        RELEASE += "a0"
+    else:
+        log = out.decode("utf-8").strip()
+        if log:
+            ver = log.count("\n")
+            RELEASE += "a" + str(ver)
+        else:
+            RELEASE += "a0"
 
 # XXX: Force default visibility. See phab T504
 if os.getenv("CFLAGS") is not None and "-fvisibility=" in os.environ["CFLAGS"]:
