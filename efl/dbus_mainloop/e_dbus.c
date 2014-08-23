@@ -316,24 +316,10 @@ static E_DBus_Connection *
 e_dbus_connection_new(DBusConnection *conn)
 {
    E_DBus_Connection *cd;
-   const char *conn_name;
 
    cd = calloc(1, sizeof(E_DBus_Connection));
    if (!cd) return NULL;
-
    cd->conn = conn;
-   conn_name = dbus_bus_get_unique_name(conn);
-   if (conn_name)
-   {
-      DBG("Connected! Name: %s", conn_name);
-      cd->conn_name = strdup(conn_name);
-   }
-   else
-      DBG("Not connected");
-
-   cd->shared_type = (unsigned int)-1;
-   cd->fd_handlers = NULL;
-   cd->timeouts = NULL;
 
    return cd;
 }
@@ -351,11 +337,6 @@ e_dbus_connection_free(void *data)
 
    EINA_LIST_FREE(cd->timeouts, timer)
       ecore_timer_del(timer);
-
-   // if (cd->shared_type != (unsigned int)-1)
-      // shared_connections[cd->shared_type] = NULL;
-
-   if (cd->conn_name) free(cd->conn_name);
 
    if (cd->idler) ecore_idler_del(cd->idler);
 

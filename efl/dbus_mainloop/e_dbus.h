@@ -31,17 +31,10 @@ typedef struct E_DBus_Timeout_Data E_DBus_Timeout_Data;
 
 struct E_DBus_Connection
 {
-  DBusBusType shared_type;
   DBusConnection *conn;
-  char *conn_name;
-
   Eina_List *fd_handlers;
   Eina_List *timeouts;
-  Eina_List *signal_handlers;
-  void (*signal_dispatcher)(E_DBus_Connection *conn, DBusMessage *msg);
-
   Ecore_Idler *idler;
-
   int refcount;
 };
 
