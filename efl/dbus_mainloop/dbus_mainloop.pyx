@@ -46,12 +46,10 @@ def DBusEcoreMainLoop(set_as_default = None):
 
 def module_cleanup():
     e_dbus_shutdown()
-    ecore_shutdown()
 
 if import_dbus_bindings("efl.dbus_mainloop") < 0:
     raise ImportError("failed to import D-Bus bindings")
 
-ecore_init()
 e_dbus_init()
 
 atexit.register(module_cleanup)
