@@ -30,7 +30,6 @@ static int _e_dbus_log_dom = -1;
 #define WARN(...) EINA_LOG_DOM_WARN(_e_dbus_log_dom, __VA_ARGS__)
 #define ERR(...)   EINA_LOG_DOM_ERR(_e_dbus_log_dom, __VA_ARGS__)
 
-int E_DBUS_EVENT_SIGNAL = 0;
 static int connection_slot = -1;
 static int e_dbus_idler_active = 0;
 static int close_connection = 0;
@@ -40,50 +39,6 @@ static int _edbus_init_count = 0;
 // #define DDBG(...) printf(__VA_ARGS__); printf("\n");
 #define DDBG(...)
 
-
-static void
-e_dbus_message_free(void *data, void *message)
-{
-   dbus_message_unref(message);
-}
-
-static DBusHandlerResult
-e_dbus_filter(DBusConnection *conn, DBusMessage *message, void *user_data)
-{
-   E_DBus_Connection *cd = user_data;
-   DBG("-----------------");
-   DBG("Message!");
-
-   DBG("type: %s", dbus_message_type_to_string(dbus_message_get_type(message)));
-   DBG("path: %s", dbus_message_get_path(message));
-   DBG("interface: %s", dbus_message_get_interface(message));
-   DBG("member: %s", dbus_message_get_member(message));
-   DBG("sender: %s", dbus_message_get_sender(message));
-
-   switch (dbus_message_get_type(message))
-   {
-      case DBUS_MESSAGE_TYPE_METHOD_CALL:
-         DBG("signature: %s", dbus_message_get_signature(message));
-         break;
-      case DBUS_MESSAGE_TYPE_METHOD_RETURN:
-         DBG("reply serial %d", dbus_message_get_reply_serial(message));
-         break;
-      case DBUS_MESSAGE_TYPE_ERROR:
-         DBG("error: %s", dbus_message_get_error_name(message));
-         break;
-      case DBUS_MESSAGE_TYPE_SIGNAL:
-         dbus_message_ref(message);
-         if (cd->signal_dispatcher)
-            cd->signal_dispatcher(cd, message);
-         ecore_event_add(E_DBUS_EVENT_SIGNAL, message, e_dbus_message_free, NULL);
-         break;
-      default:
-         break;
-   }
-   DBG("-----------------");
-
-   return DBUS_HANDLER_RESULT_NOT_YET_HANDLED;
-}
 
 static Eina_Bool
 e_dbus_idler(void *data)
@@ -457,8 +412,6 @@ e_dbus_init(void)
       return --_edbus_init_count;
    }
 
-   E_DBUS_EVENT_SIGNAL = ecore_event_type_new();
-
    return _edbus_init_count;
 }
 
@@ -510,7 +463,6 @@ e_dbus_connection_setup(DBusConnection *conn)
                                          NULL);
 
    dbus_connection_set_dispatch_status_function(cd->conn, cb_dispatch_status, cd, NULL);
-   dbus_connection_add_filter(cd->conn, e_dbus_filter, cd, NULL);
    cb_dispatch_status(cd->conn, dbus_connection_get_dispatch_status(cd->conn), cd);
 
    return cd;
@@ -530,7 +482,6 @@ e_dbus_connection_close(E_DBus_Connection *conn)
    if (--(conn->refcount) != 0) return;
 
    dbus_connection_free_data_slot(&connection_slot);
-   dbus_connection_remove_filter(conn->conn, e_dbus_filter, conn);
    dbus_connection_set_watch_functions(conn->conn,
                                        NULL,
                                        NULL,
