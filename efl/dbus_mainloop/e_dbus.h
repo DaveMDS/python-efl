@@ -47,9 +47,11 @@ struct E_DBus_Connection
 
 struct E_DBus_Handler_Data
 {
+  int fd;
   Ecore_Fd_Handler *fd_handler;
   E_DBus_Connection *cd;
-  DBusWatch *watch;
+  DBusWatch *watch_read;
+  DBusWatch *watch_write;
 };
 
 struct E_DBus_Timeout_Data
