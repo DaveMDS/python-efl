@@ -36,6 +36,10 @@ static int e_dbus_idler_active = 0;
 static int close_connection = 0;
 static int _edbus_init_count = 0;
 
+// change this define for extra debug
+// #define DDBG(...) printf(__VA_ARGS__); printf("\n");
+#define DDBG(...)
+
 
 static void
 e_dbus_message_free(void *data, void *message)
@@ -176,6 +180,7 @@ e_dbus_fd_handler_add(E_DBus_Handler_Data *hd)
   Eina_List *l;
   Ecore_Fd_Handler *fdh;
 
+  DDBG("FD handler add");
   if (hd->fd_handler) return;
   dflags = dbus_watch_get_flags(hd->watch);
   eflags = ECORE_FD_ERROR;
@@ -187,13 +192,14 @@ e_dbus_fd_handler_add(E_DBus_Handler_Data *hd)
        if (ecore_main_fd_handler_fd_get(fdh) == hd->fd) return;
     }
 
-  DBG("fd handler add (%d)", hd->fd);
+  DDBG("FD handler add on fd:%d (flags: %d)", hd->fd, dflags);
   hd->fd_handler = ecore_main_fd_handler_add(hd->fd,
                                              eflags,
                                              e_dbus_fd_handler,
                                              hd,
                                              NULL,
                                              NULL);
+  if (!hd->fd_handler) { DDBG("ERROR! cannot create FD handler") }
 
   hd->cd->fd_handlers = eina_list_append(hd->cd->fd_handlers, hd->fd_handler);
 }
@@ -203,7 +209,7 @@ e_dbus_handler_data_free(void *data)
 {
   E_DBus_Handler_Data *hd = data;
 
-  DBG("e_dbus_handler_data_free");
+  DDBG("e_dbus_handler_data_free");
   if (hd->fd_handler)
   {
     hd->cd->fd_handlers = eina_list_remove(hd->cd->fd_handlers, hd->fd_handler);
@@ -225,7 +231,6 @@ e_dbus_handler_data_add(E_DBus_Connection *cd, DBusWatch *watch)
   hd->enabled = dbus_watch_get_enabled(watch);
   hd->fd = dbus_watch_get_unix_fd(hd->watch);
 
-  DBG("watch add (enabled: %d)", hd->enabled);
   if (hd->enabled) e_dbus_fd_handler_add(hd);
 }
 
@@ -237,7 +242,9 @@ cb_watch_add(DBusWatch *watch, void *data)
   E_DBus_Connection *cd;
   cd = data;
 
-  DBG("cb_watch_add");
+  DDBG("Watch add on fd: %d (flags: %d) enable: %d", dbus_watch_get_unix_fd(watch),
+        dbus_watch_get_flags(watch), dbus_watch_get_enabled(watch));
+
   e_dbus_handler_data_add(cd, watch);
 
   return true;
@@ -248,7 +255,9 @@ cb_watch_del(DBusWatch *watch, void *data)
 {
   E_DBus_Handler_Data *hd;
 
-  DBG("cb_watch_del");
+  DDBG("Watch del on fd: %d (flags: %d)", dbus_watch_get_unix_fd(watch),
+        dbus_watch_get_flags(watch));
+
   hd = (E_DBus_Handler_Data *)dbus_watch_get_data(watch);
   e_dbus_fd_handler_del(hd);
 }
@@ -258,14 +267,14 @@ cb_watch_toggle(DBusWatch *watch, void *data)
 {
   E_DBus_Handler_Data *hd;
 
-  DBG("cb_watch_toggle");
-  hd = dbus_watch_get_data(watch);
+  DDBG("Watch toggle on fd: %d (flags: %d) enable: %d", dbus_watch_get_unix_fd(watch),
+        dbus_watch_get_flags(watch), dbus_watch_get_enabled(watch));
 
+  hd = dbus_watch_get_data(watch);
   if (!hd) return;
 
   hd->enabled = dbus_watch_get_enabled(watch);
 
-  INFO("watch %p is %sabled", hd, hd->enabled ? "en" : "dis");
   if (hd->enabled) e_dbus_fd_handler_add(hd);
   else e_dbus_fd_handler_del(hd);
 }
@@ -545,3 +554,4 @@ e_dbus_connection_close(E_DBus_Connection *conn)
 }
 
 
+#undef DDBG
