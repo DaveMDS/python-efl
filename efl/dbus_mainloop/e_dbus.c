@@ -38,6 +38,97 @@ static int _edbus_init_count = 0;
 
 
 static void
+e_dbus_message_free(void *data, void *message)
+{
+  dbus_message_unref(message);
+}
+
+static DBusHandlerResult
+e_dbus_filter(DBusConnection *conn, DBusMessage *message, void *user_data)
+{
+  E_DBus_Connection *cd = user_data;
+  DBG("-----------------");
+  DBG("Message!");
+
+  DBG("type: %s", dbus_message_type_to_string(dbus_message_get_type(message)));
+  DBG("path: %s", dbus_message_get_path(message));
+  DBG("interface: %s", dbus_message_get_interface(message));
+  DBG("member: %s", dbus_message_get_member(message));
+  DBG("sender: %s", dbus_message_get_sender(message));
+
+  switch (dbus_message_get_type(message))
+  {
+    case DBUS_MESSAGE_TYPE_METHOD_CALL:
+      DBG("signature: %s", dbus_message_get_signature(message));
+      break;
+    case DBUS_MESSAGE_TYPE_METHOD_RETURN:
+      DBG("reply serial %d", dbus_message_get_reply_serial(message));
+      break;
+    case DBUS_MESSAGE_TYPE_ERROR:
+      DBG("error: %s", dbus_message_get_error_name(message));
+      break;
+    case DBUS_MESSAGE_TYPE_SIGNAL:
+      dbus_message_ref(message);
+      if (cd->signal_dispatcher) cd->signal_dispatcher(cd, message);
+      ecore_event_add(E_DBUS_EVENT_SIGNAL, message, e_dbus_message_free, NULL);
+      break;
+    default:
+      break;
+  }
+  DBG("-----------------");
+
+  return DBUS_HANDLER_RESULT_NOT_YET_HANDLED;
+}
+
+static Eina_Bool
+e_dbus_idler(void *data)
+{
+  E_DBus_Connection *cd;
+  cd = data;
+
+  if (DBUS_DISPATCH_COMPLETE == dbus_connection_get_dispatch_status(cd->conn))
+  {
+    DBG("done dispatching!");
+    cd->idler = NULL;
+    return ECORE_CALLBACK_CANCEL;
+  }
+  e_dbus_idler_active++;
+  dbus_connection_ref(cd->conn);
+  DBG("dispatch()");
+  dbus_connection_dispatch(cd->conn);
+  dbus_connection_unref(cd->conn);
+  e_dbus_idler_active--;
+  // e_dbus_signal_handlers_clean(cd); // TODO XXX
+  if (!e_dbus_idler_active && close_connection)
+  {
+    do
+    {
+      e_dbus_connection_close(cd);
+    } while (--close_connection);
+  }
+  return ECORE_CALLBACK_RENEW;
+}
+
+static void
+cb_dispatch_status(DBusConnection *conn, DBusDispatchStatus new_status, void *data)
+{
+  E_DBus_Connection *cd;
+
+  DBG("dispatch status: %d!", new_status);
+  cd = data;
+
+  if (new_status == DBUS_DISPATCH_DATA_REMAINS && !cd->idler)
+     cd->idler = ecore_idler_add(e_dbus_idler, cd);
+  else if (new_status != DBUS_DISPATCH_DATA_REMAINS && cd->idler) 
+    {
+       ecore_idler_del(cd->idler);
+       cd->idler = NULL;
+    }
+}
+
+
+/* ecore fd handler */
+static void
 e_dbus_fd_handler_del(E_DBus_Handler_Data *hd)
 {
   if (!hd->fd_handler) return;
@@ -132,102 +223,10 @@ e_dbus_connection_data_watch_add(E_DBus_Connection *cd, DBusWatch *watch)
   hd->watch = watch;
 
   hd->enabled = dbus_watch_get_enabled(watch);
-// #if (DBUS_VERSION_MAJOR == 1 && DBUS_VERSION_MINOR == 1 && DBUS_VERSION_MICRO>= 1) || (DBUS_VERSION_MAJOR == 1 && DBUS_VERSION_MINOR > 1) || (DBUS_VERSION_MAJOR > 1)
   hd->fd = dbus_watch_get_unix_fd(hd->watch);
-// #else
-  // hd->fd = dbus_watch_get_fd(hd->watch);
-// #endif
+
   DBG("watch add (enabled: %d)", hd->enabled);
   if (hd->enabled) e_dbus_fd_handler_add(hd);
-}
-
-static void
-e_dbus_message_free(void *data, void *message)
-{
-  dbus_message_unref(message);
-}
-
-static DBusHandlerResult
-e_dbus_filter(DBusConnection *conn, DBusMessage *message, void *user_data)
-{
-  E_DBus_Connection *cd = user_data;
-  DBG("-----------------");
-  DBG("Message!");
-
-  DBG("type: %s", dbus_message_type_to_string(dbus_message_get_type(message)));
-  DBG("path: %s", dbus_message_get_path(message));
-  DBG("interface: %s", dbus_message_get_interface(message));
-  DBG("member: %s", dbus_message_get_member(message));
-  DBG("sender: %s", dbus_message_get_sender(message));
-
-  switch (dbus_message_get_type(message))
-  {
-    case DBUS_MESSAGE_TYPE_METHOD_CALL:
-      DBG("signature: %s", dbus_message_get_signature(message));
-      break;
-    case DBUS_MESSAGE_TYPE_METHOD_RETURN:
-      DBG("reply serial %d", dbus_message_get_reply_serial(message));
-      break;
-    case DBUS_MESSAGE_TYPE_ERROR:
-      DBG("error: %s", dbus_message_get_error_name(message));
-      break;
-    case DBUS_MESSAGE_TYPE_SIGNAL:
-      dbus_message_ref(message);
-      if (cd->signal_dispatcher) cd->signal_dispatcher(cd, message);
-      ecore_event_add(E_DBUS_EVENT_SIGNAL, message, e_dbus_message_free, NULL);
-      break;
-    default:
-      break;
-  }
-  DBG("-----------------");
-
-  return DBUS_HANDLER_RESULT_NOT_YET_HANDLED;
-}
-
-static Eina_Bool
-e_dbus_idler(void *data)
-{
-  E_DBus_Connection *cd;
-  cd = data;
-
-  if (DBUS_DISPATCH_COMPLETE == dbus_connection_get_dispatch_status(cd->conn))
-  {
-    DBG("done dispatching!");
-    cd->idler = NULL;
-    return ECORE_CALLBACK_CANCEL;
-  }
-  e_dbus_idler_active++;
-  dbus_connection_ref(cd->conn);
-  DBG("dispatch()");
-  dbus_connection_dispatch(cd->conn);
-  dbus_connection_unref(cd->conn);
-  e_dbus_idler_active--;
-  // e_dbus_signal_handlers_clean(cd); // TODO XXX
-  if (!e_dbus_idler_active && close_connection)
-  {
-    do
-    {
-      e_dbus_connection_close(cd);
-    } while (--close_connection);
-  }
-  return ECORE_CALLBACK_RENEW;
-}
-
-static void
-cb_dispatch_status(DBusConnection *conn, DBusDispatchStatus new_status, void *data)
-{
-  E_DBus_Connection *cd;
-
-  DBG("dispatch status: %d!", new_status);
-  cd = data;
-
-  if (new_status == DBUS_DISPATCH_DATA_REMAINS && !cd->idler)
-     cd->idler = ecore_idler_add(e_dbus_idler, cd);
-  else if (new_status != DBUS_DISPATCH_DATA_REMAINS && cd->idler) 
-    {
-       ecore_idler_del(cd->idler);
-       cd->idler = NULL;
-    }
 }
 
 
@@ -445,7 +444,6 @@ e_dbus_init(void)
     }
 
   E_DBUS_EVENT_SIGNAL = ecore_event_type_new();
-  // e_dbus_object_init();
 
   return _edbus_init_count;
 }
@@ -461,7 +459,6 @@ e_dbus_shutdown(void)
   if (--_edbus_init_count)
     return _edbus_init_count;
 
-  // e_dbus_object_shutdown();
   ecore_shutdown();
   eina_log_domain_unregister(_e_dbus_log_dom);
   _e_dbus_log_dom = -1;
