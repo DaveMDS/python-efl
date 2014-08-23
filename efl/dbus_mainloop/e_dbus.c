@@ -154,7 +154,7 @@ e_dbus_fd_handler(void *data, Ecore_Fd_Handler *fd_handler)
 
    hd = data;
 
-   if (!hd->enabled)
+   if (!dbus_watch_get_enabled(hd->watch))
    {
       e_dbus_fd_handler_del(hd);
       return ECORE_CALLBACK_CANCEL;
@@ -183,9 +183,12 @@ e_dbus_fd_handler_add(E_DBus_Handler_Data *hd)
    Ecore_Fd_Handler_Flags eflags;
    Eina_List *l;
    Ecore_Fd_Handler *fdh;
+   int fd;
 
    DDBG("  FD handler add");
    if (hd->fd_handler) return;
+
+   fd = dbus_watch_get_unix_fd(hd->watch);
    dflags = dbus_watch_get_flags(hd->watch);
    eflags = ECORE_FD_ERROR;
    if (dflags & DBUS_WATCH_READABLE) eflags |= ECORE_FD_READ;
@@ -193,11 +196,11 @@ e_dbus_fd_handler_add(E_DBus_Handler_Data *hd)
 
    EINA_LIST_FOREACH(hd->cd->fd_handlers, l, fdh)
    {
-      if (ecore_main_fd_handler_fd_get(fdh) == hd->fd) return;
+      if (ecore_main_fd_handler_fd_get(fdh) == fd) return;
    }
 
-   DDBG("  FD handler add on fd:%d (flags: %d)", hd->fd, dflags);
-   hd->fd_handler = ecore_main_fd_handler_add(hd->fd,
+   DDBG("  FD handler add on fd:%d (flags: %d)", fd, dflags);
+   hd->fd_handler = ecore_main_fd_handler_add(fd,
                                               eflags,
                                               e_dbus_fd_handler,
                                               hd,
@@ -232,10 +235,8 @@ e_dbus_handler_data_add(E_DBus_Connection *cd, DBusWatch *watch)
    hd->cd = cd;
    hd->watch = watch;
 
-   hd->enabled = dbus_watch_get_enabled(watch);
-   hd->fd = dbus_watch_get_unix_fd(hd->watch);
-
-   if (hd->enabled) e_dbus_fd_handler_add(hd);
+   if (dbus_watch_get_enabled(watch))
+      e_dbus_fd_handler_add(hd);
 }
 
 
@@ -277,10 +278,10 @@ cb_watch_toggle(DBusWatch *watch, void *data)
    hd = dbus_watch_get_data(watch);
    if (!hd) return;
 
-   hd->enabled = dbus_watch_get_enabled(watch);
-
-   if (hd->enabled) e_dbus_fd_handler_add(hd);
-   else e_dbus_fd_handler_del(hd);
+   if (dbus_watch_get_enabled(watch))
+      e_dbus_fd_handler_add(hd);
+   else
+      e_dbus_fd_handler_del(hd);
 }
 
 
