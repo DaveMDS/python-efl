@@ -213,7 +213,7 @@ e_dbus_handler_data_free(void *data)
 }
 
 static void
-e_dbus_connection_data_watch_add(E_DBus_Connection *cd, DBusWatch *watch)
+e_dbus_handler_data_add(E_DBus_Connection *cd, DBusWatch *watch)
 {
   E_DBus_Handler_Data *hd;
 
@@ -238,7 +238,7 @@ cb_watch_add(DBusWatch *watch, void *data)
   cd = data;
 
   DBG("cb_watch_add");
-  e_dbus_connection_data_watch_add(cd, watch);
+  e_dbus_handler_data_add(cd, watch);
 
   return true;
 }
