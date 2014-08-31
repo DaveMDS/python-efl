@@ -74,7 +74,7 @@ api_group.add_argument(
 parser.add_argument(
     "libs",
     nargs="*",
-    choices=(params.keys() + ["all"]),
+    choices=(list(params.keys()) + ["all"]),
     default="all"
     )
 args = parser.parse_args()
