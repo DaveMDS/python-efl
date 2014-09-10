@@ -113,6 +113,12 @@ else:
         from Cython.Build import cythonize
         import Cython.Compiler.Options
     except ImportError:
+        if not os.path.exists(os.path.join(script_path, "efl/eo/efl.eo.c")):
+            raise SystemExit(
+                "Requires Cython >= %s (http://cython.org/)" % (
+                    CYTHON_MIN_VERSION
+                    )
+                )
         module_suffix = ".c"
         from distutils.command.build_ext import build_ext
 
