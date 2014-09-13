@@ -508,7 +508,7 @@ cdef class Web(Object):
         def __set__(self, url):
             if isinstance(url, unicode): url = PyUnicode_AsUTF8String(url)
             if not elm_web_url_set(self.obj, url):
-                raise RuntimeWarning
+                raise RuntimeWarning("Cannot set url")
 
         def __get__(self):
             return _ctouni(elm_web_url_get(self.obj))
@@ -516,7 +516,7 @@ cdef class Web(Object):
     def url_set(self, url):
         if isinstance(url, unicode): url = PyUnicode_AsUTF8String(url)
         if not elm_web_url_set(self.obj, url):
-            raise RuntimeWarning
+            raise RuntimeWarning("Cannot set url")
 
     def url_get(self):
         return _ctouni(elm_web_url_get(self.obj))
@@ -670,7 +670,7 @@ cdef class Web(Object):
 
         """
         if not elm_web_text_matches_unmark_all(self.obj):
-            raise RuntimeWarning
+            raise RuntimeWarning("Cannot clear marked matches")
 
     property text_matches_highlight:
         """
@@ -685,7 +685,7 @@ cdef class Web(Object):
         """
         def __set__(self, bint highlight):
             if not elm_web_text_matches_highlight_set(self.obj, highlight):
-                raise RuntimeWarning
+                raise RuntimeWarning("Cannot set matched marks highlighting")
 
         def __get__(self):
             return bool(elm_web_text_matches_highlight_get(self.obj))
@@ -719,7 +719,7 @@ cdef class Web(Object):
 
         """
         if not elm_web_stop(self.obj):
-            raise RuntimeWarning
+            raise RuntimeWarning("Cannot stop")
 
     def reload(self):
         """
@@ -730,7 +730,7 @@ cdef class Web(Object):
 
         """
         if not elm_web_reload(self.obj):
-            raise RuntimeWarning
+            raise RuntimeWarning("Cannot reload")
 
     def reload_full(self):
         """
@@ -741,7 +741,7 @@ cdef class Web(Object):
 
         """
         if not elm_web_reload_full(self.obj):
-            raise RuntimeWarning
+            raise RuntimeWarning("Cannot reload without caches")
 
     def back(self):
         """
@@ -759,7 +759,7 @@ cdef class Web(Object):
 
         """
         if not elm_web_back(self.obj):
-            raise RuntimeWarning
+            raise RuntimeWarning("Cannot go back")
 
     def forward(self):
         """
@@ -777,7 +777,7 @@ cdef class Web(Object):
 
         """
         if not elm_web_forward(self.obj):
-            raise RuntimeWarning
+            raise RuntimeWarning("Cannot go forward")
 
     def navigate(self, int steps):
         """

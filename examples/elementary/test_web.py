@@ -2,7 +2,6 @@
 # encoding: utf-8
 
 from efl.evas import EVAS_HINT_EXPAND, EVAS_HINT_FILL
-from efl import ecore
 from efl import elementary
 from efl.elementary.window import StandardWindow
 from efl.elementary.box import Box
@@ -133,14 +132,14 @@ def web_clicked(obj):
     en.show()
 
     # Sync navigation entry and current URI
-    def do_change_uri(en):
-        web.uri = en.entry
+    def do_change_url(en):
+        web.url = en.entry
 
-    def did_change_uri(web, uri, en):
-        en.entry = uri
+    def did_change_url(web, url, en):
+        en.entry = url
 
-    en.callback_activated_add(do_change_uri)
-    web.callback_uri_changed_add(did_change_uri, en)
+    en.callback_activated_add(do_change_url)
+    web.callback_url_changed_add(did_change_url, en)
 
     # Sync title
     def did_change_title(web, title, win):
