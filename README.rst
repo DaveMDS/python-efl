@@ -1,6 +1,6 @@
-##################
-PYTHON-EFL 1.10.99
-##################
+#################
+PYTHON-EFL 1.11.0
+#################
 
 EFL is a collection of libraries for handling many common tasks a
 developer man have such as data structures, communication, rendering,
