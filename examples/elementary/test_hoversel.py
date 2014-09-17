@@ -3,6 +3,7 @@
 
 import os
 
+from efl.ecore import Timer
 from efl.evas import EVAS_HINT_EXPAND
 from efl import elementary
 from efl.elementary.window import StandardWindow
@@ -26,12 +27,18 @@ def hoversel_clicked(obj):
     win.resize_object_add(bx)
     bx.show()
 
+    def _sel_label_cb(hoversel, item):
+        text = hoversel.text
+        hoversel.text = item.text
+        Timer(2.0, lambda: hoversel.text_set("Labels"))
+
     bt = Hoversel(win, hover_parent=win, text="Labels",
         size_hint_weight=WEIGHT_ZERO, size_hint_align=ALIGN_CENTER)
     bt.item_add("Item 1")
     bt.item_add("Item 2")
     bt.item_add("Item 3")
     bt.item_add("Item 4 - Long Label Here")
+    bt.callback_selected_add(_sel_label_cb)
     bx.pack_end(bt)
     bt.show()
 
