@@ -305,9 +305,9 @@ cdef class ExternalParamInfoChoice(ExternalParamInfo):
             orig = self.choices
             ret = []
             for choice in orig:
-                ret.append(
-                self._external_type_obj.translate(
-                        self._external_type_obj.data, choice) or choice)
+                trans = self._external_type_obj.translate(
+                            self._external_type_obj.data, choice)
+                ret.append(trans or choice)
             return ret
 
 
