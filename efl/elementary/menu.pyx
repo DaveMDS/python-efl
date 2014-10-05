@@ -361,10 +361,9 @@ cdef class Menu(Object):
 
         :param parent: The parent menu item (optional)
         :type parent: :py:class:`~efl.elementary.object.Object`
+        :param string label: The label of the item.
         :param string icon: An icon display on the item. The icon will be destroyed
             by the menu.
-        :param string label: The label of the item.
-        :type label: string
         :param callback: Function called when the user select the item.
         :type callback: function
 
