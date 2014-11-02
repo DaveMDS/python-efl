@@ -149,6 +149,10 @@ may be caused by version of Cython that's too old.""" % (
                     )
                 )
 
+        # Cython 0.21.1 PyMethod_New() is broken! blacklisted
+        if Cython.__version__ == "0.21.1":
+            raise SystemExit("Cython 0.21.1 is broken! Use another release.")
+
         Cython.Compiler.Options.fast_fail = True    # Stop compilation on first
                                                     #  error
         Cython.Compiler.Options.annotate = False    # Generates HTML files with
