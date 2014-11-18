@@ -417,6 +417,10 @@ cdef extern from "Elementary.h":
         ELM_POPUP_ORIENT_BOTTOM_RIGHT
         ELM_POPUP_ORIENT_LAST
 
+    ctypedef enum Elm_Process_State:
+        ELM_PROCESS_STATE_FOREGROUND
+        ELM_PROCESS_STATE_BACKGROUND
+
     ctypedef enum Elm_Scroller_Policy:
         ELM_SCROLLER_POLICY_AUTO
         ELM_SCROLLER_POLICY_ON

@@ -117,6 +117,25 @@ Possible values for the #ELM_POLICY_THROTTLE policy.
     Never throttle when windows are all hidden, regardless of config settings.
 
 
+.. _Elm_Process_State:
+
+Elm_Process_State
+-----------------
+
+.. data:: ELM_PROCESS_STATE_FOREGROUND
+
+    The process is in a foreground/active/running state - work as normal.
+
+    ..versionadded:: 1.12
+
+.. data:: ELM_PROCESS_STATE_BACKGROUND
+
+    The process is in the bacgkround, so you may want to stop animating,
+    fetching data as often etc.
+
+    ..versionadded:: 1.12
+
+
 .. _Elm_Sys_Notify_Closed_Reason:
 
 Notify close reasons
@@ -269,6 +288,9 @@ ELM_GLOB_MATCH_NO_ESCAPE = enums.ELM_GLOB_MATCH_NO_ESCAPE
 ELM_GLOB_MATCH_PATH = enums.ELM_GLOB_MATCH_PATH
 ELM_GLOB_MATCH_PERIOD = enums.ELM_GLOB_MATCH_PERIOD
 ELM_GLOB_MATCH_NOCASE = enums.ELM_GLOB_MATCH_NOCASE
+
+ELM_PROCESS_STATE_FOREGROUND = enums.ELM_PROCESS_STATE_FOREGROUND
+ELM_PROCESS_STATE_BACKGROUND = enums.ELM_PROCESS_STATE_BACKGROUND
 
 import traceback
 
@@ -507,6 +529,22 @@ def policy_get(Elm_Policy policy):
 
     """
     return elm_policy_get(policy)
+
+def process_state_get():
+    """Get the process state as a while.
+
+    The process may logically be some runnable state. a "foreground" application
+    runs as normal and may be user-visible or "active" in some way. A
+    background application is not user-visible or otherwise important and
+    likely should release resources and not wake up often or process much.
+
+    :return: The current process state
+    :rtype: Elm_Process_State
+
+    .. versionadded: 1.12
+
+    """
+    return elm_process_state_get()
 
 def coords_finger_size_adjust(int times_w, int w, int times_h, int h):
     """Adjust size of an element for finger usage.

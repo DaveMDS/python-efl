@@ -19,7 +19,8 @@
 from efl.evas cimport Eina_List, Eina_Bool
 from efl.evas cimport Evas_Object, Evas_Font_Size, Evas_Coord
 from efl.evas.enums cimport Evas_Callback_Type
-from enums cimport Elm_Sys_Notify_Closed_Reason, Elm_Sys_Notify_Urgency
+from enums cimport Elm_Sys_Notify_Closed_Reason, Elm_Sys_Notify_Urgency, \
+    Elm_Process_State
 
 cdef extern from "time.h":
     struct tm:
@@ -81,6 +82,7 @@ cdef extern from "Elementary.h":
     int                     elm_shutdown()
     void                    elm_run() nogil
     void                    elm_exit()
+    Elm_Process_State       elm_process_state_get()
 
     # General - Quicklaunch (XXX: Only used by macros?)
     # void                     elm_quicklaunch_init(int argc, char **argv)
