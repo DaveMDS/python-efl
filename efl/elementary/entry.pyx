@@ -307,6 +307,30 @@ Copy & paste modes
     Copy & paste text without markup tags
 
 
+.. _Elm_Input_Hints:
+
+Input Hints
+===========
+
+.. data:: ELM_INPUT_HINT_NONE
+
+    No active hints
+
+    .. versionadded:: 1.12
+
+.. data:: ELM_INPUT_HINT_AUTO_COMPLETE
+
+    Suggest word auto completion
+
+    .. versionadded:: 1.12
+
+.. data:: ELM_INPUT_HINT_SENSITIVE_DATA
+
+    typed text should not be stored
+
+    .. versionadded:: 1.12
+
+
 .. _Elm_Entry_Input_Panel_Lang:
 
 Input panel language sort order
@@ -511,6 +535,10 @@ ELM_AUTOCAPITAL_TYPE_ALLCHARACTER = enums.ELM_AUTOCAPITAL_TYPE_ALLCHARACTER
 ELM_CNP_MODE_MARKUP = enums.ELM_CNP_MODE_MARKUP
 ELM_CNP_MODE_NO_IMAGE = enums.ELM_CNP_MODE_NO_IMAGE
 ELM_CNP_MODE_PLAINTEXT = enums.ELM_CNP_MODE_PLAINTEXT
+
+ELM_INPUT_HINT_NONE = enums.ELM_INPUT_HINT_NONE
+ELM_INPUT_HINT_AUTO_COMPLETE = enums.ELM_INPUT_HINT_AUTO_COMPLETE
+ELM_INPUT_HINT_SENSITIVE_DATA = enums.ELM_INPUT_HINT_SENSITIVE_DATA
 
 ELM_INPUT_PANEL_LANG_AUTOMATIC = enums.ELM_INPUT_PANEL_LANG_AUTOMATIC
 ELM_INPUT_PANEL_LANG_ALPHABET = enums.ELM_INPUT_PANEL_LANG_ALPHABET
@@ -1606,6 +1634,25 @@ cdef class Entry(LayoutClass):
 
     def end_visible_set(self, bint setting):
         elm_entry_end_visible_set(self.obj, setting)
+
+    property input_hint:
+        """The input hint which allows input methods to fine-tune their behavior.
+
+        :type: :ref:`Elm_Input_Hints`
+
+        .. versionadded:: 1.12
+
+        """
+        def __get__(self):
+            return elm_entry_input_hint_get(self.obj)
+
+        def __set__(self, hints):
+            elm_entry_input_hint_set(self.obj, hints)
+
+    def input_hint_set(self, hints):
+        elm_entry_input_hint_set(self.obj, hints)
+    def input_hint_get(self):
+        return elm_entry_input_hint_get(self.obj)
 
     property input_panel_layout:
         """The input panel layout of the entry

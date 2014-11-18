@@ -1,7 +1,7 @@
 from efl.evas cimport Eina_Bool, Eina_Rectangle, Evas_Object, \
     Evas_Coord, Evas_Smart_Cb
 from enums cimport Elm_Wrap_Type, Elm_Text_Format, Elm_Cnp_Mode, \
-    Elm_Input_Panel_Layout, Elm_Input_Panel_Lang, \
+    Elm_Input_Panel_Layout, Elm_Input_Panel_Lang, Elm_Input_Hints, \
     Elm_Input_Panel_Lang, Elm_Input_Panel_Return_Key_Type, \
     Elm_Autocapital_Type, Elm_Icon_Type, Elm_Sel_Type, Elm_Sel_Format, \
     Elm_Xdnd_Action
@@ -111,6 +111,8 @@ cdef extern from "Elementary.h":
     Eina_Bool               elm_entry_scrollable_get(const Evas_Object *obj)
     void                    elm_entry_icon_visible_set(Evas_Object *obj, Eina_Bool setting)
     void                    elm_entry_end_visible_set(Evas_Object *obj, Eina_Bool setting)
+    void                    elm_entry_input_hint_set(Evas_Object *obj, Elm_Input_Hints hints)
+    Elm_Input_Hints         elm_entry_input_hint_get(Evas_Object *obj)
     void                    elm_entry_input_panel_layout_set(Evas_Object *obj, Elm_Input_Panel_Layout layout)
     Elm_Input_Panel_Layout  elm_entry_input_panel_layout_get(const Evas_Object *obj)
     void                    elm_entry_input_panel_layout_variation_set(Evas_Object *obj, int variation)

@@ -267,6 +267,11 @@ cdef extern from "Elementary.h":
         ELM_IMAGE_FLIP_TRANSPOSE
         ELM_IMAGE_FLIP_TRANSVERSE
 
+    ctypedef enum Elm_Input_Hints:
+        ELM_INPUT_HINT_NONE
+        ELM_INPUT_HINT_AUTO_COMPLETE
+        ELM_INPUT_HINT_SENSITIVE_DATA
+
     ctypedef enum Elm_Input_Panel_Lang:
         ELM_INPUT_PANEL_LANG_AUTOMATIC
         ELM_INPUT_PANEL_LANG_ALPHABET
