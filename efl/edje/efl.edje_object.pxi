@@ -625,6 +625,37 @@ cdef class Edje(Object):
             libc.stdlib.free(s)
             return str
 
+    def part_text_input_hint_set(self, part, input_hints):
+        """ Sets the input hint which allows input methods to fine-tune
+        their behavior.
+
+        :param part: the part name
+        :type part: str
+        :param input_hints: the hints to set
+        :type input_hints: Edje_Input_Hints
+
+        .. versionadded:: 1.12
+
+        """
+        if isinstance(part, unicode): part = PyUnicode_AsUTF8String(part)
+        edje_object_part_text_input_hint_set(self.obj,
+                            <const char *>part if part is not None else NULL,
+                            input_hints)
+
+    def part_text_input_hint_get(self, part):
+        """ Gets the value of input hint.
+
+        :param part: the part name
+        :type part: str
+
+        .. versionadded:: 1.12
+
+        """
+
+        if isinstance(part, unicode): part = PyUnicode_AsUTF8String(part)
+        return edje_object_part_text_input_hint_get(self.obj,
+                            <const char *>part if part is not None else NULL)
+
     def part_swallow(self, part, Object obj):
         """Swallows an object into the edje
 

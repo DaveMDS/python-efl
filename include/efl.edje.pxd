@@ -50,6 +50,9 @@ cdef extern from "Edje.h":
     ctypedef enum Edje_External_Param_Type:
        pass
 
+    ctypedef enum Edje_Input_Hints:
+       pass
+
     cdef int EDJE_EXTERNAL_INT_UNSET
     cdef double EDJE_EXTERNAL_DOUBLE_UNSET
     cdef unsigned int EDJE_EXTERNAL_TYPE_ABI_VERSION
@@ -257,6 +260,8 @@ cdef extern from "Edje.h":
     void edje_object_part_text_unescaped_set(Evas_Object *obj, char *part, char *text_to_escape)
     char *edje_object_part_text_unescaped_get(Evas_Object *obj, char *part)
 
+    void edje_object_part_text_input_hint_set(Evas_Object *obj, char *part, Edje_Input_Hints input_hints)
+    Edje_Input_Hints edje_object_part_text_input_hint_get(Evas_Object *obj, char *part)
 
     void edje_object_part_swallow(Evas_Object *obj, char *part, Evas_Object *obj_swallow)
     void edje_object_part_unswallow(Evas_Object *obj, Evas_Object *obj_swallow)
