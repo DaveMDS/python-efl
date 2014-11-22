@@ -50,6 +50,8 @@ except ImportError:
     class BuildDoc(Command):
         description = \
             "build documentation using sphinx, that must be installed."
+        version = ""
+        release = ""
         user_options = []
 
         def initialize_options(self):
