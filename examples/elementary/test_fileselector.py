@@ -70,6 +70,9 @@ def bt_cb_path_get(bt, fs):
 def bt_cb_paths_get(bt, fs):
     print("Get Path:" + str(fs.selected_paths))
 
+def bt_cb_current_name_get(bt, fs):
+    print("Get CurrentName:" + str(fs.current_name))
+
 def rd_cb_mode(rd, fs):
     mode = rd.value
     fs.mode_set(mode)
@@ -98,8 +101,8 @@ def fileselector_clicked(obj, item=None):
     box1.show()
 
     fs = Fileselector(win, is_save=True, expandable=False, folder_only=False,
-                      path=os.getenv("HOME"), size_hint_weight=EXPAND_BOTH,
-                      size_hint_align=FILL_BOTH)
+                      path=os.getenv("HOME"), current_name="No name",
+                      size_hint_weight=EXPAND_BOTH, size_hint_align=FILL_BOTH)
     fs.callback_done_add(fs_cb_done, win)
     fs.callback_selected_add(fs_cb_selected, win)
     fs.callback_directory_open_add(fs_cb_directory_open, win)
@@ -172,23 +175,36 @@ def fileselector_clicked(obj, item=None):
     vbox.pack_end(fr)
     fr.show()
 
-    fbox = Box(win, horizontal=True)
-    fr.content = fbox
-    fbox.show()
+    fbox1 = Box(win)
+    fr.content = fbox1
+    fbox1.show()
+
+    fbox2 = Box(win, horizontal=True)
+    fbox1.pack_end(fbox2)
+    fbox2.show()
 
     bt = Button(win, text="selected_get")
     bt.callback_clicked_add(bt_cb_sel_get, fs)
-    fbox.pack_end(bt)
+    fbox2.pack_end(bt)
     bt.show()
 
     bt = Button(win, text="path_get")
     bt.callback_clicked_add(bt_cb_path_get, fs)
-    fbox.pack_end(bt)
+    fbox2.pack_end(bt)
     bt.show()
 
     bt = Button(win, text="selected_paths")
     bt.callback_clicked_add(bt_cb_paths_get, fs)
-    fbox.pack_end(bt)
+    fbox2.pack_end(bt)
+    bt.show()
+
+    fbox2 = Box(win, horizontal=True)
+    fbox1.pack_end(fbox2)
+    fbox2.show()
+
+    bt = Button(win, text="current_name_get")
+    bt.callback_clicked_add(bt_cb_current_name_get, fs)
+    fbox2.pack_end(bt)
     bt.show()
 
     # Mode frame

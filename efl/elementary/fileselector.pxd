@@ -32,3 +32,5 @@ cdef extern from "Elementary.h":
     void                    elm_fileselector_sort_method_set(Evas_Object *obj, Elm_Fileselector_Sort method)
     void                    elm_fileselector_thumbnail_size_set(Evas_Object *obj, Evas_Coord w, Evas_Coord h)
     void                    elm_fileselector_thumbnail_size_get(const Evas_Object *obj, Evas_Coord *w, Evas_Coord *h)
+    void                    elm_fileselector_current_name_set(Evas_Object *obj, const char *name)
+    const char *            elm_fileselector_current_name_get(const Evas_Object *obj)

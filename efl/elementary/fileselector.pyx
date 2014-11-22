@@ -299,6 +299,29 @@ cdef class Fileselector(LayoutClass):
     def path_get(self):
         return _ctouni(elm_fileselector_path_get(self.obj))
 
+    property current_name:
+        """ The name of the file in a save fileselector
+
+        :type: string
+
+        .. versionadded:: 1.12
+
+        """
+        def __get__(self):
+            return _ctouni(elm_fileselector_current_name_get(self.obj))
+
+        def __set__(self, name):
+            if isinstance(name, unicode): name = PyUnicode_AsUTF8String(name)
+            elm_fileselector_current_name_set(self.obj,
+                <const char *>name if name is not None else NULL)
+
+    def current_name_set(self, name):
+        if isinstance(name, unicode): name = PyUnicode_AsUTF8String(name)
+        elm_fileselector_current_name_set(self.obj,
+            <const char *>name if name is not None else NULL)
+    def current_name_get(self):
+        return _ctouni(elm_fileselector_current_name_get(self.obj))
+
     property mode:
         """The mode in which a given file selector widget will display
         (layout) file system entries in its view
