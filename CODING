@@ -46,8 +46,7 @@ Release process instructions
 
 * Announce at enlightenment-release@lists.sourceforge.net that you are planning
   for the release
-* Change versions in the top part of setup.py (ex: 1.9 and 1.9.0)
-* Raise efl/elm min requirements
+* Change versions in efl/__init__.py (ex: 1.9.0)
 * Update README.rst
 * Update the changes.html file
     setup.py build_doc -b changes ...and manually merge
@@ -71,8 +70,7 @@ Release process instructions
 * Announce the release to release@lists.enlightenment.org
   (an alias for e-announce etc.)
 * Update download link on website (clone website/www.git, edit, commit, push)
-* Change versions again in setup.py (ex: 1.10 and 1.9.99)
-* Raise efl and elementary requirements in setup.py (to 1.9.99)
+* Change versions again in efl/__init__.py (ex: 1.9.99)
 
 more info at:
 phab.enlightenment.org/w/release_procedure/

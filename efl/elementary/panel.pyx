@@ -154,7 +154,7 @@ cdef class Panel(LayoutClass):
 
         :type: double
 
-        ..versionadded:: 1.12
+        .. versionadded:: 1.12
 
         """
         def __set__(self, double ratio):

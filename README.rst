@@ -1,5 +1,5 @@
 #################
-PYTHON-EFL 1.11.0
+PYTHON-EFL 1.12.0
 #################
 
 EFL is a collection of libraries for handling many common tasks a

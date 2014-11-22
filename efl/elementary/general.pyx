@@ -126,14 +126,14 @@ Elm_Process_State
 
     The process is in a foreground/active/running state - work as normal.
 
-    ..versionadded:: 1.12
+    .. versionadded:: 1.12
 
 .. data:: ELM_PROCESS_STATE_BACKGROUND
 
     The process is in the bacgkround, so you may want to stop animating,
     fetching data as often etc.
 
-    ..versionadded:: 1.12
+    .. versionadded:: 1.12
 
 
 .. _Elm_Sys_Notify_Closed_Reason:
@@ -541,7 +541,7 @@ def process_state_get():
     :return: The current process state
     :rtype: Elm_Process_State
 
-    .. versionadded: 1.12
+    .. versionadded:: 1.12
 
     """
     return elm_process_state_get()
