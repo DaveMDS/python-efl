@@ -99,6 +99,7 @@ items = [
     ]),
     ("Dividers", [
         ("Panel", "test_panel", "panel_clicked"),
+        ("Panel Scrollable", "test_panel_scroll", "panel_scroll_clicked"),
         ("Panes", "test_panes", "panes_clicked"),
     ]),
     # ("Drag & Drop", [

@@ -8,3 +8,6 @@ cdef extern from "Elementary.h":
     void                     elm_panel_hidden_set(Evas_Object *obj, Eina_Bool hidden)
     Eina_Bool                elm_panel_hidden_get(const Evas_Object *obj)
     void                     elm_panel_toggle(Evas_Object *obj)
+    void                     elm_panel_scrollable_set(Evas_Object *obj, Eina_Bool scrollable)
+    Eina_Bool                elm_panel_scrollable_get(const Evas_Object *obj)
+    void                     elm_panel_scrollable_content_size_set(Evas_Object *obj, double ratio)

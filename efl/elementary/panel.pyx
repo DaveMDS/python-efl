@@ -131,6 +131,38 @@ cdef class Panel(LayoutClass):
     def hidden_get(self):
         return elm_panel_hidden_get(self.obj)
 
+    property scrollable:
+        """ The scrollability of the panel.
+
+        :type: bool
+
+        .. versionadded:: 1.12
+
+        """
+        def __set__(self, bint scrollable):
+            elm_panel_scrollable_set(self.obj, scrollable)
+        def __get__(self):
+            return bool(elm_panel_scrollable_get(self.obj))
+
+    def scrollable_set(self, bint scrollable):
+        elm_panel_scrollable_set(self.obj, scrollable)
+    def scrollable_get(self):
+        return bool(elm_panel_scrollable_get(self.obj))
+
+    property scrollable_content_size:
+        """ The size of the scrollable panel.
+
+        :type: double
+
+        ..versionadded:: 1.12
+
+        """
+        def __set__(self, double ratio):
+            elm_panel_scrollable_content_size_set(self.obj, ratio)
+
+    def scrollable_content_size_set(self, double ratio):
+        elm_panel_scrollable_content_size_set(self.obj, ratio)
+
     def toggle(self):
         """Toggle the hidden state of the panel from code."""
         elm_panel_toggle(self.obj)
