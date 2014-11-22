@@ -53,6 +53,11 @@ class TestEdjeObject(unittest.TestCase):
         self.assertIsNone(o.data_get("not_exist"))
         o.delete()
 
+    def testBaseScaleGet(self):
+        o = edje.Edje(self.canvas, file=theme_file, group="main")
+        self.assertEqual(o.base_scale_get(), 1.0)
+        o.delete()
+
     def testColorClasses(self):
         o = edje.Edje(self.canvas, file=theme_file, group="main")
         o.color_class_set("MyColorClass",

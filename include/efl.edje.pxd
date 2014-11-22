@@ -227,6 +227,7 @@ cdef extern from "Edje.h":
     Eina_Bool edje_object_preload(Evas_Object *obj, Eina_Bool cancel)
     Eina_Bool edje_object_scale_set(Evas_Object *obj, double scale)
     double edje_object_scale_get(Evas_Object *obj)
+    double edje_object_base_scale_get(Evas_Object *obj)
 
     void edje_object_mirrored_set(Evas_Object *obj, Eina_Bool rtl)
     Eina_Bool edje_object_mirrored_get(Evas_Object *obj)

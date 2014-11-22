@@ -376,6 +376,20 @@ cdef class Edje(Object):
     def scale_get(self):
         return edje_object_scale_get(self.obj)
 
+    property base_scale:
+        """ The base scale factor set in the edc collection.
+
+        :type: float
+
+        .. versionadded:: 1.12
+
+        """
+        def __get__(self):
+            return edje_object_base_scale_get(self.obj)
+
+    def base_scale_get(self):
+        return edje_object_base_scale_get(self.obj)
+
     property mirrored:
         """The RTL orientation for this object.
 
