@@ -52,16 +52,16 @@ Release process instructions
     setup.py build_doc -b changes ...and manually merge
 * Git push and wait jenkins to generate the 2 tarballs
 * Test the generated tarballs
-* scp tarballs to
-  download.enlightenment.org/srv/web/download.enlightenment.org/public_html/pre-releases
+* scp tarballs & md5sums to:
+  download.enlightenment.org:/srv/web/download.enlightenment.org/public_html/pre-releases/
 * Announce at enlightenment-release@lists.sourceforge.net that tarballs are
   ready for testing
 
 ... wait 24 hours, fix any issues found. In the mean time you can prepare the
     release announcement for phame/ml.
 
-* ssh to dl.e.org and mv the tarballs to
-  /srv/web/download.enlightenment.org/rel/bindings/python
+* ssh to download.enlightenment.org and mv tarballs & md5sums to:
+  /srv/web/download.enlightenment.org/public_html/rel/bindings/python
 * Create and push the tag for the release
     git tag -a v1.9.0 && git push origin v1.9.0
 * Create and push the branch for stable backporting
