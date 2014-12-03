@@ -182,7 +182,7 @@ cdef class ObjectItem(object):
     def widget_get(self):
         return object_from_instance(elm_object_item_widget_get(self.item))
 
-    def part_content_set(self, part, Object content not None):
+    def part_content_set(self, part, evasObject content not None):
         """Set a content of an object item
 
         This sets a new object to an item as a content object. If any object
@@ -241,7 +241,7 @@ cdef class ObjectItem(object):
         def __del__(self):
             elm_object_item_content_unset(self.item)
 
-    def content_set(self, Object content not None):
+    def content_set(self, evasObject content not None):
         elm_object_item_content_set(self.item, content.obj)
     def content_get(self):
         return object_from_instance(elm_object_item_content_get(self.item))
