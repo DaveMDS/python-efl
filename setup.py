@@ -447,6 +447,7 @@ setup(
     contact_email="enlightenment-devel@lists.sourceforge.net",
     url="http://www.enlightenment.org",
     license="GNU Lesser General Public License (LGPL)",
+    keywords="efl wrapper binding enlightenment eo evas ecore edje emotion elementary ethumb",
     classifiers=[
         'Development Status :: 5 - Production/Stable',
         'Environment :: X11 Applications',
