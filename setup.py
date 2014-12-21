@@ -175,7 +175,7 @@ class CleanGenerated(Command):
 
     def run(self):
         for lib in ("eo", "evas", "ecore", "edje", "edje/edit", "emotion",
-                    "elementary", "utils"):
+                    "elementary", "ethumb", "utils"):
             for root, dirs, files in \
                     os.walk(os.path.join(script_path, "efl", lib)):
                 for f in files:
