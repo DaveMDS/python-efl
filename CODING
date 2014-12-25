@@ -60,15 +60,15 @@ Release process instructions
     release announcement for phame/ml.
 
 * ssh to download.enlightenment.org and mv tarballs & md5sums to:
-  /srv/web/download.enlightenment.org/public_html/rel/bindings/python
-* Upload to pypi
+    /srv/web/download.enlightenment.org/public_html/rel/bindings/python
+* Upload the .tar.gz archive to pypi
 * Create and push the tag for the release
     git tag -a v1.9.0 && git push origin v1.9.0
 * Create and push the branch for stable backporting
     git branch python-efl-1.9 && git push origin python-efl-1.9
 * Publish the blog post on phame (Official Announcements)
 * Announce the release to release@lists.enlightenment.org
-  (an alias for e-announce etc.)
+    (an alias for e-announce etc.)
 * Update download link on website (clone website/www.git, edit, commit, push)
 * Change versions again in efl/__init__.py (ex: 1.9.99)
 

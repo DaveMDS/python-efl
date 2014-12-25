@@ -91,15 +91,16 @@ parameter described below. A brief description of these functions follows:
 
 Available item styles:
 
-- default
-- default_style - The text part is a textblock
-- double_label
-- icon_top_text_bottom
-- group_index
-
-- one_icon - Only 1 icon (left) :since: 1.1
-- end_icon - Only 1 icon (at end/right) :since: 1.1
-- no_icon - No icon (at end/right) :since: 1.1
+- ``default``
+- ``default_style`` The text part is a textblock
+- ``double_label`` Two different text parts
+- ``icon_top_text_bottom``
+- ``group_index``
+- ``one_icon`` Only 1 icon (left) (since: 1.1)
+- ``end_icon`` Only 1 icon (at end/right) (since: 1.1)
+- ``no_icon`` No icon (since: 1.1)
+- ``full`` Only one object, elm.swallow.content, which consumes whole area of
+  the genlist item (since: 1.7)
 
 Structure of items
 ==================
