@@ -277,6 +277,8 @@ Signals that you can add callbacks for are:
   item that was activated.
 - ``clicked,double`` - The user has double-clicked an item.  The
   ``event_info`` parameter is the item that was double-clicked.
+- ``clicked,right`` - The user has right-clicked an item.  The
+  ``event_info`` parameter is the item that was right-clicked. (since: 1.13)
 - ``selected`` - This is called when a user has made an item selected.
   The event_info parameter is the genlist item that was selected.
 - ``unselected`` - This is called when a user has made an item

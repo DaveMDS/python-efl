@@ -820,6 +820,18 @@ cdef class Genlist(Object):
     def callback_clicked_double_del(self, func):
         self._callback_del_full("clicked,double",  _cb_object_item_conv, func)
 
+    def callback_clicked_right_add(self, func, *args, **kwargs):
+        """The user has right-clicked an item.
+
+        .. versionadded:: 1.13
+
+        """
+        self._callback_add_full("clicked,right", _cb_object_item_conv,
+                                func, *args, **kwargs)
+
+    def callback_clicked_right_del(self, func):
+        self._callback_del_full("clicked,right", _cb_object_item_conv, func)
+
     def callback_selected_add(self, func, *args, **kwargs):
         self._callback_add_full("selected", _cb_object_item_conv,
                                 func, *args, **kwargs)
