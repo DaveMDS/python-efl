@@ -90,6 +90,7 @@ from libc.stdint cimport uintptr_t
 
 from efl.eo cimport PY_REFCOUNT
 from efl.utils.conversions cimport _ctouni, eina_list_strings_to_python_list
+from efl.eina cimport eina_list_free, eina_stringshare_del
 
 cdef class Theme(object):
 
@@ -401,6 +402,39 @@ cdef class Theme(object):
         if isinstance(key, unicode): key = PyUnicode_AsUTF8String(key)
         return _ctouni(elm_theme_data_get(self.th,
             <const char *>key if key is not None else NULL))
+
+    def group_base_list_get(self, base not None):
+        """Get a list of groups that match the initial base string given.
+
+        This function will walk all theme files configured in the theme
+        and find all groups that BEGIN with the string ``begin`` and have
+        that string as at LEAST their start.
+
+        :param base: The base string group collection to look for
+        :type base: string
+
+        :return: The list of group names found (sorted)
+        :rtype: list of strings
+
+        .. versionadded:: 1.13
+
+        """
+        cdef:
+            const char *s
+            list  ret = []
+            Eina_List *lst, *itr
+
+        if isinstance(base, unicode): base = PyUnicode_AsUTF8String(base)
+        lst = elm_theme_group_base_list(self.th, <const char *>base)
+        itr = lst
+        while itr:
+            s = <const char *>itr.data
+            ret.append(_ctouni(s))
+            eina_stringshare_del(s)
+            itr = itr.next
+        eina_list_free(lst)
+        return ret
+
 
 def theme_list_item_path_get(f not None, bint in_search_path):
     """Return the full path for a theme element

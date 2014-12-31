@@ -43,6 +43,7 @@ cdef extern from "Elementary.h":
     Eina_List               *elm_theme_name_available_list_new()
     void                     elm_theme_name_available_list_free(Eina_List *list)
     char                    *elm_theme_data_get(Elm_Theme *th, const char *key)
+    Eina_List               *elm_theme_group_base_list(Elm_Theme *th, const char *base)
 
 cdef class Theme(object):
     cdef Elm_Theme *th
