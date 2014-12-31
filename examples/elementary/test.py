@@ -162,6 +162,7 @@ items = [
     ("Images", [
         ("Icon", "test_icon", "icon_clicked"),
         ("Icon Transparent", "test_icon", "icon_transparent_clicked"),
+        ("Icon Standard", "test_icon", "icon_standard_clicked"),
         ("Image", "test_image", "image_clicked"),
         ("Photo", "test_photo", "photo_clicked"),
         ("Photocam", "test_photocam", "photocam_clicked"),
