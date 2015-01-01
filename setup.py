@@ -188,9 +188,9 @@ class CleanGenerated(Command):
             os.remove(dbus_ml_path)
 
 
-modules = []
+ext_modules = []
+py_modules = []
 packages = ["efl"]
-#package_dirs = {}  # Use this if you put packages in non-root paths
 
 if set(("build", "build_ext", "install", "bdist", "sdist")) & set(sys.argv):
 
@@ -206,7 +206,7 @@ if set(("build", "build_ext", "install", "bdist", "sdist")) & set(sys.argv):
         extra_compile_args=eo_cflags,
         extra_link_args=eo_libs + eina_libs
     )
-    modules.append(eo_ext)
+    ext_modules.append(eo_ext)
 
     # === Utilities ===
     utils_ext = [
@@ -229,7 +229,8 @@ if set(("build", "build_ext", "install", "bdist", "sdist")) & set(sys.argv):
             extra_link_args=eina_libs,
         ),
     ]
-    modules += utils_ext
+    ext_modules.extend(utils_ext)
+    py_modules.append("efl.utils.setup")
     packages.append("efl.utils")
 
     # === Evas ===
@@ -240,7 +241,7 @@ if set(("build", "build_ext", "install", "bdist", "sdist")) & set(sys.argv):
         extra_compile_args=evas_cflags,
         extra_link_args=evas_libs + eina_libs,
     )
-    modules.append(evas_ext)
+    ext_modules.append(evas_ext)
 
     # === Ecore ===
     ecore_cflags, ecore_libs = pkg_config('Ecore', 'ecore', EFL_MIN_VERSION)
@@ -278,7 +279,7 @@ if set(("build", "build_ext", "install", "bdist", "sdist")) & set(sys.argv):
                 eina_libs + evas_libs,
             )
             )
-    modules += ecore_exts
+    ext_modules.extend(ecore_exts)
     packages.append("efl.ecore")
 
     # === Ethumb ===
@@ -290,7 +291,7 @@ if set(("build", "build_ext", "install", "bdist", "sdist")) & set(sys.argv):
         extra_compile_args=ethumb_cflags,
         extra_link_args=ethumb_libs + eina_libs,
     )
-    modules.append(ethumb_ext)
+    ext_modules.append(ethumb_ext)
 
     ethumb_client_cflags, ethumb_client_libs = pkg_config(
         'Ethumb_Client', 'ethumb_client', EFL_MIN_VERSION)
@@ -300,7 +301,7 @@ if set(("build", "build_ext", "install", "bdist", "sdist")) & set(sys.argv):
         extra_compile_args=ethumb_client_cflags,
         extra_link_args=ethumb_client_libs + eina_libs,
     )
-    modules.append(ethumb_client_ext)
+    ext_modules.append(ethumb_client_ext)
 
     # === Edje ===
     edje_cflags, edje_libs = pkg_config('Edje', 'edje', EFL_MIN_VERSION)
@@ -310,7 +311,7 @@ if set(("build", "build_ext", "install", "bdist", "sdist")) & set(sys.argv):
         extra_compile_args=edje_cflags,
         extra_link_args=edje_libs + eina_libs + evas_libs,
     )
-    modules.append(edje_ext)
+    ext_modules.append(edje_ext)
 
     # --- Edje_Edit ---
     edje_edit_ext = Extension(
@@ -320,7 +321,7 @@ if set(("build", "build_ext", "install", "bdist", "sdist")) & set(sys.argv):
         extra_compile_args=edje_cflags,
         extra_link_args=edje_libs + eina_libs + evas_libs,
     )
-    modules.append(edje_edit_ext)
+    ext_modules.append(edje_edit_ext)
 
     # === Emotion ===
     emotion_cflags, emotion_libs = pkg_config(
@@ -332,7 +333,7 @@ if set(("build", "build_ext", "install", "bdist", "sdist")) & set(sys.argv):
         extra_link_args=emotion_libs +
         eina_libs + evas_libs,
     )
-    modules.append(emotion_ext)
+    ext_modules.append(emotion_ext)
 
     # === dbus mainloop integration ===
     dbus_cflags, dbus_libs = pkg_config('DBus', 'dbus-python', "0.83.0")
@@ -343,7 +344,7 @@ if set(("build", "build_ext", "install", "bdist", "sdist")) & set(sys.argv):
         extra_compile_args=list(set(dbus_cflags + ecore_cflags)),
         extra_link_args=dbus_libs + ecore_libs,
         )
-    modules.append(dbus_ml_ext)
+    ext_modules.append(dbus_ml_ext)
 
     # === Elementary ===
     elm_mods = (
@@ -430,7 +431,7 @@ if set(("build", "build_ext", "install", "bdist", "sdist")) & set(sys.argv):
             extra_compile_args=elm_cflags + ecore_x_cflags,
             extra_link_args=elm_libs + eina_libs + evas_libs,
             )
-        modules.append(e)
+        ext_modules.append(e)
 
     packages.append("efl.elementary")
 
@@ -474,11 +475,10 @@ setup(
             'release': ('setup.py', RELEASE)
         }
     },
-    #package_dir=package_dirs,
     packages=packages,
-    ext_package="efl",  # The prefix for ext modules/packages
+    ext_package="efl",
     ext_modules=cythonize(
-        modules,
+        ext_modules,
         include_path=["include"],
         compiler_directives={
             #"c_string_type": "unicode",
@@ -486,5 +486,5 @@ setup(
             "embedsignature": True,
         }
     ),
-    py_modules=["efl.utils.setup"],
+    py_modules=py_modules,
 )
