@@ -17,6 +17,7 @@
 
 import os
 import distutils
+import distutils.command.build
 from distutils.log import warn, info, error
 
 
