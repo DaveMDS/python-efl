@@ -486,4 +486,5 @@ setup(
             "embedsignature": True,
         }
     ),
+    py_modules=["efl.utils.setup"],
 )
