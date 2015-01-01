@@ -422,7 +422,8 @@ cdef class Theme(object):
         cdef:
             const char *s
             list  ret = []
-            Eina_List *lst, *itr
+            Eina_List *lst
+            Eina_List *itr
 
         if isinstance(base, unicode): base = PyUnicode_AsUTF8String(base)
         lst = elm_theme_group_base_list(self.th, <const char *>base)
