@@ -75,7 +75,7 @@ master_doc = 'index'
 
 # General information about the project.
 project = u'Python EFL'
-copyright = u'2008-2014, Simon Busch, Gustavo Sverzut Barbieri, Ulisses Furquim, ProFUSION embedded systems, Boris Faure, Fabiano Fidencio, Davide Andreoli, Kai Huuhko'
+copyright = u'2008-2015, Simon Busch, Gustavo Sverzut Barbieri, Ulisses Furquim, ProFUSION embedded systems, Boris Faure, Fabiano Fidencio, Davide Andreoli, Kai Huuhko'
 
 # The version info for the project you're documenting, acts as replacement for
 # |version| and |release|, also used in various other places throughout the
@@ -343,7 +343,7 @@ texinfo_documents = [
 epub_title = u'Python Bindings for EFL'
 epub_author = u'Simon Busch, Gustavo Sverzut Barbieri, Ulisses Furquim, ProFUSION embedded systems, Boris Faure, Fabiano Fidencio, Davide Andreoli, Kai Huuhko'
 epub_publisher = u'Simon Busch, Gustavo Sverzut Barbieri, Ulisses Furquim, ProFUSION embedded systems, Boris Faure, Fabiano Fidencio, Davide Andreoli, Kai Huuhko'
-epub_copyright = u'2008-2014, Simon Busch, Gustavo Sverzut Barbieri, Ulisses Furquim, ProFUSION embedded systems, Boris Faure, Fabiano Fidencio, Davide Andreoli, Kai Huuhko'
+epub_copyright = u'2008-2015, Simon Busch, Gustavo Sverzut Barbieri, Ulisses Furquim, ProFUSION embedded systems, Boris Faure, Fabiano Fidencio, Davide Andreoli, Kai Huuhko'
 
 # The language of the text. It defaults to the language option
 # or en if the language is not set.

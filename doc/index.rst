@@ -89,7 +89,7 @@ Acknowledgements
 ----------------
 
 :Copyright:
-    Python Bindings for EFL are Copyright (C) 2008-2014 Simon Busch
+    Python Bindings for EFL are Copyright (C) 2008-2015 Simon Busch
     and various contributors (see AUTHORS).
 
 :License:
