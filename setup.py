@@ -184,6 +184,22 @@ packages = ["efl"]
 
 if set(("build", "build_ext", "install", "bdist", "sdist")) & set(sys.argv):
 
+    # === Python ===
+    sys.stdout.write("Checking for Python: ")
+    py_ver = sys.version_info
+    py_ver = "%s.%s.%s" % (py_ver[0], py_ver[1], py_ver[2])
+    if sys.hexversion < 0x020600f0:
+        raise SystemExit("too old. Found: %s  Need at least 2.6.0" % py_ver)
+    else:
+        sys.stdout.write("OK, found %s\n" % py_ver)
+
+    # === Cython ===
+    sys.stdout.write("Checking for Cython: ")
+    if module_suffix == ".c":
+        sys.stdout.write("no need, using pre-generated C files\n")
+    else:
+        sys.stdout.write("OK, found %s\n" % Cython.__version__)
+
     # === Eina ===
     eina_cflags, eina_libs = pkg_config('Eina', 'eina', EFL_MIN_VER)
 
