@@ -170,6 +170,46 @@ class build_i18n(distutils.cmd.Command):
         _data_files_append(self.distribution, target, mo_file)
 
 
+class uninstall(distutils.cmd.Command):
+    description = 'remove all the installed files recorded at installation time'
+    user_options = [('record=', None, 'filename with list of files '
+                                      '(default: installed_files.txt)')]
+
+    def initialize_options(self):
+        self.record = None
+
+    def finalize_options(self):
+        if self.record is None:
+            self.record = 'installed_files.txt'
+
+    def remove_entry(self, entry):
+        if os.path.isfile(entry):
+            try:
+                info("removing file %s" % entry)
+                os.unlink(entry)
+            except OSError as e:
+                error(e)
+
+            directory = os.path.dirname(entry)
+            while os.listdir(directory) == []:
+                try:
+                    info("removing empty directory %s" % directory)
+                    os.rmdir(directory)
+                except OSError as e:
+                    error(e)
+                directory = os.path.dirname(directory)
+
+    def run(self):
+        if not os.path.exists(self.record):
+            warn('Warning: No record file found!')
+            warn('  To make this command works you must add:')
+            warn('  "install": {"record": ("setup.py", "installed_files.txt")}')
+            warn('  to your command_options dict in setup.py')
+            return
+        for entry in open(self.record).read().split():
+            self.remove_entry(entry)
+
+
 def _data_files_append(distribution, target, files):
     """ Tiny util to append to data_files, ensuring data_file is defined """
     if not isinstance(files, (list, tuple)):
