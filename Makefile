@@ -5,6 +5,10 @@
 # want to type less or do not want to learn the python
 # setup syntax.
 #
+# NOTE: This file is also used to discriminate when we are building from
+# stable tarballs (in this case we disable cython by default) or from git
+# sources as the Makefile is not distributed.
+#
 # Usage:
 #
 # make <cmd>            to build using the default python interpreter

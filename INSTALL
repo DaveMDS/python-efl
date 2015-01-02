@@ -3,7 +3,7 @@
 ===============
 
  * Python 2.6 or higher (http://www.python.org/)
-   - Tested with Python 2.6 / 2.7 / 3.2 / 3.3
+   - Tested with Python 2.6 / 2.7 / 3.2 / 3.3 / 3.4
 
  * Cython 0.19 or higher (http://cython.org/)
    - Tested with Cython 0.19.1
@@ -26,25 +26,22 @@
 ======================
 
  Once EFL is built and installed in your desired destination, proceed with
- building the wrapper. The setup script can be forced to use purely C
- sources by setting the environment variable DISABLE_CYTHON to 1.
+ building the wrapper.
+
+ Distribution tarballs include pre-generated C source files, so
+ cython usage is disabled by default, while is enabled in development git
+ versions. You can always force the usage of cython using two environment
+ variables: DISABLE_CYTHON or ENABLE_CYTHON
 
 
- * BUILDING WITH GCC/G++ (Linux, OS X, etc.)
-
-   python setup.py build
-
- * BUILDING WITH Visual Studio (Windows)
-
-   python setup.py build
-
- * BUILDING WITH MINGW (Windows)
-
-   python setup.py build -c mingw32
-
- * FORCING C SOURCES FOR BUILD
+ * FORCE C SOURCES FOR BUILD
 
    env DISABLE_CYTHON=1 python setup.py build
+
+
+ * FORCE THE USAGE OF CYTHON
+
+   env ENABLE_CYTHON=1 python setup.py build
 
 
 
