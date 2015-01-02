@@ -26,7 +26,60 @@ class build_extra(distutils.command.build.build):
     def run(self):
         if 'build_i18n' in self.distribution.cmdclass:
             self.run_command('build_i18n')
+        if 'build_edc' in self.distribution.cmdclass:
+            self.run_command('build_edc')
         distutils.command.build.build.run(self)
+
+
+class build_edc(distutils.cmd.Command):
+    description = 'Compile all the edje themes using edje_cc'
+    user_options = [('themes-dir=', 'd', 'directory that holds the themes '
+                                         '(default: data/themes)'),
+                    ('main-name=', 'n', 'main edc file name of the themes '
+                                        '(default: main.edc)')]
+
+    def initialize_options(self):
+        self.themes_dir = None
+        self.main_name = None
+
+    def finalize_options(self):
+        if self.themes_dir is None:
+            self.themes_dir = 'data/themes'
+        if self.main_name is None:
+            self.main_name = 'main.edc'
+
+    def run(self):
+        distutils.dir_util.mkpath('build/themes', verbose=False)
+        for name in os.listdir(self.themes_dir):
+            edc_file = os.path.join(self.themes_dir, name, self.main_name)
+            if os.path.isfile(edc_file):
+                self.compile_theme(name, edc_file)
+
+    def compile_theme(self, name, edc_file):
+        """
+        Compile edc file to using edje_cc, and put the generated theme file
+        in the data_files list so it got installed.
+        """
+        theme_dir = os.path.dirname(edc_file)
+        sources = []
+        for root, dirs, files in os.walk(theme_dir):
+            sources.extend( os.path.join(root, name) for name in files )
+
+        edj_file = os.path.join('build', 'themes', '%s.edj' % name)
+        if distutils.dep_util.newer_group(sources, edj_file):
+            info('compiling theme "%s" from edc file: "%s"' % (name, edc_file))
+            cmd = ['edje_cc', '-v',
+                   '-id', theme_dir, '-id', os.path.join(theme_dir, 'images'),
+                   '-fd', theme_dir, '-fd', os.path.join(theme_dir, 'fonts'),
+                   '-sd', theme_dir, '-sd', os.path.join(theme_dir, 'sounds'),
+                   edc_file, edj_file]
+            self.spawn(cmd)
+
+        info("changing mode of %s to 644", edj_file)
+        os.chmod(edj_file, 0o0644) # stupid edje_cc create files as 0600 :/
+
+        target = os.path.join('share', self.distribution.get_name(), 'themes')
+        _data_files_append(self.distribution, target, edj_file)
 
 
 class build_i18n(distutils.cmd.Command):
@@ -113,10 +166,16 @@ class build_i18n(distutils.cmd.Command):
         else:
             info('compiling po file: %s updated yet' % (po_file))
 
-        if self.distribution.data_files is None:
-            data_files = self.distribution.data_files = []
-        else:
-            data_files = self.distribution.data_files
-        targetpath = os.path.join('share', 'locale', lang, 'LC_MESSAGES')
-        data_files.append((targetpath, (mo_file,)))
+        target = os.path.join('share', 'locale', lang, 'LC_MESSAGES')
+        _data_files_append(self.distribution, target, mo_file)
 
+
+def _data_files_append(distribution, target, files):
+    """ Tiny util to append to data_files, ensuring data_file is defined """
+    if not isinstance(files, (list, tuple)):
+        files = (files,)
+    if distribution.data_files is None:
+        data_files = distribution.data_files = []
+    else:
+        data_files = distribution.data_files
+    data_files.append((target, files))
