@@ -157,6 +157,7 @@ if set(("build", "build_ext", "install", "bdist", "sdist")) & set(sys.argv):
     if USE_CYTHON:
         # check if cython is installed
         try:
+            from Cython.Distutils import build_ext
             from Cython.Build import cythonize
             import Cython.Compiler.Options
         except ImportError:
@@ -182,6 +183,7 @@ if set(("build", "build_ext", "install", "bdist", "sdist")) & set(sys.argv):
         Cython.Compiler.Options.docstrings = True
 
     else:
+        from distutils.command.build_ext import build_ext
         sys.stdout.write("not needed, using pre-generated C files\n")
         module_suffix = ".c"
 
@@ -437,6 +439,7 @@ setup(
         'Topic :: Software Development :: Widget Sets',
     ],
     cmdclass={
+        'build_ext': build_ext,
         'build_doc': BuildDoc,
         'clean_generated_files': CleanGenerated
     },
