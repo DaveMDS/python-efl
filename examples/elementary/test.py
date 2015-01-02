@@ -40,26 +40,13 @@ FILL_BOTH = EVAS_HINT_FILL, EVAS_HINT_FILL
 
 items = [
     ("Core Libs", [
-        (
-            "Evas Objects",
-            "test_core_evas_objects",
-            "core_evas_objects_clicked"
-            ),
-        (
-            "Evas Canvas Callbacks",
-            "test_core_evas_canvas_callbacks",
-            "core_evas_canvas_callbacks_clicked"
-            ),
-        (
-            "Evas Object Callbacks",
-            "test_core_evas_object_callbacks",
-            "core_evas_object_callbacks_clicked"),
+        ("Evas Objects", "test_core_evas_objects", "core_evas_objects_clicked"),
+        ("Evas Canvas Callbacks", "test_core_evas_canvas_callbacks",
+         "core_evas_canvas_callbacks_clicked"),
+        ("Evas Object Callbacks", "test_core_evas_object_callbacks",
+         "core_evas_object_callbacks_clicked"),
         ("Evas Textgrid", "test_evas_textgrid", "evas_textgrid_clicked"),
-        (
-            "Evas Smart Object",
-            "test_core_evas_smart",
-            "core_evas_smart_clicked"
-            ),
+        # ("Evas Smart Object","test_core_evas_smart","core_evas_smart_clicked"),
     ]),
     ("3D", [
         ("Evas Map 3D", "test_3d", "evas3d_clicked"),
@@ -143,11 +130,7 @@ items = [
         ("Entry", "test_entry", "entry_clicked"),
         ("Entry Scrolled", "test_entry", "entry_scrolled_clicked"),
         ("Entry Anchor", "test_entry", "entry_anchor_clicked"),
-        (
-            "MultiButtonEntry",
-            "test_multibuttonentry",
-            "multibuttonentry_clicked"
-            ),
+        ("MultiButtonEntry","test_multibuttonentry","multibuttonentry_clicked"),
     ]),
     ("Focus", [
         ("Focus", "test_focus", "focus_clicked"),
@@ -222,16 +205,10 @@ items = [
         ("Day Selector", "test_dayselector", "dayselector_clicked"),
         ("Disk Selector", "test_diskselector", "diskselector_clicked"),
         ("File Selector", "test_fileselector", "fileselector_clicked"),
-        (
-            "Fileselector button",
-            "test_fileselector_button",
-            "fileselector_button_clicked"
-            ),
-        (
-            "Fileselector entry",
-            "test_fileselector_entry",
-            "fileselector_entry_clicked"
-            ),
+        ("Fileselector button", "test_fileselector_button",
+         "fileselector_button_clicked"),
+        ("Fileselector entry", "test_fileselector_entry",
+         "fileselector_entry_clicked"),
         ("Flip Selector", "test_flipselector", "flipselector_clicked"),
         ("Hoversel", "test_hoversel", "hoversel_clicked"),
         ("Index", "test_index", "index_clicked"),

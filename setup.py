@@ -18,7 +18,7 @@ VERSION = "%d.%d" % (vers[0], vers[1] if vers[2] < 99 else vers[1] + 1)
 
 # dependencies
 CYTHON_MIN_VERSION = "0.19"
-CYTHON_BLACKLIST = ("0.21.1", "0.21.2") # only used if py3
+# CYTHON_BLACKLIST = ("0.21.1", "0.21.2") # only used if py3
 EFL_MIN_VER = RELEASE
 ELM_MIN_VER = RELEASE
 
@@ -168,9 +168,9 @@ if set(("build", "build_ext", "install", "bdist", "sdist")) & set(sys.argv):
                              Cython.__version__, CYTHON_MIN_VERSION))
 
         # Cython PyMethod_New() is broken for py3! blacklisted
-        if sys.version_info[0] > 2 and Cython.__version__ in CYTHON_BLACKLIST:
-            raise SystemExit("found %s, it's broken! Need another release" %
-                             Cython.__version__)
+        # if sys.version_info[0] > 2 and Cython.__version__ in CYTHON_BLACKLIST:
+        #     raise SystemExit("found %s, it's broken! Need another release" %
+        #                      Cython.__version__)
 
         sys.stdout.write("OK, found %s\n" % Cython.__version__)
         module_suffix = ".pyx"

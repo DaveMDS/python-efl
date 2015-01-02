@@ -350,7 +350,9 @@ include "efl.evas_canvas.pxi"
 include "efl.evas_object_events.pxi"
 include "efl.evas_object_callbacks.pxi"
 include "efl.evas_object.pxi"
-include "efl.evas_object_smart.pxi"
+# Disable evas smart object for the moment, because PyMethod_New is broken
+# in recent Cython versions, at least in Cython 0.21.1/2 using py3.
+# include "efl.evas_object_smart.pxi"
 include "efl.evas_object_image.pxi"
 include "efl.evas_object_line.pxi"
 include "efl.evas_object_rectangle.pxi"

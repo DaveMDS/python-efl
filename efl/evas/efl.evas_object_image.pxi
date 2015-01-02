@@ -15,6 +15,8 @@
 # You should have received a copy of the GNU Lesser General Public License
 # along with this Python-EFL.  If not, see <http://www.gnu.org/licenses/>.
 
+from cpython cimport PyObject
+
 cdef extern from "Python.h":
     PyObject * PyMemoryView_FromBuffer(Py_buffer *info)
 

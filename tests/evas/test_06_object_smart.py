@@ -24,6 +24,7 @@ class MyObject(evas.SmartObject):
         self.r1.geometry = (0, 0, w2, h2)
         self.r2.geometry = (w2, h2, w2, h2)
 
+@unittest.skip("SmartObject disabled")
 class SmartObjectTest(unittest.TestCase):
     def setUp(self):
         self.canvas = evas.Canvas(method="buffer",
