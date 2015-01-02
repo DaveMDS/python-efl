@@ -18,6 +18,7 @@ VERSION = "%d.%d" % (vers[0], vers[1] if vers[2] < 99 else vers[1] + 1)
 
 # dependencies
 CYTHON_MIN_VERSION = "0.19"
+CYTHON_BLACKLIST = ("0.21.1", "0.21.2")
 EFL_MIN_VER = RELEASE
 ELM_MIN_VER = RELEASE
 
@@ -142,9 +143,10 @@ may be caused by version of Cython that's too old.""" % (
             raise SystemExit("Requires Cython >= %s (http://cython.org/)" % (
                              CYTHON_MIN_VERSION))
 
-        # Cython 0.21.1 PyMethod_New() is broken! blacklisted
-        if Cython.__version__ == "0.21.1":
-            raise SystemExit("Cython 0.21.1 is broken! Use another release.")
+        # Cython PyMethod_New() is broken! blacklisted
+        if Cython.__version__ in CYTHON_BLACKLIST:
+            raise SystemExit("Cython %s is broken! Use another release." %
+                             Cython.__version__)
 
         # Stop compilation on first error
         Cython.Compiler.Options.fast_fail = True
