@@ -103,13 +103,11 @@ def pkg_config(name, require, min_vers=None):
 # === cython or pre-generated c files ===
 if os.getenv("DISABLE_CYTHON"):
     module_suffix = ".c"
-    from distutils.command.build_ext import build_ext
 
     def cythonize(modules, *args, **kwargs):
         return modules
 else:
     try:
-        from Cython.Distutils import build_ext
         from Cython.Build import cythonize
         import Cython.Compiler.Options
     except ImportError:
@@ -117,7 +115,6 @@ else:
             raise SystemExit("Requires Cython >= %s (http://cython.org/)" % (
                              CYTHON_MIN_VERSION))
         module_suffix = ".c"
-        from distutils.command.build_ext import build_ext
 
         def cythonize(modules, *args, **kwargs):
             return modules
@@ -444,7 +441,6 @@ setup(
         'Topic :: Software Development :: Widget Sets',
     ],
     cmdclass={
-        'build_ext': build_ext,
         'build_doc': BuildDoc,
         'clean_generated_files': CleanGenerated
     },
