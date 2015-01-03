@@ -46,7 +46,6 @@ from efl.evas cimport Object as evasObject
 from object cimport Object
 
 cdef class Plug(Object):
-
     """
 
     An object that allows one to show an image which other process created.
@@ -55,6 +54,14 @@ cdef class Plug(Object):
     """
 
     def __init__(self, evasObject parent, *args, **kwargs):
+        """Plug(...)
+
+        :param parent: The parent object
+        :type parent: :py:class:`efl.evas.Object`
+        :param \**kwargs: All the remaining keyword arguments are interpreted
+                          as properties of the instance
+
+        """
         self._set_obj(elm_plug_add(parent.obj))
         self._set_properties_from_keyword_args(kwargs)
 

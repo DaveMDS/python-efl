@@ -124,7 +124,6 @@ ELM_HOVER_AXIS_VERTICAL = enums.ELM_HOVER_AXIS_VERTICAL
 ELM_HOVER_AXIS_BOTH = enums.ELM_HOVER_AXIS_BOTH
 
 cdef class Hover(LayoutClass):
-
     """
 
     This is the class that actually implement the widget.
@@ -132,6 +131,14 @@ cdef class Hover(LayoutClass):
     """
 
     def __init__(self, evasObject parent, *args, **kwargs):
+        """Hover(...)
+
+        :param parent: The parent object
+        :type parent: :py:class:`efl.evas.Object`
+        :param \**kwargs: All the remaining keyword arguments are interpreted
+                          as properties of the instance
+
+        """
         self._set_obj(elm_hover_add(parent.obj))
         self._set_properties_from_keyword_args(kwargs)
 

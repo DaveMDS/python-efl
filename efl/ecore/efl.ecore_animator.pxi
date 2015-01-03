@@ -17,7 +17,9 @@
 
 
 cdef class Animator(Eo):
-    """Creates an animator to tick off at every animaton tick during main loop
+    """
+
+    Creates an animator to tick off at every animaton tick during main loop
     execution.
 
     This class represents an animator that will call the given ``func``
@@ -36,13 +38,23 @@ cdef class Animator(Eo):
     returning *False* from ``func``, otherwise they'll continue alive, even
     if the current python context delete it's reference to it.
 
-    :param func:
-        function to call every frame. Expected signature::
+    """
+    def __init__(self, func, *args, **kargs):
+        """Animator(...)
+
+        :param func: function to call at every frame.
+        :type func: callable
+        :param \*args: All the remaining arguments will be passed
+                       back in the callback function.
+        :param \**kwargs: All the remaining keyword arguments will be passed
+                          back in the callback function.
+
+        Expected **func** signature::
 
             func(*args, **kargs) -> bool
 
-    """
-    def __init__(self, func, *args, **kargs):
+        """
+        
         if not callable(func):
             raise TypeError("Parameter 'func' must be callable")
         self.func = func
@@ -85,11 +97,12 @@ cdef Eina_Bool _ecore_timeline_cb(void *data, double pos) with gil:
 
     return ret
 
-cdef class AnimatorTimeline(Animator):
-    """Add an animator that runs for a limited time
 
-    :param runtime: The time to run in seconds
-    :param func: The function to call when it ticks off
+cdef class AnimatorTimeline(Animator):
+    """
+
+    Create an animator that runs for a limited time
+
 
     This is just like a normal :py:class:`Animator` except the animator only
     runs for a limited time specified in seconds by ``runtime``. Once the
@@ -111,6 +124,23 @@ cdef class AnimatorTimeline(Animator):
     """
 
     def __init__(self, func, double runtime, *args, **kargs):
+        """AnimatorTimeline(...)
+
+        :param func: The function to call when it ticks off
+        :type func: callable        
+        :param runtime: The time to run in seconds
+        :type runtime: double
+        :param \*args: All the remaining arguments will be passed
+                       back in the callback function.
+        :param \**kwargs: All the remaining keyword arguments will be passed
+                          back in the callback function.
+
+        Expected **func** signature::
+
+            func(pos, *args, **kargs) -> bool
+
+        """
+        
         if not callable(func):
             raise TypeError("Parameter 'func' must be callable")
         self.func = func

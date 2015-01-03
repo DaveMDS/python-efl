@@ -228,8 +228,11 @@ cdef void _toolbar_item_state_callback(void *data, Evas_Object *obj, void *event
     item.item = NULL
 
 cdef class ToolbarItemState(object):
+    """
 
-    """A state for a :py:class:`ToolbarItem`."""
+    A state for a :py:class:`ToolbarItem`.
+
+    """
 
     cdef Elm_Toolbar_Item_State *state
     cdef object params
@@ -262,8 +265,11 @@ cdef class ToolbarItemState(object):
 
 
 cdef class ToolbarItem(ObjectItem):
+    """
 
-    """An item for the toolbar."""
+    An item for the toolbar.
+
+    """
 
     cdef:
         object label
@@ -764,7 +770,6 @@ cdef class ToolbarItem(ObjectItem):
 
 
 cdef class Toolbar(LayoutClass):
-
     """
 
     This is the class that actually implements the widget.
@@ -775,6 +780,14 @@ cdef class Toolbar(LayoutClass):
     """
 
     def __init__(self, evasObject parent, *args, **kwargs):
+        """Toolbar(...)
+
+        :param parent: The parent object
+        :type parent: :py:class:`efl.evas.Object`
+        :param \**kwargs: All the remaining keyword arguments are interpreted
+                          as properties of the instance
+
+        """
         self._set_obj(elm_toolbar_add(parent.obj))
         self._set_properties_from_keyword_args(kwargs)
 

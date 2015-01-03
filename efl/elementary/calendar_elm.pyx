@@ -202,7 +202,6 @@ ELM_DAY_LAST = enums.ELM_DAY_LAST
 
 
 cdef class CalendarMark(object):
-
     """
 
     An item for the Calendar widget.
@@ -236,9 +235,11 @@ cdef class CalendarMark(object):
     cdef Elm_Calendar_Mark *obj
 
     def __init__(self, evasObject cal, mark_type, mark_time,
-            Elm_Calendar_Mark_Repeat_Type repeat):
-        """Create a new Calendar mark
+                 Elm_Calendar_Mark_Repeat_Type repeat):
+        """CalendarMark(...)
 
+        :param parent: The parent object
+        :type parent: :py:class:`efl.evas.Object`
         :param mark_type: A string used to define the type of mark. It will be
             emitted to the theme, that should display a related modification on these
             days representation.
@@ -284,10 +285,21 @@ cdef class CalendarMark(object):
         elm_calendar_mark_del(self.obj)
 
 cdef class Calendar(LayoutClass):
+    """
 
-    """This is the class that actually implements the widget."""
+    This is the class that actually implements the widget.
+
+    """
 
     def __init__(self, evasObject parent, *args, **kwargs):
+        """Calendar(..)
+
+        :param parent: The parent object
+        :type parent: :py:class:`efl.evas.Object`
+        :param \**kwargs: All the remaining keyword arguments are interpreted
+                          as properties of the instance
+
+        """
         self._set_obj(elm_calendar_add(parent.obj))
         self._set_properties_from_keyword_args(kwargs)
 

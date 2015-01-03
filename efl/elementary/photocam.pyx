@@ -121,9 +121,9 @@ ELM_PHOTOCAM_ZOOM_MODE_LAST = enums.ELM_PHOTOCAM_ZOOM_MODE_LAST
 
 
 class PhotocamProgressInfo(object):
-    """
+    """PhotocamProgressInfo(...)
 
-    The info sent in the callback for the "download,progress" signals emitted
+    The info sent in the callback for the ``download,progress`` signals emitted
     by Photocam while downloading remote urls.
 
     :var now: The amount of data received so far.
@@ -144,9 +144,9 @@ def _photocam_download_progress_conv(uintptr_t addr):
     return ppi
 
 class PhotocamErrorInfo(object):
-    """
+    """PhotocamErrorInfo(...)
 
-    The info sent in the callback for the "download,error" signals emitted
+    The info sent in the callback for the ``download,error`` signals emitted
     by Photocam when fail to download remote urls.
 
     :var status: The http error code (such as 401)
@@ -168,10 +168,21 @@ def _photocam_download_error_conv(uintptr_t addr):
 
 
 cdef class Photocam(Object):
+    """
 
-    """This is the class that actually implements the widget."""
+    This is the class that actually implements the widget.
+
+    """
 
     def __init__(self, evasObject parent, *args, **kwargs):
+        """Photocam(...)
+
+        :param parent: The parent object
+        :type parent: :py:class:`efl.evas.Object`
+        :param \**kwargs: All the remaining keyword arguments are interpreted
+                          as properties of the instance
+
+        """
         self._set_obj(elm_photocam_add(parent.obj))
         self._set_properties_from_keyword_args(kwargs)
 

@@ -36,80 +36,58 @@ format.
 
 Elm_datetime supports only the following sub set of libc date format specifiers:
 
-**%%Y**
-    The year as a decimal number including the century (example: 2011).
+**%%Y** The year as a decimal number including the century (example: 2011).
 
-**%%y**
-    The year as a decimal number without a century (range 00 to 99)
+**%%y** The year as a decimal number without a century (range 00 to 99)
 
-**%%m**
-    The month as a decimal number (range 01 to 12).
+**%%m** The month as a decimal number (range 01 to 12).
 
-**%%b**
-    The abbreviated month name according to the current locale.
+**%%b** The abbreviated month name according to the current locale.
 
-**%%B**
-    The full month name according to the current locale.
+**%%B** The full month name according to the current locale.
 
-**%%h**
-    The abbreviated month name according to the current locale(same as %%b).
+**%%h** The abbreviated month name according to the current locale(same as %%b).
 
-**%%d**
-    The day of the month as a decimal number (range 01 to 31).
+**%%d** The day of the month as a decimal number (range 01 to 31).
 
-**%%e**
-    The day of the month as a decimal number (range 1 to 31). single
-    digits are preceded by a blank.
+**%%e** The day of the month as a decimal number (range 1 to 31). single
+        digits are preceded by a blank.
 
-**%%I**
-    The hour as a decimal number using a 12-hour clock (range 01 to 12).
+**%%I** The hour as a decimal number using a 12-hour clock (range 01 to 12).
 
-**%%H**
-    The hour as a decimal number using a 24-hour clock (range 00 to 23).
+**%%H** The hour as a decimal number using a 24-hour clock (range 00 to 23).
 
-**%%k**
-    The hour (24-hour clock) as a decimal number (range 0 to 23). single
-    digits are preceded by a blank.
+**%%k** The hour (24-hour clock) as a decimal number (range 0 to 23). single
+        digits are preceded by a blank.
 
-**%%l**
-    The hour (12-hour clock) as a decimal number (range 1 to 12); single
-    digits are preceded by a blank.
+**%%l** The hour (12-hour clock) as a decimal number (range 1 to 12); single
+        digits are preceded by a blank.
 
-**%%M**
-    The minute as a decimal number (range 00 to 59).
+**%%M** The minute as a decimal number (range 00 to 59).
 
-**%%p**
-    Either 'AM' or 'PM' according to the given time value, or the
-    corresponding strings for the current locale. Noon is treated as 'PM'
-    and midnight as 'AM'
+**%%p** Either 'AM' or 'PM' according to the given time value, or the
+        corresponding strings for the current locale. Noon is treated as 'PM'
+        and midnight as 'AM'
 
-**%%P**
-    Like %p but in lower case: 'am' or 'pm' or a corresponding string for
-    the current locale.
+**%%P** Like %p but in lower case: 'am' or 'pm' or a corresponding string for
+        the current locale.
 
-**%%c**
-    The preferred date and time representation for the current locale.
+**%%c** The preferred date and time representation for the current locale.
 
-**%%x**
-    The preferred date representation for the current locale without the time.
+**%%x** The preferred date representation for the current locale without the time.
 
-**%%X**
-    The preferred time representation for the current locale without the date.
+**%%X** The preferred time representation for the current locale without the date.
 
-**%%r**
-    The complete calendar time using the AM/PM format of the current locale.
+**%%r** The complete calendar time using the AM/PM format of the current locale.
 
-**%%R**
-    The hour and minute in decimal numbers using the format %H:%M.
+**%%R** The hour and minute in decimal numbers using the format %H:%M.
 
-**%%T**
-    The time of day in decimal numbers using the format %H:%M:%S.
+**%%T** The time of day in decimal numbers using the format %H:%M:%S.
 
-**%%D**
-    The date using the format %%m/%%d/%%y.
+**%%D** The date using the format %%m/%%d/%%y.
 
-**%%F**
-    The date using the format %%Y-%%m-%%d.
+**%%F** The date using the format %%Y-%%m-%%d.
+
 
 (For more reference on the available **LIBC date format specifiers**,
 please visit the link:
@@ -194,7 +172,7 @@ The following functions are expected to be implemented in a Datetime module:
     |__________|                                        |__________|
 
 Any module can use the following shared functions that are implemented in
-elm_datetime.c :
+elm_datetime.c:
 
 **field_format_get()** - gives the field format.
 
@@ -207,10 +185,8 @@ To enable a module, set the ELM_MODULES environment variable as shown:
 This widget emits the following signals, besides the ones sent from
 :py:class:`~efl.elementary.layout_class.LayoutClass`:
 
-- ``changed`` - whenever Datetime field value is changed, this
-    signal is sent.
-- ``language,changed`` - whenever system locale changes, this
-    signal is sent.
+- ``changed`` - whenever Datetime field value is changed, this signal is sent.
+- ``language,changed`` - whenever system locale changes, this signal is sent.
 - ``focused`` - When the datetime has received focus. (since 1.8)
 - ``unfocused`` - When the datetime has lost focus. (since 1.8)
 
@@ -269,10 +245,21 @@ ELM_DATETIME_MINUTE = enums.ELM_DATETIME_MINUTE
 ELM_DATETIME_AMPM = enums.ELM_DATETIME_AMPM
 
 cdef class Datetime(Object):
+    """
 
-    """This is the class that actually implements the widget."""
+    This is the class that actually implements the widget.
+
+    """
 
     def __init__(self, evasObject parent, *args, **kwargs):
+        """Datetime(...)
+
+        :param parent: The parent object
+        :type parent: :py:class:`efl.evas.Object`
+        :param \**kwargs: All the remaining keyword arguments are interpreted
+                          as properties of the instance
+
+        """
         self._set_obj(elm_datetime_add(parent.obj))
         self._set_properties_from_keyword_args(kwargs)
 
@@ -290,80 +277,57 @@ cdef class Datetime(Object):
 
         Following are the allowed set of format specifiers for each datetime field.
 
-        **%%Y**
-            The year as a decimal number including the century.
+        **%%Y** The year as a decimal number including the century.
 
-        **%%y**
-            The year as a decimal number without a century (range 00 to 99).
+        **%%y** The year as a decimal number without a century (range 00 to 99).
 
-        **%%m**
-            The month as a decimal number (range 01 to 12).
+        **%%m** The month as a decimal number (range 01 to 12).
 
-        **%%b**
-            The abbreviated month name according to the current locale.
+        **%%b** The abbreviated month name according to the current locale.
 
-        **%%B**
-            The full month name according to the current locale.
+        **%%B** The full month name according to the current locale.
 
-        **%%h**
-            The abbreviated month name according to the current locale(same as %%b).
+        **%%h** The abbreviated month name according to the current locale(same as %%b).
 
-        **%%d**
-            The day of the month as a decimal number (range 01 to 31).
+        **%%d** The day of the month as a decimal number (range 01 to 31).
 
-        **%%e**
-            The day of the month as a decimal number (range 1 to 31). single
-             digits are preceded by a blank.
+        **%%e** The day of the month as a decimal number (range 1 to 31). single
+                digits are preceded by a blank.
 
-        **%%I**
-            The hour as a decimal number using a 12-hour clock (range 01 to 12).
+        **%%I** The hour as a decimal number using a 12-hour clock (range 01 to 12).
 
-        **%%H**
-            The hour as a decimal number using a 24-hour clock (range 00 to 23).
+        **%%H** The hour as a decimal number using a 24-hour clock (range 00 to 23).
 
-        **%%k**
-            The hour (24-hour clock) as a decimal number (range 0 to 23). single
-            digits are preceded by a blank.
+        **%%k** The hour (24-hour clock) as a decimal number (range 0 to 23). single
+                digits are preceded by a blank.
 
-        **%%l**
-            The hour (12-hour clock) as a decimal number (range 1 to 12); single
-            digits are preceded by a blank.
+        **%%l** The hour (12-hour clock) as a decimal number (range 1 to 12); single
+                digits are preceded by a blank.
 
-        **%%M**
-            The minute as a decimal number (range 00 to 59).
+        **%%M** The minute as a decimal number (range 00 to 59).
 
-        **%%p**
-            Either 'AM' or 'PM' according to the given time value, or the
-            corresponding strings for the current locale. Noon is treated as 'PM'
-            and midnight as 'AM'.
+        **%%p** Either 'AM' or 'PM' according to the given time value, or the
+                corresponding strings for the current locale. Noon is treated as 'PM'
+                and midnight as 'AM'.
 
-        **%%P**
-            Like %p but in lower case: 'am' or 'pm' or a corresponding string for
-            the current locale.
+        **%%P** Like %p but in lower case: 'am' or 'pm' or a corresponding string for
+                the current locale.
 
-        **%%c**
-            The preferred date and time representation for the current locale.
+        **%%c** The preferred date and time representation for the current locale.
 
-        **%%x**
-            The preferred date representation for the current locale without the time.
+        **%%x** The preferred date representation for the current locale without the time.
 
-        **%%X**
-            The preferred time representation for the current locale without the date.
+        **%%X** The preferred time representation for the current locale without the date.
 
-        **%%r**
-            The complete calendar time using the AM/PM format of the current locale.
+        **%%r** The complete calendar time using the AM/PM format of the current locale.
 
-        **%%R**
-            The hour and minute in decimal numbers using the format %H:%M.
+        **%%R** The hour and minute in decimal numbers using the format %H:%M.
 
-        **%%T**
-            The time of day in decimal numbers using the format %H:%M:%S.
+        **%%T** The time of day in decimal numbers using the format %H:%M:%S.
 
-        **%%D**
-            The date using the format %%m/%%d/%%y.
+        **%%D** The date using the format %%m/%%d/%%y.
 
-        **%%F**
-            The date using the format %%Y-%%m-%%d.
+        **%%F** The date using the format %%Y-%%m-%%d.
 
         These specifiers can be arranged in any order and the widget will display the
         fields accordingly.

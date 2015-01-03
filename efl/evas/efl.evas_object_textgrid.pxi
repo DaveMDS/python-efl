@@ -218,13 +218,22 @@ cdef class TextgridCell(object):
             return <bint>self.cell.double_width
 
 cdef class Textgrid(Object):
-
     """
+
+    A textgrid object.
 
     .. versionadded:: 1.8
 
     """
     def __init__(self, Canvas canvas not None, **kwargs):
+        """Textgrid(...)
+
+        :param canvas: Evas canvas for this object
+        :type canvas: :py:class:`~efl.evas.Canvas`
+        :keyword \**kwargs: All the remaining keyword arguments are interpreted
+                            as properties of the instance
+        
+        """
         self._set_obj(evas_object_textgrid_add(canvas.obj))
         self._set_properties_from_keyword_args(kwargs)
 

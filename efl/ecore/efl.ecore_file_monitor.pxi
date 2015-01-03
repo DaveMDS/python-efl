@@ -27,7 +27,9 @@ cdef void _file_monitor_cb(void *data, Ecore_File_Monitor *em, Ecore_File_Event 
 
 
 cdef class FileMonitor(object):
-    """ Monitor the given path for changes.
+    """
+
+    Monitor the given path for changes.
 
     The callback signatures is::
 
@@ -54,16 +56,18 @@ cdef class FileMonitor(object):
         ecore.FileMonitor("/tmp", monitor_cb)
         ecore.main_loop_begin()
 
-
-    :param path: The complete path of the folder you want to monitor.
-    :type path: str
-    :param monitor_cb: A callback called when something change in `path`
-    :type monitor_cb: callable
-
     .. versionadded:: 1.8
 
     """
     def __init__(self, path, monitor_cb, *args, **kargs):
+        """FileMonitor(...)
+
+        :param path: The complete path of the folder you want to monitor.
+        :type path: str
+        :param monitor_cb: A callback called when something change in `path`
+        :type monitor_cb: callable
+        
+        """
 
         if not callable(monitor_cb):
             raise TypeError("Parameter 'monitor_cb' must be callable")

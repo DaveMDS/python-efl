@@ -51,10 +51,21 @@ from efl.evas cimport Object as evasObject
 from layout_class cimport LayoutClass
 
 cdef class InnerWindow(LayoutClass):
+    """
 
-    """This is the class that actually implements the widget."""
+    This is the class that actually implements the widget.
+
+    """
 
     def __init__(self, evasObject parent, *args, **kwargs):
+        """InnerWindow(...)
+
+        :param parent: The parent object
+        :type parent: :py:class:`efl.evas.Object`
+        :param \**kwargs: All the remaining keyword arguments are interpreted
+                          as properties of the instance
+
+        """
         self._set_obj(elm_win_inwin_add(parent.obj))
         self._set_properties_from_keyword_args(kwargs)
 

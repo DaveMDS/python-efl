@@ -28,21 +28,16 @@ cdef class Box(Object):
     inside their cell space.
 
 
-    :param canvas: The evas canvas for this object
-    :type canvas: :py:class:`Canvas`
-    :keyword size: Width and height
-    :type size: tuple of ints
-    :keyword pos: X and Y
-    :type pos: tuple of ints
-    :keyword geometry: X, Y, width, height
-    :type geometry: tuple of ints
-    :keyword color: R, G, B, A
-    :type color: tuple of ints
-    :keyword name: Object name
-    :type name: string
-
     """
     def __init__(self, Canvas canvas not None, **kwargs):
+        """Box(...)
+
+        :param canvas: The evas canvas for this object
+        :type canvas: :py:class:`Canvas`
+        :param \**kwargs: All the remaining keyword arguments are interpreted
+                          as properties of the instance
+
+        """
         self._set_obj(evas_object_box_add(canvas.obj))
         self._set_properties_from_keyword_args(kwargs)
 

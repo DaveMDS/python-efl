@@ -270,8 +270,11 @@ cdef class StoreItemInfoFilesystem(object):
 
 
 cdef class Store(object):
+    """
 
-    """The class that holds the implementation of the widget."""
+    The class that holds the implementation of the widget.
+
+    """
 
     cdef Elm_Store *st
 

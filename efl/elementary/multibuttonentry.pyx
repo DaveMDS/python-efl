@@ -114,8 +114,11 @@ cdef char * _multibuttonentry_format_cb(int count, void *data) with gil:
 
 
 cdef class MultiButtonEntryItem(ObjectItem):
+    """
 
-    """An item for the MultiButtonEntry widget."""
+    An item for the MultiButtonEntry widget.
+
+    """
 
     cdef:
         bytes label
@@ -254,10 +257,21 @@ cdef void _py_elm_mbe_item_added_cb(
         it._set_obj(item)
 
 cdef class MultiButtonEntry(Object):
+    """
 
-    """This is the class that actually implements the widget."""
+    This is the class that actually implements the widget.
+
+    """
 
     def __init__(self, evasObject parent, *args, **kwargs):
+        """MultiButtonEntry(...)
+
+        :param parent: The parent object
+        :type parent: :py:class:`efl.evas.Object`
+        :param \**kwargs: All the remaining keyword arguments are interpreted
+                          as properties of the instance
+
+        """
         self._set_obj(elm_multibuttonentry_add(parent.obj))
         evas_object_smart_callback_add(
             self.obj, "item,added",

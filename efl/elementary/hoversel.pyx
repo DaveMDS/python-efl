@@ -96,10 +96,12 @@ def _cb_object_item_conv(uintptr_t addr):
     return _object_item_to_python(it)
 
 cdef class HoverselItem(ObjectItem):
-
     """
 
     An item for the :py:class:`Hoversel` widget.
+
+    For more information on what ``icon_file`` and ``icon_type`` are,
+    see :py:class:`~efl.elementary.icon.Icon`.
 
     """
     cdef:
@@ -109,8 +111,7 @@ cdef class HoverselItem(ObjectItem):
     def __init__(self, label = None, icon_file = None,
             icon_type = ELM_ICON_NONE, callback = None, cb_data = None,
             *args, **kwargs):
-        """For more information on what ``icon_file`` and ``icon_type`` are,
-        see :py:class:`~efl.elementary.icon.Icon`.
+        """HoverselItem(...)
 
         :param label: The text label to use for the item (None if not desired)
         :type label: string
@@ -122,6 +123,9 @@ cdef class HoverselItem(ObjectItem):
         :param callback: Convenience function to call when this item is
             selected
         :type callback: function
+        :param cb_data: User data for the callback function
+        :param \**kwargs: All the remaining keyword arguments are interpreted
+                          as properties of the instance
 
         """
         if isinstance(label, unicode): label = PyUnicode_AsUTF8String(label)
@@ -237,10 +241,21 @@ cdef class HoverselItem(ObjectItem):
             return (_ctouni(icon_file), _ctouni(icon_group), icon_type)
 
 cdef class Hoversel(Button):
+    """
 
-    """This is the class that actually implements the widget."""
+    This is the class that actually implements the widget.
+
+    """
 
     def __init__(self, evasObject parent, *args, **kwargs):
+        """Hoversel(...)
+
+        :param parent: The parent object
+        :type parent: :py:class:`efl.evas.Object`
+        :param \**kwargs: All the remaining keyword arguments are interpreted
+                          as properties of the instance
+
+        """
         self._set_obj(elm_hoversel_add(parent.obj))
         self._set_properties_from_keyword_args(kwargs)
 

@@ -78,7 +78,9 @@ cdef _canvas_del_callback_from_list(Canvas canvas, int type, func):
 
 
 cdef class Canvas(Eo):
-    """ The Evas Canvas.
+    """
+
+    The Evas Canvas.
 
     Canvas is the base drawing area and scene manager, it should have
     a number of objects (or actors) that will be managed. Object state

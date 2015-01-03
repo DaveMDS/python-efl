@@ -34,7 +34,9 @@ cdef int _progress_cb(void *data, const char *file, long int dltotal,
 
 
 cdef class FileDownload(object):
-    """ Download the given url to destination.
+    """
+
+    Download the given url to destination.
 
     You must provide the full url, including 'http://', 'ftp://' or 'file://'.
     If ``dst`` already exist it will not be overwritten and the function will fail.
@@ -69,13 +71,16 @@ cdef class FileDownload(object):
                                  "/path/to/destination", None, None)
         ecore.file_download_abort(dl)
 
-    :param url: The complete url to download
-    :param dst: Where to download the file
-    :param completion_cb: A callback called on download complete
-    :param progress_cb: A callback called during the download operation
-
     """
     def __init__(self, url, dst, completion_cb, progress_cb, *args, **kargs):
+        """FileDownload(...)
+
+        :param url: The complete url to download
+        :param dst: Where to download the file
+        :param completion_cb: A callback called on download complete
+        :param progress_cb: A callback called during the download operation
+
+        """
         cdef Ecore_File_Download_Job *job
 
         if completion_cb is not None and not callable(completion_cb):

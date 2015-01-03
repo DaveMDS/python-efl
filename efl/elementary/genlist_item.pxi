@@ -1,6 +1,9 @@
 cdef class GenlistItem(ObjectItem):
+    """
 
-    """An item for the :py:class:`Genlist` widget."""
+    An item for the :py:class:`Genlist` widget.
+
+    """
 
     cdef:
         readonly GenlistItemClass item_class
@@ -8,12 +11,11 @@ cdef class GenlistItem(ObjectItem):
         int flags
         object comparison_func, item_data, func_data
 
-    def __init__(self,
-        GenlistItemClass item_class not None, item_data=None,
-        GenlistItem parent_item=None,
-        Elm_Genlist_Item_Type flags=enums.ELM_GENLIST_ITEM_NONE,
-        func=None, func_data=None, *args, **kwargs):
-        """Create a new GenlistItem.
+    def __init__(self, GenlistItemClass item_class not None, item_data=None,
+                 GenlistItem parent_item=None,
+                 Elm_Genlist_Item_Type flags=enums.ELM_GENLIST_ITEM_NONE,
+                 func=None, func_data=None, *args, **kwargs):
+        """GenlistItem(...)
 
         :param item_data: Data that defines the model of this row.
             This value will be given to methods of ``item_class`` such as

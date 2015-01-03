@@ -36,7 +36,6 @@ cdef void layout_signal_callback(void *data, Evas_Object *obj,
             traceback.print_exc()
 
 cdef class LayoutClass(Object):
-
     """
 
     Elementary, besides having the :py:class:`~efl.elementary.layout.Layout`

@@ -164,7 +164,6 @@ ELM_SCROLLER_MOVEMENT_BLOCK_VERTICAL = enums.ELM_SCROLLER_MOVEMENT_BLOCK_VERTICA
 ELM_SCROLLER_MOVEMENT_BLOCK_HORIZONTAL = enums.ELM_SCROLLER_MOVEMENT_BLOCK_HORIZONTAL
 
 cdef class Scrollable(Object):
-
     """
 
     An Elementary scrollable interface will handle an internal **panning**

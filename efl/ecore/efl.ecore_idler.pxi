@@ -17,15 +17,17 @@
 
 
 cdef class Idler(Eo):
-    """Add an idler handler.
+    """
+
+    Add an idler handler.
 
     This class represents an idler on the event loop that will
     call ``func`` when there is nothing more to do. The function will
     be passed any extra parameters given to constructor.
 
     When the idler ``func`` is called, it must return a value of either
-    True or False (remember that Python returns None if no value is
-    explicitly returned and None evaluates to False). If it returns
+    **True** or **False** (remember that Python returns **None** if no value
+    is explicitly returned and **None** evaluates to False). If it returns
     **True**, it will be called again when system become idle, or if it
     returns **False** it will be deleted automatically making any
     references/handles for it invalid.
@@ -36,14 +38,22 @@ cdef class Idler(Eo):
 
     Idlers are useful for progressively prossessing data without blocking.
 
-    :param func:
-        Function to call when system is idle.
-        Expected signature::
+    """
+    def __init__(self, func, *args, **kargs):
+        """Idler(...)
+
+        :param func: Function to call when system is idle.
+        :type func: callable
+        :param \*args: All the remaining arguments will be passed
+                       back in the callback function.
+        :param \**kwargs: All the remaining keyword arguments will be passed
+                          back in the callback function.
+
+        Expected **func** signature::
 
             func(*args, **kargs): bool
 
-    """
-    def __init__(self, func, *args, **kargs):
+        """
         if not callable(func):
             raise TypeError("Parameter 'func' must be callable")
         self.func = func
@@ -72,33 +82,45 @@ cdef class Idler(Eo):
 
 
 cdef class IdleEnterer(Idler):
-    """Add an idle enterer handler.
+    """
+
+    Add an idle enterer handler.
 
     This class represents a function that will be called before systems
     enter idle. The function will be passed any extra parameters given
     to constructor.
 
     When the idle enterer ``func`` is called, it must return a value of
-    either *True* or *False* (remember that Python returns *None* if no value
-    is explicitly returned and *None* evaluates to *False*). If it returns
-    *True*, it will be called again when system become idle, or if it
-    returns *False* it will be deleted automatically making any
+    either **True** or **False** (remember that Python returns **None** if
+    no value is explicitly returned and **None** evaluates to **False**). If
+    it returns **True**, it will be called again when system become idle, or
+    if it returns **False** it will be deleted automatically making any
     references/handles for it invalid.
 
     Idle enterers should be stopped/deleted by means of delete() or
-    returning *False* from ``func``, otherwise they'll continue alive, even
+    returning **False** from ``func``, otherwise they'll continue alive, even
     if the current python context delete it's reference to it.
 
     Idle enterer are useful for post-work jobs, like garbage collection.
 
-    :param func:
-        Function to call when system enters idle.
-        Expected signature::
 
-            func(*args, **kargs): bool
 
     """
     def __init__(self, func, *args, **kargs):
+        """IdleEnterer(...)
+
+        :param func: Function to call when system enters idle.
+        :type func: callable
+        :param \*args: All the remaining arguments will be passed
+                       back in the callback function.
+        :param \**kwargs: All the remaining keyword arguments will be passed
+                          back in the callback function.
+
+        Expected **func** signature::
+
+            func(*args, **kargs): bool
+
+        """
         if not callable(func):
             raise TypeError("Parameter 'func' must be callable")
         self.func = func
@@ -112,7 +134,9 @@ cdef class IdleEnterer(Idler):
 
 
 cdef class IdleExiter(Idler):
-    """Add an idle exiter handler.
+    """
+
+    Add an idle exiter handler.
 
     This class represents a function that will be called before systems
     exits idle. The function will be passed any extra parameters given
@@ -129,14 +153,21 @@ cdef class IdleExiter(Idler):
     returning *False* from ``func``, otherwise they'll continue alive, even
     if the current python context delete it's reference to it.
 
-    :param func:
-        Function to call when system exits idle.
-        Expected signature::
+    """
+    def __init__(self, func, *args, **kargs):
+        """ IdleExiter(...)
+
+        :param func: Function to call when system exits idle.
+        :param \*args: All the remaining arguments will be passed
+                       back in the callback function.
+        :param \**kwargs: All the remaining keyword arguments will be passed
+                          back in the callback function.
+
+        Expected **func** signature::
 
             func(*args, **kargs): bool
 
-    """
-    def __init__(self, func, *args, **kargs):
+        """
         if not callable(func):
             raise TypeError("Parameter 'func' must be callable")
         self.func = func
@@ -145,6 +176,7 @@ cdef class IdleExiter(Idler):
         self._set_obj(ecore_idle_exiter_add(_ecore_task_cb, <void *>self))
 
     def delete(self):
+        """Stop callback emission and free internal resources."""
         ecore_idle_exiter_del(self.obj)
 
 

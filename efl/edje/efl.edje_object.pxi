@@ -86,11 +86,13 @@ class EdjeLoadError(Exception):
 
 
 cdef class Edje(Object):
-    """Edje evas object.
+    """
 
-    This is a high level `efl.evas.SmartObject` that is defined as a group of
-    parts (`efl.evas.Object`, usually written in text files (.edc) and
-    compiled as a package using EET to store resources (.edj).
+    Edje evas object.
+
+    This is a high level :class:`efl.evas.SmartObject` that is defined as a
+    group of parts, usually written in text files (.edc) and compiled as a
+    package using EET to store resources (.edj).
 
     Edje is an important EFL component because it makes easy to split logic
     and UI, usually used as theme engine but can be much more powerful than
@@ -128,7 +130,24 @@ cdef class Edje(Object):
         self._signal_callbacks = {}
 
     def __init__(self, Canvas canvas not None, file=None, group=None, size=None,
-        geometry=None, **kwargs):
+                 geometry=None, **kwargs):
+        """Edje(...)
+
+        :param canvas: Evas canvas for this object
+        :type canvas: :py:class:`~efl.evas.Canvas`
+        :keyword file: File name
+        :type file: string
+        :keyword group: Group name
+        :type group: string
+        :keyword size: Min size for the object
+        :type size: tuple of ints
+        :keyword geometry: Geometry for the object
+        :type geometry: tuple of ints
+        :keyword \**kwargs: All the remaining keyword arguments are interpreted
+                            as properties of the instance
+
+        """
+        
 
         self._set_obj(edje_object_add(canvas.obj))
         _register_decorated_callbacks(self)
@@ -295,19 +314,19 @@ cdef class Edje(Object):
                         int r3, int g3, int b3, int a3):
         """Set color class.
 
-        :parm color_class: color class name
-        :parm r:
-        :parm g:
-        :parm b:
-        :parm a:
-        :parm r2:
-        :parm g2:
-        :parm b2:
-        :parm a2:
-        :parm r3:
-        :parm g3:
-        :parm b3:
-        :parm a3:
+        :param color_class: color class name
+        :param r:
+        :param g:
+        :param b:
+        :param a:
+        :param r2:
+        :param g2:
+        :param b2:
+        :param a2:
+        :param r3:
+        :param g3:
+        :param b3:
+        :param a3:
 
         """
         if isinstance(color_class, unicode):

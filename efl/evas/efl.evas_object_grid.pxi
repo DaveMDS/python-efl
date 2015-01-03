@@ -17,8 +17,21 @@
 
 
 cdef class Grid(Object):
+    """
+
+    TODO: doc this object
+
+    """
 
     def __init__(self, Canvas canvas not None, **kwargs):
+        """Grid(...)
+
+        :param canvas: The evas canvas for this object
+        :type canvas: :py:class:`Canvas`
+        :param \**kwargs: All the remaining keyword arguments are interpreted
+                          as properties of the instance
+
+        """
         self._set_obj(evas_object_grid_add(canvas.obj))
         self._set_properties_from_keyword_args(kwargs)
 

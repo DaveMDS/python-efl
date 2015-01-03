@@ -106,7 +106,9 @@ cdef _object_del_callback_from_list(Object obj, int type, func):
 
 
 cdef class Object(Eo):
-    """ Basic Graphical Object (or actor).
+    """
+
+    Basic Graphical Object (or actor).
 
     Objects are managed by :py:class:`Canvas <efl.evas.Canvas>` in a non-
     immediate way, that is, all operations, like moving, resizing, changing the
@@ -146,7 +148,7 @@ cdef class Object(Eo):
     that can have it's methods implemented in order to apply methods to its
     children.
 
-    .. attention::
+    .. warning::
 
         Since we have two systems controlling object's life (Evas and Python)
         objects need to be explicitly deleted using :py:func:`delete` call. If

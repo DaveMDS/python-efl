@@ -262,13 +262,25 @@ cdef class WebWindowFeatures(object):
         """
         elm_web_window_features_unref(self.wf)
 
-cdef class Web(Object):
 
-    """This class actually implements the widget."""
+cdef class Web(Object):
+    """
+
+    This class actually implements the widget.
+
+    """
 
     cdef object _console_message_hook
 
     def __init__(self,evasObject parent, *args, **kwargs):
+        """Web(...)
+
+        :param parent: The parent object
+        :type parent: :py:class:`efl.evas.Object`
+        :param \**kwargs: All the remaining keyword arguments are interpreted
+                          as properties of the instance
+
+        """
         self._set_obj(elm_web_add(parent.obj))
         self._set_properties_from_keyword_args(kwargs)
 

@@ -43,10 +43,21 @@ from efl.evas cimport Object as evasObject
 from layout_class cimport LayoutClass
 
 cdef class Video(LayoutClass):
+    """
 
-    """This is the class that actually implements the widget."""
+    This is the class that actually implements the widget.
+
+    """
 
     def __init__(self, evasObject parent, *args, **kwargs):
+        """Video(...)
+
+        :param parent: The parent object
+        :type parent: :py:class:`efl.evas.Object`
+        :param \**kwargs: All the remaining keyword arguments are interpreted
+                          as properties of the instance
+
+        """
         self._set_obj(elm_video_add(parent.obj))
         self._set_properties_from_keyword_args(kwargs)
 
@@ -255,7 +266,6 @@ _object_mapping_register("Elm_Video", Video)
 
 
 cdef class Player(LayoutClass):
-
     """
 
     Player is a video player that need to be linked with a :py:class:`Video`.
@@ -284,6 +294,14 @@ cdef class Player(LayoutClass):
     """
 
     def __init__(self, evasObject parent, *args, **kwargs):
+        """Player(...)
+
+        :param parent: The parent object
+        :type parent: :py:class:`efl.evas.Object`
+        :param \**kwargs: All the remaining keyword arguments are interpreted
+                          as properties of the instance
+
+        """
         self._set_obj(elm_player_add(parent.obj))
         self._set_properties_from_keyword_args(kwargs)
 

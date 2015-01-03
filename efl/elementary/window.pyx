@@ -416,11 +416,14 @@ ELM_ILLUME_COMMAND_FOCUS_HOME = enums.ELM_ILLUME_COMMAND_FOCUS_HOME
 ELM_ILLUME_COMMAND_CLOSE = enums.ELM_ILLUME_COMMAND_CLOSE
 
 cdef class Window(Object):
+    """
 
-    """This is the class that actually implements the widget."""
+    This is the class that actually implements the widget.
+
+    """
 
     def __init__(self, name, type, evasObject parent=None, *args, **kwargs):
-        """
+        """Window(...)
 
         :param name: A name for the new window.
         :type name: string
@@ -1867,22 +1870,25 @@ _object_mapping_register("Elm_Win", Window)
 
 
 cdef class StandardWindow(Window):
-
-    """A :py:class:`Window` with standard setup.
+    """
+    A :py:class:`Window` with standard setup.
 
     This creates a window like :py:class:`Window` but also puts in a standard
     :py:class:`Background <efl.elementary.background.Background>`, as well as
     setting the window title to ``title``. The window type created is of type
     ELM_WIN_BASIC, with ``None`` as the parent widget.
 
-    :param name: A name for the new window.
-    :type name: string
-    :param title: A title for the new window.
-    :type title: string
-
     """
 
     def __init__(self, name, title, *args, **kwargs):
+        """StandardWindow(..)
+
+        :param name: A name for the new window.
+        :type name: string
+        :param title: A title for the new window.
+        :type title: string
+
+        """
         if isinstance(name, unicode): name = PyUnicode_AsUTF8String(name)
         if isinstance(title, unicode): title = PyUnicode_AsUTF8String(title)
         self._set_obj(elm_win_util_standard_add(
@@ -1892,8 +1898,8 @@ cdef class StandardWindow(Window):
 
 
 cdef class DialogWindow(Window):
-
-    """A :py:class:`Window` with standard dialog setup.
+    """
+    A :py:class:`Window` with standard dialog setup.
 
     This creates a window like :py:class:`Window` but also puts in a standard
     :py:class:`Background <efl.elementary.background.Background>`, as well as
@@ -1901,18 +1907,21 @@ cdef class DialogWindow(Window):
     ELM_WIN_DIALOG_BASIC. This tipe of window will be handled in special
     mode by window managers with regards of it's parent window.
 
-    :param parent: The parent window (mandatory)
-    :type parent: :py:class:`efl.evas.Object`
-    :param name: A name for the new window.
-    :type name: string
-    :param title: A title for the new window.
-    :type title: string
-
-    .. versionadded :: 1.13
+    .. versionadded:: 1.13
 
     """
 
     def __init__(self, evasObject parent not None, name, title, *args, **kwargs):
+        """DialogWindow(...)
+
+        :param parent: The parent window (mandatory)
+        :type parent: :py:class:`efl.evas.Object`
+        :param name: A name for the new window.
+        :type name: string
+        :param title: A title for the new window.
+        :type title: string
+
+        """
         if isinstance(name, unicode): name = PyUnicode_AsUTF8String(name)
         if isinstance(title, unicode): title = PyUnicode_AsUTF8String(title)
         self._set_obj(elm_win_util_dialog_add(parent.obj,

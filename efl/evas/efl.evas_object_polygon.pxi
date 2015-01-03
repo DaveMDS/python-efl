@@ -17,25 +17,22 @@
 
 
 cdef class Polygon(Object):
-    """A polygon.
+    """
 
-    :param canvas: Evas canvas for this object
-    :type canvas: Canvas
-    :keyword size: Width and height
-    :type size: tuple of ints
-    :keyword pos: X and Y
-    :type pos: tuple of ints
-    :keyword geometry: X, Y, width, height
-    :type geometry: tuple of ints
-    :keyword color: R, G, B, A
-    :type color: tuple of ints
-    :keyword name: Object name
-    :type name: string
-    :keyword points: Points of the polygon
-    :type points: tuple of x, y int pairs
+    A polygon.
 
     """
     def __init__(self, Canvas canvas not None, points=None, **kwargs):
+        """Polygon(...)
+
+        :param canvas: Evas canvas for this object
+        :type canvas: :py:class:`~efl.evas.Canvas`
+        :keyword points: Points of the polygon
+        :type points: list of tuple of x, y int pairs
+        :keyword \**kwargs: All the remaining keyword arguments are interpreted
+                            as properties of the instance
+
+        """
         self._set_obj(evas_object_polygon_add(canvas.obj))
         self._set_properties_from_keyword_args(kwargs)
         if points:
@@ -45,8 +42,10 @@ cdef class Polygon(Object):
     def point_add(self, int x, int y):
         """Add a new point to the polygon
 
-        :param x:
-        :param y:
+        :param x: X coordinate
+        :type x: int
+        :param y: Y Coordinate
+        :type y: int
 
         """
         evas_object_polygon_point_add(self.obj, x, y)

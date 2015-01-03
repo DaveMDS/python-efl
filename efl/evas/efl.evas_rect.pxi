@@ -17,7 +17,9 @@
 
 
 cdef class Rect(object):
-    """Type to store and manipulate rectangular coordinates.
+    """
+
+    Type to store and manipulate rectangular coordinates.
 
     This class provides the description of a rectangle and means to
     access and modify its properties in an easy way.
@@ -27,7 +29,7 @@ cdef class Rect(object):
      >>> r1 = Rect(10, 20, 30, 40)
      >>> r2 = Rect((0, 0), (100, 100))
      >>> r1
-     Rect(x=10, y=20, w=30, h=40)
+       Rect(x=10, y=20, w=30, h=40)
      >>> r2
      Rect(x=0, y=0, w=100, h=100)
      >>> r1.contains(r2)

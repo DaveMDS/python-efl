@@ -117,10 +117,10 @@ def _cb_string_conv(uintptr_t addr):
     return _ctouni(s) if s is not NULL else None
 
 class ImageProgressInfo(object):
-    """
+    """ImageProgressInfo(...)
 
-    The info sent in the callback for the "download,progress" signals emitted
-    by Image while downloading remote urls.
+    The info sent in the callback for the ``download,progress`` signals emitted
+    by :class:`Image` while downloading remote urls.
 
     :var now: The amount of data received so far.
     :var total: The total amount of data to download.
@@ -140,10 +140,10 @@ def _image_download_progress_conv(uintptr_t addr):
     return ipi
 
 class ImageErrorInfo(object):
-    """
+    """ImageErrorInfo(...)
 
-    The info sent in the callback for the "download,error" signals emitted
-    by Image when fail to download remote urls.
+    The info sent in the callback for the ``download,error`` signals emitted
+    by :class:`Image` when fail to download remote urls.
 
     :var status: The http error code (such as 401)
     :var open_error: TODO
@@ -165,10 +165,21 @@ def _image_download_error_conv(uintptr_t addr):
 
 
 cdef class Image(Object):
+    """
 
-    """This is the class that actually implements the widget."""
+    This is the class that actually implements the widget.
+
+    """
 
     def __init__(self, evasObject parent, *args, **kwargs):
+        """Image(...)
+
+        :param parent: The parent object
+        :type parent: :py:class:`efl.evas.Object`
+        :param \**kwargs: All the remaining keyword arguments are interpreted
+                          as properties of the instance
+
+        """
         self._set_obj(elm_image_add(parent.obj))
         self._set_properties_from_keyword_args(kwargs)
 

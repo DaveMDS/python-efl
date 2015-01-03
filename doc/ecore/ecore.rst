@@ -92,6 +92,7 @@ API Reference
    x
    timer
    animator
+   animator_timeline
    poller
    idler
    idleenterer

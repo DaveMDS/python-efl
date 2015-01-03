@@ -98,7 +98,6 @@ cdef void _object_item_callback2(void *data, Evas_Object *obj, void *event_info)
         traceback.print_exc()
 
 cdef class ObjectItem(object):
-
     """
 
     A generic item for the widgets.

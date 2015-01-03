@@ -93,7 +93,6 @@ from efl.utils.conversions cimport _ctouni, eina_list_strings_to_python_list
 from efl.eina cimport eina_list_free, eina_stringshare_del
 
 cdef class Theme(object):
-
     """
 
     This is the class that actually implements the widget.

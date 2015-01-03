@@ -214,18 +214,17 @@ def _cb_object_item_conv(uintptr_t addr):
     return _object_item_to_python(it)
 
 cdef class PopupItem(ObjectItem):
-
     """
 
-    An item for :py:class:`Popup`.
+    An item for the :py:class:`Popup` widget.
 
     Default contents parts of the popup items that you can use for are:
 
-    - "default" -Item's icon
+    - ``default`` - Item's icon
 
     Default text parts of the popup items that you can use for are:
 
-    - "default" - Item's label
+    - ``default`` - Item's label
 
     """
     cdef:
@@ -276,8 +275,9 @@ cdef class PopupItem(ObjectItem):
                 self.args)
 
 cdef class Popup(LayoutClass):
+    """
 
-    """This is the class that actually implements the widget.
+    This is the class that actually implements the widget.
 
     .. versionchanged:: 1.8
         Inherits from LayoutClass.
@@ -285,6 +285,14 @@ cdef class Popup(LayoutClass):
     """
 
     def __init__(self, evasObject parent, *args, **kwargs):
+        """Popup(...)
+
+        :param parent: The parent object
+        :type parent: :py:class:`efl.evas.Object`
+        :param \**kwargs: All the remaining keyword arguments are interpreted
+                          as properties of the instance
+
+        """
         self._set_obj(elm_popup_add(parent.obj))
         self._set_properties_from_keyword_args(kwargs)
 

@@ -189,8 +189,11 @@ ELM_GESTURE_LAST = enums.ELM_GESTURE_LAST
 
 
 cdef class GestureTapsInfo(object):
+    """GestureTapsInfo(...)
 
-    """Holds taps info for user"""
+    Holds taps info for user
+
+    """
 
     cdef Elm_Gesture_Taps_Info *info
 
@@ -231,8 +234,7 @@ cdef class GestureTapsInfo(object):
             return self.info.timestamp
 
 cdef class GestureMomentumInfo(object):
-
-    """
+    """GestureMomentumInfo(...)
 
     Holds momentum info for user
     x1 and y1 are not necessarily in sync
@@ -326,15 +328,18 @@ cdef class GestureMomentumInfo(object):
             return self.info.n
 
 cdef class GestureLineInfo(object):
+    """GestureLineInfo(...)
 
-    """Holds line info for user"""
+    Holds line info for user
+
+    """
 
     cdef Elm_Gesture_Line_Info *info
 
     property momentum:
         """Line momentum info
 
-        :type: GestureMomentumInfo
+        :type: :py:class:`GestureMomentumInfo`
 
         """
         def __get__(self):
@@ -352,8 +357,11 @@ cdef class GestureLineInfo(object):
             return self.info.angle
 
 cdef class GestureZoomInfo(object):
+    """GestureZoomInfo(...)
 
-    """Holds zoom info for user"""
+    Holds zoom info for user
+
+    """
 
     cdef Elm_Gesture_Zoom_Info *info
 
@@ -403,8 +411,11 @@ cdef class GestureZoomInfo(object):
             return self.info.momentum
 
 cdef class GestureRotateInfo(object):
+    """GestureRotateInfo(...)
 
-    """Holds rotation info for user"""
+    Holds rotation info for user
+
+    """
 
     cdef Elm_Gesture_Rotate_Info *info
 
@@ -513,24 +524,22 @@ cdef Evas_Event_Flags _gesture_layer_rotate_event_cb(void *data, void *event_inf
         traceback.print_exc()
 
 cdef class GestureLayer(Object):
-
     """
 
     This is the class that actually implement the widget.
 
+    .. note:: You have to call :py:func:`attach()` in order to 'activate'
+              gesture-layer.
+
     """
 
     def __init__(self, evasObject parent, *args, **kwargs):
-        """Call this function to construct a new gesture-layer object.
-
-        This does not activate the gesture layer. You have to call
-        :py:func:`attach()` in order to 'activate' gesture-layer.
+        """GestureLayer(...)
 
         :param parent: The gesture layer's parent widget.
         :type parent: :py:class:`~efl.evas.Object`
-
-        :return: A new gesture layer object.
-        :rtype: :py:class:`GestureLayer`
+        :param \**kwargs: All the remaining keyword arguments are interpreted
+                          as properties of the instance
 
         """
         self._set_obj(elm_gesture_layer_add(parent.obj))

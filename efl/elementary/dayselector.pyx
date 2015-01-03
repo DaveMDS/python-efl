@@ -126,10 +126,21 @@ ELM_DAYSELECTOR_SAT = enums.ELM_DAYSELECTOR_SAT
 ELM_DAYSELECTOR_MAX = enums.ELM_DAYSELECTOR_MAX
 
 cdef class Dayselector(LayoutClass):
+    """
 
-    """This is the class that actually implements the widget."""
+    This is the class that actually implements the widget.
+
+    """
 
     def __init__(self, evasObject parent, *args, **kwargs):
+        """Dayselector(...)
+
+        :param parent: The parent object
+        :type parent: :py:class:`efl.evas.Object`
+        :param \**kwargs: All the remaining keyword arguments are interpreted
+                          as properties of the instance
+
+        """
         self._set_obj(elm_dayselector_add(parent.obj))
         self._set_properties_from_keyword_args(kwargs)
 

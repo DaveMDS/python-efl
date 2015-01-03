@@ -106,8 +106,15 @@ ELM_CTXPOPUP_DIRECTION_UP = enums.ELM_CTXPOPUP_DIRECTION_UP
 ELM_CTXPOPUP_DIRECTION_UNKNOWN = enums.ELM_CTXPOPUP_DIRECTION_UNKNOWN
 
 cdef class CtxpopupItem(ObjectItem):
+    """
 
-    """An item for Ctxpopup widget."""
+    An item for Ctxpopup widget.
+
+    .. warning:: Ctxpopup can't hold both an item list and a content at the
+        same time. When an item is added, any previous content will be
+        removed.
+            
+    """
 
     cdef:
         bytes label
@@ -115,19 +122,17 @@ cdef class CtxpopupItem(ObjectItem):
 
     def __init__(self, label = None, evasObject icon = None,
         callback = None, cb_data = None, *args, **kargs):
-        """
-        .. warning:: Ctxpopup can't hold both an item list and a content at the
-            same time. When an item is added, any previous content will be
-            removed.
+        """CtxpopupItem(...)
 
-        :param icon: Icon to be set on new item
-        :type icon: :py:class:`~efl.evas.Object`
         :param label: The Label of the new item
         :type label: string
-        :param func: Convenience function called when item selected
-        :type func: function
-        :return: The item added or ``None``, on errors
-        :rtype: :py:class:`CtxpopupItem`
+        :param icon: Icon to be set on new item
+        :type icon: :py:class:`efl.evas.Object`
+        :param callback: Convenience function called when item selected
+        :type callback: callable
+        :param cb_data: User data for the callback function
+        :param \**kwargs: All the remaining keyword arguments are interpreted
+                          as properties of the instance
 
         """
         if callback is not None:
@@ -144,10 +149,6 @@ cdef class CtxpopupItem(ObjectItem):
 
     def append_to(self, evasObject ctxpopup):
         """Add a new item to a ctxpopup object.
-
-        .. warning:: Ctxpopup can't hold both an item list and a content at the
-            same time. When an item is added, any previous content will be
-            removed.
 
         .. seealso:: :py:attr:`~efl.elementary.object.Object.content`
 
@@ -177,10 +178,6 @@ cdef class CtxpopupItem(ObjectItem):
 
     def prepend_to(self, evasObject ctxpopup):
         """Prepend a new item to a ctxpopup object.
-
-        .. warning:: Ctxpopup can't hold both an item list and a content at the
-            same time. When an item is added, any previous content will be
-            removed.
 
         .. seealso:: :py:attr:`~efl.elementary.object.Object.content`
 
@@ -234,14 +231,24 @@ cdef class CtxpopupItem(ObjectItem):
 
 cdef class Ctxpopup(LayoutClass):
 
-    """This is the class that actually implements the widget.
+    """
+
+    This is the class that actually implements the widget.
 
     .. versionchanged:: 1.8
-        Inherits from LayoutClass
+        Inherits from :py:class:`~efl.elementary.layout_class.LayoutClass`
 
     """
 
     def __init__(self, evasObject parent, *args, **kwargs):
+        """Ctxpopup(...)
+
+        :param parent: The parent object
+        :type parent: :py:class:`efl.evas.Object`
+        :param \**kwargs: All the remaining keyword arguments are interpreted
+                          as properties of the instance
+
+        """
         self._set_obj(elm_ctxpopup_add(parent.obj))
         self._set_properties_from_keyword_args(kwargs)
 

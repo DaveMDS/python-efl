@@ -1,6 +1,9 @@
 cdef class GengridItem(ObjectItem):
+    """
 
-    """An item for the :py:class:`Gengrid` widget."""
+    An item for the :py:class:`Gengrid` widget.
+
+    """
 
     cdef:
         readonly GengridItemClass item_class

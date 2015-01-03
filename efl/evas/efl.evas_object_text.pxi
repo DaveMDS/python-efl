@@ -17,42 +17,33 @@
 
 
 cdef class Text(Object):
-    """Text.
+    """
 
-    :param canvas: Evas canvas for this object
-    :type canvas: Canvas
-    :keyword size: Width and height
-    :type size: tuple of ints
-    :keyword pos: X and Y
-    :type pos: tuple of ints
-    :keyword geometry: X, Y, width, height
-    :type geometry: tuple of ints
-    :keyword color: R, G, B, A
-    :type color: tuple of ints
-    :keyword name: Object name
-    :type name: string
-    :keyword text: The text
-    :type text: string
-    :keyword font: Font name
-    :type font: string
-    :keyword font_source: Where to find the font
-    :type font_source: string
-    :keyword style: Style
-    :type style: string
-    :keyword shadow_color: The shadow color
-    :type shadow_color: tuple of ints
-    :keyword glow_color: The primary glow color
-    :type glow_color: tuple of ints
-    :keyword glow2_color: The secondary glow color
-    :type glow2_color: tuple of ints
-    :keyword outline_color: The outline color
-    :type outline_color: tuple of ints
+    A Text object.
 
     """
 
     def __init__(self, Canvas canvas not None, font=None, shadow_color=None,
-        glow_color=None, glow2_color=None, outline_color=None, **kwargs):
+                 glow_color=None, glow2_color=None, outline_color=None,
+                 **kwargs):
+        """Text(...)
 
+        :param canvas: Evas canvas for this object
+        :type canvas: :py:class:`~efl.evas.Canvas`
+        :keyword font: Font name
+        :type font: string
+        :keyword shadow_color: The shadow color
+        :type shadow_color: tuple of ints
+        :keyword glow_color: The primary glow color
+        :type glow_color: tuple of ints
+        :keyword glow2_color: The secondary glow color
+        :type glow2_color: tuple of ints
+        :keyword outline_color: The outline color
+        :type outline_color: tuple of ints
+        :keyword \**kwargs: All the remaining keyword arguments are interpreted
+                            as properties of the instance
+
+        """
         self._set_obj(evas_object_text_add(canvas.obj))
         self._set_properties_from_keyword_args(kwargs)
 

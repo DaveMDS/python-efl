@@ -68,8 +68,11 @@ def _cb_object_item_conv(uintptr_t addr):
     return _object_item_to_python(it)
 
 cdef class SegmentControlItem(ObjectItem):
+    """
 
-    """An item for :py:class:`SegmentControl`."""
+    An item for :py:class:`SegmentControl`.
+
+    """
 
     cdef:
         evasObject icon
@@ -222,10 +225,21 @@ cdef class SegmentControlItem(ObjectItem):
             elm_segment_control_item_selected_set(self.item, select)
 
 cdef class SegmentControl(LayoutClass):
+    """
 
-    """This is the class that actually implements the widget."""
+    This is the class that actually implements the widget.
+
+    """
 
     def __init__(self, evasObject parent, *args, **kwargs):
+        """SegmentControl(...)
+
+        :param parent: The parent object
+        :type parent: :py:class:`efl.evas.Object`
+        :param \**kwargs: All the remaining keyword arguments are interpreted
+                          as properties of the instance
+
+        """
         self._set_obj(elm_segment_control_add(parent.obj))
         self._set_properties_from_keyword_args(kwargs)
 

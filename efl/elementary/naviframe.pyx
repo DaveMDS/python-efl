@@ -106,8 +106,11 @@ from object_item cimport _object_item_to_python, _object_item_list_to_python, \
 from efl.utils.deprecated cimport DEPRECATED
 
 cdef class NaviframeItem(ObjectItem):
+    """
 
-    """An item for the Naviframe widget."""
+    An item for the Naviframe widget.
+
+    """
 
     cdef:
         object label, item_style
@@ -389,10 +392,21 @@ cdef class NaviframeItem(ObjectItem):
 
 
 cdef class Naviframe(LayoutClass):
+    """
 
-    """This is the class that actually implements the widget."""
+    This is the class that actually implements the widget.
+
+    """
 
     def __init__(self, evasObject parent, *args, **kwargs):
+        """Naviframe(...)
+
+        :param parent: The parent object
+        :type parent: :py:class:`efl.evas.Object`
+        :param \**kwargs: All the remaining keyword arguments are interpreted
+                          as properties of the instance
+
+        """
         self._set_obj(elm_naviframe_add(parent.obj))
         self._set_properties_from_keyword_args(kwargs)
 

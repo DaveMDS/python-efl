@@ -88,9 +88,11 @@ def _cb_object_item_conv(uintptr_t addr):
     cdef Elm_Object_Item *it = <Elm_Object_Item *>addr
     return _object_item_to_python(it)
 
-cdef class DiskselectorItem(ObjectItem):
 
-    """An item for the Diskselector widget.
+cdef class DiskselectorItem(ObjectItem):
+    """
+
+    An item for the :py:class:`Diskselector` widget.
 
     A new item will be created and appended to the diskselector, i.e.,
     will be set as last item. Also, if there is no selected item, it will
@@ -126,7 +128,7 @@ cdef class DiskselectorItem(ObjectItem):
 
     def __init__(self, label=None, evasObject icon=None, callback=None,
         cb_data=None, *args, **kargs):
-        """
+        """DiskselectorItem(...)
 
         :param label: The label of the diskselector item.
         :type label: string
@@ -134,8 +136,11 @@ cdef class DiskselectorItem(ObjectItem):
             icon can be any Evas object, but usually it is an
             :py:class:`~efl.elementary.icon.Icon`.
         :type icon: :py:class:`~efl.evas.Object`
-        :param func: The function to call when the item is selected.
-        :type func: function
+        :param callback: The function to call when the item is selected.
+        :type callback: callable
+        :param cb_data: User data for the callback function
+        :param \**kwargs: All the remaining keyword arguments are interpreted
+                          as properties of the instance
 
         """
         if callback is not None:
@@ -243,10 +248,21 @@ cdef class DiskselectorItem(ObjectItem):
             return _object_item_to_python(it)
 
 cdef class Diskselector(Object):
+    """
 
-    """This is the class that actually implements the widget."""
+    This is the class that actually implements the widget.
+
+    """
 
     def __init__(self, evasObject parent, *args, **kwargs):
+        """Diskselector(...)
+
+        :param parent: The parent object
+        :type parent: :py:class:`efl.evas.Object`
+        :param \**kwargs: All the remaining keyword arguments are interpreted
+                          as properties of the instance
+
+        """
         self._set_obj(elm_diskselector_add(parent.obj))
         self._set_properties_from_keyword_args(kwargs)
 

@@ -133,7 +133,6 @@ cdef int _index_data_compare_func(const void *data1, const void *data2) with gil
         return 0
 
 cdef class IndexItem(ObjectItem):
-
     """
 
     An item on an :py:class:`Index` widget.
@@ -148,15 +147,16 @@ cdef class IndexItem(ObjectItem):
     :param letter: Letter under which the item should be indexed
     :type letter: string
     :param callback: The function to call when the item is selected.
-    :type callback: function
-
+    :type callback: callable
+    :param cb_data: User data for the callback function
+    :param \**kwargs: All the remaining keyword arguments are interpreted
+                          as properties of the instance
     """
     cdef:
         bytes letter
         object compare_func, data_compare_func
 
-    def __init__(self, letter, callback = None, cb_data = None,
-        *args, **kwargs):
+    def __init__(self, letter, callback = None, cb_data = None, *args, **kwargs):
         if callback is not None:
             if not callable(callback):
                 raise TypeError("callback is not callable")
@@ -348,10 +348,21 @@ cdef class IndexItem(ObjectItem):
 
 
 cdef class Index(LayoutClass):
+    """
 
-    """This is the class that actually implements the widget."""
+    This is the class that actually implements the widget.
+
+    """
 
     def __init__(self, evasObject parent, *args, **kwargs):
+        """Index(...)
+
+        :param parent: The parent object
+        :type parent: :py:class:`efl.evas.Object`
+        :param \**kwargs: All the remaining keyword arguments are interpreted
+                          as properties of the instance
+
+        """
         self._set_obj(elm_index_add(parent.obj))
         self._set_properties_from_keyword_args(kwargs)
 

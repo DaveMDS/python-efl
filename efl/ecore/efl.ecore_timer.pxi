@@ -26,26 +26,34 @@ cdef class Timer(Eo):
     parameters given to constructor.
 
     When the timer ``func`` is called, it must return a value of either
-    *True* or *False* (remember that Python returns *None* if no value is
-    explicitly returned and *None* evaluates to *False*). If it returns
-    *True*, it will be called again at the next interval, or if it returns
-    *False* it will be deleted automatically making any references/handles
+    **True** or **False** (remember that Python returns **None** if no value is
+    explicitly returned and **None** evaluates to **False**). If it returns
+    **True**, it will be called again at the next interval, or if it returns
+    **False** it will be deleted automatically making any references/handles
     for it invalid.
 
     Timers should be stopped/deleted by means of ``delete()`` or
     returning *False* from ``func``, otherwise they'll continue alive, even
     if the current python context delete it's reference to it.
 
-    :param interval: interval in seconds.
-    :type interval: float
-    :param func:
-        function to callback when timer expires.
-        The function signature is::
+    """
+    def __init__(self, double interval, func, *args, **kargs):
+        """Timer(...)
+
+        :param interval: interval in seconds.
+        :type interval: float
+        :param func: function to callback when timer expires.
+        :type func: callable
+        :param \*args: All the remaining arguments will be passed
+                       back in the callback function.
+        :param \**kwargs: All the remaining keyword arguments will be passed
+                          back in the callback function.
+
+        Expected **func** signature::
 
             func(*args, **kargs): bool
 
-    """
-    def __init__(self, double interval, func, *args, **kargs):
+        """
         if not callable(func):
             raise TypeError("Parameter 'func' must be callable")
         self.func = func

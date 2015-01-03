@@ -24,11 +24,10 @@ Widget description
 ------------------
 
 The background widget is used for setting a solid color, image or Edje group
-as a background to a window or any container object.
+as a background to a window (unless it has transparency enabled) or any
+container object.
 
-The background widget is used for setting (solid) background decorations
-to a window (unless it has transparency enabled) or to any container
-object. It works just like an image, but has some properties useful to a
+It works just like an image, but has some properties useful to a
 background, like setting it to tiled, centered, scaled or stretched.
 
 
@@ -79,10 +78,21 @@ ELM_BG_OPTION_TILE = enums.ELM_BG_OPTION_TILE
 ELM_BG_OPTION_LAST = enums.ELM_BG_OPTION_LAST
 
 cdef class Background(LayoutClass):
+    """
 
-    """This is the class that actually implements the widget."""
+    This is the class that actually implements the widget.
+
+    """
 
     def __init__(self, evasObject parent, *args, **kwargs):
+        """Background(...)
+
+        :param parent: The parent object
+        :type parent: :py:class:`efl.evas.Object`
+        :param \**kwargs: All the remaining keyword arguments are interpreted
+                          as properties of the instance
+
+        """
         self._set_obj(elm_bg_add(parent.obj))
         self._set_properties_from_keyword_args(kwargs)
 

@@ -70,10 +70,14 @@ def _cb_object_item_conv(uintptr_t addr):
     return _object_item_to_python(it)
 
 cdef class FlipSelectorItem(ObjectItem):
-
     """
 
     An item for the :py:class:`FlipSelector` widget.
+
+    The widget's list of labels to show will be appended with the
+    given value. If the user wishes so, a callback function
+    can be passed, which will get called when this same item is
+    selected.
 
     .. note:: The current selection *won't* be modified by appending an
         element to the list.
@@ -89,21 +93,16 @@ cdef class FlipSelectorItem(ObjectItem):
 
     def __init__(self, label = None, callback = None, cb_data = None,
         *args, **kwargs):
-        """
-
-        The widget's list of labels to show will be appended with the
-        given value. If the user wishes so, a callback function
-        can be passed, which will get called when this same item is
-        selected.
+        """FlipSelectorItem(...)
 
         :param label: The (text) label of the new item
         :type label: string
-        :param func: Convenience callback function to take place when item
+        :param callback: Convenience callback function to take place when item
             is selected
-        :type func: function
-
-        :return: A handle to the item added or ``None``, on errors
-        :rtype: :py:class:`FlipSelectorItem`
+        :type callback: callable
+        :param cb_data: User data for the callback function
+        :param \**kwargs: All the remaining keyword arguments are interpreted
+                          as properties of the instance
 
         """
 
@@ -226,10 +225,21 @@ cdef class FlipSelectorItem(ObjectItem):
                 elm_flipselector_item_next_get(self.item))
 
 cdef class FlipSelector(Object):
+    """
 
-    """This is the class that actually implements the widget."""
+    This is the class that actually implements the widget.
+
+    """
 
     def __init__(self, evasObject parent, *args, **kwargs):
+        """FlipSelector(...)
+
+        :param parent: The parent object
+        :type parent: :py:class:`efl.evas.Object`
+        :param \**kwargs: All the remaining keyword arguments are interpreted
+                          as properties of the instance
+
+        """
         self._set_obj(elm_flipselector_add(parent.obj))
         self._set_properties_from_keyword_args(kwargs)
 

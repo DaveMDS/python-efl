@@ -195,16 +195,20 @@ def _cb_object_item_conv(uintptr_t addr):
     return _object_item_to_python(it)
 
 cdef class ListItem(ObjectItem):
+    """
 
-    """An item for the list widget."""
+    An item for the list widget.
+
+    """
+
     cdef:
         object label
         Evas_Object *icon_obj
         Evas_Object *end_obj
 
-    def __init__(self, label = None, evasObject icon = None,
-        evasObject end = None, callback = None, cb_data = None, *args, **kargs):
-        """Create a new ListItem
+    def __init__(self, label=None, evasObject icon=None, evasObject end=None,
+                 callback=None, cb_data=None, *args, **kargs):
+        """ListItem(...)
 
         :param string label: The label of the list item.
         :param  icon: The icon object to use for the left side of the item. An
@@ -215,7 +219,9 @@ cdef class ListItem(ObjectItem):
             icon can be any Evas object.
         :type    end: :py:class:`~efl.evas.Object`
         :param callable callback: The function to call when the item is clicked.
-        :param cb_data: An object associated with the callback.
+        :param cb_data: User data for the callback function
+        :param \**kwargs: All the remaining keyword arguments are interpreted
+                          as properties of the instance
 
         """
         if isinstance(label, unicode): label = PyUnicode_AsUTF8String(label)
@@ -579,7 +585,6 @@ cdef class ListItem(ObjectItem):
 
 
 cdef class List(Object):
-
     """
 
     This is the class that actually implement the widget.
@@ -587,6 +592,14 @@ cdef class List(Object):
     """
 
     def __init__(self, evasObject parent, *args, **kwargs):
+        """List(...)
+
+        :param parent: The parent object
+        :type parent: :py:class:`efl.evas.Object`
+        :param \**kwargs: All the remaining keyword arguments are interpreted
+                          as properties of the instance
+
+        """
         self._set_obj(elm_list_add(parent.obj))
         self._set_properties_from_keyword_args(kwargs)
 

@@ -180,17 +180,7 @@ cdef class Emotion(evasObject):
 
     The Emotion object
 
-    :see: :py:mod:`The documentation page<efl.emotion>`
-
-    :param evas: The canvas where the object will be added to.
-    :type evas: efl.evas.Canvas
-    :param module_name: name of the engine to use (gstreamer, xine, vlc or generic)
-    :param module_params: Extra parameters, module specific
-    :param size: (w, h)
-    :param pos: (x, y)
-    :param geometry: (x, y, w, h)
-    :param color: (r, g, b, a)
-    :return: The emotion object instance just created.
+    .. seealso:: :py:mod:`The documentation page<efl.emotion>`
 
     .. versionchanged:: 1.8
         Keyword argument module_filename was renamed to module_name.
@@ -200,7 +190,18 @@ cdef class Emotion(evasObject):
         self._emotion_callbacks = {}
 
     def __init__(self, Canvas canvas not None, module_name="gstreamer",
-        module_params=None, **kwargs):
+                 module_params=None, **kwargs):
+        """Emotion(...)
+
+        :param canvas: Evas canvas for this object
+        :type canvas: :py:class:`~efl.evas.Canvas`
+        :keyword module_name: name of the engine to use
+        :type module_name: string
+        :keyword module_params: Extra parameters, module specific
+        :keyword \**kwargs: All the remaining keyword arguments are interpreted
+                            as properties of the instance
+        
+        """
 
         self._set_obj(emotion_object_add(canvas.obj))
         _register_decorated_callbacks(self)

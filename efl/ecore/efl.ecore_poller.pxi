@@ -56,17 +56,28 @@ cdef class Poller(Eo):
 
         ecore.Poller(4, poller_cb)
 
-    :param interval: The poll interval
-    :type interval: int
-    :param func: The function to call at every interval
-    :type func: callable
-    :param poll_type: The ticker type to attach the poller to. Must be ECORE_POLLER_CORE
-    :type poll_type: Ecore_Poll_Type
-
     .. versionadded:: 1.8
 
      """
     def __init__(self, int interval, func, pol_type=0, *args, **kargs):
+        """Poller(...)
+
+        :param interval: The poll interval
+        :type interval: int
+        :param func: The function to call at every interval
+        :type func: callable
+        :param pol_type: The ticker type to attach the poller to. Must be ECORE_POLLER_CORE
+        :type pol_type: Ecore_Poll_Type
+        :param \*args: All the remaining arguments will be passed
+                       back in the callback function.
+        :param \**kwargs: All the remaining keyword arguments will be passed
+                          back in the callback function.
+
+        Expected **func** signature::
+
+            func(*args, **kargs): bool
+
+        """
         if not callable(func):
             raise TypeError("Parameter 'func' must be callable")
         self.func = func

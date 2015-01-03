@@ -170,10 +170,10 @@ ELM_TRANSIT_TWEEN_MODE_ACCELERATE = enums.ELM_TRANSIT_TWEEN_MODE_ACCELERATE
 
 import traceback
 
-cdef class TransitCustomEffect:
-    """
+cdef class TransitCustomEffect(object):
+    """TransitCustomEffect(...)
 
-    A prototype class for a Transit widgets custom effect.
+    A prototype class for a :class:`Transit` widgets custom effect.
 
     Inherit this class and override methods to create your custom effect.
 
@@ -242,11 +242,15 @@ cdef void elm_transit_del_cb(void *data, Elm_Transit *transit) with gil:
     Py_DECREF(trans)
 
 cdef class Transit(object):
-
     """
 
     This is the class that actually implement the widget.
 
+    .. note:: It is not necessary to delete the transit object, it will be
+              deleted at the end of its operation.
+
+    .. note:: The transit will start playing when the program enters the
+              main loop.
     """
 
     cdef:
@@ -256,14 +260,10 @@ cdef class Transit(object):
         dict del_cb_kwargs
 
     def __init__(self, *args, **kwargs):
-        """Create new transit.
+        """Transit(...)
 
-        .. note:: It is not necessary to delete the transit object, it will be
-            deleted at the end of its operation.
-        .. note:: The transit will start playing when the program enters the
-            main loop.
-
-        :return: The transit object.
+        :param \**kwargs: All the remaining keyword arguments are interpreted
+                          as properties of the instance
 
         """
         self.obj = elm_transit_add()

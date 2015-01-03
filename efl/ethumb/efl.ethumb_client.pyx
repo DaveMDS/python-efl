@@ -114,20 +114,21 @@ cdef class Client:
     """
 
     def __init__(self, func, *args, **kargs):
-        """
-
-        Ethumb Client constructor.
-
-        Server is ready to receive requests just after **func** is
-        called back with ``status == True``.
+        """Client(...)
 
         :param func: function to call when connection with server is
-            established. Function signature is::
+                     established.
+        :param \*args: Any other parameters will be passed back in the
+                      callback function
+        :keyword \**kargs: Any other keyword parameters will be passed back
+                           in the callback function
 
-                func(client, status, *args, **kargs)
+        Expected **func** signature::
 
-            with status being True for successful connection or False
-            on error.
+            func(client, status, *args, **kargs)
+
+        with status being **True** for successful connection or **False**
+        on error.
 
         :raise TypeError: if **func** is not callable.
         :raise SystemError: if it was not possible to connect to

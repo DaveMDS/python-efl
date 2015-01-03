@@ -680,14 +680,12 @@ cdef void _entry_context_menu_callback(void *data, Evas_Object *obj, void *event
 
 @DEPRECATED("1.8", "Use markup_to_utf8() instead.")
 def Entry_markup_to_utf8(string):
-    """Entry_markup_to_utf8(string)"""
     if isinstance(string, unicode): string = PyUnicode_AsUTF8String(string)
     return _touni(elm_entry_markup_to_utf8(
         <const char *>string if string is not None else NULL))
 
 @DEPRECATED("1.8", "Use utf8_to_markup() instead.")
 def Entry_utf8_to_markup(string):
-    """Entry_utf8_to_markup(string)"""
     if isinstance(string, unicode): string = PyUnicode_AsUTF8String(string)
     return _touni(elm_entry_utf8_to_markup(
         <const char *>string if string is not None else NULL))
@@ -703,7 +701,7 @@ def utf8_to_markup(string):
         <const char *>string if string is not None else NULL))
 
 cdef class EntryContextMenuItem(object):
-    """
+    """EntryContextMenuItem(...)
 
     Type of contextual item that can be added in to long press menu.
 
@@ -715,8 +713,6 @@ cdef class EntryContextMenuItem(object):
     property label:
         """Get the text of the contextual menu item.
 
-        Gets the text of the contextual menu item of entry.
-
         :type: unicode
 
         .. versionadded:: 1.8
@@ -727,8 +723,6 @@ cdef class EntryContextMenuItem(object):
 
     property icon:
         """Get the icon object of the contextual menu item.
-
-        Gets the icon object packed in the contextual menu item of entry.
 
         :type: (unicode **icon_file**, unicode **icon_group**, :ref:`Icon type <Elm_Icon_Type>` **icon_type**)
 
@@ -849,9 +843,10 @@ cdef void py_elm_entry_filter_cb(void *data, Evas_Object *entry, char **text) wi
     text[0] = strdup(<char *>ret)
 
 class EntryAnchorInfo(object):
-    """
+    """EntryAnchorInfo(...)
 
-    The info sent in the callback for the "anchor,clicked" signals emitted by entries.
+    The info sent in the callback for the ``anchor,clicked`` signals emitted
+    by entries.
 
     :var name: The name of the anchor, as stated in its href.
     :var button: The mouse button used to click on it.
@@ -870,9 +865,10 @@ class EntryAnchorInfo(object):
         self.h = 0
 
 class EntryAnchorHoverInfo(object):
-    """
+    """EntryAnchorHoverInfo(...)
 
-    The info sent in the callback for "anchor,clicked" signals emitted by the Anchor_Hover widget.
+    The info sent in the callback for ``anchor,clicked`` signals emitted by
+    the entries.
 
     :var anchor_info: The actual anchor info.
     :var hover: The hover object to use for the popup.
@@ -917,11 +913,19 @@ def _entryanchorhover_conv(uintptr_t addr):
     return eahi
 
 cdef class Entry(LayoutClass):
+    """
 
-    """This is the class that actually implements the widget.
+    This is the class that actually implements the widget.
+
+    By default, entries are:
+
+    - not scrolled
+    - multi-line
+    - word wrapped
+    - autosave is enabled
 
     .. versionchanged:: 1.8
-        Inherits from LayoutClass.
+        Inherits from :py:class:`~efl.elementary.layout_class.LayoutClass`.
 
     """
 
@@ -931,25 +935,24 @@ cdef class Entry(LayoutClass):
         self.markup_filters = []
 
     def __init__(self, evasObject parent, *args, **kwargs):
-        """By default, entries are:
-
-        - not scrolled
-        - multi-line
-        - word wrapped
-        - autosave is enabled
+        """Entry(...)
 
         :param parent: The parent object
-        :type parent: :py:class:`~efl.elementary.object.Object`
+        :type parent: :py:class:`efl.evas.Object`
+        :param \**kwargs: All the remaining keyword arguments are interpreted
+                          as properties of the instance
 
         """
         self._set_obj(elm_entry_add(parent.obj))
         self._set_properties_from_keyword_args(kwargs)
 
     def text_style_user_push(self, style):
-        """Push the style to the top of user style stack. If there is styles in the
-        user style stack, the properties in the top style of user style stack
-        will replace the properties in current theme. The input style is
-        specified in format ``tag='property=value'`` (i.e. ``DEFAULT='font=Sans
+        """Push the style to the top of user style stack.
+
+        If there is styles in the user style stack, the properties in the
+        top style of user style stack will replace the properties in current
+        theme. The input style is specified in format
+        ``tag='property=value'`` (i.e. ``DEFAULT='font=Sans
         font_size=60'hilight=' + font_weight=Bold'``).
 
         :param string style: The style user to push

@@ -17,7 +17,9 @@
 
 
 cdef class Rectangle(Object):
-    """A rectangle.
+    """
+
+    A rectangle.
 
     There is only one function to deal with rectangle objects, this may make
     this function seem useless given there are no functions to manipulate
@@ -115,25 +117,19 @@ cdef class Rectangle(Object):
         obj.clip_set(clipper)
         clipper.show()
 
-
     .. warning:: We don't guarantee any proper results if you create a Rectangle
         object without setting the evas engine.
 
-    :param canvas: Evas canvas for this object
-    :type canvas: Canvas
-    :keyword size: Width and height
-    :type size: tuple of ints
-    :keyword pos: X and Y
-    :type pos: tuple of ints
-    :keyword geometry: X, Y, width, height
-    :type geometry: tuple of ints
-    :keyword color: R, G, B, A
-    :type color: tuple of ints
-    :keyword name: Object name
-    :type name: string
-
     """
     def __init__(self, Canvas canvas not None, **kwargs):
+        """Rectangle(...)
+
+        :param canvas: Evas canvas for this object
+        :type canvas: :py:class:`~efl.evas.Canvas`
+        :keyword \**kwargs: All the remaining keyword arguments are interpreted
+                            as properties of the instance
+        
+        """
         self._set_obj(evas_object_rectangle_add(canvas.obj))
         self._set_properties_from_keyword_args(kwargs)
 

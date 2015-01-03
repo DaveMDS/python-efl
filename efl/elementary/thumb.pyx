@@ -210,10 +210,21 @@ ETHUMB_THUMB_ORIENT_ORIGINAL = enums.ETHUMB_THUMB_ORIENT_ORIGINAL
 
 
 cdef class Thumb(Object):
+    """
 
-    """This is the class that actually implements the widget."""
+    This is the class that actually implements the widget.
+
+    """
 
     def __init__(self, evasObject parent, *args, **kwargs):
+        """Thumb(...)
+
+        :param parent: The parent object
+        :type parent: :py:class:`efl.evas.Object`
+        :param \**kwargs: All the remaining keyword arguments are interpreted
+                          as properties of the instance
+
+        """
         self._set_obj(elm_thumb_add(parent.obj))
         self._set_properties_from_keyword_args(kwargs)
 

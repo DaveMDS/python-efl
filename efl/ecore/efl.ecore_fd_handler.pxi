@@ -56,7 +56,9 @@ cdef Eina_Bool fd_handler_cb(void *data, Ecore_Fd_Handler *fdh) with gil:
 
 
 cdef class FdHandler(object):
-    """Adds a callback for activity on the given file descriptor.
+    """
+
+    Adds a callback for activity on the given file descriptor.
 
     ``func`` will be called during the execution of ``main_loop_begin()``
     when the file descriptor is available for reading, or writing, or both.
@@ -74,16 +76,19 @@ cdef class FdHandler(object):
     - thread wake-up and synchronization;
     - non-blocking file description operations.
 
-    :param fd: file descriptor or object with fileno() method.
-    :param flags: bitwise OR of ECORE_FD_READ, ECORE_FD_WRITE...
-    :param func:
-        function to call when file descriptor state changes.
-        Expected signature::
-
-            func(fd_handler, *args, **kargs): bool
-
     """
     def __init__(self, fd, int flags, func, *args, **kargs):
+        """FdHandler(...)
+
+        :param fd: file descriptor or object with fileno() method.
+        :param flags: bitwise OR of ECORE_FD_READ, ECORE_FD_WRITE...
+        :param func: function to call when file descriptor state changes.
+
+        Expected **func** signature::
+
+                func(fd_handler, *args, **kargs): bool
+
+        """
         if not callable(func):
             raise TypeError("Parameter 'func' must be callable")
         self.func = func

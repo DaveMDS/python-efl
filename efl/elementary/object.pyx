@@ -410,7 +410,6 @@ cdef class Canvas(evasCanvas):
         pass
 
 cdef class Object(evasObject):
-
     """
 
     An abstract class to manage object and callback handling.

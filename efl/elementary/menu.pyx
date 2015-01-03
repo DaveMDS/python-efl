@@ -53,8 +53,11 @@ from object_item cimport _object_item_callback, _object_item_list_to_python, \
     _object_item_to_python, _object_item_callback2, ObjectItem
 
 cdef class MenuItem(ObjectItem):
+    """
 
-    """An item for the :py:class:`Menu` widget."""
+    An item for the :class:`Menu` widget.
+
+    """
 
     cdef:
         MenuItem parent
@@ -229,8 +232,11 @@ cdef class MenuItem(ObjectItem):
         return _object_item_to_python(elm_menu_item_prev_get(self.item))
 
 cdef class MenuSeparatorItem(ObjectItem):
+    """
 
-    """A separator type menu item."""
+    A separator type menu item.
+
+    """
 
     cdef MenuItem parent
 
@@ -299,10 +305,21 @@ cdef class MenuSeparatorItem(ObjectItem):
             return _object_item_to_python(elm_menu_item_prev_get(self.item))
 
 cdef class Menu(Object):
+    """
 
-    """This is the class that actually implements the widget."""
+    This is the class that actually implements the widget.
+
+    """
 
     def __init__(self, evasObject parent, *args, **kwargs):
+        """Menu(...)
+
+        :param parent: The parent object
+        :type parent: :py:class:`efl.evas.Object`
+        :param \**kwargs: All the remaining keyword arguments are interpreted
+                          as properties of the instance
+
+        """
         self._set_obj(elm_menu_add(parent.obj))
         self._set_properties_from_keyword_args(kwargs)
 

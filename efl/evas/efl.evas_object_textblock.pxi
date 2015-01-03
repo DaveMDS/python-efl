@@ -17,28 +17,21 @@
 
 
 cdef class Textblock(Object):
-    """A Textblock.
+    """
 
-    :param canvas: Evas canvas for this object
-    :type canvas: Canvas
-    :keyword size: Width and height
-    :type size: tuple of ints
-    :keyword pos: X and Y
-    :type pos: tuple of ints
-    :keyword geometry: X, Y, width, height
-    :type geometry: tuple of ints
-    :keyword color: R, G, B, A
-    :type color: tuple of ints
-    :keyword name: Object name
-    :type name: string
-    :keyword text_markup: Markup text
-    :type text_markup: string
-    :keyword style: The style
-    :type style: string
+    A Textblock.
 
     """
 
     def __init__(self, Canvas canvas not None, **kwargs):
+        """Textblock(...)
+
+        :param canvas: Evas canvas for this object
+        :type canvas: :py:class:`~efl.evas.Canvas`
+        :keyword \**kwargs: All the remaining keyword arguments are interpreted
+                            as properties of the instance
+        
+        """
         self._set_obj(evas_object_textblock_add(canvas.obj))
         self._set_properties_from_keyword_args(kwargs)
 

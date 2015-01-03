@@ -41,10 +41,21 @@ from efl.evas cimport Object as evasObject
 from object cimport Object
 
 cdef class Mapbuf(Object):
+    """
 
-    """This is the class that actually implements the widget."""
+    This is the class that actually implements the widget.
+
+    """
 
     def __init__(self, evasObject parent, *args, **kwargs):
+        """Mapbuf(...)
+
+        :param parent: The parent object
+        :type parent: :py:class:`efl.evas.Object`
+        :param \**kwargs: All the remaining keyword arguments are interpreted
+                          as properties of the instance
+
+        """
         self._set_obj(elm_mapbuf_add(parent.obj))
         self._set_properties_from_keyword_args(kwargs)
 

@@ -115,10 +115,21 @@ ELM_CLOCK_EDIT_SEC_UNIT = enums.ELM_CLOCK_EDIT_SEC_UNIT
 ELM_CLOCK_EDIT_ALL = enums.ELM_CLOCK_EDIT_ALL
 
 cdef class Clock(LayoutClass):
+    """
 
-    """This is the class that actually implements the widget."""
+    This is the class that actually implements the widget.
+
+    """
 
     def __init__(self, evasObject parent, *args, **kwargs):
+        """Clock(...)
+
+        :param parent: The parent object
+        :type parent: :py:class:`efl.evas.Object`
+        :param \**kwargs: All the remaining keyword arguments are interpreted
+                          as properties of the instance
+
+        """
         self._set_obj(elm_clock_add(parent.obj))
         self._set_properties_from_keyword_args(kwargs)
 

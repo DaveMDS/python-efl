@@ -174,16 +174,21 @@ cdef Evas_Object_Box_Layout _py_elm_box_layout_resolv(int layout) with gil:
     return evas_object_box_layout_vertical
 
 cdef class Box(Object):
+    """
 
-    """This is the class that actually implements the widget."""
+    This is the class that actually implements the widget.
+
+    By default, the box will be in vertical mode and non-homogeneous.
+
+    """
 
     def __init__(self, evasObject parent, *args, **kwargs):
-        """By default, the box will be in vertical mode and non-homogeneous.
+        """Box(...)
 
         :param parent: The parent object
-        :type parent: :py:class:`~efl.elementary.object.Object`
-        :return: The new object or None if it cannot be created
-        :rtype: :py:class:`Box`
+        :type parent: :py:class:`efl.evas.Object`
+        :param \**kwargs: All the remaining keyword arguments are interpreted
+                          as properties of the instance
 
         """
         self._set_obj(elm_box_add(parent.obj))

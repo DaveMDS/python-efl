@@ -88,12 +88,29 @@ def _cb_object_item_conv(uintptr_t addr):
     return _object_item_to_python(it)
 
 cdef class ColorselectorPaletteItem(ObjectItem):
+    """
 
-    """An item for the :py:class:`Colorselector` widget."""
+    An item for the :py:class:`Colorselector` widget.
+
+    """
 
     cdef int r, g, b, a
 
     def __init__(self, int r, int g, int b, int a, *args, **kwargs):
+        """ColorselectorPaletteItem(...)
+
+        :param r: Red value of color
+        :type r: int
+        :param g: Green value of color
+        :type g: int
+        :param b: Blue value of color
+        :type b: int
+        :param a: Alpha value of color
+        :type a: int
+        :param \**kwargs: All the remaining keyword arguments are interpreted
+                          as properties of the instance
+
+        """
         self.r, self.g, self.b, self.a = r, g, b, a
         self.args, self.kwargs = args, kwargs
 
@@ -152,10 +169,21 @@ cdef class ColorselectorPaletteItem(ObjectItem):
 
 
 cdef class Colorselector(LayoutClass):
+    """
 
-    """This is the class that actually implements the widget."""
+    This is the class that actually implements the widget.
+
+    """
 
     def __init__(self, evasObject parent, *args, **kwargs):
+        """Colorselector(...)
+
+        :param parent: The parent object
+        :type parent: :py:class:`efl.evas.Object`
+        :param \**kwargs: All the remaining keyword arguments are interpreted
+                          as properties of the instance
+
+        """
         self._set_obj(elm_colorselector_add(parent.obj))
         self._set_properties_from_keyword_args(kwargs)
 

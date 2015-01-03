@@ -36,15 +36,18 @@ cdef void access_activate_cb(void *data, Evas_Object *part_obj, Elm_Object_Item 
     pass
 
 cdef class Accessible(Object):
+    """
 
-    """An accessible object."""
+    An accessible object.
+
+    Register evas object as an accessible object.
+
+    :since: 1.8
+        
+    """
 
     def __init__(self, target, parent = None):
-        """__init__(target, parent = None)
-
-        Register evas object as an accessible object.
-
-        :since: 1.8
+        """Accessible(...)
 
         :param target: The evas object to register as an accessible object.
         :param parent: The elementary object which is used for creating

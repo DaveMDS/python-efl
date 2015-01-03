@@ -17,29 +17,31 @@
 
 
 cdef class Line(Object):
-    """A straight line.
+    """
 
-    :param canvas: Evas canvas for this object
-    :type canvas: efl.evas.Canvas
-    :keyword size: Width and height
-    :type size: tuple of ints
-    :keyword pos: X and Y
-    :type pos: tuple of ints
-    :keyword geometry: X, Y, width, height
-    :type geometry: tuple of ints
-    :keyword color: R, G, B, A
-    :type color: tuple of ints
-    :keyword name: Object name
-    :type name: string
-    :keyword start: Start coordinates
-    :type file: tuple of ints
-    :keyword end: End coordinates
-    :type end: tuple of ints
+    A straight line.
 
     """
     def __init__(self, Canvas canvas not None, start=None, end=None,
-        geometry=None, size=None, pos=None, **kwargs):
+                 geometry=None, size=None, pos=None, **kwargs):
+        """Line(...)
 
+        :param canvas: Evas canvas for this object
+        :type canvas: :py:class:`~efl.evas.Canvas`
+        :keyword start: Start coordinates (x, y)
+        :type start: tuple of ints
+        :keyword end: End coordinates (x, y)
+        :type end: tuple of ints
+        :keyword geometry: Geometry of the line (x, y, w, h)
+        :type geometry: tuple of ints
+        :keyword size: Size of the line (w, h)
+        :type size: tuple of ints
+        :keyword pos: Position of the line (x, y)
+        :type pos: tuple of ints
+        :keyword \**kwargs: All the remaining keyword arguments are interpreted
+                            as properties of the instance
+
+        """
         self._set_obj(evas_object_line_add(canvas.obj))
 
         if start and end:

@@ -33,8 +33,20 @@ EVAS_OBJECT_TABLE_HOMOGENEOUS_ITEM = 2
 from efl.utils.conversions cimport eina_list_objects_to_python_list
 
 cdef class Table(Object):
+    """
 
+    TODO: doc this class
+
+    """
     def __init__(self, Canvas canvas not None, **kwargs):
+        """Table(...)
+
+        :param canvas: Evas canvas for this object
+        :type canvas: :py:class:`~efl.evas.Canvas`
+        :keyword \**kwargs: All the remaining keyword arguments are interpreted
+                            as properties of the instance
+        
+        """
         self._set_obj(evas_object_table_add(canvas.obj))
         self._set_properties_from_keyword_args(kwargs)
 

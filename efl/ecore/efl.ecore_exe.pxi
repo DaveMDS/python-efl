@@ -166,7 +166,9 @@ cdef void _ecore_exe_pre_free_cb(void *data, const Ecore_Exe *exe) with gil:
 
 
 cdef class Exe(object):
-    """Spawns a child process with its stdin/out available for communication.
+    """
+
+    Spawns a child process with its stdin/out available for communication.
 
     This function forks and runs the given command using ``/bin/sh``.
 

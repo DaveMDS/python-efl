@@ -101,7 +101,7 @@ cdef class Image(Object):
         just 50% transparent. Values are 0 == black, 255 == solid or full
         red, green or blue.
 
-    .. **EVAS_COLORSPACE_RGB565_A5P:** In the process of being implemented in
+    - **EVAS_COLORSPACE_RGB565_A5P:** In the process of being implemented in
         1 engine only. This may change. This is a pointer to image data for
         16-bit half-word pixel data in 16bpp RGB 565 format (5 bits red,
         6 bits green, 5 bits blue), with the high-byte containing red and the
@@ -125,23 +125,18 @@ cdef class Image(Object):
         **scaled** you need to call :py:attr:`fill` with ``x=0, y=0, w=new_width,
         h=new_height``, or you should use :py:class:`FilledImage` instead.
 
-    :param canvas: Evas canvas for this object
-    :type canvas: Canvas
-    :keyword size: Width and height
-    :type size: tuple of ints
-    :keyword pos: X and Y
-    :type pos: tuple of ints
-    :keyword geometry: X, Y, width, height
-    :type geometry: tuple of ints
-    :keyword color: R, G, B, A
-    :type color: tuple of ints
-    :keyword name: Object name
-    :type name: string
-    :keyword file: File name
-    :type file: string
-
     """
     def __init__(self, Canvas canvas not None, file=None, **kwargs):
+        """Image(...)
+
+        :param canvas: Evas canvas for this object
+        :type canvas: Canvas
+        :param file: File name or (File name, key)
+        :type file: string or tuple
+        :param \**kwargs: All the remaining keyword arguments are interpreted
+                          as properties of the instance
+        
+        """
         self._set_obj(evas_object_image_add(canvas.obj))
 
         if file is not None:
@@ -1340,29 +1335,24 @@ cdef void _cb_on_filled_image_resize(void *data, Evas *e,
 
 
 cdef class FilledImage(Image):
-    """Image that automatically resize it's contents to fit object size.
+    """
+
+    Image that automatically resize it's contents to fit object size.
 
     This :py:class:`Image` subclass already calls :py:attr:`Image.fill`
     on resize so it will match and so be scaled to fill the whole area.
 
-    :param canvas: The evas canvas for this object
-    :type canvas: :py:class:`~efl.evas.Canvas`
-    :keyword size: Width and height
-    :type size: tuple of ints
-    :keyword pos: X and Y
-    :type pos: tuple of ints
-    :keyword geometry: X, Y, width, height
-    :type geometry: tuple of ints
-    :keyword color: R, G, B, A
-    :type color: tuple of ints
-    :keyword name: Object name
-    :type name: string
-    :keyword file: File name
-    :type file: string
-
     """
 
     def __init__(self, Canvas canvas not None, **kargs):
+        """FilledImage(...)
+
+        :param canvas: The evas canvas for this object
+        :type canvas: :py:class:`~efl.evas.Canvas`
+        :param \**kwargs: All the remaining keyword arguments are interpreted
+                          as properties of the instance
+        
+        """
         Image.__init__(self, canvas, **kargs)
         w, h = self.size_get()
         Image.fill_set(self, 0, 0, w, h)
