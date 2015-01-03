@@ -441,3 +441,8 @@ dt:target, .highlighted { /* */
     border-top: 1px solid rgb(32,32,32);
     border-bottom: 1px solid rgb(32,32,32);
 }
+
+/* -- pygments fix ---------------------------------------------------------- */
+.highlight .go {
+    color: white !important;
+}
