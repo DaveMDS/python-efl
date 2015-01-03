@@ -13,6 +13,7 @@ cdef extern from "Ecore_X.h":
 cdef extern from "Elementary.h":
     Evas_Object             *elm_win_add(Evas_Object *parent, const char *name, Elm_Win_Type type)
     Evas_Object             *elm_win_util_standard_add(const char *name, const char *title)
+    Evas_Object             *elm_win_util_dialog_add(Evas_Object *parent, const char *name, const char *title)
     void                     elm_win_resize_object_add(Evas_Object *obj, Evas_Object* subobj)
     void                     elm_win_resize_object_del(Evas_Object *obj, Evas_Object* subobj)
     void                     elm_win_title_set(Evas_Object *obj, const char *title)
