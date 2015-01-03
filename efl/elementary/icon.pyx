@@ -43,6 +43,52 @@ following apply:
 
 Default images provided by Elementary's default theme are described below.
 
+These are names that follow (more or less) the **Freedesktop** icon naming
+specification. Use of these names are **preferred**, at least if you want to
+give your user the ability to use other themes. All these icons can be
+seen in the elementary_test application, the test is called "Icon Standard".
+
+- ``folder`` (since 1.13)
+- ``user-home`` (since 1.13)
+- ``user-trash`` (since 1.13)
+
+- ``view-close`` (since 1.13)
+- ``view-refresh`` (since 1.13)
+
+- ``window-close`` 1.13)
+
+- ``document-close`` (since 1.13)
+- ``document-edit`` (since 1.13)
+
+- ``dialog-info`` (since 1.13)
+- ``dialog-close`` (since 1.13)
+
+- ``arrow-up`` (since 1.13)
+- ``arrow-down`` (since 1.13)
+- ``arrow-left`` (since 1.13)
+- ``arrow-right`` (since 1.13)
+- ``arrow-up-left`` (since 1.13)
+- ``arrow-up-right`` (since 1.13)
+- ``arrow-down-left`` (since 1.13)
+- ``arrow-down-right`` (since 1.13)
+
+- ``edit-delete`` (since 1.13)
+
+- ``application-chat`` (since 1.13)
+- ``application-clock`` (since 1.13)
+
+- ``media-seek-forward`` 1.13)
+- ``media-seek-backward`` (since 1.13)
+- ``media-skip-forward`` (since 1.13)
+- ``media-skip-backward`` (since 1.13)
+- ``media-playback-pause`` (since 1.13)
+- ``media-playback-start`` (since 1.13)
+- ``media-playback-stop`` (since 1.13)
+- ``media-eject`` (since 1.13)
+
+- ``audio-volume`` (since 1.13)
+- ``audio-volume-muted`` (since 1.13)
+
 These are names for icons that were first intended to be used in
 toolbars, but can be used in many other places too:
 
