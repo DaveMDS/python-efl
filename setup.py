@@ -115,17 +115,17 @@ class CleanGenerated(Command):
         pass
 
     def run(self):
-        for lib in ("eo", "evas", "ecore", "ecore_x", "edje", "edje/edit",
-                    "emotion", "elementary", "ethumb", "utils"):
+        for lib in ("eo", "evas", "ecore", "ecore_x", "edje", "emotion",
+                    "elementary", "ethumb", "dbus_mainloop", "utils"):
             lib_path = os.path.join(script_path, "efl", lib)
             for root, dirs, files in os.walk(lib_path):
                 for f in files:
-                    if f.endswith(".c") or f.endswith(".html"):
-                        os.remove(os.path.join(root, f))
-        dbus_ml_path = os.path.join(script_path, "efl", "dbus_mainloop",
-                                    "dbus_mainloop.c")
-        if os.path.exists(dbus_ml_path):
-            os.remove(dbus_ml_path)
+                    if f.endswith((".c", ".html")) and f != "e_dbus.c":
+                        self.remove(os.path.join(root, f))
+
+    def remove(self, fullpath):
+        print("removing %s" % fullpath.replace(script_path, "").lstrip('/'))
+        os.remove(fullpath)
 
 
 # === use cython or pre-generated C files ===
