@@ -18,6 +18,46 @@
 from efl.eina cimport Eina_Bool
 
 cdef extern from "Eo.h":
+
+    ####################################################################
+    # Enums (not exported to python, only for internal use)
+    #
+    cdef enum:
+        EO_BASE_SUB_ID_CONSTRUCTOR
+        EO_BASE_SUB_ID_DESTRUCTOR
+        EO_BASE_SUB_ID_PARENT_SET
+        EO_BASE_SUB_ID_PARENT_GET
+        EO_BASE_SUB_ID_CHILDREN_ITERATOR_NEW
+        EO_BASE_SUB_ID_DATA_SET
+        EO_BASE_SUB_ID_DATA_GET
+        EO_BASE_SUB_ID_DATA_DEL
+        EO_BASE_SUB_ID_WREF_ADD
+        EO_BASE_SUB_ID_WREF_DEL
+        EO_BASE_SUB_ID_EVENT_CALLBACK_PRIORITY_ADD
+        EO_BASE_SUB_ID_EVENT_CALLBACK_DEL
+        EO_BASE_SUB_ID_EVENT_CALLBACK_ARRAY_PRIORITY_ADD
+        EO_BASE_SUB_ID_EVENT_CALLBACK_ARRAY_DEL
+        EO_BASE_SUB_ID_EVENT_CALLBACK_CALL
+        EO_BASE_SUB_ID_EVENT_CALLBACK_FORWARDER_ADD
+        EO_BASE_SUB_ID_EVENT_CALLBACK_FORWARDER_DEL
+        EO_BASE_SUB_ID_EVENT_FREEZE
+        EO_BASE_SUB_ID_EVENT_THAW
+        EO_BASE_SUB_ID_EVENT_FREEZE_GET
+        EO_BASE_SUB_ID_EVENT_GLOBAL_FREEZE
+        EO_BASE_SUB_ID_EVENT_GLOBAL_THAW
+        EO_BASE_SUB_ID_EVENT_GLOBAL_FREEZE_GET
+        EO_BASE_SUB_ID_DBG_INFO_GET
+        EO_BASE_SUB_ID_LAST
+
+    cdef enum:
+        EO_CALLBACK_PRIORITY_BEFORE
+        EO_CALLBACK_PRIORITY_DEFAULT
+        EO_CALLBACK_PRIORITY_AFTER
+
+    cdef enum:
+        EO_CALLBACK_STOP
+        EO_CALLBACK_CONTINUE
+
     ####################################################################
     # Structures
     #

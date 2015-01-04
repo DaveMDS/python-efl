@@ -27,9 +27,8 @@ from efl.c_eo cimport Eo as cEo, eo_init, eo_shutdown, eo_del, eo_do, \
     eo_event_callback_add, eo_event_callback_del, EO_EV_DEL, \
     eo_parent_get, eo_parent_set, Eo_Event_Description, \
     eo_event_freeze, eo_event_thaw, eo_event_freeze_count_get, \
-    eo_event_global_freeze, eo_event_global_thaw, eo_event_global_freeze_count_get
-
-cimport efl.eo.enums as enums
+    eo_event_global_freeze, eo_event_global_thaw, \
+    eo_event_global_freeze_count_get, EO_CALLBACK_STOP
 
 from efl.utils.logger cimport add_logger
 
@@ -169,13 +168,6 @@ cdef void _register_decorated_callbacks(Eo obj):
 ######################################################################
 
 
-EO_CALLBACK_STOP = enums.EO_CALLBACK_STOP
-EO_CALLBACK_CONTINUE = enums.EO_CALLBACK_CONTINUE
-
-
-######################################################################
-
-
 cdef Eina_Bool _eo_event_del_cb(void *data, cEo *obj,
                                 const Eo_Event_Description *desc,
                                 void *event_info) with gil:
@@ -191,7 +183,7 @@ cdef Eina_Bool _eo_event_del_cb(void *data, cEo *obj,
     self.obj = NULL
     Py_DECREF(self)
 
-    return enums.EO_CALLBACK_STOP
+    return EO_CALLBACK_STOP
 
 
 cdef class Eo(object):
