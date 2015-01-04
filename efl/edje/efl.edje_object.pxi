@@ -810,19 +810,19 @@ cdef class Edje(Object):
 
         p.name = c_param
         p.type = edje_object_part_external_param_type_get(self.obj, c_part, c_param)
-        if p.type >= EDJE_EXTERNAL_PARAM_TYPE_MAX:
+        if p.type >= <int>EDJE_EXTERNAL_PARAM_TYPE_MAX:
             return None
 
         if not edje_object_part_external_param_get(self.obj, c_part, &p):
             return None
-        if p.type == EDJE_EXTERNAL_PARAM_TYPE_BOOL:
+        if p.type == <int>EDJE_EXTERNAL_PARAM_TYPE_BOOL:
             return bool(p.i)
-        elif p.type == EDJE_EXTERNAL_PARAM_TYPE_INT:
+        elif p.type == <int>EDJE_EXTERNAL_PARAM_TYPE_INT:
             return p.i
-        elif p.type == EDJE_EXTERNAL_PARAM_TYPE_DOUBLE:
+        elif p.type == <int>EDJE_EXTERNAL_PARAM_TYPE_DOUBLE:
             return p.d
-        elif p.type == EDJE_EXTERNAL_PARAM_TYPE_STRING or \
-             p.type == EDJE_EXTERNAL_PARAM_TYPE_CHOICE:
+        elif p.type == <int>EDJE_EXTERNAL_PARAM_TYPE_STRING or \
+             p.type == <int>EDJE_EXTERNAL_PARAM_TYPE_CHOICE:
             return _ctouni(p.s)
 
     def part_box_append(self, part, Object obj):

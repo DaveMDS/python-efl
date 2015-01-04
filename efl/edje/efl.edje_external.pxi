@@ -60,15 +60,15 @@ cdef class ExternalParam:
         def __get__(self):
             if self.obj == NULL:
                 raise ValueError("Object uninitialized")
-            if self.obj.type == EDJE_EXTERNAL_PARAM_TYPE_INT:
+            if self.obj.type == <int>EDJE_EXTERNAL_PARAM_TYPE_INT:
                 return self.obj.i
-            elif self.obj.type == EDJE_EXTERNAL_PARAM_TYPE_DOUBLE:
+            elif self.obj.type == <int>EDJE_EXTERNAL_PARAM_TYPE_DOUBLE:
                 return self.obj.d
-            elif self.obj.type == EDJE_EXTERNAL_PARAM_TYPE_STRING or \
-                    self.obj.type == EDJE_EXTERNAL_PARAM_TYPE_CHOICE:
+            elif self.obj.type == <int>EDJE_EXTERNAL_PARAM_TYPE_STRING or \
+                    self.obj.type == <int>EDJE_EXTERNAL_PARAM_TYPE_CHOICE:
                 if self.obj.s != NULL:
                     return self.obj.s
-            elif self.obj.type == EDJE_EXTERNAL_PARAM_TYPE_BOOL:
+            elif self.obj.type == <int>EDJE_EXTERNAL_PARAM_TYPE_BOOL:
                 return bool(self.obj.i)
 
 
@@ -313,15 +313,15 @@ cdef class ExternalParamInfoChoice(ExternalParamInfo):
 
 cdef ExternalParamInfo ExternalParamInfo_from_ptr(type, Edje_External_Param_Info *ptr):
     cdef ExternalParamInfo p
-    if ptr.type == EDJE_EXTERNAL_PARAM_TYPE_INT:
+    if ptr.type == <int>EDJE_EXTERNAL_PARAM_TYPE_INT:
         p = ExternalParamInfoInt()
-    elif ptr.type == EDJE_EXTERNAL_PARAM_TYPE_DOUBLE:
+    elif ptr.type == <int>EDJE_EXTERNAL_PARAM_TYPE_DOUBLE:
         p = ExternalParamInfoDouble()
-    elif ptr.type == EDJE_EXTERNAL_PARAM_TYPE_STRING:
+    elif ptr.type == <int>EDJE_EXTERNAL_PARAM_TYPE_STRING:
         p = ExternalParamInfoString()
-    elif ptr.type == EDJE_EXTERNAL_PARAM_TYPE_BOOL:
+    elif ptr.type == <int>EDJE_EXTERNAL_PARAM_TYPE_BOOL:
         p = ExternalParamInfoBool()
-    elif ptr.type == EDJE_EXTERNAL_PARAM_TYPE_CHOICE:
+    elif ptr.type == <int>EDJE_EXTERNAL_PARAM_TYPE_CHOICE:
         p = ExternalParamInfoChoice()
     else:
         msg = "Don't know how to convert parameter %s of type %s" % \
