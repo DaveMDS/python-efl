@@ -27,13 +27,6 @@ from efl.edje cimport Edje_Part_Type, Edje
 from efl.edje import EDJE_PART_TYPE_EXTERNAL
 
 
-# Edje_Edit_Image_Comp
-EDJE_EDIT_IMAGE_COMP_RAW   = 0
-EDJE_EDIT_IMAGE_COMP_USER  = 1
-EDJE_EDIT_IMAGE_COMP_COMP  = 2
-EDJE_EDIT_IMAGE_COMP_LOSSY = 3
-
-
 cdef class EdjeEdit(Edje):
 
     def __init__(self, Canvas canvas not None, file=None, group=None, size=None,

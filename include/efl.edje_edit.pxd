@@ -24,8 +24,13 @@ from efl.edje cimport Edje_Part_Type, Edje_Text_Effect, Edje_Tween_Mode, \
 
 cdef extern from "Edje_Edit.h":
     ####################################################################
-    # Enumerations
+    # Enums
     #
+    cpdef enum Edje_Edit_Image_Comp:
+        EDJE_EDIT_IMAGE_COMP_RAW
+        EDJE_EDIT_IMAGE_COMP_USER
+        EDJE_EDIT_IMAGE_COMP_COMP
+        EDJE_EDIT_IMAGE_COMP_LOSSY
     ctypedef enum Edje_Edit_Image_Comp:
         pass
 
