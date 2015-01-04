@@ -227,36 +227,37 @@ if set(("build", "build_ext", "install", "bdist", "sdist")) & set(sys.argv):
 
     # === Ecore ===
     ecore_cflags, ecore_libs = pkg_config('Ecore', 'ecore', EFL_MIN_VER)
-    ecore_file_cflags, ecore_file_libs = pkg_config(
-        'EcoreFile', 'ecore-file', EFL_MIN_VER)
-    ecore_exts = [
-        Extension("ecore.__init__", ["efl/ecore/__init__" + module_suffix],
-                  include_dirs=['include/'],
-                  extra_compile_args=list(set(ecore_cflags + ecore_file_cflags)),
-                  extra_link_args=ecore_libs + ecore_file_libs + eina_libs +
-                  evas_libs),
-        ]
+    ecore_file_cflags, ecore_file_libs = pkg_config('EcoreFile', 'ecore-file',
+                                                    EFL_MIN_VER)
+    ecore_ext = Extension("ecore", ["efl/ecore/efl.ecore" + module_suffix],
+                          include_dirs=['include/'],
+                          extra_compile_args=list(set(ecore_cflags +
+                                                      ecore_file_cflags)),
+                          extra_link_args=ecore_libs + ecore_file_libs +
+                                          eina_libs + evas_libs)
+    ext_modules.append(ecore_ext)
+
+    # === Ecore X ===
     try:
-        ecore_input_cflags, ecore_input_libs = pkg_config(
-                'EcoreInput', 'ecore-input', EFL_MIN_VER)
-        ecore_x_cflags, ecore_x_libs = pkg_config(
-                'EcoreX', 'ecore-x', EFL_MIN_VER)
+        ecore_input_cflags, ecore_input_libs = pkg_config('EcoreInput',
+                                                          'ecore-input',
+                                                          EFL_MIN_VER)
+        ecore_x_cflags, ecore_x_libs = pkg_config('EcoreX', 'ecore-x',
+                                                  EFL_MIN_VER)
     except SystemExit:  # FIXME: Change pkg-config to return a value
         pass
     else:
-        ecore_exts.append(
-            Extension("ecore.x", ["efl/ecore/x" + module_suffix],
-                      include_dirs=['include/'],
-                      extra_compile_args=list(set(ecore_cflags +
-                                                  ecore_file_cflags +
-                                                  ecore_x_cflags +
-                                                  ecore_input_cflags)),
-                      extra_link_args=ecore_libs + ecore_file_libs +
-                                      ecore_x_libs + ecore_input_libs +
-                                      eina_libs + evas_libs)
-        )
-    ext_modules.extend(ecore_exts)
-    packages.append("efl.ecore")
+        ecore_x_ext = Extension("ecore_x",
+                                ["efl/ecore_x/efl.ecore_x" + module_suffix],
+                                include_dirs=['include/'],
+                                extra_compile_args=list(set(ecore_cflags +
+                                                            ecore_file_cflags +
+                                                            ecore_x_cflags +
+                                                            ecore_input_cflags)),
+                                extra_link_args=ecore_libs + ecore_file_libs +
+                                                ecore_x_libs + ecore_input_libs +
+                                                eina_libs + evas_libs)
+        ext_modules.append(ecore_x_ext)
 
     # === Ethumb ===
     ethumb_cflags, ethumb_libs = pkg_config('Ethumb', 'ethumb', EFL_MIN_VER)
@@ -391,7 +392,7 @@ if set(("build", "build_ext", "install", "bdist", "sdist")) & set(sys.argv):
         e = Extension("elementary." + m,
                       ["efl/elementary/" + m + module_suffix],
                       include_dirs=["include/"],
-                      extra_compile_args=elm_cflags + ecore_x_cflags,
+                      extra_compile_args=elm_cflags,
                       extra_link_args=elm_libs + eina_libs + evas_libs)
         ext_modules.append(e)
 
