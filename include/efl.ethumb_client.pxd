@@ -16,7 +16,7 @@
 # along with this Python-EFL.  If not, see <http://www.gnu.org/licenses/>.
 
 from efl.eina cimport Eina_Bool, Eina_Free_Cb
-from efl.ethumb.enums cimport Ethumb_Thumb_Orientation
+from efl.ethumb cimport Ethumb_Thumb_Orientation
 
 cdef extern from "Ethumb_Client.h":
     ctypedef struct Ethumb_Client
