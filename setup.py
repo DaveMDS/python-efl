@@ -128,6 +128,42 @@ class CleanGenerated(Command):
         os.remove(fullpath)
 
 
+# === setup.py uninstall command ===
+class Uninstall(Command):
+    description = 'remove all the installed files recorded at installation time'
+    user_options = []
+
+    def initialize_options(self):
+        pass
+
+    def finalize_options(self):
+        pass
+
+    def remove_entry(self, entry):
+        if os.path.isfile(entry):
+            try:
+                print("removing file %s" % entry)
+                os.unlink(entry)
+            except OSError as e:
+                error(e)
+
+            directory = os.path.dirname(entry)
+            while os.listdir(directory) == []:
+                try:
+                    print("removing empty directory %s" % directory)
+                    os.rmdir(directory)
+                except OSError as e:
+                    error(e)
+                directory = os.path.dirname(directory)
+
+    def run(self):
+        if not os.path.exists("installed_files.txt"):
+            print('Warning: No installed_files.txt file found!')
+        else:
+            for entry in open("installed_files.txt").read().split():
+                self.remove_entry(entry)
+
+
 # === use cython or pre-generated C files ===
 USE_CYTHON = False
 if os.getenv("DISABLE_CYTHON") is not None:
@@ -439,12 +475,16 @@ setup(
     ],
     cmdclass={
         'build_doc': BuildDoc,
-        'clean_generated_files': CleanGenerated
+        'clean_generated_files': CleanGenerated,
+        'uninstall': Uninstall,
     },
     command_options={
         'build_doc': {
             'version': ('setup.py', VERSION),
-            'release': ('setup.py', RELEASE)
+            'release': ('setup.py', RELEASE),
+        },
+        'install': {
+            'record': ('setup.py', 'installed_files.txt'),
         }
     },
     packages=packages,
