@@ -22,6 +22,9 @@ CYTHON_MIN_VERSION = "0.19"
 EFL_MIN_VER = RELEASE
 ELM_MIN_VER = RELEASE
 
+# disable ecore_x by default (change here to enable)
+ENABLE_ECORE_X = False
+
 
 # Add git commit count for dev builds
 if vers[2] == 99:
@@ -112,8 +115,8 @@ class CleanGenerated(Command):
         pass
 
     def run(self):
-        for lib in ("eo", "evas", "ecore", "edje", "edje/edit", "emotion",
-                    "elementary", "ethumb", "utils"):
+        for lib in ("eo", "evas", "ecore", "ecore_x", "edje", "edje/edit",
+                    "emotion", "elementary", "ethumb", "utils"):
             lib_path = os.path.join(script_path, "efl", lib)
             for root, dirs, files in os.walk(lib_path):
                 for f in files:
@@ -238,15 +241,12 @@ if set(("build", "build_ext", "install", "bdist", "sdist")) & set(sys.argv):
     ext_modules.append(ecore_ext)
 
     # === Ecore X ===
-    try:
+    if ENABLE_ECORE_X:
         ecore_input_cflags, ecore_input_libs = pkg_config('EcoreInput',
                                                           'ecore-input',
                                                           EFL_MIN_VER)
         ecore_x_cflags, ecore_x_libs = pkg_config('EcoreX', 'ecore-x',
                                                   EFL_MIN_VER)
-    except SystemExit:  # FIXME: Change pkg-config to return a value
-        pass
-    else:
         ecore_x_ext = Extension("ecore_x",
                                 ["efl/ecore_x/efl.ecore_x" + module_suffix],
                                 include_dirs=['include/'],
