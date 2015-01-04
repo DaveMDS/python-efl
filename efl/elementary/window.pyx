@@ -503,9 +503,7 @@ cdef class Window(Object):
         return _ctouni(elm_win_title_get(self.obj))
 
     def type_get(self):
-        """type_get()
-
-        Get the type of a window.
+        """Get the type of a window.
 
         :return: The type of the window
         :return type: Elm_Win_Type
@@ -603,9 +601,7 @@ cdef class Window(Object):
         return elm_win_autodel_get(self.obj)
 
     def activate(self):
-        """activate()
-
-        Activate a window object.
+        """Activate a window object.
 
         This function sends a request to the Window Manager to activate the
         window. If honored by the WM, the window will receive the keyboard
