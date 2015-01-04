@@ -18,11 +18,91 @@
 from efl.eina cimport *
 from efl.c_eo cimport Eo as cEo
 from efl.eo cimport Eo
-from efl.ecore.enums cimport Ecore_Fd_Handler_Flags, Ecore_Exe_Flags, \
-    Ecore_File_Event, Ecore_Poller_Type
 
 
 cdef extern from "Ecore.h":
+
+    ####################################################################
+    # Define  (this are not really correct, but works)
+    #
+    cpdef enum:
+        ECORE_EVENT_NONE
+        ECORE_EVENT_SIGNAL_USER
+        ECORE_EVENT_SIGNAL_HUP
+        ECORE_EVENT_SIGNAL_EXIT
+        ECORE_EVENT_SIGNAL_POWER
+        ECORE_EVENT_SIGNAL_REALTIME
+        ECORE_EVENT_MEMORY_STATE
+        ECORE_EVENT_POWER_STATE
+        ECORE_EVENT_LOCALE_CHANGED
+        ECORE_EVENT_HOSTNAME_CHANGED
+        ECORE_EVENT_SYSTEM_TIMEDATE_CHANGED
+        ECORE_EVENT_COUNT
+
+        ECORE_CALLBACK_CANCEL
+        ECORE_CALLBACK_RENEW
+
+        ECORE_CALLBACK_PASS_ON
+        ECORE_CALLBACK_DONE
+
+        ECORE_EXE_PRIORITY_INHERIT
+
+    int ECORE_EXE_EVENT_ADD
+    int ECORE_EXE_EVENT_DEL
+    int ECORE_EXE_EVENT_DATA
+    int ECORE_EXE_EVENT_ERROR
+
+    ####################################################################
+    # Enums
+    #
+    cpdef enum Ecore_Fd_Handler_Flags:
+        ECORE_FD_READ
+        ECORE_FD_WRITE
+        ECORE_FD_ERROR
+    ctypedef enum Ecore_Fd_Handler_Flags:
+        pass
+
+    cpdef enum Ecore_Exe_Flags:
+        ECORE_EXE_NONE
+        ECORE_EXE_PIPE_READ
+        ECORE_EXE_PIPE_WRITE
+        ECORE_EXE_PIPE_ERROR
+        ECORE_EXE_PIPE_READ_LINE_BUFFERED
+        ECORE_EXE_PIPE_ERROR_LINE_BUFFERED
+        ECORE_EXE_PIPE_AUTO
+        ECORE_EXE_RESPAWN
+        ECORE_EXE_USE_SH
+        ECORE_EXE_NOT_LEADER
+        ECORE_EXE_TERM_WITH_PARENT
+    ctypedef enum Ecore_Exe_Flags:
+        pass
+
+    cpdef enum Ecore_Pos_Map:
+        ECORE_POS_MAP_LINEAR
+        ECORE_POS_MAP_ACCELERATE
+        ECORE_POS_MAP_DECELERATE
+        ECORE_POS_MAP_SINUSOIDAL
+        ECORE_POS_MAP_ACCELERATE_FACTOR
+        ECORE_POS_MAP_DECELERATE_FACTOR
+        ECORE_POS_MAP_SINUSOIDAL_FACTOR
+        ECORE_POS_MAP_DIVISOR_INTERP
+        ECORE_POS_MAP_BOUNCE
+        ECORE_POS_MAP_SPRING
+        ECORE_POS_MAP_CUBIC_BEZIER
+    ctypedef enum Ecore_Pos_Map:
+        pass
+
+    cpdef enum Ecore_Animator_Source:
+        ECORE_ANIMATOR_SOURCE_TIMER
+        ECORE_ANIMATOR_SOURCE_CUSTOM
+    ctypedef enum Ecore_Animator_Source:
+        pass
+
+    cpdef enum Ecore_Poller_Type:
+        ECORE_POLLER_CORE
+    ctypedef enum Ecore_Poller_Type:
+        pass
+
     ####################################################################
     # Basic Types
     #
@@ -172,13 +252,30 @@ cdef extern from "Ecore.h":
 
 cdef extern from "Ecore_File.h":
 
+    cpdef enum Ecore_File_Event:
+        ECORE_FILE_EVENT_NONE
+        ECORE_FILE_EVENT_CREATED_FILE
+        ECORE_FILE_EVENT_CREATED_DIRECTORY
+        ECORE_FILE_EVENT_DELETED_FILE
+        ECORE_FILE_EVENT_DELETED_DIRECTORY
+        ECORE_FILE_EVENT_DELETED_SELF
+        ECORE_FILE_EVENT_MODIFIED
+        ECORE_FILE_EVENT_CLOSED
+    ctypedef enum Ecore_File_Event:
+        pass
+
+    cpdef enum Ecore_File_Progress_Return:
+        ECORE_FILE_PROGRESS_CONTINUE
+        ECORE_FILE_PROGRESS_ABORT
+    ctypedef enum Ecore_File_Progress_Return:
+        pass
+
     ctypedef struct Ecore_File_Download_Job
     ctypedef struct Ecore_File_Monitor
 
     ctypedef void (*Ecore_File_Download_Completion_Cb)(void *data, const char *file, int status)
     ctypedef int  (*Ecore_File_Download_Progress_Cb)(void *data, const char *file, long int dltotal, long int dlnow, long int ultotal, long int ulnow)
     ctypedef void (*Ecore_File_Monitor_Cb)(void *data, Ecore_File_Monitor *em, Ecore_File_Event event, const char *path)
-
 
     int       ecore_file_init()
     int       ecore_file_shutdown()

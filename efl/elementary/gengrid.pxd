@@ -5,7 +5,7 @@ from object_item cimport Elm_Object_Item
 from general cimport Elm_Tooltip_Item_Content_Cb
 from enums cimport Elm_Genlist_Item_Scrollto_Type, Elm_Object_Select_Mode, \
     Elm_Object_Multi_Select_Mode, Elm_Glob_Match_Flags, Elm_Gengrid_Reorder_Type
-from efl.ecore.enums cimport Ecore_Pos_Map
+from efl.ecore cimport Ecore_Pos_Map
 
 cdef extern from "Elementary.h":
     ctypedef char           *(*GengridItemLabelGetFunc)     (void *data, Evas_Object *obj, const char *part)

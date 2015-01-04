@@ -158,6 +158,10 @@ Position mappings for the animation
 
     Start at 0.0 then "wobble" like a spring rest position 1.0, and wobble v2 times, with decay factor of v1
 
+.. data:: ECORE_POS_MAP_CUBIC_BEZIER
+
+    TODO: Follow the cubic-bezier curve calculated with the control points (x1, y1), (x2, y2)
+
 
 .. _Ecore_Animator_Source:
 
@@ -218,50 +222,7 @@ import traceback
 from efl.eo cimport Eo, PY_REFCOUNT
 from efl.utils.conversions cimport _ctouni
 from cpython cimport Py_INCREF, Py_DECREF
-cimport efl.ecore.enums as enums
 
-ECORE_CALLBACK_CANCEL = enums.ECORE_CALLBACK_CANCEL
-ECORE_CALLBACK_RENEW = enums.ECORE_CALLBACK_RENEW
-
-ECORE_CALLBACK_PASS_ON = enums.ECORE_CALLBACK_PASS_ON
-ECORE_CALLBACK_DONE = enums.ECORE_CALLBACK_DONE
-
-# Ecore_Fd_Handler_Flags:
-ECORE_FD_READ = enums.ECORE_FD_READ
-ECORE_FD_WRITE = enums.ECORE_FD_WRITE
-ECORE_FD_ERROR = enums.ECORE_FD_ERROR
-ECORE_FD_ALL = 7
-
-# Ecore_Exe_Flags:
-ECORE_EXE_PIPE_READ = enums.ECORE_EXE_PIPE_READ
-ECORE_EXE_PIPE_WRITE = enums.ECORE_EXE_PIPE_WRITE
-ECORE_EXE_PIPE_ERROR = enums.ECORE_EXE_PIPE_ERROR
-ECORE_EXE_PIPE_READ_LINE_BUFFERED = enums.ECORE_EXE_PIPE_READ_LINE_BUFFERED
-ECORE_EXE_PIPE_ERROR_LINE_BUFFERED = enums.ECORE_EXE_PIPE_ERROR_LINE_BUFFERED
-ECORE_EXE_PIPE_AUTO = enums.ECORE_EXE_PIPE_AUTO
-ECORE_EXE_RESPAWN = enums.ECORE_EXE_RESPAWN
-ECORE_EXE_USE_SH = enums.ECORE_EXE_USE_SH
-ECORE_EXE_NOT_LEADER = enums.ECORE_EXE_NOT_LEADER
-ECORE_EXE_TERM_WITH_PARENT = enums.ECORE_EXE_TERM_WITH_PARENT
-
-ECORE_EXE_PRIORITY_INHERIT = 9999
-
-# Ecore_File_Progress_Return:
-ECORE_FILE_PROGRESS_CONTINUE = 0
-ECORE_FILE_PROGRESS_ABORT = 1
-
-# Ecore_File_Event
-ECORE_FILE_EVENT_NONE = enums.ECORE_FILE_EVENT_NONE
-ECORE_FILE_EVENT_CREATED_FILE = enums.ECORE_FILE_EVENT_CREATED_FILE
-ECORE_FILE_EVENT_CREATED_DIRECTORY = enums.ECORE_FILE_EVENT_CREATED_DIRECTORY
-ECORE_FILE_EVENT_DELETED_FILE = enums.ECORE_FILE_EVENT_DELETED_FILE
-ECORE_FILE_EVENT_DELETED_DIRECTORY = enums.ECORE_FILE_EVENT_DELETED_DIRECTORY
-ECORE_FILE_EVENT_DELETED_SELF = enums.ECORE_FILE_EVENT_DELETED_SELF
-ECORE_FILE_EVENT_MODIFIED = enums.ECORE_FILE_EVENT_MODIFIED
-ECORE_FILE_EVENT_CLOSED = enums.ECORE_FILE_EVENT_CLOSED
-
-# Ecore_Poller_Type:
-ECORE_POLLER_CORE = enums.ECORE_POLLER_CORE
 
 
 cdef Eina_Bool _ecore_task_cb(void *data) with gil:
@@ -293,16 +254,16 @@ def init():
 
         global _event_type_mapping
         _event_type_mapping = {
-            enums.ECORE_EVENT_SIGNAL_USER: EventSignalUser,
-            enums.ECORE_EVENT_SIGNAL_HUP: EventSignalHup,
-            enums.ECORE_EVENT_SIGNAL_EXIT: EventSignalExit,
-            enums.ECORE_EVENT_SIGNAL_POWER: EventSignalPower,
-            enums.ECORE_EVENT_SIGNAL_REALTIME: EventSignalRealtime,
-            enums.ECORE_EXE_EVENT_ADD: EventExeAdd,
-            enums.ECORE_EXE_EVENT_DEL: EventExeDel,
-            enums.ECORE_EXE_EVENT_DATA: EventExeData,
-            enums.ECORE_EXE_EVENT_ERROR: EventExeData,
-            }
+            ECORE_EVENT_SIGNAL_USER: EventSignalUser,
+            ECORE_EVENT_SIGNAL_HUP: EventSignalHup,
+            ECORE_EVENT_SIGNAL_EXIT: EventSignalExit,
+            ECORE_EVENT_SIGNAL_POWER: EventSignalPower,
+            ECORE_EVENT_SIGNAL_REALTIME: EventSignalRealtime,
+            ECORE_EXE_EVENT_ADD: EventExeAdd,
+            ECORE_EXE_EVENT_DEL: EventExeDel,
+            ECORE_EXE_EVENT_DATA: EventExeData,
+            ECORE_EXE_EVENT_ERROR: EventExeData,
+        }
 
     ecore_file_init()
     return r
