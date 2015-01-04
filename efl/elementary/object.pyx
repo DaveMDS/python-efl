@@ -267,9 +267,11 @@ from libc.stdint cimport uintptr_t
 from efl.eo cimport _object_mapping_register
 from efl.utils.conversions cimport _ctouni, eina_list_objects_to_python_list
 from efl.utils.deprecated cimport DEPRECATED
-from efl.evas cimport Object as evasObject
-from efl.evas cimport EventKeyDown, EventKeyUp, EventMouseWheel, \
-    evas_object_smart_callback_add, evas_object_smart_callback_del
+from efl.evas cimport Object as evasObject, \
+    EventKeyDown, EventKeyUp, EventMouseWheel, \
+    evas_object_smart_callback_add, evas_object_smart_callback_del, \
+    Evas_Callback_Type, EVAS_CALLBACK_KEY_DOWN, EVAS_CALLBACK_KEY_UP, \
+    EVAS_CALLBACK_MOUSE_WHEEL
 
 include "cnp_callbacks.pxi"
 include "tooltips.pxi"
@@ -280,7 +282,6 @@ import logging
 log = logging.getLogger("elementary")
 import traceback
 
-cimport efl.evas.enums as evasenums
 cimport enums
 
 ELM_FOCUS_PREVIOUS = enums.ELM_FOCUS_PREVIOUS
@@ -296,10 +297,6 @@ ELM_FOCUS_MOVE_POLICY_IN = enums.ELM_FOCUS_MOVE_POLICY_IN
 ELM_FOCUS_AUTOSCROLL_MODE_SHOW = enums.ELM_FOCUS_AUTOSCROLL_MODE_SHOW
 ELM_FOCUS_AUTOSCROLL_MODE_NONE = enums.ELM_FOCUS_AUTOSCROLL_MODE_NONE
 ELM_FOCUS_AUTOSCROLL_MODE_BRING_IN = enums.ELM_FOCUS_AUTOSCROLL_MODE_BRING_IN
-
-EVAS_CALLBACK_KEY_DOWN = evasenums.EVAS_CALLBACK_KEY_DOWN
-EVAS_CALLBACK_KEY_UP = evasenums.EVAS_CALLBACK_KEY_UP
-EVAS_CALLBACK_MOUSE_WHEEL = evasenums.EVAS_CALLBACK_MOUSE_WHEEL
 
 ELM_SEL_TYPE_PRIMARY = enums.ELM_SEL_TYPE_PRIMARY
 ELM_SEL_TYPE_SECONDARY = enums.ELM_SEL_TYPE_SECONDARY
@@ -367,17 +364,17 @@ cdef Eina_Bool _event_callback(void *data, Evas_Object *o, \
         EventKeyDown down_event
         EventKeyUp up_event
 
-    if t == evasenums.EVAS_CALLBACK_KEY_DOWN:
+    if t == <int>EVAS_CALLBACK_KEY_DOWN:
         down_event = EventKeyDown()
         down_event._set_obj(event_info)
         ret = _event_dispatcher(obj, src_obj, t, down_event)
         down_event._unset_obj()
-    elif t == evasenums.EVAS_CALLBACK_KEY_UP:
+    elif t == <int>EVAS_CALLBACK_KEY_UP:
         up_event = EventKeyUp()
         up_event._set_obj(event_info)
         ret = _event_dispatcher(obj, src_obj, t, up_event)
         up_event._unset_obj()
-    elif t == evasenums.EVAS_CALLBACK_MOUSE_WHEEL:
+    elif t == <int>EVAS_CALLBACK_MOUSE_WHEEL:
         wheel_event = EventMouseWheel()
         wheel_event._set_obj(event_info)
         ret = _event_dispatcher(obj, src_obj, t, wheel_event)

@@ -15,11 +15,9 @@
 # You should have received a copy of the GNU Lesser General Public License
 # along with this Python-EFL.  If not, see <http://www.gnu.org/licenses/>.
 
-from efl.evas cimport Eina_Bool, Eina_List, \
-    Evas_Object, Evas_Smart_Cb, Evas_Coord
-from efl.evas.enums cimport Evas_Callback_Type
-from efl.evas cimport Object as evasObject
-from efl.evas cimport Canvas as evasCanvas
+from efl.evas cimport Eina_Bool, Eina_List, Evas_Object, Evas_Smart_Cb, \
+    Evas_Coord, Evas_Callback_Type, Object as evasObject, Canvas as evasCanvas
+
 from enums cimport Elm_Focus_Direction, Elm_Sel_Format, Elm_Sel_Type, \
     Elm_Xdnd_Action
 

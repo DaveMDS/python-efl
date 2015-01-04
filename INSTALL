@@ -5,7 +5,7 @@
  * Python 2.6 or higher (http://www.python.org/)
    - Tested with Python 2.6 / 2.7 / 3.2 / 3.3 / 3.4
 
- * Cython 0.19 or higher (http://cython.org/)
+ * Cython 0.21 or higher (http://cython.org/)
    - Tested with Cython 0.21.2
 
  * EFL core library

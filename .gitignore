@@ -1,5 +1,6 @@
 *.py[co]
 MANIFEST
+installed_files.txt
 
 # Packages
 *.egg
