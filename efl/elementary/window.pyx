@@ -1659,39 +1659,27 @@ cdef class Window(Object):
         """Returns the X Window id.
 
         X Window id is a value of type long int which can be used in
-        combination with some functions/objects in the ecore.x module.
+        combination with some functions/objects in the ecore_x module.
 
         For example you can hide the mouse cursor with::
 
-            import ecore.x
+            import ecore_x
             xid = your_elm_win.xwindow_xid
-            xwin = ecore.x.Window_from_xid(xid)
+            xwin = ecore_x.Window_from_xid(xid)
             xwin.cursor_hide()
 
-        .. note:: This is not portable at all. Works only under the X window
-            system.
+        .. warning:: This is not portable at all. Works only under the X
+                     window system. And you must build python-efl with ecore_x
+                     enabled.
 
         :type: long
 
         """
         def __get__(self):
-            cdef Ecore_X_Window xwin
-            xwin = elm_win_xwindow_get(self.obj)
-            return xwin
+            return elm_win_xwindow_get(self.obj)
 
     def xwindow_xid_get(self):
-        cdef Ecore_X_Window xwin
-        xwin = elm_win_xwindow_get(self.obj)
-        return xwin
-
-    # TODO:
-    # property wl_window:
-    #     """Get the Ecore_Wl_Window of an Evas_Object
-
-    #     :type: Ecore_Wl_Window
-
-    #     """
-    #     Ecore_Wl_Window *elm_win_wl_window_get(const Evas_Object *obj)
+        return elm_win_xwindow_get(self.obj)
 
     property floating_mode:
         """Floating mode of a window.
@@ -1712,20 +1700,6 @@ cdef class Window(Object):
     def floating_mode_get(self):
         return bool(elm_win_floating_mode_get(self.obj))
 
-    # TODO:
-    # property window_id:
-    #     """
-
-    #     Get the Ecore_Window of an Evas_Object
-
-    #     When Elementary is using a Wayland engine, this function will return the surface id of the elm window's surface.
-
-    #     :type: Ecore_Window
-    #     :since: 1.8
-
-    #     """
-    #     def __get__(self):
-    #         return Ecore_Window elm_win_window_id_get(self.obj)
 
     def callback_delete_request_add(self, func, *args, **kwargs):
         """The user requested to close the window. See :py:attr:`autodel`."""

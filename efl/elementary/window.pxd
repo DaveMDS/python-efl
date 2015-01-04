@@ -2,13 +2,6 @@ from efl.evas cimport Eina_Bool, Evas_Object
 from enums cimport Elm_Illume_Command, Elm_Win_Type, Elm_Win_Indicator_Mode, \
     Elm_Win_Indicator_Opacity_Mode, Elm_Win_Keyboard_Mode
 
-cdef extern from "Ecore_X.h":
-    ctypedef unsigned int Ecore_X_ID
-    ctypedef Ecore_X_ID Ecore_X_Window
-
-# TODO:
-# cdef extern from "Ecore_Evas_Types.h":
-    # ctypedef struct Ecore_Wl_Window
 
 cdef extern from "Elementary.h":
     Evas_Object             *elm_win_add(Evas_Object *parent, const char *name, Elm_Win_Type type)
@@ -127,11 +120,8 @@ cdef extern from "Elementary.h":
     Eina_Bool                elm_win_wm_rotation_manual_rotation_done_get(const Evas_Object *obj)
     void                     elm_win_wm_rotation_manual_rotation_done(Evas_Object *obj)
 
-    # X specific call - won't work on non-x engines (return 0)
-    Ecore_X_Window           elm_win_xwindow_get(const Evas_Object *obj)
-    # TODO: Ecore_Wl_Window         *elm_win_wl_window_get(const Evas_Object *obj)
-
     void                     elm_win_floating_mode_set(Evas_Object *obj, Eina_Bool floating)
     Eina_Bool                elm_win_floating_mode_get(const Evas_Object *obj)
 
-    # TODO: Ecore_Window          elm_win_window_id_get(const Evas_Object *obj)
+    # X specific call - won't work on non-x engines (return 0)
+    unsigned int             elm_win_xwindow_get(const Evas_Object *obj)
