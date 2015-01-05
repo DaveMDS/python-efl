@@ -3,7 +3,7 @@
 ===============
 
  * Python 2.6 or higher (http://www.python.org/)
-   - Tested with Python 2.6 / 2.7 / 3.2 / 3.3 / 3.4
+   - Tested with Python 2.7 / 3.2 / 3.3 / 3.4
 
  * Cython 0.21 or higher (http://cython.org/)
    - Tested with Cython 0.21.2
@@ -59,7 +59,7 @@
    python setup.py clean_generated_files
 
    WARNING: you will need cython to regenerate the C files, do not use this
-            command in distribution tarballs, unless you know what are you doing.
+            in distribution tarballs, unless you know what are you doing.
 
 
 
@@ -68,7 +68,7 @@
 
  * For system-wide installation (needs administrator privileges):
 
-    (sido) python setup.py install
+    (sudo) python setup.py install
 
  * For user installation:
 
@@ -84,7 +84,7 @@
 
  * You can also uninstall using:
 
-   (sudo) python setup.py uninstall
+    (sudo) python setup.py uninstall
 
 
 5. DOCUMENTATION
@@ -96,7 +96,8 @@
  packages: python-sphinx, graphviz, python-pygraphviz, libgv-python
 
  To build the docs just run:
- python setup.py build_doc
+
+    python setup.py build_doc
 
  You will find the generated html docs under the folder:
  build/sphinx/html
