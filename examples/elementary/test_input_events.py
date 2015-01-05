@@ -2,12 +2,12 @@
 # encoding: utf-8
 
 from efl.evas import EVAS_HINT_EXPAND, EVAS_HINT_FILL, EXPAND_BOTH, FILL_BOTH
+from efl.evas import EVAS_CALLBACK_KEY_UP
 from efl import elementary
 
 from efl.elementary.box import Box
 from efl.elementary.button import Button
 from efl.elementary.entry import Entry, utf8_to_markup
-from efl.elementary.object import EVAS_CALLBACK_KEY_UP
 from efl.elementary.window import StandardWindow
 
 
