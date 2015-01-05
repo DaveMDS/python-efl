@@ -28,11 +28,13 @@ class build_extra(distutils.command.build.build):
             self.run_command('build_i18n')
         if 'build_edc' in self.distribution.cmdclass:
             self.run_command('build_edc')
+        if 'build_fdo' in self.distribution.cmdclass:
+            self.run_command('build_fdo')
         distutils.command.build.build.run(self)
 
 
 class build_edc(distutils.cmd.Command):
-    description = 'Compile all the edje themes using edje_cc'
+    description = 'compile all the edje themes using edje_cc'
     user_options = [('themes-dir=', 'd', 'directory that holds the themes '
                                          '(default: data/themes)'),
                     ('main-name=', 'n', 'main edc file name of the themes '
@@ -168,6 +170,46 @@ class build_i18n(distutils.cmd.Command):
 
         target = os.path.join('share', 'locale', lang, 'LC_MESSAGES')
         _data_files_append(self.distribution, target, mo_file)
+
+
+class build_fdo(distutils.cmd.Command):
+    description = 'select freedesktop files to install (icons and desktop)'
+    user_options= [('icon-dir=', 'i',
+                    'icons directory (default: data/icons)'),
+                   ('desk-dir=', 'd',
+                    'desktop file directory (default: data/desktop)')]
+
+    def initialize_options(self):
+        self.icon_dir = None
+        self.desk_dir = None
+
+    def finalize_options(self):
+        if self.icon_dir is None:
+            self.icon_dir = os.path.join('data', 'icons')
+        if self.desk_dir is None:
+            self.desk_dir = os.path.join('data', 'desktop')
+
+    def run(self):
+        self.do_desktops()
+        self.do_icons()
+
+    def do_desktops(self):
+        for f in os.listdir(os.path.join(self.desk_dir)):
+            if f.endswith('.desktop'):
+                desktop = os.path.join(self.desk_dir, f)
+                target = 'share/applications'
+                info('found desktop file: %s -> %s' % (desktop, target))
+                _data_files_append(self.distribution, target, desktop)
+
+    def do_icons(self):
+        for root, dirs, files in os.walk(self.icon_dir):
+            for f in files:
+                if f.endswith(('.png', '.xpm', '.svg')):
+                    icon = os.path.join(root, f)
+                    size, cat = icon.split('/')[-3:-1]
+                    target = 'share/icons/hicolor/%s/%s' % (size, cat)
+                    info('found icon: %s -> %s' % (icon, target))
+                    _data_files_append(self.distribution, target, icon)
 
 
 class uninstall(distutils.cmd.Command):
