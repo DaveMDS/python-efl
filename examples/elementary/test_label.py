@@ -7,7 +7,7 @@ from efl import elementary
 from efl.elementary.window import StandardWindow
 from efl.elementary.box import Box
 from efl.elementary.grid import Grid
-from efl.elementary.label import Label, ELM_WRAP_CHAR, ELM_LABEL_SLIDE_MODE_AUTO
+from efl.elementary.label import Label, ELM_WRAP_WORD, ELM_LABEL_SLIDE_MODE_AUTO
 from efl.elementary.radio import Radio
 from efl.elementary.separator import Separator
 from efl.elementary.slider import Slider
@@ -43,16 +43,16 @@ def label_clicked(obj):
     vbox.pack_end(lb)
     lb.show()
 
-    lb = Label(win, size_hint_align=(0.0, 0.5))
+    lb = Label(win, size_hint_align=FILL_HORIZ)
     lb.text = "This is a larger label with newlines<br/>" \
-              "to make it bigger, bit it won't expand or wrap<br/>" \
+              "to make it bigger, but it won't expand or wrap<br/>" \
               "just be a block of text that can't change its<br/>" \
               "formatting as it's fixed based on text<br/>"
     vbox.pack_end(lb)
     lb.show()
 
-    lb = Label(win, line_wrap=ELM_WRAP_CHAR, size_hint_weight=EXPAND_HORIZ,
-        size_hint_align=FILL_BOTH)
+    lb = Label(win, line_wrap=ELM_WRAP_WORD, size_hint_weight=EXPAND_HORIZ,
+               size_hint_align=FILL_HORIZ)
     lb.text =  "<b>This is more text designed to line-wrap here as " \
                "This object is resized horizontally. As it is " \
                "resized vertically though, nothing should change. " \
@@ -62,7 +62,7 @@ def label_clicked(obj):
     lb.show()
 
     lb = Label(win, text="This small label set to wrap",
-        size_hint_weight=EXPAND_HORIZ, size_hint_align=FILL_BOTH)
+               size_hint_weight=EXPAND_HORIZ, size_hint_align=FILL_BOTH)
     vbox.pack_end(lb)
     lb.show()
 
@@ -71,7 +71,7 @@ def label_clicked(obj):
     sp.show()
 
     gd = Grid(win, size=(100, 100), size_hint_weight=EXPAND_BOTH,
-        size_hint_align=FILL_BOTH)
+              size_hint_align=FILL_BOTH)
     vbox.pack_end(gd)
     gd.show()
 
@@ -101,7 +101,7 @@ def label_clicked(obj):
     rect.show()
 
     lb = Label(win, slide_mode=ELM_LABEL_SLIDE_MODE_AUTO, style="slide_short",
-                    size_hint_align=(0.0, 0.5), slide_duration=15)
+               size_hint_align=(0.0, 0.5), slide_duration=15)
     lb.text = "This is a label set to slide. " \
               "If set slide to true the text of the label " \
               "will slide/scroll through the length of label." \
@@ -136,15 +136,14 @@ def label_clicked(obj):
     sl_dur.show()
 
     sl_spd = Slider(win, text="Slide Speed", unit_format="%1.1f px/sec",
-        min_max=(10, 300), value=10, size_hint_align=FILL_HORIZ,
-        size_hint_weight=EXPAND_HORIZ)
+                    min_max=(10, 300), value=10, size_hint_align=FILL_HORIZ,
+                    size_hint_weight=EXPAND_HORIZ)
     sl_spd.callback_changed_add(cb_slider_speed, lb)
     gd.pack(sl_spd, 5, 80, 90, 15)
     sl_spd.show()
 
     lb.data["slider_duration"] = sl_dur
     lb.data["slider_speed"] = sl_spd
-    
     win.show()
 
 
