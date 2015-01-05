@@ -4,7 +4,8 @@
 import os
 
 from efl.evas import EVAS_HINT_EXPAND, EVAS_HINT_FILL, \
-    EVAS_ASPECT_CONTROL_VERTICAL, EVAS_ASPECT_CONTROL_HORIZONTAL, FilledImage
+    EVAS_ASPECT_CONTROL_VERTICAL, EVAS_ASPECT_CONTROL_HORIZONTAL, FilledImage, \
+    EXPAND_BOTH, FILL_BOTH, FILL_HORIZ
 from efl.ecore import Timer, ECORE_CALLBACK_RENEW, ECORE_CALLBACK_CANCEL
 from efl import elementary
 from efl.elementary.window import StandardWindow
@@ -13,9 +14,6 @@ from efl.elementary.button import Button
 from efl.elementary.icon import Icon
 from efl.elementary.progressbar import Progressbar
 
-EXPAND_BOTH = EVAS_HINT_EXPAND, EVAS_HINT_EXPAND
-FILL_BOTH = EVAS_HINT_FILL, EVAS_HINT_FILL
-FILL_HORIZ = EVAS_HINT_FILL, 0.5
 
 script_path = os.path.dirname(os.path.abspath(__file__))
 img_path = os.path.join(script_path, "images")

@@ -3,7 +3,8 @@
 
 import os
 
-from efl.evas import EVAS_HINT_EXPAND, EVAS_HINT_FILL
+from efl.evas import EVAS_HINT_EXPAND, EVAS_HINT_FILL, EXPAND_BOTH, \
+    FILL_BOTH, EXPAND_HORIZ
 from efl import elementary
 from efl.elementary.window import StandardWindow
 from efl.elementary.background import Background
@@ -24,9 +25,6 @@ from efl.elementary.flip import Flip, ELM_FLIP_ROTATE_X_CENTER_AXIS, \
     ELM_FLIP_INTERACTION_NONE, ELM_FLIP_INTERACTION_ROTATE, \
     ELM_FLIP_INTERACTION_CUBE, ELM_FLIP_INTERACTION_PAGE
 
-EXPAND_BOTH = EVAS_HINT_EXPAND, EVAS_HINT_EXPAND
-EXPAND_HORIZ = EVAS_HINT_EXPAND, 0.0
-FILL_BOTH = EVAS_HINT_FILL, EVAS_HINT_FILL
 
 script_path = os.path.dirname(os.path.abspath(__file__))
 img_path = os.path.join(script_path, "images")

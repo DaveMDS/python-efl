@@ -1,7 +1,8 @@
 #!/usr/bin/env python
 # encoding: utf-8
 
-from efl.evas import EVAS_HINT_EXPAND, EVAS_HINT_FILL
+from efl.evas import EVAS_HINT_EXPAND, EVAS_HINT_FILL, \
+    EXPAND_BOTH, FILL_BOTH, EXPAND_HORIZ, FILL_HORIZ
 from efl import elementary
 from efl.elementary.window import StandardWindow
 from efl.elementary.box import Box
@@ -13,11 +14,6 @@ from efl.elementary.need import need_sys_notify
 from efl.elementary.general import on_sys_notify_action_invoked, \
     on_sys_notify_notification_closed, sys_notify_send
 from efl.ecore import ECORE_CALLBACK_DONE
-
-EXPAND_BOTH = EVAS_HINT_EXPAND, EVAS_HINT_EXPAND
-EXPAND_HORIZ = EVAS_HINT_EXPAND, 0.0
-FILL_BOTH = EVAS_HINT_FILL, EVAS_HINT_FILL
-FILL_HORIZ = EVAS_HINT_FILL, 0.5
 
 
 def _ev_handler(event, l, n):

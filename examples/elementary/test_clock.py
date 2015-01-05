@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # encoding: utf-8
 
-from efl.evas import EVAS_HINT_EXPAND
+from efl.evas import EVAS_HINT_EXPAND, EXPAND_BOTH
 from efl import elementary
 from efl.elementary.window import StandardWindow
 from efl.elementary.box import Box
@@ -9,7 +9,6 @@ from efl.elementary.check import Check
 from efl.elementary.clock import Clock, ELM_CLOCK_EDIT_HOUR_DECIMAL, \
     ELM_CLOCK_EDIT_MIN_DECIMAL, ELM_CLOCK_EDIT_SEC_DECIMAL
 
-EXPAND_BOTH = EVAS_HINT_EXPAND, EVAS_HINT_EXPAND
 
 def pause_changed_cb(ck, widgets):
     for w in widgets:

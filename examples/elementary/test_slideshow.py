@@ -4,7 +4,8 @@
 import os
 
 from efl.evas import EVAS_HINT_EXPAND, EVAS_HINT_FILL, EVAS_CALLBACK_MOUSE_IN, \
-    EVAS_CALLBACK_MOUSE_OUT, EVAS_CALLBACK_MOUSE_UP, EVAS_CALLBACK_MOUSE_MOVE
+    EVAS_CALLBACK_MOUSE_OUT, EVAS_CALLBACK_MOUSE_UP, EVAS_CALLBACK_MOUSE_MOVE, \
+    EXPAND_BOTH, FILL_BOTH, EXPAND_HORIZ, FILL_HORIZ
 from efl import elementary
 from efl.elementary.window import StandardWindow
 from efl.elementary.background import Background
@@ -16,10 +17,6 @@ from efl.elementary.photo import Photo
 from efl.elementary.spinner import Spinner
 from efl.elementary.slideshow import Slideshow, SlideshowItemClass
 
-EXPAND_BOTH = EVAS_HINT_EXPAND, EVAS_HINT_EXPAND
-EXPAND_HORIZ = EVAS_HINT_EXPAND, 0.0
-FILL_BOTH = EVAS_HINT_FILL, EVAS_HINT_FILL
-FILL_HORIZ = EVAS_HINT_FILL, 0.5
 
 script_path = os.path.dirname(os.path.abspath(__file__))
 img_path = os.path.join(script_path, "images")

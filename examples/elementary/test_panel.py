@@ -3,7 +3,8 @@
 
 import os
 
-from efl.evas import EVAS_HINT_EXPAND, EVAS_HINT_FILL
+from efl.evas import EVAS_HINT_EXPAND, EVAS_HINT_FILL, \
+    EXPAND_BOTH, FILL_BOTH, EXPAND_HORIZ
 from efl import elementary
 from efl.elementary.window import StandardWindow
 from efl.elementary.box import Box
@@ -16,9 +17,6 @@ from efl.elementary.photo import Photo
 from efl.elementary.table import Table
 from efl.elementary.toolbar import Toolbar, ELM_TOOLBAR_SHRINK_NONE
 
-EXPAND_BOTH = EVAS_HINT_EXPAND, EVAS_HINT_EXPAND
-EXPAND_HORIZ = EVAS_HINT_EXPAND, 0.0
-FILL_BOTH = EVAS_HINT_FILL, EVAS_HINT_FILL
 
 script_path = os.path.dirname(os.path.abspath(__file__))
 img_file = os.path.join(script_path, "images", "plant_01.jpg")

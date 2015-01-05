@@ -1,6 +1,5 @@
 from efl import elementary
-from efl.evas import EVAS_HINT_FILL, EVAS_HINT_EXPAND
-
+from efl.evas import EVAS_HINT_FILL, EVAS_HINT_EXPAND, EXPAND_BOTH, FILL_BOTH
 from efl.elementary.window import StandardWindow
 from efl.elementary.label import Label
 from efl.elementary.entry import Entry, ELM_WRAP_CHAR
@@ -8,8 +7,6 @@ from efl.elementary.grid import Grid
 from efl.elementary.button import Button
 from efl.elementary.object import ELM_SEL_TYPE_CLIPBOARD, ELM_SEL_FORMAT_TEXT
 
-EXPAND_BOTH = EVAS_HINT_EXPAND, EVAS_HINT_EXPAND
-FILL_BOTH = EVAS_HINT_FILL, EVAS_HINT_FILL
 
 def bt_copy_clicked(obj, data):
     en = data

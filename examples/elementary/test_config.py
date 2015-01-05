@@ -3,9 +3,11 @@
 
 import os
 
+from efl.evas import EVAS_HINT_FILL, EVAS_HINT_EXPAND, EXPAND_BOTH, \
+    EXPAND_HORIZ, FILL_BOTH, FILL_HORIZ
 from efl import elementary
-from efl.elementary.window import StandardWindow, Window, ELM_WIN_INLINED_IMAGE, \
-    ELM_WIN_SOCKET_IMAGE
+from efl.elementary.window import StandardWindow, Window, \
+    ELM_WIN_INLINED_IMAGE, ELM_WIN_SOCKET_IMAGE
 from efl.elementary.button import Button
 from efl.elementary.background import Background
 from efl.elementary.label import Label
@@ -20,12 +22,8 @@ from efl.elementary.layout import Layout
 from efl.elementary.configuration import Configuration
 elm_conf = Configuration()
 
-from efl.evas import EVAS_HINT_FILL, EVAS_HINT_EXPAND
 
-EXPAND_BOTH = EVAS_HINT_EXPAND, EVAS_HINT_EXPAND
-EXPAND_HORIZ = EVAS_HINT_EXPAND, 0.0
-FILL_BOTH = EVAS_HINT_FILL, EVAS_HINT_FILL
-FILL_HORIZ = EVAS_HINT_FILL, 0.5
+
 
 script_path = os.path.dirname(os.path.abspath(__file__))
 img_path = os.path.join(script_path, "images")

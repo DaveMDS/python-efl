@@ -11,10 +11,8 @@ from efl.elementary.genlist import Genlist, GenlistItem, GenlistItemClass, \
 from efl.elementary.icon import Icon
 from efl.ecore import Animator, loop_time_get
 from efl.evas import EVAS_ASPECT_CONTROL_VERTICAL, EVAS_HINT_EXPAND, \
-    EVAS_HINT_FILL
+    EVAS_HINT_FILL, EXPAND_BOTH, FILL_BOTH
 
-EXPAND_BOTH = EVAS_HINT_EXPAND, EVAS_HINT_EXPAND
-FILL_BOTH = EVAS_HINT_FILL, EVAS_HINT_FILL
 
 script_path = os.path.dirname(os.path.abspath(__file__))
 img_path = os.path.join(script_path, "images")

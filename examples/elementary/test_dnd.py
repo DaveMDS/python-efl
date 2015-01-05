@@ -5,7 +5,7 @@ import os
 
 from efl.ecore import Timer, ECORE_CALLBACK_CANCEL, ECORE_CALLBACK_RENEW, \
     AnimatorTimeline
-from efl.evas import EVAS_HINT_EXPAND, EVAS_HINT_FILL, \
+from efl.evas import EVAS_HINT_EXPAND, EVAS_HINT_FILL, EXPAND_BOTH, FILL_BOTH, \
     EVAS_ASPECT_CONTROL_VERTICAL, EVAS_CALLBACK_MOUSE_MOVE, \
     EVAS_CALLBACK_MOUSE_UP, EVAS_CALLBACK_MOUSE_DOWN, \
     EVAS_EVENT_FLAG_ON_HOLD
@@ -22,8 +22,6 @@ from efl.elementary.gengrid import Gengrid, GengridItemClass
 from efl.elementary.configuration import Configuration
 conf = Configuration()
 
-EXPAND_BOTH = EVAS_HINT_EXPAND, EVAS_HINT_EXPAND
-FILL_BOTH = EVAS_HINT_FILL, EVAS_HINT_FILL
 
 script_path = os.path.dirname(os.path.abspath(__file__))
 img_path = os.path.join(script_path, "images")

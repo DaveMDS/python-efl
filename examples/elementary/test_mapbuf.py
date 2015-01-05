@@ -3,7 +3,8 @@
 
 import os
 
-from efl.evas import EVAS_HINT_EXPAND, EVAS_HINT_FILL, Rectangle
+from efl.evas import EVAS_HINT_EXPAND, EVAS_HINT_FILL, Rectangle, \
+    EXPAND_BOTH, FILL_BOTH, EXPAND_HORIZ, FILL_HORIZ
 from efl import elementary
 from efl.elementary.window import Window, ELM_WIN_BASIC
 from efl.elementary.background import Background
@@ -16,10 +17,6 @@ from efl.elementary.mapbuf import Mapbuf
 from efl.elementary.scroller import Scroller, ELM_SCROLLER_POLICY_OFF
 from efl.elementary.table import Table
 
-EXPAND_BOTH = EVAS_HINT_EXPAND, EVAS_HINT_EXPAND
-EXPAND_HORIZ = EVAS_HINT_EXPAND, 0.0
-FILL_BOTH = EVAS_HINT_FILL, EVAS_HINT_FILL
-FILL_HORIZ = EVAS_HINT_FILL, 0.5
 ALIGN_CENTER = 0.5, 0.5
 
 SCROLL_POLICY_OFF = ELM_SCROLLER_POLICY_OFF, ELM_SCROLLER_POLICY_OFF

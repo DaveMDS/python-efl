@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # encoding: utf-8
 
-from efl.evas import EVAS_HINT_EXPAND, EVAS_HINT_FILL, \
+from efl.evas import EVAS_HINT_EXPAND, EVAS_HINT_FILL, EXPAND_BOTH, FILL_BOTH, \
     EVAS_CALLBACK_MOUSE_MOVE, EVAS_CALLBACK_MOUSE_IN, EVAS_CALLBACK_MOUSE_OUT
 from efl import elementary
 from efl.elementary.window import StandardWindow
@@ -12,8 +12,6 @@ from efl.elementary.fileselector_button import FileselectorButton
 from efl.elementary.table import Table
 from efl.elementary.video import Video, Player
 
-EXPAND_BOTH = EVAS_HINT_EXPAND, EVAS_HINT_EXPAND
-FILL_BOTH = EVAS_HINT_FILL, EVAS_HINT_FILL
 
 def my_bt_open(bt, vfile, video):
     if (vfile and video):

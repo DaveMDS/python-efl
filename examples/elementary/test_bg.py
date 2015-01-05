@@ -3,7 +3,7 @@
 
 import os
 
-from efl.evas import EVAS_HINT_EXPAND, EVAS_HINT_FILL
+from efl.evas import EVAS_HINT_EXPAND, EVAS_HINT_FILL, EXPAND_BOTH, FILL_BOTH
 from efl import elementary
 from efl.elementary.window import StandardWindow, Window, ELM_WIN_BASIC
 from efl.elementary.background import Background, ELM_BG_OPTION_SCALE
@@ -12,8 +12,6 @@ from efl.elementary.frame import Frame
 from efl.elementary.label import Label
 from efl.elementary.list import List
 
-EXPAND_BOTH = EVAS_HINT_EXPAND, EVAS_HINT_EXPAND
-FILL_BOTH = EVAS_HINT_FILL, EVAS_HINT_FILL
 
 img_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), "images")
 ic_file = os.path.join(img_path, "plant_01.jpg")

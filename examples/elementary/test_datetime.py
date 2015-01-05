@@ -2,7 +2,8 @@
 # encoding: utf-8
 
 
-from efl.evas import EVAS_HINT_EXPAND, EVAS_HINT_FILL
+from efl.evas import EVAS_HINT_EXPAND, EVAS_HINT_FILL, EXPAND_BOTH, \
+    FILL_BOTH, FILL_HORIZ
 from efl import elementary
 from efl.elementary.window import StandardWindow
 from efl.elementary.background import Background
@@ -13,9 +14,6 @@ from efl.elementary.datetime_elm import Datetime, ELM_DATETIME_MINUTE, \
 
 from datetime import datetime
 
-EXPAND_BOTH = EVAS_HINT_EXPAND, EVAS_HINT_EXPAND
-FILL_BOTH = EVAS_HINT_FILL, EVAS_HINT_FILL
-FILL_HORIZ = EVAS_HINT_FILL, 0.5
 
 def changed_cb(obj):
     print("Datetime value is changed")

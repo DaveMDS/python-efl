@@ -3,7 +3,7 @@
 
 import os
 
-from efl.evas import EVAS_HINT_EXPAND, EVAS_HINT_FILL
+from efl.evas import EVAS_HINT_EXPAND, EVAS_HINT_FILL, EXPAND_BOTH, FILL_BOTH
 from efl import elementary
 from efl.elementary.window import StandardWindow
 from efl.elementary.box import Box, ELM_BOX_LAYOUT_FLOW_HORIZONTAL
@@ -14,8 +14,6 @@ from efl.elementary.image import Image, ELM_IMAGE_ROTATE_90, \
 from efl.elementary.progressbar import Progressbar
 from efl.elementary.separator import Separator
 
-EXPAND_BOTH = EVAS_HINT_EXPAND, EVAS_HINT_EXPAND
-FILL_BOTH = EVAS_HINT_FILL, EVAS_HINT_FILL
 
 script_path = os.path.dirname(os.path.abspath(__file__))
 img_path = os.path.join(script_path, "images")

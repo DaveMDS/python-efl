@@ -1,14 +1,12 @@
 #!/usr/bin/env python
 # encoding: utf-8
 
-from efl.evas import EVAS_HINT_EXPAND, EVAS_HINT_FILL
+from efl.evas import EVAS_HINT_EXPAND, EVAS_HINT_FILL, EXPAND_BOTH
 from efl import elementary
 from efl.elementary.window import StandardWindow, DialogWindow
 from efl.elementary.box import Box
 from efl.elementary.button import Button
 from efl.elementary.label import Label
-
-EXPAND_BOTH = EVAS_HINT_EXPAND, EVAS_HINT_EXPAND
 
 
 def clicked_cb(btn, parent):

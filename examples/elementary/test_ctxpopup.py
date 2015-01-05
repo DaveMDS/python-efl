@@ -3,7 +3,8 @@
 
 import os
 
-from efl.evas import EVAS_HINT_EXPAND, EVAS_HINT_FILL, FilledImage
+from efl.evas import EVAS_HINT_EXPAND, EVAS_HINT_FILL, FilledImage, \
+    EXPAND_BOTH, FILL_BOTH
 from efl import elementary
 from efl.elementary.window import StandardWindow
 from efl.elementary.box import Box
@@ -13,8 +14,6 @@ from efl.elementary.list import List, ELM_LIST_COMPRESS
 from efl.elementary.ctxpopup import Ctxpopup
 from efl.elementary.scroller import Scroller
 
-EXPAND_BOTH = EVAS_HINT_EXPAND, EVAS_HINT_EXPAND
-FILL_BOTH = EVAS_HINT_FILL, EVAS_HINT_FILL
 
 script_path = os.path.dirname(os.path.abspath(__file__))
 img_path = os.path.join(script_path, "images")

@@ -4,16 +4,13 @@
 import os
 
 from efl.evas import EVAS_HINT_EXPAND, EVAS_HINT_FILL, \
-    EVAS_ASPECT_CONTROL_VERTICAL
+    EVAS_ASPECT_CONTROL_VERTICAL, EXPAND_BOTH, FILL_BOTH, FILL_HORIZ
 from efl import elementary
 from efl.elementary.window import StandardWindow
 from efl.elementary.box import Box
 from efl.elementary.icon import Icon
 from efl.elementary.check import Check
 
-EXPAND_BOTH = EVAS_HINT_EXPAND, EVAS_HINT_EXPAND
-FILL_BOTH = EVAS_HINT_FILL, EVAS_HINT_FILL
-FILL_HORIZ = EVAS_HINT_FILL, 0.5
 
 img_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), "images")
 ic_file = os.path.join(img_path, "logo_small.png")

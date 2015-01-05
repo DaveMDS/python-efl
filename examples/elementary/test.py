@@ -19,7 +19,7 @@ eolog.setLevel(logging.INFO)
 evaslog = logging.getLogger("efl.evas")
 evaslog.setLevel(logging.INFO)
 
-from efl.evas import EVAS_HINT_EXPAND, EVAS_HINT_FILL
+from efl.evas import EVAS_HINT_EXPAND, EVAS_HINT_FILL, EXPAND_BOTH, FILL_BOTH
 from efl import elementary
 from efl.elementary.window import StandardWindow
 from efl.elementary.box import Box, ELM_BOX_LAYOUT_FLOW_HORIZONTAL
@@ -35,8 +35,6 @@ elm_conf = Configuration()
 
 elog.setLevel(logging.DEBUG)
 
-EXPAND_BOTH = EVAS_HINT_EXPAND, EVAS_HINT_EXPAND
-FILL_BOTH = EVAS_HINT_FILL, EVAS_HINT_FILL
 
 items = [
     ("Core Libs", [

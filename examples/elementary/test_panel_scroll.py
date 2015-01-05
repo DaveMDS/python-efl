@@ -2,7 +2,8 @@
 # encoding: utf-8
 
 
-from efl.evas import EVAS_HINT_EXPAND, EVAS_HINT_FILL
+from efl.evas import EVAS_HINT_EXPAND, EVAS_HINT_FILL, \
+    EXPAND_BOTH, FILL_BOTH, EXPAND_HORIZ
 from efl import elementary
 from efl.elementary.window import StandardWindow
 from efl.elementary.box import Box
@@ -10,10 +11,6 @@ from efl.elementary.button import Button
 from efl.elementary.list import List
 from efl.elementary.panel import Panel, ELM_PANEL_ORIENT_LEFT
 from efl.elementary.table import Table
-
-EXPAND_BOTH = EVAS_HINT_EXPAND, EVAS_HINT_EXPAND
-EXPAND_HORIZ = EVAS_HINT_EXPAND, 0.0
-FILL_BOTH = EVAS_HINT_FILL, EVAS_HINT_FILL
 
 
 def panel_scroll_clicked(obj):

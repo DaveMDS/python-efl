@@ -31,7 +31,7 @@ cdef extern from "Evas.h":
     ctypedef unsigned long long Evas_Modifier_Mask
 
     ####################################################################
-    # #define  (this are not really correct, but works)
+    # #define  (this works only for integer define)
     #
     cpdef enum:
         EVAS_LAYER_MIN
@@ -43,13 +43,10 @@ cdef extern from "Evas.h":
         EVAS_TEXT_INVALID
         EVAS_TEXT_SPECIAL
 
-        EVAS_HINT_EXPAND # ERROR expand to 1, should be 1.0
-        EVAS_HINT_FILL   # ERROR expand to -1, should be -1.0
-
         EVAS_SMART_CLASS_VERSION
 
     ####################################################################
-    # Enums
+    # Enums  (automatically exported to python scope)
     #
     cpdef enum Evas_Button_Flags:
         EVAS_BUTTON_NONE

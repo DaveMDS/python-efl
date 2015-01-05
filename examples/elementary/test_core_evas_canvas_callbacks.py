@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # encoding: utf-8
 
-from efl.evas import EVAS_HINT_EXPAND, EVAS_HINT_FILL, \
+from efl.evas import EVAS_HINT_EXPAND, EVAS_HINT_FILL, EXPAND_BOTH, FILL_BOTH, \
     EVAS_CALLBACK_RENDER_PRE, EVAS_CALLBACK_RENDER_POST, \
     EVAS_CALLBACK_CANVAS_FOCUS_IN, EVAS_CALLBACK_CANVAS_FOCUS_OUT, \
     EVAS_CALLBACK_CANVAS_OBJECT_FOCUS_IN, \
@@ -19,8 +19,6 @@ from efl.elementary.window import StandardWindow
 from efl.elementary.box import Box
 from efl.elementary.button import Button
 
-EXPAND_BOTH = EVAS_HINT_EXPAND, EVAS_HINT_EXPAND
-FILL_BOTH = EVAS_HINT_FILL, EVAS_HINT_FILL
 
 def btn_del_cbs_cb(button):
     canvas = button.evas_get()

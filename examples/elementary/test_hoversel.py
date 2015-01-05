@@ -4,14 +4,13 @@
 import os
 
 from efl.ecore import Timer
-from efl.evas import EVAS_HINT_EXPAND
+from efl.evas import EVAS_HINT_EXPAND, EXPAND_BOTH, FILL_BOTH
 from efl import elementary
 from efl.elementary.window import StandardWindow
 from efl.elementary.box import Box
 from efl.elementary.hoversel import Hoversel, ELM_ICON_STANDARD, ELM_ICON_FILE
 from efl.elementary.icon import Icon
 
-EXPAND_BOTH = EVAS_HINT_EXPAND, EVAS_HINT_EXPAND
 WEIGHT_ZERO = 0.0, 0.0
 ALIGN_CENTER = 0.5, 0.5
 

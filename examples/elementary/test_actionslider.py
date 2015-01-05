@@ -1,7 +1,8 @@
 #!/usr/bin/env python
 # encoding: utf-8
 
-from efl.evas import EVAS_HINT_EXPAND, EVAS_HINT_FILL
+from efl.evas import EVAS_HINT_EXPAND, EVAS_HINT_FILL, \
+    EXPAND_BOTH, EXPAND_HORIZ, FILL_BOTH
 from efl import elementary
 from efl.elementary.actionslider import Actionslider, ELM_ACTIONSLIDER_NONE, \
     ELM_ACTIONSLIDER_ALL, ELM_ACTIONSLIDER_LEFT, ELM_ACTIONSLIDER_CENTER, \
@@ -9,9 +10,6 @@ from efl.elementary.actionslider import Actionslider, ELM_ACTIONSLIDER_NONE, \
 from efl.elementary.box import Box
 from efl.elementary.window import StandardWindow
 
-EXPAND_BOTH = EVAS_HINT_EXPAND, EVAS_HINT_EXPAND
-EXPAND_HORIZ = EVAS_HINT_EXPAND, 0.0
-FILL_BOTH = EVAS_HINT_FILL, EVAS_HINT_FILL
 
 positions = {
     ELM_ACTIONSLIDER_NONE: "none",

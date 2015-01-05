@@ -22,6 +22,18 @@ from efl.utils.logger cimport add_logger
 cdef int PY_EFL_EVAS_LOG_DOMAIN = add_logger(__name__).eina_log_domain
 
 
+# TODO doc
+EVAS_HINT_FILL = -1.0
+EVAS_HINT_EXPAND = 1.0
+
+EXPAND_BOTH  = EVAS_HINT_EXPAND, EVAS_HINT_EXPAND
+EXPAND_HORIZ = EVAS_HINT_EXPAND, 0.0
+EXPAND_VERT  = 0.0, EVAS_HINT_EXPAND
+FILL_BOTH  = EVAS_HINT_FILL, EVAS_HINT_FILL
+FILL_HORIZ = EVAS_HINT_FILL, 0.5
+FILL_VERT  = 0.5, EVAS_HINT_FILL
+
+
 def init():
     EINA_LOG_DOM_INFO(PY_EFL_EVAS_LOG_DOMAIN, "Initializing efl.evas", NULL)
     # when changing these, also change __init__.py!

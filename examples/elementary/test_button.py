@@ -3,7 +3,7 @@
 
 import os
 
-from efl.evas import EVAS_HINT_EXPAND, EVAS_ASPECT_CONTROL_VERTICAL
+from efl.evas import EVAS_HINT_EXPAND, EXPAND_BOTH,EVAS_ASPECT_CONTROL_VERTICAL
 from efl import elementary
 from efl.elementary.window import StandardWindow
 from efl.elementary.box import Box
@@ -11,7 +11,6 @@ from efl.elementary.frame import Frame
 from efl.elementary.icon import Icon
 from efl.elementary.button import Button
 
-EXPAND_BOTH = EVAS_HINT_EXPAND, EVAS_HINT_EXPAND
 
 img_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), "images")
 ic_file = os.path.join(img_path, "logo_small.png")

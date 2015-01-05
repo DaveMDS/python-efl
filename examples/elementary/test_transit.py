@@ -4,7 +4,7 @@
 import os
 
 from efl.evas import EVAS_HINT_EXPAND, EVAS_HINT_FILL, \
-    EVAS_ASPECT_CONTROL_VERTICAL
+    EVAS_ASPECT_CONTROL_VERTICAL, EXPAND_BOTH, FILL_BOTH
 from efl import elementary
 from efl.elementary.button import Button
 from efl.elementary.window import StandardWindow
@@ -18,8 +18,6 @@ from efl.elementary.frame import Frame
 from efl.elementary.label import Label
 from efl.elementary.list import List
 
-EXPAND_BOTH = EVAS_HINT_EXPAND, EVAS_HINT_EXPAND
-FILL_BOTH = EVAS_HINT_FILL, EVAS_HINT_FILL
 
 script_path = os.path.dirname(os.path.abspath(__file__))
 img_path = os.path.join(script_path, "images")

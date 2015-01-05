@@ -3,7 +3,7 @@
 
 import os
 
-from efl.evas import EVAS_HINT_FILL, EVAS_HINT_EXPAND, \
+from efl.evas import EVAS_HINT_FILL, EVAS_HINT_EXPAND, EXPAND_BOTH, FILL_BOTH, \
     EVAS_ASPECT_CONTROL_VERTICAL
 from efl import elementary
 from efl.elementary.window import StandardWindow
@@ -19,8 +19,6 @@ from efl.elementary.label import Label
 from efl.elementary.list import List
 from efl.elementary.icon import Icon
 
-EXPAND_BOTH = EVAS_HINT_EXPAND, EVAS_HINT_EXPAND
-FILL_BOTH = EVAS_HINT_FILL, EVAS_HINT_FILL
 
 config = Configuration()
 

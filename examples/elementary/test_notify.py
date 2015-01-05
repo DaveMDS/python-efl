@@ -3,7 +3,7 @@
 
 from __future__ import print_function
 
-from efl.evas import EVAS_HINT_EXPAND, EVAS_HINT_FILL
+from efl.evas import EVAS_HINT_EXPAND, EVAS_HINT_FILL, EXPAND_BOTH, FILL_BOTH
 from efl import elementary
 from efl.elementary.window import StandardWindow
 from efl.elementary.box import Box
@@ -12,8 +12,6 @@ from efl.elementary.label import Label
 from efl.elementary.notify import Notify, ELM_NOTIFY_ALIGN_FILL
 from efl.elementary.table import Table
 
-EXPAND_BOTH = EVAS_HINT_EXPAND, EVAS_HINT_EXPAND
-FILL_BOTH = EVAS_HINT_FILL, EVAS_HINT_FILL
 
 def notify_clicked(obj=None):
     win = StandardWindow("notify", "Notify", autodel=True, size=(400,400))

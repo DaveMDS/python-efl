@@ -3,7 +3,7 @@
 
 import os
 
-from efl.evas import EVAS_HINT_EXPAND, EVAS_HINT_FILL
+from efl.evas import EVAS_HINT_EXPAND, EVAS_HINT_FILL, EXPAND_BOTH, FILL_BOTH
 from efl import elementary
 from efl.elementary.window import StandardWindow
 from efl.elementary.box import Box, ELM_BOX_LAYOUT_FLOW_HORIZONTAL
@@ -22,9 +22,6 @@ from efl.elementary.fileselector import Fileselector, \
     ELM_FILESELECTOR_SORT_BY_SIZE_ASC, ELM_FILESELECTOR_SORT_BY_SIZE_DESC, \
     ELM_FILESELECTOR_SORT_BY_MODIFIED_ASC, ELM_FILESELECTOR_SORT_BY_MODIFIED_DESC
 
-
-EXPAND_BOTH = EVAS_HINT_EXPAND, EVAS_HINT_EXPAND
-FILL_BOTH = EVAS_HINT_FILL, EVAS_HINT_FILL
 
 
 def fs_cb_done(fs, selected, win):

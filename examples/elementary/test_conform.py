@@ -13,12 +13,9 @@ from efl.elementary.label import Label
 from efl.elementary.list import List
 from efl.elementary.scroller import Scrollable
 
-from efl.evas import EVAS_HINT_EXPAND, EVAS_HINT_FILL
+from efl.evas import EVAS_HINT_EXPAND, EVAS_HINT_FILL, EXPAND_BOTH, \
+    EXPAND_HORIZ, FILL_BOTH, FILL_HORIZ
 
-EXPAND_BOTH = EVAS_HINT_EXPAND, EVAS_HINT_EXPAND
-EXPAND_HORIZ = EVAS_HINT_EXPAND, 0.0
-FILL_BOTH = EVAS_HINT_FILL, EVAS_HINT_FILL
-FILL_HORIZ = EVAS_HINT_FILL, 0.5
 
 class ScrollableEntry(Scrollable, Entry):
     def __init__(self, canvas, *args, **kwargs):

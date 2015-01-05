@@ -1,7 +1,8 @@
 #!/usr/bin/env python
 # encoding: utf-8
 
-from efl.evas import EVAS_HINT_EXPAND, EVAS_HINT_FILL, Rectangle
+from efl.evas import EVAS_HINT_EXPAND, EVAS_HINT_FILL, Rectangle, \
+    EXPAND_BOTH, FILL_BOTH, EXPAND_HORIZ
 from efl import elementary
 from efl.elementary.window import StandardWindow
 from efl.elementary.box import Box
@@ -11,9 +12,6 @@ from efl.elementary.colorselector import Colorselector, \
     ELM_COLORSELECTOR_PALETTE, ELM_COLORSELECTOR_COMPONENTS, \
     ELM_COLORSELECTOR_BOTH
 
-EXPAND_BOTH = EVAS_HINT_EXPAND, EVAS_HINT_EXPAND
-EXPAND_HORIZ = EVAS_HINT_EXPAND, 0.0
-FILL_BOTH = EVAS_HINT_FILL, EVAS_HINT_FILL
 FILL_AND_ALIGN_TOP = EVAS_HINT_FILL, 0.0
 
 def cb_cs_changed(cs, rect):

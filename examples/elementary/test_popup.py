@@ -3,7 +3,8 @@
 
 import os
 
-from efl.evas import EVAS_HINT_EXPAND, EVAS_HINT_FILL, FilledImage
+from efl.evas import EVAS_HINT_EXPAND, EVAS_HINT_FILL, EXPAND_BOTH, FILL_BOTH, \
+    FilledImage
 from efl import elementary
 from efl.elementary.window import StandardWindow
 from efl.elementary.button import Button
@@ -11,8 +12,6 @@ from efl.elementary.list import List, ELM_LIST_LIMIT
 from efl.elementary.icon import Icon
 from efl.elementary.popup import Popup, ELM_WRAP_CHAR
 
-EXPAND_BOTH = EVAS_HINT_EXPAND, EVAS_HINT_EXPAND
-FILL_BOTH = EVAS_HINT_FILL, EVAS_HINT_FILL
 
 script_path = os.path.dirname(os.path.abspath(__file__))
 img_path = os.path.join(script_path, "images")

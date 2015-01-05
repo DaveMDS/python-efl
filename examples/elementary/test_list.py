@@ -3,7 +3,8 @@
 
 import os
 
-from efl.evas import EVAS_HINT_EXPAND, EVAS_HINT_FILL
+from efl.evas import EVAS_HINT_EXPAND, EVAS_HINT_FILL, \
+    EXPAND_BOTH, FILL_BOTH, EXPAND_HORIZ
 from efl import elementary
 from efl.elementary.window import StandardWindow, Window, ELM_WIN_BASIC
 from efl.elementary.background import Background
@@ -15,9 +16,7 @@ from efl.elementary.list import List, ELM_LIST_LIMIT, ELM_LIST_COMPRESS
 from efl.elementary.icon import Icon
 from efl.elementary.table import Table
 
-EXPAND_BOTH = EVAS_HINT_EXPAND, EVAS_HINT_EXPAND
-EXPAND_HORIZ = EVAS_HINT_EXPAND, 0.0
-FILL_BOTH = EVAS_HINT_FILL, EVAS_HINT_FILL
+
 ALIGN_CENTER = 0.5, 0.5
 
 script_path = os.path.dirname(os.path.abspath(__file__))

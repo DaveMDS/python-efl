@@ -3,13 +3,12 @@
 
 import os
 
-from efl.evas import EVAS_HINT_EXPAND
+from efl.evas import EVAS_HINT_EXPAND, EXPAND_BOTH
 from efl import elementary
 from efl.elementary.window import StandardWindow
 from efl.elementary.button import Button
 from efl.elementary.layout import Layout
 
-EXPAND_BOTH = EVAS_HINT_EXPAND, EVAS_HINT_EXPAND
 
 script_path = os.path.dirname(os.path.abspath(__file__))
 

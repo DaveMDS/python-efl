@@ -13,14 +13,12 @@ from efl.evas import EVAS_CALLBACK_MOUSE_IN, EVAS_CALLBACK_MOUSE_OUT, \
     EVAS_CALLBACK_DEL, EVAS_CALLBACK_HOLD, \
     EVAS_CALLBACK_CHANGED_SIZE_HINTS, \
     EVAS_CALLBACK_IMAGE_PRELOADED, EVAS_CALLBACK_IMAGE_UNLOADED, \
-    Text, Rectangle, EVAS_HINT_EXPAND, EVAS_HINT_FILL
+    Text, Rectangle, EVAS_HINT_EXPAND, EVAS_HINT_FILL, EXPAND_BOTH, FILL_BOTH
 from efl import elementary
 from efl.elementary.window import StandardWindow
 from efl.elementary.box import Box
 from efl.elementary.button import Button
 
-EXPAND_BOTH = EVAS_HINT_EXPAND, EVAS_HINT_EXPAND
-FILL_BOTH = EVAS_HINT_FILL, EVAS_HINT_FILL
 
 def btn_del_cbs_cb(button, rect):
     rect.event_callback_del(EVAS_CALLBACK_MOUSE_IN, events_cb2)

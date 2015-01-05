@@ -3,7 +3,7 @@
 
 import os
 
-from efl.evas import EVAS_HINT_EXPAND, EVAS_HINT_FILL
+from efl.evas import EVAS_HINT_EXPAND, EVAS_HINT_FILL, EXPAND_BOTH, FILL_BOTH
 from efl import elementary
 from efl.elementary.window import StandardWindow
 from efl.elementary.box import Box, ELM_BOX_LAYOUT_HORIZONTAL
@@ -14,8 +14,6 @@ from efl.elementary.list import List
 from efl.elementary.icon import Icon
 from efl.elementary.separator import Separator
 
-EXPAND_BOTH = EVAS_HINT_EXPAND, EVAS_HINT_EXPAND
-FILL_BOTH = EVAS_HINT_FILL, EVAS_HINT_FILL
 
 img_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), "images")
 ic_file = os.path.join(img_path, "logo_small.png")

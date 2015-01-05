@@ -1,12 +1,12 @@
 #!/usr/bin/env python
 # encoding: utf-8
 
-from efl.evas import EVAS_HINT_EXPAND, EVAS_CALLBACK_MOUSE_DOWN, Rectangle
+from efl.evas import EVAS_HINT_EXPAND, EXPAND_BOTH, \
+    EVAS_CALLBACK_MOUSE_DOWN, Rectangle
 from efl import elementary
 from efl.elementary.window import StandardWindow
 from efl.elementary.menu import Menu
 
-EXPAND_BOTH = EVAS_HINT_EXPAND, EVAS_HINT_EXPAND
 
 def menu_show(rect, evtinfo, menu):
     (x,y) = evtinfo.position.canvas

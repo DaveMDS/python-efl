@@ -1,7 +1,8 @@
 #!/usr/bin/env python
 # encoding: utf-8
 
-from efl.evas import EVAS_HINT_EXPAND, EVAS_HINT_FILL
+from efl.evas import EVAS_HINT_EXPAND, EVAS_HINT_FILL, \
+    EXPAND_BOTH, FILL_BOTH, EXPAND_HORIZ, FILL_HORIZ
 from efl import elementary
 from efl.elementary.window import StandardWindow
 from efl.elementary.box import Box
@@ -11,10 +12,6 @@ from efl.elementary.multibuttonentry import MultiButtonEntry
 from efl.elementary.scroller import Scroller, ELM_SCROLLER_POLICY_OFF, \
     ELM_SCROLLER_POLICY_AUTO
 
-EXPAND_BOTH = EVAS_HINT_EXPAND, EVAS_HINT_EXPAND
-EXPAND_HORIZ = EVAS_HINT_EXPAND, 0.0
-FILL_BOTH = EVAS_HINT_FILL, EVAS_HINT_FILL
-FILL_HORIZ = EVAS_HINT_FILL, 0.5
 SCROLL_POLICY_VERT = ELM_SCROLLER_POLICY_OFF, ELM_SCROLLER_POLICY_AUTO
 
 counter = 0

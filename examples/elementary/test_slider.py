@@ -4,7 +4,9 @@
 import os
 
 from efl.evas import EVAS_HINT_EXPAND, EVAS_HINT_FILL, \
-    EVAS_ASPECT_CONTROL_VERTICAL, EVAS_ASPECT_CONTROL_HORIZONTAL
+    EVAS_ASPECT_CONTROL_VERTICAL, EVAS_ASPECT_CONTROL_HORIZONTAL, \
+    EXPAND_BOTH, EXPAND_HORIZ, EXPAND_VERT, \
+    FILL_BOTH, FILL_HORIZ, FILL_VERT
 from efl import elementary
 from efl.elementary.window import StandardWindow
 from efl.elementary.box import Box
@@ -14,12 +16,7 @@ from efl.elementary.list import List
 from efl.elementary.icon import Icon
 from efl.elementary.slider import Slider
 
-EXPAND_BOTH = EVAS_HINT_EXPAND, EVAS_HINT_EXPAND
-EXPAND_HORIZ = EVAS_HINT_EXPAND, 0.0
-EXPAND_VERT = 0.0, EVAS_HINT_EXPAND
-FILL_BOTH = EVAS_HINT_FILL, EVAS_HINT_FILL
-FILL_HORIZ = EVAS_HINT_FILL, 0.5
-FILL_VERT = 0.5, EVAS_HINT_FILL
+
 ALIGN_CENTER = 0.5, 0.5
 ZERO_WEIGHT = 0.0, 0.0
 

@@ -15,10 +15,9 @@ from efl.elementary.layout import Layout
 from efl.elementary.entry import Entry, ELM_WRAP_MIXED
 from efl.elementary.icon import Icon
 
-from efl.evas import EVAS_HINT_EXPAND, EVAS_EVENT_FLAG_NONE, Map, Polygon
+from efl.evas import EVAS_HINT_EXPAND, EXPAND_BOTH, FILL_BOTH, \
+    EVAS_EVENT_FLAG_NONE, Map, Polygon
 
-EXPAND_BOTH = EVAS_HINT_EXPAND, EVAS_HINT_EXPAND
-EXPAND_HORIZ = EVAS_HINT_EXPAND, 0.0
 
 script_path = os.path.dirname(os.path.abspath(__file__))
 img_path = os.path.join(script_path, "images")

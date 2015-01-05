@@ -1,7 +1,8 @@
 #!/usr/bin/env python
 # encoding: utf-8
 
-from efl.evas import EVAS_HINT_EXPAND, EVAS_HINT_FILL
+from efl.evas import EVAS_HINT_EXPAND, EVAS_HINT_FILL, EXPAND_BOTH, \
+    FILL_BOTH, FILL_HORIZ
 from efl import elementary
 from efl.elementary.window import StandardWindow
 from efl.elementary.box import Box
@@ -16,9 +17,6 @@ from efl.elementary.dayselector import Dayselector, ELM_DAYSELECTOR_SUN, \
     ELM_DAYSELECTOR_MON, ELM_DAYSELECTOR_TUE, ELM_DAYSELECTOR_WED, \
     ELM_DAYSELECTOR_THU, ELM_DAYSELECTOR_FRI, ELM_DAYSELECTOR_SAT
 
-EXPAND_BOTH = EVAS_HINT_EXPAND, EVAS_HINT_EXPAND
-FILL_BOTH = EVAS_HINT_FILL, EVAS_HINT_FILL
-FILL_HORIZ = EVAS_HINT_FILL, 0.5
 
 def cb_changed(ds):
     print("\nSelected Days:")
