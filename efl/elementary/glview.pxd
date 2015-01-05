@@ -1,9 +1,31 @@
 from efl.eina cimport Eina_Bool
 from efl.evas cimport Evas_Object, Evas_Coord
-from enums cimport Elm_GLView_Mode, Elm_GLView_Resize_Policy, \
-    Elm_GLView_Render_Policy
+
 
 cdef extern from "Elementary.h":
+
+    cpdef enum Elm_GLView_Mode:
+        ELM_GLVIEW_NONE
+        ELM_GLVIEW_ALPHA
+        ELM_GLVIEW_DEPTH
+        ELM_GLVIEW_STENCIL
+        ELM_GLVIEW_DIRECT
+    ctypedef enum Elm_GLView_Mode:
+        pass
+
+    cpdef enum Elm_GLView_Resize_Policy:
+        ELM_GLVIEW_RESIZE_POLICY_RECREATE
+        ELM_GLVIEW_RESIZE_POLICY_SCALE
+    ctypedef enum Elm_GLView_Resize_Policy:
+        pass
+
+    cpdef enum Elm_GLView_Render_Policy:
+        ELM_GLVIEW_RENDER_POLICY_ON_DEMAND
+        ELM_GLVIEW_RENDER_POLICY_ALWAYS
+    ctypedef enum Elm_GLView_Render_Policy:
+        pass
+
+
     ctypedef struct Evas_GL_API
 
     ctypedef void (*Elm_GLView_Func_Cb)(Evas_Object *obj)

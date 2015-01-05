@@ -1,8 +1,23 @@
 from efl.evas cimport Eina_Bool, Evas_Object
 from object cimport Object
-from enums cimport Elm_Image_Orient
+
 
 cdef extern from "Elementary.h":
+
+    cpdef enum Elm_Image_Orient:
+        ELM_IMAGE_ORIENT_NONE
+        ELM_IMAGE_ORIENT_0
+        ELM_IMAGE_ROTATE_90
+        ELM_IMAGE_ROTATE_180
+        ELM_IMAGE_ROTATE_270
+        ELM_IMAGE_FLIP_HORIZONTAL
+        ELM_IMAGE_FLIP_VERTICAL
+        ELM_IMAGE_FLIP_TRANSPOSE
+        ELM_IMAGE_FLIP_TRANSVERSE
+    ctypedef enum Elm_Image_Orient:
+        pass
+        
+    
     ctypedef struct Elm_Image_Progress:
         double now
         double total

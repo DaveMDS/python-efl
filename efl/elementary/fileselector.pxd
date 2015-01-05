@@ -1,8 +1,29 @@
 from efl.eina cimport Eina_Bool, Eina_List
 from efl.evas cimport Evas_Object, Evas_Coord
-from enums cimport Elm_Fileselector_Mode, Elm_Fileselector_Sort
+
 
 cdef extern from "Elementary.h":
+
+    cpdef enum Elm_Fileselector_Mode:
+        ELM_FILESELECTOR_LIST
+        ELM_FILESELECTOR_GRID
+    ctypedef enum Elm_Fileselector_Mode:
+        pass
+
+    cpdef enum Elm_Fileselector_Sort:
+        ELM_FILESELECTOR_SORT_BY_FILENAME_ASC
+        ELM_FILESELECTOR_SORT_BY_FILENAME_DESC
+        ELM_FILESELECTOR_SORT_BY_TYPE_ASC
+        ELM_FILESELECTOR_SORT_BY_TYPE_DESC
+        ELM_FILESELECTOR_SORT_BY_SIZE_ASC
+        ELM_FILESELECTOR_SORT_BY_SIZE_DESC
+        ELM_FILESELECTOR_SORT_BY_MODIFIED_ASC
+        ELM_FILESELECTOR_SORT_BY_MODIFIED_DESC
+        ELM_FILESELECTOR_SORT_LAST
+    ctypedef enum Elm_Fileselector_Sort:
+        pass
+
+
     ctypedef Eina_Bool (*Elm_Fileselector_Filter_Func)(const char *path, Eina_Bool dir, void *data)
 
     Evas_Object *           elm_fileselector_add(Evas_Object *parent)

@@ -93,12 +93,6 @@ from efl.eo cimport _object_mapping_register
 from efl.evas cimport Object as evasObject
 from layout_class cimport LayoutClass
 
-cimport enums
-
-ELM_BUBBLE_POS_TOP_LEFT = enums.ELM_BUBBLE_POS_TOP_LEFT
-ELM_BUBBLE_POS_TOP_RIGHT = enums.ELM_BUBBLE_POS_TOP_RIGHT
-ELM_BUBBLE_POS_BOTTOM_LEFT = enums.ELM_BUBBLE_POS_BOTTOM_LEFT
-ELM_BUBBLE_POS_BOTTOM_RIGHT = enums.ELM_BUBBLE_POS_BOTTOM_RIGHT
 
 cdef class Bubble(LayoutClass):
     """

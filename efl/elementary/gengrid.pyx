@@ -337,7 +337,6 @@ from object cimport Object
 from object_item cimport ObjectItem, _object_item_to_python, \
     elm_object_item_widget_get, _object_item_from_python, \
     _object_item_list_to_python, elm_object_item_data_get
-cimport enums
 
 import traceback
 
@@ -345,18 +344,6 @@ from efl.utils.deprecated cimport DEPRECATED
 from scroller cimport elm_scroller_policy_get, elm_scroller_policy_set, \
     elm_scroller_bounce_get, elm_scroller_bounce_set, Elm_Scroller_Policy
 
-
-ELM_GENLIST_ITEM_SCROLLTO_NONE = enums.ELM_GENLIST_ITEM_SCROLLTO_NONE
-ELM_GENLIST_ITEM_SCROLLTO_IN = enums.ELM_GENLIST_ITEM_SCROLLTO_IN
-ELM_GENLIST_ITEM_SCROLLTO_TOP = enums.ELM_GENLIST_ITEM_SCROLLTO_TOP
-ELM_GENLIST_ITEM_SCROLLTO_MIDDLE = enums.ELM_GENLIST_ITEM_SCROLLTO_MIDDLE
-
-ELM_OBJECT_MULTI_SELECT_MODE_DEFAULT = enums.ELM_OBJECT_MULTI_SELECT_MODE_DEFAULT
-ELM_OBJECT_MULTI_SELECT_MODE_WITH_CONTROL = enums.ELM_OBJECT_MULTI_SELECT_MODE_WITH_CONTROL
-ELM_OBJECT_MULTI_SELECT_MODE_MAX = enums.ELM_OBJECT_MULTI_SELECT_MODE_MAX
-
-ELM_GENGRID_REORDER_TYPE_NORMAL = enums.ELM_GENGRID_REORDER_TYPE_NORMAL
-ELM_GENGRID_REORDER_TYPE_SWAP = enums.ELM_GENGRID_REORDER_TYPE_SWAP
 
 def _cb_object_item_conv(uintptr_t addr):
     cdef Elm_Object_Item *it = <Elm_Object_Item *>addr

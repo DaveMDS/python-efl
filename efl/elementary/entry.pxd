@@ -1,12 +1,119 @@
 from efl.evas cimport Eina_Bool, Eina_Rectangle, Evas_Object, \
     Evas_Coord, Evas_Smart_Cb
-from enums cimport Elm_Wrap_Type, Elm_Text_Format, Elm_Cnp_Mode, \
-    Elm_Input_Panel_Layout, Elm_Input_Panel_Lang, Elm_Input_Hints, \
-    Elm_Input_Panel_Lang, Elm_Input_Panel_Return_Key_Type, \
-    Elm_Autocapital_Type, Elm_Icon_Type, Elm_Sel_Type, Elm_Sel_Format, \
+from efl.elementary.object cimport  Elm_Sel_Type, Elm_Sel_Format, \
     Elm_Xdnd_Action
 
 cdef extern from "Elementary.h":
+
+    cpdef enum Elm_Autocapital_Type:
+        ELM_AUTOCAPITAL_TYPE_NONE
+        ELM_AUTOCAPITAL_TYPE_WORD
+        ELM_AUTOCAPITAL_TYPE_SENTENCE
+        ELM_AUTOCAPITAL_TYPE_ALLCHARACTER
+    ctypedef enum Elm_Autocapital_Type:
+        pass
+
+    cpdef enum Elm_Cnp_Mode:
+        ELM_CNP_MODE_MARKUP
+        ELM_CNP_MODE_NO_IMAGE
+        ELM_CNP_MODE_PLAINTEXT
+    ctypedef enum Elm_Cnp_Mode:
+        pass
+
+    cpdef enum Elm_Input_Hints:
+        ELM_INPUT_HINT_NONE
+        ELM_INPUT_HINT_AUTO_COMPLETE
+        ELM_INPUT_HINT_SENSITIVE_DATA
+    ctypedef enum Elm_Input_Hints:
+        pass
+
+    cpdef enum Elm_Input_Panel_Lang:
+        ELM_INPUT_PANEL_LANG_AUTOMATIC
+        ELM_INPUT_PANEL_LANG_ALPHABET
+    ctypedef enum Elm_Input_Panel_Lang:
+        pass
+
+    cpdef enum Elm_Input_Panel_Layout:
+        ELM_INPUT_PANEL_LAYOUT_NORMAL
+        ELM_INPUT_PANEL_LAYOUT_NUMBER
+        ELM_INPUT_PANEL_LAYOUT_EMAIL
+        ELM_INPUT_PANEL_LAYOUT_URL
+        ELM_INPUT_PANEL_LAYOUT_PHONENUMBER
+        ELM_INPUT_PANEL_LAYOUT_IP
+        ELM_INPUT_PANEL_LAYOUT_MONTH
+        ELM_INPUT_PANEL_LAYOUT_NUMBERONLY
+        ELM_INPUT_PANEL_LAYOUT_INVALID
+        ELM_INPUT_PANEL_LAYOUT_HEX
+        ELM_INPUT_PANEL_LAYOUT_TERMINAL
+        ELM_INPUT_PANEL_LAYOUT_PASSWORD
+        ELM_INPUT_PANEL_LAYOUT_DATETIME
+        ELM_INPUT_PANEL_LAYOUT_EMOTICON
+    ctypedef enum Elm_Input_Panel_Layout:
+        pass
+
+    cpdef enum Elm_Input_Panel_Layout_Normal_Variation:
+        ELM_INPUT_PANEL_LAYOUT_NORMAL_VARIATION_NORMAL
+        ELM_INPUT_PANEL_LAYOUT_NORMAL_VARIATION_FILENAME
+        ELM_INPUT_PANEL_LAYOUT_NORMAL_VARIATION_PERSON_NAME
+    ctypedef enum Elm_Input_Panel_Layout_Normal_Variation:
+        pass
+
+    cpdef enum Elm_Input_Panel_Layout_Numberonly_Variation:
+        ELM_INPUT_PANEL_LAYOUT_NUMBERONLY_VARIATION_NORMAL
+        ELM_INPUT_PANEL_LAYOUT_NUMBERONLY_VARIATION_SIGNED
+        ELM_INPUT_PANEL_LAYOUT_NUMBERONLY_VARIATION_DECIMAL
+        ELM_INPUT_PANEL_LAYOUT_NUMBERONLY_VARIATION_SIGNED_AND_DECIMAL
+    ctypedef enum Elm_Input_Panel_Layout_Numberonly_Variation:
+        pass
+
+    cpdef enum Elm_Input_Panel_Layout_Password_Variation:
+        ELM_INPUT_PANEL_LAYOUT_PASSWORD_VARIATION_NORMAL
+        ELM_INPUT_PANEL_LAYOUT_PASSWORD_VARIATION_NUMBERONLY
+    ctypedef enum Elm_Input_Panel_Layout_Password_Variation:
+        pass
+
+    cpdef enum Elm_Input_Panel_Return_Key_Type:
+        ELM_INPUT_PANEL_RETURN_KEY_TYPE_DEFAULT
+        ELM_INPUT_PANEL_RETURN_KEY_TYPE_DONE
+        ELM_INPUT_PANEL_RETURN_KEY_TYPE_GO
+        ELM_INPUT_PANEL_RETURN_KEY_TYPE_JOIN
+        ELM_INPUT_PANEL_RETURN_KEY_TYPE_LOGIN
+        ELM_INPUT_PANEL_RETURN_KEY_TYPE_NEXT
+        ELM_INPUT_PANEL_RETURN_KEY_TYPE_SEARCH
+        ELM_INPUT_PANEL_RETURN_KEY_TYPE_SEND
+        ELM_INPUT_PANEL_RETURN_KEY_TYPE_SIGNIN
+    ctypedef enum Elm_Input_Panel_Return_Key_Type:
+        pass
+
+    cpdef enum Elm_Scroller_Policy:
+        ELM_SCROLLER_POLICY_AUTO
+        ELM_SCROLLER_POLICY_ON
+        ELM_SCROLLER_POLICY_OFF
+    ctypedef enum Elm_Scroller_Policy:
+        pass
+
+    cpdef enum Elm_Text_Format:
+        ELM_TEXT_FORMAT_PLAIN_UTF8
+        ELM_TEXT_FORMAT_MARKUP_UTF8
+    ctypedef enum Elm_Text_Format:
+        pass
+
+    cpdef enum Elm_Wrap_Type:
+        ELM_WRAP_NONE
+        ELM_WRAP_CHAR
+        ELM_WRAP_WORD
+        ELM_WRAP_MIXED
+    ctypedef enum Elm_Wrap_Type:
+        pass
+
+    cpdef enum Elm_Icon_Type:
+        ELM_ICON_NONE
+        ELM_ICON_FILE
+        ELM_ICON_STANDARD
+    ctypedef enum Elm_Icon_Type:
+        pass
+
+
     ctypedef struct Elm_Entry_Anchor_Info:
         char *name
         int   button

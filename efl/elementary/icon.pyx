@@ -194,16 +194,6 @@ from efl.utils.conversions cimport _ctouni
 from efl.evas cimport Object as evasObject
 from image cimport Image
 
-cimport enums
-
-ELM_ICON_LOOKUP_FDO_THEME = enums.ELM_ICON_LOOKUP_FDO_THEME
-ELM_ICON_LOOKUP_THEME_FDO = enums.ELM_ICON_LOOKUP_THEME_FDO
-ELM_ICON_LOOKUP_FDO = enums.ELM_ICON_LOOKUP_FDO
-ELM_ICON_LOOKUP_THEME = enums.ELM_ICON_LOOKUP_THEME
-
-ELM_ICON_NONE = enums.ELM_ICON_NONE
-ELM_ICON_FILE = enums.ELM_ICON_FILE
-ELM_ICON_STANDARD = enums.ELM_ICON_STANDARD
 
 cdef class Icon(Image):
     """

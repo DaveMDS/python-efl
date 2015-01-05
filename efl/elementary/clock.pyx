@@ -103,16 +103,6 @@ from efl.eo cimport _object_mapping_register
 from efl.evas cimport Object as evasObject
 from layout_class cimport LayoutClass
 
-cimport enums
-
-ELM_CLOCK_EDIT_DEFAULT = enums.ELM_CLOCK_EDIT_DEFAULT
-ELM_CLOCK_EDIT_HOUR_DECIMAL = enums.ELM_CLOCK_EDIT_HOUR_DECIMAL
-ELM_CLOCK_EDIT_HOUR_UNIT = enums.ELM_CLOCK_EDIT_HOUR_UNIT
-ELM_CLOCK_EDIT_MIN_DECIMAL = enums.ELM_CLOCK_EDIT_MIN_DECIMAL
-ELM_CLOCK_EDIT_MIN_UNIT = enums.ELM_CLOCK_EDIT_MIN_UNIT
-ELM_CLOCK_EDIT_SEC_DECIMAL = enums.ELM_CLOCK_EDIT_SEC_DECIMAL
-ELM_CLOCK_EDIT_SEC_UNIT = enums.ELM_CLOCK_EDIT_SEC_UNIT
-ELM_CLOCK_EDIT_ALL = enums.ELM_CLOCK_EDIT_ALL
 
 cdef class Clock(LayoutClass):
     """

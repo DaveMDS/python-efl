@@ -1,6 +1,5 @@
 from object_item cimport Elm_Object_Item
-from efl.elementary.enums cimport Elm_Sel_Type, Elm_Sel_Format, \
-    Elm_Xdnd_Action
+from efl.elementary.object cimport Elm_Sel_Type, Elm_Sel_Format, Elm_Xdnd_Action
 from efl.utils.conversions cimport python_list_objects_to_eina_list
 
 cdef extern from "Elementary.h":

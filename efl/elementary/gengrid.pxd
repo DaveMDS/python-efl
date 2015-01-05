@@ -3,11 +3,44 @@ from efl.evas cimport Eina_Bool, Eina_List, Evas_Object, Evas_Smart_Cb, \
 from efl.c_eo cimport Eo
 from object_item cimport Elm_Object_Item
 from general cimport Elm_Tooltip_Item_Content_Cb
-from enums cimport Elm_Genlist_Item_Scrollto_Type, Elm_Object_Select_Mode, \
-    Elm_Object_Multi_Select_Mode, Elm_Glob_Match_Flags, Elm_Gengrid_Reorder_Type
+from efl.elementary.general cimport  Elm_Glob_Match_Flags
+
 from efl.ecore cimport Ecore_Pos_Map
 
+
 cdef extern from "Elementary.h":
+
+    cpdef enum Elm_Genlist_Item_Scrollto_Type:
+        ELM_GENLIST_ITEM_SCROLLTO_NONE
+        ELM_GENLIST_ITEM_SCROLLTO_IN
+        ELM_GENLIST_ITEM_SCROLLTO_TOP
+        ELM_GENLIST_ITEM_SCROLLTO_MIDDLE
+    ctypedef enum Elm_Genlist_Item_Scrollto_Type:
+        pass
+
+    cpdef enum Elm_Object_Select_Mode:
+        ELM_OBJECT_SELECT_MODE_DEFAULT
+        ELM_OBJECT_SELECT_MODE_ALWAYS
+        ELM_OBJECT_SELECT_MODE_NONE
+        ELM_OBJECT_SELECT_MODE_DISPLAY_ONLY
+        ELM_OBJECT_SELECT_MODE_MAX
+    ctypedef enum Elm_Object_Select_Mode:
+        pass
+
+    cpdef enum Elm_Object_Multi_Select_Mode:
+        ELM_OBJECT_MULTI_SELECT_MODE_DEFAULT
+        ELM_OBJECT_MULTI_SELECT_MODE_WITH_CONTROL
+        ELM_OBJECT_MULTI_SELECT_MODE_MAX
+    ctypedef enum Elm_Object_Multi_Select_Mode:
+        pass
+
+    cpdef enum Elm_Gengrid_Reorder_Type:
+        ELM_GENGRID_REORDER_TYPE_NORMAL
+        ELM_GENGRID_REORDER_TYPE_SWAP
+    ctypedef enum Elm_Gengrid_Reorder_Type:
+        pass
+
+    
     ctypedef char           *(*GengridItemLabelGetFunc)     (void *data, Evas_Object *obj, const char *part)
     ctypedef Evas_Object    *(*GengridItemIconGetFunc)      (void *data, Evas_Object *obj, const char *part)
     ctypedef Eina_Bool       (*GengridItemStateGetFunc)     (void *data, Evas_Object *obj, const char *part)

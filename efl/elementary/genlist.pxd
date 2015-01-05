@@ -2,11 +2,72 @@ from efl.evas cimport Eina_Bool, Eina_List, Eina_Compare_Cb, \
     Evas_Object, Evas_Smart_Cb, Evas_Coord
 from object_item cimport Elm_Object_Item
 from general cimport Elm_Tooltip_Item_Content_Cb
-from enums cimport Elm_List_Mode, Elm_Object_Select_Mode, \
-    Elm_Genlist_Item_Type, Elm_Genlist_Item_Scrollto_Type, \
-    Elm_Genlist_Item_Field_Type, Elm_Glob_Match_Flags
+from efl.elementary.general cimport Elm_Glob_Match_Flags
+
 
 cdef extern from "Elementary.h":
+
+    cpdef enum Elm_Genlist_Item_Type:
+        ELM_GENLIST_ITEM_NONE
+        ELM_GENLIST_ITEM_TREE
+        ELM_GENLIST_ITEM_GROUP
+        ELM_GENLIST_ITEM_MAX
+    ctypedef enum Elm_Genlist_Item_Type:
+        pass
+
+    cpdef enum Elm_Genlist_Item_Field_Type:
+        ELM_GENLIST_ITEM_FIELD_ALL
+        ELM_GENLIST_ITEM_FIELD_TEXT
+        ELM_GENLIST_ITEM_FIELD_CONTENT
+        ELM_GENLIST_ITEM_FIELD_STATE
+    ctypedef enum Elm_Genlist_Item_Field_Type:
+        pass
+
+    cpdef enum Elm_Genlist_Item_Scrollto_Type:
+        ELM_GENLIST_ITEM_SCROLLTO_NONE
+        ELM_GENLIST_ITEM_SCROLLTO_IN
+        ELM_GENLIST_ITEM_SCROLLTO_TOP
+        ELM_GENLIST_ITEM_SCROLLTO_MIDDLE
+    ctypedef enum Elm_Genlist_Item_Scrollto_Type:
+        pass
+
+    cpdef enum Elm_List_Mode:
+        ELM_LIST_COMPRESS
+        ELM_LIST_SCROLL
+        ELM_LIST_LIMIT
+        ELM_LIST_EXPAND
+    ctypedef enum Elm_List_Mode:
+        pass
+
+    cpdef enum Elm_Object_Select_Mode:
+        ELM_OBJECT_SELECT_MODE_DEFAULT
+        ELM_OBJECT_SELECT_MODE_ALWAYS
+        ELM_OBJECT_SELECT_MODE_NONE
+        ELM_OBJECT_SELECT_MODE_DISPLAY_ONLY
+        ELM_OBJECT_SELECT_MODE_MAX
+    ctypedef enum Elm_Object_Select_Mode:
+        pass
+
+    cpdef enum Elm_Sel_Format:
+        ELM_SEL_FORMAT_TARGETS
+        ELM_SEL_FORMAT_NONE
+        ELM_SEL_FORMAT_TEXT
+        ELM_SEL_FORMAT_MARKUP
+        ELM_SEL_FORMAT_IMAGE
+        ELM_SEL_FORMAT_VCARD
+        ELM_SEL_FORMAT_HTML
+    ctypedef enum Elm_Sel_Format:
+        pass
+
+    cpdef enum Elm_Sel_Type:
+        ELM_SEL_TYPE_PRIMARY
+        ELM_SEL_TYPE_SECONDARY
+        ELM_SEL_TYPE_XDND
+        ELM_SEL_TYPE_CLIPBOARD
+    ctypedef enum Elm_Sel_Type:
+        pass
+
+
     ctypedef char           *(*GenlistItemLabelGetFunc)     (void *data, Evas_Object *obj, const char *part)
     ctypedef Evas_Object    *(*GenlistItemIconGetFunc)      (void *data, Evas_Object *obj, const char *part)
     ctypedef Eina_Bool       (*GenlistItemStateGetFunc)     (void *data, Evas_Object *obj, const char *part)

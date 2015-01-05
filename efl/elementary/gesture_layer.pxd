@@ -1,7 +1,33 @@
 from efl.evas cimport Eina_Bool, Evas_Object, Evas_Coord, Evas_Event_Flags
-from enums cimport Elm_Gesture_State, Elm_Gesture_Type
+
 
 cdef extern from "Elementary.h":
+
+    cpdef enum Elm_Gesture_State:
+        ELM_GESTURE_STATE_UNDEFINED
+        ELM_GESTURE_STATE_START
+        ELM_GESTURE_STATE_MOVE
+        ELM_GESTURE_STATE_END
+        ELM_GESTURE_STATE_ABORT
+    ctypedef enum Elm_Gesture_State:
+        pass
+
+    cpdef enum Elm_Gesture_Type:
+        ELM_GESTURE_FIRST
+        ELM_GESTURE_N_TAPS
+        ELM_GESTURE_N_LONG_TAPS
+        ELM_GESTURE_N_DOUBLE_TAPS
+        ELM_GESTURE_N_TRIPLE_TAPS
+        ELM_GESTURE_MOMENTUM
+        ELM_GESTURE_N_LINES
+        ELM_GESTURE_N_FLICKS
+        ELM_GESTURE_ZOOM
+        ELM_GESTURE_ROTATE
+        ELM_GESTURE_LAST
+    ctypedef enum Elm_Gesture_Type:
+        pass
+
+
     ctypedef struct Elm_Gesture_Taps_Info:
         Evas_Coord   x, y
         unsigned int n

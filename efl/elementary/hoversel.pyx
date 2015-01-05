@@ -85,11 +85,6 @@ from object_item cimport ObjectItem, _object_item_callback, \
     _object_item_list_to_python, _object_item_to_python, _object_item_callback2
 from button cimport Button
 
-cimport enums
-
-ELM_ICON_NONE = enums.ELM_ICON_NONE
-ELM_ICON_FILE = enums.ELM_ICON_FILE
-ELM_ICON_STANDARD = enums.ELM_ICON_STANDARD
 
 def _cb_object_item_conv(uintptr_t addr):
     cdef Elm_Object_Item *it = <Elm_Object_Item *>addr

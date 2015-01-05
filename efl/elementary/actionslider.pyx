@@ -76,6 +76,7 @@ Actionslider positions
 .. data:: ELM_ACTIONSLIDER_CENTER
 
     Center position
+
 .. data:: ELM_ACTIONSLIDER_RIGHT
 
     Right position
@@ -93,13 +94,6 @@ from efl.utils.conversions cimport _ctouni
 from efl.evas cimport Object as evasObject
 from layout_class cimport LayoutClass
 
-cimport enums
-
-ELM_ACTIONSLIDER_NONE = enums.ELM_ACTIONSLIDER_NONE
-ELM_ACTIONSLIDER_LEFT = enums.ELM_ACTIONSLIDER_LEFT
-ELM_ACTIONSLIDER_CENTER = enums.ELM_ACTIONSLIDER_CENTER
-ELM_ACTIONSLIDER_RIGHT = enums.ELM_ACTIONSLIDER_RIGHT
-ELM_ACTIONSLIDER_ALL = enums.ELM_ACTIONSLIDER_ALL
 
 def _cb_string_conv(uintptr_t addr):
     cdef const char *s = <const char *>addr

@@ -19,8 +19,7 @@
 from efl.evas cimport Eina_List, Eina_Bool
 from efl.evas cimport Evas_Object, Evas_Font_Size, Evas_Coord
 from efl.evas cimport Evas_Callback_Type
-from enums cimport Elm_Sys_Notify_Closed_Reason, Elm_Sys_Notify_Urgency, \
-    Elm_Process_State
+
 
 cdef extern from "time.h":
     struct tm:
@@ -44,6 +43,69 @@ cdef extern from "Edje.h":
     ctypedef void (*Edje_Signal_Cb)(void *data, Evas_Object *obj, const char *emission, const char *source)
 
 cdef extern from "Elementary.h":
+
+    #define
+    cpdef enum:
+        ELM_EVENT_SYS_NOTIFY_NOTIFICATION_CLOSED
+        ELM_EVENT_SYS_NOTIFY_ACTION_INVOKED
+
+    #enums
+    cpdef enum Elm_Policy:
+        ELM_POLICY_QUIT
+        ELM_POLICY_EXIT
+        ELM_POLICY_THROTTLE
+        ELM_POLICY_LAST
+    ctypedef enum Elm_Policy:
+        pass
+
+    cpdef enum Elm_Policy_Quit:
+        ELM_POLICY_QUIT_NONE
+        ELM_POLICY_QUIT_LAST_WINDOW_CLOSED
+    ctypedef enum Elm_Policy_Quit:
+        pass
+
+    cpdef enum Elm_Policy_Exit:
+        ELM_POLICY_EXIT_NONE
+        ELM_POLICY_EXIT_WINDOWS_DEL
+    ctypedef enum Elm_Policy_Exit:
+        pass
+
+    cpdef enum Elm_Policy_Throttle:
+        ELM_POLICY_THROTTLE_CONFIG
+        ELM_POLICY_THROTTLE_HIDDEN_ALWAYS
+        ELM_POLICY_THROTTLE_NEVER
+    ctypedef enum Elm_Policy_Throttle:
+        pass
+
+    cpdef enum Elm_Sys_Notify_Closed_Reason:
+        ELM_SYS_NOTIFY_CLOSED_EXPIRED
+        ELM_SYS_NOTIFY_CLOSED_DISMISSED
+        ELM_SYS_NOTIFY_CLOSED_REQUESTED
+        ELM_SYS_NOTIFY_CLOSED_UNDEFINED
+    ctypedef enum Elm_Sys_Notify_Closed_Reason:
+        pass
+
+    cpdef enum Elm_Sys_Notify_Urgency:
+        ELM_SYS_NOTIFY_URGENCY_LOW
+        ELM_SYS_NOTIFY_URGENCY_NORMAL
+        ELM_SYS_NOTIFY_URGENCY_CRITICAL
+    ctypedef enum Elm_Sys_Notify_Urgency:
+        pass
+
+    cpdef enum Elm_Glob_Match_Flags:
+        ELM_GLOB_MATCH_NO_ESCAPE
+        ELM_GLOB_MATCH_PATH
+        ELM_GLOB_MATCH_PERIOD
+        ELM_GLOB_MATCH_NOCASE
+    ctypedef enum Elm_Glob_Match_Flags:
+        pass
+
+    cpdef enum Elm_Process_State:
+        ELM_PROCESS_STATE_FOREGROUND
+        ELM_PROCESS_STATE_BACKGROUND
+    ctypedef enum Elm_Process_State:
+        pass
+
     #colors
     ctypedef struct Elm_Color_RGBA:
         unsigned int r

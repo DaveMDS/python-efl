@@ -1,7 +1,21 @@
 from efl.evas cimport Evas_Object, Eina_Bool
-from enums cimport Elm_Clock_Edit_Mode
+
 
 cdef extern from "Elementary.h":
+
+    cpdef enum Elm_Clock_Edit_Mode:
+        ELM_CLOCK_EDIT_DEFAULT
+        ELM_CLOCK_EDIT_HOUR_DECIMAL
+        ELM_CLOCK_EDIT_HOUR_UNIT
+        ELM_CLOCK_EDIT_MIN_DECIMAL
+        ELM_CLOCK_EDIT_MIN_UNIT
+        ELM_CLOCK_EDIT_SEC_DECIMAL
+        ELM_CLOCK_EDIT_SEC_UNIT
+        ELM_CLOCK_EDIT_ALL
+    ctypedef enum Elm_Clock_Edit_Mode:
+        pass
+
+
     Evas_Object             *elm_clock_add(Evas_Object *parent)
     void                     elm_clock_time_set(Evas_Object *obj, int hrs, int min, int sec)
     void                     elm_clock_time_get(const Evas_Object *obj, int *hrs, int *min, int *sec)

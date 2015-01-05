@@ -7,7 +7,21 @@ from object_item cimport Elm_Object_Item
 cdef extern from "Python.h":
     void PyEval_InitThreads()
 
+
 cdef extern from "Elementary.h":
+
+    cpdef enum Elm_Store_Item_Mapping_Type:
+        ELM_STORE_ITEM_MAPPING_NONE
+        ELM_STORE_ITEM_MAPPING_LABEL
+        ELM_STORE_ITEM_MAPPING_STATE
+        ELM_STORE_ITEM_MAPPING_ICON
+        ELM_STORE_ITEM_MAPPING_PHOTO
+        ELM_STORE_ITEM_MAPPING_CUSTOM
+        ELM_STORE_ITEM_MAPPING_LAST
+    ctypedef enum Elm_Store_Item_Mapping_Type:
+        pass
+
+
     struct _Elm_Store:
         pass
 

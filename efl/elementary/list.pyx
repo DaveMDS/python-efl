@@ -173,22 +173,6 @@ from efl.utils.deprecated cimport DEPRECATED
 from scroller cimport elm_scroller_policy_get, elm_scroller_policy_set, \
     elm_scroller_bounce_get, elm_scroller_bounce_set, Elm_Scroller_Policy
 
-cimport enums
-
-ELM_LIST_COMPRESS = enums.ELM_LIST_COMPRESS
-ELM_LIST_SCROLL = enums.ELM_LIST_SCROLL
-ELM_LIST_LIMIT = enums.ELM_LIST_LIMIT
-ELM_LIST_EXPAND = enums.ELM_LIST_EXPAND
-
-ELM_OBJECT_SELECT_MODE_DEFAULT = enums.ELM_OBJECT_SELECT_MODE_DEFAULT
-ELM_OBJECT_SELECT_MODE_ALWAYS = enums.ELM_OBJECT_SELECT_MODE_ALWAYS
-ELM_OBJECT_SELECT_MODE_NONE = enums.ELM_OBJECT_SELECT_MODE_NONE
-ELM_OBJECT_SELECT_MODE_DISPLAY_ONLY = enums.ELM_OBJECT_SELECT_MODE_DISPLAY_ONLY
-ELM_OBJECT_SELECT_MODE_MAX = enums.ELM_OBJECT_SELECT_MODE_MAX
-
-ELM_SCROLLER_POLICY_AUTO = enums.ELM_SCROLLER_POLICY_AUTO
-ELM_SCROLLER_POLICY_ON = enums.ELM_SCROLLER_POLICY_ON
-ELM_SCROLLER_POLICY_OFF = enums.ELM_SCROLLER_POLICY_OFF
 
 def _cb_object_item_conv(uintptr_t addr):
     cdef Elm_Object_Item *it = <Elm_Object_Item *>addr

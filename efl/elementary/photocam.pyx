@@ -111,14 +111,6 @@ from efl.utils.deprecated cimport DEPRECATED
 from scroller cimport elm_scroller_policy_get, elm_scroller_policy_set, \
     elm_scroller_bounce_get, elm_scroller_bounce_set, Elm_Scroller_Policy
 
-cimport enums
-
-ELM_PHOTOCAM_ZOOM_MODE_MANUAL = enums.ELM_PHOTOCAM_ZOOM_MODE_MANUAL
-ELM_PHOTOCAM_ZOOM_MODE_AUTO_FIT = enums.ELM_PHOTOCAM_ZOOM_MODE_AUTO_FIT
-ELM_PHOTOCAM_ZOOM_MODE_AUTO_FILL = enums.ELM_PHOTOCAM_ZOOM_MODE_AUTO_FILL
-ELM_PHOTOCAM_ZOOM_MODE_AUTO_FIT_IN = enums.ELM_PHOTOCAM_ZOOM_MODE_AUTO_FIT_IN
-ELM_PHOTOCAM_ZOOM_MODE_LAST = enums.ELM_PHOTOCAM_ZOOM_MODE_LAST
-
 
 class PhotocamProgressInfo(object):
     """PhotocamProgressInfo(...)

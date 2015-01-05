@@ -77,11 +77,6 @@ from efl.evas cimport Object as evasObject
 from object_item cimport ObjectItem, _object_item_to_python
 from layout_class cimport LayoutClass
 
-cimport enums
-
-ELM_COLORSELECTOR_PALETTE = enums.ELM_COLORSELECTOR_PALETTE
-ELM_COLORSELECTOR_COMPONENTS = enums.ELM_COLORSELECTOR_COMPONENTS
-ELM_COLORSELECTOR_BOTH = enums.ELM_COLORSELECTOR_BOTH
 
 def _cb_object_item_conv(uintptr_t addr):
     cdef Elm_Object_Item *it = <Elm_Object_Item *>addr

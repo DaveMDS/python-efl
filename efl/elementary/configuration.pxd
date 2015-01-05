@@ -1,8 +1,33 @@
 from efl.evas cimport Eina_Bool, Eina_List, Evas_Coord, Evas_Font_Size
-from enums cimport Elm_Softcursor_Mode, Elm_Focus_Move_Policy, \
-    Elm_Focus_Autoscroll_Mode, Edje_Channel
+from efl.elementary.object cimport Elm_Focus_Move_Policy, \
+    Elm_Focus_Autoscroll_Mode
+
+
+cdef extern from "Edje.h":
+
+    cpdef enum Edje_Channel:
+        EDJE_CHANNEL_EFFECT
+        EDJE_CHANNEL_BACKGROUND
+        EDJE_CHANNEL_MUSIC
+        EDJE_CHANNEL_FOREGROUND
+        EDJE_CHANNEL_INTERFACE
+        EDJE_CHANNEL_INPUT
+        EDJE_CHANNEL_ALERT
+        EDJE_CHANNEL_ALL
+    ctypedef enum Edje_Channel:
+        pass
+
 
 cdef extern from "Elementary.h":
+
+    cpdef enum Elm_Softcursor_Mode:
+        ELM_SOFTCURSOR_MODE_AUTO
+        ELM_SOFTCURSOR_MODE_ON
+        ELM_SOFTCURSOR_MODE_OFF
+    ctypedef enum Elm_Softcursor_Mode:
+        pass
+
+
     ctypedef struct Elm_Font_Overlay:
         const char *text_class
         const char *font

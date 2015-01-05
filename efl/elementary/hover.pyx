@@ -116,12 +116,6 @@ from efl.eo cimport _object_mapping_register, object_from_instance
 from efl.utils.conversions cimport _ctouni
 from efl.evas cimport Object as evasObject
 
-cimport enums
-
-ELM_HOVER_AXIS_NONE = enums.ELM_HOVER_AXIS_NONE
-ELM_HOVER_AXIS_HORIZONTAL = enums.ELM_HOVER_AXIS_HORIZONTAL
-ELM_HOVER_AXIS_VERTICAL = enums.ELM_HOVER_AXIS_VERTICAL
-ELM_HOVER_AXIS_BOTH = enums.ELM_HOVER_AXIS_BOTH
 
 cdef class Hover(LayoutClass):
     """

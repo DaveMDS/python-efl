@@ -75,12 +75,6 @@ from efl.eo cimport _object_mapping_register
 from efl.evas cimport Object as evasObject
 from layout_class cimport LayoutClass
 
-cimport enums
-
-ELM_PANEL_ORIENT_TOP = enums.ELM_PANEL_ORIENT_TOP
-ELM_PANEL_ORIENT_BOTTOM = enums.ELM_PANEL_ORIENT_BOTTOM
-ELM_PANEL_ORIENT_LEFT = enums.ELM_PANEL_ORIENT_LEFT
-ELM_PANEL_ORIENT_RIGHT = enums.ELM_PANEL_ORIENT_RIGHT
 
 cdef class Panel(LayoutClass):
     """

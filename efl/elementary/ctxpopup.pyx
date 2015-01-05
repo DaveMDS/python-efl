@@ -97,13 +97,6 @@ from layout_class cimport LayoutClass
 from object_item cimport ObjectItem, _object_item_callback, \
     _object_item_callback2, _object_item_to_python, _object_item_list_to_python
 
-cimport enums
-
-ELM_CTXPOPUP_DIRECTION_DOWN = enums.ELM_CTXPOPUP_DIRECTION_DOWN
-ELM_CTXPOPUP_DIRECTION_RIGHT = enums.ELM_CTXPOPUP_DIRECTION_RIGHT
-ELM_CTXPOPUP_DIRECTION_LEFT = enums.ELM_CTXPOPUP_DIRECTION_LEFT
-ELM_CTXPOPUP_DIRECTION_UP = enums.ELM_CTXPOPUP_DIRECTION_UP
-ELM_CTXPOPUP_DIRECTION_UNKNOWN = enums.ELM_CTXPOPUP_DIRECTION_UNKNOWN
 
 cdef class CtxpopupItem(ObjectItem):
     """

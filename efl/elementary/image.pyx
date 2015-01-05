@@ -62,7 +62,11 @@ Image manipulation types
 
 .. data:: ELM_IMAGE_ORIENT_NONE
 
-    No change
+    No orientation change
+
+.. data:: ELM_IMAGE_ORIENT_0
+
+    No orientation change
 
 .. data:: ELM_IMAGE_ROTATE_90
 
@@ -101,20 +105,11 @@ from efl.eo cimport _object_mapping_register, object_from_instance
 from efl.utils.conversions cimport _ctouni
 from efl.evas cimport Object as evasObject
 
-cimport enums
-
-ELM_IMAGE_ORIENT_NONE = enums.ELM_IMAGE_ORIENT_NONE
-ELM_IMAGE_ROTATE_90 = enums.ELM_IMAGE_ROTATE_90
-ELM_IMAGE_ROTATE_180 = enums.ELM_IMAGE_ROTATE_180
-ELM_IMAGE_ROTATE_270 = enums.ELM_IMAGE_ROTATE_270
-ELM_IMAGE_FLIP_HORIZONTAL = enums.ELM_IMAGE_FLIP_HORIZONTAL
-ELM_IMAGE_FLIP_VERTICAL = enums.ELM_IMAGE_FLIP_VERTICAL
-ELM_IMAGE_FLIP_TRANSPOSE = enums.ELM_IMAGE_FLIP_TRANSPOSE
-ELM_IMAGE_FLIP_TRANSVERSE = enums.ELM_IMAGE_FLIP_TRANSVERSE
 
 def _cb_string_conv(uintptr_t addr):
     cdef const char *s = <const char *>addr
     return _ctouni(s) if s is not NULL else None
+
 
 class ImageProgressInfo(object):
     """ImageProgressInfo(...)

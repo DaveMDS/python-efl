@@ -241,8 +241,7 @@ from libc.string cimport memcpy
 from efl.evas cimport Object as evasObject
 
 from efl.utils.conversions cimport _touni, _ctouni, \
-    python_list_strings_to_eina_list, \
-    eina_list_strings_to_python_list
+    python_list_strings_to_eina_list, eina_list_strings_to_python_list
 
 from efl.utils.logger cimport add_logger
 
@@ -250,48 +249,9 @@ from efl.eina cimport EINA_LOG_DOM_DBG, EINA_LOG_DOM_INFO, \
     EINA_LOG_DOM_WARN, EINA_LOG_DOM_ERR, EINA_LOG_DOM_CRIT
 
 from efl.ecore cimport Event, EventHandler, _event_mapping_register
-
 from efl.elementary.need cimport elm_need_sys_notify
 
-cimport enums
-from enums cimport Elm_Policy
-
 import sys
-
-ELM_POLICY_QUIT = enums.ELM_POLICY_QUIT
-ELM_POLICY_EXIT = enums.ELM_POLICY_EXIT
-ELM_POLICY_THROTTLE = enums.ELM_POLICY_THROTTLE
-
-ELM_POLICY_QUIT_NONE = enums.ELM_POLICY_QUIT_NONE
-ELM_POLICY_QUIT_LAST_WINDOW_CLOSED = enums.ELM_POLICY_QUIT_LAST_WINDOW_CLOSED
-
-ELM_POLICY_EXIT_NONE = enums.ELM_POLICY_EXIT_NONE
-ELM_POLICY_EXIT_WINDOWS_DEL = enums.ELM_POLICY_EXIT_WINDOWS_DEL
-
-ELM_POLICY_THROTTLE_CONFIG = enums.ELM_POLICY_THROTTLE_CONFIG
-ELM_POLICY_THROTTLE_HIDDEN_ALWAYS = enums.ELM_POLICY_THROTTLE_HIDDEN_ALWAYS
-ELM_POLICY_THROTTLE_NEVER = enums.ELM_POLICY_THROTTLE_NEVER
-
-ELM_SYS_NOTIFY_CLOSED_EXPIRED = enums.ELM_SYS_NOTIFY_CLOSED_EXPIRED
-ELM_SYS_NOTIFY_CLOSED_DISMISSED = enums.ELM_SYS_NOTIFY_CLOSED_DISMISSED
-ELM_SYS_NOTIFY_CLOSED_REQUESTED = enums.ELM_SYS_NOTIFY_CLOSED_REQUESTED
-ELM_SYS_NOTIFY_CLOSED_UNDEFINED = enums.ELM_SYS_NOTIFY_CLOSED_UNDEFINED
-
-ELM_SYS_NOTIFY_URGENCY_LOW = enums.ELM_SYS_NOTIFY_URGENCY_LOW
-ELM_SYS_NOTIFY_URGENCY_NORMAL = enums.ELM_SYS_NOTIFY_URGENCY_NORMAL
-ELM_SYS_NOTIFY_URGENCY_CRITICAL = enums.ELM_SYS_NOTIFY_URGENCY_CRITICAL
-
-ELM_EVENT_SYS_NOTIFY_NOTIFICATION_CLOSED = enums.ELM_EVENT_SYS_NOTIFY_NOTIFICATION_CLOSED
-ELM_EVENT_SYS_NOTIFY_ACTION_INVOKED = enums.ELM_EVENT_SYS_NOTIFY_ACTION_INVOKED
-
-ELM_GLOB_MATCH_NO_ESCAPE = enums.ELM_GLOB_MATCH_NO_ESCAPE
-ELM_GLOB_MATCH_PATH = enums.ELM_GLOB_MATCH_PATH
-ELM_GLOB_MATCH_PERIOD = enums.ELM_GLOB_MATCH_PERIOD
-ELM_GLOB_MATCH_NOCASE = enums.ELM_GLOB_MATCH_NOCASE
-
-ELM_PROCESS_STATE_FOREGROUND = enums.ELM_PROCESS_STATE_FOREGROUND
-ELM_PROCESS_STATE_BACKGROUND = enums.ELM_PROCESS_STATE_BACKGROUND
-
 import traceback
 
 cdef void py_elm_sys_notify_send_cb(void *data, unsigned int id):
@@ -367,23 +327,23 @@ cdef class SysNotifyActionInvoked(Event):
 
 if elm_need_sys_notify():
     _event_mapping_register(
-        enums.ELM_EVENT_SYS_NOTIFY_NOTIFICATION_CLOSED,
+        ELM_EVENT_SYS_NOTIFY_NOTIFICATION_CLOSED,
         SysNotifyNotificationClosed
         )
 
     def on_sys_notify_notification_closed(func, *args, **kargs):
         return EventHandler(
-            enums.ELM_EVENT_SYS_NOTIFY_NOTIFICATION_CLOSED, func, *args, **kargs
+            ELM_EVENT_SYS_NOTIFY_NOTIFICATION_CLOSED, func, *args, **kargs
             )
 
     _event_mapping_register(
-        enums.ELM_EVENT_SYS_NOTIFY_ACTION_INVOKED,
+        ELM_EVENT_SYS_NOTIFY_ACTION_INVOKED,
         SysNotifyActionInvoked
         )
 
     def on_sys_notify_action_invoked(func, *args, **kargs):
         return EventHandler(
-            enums.ELM_EVENT_SYS_NOTIFY_NOTIFICATION_CLOSED, func, *args, **kargs
+            ELM_EVENT_SYS_NOTIFY_NOTIFICATION_CLOSED, func, *args, **kargs
             )
 
 cdef class FontProperties(object):
@@ -739,7 +699,7 @@ def sys_notify_close(unsigned int id):
 def sys_notify_send(
     unsigned int replaces_id=0,
     icon=None, summary=None, body=None,
-    Elm_Sys_Notify_Urgency urgency=enums.ELM_SYS_NOTIFY_URGENCY_NORMAL,
+    Elm_Sys_Notify_Urgency urgency=ELM_SYS_NOTIFY_URGENCY_NORMAL,
     int timeout=-1, cb=None, cb_data=None
     ):
     """Sends a notification to the notification server.

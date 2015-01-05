@@ -1,7 +1,25 @@
 from efl.evas cimport Eina_Bool, Eina_List, Evas_Object, Evas_Coord
-from enums cimport Elm_Web_Window_Feature_Flag, Elm_Web_Zoom_Mode
+
 
 cdef extern from "Elementary.h":
+
+    cpdef enum Elm_Web_Window_Feature_Flag:
+        ELM_WEB_WINDOW_FEATURE_TOOLBAR
+        ELM_WEB_WINDOW_FEATURE_STATUSBAR
+        ELM_WEB_WINDOW_FEATURE_SCROLLBARS
+        ELM_WEB_WINDOW_FEATURE_MENUBAR
+        ELM_WEB_WINDOW_FEATURE_LOCATIONBAR
+        ELM_WEB_WINDOW_FEATURE_FULLSCREEN
+    ctypedef enum Elm_Web_Window_Feature_Flag:
+        pass
+
+    cpdef enum Elm_Web_Zoom_Mode:
+        ELM_WEB_ZOOM_MODE_MANUAL
+        ELM_WEB_ZOOM_MODE_AUTO_FIT
+        ELM_WEB_ZOOM_MODE_AUTO_FILL
+    ctypedef enum Elm_Web_Zoom_Mode:
+        pass
+
 
     ctypedef struct Elm_Web_Frame_Load_Error:
         int code

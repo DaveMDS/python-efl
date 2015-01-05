@@ -1,9 +1,45 @@
 from efl.evas cimport Eina_Bool, Evas_Object, Evas_Smart_Cb
 from object_item cimport Elm_Object_Item
-from enums cimport Elm_Object_Select_Mode, Elm_Toolbar_Shrink_Mode, \
-    Elm_Icon_Lookup_Order, Elm_Toolbar_Item_Scrollto_Type
+
 
 cdef extern from "Elementary.h":
+
+    cpdef enum Elm_Icon_Lookup_Order:
+        ELM_ICON_LOOKUP_FDO_THEME
+        ELM_ICON_LOOKUP_THEME_FDO
+        ELM_ICON_LOOKUP_FDO
+        ELM_ICON_LOOKUP_THEME
+    ctypedef enum Elm_Icon_Lookup_Order:
+        pass
+
+    cpdef enum Elm_Object_Select_Mode:
+        ELM_OBJECT_SELECT_MODE_DEFAULT
+        ELM_OBJECT_SELECT_MODE_ALWAYS
+        ELM_OBJECT_SELECT_MODE_NONE
+        ELM_OBJECT_SELECT_MODE_DISPLAY_ONLY
+        ELM_OBJECT_SELECT_MODE_MAX
+    ctypedef enum Elm_Object_Select_Mode:
+        pass
+
+    cpdef enum Elm_Toolbar_Item_Scrollto_Type:
+        ELM_TOOLBAR_ITEM_SCROLLTO_NONE
+        ELM_TOOLBAR_ITEM_SCROLLTO_IN
+        ELM_TOOLBAR_ITEM_SCROLLTO_FIRST
+        ELM_TOOLBAR_ITEM_SCROLLTO_MIDDLE
+        ELM_TOOLBAR_ITEM_SCROLLTO_LAST
+    ctypedef enum Elm_Toolbar_Item_Scrollto_Type:
+        pass
+
+    cpdef enum Elm_Toolbar_Shrink_Mode:
+        ELM_TOOLBAR_SHRINK_NONE
+        ELM_TOOLBAR_SHRINK_HIDE
+        ELM_TOOLBAR_SHRINK_SCROLL
+        ELM_TOOLBAR_SHRINK_MENU
+        ELM_TOOLBAR_SHRINK_EXPAND
+        ELM_TOOLBAR_SHRINK_LAST
+    ctypedef enum Elm_Toolbar_Shrink_Mode:
+        pass
+
 
     ctypedef struct Elm_Toolbar_Item_State:
         pass

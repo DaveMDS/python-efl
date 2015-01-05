@@ -1,8 +1,36 @@
 from efl.evas cimport Eina_Bool, Eina_List, Evas_Object, Evas_Coord
-from enums cimport Elm_Transit_Effect_Flip_Axis, Elm_Transit_Effect_Wipe_Dir, \
-    Elm_Transit_Effect_Wipe_Type, Elm_Transit_Tween_Mode
+
 
 cdef extern from "Elementary.h":
+
+    cpdef enum Elm_Transit_Effect_Flip_Axis:
+        ELM_TRANSIT_EFFECT_FLIP_AXIS_X
+        ELM_TRANSIT_EFFECT_FLIP_AXIS_Y
+    ctypedef enum Elm_Transit_Effect_Flip_Axis:
+        pass
+
+    cpdef enum Elm_Transit_Effect_Wipe_Dir:
+        ELM_TRANSIT_EFFECT_WIPE_DIR_LEFT
+        ELM_TRANSIT_EFFECT_WIPE_DIR_RIGHT
+        ELM_TRANSIT_EFFECT_WIPE_DIR_UP
+        ELM_TRANSIT_EFFECT_WIPE_DIR_DOWN
+    ctypedef enum Elm_Transit_Effect_Wipe_Dir:
+        pass
+
+    cpdef enum Elm_Transit_Effect_Wipe_Type:
+        ELM_TRANSIT_EFFECT_WIPE_TYPE_HIDE
+        ELM_TRANSIT_EFFECT_WIPE_TYPE_SHOW
+    ctypedef enum Elm_Transit_Effect_Wipe_Type:
+        pass
+
+    cpdef enum Elm_Transit_Tween_Mode:
+        ELM_TRANSIT_TWEEN_MODE_LINEAR
+        ELM_TRANSIT_TWEEN_MODE_SINUSOIDAL
+        ELM_TRANSIT_TWEEN_MODE_DECELERATE
+        ELM_TRANSIT_TWEEN_MODE_ACCELERATE
+    ctypedef enum Elm_Transit_Tween_Mode:
+        pass
+
 
     ctypedef struct Elm_Transit
     ctypedef void Elm_Transit_Effect

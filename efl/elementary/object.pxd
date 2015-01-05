@@ -18,13 +18,68 @@
 from efl.evas cimport Eina_Bool, Eina_List, Evas_Object, Evas_Smart_Cb, \
     Evas_Coord, Evas_Callback_Type, Object as evasObject, Canvas as evasCanvas
 
-from enums cimport Elm_Focus_Direction, Elm_Sel_Format, Elm_Sel_Type, \
-    Elm_Xdnd_Action
 
 cdef extern from "Edje.h":
     ctypedef void (*Edje_Signal_Cb)(void *data, Evas_Object *obj, const char *emission, const char *source)
 
+
 cdef extern from "Elementary.h":
+
+    cpdef enum Elm_Focus_Direction:
+        ELM_FOCUS_PREVIOUS
+        ELM_FOCUS_NEXT
+        ELM_FOCUS_UP
+        ELM_FOCUS_DOWN
+        ELM_FOCUS_RIGHT
+        ELM_FOCUS_LEFT
+    ctypedef enum Elm_Focus_Direction:
+        pass
+
+    cpdef enum Elm_Focus_Move_Policy:
+        ELM_FOCUS_MOVE_POLICY_CLICK
+        ELM_FOCUS_MOVE_POLICY_IN
+    ctypedef enum Elm_Focus_Move_Policy:
+        pass
+
+    cpdef enum Elm_Focus_Autoscroll_Mode:
+        ELM_FOCUS_AUTOSCROLL_MODE_SHOW
+        ELM_FOCUS_AUTOSCROLL_MODE_NONE
+        ELM_FOCUS_AUTOSCROLL_MODE_BRING_IN
+    ctypedef enum Elm_Focus_Autoscroll_Mode:
+        pass
+
+    cpdef enum Elm_Sel_Type:
+        ELM_SEL_TYPE_PRIMARY
+        ELM_SEL_TYPE_SECONDARY
+        ELM_SEL_TYPE_XDND
+        ELM_SEL_TYPE_CLIPBOARD
+    ctypedef enum Elm_Sel_Type:
+        pass
+
+    cpdef enum Elm_Sel_Format:
+        ELM_SEL_FORMAT_TARGETS
+        ELM_SEL_FORMAT_NONE
+        ELM_SEL_FORMAT_TEXT
+        ELM_SEL_FORMAT_MARKUP
+        ELM_SEL_FORMAT_IMAGE
+        ELM_SEL_FORMAT_VCARD
+        ELM_SEL_FORMAT_HTML
+    ctypedef enum Elm_Sel_Format:
+        pass
+
+    cpdef enum Elm_Xdnd_Action:
+        ELM_XDND_ACTION_UNKNOWN
+        ELM_XDND_ACTION_COPY
+        ELM_XDND_ACTION_MOVE
+        ELM_XDND_ACTION_PRIVATE
+        ELM_XDND_ACTION_ASK
+        ELM_XDND_ACTION_LIST
+        ELM_XDND_ACTION_LINK
+        ELM_XDND_ACTION_DESCRIPTION
+    ctypedef enum Elm_Xdnd_Action:
+        pass
+
+    
     ctypedef struct Elm_Theme
 
     ctypedef struct Elm_Object_Item

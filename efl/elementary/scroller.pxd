@@ -1,9 +1,32 @@
 from efl.evas cimport Eina_Bool, Evas_Object, Evas_Coord
-from enums cimport Elm_Scroller_Policy, Elm_Scroller_Single_Direction, \
-    Elm_Scroller_Movement_Block
 from object cimport Object
 
+
 cdef extern from "Elementary.h":
+
+    cpdef enum Elm_Scroller_Policy:
+        ELM_SCROLLER_POLICY_AUTO
+        ELM_SCROLLER_POLICY_ON
+        ELM_SCROLLER_POLICY_OFF
+    ctypedef enum Elm_Scroller_Policy:
+        pass
+
+    cpdef enum Elm_Scroller_Single_Direction:
+        ELM_SCROLLER_SINGLE_DIRECTION_NONE
+        ELM_SCROLLER_SINGLE_DIRECTION_SOFT
+        ELM_SCROLLER_SINGLE_DIRECTION_HARD
+        ELM_SCROLLER_SINGLE_DIRECTION_LAST
+    ctypedef enum Elm_Scroller_Single_Direction:
+        pass
+
+    cpdef enum Elm_Scroller_Movement_Block:
+        ELM_SCROLLER_MOVEMENT_NO_BLOCK
+        ELM_SCROLLER_MOVEMENT_BLOCK_VERTICAL
+        ELM_SCROLLER_MOVEMENT_BLOCK_HORIZONTAL
+    ctypedef enum Elm_Scroller_Movement_Block:
+        pass
+
+
     Evas_Object             *elm_scroller_add(Evas_Object *parent)
     void                     elm_scroller_custom_widget_base_theme_set(Evas_Object *obj, const char *widget, const char *base)
     void                     elm_scroller_content_min_limit(Evas_Object *obj, Eina_Bool w, Eina_Bool h)

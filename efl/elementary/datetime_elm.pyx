@@ -235,14 +235,6 @@ from object cimport Object
 
 from datetime import datetime
 
-cimport enums
-
-ELM_DATETIME_YEAR = enums.ELM_DATETIME_YEAR
-ELM_DATETIME_MONTH = enums.ELM_DATETIME_MONTH
-ELM_DATETIME_DATE = enums.ELM_DATETIME_DATE
-ELM_DATETIME_HOUR = enums.ELM_DATETIME_HOUR
-ELM_DATETIME_MINUTE = enums.ELM_DATETIME_MINUTE
-ELM_DATETIME_AMPM = enums.ELM_DATETIME_AMPM
 
 cdef class Datetime(Object):
     """

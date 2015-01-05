@@ -1,7 +1,24 @@
 from efl.evas cimport Eina_Bool, Evas_Object
-from enums cimport Elm_Icon_Lookup_Order
+
 
 cdef extern from "Elementary.h":
+
+    cpdef enum Elm_Icon_Lookup_Order:
+        ELM_ICON_LOOKUP_FDO_THEME
+        ELM_ICON_LOOKUP_THEME_FDO
+        ELM_ICON_LOOKUP_FDO
+        ELM_ICON_LOOKUP_THEME
+    ctypedef enum Elm_Icon_Lookup_Order:
+        pass
+
+    cpdef enum Elm_Icon_Type:
+        ELM_ICON_NONE
+        ELM_ICON_FILE
+        ELM_ICON_STANDARD
+    ctypedef enum Elm_Icon_Type:
+        pass
+
+
     Evas_Object *           elm_icon_add(Evas_Object *parent)
     void                    elm_icon_thumb_set(Evas_Object *obj, const char *file, const char *group)
     Eina_Bool               elm_icon_standard_set(Evas_Object *obj, const char *name)

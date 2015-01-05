@@ -69,13 +69,6 @@ from efl.utils.conversions cimport _ctouni
 from efl.evas cimport Object as evasObject
 from layout_class cimport LayoutClass
 
-cimport enums
-
-ELM_BG_OPTION_CENTER = enums.ELM_BG_OPTION_CENTER
-ELM_BG_OPTION_SCALE = enums.ELM_BG_OPTION_SCALE
-ELM_BG_OPTION_STRETCH = enums.ELM_BG_OPTION_STRETCH
-ELM_BG_OPTION_TILE = enums.ELM_BG_OPTION_TILE
-ELM_BG_OPTION_LAST = enums.ELM_BG_OPTION_LAST
 
 cdef class Background(LayoutClass):
     """

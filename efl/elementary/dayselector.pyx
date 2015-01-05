@@ -114,16 +114,6 @@ from efl.utils.conversions cimport python_list_strings_to_array_of_strings, \
     eina_list_strings_to_python_list
 from layout_class cimport LayoutClass
 
-cimport enums
-
-ELM_DAYSELECTOR_SUN = enums.ELM_DAYSELECTOR_SUN
-ELM_DAYSELECTOR_MON = enums.ELM_DAYSELECTOR_MON
-ELM_DAYSELECTOR_TUE = enums.ELM_DAYSELECTOR_TUE
-ELM_DAYSELECTOR_WED = enums.ELM_DAYSELECTOR_WED
-ELM_DAYSELECTOR_THU = enums.ELM_DAYSELECTOR_THU
-ELM_DAYSELECTOR_FRI = enums.ELM_DAYSELECTOR_FRI
-ELM_DAYSELECTOR_SAT = enums.ELM_DAYSELECTOR_SAT
-ELM_DAYSELECTOR_MAX = enums.ELM_DAYSELECTOR_MAX
 
 cdef class Dayselector(LayoutClass):
     """

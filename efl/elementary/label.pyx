@@ -100,17 +100,6 @@ from efl.evas cimport Object as evasObject
 from layout_class cimport LayoutClass
 from efl.utils.deprecated cimport DEPRECATED
 
-cimport enums
-
-ELM_WRAP_NONE = enums.ELM_WRAP_NONE
-ELM_WRAP_CHAR = enums.ELM_WRAP_CHAR
-ELM_WRAP_WORD = enums.ELM_WRAP_WORD
-ELM_WRAP_MIXED = enums.ELM_WRAP_MIXED
-
-ELM_LABEL_SLIDE_MODE_NONE = enums.ELM_LABEL_SLIDE_MODE_NONE
-ELM_LABEL_SLIDE_MODE_AUTO = enums.ELM_LABEL_SLIDE_MODE_AUTO
-ELM_LABEL_SLIDE_MODE_ALWAYS = enums.ELM_LABEL_SLIDE_MODE_ALWAYS
-
 
 cdef class Label(LayoutClass):
     """
@@ -194,26 +183,25 @@ cdef class Label(LayoutClass):
     def ellipsis_get(self):
         return elm_label_ellipsis_get(self.obj)
 
-    property slide:
-        """
-
-        .. deprecated:: 1.8
-            Use :py:attr:`slide_mode` instead.
-
-        """
-        def __get__(self):
-            return self.slide_get()
-
-        def __set__(self, slide):
-            self.slide_set(ELM_LABEL_SLIDE_MODE_ALWAYS if slide else ELM_LABEL_SLIDE_MODE_NONE)
-
-    @DEPRECATED("1.8", "Use :py:attr:`slide_mode` instead.")
-    def slide_set(self, bint slide):
-        elm_label_slide_mode_set(self.obj,
-            ELM_LABEL_SLIDE_MODE_ALWAYS if slide else ELM_LABEL_SLIDE_MODE_NONE)
-    @DEPRECATED("1.8", "Use :py:attr:`slide_mode` instead.")
-    def slide_get(self):
-        return bool(elm_label_slide_mode_get(self.obj))
+#     property slide:
+#         """
+# 
+#         .. deprecated:: 1.8
+#             Use :py:attr:`slide_mode` instead.
+# 
+#         """
+#         def __get__(self):
+#             return self.slide_get()
+# 
+#         def __set__(self, slide):
+#             self.slide_set(True if slide else False)
+# 
+#     @DEPRECATED("1.8", "Use :py:attr:`slide_mode` instead.")
+#     def slide_set(self, bint slide):
+#         elm_label_slide_mode_set(self.obj, 2 if slide else 0)
+#     @DEPRECATED("1.8", "Use :py:attr:`slide_mode` instead.")
+#     def slide_get(self):
+#         return bool(elm_label_slide_mode_get(self.obj))
 
     property slide_duration:
         """The duration time in moving text from slide begin position to

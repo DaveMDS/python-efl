@@ -1,8 +1,17 @@
 from efl.evas cimport Evas_Object, Eina_List, Eina_Bool
 from object_item cimport Elm_Object_Item
-from enums cimport Elm_Colorselector_Mode
+
 
 cdef extern from "Elementary.h":
+
+    cpdef enum Elm_Colorselector_Mode:
+        ELM_COLORSELECTOR_PALETTE
+        ELM_COLORSELECTOR_COMPONENTS
+        ELM_COLORSELECTOR_BOTH
+    ctypedef enum Elm_Colorselector_Mode:
+        pass
+
+
     Evas_Object *           elm_colorselector_add(Evas_Object *parent)
     void                    elm_colorselector_color_set(Evas_Object *obj, int r, int g, int b, int a)
     void                    elm_colorselector_color_get(const Evas_Object *obj, int *r, int *g, int *b, int *a)
