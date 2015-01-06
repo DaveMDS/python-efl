@@ -702,8 +702,12 @@ cdef extern from "Evas.h":
     void evas_object_size_hint_aspect_set(Evas_Object *obj, Evas_Aspect_Control aspect, Evas_Coord w, Evas_Coord h)
     void evas_object_size_hint_align_get(const Evas_Object *obj, double *x, double *y)
     void evas_object_size_hint_align_set(Evas_Object *obj, double x, double y)
+    void evas_object_size_hint_fill_get(const Evas_Object *obj, double *x, double *y)
+    void evas_object_size_hint_fill_set(Evas_Object *obj, double x, double y)
     void evas_object_size_hint_weight_get(const Evas_Object *obj, double *x, double *y)
     void evas_object_size_hint_weight_set(Evas_Object *obj, double x, double y)
+    void evas_object_size_hint_expand_get(const Evas_Object *obj, double *x, double *y)
+    void evas_object_size_hint_expand_set(Evas_Object *obj, double x, double y)
     void evas_object_size_hint_padding_get(const Evas_Object *obj, Evas_Coord *l, Evas_Coord *r, Evas_Coord *t, Evas_Coord *b)
     void evas_object_size_hint_padding_set(Evas_Object *obj, Evas_Coord l, Evas_Coord r, Evas_Coord t, Evas_Coord b)
 

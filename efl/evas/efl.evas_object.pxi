@@ -851,14 +851,16 @@ cdef class Object(Eo):
         This is not an enforcement, just a hint that can be used by
         other objects like Edje, boxes, tables and others.
 
-        Accepted values are in the 0.0 to 1.0 range, with the special
-        value -1.0 used to specify"justify" or "fill" by some users.
-        See documentation of possible users.
+        Accepted values are in the 0.0 to 1.0 range, with the special value
+        -1.0 (EVAS_HINT_FILL) used to specify "justify" or "fill" by some
+        users.
 
         When this property changes, EVAS_CALLBACK_CHANGED_SIZE_HINTS
         will be emitted.
 
         :type: (double **x**, double **y**)
+
+        .. seealso:: :ref:`evas-size-hints`
 
         """
         def __get__(self):
@@ -877,6 +879,37 @@ cdef class Object(Eo):
     def size_hint_align_set(self, float x, float y):
         evas_object_size_hint_align_set(self.obj, x, y)
 
+    property size_hint_fill:
+        """Hint about fill.
+
+        This is just a convenience property to make it easier to understand
+        that **align** is also used for **fill** properties (as fill is mutually
+        exclusive to align).
+        This is **exactly** the same as using :attr:`size_hint_align`
+
+        :type: (double **x**, double **y**)
+
+        .. seealso:: :ref:`evas-size-hints`
+
+        .. versionadded:: 1.13
+
+        """
+        def __get__(self):
+            cdef double x, y
+            evas_object_size_hint_fill_get(self.obj, &x, &y)
+            return (x, y)
+
+        def __set__(self, spec):
+            x, y = spec
+            evas_object_size_hint_fill_set(self.obj, x, y)
+
+    def size_hint_fill_get(self):
+        cdef double x, y
+        evas_object_size_hint_fill_get(self.obj, &x, &y)
+        return (x, y)
+    def size_hint_fill_set(self, float x, float y):
+        evas_object_size_hint_fill_set(self.obj, x, y)
+
     property size_hint_weight:
         """Hint about weight.
 
@@ -889,6 +922,8 @@ cdef class Object(Eo):
         will be emitted.
 
         :type: (double **x**, double **y**)
+
+        .. seealso:: :ref:`evas-size-hints`
 
         """
         def __get__(self):
@@ -906,6 +941,36 @@ cdef class Object(Eo):
         return (x, y)
     def size_hint_weight_set(self, float x, float y):
         evas_object_size_hint_weight_set(self.obj, x, y)
+
+    property size_hint_expand:
+        """Hint about expand.
+
+        This is just a convenience property to make it easier to understand
+        that **weight** is also used for **expand** properties.
+        This is **exactly** the same as using :attr:`size_hint_weight`
+
+        :type: (double **x**, double **y**)
+
+        .. seealso:: :ref:`evas-size-hints`
+
+        .. versionadded:: 1.13
+
+        """
+        def __get__(self):
+            cdef double x, y
+            evas_object_size_hint_expand_get(self.obj, &x, &y)
+            return (x, y)
+
+        def __set__(self, spec):
+            x, y = spec
+            evas_object_size_hint_expand_set(self.obj, x, y)
+
+    def size_hint_expand_get(self):
+        cdef double x, y
+        evas_object_size_hint_expand_get(self.obj, &x, &y)
+        return (x, y)
+    def size_hint_expand_set(self, float x, float y):
+        evas_object_size_hint_expand_set(self.obj, x, y)
 
     property size_hint_padding:
         """Hint about padding.

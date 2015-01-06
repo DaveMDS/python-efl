@@ -167,6 +167,56 @@ display logic, but does very little high-level logic such as
 scrollbars, sliders, push buttons etc.
 
 
+.. _evas-size-hints:
+
+Size Hints
+----------
+
+Evas :class:`Object` may carry hints, so that another object that acts as a
+manager may know how to properly position and resize its subordinate objects.
+
+The Size Hints provide a common interface that is recommended as the
+protocol for such information.
+
+For example, box objects use alignment hints to align its lines/columns
+inside its container, padding hints to set the padding between each
+individual child, etc.
+
+Size Hints are controlled using various :class:`Object` properties:
+
+ * :attr:`~Object.size_hint_weight` (also called :attr:`~Object.size_hint_expand`)
+ * :attr:`~Object.size_hint_align` (also called :attr:`~Object.size_hint_fill`)
+ * :attr:`~Object.size_hint_min`
+ * :attr:`~Object.size_hint_max`
+ * :attr:`~Object.size_hint_aspect`
+ * :attr:`~Object.size_hint_padding`
+ * :attr:`~Object.size_hint_display_mode`
+ * :attr:`~Object.size_hint_request`
+
+The **weight** and the **align** are quite special, they are also used to
+express the **expand** and the **fill** property of the object. For this
+reason some helper are provided:
+
+ * ``EVAS_HINT_EXPAND`` = -1.0 (to be used with **weight** or **expand**)
+ * ``EVAS_HINT_FILL`` = 1.0 (to be used with **align** or **fill**)
+
+And also:
+
+ * ``EXPAND_BOTH``  = EVAS_HINT_EXPAND, EVAS_HINT_EXPAND
+ * ``EXPAND_HORIZ`` = EVAS_HINT_EXPAND, 0.0
+ * ``EXPAND_VERT``  = 0.0, EVAS_HINT_EXPAND
+ * ``FILL_BOTH``  = EVAS_HINT_FILL, EVAS_HINT_FILL
+ * ``FILL_HORIZ`` = EVAS_HINT_FILL, 0.5
+ * ``FILL_VERT``  = 0.5, EVAS_HINT_FILL
+
+You can also build your own as needed, for example you can define:
+
+ * ``FILL_AND_ALIGN_TOP`` = EVAS_HINT_FILL, 0.0
+ * ``FILL_AND_ALIGN_RIGHT`` = 1.0, EVAS_HINT_FILL
+
+and so on...
+
+
 Next Steps
 ----------
 
