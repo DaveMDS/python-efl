@@ -1785,7 +1785,7 @@ cdef class Object(Eo):
         for the given keys.
 
         ``keyname`` is a platform dependent symbolic name for the key
-        pressed (see :ref:`Evas_Keys` for more information).
+        pressed
 
         ``modifiers`` and ``not_modifiers`` are bit masks of all the
         modifiers that must and mustn't, respectively, be pressed along

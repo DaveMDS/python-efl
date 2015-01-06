@@ -23,7 +23,7 @@ cdef class GengridItem(ObjectItem):
 
     def __init__(self, GengridItemClass item_class not None, item_data = None, \
         func = None, func_data = None, *args, **kwargs):
-        """
+        """GengridItem(..)
 
         :param item_class: a valid instance that defines the
             behavior of this item. See :py:class:`GengridItemClass`.
@@ -364,7 +364,7 @@ cdef class GengridItem(ObjectItem):
     property tooltip_style:
         """Style for this object tooltip.
 
-        .. note::: before you set a style you should define a tooltip with
+        .. note:: before you set a style you should define a tooltip with
             elm_gengrid_item_tooltip_content_cb_set() or
             elm_gengrid_item_tooltip_text_set()
 
