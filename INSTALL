@@ -18,7 +18,6 @@
  * To build the DOCS you will also need:
    - python-sphinx
    - [optional] graphviz
-   - [optional] youtube module from the sphinx contrib repository.
 
 
 

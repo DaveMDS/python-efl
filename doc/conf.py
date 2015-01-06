@@ -43,24 +43,6 @@ extensions = [
     'sphinx.ext.coverage',
 ]
 
-try:
-    import gv
-except ImportError:
-    pass
-else:
-    extensions.append('sphinx.ext.inheritance_diagram')
-    graphviz_output_format = "svg" # png (default) or svg
-    graphviz_dot_args = ["-Gbgcolor=transparent", "-Ncolor=#4399FF",
-                         "-Nfontcolor=white", "-Ecolor=blue"]
-
-try:
-    import sphinxcontrib.youtube
-except ImportError:
-    pass
-else:
-    extensions.append('sphinxcontrib.youtube')
-
-
 # Add any paths that contain templates here, relative to this directory.
 templates_path = ['_templates']
 
@@ -176,6 +158,34 @@ def autodoc_process_signature(app, what, name, obj, options, signature, return_a
             params.append(param.rpartition(' ')[2])
 
     return ('(%s)' % ', '.join(params), return_annotation)
+
+
+# -- Inheritance Diagram ------------------------------------------------------
+
+try:
+    import gv
+except ImportError:
+    pass
+else:
+    extensions.append('sphinx.ext.inheritance_diagram')
+    # svg scale better (look at the full elm dia)
+    # but svg links are broken :(
+    graphviz_output_format = "svg" # png (default) or svg
+    inheritance_graph_attrs = dict(
+        bgcolor = 'gray25', #404040
+    )
+    inheritance_node_attrs = dict(
+        style = 'rounded', # or 'filled',
+        # fillcolor = "gray20", # bg color (should be #CCCCCC)
+        color = 'gray10',     # border color (should be #202020)
+        fontcolor = 'white',
+        font = 'sans',
+        
+    )
+    inheritance_edge_attrs = dict(
+        color = 'dodgerblue3', # arrow color (should be #4399FF)
+        dir = 'none', # arrow direction (back, forward, both or none)
+    )
 
 
 # -- Options for HTML output ---------------------------------------------------
