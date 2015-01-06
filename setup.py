@@ -22,10 +22,6 @@ CYTHON_MIN_VERSION = "0.21"
 EFL_MIN_VER = RELEASE
 ELM_MIN_VER = RELEASE
 
-# disable ecore_x by default (change here to enable)
-ENABLE_ECORE_X = False
-
-
 # Add git commit count for dev builds
 if vers[2] == 99:
     try:
@@ -277,12 +273,15 @@ if set(("build", "build_ext", "install", "bdist", "sdist")) & set(sys.argv):
     ext_modules.append(ecore_ext)
 
     # === Ecore X ===
-    if ENABLE_ECORE_X:
+    try:
         ecore_input_cflags, ecore_input_libs = pkg_config('EcoreInput',
                                                           'ecore-input',
                                                           EFL_MIN_VER)
         ecore_x_cflags, ecore_x_libs = pkg_config('EcoreX', 'ecore-x',
                                                   EFL_MIN_VER)
+    except SystemExit:
+        pass
+    else:
         ecore_x_ext = Extension("ecore_x",
                                 ["efl/ecore_x/efl.ecore_x" + module_suffix],
                                 include_dirs=['include/'],
@@ -320,7 +319,7 @@ if set(("build", "build_ext", "install", "bdist", "sdist")) & set(sys.argv):
                          extra_link_args=edje_libs + eina_libs + evas_libs)
     ext_modules.append(edje_ext)
 
-    # --- Edje_Edit ---
+    # === Edje_Edit ===
     edje_edit_ext = Extension("edje_edit",
                               ["efl/edje/efl.edje_edit" + module_suffix],
                               define_macros=[('EDJE_EDIT_IS_UNSTABLE_AND_I_KNOW_ABOUT_IT', None)],
