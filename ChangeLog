@@ -1,0 +1,553 @@
+
+===================
+2014-11-23  v1.12.0
+===================
+
+Additions:
+
+ * Edje.base_scale
+ * Edje.part_text_input_hint_get
+ * Edje.part_text_input_hint_set
+ * elm.ELM_PROCESS_STATE_FOREGROUND
+ * elm.ELM_PROCESS_STATE_BACKGROUND
+ * elm.process_state_get
+ * elm.ELM_INPUT_HINT_NONE
+ * elm.ELM_INPUT_HINT_AUTO_COMPLETE
+ * elm.ELM_INPUT_HINT_SENSITIVE_DATA
+ * elm.ELM_INPUT_PANEL_LAYOUT_NORMAL_VARIATION_NORMAL
+ * elm.ELM_INPUT_PANEL_LAYOUT_NORMAL_VARIATION_FILENAME
+ * elm.ELM_INPUT_PANEL_LAYOUT_NORMAL_VARIATION_PERSON_NAME
+ * elm.ELM_INPUT_PANEL_LAYOUT_NUMBERONLY_VARIATION_NORMAL
+ * elm.ELM_INPUT_PANEL_LAYOUT_NUMBERONLY_VARIATION_SIGNED
+ * elm.ELM_INPUT_PANEL_LAYOUT_NUMBERONLY_VARIATION_DECIMAL
+ * elm.ELM_INPUT_PANEL_LAYOUT_NUMBERONLY_VARIATION_SIGNED_AND_DECIMAL
+ * elm.ELM_INPUT_PANEL_LAYOUT_PASSWORD_VARIATION_NORMAL
+ * elm.ELM_INPUT_PANEL_LAYOUT_PASSWORD_VARIATION_NUMBERONLY
+ * elm.Entry.input_hint
+ * elm.Fileselector.current_name
+ * elm.Panel.scrollable
+ * elm.Panel.scrollable_content_size
+
+
+===================
+2014-09-14  v1.11.0
+===================
+
+Additions:
+
+ * ecore.x.screensaver_blank_get
+ * ecore.x.screensaver_blank_set
+ * ecore.x.screensaver_custom_blanking_disable
+ * ecore.x.screensaver_custom_blanking_enable
+ * ecore.x.screensaver_event_available_get
+ * ecore.x.screensaver_event_listen_set
+ * ecore.x.screensaver_expose_get
+ * ecore.x.screensaver_expose_set
+ * ecore.x.screensaver_idle_time_get
+ * ecore.x.screensaver_interval_get
+ * ecore.x.screensaver_interval_set
+ * ecore.x.screensaver_resume
+ * ecore.x.screensaver_set
+ * ecore.x.screensaver_supend
+ * ecore.x.screensaver_timeout_get
+ * ecore.x.screensaver_timeout_set
+ * ELM_GLOB_MATCH_NO_ESCAPE
+ * ELM_GLOB_MATCH_PATH
+ * ELM_GLOB_MATCH_PERIOD
+ * ELM_GLOB_MATCH_NOCASE
+ * ELM_GENGRID_REORDER_TYPE_NORMAL
+ * ELM_GENGRID_REORDER_TYPE_SWAP
+ * elm.Gengrid.reorder_type
+ * elm.Gengrid.search_by_text_item_get
+ * elm.Genlist.search_by_text_item_get
+ * elm.Map.region_zoom_bring_in
+ * elm.Panes.content_left_min_relative_size
+ * elm.Panes.content_left_min_size
+ * elm.Panes.content_right_min_relative_size
+ * elm.Panes.content_right_min_size
+ * elm.Toolbar.callback_selected_add
+ * elm.Toolbar.callback_unselected_add
+ * Emotion.on_open_done_add
+ * Emotion.on_open_done_del
+ * Emotion.on_playback_started_add
+ * Emotion.on_playback_started_del
+ * Emotion.on_position_load_failed_add
+ * Emotion.on_position_load_failed_del
+ * Emotion.on_position_load_succeed_add
+ * Emotion.on_position_load_succeed_del
+ * Emotion.on_position_save_failed_add
+ * Emotion.on_position_save_failed_del
+ * Emotion.on_position_save_succeed_add
+ * Emotion.on_position_save_succeed_del
+ * Emotion.on_position_update_add
+ * Emotion.on_position_update_del
+
+===================
+2014-05-31  v1.10.0
+===================
+
+Additions:
+
+ * elm.Configuration.accel_preference
+ * elm.Configuration.atspi_mode
+ * elm.Configuration.audio_mute_get
+ * elm.Configuration.audio_mute_set
+ * elm.Configuration.color_classes_list
+ * elm.Configuration.color_overlay_apply
+ * elm.Configuration.color_overlay_list
+ * elm.Configuration.color_overlay_set
+ * elm.Configuration.color_overlay_unset
+ * elm.Configuration.focus_autoscroll_mode
+ * elm.Configuration.focus_highlight_clip_disabled
+ * elm.Configuration.focus_move_policy
+ * elm.Configuration.item_select_on_focus_disabled
+ * elm.Configuration.magnifier_enabled
+ * elm.Configuration.magnifier_scale
+ * elm.ELM_INPUT_PANEL_LAYOUT_DATETIME
+ * elm.ELM_INPUT_PANEL_LAYOUT_EMOTICON
+ * elm.ELM_INPUT_PANEL_RETURN_KEY_TYPE_SIGNIN
+ * elm.ELM_SYS_NOTIFY_CLOSED_EXPIRED
+ * elm.ELM_SYS_NOTIFY_CLOSED_DISMISSED
+ * elm.ELM_SYS_NOTIFY_CLOSED_REQUESTED
+ * elm.ELM_SYS_NOTIFY_CLOSED_UNDEFINED
+ * elm.ELM_SYS_NOTIFY_URGENCY_LOW
+ * elm.ELM_SYS_NOTIFY_URGENCY_NORMAL
+ * elm.ELM_SYS_NOTIFY_URGENCY_CRITICAL
+ * elm.sys_notify_close
+ * elm.sys_notify_send
+ * elm.ELM_OBJECT_MULTI_SELECT_MODE_DEFAULT
+ * elm.ELM_OBJECT_MULTI_SELECT_MODE_WITH_CONTROL
+ * elm.ELM_OBJECT_MULTI_SELECT_MODE_MAX
+ * elm.Gengrid.callback_item_focused_add
+ * elm.Gengrid.callback_item_reorder_anim_start_add
+ * elm.Gengrid.callback_item_reorder_anim_stop_add
+ * elm.Gengrid.callback_item_unfocused_add
+ * elm.Gengrid.multi_select_mode
+ * elm.Gengrid.page_relative
+ * elm.Gengrid.page_size
+ * elm.Gengrid.reorder_mode_start
+ * elm.Gengrid.reorder_mode_stop
+ * elm.Gengrid.wheel_disabled
+ * elm.Genlist.callback_item_focused_add
+ * elm.Genlist.callback_item_unfocused_add
+ * elm.Hoversel.callback_item_focused_add
+ * elm.Hoversel.callback_item_unfocused_add
+ * elm.List.callback_item_focused_add
+ * elm.List.callback_item_unfocused_add
+ * elm.ELM_FOCUS_MOVE_POLICY_CLICK
+ * elm.ELM_FOCUS_MOVE_POLICY_IN
+ * elm.ELM_FOCUS_AUTOSCROLL_MODE_SHOW
+ * elm.ELM_FOCUS_AUTOSCROLL_MODE_NONE
+ * elm.ELM_FOCUS_AUTOSCROLL_MODE_BRING_IN
+ * elm.Object.focused_item
+ * elm.Object.scroll_item_loop_enabled
+ * elm.ObjectItem.focus
+ * elm.ObjectItem.style
+ * elm.ObjectItem.track_count
+ * elm.ObjectItem.track_object
+ * elm.Popup.callback_item_focused_add
+ * elm.Popup.callback_item_unfocused_add
+ * elm.Toolbar.callback_item_focused_add
+ * elm.Toolbar.callback_item_unfocused_add
+
+
+Deprecation:
+ * elm.Datetime.callback_languge_changed_add:
+    Use callback_language_changed_add instead.
+
+
+==================
+2014-03-05  v1.9.0
+==================
+
+Additions:
+
+ * elm.Clock.pause
+ * elm.Colorselector.palette_items_get
+ * elm.Colorselector.palette_selected_item_get
+ * elm.ColorselectorPaletteItem.selected
+ * elm.Ctxpopup.auto_hide_disabled
+ * elm.Entry.callback_rejected_add
+ * elm.Entry.input_panel_show_on_demand
+ * elm.ELM_FILESELECTOR_SORT_BY_FILENAME_ASC
+ * elm.ELM_FILESELECTOR_SORT_BY_FILENAME_DESC
+ * elm.ELM_FILESELECTOR_SORT_BY_TYPE_ASC
+ * elm.ELM_FILESELECTOR_SORT_BY_TYPE_DESC
+ * elm.ELM_FILESELECTOR_SORT_BY_SIZE_ASC
+ * elm.ELM_FILESELECTOR_SORT_BY_SIZE_DESC
+ * elm.ELM_FILESELECTOR_SORT_BY_MODIFIED_ASC
+ * elm.ELM_FILESELECTOR_SORT_BY_MODIFIED_DESC
+ * elm.Fileselector.custom_filter_append
+ * elm.Fileselector.sort_method
+ * elm.Fileselector.thumbnail_size
+ * elm.GenlistItem.subitems_count
+ * elm.GenlistItem.subitems_get
+ * elm.Hoversel.callback_expanded_add
+ * elm.Label.slide_speed
+ * elm.LayoutClass.content_swallow_list_get
+ * elm.Mapbuf.point_color_get
+ * elm.Mapbuf.point_color_set
+ * elm.MultiButtonEntry.format_function_set
+ * elm.NaviframeItem.title_enabled
+ * elm.NaviframeItem.title_enabled_get
+ * elm.NaviframeItem.title_enabled_set
+ * elm.Object.focus_highlight_style
+ * elm.Object.tooltip_move_freeze_get
+ * elm.Object.tooltip_move_freeze_pop
+ * elm.Object.tooltip_move_freeze_push
+ * elm.Window.wm_rotation_available_rotations
+ * elm.Window.wm_rotation_manual_done
+ * elm.Window.wm_rotation_manual_rotation_done
+ * elm.Window.wm_rotation_preferred_rotation
+ * elm.Window.wm_rotation_supported
+
+
+Deprecation:
+ * elm.FileselectorButton.expandable: Combine with Fileselector class instead
+ * elm.FileselectorButton.folder_only: Combine with Fileselector class instead
+ * elm.FileselectorButton.is_save: Combine with Fileselector class instead
+ * elm.FileselectorButton.path: Combine with Fileselector class instead
+ * elm.FileselectorEntry.callback_activated_add: Combine with Fileselector class instead
+ * elm.FileselectorEntry.expandable: Combine with Fileselector class instead
+ * elm.FileselectorEntry.folder_only: Combine with Fileselector class instead
+ * elm.FileselectorEntry.is_save: Combine with Fileselector class instead
+ * elm.FileselectorEntry.path: Combine with Fileselector class instead
+ * elm.FileselectorEntry.selected: Combine with Fileselector class instead
+ * elm.NaviframeItem.title_visible: Use title_enabled instead.
+
+
+==================
+2014-12-08  v1.8.0
+==================
+
+Changes:
+
+ * ecore.file.Download => efl.ecore.FileDownload
+ * edje.edit.EdjeEdit => efl.edje_edit.EdjeEdit
+ * Emotion: Keyword argument module_filename was renamed to module_name
+ * elm.Calendar.selected_time: Returns None when the selected date cannot be fetched
+ * elm.Ctxpopup: Now inherits from LayoutClass
+ * elm.Datetime.value:
+    Returns None when the value cannot be fetched
+    raise RuntimeError when setting the value failed
+ * elm.Datetime.value_max:
+    Returns None when the max value cannot be fetched
+    raise RuntimeError when setting the max value failed
+ * elm.Datetime.value_min:
+    Returns None when the min value cannot be fetched
+    raise RuntimeError when setting the min value failed
+ * elm.Entry: Now inherits from LayoutClass
+ * elm.Entry.cursor_geometry_get: Returns None when the cursor geometry cannot be fetched.
+ * elm.Entry.file: Raise RuntimeError when setting the file fails, instead of returning a bool.
+ * elm.FileselectorEntry: Inherits from LayoutClass.
+ * elm.GestureLayer.attach: Raise RuntimeError on failure, instead of returning a bool
+ * elm.Icon.standard: Raises RuntimeWarning when setting the standard name fails, instead of returning a bool.
+ * elm.Image.file: Raises RuntimeError when setting the file fails, instead of returning a bool.
+ * elm.LayoutClass.box_append: Raises RuntimeError if adding the child fails
+ * elm.LayoutClass.box_insert_at: Raises RuntimeError if adding the child fails
+ * elm.LayoutClass.box_insert_before: Raises RuntimeError if adding the child fails
+ * elm.LayoutClass.box_prepend: Raises RuntimeError if adding the child fails
+ * elm.LayoutClass.box_remove_all: Raises RuntimeError if removing the children fails
+ * elm.LayoutClass.content_set: Raises RuntimeError if setting the content fails.
+ * elm.LayoutClass.file: Raises RuntimeError if setting the file fails
+ * elm.LayoutClass.part_cursor_engine_only_set: Raises RuntimeError if setting the value fails
+ * elm.LayoutClass.part_cursor_set: Raises RuntimeError if setting the cursor fails
+ * elm.LayoutClass.part_cursor_style_set: Raises RuntimeError if setting the cursor style fails
+ * elm.LayoutClass.part_cursor_unset: Raises RuntimeError if unsetting the cursor fails
+ * elm.LayoutClass.table_clear: Raises RuntimeError if clearing the table fails
+ * elm.LayoutClass.table_pack: Raises RuntimeError if adding the child fails
+ * elm.LayoutClass.text_set: Raises RuntimeError if setting the text fails
+ * elm.LayoutClass.theme: Raises RuntimeError if setting the theme fails
+ * elm.Panel: Inherits from LayoutClass.
+ * elm.Photo.file: Raises RuntimeError if setting the file fails
+ * elm.Plug.connect: Raises RuntimeError if adding the child fails
+ * elm.Popup: Inherits from LayoutClass.
+ * elm.Thumb.editable: Raises RuntimeError if cannot be set as editable
+ * elm.Toolbar: Inherits from LayoutClass.
+ * elm.Video.file: Raises RuntimeError if setting the file/uri fails
+ * elm.Window.socket_listen: Raises RuntimeError if creating a socket fails
+ * elm.MenuItem.subitems: Calling del on this property clears the subitems
+
+
+Deprecation:
+
+ * elm.Diskselector.bounce: You should combine with Scrollable class instead
+ * elm.Diskselector.scroller_policy: You should combine with Scrollable class instead
+ * elm.Entry.bounce: You should combine with Scrollable class instead
+ * elm.Entry.markup_to_utf8: Use the module level markup_to_utf8() method instead
+ * elm.Entry.scrollbar_policy: You should combine with Scrollable class instead
+ * elm.Entry.utf8_to_markup: Use the module level utf8_to_markup() method instead
+ * elm.Entry_markup_to_utf8: Use markup_to_utf8() instead
+ * elm.Entry_utf8_to_markup: Use utf8_to_markup() instead
+ * elm.Gengrid.bounce: You should combine with Scrollable class instead
+ * elm.Gengrid.scroller_policy: You should combine with Scrollable class instead
+ * elm.GengridItem.item_tooltip_unset: Use tooltip_unset() instea
+ * elm.Genlist.bounce: You should combine with Scrollable class instead
+ * elm.Genlist.scroller_policy: You should combine with Scrollable class instead
+ * elm.Index.item_find: Broken, don't use
+ * elm.Label.slide: Use slide_mode instead
+ * elm.Label.slide_get: Use slide_mode instead
+ * elm.Label.slide_set: Use slide_mode instead
+ * elm.List.bounce: You should combine with Scrollable class instead
+ * elm.List.scroller_policy: You should combine with Scrollable class instead
+ * elm.Map.bounce: You should combine with Scrollable class instead
+ * elm.Map.scroller_policy: You should combine with Scrollable class instead
+ * elm.NaviframeItem.item_pop_to: Use pop_to() instead
+ * elm.NaviframeItem.item_promote: Use promote() instead
+ * elm.need_e_dbus: Use need_eldbus() for eldbus (v2) support. Old API is deprecated
+ * elm.Notify.orient_get: Use align instead
+ * elm.Notify.orient_set: Use align instead
+ * elm.Object.domain_translatable_text_part_set: Use domain_translatable_part_text_set() instead
+ * elm.Object.translatable_text_part_get: Use translatable_part_text_get() instead
+ * elm.Object.widget_check: Use type(obj) instead
+ * elm.ObjectItem.data_get: Use the data attribute (dict) instead
+ * elm.ObjectItem.data_set: Use the data attribute (dict) instead
+ * elm.Photocam.bounce: You should combine with Scrollable class instead
+ * elm.Photocam.scroller_policy: You should combine with Scrollable class instead
+ * elm.Radio.value_pointer_set: Don't use this, only works in C
+ * elm.Scrollable.custom_widget_base_theme_set: Use theme instead
+ * elm.Toolbar.bounce: You should combine with Scrollable class instead
+ * elm.Toolbar.scroller_policy: You should combine with Scrollable class instead
+ * elm.Web.uri: Use property "url" instead
+
+
+Additions:
+ * efl container package
+ * Loggers
+ * Using keyword arguments to set properties
+
+ * ecore.FileDownload
+ * ecore.FileMonitor
+ * ecore.Poller
+ * ecore.Timer.delay
+ * ecore.Timer.pending
+ * ecore.Timer.reset
+
+ * Edje.mirrored
+ * Edje.preload
+ * Edje.scale
+ * Edje.size_min_restricted_calc
+ * Edje.update_hints
+
+ * evas.Image.source_events
+ * evas.Image.source_visible
+ * evas.Textgrid
+ * evas.TextgridCell
+
+ * Emotion.bg_color
+ * Emotion.border
+ * Emotion.image_get
+ * Emotion.keep_aspect
+ * Emotion.last_position_load
+ * Emotion.last_position_save
+ * Emotion.play_speed
+ * Emotion.priority
+ * Emotion.suspend
+ * Emotion.video_subtitle_file
+
+ * elm.Popup.callback_language_changed_add
+ * elm.Bubble.callback_focused_add
+ * elm.Bubble.callback_unfocused_add
+ * elm.Button.callback_focused_add
+ * elm.Button.callback_unfocused_add
+ * elm.Calendar.callback_focused_add
+ * elm.Calendar.callback_unfocused_add
+ * elm.Calendar.displayed_time
+ * elm.Calendar.selectable
+ * elm.Check.callback_focused_add
+ * elm.Check.callback_unfocused_add
+ * elm.Clock.callback_focused_add
+ * elm.Clock.callback_unfocused_add
+ * elm.Colorselector.callback_focused_add
+ * elm.Colorselector.callback_unfocused_add
+ * elm.Configuration.clouseau_enabled
+ * elm.Configuration.glayer_double_tap_timeout
+ * elm.Configuration.glayer_long_tap_start_timeout
+ * elm.Configuration.indicator_service_get
+ * elm.Configuration.scroll_thumbscroll_acceleration_threshold
+ * elm.Configuration.scroll_thumbscroll_acceleration_time_limit
+ * elm.Configuration.scroll_thumbscroll_acceleration_weight
+ * elm.Configuration.scroll_thumbscroll_border_friction
+ * elm.Configuration.scroll_thumbscroll_flick_distance_tolerance
+ * elm.Configuration.scroll_thumbscroll_hold_threshold
+ * elm.Configuration.scroll_thumbscroll_min_friction
+ * elm.Configuration.selection_unfocused_clear
+ * elm.Configuration.softcursor_mode
+ * elm.Conformant.callback_clipboard_state_off_add
+ * elm.Conformant.callback_clipboard_state_on_add
+ * elm.Conformant.callback_virtualkeypad_state_off_add
+ * elm.Conformant.callback_virtualkeypad_state_on_add
+ * elm.Ctxpopup.callback_focused_add
+ * elm.Ctxpopup.callback_unfocused_add
+ * elm.Datetime.callback_focused_add
+ * elm.Datetime.callback_unfocused_add
+ * elm.Dayselector.weekdays_names
+ * elm.Diskselector.callback_focused_add
+ * elm.Diskselector.callback_unfocused_add
+ * elm.Entry.autocapital_type
+ * elm.Entry.context_menu_item_add
+ * elm.Entry.end_visible
+ * elm.Entry.input_panel_layout_variation
+ * elm.Entry.markup_filter_append
+ * elm.Entry.markup_filter_prepend
+ * elm.Entry.markup_filter_remove
+ * elm.Entry.text_style_user_peek
+ * elm.Entry.text_style_user_pop
+ * elm.Entry.text_style_user_push
+ * elm.EntryContextMenuItem
+ * elm.EntryContextMenuItem.icon
+ * elm.EntryContextMenuItem.label
+ * elm.Fileselector.filters_clear
+ * elm.Fileselector.hidden_visible
+ * elm.Fileselector.mime_types_filter_append
+ * elm.Fileselector.multi_select
+ * elm.Fileselector.selected_paths
+ * elm.Flip.flip_go_to
+ * elm.FlipSelector.callback_focused_add
+ * elm.FlipSelector.callback_unfocused_add
+ * elm.cache_all_flush
+ * elm.font_fontconfig_name_get
+ * elm.font_properties_free
+ * elm.font_properties_get
+ * elm.object_tree_dot_dump
+ * elm.object_tree_dump
+ * elm.Gengrid.at_xy_item_get
+ * elm.Gengrid.callback_focused_add
+ * elm.Gengrid.callback_unfocused_add
+ * elm.Gengrid.nth_item_get
+ * elm.GengridItem.append_to
+ * elm.GengridItem.insert_after
+ * elm.GengridItem.insert_before
+ * elm.GengridItem.prepend_to
+ * elm.GengridItem.sorted_insert
+ * elm.GengridItemClass.free
+ * elm.GengridItemClass.ref
+ * elm.GengridItemClass.unref
+ * elm.Genlist.callback_focused_add
+ * elm.Genlist.callback_unfocused_add
+ * elm.Genlist.focus_on_selection
+ * elm.Genlist.nth_item_get
+ * elm.GenlistItemClass.free
+ * elm.GenlistItemClass.ref
+ * elm.GenlistItemClass.unref
+ * elm.GestureLayer.continues_enable
+ * elm.GestureLayer.double_tap_timeout
+ * elm.GestureLayer.flick_time_limit_ms
+ * elm.GestureLayer.line_angular_tolerance
+ * elm.GestureLayer.line_distance_tolerance
+ * elm.GestureLayer.line_min_length
+ * elm.GestureLayer.long_tap_start_timeout
+ * elm.GestureLayer.rotate_angular_tolerance
+ * elm.GestureLayer.tap_finger_size
+ * elm.GestureLayer.zoom_distance_tolerance
+ * elm.GestureLayer.zoom_finger_factor
+ * elm.GestureLayer.zoom_wheel_factor
+ * elm.Hover.callback_focused_add
+ * elm.Hover.callback_unfocused_add
+ * elm.ImageErrorInfo
+ * elm.ImageProgressInfo
+ * elm.Index.callback_focused_add
+ * elm.Index.callback_unfocused_add
+ * elm.Index.delay_change_time
+ * elm.Index.omit_enabled
+ * elm.Label.slide_go
+ * elm.Label.slide_mode
+ * elm.LayoutClass.edje_object_can_access
+ * elm.LayoutClass.freeze
+ * elm.LayoutClass.thaw
+ * elm.List.at_xy_item_get
+ * elm.List.callback_focused_add
+ * elm.List.callback_unfocused_add
+ * elm.List.focus_on_selection
+ * elm.Map.callback_focused_add
+ * elm.Map.callback_unfocused_add
+ * elm.Mapbuf.auto
+ * elm.Menu.callback_dismissed_add
+ * elm.MultiButtonEntry.editable
+ * elm.Naviframe.callback_focused_add
+ * elm.Naviframe.callback_unfocused_add
+ * elm.need_eldbus
+ * elm.need_elocation
+ * elm.need_sys_notify
+ * elm.need_systray
+ * elm.ELM_NOTIFY_ALIGN_FILL
+ * elm.Notify.align
+ * elm.Object.domain_part_text_translatable_set
+ * elm.Object.domain_translatable_part_text_set
+ * elm.Object.focus_next_object_get
+ * elm.Object.focus_next_object_set
+ * elm.Object.focused_object
+ * elm.Object.orientation_mode_disabled
+ * elm.Object.scroll_freeze
+ * elm.Object.scroll_hold
+ * elm.Object.translatable_part_text_get
+ * elm.SelectionData.action
+ * elm.ObjectItem.domain_part_text_translatable_set
+ * elm.ObjectItem.domain_translatable_part_text_set
+ * elm.ObjectItem.translatable_part_text_get
+ * elm.Panel.callback_focused_add
+ * elm.Panel.callback_unfocused_add
+ * elm.Photocam.callback_focused_add
+ * elm.Photocam.callback_unfocused_add
+ * elm.PhotocamErrorInfo
+ * elm.PhotocamProgressInfo
+ * elm.Popup.callback_focused_add
+ * elm.Popup.callback_unfocused_add
+ * elm.Progressbar.callback_focused_add
+ * elm.Progressbar.callback_unfocused_add
+ * elm.Progressbar.part_value_get
+ * elm.Progressbar.part_value_set
+ * elm.Radio.callback_focused_add
+ * elm.Radio.callback_unfocused_add
+ * elm.Scrollable.callback_focused_add
+ * elm.Scrollable.callback_unfocused_add
+ * elm.Scrollable.movement_block
+ * elm.Scrollable.page_scroll_limit
+ * elm.Scrollable.page_size Getter for this property
+ * elm.Scrollable.page_snap
+ * elm.Scrollable.single_direction
+ * elm.Slider.callback_focused_add
+ * elm.Slider.callback_unfocused_add
+ * elm.Slider.step
+ * elm.Slideshow.callback_focused_add
+ * elm.Slideshow.callback_unfocused_add
+ * elm.Spinner.callback_focused_add
+ * elm.Spinner.callback_unfocused_add
+ * elm.Spinner.special_value_del
+ * elm.Spinner.special_value_get
+ * elm.Table.child_get
+ * elm.Thumb.aspect
+ * elm.Thumb.compress
+ * elm.Thumb.crop_align
+ * elm.Thumb.fdo_size
+ * elm.Thumb.format
+ * elm.Thumb.orientation
+ * elm.Thumb.quality
+ * elm.Thumb.size
+ * elm.Toolbar.callback_focused_add
+ * elm.Toolbar.callback_unfocused_add
+ * elm.Toolbar.reorder_mode
+ * elm.Toolbar.transverse_expanded
+ * elm.ToolbarItem.bring_in
+ * elm.ToolbarItem.show
+ * elm.Transit.smooth
+ * elm.Transit.tween_mode_factor
+ * elm.Player.callback_focused_add
+ * elm.Player.callback_unfocused_add
+ * elm.Video.callback_focused_add
+ * elm.Video.callback_unfocused_add
+ * elm.Web.callback_focused_add
+ * elm.Web.callback_unfocused_add
+ * elm.Web.url
+ * elm.Window.available_profiles
+ * elm.Window.callback_focused_add
+ * elm.Window.callback_unfocused_add
+ * elm.Window.floating_mode
+ * elm.Window.focus_highlight_animate
+ * elm.Window.main_menu
+ * elm.Window.norender
+ * elm.Window.norender_pop
+ * elm.Window.norender_push
+ * elm.Window.profile
+ * elm.Window.render
+ * elm.Window.screen_dpi

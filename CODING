@@ -47,8 +47,8 @@ Release process instructions
 * Announce at enlightenment-release@lists.sourceforge.net that you are planning
   for the release
 * Change versions in efl/__init__.py (ex: 1.9.0)
-* Update the changes.html file
-    setup.py build_doc -b changes ...and manually merge
+* Update the ChangeLog file:
+    setup.py build_doc -b changes ...and manually merge from the html file
 * Git push and wait jenkins to generate the 2 tarballs
 * Test the generated tarballs
 * scp tarballs & md5sums to:
