@@ -30,36 +30,8 @@ cdef class Rectangle(Object):
     The evas rectangle serves a number of key functions when working on evas
     programs:
 
-    - Background
     - Debugging
     - Clipper
-
-    .. rubric:: Background
-
-    One extremely common requirement of evas programs is to have a solid
-    color background, this can be accomplished with the following very
-    simple code::
-
-        bg = Rectangle(evas_canvas)
-        # Here we set the rectangles red, green, blue and opacity levels
-        bg.color_set(255, 255, 255, 255) # opaque white background
-        bg.resize(WIDTH, HEIGHT) # covers full canvas
-        bg.show()
-
-    This however will have issues if the ``evas_canvas`` is resized, however
-    most windows are created using ecore evas and that has a solution to
-    using the rectangle as a background::
-
-        ee = EcoreEvas()
-        bg = Rectangle(ee.evas_get())
-        # Here we set the rectangles red, green, blue and opacity levels
-        bg.color_set(255, 255, 255, 255) # opaque white background
-        bg.resize(WIDTH, HEIGHT) # covers full canvas
-        bg.show()
-        ee.associate(bg, ECORE_EVAS_OBJECT_ASSOCIATE_BASE)
-
-    So this gives us a white background to our window that will be resized
-    together with it.
 
     .. rubric:: Debugging
 
@@ -86,11 +58,11 @@ cdef class Rectangle(Object):
 
     It is often necessary to show only parts of an object, while it may be
     possible to create an object that corresponds only to the part that must
-    be shown(and it isn't always possible) it's usually easier to use a a
+    be shown (and it isn't always possible) it's usually easier to use a a
     clipper. A clipper is a rectangle that defines what's visible and what
     is not. The way to do this is to create a solid white rectangle(which is
-    the default, no need to call evas_object_color_set()) and give it a
-    position and size of what should be visible. The following code
+    the default, no need to call :func:`efl.evas.Object.color_set`) and give
+    it a position and size of what should be visible. The following code
     exemplifies showing the center half of ``my_evas_object``::
 
         clipper = Rectangle(evas_canvas)
@@ -110,15 +82,12 @@ cdef class Rectangle(Object):
     colors of clipped object. The following code will show how to remove all
     the red from an object::
 
-        clipper = Rectangle(evas)
+        clipper = Rectangle(evas_canvas)
         clipper.move(my_evas_object_x, my_evas_object_y)
         clipper.resize(my_evas_object_width, my_evas_object_height)
         clipper.color_set(0, 255, 255, 255)
-        obj.clip_set(clipper)
+        my_evas_object.clip_set(clipper)
         clipper.show()
-
-    .. warning:: We don't guarantee any proper results if you create a Rectangle
-        object without setting the evas engine.
 
     """
     def __init__(self, Canvas canvas not None, **kwargs):

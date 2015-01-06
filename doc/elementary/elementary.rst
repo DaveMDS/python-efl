@@ -31,14 +31,16 @@ Event callbacks have signature of::
 A sample Python Elementary program
 ----------------------------------
 
-.. literalinclude:: ../../examples/elementary/test_panel.py
-    :lines: 4-50
+.. literalinclude:: ../../examples/elementary/test_win_dialog.py
+    :language: python
 
 What is Elementary?
 -------------------
 
-Elementary is a VERY SIMPLE toolkit. It is not meant for writing extensive desktop
-applications (yet). Small simple ones with simple needs.
+Elementary is a  the high level toolkit based on the underlying efl
+technologies (:doc:`Evas </evas/evas>`, :doc:`Edje </edje/edje>`,
+:doc:`Ecore </ecore/ecore>`, etc...). It provide all the
+widget you need to build a full application.
 
 It is meant to make the programmers work almost brainless but give them lots
 of flexibility.
