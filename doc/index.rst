@@ -45,31 +45,31 @@ EO
 Ecore
 -----
 
-.. toctree:: ecore/ecore
+.. toctree:: ecore/ecore.rst
 
 
 Evas
 ----
 
-.. toctree:: evas/evas
+.. toctree:: evas/evas.rst
 
 
 Ethumb
 ------
 
-.. toctree:: ethumb/ethumb
+.. toctree:: ethumb/ethumb.rst
 
 
 Edje
 ----
 
-.. toctree:: edje/edje
+.. toctree:: edje/edje.rst
 
 
 Emotion
 -------
 
-.. toctree:: emotion/emotion
+.. toctree:: emotion/emotion.rst
 
 
 Elementary

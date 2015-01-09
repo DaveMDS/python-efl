@@ -1,7 +1,3 @@
-:mod:`efl.edje` Module
-=======================
-
-.. module:: efl.edje
 
 What is Edje?
 --------------
@@ -65,14 +61,14 @@ Before digging into changing or creating your own Edje source (edc)
 files, read the @ref edcref.
 
 
-Reference
----------
+API Reference
+-------------
 
 .. toctree::
    :maxdepth: 4
 
-   class-edje
-   class-edje_edit
+   edje_module
+   edje_object
 
 
 Inheritance diagram

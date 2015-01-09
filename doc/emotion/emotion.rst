@@ -1,7 +1,3 @@
-:mod:`efl.emotion` Module
-============================
-
-.. module:: efl.emotion
 
 What is Emotion?
 ----------------
@@ -86,7 +82,8 @@ Reference
 .. toctree::
    :maxdepth: 4
 
-   class-emotion
+   emotion_module
+   emotion_object
 
 
 Inheritance diagram

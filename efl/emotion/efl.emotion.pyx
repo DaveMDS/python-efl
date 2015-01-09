@@ -99,8 +99,6 @@ cdef class Emotion(evasObject):
 
     The Emotion object
 
-    .. seealso:: :py:mod:`The documentation page<efl.emotion>`
-
     .. versionchanged:: 1.8
         Keyword argument module_filename was renamed to module_name.
 
