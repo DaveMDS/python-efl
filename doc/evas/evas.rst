@@ -1,7 +1,3 @@
-:mod:`efl.evas` Module
-======================
-
-.. module:: efl.evas
 
 .. _evas_main_intro:
 
@@ -251,38 +247,28 @@ Recommended reading:
   check box, for example.
 
 
-Reference
----------
-
-.. autofunction:: init
-.. autofunction:: shutdown
-.. autofunction:: render_method_lookup
-.. autofunction:: render_method_list
-.. autofunction:: color_parse
-.. autofunction:: color_argb_premul
-.. autofunction:: color_argb_unpremul
-.. autofunction:: color_hsv_to_rgb
-.. autofunction:: color_rgb_to_hsv
-
-.. autoexception:: EvasLoadError
+API Reference
+-------------
 
 .. toctree::
    :maxdepth: 4
 
-   class-rect
-   class-canvas
-   class-object
-   class-object-rectangle
-   class-object-image
-   class-object-line
-   class-object-polygon
-   class-object-text
-   class-object-textblock
-   class-object-box
-   class-grid
-   class-table
-   class-textgrid
-   class-map
+   evas_module
+   canvas
+   object
+   image
+   rectangle
+   line
+   polygon
+   text
+   textblock
+   textgrid
+   box
+   table
+   grid
+   map
+   rect
+
 
 Inheritance diagram
 -------------------

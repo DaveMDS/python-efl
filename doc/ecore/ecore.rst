@@ -101,3 +101,10 @@ API Reference
    filedownload
    filemonitor
 
+
+Inheritance diagram
+-------------------
+
+.. inheritance-diagram::
+    efl.ecore
+    :parts: 2
