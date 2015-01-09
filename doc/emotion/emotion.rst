@@ -76,8 +76,8 @@ a list of interesting signals:
  - ``position_load,failed``
 
 
-Reference
----------
+API Reference
+-------------
 
 .. toctree::
    :maxdepth: 4

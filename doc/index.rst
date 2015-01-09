@@ -75,8 +75,8 @@ Emotion
 Elementary
 ----------
 
-.. toctree:: elementary/elementary
-   :maxdepth: 4
+.. toctree:: elementary/elementary.rst
+   :maxdepth: 2
 
 
 DBus integration

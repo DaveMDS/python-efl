@@ -1,38 +1,4 @@
-.. py:module:: efl.elementary
 
-:mod:`efl.elementary` Package
-=============================
-
-Features
---------
-
-Callbacks
-^^^^^^^^^
-
-.. rubric:: Widget callbacks
-
-Widget callbacks are set with callback_*_add methods which take a callable,
-and optional args, kwargs as data.
-
-The callbacks have a signature of either::
-
-    obj, *args, **kwargs
-
-or::
-
-    obj, event_info, *args, **kwargs
-
-.. rubric:: Event callbacks
-
-Event callbacks have signature of::
-
-    object, source_object, event_type, event_info, *args, **kwargs
-
-A sample Python Elementary program
-----------------------------------
-
-.. literalinclude:: ../../examples/elementary/test_win_dialog.py
-    :language: python
 
 What is Elementary?
 -------------------
@@ -46,89 +12,116 @@ It is meant to make the programmers work almost brainless but give them lots
 of flexibility.
 
 
-Reference
+Callbacks
 ---------
 
-Package
-^^^^^^^
+Widget callbacks
+^^^^^^^^^^^^^^^^
 
-Everything in the modules :py:mod:`~efl.elementary.general` and
-:py:mod:`~efl.elementary.need` is also available at package level.
+Widget callbacks are set with callback_*_add methods which take a callable,
+and optional args, kwargs as data.
 
-Modules
-^^^^^^^
+The callbacks have a signature of either::
+
+    obj, *args, **kwargs
+
+or::
+
+    obj, event_info, *args, **kwargs
+
+
+Event callbacks
+^^^^^^^^^^^^^^^
+
+Event callbacks have signature of::
+
+    object, source_object, event_type, event_info, *args, **kwargs
+
+
+A sample Python Elementary program
+----------------------------------
+
+.. literalinclude:: ../../examples/elementary/test_win_dialog.py
+    :language: python
+
+
+
+API Reference
+-------------
 
 .. toctree::
-   :maxdepth: 4
+   :maxdepth: 1
 
-   module-actionslider
-   module-background
-   module-box
-   module-bubble
-   module-button
-   module-calendar
-   module-check
-   module-clock
-   module-colorselector
-   module-configuration
-   module-conformant
-   module-ctxpopup
-   module-datetime
-   module-dayselector
-   module-diskselector
-   module-entry
-   module-fileselector
-   module-fileselector_button
-   module-fileselector_entry
-   module-flip
-   module-flipselector
-   module-frame
-   module-general
-   module-gengrid
-   module-genlist
-   module-gesture_layer
-   module-grid
-   module-hover
-   module-hoversel
-   module-icon
-   module-image
-   module-index
-   module-innerwindow
-   module-label
-   module-layout
-   module-layout_class
-   module-list
-   module-map
-   module-mapbuf
-   module-menu
-   module-multibuttonentry
-   module-naviframe
-   module-need
-   module-notify
-   module-object
-   module-object_item
-   module-panel
-   module-panes
-   module-photo
-   module-photocam
-   module-plug
-   module-popup
-   module-progressbar
-   module-radio
-   module-scroller
-   module-segment_control
-   module-separator
-   module-slider
-   module-slideshow
-   module-spinner
-   module-table
-   module-theme
-   module-thumb
-   module-toolbar
-   module-transit
-   module-video
-   module-web
-   module-window
+   elementary_module
+   actionslider
+   background
+   box
+   bubble
+   button
+   calendar
+   check
+   clock
+   colorselector
+   configuration
+   conformant
+   ctxpopup
+   datetime
+   dayselector
+   diskselector
+   entry
+   fileselector
+   fileselector_button
+   fileselector_entry
+   flip
+   flipselector
+   frame
+   general
+   gengrid
+   genlist
+   gesture_layer
+   grid
+   hover
+   hoversel
+   icon
+   image
+   index
+   innerwindow
+   label
+   layout
+   layout_class
+   list
+   map
+   mapbuf
+   menu
+   multibuttonentry
+   naviframe
+   need
+   notify
+   object
+   object_item
+   panel
+   panes
+   photo
+   photocam
+   plug
+   popup
+   progressbar
+   radio
+   scroller
+   segment_control
+   separator
+   slider
+   slideshow
+   spinner
+   table
+   theme
+   thumb
+   toolbar
+   transit
+   video
+   web
+   window
+
 
 Inheritance diagram
 -------------------
