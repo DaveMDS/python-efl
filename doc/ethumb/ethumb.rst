@@ -1,7 +1,3 @@
-:mod:`efl.ethumb` Module
-============================
-
-.. module:: efl.ethumb
 
 What is Ethumb?
 ----------------
@@ -11,13 +7,15 @@ How to use the Ethumb object
 -----------------------------
 
 
-Reference
----------
+API Reference
+-------------
 
 .. toctree::
    :maxdepth: 4
 
-   class-ethumb
+   ethumb_module
+   pyethumb
+   ethumb_client
 
 
 Inheritance diagram
