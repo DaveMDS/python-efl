@@ -147,8 +147,18 @@ def genlist_clicked(obj, item=None):
     vbx.pack_end(bt_1500)
     bt_1500.show()
 
+    def tooltip_content_cb(gl, item, obj):
+        txt = "Tooltip <b>from callback</b> for item # %d" % item.data
+        return Label(gl, text=txt)
+
     for i in range(0, 2000):
         gli = gl.item_append(itc1, i, func=gl_item_sel)
+
+        if i % 2:
+            gli.tooltip_text_set("Static Tooltip for item # %d" % i)
+        else:
+            gli.tooltip_content_cb_set(tooltip_content_cb)
+
         if i == 50:
             bt_50._callback_add("clicked", lambda bt, it: it.bring_in(), gli)
         elif i == 1500:

@@ -509,11 +509,11 @@ Selection modes
 
 """
 
-include "tooltips.pxi"
 
 from cpython cimport PyUnicode_AsUTF8String, Py_DECREF, Py_INCREF
 from libc.stdint cimport uintptr_t
 
+from efl.eo cimport object_from_instance
 from efl.utils.conversions cimport _ctouni
 from efl.evas cimport Object as evasObject
 
