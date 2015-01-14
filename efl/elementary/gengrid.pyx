@@ -324,7 +324,6 @@ Reorder type
 
 """
 
-include "tooltips.pxi"
 
 from libc.string cimport strdup
 from libc.stdint cimport uintptr_t

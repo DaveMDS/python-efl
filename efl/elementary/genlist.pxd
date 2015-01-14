@@ -1,7 +1,6 @@
 from efl.evas cimport Eina_Bool, Eina_List, Eina_Compare_Cb, \
     Evas_Object, Evas_Smart_Cb, Evas_Coord
 from object_item cimport Elm_Object_Item
-from general cimport Elm_Tooltip_Item_Content_Cb
 from efl.elementary.general cimport Elm_Glob_Match_Flags
 
 
@@ -119,21 +118,6 @@ cdef extern from "Elementary.h":
     void                    elm_genlist_item_class_free(Elm_Genlist_Item_Class *itc)
     void                    elm_genlist_item_class_ref(Elm_Genlist_Item_Class *itc)
     void                    elm_genlist_item_class_unref(Elm_Genlist_Item_Class *itc)
-
-    void                    elm_genlist_item_tooltip_text_set(Elm_Object_Item *item, const char *text)
-    void                    elm_genlist_item_tooltip_content_cb_set(Elm_Object_Item *item, Elm_Tooltip_Item_Content_Cb func, void *data, Evas_Smart_Cb del_cb)
-    void                    elm_genlist_item_tooltip_unset(Elm_Object_Item *item)
-    void                    elm_genlist_item_tooltip_style_set(Elm_Object_Item *item, const char *style)
-    const char *            elm_genlist_item_tooltip_style_get(const Elm_Object_Item *item)
-    Eina_Bool               elm_genlist_item_tooltip_window_mode_set(Elm_Object_Item *it, Eina_Bool disable)
-    Eina_Bool               elm_genlist_item_tooltip_window_mode_get(const Elm_Object_Item *it)
-    void                    elm_genlist_item_cursor_set(Elm_Object_Item *item, const char *cursor)
-    const char *            elm_genlist_item_cursor_get(const Elm_Object_Item *it)
-    void                    elm_genlist_item_cursor_unset(Elm_Object_Item *item)
-    void                    elm_genlist_item_cursor_style_set(Elm_Object_Item *item, const char *style)
-    const char *            elm_genlist_item_cursor_style_get(const Elm_Object_Item *item)
-    void                    elm_genlist_item_cursor_engine_only_set(Elm_Object_Item *item, Eina_Bool engine_only)
-    Eina_Bool               elm_genlist_item_cursor_engine_only_get(const Elm_Object_Item *item)
 
     void                    elm_genlist_homogeneous_set(Evas_Object *obj, Eina_Bool homogeneous)
     Eina_Bool               elm_genlist_homogeneous_get(const Evas_Object *obj)

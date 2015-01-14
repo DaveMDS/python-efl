@@ -2,7 +2,6 @@ from efl.evas cimport Eina_Bool, Eina_List, Evas_Object, Evas_Smart_Cb, \
     Evas_Coord, Eina_Compare_Cb
 from efl.c_eo cimport Eo
 from object_item cimport Elm_Object_Item
-from general cimport Elm_Tooltip_Item_Content_Cb
 from efl.elementary.general cimport  Elm_Glob_Match_Flags
 
 from efl.ecore cimport Ecore_Pos_Map
@@ -119,20 +118,6 @@ cdef extern from "Elementary.h":
     void                    elm_gengrid_item_bring_in(Elm_Object_Item *item, Elm_Genlist_Item_Scrollto_Type scrollto_type)
     void                    elm_gengrid_item_update(Elm_Object_Item *item)
     void                    elm_gengrid_item_pos_get(const Elm_Object_Item *item, unsigned int *x, unsigned int *y)
-    void                    elm_gengrid_item_tooltip_text_set(Elm_Object_Item *item, const char *text)
-    void                    elm_gengrid_item_tooltip_content_cb_set(Elm_Object_Item *item, Elm_Tooltip_Item_Content_Cb func, void *data, Evas_Smart_Cb del_cb)
-    void                    elm_gengrid_item_tooltip_unset(Elm_Object_Item *item)
-    void                    elm_gengrid_item_tooltip_style_set(Elm_Object_Item *item, const char *style)
-    const char *            elm_gengrid_item_tooltip_style_get(const Elm_Object_Item *item)
-    Eina_Bool               elm_gengrid_item_tooltip_window_mode_set(Elm_Object_Item *it, Eina_Bool disable)
-    Eina_Bool               elm_gengrid_item_tooltip_window_mode_get(const Elm_Object_Item *it)
-    void                    elm_gengrid_item_cursor_set(Elm_Object_Item *item, const char *cursor)
-    const char *            elm_gengrid_item_cursor_get(const Elm_Object_Item *item)
-    void                    elm_gengrid_item_cursor_unset(Elm_Object_Item *item)
-    void                    elm_gengrid_item_cursor_style_set(Elm_Object_Item *item, const char *style)
-    const char *            elm_gengrid_item_cursor_style_get(const Elm_Object_Item *item)
-    void                    elm_gengrid_item_cursor_engine_only_set(Elm_Object_Item *item, Eina_Bool engine_only)
-    Eina_Bool               elm_gengrid_item_cursor_engine_only_get(const Elm_Object_Item *item)
     Elm_Object_Item *       elm_gengrid_nth_item_get(const Evas_Object *obj, unsigned int nth)
     Elm_Object_Item *       elm_gengrid_at_xy_item_get(const Evas_Object *obj, Evas_Coord x, Evas_Coord y, int *xposret, int *yposret)
     Elm_Object_Item *       elm_gengrid_search_by_text_item_get(const Evas_Object *obj, Elm_Object_Item *item_to_search_from, const char *part_name, const char *pattern, Elm_Glob_Match_Flags flags)

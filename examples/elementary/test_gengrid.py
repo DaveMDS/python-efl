@@ -90,9 +90,17 @@ def gengrid_clicked(obj):
     gg.callback_clicked_double_add(gg_clicked_double)
     gg.show()
 
+    def tooltip_content_cb(gl, item, obj):
+        txt = "Tooltip <b>from callback</b> for item # %d" % item.data
+        return Label(gl, text=txt)
+
     # add the first items
     for i in range(item_count):
-        gg.item_append(itc, i, None)
+        ggi = gg.item_append(itc, i, None)
+        if i % 2:
+            ggi.tooltip_text_set("Static Tooltip for item # %d" % i)
+        else:
+            ggi.tooltip_content_cb_set(tooltip_content_cb)
 
     # multi select
     def multi_select_changed(bt, gg):
