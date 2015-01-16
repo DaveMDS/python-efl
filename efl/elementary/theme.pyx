@@ -147,8 +147,7 @@ cdef class Theme(object):
         """Return the default theme
 
         This returns the internal default theme setup handle that all widgets
-        use implicitly unless a specific theme is set. This is also often use
-        as a shorthand of NULL.
+        use implicitly unless a specific theme is set.
 
         """
         cdef Theme ret = cls.__new__(cls)
@@ -170,11 +169,9 @@ cdef class Theme(object):
         """Copy the theme from the source to the destination theme
 
         This makes a one-time static copy of all the theme config, extensions
-        and overlays from ``th`` to ``thdst``. If ``th`` references a theme, then
-        ``thdst`` is also set to reference it, with all the theme settings,
-        overlays and extensions that ``th`` had.
+        and overlays from this theme to ``dst``.
 
-        :param Theme thdst: The destination theme to copy data to
+        :param Theme dst: The destination theme to copy data to
 
         """
         elm_theme_copy(self.th, dst.th)
@@ -182,10 +179,10 @@ cdef class Theme(object):
     property reference:
         """Theme reference
 
-        Setting this clears ``th`` to be empty and then sets it to refer to
-        ``thref`` so ``th`` acts as an override to ``thref``, but where its
-        overrides don't apply, it will fall through to ``thref`` for
-        configuration.
+        Setting this clears the theme to be empty and then sets it to refer to
+        another theme. This way the theme acts as an override to the reference,
+        but where its overrides don't apply, it will fall through to
+        reference for configuration.
 
         Getting it returns the theme that is referred to.
 
@@ -244,8 +241,7 @@ cdef class Theme(object):
 
         .. seealso:: :py:func:`overlay_add()`
 
-        :param item: The name of the theme overlay
-        :type item: string
+        :param string item: The name of the theme overlay
 
         """
         if isinstance(item, unicode): item = PyUnicode_AsUTF8String(item)
@@ -322,9 +318,9 @@ cdef class Theme(object):
         """Set the theme search order for the given theme
 
         This sets the search string for the theme in path-notation from first
-        theme to search, to last, delimited by the : character. Example:
+        theme to search, to last, delimited by the ``:`` character. Example:
 
-        "shiny:/path/to/file.edj:default"
+        ``shiny:/path/to/file.edj:default``
 
         See the ELM_THEME environment variable for more information.
 
@@ -355,8 +351,7 @@ cdef class Theme(object):
         This returns the internal list of theme elements (will only be valid as
         long as the theme is not modified by elm_theme_set() or theme is not
         freed by elm_theme_free(). This is a list of strings which must not be
-        altered as they are also internal. If ``th`` is NULL, then the default
-        theme element list is returned.
+        altered as they are also internal.
 
         A theme element can consist of a full or relative path to a .edj file,
         or a name, without extension, for a theme to be searched in the known
@@ -376,10 +371,10 @@ cdef class Theme(object):
     def flush(self):
         """Flush the current theme.
 
-        This flushes caches that let elementary know where to find theme elements
-        in the given theme. If ``th`` is NULL, then the default theme is flushed.
-        Call this function if source theme data has changed in such a way as to
-        make any caches Elementary kept invalid.
+        This flushes caches that let elementary know where to find theme
+        elements in the given theme. Call this function if source theme data
+        has changed in such a way as to make any caches Elementary kept
+        invalid.
 
         """
         elm_theme_flush(self.th)
@@ -387,14 +382,13 @@ cdef class Theme(object):
     def data_get(self, key not None):
         """Get a data item from a theme
 
-        This function is used to return data items from edc in ``th``, an
+        This function is used to return data items from edc in theme, an
         overlay, or an extension. It works the same way as
-        edje_file_data_get() except that the return is stringshared.
+        :py:func:`efl.edje.Edje.data_get()`.
 
-        :param key: The data key to search with
-        :type key: string
+        :param string key: The data key to search with
 
-        :return: The data value, or NULL on failure
+        :return: The data value, or None on failure
         :rtype: string
 
         """
@@ -409,8 +403,7 @@ cdef class Theme(object):
         and find all groups that BEGIN with the string ``begin`` and have
         that string as at LEAST their start.
 
-        :param base: The base string group collection to look for
-        :type base: string
+        :param string base: The base string group collection to look for
 
         :return: The list of group names found (sorted)
         :rtype: list of strings
