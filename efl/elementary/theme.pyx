@@ -432,17 +432,14 @@ cdef class Theme(object):
 def theme_list_item_path_get(f not None, bint in_search_path):
     """Return the full path for a theme element
 
-    This returns a string you should free with free() on success, NULL on
-    failure. This will search for the given theme element, and if it is a
-    full or relative path element or a simple search-able name. The returned
-    path is the full path to the file, if searched, and the file exists, or it
-    is simply the full path given in the element or a resolved path if
-    relative to home. The ``in_search_path`` boolean pointed to is set to
-    EINA_TRUE if the file was a search-able file and is in the search path,
-    and EINA_FALSE otherwise.
+    This returns a string on success or NULL on failure. This will search
+    for the given theme element, and if it is a full or relative path
+    element or a simple search-able name. The returned path is the full path
+    to the file, if searched, and the file exists, or it is simply the full
+    path given in the element or a resolved path if relative to home.
 
     :param string f: The theme element name
-    :param bool in_search_path: Pointer to a boolean to indicate if item is in the search path or not
+    :param bool in_search_path: NOT USED
 
     :return: The full path to the file found.
     :rtype: string
