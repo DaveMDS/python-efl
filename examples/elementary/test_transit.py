@@ -12,7 +12,8 @@ from efl.elementary.image import Image
 from efl.elementary.transit import Transit, ELM_TRANSIT_EFFECT_WIPE_TYPE_HIDE, \
     ELM_TRANSIT_EFFECT_WIPE_DIR_RIGHT, ELM_TRANSIT_EFFECT_FLIP_AXIS_X, \
     ELM_TRANSIT_EFFECT_FLIP_AXIS_Y, ELM_TRANSIT_TWEEN_MODE_ACCELERATE, \
-    ELM_TRANSIT_TWEEN_MODE_DECELERATE, TransitCustomEffect
+    ELM_TRANSIT_TWEEN_MODE_DECELERATE, ELM_TRANSIT_TWEEN_MODE_BOUNCE, \
+    TransitCustomEffect
 from efl.elementary.box import Box
 from efl.elementary.frame import Frame
 from efl.elementary.label import Label
@@ -35,8 +36,7 @@ class CustomEffect(TransitCustomEffect):
             w = effect.fr_w
         else:
             h = effect.fr_h + effect.to_h
-            w = effect.fr_w + \
-                (effect.to_w * (progress - 0.5) * 2)
+            w = effect.fr_w + (effect.to_w * (progress - 0.5) * 2)
 
         for obj in transit.objects:
             obj.resize(w, h)
@@ -44,22 +44,21 @@ class CustomEffect(TransitCustomEffect):
     def end_cb(effect, transit):
         print("Effect done")
 
-def transit_rotation_translation_color(obj):
+def transit_rotation_color(obj):
     trans = Transit()
     trans.object_add(obj)
     trans.auto_reverse = True
     trans.repeat_times = 2
-
-    # Translation Effect
-    trans.effect_translation_add(-70.0, -150.0, 70.0, 150.0)
+    trans.duration = 2.0
+    trans.tween_mode = ELM_TRANSIT_TWEEN_MODE_BOUNCE
+    trans.tween_mode_factor_n = [1.0, 3.0]
 
     # Color Effect
     trans.effect_color_add(100, 255, 100, 255, 50, 30, 50, 50)
 
     # Rotation Effect
-    trans.effect_rotation_add(0.0, 135.0)
+    trans.effect_rotation_add(0.0, 190.0)
 
-    trans.duration = 5.0
     trans.go()
 
 def transit_wipe(obj):
@@ -67,9 +66,8 @@ def transit_wipe(obj):
     trans.object_add(obj)
     trans.auto_reverse = True
 
-    trans.effect_wipe_add(
-        ELM_TRANSIT_EFFECT_WIPE_TYPE_HIDE,
-        ELM_TRANSIT_EFFECT_WIPE_DIR_RIGHT)
+    trans.effect_wipe_add(ELM_TRANSIT_EFFECT_WIPE_TYPE_HIDE,
+                          ELM_TRANSIT_EFFECT_WIPE_DIR_RIGHT)
 
     trans.duration = 5.0
     trans.go()
@@ -165,31 +163,26 @@ def transit_resizable_flip(obj, data):
 
 # Translation, Rotation, Color, Wipe, ImagemAnimation Effect
 def transit_clicked(obj, item=None):
-    win = StandardWindow("transit", "Transit")
-    win.autodel = True
+    win = StandardWindow("transit", "Transit", autodel=True, size=(300,300))
 
-    bx = Box(win)
-    bx.size_hint_weight = EVAS_HINT_EXPAND, EVAS_HINT_EXPAND
+    bx = Box(win, size_hint_weight=EXPAND_BOTH, size_hint_align=FILL_BOTH)
     win.resize_object_add(bx)
-    bx.size_hint_min = 318, 318
     bx.show()
 
-    ic = Image(win, file=os.path.join(img_path, "icon_11.png"),
-        size_hint_aspect=(EVAS_ASPECT_CONTROL_VERTICAL, 1, 1))
-
-    bt = Button(win, text="ImageAnimation Effect")
+    ic = Image(win, file=os.path.join(img_path, "icon_11.png"))
+    bt = Button(win, text="ImageAnimation Effect", size_hint_weight=EXPAND_BOTH)
     bt.part_content_set("icon", ic)
     bx.pack_end(bt)
     bt.show()
     ic.show()
     bt.callback_clicked_add(transit_image_animation, ic)
 
-    bt = Button(win, text="Color, Rotation and Translation")
+    bt = Button(win, text="Rotation + Color", size_hint_weight=EXPAND_BOTH)
     bx.pack_end(bt)
     bt.show()
-    bt.callback_clicked_add(transit_rotation_translation_color)
+    bt.callback_clicked_add(transit_rotation_color)
 
-    bt = Button(win, text="Wipe Effect")
+    bt = Button(win, text="Wipe Effect", size_hint_weight=EXPAND_BOTH)
     bx.pack_end(bt)
     bt.show()
     bt.callback_clicked_add(transit_wipe)
@@ -211,11 +204,11 @@ def transit3_clicked(obj, item=None):
     win = StandardWindow("transit3", "Transit 3", autodel=True, size=(300, 300))
 
     bt = Button(win, text="Front Button - Flip Effect", pos=(50, 50),
-        size=(200, 200))
+                size=(200, 200))
     bt.show()
 
     bt2 = Button(win, text="Back Button - Flip Effect", pos=(50, 50),
-        size=(200, 200))
+                 size=(200, 200))
 
     win.show()
 
@@ -238,18 +231,18 @@ def transit5_clicked(obj, item=None):
     win = StandardWindow("transit5", "Transit 5", autodel=True, size=(300, 300))
 
     ic = Image(win, file=os.path.join(img_path, "rock_01.jpg"),
-        size_hint_max=(50, 50))
+               size_hint_max=(50, 50))
 
     bt = Button(win, text="Before Button - Blend Effect", pos=(25, 125),
-        size=(250, 50))
+                size=(250, 50))
     bt.part_content_set("icon", ic)
     bt.show()
 
     ic = Image(win, file=os.path.join(img_path, "rock_02.jpg"),
-        size_hint_max=(50, 50))
+               size_hint_max=(50, 50))
 
     bt2 = Button(win, text="After Button - Blend Effect", pos=(25, 125),
-        size=(250, 50))
+                 size=(250, 50))
     bt2.part_content_set("icon", ic)
 
     win.show()
@@ -262,18 +255,18 @@ def transit6_clicked(obj, item=None):
     win = StandardWindow("transit6","Transit 6", autodel=True, size=(300, 300))
 
     ic = Image(win, file=os.path.join(img_path, "rock_01.jpg"),
-        size_hint_max=(50, 50))
+               size_hint_max=(50, 50))
 
     bt = Button(win, text="Before Button - Fade Effect", pos=(25, 125),
-        size=(250, 50))
+                size=(250, 50))
     bt.part_content_set("icon", ic)
     bt.show()
 
     ic = Image(win, file=os.path.join(img_path, "rock_02.jpg"),
-        size_hint_max=(50, 50))
+               size_hint_max=(50, 50))
 
     bt2 = Button(win, text="After Button - Fade Effect", pos=(25, 125),
-        size=(250, 50))
+                 size=(250, 50))
     bt2.part_content_set("icon", ic)
 
     win.show()
@@ -286,11 +279,11 @@ def transit7_clicked(obj, item=None):
     win = StandardWindow("transit7", "Transit 7", autodel=True, size=(400, 400))
 
     bt = Button(win, text="Front Button - Resizable Flip Effect", pos=(50, 100),
-        size=(250, 30))
+                size=(250, 30))
     bt.show()
 
     bt2 = Button(win, text="Back Button - Resizable Flip Effect", pos=(50, 100),
-        size=(300, 200))
+                 size=(300, 200))
 
     win.show()
 
@@ -302,7 +295,7 @@ def transit8_clicked(obj, item=None):
     win = StandardWindow("transit8", "Transit 8", autodel=True, size=(400, 400))
 
     bt = Button(win, text="Button - Custom Effect", pos=(50, 50),
-        size=(150, 150))
+                size=(150, 150))
     bt.show()
 
     # Adding Transit
