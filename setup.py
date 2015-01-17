@@ -74,8 +74,7 @@ def pkg_config(name, require, min_vers=None):
         ver = out.decode("utf-8").strip()
 
         if min_vers is not None:
-            assert 0 == subprocess.call(["pkg-config", "--atleast-version",
-                                         min_vers, require])
+            assert (LooseVersion(ver) >= LooseVersion(min_vers)) is True
 
         call = subprocess.Popen(["pkg-config", "--cflags", require],
                                 stdout=subprocess.PIPE)
