@@ -101,6 +101,7 @@ Signals that you can add callbacks for are:
 - ``profile,changed``: profile of the window has been changed
 - ``focused`` - When the window has received focus. (since 1.8)
 - ``unfocused`` - When the window has lost focus. (since 1.8)
+- ``theme,changed`` - The theme was changed. (since 1.13)
 
 
 Enumerations
@@ -1785,6 +1786,16 @@ cdef class Window(Object):
 
     def callback_unfocused_del(self, func):
         self._callback_del("unfocused", func)
+
+    def callback_theme_changed_add(self, func, *args, **kwargs):
+        """When the theme was changed.
+
+        .. versionadded:: 1.13
+        """
+        self._callback_add("theme,changed", func, *args, **kwargs)
+
+    def callback_theme_changed_del(self, func):
+        self._callback_del("theme,changed", func)
 
 _object_mapping_register("Elm_Win", Window)
 
