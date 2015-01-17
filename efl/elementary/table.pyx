@@ -84,7 +84,7 @@ cdef class Table(Object):
     property padding:
         """Padding between cells.
 
-        Default value is 0.
+        Default value is (0, 0).
 
         :type: (int, int)
 
@@ -103,6 +103,32 @@ cdef class Table(Object):
     def padding_get(self):
         cdef Evas_Coord horizontal, vertical
         elm_table_padding_get(self.obj, &horizontal, &vertical)
+        return (horizontal, vertical)
+
+    property align:
+        """The alignment of the table
+
+        Default value is (0.5, 0.5)
+
+        :type: (double, double)
+
+        .. versionadded:: 1.13
+
+        """
+        def __get__(self):
+            cdef double horizontal, vertical
+            elm_table_align_get(self.obj, &horizontal, &vertical)
+            return (horizontal, vertical)
+
+        def __set__(self, value):
+            horizontal, vertical = value
+            elm_table_align_set(self.obj, horizontal, vertical)
+
+    def align_set(self, horizontal, vertical):
+        elm_table_align_set(self.obj, horizontal, vertical)
+    def align_get(self):
+        cdef double horizontal, vertical
+        elm_table_align_get(self.obj, &horizontal, &vertical)
         return (horizontal, vertical)
 
     def pack(self, evasObject subobj, x, y, w, h):

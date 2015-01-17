@@ -6,6 +6,8 @@ cdef extern from "Elementary.h":
     Eina_Bool                elm_table_homogeneous_get(const Evas_Object *obj)
     void                     elm_table_padding_set(Evas_Object *obj, Evas_Coord horizontal, Evas_Coord vertical)
     void                     elm_table_padding_get(const Evas_Object *obj, Evas_Coord *horizontal, Evas_Coord *vertical)
+    void                     elm_table_align_set(Evas_Object *obj, double horizontal, double vertical)
+    void                     elm_table_align_get(const Evas_Object *obj, double *horizontal, double *vertical)
     void                     elm_table_pack(Evas_Object *obj, Evas_Object *subobj, int x, int y, int w, int h)
     void                     elm_table_unpack(Evas_Object *obj, Evas_Object *subobj)
     void                     elm_table_clear(Evas_Object *obj, Eina_Bool clear)
