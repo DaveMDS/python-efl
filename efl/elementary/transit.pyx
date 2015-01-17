@@ -45,22 +45,23 @@ Example::
 Some transition effects are used to change the properties of objects. They
 are:
 
-- :py:func:`effect_translation_add`
-- :py:func:`effect_color_add`
-- :py:func:`effect_rotation_add`
-- :py:func:`effect_wipe_add`
-- :py:func:`effect_zoom_add`
-- :py:func:`effect_resizing_add`
+- :py:func:`~Transit.effect_translation_add`
+- :py:func:`~Transit.effect_color_add`
+- :py:func:`~Transit.effect_rotation_add`
+- :py:func:`~Transit.effect_wipe_add`
+- :py:func:`~Transit.effect_zoom_add`
+- :py:func:`~Transit.effect_resizing_add`
 
 Other transition effects are used to make one object disappear and another
 object appear on its place. These effects are:
 
-- :py:func:`effect_flip_add`
-- :py:func:`effect_resizable_flip_add`
-- :py:func:`effect_fade_add`
-- :py:func:`effect_blend_add`
+- :py:func:`~Transit.effect_flip_add`
+- :py:func:`~Transit.effect_resizable_flip_add`
+- :py:func:`~Transit.effect_fade_add`
+- :py:func:`~Transit.effect_blend_add`
 
-It's also possible to make a transition chain with :py:func:`chain_transit_add`.
+It's also possible to make a transition chain with
+:py:func:`~Transit.chain_transit_add`.
 
 .. warning:: We strongly recommend to use elm_transit just when edje can
     not do the trick. Edje is better at handling transitions than
@@ -142,13 +143,41 @@ Tween modes
 
     Starts slow and increase speed over time
 
+.. data:: ELM_TRANSIT_TWEEN_MODE_DIVISOR_INTERP
+
+    Start at gradient v1, interpolated via power of v2 curve
+
+    .. versionadded:: 1.13
+
+.. data:: ELM_TRANSIT_TWEEN_MODE_BOUNCE
+
+    Start at 0.0 then "drop" like a ball bouncing to the ground at 1.0, and
+    bounce v2 times, with decay factor of v1
+
+    .. versionadded:: 1.13
+
+.. data:: ELM_TRANSIT_TWEEN_MODE_SPRING
+
+    Start at 0.0 then "wobble" like a spring rest position 1.0, and wobble
+    v2 times, with decay factor of v1
+
+    .. versionadded:: 1.13
+
+.. data:: ELM_TRANSIT_TWEEN_MODE_BEZIER_CURVE
+
+    Follow the cubic-bezier curve calculated with the control points (x1,
+    y1), (x2, y2)
+
+    .. versionadded:: 1.13
+
 """
 
+from libc.stdlib cimport free
 from cpython cimport Py_INCREF, Py_DECREF
 
 from efl.evas cimport Object as evasObject
 from efl.utils.conversions cimport eina_list_objects_to_python_list, \
-    python_list_strings_to_eina_list
+    python_list_strings_to_eina_list, python_list_doubles_to_array_of_doubles
 
 import traceback
 
@@ -512,6 +541,8 @@ cdef class Transit(object):
 
         :type: (float **v1**, float **v2**) (defaults are 1.0, 0.0)
 
+        .. seealso:: :py:attr:`tween_mode_factor_n`
+
         .. versionadded:: 1.8
 
         """
@@ -532,6 +563,32 @@ cdef class Transit(object):
         cdef double v1, v2
         elm_transit_tween_mode_factor_get(self.obj, &v1, &v2)
         return (v1, v2)
+
+    property tween_mode_factor_n:
+        """Set the transit animation acceleration factors.
+
+        This is the same as :py:attr:`tween_mode_factor`, but lets you
+        specify more than 2 values. Actually only need for the
+        :ref:`ELM_TRANSIT_TWEEN_MODE_BEZIER_CURVE` mode.
+
+        ELM_TRANSIT_TWEEN_MODE_BEZIER_CURVE
+            Use an interpolated cubic-bezier curve ajusted with 4 parameters:
+            (x1, y1, x2, y2)
+
+        :type: list of doubles
+
+        .. seealso:: :py:attr:`tween_mode_factor`
+        
+        .. versionadded:: 1.13
+
+        """
+        def __set__(self, values):
+            self.tween_mode_factor_n_set(values)
+
+    def tween_mode_factor_n_set(self, list values):
+        cdef double *varray = python_list_doubles_to_array_of_doubles(values)
+        elm_transit_tween_mode_factor_n_set(self.obj, len(values), varray)
+        free(varray)
 
     property duration:
         """Set the transit animation time

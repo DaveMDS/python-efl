@@ -28,3 +28,4 @@ cdef list eina_list_objects_to_python_list(const Eina_List *lst)
 cdef Eina_List *python_list_objects_to_eina_list(list objects)
 cdef int * python_list_ints_to_array_of_ints(list ints) except NULL
 cdef list array_of_ints_to_python_list(int *array, int array_length)
+cdef double * python_list_doubles_to_array_of_doubles(list doubles) except NULL

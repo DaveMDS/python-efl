@@ -135,6 +135,31 @@ cdef int * python_list_ints_to_array_of_ints(list ints) except NULL:
 
     return array
 
+cdef double * python_list_doubles_to_array_of_doubles(list doubles) except NULL:
+    """
+
+    Converts a python list to an array of doubles.
+
+    Note: Remember to free the array when it's no longer needed.
+
+    """
+    cdef:
+        double *array = NULL
+        unsigned int i
+        unsigned int arr_len = len(doubles)
+
+    if arr_len == 0:
+        return NULL
+
+    array = <double *>malloc(arr_len * sizeof(double))
+    if not array:
+        raise MemoryError()
+
+    for i in range(arr_len):
+        array[i] = doubles[i]
+
+    return array
+
 cdef list eina_list_strings_to_python_list(const Eina_List *lst):
     cdef:
         const char *s

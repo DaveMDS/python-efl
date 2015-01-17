@@ -28,6 +28,10 @@ cdef extern from "Elementary.h":
         ELM_TRANSIT_TWEEN_MODE_SINUSOIDAL
         ELM_TRANSIT_TWEEN_MODE_DECELERATE
         ELM_TRANSIT_TWEEN_MODE_ACCELERATE
+        ELM_TRANSIT_TWEEN_MODE_DIVISOR_INTERP
+        ELM_TRANSIT_TWEEN_MODE_BOUNCE
+        ELM_TRANSIT_TWEEN_MODE_SPRING
+        ELM_TRANSIT_TWEEN_MODE_BEZIER_CURVE
     ctypedef enum Elm_Transit_Tween_Mode:
         pass
 
@@ -59,6 +63,7 @@ cdef extern from "Elementary.h":
     Elm_Transit_Tween_Mode   elm_transit_tween_mode_get(Elm_Transit *transit)
     void                     elm_transit_tween_mode_factor_set(Elm_Transit *transit, double v1, double v2)
     void                     elm_transit_tween_mode_factor_get(const Elm_Transit *transit, double *v1, double *v2)
+    void                     elm_transit_tween_mode_factor_n_set(Elm_Transit *transit, unsigned int v_size, double *v);
     void                     elm_transit_duration_set(Elm_Transit *transit, double duration)
     double                   elm_transit_duration_get(Elm_Transit *transit)
     void                     elm_transit_go(Elm_Transit *transit)
