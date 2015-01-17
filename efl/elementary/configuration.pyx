@@ -109,6 +109,28 @@ Elm_Softcursor_Mode
     Never use a softcursor
 
 
+.. _Elm_Slider_Indicator_Visible_Mode:
+
+Elm_Slider_Indicator_Visible_Mode
+=================================
+
+.. data:: ELM_SLIDER_INDICATOR_VISIBLE_MODE_DEFAULT
+
+    show indicator on mouse down or change in slider value
+
+.. data:: ELM_SLIDER_INDICATOR_VISIBLE_MODE_ALWAYS
+
+    Always show the indicator
+
+.. data:: ELM_SLIDER_INDICATOR_VISIBLE_MODE_ON_FOCUS
+
+    Show the indicator on focus
+
+.. data:: ELM_SLIDER_INDICATOR_VISIBLE_MODE_NONE
+
+    Never show the indicator
+
+
 .. _Edje_Channel:
 
 Audio Channels
@@ -1231,6 +1253,19 @@ cdef class Configuration(object):
         def __set__(self, bint is_atspi):
             elm_config_atspi_mode_set(is_atspi)
 
+    property slider_indicator_visible_mode:
+        """Slider's indicator visiblity mode.
+
+        :type: :ref:`Elm_Slider_Indicator_Visible_Mode`
+
+        .. versionadded:: 1.13
+        
+        """
+        def __get__(self):
+            return elm_config_slider_indicator_visible_mode_get()
+
+        def __set__(self, mode):
+            elm_config_slider_indicator_visible_mode_set(mode)
 
 #For compatibility
 def config_finger_size_get():

@@ -27,6 +27,13 @@ cdef extern from "Elementary.h":
     ctypedef enum Elm_Softcursor_Mode:
         pass
 
+    cpdef enum Elm_Slider_Indicator_Visible_Mode:
+        ELM_SLIDER_INDICATOR_VISIBLE_MODE_DEFAULT
+        ELM_SLIDER_INDICATOR_VISIBLE_MODE_ALWAYS
+        ELM_SLIDER_INDICATOR_VISIBLE_MODE_ON_FOCUS
+        ELM_SLIDER_INDICATOR_VISIBLE_MODE_NONE
+    ctypedef enum Elm_Slider_Indicator_Visible_Mode:
+        pass
 
     ctypedef struct Elm_Font_Overlay:
         const char *text_class
@@ -189,3 +196,7 @@ cdef extern from "Elementary.h":
     void                    elm_config_audio_mute_set(Edje_Channel channel, Eina_Bool mute)
     Eina_Bool               elm_config_atspi_mode_get()
     void                    elm_config_atspi_mode_set(Eina_Bool is_atspi)
+
+    void                    elm_config_slider_indicator_visible_mode_set(Elm_Slider_Indicator_Visible_Mode mode)
+    Elm_Slider_Indicator_Visible_Mode elm_config_slider_indicator_visible_mode_get()
+
