@@ -45,6 +45,8 @@ cdef extern from "Elementary.h":
     void                     elm_scroller_page_relative_get(const Evas_Object *obj, double *h_pagerel, double *v_pagerel)
     void                     elm_scroller_page_size_set(Evas_Object *obj, Evas_Coord h_pagesize, Evas_Coord v_pagesize)
     void                     elm_scroller_page_size_get(const Evas_Object *obj, Evas_Coord *h_pagesize, Evas_Coord *v_pagesize)
+    void                     elm_scroller_step_size_set(Evas_Object *obj, Evas_Coord x, Evas_Coord y)
+    void                     elm_scroller_step_size_get(const Evas_Object *obj, Evas_Coord *x, Evas_Coord *y)
     void                     elm_scroller_page_scroll_limit_set(const Evas_Object *obj, Evas_Coord page_limit_h, Evas_Coord page_limit_v)
     void                     elm_scroller_page_scroll_limit_get(const Evas_Object *obj, Evas_Coord *page_limit_h, Evas_Coord *page_limit_v)
     void                     elm_scroller_current_page_get(const Evas_Object *obj, int *h_pagenumber, int *v_pagenumber)

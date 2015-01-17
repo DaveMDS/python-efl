@@ -426,6 +426,31 @@ cdef class Scrollable(Object):
         elm_scroller_page_size_get(self.obj, &h_pagesize,  &v_pagesize)
         return (h_pagesize, v_pagesize)
 
+    property step_size:
+        """The step size to move scroller by key event.
+
+        :type: (int **x**, int **y**)
+
+        .. versionadded:: 1.13
+
+        """
+        def __set__(self, value):
+            x, y = value
+            elm_scroller_step_size_set(self.obj, x, y)
+
+        def __get__(self):
+            cdef int x, y
+            elm_scroller_step_size_get(self.obj, &x,  &y)
+            return (x, y)
+
+    def step_size_set(self, x, y):
+        elm_scroller_step_size_set(self.obj, x, y)
+
+    def step_size_get(self):
+        cdef int x, y
+        elm_scroller_step_size_get(self.obj, &x,  &y)
+        return (x, y)
+
     property page_scroll_limit:
         """The maximum of the movable page at a flicking.
 
