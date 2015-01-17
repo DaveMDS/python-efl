@@ -1059,6 +1059,8 @@ cdef extern from "Evas.h":
     void            evas_map_util_3d_lighting(Evas_Map *m, Evas_Coord lx, Evas_Coord ly, Evas_Coord lz, int lr, int lg, int lb, int ar, int ag, int ab)
     void            evas_map_util_3d_perspective(Evas_Map *m, Evas_Coord px, Evas_Coord py, Evas_Coord z0, Evas_Coord foc)
     Eina_Bool       evas_map_util_clockwise_get(Evas_Map *m)
+    void            evas_map_util_object_move_sync_set(Evas_Map *m, Eina_Bool enabled)
+    Eina_Bool       evas_map_util_object_move_sync_get(const Evas_Map *m)
 
     void            evas_map_smooth_set(Evas_Map *m, Eina_Bool enabled)
     Eina_Bool       evas_map_smooth_get(const Evas_Map *m)

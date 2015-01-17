@@ -270,6 +270,31 @@ cdef class Map(object):
     def util_clockwise_get(self):
         return bool(evas_map_util_clockwise_get(self.map))
 
+    property util_object_move_sync:
+        """The flag of the object move synchronization for map rendering
+
+        This sets the flag of the object move synchronization for map
+        rendering. If the flag is True, the map will be moved as the object
+        of the map is moved. By default, the flag of the object move
+        synchronization is not enabled.
+
+        :type: bool
+
+        .. versionadded:: 1.13
+
+        """
+        def __get__(self):
+            return bool(evas_map_util_object_move_sync_get(self.map))
+
+        def __set__(self, bint value):
+            evas_map_util_object_move_sync_set(self.map, value)
+
+    def util_object_move_sync_set(self, bint enabled):
+        evas_map_util_object_move_sync_set(self.map, enabled)
+
+    def util_object_move_sync_get(self):
+        return bool(evas_map_util_object_move_sync_get(self.map))
+
     property smooth:
         """The smoothing state for map rendering
 
