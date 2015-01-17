@@ -191,6 +191,7 @@ if set(("build", "build_ext", "install", "bdist", "sdist")) & set(sys.argv):
     if USE_CYTHON:
         # check if cython is installed
         try:
+            from Cython.Distutils import Extension
             from Cython.Build import cythonize
             import Cython.Compiler.Options
         except ImportError:
