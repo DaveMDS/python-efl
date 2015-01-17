@@ -123,6 +123,7 @@ items = [
         ("Transit Resizable", "test_transit", "transit7_clicked"),
         ("Transit Custom", "test_transit", "transit8_clicked"),
         ("Transit Chain", "test_transit", "transit9_clicked"),
+        ("Transit Bezier", "test_transit_bezier", "transit_bezier_clicked"),
     ]),
     ("Entries", [
         ("Entry", "test_entry", "entry_clicked"),
