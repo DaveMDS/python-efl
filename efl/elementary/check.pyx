@@ -18,11 +18,14 @@
 
 """
 
-Widget description
-------------------
+:mod:`check` Module
+###################
 
 .. image:: /images/check-preview.png
-    :align: left
+
+
+Widget description
+==================
 
 The check widget allows for toggling a value between true and false.
 
@@ -30,23 +33,35 @@ Check objects are a lot like radio objects in layout and functionality,
 except they do not work as a group, but independently, and only toggle
 the value of a boolean :py:attr:`~Check.state` between false and true.
 
-This widget emits the following signals, besides the ones sent from
-:py:class:`~efl.elementary.layout_class.LayoutClass`:
+
+Emitted signals
+===============
 
 - ``changed`` - This is called whenever the user changes the state of
   the check objects.
 - ``focused`` - When the check has received focus. (since 1.8)
 - ``unfocused`` - When the check has lost focus. (since 1.8)
 
-Default content parts of the check widget that you can use for are:
+
+Layout content parts
+====================
 
 - ``icon`` - An icon of the check
 
-Default text parts of the check widget that you can use for are:
+
+Layout text parts
+=================
 
 - ``default`` - A label of the check
 - ``on`` - On state label of the check
 - ``off`` - Off state label of the check
+
+
+Inheritance diagram
+===================
+
+.. inheritance-diagram:: efl.elementary.check
+    :parts: 2
 
 """
 

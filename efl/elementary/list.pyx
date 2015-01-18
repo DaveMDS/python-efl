@@ -18,10 +18,14 @@
 
 """
 
+:mod:`list` Module
+##################
+
 .. image:: /images/list-preview.png
 
+
 Widget description
-------------------
+==================
 
 A list widget is a container whose children are displayed vertically or
 horizontally, in order, and can be selected.
@@ -31,13 +35,15 @@ modes of items displaying.
 A list is a very simple type of list widget.  For more robust
 lists, :py:class:`~efl.elementary.genlist.Genlist` should probably be used.
 
-Smart callbacks one can listen to:
+
+Emitted signals
+===============
 
 - ``activated`` - The user has double-clicked or pressed
-    (enter|return|spacebar) on an item. The ``event_info`` parameter
-    is the item that was activated.
+  (enter|return|spacebar) on an item. The ``event_info`` parameter
+  is the item that was activated.
 - ``clicked,double`` - The user has double-clicked an item.
-    The ``event_info`` parameter is the item that was double-clicked.
+  The ``event_info`` parameter is the item that was double-clicked.
 - ``clicked,right`` - The user has right-clicked an item.  The
   ``event_info`` parameter is the item that was right-clicked. (since: 1.13)
 - ``selected`` - when the user selected an item
@@ -61,18 +67,25 @@ Smart callbacks one can listen to:
 - ``item,focused`` - When the list item has received focus. (since 1.10)
 - ``item,unfocused`` - When the list item has lost focus. (since 1.10)
 
-Available styles for it:
+
+Available styles
+================
 
 - ``default``
 
-Default content parts of the list items that you can use for are:
+
+Layout content parts
+====================
 
 - ``start`` - A start position object in the list item
 - ``end`` - A end position object in the list item
 
-Default text parts of the list items that you can use for are:
+
+Layout text parts
+=================
 
 - ``default`` - label in the list item
+
 
 Scrollable Interface
 ====================
@@ -88,13 +101,14 @@ using multiple inheritance, for example::
         def __init__(self, canvas, *args, **kwargs):
             Genlist.__init__(self, canvas)
 
+
 Enumerations
-------------
+============
 
 .. _Elm_List_Mode:
 
 List sizing modes
-=================
+-----------------
 
 .. data:: ELM_LIST_COMPRESS
 
@@ -136,7 +150,7 @@ List sizing modes
 .. _Elm_List_Object_Select_Mode:
 
 Selection modes
-===============
+---------------
 
 .. data:: ELM_OBJECT_SELECT_MODE_DEFAULT
 
@@ -159,6 +173,12 @@ Selection modes
 
     No select mode with no finger size rule
 
+
+Inheritance diagram
+===================
+
+.. inheritance-diagram:: efl.elementary.list
+    :parts: 2
 
 """
 

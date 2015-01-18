@@ -18,40 +18,40 @@
 
 """
 
+:mod:`panel` Module
+###################
+
 .. image:: /images/panel-preview.png
 
+
 Widget description
-------------------
+==================
 
 A panel is a type of animated container that contains subobjects.
 
 It can be expanded or contracted by clicking the button on it's edge.
 
-Orientations are as follows:
 
-- ELM_PANEL_ORIENT_TOP
-- ELM_PANEL_ORIENT_LEFT
-- ELM_PANEL_ORIENT_RIGHT
-- ELM_PANEL_ORIENT_BOTTOM
-
-This widget emits the following signals, besides the ones sent from
-:py:class:`~efl.elementary.layout_class.LayoutClass`:
+Emitted signals
+===============
 
 - ``focused`` - When the panel has received focus. (since 1.8)
 - ``unfocused`` - When the panel has lost focus. (since 1.8)
 
-Default content parts of the panel widget that you can use for are:
+
+Layout content parts
+====================
 
 - ``default`` - A content of the panel
 
 
 Enumerations
-------------
+============
 
 .. _Elm_Panel_Orient:
 
 Panel orientation types
-=======================
+-----------------------
 
 .. data:: ELM_PANEL_ORIENT_TOP
 
@@ -68,6 +68,13 @@ Panel orientation types
 .. data:: ELM_PANEL_ORIENT_RIGHT
 
     Panel (dis)appears from the right
+
+
+Inheritance diagram
+===================
+
+.. inheritance-diagram:: efl.elementary.panel
+    :parts: 2
 
 """
 

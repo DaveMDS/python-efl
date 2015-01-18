@@ -17,10 +17,14 @@
 
 """
 
+:mod:`slider` Module
+####################
+
 .. image:: /images/slider-preview.png
 
+
 Widget description
-------------------
+==================
 
 The slider adds a draggable "slider" widget for selecting the value of
 something within a range.
@@ -43,8 +47,9 @@ slider is its length (horizontally or vertically). This will be scaled by
 the object or applications scaling factor. At any point code can query the
 slider for its value with :py:attr:`Slider.value`.
 
-This widget emits the following signals, besides the ones sent from
-:py:class:`~efl.elementary.layout_class.LayoutClass`:
+
+Emitted signals
+===============
 
 - ``changed`` - Whenever the slider value is changed by the user.
 - ``slider,drag,start`` - dragging the slider indicator around has
@@ -58,18 +63,25 @@ This widget emits the following signals, besides the ones sent from
 - ``focused`` - When the slider has received focus. (since 1.8)
 - ``unfocused`` - When the slider has lost focus. (since 1.8)
 
-Available styles for it:
 
-- ``default``
-
-Default content parts of the slider widget that you can use for are:
+Layout content parts
+====================
 
 - ``icon`` - An icon of the slider
 - ``end`` - A end part content of the slider
 
-Default text parts of the slider widget that you can use for are:
+
+Layout text parts
+=================
 
 - ``default`` - Label of the slider
+
+
+Inheritance diagram
+===================
+
+.. inheritance-diagram:: efl.elementary.slider
+    :parts: 2
 
 """
 

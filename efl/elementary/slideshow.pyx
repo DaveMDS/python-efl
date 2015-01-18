@@ -18,10 +18,14 @@
 
 """
 
+:mod:`slideshow` Module
+#######################
+
 .. image:: /images/slideshow-preview.png
 
+
 Widget description
-------------------
+==================
 
 This widget, as the name indicates, is a pre-made image
 slideshow panel, with API functions acting on (child) image
@@ -66,8 +70,9 @@ viewport. The user is able to set the numbers of items to be
 cached **before** and **after** the current item, in the widget's
 item list.
 
-This widget emits the following signals, besides the ones sent from
-:py:class:`~efl.elementary.layout_class.LayoutClass`:
+
+Emitted signals
+===============
 
 - ``changed`` - when the slideshow switches its view to a new item.
   event_info parameter in callback contains the current visible item
@@ -75,6 +80,13 @@ This widget emits the following signals, besides the ones sent from
   parameter in callback contains the current visible item
 - ``focused`` - When the slideshow has received focus. (since 1.8)
 - ``unfocused`` - When the slideshow has lost focus. (since 1.8)
+
+
+Inheritance diagram
+===================
+
+.. inheritance-diagram:: efl.elementary.slideshow
+    :parts: 2
 
 """
 

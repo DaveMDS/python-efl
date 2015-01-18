@@ -18,10 +18,14 @@
 
 """
 
+:mod:`menu` Module
+##################
+
 .. image:: /images/menu-preview.png
 
+
 Widget description
-------------------
+==================
 
 A menu is a list of items displayed above its parent.
 
@@ -29,18 +33,31 @@ When the menu is showing its parent is darkened. Each item can have a
 sub-menu. The menu object can be used to display a menu on a right click
 event, in a toolbar, anywhere.
 
-Signals that you can add callbacks for are:
+
+Emitted signals
+===============
 
 - ``clicked`` - the user clicked the empty space in the menu to dismiss.
 - ``dismissed`` - the user clicked the empty space in the menu to dismiss (since 1.8)
 
-Default content parts of the menu items that you can use for are:
+
+Layout content parts
+====================
 
 - ``default`` - A main content of the menu item
 
-Default text parts of the menu items that you can use for are:
+
+Layout text parts
+=================
 
 - ``default`` - label in the menu item
+
+
+Inheritance diagram
+===================
+
+.. inheritance-diagram:: efl.elementary.menu
+    :parts: 2
 
 """
 

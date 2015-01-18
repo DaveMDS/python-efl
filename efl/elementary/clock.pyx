@@ -18,11 +18,14 @@
 
 """
 
-Widget description
-------------------
+:mod:`clock` Module
+###################
 
 .. image:: /images/clock-preview.png
-    :align: left
+
+
+Widget description
+==================
 
 This is a digital clock widget.
 
@@ -49,8 +52,9 @@ the user to reach a time which is distant from the one set.
 The time display is, by default, in military mode (24h), but an am/pm
 indicator may be optionally shown, too, when it will switch to 12h.
 
-This widget emits the following signals, besides the ones sent from
-:py:class:`~efl.elementary.layout_class.LayoutClass`:
+
+Emitted signals
+===============
 
 - ``changed`` - the clock's user changed the time
 - ``focused`` - When the clock has received focus. (since 1.8)
@@ -58,12 +62,12 @@ This widget emits the following signals, besides the ones sent from
 
 
 Enumerations
-------------
+============
 
 .. _Elm_Clock_Edit_Mode:
 
 Clock edit modes
-================
+----------------
 
 .. data:: ELM_CLOCK_EDIT_DEFAULT
 
@@ -96,6 +100,13 @@ Clock edit modes
 .. data:: ELM_CLOCK_EDIT_ALL
 
     Edit all
+
+
+Inheritance diagram
+===================
+
+.. inheritance-diagram:: efl.elementary.clock
+    :parts: 2
 
 """
 

@@ -32,12 +32,12 @@ This widget emits the following signals, besides the ones sent from
 
 
 Enumerations
-------------
+============
 
 .. _Elm_GLView_Mode:
 
 GLView Mode
-^^^^^^^^^^^
+-----------
 
 Defines mode of GLView
 
@@ -65,7 +65,7 @@ Defines mode of GLView
 .. _Elm_GLView_Resize_Policy:
 
 GLView Resize Policy
-^^^^^^^^^^^^^^^^^^^^
+--------------------
 
 Defines a policy for the glview resizing.
 
@@ -90,7 +90,7 @@ scaled.
 .. _Elm_GLView_Render_Policy:
 
 GLView Render Policy
-^^^^^^^^^^^^^^^^^^^^
+--------------------
 
 Defines a policy for gl rendering.
 

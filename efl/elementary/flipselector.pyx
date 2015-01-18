@@ -18,11 +18,14 @@
 
 """
 
-Widget description
-------------------
+:mod:`flipselector` Module
+##########################
 
 .. image:: /images/flipselector-preview.png
-    :align: left
+
+
+Widget description
+==================
 
 A flip selector is a widget to show a set of *text* items, one at a time, with
 the same sheet switching style as the :py:class:`~efl.elementary.clock.Clock`
@@ -35,8 +38,9 @@ the user. The interval between flips will keep growing in time,
 so that it helps the user to reach an item which is distant from
 the current selection.
 
-This widget emits the following signals, besides the ones sent from
-:py:class:`~efl.elementary.layout_class.LayoutClass`:
+
+Emitted signals
+===============
 
 - ``selected`` - when the widget's selected text item is changed
 - ``overflowed`` - when the widget's current selection is changed
@@ -46,13 +50,18 @@ This widget emits the following signals, besides the ones sent from
 - ``focused`` - When the flipselector has received focus. (since 1.8)
 - ``unfocused`` - When the flipselector has lost focus. (since 1.8)
 
-Available styles for it:
 
-- ``default``
-
-Default text parts of the flipselector items that you can use for are:
+Layout text parts
+=================
 
 - ``default`` - label of the flipselector item
+
+
+Inheritance diagram
+===================
+
+.. inheritance-diagram:: efl.elementary.flipselector
+    :parts: 2
 
 """
 

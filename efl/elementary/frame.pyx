@@ -18,15 +18,20 @@
 
 """
 
+:mod:`frame` Module
+###################
+
 .. image:: /images/frame-preview.png
 
+
 Widget description
-------------------
+==================
 
 Frame is a widget that holds some content and has a title.
 
-The default look is a frame with a title, but Frame supports multiple
-styles:
+
+Available styles
+================
 
 - default
 - pad_small
@@ -38,18 +43,30 @@ styles:
 
 Out of all these styles only default shows the title.
 
-This widget emits the following signals, besides the ones sent from
-:py:class:`~efl.elementary.layout_class.LayoutClass`:
+
+Emitted signals
+===============
 
 - ``clicked`` - The user has clicked the frame's label
 
-Default content parts of the frame widget that you can use for are:
+
+Layout content parts
+====================
 
 - ``default`` - A content of the frame
 
-Default text parts of the frame widget that you can use for are:
+
+Layout text parts
+=================
 
 - ``default`` - Label of the frame
+
+
+Inheritance diagram
+===================
+
+.. inheritance-diagram:: efl.elementary.frame
+    :parts: 2
 
 """
 

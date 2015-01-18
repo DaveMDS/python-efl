@@ -18,6 +18,10 @@
 
 """
 
+:mod:`general` Module
+#####################
+
+
 .. _General:
 
 General
@@ -47,7 +51,6 @@ Different profiles may have pre-set values for finger sizes.
 
 Enumerations
 ============
-
 
 .. _Elm_Policy:
 
@@ -232,6 +235,12 @@ Glob matching bitfiled flags
 
     .. versionadded:: 1.11
 
+
+Inheritance diagram
+===================
+
+.. inheritance-diagram:: efl.elementary.general
+    :parts: 2
 
 """
 

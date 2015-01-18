@@ -18,10 +18,14 @@
 
 """
 
+:mod:`gengrid` Module
+#####################
+
 .. image:: /images/gengrid-preview.png
 
+
 Widget description
-------------------
+==================
 
 This widget aims to position objects in a grid layout while actually
 creating and rendering only the visible ones, using the same idea as the
@@ -32,6 +36,7 @@ function is issued. Users may interact with a gengrid via the mouse (by
 clicking on items to select them and clicking on the grid's viewport and
 swiping to pan the whole view) or via the keyboard, navigating through
 item with the arrow keys.
+
 
 Scrollable Interface
 ====================
@@ -46,6 +51,7 @@ using multiple inheritance, for example::
     class ScrollableGenlist(Genlist, Scrollable):
         def __init__(self, canvas, *args, **kwargs):
             Genlist.__init__(self, canvas)
+
 
 Gengrid layouts
 ===============
@@ -62,6 +68,7 @@ horizontal scrolling. When in "vertical mode" , though, items will be
 placed in **rows**, from left to right and, when the space for a row is
 filled, another one is started below, thus expanding the grid vertically
 (and making for vertical scrolling).
+
 
 Gengrid items
 =============
@@ -84,6 +91,7 @@ A gengrid item may be at one of several styles. Elementary provides one
 by default - "default", but this can be extended by system or
 application custom themes/overlays/extensions (see
 :py:class:`~efl.elementary.theme.Theme` for more details).
+
 
 Gengrid item classes
 ====================
@@ -135,6 +143,7 @@ following members:
   to the item (e.g. its data parameter on creation) can be deleted. See
   :py:meth:`GengridItem.delete`.
 
+
 Usage hints
 ===========
 
@@ -171,10 +180,9 @@ augmentation per application with elm_theme_extension_add(). If you
 absolutely must have a specific style that overrides any theme the user
 or system sets up you can use elm_theme_overlay_add() to add such a file.
 
-Gengrid smart events
-====================
 
-Smart events that you can add callbacks for are:
+Emitted signals
+===============
 
 - ``activated`` - The user has double-clicked or pressed
   (enter|return|spacebar) on an item. The ``event_info`` parameter
@@ -258,13 +266,14 @@ Smart events that you can add callbacks for are:
 - ``item,reorder,anim,stop`` - This is called when a gengrid item movement just
   stopped in reorder mode. The parameter is the item that was moved. (since 1.10)
 
+
 Enumerations
-------------
+============
 
 .. _Elm_Gengrid_Item_Scrollto_Type:
 
 Items' scroll to types
-======================
+----------------------
 
 .. data:: ELM_GENLIST_ITEM_SCROLLTO_NONE
 
@@ -286,7 +295,7 @@ Items' scroll to types
 .. _Elm_Gengrid_Object_Multi_Select_Mode:
 
 Multi-select mode
-=================
+-----------------
 
 .. data:: ELM_OBJECT_MULTI_SELECT_MODE_DEFAULT
 
@@ -310,7 +319,7 @@ Multi-select mode
 .. _Elm_Gengrid_Reorder_Type:
 
 Reorder type
-============
+------------
 
 .. data:: ELM_GENGRID_REORDER_TYPE_NORMAL
 
@@ -323,6 +332,13 @@ Reorder type
     Swap reorder mode
 
     .. versionadded:: 1.11
+
+
+Inheritance diagram
+===================
+
+.. inheritance-diagram:: efl.elementary.gengrid
+    :parts: 2
 
 """
 

@@ -15,7 +15,21 @@
 # You should have received a copy of the GNU Lesser General Public License
 # along with this Python-EFL.  If not, see <http://www.gnu.org/licenses/>.
 
+"""
+
+:mod:`need` Module
+##################
+
+Description
+===========
+
+This functions are used to tell elementary of optionals modules usage.
+
+"""
+
+
 from efl.utils.deprecated cimport DEPRECATED
+
 
 def need_efreet():
     """Request that your elementary application needs Efreet

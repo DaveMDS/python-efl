@@ -18,10 +18,14 @@
 
 """
 
+:mod:`popup` Module
+###################
+
 .. image:: /images/popup-preview.png
 
+
 Widget description
-------------------
+==================
 
 This widget is an enhancement of :py:class:`~efl.elementary.notify.Notify`.
 In addition to Content area, there are two optional sections namely Title
@@ -77,7 +81,9 @@ after use. To control the maximum height of the internal scroller for
 item, we use the height of the action area which is passed by theme
 based on the number of buttons currently set to popup.
 
-Signals that you can add callbacks for are:
+
+Emitted signals
+===============
 
 - ``timeout`` - when ever popup is closed as a result of timeout.
 - ``block,clicked`` - when ever user taps on Blocked Event area.
@@ -87,39 +93,33 @@ Signals that you can add callbacks for are:
 - ``item,focused`` - the popup item has received focus. (since 1.10)
 - ``item,unfocused`` - the popup item has lost focus. (since 1.10)
 
-Styles available for Popup
 
-- ``default``
-
-Default contents parts of the popup items that you can use are:
-
-- ``default`` -Item's icon
-
-Default text parts of the popup items that you can use are:
-
-- ``default`` - Item's label
-
-Default contents parts of the popup widget that you can use for are:
+Layout content parts
+====================
 
 - ``default`` - The content of the popup
 - ``title,icon`` - Title area's icon
 - ``button1`` - 1st button of the action area
 - ``button2`` - 2nd button of the action area
 - ``button3`` - 3rd button of the action area
+- ``default`` - Item's icon
 
-Default text parts of the popup widget that you can use for are:
+
+Layout text parts
+=================
 
 - ``title,text`` - This operates on Title area's label
 - ``default`` - content-text set in the content area of the widget
+- ``default`` - Item's label
 
 
 Enumerations
-------------
+============
 
 .. _Elm_Popup_Orient:
 
 Popup orientation types
-=======================
+-----------------------
 
 .. data:: ELM_POPUP_ORIENT_TOP
 
@@ -161,7 +161,7 @@ Popup orientation types
 .. Elm_Wrap_Type:
 
 Wrap modes
-==========
+----------
 
 .. data:: ELM_WRAP_NONE
 
@@ -178,6 +178,13 @@ Wrap modes
 .. data:: ELM_WRAP_MIXED
 
     Word wrap, and if that fails, char wrap.
+
+
+Inheritance diagram
+===================
+
+.. inheritance-diagram:: efl.elementary.popup
+    :parts: 2
 
 """
 

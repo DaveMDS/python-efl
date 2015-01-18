@@ -17,11 +17,14 @@
 
 """
 
-Widget description
-------------------
+:mod:`radio` Module
+###################
 
 .. image:: /images/radio-preview.png
-    :align: left
+
+
+Widget description
+==================
 
 Radio is a widget that allows for one or more options to be displayed
 and have the user choose only one of them.
@@ -45,21 +48,33 @@ represented by the property :py:attr:`~Radio.value` on any group member. For
 convenience the radio objects are also able to directly set an
 integer(int) to the value that is selected.
 
-This widget emits the following signals, besides the ones sent from
-:py:class:`~efl.elementary.layout_class.LayoutClass`:
+
+Emitted signals
+===============
 
 - ``changed`` - This is called whenever the user changes the state of one of
     the radio objects within the group of radio objects that work together.
 - ``focused`` - When the radio has received focus. (since 1.8)
 - ``unfocused`` - When the radio has lost focus. (since 1.8)
 
-Default text parts of the radio widget that you can use for are:
+
+Layout text parts
+=================
 
 - ``default`` - Label of the radio
 
-Default content parts of the radio widget that you can use for are:
+
+Layout content parts
+====================
 
 - ``icon`` - An icon of the radio
+
+
+Inheritance diagram
+===================
+
+.. inheritance-diagram:: efl.elementary.radio
+    :parts: 2
 
 """
 

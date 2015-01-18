@@ -1,6 +1,6 @@
 
 Python Bindings for Enlightenment Foundation Libraries' documentation
-=====================================================================
+#####################################################################
 
 EFL is a collection of libraries that are independent or may build on top of
 each-other to provide useful features that complement an OS's existing
@@ -26,67 +26,69 @@ and more.
 
 .. seealso::
 
-    `EFL Overview <http://trac.enlightenment.org/e/wiki/EFLOverview>`_
-    `EFL Documentation <http://web.enlightenment.org/p.php?p=docs>`_
+   - `EFL Overview <http://trac.enlightenment.org/e/wiki/EFLOverview>`_
+   - `EFL Documentation <http://web.enlightenment.org/p.php?p=docs>`_
+   - `EDC Reference <https://build.enlightenment.org/job/nightly_efl_gcc_x86_64/lastSuccessful Buil d/artifact/doc/html/edcref.html>`_
+   - `EFL Big Picture <http://docs.enlightenment.org/books/efl-big-picture/efl_big_picture.pdf>`_
 
 
 EFL
----
+===
 
 .. toctree:: efl.rst
 
 
 EO
----
+==
 
 .. toctree:: eo/eo.rst
 
 
 Ecore
------
+=====
 
 .. toctree:: ecore/ecore.rst
-
+   :maxdepth: 2
 
 Evas
-----
+====
 
 .. toctree:: evas/evas.rst
 
 
 Ethumb
-------
+======
 
 .. toctree:: ethumb/ethumb.rst
 
 
 Edje
-----
+====
 
 .. toctree:: edje/edje.rst
 
 
 Emotion
--------
+=======
 
 .. toctree:: emotion/emotion.rst
 
 
 Elementary
-----------
+==========
 
 .. toctree:: elementary/elementary.rst
-   :maxdepth: 2
+   :maxdepth: 3
 
 
 DBus integration
-----------------
+================
 
 .. toctree:: dbus/dbus
 
 
 Acknowledgements
-----------------
+================
 
 :Copyright:
     Python Bindings for EFL are Copyright (C) 2008-2015 Simon Busch
@@ -111,7 +113,7 @@ Acknowledgements
 
 
 Indices and tables
-------------------
+==================
 
 * :ref:`genindex`
 * :ref:`modindex`

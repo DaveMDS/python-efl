@@ -17,11 +17,14 @@
 
 """
 
-Widget description
-------------------
+:mod:`innerwindow` Module
+#########################
 
 .. image:: /images/innerwindow-preview.png
-    :align: left
+
+
+Widget description
+==================
 
 An inwin is a window inside a window that is useful for a quick popup.
 It does not hover.
@@ -33,15 +36,24 @@ to show what's behind it without destroying it. If this is done, the
 :py:meth:`~InnerWindow.activate` function can be used to bring it back to full
 visibility again.
 
-There are three styles available in the default theme. These are:
 
-- default: The inwin is sized to take over most of the window it's
+Available styles
+================
+
+- ``default`` The inwin is sized to take over most of the window it's
   placed in.
-- minimal: The size of the inwin will be the minimum necessary to show
+- ``minimal`` The size of the inwin will be the minimum necessary to show
   its contents.
-- minimal_vertical: Horizontally, the inwin takes as much space as
+- ``minimal_vertical`` Horizontally, the inwin takes as much space as
   possible, but it's sized vertically the most it needs to fit its
   contents.
+
+
+Inheritance diagram
+===================
+
+.. inheritance-diagram:: efl.elementary.innerwindow
+    :parts: 2
 
 """
 

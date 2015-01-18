@@ -18,11 +18,14 @@
 
 """
 
-Widget description
-------------------
+:mod:`hoversel` Module
+######################
 
 .. image:: /images/hoversel-preview.png
-    :align: left
+
+
+Widget description
+==================
 
 A hoversel is a button that pops up a list of items (automatically
 choosing the direction to display) that have a label and, optionally, an
@@ -32,8 +35,9 @@ It is a convenience widget to avoid the need to do all the piecing
 together yourself. It is intended for a small number of items in the
 hoversel menu (no more than 8), though is capable of many more.
 
-This widget emits the following signals, besides the ones sent from
-:py:class:`~efl.elementary.button.Button`:
+
+Emitted signals
+===============
 
 - ``clicked`` - the user clicked the hoversel button and popped up
   the sel
@@ -44,22 +48,26 @@ This widget emits the following signals, besides the ones sent from
 - ``item,focused`` - the hoversel item has received focus. (since 1.10)
 - ``item,unfocused`` - the hoversel item has lost focus. (since 1.10)
 
-Default content parts of the hoversel widget that you can use for are:
+
+Layout content parts
+====================
 
 - ``icon`` - An icon of the hoversel
 
-Default text parts of the hoversel widget that you can use for are:
+
+Layout text parts
+=================
 
 - ``default`` - Label of the hoversel
 
 
 Enumerations
-------------
+============
 
 .. _Elm_Hoversel_Icon_Type:
 
 Icon types
-==========
+----------
 
 .. data:: ELM_ICON_NONE
 
@@ -72,6 +80,13 @@ Icon types
 .. data:: ELM_ICON_STANDARD
 
     Icon is set with standards names
+
+
+Inheritance diagram
+===================
+
+.. inheritance-diagram:: efl.elementary.hoversel
+    :parts: 2
 
 """
 

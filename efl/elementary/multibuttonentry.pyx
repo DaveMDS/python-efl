@@ -17,10 +17,14 @@
 
 """
 
+:mod:`multibuttonentry` Module
+##############################
+
 .. image:: /images/multibuttonentry-preview.png
 
+
 Widget description
-------------------
+==================
 
 A Multibuttonentry is a widget to allow a user enter text and manage
 it as a number of buttons. Each text button is inserted by pressing the
@@ -33,8 +37,9 @@ Typical use case of multibuttonentry is, composing emails/messages to a
 group of addresses, each of which is an item that can be clicked for
 further actions.
 
-This widget emits the following signals, besides the ones sent from
-:py:class:`~efl.elementary.layout_class.LayoutClass`:
+
+Emitted signals
+===============
 
 - ``item,selected`` - this is called when an item is selected by
   api, user interaction, and etc. this is also called when a
@@ -55,13 +60,18 @@ This widget emits the following signals, besides the ones sent from
 - ``expand,state,changed`` - when shrink mode state of
   multi-button entry is changed.
 
-Default text parts of the multibuttonentry widget that you can use for are:
+Layout text parts
+=================
 
 - ``default`` - A label of the multibuttonentry
-
-Default text parts of the multibuttonentry items that you can use for are:
-
 - ``default`` - A label of the multibuttonentry item
+
+
+Inheritance diagram
+===================
+
+.. inheritance-diagram:: efl.elementary.multibuttonentry
+    :parts: 2
 
 """
 

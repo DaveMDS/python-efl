@@ -18,16 +18,24 @@
 
 """
 
+:mod:`label` Module
+###################
+
 .. image:: /images/label-preview.png
 
+
 Widget description
-------------------
+==================
 
 Widget to display text, with simple html-like markup.
 
 The Label widget **doesn't** allow text to overflow its boundaries, if the
 text doesn't fit the geometry of the label it will be ellipsized or be
-cut. Elementary provides several styles for this widget:
+cut.
+
+
+Available styles
+================
 
 - default - No animation
 - marker - Centers the text in the label and makes it bold by default
@@ -44,20 +52,21 @@ cut. Elementary provides several styles for this widget:
 Custom themes can of course invent new markup tags and style them any way
 they like.
 
-This widget emits the following signals, besides the ones sent from
-:py:class:`~efl.elementary.layout_class.LayoutClass`:
+
+Emitted signals
+===============
 
 - ``language,changed`` - The program's language changed.
 - ``slide,end`` - The slide is end.
 
 
 Enumerations
-------------
+============
 
 .. _Elm_Label_Wrap_Type:
 
 Wrap modes
-==========
+----------
 
 .. data:: ELM_WRAP_NONE
 
@@ -79,7 +88,7 @@ Wrap modes
 .. _Elm_Label_Slide_Mode:
 
 Slide modes
-===========
+-----------
 
 .. data:: ELM_LABEL_SLIDE_MODE_NONE
 
@@ -92,6 +101,13 @@ Slide modes
 .. data:: ELM_LABEL_SLIDE_MODE_ALWAYS
 
     The label will always slide.
+
+
+Inheritance diagram
+===================
+
+.. inheritance-diagram:: efl.elementary.label
+    :parts: 2
 
 """
 

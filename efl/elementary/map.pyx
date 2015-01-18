@@ -18,11 +18,15 @@
 
 """
 
+:mod:`map` Module
+#################
+
 .. image:: /images/map-preview.png
     :width: 100%
 
+
 Widget description
-------------------
+==================
 
 The *Map* is a widget specifically for displaying a geographic map.
 It uses `OpenStreetMap <http://www.openstreetmap.org/>`_ as map tile provider,
@@ -39,8 +43,8 @@ It supports some basic but yet nice features:
 - names/coordinates conversion (and viceversa)
 
 
-Signals you can listen to
-=========================
+Emitted signals
+===============
 
 - ``clicked`` - Called when a user has clicked the map without dragging around.
 - ``clicked,double`` - Called when a user has double-clicked the map.
@@ -70,6 +74,7 @@ Signals you can listen to
 - ``focused`` - When the map has received focus. (since 1.8)
 - ``unfocused`` - When the map has lost focus. (since 1.8)
 
+
 Scrollable Interface
 ====================
 
@@ -84,13 +89,14 @@ using multiple inheritance, for example::
         def __init__(self, canvas, *args, **kwargs):
             Genlist.__init__(self, canvas)
 
+
 Enumerations
-------------
+============
 
 .. _Elm_Map_Overlay_Type:
 
 Map overlay types
-=================
+-----------------
 
 .. data:: ELM_MAP_OVERLAY_TYPE_NONE
 
@@ -136,7 +142,7 @@ Map overlay types
 .. _Elm_Map_Route_Method:
 
 Map route methods
-=================
+-----------------
 
 .. data:: ELM_MAP_ROUTE_METHOD_FASTEST
 
@@ -150,7 +156,7 @@ Map route methods
 .. _Elm_Map_Route_Type:
 
 Map route types
-===============
+---------------
 
 .. data:: ELM_MAP_ROUTE_TYPE_MOTOCAR
 
@@ -168,7 +174,7 @@ Map route types
 .. _Elm_Map_Source_Type:
 
 Map source types
-================
+----------------
 
 .. data:: ELM_MAP_SOURCE_TYPE_TILE
 
@@ -186,7 +192,7 @@ Map source types
 .. _Elm_Map_Zoom_Mode:
 
 Map zoom modes
-==============
+--------------
 
 .. data:: ELM_MAP_ZOOM_MODE_MANUAL
 
@@ -202,6 +208,13 @@ Map zoom modes
 .. data:: ELM_MAP_ZOOM_MODE_AUTO_FILL
 
     Zoom until map fills scroll, ensuring no pixels are left unfilled.
+
+
+Inheritance diagram
+===================
+
+.. inheritance-diagram:: efl.elementary.map
+    :parts: 2
 
 """
 

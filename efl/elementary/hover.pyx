@@ -18,11 +18,14 @@
 
 """
 
-Widget description
-------------------
+:mod:`hover` Module
+###################
 
 .. image:: /images/hover-preview.png
-    :align: left
+
+
+Widget description
+==================
 
 A Hover object will hover over its ``parent`` object at the ``target``
 location.
@@ -35,15 +38,18 @@ clicked that **doesn't** cause the hover to be dismissed.
 A Hover object has two parents. One parent that owns it during creation
 and the other parent being the one over which the hover object spans.
 
-Elementary has the following styles for the hover widget:
+
+Available styles
+================
 
 - default
 - popout
 - menu
 - hoversel_vertical
 
-This widget emits the following signals, besides the ones sent from
-:py:class:`~efl.elementary.layout_class.LayoutClass`:
+
+Emitted signals
+===============
 
 - ``clicked`` - the user clicked the empty space in the hover to
   dismiss.
@@ -54,7 +60,9 @@ This widget emits the following signals, besides the ones sent from
 - ``focused`` - When the hover has received focus. (since 1.8)
 - ``unfocused`` - When the hover has lost focus. (since 1.8)
 
-Default content parts of the hover widget that you can use for are:
+
+Layout content parts
+====================
 
 - ``left``
 - ``top-left``
@@ -87,12 +95,12 @@ deleted, and vice-versa.
 
 
 Enumerations
-------------
+============
 
 .. _Elm_Hover_Axis:
 
 Hover axis
-==========
+----------
 
 .. data:: ELM_HOVER_AXIS_NONE
 
@@ -109,6 +117,13 @@ Hover axis
 .. data:: ELM_HOVER_AXIS_BOTH
 
     Both
+
+
+Inheritance diagram
+===================
+
+.. inheritance-diagram:: efl.elementary.hover
+    :parts: 2
 
 """
 

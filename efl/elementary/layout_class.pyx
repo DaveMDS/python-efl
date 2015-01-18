@@ -15,6 +15,46 @@
 # You should have received a copy of the GNU Lesser General Public License
 # along with this Python-EFL.  If not, see <http://www.gnu.org/licenses/>.
 
+"""
+
+:mod:`layout_class` Module
+##########################
+
+Description
+===========
+
+Elementary, besides having the :py:class:`~efl.elementary.layout.Layout`
+widget, exposes its foundation -- the Elementary Layout Class -- in
+order to create other widgets which are, basically, a certain layout
+with some more logic on top.
+
+The idea is to make the creation of that widgets as easy as possible,
+factorizing code on this common base. For example, a button is a layout
+(that looks like push button) that happens to react on clicks and keyboard
+events in a special manner, calling its user back on those events. That's no
+surprise, then, that the :py:class:`~efl.elementary.button.Button`
+implementation relies on LayoutClass, if you go to check it.
+
+Container parts, here, map directly to Edje parts from the layout's Edje
+group. Besides that, there's a whole infrastructure around Edje files:
+
+- interfacing by signals,
+- setting/retrieving text part values,
+- dealing with table and box parts directly,
+- etc.
+
+Finally, layout objects will do **part aliasing** for you, if you set
+it up properly. For that, take a look at
+Elm_Layout_Part_Alias_Description, where it's explained in detail.
+
+
+Inheritance diagram
+===================
+
+.. inheritance-diagram:: efl.elementary.layout_class
+    :parts: 2
+
+"""
 
 from cpython cimport PyUnicode_AsUTF8String
 
@@ -36,31 +76,10 @@ cdef void layout_signal_callback(void *data, Evas_Object *obj,
             traceback.print_exc()
 
 cdef class LayoutClass(Object):
-    """
+    """LayoutClass(...)
 
-    Elementary, besides having the :py:class:`~efl.elementary.layout.Layout`
-    widget, exposes its foundation -- the Elementary Layout Class -- in
-    order to create other widgets which are, basically, a certain layout
-    with some more logic on top.
-
-    The idea is to make the creation of that widgets as easy as possible,
-    factorizing code on this common base. For example, a button is a layout
-    (that looks like push button) that happens to react on clicks and keyboard
-    events in a special manner, calling its user back on those events. That's no
-    surprise, then, that the :py:class:`efl.elementary.button.Button`
-    implementation relies on LayoutClass, if you go to check it.
-
-    Container parts, here, map directly to Edje parts from the layout's Edje
-    group. Besides that, there's a whole infrastructure around Edje files:
-
-    - interfacing by signals,
-    - setting/retrieving text part values,
-    - dealing with table and box parts directly,
-    - etc.
-
-    Finally, layout objects will do **part aliasing** for you, if you set
-    it up properly. For that, take a look at
-    Elm_Layout_Part_Alias_Description, where it's explained in detail.
+    This is the base class for the :class:`~efl.elementary.layout.Layout`
+    widget and all the other widgets that inherit from it.
 
     """
 

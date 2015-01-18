@@ -17,10 +17,14 @@
 
 """
 
+:mod:`naviframe` Module
+#######################
+
 .. image:: /images/naviframe-preview.png
 
+
 Widget description
-------------------
+==================
 
 Naviframe stands for navigation frame. It's a views manager
 for applications.
@@ -40,23 +44,28 @@ Naviframe views hold spaces to various elements, which are:
 - title icon and
 - content area.
 
-Becase this widget is a layout, one places content on those areas by using
-:py:func:`~efl.elementary.object.Object.part_content_set` on the right swallow
-part names expected for each, which are:
+
+Layout content parts
+====================
 
 - ``default`` - The main content of the current page
 - ``icon`` - An icon in the title area of the current page
 - ``prev_btn`` - A button of the current page to go to the previous page
 - ``next_btn`` - A button of the current page to go to the next page
 
-For text, :py:func:`~efl.elementary.object.Object.part_text_set` will work here
-on:
+
+Layout text parts
+=================
 
 - ``default`` - Title label in the title area of the current page
 - ``subtitle`` - Sub-title label in the title area of the current page
 
 Most of those content objects can be passed at the time of an item
 creation (see :py:meth:`~NaviframeItem.push_to`).
+
+
+Available styles
+================
 
 Naviframe items can have different styles, which affect the
 transition between views, for example. On the default theme, two of
@@ -67,8 +76,8 @@ them are supported:
   and is overlapped by the new
 
 
-This widget emits the following signals, besides the ones sent from
-:py:class:`~efl.elementary.layout_class.LayoutClass`:
+Emitted signals
+===============
 
 - ``transition,finished`` - When the transition is finished in changing the item
 - ``title,transition,finished`` -  When the title area's transition is finished
@@ -90,6 +99,13 @@ reachable by naviframe **items** direct calls:
 What happens is that the topmost item of a naviframe will be the
 widget's target layout, when accessed directly. Items lying below
 the top one can be interacted with this way.
+
+
+Inheritance diagram
+===================
+
+.. inheritance-diagram:: efl.elementary.naviframe
+    :parts: 2
 
 """
 

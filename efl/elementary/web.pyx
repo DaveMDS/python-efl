@@ -18,11 +18,20 @@
 
 """
 
+:mod:`web` Module
+#################
+
+
+Widget description
+==================
+
 A web widget is used for displaying web pages (HTML/CSS/JS)
 using WebKit-EFL. You must have compiled Elementary with
 ewebkit support.
 
-Signals that you can add callbacks for are:
+
+Emitted signals
+===============
 
 - ``download,request``: A file download has been requested. Event info is
   a WebDownload instance
@@ -88,18 +97,14 @@ Signals that you can add callbacks for are:
 - ``focused`` : When the web has received focus. (since 1.8)
 - ``unfocused`` : When the web has lost focus. (since 1.8)
 
-available styles:
-
-- ``default``
-
 
 Enumerations
-------------
+============
 
 .. _Elm_Web_Window_Feature:
 
 Web window features
-===================
+-------------------
 
 .. data:: ELM_WEB_WINDOW_FEATURE_TOOLBAR
 
@@ -129,7 +134,7 @@ Web window features
 .. _Elm_Web_Zoom_Mode:
 
 Web zoom modes
-==============
+--------------
 
 .. data:: ELM_WEB_ZOOM_MODE_MANUAL
 
@@ -142,6 +147,13 @@ Web zoom modes
 .. data:: ELM_WEB_ZOOM_MODE_AUTO_FILL
 
     Zoom until content fills web object.
+
+
+Inheritance diagram
+===================
+
+.. inheritance-diagram:: efl.elementary.web
+    :parts: 2
 
 """
 

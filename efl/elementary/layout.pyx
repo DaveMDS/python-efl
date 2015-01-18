@@ -17,10 +17,14 @@
 
 """
 
+:mod:`layout` Module
+####################
+
 .. image:: /images/layout-preview.png
 
+
 Widget description
-------------------
+==================
 
 This is a container widget that takes a standard Edje design file and
 wraps it very thinly in a widget.
@@ -113,6 +117,10 @@ some basic functionality depending on the theme used.
 Most of them already send some signals, some already provide a toolbar or
 back and next buttons.
 
+
+Available styles
+================
+
 These are available predefined theme layouts. All of them have class =
 *layout*, group = *application*, and style = one of the following options:
 
@@ -130,10 +138,19 @@ These are available predefined theme layouts. All of them have class =
 - ``toolbar-table`` - application with toolbar and main content area as a
   table
 
-This widget emits the following signals:
+
+Emitted signals
+===============
 
 - ``theme,changed`` - The theme was changed.
 - ``language,changed`` - the program's language changed
+
+
+Inheritance diagram
+===================
+
+.. inheritance-diagram:: efl.elementary.layout
+    :parts: 2
 
 """
 

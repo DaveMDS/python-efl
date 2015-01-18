@@ -18,10 +18,14 @@
 
 """
 
+:mod:`grid` Module
+##################
+
 .. image:: /images/grid-preview.png
 
+
 Widget description
-------------------
+==================
 
 A grid layout widget.
 
@@ -33,6 +37,13 @@ The Grid uses a "Virtual resolution" that is stretched to fill the grid
 widgets size itself. The default is 100 x 100, so that means the
 position and sizes of children will effectively be percentages (0 to 100)
 of the width or height of the grid widget.
+
+
+Inheritance diagram
+===================
+
+.. inheritance-diagram:: efl.elementary.grid
+    :parts: 2
 
 """
 

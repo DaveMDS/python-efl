@@ -17,9 +17,12 @@
 
 """
 
-Widget description
-------------------
+:mod:`video` Module
+###################
 
+
+Widget description
+==================
 
 Display a video by using Emotion.
 
@@ -32,6 +35,13 @@ These widgets emit the following signals, besides the ones sent from
 
 - ``focused`` - When the widget has received focus. (since 1.8)
 - ``unfocused`` - When the widget has lost focus. (since 1.8)
+
+
+Inheritance diagram
+===================
+
+.. inheritance-diagram:: efl.elementary.video
+    :parts: 2
 
 """
 

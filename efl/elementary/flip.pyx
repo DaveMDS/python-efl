@@ -18,10 +18,14 @@
 
 """
 
+:mod:`flip` Module
+##################
+
 .. image:: /images/flip-preview.png
 
+
 Widget description
-------------------
+==================
 
 This widget holds two content :py:class:`efl.evas.Object`: one on
 the front and one on the back. It allows you to flip from front to back
@@ -33,24 +37,28 @@ and then call :py:meth:`Flip.go` you would see whatever is below the flip.
 
 For a list of supported animations see :py:meth:`Flip.go`.
 
-Signals that you can add callbacks for are:
+
+Emitted signals
+===============
 
 - ``animate,begin`` - when a flip animation was started
 - ``animate,done`` - when a flip animation is finished
 
-Default content parts of the flip widget that you can use for are:
+
+Layout content parts
+====================
 
 - ``front`` - A front content of the flip
 - ``back`` - A back content of the flip
 
 
 Enumerations
-------------
+============
 
 .. _Elm_Flip_Direction:
 
 Flip directions
-===============
+---------------
 
 .. data:: ELM_FLIP_DIRECTION_UP
 
@@ -75,7 +83,7 @@ Flip directions
 .. _Elm_Flip_Interaction:
 
 Flip interaction modes
-======================
+----------------------
 
 .. data:: ELM_FLIP_INTERACTION_NONE
 
@@ -97,9 +105,7 @@ Flip interaction modes
 .. _Elm_Flip_Mode:
 
 Flip types
-==========
-
-.. rubric:: Flip rotation types
+----------
 
 .. data:: ELM_FLIP_ROTATE_Y_CENTER_AXIS
 
@@ -125,9 +131,6 @@ Flip types
     middle of its height, the other content is shown as the other side of
     the flip.
 
-
-.. rubric:: Flip cube types
-
 .. data:: ELM_FLIP_CUBE_LEFT
 
     Rotate the currently visible content to the left as if the flip was a
@@ -148,9 +151,6 @@ Flip types
     Rotate the currently visible content down as if the flip was a cube, the
     other content is show as the upper face of the cube.
 
-
-.. rubric:: Flip page types
-
 .. data:: ELM_FLIP_PAGE_LEFT
 
     Move the currently visible content to the left as if the flip was a
@@ -170,6 +170,14 @@ Flip types
 
     Move the currently visible content down as if the flip was a book, the
     other content is shown as the page below that.
+
+
+Inheritance diagram
+===================
+
+.. inheritance-diagram:: efl.elementary.flip
+    :parts: 2
+
 
 """
 

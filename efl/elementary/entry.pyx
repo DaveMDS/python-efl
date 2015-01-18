@@ -18,11 +18,14 @@
 
 """
 
-Widget description
-------------------
+:mod:`entry` Module
+###################
 
 .. image:: /images/entry-preview.png
-    :align: left
+
+
+Widget description
+==================
 
 An entry is a convenience widget which shows a box that the user can
 enter text into.
@@ -39,6 +42,7 @@ Other features include password mode, filtering of inserted text with
 :py:meth:`~efl.elementary.entry.Entry.markup_filter_append` and related
 functions, inline "items" and formatted markup text.
 
+
 Scrollable Interface
 ====================
 
@@ -52,6 +56,7 @@ using multiple inheritance, for example::
     class ScrollableGenlist(Genlist, Scrollable):
         def __init__(self, canvas, *args, **kwargs):
             Genlist.__init__(self, canvas)
+
 
 Formatted text
 ==============
@@ -71,6 +76,7 @@ Currently defined by the default theme are the following tags:
 - <link>...</link>: Underlines the enclosed text.
 - <hilight>...</hilight>: Highlights the enclosed text.
 
+
 Special markups
 ===============
 
@@ -78,8 +84,9 @@ Besides those used to format text, entries support two special markup
 tags used to insert click-able portions of text or items inlined within
 the text.
 
+
 Anchors
-'''''''
+-------
 
 Anchors are similar to HTML anchors. Text can be surrounded by <a> and
 </a> tags and an event will be generated when this text is clicked,
@@ -96,8 +103,9 @@ callback function. The same applies for "anchor,in" (mouse in),
 "anchor,out" (mouse out), "anchor,down" (mouse down), and "anchor,up"
 (mouse up) events on an anchor.
 
+
 Items
-'''''
+-----
 
 Inlined in the text, any other :py:class:`~efl.elementary.object.Object` can
 be inserted by using <item> tags this way::
@@ -186,6 +194,7 @@ Alternatively, an item may reference an image by its path, using
 the URI form ``file:///path/to/an/image.png`` and the entry will then
 use that image for the item.
 
+
 Setting entry's style
 =====================
 
@@ -200,6 +209,7 @@ aesthetic reasons. While the user style should be changed when you would
 like to change the style to something specific defined at run-time, e.g,
 setting font or font size in a text editor.
 
+
 Loading and saving files
 ========================
 
@@ -209,10 +219,9 @@ can be disabled with :py:attr:`~efl.elementary.entry.Entry.autosave` and files
 can be loaded directly as plain text or have any markup in them recognized. See
 :py:attr:`~efl.elementary.entry.Entry.file` for more details.
 
-Emitted signals
----------------
 
-This widget emits the following signals:
+Emitted signals
+===============
 
 - ``changed``: The text within the entry was changed.
 - ``changed,user``: The text within the entry was changed because of user
@@ -253,24 +262,27 @@ This widget emits the following signals:
 - ``rejected``: .Called when some of inputs are rejected by the filter. (since 1.9)
 
 
-Default content parts of the entry items that you can use for are:
+Layout content parts
+====================
 
 - ``icon`` - An icon in the entry
 - ``end`` - A content in the end of the entry
 
-Default text parts of the entry that you can use for are:
+
+Layout text parts
+=================
 
 - ``default`` - text of the entry
 - ``guide`` - placeholder of the entry
 
 
 Enumerations
-------------
+============
 
 .. _Elm_Entry_Autocapital_Type:
 
 Autocapitalization types
-========================
+------------------------
 
 .. data:: ELM_AUTOCAPITAL_TYPE_NONE
 
@@ -292,7 +304,7 @@ Autocapitalization types
 .. _Elm_Entry_Cnp_Mode:
 
 Copy & paste modes
-==================
+------------------
 
 .. data:: ELM_CNP_MODE_MARKUP
 
@@ -310,7 +322,7 @@ Copy & paste modes
 .. _Elm_Input_Hints:
 
 Input Hints
-===========
+-----------
 
 .. data:: ELM_INPUT_HINT_NONE
 
@@ -334,7 +346,7 @@ Input Hints
 .. _Elm_Entry_Input_Panel_Lang:
 
 Input panel language sort order
-===============================
+-------------------------------
 
 .. data:: ELM_INPUT_PANEL_LANG_AUTOMATIC
 
@@ -348,7 +360,7 @@ Input panel language sort order
 .. _Elm_Entry_Input_Panel_Layout:
 
 Input panel layouts
-===================
+-------------------
 
 .. data:: ELM_INPUT_PANEL_LAYOUT_NORMAL
 
@@ -414,7 +426,7 @@ Input panel layouts
 .. _Elm_Input_Panel_Layout_Normal_Variation:
 
 Input panel normal layout variation
-===================================
+-----------------------------------
 
 .. data:: ELM_INPUT_PANEL_LAYOUT_NORMAL_VARIATION_NORMAL
 
@@ -438,7 +450,7 @@ Input panel normal layout variation
 .. _Elm_Input_Panel_Layout_Numberonly_Variation:
 
 Input panel numberonly layout variation
-=======================================
+---------------------------------------
 
 .. data:: ELM_INPUT_PANEL_LAYOUT_NUMBERONLY_VARIATION_NORMAL
 
@@ -468,7 +480,7 @@ Input panel numberonly layout variation
 .. _Elm_Input_Panel_Layout_Password_Variation:
 
 Input panel password layout variation
-=====================================
+-------------------------------------
 
 .. data:: ELM_INPUT_PANEL_LAYOUT_PASSWORD_VARIATION_NORMAL
 
@@ -486,7 +498,7 @@ Input panel password layout variation
 .. _Elm_Entry_Input_Panel_Return_Key_Type:
 
 Input panel return key modes
-============================
+----------------------------
 
 .. data:: ELM_INPUT_PANEL_RETURN_KEY_TYPE_DEFAULT
 
@@ -530,7 +542,7 @@ Input panel return key modes
 .. _Elm_Entry_Text_Format:
 
 Text format
-===========
+-----------
 
 .. data:: ELM_TEXT_FORMAT_PLAIN_UTF8
 
@@ -544,7 +556,7 @@ Text format
 .. _Elm_Entry_Wrap_Type:
 
 Wrap mode
-=========
+---------
 
 .. data:: ELM_WRAP_NONE
 
@@ -566,7 +578,7 @@ Wrap mode
 .. _Elm_Entry_Icon_Type:
 
 Icon types
-==========
+----------
 
 .. data:: ELM_ICON_NONE
 
@@ -580,6 +592,12 @@ Icon types
 
     Icon is set with standards names
 
+
+Inheritance diagram
+===================
+
+.. inheritance-diagram:: efl.elementary.entry
+    :parts: 2
 
 """
 

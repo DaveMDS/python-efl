@@ -18,8 +18,12 @@
 
 """
 
+:mod:`datetime_elm` Module
+##########################
+
+
 Widget description
-------------------
+==================
 
 Datetime widget is used to display and input date & time values.
 
@@ -182,8 +186,9 @@ To enable a module, set the ELM_MODULES environment variable as shown:
 
 **export ELM_MODULES="datetime_input_ctxpopup>datetime/api"**
 
-This widget emits the following signals, besides the ones sent from
-:py:class:`~efl.elementary.layout_class.LayoutClass`:
+
+Emitted signals
+===============
 
 - ``changed`` - whenever Datetime field value is changed, this signal is sent.
 - ``language,changed`` - whenever system locale changes, this signal is sent.
@@ -192,12 +197,12 @@ This widget emits the following signals, besides the ones sent from
 
 
 Enumerations
-------------
+============
 
 .. _Elm_Datetime_Field_Type:
 
 Datetime fields
-===============
+---------------
 
 .. data:: ELM_DATETIME_YEAR
 
@@ -222,6 +227,13 @@ Datetime fields
 .. data:: ELM_DATETIME_AMPM
 
     Am/Pm
+
+
+Inheritance diagram
+===================
+
+.. inheritance-diagram:: efl.elementary.datetime_elm
+    :parts: 2
 
 """
 

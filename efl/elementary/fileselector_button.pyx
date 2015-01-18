@@ -18,10 +18,14 @@
 
 """
 
+:mod:`fileselector_button` Module
+#################################
+
 .. image:: /images/fileselector-button-preview.png
 
+
 Widget description
-------------------
+==================
 
 This is a button that, when clicked, creates an Elementary window (or
 inner window) with a :py:class:`~efl.elementary.fileselector.Fileselector`
@@ -34,29 +38,35 @@ This widget encapsulates operations on its internal file selector on its
 own API. There is less control over its file selector than that one
 would have instantiating one directly.
 
-The following styles are available for this button:
+
+Available styles
+================
 
 - ``default``
 - ``anchor``
 - ``hoversel_vertical``
 - ``hoversel_vertical_entry``
 
-This widget emits the following signals, besides the ones sent from
-:py:class:`~efl.elementary.button.Button`:
+
+Emitted signals
+===============
 
 - ``file,chosen`` - the user has selected a path which comes as the
   ``event_info`` data
 - ``language,changed`` - the program's language changed
 
-Default text parts of the fileselector_button widget that you can use for
-are:
+
+Layout text parts
+=================
 
 - ``default`` - Label of the fileselector_button
 
-Default content parts of the fileselector_button widget that you can use
-for are:
+
+Layout content parts
+====================
 
 - ``icon`` - Icon of the fileselector_button
+
 
 Fileselector Interface
 ======================
@@ -71,6 +81,14 @@ using multiple inheritance, for example::
     class CustomFileselectorButton(Fileselector, FileselectorButton):
         def __init__(self, canvas, *args, **kwargs):
             FileselectorButton.__init__(self, canvas)
+
+
+Inheritance diagram
+===================
+
+.. inheritance-diagram:: efl.elementary.fileselector_button
+    :parts: 2
+
 
 """
 

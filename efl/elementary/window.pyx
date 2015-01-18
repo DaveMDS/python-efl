@@ -18,8 +18,12 @@
 
 """
 
+:mod:`window` Module
+####################
+
+
 Widget description
-------------------
+==================
 
 The window class of Elementary.
 
@@ -77,7 +81,9 @@ fixed to "out001.png" Some examples of using the shot engine::
     ELM_ENGINE="shot:delay=2.0" elementary_test
     ELM_ENGINE="shot:" elementary_test
 
-Signals that you can add callbacks for are:
+
+Emitted signals
+===============
 
 - ``delete,request``: the user requested to close the window. See
   :py:attr:`~Window.autodel`.
@@ -103,12 +109,12 @@ Signals that you can add callbacks for are:
 
 
 Enumerations
-------------
+============
 
 .. _Elm_Win_Type:
 
 Window types
-============
+------------
 
 .. data:: ELM_WIN_UNKNOWN
 
@@ -214,7 +220,7 @@ Window types
 .. _Elm_Win_Indicator_Mode:
 
 Indicator states
-================
+----------------
 
 .. data:: ELM_WIN_INDICATOR_UNKNOWN
 
@@ -232,7 +238,7 @@ Indicator states
 .. _Elm_Win_Indicator_Opacity_Mode:
 
 Indicator opacity
-=================
+-----------------
 
 .. data:: ELM_WIN_INDICATOR_OPACITY_UNKNOWN
 
@@ -254,7 +260,7 @@ Indicator opacity
 .. _Elm_Win_Keyboard_Mode:
 
 Keyboard virtual keyboard modes
-===============================
+-------------------------------
 
 .. data:: ELM_WIN_KEYBOARD_UNKNOWN
 
@@ -324,7 +330,7 @@ Keyboard virtual keyboard modes
 .. _Elm_Illume_Command:
 
 Illume commands
-===============
+---------------
 
 Available commands that can be sent to the Illume manager.
 
@@ -348,6 +354,12 @@ Illume manager to perform different actions.
     Closes the currently active window
 
 
+Inheritance diagram
+===================
+
+.. inheritance-diagram:: efl.elementary.window
+    :parts: 2
+
 """
 
 from cpython cimport PyUnicode_AsUTF8String
@@ -362,6 +374,7 @@ from object cimport Object
 from efl.utils.conversions cimport python_list_strings_to_array_of_strings, \
     array_of_strings_to_python_list, python_list_ints_to_array_of_ints, \
     array_of_ints_to_python_list
+
 
 
 cdef class Window(Object):

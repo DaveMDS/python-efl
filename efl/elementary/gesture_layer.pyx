@@ -18,10 +18,14 @@
 
 """
 
+:mod:`gesture_layer` Module
+###########################
+
 .. image:: /images/gesturelayer-preview.png
 
+
 Widget description
-------------------
+==================
 
 Use the GestureLayer to detect gestures. The advantage is that you don't
 have to implement gesture detection, just set callbacks for gesture states.
@@ -86,12 +90,12 @@ touch-surface and ends when no fingers touches surface (a *UP* event).
 
 
 Enumerations
-------------
+============
 
 .. _Elm_Gesture_State:
 
 Gesture states
-==============
+--------------
 
 .. data:: ELM_GESTURE_STATE_UNDEFINED
 
@@ -117,7 +121,7 @@ Gesture states
 .. _Elm_Gesture_Type:
 
 Gesture types
-=============
+-------------
 
 .. data:: ELM_GESTURE_N_TAPS
 
@@ -154,6 +158,13 @@ Gesture types
 .. data:: ELM_GESTURE_ROTATE
 
     Rotate
+
+
+Inheritance diagram
+===================
+
+.. inheritance-diagram:: efl.elementary.gesture_layer
+    :parts: 2
 
 """
 

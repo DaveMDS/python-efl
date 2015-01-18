@@ -18,10 +18,14 @@
 
 """
 
+:mod:`index` Module
+###################
+
 .. image:: /images/index-preview.png
 
+
 Widget description
-------------------
+==================
 
 An index widget gives you an index for fast access to whichever
 group of other UI items one might have.
@@ -41,8 +45,9 @@ with :py:class:`~efl.elementary.list.List`,
 :py:class:`~efl.elementary.genlist.Genlist` or
 :py:class:`~efl.elementary.gengrid.Gengrid`.
 
-This widget emits the following signals, besides the ones sent from
-:py:class:`~efl.elementary.layout_class.LayoutClass`:
+
+Emitted signals
+===============
 
 - ``changed`` - When the selected index item changes. ``event_info``
   is the selected item's data.
@@ -62,6 +67,13 @@ This widget emits the following signals, besides the ones sent from
 The ``delay,changed`` event has a delay on change before the event is actually
 reported and moreover just the last event happening on those time frames will
 actually be reported.
+
+
+Inheritance diagram
+===================
+
+.. inheritance-diagram:: efl.elementary.index
+    :parts: 2
 
 """
 

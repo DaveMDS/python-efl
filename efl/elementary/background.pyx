@@ -18,10 +18,14 @@
 
 """
 
+:mod:`background` Module
+########################
+
 .. image:: /images/background-preview.png
 
+
 Widget description
-------------------
+==================
 
 The background widget is used for setting a solid color, image or Edje group
 as a background to a window (unless it has transparency enabled) or any
@@ -31,18 +35,19 @@ It works just like an image, but has some properties useful to a
 background, like setting it to tiled, centered, scaled or stretched.
 
 
-Default content parts of the bg widget that you can use for are:
+Layout content parts
+====================
 
 - ``overlay`` - overlay of the bg
 
 
 Enumerations
-------------
+============
 
 .. _Elm_Bg_Option:
 
 Background display modes
-========================
+------------------------
 
 .. data:: ELM_BG_OPTION_CENTER
 
@@ -59,6 +64,13 @@ Background display modes
 .. data:: ELM_BG_OPTION_TILE
 
     Tile
+
+
+Inheritance diagram
+===================
+
+.. inheritance-diagram:: efl.elementary.background
+    :parts: 2
 
 """
 

@@ -18,8 +18,12 @@
 
 """
 
+:mod:`object` Module
+####################
+
+
 Copy and Paste
---------------
+==============
 
 Implements the following functionality
 
@@ -63,12 +67,12 @@ More information is on
 
 
 Enumerations
-------------
+============
 
 .. _Elm_Object_Focus_Direction:
 
 Focus direction
-===============
+---------------
 
 .. data:: ELM_FOCUS_PREVIOUS
 
@@ -102,10 +106,11 @@ Focus direction
 
     .. versionadded:: 1.8.1
 
+
 .. _Elm_Focus_Move_Policy:
 
 Focus move policy
-=================
+-----------------
 
 .. data:: ELM_FOCUS_MOVE_POLICY_CLICK
 
@@ -119,10 +124,11 @@ Focus move policy
 
     .. versionadded:: 1.10
 
+
 .. _Elm_Focus_Autoscroll_Mode:
 
 Focus autoscroll mode
-=====================
+---------------------
 
 .. data:: ELM_FOCUS_AUTOSCROLL_MODE_SHOW
 
@@ -143,10 +149,11 @@ Focus autoscroll mode
 
     .. versionadded:: 1.10
 
+
 .. _Elm_Input_Event_Type:
 
 Input event types
-=================
+-----------------
 
 .. data:: EVAS_CALLBACK_KEY_DOWN
 .. data:: EVAS_CALLBACK_KEY_UP
@@ -156,7 +163,7 @@ Input event types
 .. _Elm_Object_Sel_Type:
 
 Selection type
-==============
+--------------
 
 Defines the types of selection property names.
 
@@ -182,7 +189,7 @@ Defines the types of selection property names.
 .. _Elm_Object_Sel_Format:
 
 Selection format
-================
+----------------
 
 Defines the types of content.
 
@@ -218,7 +225,7 @@ Defines the types of content.
 .. _Elm_Object_Xdnd_Action:
 
 XDND action
-===========
+-----------
 
 Defines the kind of action associated with the drop data if for XDND
 
@@ -256,6 +263,12 @@ Defines the kind of action associated with the drop data if for XDND
 
     Describe the data
 
+
+Inheritance diagram
+===================
+
+.. inheritance-diagram:: efl.elementary.object
+    :parts: 2
 
 """
 
@@ -365,6 +378,7 @@ cdef void _event_data_del_cb(void *data, Evas_Object *o,
 #     Py_DECREF(<object>data)
 
 
+# TODO: why the hell we redefine Canvas here??
 cdef class Canvas(evasCanvas):
     def __init__(self):
         pass

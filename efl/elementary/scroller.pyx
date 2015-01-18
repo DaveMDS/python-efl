@@ -18,10 +18,14 @@
 
 """
 
+:mod:`scroller` Module
+######################
+
 .. image:: /images/scroller-preview.png
 
+
 Widget description
-------------------
+==================
 
 A scroller holds a single object and "scrolls it around".
 
@@ -34,8 +38,15 @@ of the scroller.
 This widget inherits from :py:class:`~efl.elementary.layout_class.LayoutClass`,
 so that all the functions acting on it also work for scroller objects.
 
-This widget emits the following signals, besides the ones sent from
-:py:class:`~efl.elementary.layout_class.LayoutClass`:
+.. note:: When Elementary is in embedded mode the scrollbars will not be
+          draggable, they appear merely as indicators of how much has been
+          scrolled.
+
+.. note:: When Elementary is in desktop mode the thumbscroll(a.k.a.
+          fingerscroll) won't work.
+
+Emitted signals
+===============
 
 - ``edge,left`` - the left edge of the content has been reached
 - ``edge,right`` - the right edge of the content has been reached
@@ -60,28 +71,23 @@ This widget emits the following signals, besides the ones sent from
 - ``focused`` - When the scroller has received focus. (since 1.8)
 - ``unfocused`` - When the scroller has lost focus. (since 1.8)
 
-Default content parts of the scroller widget that you can use for are:
-
-- ``default`` - A content of the scroller
-
 .. note:: The "scroll,anim,*" and "scroll,drag,*" signals are only emitted by
     user intervention.
 
-.. note:: When Elementary is in embedded mode the scrollbars will not be
-    draggable, they appear merely as indicators of how much has been
-    scrolled.
 
-.. note:: When Elementary is in desktop mode the thumbscroll(a.k.a.
-    fingerscroll) won't work.
+Layout content parts
+====================
+
+- ``default`` - A content of the scroller
 
 
 Enumerations
-------------
+============
 
 .. _Elm_Scroller_Policy:
 
 Scrollbar visibility
-====================
+--------------------
 
 .. data:: ELM_SCROLLER_POLICY_AUTO
 
@@ -99,7 +105,7 @@ Scrollbar visibility
 .. _Elm_Scroller_Single_Direction:
 
 Single direction
-================
+----------------
 
 Type that controls how the content is scrolled.
 
@@ -119,7 +125,7 @@ Type that controls how the content is scrolled.
 .. _Elm_Scroller_Movement_Block:
 
 Movement block
-==============
+--------------
 
 Type that blocks the scroll movement in one or more direction.
 
@@ -137,6 +143,12 @@ Type that blocks the scroll movement in one or more direction.
 
     Block horizontal movements
 
+
+Inheritance diagram
+===================
+
+.. inheritance-diagram:: efl.elementary.scroller
+    :parts: 2
 
 """
 

@@ -17,10 +17,14 @@
 
 """
 
+:mod:`diskselector` Module
+##########################
+
 .. image:: /images/diskselector-preview.png
 
+
 Widget description
-------------------
+==================
 
 A diskselector is a kind of list widget. It scrolls horizontally,
 and can contain label and icon objects. Three items are displayed
@@ -29,7 +33,9 @@ with the selected one in the middle.
 It can act like a circular list with round mode and labels can be
 reduced for a defined length for side items.
 
-Smart callbacks one can listen to:
+
+Emitted signals
+===============
 
 - ``selected`` - when item is selected, i.e. scroller stops.
 - ``clicked`` - This is called when a user clicks an item
@@ -40,20 +46,20 @@ Smart callbacks one can listen to:
 - ``focused`` - When the diskselector has received focus. (since 1.8)
 - ``unfocused`` - When the diskselector has lost focus. (since 1.8)
 
-Available styles for it:
+.. note:: The ``scroll,anim,*`` and ``scroll,drag,*`` signals are only emitted
+          by user intervention.
 
-- ``default``
-
-Default content parts of the diskselector items that you can use for are:
+Layout content parts
+====================
 
 - ``icon`` - An icon in the diskselector item
 
-Default text parts of the diskselector items that you can use for are:
+
+Layout text parts
+=================
 
 - ``default`` - Label of the diskselector item
 
-.. note:: The ``scroll,anim,*`` and ``scroll,drag,*`` signals are only emitted
-    by user intervention.
 
 Scrollable Interface
 ====================
@@ -68,6 +74,13 @@ using multiple inheritance, for example::
     class ScrollableGenlist(Genlist, Scrollable):
         def __init__(self, canvas, *args, **kwargs):
             Genlist.__init__(self, canvas)
+
+
+Inheritance diagram
+===================
+
+.. inheritance-diagram:: efl.elementary.diskselector
+    :parts: 2
 
 """
 

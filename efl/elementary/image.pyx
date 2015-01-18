@@ -18,11 +18,14 @@
 
 """
 
-Widget description
-------------------
+:mod:`image` Module
+###################
 
 .. image:: /images/image-preview.png
 
+
+Widget description
+==================
 
 An Elementary image object allows one to load and display an image
 file on it, be it from a disk file or from a memory region.
@@ -41,7 +44,9 @@ One can tune various properties of the image, like:
 An image object may also be made valid source and destination for drag
 and drop actions by setting :py:attr:`~Image.editable`.
 
-Signals that you can add callbacks for are:
+
+Emitted signals
+===============
 
 - ``drop`` - This is called when a user has dropped an image
   typed object onto the object in question -- the
@@ -52,13 +57,14 @@ Signals that you can add callbacks for are:
 - ``download,end`` - remote url download has finished
 - ``download,error`` - remote url download has finished with errors
 
+
 Enumerations
-------------
+============
 
 .. _Elm_Image_Orient:
 
 Image manipulation types
-========================
+------------------------
 
 .. data:: ELM_IMAGE_ORIENT_NONE
 
@@ -95,6 +101,13 @@ Image manipulation types
 .. data:: ELM_IMAGE_FLIP_TRANSVERSE
 
     Flip the image along the y = x line (top-left to bottom-right)
+
+
+Inheritance diagram
+===================
+
+.. inheritance-diagram:: efl.elementary.image
+    :parts: 2
 
 """
 

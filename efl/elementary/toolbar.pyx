@@ -18,10 +18,14 @@
 
 """
 
+:mod:`toolbar` Module
+#####################
+
 .. image:: /images/toolbar-preview.png
 
+
 Widget description
-------------------
+==================
 
 A toolbar is a widget that displays a list of items inside a box. It
 can be scrollable, show a menu with items that don't fit to toolbar size
@@ -31,7 +35,9 @@ Only one item can be selected at a time.
 
 Items can have multiple states, or show menus when selected by the user.
 
-Smart callbacks one can listen to:
+
+Emitted signals
+===============
 
 - ``clicked`` - when the user clicks on a toolbar item and becomes selected.
 - ``longpressed`` - when the toolbar is pressed for a certain amount of time.
@@ -41,14 +47,19 @@ Smart callbacks one can listen to:
 - ``item,focused`` - When the toolbar item has received focus. (since 1.10)
 - ``item,unfocused`` - When the toolbar item has lost focus. (since 1.10)
 
-Available styles for it:
+
+Available styles
+================
 
 - ``default``
 - ``transparent`` - no background or shadow, just show the content
 
-Default text parts of the toolbar items that you can use for are:
+
+Layout text parts
+=================
 
 - ``default`` - label of the toolbar item
+
 
 Scrollable Interface
 ====================
@@ -64,13 +75,14 @@ using multiple inheritance, for example::
         def __init__(self, canvas, *args, **kwargs):
             Genlist.__init__(self, canvas)
 
+
 Enumerations
-------------
+============
 
 .. _Elm_Toolbar_Icon_Lookup_Order:
 
 Icon lookup modes
-=================
+-----------------
 
 .. data:: ELM_ICON_LOOKUP_FDO_THEME
 
@@ -92,7 +104,7 @@ Icon lookup modes
 .. _Elm_Toolbar_Object_Select_Mode:
 
 Selection modes
-===============
+---------------
 
 .. data:: ELM_OBJECT_SELECT_MODE_DEFAULT
 
@@ -114,7 +126,7 @@ Selection modes
 .. _Elm_Toolbar_Shrink_Mode:
 
 Toolbar shrink modes
-====================
+--------------------
 
 .. data:: ELM_TOOLBAR_SHRINK_NONE
 
@@ -140,7 +152,7 @@ Toolbar shrink modes
 .. _Elm_Toolbar_Item_Scrollto_Type:
 
 Toolbar item scrollto types
-===========================
+---------------------------
 
 Where to position the item in the toolbar.
 
@@ -163,6 +175,13 @@ Where to position the item in the toolbar.
 .. data:: ELM_TOOLBAR_ITEM_SCROLLTO_LAST
 
     To the last of viewport
+
+
+Inheritance diagram
+===================
+
+.. inheritance-diagram:: efl.elementary.toolbar
+    :parts: 2
 
 """
 

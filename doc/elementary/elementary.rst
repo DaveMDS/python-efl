@@ -1,7 +1,10 @@
 
+Elementary
+##########
 
-What is Elementary?
--------------------
+
+What is elementary?
+===================
 
 Elementary is a  the high level toolkit based on the underlying efl
 technologies (:doc:`Evas </evas/evas>`, :doc:`Edje </edje/edje>`,
@@ -13,10 +16,10 @@ of flexibility.
 
 
 Callbacks
----------
+=========
 
 Widget callbacks
-^^^^^^^^^^^^^^^^
+----------------
 
 Widget callbacks are set with callback_*_add methods which take a callable,
 and optional args, kwargs as data.
@@ -31,7 +34,7 @@ or::
 
 
 Event callbacks
-^^^^^^^^^^^^^^^
+---------------
 
 Event callbacks have signature of::
 
@@ -39,92 +42,22 @@ Event callbacks have signature of::
 
 
 A sample Python Elementary program
-----------------------------------
+==================================
 
 .. literalinclude:: ../../examples/elementary/test_win_dialog.py
     :language: python
 
 
-
 API Reference
--------------
+=============
 
-.. toctree::
+.. toctree:: *
+   :glob:
    :maxdepth: 1
-
-   elementary_module
-   actionslider
-   background
-   box
-   bubble
-   button
-   calendar
-   check
-   clock
-   colorselector
-   configuration
-   conformant
-   ctxpopup
-   datetime
-   dayselector
-   diskselector
-   entry
-   fileselector
-   fileselector_button
-   fileselector_entry
-   flip
-   flipselector
-   frame
-   general
-   gengrid
-   genlist
-   gesture_layer
-   grid
-   hover
-   hoversel
-   icon
-   image
-   index
-   innerwindow
-   label
-   layout
-   layout_class
-   list
-   map
-   mapbuf
-   menu
-   multibuttonentry
-   naviframe
-   need
-   notify
-   object
-   object_item
-   panel
-   panes
-   photo
-   photocam
-   plug
-   popup
-   progressbar
-   radio
-   scroller
-   segment_control
-   separator
-   slider
-   slideshow
-   spinner
-   table
-   theme
-   thumb
-   toolbar
-   transit
-   video
-   web
-   window
 
 
 Inheritance diagram
--------------------
+===================
 
 .. inheritance-diagram::
     efl.elementary.actionslider

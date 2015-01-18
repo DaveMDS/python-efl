@@ -17,10 +17,14 @@
 
 """
 
+:mod:`segment_control` Module
+#############################
+
 .. image:: /images/segmentcontrol-preview.png
 
+
 Widget description
-------------------
+==================
 
 Segment control widget is a horizontal control made of multiple
 segment items, each segment item functioning similar to discrete two
@@ -32,24 +36,32 @@ items added. Only one segment item can be at selected state. A segment
 item can display combination of Text and any Evas_Object like Images or
 other widget.
 
-This widget emits the following signals, besides the ones sent from
-:py:class:`~efl.elementary.layout_class.LayoutClass`:
+
+Emitted signals
+===============
 
 - ``changed`` - When the user clicks on a segment item which is not
   previously selected and get selected. The event_info parameter is the
   segment item.
 
-Available styles for it:
 
-- ``default``
-
-Default content parts of the segment control items that you can use for are:
+Layout content parts
+====================
 
 - ``icon`` - An icon in a segment control item
 
-Default text parts of the segment control items that you can use for are:
+
+Layout text parts
+=================
 
 - ``default`` - Title label in a segment control item
+
+
+Inheritance diagram
+===================
+
+.. inheritance-diagram:: efl.elementary.segment_control
+    :parts: 2
 
 """
 

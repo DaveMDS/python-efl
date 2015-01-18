@@ -18,10 +18,14 @@
 
 """
 
+:mod:`bubble` Module
+####################
+
 .. image:: /images/bubble-preview.png
 
+
 Widget description
-------------------
+==================
 
 The Bubble is a widget to show text similar to how speech is
 represented in comics.
@@ -45,31 +49,36 @@ selected. The four available corners are:
 - ``bottom_left``
 - ``bottom_right``
 
-This widget emits the following signals, besides the ones sent from
-:py:class:`~efl.elementary.layout_class.LayoutClass`:
 
-- ``clicked`` - This is called when a user has clicked the bubble.
-- ``focused`` - When the bubble has received focus. (since 1.8)
-- ``unfocused`` - When the bubble has lost focus. (since 1.8)
-
-Default content parts of the bubble that you can use for are:
+Layout content parts
+====================
 
 - ``default`` - A content of the bubble
 - ``icon`` - An icon of the bubble
 
-Default text parts of the button widget that you can use for are:
+
+Layout text parts
+=================
 
 - ``default`` - Label of the bubble
 - ``info`` - info of the bubble
 
 
+Emitted signals
+===============
+
+- ``clicked`` - This is called when a user has clicked the bubble.
+- ``focused`` - When the bubble has received focus. (since 1.8)
+- ``unfocused`` - When the bubble has lost focus. (since 1.8)
+
+
 Enumerations
-------------
+============
 
 .. _Elm_Bubble_Pos:
 
 Bubble arrow positions
-======================
+----------------------
 
 .. data:: ELM_BUBBLE_POS_TOP_LEFT
 
@@ -86,6 +95,13 @@ Bubble arrow positions
 .. data:: ELM_BUBBLE_POS_BOTTOM_RIGHT
 
     Bottom right position
+
+
+Inheritance diagram
+===================
+
+.. inheritance-diagram:: efl.elementary.bubble
+    :parts: 2
 
 """
 

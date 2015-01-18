@@ -18,9 +18,12 @@
 
 """
 
-Widget description
-------------------
+:mod:`transit` Module
+#####################
 
+
+Widget description
+==================
 
 Transit is designed to apply various animated transition effects to
 ``Evas_Object``, such like translation, rotation, etc. For using these
@@ -70,12 +73,12 @@ It's also possible to make a transition chain with
 
 
 Enumerations
-------------
+============
 
 .. _Elm_Transit_Effect_Flip_Axis:
 
 Flip effects
-============
+------------
 
 .. data:: ELM_TRANSIT_EFFECT_FLIP_AXIS_X
 
@@ -89,7 +92,7 @@ Flip effects
 .. _Elm_Transit_Effect_Wipe_Dir:
 
 Wipe effects
-============
+------------
 
 .. data:: ELM_TRANSIT_EFFECT_WIPE_DIR_LEFT
 
@@ -111,7 +114,7 @@ Wipe effects
 .. _Elm_Transit_Effect_Wipe_Type:
 
 Wipe types
-==========
+----------
 
 .. data:: ELM_TRANSIT_EFFECT_WIPE_TYPE_HIDE
 
@@ -125,7 +128,7 @@ Wipe types
 .. _Elm_Transit_Tween_Mode:
 
 Tween modes
-===========
+-----------
 
 .. data:: ELM_TRANSIT_TWEEN_MODE_LINEAR
 
@@ -169,6 +172,13 @@ Tween modes
     y1), (x2, y2)
 
     .. versionadded:: 1.13
+
+
+Inheritance diagram
+===================
+
+.. inheritance-diagram:: efl.elementary.transit
+    :parts: 2
 
 """
 

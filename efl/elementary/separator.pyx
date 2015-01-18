@@ -17,18 +17,25 @@
 
 """
 
-Widget description
-------------------
+:mod:`separator` Module
+#######################
 
 .. image:: /images/separator-preview.png
-    :align: left
+
+
+Widget description
+==================
 
 Separator is a very thin object used to separate other objects.
 
 A separator can be vertical or horizontal.
 
-This widget emits the signals coming from
-:py:class:`~efl.elementary.layout_class.LayoutClass`.
+
+Inheritance diagram
+===================
+
+.. inheritance-diagram:: efl.elementary.separator
+    :parts: 2
 
 """
 

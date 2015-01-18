@@ -18,10 +18,14 @@
 
 """
 
+:mod:`actionslider` Module
+##########################
+
 .. image:: /images/actionslider-preview.png
 
+
 Widget description
-------------------
+==================
 
 An actionslider is a switcher for two or three labels with
 customizable magnet properties.
@@ -41,15 +45,18 @@ Magnets can be set on the above positions.
 When the indicator is released, it will move to its nearest "enabled and
 magnetized" position.
 
-This widget emits the following signals, besides the ones sent from
-:py:class:`~efl.elementary.layout_class.LayoutClass`:
+
+Emitted signals
+===============
 
 - ``selected`` - when user selects an enabled position (the label is
   passed as event info)".
 - ``pos_changed`` - when the indicator reaches any of the
   positions("left", "right" or "center").
 
-Default text parts of the actionslider widget that you can use for are:
+
+Layout text parts
+=================
 
 - ``indicator`` - An indicator label of the actionslider
 - ``left`` - A left label of the actionslider
@@ -58,12 +65,12 @@ Default text parts of the actionslider widget that you can use for are:
 
 
 Enumerations
-------------
+============
 
 .. _Elm_Actionslider_Pos:
 
 Actionslider positions
-======================
+----------------------
 
 .. data:: ELM_ACTIONSLIDER_NONE
 
@@ -84,6 +91,13 @@ Actionslider positions
 .. data:: ELM_ACTIONSLIDER_ALL
 
     All positions
+
+
+Inheritance diagram
+===================
+
+.. inheritance-diagram:: efl.elementary.actionslider
+    :parts: 2
 
 """
 

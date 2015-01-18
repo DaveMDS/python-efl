@@ -17,10 +17,14 @@
 
 """
 
+:mod:`thumb` Module
+###################
+
 .. image:: /images/thumb-preview.png
 
+
 Widget description
-------------------
+==================
 
 A thumbnail object is used for displaying the thumbnail of an image
 or video. You must have compiled Elementary with ``Ethumb_Client``
@@ -39,7 +43,9 @@ Generated thumbnails are stored under ``$HOME/.thumbnails/``. Check
 Ethumb's documentation to change this path, and to see other
 configuration options.
 
-This widget emits the following signals:
+
+Emitted signals
+===============
 
 - ``clicked`` - This is called when a user has clicked the
   thumbnail object without dragging it around.
@@ -52,19 +58,21 @@ This widget emits the following signals:
 - ``generate,error`` - The thumbnail generation failed.
 - ``load,error`` - The thumbnail image loading failed.
 
-Available styles:
+
+Available styles
+================
 
 - ``default``
 - ``noframe``
 
 
 Enumerations
-------------
+============
 
 .. _Elm_Thumb_Animation_Setting:
 
 Thumb animation mode
-====================
+--------------------
 
 .. data:: ELM_THUMB_ANIMATION_START
 
@@ -82,7 +90,7 @@ Thumb animation mode
 .. _Ethumb_Thumb_FDO_Size:
 
 Thumb FDO size
-==============
+--------------
 
 .. data:: ETHUMB_THUMB_NORMAL
 
@@ -96,7 +104,7 @@ Thumb FDO size
 .. _Ethumb_Thumb_Format:
 
 Thumb format
-============
+------------
 
 .. data:: ETHUMB_THUMB_FDO
 
@@ -114,7 +122,7 @@ Thumb format
 .. _Ethumb_Thumb_Aspect:
 
 Thumb aspect
-============
+------------
 
 .. data:: ETHUMB_THUMB_KEEP_ASPECT
 
@@ -132,7 +140,7 @@ Thumb aspect
 .. _Ethumb_Thumb_Orientation:
 
 Thumb orientation
-=================
+-----------------
 
 .. data:: ETHUMB_THUMB_ORIENT_NONE
 
@@ -170,6 +178,12 @@ Thumb orientation
 
     use orientation from metadata (EXIF-only currently)
 
+
+Inheritance diagram
+===================
+
+.. inheritance-diagram:: efl.elementary.thumb
+    :parts: 2
 
 """
 

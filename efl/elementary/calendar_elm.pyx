@@ -18,11 +18,14 @@
 
 """
 
-Widget description
-------------------
+:mod:`calendar_elm` Module
+##########################
 
 .. image:: /images/calendar-preview.png
-    :align: left
+
+
+Widget description
+==================
 
 This is a calendar widget.
 
@@ -36,8 +39,9 @@ The API of this widget lets the applications perform other functions, like:
 - setting the day names of the week (e.g. "Thu" or "Thursday")
 - setting the year and month format.
 
-This widget emits the following signals, besides the ones sent from
-:py:class:`~efl.elementary.layout_class.LayoutClass`:
+
+Emitted signals
+===============
 
 - ``changed`` - emitted when the date in the calendar is changed.
 - ``display,changed`` - emitted when the current month displayed in the
@@ -47,12 +51,12 @@ This widget emits the following signals, besides the ones sent from
 
 
 Enumerations
-------------
+============
 
 .. _Elm_Calendar_Mark_Repeat_Type:
 
 Calendar mark repeat types
-==========================
+--------------------------
 
 .. data:: ELM_CALENDAR_UNIQUE
 
@@ -91,7 +95,7 @@ Calendar mark repeat types
 .. _Elm_Calendar_Select_Mode:
 
 Calendar selection modes
-========================
+------------------------
 
 .. data:: ELM_CALENDAR_SELECT_MODE_DEFAULT
 
@@ -113,7 +117,7 @@ Calendar selection modes
 .. _Elm_Calendar_Selectable:
 
 Selectable
-==========
+----------
 
 .. data:: ELM_CALENDAR_SELECTABLE_NONE
 
@@ -135,7 +139,7 @@ Selectable
 .. _Elm_Calendar_Weekday:
 
 Days
-====
+----
 
 .. data:: ELM_DAY_SUNDAY
 
@@ -164,6 +168,13 @@ Days
 .. data:: ELM_DAY_SATURDAY
 
     Saturday
+
+
+Inheritance diagram
+===================
+
+.. inheritance-diagram:: efl.elementary.calendar_elm
+    :parts: 2
 
 """
 

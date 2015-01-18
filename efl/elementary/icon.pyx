@@ -18,10 +18,14 @@
 
 """
 
+:mod:`icon` Module
+##################
+
 .. image:: /images/icon-preview.png
 
+
 Widget description
-------------------
+==================
 
 An icon object is used to display standard icon images ("delete",
 "edit", "arrows", etc.) or images coming from a custom file (PNG, JPG,
@@ -136,20 +140,21 @@ And these are names for some media player specific icons:
 - ``media_player/rewind``
 - ``media_player/stop``
 
-This widget emits the following signals, besides the ones sent from
-:py:class:`~efl.elementary.image.Image`:
+
+Emitted signals
+===============
 
 - ``thumb,done`` - Setting :py:attr:`~Icon.thumb` has completed with success
 - ``thumb,error`` - Setting :py:attr:`~Icon.thumb` has failed
 
 
 Enumerations
-------------
+============
 
 .. _Elm_Icon_Lookup_Order:
 
 Icon lookup modes
-=================
+-----------------
 
 .. data:: ELM_ICON_LOOKUP_FDO_THEME
 
@@ -171,7 +176,7 @@ Icon lookup modes
 .. _Elm_Icon_Type:
 
 Icon type
-=========
+---------
 
 .. data:: ELM_ICON_NONE
 
@@ -184,6 +189,13 @@ Icon type
 .. data:: ELM_ICON_STANDARD
 
     Icon is set with standards name
+
+
+Inheritance diagram
+===================
+
+.. inheritance-diagram:: efl.elementary.icon
+    :parts: 2
 
 """
 

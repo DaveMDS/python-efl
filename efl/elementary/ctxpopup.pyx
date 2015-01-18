@@ -18,11 +18,14 @@
 
 """
 
-Widget description
-------------------
+:mod:`ctxpopup` Module
+######################
 
 .. image:: /images/ctxpopup-preview.png
-    :align: left
+
+
+Widget description
+==================
 
 A ctxpopup is a widget that, when shown, pops up a list of items. It
 automatically chooses an area inside its parent object's view to
@@ -31,7 +34,12 @@ to it's top left position at the time one shows it. Ctxpopup items have
 a label and/or an icon. It is intended for a small number of items
 (hence the use of list, not genlist).
 
-Signals that you can add callbacks for are:
+.. note::
+
+    Ctxpopup is a specialization of :py:class:`~efl.elementary.hover.Hover`.
+
+Emitted signals
+===============
 
 - ``dismissed`` - This is called when 1. the outside of ctxpopup was clicked
   or 2. its parent area is changed or 3. the language is changed and also when
@@ -42,30 +50,25 @@ Signals that you can add callbacks for are:
 - ``focused`` - When the ctxpopup has received focus. (since 1.8)
 - ``unfocused`` - When the ctxpopup has lost focus. (since 1.8)
 
-Default content parts of the ctxpopup widget that you can use for are:
+Layout content parts
+====================
 
 - ``default`` - A content of the ctxpopup
-
-Default content parts of the ctxpopup items that you can use for are:
-
 - ``icon`` - An icon in the title area
 
-Default text parts of the ctxpopup items that you can use for are:
+Layout text parts
+=================
 
 - ``default`` - Title label in the title area
 
-.. note::
-
-    Ctxpopup is a specialization of :py:class:`~efl.elementary.hover.Hover`.
-
 
 Enumerations
-------------
+============
 
 .. _Elm_Ctxpopup_Direction:
 
 Ctxpopup arrow directions
-=========================
+-------------------------
 
 .. data:: ELM_CTXPOPUP_DIRECTION_DOWN
 
@@ -86,6 +89,14 @@ Ctxpopup arrow directions
 .. data:: ELM_CTXPOPUP_DIRECTION_UNKNOWN
 
     Arrow direction is unknown
+
+
+Inheritance diagram
+===================
+
+.. inheritance-diagram:: efl.elementary.ctxpopup
+    :parts: 2
+
 
 """
 

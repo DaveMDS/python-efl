@@ -17,10 +17,14 @@
 
 """
 
+:mod:`genlist` Module
+#####################
+
 .. image:: /images/genlist-preview.png
 
+
 Widget description
-------------------
+==================
 
 This widget aims to have more expansive list than the simple list in
 Elementary that could have more flexible items and allow many more
@@ -33,6 +37,7 @@ list with icons and a single text, use the normal
 Genlist has a fairly large API, mostly because it's relatively complex,
 trying to be both expansive, powerful and efficient. First we will begin
 an overview on the theory behind genlist.
+
 
 Genlist item classes - creating items
 =====================================
@@ -89,7 +94,9 @@ parameter described below. A brief description of these functions follows:
   so any data attached to the item (e.g. its data parameter on creation)
   can be deleted. See :py:meth:`GenlistItemClass.delete`.
 
-Available item styles:
+
+Available item styles
+=====================
 
 - ``default``
 - ``default_style`` The text part is a textblock
@@ -101,6 +108,7 @@ Available item styles:
 - ``no_icon`` No icon (since: 1.1)
 - ``full`` Only one object, elm.swallow.content, which consumes whole area of
   the genlist item (since: 1.7)
+
 
 Structure of items
 ==================
@@ -122,6 +130,7 @@ A genlist item may be at one of several styles. Elementary provides one
 by default - "default", but this can be extended by system or application
 custom themes/overlays/extensions (see :py:mod:`themes<efl.elementary.theme>`)
 for more details).
+
 
 Editing and Navigating
 ======================
@@ -164,6 +173,7 @@ the items are flattened in the list, so :py:attr:`GenlistItem.parent` will
 let you know which item is the parent (and thus know how to skip them if
 wanted).
 
+
 Multi-selection
 ===============
 
@@ -174,6 +184,7 @@ will return the selected item, if any, or None if none is selected. If the
 list is multi-select then :py:attr:`Genlist.selected_items` will return a
 list (that is only valid as long as no items are modified (added, deleted,
 selected or unselected)).
+
 
 Usage hints
 ===========
@@ -222,6 +233,7 @@ absolutely must have a specific style that overrides any theme the user or
 system sets up you can use :py:meth:`efl.elementary.theme.Theme.overlay_add` to
 add such a file.
 
+
 Scrollable Interface
 ====================
 
@@ -235,6 +247,7 @@ using multiple inheritance, for example::
     class ScrollableGenlist(Genlist, Scrollable):
         def __init__(self, canvas, *args, **kwargs):
             Genlist.__init__(self, canvas)
+
 
 Implementation
 ==============
@@ -267,10 +280,9 @@ requested (allowing for efficient building of a very deep tree that could
 even be used for file-management). See the above smart signal callbacks for
 details.
 
-Genlist smart events
-====================
 
-Signals that you can add callbacks for are:
+Emitted signals
+===============
 
 - ``activated`` - The user has double-clicked or pressed
   (enter|return|spacebar) on an item. The ``event_info`` parameter is the
@@ -379,12 +391,12 @@ Signals that you can add callbacks for are:
 
 
 Enumerations
-------------
+============
 
 .. _Elm_Genlist_Item_Type:
 
 Genlist item types
-==================
+------------------
 
 .. data:: ELM_GENLIST_ITEM_NONE
 
@@ -402,7 +414,7 @@ Genlist item types
 .. _Elm_Genlist_Item_Field_Type:
 
 Genlist items' field types
-==========================
+--------------------------
 
 .. data:: ELM_GENLIST_ITEM_FIELD_ALL
 
@@ -424,7 +436,7 @@ Genlist items' field types
 .. _Elm_Genlist_Item_Scrollto_Type:
 
 Genlist items' scroll-to types
-==============================
+------------------------------
 
 .. data:: ELM_GENLIST_ITEM_SCROLLTO_NONE
 
@@ -446,7 +458,7 @@ Genlist items' scroll-to types
 .. _Elm_Genlist_List_Mode:
 
 List sizing
-===========
+-----------
 
 .. data:: ELM_LIST_COMPRESS
 
@@ -488,7 +500,7 @@ List sizing
 .. _Elm_Genlist_Object_Select_Mode:
 
 Selection modes
-===============
+---------------
 
 .. data:: ELM_OBJECT_SELECT_MODE_DEFAULT
 
@@ -506,6 +518,12 @@ Selection modes
 
     No select mode with no finger size rule
 
+
+Inheritance diagram
+===================
+
+.. inheritance-diagram:: efl.elementary.genlist
+    :parts: 2
 
 """
 

@@ -18,11 +18,14 @@
 
 """
 
-Widget description
-------------------
+:mod:`box` Module
+#################
 
 .. image:: /images/box-preview.png
-    :align: left
+
+
+Widget description
+==================
 
 A box arranges objects in a linear fashion, governed by a layout function
 that defines the details of this arrangement.
@@ -80,12 +83,12 @@ children of the box.
 
 
 Enumerations
-------------
+============
 
 .. _Evas_Object_Box_Layout:
 
 Box layout modes
-================
+----------------
 
 .. data:: ELM_BOX_LAYOUT_HORIZONTAL
 
@@ -122,6 +125,13 @@ Box layout modes
 .. data:: ELM_BOX_LAYOUT_STACK
 
     Stacking layout
+
+
+Inheritance diagram
+===================
+
+.. inheritance-diagram:: efl.elementary.box
+    :parts: 2
 
 """
 

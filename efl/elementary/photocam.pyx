@@ -18,8 +18,12 @@
 
 """
 
+:mod:`photocam` Module
+######################
+
+
 Widget description
-------------------
+==================
 
 This is a widget specifically for displaying high-resolution digital
 camera photos giving speedy feedback (fast load), low memory footprint
@@ -27,7 +31,9 @@ and zooming and panning as well as fitting logic. It is entirely focused
 on jpeg images, and takes advantage of properties of the jpeg format (via
 evas loader features in the jpeg loader).
 
-Signals that you can add callbacks for are:
+
+Emitted signals
+===============
 
 - ``clicked`` - This is called when a user has clicked the photo without
   dragging around.
@@ -57,6 +63,7 @@ Signals that you can add callbacks for are:
 - ``focused`` - When the photocam has received focus. (since 1.8)
 - ``unfocused`` - When the photocam has lost focus. (since 1.8)
 
+
 Scrollable Interface
 ====================
 
@@ -71,13 +78,14 @@ using multiple inheritance, for example::
         def __init__(self, canvas, *args, **kwargs):
             Genlist.__init__(self, canvas)
 
+
 Enumerations
-------------
+============
 
 .. _Elm_Photocam_Zoom_Mode:
 
 Photocam zoom modes
-===================
+-------------------
 
 .. data:: ELM_PHOTOCAM_ZOOM_MODE_MANUAL
 
@@ -94,6 +102,13 @@ Photocam zoom modes
 .. data:: ELM_PHOTOCAM_ZOOM_MODE_AUTO_FIT_IN
 
     Zoom in until photo fits in photocam
+
+
+Inheritance diagram
+===================
+
+.. inheritance-diagram:: efl.elementary.photocam
+    :parts: 2
 
 """
 

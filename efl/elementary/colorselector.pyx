@@ -18,11 +18,14 @@
 
 """
 
-Widget description
-------------------
+:mod:`colorselector` Module
+###########################
 
 .. image:: /images/colorselector-preview.png
-    :align: left
+
+
+Widget description
+==================
 
 A Colorselector is a color selection widget.
 
@@ -32,8 +35,9 @@ the colors are loaded/saved from/to config using "default" identifier.
 The colors can be picked by user from the color set by clicking on
 individual color item on the palette or by selecting it from selector.
 
-This widget emits the following signals, besides the ones sent from
-:py:class:`~efl.elementary.layout_class.LayoutClass`:
+
+Emitted signals
+===============
 
 - ``"changed"`` - When the color value changes on selector
 - ``"color,item,selected"`` - When user clicks on color item.
@@ -47,12 +51,12 @@ This widget emits the following signals, besides the ones sent from
 
 
 Enumerations
-------------
+============
 
 .. _Elm_Colorselector_Mode:
 
 Colorselector modes
-===================
+-------------------
 
 .. data:: ELM_COLORSELECTOR_PALETTE
 
@@ -65,6 +69,13 @@ Colorselector modes
 .. data:: ELM_COLORSELECTOR_BOTH
 
     Show palette and components
+
+
+Inheritance diagram
+===================
+
+.. inheritance-diagram:: efl.elementary.colorselector
+    :parts: 2
 
 """
 

@@ -17,11 +17,14 @@
 
 """
 
-Widget description
-------------------
+:mod:`mapbuf` Module
+####################
 
 .. image:: /images/mapbuf-preview.png
-    :align: left
+
+
+Widget description
+==================
 
 This holds one content object and uses an Evas Map of transformation
 points to be later used with this content. So the content will be
@@ -30,9 +33,18 @@ when you have a complex interface, with a lot of elements, and will
 need to resize or move it frequently (the content object and its
 children).
 
-Default content parts of the mapbuf widget that you can use are:
+
+Layout content parts
+====================
 
 - ``default`` - The main content of the mapbuf
+
+
+Inheritance diagram
+===================
+
+.. inheritance-diagram:: efl.elementary.mapbuf
+    :parts: 2
 
 """
 

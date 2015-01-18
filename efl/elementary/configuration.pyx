@@ -18,8 +18,12 @@
 
 """
 
+:mod:`configuration` Module
+###########################
+
+
 Description
------------
+===========
 
 Elementary configuration is formed by a set options bounded to a
 given profile, like theme, "finger size", etc.
@@ -87,14 +91,13 @@ information please visit:
 http://www.linuxfoundation.org/collaborate/workgroups/accessibility/atk/at-spi/at-spi_on_d-bus
 
 
-
 Enumerations
-------------
+============
 
 .. _Elm_Softcursor_Mode:
 
 Elm_Softcursor_Mode
-===================
+-------------------
 
 .. data:: ELM_SOFTCURSOR_MODE_AUTO
 
@@ -112,7 +115,7 @@ Elm_Softcursor_Mode
 .. _Elm_Slider_Indicator_Visible_Mode:
 
 Elm_Slider_Indicator_Visible_Mode
-=================================
+---------------------------------
 
 .. data:: ELM_SLIDER_INDICATOR_VISIBLE_MODE_DEFAULT
 
@@ -134,7 +137,7 @@ Elm_Slider_Indicator_Visible_Mode
 .. _Edje_Channel:
 
 Audio Channels
-==============
+--------------
 
 .. data:: EDJE_CHANNEL_EFFECT
 
@@ -167,6 +170,13 @@ Audio Channels
 .. data:: EDJE_CHANNEL_ALL
 
     All audio channels (convenience)
+
+
+Inheritance diagram
+===================
+
+.. inheritance-diagram:: efl.elementary.configuration
+    :parts: 2
 
 """
 

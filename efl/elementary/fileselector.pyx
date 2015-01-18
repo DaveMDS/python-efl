@@ -18,10 +18,14 @@
 
 """
 
+:mod:`fileselector` Module
+##########################
+
 .. image:: /images/fileselector-preview.png
 
+
 Widget description
-------------------
+==================
 
 A file selector is a widget that allows a user to navigate through a
 file system, reporting file selections back via its API.
@@ -48,31 +52,35 @@ If Elementary is built with support of the Ethumb thumbnailing library,
 the second form of view will display preview thumbnails of files which
 it supports.
 
-This widget emits the following signals, besides the ones sent from
-:py:class:`~efl.elementary.layout_class.LayoutClass`:
+
+Emitted signals
+===============
 
 - ``activated`` - the user activated a file. This can happen by
-    double-clicking or pressing Enter key. (**event_info** is a
-    string with the activated file path)
-- ``selected`` - the user has clicked on a file (when not in
-    folders-only mode) or directory (when in folders-only mode)
-- ``directory,open`` - the list has been populated with new
-  content (*event_info* is the directory's path)
+  double-clicking or pressing Enter key. (**event_info** is a string with the
+  activated file path)
+- ``selected`` - the user has clicked on a file (when not in folders-only
+  mode) or directory (when in folders-only mode)
+- ``directory,open`` - the list has been populated with new content
+  (*event_info* is the directory's path)
 - ``done`` - the user has clicked on the "ok" or "cancel"
   buttons (*event_info* is the selection's path)
 
-For text, elm_layout_text_set() will work here on:
+
+Layout text parts
+=================
 
 - ``ok`` - OK button label if the ok button is set. (since 1.8)
 - ``cancel`` - Cancel button label if the cancel button is set. (since 1.8)
 
+
 Enumerations
-------------
+============
 
 .. _Elm_Fileselector_Mode:
 
 Fileselector modes
-==================
+------------------
 
 .. data:: ELM_FILESELECTOR_LIST
 
@@ -82,10 +90,11 @@ Fileselector modes
 
     Layout as a grid
 
+
 .. _Elm_Fileselector_Sort:
 
 Fileselector sort method
-========================
+------------------------
 
 .. data:: ELM_FILESELECTOR_SORT_BY_FILENAME_ASC
 
@@ -134,6 +143,13 @@ Fileselector sort method
     Sort by file modification date in descending order
 
     .. versionadded:: 1.9
+
+
+Inheritance diagram
+===================
+
+.. inheritance-diagram:: efl.elementary.fileselector
+    :parts: 2
 
 """
 

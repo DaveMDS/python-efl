@@ -18,11 +18,14 @@
 
 """
 
-Widget description
-------------------
+:mod:`progressbar` Module
+#########################
 
 .. image:: /images/progressbar-preview.png
-    :align: left
+
+
+Widget description
+==================
 
 The progress bar is a widget for visually representing the progress
 status of a given job/task.
@@ -71,6 +74,13 @@ Default part names for the "recording" style:
 
 - ``elm.cur.progressbar`` - The "main" indicator bar
 - ``elm.cur.progressbar1`` - The "secondary" indicator bar
+
+
+Inheritance diagram
+===================
+
+.. inheritance-diagram:: efl.elementary.progressbar
+    :parts: 2
 
 """
 

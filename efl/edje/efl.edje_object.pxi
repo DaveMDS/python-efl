@@ -88,42 +88,17 @@ class EdjeLoadError(Exception):
 cdef class Edje(Object):
     """
 
-    Edje evas object.
+    The Edje object.
 
     This is a high level :class:`efl.evas.SmartObject` that is defined as a
     group of parts, usually written in text files (.edc) and compiled as a
     package using EET to store resources (.edj).
-
-    Edje is an important EFL component because it makes easy to split logic
-    and UI, usually used as theme engine but can be much more powerful than
-    just changing some random images or text fonts.
-
-    Edje also provides scripting through Embryo and communication can be
-    done using messages and signals.
-
-    .. warning::
-        although Edje provides part_object_get(), you should **NOT**
-        mess with these objects states or you'll screw the given Edje. The
-        objects you get with this function should be handled as "read-only".
 
     .. attention::
         messages are one way only! If you emit a message from Python
         you will just get it from your Embryo script, if you emit from Embryo
         you just get it in Python. If you want to emit events and capture
         them on the same side, use signals.
-
-    .. note::
-        You can debug messages and signals by capturing all of them,
-        example::
-
-            >>> def sig_dbg(obj, emission, source):
-            ...     print "%s: %s %s" % (obj, emission, source)
-            ...
-            >>> my_edje.signal_callback_add("*", "*", sig_dbg)
-            >>> def msg_dbg(obj, msg):
-            ...     print "%s: %s" % (obj, msg)
-            ...
-            >>> my_edje.message_handler_set(msg_dbg)
 
     """
     def __cinit__(self, *a, **ka):
@@ -135,10 +110,8 @@ cdef class Edje(Object):
 
         :param canvas: Evas canvas for this object
         :type canvas: :py:class:`~efl.evas.Canvas`
-        :keyword file: File name
-        :type file: string
-        :keyword group: Group name
-        :type group: string
+        :keyword string file: File name
+        :keyword string group: Group name
         :keyword size: Min size for the object
         :type size: tuple of ints
         :keyword geometry: Geometry for the object
@@ -147,8 +120,6 @@ cdef class Edje(Object):
                             as properties of the instance
 
         """
-        
-
         self._set_obj(edje_object_add(canvas.obj))
         _register_decorated_callbacks(self)
 
@@ -526,10 +497,10 @@ cdef class Edje(Object):
         """Get the efl.evas.Object that represents this part.
 
         .. warning::
-            You should never modify the state of the returned object
-            (with Edje.move() or Edje.hide() for example),
-            but you can safely query info about its current state
-            (with Edje.visible_get() or Edje.color_get() for example).
+            You should never modify the state of the returned object (with
+            Edje.move() or Edje.hide() for example), but you can safely
+            query info about its current state (with Edje.visible_get() or
+            Edje.color_get() for example).
 
         """
         cdef Evas_Object *obj

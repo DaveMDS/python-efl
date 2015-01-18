@@ -178,16 +178,16 @@ For example, box objects use alignment hints to align its lines/columns
 inside its container, padding hints to set the padding between each
 individual child, etc.
 
-Size Hints are controlled using various :class:`Object` properties:
+Size Hints are controlled using various :class:`~efl.evas.Object` properties:
 
- * :attr:`~Object.size_hint_weight` (also called :attr:`~Object.size_hint_expand`)
- * :attr:`~Object.size_hint_align` (also called :attr:`~Object.size_hint_fill`)
- * :attr:`~Object.size_hint_min`
- * :attr:`~Object.size_hint_max`
- * :attr:`~Object.size_hint_aspect`
- * :attr:`~Object.size_hint_padding`
- * :attr:`~Object.size_hint_display_mode`
- * :attr:`~Object.size_hint_request`
+ * :attr:`~efl.evas.Object.size_hint_weight` (also called :attr:`~efl.evas.Object.size_hint_expand`)
+ * :attr:`~efl.evas.Object.size_hint_align` (also called :attr:`~efl.evas.Object.size_hint_fill`)
+ * :attr:`~efl.evas.Object.size_hint_min`
+ * :attr:`~efl.evas.Object.size_hint_max`
+ * :attr:`~efl.evas.Object.size_hint_aspect`
+ * :attr:`~efl.evas.Object.size_hint_padding`
+ * :attr:`~efl.evas.Object.size_hint_display_mode`
+ * :attr:`~efl.evas.Object.size_hint_request`
 
 The **weight** and the **align** are quite special, they are also used to
 express the **expand** and the **fill** property of the object. For this
@@ -253,21 +253,21 @@ API Reference
 .. toctree::
    :maxdepth: 4
 
-   evas_module
-   canvas
-   object
-   image
-   rectangle
-   line
-   polygon
-   text
-   textblock
-   textgrid
-   box
-   table
-   grid
-   map
-   rect
+   evas_module.rst
+   canvas.rst
+   object.rst
+   image.rst
+   rectangle.rst
+   line.rst
+   polygon.rst
+   text.rst
+   textblock.rst
+   textgrid.rst
+   box.rst
+   table.rst
+   grid.rst
+   map.rst
+   rect.rst
 
 
 Inheritance diagram

@@ -15,6 +15,20 @@
 # You should have received a copy of the GNU Lesser General Public License
 # along with this Python-EFL.  If not, see <http://www.gnu.org/licenses/>.
 
+"""
+
+:mod:`object_item` Module
+#########################
+
+Inheritance diagram
+===================
+
+.. inheritance-diagram:: efl.elementary.object_item
+    :parts: 2
+
+"""
+
+
 from cpython cimport PyUnicode_AsUTF8String, Py_DECREF, Py_INCREF
 from libc.stdint cimport uintptr_t
 
@@ -100,7 +114,8 @@ cdef void _object_item_callback2(void *data, Evas_Object *obj, void *event_info)
 cdef class ObjectItem(object):
     """
 
-    A generic item for the widgets.
+    A generic item for the widgets. This is the base class for all the other
+    widget items.
 
     .. py:attribute:: data
 

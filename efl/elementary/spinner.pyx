@@ -17,11 +17,14 @@
 
 """
 
-Widget description
-------------------
+:mod:`spinner` Module
+#####################
 
 .. image:: /images/spinner-preview.png
-    :align: left
+
+
+Widget description
+==================
 
 A spinner is a widget which allows the user to increase or decrease
 numeric values using arrow buttons, or edit values directly, clicking
@@ -36,8 +39,9 @@ point values and thus accepts a printf-style format string, like
 
 It also allows specific values to be replaced by pre-defined labels.
 
-This widget emits the following signals, besides the ones sent from
-:py:class:`~efl.elementary.layout_class.LayoutClass`:
+
+Emitted signals
+===============
 
 - ``changed`` - Whenever the spinner value is changed.
 - ``delay,changed`` - A short time after the value is changed by
@@ -48,10 +52,19 @@ This widget emits the following signals, besides the ones sent from
 - ``focused`` - When the spinner has received focus. (since 1.8)
 - ``unfocused`` - When the spinner has lost focus. (since 1.8)
 
-Available styles for it:
+
+Available styles
+================
 
 - ``default``: Default style
 - ``vertical``: up/down buttons at the right side and text left aligned.
+
+
+Inheritance diagram
+===================
+
+.. inheritance-diagram:: efl.elementary.spinner
+    :parts: 2
 
 """
 

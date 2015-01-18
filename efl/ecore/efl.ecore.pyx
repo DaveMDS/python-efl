@@ -17,10 +17,13 @@
 
 """
 
+Enumerations
+============
+
 .. _Ecore_Fd_Handler_Flags:
 
 Fd handler flags
-================
+----------------
 
 What to monitor the file descriptor for: reading, writing or error.
 
@@ -40,7 +43,7 @@ What to monitor the file descriptor for: reading, writing or error.
 .. _Ecore_Exe_Flags:
 
 Exe flags
-=========
+---------
 
 Flags for executing a child with its stdin and/or stdout piped back.
 
@@ -90,7 +93,7 @@ Flags for executing a child with its stdin and/or stdout piped back.
 
 
 Callback return values
-======================
+----------------------
 
 .. data:: ECORE_CALLBACK_CANCEL
 
@@ -102,7 +105,7 @@ Callback return values
 
 
 Event return values
-===================
+-------------------
 
 .. data:: ECORE_CALLBACK_PASS_ON
 
@@ -116,7 +119,7 @@ Event return values
 .. _Ecore_Pos_Map:
 
 Position mappings for the animation
-===================================
+-----------------------------------
 
 .. data:: ECORE_POS_MAP_LINEAR
 
@@ -166,7 +169,7 @@ Position mappings for the animation
 .. _Ecore_Animator_Source:
 
 Timing sources for animators
-============================
+----------------------------
 
 .. data:: ECORE_ANIMATOR_SOURCE_TIMER
 
@@ -180,7 +183,7 @@ Timing sources for animators
 .. Ecore_File_Event:
 
 File monitor events
-===================
+-------------------
 
 .. data:: ECORE_FILE_EVENT_NONE
 
@@ -214,6 +217,9 @@ File monitor events
 
     A file has been closed
 
+
+Classes
+=======
 
 """
 

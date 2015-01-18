@@ -18,10 +18,14 @@
 
 """
 
+:mod:`fileselector_entry` Module
+################################
+
 .. image:: /images/fileselector-entry-preview.png
 
+
 Widget description
-------------------
+==================
 
 This is an entry made to be filled with or display a file
 system path string.
@@ -41,7 +45,9 @@ This widget encapsulates operations on its internal file
 selector on its own API. There is less control over its file
 selector than that one would have instantiating one directly.
 
-Smart callbacks one can register to:
+
+Emitted signals
+===============
 
 - ``changed`` - The text within the entry was changed
 - ``activated`` - The entry has had editing finished and
@@ -64,15 +70,18 @@ Smart callbacks one can register to:
   comes as the ``event_info`` data.
 - ``language,changed`` - the program's language changed
 
-Default text parts of the fileselector_button widget that you can use for
-are:
+
+Layout text parts
+=================
 
 - ``default`` - Label of the fileselector_button
 
-Default content parts of the fileselector_entry widget that you can use for
-are:
+
+Layout content parts
+====================
 
 - ``button icon`` - Button icon of the fileselector_entry
+
 
 Fileselector Interface
 ======================
@@ -87,6 +96,13 @@ using multiple inheritance, for example::
     class CustomFileselectorButton(Fileselector, FileselectorButton):
         def __init__(self, canvas, *args, **kwargs):
             FileselectorButton.__init__(self, canvas)
+
+
+Inheritance diagram
+===================
+
+.. inheritance-diagram:: efl.elementary.fileselector_entry
+    :parts: 2
 
 """
 

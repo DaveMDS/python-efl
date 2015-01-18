@@ -17,8 +17,12 @@
 
 """
 
-Widget description
-------------------
+:mod:`theme` Module
+###################
+
+
+Description
+===========
 
 Elementary uses Edje to theme its widgets, naturally. But for the most
 part this is hidden behind a simpler interface that lets the user set
@@ -82,6 +86,13 @@ overlays. Don't use this unless you really know what you are doing.
 .. note::
 
     Remember to :py:func:`Theme.free` the instance when you're done with it!
+
+
+Inheritance diagram
+===================
+
+.. inheritance-diagram:: efl.elementary.theme
+    :parts: 2
 
 """
 
