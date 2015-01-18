@@ -31,30 +31,28 @@ supported (depending on Evas and Ecore-Evas compilation setup and
 modules actually installed at runtime) are (listed in order of best
 supported and most likely to be complete and work to lowest quality).
 
-- "x11", "x", "software-x11", "software_x11" (Software rendering in X11)
-- "gl", "opengl", "opengl-x11", "opengl_x11" (OpenGL or OpenGL-ES2 rendering in
-  X11)
-- "shot:..." (Virtual screenshot renderer - renders to output file and exits)
-- "fb", "software-fb", "software_fb" (Linux framebuffer direct software
-  rendering)
-- "sdl", "software-sdl", "software_sdl" (SDL software rendering to SDL buffer)
-- "gl-sdl", "gl_sdl", "opengl-sdl", "opengl_sdl" (OpenGL or OpenGL-ES2
-  rendering using SDL as the buffer)
-- "gdi", "software-gdi", "software_gdi" (Windows WIN32 rendering via GDI with
-  software)
-- "dfb", "directfb" (Rendering to a DirectFB window)
-- "x11-8", "x8", "software-8-x11", "software_8_x11" (Rendering in grayscale
-  using dedicated 8bit software engine in X11)
-- "x11-16", "x16", "software-16-x11", "software_16_x11" (Rendering in X11 using
-  16bit software engine)
-- "wince-gdi", "software-16-wince-gdi", "software_16_wince_gdi"
-  (Windows CE rendering via GDI with 16bit software renderer)
-- "sdl-16", "software-16-sdl", "software_16_sdl" (Rendering to SDL buffer with
-  16bit software renderer)
-- "ews" (rendering to EWS - Ecore + Evas Single Process Windowing System)
-- "gl-cocoa", "gl_cocoa", "opengl-cocoa", "opengl_cocoa" (OpenGL rendering in
-  Cocoa)
-- "psl1ght" (PS3 rendering using PSL1GHT)
+Note that ELM_ENGINE is really only needed for special cases and debugging.
+you should normally use ELM_DISPLAY and ELM_ACCEL environment variables, or
+core elementary config. ELM_DISPLAY can be set to "x11" or "wl" to indicate
+the target display system (as on Linux systems you may have both display
+systems available, so this selects which to use). ELM_ACCEL may also be set
+to indicate if you want accelerations and which kind to use. see
+:py:attr:`~efl.elementary.configuration.Configuration.accel_preference` for
+details on this environment variable values.
+
+- ``x11, x, software-x11, software_x11`` Software rendering in X11
+- ``gl, opengl, opengl-x11, opengl_x11`` OpenGL or OpenGL-ES2 rendering in X11
+- ``shot:...`` Virtual screenshot renderer - renders to output file and exits
+- ``fb, software-fb, software_fb`` Linux framebuffer direct software rendering
+- ``sdl, software-sdl, software_sdl`` SDL software rendering to SDL buffer
+- ``gl-sdl, gl_sdl, opengl-sdl, opengl_sdl`` OpenGL or OpenGL-ES2 using SDL
+- ``gdi, software-gdi, software_gdi`` Windows WIN32 rendering via GDI with
+  software
+- ``ews`` rendering to EWS (Ecore + Evas Single Process Windowing System)
+- ``gl-cocoa, gl_cocoa, opengl-cocoa, opengl_cocoa`` OpenGL rendering in Cocoa
+- ``wayland_shm`` Wayland client SHM rendering
+- ``wayland_egl`` Wayland client OpenGL/EGL rendering
+- ``drm`` Linux drm/kms etc. direct display
 
 All engines use a simple string to select the engine to render, EXCEPT
 the "shot" engine. This actually encodes the output of the virtual
@@ -63,7 +61,7 @@ is encoded in the following way::
 
     "shot:[delay=XX][:][repeat=DDD][:][file=XX]"
 
-Where options are separated by a ":" char if more than one option is
+Where options are separated by a ``:`` char if more than one option is
 given, with delay, if provided being the first option and file the last
 (order is important). The delay specifies how long to wait after the
 window is shown before doing the virtual "in memory" rendering and then
