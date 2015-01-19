@@ -201,6 +201,7 @@ cdef extern from "Evas.h":
         EVAS_NATIVE_SURFACE_NONE
         EVAS_NATIVE_SURFACE_X11
         EVAS_NATIVE_SURFACE_OPENGL
+        EVAS_NATIVE_SURFACE_WL
     ctypedef enum Evas_Native_Surface_Type:
         pass
 

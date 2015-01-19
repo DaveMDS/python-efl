@@ -15,6 +15,918 @@
 # You should have received a copy of the GNU Lesser General Public License
 # along with this Python-EFL.  If not, see <http://www.gnu.org/licenses/>.
 
+"""
+
+:mod:`efl.evas` Module
+######################
+
+
+Classes
+=======
+
+.. toctree::
+
+   class-canvas.rst
+   class-object.rst
+   class-image.rst
+   class-rectangle.rst
+   class-line.rst
+   class-polygon.rst
+   class-text.rst
+   class-textblock.rst
+   class-textgrid.rst
+   class-box.rst
+   class-table.rst
+   class-grid.rst
+   class-map.rst
+   class-rect.rst
+
+
+Enumerations
+============
+
+Size Hints Helper
+-----------------
+
+Helper values to be used as :ref:`evas-size-hints` for objects.
+
+.. data:: EVAS_HINT_EXPAND = -1.0
+
+    to be used with **weight** or **expand**
+
+.. data:: EVAS_HINT_FILL = 1.0
+
+    to be used with **align** or **fill**
+
+.. data:: EXPAND_BOTH = EVAS_HINT_EXPAND, EVAS_HINT_EXPAND
+
+    Expand in both direction
+
+.. data:: EXPAND_HORIZ = EVAS_HINT_EXPAND, 0.0
+
+    Expand horizontally
+
+.. data:: EXPAND_VERT = 0.0, EVAS_HINT_EXPAND
+
+    Expand vertically
+
+.. data:: FILL_BOTH = EVAS_HINT_FILL, EVAS_HINT_FILL
+
+    Fill both direction
+
+.. data:: FILL_HORIZ = EVAS_HINT_FILL, 0.5
+
+    Fill horizontally
+
+.. data:: FILL_VERT = 0.5, EVAS_HINT_FILL
+
+    Fill vertically
+
+
+.. _Evas_Button_Flags:
+
+Evas_Button_Flags
+-----------------
+
+Flags for Mouse Button events.
+
+.. data:: EVAS_BUTTON_NONE
+
+    No extra mouse button data.
+
+.. data:: EVAS_BUTTON_DOUBLE_CLICK
+
+    This mouse button press was the 2nd press of a double click.
+
+.. data:: EVAS_BUTTON_TRIPLE_CLICK
+
+    This mouse button press was the 3rd press of a triple click.
+
+
+.. _Evas_BiDi_Direction:
+
+Evas_BiDi_Direction
+-------------------
+
+.. data:: EVAS_BIDI_DIRECTION_NATURAL
+
+    Natural direction.
+
+.. data:: EVAS_BIDI_DIRECTION_NEUTRAL
+
+    Neutral direction.
+
+.. data:: EVAS_BIDI_DIRECTION_LTR
+
+    Left to right direction.
+
+.. data:: EVAS_BIDI_DIRECTION_RTL
+
+    Right to left direction.
+
+
+.. _Evas_Callback_Type:
+
+Evas_Callback_Type
+-------------------------------------
+
+.. data:: EVAS_CALLBACK_MOUSE_IN
+
+    Mouse In Event.
+
+.. data:: EVAS_CALLBACK_MOUSE_OUT
+
+    Mouse Out Event.
+
+.. data:: EVAS_CALLBACK_MOUSE_DOWN
+
+    Mouse Button Down Event.
+
+.. data:: EVAS_CALLBACK_MOUSE_UP
+
+    Mouse Button Up Event.
+
+.. data:: EVAS_CALLBACK_MOUSE_MOVE
+
+    Mouse Move Event.
+
+.. data:: EVAS_CALLBACK_MOUSE_WHEEL
+
+    Mouse Wheel Event.
+
+.. data:: EVAS_CALLBACK_MULTI_DOWN
+
+    Multi-touch Down Event.
+
+.. data:: EVAS_CALLBACK_MULTI_UP
+
+    Multi-touch Up Event.
+
+.. data:: EVAS_CALLBACK_MULTI_MOVE
+
+    Multi-touch Move Event.
+
+.. data:: EVAS_CALLBACK_FREE
+
+    Object Being Freed (Called after Del).
+
+.. data:: EVAS_CALLBACK_KEY_DOWN
+
+    Key Press Event.
+
+.. data:: EVAS_CALLBACK_KEY_UP
+
+    Key Release Event.
+
+.. data:: EVAS_CALLBACK_FOCUS_IN
+
+    Focus In Event.
+
+.. data:: EVAS_CALLBACK_FOCUS_OUT
+
+    Focus Out Event.
+
+.. data:: EVAS_CALLBACK_SHOW
+
+    Show Event.
+
+.. data:: EVAS_CALLBACK_HIDE
+
+    Hide Event.
+
+.. data:: EVAS_CALLBACK_MOVE
+
+    Move Event.
+
+.. data:: EVAS_CALLBACK_RESIZE
+
+    Resize Event.
+
+.. data:: EVAS_CALLBACK_RESTACK
+
+    Restack Event.
+
+.. data:: EVAS_CALLBACK_DEL
+
+    Object Being Deleted (called before Free).
+
+.. data:: EVAS_CALLBACK_HOLD
+
+    Events go on/off hold.
+
+.. data:: EVAS_CALLBACK_CHANGED_SIZE_HINTS
+
+    Size hints changed event.
+
+.. data:: EVAS_CALLBACK_IMAGE_PRELOADED
+
+    Image has been preloaded.
+
+.. data:: EVAS_CALLBACK_CANVAS_FOCUS_IN
+
+    Canvas got focus as a whole.
+
+.. data:: EVAS_CALLBACK_CANVAS_FOCUS_OUT
+
+    Canvas lost focus as a whole.
+
+.. data:: EVAS_CALLBACK_RENDER_FLUSH_PRE
+
+    Called just before rendering is updated on the canvas target.
+
+.. data:: EVAS_CALLBACK_RENDER_FLUSH_POST
+
+    Called just after rendering is updated on the canvas target.
+
+.. data:: EVAS_CALLBACK_CANVAS_OBJECT_FOCUS_IN
+
+    Canvas object got focus.
+
+.. data:: EVAS_CALLBACK_CANVAS_OBJECT_FOCUS_OUT
+
+    Canvas object lost focus.
+
+.. data:: EVAS_CALLBACK_IMAGE_UNLOADED
+
+    Image data has been unloaded.
+
+.. data:: EVAS_CALLBACK_RENDER_PRE
+
+    Called just before rendering starts on the canvas target.
+
+.. data:: EVAS_CALLBACK_RENDER_POST
+
+    Called just after rendering stops on the canvas target.
+
+.. data:: EVAS_CALLBACK_IMAGE_RESIZE
+
+    Image size is changed.
+
+.. data:: EVAS_CALLBACK_DEVICE_CHANGED
+
+    Devices added, removed or changed on canvas.
+
+.. data:: EVAS_CALLBACK_AXIS_UPDATE
+
+    Input device changed value on some axis. (since 1.13)
+
+.. data:: EVAS_CALLBACK_LAST
+
+    kept as last element/sentinel – not really an event.
+
+
+.. _Evas_Event_Flags:
+
+Evas_Event_Flags
+-------------------------------------
+
+.. data:: EVAS_EVENT_FLAG_NONE
+
+    No fancy flags set. 
+
+.. data:: EVAS_EVENT_FLAG_ON_HOLD
+
+    This event is being delivered but should be put "on hold" until the on
+    hold flag is unset. The event should be used for informational purposes
+    and maybe some indications visually, but not actually perform anything
+
+.. data:: EVAS_EVENT_FLAG_ON_SCROLL
+
+    This event flag indicates the event occurs while scrolling; for example,
+    DOWN event occurs during scrolling; the event should be used for
+    informational purposes and maybe some indications visually, but not
+    actually perform anything
+
+
+.. _Evas_Touch_Point_State:
+
+Evas_Touch_Point_State
+-------------------------------------
+
+.. data:: EVAS_TOUCH_POINT_DOWN
+
+    Touch point is pressed down
+
+.. data:: EVAS_TOUCH_POINT_UP
+
+    Touch point is released
+
+.. data:: EVAS_TOUCH_POINT_MOVE
+
+    Touch point is moved
+
+.. data:: EVAS_TOUCH_POINT_STILL
+
+    Touch point is not moved after pressed
+
+.. data:: EVAS_TOUCH_POINT_CANCEL
+
+    Touch point is cancelled
+
+
+.. _Evas_Font_Hinting_Flags:
+
+Evas_Font_Hinting_Flags
+-------------------------------------
+
+.. data:: EVAS_FONT_HINTING_NONE
+
+    No font hinting
+
+.. data:: EVAS_FONT_HINTING_AUTO
+
+    Automatic font hinting
+
+.. data:: EVAS_FONT_HINTING_BYTECODE
+
+    Bytecode font hinting
+
+
+.. _Evas_Colorspace:
+
+Evas_Colorspace
+-------------------------------------
+
+.. data:: EVAS_COLORSPACE_ARGB8888
+
+    ARGB8888
+
+.. data:: EVAS_COLORSPACE_YCBCR422P601_PL
+
+    YCBCR422P601_PL
+
+.. data:: EVAS_COLORSPACE_YCBCR422P709_PL
+
+    YCBCR422P709_PL
+
+.. data:: EVAS_COLORSPACE_RGB565_A5P
+
+    RGB565_A5P
+
+.. data:: EVAS_COLORSPACE_GRY8
+
+    GRY8
+
+.. data:: EVAS_COLORSPACE_YCBCR422601_PL
+
+    YCBCR422601_PL
+
+.. data:: EVAS_COLORSPACE_YCBCR420NV12601_PL
+
+    YCBCR420NV12601_PL
+
+.. data:: EVAS_COLORSPACE_YCBCR420TM12601_PL
+
+    YCBCR420TM12601_PL
+
+
+.. _Evas_Object_Table_Homogeneous_Mode:
+
+Evas_Object_Table_Homogeneous_Mode
+-------------------------------------
+
+How to pack items into cells in a table
+
+.. data:: EVAS_OBJECT_TABLE_HOMOGENEOUS_NONE
+
+    None
+
+.. data:: EVAS_OBJECT_TABLE_HOMOGENEOUS_TABLE
+
+    Table
+
+.. data:: EVAS_OBJECT_TABLE_HOMOGENEOUS_ITEM
+
+    Item
+
+
+.. _Evas_Aspect_Control:
+
+Evas_Aspect_Control
+-------------------------------------
+
+.. data:: EVAS_ASPECT_CONTROL_NONE
+
+    Preference on scaling unset
+
+.. data:: EVAS_ASPECT_CONTROL_NEITHER
+
+    Same effect as unset preference on scaling
+
+.. data:: EVAS_ASPECT_CONTROL_HORIZONTAL
+
+    Use all horizontal container space to place an object, using the given
+    aspect
+
+.. data:: EVAS_ASPECT_CONTROL_VERTICAL
+
+    Use all vertical container space to place an object, using the given aspect
+
+.. data:: EVAS_ASPECT_CONTROL_BOTH
+
+    Use all horizontal and vertical container spaces to place an object
+    (never growing it out of those bounds), using the given aspect
+
+
+.. _Evas_Display_Mode:
+
+Evas_Display_Mode
+-------------------------------------
+
+.. data:: EVAS_DISPLAY_MODE_NONE
+
+    Default mode.
+
+.. data:: EVAS_DISPLAY_MODE_COMPRESS
+
+    Use this mode when you want to give compress display mode hint to an object.
+
+.. data:: EVAS_DISPLAY_MODE_EXPAND
+
+    Use this mode when you want to give expand display mode hint to an object. 
+
+.. data:: EVAS_DISPLAY_MODE_DONT_CHANGE
+
+    Use this mode when an object should not change its display mode. 
+
+
+.. _Evas_Load_Error:
+
+Evas_Load_Error
+-------------------------------------
+
+.. data:: EVAS_LOAD_ERROR_NONE
+
+    None.
+
+.. data:: EVAS_LOAD_ERROR_GENERIC
+
+    Generic.
+
+.. data:: EVAS_LOAD_ERROR_DOES_NOT_EXIST
+
+    Not exists.
+
+.. data:: EVAS_LOAD_ERROR_PERMISSION_DENIED
+
+    Permission danied.
+
+.. data:: EVAS_LOAD_ERROR_RESOURCE_ALLOCATION_FAILED
+
+    Allocation failure.
+
+.. data:: EVAS_LOAD_ERROR_CORRUPT_FILE
+
+    Corrupted file.
+
+.. data:: EVAS_LOAD_ERROR_UNKNOWN_FORMAT
+
+    Unknown format.
+
+
+.. _Evas_Alloc_Error:
+
+Evas_Alloc_Error
+-------------------------------------
+
+.. data:: EVAS_ALLOC_ERROR_NONE
+
+    No allocation error. 
+
+.. data:: EVAS_ALLOC_ERROR_FATAL
+
+    Allocation failed despite attempts to free up memory. 
+
+.. data:: EVAS_ALLOC_ERROR_RECOVERED
+
+    Allocation succeeded, but extra memory had to be found by freeing up speculative resources. 
+
+
+.. _Evas_Fill_Spread:
+
+XXX
+-------------------------------------
+
+.. data:: EVAS_TEXTURE_REFLECT
+
+    Image fill tiling mode - tiling reflects 
+
+.. data:: EVAS_TEXTURE_REPEAT
+
+    Image fill tiling mode - tiling reflects 
+
+.. data:: EVAS_TEXTURE_RESTRICT
+
+    Tiling clamps - range offset ignored 
+
+.. data:: EVAS_TEXTURE_RESTRICT_REFLECT
+
+    Tiling clamps and any range offset reflects 
+
+.. data:: EVAS_TEXTURE_RESTRICT_REPEAT
+
+    Tiling clamps and any range offset repeats 
+
+.. data:: EVAS_TEXTURE_PAD
+
+    Tiling extends with end values 
+
+
+.. _Evas_Pixel_Import_Pixel_Format:
+
+Evas_Pixel_Import_Pixel_Format
+-------------------------------------
+
+.. data:: EVAS_PIXEL_FORMAT_NONE
+
+    No pixel format. 
+
+.. data:: EVAS_PIXEL_FORMAT_ARGB32
+
+    ARGB 32bit pixel format with A in the high byte per 32bit pixel word. 
+
+.. data:: EVAS_PIXEL_FORMAT_YUV420P_601
+
+    YUV 420 Planar format with CCIR 601 color encoding with contiguous
+    planes in the order Y, U and V.
+
+
+.. _Evas_Native_Surface_Type:
+
+_Evas_Native_Surface_Type
+-------------------------------------
+
+.. data:: EVAS_NATIVE_SURFACE_NONE
+
+    No surface type.
+
+.. data:: EVAS_NATIVE_SURFACE_X11
+
+    X Window system based type.
+
+.. data:: EVAS_NATIVE_SURFACE_OPENGL
+
+    OpenGL system based type.
+
+.. data:: EVAS_NATIVE_SURFACE_WL
+
+    Wayland system based type.
+
+
+.. _Evas_Render_Op:
+
+Evas_Render_Op
+-------------------------------------
+
+.. data:: EVAS_RENDER_BLEND
+
+    default op: d = d*(1-sa) + s 
+
+.. data:: EVAS_RENDER_BLEND_REL
+
+    d = d*(1 - sa) + s*da 
+
+.. data:: EVAS_RENDER_COPY
+
+    d = s 
+
+.. data:: EVAS_RENDER_COPY_REL
+
+    d = s*da 
+
+.. data:: EVAS_RENDER_ADD
+
+    Unknown
+
+.. data:: EVAS_RENDER_ADD_REL
+
+    d = d + s*da 
+
+.. data:: EVAS_RENDER_SUB
+
+    d = d - s 
+
+.. data:: EVAS_RENDER_SUB_REL
+
+    Unknown
+
+.. data:: EVAS_RENDER_TINT
+
+    d = d*s + d*(1 - sa) + s*(1 - da) 
+
+.. data:: EVAS_RENDER_TINT_REL
+
+    d = d*(1 - sa + s) 
+
+.. data:: EVAS_RENDER_MASK
+
+    d = d*sa 
+
+.. data:: EVAS_RENDER_MUL
+
+    d = d*s 
+
+
+.. _Evas_Border_Fill_Mode:
+
+Evas_Border_Fill_Mode
+-------------------------------------
+
+.. data:: EVAS_BORDER_FILL_NONE
+
+    None
+
+.. data:: EVAS_BORDER_FILL_DEFAULT
+
+    Default
+
+.. data:: EVAS_BORDER_FILL_SOLID
+
+    Solid
+
+
+.. _Evas_Image_Scale_Hint:
+
+Evas_Image_Scale_Hint
+-------------------------------------
+
+.. data:: EVAS_IMAGE_SCALE_HINT_NONE
+
+    None
+
+.. data:: EVAS_IMAGE_SCALE_HINT_DYNAMIC
+
+    Dynamic
+
+.. data:: EVAS_IMAGE_SCALE_HINT_STATIC
+
+    Static
+
+
+.. _Evas_Image_Animated_Loop_Hint:
+
+Evas_Image_Animated_Loop_Hint
+-------------------------------------
+
+.. data:: EVAS_IMAGE_ANIMATED_HINT_NONE
+
+    None
+
+.. data:: EVAS_IMAGE_ANIMATED_HINT_LOOP
+
+    Loop
+
+.. data:: EVAS_IMAGE_ANIMATED_HINT_PINGPONG
+
+    Pingpong
+
+
+.. _Evas_Engine_Render_Mode:
+
+Evas_Engine_Render_Mode
+-------------------------------------
+
+.. data:: EVAS_RENDER_MODE_BLOCKING
+
+    The rendering is blocking mode.
+
+.. data:: EVAS_RENDER_MODE_NONBLOCKING
+
+    The rendering is non blocking mode.
+
+
+.. _Evas_Image_Content_Hint:
+
+Evas_Image_Content_Hint
+-------------------------------------
+
+.. data:: EVAS_IMAGE_CONTENT_HINT_NONE
+
+    No hint at all. 
+
+.. data:: EVAS_IMAGE_CONTENT_HINT_DYNAMIC
+
+    The contents will change over time. 
+
+.. data:: EVAS_IMAGE_CONTENT_HINT_STATIC
+
+    The contents won't change over time. 
+
+
+.. _Evas_Device_Class:
+
+Evas_Device_Class
+-------------------------------------
+
+.. data:: EVAS_DEVICE_CLASS_NONE
+
+    Not a device.
+
+.. data:: EVAS_DEVICE_CLASS_SEAT
+
+    The user/seat (the user themselves)
+
+.. data:: EVAS_DEVICE_CLASS_KEYBOARD
+
+    A regular keyboard, numberpad or attached buttons.
+
+.. data:: EVAS_DEVICE_CLASS_MOUSE
+
+    A mouse, trackball or touchpad relative motion device.
+
+.. data:: EVAS_DEVICE_CLASS_TOUCH
+
+    A touchscreen with fingers or stylus.
+
+.. data:: EVAS_DEVICE_CLASS_PEN
+
+    A special pen device.
+
+.. data:: EVAS_DEVICE_CLASS_POINTER
+
+    A laser pointer, wii-style or "minority report" pointing device.
+
+.. data:: EVAS_DEVICE_CLASS_GAMEPAD
+
+    A gamepad controller or joystick.
+
+
+.. _Evas_Object_Pointer_Mode:
+
+Evas_Object_Pointer_Mode
+-------------------------------------
+
+.. data:: EVAS_OBJECT_POINTER_MODE_AUTOGRAB
+
+    default, X11-like 
+
+.. data:: EVAS_OBJECT_POINTER_MODE_NOGRAB
+
+    pointer always bound to the object right below it 
+
+.. data:: EVAS_OBJECT_POINTER_MODE_NOGRAB_NO_REPEAT_UPDOWN
+
+    useful on object with "repeat events" enabled, where mouse/touch up and
+    down events WONT be repeated to objects and these objects wont be
+    auto-grabbed.
+
+
+.. _Evas_Text_Style_Type:
+
+Evas_Text_Style_Type
+-------------------------------------
+
+.. data:: EVAS_TEXT_STYLE_PLAIN
+
+    plain
+
+.. data:: EVAS_TEXT_STYLE_SHADOW
+
+    shadow
+
+.. data:: EVAS_TEXT_STYLE_OUTLINE
+
+    outline
+
+.. data:: EVAS_TEXT_STYLE_SOFT_OUTLINE
+
+    soft outline
+
+.. data:: EVAS_TEXT_STYLE_GLOW
+
+    glow
+
+.. data:: EVAS_TEXT_STYLE_OUTLINE_SHADOW
+
+    outline shadow
+
+.. data:: EVAS_TEXT_STYLE_FAR_SHADOW
+
+    far shadow
+
+.. data:: EVAS_TEXT_STYLE_OUTLINE_SOFT_SHADOW
+
+    outline soft shadow
+
+.. data:: EVAS_TEXT_STYLE_SOFT_SHADOW
+
+    soft shadow
+
+.. data:: EVAS_TEXT_STYLE_FAR_SOFT_SHADOW
+
+    far soft shadow
+
+.. data:: EVAS_TEXT_STYLE_SHADOW_DIRECTION_BOTTOM_RIGHT
+
+    shadow direction bottom right
+
+.. data:: EVAS_TEXT_STYLE_SHADOW_DIRECTION_BOTTOM
+
+    shadow direction bottom
+
+.. data:: EVAS_TEXT_STYLE_SHADOW_DIRECTION_BOTTOM_LEFT
+
+    shadow direction bottom left
+
+.. data:: EVAS_TEXT_STYLE_SHADOW_DIRECTION_LEFT
+
+    shadow direction left
+
+.. data:: EVAS_TEXT_STYLE_SHADOW_DIRECTION_TOP_LEFT
+
+    shadow direction top left
+
+.. data:: EVAS_TEXT_STYLE_SHADOW_DIRECTION_TOP
+
+    shadow direction top
+
+.. data:: EVAS_TEXT_STYLE_SHADOW_DIRECTION_TOP_RIGHT
+
+    shadow direction top right
+
+.. data:: EVAS_TEXT_STYLE_SHADOW_DIRECTION_RIGHT
+
+    shadow direction right
+
+
+.. _Evas_Textblock_Text_Type:
+
+Evas_Textblock_Text_Type
+-------------------------------------
+
+.. data:: EVAS_TEXTBLOCK_TEXT_RAW
+
+    Textblock text of type raw.
+
+.. data:: EVAS_TEXTBLOCK_TEXT_PLAIN
+
+    Textblock text of type plain.
+
+.. data:: EVAS_TEXTBLOCK_TEXT_MARKUP
+
+    Textblock text of type markup.
+
+
+.. _Evas_Textblock_Cursor_Type:
+
+Evas_Textblock_Cursor_Type
+-------------------------------------
+
+.. data:: EVAS_TEXTBLOCK_CURSOR_UNDER
+
+    Cursor type is under.
+
+.. data:: EVAS_TEXTBLOCK_CURSOR_BEFORE
+
+    Cursor type is before.
+
+
+.. _Evas_Textgrid_Palette:
+
+_Evas_Textgrid_Palette
+-------------------------------------
+
+.. data:: EVAS_TEXTGRID_PALETTE_NONE
+
+    None.
+
+.. data:: EVAS_TEXTGRID_PALETTE_STANDARD
+
+    Standard.
+
+.. data:: EVAS_TEXTGRID_PALETTE_EXTENDED
+
+    Extended.
+
+.. data:: EVAS_TEXTGRID_PALETTE_LAST
+
+    Last.
+
+
+.. _Evas_Textgrid_Font_Style:
+
+Evas_Textgrid_Font_Style
+-------------------------------------
+
+.. data:: EVAS_TEXTGRID_FONT_STYLE_NORMAL
+
+    Normal.
+
+.. data:: EVAS_TEXTGRID_FONT_STYLE_BOLD
+
+    Bold.
+
+.. data:: EVAS_TEXTGRID_FONT_STYLE_ITALIC
+
+    italic.
+
+
+Module level functions
+======================
+
+"""
+
+
 from efl.utils.conversions cimport eina_list_strings_to_python_list
 from efl.eina cimport EINA_LOG_DOM_DBG, EINA_LOG_DOM_INFO, EINA_LOG_DOM_WARN
 from efl.utils.logger cimport add_logger

@@ -449,16 +449,22 @@ dt:target, .highlighted { /* */
 }
 
 /* box for enumerations */
-div#enumerations > .section {
+div#enumerations > div.section {
     border: 1px solid #202020;
     box-shadow: 5px 5px 5px rgba(0, 0, 0, 0.15);
     margin-bottom: 1em;
 }
 
-div#enumerations > .section h3 {
+div#enumerations > div.section h3 {
     background-color: #333;
     margin-top: 0;
-    padding: 2px;
+    padding: 3px;
+    font-weight: bold;
+}
+
+div#enumerations > div.section dl,
+div#enumerations > div.section p {
+    padding-left: 3px;
 }
 
 

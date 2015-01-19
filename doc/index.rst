@@ -54,6 +54,7 @@ Evas
 ====
 
 .. toctree:: evas/evas.rst
+   :titlesonly:
 
 
 Ethumb

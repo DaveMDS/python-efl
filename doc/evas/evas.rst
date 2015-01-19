@@ -2,7 +2,7 @@
 .. _evas_main_intro:
 
 What is Evas?
--------------
+=============
 
 Evas is a clean display canvas API for several target display systems
 that can draw anti-aliased text, smooth super and sub-sampled scaled
@@ -25,10 +25,11 @@ wish, thus keeping it small and lean. It has several display
 back-ends, letting it display on several display systems, making it
 portable for cross-device and cross-platform development.
 
+
 .. _evas_main_intro_not_evas:
 
 What Evas is not?
------------------
+=================
 
 Evas is not a widget set or widget toolkit, however it is their base. See
 :doc:`Elementary </elementary/elementary>` for a toolkit
@@ -40,10 +41,11 @@ should be polled from various sources and fed to Evas. Similarly, it will
 not create windows or report windows updates to your system, rather just
 drawing the pixels and reporting to the user the areas that were changed.
 
+
 .. _evas_main_work:
 
 How does Evas work?
--------------------
+===================
 
 Evas is a canvas display library. This is markedly different from most
 display and windowing systems as a canvas is structural and is also a
@@ -166,7 +168,7 @@ scrollbars, sliders, push buttons etc.
 .. _evas-size-hints:
 
 Size Hints
-----------
+==========
 
 Evas :class:`Object` may carry hints, so that another object that acts as a
 manager may know how to properly position and resize its subordinate objects.
@@ -214,7 +216,7 @@ and so on...
 
 
 Next Steps
-----------
+==========
 
 After you understood what Evas is and installed it in your system you
 should proceed understanding the programming interface for all
@@ -223,55 +225,19 @@ recommend you to take a while to learn
 :doc:`Elementary </elementary/elementary>` and :doc:`Edje </edje/edje>` as
 they will likely save you tons of work compared to using just Evas directly.
 
-Recommended reading:
-
-- :class:`efl.evas.Canvas`, where you'll get how to handle an Evas canvas,
-- :class:`efl.evas.Object`, where you'll get how to basically manipulate generic
-  objects lying on an Evas canvas, handle canvas and object events, etc.
-- :class:`efl.evas.Rectangle`, to learn about the most basic object type on Evas --
-  the rectangle.
-- :class:`efl.evas.Polygon`, to learn how to create polygon elements on the canvas.
-- :class:`efl.evas.Line`, to learn how to create line elements on the canvas.
-- :class:`efl.evas.Image`, to learn about image objects, over which Evas can do a
-  plethora of operations.
-- :class:`efl.evas.Text`, to learn how to create textual elements on the canvas.
-- :class:`efl.evas.Textblock`, to learn how to create multiline textual elements on
-  the canvas.
-- :class:`efl.evas.Box`, to learn how to pack objects in different layouts.
-- :class:`efl.evas.SmartObject`, to define new objects that provide *custom*
-  functions to handle clipping, hiding, moving, resizing, color
-  setting and more. These could be as simple as a group of objects
-  that move together (see :class:`efl.evas.ClippedSmartObject`) up to
-  implementations of what ends to be a widget, providing some
-  intelligence (thus the name) to Evas objects -- like a button or
-  check box, for example.
-
 
 API Reference
--------------
+=============
 
 .. toctree::
-   :maxdepth: 4
+   :titlesonly:
 
-   evas_module.rst
-   canvas.rst
-   object.rst
-   image.rst
-   rectangle.rst
-   line.rst
-   polygon.rst
-   text.rst
-   textblock.rst
-   textgrid.rst
-   box.rst
-   table.rst
-   grid.rst
-   map.rst
-   rect.rst
+   module-evas.rst
+
 
 
 Inheritance diagram
--------------------
+===================
 
 .. inheritance-diagram::
     efl.evas
