@@ -156,8 +156,10 @@ items = [
         ("Input events", "test_input_events", "elm_input_events_clicked"),
         ("Gesture Layer", "test_gesture_layer", "gesture_layer_clicked"),
     ]),
-    ("Lists", [
+    ("Lists - Gengrid", [
         ("Gengrid", "test_gengrid", "gengrid_clicked"),
+    ]),
+    ("Lists - Genlist", [
         ("Genlist", "test_genlist", "genlist_clicked"),
         ("Genlist 2", "test_genlist", "genlist2_clicked"),
         ("Genlist Group", "test_genlist", "genlist3_clicked"),
@@ -166,6 +168,9 @@ items = [
         ("Genlist Decorate Item Mode", "test_genlist", "genlist10_clicked"),
         ("Genlist Decorate All Mode", "test_genlist", "genlist15_clicked"),
         ("Genlist Search By Text", "test_genlist", "genlist20_clicked"),
+        ("Genlist Reorder Mode", "test_genlist", "genlist11_clicked"),
+    ]),
+    ("Lists - List", [
         ("List", "test_list", "list_clicked"),
         ("List 2", "test_list", "list2_clicked"),
         ("List 3", "test_list", "list3_clicked"),

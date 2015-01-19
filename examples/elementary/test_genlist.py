@@ -685,7 +685,6 @@ def genlist20_search_cb(en, gl, tg):
         en.focus = True
     elif gl.selected_item:
         gl.selected_item.selected = False
-        
 
 def genlist20_clicked(obj, item=None):
     win = StandardWindow("genlist-search-by-text",
@@ -738,6 +737,65 @@ def genlist20_clicked(obj, item=None):
 
     win.show()
 
+
+### Genlist reorder mode
+class ItemClass11(GenlistItemClass):
+    def text_get(self, obj, part, data):
+        if part == "elm.text":
+            return "Item # %d" % data
+
+    def content_get(self, obj, part, data):
+        if part == "elm.swallow.icon":
+            return Icon(obj, file=os.path.join(img_path, "logo_small.png"))
+
+def genlist11_focus_highlight_ck_changed_cb(chk, win):
+    win.focus_highlight_enabled = chk.state
+
+def genlist11_reorder_tg_changed_cb(chk, gl):
+    gl.reorder_mode = chk.state
+
+def genlist11_clicked(obj, item=None):
+    win = StandardWindow("genlist-reorder-mode", "Genlist Reorder Mode",
+                         autodel=True, size=(350, 500))
+
+    gl = Genlist(win, size_hint_align=FILL_BOTH, size_hint_weight=EXPAND_BOTH)
+
+    bx = Box(win, size_hint_weight=EXPAND_BOTH)
+    win.resize_object_add(bx)
+    bx.show()
+
+    lb = Label(win)
+    lb.text = "<align=left>Enable reorder mode if you want to move items.<br>" \
+              "To move longress with mouse.</align>"
+    fr = Frame(win, text="Reorder Mode", content=lb,
+               size_hint_weight=EXPAND_HORIZ, size_hint_align=FILL_HORIZ)
+    bx.pack_end(fr)
+    fr.show()
+
+    hbx = Box(win, horizontal=True, padding=(20,0),
+              size_hint_weight=EXPAND_HORIZ)
+    bx.pack_end(hbx)
+    hbx.show()
+
+    tg = Check(win, style="toggle", text="Reorder Mode:")
+    tg.callback_changed_add(genlist11_reorder_tg_changed_cb, gl)
+    hbx.pack_end(tg)
+    tg.show()
+
+    ck = Check(win, text="Focus Highlight")
+    ck.state = win.focus_highlight_enabled
+    ck.callback_changed_add(genlist11_focus_highlight_ck_changed_cb, win)
+    hbx.pack_end(ck)
+    ck.show()
+
+    itc11 = ItemClass11()
+    for i in range(1,50):
+        gl.item_append(itc11, i)
+    bx.pack_end(gl)
+    gl.show()
+   
+    win.show()
+
 if __name__ == "__main__":
     elementary.init()
     win = StandardWindow("test", "python-elementary test application",
@@ -767,6 +825,7 @@ if __name__ == "__main__":
         ("Genlist Decorate Item Mode", genlist10_clicked),
         ("Genlist Decorate All Mode", genlist15_clicked),
         ("Genlist Search By Text", genlist20_clicked),
+        ("Genlist Reorder Mode", genlist11_clicked),
     ]
 
     li = List(win, size_hint_weight=EXPAND_BOTH, size_hint_align=FILL_BOTH)
