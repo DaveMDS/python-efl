@@ -3,6 +3,7 @@
 
 import os
 import sys
+import platform
 import subprocess
 from distutils.core import setup, Command
 from distutils.extension import Extension
@@ -157,6 +158,32 @@ class Uninstall(Command):
         else:
             for entry in open("installed_files.txt").read().split():
                 self.remove_entry(entry)
+
+
+# === setup.py test command ===
+class Test(Command):
+    description = 'Run all the available unit tests using efl in build/'
+    user_options = []
+
+    def initialize_options(self):
+        pass
+
+    def finalize_options(self):
+        pass
+
+    def run(self):
+        import unittest
+
+        sys.path.insert(0, "build/lib.%s-%s-%d.%d" % (
+                            platform.system().lower(), platform.machine(),
+                            sys.version_info[0], sys.version_info[1]))
+        if "efl" in sys.modules:
+            del sys.modules["efl"]
+
+        loader = unittest.TestLoader()
+        suite = loader.discover('./tests')
+        runner = unittest.TextTestRunner(verbosity=1, buffer=True)
+        result = runner.run(suite)
 
 
 # === use cython or pre-generated C files ===
@@ -473,6 +500,7 @@ setup(
         'Topic :: Software Development :: Widget Sets',
     ],
     cmdclass={
+        'test': Test,
         'build_doc': BuildDoc,
         'clean_generated_files': CleanGenerated,
         'uninstall': Uninstall,

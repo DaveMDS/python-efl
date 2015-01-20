@@ -34,9 +34,9 @@ doc:
 	$(PY) setup.py build build_doc
 
 
-.PHONY: tests
-tests:
-	$(PY) tests/00_run_all_tests.py
+.PHONY: test
+test:
+	$(PY) setup.py test
 
 
 .PHONY: clean
