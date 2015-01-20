@@ -125,6 +125,7 @@ class CleanGenerated(Command):
 
 
 # === setup.py uninstall command ===
+RECORD_FILE = "installed_files-%d.%d.txt" % sys.version_info[:2]
 class Uninstall(Command):
     description = 'remove all the installed files recorded at installation time'
     user_options = []
@@ -153,10 +154,10 @@ class Uninstall(Command):
                 directory = os.path.dirname(directory)
 
     def run(self):
-        if not os.path.exists("installed_files.txt"):
-            print('Warning: No installed_files.txt file found!')
+        if not os.path.exists(RECORD_FILE):
+            print('ERROR: No %s file found!' % RECORD_FILE)
         else:
-            for entry in open("installed_files.txt").read().split():
+            for entry in open(RECORD_FILE).read().split():
                 self.remove_entry(entry)
 
 
@@ -511,7 +512,7 @@ setup(
             'release': ('setup.py', RELEASE),
         },
         'install': {
-            'record': ('setup.py', 'installed_files.txt'),
+            'record': ('setup.py', RECORD_FILE),
         }
     },
     packages=packages,
