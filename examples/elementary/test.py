@@ -216,6 +216,7 @@ items = [
         ("Flip Selector", "test_flipselector", "flipselector_clicked"),
         ("Hoversel", "test_hoversel", "hoversel_clicked"),
         ("Index", "test_index", "index_clicked"),
+        ("Main Menu", "test_main_menu", "main_menu_clicked"),
         ("Menu", "test_menu", "menu_clicked"),
         ("Radios", "test_radio", "radio_clicked"),
         ("Segment Control", "test_segment_control", "segment_control_clicked"),
