@@ -75,6 +75,7 @@ Emotion
 =======
 
 .. toctree:: emotion/emotion.rst
+   :titlesonly:
 
 
 Elementary
