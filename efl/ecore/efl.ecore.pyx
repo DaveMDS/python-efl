@@ -17,6 +17,28 @@
 
 """
 
+:mod:`efl.ecore` Module
+#######################
+
+
+Classes
+=======
+
+.. toctree::
+
+   class-timer.rst
+   class-animator.rst
+   class-animator_timeline.rst
+   class-poller.rst
+   class-idler.rst
+   class-idleenterer.rst
+   class-idleexiter.rst
+   class-exe.rst
+   class-filemonitor.rst
+   class-filedownload.rst
+   class-fdhandler.rst
+
+
 Enumerations
 ============
 

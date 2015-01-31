@@ -48,7 +48,7 @@ Ecore
 =====
 
 .. toctree:: ecore/ecore.rst
-   :maxdepth: 2
+   :titlesonly:
 
 Evas
 ====

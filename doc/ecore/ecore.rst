@@ -1,4 +1,6 @@
 
+.. _ecore_main_intro:
+
 What is Ecore?
 --------------
 
@@ -54,6 +56,14 @@ anything your program should do just before processing events (also timers,
 pollers, file descriptor handlers and animators)
 
 
+Process Execution
+-----------------
+
+The :py:class:`~efl.ecore.Exe` class is used to spawn child processes in a
+full async fashion. Standard in/out/error of the child are available for
+communication using callbacks.
+
+
 File descriptor handlers
 ------------------------
 
@@ -86,20 +96,9 @@ API Reference
 -------------
 
 .. toctree::
-   :maxdepth: 4
+   :titlesonly:
 
-   ecore_module
-   timer
-   animator
-   animator_timeline
-   poller
-   idler
-   idleenterer
-   idleexiter
-   exe
-   fdhandler
-   filedownload
-   filemonitor
+   module-ecore
 
 
 Inheritance diagram

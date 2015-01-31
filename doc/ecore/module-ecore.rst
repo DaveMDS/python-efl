@@ -1,5 +1,3 @@
-:mod:`efl.ecore` Module
-=======================
 
 .. automodule:: efl.ecore
    :exclude-members: Animator, AnimatorTimeline, Exe, FdHandler, FileDownload,
