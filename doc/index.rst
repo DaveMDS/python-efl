@@ -68,6 +68,7 @@ Edje
 ====
 
 .. toctree:: edje/edje.rst
+   :titlesonly:
 
 
 Emotion
