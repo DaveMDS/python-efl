@@ -19,7 +19,6 @@ API Reference
 -------------
 
 .. toctree::
-   :maxdepth: 4
+   :titlesonly:
 
-   eo_module.rst
-   eo_class.rst
+   module-eo.rst

@@ -42,6 +42,7 @@ EO
 ==
 
 .. toctree:: eo/eo.rst
+   :titlesonly:
 
 
 Ecore
