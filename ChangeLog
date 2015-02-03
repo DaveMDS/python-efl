@@ -1,5 +1,52 @@
 
 ===================
+2015-02-03  v1.13.0
+===================
+
+Improvements:
+
+ * better docs for everything
+ * some new elm examples/tests
+ * new efl.utils.setup helper module to simplify user setup.py
+ * new uninstall setup.py command
+
+
+Changes:
+
+ * raised cython requirements to 0.21
+ * ecore.x module renamed to ecore_x
+ * removed evas.SmartObject class, it was broken
+
+
+Additions:
+
+ * efl.utils.setup module
+ * elm.Configuration.slider_indicator_visible_mode
+ * elm.Gengrid.callback_clicked_right_add
+ * elm.Genlist.callback_clicked_right_add
+ * elm.List.callback_clicked_right_add
+ * elm.Scrollable.step_size
+ * elm.Table.align
+ * elm.Theme.group_base_list_get
+ * elm.Transit.tween_mode_factor_n
+ * elm.ELM_TRANSIT_TWEEN_MODE_DIVISOR_INTERP
+ * elm.ELM_TRANSIT_TWEEN_MODE_BOUNCE
+ * elm.ELM_TRANSIT_TWEEN_MODE_SPRING
+ * elm.ELM_TRANSIT_TWEEN_MODE_BEZIER_CURVE
+ * elm.DialogWindow
+ * elm.Window.callback_theme_changed_add
+ * evas.Map.util_object_move_sync
+ * evas.Object.size_hint_expand
+ * evas.Object.size_hint_fill
+ * evas.EXPAND_BOTH
+ * evas.EXPAND_HORIZ
+ * evas.EXPAND_VERT
+ * evas.FILL_BOTH
+ * evas.FILL_HORIZ
+ * evas.FILL_VERT
+
+ 
+===================
 2014-11-23  v1.12.0
 ===================
 
@@ -151,7 +198,8 @@ Additions:
  * elm.Toolbar.callback_item_unfocused_add
 
 
-Deprecation:
+Deprecations:
+
  * elm.Datetime.callback_languge_changed_add:
     Use callback_language_changed_add instead.
 
@@ -202,7 +250,8 @@ Additions:
  * elm.Window.wm_rotation_supported
 
 
-Deprecation:
+Deprecations:
+
  * elm.FileselectorButton.expandable: Combine with Fileselector class instead
  * elm.FileselectorButton.folder_only: Combine with Fileselector class instead
  * elm.FileselectorButton.is_save: Combine with Fileselector class instead
@@ -269,7 +318,7 @@ Changes:
  * elm.MenuItem.subitems: Calling del on this property clears the subitems
 
 
-Deprecation:
+Deprecations:
 
  * elm.Diskselector.bounce: You should combine with Scrollable class instead
  * elm.Diskselector.scroller_policy: You should combine with Scrollable class instead
@@ -312,6 +361,7 @@ Deprecation:
 
 
 Additions:
+
  * efl container package
  * Loggers
  * Using keyword arguments to set properties

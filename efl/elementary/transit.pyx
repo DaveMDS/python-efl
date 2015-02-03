@@ -579,7 +579,7 @@ cdef class Transit(object):
 
         This is the same as :py:attr:`tween_mode_factor`, but lets you
         specify more than 2 values. Actually only need for the
-        :ref:`ELM_TRANSIT_TWEEN_MODE_BEZIER_CURVE` mode.
+        ELM_TRANSIT_TWEEN_MODE_BEZIER_CURVE mode.
 
         ELM_TRANSIT_TWEEN_MODE_BEZIER_CURVE
             Use an interpolated cubic-bezier curve ajusted with 4 parameters:

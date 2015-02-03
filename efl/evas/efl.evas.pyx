@@ -62,25 +62,37 @@ Helper values to be used as :ref:`evas-size-hints` for objects.
 
     Expand in both direction
 
+    .. versionadded:: 1.13
+
 .. data:: EXPAND_HORIZ = EVAS_HINT_EXPAND, 0.0
 
     Expand horizontally
+    
+    .. versionadded:: 1.13
 
 .. data:: EXPAND_VERT = 0.0, EVAS_HINT_EXPAND
 
     Expand vertically
+    
+    .. versionadded:: 1.13
 
 .. data:: FILL_BOTH = EVAS_HINT_FILL, EVAS_HINT_FILL
 
     Fill both direction
+    
+    .. versionadded:: 1.13
 
 .. data:: FILL_HORIZ = EVAS_HINT_FILL, 0.5
 
     Fill horizontally
+    
+    .. versionadded:: 1.13
 
 .. data:: FILL_VERT = 0.5, EVAS_HINT_FILL
 
     Fill vertically
+    
+    .. versionadded:: 1.13
 
 
 .. _Evas_Button_Flags:
