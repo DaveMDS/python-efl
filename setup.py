@@ -8,13 +8,13 @@ import subprocess
 from distutils.core import setup, Command
 from distutils.extension import Extension
 from distutils.version import StrictVersion, LooseVersion
-from efl import __version_info__ as vers
+from efl import __version__, __version_info__ as vers
 
 script_path = os.path.dirname(os.path.abspath(__file__))
 
 
 # python-efl version (change in efl/__init__.py)
-RELEASE = "%d.%d.%d" % (vers[0], vers[1], vers[2])
+RELEASE = __version__
 VERSION = "%d.%d" % (vers[0], vers[1] if vers[2] < 99 else vers[1] + 1)
 
 # dependencies
