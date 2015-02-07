@@ -12,6 +12,7 @@ from efl.elementary.entry import Entry, ELM_SCROLLER_POLICY_OFF, \
     ELM_SCROLLER_POLICY_ON, Entry_markup_to_utf8
 from efl.elementary.list import List
 from efl.elementary.frame import Frame
+from efl.elementary.hover import Hover
 from efl.elementary.label import Label
 from efl.elementary.separator import Separator
 from efl.elementary.icon import Icon
@@ -27,6 +28,8 @@ class ScrollableEntry(Scrollable, Entry):
         Entry.__init__(self, canvas, *args, **kwargs)
         self.scrollable = True
 
+
+## Test "Entry"
 def my_entry_bt_1(bt, en):
     en.entry_set("")
 
@@ -43,7 +46,6 @@ def my_entry_bt_4(bt, en):
 
 def my_entry_anchor_test(obj, anchor, en, *args, **kwargs):
     en.entry_insert("ANCHOR CLICKED")
-
 
 def entry_clicked(obj, item=None):
     win = StandardWindow("entry", "Entry", autodel=True)
@@ -99,6 +101,7 @@ def entry_clicked(obj, item=None):
     win.show()
 
 
+## Test "Entry Scrolled"
 def scrolled_entry_bt_1(obj, data):
     en = data
     en.text = ""
@@ -343,6 +346,8 @@ def entry_scrolled_clicked(obj, item = None):
     win.focus_set(True)
     win.show()
 
+
+## Test "Entry Anchor"
 def anchor_clicked(obj, event_info):
     print("Entry object is %s" % (obj))
     print("We should have EntryAnchorInfo here: %s" % (str(event_info)))
@@ -377,6 +382,7 @@ def entry_anchor_clicked(obj, item=None):
     box.show()
 
     win.show()
+
 
 if __name__ == "__main__":
     elementary.init()
