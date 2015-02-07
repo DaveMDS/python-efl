@@ -55,7 +55,7 @@ def entry_clicked(obj, item=None):
     bx.show()
 
     en = Entry(win, line_wrap=False, size_hint_weight=EXPAND_BOTH,
-        size_hint_align=FILL_BOTH)
+               size_hint_align=FILL_BOTH)
     en.entry_set("This is an entry widget in this window that<br>"
                  "uses markup <b>like this</> for styling and<br>"
                  "formatting <em>like this</>, as well as<br>"
@@ -68,28 +68,28 @@ def entry_clicked(obj, item=None):
     en.show()
 
     bx2 = Box(win, horizontal=True, size_hint_weight=EXPAND_HORIZ,
-        size_hint_align=FILL_BOTH)
+              size_hint_align=FILL_BOTH)
 
     bt = Button(win, text="Clear", size_hint_weight=EXPAND_HORIZ,
-        size_hint_align=FILL_BOTH)
+                size_hint_align=FILL_BOTH)
     bt.callback_clicked_add(my_entry_bt_1, en)
     bx2.pack_end(bt)
     bt.show()
 
     bt = Button(win, text="Print", size_hint_weight=EXPAND_HORIZ,
-        size_hint_align=FILL_BOTH)
+                size_hint_align=FILL_BOTH)
     bt.callback_clicked_add(my_entry_bt_2, en)
     bx2.pack_end(bt)
     bt.show()
 
     bt = Button(win, text="Selection", size_hint_weight=EXPAND_HORIZ,
-        size_hint_align=FILL_BOTH)
+                size_hint_align=FILL_BOTH)
     bt.callback_clicked_add(my_entry_bt_3, en)
     bx2.pack_end(bt)
     bt.show()
 
     bt = Button(win, text="Insert", size_hint_weight=EXPAND_HORIZ,
-        size_hint_align=FILL_BOTH)
+                size_hint_align=FILL_BOTH)
     bt.callback_clicked_add(my_entry_bt_4, en)
     bx2.pack_end(bt)
     bt.show()
@@ -150,7 +150,7 @@ def entry_scrolled_clicked(obj, item = None):
 
 
     win = StandardWindow("entry-scrolled", "Entry Scrolled", autodel=True,
-        size=(320, 300))
+                         size=(320, 300))
 
     bx = Box(win, size_hint_weight=EXPAND_BOTH)
     win.resize_object_add(bx)
@@ -158,23 +158,23 @@ def entry_scrolled_clicked(obj, item = None):
 
     # disabled entry
     en = ScrollableEntry(win, size_hint_weight=EXPAND_HORIZ,
-        size_hint_align=FILL_HORIZ, policy=SCROLL_POLICY_OFF,
-        text="Disabled entry", single_line=True, disabled=True)
+                         size_hint_align=FILL_HORIZ, policy=SCROLL_POLICY_OFF,
+                         text="Disabled entry", single_line=True, disabled=True)
     en.show()
     bx.pack_end(en)
 
     # password entry
     en = ScrollableEntry(win, size_hint_weight=EXPAND_HORIZ,
-        size_hint_align=FILL_HORIZ, policy=SCROLL_POLICY_OFF,
-        password=True, single_line=True, text="Access denied, give up!",
-        disabled=True)
+                         size_hint_align=FILL_HORIZ, policy=SCROLL_POLICY_OFF,
+                         password=True, single_line=True, disabled=True,
+                         text="Access denied, give up!")
     en.show()
     bx.pack_end(en)
 
     # multi-line disable entry
     en = ScrollableEntry(win, size_hint_weight=EXPAND_BOTH,
-        size_hint_align=FILL_BOTH, policy=SCROLL_POLICY_ON,
-        disabled=True)
+                         size_hint_align=FILL_BOTH, policy=SCROLL_POLICY_ON,
+                         disabled=True)
     en.context_menu_item_add("Hello")
     en.context_menu_item_add("World")
     en.text = "Multi-line disabled entry widget :)<br/>"\
@@ -191,16 +191,17 @@ def entry_scrolled_clicked(obj, item = None):
 
     # Single line selected entry
     en = ScrollableEntry(win, size_hint_weight=EXPAND_HORIZ,
-        size_hint_align=FILL_HORIZ, text="This is a single line",
-        policy=SCROLL_POLICY_OFF, single_line=True)
+                         size_hint_align=FILL_HORIZ,
+                         text="This is a single line",
+                         policy=SCROLL_POLICY_OFF, single_line=True)
     en.select_all()
     en.show()
     bx.pack_end(en)
 
     # Filter test
     en = ScrollableEntry(win, size_hint_weight=EXPAND_HORIZ,
-        size_hint_align=FILL_HORIZ, text="Filter test",
-        policy=SCROLL_POLICY_OFF, single_line=True)
+                         size_hint_align=FILL_HORIZ, text="Filter test",
+                         policy=SCROLL_POLICY_OFF, single_line=True)
     en.show()
     bx.pack_end(en)
 
@@ -264,21 +265,23 @@ def entry_scrolled_clicked(obj, item = None):
 
     # Single line password entry
     en_p = ScrollableEntry(win, size_hint_weight=EXPAND_HORIZ,
-        size_hint_align=FILL_HORIZ, policy=SCROLL_POLICY_OFF,
-        text="Password here", single_line=True, password=True)
+                           size_hint_align=FILL_HORIZ, policy=SCROLL_POLICY_OFF,
+                           text="Password here", single_line=True,
+                           password=True)
     en_p.show()
     bx.pack_end(en_p)
 
     # entry with icon/end widgets
     en = ScrollableEntry(win, policy=SCROLL_POLICY_OFF,
-        single_line=True, size_hint_weight=EXPAND_BOTH,
-        size_hint_align=FILL_BOTH, text="entry with icon and end objects")
+                         single_line=True, size_hint_weight=EXPAND_BOTH,
+                         size_hint_align=FILL_BOTH,
+                         text="entry with icon and end objects")
     bt = Icon(win, standard="home", size_hint_min=(48, 48),
-        color=(128, 0, 0, 128))
+              color=(128, 0, 0, 128))
     bt.show()
     en.part_content_set("icon", bt)
     bt = Icon(win, standard="delete", size_hint_min=(48, 48),
-        color=(128, 0, 0, 128))
+              color=(128, 0, 0, 128))
     bt.show()
     en.part_content_set("end", bt)
     en.show()
@@ -286,7 +289,7 @@ def entry_scrolled_clicked(obj, item = None):
 
     # markup entry
     en = ScrollableEntry(win, size_hint_weight=EXPAND_BOTH,
-        size_hint_align=FILL_BOTH, policy=SCROLL_POLICY_ON)
+                         size_hint_align=FILL_BOTH, policy=SCROLL_POLICY_ON)
     en.text = "This is an entry widget in this window that<br/>"\
         "uses markup <b>like this</> for styling and<br/>"\
         "formatting <em>like this</>, as well as<br/>"\
@@ -303,39 +306,39 @@ def entry_scrolled_clicked(obj, item = None):
     bx.pack_end(en)
 
     bx2 = Box(win, horizontal=True, size_hint_weight=EXPAND_HORIZ,
-        size_hint_align=FILL_BOTH)
+              size_hint_align=FILL_BOTH)
 
     bt = Button(win, text="Clear", size_hint_align=FILL_BOTH,
-        size_hint_weight=EXPAND_HORIZ, propagate_events=False,
-        focus_allow=False)
+                size_hint_weight=EXPAND_HORIZ, propagate_events=False,
+                focus_allow=False)
     bt.callback_clicked_add(scrolled_entry_bt_1, en)
     bx2.pack_end(bt)
     bt.show()
 
     bt = Button(win, text="Print", size_hint_align=FILL_BOTH,
-        size_hint_weight=EXPAND_HORIZ, propagate_events=False,
-        focus_allow=False)
+                size_hint_weight=EXPAND_HORIZ, propagate_events=False,
+                focus_allow=False)
     bt.callback_clicked_add(scrolled_entry_bt_2, en)
     bx2.pack_end(bt)
     bt.show()
 
     bt = Button(win, text="Print pwd", size_hint_align=FILL_BOTH,
-        size_hint_weight=EXPAND_HORIZ, propagate_events=False,
-        focus_allow=False)
+                size_hint_weight=EXPAND_HORIZ, propagate_events=False,
+                focus_allow=False)
     bt.callback_clicked_add(scrolled_entry_bt_5, en_p)
     bx2.pack_end(bt)
     bt.show()
 
     bt = Button(win, text="Selection", size_hint_align=FILL_BOTH,
-        size_hint_weight=EXPAND_HORIZ, propagate_events=False,
-        focus_allow=False)
+                size_hint_weight=EXPAND_HORIZ, propagate_events=False,
+                focus_allow=False)
     bt.callback_clicked_add(scrolled_entry_bt_3, en)
     bx2.pack_end(bt)
     bt.show()
 
     bt = Button(win, text="Insert", size_hint_align=FILL_BOTH,
-        size_hint_weight=EXPAND_HORIZ, propagate_events=False,
-        focus_allow=False)
+                size_hint_weight=EXPAND_HORIZ, propagate_events=False,
+                focus_allow=False)
     bt.callback_clicked_add(scrolled_entry_bt_4, en)
     bx2.pack_end(bt)
     bt.show()
@@ -375,7 +378,7 @@ def entry_anchor_clicked(obj, item=None):
     entry.show()
 
     frame = Frame(win, size_hint_align=FILL_BOTH, text="Entry test",
-        content=entry)
+                  content=entry)
     frame.show()
 
     box.pack_end(frame)
@@ -387,7 +390,7 @@ def entry_anchor_clicked(obj, item=None):
 if __name__ == "__main__":
     elementary.init()
     win = StandardWindow("test", "python-elementary test application",
-        size=(320,520))
+                         size=(320,520))
     win.callback_delete_request_add(lambda o: elementary.exit())
 
     box0 = Box(win, size_hint_weight=EXPAND_BOTH)
