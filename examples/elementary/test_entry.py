@@ -4,12 +4,13 @@
 from efl.evas import EVAS_HINT_EXPAND, EVAS_HINT_FILL, EXPAND_BOTH, FILL_BOTH, \
     EXPAND_HORIZ, FILL_HORIZ
 from efl import elementary
+from efl.elementary.check import Check
 from efl.elementary.window import StandardWindow
 from efl.elementary.background import Background
 from efl.elementary.box import Box
 from efl.elementary.button import Button
-from efl.elementary.entry import Entry, ELM_SCROLLER_POLICY_OFF, \
-    ELM_SCROLLER_POLICY_ON, Entry_markup_to_utf8
+from efl.elementary.entry import Entry, Entry_markup_to_utf8, ELM_WRAP_WORD, \
+    ELM_TEXT_FORMAT_PLAIN_UTF8
 from efl.elementary.list import List
 from efl.elementary.frame import Frame
 from efl.elementary.hover import Hover
@@ -387,6 +388,65 @@ def entry_anchor_clicked(obj, item=None):
     win.show()
 
 
+## Test "Entry Notepad"
+def entry_notepad_label_update(en, lb):
+    lb.text = "<b>cursor</b>  pos:%d  char:'%s'  geom:%s" % (
+               en.cursor_pos,
+               en.cursor_content_get().replace('<','&lt;').replace('>','&gt;'),
+               en.cursor_geometry_get()
+              )
+
+def entry_notepad_changed_cb(entry,  label):
+    print("entry changed")
+
+def entry_notepad_cursor_changed_cb(entry, label):
+    print("cursor changed")
+    entry_notepad_label_update(entry, label)
+
+
+def entry_notepad_clicked(obj, item=None):
+    win = StandardWindow("entry", "Entry Notepad", autodel=True, size=(400,400))
+
+    box = Box(win, size_hint_weight=EXPAND_BOTH)
+    win.resize_object_add(box)
+    box.show()
+
+    label = Label(box, text="Info")
+    box.pack_end(label)
+    label.show()
+
+    entry = Entry(box, scrollable=True, line_wrap=ELM_WRAP_WORD,
+                  size_hint_weight=EXPAND_BOTH, size_hint_align=FILL_BOTH)
+    entry.callback_changed_add(entry_notepad_changed_cb, label)
+    entry.callback_cursor_changed_add(entry_notepad_cursor_changed_cb, label)
+    try: # do not fail if the file do not exists, entry can manage the case
+        entry.file=("note.txt", ELM_TEXT_FORMAT_PLAIN_UTF8)
+    except RuntimeError:
+        pass
+    box.pack_end(entry)
+    entry.show()
+
+    hbox = Box(box, horizontal=True, size_hint_weight=EXPAND_HORIZ)
+    box.pack_end(hbox)
+    hbox.show()
+
+    bt = Button(hbox, text="Clear")
+    bt.callback_clicked_add(lambda b: setattr(entry, "text", ""))
+    hbox.pack_end(bt)
+    bt.show()
+
+    bt = Button(hbox, text="Save")
+    bt.callback_clicked_add(lambda b: entry.file_save())
+    hbox.pack_end(bt)
+    bt.show()
+
+    ck = Check(hbox, text="Auto Save", state=entry.autosave)
+    ck.callback_changed_add(lambda c: setattr(entry, "autosave", c.state))
+    hbox.pack_end(ck)
+    ck.show()
+
+    win.show()
+
 if __name__ == "__main__":
     elementary.init()
     win = StandardWindow("test", "python-elementary test application",
@@ -409,7 +469,8 @@ if __name__ == "__main__":
 
     items = [("Entry", entry_clicked),
              ("Entry Scrolled", entry_scrolled_clicked),
-             ("Entry Anchor", entry_anchor_clicked)
+             ("Entry Anchor", entry_anchor_clicked),
+             ("Entry Notepad", entry_notepad_clicked)
             ]
 
     li = List(win, size_hint_weight=EXPAND_BOTH, size_hint_align=FILL_BOTH)

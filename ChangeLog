@@ -9,6 +9,7 @@ Improvements:
  * some new elm examples/tests
  * new efl.utils.setup helper module to simplify user setup.py
  * new uninstall setup.py command
+ * fixed elm.Entry.cursor_content_get() to not crash when called
 
 
 Changes:
@@ -45,6 +46,11 @@ Additions:
  * evas.FILL_HORIZ
  * evas.FILL_VERT
 
+
+Deprecation:
+
+ * elm.Configuration.engine
+ * elm.Configuration.preferred_engine
  
 ===================
 2014-11-23  v1.12.0

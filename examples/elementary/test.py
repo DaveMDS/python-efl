@@ -129,6 +129,7 @@ items = [
         ("Entry", "test_entry", "entry_clicked"),
         ("Entry Scrolled", "test_entry", "entry_scrolled_clicked"),
         ("Entry Anchor", "test_entry", "entry_anchor_clicked"),
+        ("Entry Notepad", "test_entry", "entry_notepad_clicked"),
         ("MultiButtonEntry","test_multibuttonentry","multibuttonentry_clicked"),
     ]),
     ("Focus", [

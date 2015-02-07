@@ -1290,12 +1290,7 @@ cdef class Entry(LayoutClass):
         :rtype: unicode
 
         """
-        cdef:
-            const char *text = elm_entry_cursor_content_get(self.obj)
-            unicode ret = _ctouni(text)
-
-        free(<void *>text)
-        return ret
+        return _ctouni(elm_entry_cursor_content_get(self.obj))
 
     def cursor_geometry_get(self):
         """This function returns the geometry of the cursor.
