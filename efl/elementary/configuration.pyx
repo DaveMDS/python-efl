@@ -183,6 +183,7 @@ Inheritance diagram
 from cpython cimport PyUnicode_AsUTF8String
 
 from efl.utils.conversions cimport _ctouni, eina_list_strings_to_python_list
+from efl.utils.deprecated cimport DEPRECATED
 
 
 cdef class Configuration(object):
@@ -620,6 +621,9 @@ cdef class Configuration(object):
 
         :type: string
 
+        .. deprecated:: 1.13
+            Use :attr:`accel_preference` instead.
+
         """
         def __get__(self):
             return _ctouni(elm_config_engine_get())
@@ -639,6 +643,9 @@ cdef class Configuration(object):
         at application startup. Note that it is a hint and may not be honored.
 
         :type: string
+
+        .. deprecated:: 1.13
+            Use :attr:`accel_preference` instead.
 
         """
         def __get__(self):
@@ -1313,8 +1320,10 @@ def item_select_on_focus_disabled_get(self):
 def item_select_on_focus_disabled_set(self, bint disabled):
     elm_config_item_select_on_focus_disabled_set(disabled)
 
+@DEPRECATED("1.13", "Use accel_preference_get() instead.")
 def preferred_engine_get():
     return _ctouni(elm_config_preferred_engine_get())
+@DEPRECATED("1.13", "Use accel_preference_set() instead.")
 def preferred_engine_set(engine):
     if isinstance(engine, unicode): engine = PyUnicode_AsUTF8String(engine)
     elm_config_preferred_engine_set(
@@ -1322,13 +1331,15 @@ def preferred_engine_set(engine):
 
 def accel_preference_get():
     return _ctouni(elm_config_accel_preference_get())
-def _accel_preference_set(pref):
+def accel_preference_set(pref):
     if isinstance(pref, unicode): pref = PyUnicode_AsUTF8String(pref)
     elm_config_accel_preference_set(
         <const char *>pref if pref is not None else NULL)
 
+@DEPRECATED("1.13", "Use accel_preference_get() instead.")
 def engine_get():
     return _ctouni(elm_config_engine_get())
+@DEPRECATED("1.13", "Use accel_preference_set() instead.")
 def engine_set(engine):
     if isinstance(engine, unicode): engine = PyUnicode_AsUTF8String(engine)
     elm_config_engine_set(

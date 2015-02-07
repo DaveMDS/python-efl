@@ -20,5 +20,5 @@
 # pre-release: "1.13.0-beta1" ( 1, 13, 0 )
 # release:     "1.13.0" ( 1, 13, 0 )
 
-__version__ = "1.13.0-beta1"
+__version__ = "1.13.0-beta2"
 __version_info__ = ( 1, 13, 0 )
