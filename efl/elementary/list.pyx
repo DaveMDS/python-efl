@@ -40,12 +40,9 @@ Emitted signals
 ===============
 
 - ``activated`` - The user has double-clicked or pressed
-  (enter|return|spacebar) on an item. The ``event_info`` parameter
-  is the item that was activated.
+  (enter|return|spacebar) on an item.
 - ``clicked,double`` - The user has double-clicked an item.
-  The ``event_info`` parameter is the item that was double-clicked.
-- ``clicked,right`` - The user has right-clicked an item.  The
-  ``event_info`` parameter is the item that was right-clicked. (since: 1.13)
+- ``clicked,right`` - The user has right-clicked an item. (since: 1.13)
 - ``selected`` - when the user selected an item
 - ``unselected`` - when the user unselected an item
 - ``longpressed`` - an item in the list is long-pressed
@@ -55,12 +52,10 @@ Emitted signals
 - ``edge,right`` - the list is scrolled until the right edge
 - ``highlighted`` - an item in the list is highlighted. This is called when
   the user presses an item or keyboard selection is done so the item is
-  physically highlighted. The %c event_info parameter is the item that was
-  highlighted.
+  physically highlighted.
 - ``unhighlighted`` - an item in the list is unhighlighted. This is called
   when the user releases an item or keyboard selection is moved so the item
-  is physically unhighlighted. The %c event_info parameter is the item that
-  was unhighlighted.
+  is physically unhighlighted.
 - ``language,changed`` - the program's language changed
 - ``focused`` - When the list has received focus. (since 1.8)
 - ``unfocused`` - When the list has lost focus. (since 1.8)
@@ -973,7 +968,9 @@ cdef class List(Object):
 
     def callback_activated_add(self, func, *args, **kwargs):
         """The user has double-clicked or pressed (enter|return|spacebar) on
-        an item. The ``event_info`` parameter is the item that was activated."""
+        an item.
+
+        `func` signature: ``cb(list, item, *args, **kwargs)`` """
         self._callback_add_full("activated", _cb_object_item_conv,
                                 func, *args, **kwargs)
 
@@ -981,8 +978,9 @@ cdef class List(Object):
         self._callback_del_full("activated",  _cb_object_item_conv, func)
 
     def callback_clicked_double_add(self, func, *args, **kwargs):
-        """The user has double-clicked an item. The ``event_info`` parameter
-        is the item that was double-clicked."""
+        """The user has double-clicked an item.
+
+        `func` signature: ``cb(list, item, *args, **kwargs)`` """
         self._callback_add_full("clicked,double", _cb_object_item_conv,
                                 func, *args, **kwargs)
 
@@ -991,6 +989,8 @@ cdef class List(Object):
 
     def callback_clicked_right_add(self, func, *args, **kwargs):
         """The user has right-clicked an item.
+
+        `func` signature: ``cb(list, item, *args, **kwargs)``
 
         .. versionadded:: 1.13
 
@@ -1002,7 +1002,9 @@ cdef class List(Object):
         self._callback_del_full("clicked,right", _cb_object_item_conv, func)
 
     def callback_selected_add(self, func, *args, **kwargs):
-        """When the user selected an item."""
+        """When the user selected an item.
+
+        `func` signature: ``cb(list, item, *args, **kwargs)`` """
         self._callback_add_full("selected", _cb_object_item_conv,
                                 func, *args, **kwargs)
 
@@ -1010,7 +1012,9 @@ cdef class List(Object):
         self._callback_del_full("selected", _cb_object_item_conv, func)
 
     def callback_unselected_add(self, func, *args, **kwargs):
-        """When the user unselected an item."""
+        """When the user unselected an item.
+
+        `func` signature: ``cb(list, item, *args, **kwargs)`` """
         self._callback_add_full("unselected", _cb_object_item_conv,
                                 func, *args, **kwargs)
 
@@ -1018,7 +1022,9 @@ cdef class List(Object):
         self._callback_del_full("unselected", _cb_object_item_conv, func)
 
     def callback_longpressed_add(self, func, *args, **kwargs):
-        """An item in the list is long-pressed."""
+        """An item in the list is long-pressed.
+
+        `func` signature: ``cb(list, item, *args, **kwargs)`` """
         self._callback_add_full("longpressed", _cb_object_item_conv,
                                 func, *args, **kwargs)
 
@@ -1063,22 +1069,34 @@ cdef class List(Object):
     def callback_highlighted_add(self, func, *args, **kwargs):
         """an item in the list is highlighted. This is called when
         the user presses an item or keyboard selection is done so the item is
-        physically highlighted. The %c event_info parameter is the item that was
-        highlighted."""
-        self._callback_add("highlighted", func, *args, **kwargs)
+        physically highlighted.
+
+        `func` signature: ``cb(list, item, *args, **kwargs)``
+
+        .. versionchanged:: 1.14 Added `item` param to `func`
+
+        """
+        self._callback_add_full("highlighted", _cb_object_item_conv,
+                                func, *args, **kwargs)
 
     def callback_highlighted_del(self, func):
-        self._callback_del("highlighted", func)
+        self._callback_del_full("highlighted", _cb_object_item_conv, func)
 
     def callback_unhighlighted_add(self, func, *args, **kwargs):
         """an item in the list is unhighlighted. This is called
         when the user releases an item or keyboard selection is moved so the item
-        is physically unhighlighted. The %c event_info parameter is the item that
-        was unhighlighted."""
-        self._callback_add("unhighlighted", func, *args, **kwargs)
+        is physically unhighlighted.
+
+        `func` signature: ``cb(list, item, *args, **kwargs)``
+
+        .. versionchanged:: 1.14 Added `item` param to `func`
+
+        """
+        self._callback_add_full("unhighlighted", _cb_object_item_conv,
+                                func, *args, **kwargs)
 
     def callback_unhighlighted_del(self, func):
-        self._callback_del("unhighlighted", func)
+        self._callback_del_full("unhighlighted", _cb_object_item_conv, func)
 
     def callback_language_changed_add(self, func, *args, **kwargs):
         """the program's language changed"""
@@ -1110,10 +1128,13 @@ cdef class List(Object):
     def callback_item_focused_add(self, func, *args, **kwargs):
         """When the list item has received focus.
 
+        `func` signature: ``cb(list, item, *args, **kwargs)``
+
         .. versionadded:: 1.10
 
         """
-        self._callback_add_full("item,focused", _cb_object_item_conv, func, *args, **kwargs)
+        self._callback_add_full("item,focused", _cb_object_item_conv,
+                                func, *args, **kwargs)
 
     def callback_item_focused_del(self, func):
         self._callback_del_full("item,focused", _cb_object_item_conv, func)
@@ -1121,10 +1142,13 @@ cdef class List(Object):
     def callback_item_unfocused_add(self, func, *args, **kwargs):
         """When the list item has lost focus.
 
+        `func` signature: ``cb(list, item, *args, **kwargs)``
+
         .. versionadded:: 1.10
 
         """
-        self._callback_add_full("item,unfocused", _cb_object_item_conv, func, *args, **kwargs)
+        self._callback_add_full("item,unfocused", _cb_object_item_conv,
+                                func, *args, **kwargs)
 
     def callback_item_unfocused_del(self, func):
         self._callback_del_full("item,unfocused", _cb_object_item_conv, func)
