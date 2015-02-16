@@ -114,8 +114,8 @@ Inheritance diagram
 from cpython cimport PyUnicode_AsUTF8String
 from libc.stdint cimport uintptr_t
 
-from cpython.buffer cimport Py_buffer, PyObject_CheckBuffer, \
-    PyObject_GetBuffer, PyBuffer_Release, PyBUF_SIMPLE
+from cpython.buffer cimport Py_buffer, PyObject_GetBuffer, PyBuffer_Release, \
+    PyBUF_SIMPLE
 
 from efl.eo cimport _object_mapping_register, object_from_instance
 from efl.utils.conversions cimport _ctouni
@@ -206,11 +206,12 @@ cdef class Image(Object):
         the loader performance as it tries the "correct" loader first,
         before trying a range of other possible loaders until one succeeds.
 
-        :return: ``True`` = success, ``False`` = error
+        :return: ``True`` on success or ``False`` on error
 
         .. versionadded:: 1.14
 
-        :param img: The binary data that will be used as image source
+        :param img: The binary data that will be used as image source, must
+                    support the buffer interface
         :param size: The size of binary data blob ``img``
         :param format: (Optional) expected format of ``img`` bytes
         :param key: Optional indexing key of ``img`` to be passed to the
@@ -218,26 +219,21 @@ cdef class Image(Object):
 
         """
         cdef Py_buffer view
-
-        if not PyObject_CheckBuffer(img):
-            raise TypeError("The provided object does not support buffer interface.")
+        cdef Eina_Bool ret
 
         if isinstance(format, unicode): format = PyUnicode_AsUTF8String(format)
         if isinstance(key, unicode): key = PyUnicode_AsUTF8String(key)
 
         PyObject_GetBuffer(img, &view, PyBUF_SIMPLE)
 
-        ret = bool(elm_image_memfile_set(self.obj,
-                                         <void *>view.buf,
-                                         size,
-                                         <const char *>format if format else NULL,
-                                         <const char *>key if key else NULL
-                                        ))
+        ret = elm_image_memfile_set(self.obj,
+                                    <void *>view.buf,
+                                    size,
+                                    <const char *>format if format else NULL,
+                                    <const char *>key if key else NULL)
 
         PyBuffer_Release(&view)
-
-        if not ret:
-            raise RuntimeError("Setting memory file for an image failed")
+        return bool(ret)
 
     property file:
         """The file (and edje group) that will be used as the image's source.
