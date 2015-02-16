@@ -127,9 +127,6 @@ def image2_clicked(obj, it=None):
     vbox.pack_end(im)
     im.show()
 
-    im = Image(
-        win, size_hint_weight=EXPAND_BOTH, size_hint_align=FILL_BOTH)
-
     vbox.show()
     win.show()
 
