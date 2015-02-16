@@ -8,6 +8,20 @@ Style
 * When comparing C pointers with NULL, use == and != instead of the python
   operator "is". This makes a visual distinction between python and C code.
 
+* For long lines that do not fit in the 80 cols please use only the first
+  raccomandation from PEP-8 (Aligned with opening delimiter). Example:
+  Yes:
+    foo = long_function_name(var_one, var_two,
+                             var_three, var_four)
+  No:
+    foo = long_function_name(
+        var_one, var_two,
+        var_three, var_four)
+
+  This to keep new code consistent with the rest of the bindings and to
+  try to match the style of the C efl code style as much as possible.
+  ...also because I found it more readable and I like it more :P -davemds-
+
 
 Design patterns
 ===============

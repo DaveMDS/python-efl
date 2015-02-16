@@ -195,19 +195,18 @@ cdef class Image(Object):
         self._set_properties_from_keyword_args(kwargs)
 
     def memfile_set(self, img, size, format=None, key=None):
-        """
-        Set a location in memory to be used as an image object's source
+        """Set a location in memory to be used as an image object's source
         bitmap.
 
         This function is handy when the contents of an image file are
         mapped in memory, for example.
 
         The ``format`` string should be something like ``"png"``, ``"jpg"``,
-        ``"tga"``, ``"tiff"``, ``"bmp"`` etc, when provided. This improves the loader performance as it tries the
-        "correct" loader first, before trying a range of other possible
-        loaders until one succeeds.
+        ``"tga"``, ``"tiff"``, ``"bmp"`` etc, when provided. This improves
+        the loader performance as it tries the "correct" loader first,
+        before trying a range of other possible loaders until one succeeds.
 
-        :return: (``True`` = success, ``False`` = error)
+        :return: ``True`` = success, ``False`` = error
 
         .. versionadded:: 1.14
 
@@ -216,6 +215,7 @@ cdef class Image(Object):
         :param format: (Optional) expected format of ``img`` bytes
         :param key: Optional indexing key of ``img`` to be passed to the
             image loader (eg. if ``img`` is a memory-mapped EET file)
+
         """
         cdef Py_buffer view
 
@@ -227,13 +227,12 @@ cdef class Image(Object):
 
         PyObject_GetBuffer(img, &view, PyBUF_SIMPLE)
 
-        ret = bool(elm_image_memfile_set(
-            self.obj,
-            <void *>view.buf,
-            size,
-            <const char *>format if format else NULL,
-            <const char *>key if key else NULL
-            ))
+        ret = bool(elm_image_memfile_set(self.obj,
+                                         <void *>view.buf,
+                                         size,
+                                         <const char *>format if format else NULL,
+                                         <const char *>key if key else NULL
+                                        ))
 
         PyBuffer_Release(&view)
 

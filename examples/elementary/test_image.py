@@ -61,9 +61,8 @@ def image_clicked(obj, it=None):
     win.resize_object_add(vbox)
     vbox.show()
 
-    im = Image(
-        win, size_hint_weight=EXPAND_BOTH, size_hint_align=FILL_BOTH,
-        file=os.path.join(img_path, "logo.png"))
+    im = Image(win, size_hint_weight=EXPAND_BOTH, size_hint_align=FILL_BOTH,
+               file=os.path.join(img_path, "logo.png"))
     vbox.pack_end(im)
     im.show()
 
@@ -71,9 +70,8 @@ def image_clicked(obj, it=None):
     vbox.pack_end(sep)
     sep.show()
 
-    hbox = Box(
-        win, layout=ELM_BOX_LAYOUT_FLOW_HORIZONTAL,
-        size_hint_align=FILL_BOTH)
+    hbox = Box(win, layout=ELM_BOX_LAYOUT_FLOW_HORIZONTAL,
+               size_hint_align=FILL_BOTH)
     vbox.pack_end(hbox)
     hbox.show()
 
@@ -96,9 +94,8 @@ def image_clicked(obj, it=None):
     b.callback_clicked_add(lambda b: im.file_set(remote_url))
     b.show()
 
-    pb = Progressbar(
-        win, size_hint_weight=EXPAND_BOTH,
-        size_hint_align=FILL_BOTH)
+    pb = Progressbar(win, size_hint_weight=EXPAND_BOTH,
+                     size_hint_align=FILL_BOTH)
     hbox.pack_end(pb)
     pb.show()
 
@@ -118,8 +115,7 @@ def image2_clicked(obj, it=None):
     vbox = Box(win, size_hint_weight=EXPAND_BOTH, size_hint_align=FILL_BOTH)
     win.resize_object_add(vbox)
 
-    im = Image(
-        win, size_hint_weight=EXPAND_BOTH, size_hint_align=FILL_BOTH)
+    im = Image(win, size_hint_weight=EXPAND_BOTH, size_hint_align=FILL_BOTH)
 
     with open(os.path.join(img_path, "logo.png"), "rb") as fp:
         image_data = fp.read()
@@ -133,9 +129,8 @@ def image2_clicked(obj, it=None):
 
 if __name__ == "__main__":
     elementary.init()
-    win = StandardWindow(
-        "test", "python-elementary test application",
-        size=(320, 520))
+    win = StandardWindow("test", "python-elementary test application",
+                         size=(320, 520))
     win.callback_delete_request_add(lambda o: elementary.exit())
 
     box0 = Box(win, size_hint_weight=EXPAND_BOTH)
