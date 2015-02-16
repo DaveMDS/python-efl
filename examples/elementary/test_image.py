@@ -13,6 +13,9 @@ from efl.elementary.image import Image, ELM_IMAGE_ROTATE_90, \
     ELM_IMAGE_FLIP_VERTICAL, ELM_IMAGE_FLIP_TRANSPOSE, ELM_IMAGE_FLIP_TRANSVERSE
 from efl.elementary.progressbar import Progressbar
 from efl.elementary.separator import Separator
+from efl.elementary.label import Label
+from efl.elementary.frame import Frame
+from efl.elementary.list import List
 
 
 script_path = os.path.dirname(os.path.abspath(__file__))
@@ -48,7 +51,8 @@ def _cb_im_download_error(im, info, pb):
     print("CB DOWNLOAD ERROR [status %s, open_error: %s]" % (info.status, info.open_error))
     pb.value = 1.0
 
-def image_clicked(obj):
+
+def image_clicked(obj, it=None):
     win = StandardWindow("image", "Image test", autodel=True, size=(320, 480))
     if obj is None:
         win.callback_delete_request_add(lambda o: elementary.exit())
@@ -57,7 +61,8 @@ def image_clicked(obj):
     win.resize_object_add(vbox)
     vbox.show()
 
-    im = Image(win, size_hint_weight=EXPAND_BOTH, size_hint_align=FILL_BOTH,
+    im = Image(
+        win, size_hint_weight=EXPAND_BOTH, size_hint_align=FILL_BOTH,
         file=os.path.join(img_path, "logo.png"))
     vbox.pack_end(im)
     im.show()
@@ -66,7 +71,8 @@ def image_clicked(obj):
     vbox.pack_end(sep)
     sep.show()
 
-    hbox = Box(win, layout=ELM_BOX_LAYOUT_FLOW_HORIZONTAL,
+    hbox = Box(
+        win, layout=ELM_BOX_LAYOUT_FLOW_HORIZONTAL,
         size_hint_align=FILL_BOTH)
     vbox.pack_end(hbox)
     hbox.show()
@@ -90,7 +96,8 @@ def image_clicked(obj):
     b.callback_clicked_add(lambda b: im.file_set(remote_url))
     b.show()
 
-    pb = Progressbar(win, size_hint_weight=EXPAND_BOTH,
+    pb = Progressbar(
+        win, size_hint_weight=EXPAND_BOTH,
         size_hint_align=FILL_BOTH)
     hbox.pack_end(pb)
     pb.show()
@@ -103,10 +110,63 @@ def image_clicked(obj):
     win.show()
 
 
+def image2_clicked(obj, it=None):
+    win = StandardWindow("image", "Image test", autodel=True, size=(320, 480))
+    if obj is None:
+        win.callback_delete_request_add(lambda o: elementary.exit())
+
+    vbox = Box(win, size_hint_weight=EXPAND_BOTH, size_hint_align=FILL_BOTH)
+    win.resize_object_add(vbox)
+
+    im = Image(
+        win, size_hint_weight=EXPAND_BOTH, size_hint_align=FILL_BOTH)
+
+    with open(os.path.join(img_path, "logo.png"), "rb") as fp:
+        image_data = fp.read()
+        im.memfile_set(image_data, len(image_data))
+    vbox.pack_end(im)
+    im.show()
+
+    im = Image(
+        win, size_hint_weight=EXPAND_BOTH, size_hint_align=FILL_BOTH)
+
+    vbox.show()
+    win.show()
+
+
 if __name__ == "__main__":
     elementary.init()
+    win = StandardWindow(
+        "test", "python-elementary test application",
+        size=(320, 520))
+    win.callback_delete_request_add(lambda o: elementary.exit())
 
-    image_clicked(None)
+    box0 = Box(win, size_hint_weight=EXPAND_BOTH)
+    win.resize_object_add(box0)
+    box0.show()
 
+    lb = Label(win)
+    lb.text_set("Please select a test from the list below<br>"
+                "by clicking the test button to show the<br>"
+                "test window.")
+    lb.show()
+
+    fr = Frame(win, text="Information", content=lb)
+    box0.pack_end(fr)
+    fr.show()
+
+    items = [("Image", image_clicked),
+             ("Image with memfile", image2_clicked)]
+
+    li = List(win, size_hint_weight=EXPAND_BOTH, size_hint_align=FILL_BOTH)
+    box0.pack_end(li)
+    li.show()
+
+    for item in items:
+        li.item_append(item[0], callback=item[1])
+
+    li.go()
+
+    win.show()
     elementary.run()
     elementary.shutdown()

@@ -114,6 +114,9 @@ Inheritance diagram
 from cpython cimport PyUnicode_AsUTF8String
 from libc.stdint cimport uintptr_t
 
+from cpython.buffer cimport Py_buffer, PyObject_CheckBuffer, \
+    PyObject_GetBuffer, PyBuffer_Release, PyBUF_SIMPLE
+
 from efl.eo cimport _object_mapping_register, object_from_instance
 from efl.utils.conversions cimport _ctouni
 from efl.evas cimport Object as evasObject
@@ -191,9 +194,51 @@ cdef class Image(Object):
         self._set_obj(elm_image_add(parent.obj))
         self._set_properties_from_keyword_args(kwargs)
 
-    #def memfile_set(self, img, size, format, key):
-        # NOTE: remove _cfruni if this is implemented
-        #return bool(elm_image_memfile_set(self.obj, img, size, _cfruni(format), _cfruni(key)))
+    def memfile_set(self, img, size, format=None, key=None):
+        """
+        Set a location in memory to be used as an image object's source
+        bitmap.
+
+        This function is handy when the contents of an image file are
+        mapped in memory, for example.
+
+        The ``format`` string should be something like ``"png"``, ``"jpg"``,
+        ``"tga"``, ``"tiff"``, ``"bmp"`` etc, when provided. This improves the loader performance as it tries the
+        "correct" loader first, before trying a range of other possible
+        loaders until one succeeds.
+
+        :return: (``True`` = success, ``False`` = error)
+
+        .. versionadded:: 1.14
+
+        :param img: The binary data that will be used as image source
+        :param size: The size of binary data blob ``img``
+        :param format: (Optional) expected format of ``img`` bytes
+        :param key: Optional indexing key of ``img`` to be passed to the
+            image loader (eg. if ``img`` is a memory-mapped EET file)
+        """
+        cdef Py_buffer view
+
+        if not PyObject_CheckBuffer(img):
+            raise TypeError("The provided object does not support buffer interface.")
+
+        if isinstance(format, unicode): format = PyUnicode_AsUTF8String(format)
+        if isinstance(key, unicode): key = PyUnicode_AsUTF8String(key)
+
+        PyObject_GetBuffer(img, &view, PyBUF_SIMPLE)
+
+        ret = bool(elm_image_memfile_set(
+            self.obj,
+            <void *>view.buf,
+            size,
+            <const char *>format if format else NULL,
+            <const char *>key if key else NULL
+            ))
+
+        PyBuffer_Release(&view)
+
+        if not ret:
+            raise RuntimeError("Setting memory file for an image failed")
 
     property file:
         """The file (and edje group) that will be used as the image's source.
