@@ -1327,7 +1327,7 @@ from efl.ecore cimport Event
 cdef class Window:
     cdef readonly Ecore_X_Window xid
 
-    cdef int _set_xid(self, Ecore_X_Window xid)
+    cdef int _set_xid(self, Ecore_X_Window xid) except 0
 
 
 cdef class EventKey(Event):

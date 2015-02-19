@@ -301,7 +301,7 @@ def on_signal_realtime(func, *args, **kargs):
 
 
 cdef class CustomEvent(Event):
-    cdef int _set_obj(self, void *obj):
+    cdef int _set_obj(self, void *obj) except 0:
         self.obj = <object>obj
         return 1
 
@@ -328,14 +328,14 @@ cdef class QueuedEvent(object):
         self._set_obj(ecore_event_add(type, <void *>self.args, _event_free_cb,
                       <void*>self))
 
-    cdef int _set_obj(self, Ecore_Event *ev):
+    cdef int _set_obj(self, Ecore_Event *ev) except 0:
         assert self.obj == NULL, "Object must be clean"
         assert ev != NULL, "Cannot set NULL as object"
         self.obj = ev
         Py_INCREF(self)
         return 1
 
-    cdef int _unset_obj(self):
+    cdef int _unset_obj(self) except 0:
         if self.obj != NULL:
             self.obj = NULL
             self.args = None
