@@ -115,12 +115,10 @@ Inheritance diagram
 from cpython cimport PyUnicode_AsUTF8String
 from libc.stdint cimport uintptr_t
 
-from efl.eo cimport _object_mapping_register
+from efl.eo cimport _object_mapping_register, object_from_instance
 from efl.utils.conversions cimport _ctouni
 from efl.evas cimport Object as evasObject
 from object cimport Object
-
-from efl.evas cimport Image as evasImage
 
 from efl.utils.deprecated cimport DEPRECATED
 from scroller cimport elm_scroller_policy_get, elm_scroller_policy_set, \
@@ -382,10 +380,8 @@ cdef class Photocam(Object):
 
         """
         def __get__(self):
-            cdef evasImage img = evasImage()
             cdef Evas_Object *obj = elm_photocam_internal_image_get(self.obj)
-            img.obj = obj
-            return img
+            return object_from_instance(obj)
 
     def internal_image_get(self):
         return self.internal_image
