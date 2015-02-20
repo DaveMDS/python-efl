@@ -163,7 +163,7 @@ from efl.utils.deprecated cimport DEPRECATED
 
 
 cdef class Scrollable(Object):
-    """
+    """Scrollable(..)
 
     An Elementary scrollable interface will handle an internal **panning**
     object. It has the function of clipping and moving the actual scrollable
@@ -866,8 +866,7 @@ cdef class ScrollerWidget(LayoutClass):
         self._set_properties_from_keyword_args(kwargs)
 
 class Scroller(Scrollable, ScrollerWidget):
-
-    """
+    """Scroller(..)
 
     This is the class that actually implement the widget.
 
