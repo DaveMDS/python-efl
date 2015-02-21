@@ -34,10 +34,10 @@ cdef Eina_Bool event_handler_cb(void *data, int type, void *event) with gil:
     cdef EventHandler handler
     cdef Eina_Bool r
 
-    assert event != NULL
-    assert data != NULL
+    #assert event != NULL
+    assert data != NULL, "data should not be NULL!"
     handler = <EventHandler>data
-    assert type == handler.type
+    assert type == handler.type, "handler type isn't the same as event type!"
 
     try:
         r = handler._exec(event)

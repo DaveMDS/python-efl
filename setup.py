@@ -251,7 +251,10 @@ if set(("build", "build_ext", "install", "bdist", "sdist")) & set(sys.argv):
     # === Eo ===
     eo_cflags, eo_libs = pkg_config('Eo', 'eo', EFL_MIN_VER)
     eo_ext = Extension("eo", ["efl/eo/efl.eo" + module_suffix],
-                       define_macros=[('EFL_BETA_API_SUPPORT', None)],
+                       define_macros=[
+                            ('EFL_BETA_API_SUPPORT', 1),
+                            ('EFL_EO_API_SUPPORT', 1)
+                        ],
                        include_dirs=['include/'],
                        extra_compile_args=eo_cflags,
                        extra_link_args=eo_libs + eina_libs
@@ -437,6 +440,7 @@ if set(("build", "build_ext", "install", "bdist", "sdist")) & set(sys.argv):
         "slideshow",
         "spinner",
         #"store",
+        "systray",
         "table",
         "theme",
         "thumb",
@@ -451,9 +455,13 @@ if set(("build", "build_ext", "install", "bdist", "sdist")) & set(sys.argv):
     for m in elm_mods:
         e = Extension("elementary." + m,
                       ["efl/elementary/" + m + module_suffix],
+                      define_macros=[
+                        ('EFL_BETA_API_SUPPORT', 1),
+                        ('EFL_EO_API_SUPPORT', 1)
+                      ],
                       include_dirs=["include/"],
                       extra_compile_args=elm_cflags,
-                      extra_link_args=elm_libs + eina_libs + evas_libs)
+                      extra_link_args=elm_libs + eina_libs + eo_libs + evas_libs)
         ext_modules.append(e)
 
     packages.append("efl.elementary")

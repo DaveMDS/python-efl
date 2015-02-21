@@ -120,6 +120,7 @@ Inheritance diagram
     efl.elementary.slider
     efl.elementary.slideshow
     efl.elementary.spinner
+    efl.elementary.systray
     efl.elementary.table
     efl.elementary.theme
     efl.elementary.thumb
