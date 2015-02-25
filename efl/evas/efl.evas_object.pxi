@@ -1711,10 +1711,16 @@ cdef class Object(Eo):
     def pointer_mode_set(self, int value):
         evas_object_pointer_mode_set(self.obj, <Evas_Object_Pointer_Mode>value)
 
-    property parent:
+    property smart_parent:
         """Object that this object is member of, or *None*.
 
         :type: :py:class:`efl.evas.Object`
+
+        .. versionchanged:: 1.14
+
+            This was renamed from ``parent`` as it was clashing with
+            :py:meth:`efl.eo.Eo.parent_get` and is more correct in regards to
+            C api naming.
 
         """
         def __get__(self):
@@ -1722,7 +1728,7 @@ cdef class Object(Eo):
             obj = evas_object_smart_parent_get(self.obj)
             return object_from_instance(obj)
 
-    def parent_get(self):
+    def smart_parent_get(self):
         cdef Evas_Object *obj
         obj = evas_object_smart_parent_get(self.obj)
         return object_from_instance(obj)
