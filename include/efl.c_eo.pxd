@@ -99,7 +99,8 @@ cdef extern from "Eo.h":
 
     void eo_wref_add(Eo **wref)
 
-    void *eo_do(Eo *obj, ...)
+    void eo_do(Eo *obj, ...)
+    void *eo_do_ret(Eo *obj, ...)
     const Eo_Class *eo_base_class_get()
 
     void  eo_key_data_set(const char *key, const void *data, eo_key_data_free_func free_func)
