@@ -17,9 +17,6 @@ class TestElmBasics(unittest.TestCase):
     def tearDown(self):
         self.o.delete()
 
-    def testParentGet1(self):
-        self.assertIsNone(self.o.parent_get())
-
     def testParentGet2(self):
         o = Button(self.o)
         self.assertEqual(Eo.parent_get(o), self.o)

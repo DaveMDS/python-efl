@@ -1,5 +1,6 @@
 #!/usr/bin/env python
 
+import efl.eo as eo
 from efl.eo import Eo
 
 import unittest
@@ -18,9 +19,6 @@ class TestBasics(unittest.TestCase):
 
     def testRepr(self):
         self.assertIsNotNone(repr(self.o))
-
-    def testParentGet(self):
-        self.assertIsNone(self.o.parent_get())
 
 
 if __name__ == '__main__':
