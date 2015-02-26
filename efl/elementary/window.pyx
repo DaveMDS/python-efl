@@ -387,11 +387,16 @@ cdef class Window(Object):
     def __init__(self, name, type, evasObject parent=None, *args, **kwargs):
         """Window(...)
 
-        :param name: A name for the new window.
+        :param name: A name for the new window - used by the window
+            manager for identifying the window uniquely amongst all the windows
+            within this application (and all instances of the application).
+
+            (This is the ``instance`` portion of the ``WM_CLASS`` string.)
         :type name: string
-        :param type: A type for the new window:
+        :param type: A type for the new window.
         :type type: :ref:`Elm_Win_Type`
-        :keyword parent: Parent object to add the window to, defaults to None
+        :keyword parent: Parent object to add the window to - eg for a dialog
+            you want to have a main window it is related to - defaults to None
         :type parent: :py:class:`efl.evas.Object`
 
         """
