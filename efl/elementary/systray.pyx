@@ -78,7 +78,7 @@ Inheritance diagram
 
 from cpython cimport PyUnicode_AsUTF8String, Py_INCREF
 
-from efl.c_eo cimport eo_do, eo_add, Eo as cEo
+from efl.c_eo cimport eo_do, eo_do_ret, eo_add, Eo as cEo
 from efl.eo cimport Eo, object_from_instance
 from object cimport Object
 from efl.ecore cimport Event, EventHandler, _event_mapping_register
@@ -121,7 +121,9 @@ cdef class Systray(Object):
             )
 
         def __get__(self):
-            return _ctouni(<const char *>eo_do(self.obj, elm_obj_systray_id_get()))
+            cdef const char *value = ""
+            eo_do_ret(self.obj, value, elm_obj_systray_id_get())
+            return _ctouni(value)
 
     def id_set(self, value):
         if isinstance(value, unicode): value = PyUnicode_AsUTF8String(value)
@@ -131,7 +133,9 @@ cdef class Systray(Object):
         )
 
     def id_get(self):
-        return _ctouni(<const char *>eo_do(self.obj, elm_obj_systray_id_get()))
+        cdef const char *value = ""
+        eo_do_ret(self.obj, value, elm_obj_systray_id_get())
+        return _ctouni(value)
 
     property category:
         """
@@ -145,13 +149,17 @@ cdef class Systray(Object):
             eo_do(self.obj, elm_obj_systray_category_set(value))
 
         def __get__(self):
-            return <Elm_Systray_Category>eo_do(self.obj, elm_obj_systray_category_get())
+            cdef Elm_Systray_Category value = ELM_SYSTRAY_CATEGORY_APP_STATUS
+            eo_do_ret(self.obj, value, elm_obj_systray_category_get())
+            return <Elm_Systray_Category>value
 
     def category_set(self, Elm_Systray_Category value):
         eo_do(self.obj, elm_obj_systray_category_set(value))
 
     def category_get(self):
-        return <Elm_Systray_Category>eo_do(self.obj, elm_obj_systray_category_get())
+        cdef Elm_Systray_Category value = ELM_SYSTRAY_CATEGORY_APP_STATUS
+        eo_do_ret(self.obj, value, elm_obj_systray_category_get())
+        return value
 
     property icon_theme_path:
         """The path to the theme where the icons can be found.
@@ -168,7 +176,9 @@ cdef class Systray(Object):
             )
 
         def __get__(self):
-            return _ctouni(<const char *>eo_do(self.obj, elm_obj_systray_icon_theme_path_get()))
+            cdef const char *value = ""
+            eo_do_ret(self.obj, value, elm_obj_systray_icon_theme_path_get())
+            return _ctouni(value)
 
     def icon_theme_path_set(self, value):
         if isinstance(value, unicode): value = PyUnicode_AsUTF8String(value)
@@ -178,7 +188,9 @@ cdef class Systray(Object):
         )
 
     def icon_theme_path_get(self):
-        return _ctouni(<const char *>eo_do(self.obj, elm_obj_systray_icon_theme_path_get()))
+        cdef const char *value = ""
+        eo_do_ret(self.obj, value, elm_obj_systray_icon_theme_path_get())
+        return _ctouni(value)
 
     property menu:
         """The object path of the D-Bus Menu to be shown when the Status Notifier Item is activated by the user.
@@ -189,13 +201,17 @@ cdef class Systray(Object):
             eo_do(self.obj, elm_obj_systray_menu_set(value.obj))
 
         def __get__(self):
-            return object_from_instance(<cEo *>eo_do(self.obj, elm_obj_systray_menu_get()))
+            cdef cEo *value = NULL
+            eo_do_ret(self.obj, value, elm_obj_systray_menu_get())
+            return object_from_instance(value)
 
     def menu_set(self, Eo value):
         eo_do(self.obj, elm_obj_systray_menu_set(value.obj))
 
     def menu_get(self):
-        return object_from_instance(<cEo *>eo_do(self.obj, elm_obj_systray_menu_get()))
+        cdef cEo *value = NULL
+        eo_do_ret(self.obj, value, elm_obj_systray_menu_get())
+        return object_from_instance(value)
 
     property att_icon_name:
         """The name of the attention icon to be used by the Status Notifier Item.
@@ -210,7 +226,9 @@ cdef class Systray(Object):
             )
 
         def __get__(self):
-            return _ctouni(<const char *>eo_do(self.obj, elm_obj_systray_att_icon_name_get()))
+            cdef const char *value = ""
+            eo_do_ret(self.obj, value, elm_obj_systray_att_icon_name_get())
+            return _ctouni(value)
 
     def att_icon_name_set(self, value):
         if isinstance(value, unicode): value = PyUnicode_AsUTF8String(value)
@@ -220,7 +238,9 @@ cdef class Systray(Object):
         )
 
     def att_icon_name_get(self):
-        return _ctouni(<const char *>eo_do(self.obj, elm_obj_systray_att_icon_name_get()))
+        cdef const char *value = ""
+        eo_do_ret(self.obj, value, elm_obj_systray_att_icon_name_get())
+        return _ctouni(value)
 
     property status:
         """The status of the Status Notifier Item.
@@ -231,13 +251,17 @@ cdef class Systray(Object):
             eo_do(self.obj, elm_obj_systray_status_set(value))
 
         def __get__(self):
-            return <Elm_Systray_Status>eo_do(self.obj, elm_obj_systray_status_get())
+            cdef Elm_Systray_Status value = ELM_SYSTRAY_STATUS_PASSIVE
+            eo_do_ret(self.obj, value, elm_obj_systray_status_get())
+            return value
 
     def status_set(self, Elm_Systray_Status value):
         eo_do(self.obj, elm_obj_systray_status_set(value))
 
     def status_get(self):
-        return <Elm_Systray_Status>eo_do(self.obj, elm_obj_systray_status_get())
+        cdef Elm_Systray_Status value = ELM_SYSTRAY_STATUS_PASSIVE
+        eo_do_ret(self.obj, value, elm_obj_systray_status_get())
+        return value
 
     property icon_name:
         """The name of the icon to be used by the Status Notifier Item.
@@ -252,7 +276,9 @@ cdef class Systray(Object):
             )
 
         def __get__(self):
-            return _ctouni(<const char *>eo_do(self.obj, elm_obj_systray_icon_name_get()))
+            cdef const char *value = ""
+            eo_do_ret(self.obj, value, elm_obj_systray_icon_name_get())
+            return _ctouni(value)
 
     def icon_name_set(self, value):
         if isinstance(value, unicode): value = PyUnicode_AsUTF8String(value)
@@ -262,7 +288,9 @@ cdef class Systray(Object):
         )
 
     def icon_name_get(self):
-        return _ctouni(<const char *>eo_do(self.obj, elm_obj_systray_icon_name_get()))
+        cdef const char *value = ""
+        eo_do_ret(self.obj, value, elm_obj_systray_icon_name_get())
+        return _ctouni(value)
 
     property title:
         """The title of the Status Notifier Item.
@@ -277,7 +305,9 @@ cdef class Systray(Object):
             )
 
         def __get__(self):
-            return _ctouni(<const char *>eo_do(self.obj, elm_obj_systray_title_get()))
+            cdef const char *value = ""
+            eo_do_ret(self.obj, value, elm_obj_systray_title_get())
+            return _ctouni(value)
 
     def title_set(self, value):
         if isinstance(value, unicode): value = PyUnicode_AsUTF8String(value)
@@ -287,7 +317,9 @@ cdef class Systray(Object):
         )
 
     def title_get(self):
-        return _ctouni(<const char *>eo_do(self.obj, elm_obj_systray_title_get()))
+        cdef const char *value = ""
+        eo_do_ret(self.obj, value, elm_obj_systray_title_get())
+        return _ctouni(value)
 
     def register(self):
         """Register this Status Notifier Item in the System Tray Watcher.
@@ -296,7 +328,9 @@ cdef class Systray(Object):
         #ELM_EVENT_SYSTRAY_READY is emitted.
 
         """
-        return bool(<Eina_Bool>eo_do(self.obj, elm_obj_systray_register()))
+        cdef Eina_Bool value = 0
+        eo_do_ret(self.obj, value, elm_obj_systray_register())
+        return value
 
 
 def on_systray_ready(func, *args, **kwargs):
