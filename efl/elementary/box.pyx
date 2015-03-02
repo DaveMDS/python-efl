@@ -135,7 +135,8 @@ Inheritance diagram
 
 """
 
-from efl.eo cimport _object_mapping_register
+from efl.c_eo cimport Eo as cEo
+from efl.eo cimport _object_mapping_register, object_from_instance
 from efl.evas cimport Object as evasObject
 from object cimport Object
 
@@ -173,6 +174,21 @@ cdef Evas_Object_Box_Layout _py_elm_box_layout_resolv(int layout) with gil:
         return evas_object_box_layout_stack
     return evas_object_box_layout_vertical
 
+cdef class BoxIterator(object):
+    cdef const Eina_List *lst
+    def __cinit__(self, Box box):
+        self.lst = elm_box_children_get(box.obj)
+
+    def __iter__(self):
+        return self
+
+    def __next__(self):
+        if self.lst == NULL:
+            raise StopIteration
+        cdef cEo *ret = <cEo *>self.lst.data
+        self.lst = self.lst.next
+        return object_from_instance(ret)
+
 cdef class Box(Object):
     """
 
@@ -193,6 +209,9 @@ cdef class Box(Object):
         """
         self._set_obj(elm_box_add(parent.obj))
         self._set_properties_from_keyword_args(kwargs)
+
+    def __iter__(self):
+        return BoxIterator(self)
 
     property horizontal:
         """The horizontal orientation.
