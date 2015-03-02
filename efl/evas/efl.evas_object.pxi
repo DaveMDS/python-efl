@@ -685,9 +685,19 @@ cdef class Object(Eo):
 
         """
         def __get__(self):
-            cdef int x, y, w, h
+            cdef:
+                int x, y, w, h
+                Rect ret = Rect.__new__(Rect)
             evas_object_geometry_get(self.obj, &x, &y, &w, &h)
-            return Rect(x, y, w, h)
+            ret.x0 = x
+            ret.y0 = y
+            ret._w = w
+            ret._h = h
+            ret.x1 = x + w
+            ret.cx = x + w/2
+            ret.y1 = y + h
+            ret.cy = y + h/2
+            return ret
 
         def __set__(self, spec):
             cdef Rect r
