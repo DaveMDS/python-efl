@@ -149,6 +149,10 @@ class TestRectIntercepts(unittest.TestCase):
         r2 = evas.Rect(self.r)
         self.assert_(self.r.intercepts(r2))
 
+    def testCross(self):
+        r2 = evas.Rect(2, -2, 6, 14)
+        self.assert_(self.r.intercepts(r2))
+
     def testInterceptTopLeft(self):
         r2 = evas.Rect(-5, -5, 10, 10)
         self.assert_(self.r.intercepts(r2))
