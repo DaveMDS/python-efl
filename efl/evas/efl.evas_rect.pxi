@@ -16,12 +16,14 @@
 # along with this Python-EFL.  If not, see <http://www.gnu.org/licenses/>.
 
 from efl.utils.deprecated cimport DEPRECATED
+cimport cython
 
 
 cdef int _spans_intersect(int c1, int l1, int c2, int l2):
     return not (((c2 + l2) <= c1) or (c2 >= (c1 + l1)))
 
 
+@cython.freelist(8)
 cdef class Rect(object):
     """
 
@@ -61,7 +63,7 @@ cdef class Rect(object):
             if len(args) == 1:
                 o = args[0]
                 if isinstance(o, Rect):
-                    other = o
+                    other = <Rect>o
                     self.x0 = other.x0
                     self.y0 = other.y0
                     self._w = other._w
@@ -71,16 +73,19 @@ cdef class Rect(object):
             elif len(args) == 2:
                 self.x0, self.y0 = args[0]
                 self._w, self._h = args[1]
-            elif len(args) > 1:
-                self.x0, self.y0, self._w, self._h = args
+            elif len(args) == 4:
+                self.x0 = <int>args[0]
+                self.y0 = <int>args[1]
+                self._w = <int>args[2]
+                self._h = <int>args[3]
 
         if kargs:
             if "rect" in kargs:
-                o = kargs["rect"]
-                self.x0 = o.x
-                self.y0 = o.y
-                self._w = o.w
-                self._h = o.h
+                other = <Rect?>kargs["rect"]
+                self.x0 = other.x0
+                self.y0 = other.y0
+                self._w = other._w
+                self._h = other._h
             elif "geometry" in kargs:
                 self.x0, self.y0, self._w, self._h = kargs["geometry"]
             else:
@@ -472,9 +477,8 @@ cdef class Rect(object):
 
         """
         cdef Rect o
-        cdef int left, right, top, bottom, a, b, c, d
         if isinstance(obj, Rect):
-            o = obj
+            o = <Rect>obj
         elif isinstance(obj, (tuple, list)) and len(obj) == 2:
             o = Rect(pos=obj)
         else:
