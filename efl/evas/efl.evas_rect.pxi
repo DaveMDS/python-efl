@@ -15,6 +15,12 @@
 # You should have received a copy of the GNU Lesser General Public License
 # along with this Python-EFL.  If not, see <http://www.gnu.org/licenses/>.
 
+from efl.utils.deprecated cimport DEPRECATED
+
+
+cdef int _spans_intersect(int c1, int l1, int c2, int l2):
+    return not (((c2 + l2) <= c1) or (c2 >= (c1 + l1)))
+
 
 cdef class Rect(object):
     """
@@ -419,12 +425,12 @@ cdef class Rect(object):
             raise TypeError("unsupported comparison operation")
 
     def __nonzero__(self):
-        """Checks if all coordinates are not zero."""
+        """Checks whether all coordinates are non-zero."""
         return bool(self.x0 != 0 and self._w != 0 and \
                     self.y0 != 0 and self._h != 0)
 
     def __contains__(self, obj):
-        """Checks if contains given rectangle."""
+        """Checks if this rectangle contains given rectangle."""
         cdef Rect o
         if isinstance(obj, Rect):
             o = obj
@@ -437,7 +443,7 @@ cdef class Rect(object):
                     self.y0 <= o.top and o.bottom <= self.y1)
 
     def contains(self, obj):
-        """Checks if contains given rectangle.
+        """Checks if this rectangle contains given rectangle.
 
         :param obj:
         :rtype: bool
@@ -446,7 +452,7 @@ cdef class Rect(object):
         return obj in self
 
     def contains_point(self, x, y):
-        """Checks if contains the given point.
+        """Checks if this rectangle contains the given point.
 
         :param x:
         :type x: int
@@ -458,8 +464,8 @@ cdef class Rect(object):
         return bool(self.x0 <= x <= self.x1 and \
                     self.y0 <= y <= self.y1)
 
-    def intercepts(self, obj):
-        """Checks if intercepts given rectangle.
+    def intersects(self, obj):
+        """Checks if this rectangle and the given rectangle intersect.
 
         :param obj:
         :rtype: bool
@@ -474,23 +480,12 @@ cdef class Rect(object):
         else:
             o = Rect(obj)
 
-        left = o.left
-        right = o.right
-        top = o.top
-        bottom = o.bottom
+        return _spans_intersect(self.x0, self._w, o.x0, o._w) and \
+               _spans_intersect(self.y0, self._h, o.y0, o._h)
 
-        a = left <= self.x0 <= right
-        b = left <= self.x1 <= right
-        c = top <= self.y0 <= bottom
-        d = top <= self.y1 <= bottom
-        if (a or b) and (c or d):
-            return True
-
-        a = self.x0 <= left <= self.x1
-        b = self.x0 <= right <= self.x1
-        c = self.y0 <= top <= self.y1
-        d = self.y0 <= bottom <= self.y1
-        return bool((a or b) and (c or d))
+    @DEPRECATED("1.14", "Use intersects() instead")
+    def intercepts(self, obj):
+        return self.intersects(obj)
 
     def clip(self, obj):
         """Returns a new Rect that represents current cropped inside parameter.

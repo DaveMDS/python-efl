@@ -1159,7 +1159,7 @@ cdef extern from "Evas.h":
 # Python classes
 #
 cdef class Rect:
-    cdef int x0, y0, x1, y1, cx, cy, _w, _h
+    cdef public int x0, y0, x1, y1, cx, cy, _w, _h
 
 
 cdef class Canvas(Eo):
