@@ -334,6 +334,18 @@ tt.descname, tt.descclassname, tt.xref {
     border: 0;
 }
 
+tt.descname {
+    color: rgb(200,200,255);
+}
+
+tt.descclassname {
+    color: rgb(160,160,255);
+}
+
+/*tt.xref {
+    color: rgb(200,200,255);
+}*/
+
 hr {
     border: 1px solid rgb(170,187,204);
     margin: 2em;
@@ -448,6 +460,21 @@ dt:target, .highlighted { /* */
     border-bottom: 1px solid rgb(32,32,32);
 }
 
+div.versionchanged span.versionmodified {
+    color: rgb(220,220,160);
+    text-shadow: 0px 0px 3px rgba(180,180,120,0.6);
+}
+
+div.versionadded span.versionmodified {
+    color: rgb(100,220,100);
+    text-shadow: 0px 0px 3px rgba(60,180,60,0.6);
+}
+
+div.deprecated span.versionmodified {
+    color: rgb(220,100,60);
+    text-shadow: 0px 0px 3px rgba(180,60,20,0.6);
+}
+
 /* box for enumerations */
 div#enumerations > div.section {
     border: 1px solid #202020;
@@ -488,6 +515,11 @@ dl.class dt{
     border-bottom: 1px solid #333;
 }
 
+/* attributes/properties/methods/etc. */
+dl.attribute dd, dl.method dd, dl.data dd {
+    padding-left: 6px;
+    border-left: 1px solid rgba(200,200,255,0.4);
+}
 
 /* -- pygments fix ---------------------------------------------------------- */
 .highlight .go {
