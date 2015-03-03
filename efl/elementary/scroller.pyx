@@ -225,10 +225,10 @@ cdef class Scrollable(Object):
         """The scrollbar visibility policy
 
         This property reflects the scrollbar visibility policy for the given
-        scroller. ELM_SCROLLER_POLICY_AUTO means the scrollbar is made
+        scroller. :attr:`ELM_SCROLLER_POLICY_AUTO` means the scrollbar is made
         visible if it is needed, and otherwise kept hidden.
-        ELM_SCROLLER_POLICY_ON turns it on all the time, and
-        ELM_SCROLLER_POLICY_OFF always keeps it off. This applies
+        :attr:`ELM_SCROLLER_POLICY_ON` turns it on all the time, and
+        :attr:`ELM_SCROLLER_POLICY_OFF` always keeps it off. This applies
         respectively for the horizontal and vertical scrollbars.
 
         :type: (:ref:`Elm_Scroller_Policy` **policy_h**, :ref:`Elm_Scroller_Policy` **policy_v**)
@@ -319,7 +319,7 @@ cdef class Scrollable(Object):
         Page snapping behavior of a scroller
 
         When scrolling, if a scroller is paged (see
-        elm_scroller_page_size_set() and elm_scroller_page_relative_set()),
+        :attr:`page_size` and :attr:`page_relative`),
         the scroller may snap to pages when being scrolled, i.e., even if
         it had momentum to scroll further, it will stop at the next page
         boundaries. This is **disabled**, by default, for both axis. This
@@ -381,7 +381,7 @@ cdef class Scrollable(Object):
         "pages". That is to jump by and only show a "whole page" at a time
         as if the continuous area of the scroller content is split into page
         sized pieces. This sets the size of a page relative to the viewport
-        of the scroller. 1.0 is "1 viewport" is size (horizontally or
+        of the scroller. 1.0 is "one viewport" in size (horizontally or
         vertically). 0.0 turns it off in that axis. This is mutually
         exclusive with page size (see :py:attr:`page_size` for more
         information). Likewise 0.5 is "half a viewport". Sane usable values
@@ -413,7 +413,7 @@ cdef class Scrollable(Object):
 
         An absolute fixed value, with 0 turning it off for that axis.
 
-        .. seealso:: :py:attr:`page_relative`
+        .. seealso:: :attr:`page_relative`
 
         :type: (int **h_pagesize**, int **v_pagesize**)
 
@@ -676,12 +676,14 @@ cdef class Scrollable(Object):
 
         This function will block scrolling movement (by input of a user) in
         a given direction. One can disable movements in the X axis, the Y
-        axis or both. The default value is @c ELM_SCROLLER_MOVEMENT_NO_BLOCK,
+        axis or both. The default value is :attr:`ELM_SCROLLER_MOVEMENT_NO_BLOCK`,
         where movements are allowed in both directions.
 
         What makes this function different from
-        elm_object_scroll_freeze_push(), elm_object_scroll_hold_push() and
-        elm_object_scroll_lock_x_set() (or elm_object_scroll_lock_y_set())
+        :meth:`~efl.elementary.object.Object.scroll_freeze_push`,
+        :meth:`~efl.elementary.object.Object.scroll_hold_push` and
+        :meth:`~efl.elementary.object.Object.scroll_lock_x_set`
+        (or :meth:`~efl.elementary.object.Object.scroll_lock_x_set`)
         is that it **doesn't** propagate its effects to any parent or child
         widget of the object. Only the target scrollable widget will be locked
         with regard to scrolling.
