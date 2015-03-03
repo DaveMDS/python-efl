@@ -169,10 +169,14 @@ cdef class Scrollable(Object):
     object. It has the function of clipping and moving the actual scrollable
     content around, by the command of the scrollable interface calls.
 
+    If a widget supports the scrollable interface, you can inherit from the
+    widget class and this class to allow access to the scroller of that widget.
+
     """
 
-    # TODO: Use the scrollable interface functions? Need to base on
-    #   evas.SmartObject?
+    def __init__(self, *args, **kwargs):
+        if type(self) is Scrollable:
+            raise TypeError("Must not instantiate Scrollable, but subclasses")
 
     @DEPRECATED("1.8", "Use :py:attr:`theme<efl.elementary.object.Object.theme>` instead.")
     def custom_widget_base_theme_set(self, widget, base):
@@ -862,16 +866,20 @@ cdef class Scrollable(Object):
         self._callback_del("unfocused", func)
 
 
-cdef class ScrollerWidget(LayoutClass):
+cdef class _ScrollerWidget(LayoutClass):
     def __init__(self, evasObject parent, *args, **kwargs):
         self._set_obj(elm_scroller_add(parent.obj))
         self._set_properties_from_keyword_args(kwargs)
 
-class Scroller(Scrollable, ScrollerWidget):
+
+class Scroller(Scrollable, _ScrollerWidget):
     """Scroller(..)
 
     This is the class that actually implement the widget.
 
     """
+    def __init__(self, evasObject parent, *args, **kwargs):
+        _ScrollerWidget.__init__(self, parent, *args, **kwargs)
+
 
 _object_mapping_register("Elm_Scroller", Scroller)
