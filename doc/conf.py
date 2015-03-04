@@ -97,7 +97,7 @@ exclude_patterns = ['_build']
 #show_authors = False
 
 # The name of the Pygments (syntax highlighting) style to use.
-pygments_style = 'sphinx'
+pygments_style = 'monokai'
 
 # A list of ignored prefixes for module index sorting.
 #modindex_common_prefix = []
@@ -180,7 +180,7 @@ else:
         color = 'gray10',     # border color (should be #202020)
         fontcolor = 'white',
         font = 'sans',
-        
+
     )
     inheritance_edge_attrs = dict(
         color = 'dodgerblue3', # arrow color (should be #4399FF)
