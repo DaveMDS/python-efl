@@ -17,31 +17,6 @@
 
 """
 
-:mod:`efl.evas` Module
-######################
-
-
-Classes
-=======
-
-.. toctree::
-
-   class-canvas.rst
-   class-object.rst
-   class-image.rst
-   class-rectangle.rst
-   class-line.rst
-   class-polygon.rst
-   class-text.rst
-   class-textblock.rst
-   class-textgrid.rst
-   class-box.rst
-   class-table.rst
-   class-grid.rst
-   class-map.rst
-   class-rect.rst
-
-
 Enumerations
 ============
 
@@ -67,31 +42,31 @@ Helper values to be used as :ref:`evas-size-hints` for objects.
 .. data:: EXPAND_HORIZ = EVAS_HINT_EXPAND, 0.0
 
     Expand horizontally
-    
+
     .. versionadded:: 1.13
 
 .. data:: EXPAND_VERT = 0.0, EVAS_HINT_EXPAND
 
     Expand vertically
-    
+
     .. versionadded:: 1.13
 
 .. data:: FILL_BOTH = EVAS_HINT_FILL, EVAS_HINT_FILL
 
     Fill both direction
-    
+
     .. versionadded:: 1.13
 
 .. data:: FILL_HORIZ = EVAS_HINT_FILL, 0.5
 
     Fill horizontally
-    
+
     .. versionadded:: 1.13
 
 .. data:: FILL_VERT = 0.5, EVAS_HINT_FILL
 
     Fill vertically
-    
+
     .. versionadded:: 1.13
 
 
@@ -294,7 +269,7 @@ Evas_Event_Flags
 
 .. data:: EVAS_EVENT_FLAG_NONE
 
-    No fancy flags set. 
+    No fancy flags set.
 
 .. data:: EVAS_EVENT_FLAG_ON_HOLD
 
@@ -455,11 +430,11 @@ Evas_Display_Mode
 
 .. data:: EVAS_DISPLAY_MODE_EXPAND
 
-    Use this mode when you want to give expand display mode hint to an object. 
+    Use this mode when you want to give expand display mode hint to an object.
 
 .. data:: EVAS_DISPLAY_MODE_DONT_CHANGE
 
-    Use this mode when an object should not change its display mode. 
+    Use this mode when an object should not change its display mode.
 
 
 .. _Evas_Load_Error:
@@ -503,15 +478,15 @@ Evas_Alloc_Error
 
 .. data:: EVAS_ALLOC_ERROR_NONE
 
-    No allocation error. 
+    No allocation error.
 
 .. data:: EVAS_ALLOC_ERROR_FATAL
 
-    Allocation failed despite attempts to free up memory. 
+    Allocation failed despite attempts to free up memory.
 
 .. data:: EVAS_ALLOC_ERROR_RECOVERED
 
-    Allocation succeeded, but extra memory had to be found by freeing up speculative resources. 
+    Allocation succeeded, but extra memory had to be found by freeing up speculative resources.
 
 
 .. _Evas_Fill_Spread:
@@ -521,27 +496,27 @@ XXX
 
 .. data:: EVAS_TEXTURE_REFLECT
 
-    Image fill tiling mode - tiling reflects 
+    Image fill tiling mode - tiling reflects
 
 .. data:: EVAS_TEXTURE_REPEAT
 
-    Image fill tiling mode - tiling reflects 
+    Image fill tiling mode - tiling reflects
 
 .. data:: EVAS_TEXTURE_RESTRICT
 
-    Tiling clamps - range offset ignored 
+    Tiling clamps - range offset ignored
 
 .. data:: EVAS_TEXTURE_RESTRICT_REFLECT
 
-    Tiling clamps and any range offset reflects 
+    Tiling clamps and any range offset reflects
 
 .. data:: EVAS_TEXTURE_RESTRICT_REPEAT
 
-    Tiling clamps and any range offset repeats 
+    Tiling clamps and any range offset repeats
 
 .. data:: EVAS_TEXTURE_PAD
 
-    Tiling extends with end values 
+    Tiling extends with end values
 
 
 .. _Evas_Pixel_Import_Pixel_Format:
@@ -551,11 +526,11 @@ Evas_Pixel_Import_Pixel_Format
 
 .. data:: EVAS_PIXEL_FORMAT_NONE
 
-    No pixel format. 
+    No pixel format.
 
 .. data:: EVAS_PIXEL_FORMAT_ARGB32
 
-    ARGB 32bit pixel format with A in the high byte per 32bit pixel word. 
+    ARGB 32bit pixel format with A in the high byte per 32bit pixel word.
 
 .. data:: EVAS_PIXEL_FORMAT_YUV420P_601
 
@@ -592,19 +567,19 @@ Evas_Render_Op
 
 .. data:: EVAS_RENDER_BLEND
 
-    default op: d = d*(1-sa) + s 
+    default op: d = d*(1-sa) + s
 
 .. data:: EVAS_RENDER_BLEND_REL
 
-    d = d*(1 - sa) + s*da 
+    d = d*(1 - sa) + s*da
 
 .. data:: EVAS_RENDER_COPY
 
-    d = s 
+    d = s
 
 .. data:: EVAS_RENDER_COPY_REL
 
-    d = s*da 
+    d = s*da
 
 .. data:: EVAS_RENDER_ADD
 
@@ -612,11 +587,11 @@ Evas_Render_Op
 
 .. data:: EVAS_RENDER_ADD_REL
 
-    d = d + s*da 
+    d = d + s*da
 
 .. data:: EVAS_RENDER_SUB
 
-    d = d - s 
+    d = d - s
 
 .. data:: EVAS_RENDER_SUB_REL
 
@@ -624,19 +599,19 @@ Evas_Render_Op
 
 .. data:: EVAS_RENDER_TINT
 
-    d = d*s + d*(1 - sa) + s*(1 - da) 
+    d = d*s + d*(1 - sa) + s*(1 - da)
 
 .. data:: EVAS_RENDER_TINT_REL
 
-    d = d*(1 - sa + s) 
+    d = d*(1 - sa + s)
 
 .. data:: EVAS_RENDER_MASK
 
-    d = d*sa 
+    d = d*sa
 
 .. data:: EVAS_RENDER_MUL
 
-    d = d*s 
+    d = d*s
 
 
 .. _Evas_Border_Fill_Mode:
@@ -714,15 +689,15 @@ Evas_Image_Content_Hint
 
 .. data:: EVAS_IMAGE_CONTENT_HINT_NONE
 
-    No hint at all. 
+    No hint at all.
 
 .. data:: EVAS_IMAGE_CONTENT_HINT_DYNAMIC
 
-    The contents will change over time. 
+    The contents will change over time.
 
 .. data:: EVAS_IMAGE_CONTENT_HINT_STATIC
 
-    The contents won't change over time. 
+    The contents won't change over time.
 
 
 .. _Evas_Device_Class:
@@ -770,11 +745,11 @@ Evas_Object_Pointer_Mode
 
 .. data:: EVAS_OBJECT_POINTER_MODE_AUTOGRAB
 
-    default, X11-like 
+    default, X11-like
 
 .. data:: EVAS_OBJECT_POINTER_MODE_NOGRAB
 
-    pointer always bound to the object right below it 
+    pointer always bound to the object right below it
 
 .. data:: EVAS_OBJECT_POINTER_MODE_NOGRAB_NO_REPEAT_UPDOWN
 
@@ -1155,7 +1130,7 @@ include "efl.evas_object_callbacks.pxi"
 include "efl.evas_object.pxi"
 # Disable evas smart object for the moment, because PyMethod_New is broken
 # in recent Cython versions, at least in Cython 0.21.1/2 using py3.
-# include "efl.evas_object_smart.pxi"
+include "efl.evas_object_smart.pxi"
 include "efl.evas_object_image.pxi"
 include "efl.evas_object_line.pxi"
 include "efl.evas_object_rectangle.pxi"

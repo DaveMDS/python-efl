@@ -4,8 +4,7 @@
 import os
 from random import randint
 
-from efl.evas import SmartObject, EVAS_HINT_EXPAND, EVAS_HINT_FILL, \
-    EXPAND_BOTH, FILL_BOTH
+from efl.evas import SmartObject, EXPAND_BOTH, FILL_BOTH
 from efl import elementary
 from efl.elementary.window import StandardWindow
 from efl.elementary.box import Box
@@ -18,32 +17,34 @@ objects = []
 
 
 def random_color():
-    return (randint(0,255), randint(0,255), randint(0,255), 255)
+    return (randint(0, 255), randint(0, 255), randint(0, 255), 255)
+
 
 class MySmartObj(SmartObject):
+
     def __init__(self, canvas):
         SmartObject.__init__(self, canvas)
 
         # gray background
-        self.bg = self.Rectangle(color=(128,128,128,128))
+        self.bg = self.Rectangle(color=(128, 128, 128, 128))
 
         # green dragbar to move the obj
-        self.dragpos = self.Rectangle(color=(0,128,0,128))
+        self.dragpos = self.Rectangle(color=(0, 128, 0, 128))
         self.dragpos.on_mouse_down_add(self.start_drag_move)
         self.dragpos.on_mouse_up_add(self.stop_drag_move)
 
         # blue rect to resize the obj
-        self.dragsize = self.Rectangle(color=(0,0,128,128))
+        self.dragsize = self.Rectangle(color=(0, 0, 128, 128))
         self.dragsize.on_mouse_down_add(self.start_drag_resize)
         self.dragsize.on_mouse_up_add(self.stop_drag_resize)
 
         # testing factories
-        self.obj_rect = self.Rectangle(size=(15,15), color=random_color())
-        self.obj_rect.on_mouse_down_add(lambda o,e: self.hide())
+        self.obj_rect = self.Rectangle(size=(15, 15), color=random_color())
+        self.obj_rect.on_mouse_down_add(lambda o, e: self.hide())
         self.obj_line = self.Line(color=random_color())
-        self.obj_image = self.FilledImage(file=ic_file, size=(20,20))
+        self.obj_image = self.FilledImage(file=ic_file, size=(20, 20))
         self.obj_poly = self.Polygon(color=random_color())
-        self.obj_text = self.Text(color=(0,0,0,255), font="Sans",
+        self.obj_text = self.Text(color=(0, 0, 0, 255), font="Sans",
                                   pass_events=True, text="Drag me")
 
     def resize(self, w, h):
@@ -57,7 +58,7 @@ class MySmartObj(SmartObject):
     def move(self, x, y):
         print("MOVE", x, y)
         self.bg.pos = x, y
-        self.obj_text.pos = x,y
+        self.obj_text.pos = x, y
         self.dragpos.pos = x, y
         self.dragsize.pos = x + self.bg.size[0] - 15, y + self.bg.size[1] - 15
         self.obj_rect.pos = x + 5, y + 20
@@ -110,6 +111,7 @@ class MySmartObj(SmartObject):
         x, y = event.position.canvas
         self.size = x - self.bg.pos[0], y - self.bg.pos[1]
 
+
 def btn_add_cb(b):
     sm = MySmartObj(b.evas)
     sm.size = 100, 100
@@ -117,16 +119,20 @@ def btn_add_cb(b):
     sm.show()
     objects.append(sm)
 
+
 def btn_del_cb(b):
     objects.pop().delete()
+
 
 def btn_hide_cb(b):
     for o in objects:
         o.hide()
 
+
 def btn_show_cb(b):
     for o in objects:
         o.show()
+
 
 def core_evas_smart_clicked(obj, item=None):
     win = StandardWindow("evassmart", "Evas Smart Object Test", autodel=True)
@@ -138,22 +144,22 @@ def core_evas_smart_clicked(obj, item=None):
     box.show()
     win.resize_object_add(box)
 
-    b = Button(win, text="Add one", size_hint_align=(0.0,0.0))
+    b = Button(win, text="Add one", size_hint_align=(0.0, 0.0))
     b.callback_clicked_add(btn_add_cb)
     box.pack_end(b)
     b.show()
 
-    b = Button(win, text="Del last", size_hint_align=(0.0,0.0))
+    b = Button(win, text="Del last", size_hint_align=(0.0, 0.0))
     b.callback_clicked_add(btn_del_cb)
     box.pack_end(b)
     b.show()
 
-    b = Button(win, text="Hide all", size_hint_align=(0.0,0.0))
+    b = Button(win, text="Hide all", size_hint_align=(0.0, 0.0))
     b.callback_clicked_add(btn_hide_cb)
     box.pack_end(b)
     b.show()
 
-    b = Button(win, text="Show all", size_hint_align=(0.0,0.0))
+    b = Button(win, text="Show all", size_hint_align=(0.0, 0.0))
     b.callback_clicked_add(btn_show_cb)
     box.pack_end(b)
     b.show()
@@ -163,8 +169,10 @@ def core_evas_smart_clicked(obj, item=None):
 
 
 if __name__ == "__main__":
+    import logging
+    efl_log = logging.getLogger("efl")
+    efl_log.addHandler(logging.StreamHandler())
     elementary.init()
     core_evas_smart_clicked(None)
     elementary.run()
     elementary.shutdown()
-

@@ -16,8 +16,9 @@
 # along with this Python-EFL.  If not, see <http://www.gnu.org/licenses/>.
 
 from efl.utils.conversions cimport eina_list_objects_to_python_list
+from efl.c_eo cimport eo_do, eo_key_data_del, eo_key_data_set
 
-from cpython cimport PyMethod_New
+from cpython cimport PyMethod_New, Py_INCREF, Py_DECREF
 import types
 
 #cdef object _smart_classes
@@ -113,6 +114,11 @@ cdef void _smart_object_delete(Evas_Object *o) with gil:
     obj._m_member_add = None
     obj._m_member_del = None
 
+    # eo_do(self.obj,
+    #     eo_event_callback_del(EO_EV_DEL, _eo_event_del_cb, <const void *>self))
+    eo_do(o, eo_key_data_del("python-eo"))
+    obj.obj = NULL
+    Py_DECREF(obj)
 
 cdef void _smart_object_move(Evas_Object *o,
                              Evas_Coord x, Evas_Coord y) with gil:
@@ -477,6 +483,18 @@ cdef class SmartObject(Object):
             self._set_obj(evas_object_smart_add(canvas.obj, <Evas_Smart*>addr))
 
         self._set_properties_from_keyword_args(kwargs)
+
+    cdef int _set_obj(self, cEo *obj) except 0:
+        assert self.obj == NULL, "Object must be clean"
+        assert obj != NULL, "Cannot set a NULL object"
+
+        self.obj = obj
+        eo_do(self.obj, eo_key_data_set("python-eo", <void *>self, NULL))
+        # eo_do(self.obj,
+        #     eo_event_callback_add(EO_EV_DEL, _eo_event_del_cb, <const void *>self))
+        Py_INCREF(self)
+
+        return 1
 
     def member_add(self, Object child):
         """member_add(Object child)

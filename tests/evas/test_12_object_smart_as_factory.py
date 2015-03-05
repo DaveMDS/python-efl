@@ -4,10 +4,9 @@ from efl import evas
 import unittest
 
 
-# class MyObject(evas.SmartObject):
-    # pass
+class MyObject(evas.SmartObject):
+    pass
 
-@unittest.skip("SmartObject disabled")
 class CanvasFactory(unittest.TestCase):
     def setUp(self):
         self.canvas = evas.Canvas(method="buffer",

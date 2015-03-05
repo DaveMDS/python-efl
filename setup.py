@@ -283,9 +283,13 @@ if set(("build", "build_ext", "install", "bdist", "sdist")) & set(sys.argv):
     # === Evas ===
     evas_cflags, evas_libs = pkg_config('Evas', 'evas', EFL_MIN_VER)
     evas_ext = Extension("evas", ["efl/evas/efl.evas" + module_suffix],
+                         define_macros=[
+                            ('EFL_BETA_API_SUPPORT', 1),
+                            ('EFL_EO_API_SUPPORT', 1)
+                         ],
                          include_dirs=['include/'],
                          extra_compile_args=evas_cflags,
-                         extra_link_args=evas_libs + eina_libs)
+                         extra_link_args=evas_libs + eina_libs + eo_libs)
     ext_modules.append(evas_ext)
 
     # === Ecore ===
