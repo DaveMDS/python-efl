@@ -771,7 +771,7 @@ cdef class Configuration(object):
     property color_classes_list:
         """Get Elementary's list of supported color classes.
 
-        :type: list of tuples (color_class_name, color_class_description)
+        :type: list of tuples (**color_class_name**, **color_class_description**)
 
         .. versionadded:: 1.10
 
@@ -800,7 +800,10 @@ cdef class Configuration(object):
 
         Return the overlays setted using color_overlay_set()
 
-        :type: list of tuples (color_class, (r, g, b, a), (r2, g2, b2, a2), (r3, g3, b3, a3))
+        :type: list of tuples (**color_class**,
+            (**r**, **g**, **b**, **a**),
+            (**r2**, **g2**, **b2**, **a2**),
+            (**r3**, **g3**, **b3**, **a3**))
 
         .. versionadded:: 1.10
 
@@ -838,19 +841,19 @@ cdef class Configuration(object):
         Setting color emits a signal "color_class,set" with source being
         the given color class in all edje objects.
 
-        :param cc: The color class name
-        :param r: Object Red value
-        :param g: Object Green value
-        :param b: Object Blue value
-        :param a: Object Alpha value
-        :param r2: Outline Red value
-        :param g2: Outline Green value
-        :param b2: Outline Blue value
-        :param a2: Outline Alpha value
-        :param r3: Shadow Red value
-        :param g3: Shadow Green value
-        :param b3: Shadow Blue value
-        :param a3: Shadow Alpha value
+        :param string cc: The color class name
+        :param int r: Object Red value
+        :param int g: Object Green value
+        :param int b: Object Blue value
+        :param int a: Object Alpha value
+        :param int r2: Outline Red value
+        :param int g2: Outline Green value
+        :param int b2: Outline Blue value
+        :param int a2: Outline Alpha value
+        :param int r3: Shadow Red value
+        :param int g3: Shadow Green value
+        :param int b3: Shadow Blue value
+        :param int a3: Shadow Alpha value
 
         .. versionadded:: 1.10
 
@@ -874,8 +877,8 @@ cdef class Configuration(object):
         elm_config_color_overlay_unset(cc)
 
     def color_overlay_apply(self):
-        """Apply the changes made with color_overlay_set() and
-        color_overlay_unset() on the current Elementary window.
+        """Apply the changes made with :meth:`color_overlay_set` and
+        :meth:`color_overlay_unset` on the current Elementary window.
 
         .. versionadded:: 1.10
 
@@ -929,8 +932,8 @@ cdef class Configuration(object):
             <const char *>a1 if a1 is not None else NULL)
 
     def font_overlay_apply(self):
-        """Apply the changes made with :py:func:`font_overlay_set()` and
-        :py:func:`font_overlay_unset()` on the current Elementary window.
+        """Apply the changes made with :meth:`font_overlay_set` and
+        :meth:`font_overlay_unset` on the current Elementary window.
 
         This applies all font overlays set to all objects in the UI.
 
@@ -1086,11 +1089,12 @@ cdef class Configuration(object):
         """The focus movement policy.
 
         How the focus is moved to another object. It can be
-        ELM_FOCUS_MOVE_POLICY_CLICK or ELM_FOCUS_MOVE_POLICY_IN. The first
+        :attr:`ELM_FOCUS_MOVE_POLICY_CLICK` or
+        :attr:`ELM_FOCUS_MOVE_POLICY_IN`. The first
         means elementary focus is moved on elementary object click. The
         second means elementary focus is moved on elementary object mouse in.
 
-        :type: Elm_Focus_Move_Policy
+        :type: :ref:`Elm_Focus_Move_Policy`
 
         .. versionadded:: 1.10
 
@@ -1121,7 +1125,7 @@ cdef class Configuration(object):
         elementary will automatically scroll the focused area to the visible
         viewport.
 
-        :type: Elm_Focus_Autoscroll_Mode
+        :type: :ref:`Elm_Focus_Autoscroll_Mode`
 
         .. versionadded:: 1.10
 
@@ -1161,7 +1165,7 @@ cdef class Configuration(object):
             elm_config_clouseau_enabled_set(enabled)
 
     def indicator_service_get(self, int rotation):
-        """indicator_service_get(int rotation) -> unicode
+        """
 
         Get the indicator service name according to the rotation degree.
 
@@ -1276,7 +1280,7 @@ cdef class Configuration(object):
         :type: :ref:`Elm_Slider_Indicator_Visible_Mode`
 
         .. versionadded:: 1.13
-        
+
         """
         def __get__(self):
             return elm_config_slider_indicator_visible_mode_get()

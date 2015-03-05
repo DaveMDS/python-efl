@@ -76,7 +76,8 @@ def need_sys_notify():
 
 @DEPRECATED("1.8", "Use :py:func:`need_eldbus` for eldbus (v2) support. Old API is deprecated.")
 def need_e_dbus():
-    """Request that your elementary application needs e_dbus
+    """
+    Request that your elementary application needs e_dbus
 
     This initializes the e_dbus library when called and if support exists
     it returns True, otherwise returns False. This must be called

@@ -103,20 +103,19 @@ multiple different items with different classes, states and styles).
 Gengrid will call the functions in this struct (methods) when an item is
 "realized" (i.e., created dynamically, while the user is scrolling the
 grid). All objects will simply be deleted when no longer needed with
-evas_object_del(). The #Elm_Gengrid_Item_Class structure contains the
-following members:
+:meth:`~efl.eo.Eo.delete`. The :class:`GengridItemClass` class contains the
+following attributes and methods:
 
 - ``item_style`` - This is a constant string and simply defines the name
   of the item style. It **must** be specified and the default should be
-  ``"default".``
+  ``default``.
 - ``func.text_get`` - This function is called when an item object is
   actually created. The ``data`` parameter will point to the same data
-  passed to elm_gengrid_item_append() and related item creation
+  passed to :meth:`~Gengrid.item_append` and related item creation
   functions. The ``obj`` parameter is the gengrid object itself, while
   the ``part`` one is the name string of one of the existing text parts
-  in the Edje group implementing the item's theme. This function
-  **must** return a strdup'()ed string, as the caller will free() it
-  when done. See :py:meth:`GengridItem.text_get`.
+  in the Edje group implementing the item's theme.
+  See :py:meth:`GengridItemClass.text_get`.
 - ``func.content_get`` - This function is called when an item object is
   actually created. The ``data`` parameter will point to the same data
   passed to :py:meth:`GengridItem.append_to` and related item creation
@@ -125,7 +124,7 @@ following members:
   swallow parts in the Edje group implementing the item's theme. It must
   return ``None,`` when no content is desired, or a valid object handle,
   otherwise. The object will be deleted by the gengrid on its deletion
-  or when the item is "unrealized". See :py:meth:`GengridItem.content_get`.
+  or when the item is "unrealized". See :py:meth:`GengridItemClass.content_get`.
 - ``func.state_get`` - This function is called when an item object is
   actually created. The ``data`` parameter will point to the same data
   passed to :py:meth:`GengridItem.append_to` and related item creation
@@ -136,49 +135,52 @@ following members:
   its theming Edje object with ``"elm,state,xxx,active"`` and ``"elm"``
   as "emission" and "source" arguments, respectively, when the state is
   true (the default is false), where ``xxx`` is the name of the (state)
-  part. See #Elm_Gengrid_Item_State_Get_Cb.
-- ``func.del`` - This is called when elm_object_item_del() is called on
-  an item or elm_gengrid_clear() is called on the gengrid. This is
+  part. See :py:meth:`GengridItemClass.state_get`.
+- ``func.del`` - This is called when
+  :meth:`efl.elementary.object_item.ObjectItem.delete` is called on
+  an item or :meth:`~Gengrid.clear` is called on the gengrid. This is
   intended for use when gengrid items are deleted, so any data attached
   to the item (e.g. its data parameter on creation) can be deleted. See
-  :py:meth:`GengridItem.delete`.
+  :py:meth:`GengridItemClass.delete`.
 
 
 Usage hints
 ===========
 
 If the user wants to have multiple items selected at the same time,
-elm_gengrid_multi_select_set() will permit it. If the gengrid is
-single-selection only (the default), then elm_gengrid_select_item_get()
+:attr:`~Gengrid.multi_select` will permit it. If the gengrid is
+single-selection only (the default), then :attr:`~Gengrid.selected_item`
 will return the selected item or ``None``, if none is selected. If the
-gengrid is under multi-selection, then elm_gengrid_selected_items_get()
+gengrid is under multi-selection, then :attr:`~Gengrid.selected_items`
 will return a list (that is only valid as long as no items are modified
 (added, deleted, selected or unselected) of child items on a gengrid.
 
 If an item changes (internal (boolean) state, text or content changes),
-then use elm_gengrid_item_update() to have gengrid update the item with
+then use :meth:`~GengridItem.update` to have gengrid update the item with
 the new state. A gengrid will re-"realize" the item, thus calling the
-functions in the #Elm_Gengrid_Item_Class set for that item.
+functions in the :class:`GengridItemClass` set for that item.
 
-To programmatically (un)select an item, use
-elm_gengrid_item_selected_set(). To get its selected state use
-elm_gengrid_item_selected_get(). To make an item disabled (unable to be
-selected and appear differently) use elm_object_item_disabled_set() to
-set this and elm_object_item_disabled_get() to get the disabled state.
+To programmatically (un)select an item or get the selected state, use
+:attr:`GengridItem.selected`. To make an item disabled (unable to be
+selected and appear differently) or get the disabled state
+use :attr:`GengridItem.disabled`.
 
 Grid cells will only have their selection smart callbacks called when
 firstly getting selected. Any further clicks will do nothing, unless you
-enable the "always select mode", with elm_gengrid_select_mode_set() as
-ELM_OBJECT_SELECT_MODE_ALWAYS, thus making every click to issue
-selection callbacks. elm_gengrid_select_mode_set() as
-ELM_OBJECT_SELECT_MODE_NONE will turn off the ability to select items
+enable the "always select mode", with :attr:`~Gengrid.select_mode` as
+:attr:`ELM_OBJECT_SELECT_MODE_ALWAYS`, thus making every click to issue
+selection callbacks. :attr:`~Gengrid.select_mode` as
+:attr:`ELM_OBJECT_SELECT_MODE_NONE` will turn off the ability to select items
 entirely in the widget and they will neither appear selected nor call
 the selection smart callbacks.
 
 Remember that you can create new styles and add your own theme
-augmentation per application with elm_theme_extension_add(). If you
+augmentation per application with
+:meth:`Theme.extension_add<efl.elementary.theme.Theme.extension_add>`. If you
 absolutely must have a specific style that overrides any theme the user
-or system sets up you can use elm_theme_overlay_add() to add such a file.
+or system sets up you can use
+:meth:`Theme.extension_add<efl.elementary.theme.Theme.overlay_add>` to add such
+a file.
 
 
 Emitted signals
@@ -199,11 +201,7 @@ Emitted signals
   ``event_info`` parameter is the gengrid item that was unselected.
 - ``realized`` - This is called when the item in the gengrid
   has its implementing Evas object instantiated, de facto.
-  ``event_info`` is the gengrid item that was created. The object
-  may be deleted at any time, so it is highly advised to the
-  caller **not** to use the object returned from
-  :py:attr:`GengridItem.object`, because it may point to freed
-  objects.
+  ``event_info`` is the gengrid item that was created.
 - ``unrealized`` - This is called when the implementing Evas
   object for this item is deleted. ``event_info`` is the gengrid
   item that was deleted.
@@ -241,20 +239,20 @@ Emitted signals
 - ``edge,right`` - This is called when the gengrid is scrolled
   until the right edge.
 - ``moved`` - This is called when a gengrid item is moved by a user
-  interaction in a reorder mode. The %c event_info parameter is the item that
+  interaction in a reorder mode. The ``event_info`` parameter is the item that
   was moved.
 - ``index,update`` - This is called when a gengrid item index is changed.
   Note that this callback is called while each item is being realized.
 - ``highlighted`` - an item in the list is highlighted. This is called when
   the user presses an item or keyboard selection is done so the item is
-  physically highlighted. The %c event_info parameter is the item that was
+  physically highlighted. The ``event_info`` parameter is the item that was
   highlighted.
 - ``unhighlighted`` - an item in the list is unhighlighted. This is called
   when the user releases an item or keyboard selection is moved so the item
-  is physically unhighlighted. The %c event_info parameter is the item that
+  is physically unhighlighted. The ``event_info`` parameter is the item that
   was unhighlighted.
 - ``language,changed`` - This is called when the program's language is
-  changed. Call the elm_gengrid_realized_items_update() if items text should
+  changed. Call :meth:`~Gengrid.realized_items_update` if items text should
   be translated.
 - ``focused`` - When the gengrid has received focus. (since 1.8)
 - ``unfocused`` - When the gengrid has lost focus. (since 1.8)

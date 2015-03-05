@@ -120,7 +120,7 @@ cdef class Table(Object):
 
         Default value is (0.5, 0.5)
 
-        :type: (double, double)
+        :type: (float **horizontal**, float **vertical**)
 
         .. versionadded:: 1.13
 

@@ -124,9 +124,9 @@ cdef class Background(LayoutClass):
             achieve the :py:class:`efl.elementary.layout_class.LayoutClass`'s file setting
             behavior, you'll have to call that method on this object.
 
-        :type: string file, *optional* string group
+        :type: string **file**, *optional* string **group**
 
-        :raise: RuntimeError: if setting the file failed.
+        :raise RuntimeError: if setting the file failed.
 
         """
         def __get__(self):

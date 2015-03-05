@@ -31,11 +31,11 @@ numeric values using arrow buttons, or edit values directly, clicking
 over it and typing the new value.
 
 By default the spinner will not wrap and has a label
-of "%.0f" (just showing the integer value of the double).
+of ``"%.0f"`` (just showing the integer value of the double).
 
 A spinner has a label that is formatted with floating
 point values and thus accepts a printf-style format string, like
-"%1.2f units".
+``"%1.2f units"``.
 
 It also allows specific values to be replaced by pre-defined labels.
 
@@ -97,15 +97,15 @@ cdef class Spinner(LayoutClass):
     property label_format:
         """The format string of the displayed label.
 
-        If set to ``None``, the format is set to "%.0f". If not it sets the
+        If set to ``None``, the format is set to ``"%.0f"``. If not it sets the
         format string for the label text. The label text is provided a
         floating point value, so the label text can display up to 1 floating
         point value. Note that this is optional.
 
-        Use a format string such as "%1.2f meters" for example, and it will
+        Use a format string such as ``"%1.2f meters"`` for example, and it will
         display values like: "3.14 meters" for a value equal to 3.14159.
 
-        Default is "%0.f".
+        Default is ``"%0.f"``.
 
         :type: unicode
 

@@ -456,7 +456,7 @@ def exit():
 
     .. note::
 
-        By using the appropriate #ELM_POLICY_QUIT on your Elementary
+        By using the appropriate :attr:`ELM_POLICY_QUIT` on your Elementary
         applications, you'll be able to get this function called automatically
         for you.
 
@@ -468,7 +468,7 @@ def exit():
 def policy_set(Elm_Policy policy, value):
     """Set new policy value.
 
-    This will emit the ecore event ELM_EVENT_POLICY_CHANGED in the main
+    This will emit the ecore event ``ELM_EVENT_POLICY_CHANGED`` in the main
     loop giving the event information Elm_Event_Policy_Changed with
     policy identifier, new and old values.
 
@@ -485,6 +485,7 @@ def policy_set(Elm_Policy policy, value):
         value might be enforced).
 
     """
+    # TODO: add a function for setting a callback for the event described above
     return bool(elm_policy_set(policy, value))
 
 def policy_get(Elm_Policy policy):
@@ -508,7 +509,7 @@ def process_state_get():
     likely should release resources and not wake up often or process much.
 
     :return: The current process state
-    :rtype: Elm_Process_State
+    :rtype: :ref:`Elm_Process_State`
 
     .. versionadded:: 1.12
 

@@ -271,7 +271,7 @@ cdef class Thumb(Object):
 
         .. seealso:: :py:attr:`file`
 
-        :type: (string path, string eet_key)
+        :type: (string **path**, string **eet_key**)
 
         """
         def __get__(self):
@@ -351,7 +351,7 @@ cdef class Thumb(Object):
 
         The size for the thumb object.
 
-        :type: (int tw, int th)
+        :type: (int **tw**, int **th**)
 
         .. versionadded:: 1.8
 
@@ -370,7 +370,7 @@ cdef class Thumb(Object):
 
         Set the crop alignment for the thumb object.
 
-        :type: (double cropx, double cropy)
+        :type: (float **cropx**, float **cropy**)
 
         .. versionadded:: 1.8
 

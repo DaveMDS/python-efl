@@ -50,7 +50,6 @@ part description where they were added. There are 3 possible types of
 parts where a child can be added:
 
 Content (SWALLOW part)
-
     Only one object can be added to the ``SWALLOW`` part (but you still can
     have many ``SWALLOW`` parts and one object on each of them). Use the
     ``Object.content_set/get/unset`` functions to set, retrieve and unset
@@ -70,7 +69,6 @@ Content (SWALLOW part)
     changed, it will animate move if the part is moving, and so on.
 
 Box (BOX part)
-
     An Edje ``BOX`` part is very similar to the Elementary
     :py:class:`~efl.elementary.box.Box` widget. It allows one to add objects to
     the box and have them distributed along its area, accordingly to the
@@ -94,7 +92,6 @@ Box (BOX part)
     The Layout Box can be used through the ``box_`` set of functions.
 
 Table (TABLE part)
-
     Just like the *Box*, the Layout Table is very similar to the Elementary
     :py:class:`~efl.elementary.table.Table` widget. It allows one to add objects
     to the Table specifying the row and column where the object should be added,

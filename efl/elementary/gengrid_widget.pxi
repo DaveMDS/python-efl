@@ -73,11 +73,11 @@ cdef class Gengrid(Object):
             return elm_gengrid_multi_select_mode_get(self.obj)
 
     property horizontal:
-        """When in "horizontal mode" (``True),`` items will be placed
+        """When in "horizontal mode" (``True``), items will be placed
         in **columns**, from top to bottom and, when the space for a
         column is filled, another one is started on the right, thus
         expanding the grid horizontally. When in "vertical mode"
-        (``False),`` though, items will be placed in **rows**, from left
+        (``False``), though, items will be placed in **rows**, from left
         to right and, when the space for a row is filled, another one is
         started below, thus expanding the grid vertically.
 
@@ -245,7 +245,7 @@ cdef class Gengrid(Object):
     property realized_items:
         """This returns a tuple of the realized items in the gengrid.
 
-        .. seealso:: :py:func:`realized_items_update()`
+        .. seealso:: :py:func:`realized_items_update`
 
         :type: tuple of :py:class:`GengridItem`
 
@@ -262,7 +262,7 @@ cdef class Gengrid(Object):
         the original item data has changed and the changes are desired to be
         reflected.
 
-        To update just one item, use elm_gengrid_item_update().
+        To update just one item, use :func:`GengridItem.update`
 
         .. seealso:: :py:attr:`realized_items` :py:func:`GengridItem.update()`
 
@@ -451,7 +451,7 @@ cdef class Gengrid(Object):
         :type: :ref:`Elm_Gengrid_Reorder_Type`
 
         .. versionadded:: 1.11
-        
+
         """
         def __set__(self, value):
             elm_gengrid_reorder_type_set(self.obj, value)
@@ -563,14 +563,14 @@ cdef class Gengrid(Object):
 
         This returns the item at the given coordinates (which are canvas
         relative, not object-relative). If an item is at that coordinate,
-        that item handle is returned, and if @p xposret is not NULL, the
+        that item handle is returned, and if ``xposret`` is not None, the
         integer pointed to is set to a value of -1, 0 or 1, depending if
         the coordinate is on the left portion of that item (-1), on the
         middle section (0) or on the right part (1).
-        if @p yposret is not NULL, the
+        if ``yposret`` is not None, the
         integer pointed to is set to a value of -1, 0 or 1, depending if
         the coordinate is on the upper portion of that item (-1), on the
-        middle section (0) or on the lower part (1). If NULL is returned as
+        middle section (0) or on the lower part (1). If None is returned as
         an item (no item found there), then posret may indicate -1 or 1
         based if the coordinate is above or below all items respectively in
         the gengrid.
@@ -956,7 +956,7 @@ cdef class Gengrid(Object):
     def callback_highlighted_add(self, func, *args, **kwargs):
         """an item in the list is highlighted. This is called when
         the user presses an item or keyboard selection is done so the item is
-        physically highlighted. The %c event_info parameter is the item that was
+        physically highlighted. The ``event_info`` parameter is the item that was
         highlighted."""
         self._callback_add_full("highlighted", _cb_object_item_conv,
                                 func, *args, **kwargs)
@@ -967,7 +967,7 @@ cdef class Gengrid(Object):
     def callback_unhighlighted_add(self, func, *args, **kwargs):
         """an item in the list is unhighlighted. This is called
         when the user releases an item or keyboard selection is moved so the item
-        is physically unhighlighted. The %c event_info parameter is the item that
+        is physically unhighlighted. The ``event_info`` parameter is the item that
         was unhighlighted."""
         self._callback_add_full("unhighlighted", _cb_object_item_conv,
                                 func, *args, **kwargs)
@@ -977,8 +977,8 @@ cdef class Gengrid(Object):
 
     def callback_language_changed_add(self, func, *args, **kwargs):
         """This is called when the program's language is
-        changed. Call the elm_gengrid_realized_items_update() if items text should
-        be translated."""
+        changed. Call :meth:`Gengrid.realized_items_update` if items text
+        should be translated."""
         self.callback_add("language,changed", func, *args, **kwargs)
 
     def callback_focused_add(self, func, *args, **kwargs):

@@ -117,7 +117,7 @@ cdef class CtxpopupItem(ObjectItem):
     .. warning:: Ctxpopup can't hold both an item list and a content at the
         same time. When an item is added, any previous content will be
         removed.
-            
+
     """
 
     cdef:
@@ -190,7 +190,7 @@ cdef class CtxpopupItem(ObjectItem):
         :return: The item added or ``None``, on errors
         :rtype: :py:class:`CtxpopupItem`
 
-        ..versionadded:: 1.11
+        .. versionadded:: 1.11
 
         """
         cdef Elm_Object_Item *item
@@ -216,7 +216,7 @@ cdef class CtxpopupItem(ObjectItem):
 
         :type: :py:class:`CtxpopupItem`
 
-        ..versionadded:: 1.11
+        .. versionadded:: 1.11
 
         """
         def __get__(self):
@@ -227,7 +227,7 @@ cdef class CtxpopupItem(ObjectItem):
 
         :type: :py:class:`CtxpopupItem`
 
-        ..versionadded:: 1.11
+        .. versionadded:: 1.11
 
         """
         def __get__(self):
@@ -331,7 +331,7 @@ cdef class Ctxpopup(LayoutClass):
 
         :see: :py:func:`CtxpopupItem.prepend_to`
 
-        ..versionadded:: 1.11
+        .. versionadded:: 1.11
 
         """
         cdef:
@@ -367,7 +367,7 @@ cdef class Ctxpopup(LayoutClass):
 
         :type: list of :py:class:`CtxpopupItem`
 
-        ..versionadded:: 1.11
+        .. versionadded:: 1.11
 
         """
         def __get__(self):
@@ -381,7 +381,7 @@ cdef class Ctxpopup(LayoutClass):
 
         :type: :py:class:`CtxpopupItem`
 
-        ..versionadded:: 1.11
+        .. versionadded:: 1.11
 
         """
         def __get__(self):
@@ -395,7 +395,7 @@ cdef class Ctxpopup(LayoutClass):
 
         :type: :py:class:`CtxpopupItem`
 
-        ..versionadded:: 1.11
+        .. versionadded:: 1.11
 
         """
         def __get__(self):

@@ -137,18 +137,18 @@ Editing and Navigating
 
 Items can be added by several calls. All of them return a
 :py:class:`GenlistItem` handle that is an internal member inside the genlist.
-They all take a data parameter that is meant to be used for a handle to
-the applications internal data (eg. the struct with the original item
-data). The parent parameter is the parent genlist item this belongs to if
-it is a tree or an indexed group, and None if there is no parent. The
-flags can be a bitmask of #ELM_GENLIST_ITEM_NONE, #ELM_GENLIST_ITEM_TREE
-and #ELM_GENLIST_ITEM_GROUP. If #ELM_GENLIST_ITEM_TREE is set then this
-item is displayed as an item that is able to expand and have child items.
-If #ELM_GENLIST_ITEM_GROUP is set then this item is group index item that
-is displayed at the top until the next group comes. The func parameter is
-a convenience callback that is called when the item is selected and the
-data parameter will be the func_data parameter, ``obj`` be the genlist
-object and event_info will be the genlist item.
+They all take a data parameter that is meant to be used for a handle to the
+applications internal data (eg. the struct with the original item data). The
+parent parameter is the parent genlist item this belongs to if it is a tree or
+an indexed group, and None if there is no parent. The flags can be a bitmask of
+:attr:`ELM_GENLIST_ITEM_NONE`, :attr:`ELM_GENLIST_ITEM_TREE` and
+:attr:`ELM_GENLIST_ITEM_GROUP`. If :attr:`ELM_GENLIST_ITEM_TREE` is set then
+this item is displayed as an item that is able to expand and have child items.
+If :attr:`ELM_GENLIST_ITEM_GROUP` is set then this item is group index item
+that is displayed at the top until the next group comes. The func parameter is
+a convenience callback that is called when the item is selected and the data
+parameter will be the func_data parameter, ``obj`` be the genlist object and
+event_info will be the genlist item.
 
 :py:meth:`GenlistItem.append_to` adds an item to the end of the list, or if
 there is a parent, to the end of all the child items of the parent.
@@ -378,11 +378,11 @@ Emitted signals
   is finished.
 - ``highlighted`` - an item in the list is highlighted. This is called when
   the user presses an item or keyboard selection is done so the item is
-  physically highlighted. The %c event_info parameter is the item that was
+  physically highlighted. The ``event_info`` parameter is the item that was
   highlighted.
 - ``unhighlighted`` - an item in the list is unhighlighted. This is called
   when the user releases an item or keyboard selection is moved so the item
-  is physically unhighlighted. The %c event_info parameter is the item that
+  is physically unhighlighted. The ``event_info`` parameter is the item that
   was unhighlighted.
 - ``focused`` - When the genlist has received focus. (since 1.8)
 - ``unfocused`` - When the genlist has lost focus. (since 1.8)

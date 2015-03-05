@@ -31,7 +31,7 @@ Category of the Status Notifier Item.
 -------------------------------------
 
 .. data:: ELM_SYSTRAY_CATEGORY_APP_STATUS
-    
+
     Indicators of application status
 
 .. data:: ELM_SYSTRAY_CATEGORY_COMMUNICATIONS
@@ -102,7 +102,7 @@ cdef class Systray(Object):
     This is the class that actually implements the widget.
 
     """
-    
+
     def __init__(self, Eo parent not None, *args, **kwargs):
         self._set_obj(eo_add(elm_systray_class_get(), parent.obj))
         self._set_properties_from_keyword_args(kwargs)
@@ -142,7 +142,7 @@ cdef class Systray(Object):
 
         The category of the Status Notifier Item.
 
-        :type: string
+        :type: :ref:`Elm_Systray_Category`
 
         """
         def __set__(self, Elm_Systray_Category value):
@@ -193,9 +193,9 @@ cdef class Systray(Object):
         return _ctouni(value)
 
     property menu:
-        """The object path of the D-Bus Menu to be shown when the Status Notifier Item is activated by the user.
+        """The D-Bus Menu to be shown when the Status Notifier Item is activated by the user.
 
-        :type: Eo
+        :type: :class:`~efl.elementary.menu.Menu`
         """
         def __set__(self, Eo value):
             eo_do(self.obj, elm_obj_systray_menu_set(value.obj))
@@ -245,7 +245,7 @@ cdef class Systray(Object):
     property status:
         """The status of the Status Notifier Item.
 
-        :type: Elm_Systray_Status
+        :type: :ref:`Elm_Systray_Status`
         """
         def __set__(self, Elm_Systray_Status value):
             eo_do(self.obj, elm_obj_systray_status_set(value))
@@ -325,7 +325,8 @@ cdef class Systray(Object):
         """Register this Status Notifier Item in the System Tray Watcher.
 
         This function should only be called after the event
-        #ELM_EVENT_SYSTRAY_READY is emitted.
+        ``ELM_EVENT_SYSTRAY_READY``, for which you can set a callback with
+        :func:`on_systray_ready`, is emitted.
 
         """
         cdef Eina_Bool value = 0

@@ -32,7 +32,7 @@ something within a range.
 A slider can be horizontal or vertical. It can contain an Icon and has a
 primary label as well as a units label (that is formatted with floating
 point values and thus accepts a printf-style format string, like
-"%1.2f units". There is also an indicator string that may be somewhere
+``"%1.2f units"``. There is also an indicator string that may be somewhere
 else (like on the slider itself) that also accepts a format string like
 units. Label, Icon Unit and Indicator strings/objects are optional.
 
@@ -150,7 +150,7 @@ cdef class Slider(LayoutClass):
         value, so the label text can display up to 1 floating point value.
         Note that this is optional.
 
-        Use a format string such as "%1.2f meters" for example, and it will
+        Use a format string such as ``"%1.2f meters"`` for example, and it will
         display values like: "3.14 meters" for a value equal to 3.14159.
 
         Default is unit label disabled.
@@ -185,7 +185,7 @@ cdef class Slider(LayoutClass):
         floating point value, so the label text can display up to 1 floating
         point value. Note that this is optional.
 
-        Use a format string such as "%1.2f meters" for example, and it will
+        Use a format string such as ``"%1.2f meters"`` for example, and it will
         display values like: "3.14 meters" for a value equal to 3.14159.
 
         Default is indicator label disabled.

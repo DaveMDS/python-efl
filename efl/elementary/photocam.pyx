@@ -376,7 +376,7 @@ cdef class Photocam(Object):
         it. It is for inspection only, and hooking callbacks to. Nothing
         else. It may be deleted at any time as well.
 
-        :type: evasImage
+        :type: :class:`efl.evas.Image`
 
         """
         def __get__(self):

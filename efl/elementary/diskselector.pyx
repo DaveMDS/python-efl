@@ -373,7 +373,7 @@ cdef class Diskselector(Object):
         *args, **kwargs):
         """A constructor for :py:class:`DiskselectorItem`
 
-        :see: :py:func`DiskselectorItem.append_to`
+        :see: :func:`DiskselectorItem.append_to`
 
         """
         cdef:
@@ -456,7 +456,8 @@ cdef class Diskselector(Object):
     def callback_clicked_add(self, func, *args, **kwargs):
         """This is called when a user clicks an item
 
-        :since 1.8"""
+        .. versionadded:: 1.8
+        """
         self._callback_add_full("clicked", _cb_object_item_conv, func, *args, **kwargs)
 
     def callback_clicked_del(self, func):

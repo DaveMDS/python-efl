@@ -77,9 +77,9 @@ cdef class Video(LayoutClass):
         Setting this property will explicitly define a file or URI as a source
         for the video of the Elm_Video object.
 
-        Local files can be specified using file:// or by using full file
-        paths. URI could be remote source of video, like http:// or
-        local source like WebCam (v4l2://). (You can use Emotion API to
+        Local files can be specified using ``file://`` or by using full file
+        paths. URI could be remote source of video, like ``http://`` or
+        local source like WebCam (``v4l2://``). (You can use Emotion API to
         request and list the available Webcam on your system).
 
         :type: string
@@ -105,7 +105,7 @@ cdef class Video(LayoutClass):
     property emotion:
         """The underlying Emotion object.
 
-        :type: emotion.Object
+        :type: :class:`efl.emotion.Object`
 
         """
         def __get__(self):

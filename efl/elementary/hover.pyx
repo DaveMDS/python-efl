@@ -197,12 +197,12 @@ cdef class Hover(LayoutClass):
         Best is defined here as the location at which there is the most
         available space.
 
-        If ELM_HOVER_AXIS_HORIZONTAL is chosen the returned position will
-        necessarily be along the horizontal axis("left" or "right"). If
-        ELM_HOVER_AXIS_VERTICAL is chosen the returned position will
+        If :attr:`ELM_HOVER_AXIS_HORIZONTAL` is chosen the returned position
+        will necessarily be along the horizontal axis("left" or "right"). If
+        :attr:`ELM_HOVER_AXIS_VERTICAL` is chosen the returned position will
         necessarily be along the vertical axis("top" or "bottom"). Choosing
-        ELM_HOVER_AXIS_BOTH or ELM_HOVER_AXIS_NONE has the same effect and
-        the returned position may be in either axis.
+        :attr:`ELM_HOVER_AXIS_BOTH` or :attr:`ELM_HOVER_AXIS_NONE` has the same
+        effect and the returned position may be in either axis.
 
         .. seealso:: :py:meth:`~efl.elementary.object.Object.part_content_set`
 

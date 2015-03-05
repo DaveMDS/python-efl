@@ -458,7 +458,8 @@ cdef class Datetime(Object):
 
         There is no provision to set the limits of AM/PM field.
 
-        :param fieldtype: Type of the field. ELM_DATETIME_YEAR etc.
+        :param fieldtype: Type of the field.
+        :type fieldtype: :ref:`Elm_Datetime_Field_Type`
 
         """
         cdef int min, max
@@ -475,7 +476,8 @@ cdef class Datetime(Object):
 
         There is no provision to set the limits of AM/PM field.
 
-        :param Elm_Datetime_Field_Type fieldtype: Type of the field. ELM_DATETIME_YEAR etc.
+        :param fieldtype: Type of the field.
+        :type fieldtype: :ref:`Elm_Datetime_Field_Type`
         :param int min: Reference to field's minimum value
         :param int max: Reference to field's maximum value
 
@@ -537,7 +539,7 @@ cdef class Datetime(Object):
 
         .. seealso:: :py:meth:`field_visible_set`
 
-        :param fieldtype: Type of the field. ELM_DATETIME_YEAR etc
+        :param fieldtype: Type of the field.
         :type fieldtype: :ref:`Elm_Datetime_Field_Type`
         :return: ``True``, if field can be visible. ``False`` otherwise.
         :rtype: bool
@@ -559,7 +561,7 @@ cdef class Datetime(Object):
 
         .. seealso:: :py:meth:`field_visible_get`
 
-        :param fieldtype: Type of the field. ELM_DATETIME_YEAR etc.
+        :param fieldtype: Type of the field.
         :type fieldtype: :ref:`Elm_Datetime_Field_Type`
         :param visible: ``True`` field can be visible, ``False`` otherwise.
         :type visible: bool

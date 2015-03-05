@@ -480,11 +480,11 @@ cdef class ToolbarItem(ObjectItem):
         """The priority of a toolbar item.
 
         This is used only when the toolbar shrink mode is set to
-        ELM_TOOLBAR_SHRINK_MENU or ELM_TOOLBAR_SHRINK_HIDE. When space is
-        less than required, items with low priority will be removed from the
-        toolbar and added to a dynamically-created menu, while items with
-        higher priority will remain on the toolbar, with the same order they
-        were added.
+        :attr:`ELM_TOOLBAR_SHRINK_MENU` or :attr:`ELM_TOOLBAR_SHRINK_HIDE`.
+        When space is less than required, items with low priority will be
+        removed from the toolbar and added to a dynamically-created menu, while
+        items with higher priority will remain on the toolbar, with the same
+        order they were added.
 
         :type: int
 
@@ -807,7 +807,7 @@ cdef class Toolbar(LayoutClass):
         """Icon lookup order, for toolbar items' icons.
 
         Icons added before calling this function will not be affected.
-        The default lookup order is ELM_ICON_LOOKUP_THEME_FDO.
+        The default lookup order is :attr:`ELM_ICON_LOOKUP_THEME_FDO`.
 
         :type: :ref:`Elm_Toolbar_Icon_Lookup_Order`
 
@@ -936,11 +936,11 @@ cdef class Toolbar(LayoutClass):
     property shrink_mode:
         """The shrink state of toolbar.
 
-        The toolbar won't scroll if ELM_TOOLBAR_SHRINK_NONE, but will
+        The toolbar won't scroll if :attr:`ELM_TOOLBAR_SHRINK_NONE`, but will
         enforce a minimum size so all the items will fit, won't scroll and
-        won't show the items that don't fit if ELM_TOOLBAR_SHRINK_HIDE, will
-        scroll if ELM_TOOLBAR_SHRINK_SCROLL, and will create a button to pop
-        up excess elements with ELM_TOOLBAR_SHRINK_MENU.
+        won't show the items that don't fit if :attr:`ELM_TOOLBAR_SHRINK_HIDE`,
+        will scroll if :attr:`ELM_TOOLBAR_SHRINK_SCROLL`, and will create a
+        button to pop up excess elements with :attr:`ELM_TOOLBAR_SHRINK_MENU`.
 
         :type: :ref:`Elm_Toolbar_Shrink_Mode`
 
@@ -963,7 +963,8 @@ cdef class Toolbar(LayoutClass):
 
         This will expand the transverse length of the item according the
         transverse length of the toolbar. The default is what the transverse
-        length of the item is set according its min value (this property is False).
+        length of the item is set according its min value (this property is
+        False).
 
         .. versionadded:: 1.8
 

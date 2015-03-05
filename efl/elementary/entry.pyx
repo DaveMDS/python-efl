@@ -66,15 +66,22 @@ even when writing new themes or extensions it's a good idea to stick to
 a sane default, to maintain coherency and avoid application breakages.
 Currently defined by the default theme are the following tags:
 
-- <br>: Inserts a line break.
-- <ps>: Inserts a paragraph separator. This is preferred over line
-  breaks.
-- <tab>: Inserts a tab.
-- <em>...</em>: Emphasis. Sets the *oblique* style for the
-  enclosed text.
-- <b>...</b>: Sets the **bold** style for the enclosed text.
-- <link>...</link>: Underlines the enclosed text.
-- <hilight>...</hilight>: Highlights the enclosed text.
+``<br>``
+    Inserts a line break.
+``<ps>``
+    Inserts a paragraph separator. This is preferred over line
+    breaks.
+``<tab>``
+    Inserts a tab.
+``<em>...</em>``
+    Emphasis. Sets the *oblique* style for the
+    enclosed text.
+``<b>...</b>``
+    Sets the **bold** style for the enclosed text.
+``<link>...</link>``
+    Underlines the enclosed text.
+``<hilight>...</hilight>``
+    Highlights the enclosed text.
 
 
 Special markups
@@ -99,8 +106,8 @@ used to identify the anchor and it can be any valid utf8 string.
 
 When an anchor is clicked, an ``"anchor,clicked"`` signal is emitted with
 an :py:class:`EntryAnchorInfo` in the ``event_info`` parameter for the
-callback function. The same applies for "anchor,in" (mouse in),
-"anchor,out" (mouse out), "anchor,down" (mouse down), and "anchor,up"
+callback function. The same applies for ``anchor,in`` (mouse in),
+``anchor,out`` (mouse out), ``anchor,down`` (mouse down), and ``anchor,up``
 (mouse up) events on an anchor.
 
 
@@ -108,7 +115,7 @@ Items
 -----
 
 Inlined in the text, any other :py:class:`~efl.elementary.object.Object` can
-be inserted by using <item> tags this way::
+be inserted by using ``<item>`` tags this way::
 
     <item size=16x16 vsize=full href=emoticon/haha></item>
 
@@ -130,13 +137,13 @@ Besides their size, items are specified a ``vsize`` value that affects
 how their final size and position are calculated. The possible values
 are:
 
-- ascent: Item will be placed within the line's baseline and its
+- ``ascent``: Item will be placed within the line's baseline and its
   ascent. That is, the height between the line where all characters are
   positioned and the highest point in the line. For ``size`` and
   ``absize`` items, the descent value will be added to the total line
   height to make them fit. ``relsize`` items will be adjusted to fit
   within this space.
-- full: Items will be placed between the descent and ascent, or the
+- ``full``: Items will be placed between the descent and ascent, or the
   lowest point in the line and its highest.
 
 After the size for an item is calculated, the entry will request an object to

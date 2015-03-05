@@ -357,7 +357,7 @@ cdef class Menu(Object):
     def move(self, x, y):
         """Move the menu to a new position
 
-        Sets the top-left position of the menu to (``x``,``y``).
+        Sets the top-left position of the menu to (``x``, ``y``).
 
         .. note:: ``x`` and ``y`` coordinates are relative to parent.
 

@@ -189,7 +189,7 @@ cdef class HoverselItem(ObjectItem):
         The icon can be loaded from the standard set, from an image file, or
         from an edje file.
 
-        :type: (string file, string group, :ref:`Elm_Icon_Type` type)
+        :type: (string **file**, string **group**, :ref:`Elm_Icon_Type` **type**)
 
         """
         def __set__(self, value):
@@ -424,7 +424,7 @@ cdef class Hoversel(Button):
 
     def callback_item_focused_add(self, func, *args, **kwargs):
         """When the hoversel item has received focus.
-        
+
         .. versionadded:: 1.10
 
         """

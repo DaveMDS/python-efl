@@ -44,19 +44,30 @@ to indicate if you want accelerations and which kind to use. see
 :py:attr:`~efl.elementary.configuration.Configuration.accel_preference` for
 details on this environment variable values.
 
-- ``x11, x, software-x11, software_x11`` Software rendering in X11
-- ``gl, opengl, opengl-x11, opengl_x11`` OpenGL or OpenGL-ES2 rendering in X11
-- ``shot:...`` Virtual screenshot renderer - renders to output file and exits
-- ``fb, software-fb, software_fb`` Linux framebuffer direct software rendering
-- ``sdl, software-sdl, software_sdl`` SDL software rendering to SDL buffer
-- ``gl-sdl, gl_sdl, opengl-sdl, opengl_sdl`` OpenGL or OpenGL-ES2 using SDL
-- ``gdi, software-gdi, software_gdi`` Windows WIN32 rendering via GDI with
-  software
-- ``ews`` rendering to EWS (Ecore + Evas Single Process Windowing System)
-- ``gl-cocoa, gl_cocoa, opengl-cocoa, opengl_cocoa`` OpenGL rendering in Cocoa
-- ``wayland_shm`` Wayland client SHM rendering
-- ``wayland_egl`` Wayland client OpenGL/EGL rendering
-- ``drm`` Linux drm/kms etc. direct display
+``x11``, ``x``, ``software-x11``, ``software_x11``
+    Software rendering in X11
+``gl``, ``opengl``, ``opengl-x11``, ``opengl_x11``
+    OpenGL or OpenGL-ES2 rendering in X11
+``shot:...``
+    Virtual screenshot renderer - renders to output file and exits
+``fb``, ``software-fb``, ``software_fb``
+    Linux framebuffer direct software rendering
+``sdl``, ``software-sdl``, ``software_sdl``
+    SDL software rendering to SDL buffer
+``gl-sdl``, ``gl_sdl``, ``opengl-sdl``, ``opengl_sdl``
+    OpenGL or OpenGL-ES2 using SDL
+``gdi``, ``software-gdi``, ``software_gdi``
+    Windows WIN32 rendering via GDI with software
+``ews``
+    rendering to EWS (Ecore + Evas Single Process Windowing System)
+``gl-cocoa``, ``gl_cocoa``, ``opengl-cocoa``, ``opengl_cocoa``
+    OpenGL rendering in Cocoa
+``wayland_shm``
+    Wayland client SHM rendering
+``wayland_egl``
+    Wayland client OpenGL/EGL rendering
+``drm``
+    Linux drm/kms etc. direct display
 
 All engines use a simple string to select the engine to render, EXCEPT
 the "shot" engine. This actually encodes the output of the virtual
@@ -423,7 +434,7 @@ cdef class Window(Object):
         :py:attr:`~efl.evas.Object.size_hint_weight` set to EVAS_HINT_EXPAND.
 
         Also notice that the window can get resized to the current size of the
-        object if the EVAS_HINT_EXPAND is set **after** the call to
+        object if the :attr:`EVAS_HINT_EXPAND` is set **after** the call to
         resize_object_add(). So if the object should get resized to the
         size of the window, set this hint **before** adding it as a resize object
         (this happens because the size of the window and the object are evaluated
@@ -469,11 +480,12 @@ cdef class Window(Object):
     def title_get(self):
         return _ctouni(elm_win_title_get(self.obj))
 
+    # TODO: Add a property for this and move docs there
     def type_get(self):
         """Get the type of a window.
 
         :return: The type of the window
-        :return type: Elm_Win_Type
+        :return type: :ref:`Elm_Win_Type`
 
         .. versionadded: 1.9
 

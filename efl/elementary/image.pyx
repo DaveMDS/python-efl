@@ -240,8 +240,12 @@ cdef class Image(Object):
 
         .. note:: Setting this will trigger the Edje file case based on the
             extension of the ``file`` string (expects ``".edj"``, for this
-            case). If one wants to force this type of file independently of
-            the extension, :py:attr:`file_edje` must be used, instead.
+            case).
+
+        .. note:: If you use animated gif image and create multiple image
+            objects with one gif image file, you should set the ``group``
+            differently for each object, else image objects will share one evas
+            image cache entry and you will get unwanted frames.
 
         :type: unicode **file** or (unicode **file**, unicode **group**)
         :raise RuntimeError: when setting the file fails
