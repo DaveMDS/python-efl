@@ -478,6 +478,7 @@ if set(("build", "build_ext", "install", "bdist", "sdist")) & set(sys.argv):
                                     #"c_string_type": "unicode",
                                     #"c_string_encoding": "utf-8",
                                     "embedsignature": True,
+                                    "binding": True,
                                 })
 
 

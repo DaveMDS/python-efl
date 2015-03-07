@@ -16,140 +16,94 @@
 # along with this Python-EFL.  If not, see <http://www.gnu.org/licenses/>.
 
 from efl.utils.conversions cimport eina_list_objects_to_python_list
-from efl.c_eo cimport eo_do, eo_key_data_del, eo_key_data_set
+from efl.c_eo cimport eo_do, eo_do_ret, eo_key_data_del, eo_key_data_set, eo_key_data_get
+from efl.eo cimport Eo
 
-from cpython cimport PyMethod_New, Py_INCREF, Py_DECREF
-import types
+from cpython cimport PyMem_Malloc, PyMethod_New, Py_INCREF, Py_DECREF
 
 #cdef object _smart_classes
 #_smart_classes = list()
 
 
-include "smart_object_metaclass.pxi"
-_install_metaclass(EvasSmartObjectMeta, SmartObject)
-_install_metaclass(EvasSmartObjectMeta, ClippedSmartObject)
-
-
 cdef void _smart_object_delete(Evas_Object *o) with gil:
     cdef:
         void *tmp
-        SmartObject obj
-    tmp = evas_object_data_get(o, "python-eo")
+        Smart cls
+        Eo obj
+
+    tmp = evas_object_smart_data_get(o)
+    if tmp == NULL:
+        EINA_LOG_DOM_WARN(PY_EFL_EVAS_LOG_DOMAIN, "cls is NULL!", NULL)
+        return
+    cls = <Smart>tmp
+
+    eo_do_ret(o, tmp, eo_key_data_get("python-eo"))
     if tmp == NULL:
         EINA_LOG_DOM_WARN(PY_EFL_EVAS_LOG_DOMAIN, "obj is NULL!", NULL)
         return
-    obj = <SmartObject>tmp
+    obj = <Eo>tmp
 
     try:
-        obj._m_delete(obj)
+        cls.delete(obj)
     except Exception:
         traceback.print_exc()
 
-    if type(obj.delete) is types.MethodType:
-        try:
-            del obj.delete
-        except AttributeError:
-            pass
-    if type(obj.move) is types.MethodType:
-        try:
-            del obj.move
-        except AttributeError:
-            pass
-    if type(obj.resize) is types.MethodType:
-        try:
-            del obj.resize
-        except AttributeError:
-            pass
-    if type(obj.show) is types.MethodType:
-        try:
-            del obj.show
-        except AttributeError:
-            pass
-    if type(obj.hide) is types.MethodType:
-        try:
-            del obj.hide
-        except AttributeError:
-            pass
-    if type(obj.color_set) is types.MethodType:
-        try:
-            del obj.color_set
-        except AttributeError:
-            pass
-    if type(obj.clip_set) is types.MethodType:
-        try:
-            del obj.clip_set
-        except AttributeError:
-            pass
-    if type(obj.clip_unset) is types.MethodType:
-        try:
-            del obj.clip_unset
-        except AttributeError:
-            pass
-    if type(obj.calculate) is types.MethodType:
-        try:
-            del obj.calculate
-        except AttributeError:
-            pass
-    if type(obj.member_add) is types.MethodType:
-        try:
-            del obj.member_add
-        except AttributeError:
-            pass
-    if type(obj.member_del) is types.MethodType:
-        try:
-            del obj.member_del
-        except AttributeError:
-            pass
-
-    obj._smart_callbacks = None
-    obj._m_delete = None
-    obj._m_move = None
-    obj._m_resize = None
-    obj._m_show = None
-    obj._m_hide = None
-    obj._m_color_set = None
-    obj._m_clip_set = None
-    obj._m_clip_unset = None
-    obj._m_calculate = None
-    obj._m_member_add = None
-    obj._m_member_del = None
-
     # eo_do(self.obj,
     #     eo_event_callback_del(EO_EV_DEL, _eo_event_del_cb, <const void *>self))
-    eo_do(o, eo_key_data_del("python-eo"))
+    #eo_do(o, eo_key_data_del("python-eo"))
+    evas_object_smart_data_set(obj.obj, NULL)
+    cls.cls = NULL
     obj.obj = NULL
+    Py_DECREF(cls)
     Py_DECREF(obj)
 
-cdef void _smart_object_move(Evas_Object *o,
-                             Evas_Coord x, Evas_Coord y) with gil:
+
+cdef void _smart_object_move(Evas_Object *o, Evas_Coord x, Evas_Coord y) with gil:
     cdef:
         void *tmp
-        SmartObject obj
-    tmp = evas_object_data_get(o, "python-eo")
+        Smart cls
+        Eo obj
+
+    tmp = evas_object_smart_data_get(o)
+    if tmp == NULL:
+        EINA_LOG_DOM_WARN(PY_EFL_EVAS_LOG_DOMAIN, "cls is NULL!", NULL)
+        return
+    cls = <Smart>tmp
+
+    eo_do_ret(o, tmp, eo_key_data_get("python-eo"))
     if tmp == NULL:
         EINA_LOG_DOM_WARN(PY_EFL_EVAS_LOG_DOMAIN, "obj is NULL!", NULL)
         return
-    obj = <SmartObject>tmp
-    if obj._m_move is not None:
+    obj = <Eo>tmp
+
+    if cls.move is not None:
         try:
-            obj._m_move(obj, x, y)
+            cls.move(obj, x, y)
         except Exception:
             traceback.print_exc()
 
 
-cdef void _smart_object_resize(Evas_Object *o,
-                               Evas_Coord w, Evas_Coord h) with gil:
+cdef void _smart_object_resize(Evas_Object *o, Evas_Coord w, Evas_Coord h) with gil:
     cdef:
         void *tmp
-        SmartObject obj
-    tmp = evas_object_data_get(o, "python-eo")
+        Smart cls
+        Eo obj
+
+    tmp = evas_object_smart_data_get(o)
+    if tmp == NULL:
+        EINA_LOG_DOM_WARN(PY_EFL_EVAS_LOG_DOMAIN, "cls is NULL!", NULL)
+        return
+    cls = <Smart>tmp
+
+    eo_do_ret(o, tmp, eo_key_data_get("python-eo"))
     if tmp == NULL:
         EINA_LOG_DOM_WARN(PY_EFL_EVAS_LOG_DOMAIN, "obj is NULL!", NULL)
         return
-    obj = <SmartObject>tmp
-    if obj._m_resize is not None:
+    obj = <Eo>tmp
+
+    if cls.resize is not None:
         try:
-            obj._m_resize(obj, w, h)
+            cls.resize(obj, w, h)
         except Exception:
             traceback.print_exc()
 
@@ -157,15 +111,24 @@ cdef void _smart_object_resize(Evas_Object *o,
 cdef void _smart_object_show(Evas_Object *o) with gil:
     cdef:
         void *tmp
-        SmartObject obj
-    tmp = evas_object_data_get(o, "python-eo")
+        Smart cls
+        Eo obj
+
+    tmp = evas_object_smart_data_get(o)
+    if tmp == NULL:
+        EINA_LOG_DOM_WARN(PY_EFL_EVAS_LOG_DOMAIN, "cls is NULL!", NULL)
+        return
+    cls = <Smart>tmp
+
+    eo_do_ret(o, tmp, eo_key_data_get("python-eo"))
     if tmp == NULL:
         EINA_LOG_DOM_WARN(PY_EFL_EVAS_LOG_DOMAIN, "obj is NULL!", NULL)
         return
-    obj = <SmartObject>tmp
-    if obj._m_show is not None:
+    obj = <Eo>tmp
+
+    if cls.show is not None:
         try:
-            obj._m_show(obj)
+            cls.show(obj)
         except Exception:
             traceback.print_exc()
 
@@ -173,32 +136,49 @@ cdef void _smart_object_show(Evas_Object *o) with gil:
 cdef void _smart_object_hide(Evas_Object *o) with gil:
     cdef:
         void *tmp
-        SmartObject obj
-    tmp = evas_object_data_get(o, "python-eo")
+        Smart cls
+        Eo obj
+
+    tmp = evas_object_smart_data_get(o)
+    if tmp == NULL:
+        EINA_LOG_DOM_WARN(PY_EFL_EVAS_LOG_DOMAIN, "cls is NULL!", NULL)
+        return
+    cls = <Smart>tmp
+
+    eo_do_ret(o, tmp, eo_key_data_get("python-eo"))
     if tmp == NULL:
         EINA_LOG_DOM_WARN(PY_EFL_EVAS_LOG_DOMAIN, "obj is NULL!", NULL)
         return
-    obj = <SmartObject>tmp
-    if obj._m_hide is not None:
+    obj = <Eo>tmp
+
+    if cls.hide is not None:
         try:
-            obj._m_hide(obj)
+            cls.hide(obj)
         except Exception:
             traceback.print_exc()
 
 
-cdef void _smart_object_color_set(Evas_Object *o,
-                                  int r, int g, int b, int a) with gil:
+cdef void _smart_object_color_set(Evas_Object *o, int r, int g, int b, int a) with gil:
     cdef:
         void *tmp
-        SmartObject obj
-    tmp = evas_object_data_get(o, "python-eo")
+        Smart cls
+        Eo obj
+
+    tmp = evas_object_smart_data_get(o)
+    if tmp == NULL:
+        EINA_LOG_DOM_WARN(PY_EFL_EVAS_LOG_DOMAIN, "cls is NULL!", NULL)
+        return
+    cls = <Smart>tmp
+
+    eo_do_ret(o, tmp, eo_key_data_get("python-eo"))
     if tmp == NULL:
         EINA_LOG_DOM_WARN(PY_EFL_EVAS_LOG_DOMAIN, "obj is NULL!", NULL)
         return
-    obj = <SmartObject>tmp
-    if obj._m_color_set is not None:
+    obj = <Eo>tmp
+
+    if cls.color_set is not None:
         try:
-            obj._m_color_set(obj, r, g, b, a)
+            cls.color_set(obj, r, g, b, a)
         except Exception:
             traceback.print_exc()
 
@@ -206,17 +186,27 @@ cdef void _smart_object_color_set(Evas_Object *o,
 cdef void _smart_object_clip_set(Evas_Object *o, Evas_Object *clip) with gil:
     cdef:
         void *tmp
-        SmartObject obj
+        Smart cls
+        Eo obj
         Object other
-    tmp = evas_object_data_get(o, "python-eo")
+
+    tmp = evas_object_smart_data_get(o)
+    if tmp == NULL:
+        EINA_LOG_DOM_WARN(PY_EFL_EVAS_LOG_DOMAIN, "cls is NULL!", NULL)
+        return
+    cls = <Smart>tmp
+
+    eo_do_ret(o, tmp, eo_key_data_get("python-eo"))
     if tmp == NULL:
         EINA_LOG_DOM_WARN(PY_EFL_EVAS_LOG_DOMAIN, "obj is NULL!", NULL)
         return
-    obj = <SmartObject>tmp
+    obj = <Eo>tmp
+
     other = object_from_instance(clip)
-    if obj._m_clip_set is not None:
+
+    if cls.clip_set is not None:
         try:
-            obj._m_clip_set(obj, other)
+            cls.clip_set(obj, other)
         except Exception:
             traceback.print_exc()
 
@@ -224,15 +214,24 @@ cdef void _smart_object_clip_set(Evas_Object *o, Evas_Object *clip) with gil:
 cdef void _smart_object_clip_unset(Evas_Object *o) with gil:
     cdef:
         void *tmp
-        SmartObject obj
-    tmp = evas_object_data_get(o, "python-eo")
+        Smart cls
+        Eo obj
+
+    tmp = evas_object_smart_data_get(o)
+    if tmp == NULL:
+        EINA_LOG_DOM_WARN(PY_EFL_EVAS_LOG_DOMAIN, "cls is NULL!", NULL)
+        return
+    cls = <Smart>tmp
+
+    eo_do_ret(o, tmp, eo_key_data_get("python-eo"))
     if tmp == NULL:
         EINA_LOG_DOM_WARN(PY_EFL_EVAS_LOG_DOMAIN, "obj is NULL!", NULL)
         return
-    obj = <SmartObject>tmp
-    if obj._m_clip_unset is not None:
+    obj = <Eo>tmp
+
+    if cls.clip_unset is not None:
         try:
-            obj._m_clip_unset(obj)
+            cls.clip_unset(obj)
         except Exception:
             traceback.print_exc()
 
@@ -240,15 +239,24 @@ cdef void _smart_object_clip_unset(Evas_Object *o) with gil:
 cdef void _smart_object_calculate(Evas_Object *o) with gil:
     cdef:
         void *tmp
-        SmartObject obj
-    tmp = evas_object_data_get(o, "python-eo")
+        Smart cls
+        Eo obj
+
+    tmp = evas_object_smart_data_get(o)
+    if tmp == NULL:
+        EINA_LOG_DOM_WARN(PY_EFL_EVAS_LOG_DOMAIN, "cls is NULL!", NULL)
+        return
+    cls = <Smart>tmp
+
+    eo_do_ret(o, tmp, eo_key_data_get("python-eo"))
     if tmp == NULL:
         EINA_LOG_DOM_WARN(PY_EFL_EVAS_LOG_DOMAIN, "obj is NULL!", NULL)
         return
-    obj = <SmartObject>tmp
-    if obj._m_calculate is not None:
+    obj = <Eo>tmp
+
+    if cls.calculate is not None:
         try:
-            obj._m_calculate(obj)
+            cls.calculate(obj)
         except Exception:
             traceback.print_exc()
 
@@ -256,17 +264,27 @@ cdef void _smart_object_calculate(Evas_Object *o) with gil:
 cdef void _smart_object_member_add(Evas_Object *o, Evas_Object *clip) with gil:
     cdef:
         void *tmp
-        SmartObject obj
+        Smart cls
+        Eo obj
         Object other
-    tmp = evas_object_data_get(o, "python-eo")
+
+    tmp = evas_object_smart_data_get(o)
+    if tmp == NULL:
+        EINA_LOG_DOM_WARN(PY_EFL_EVAS_LOG_DOMAIN, "cls is NULL!", NULL)
+        return
+    cls = <Smart>tmp
+
+    eo_do_ret(o, tmp, eo_key_data_get("python-eo"))
     if tmp == NULL:
         EINA_LOG_DOM_WARN(PY_EFL_EVAS_LOG_DOMAIN, "obj is NULL!", NULL)
         return
-    obj = <SmartObject>tmp
+    obj = <Eo>tmp
+
     other = object_from_instance(clip)
-    if obj._m_member_add is not None:
+
+    if cls.member_add is not None:
         try:
-            obj._m_member_add(obj, other)
+            cls.member_add(obj, other)
         except Exception:
             traceback.print_exc()
 
@@ -274,36 +292,55 @@ cdef void _smart_object_member_add(Evas_Object *o, Evas_Object *clip) with gil:
 cdef void _smart_object_member_del(Evas_Object *o, Evas_Object *clip) with gil:
     cdef:
         void *tmp
-        SmartObject obj
+        Smart cls
+        Eo obj
         Object other
-    tmp = evas_object_data_get(o, "python-eo")
+
+    tmp = evas_object_smart_data_get(o)
+    if tmp == NULL:
+        EINA_LOG_DOM_WARN(PY_EFL_EVAS_LOG_DOMAIN, "cls is NULL!", NULL)
+        return
+    cls = <Smart>tmp
+
+    eo_do_ret(o, tmp, eo_key_data_get("python-eo"))
     if tmp == NULL:
         EINA_LOG_DOM_WARN(PY_EFL_EVAS_LOG_DOMAIN, "obj is NULL!", NULL)
         return
-    obj = <SmartObject>tmp
+    obj = <Eo>tmp
+
     other = object_from_instance(clip)
-    if obj._m_member_del is not None:
+
+    if cls.member_del is not None:
         try:
-            obj._m_member_del(obj, other)
+            cls.member_del(obj, other)
         except Exception:
             traceback.print_exc()
 
 
-cdef void _smart_callback(void *data,
-                          Evas_Object *o, void *event_info) with gil:
+cdef void _smart_callback(void *data, Evas_Object *o, void *event_info) with gil:
 
     cdef:
         void *tmp
-        SmartObject obj
+        Smart cls
+        Eo obj
         object event, ei
-    tmp = evas_object_data_get(o, "python-eo")
+
+    tmp = evas_object_smart_data_get(o)
+    if tmp == NULL:
+        EINA_LOG_DOM_WARN(PY_EFL_EVAS_LOG_DOMAIN, "cls is NULL!", NULL)
+        return
+    cls = <Smart>tmp
+
+    eo_do_ret(o, tmp, eo_key_data_get("python-eo"))
     if tmp == NULL:
         EINA_LOG_DOM_WARN(PY_EFL_EVAS_LOG_DOMAIN, "obj is NULL!", NULL)
         return
-    obj = <SmartObject>tmp
+    obj = <Eo>tmp
+
     event = <object>data
     ei = <object>event_info
     lst = tuple(obj._smart_callbacks[event])
+
     for func, args, kargs in lst:
         try:
             func(obj, ei, *args, **kargs)
@@ -311,23 +348,83 @@ cdef void _smart_callback(void *data,
             traceback.print_exc()
 
 
-cdef object _smart_class_get_impl_method(object cls, name):
-    meth = getattr(cls, name)
-    orig = getattr(Object, name)
-    if meth is orig:
-        return None
-    else:
-        return meth
+cdef class Smart:
 
+    cdef Evas_Smart *cls
 
-cdef object _smart_class_get_impl_method_cls(object cls, object parent_cls,
-                                             name):
-    meth = getattr(cls, name)
-    orig = getattr(parent_cls, name)
-    if meth is orig:
-        return None
-    else:
-        return meth
+    def __cinit__(self, name):
+        cdef Evas_Smart_Class *cls_def
+
+        cls_def = <Evas_Smart_Class*>PyMem_Malloc(sizeof(Evas_Smart_Class))
+        if cls_def == NULL:
+            return # raise MemoryError
+
+        if isinstance(name, unicode): name = PyUnicode_AsUTF8String(name)
+
+        cls_def.name = name
+        cls_def.version = EVAS_SMART_CLASS_VERSION
+        cls_def.add = NULL # use python constructor
+        cls_def.delete = _smart_object_delete
+        cls_def.move = _smart_object_move
+        cls_def.resize = _smart_object_resize
+        cls_def.show = _smart_object_show
+        cls_def.hide = _smart_object_hide
+        cls_def.color_set = _smart_object_color_set
+        cls_def.clip_set = _smart_object_clip_set
+        cls_def.clip_unset = _smart_object_clip_unset
+        cls_def.calculate = _smart_object_calculate
+        cls_def.member_add = _smart_object_member_add
+        cls_def.member_del = _smart_object_member_del
+        cls_def.parent = NULL
+        cls_def.callbacks = NULL
+        cls_def.interfaces = NULL
+        cls_def.data = <void *>self
+
+        self.cls = evas_smart_class_new(cls_def)
+
+    @staticmethod
+    def delete(obj):
+        pass
+
+    @staticmethod
+    def member_add(obj, Object child):
+        pass
+
+    @staticmethod
+    def member_del(obj, Object child):
+        pass
+
+    @staticmethod
+    def move(obj, int x, int y):
+        pass
+
+    @staticmethod
+    def resize(obj, int w, int h):
+        raise NotImplementedError("%s.resize(w, h) not implemented." % obj.__class__.__name__)
+
+    @staticmethod
+    def show(obj):
+        raise NotImplementedError("%s.show() not implemented." % obj.__class__.__name__)
+
+    @staticmethod
+    def hide(obj):
+        raise NotImplementedError("%s.hide() not implemented." % obj.__class__.__name__)
+
+    @staticmethod
+    def color_set(obj, int r, int g, int b, int a):
+        raise NotImplementedError("%s.color_set(r, g, b, a) not implemented." % obj.__class__.__name__)
+
+    @staticmethod
+    def clip_set(obj, Object clip):
+        raise NotImplementedError("%s.clip_set(object) not implemented." % obj.__class__.__name__)
+
+    @staticmethod
+    def clip_unset(obj):
+        raise NotImplementedError("%s.clip_unset() not implemented." % obj.__class__.__name__)
+
+    @staticmethod
+    def calculate(obj):
+        pass
 
 
 cdef class SmartObject(Object):
@@ -430,58 +527,13 @@ cdef class SmartObject(Object):
     """
     def __cinit__(self, *a, **ka):
         self._smart_callbacks = dict()
-        cls = self.__class__
-        self._m_delete = _smart_class_get_impl_method(cls, "delete")
-        if self._m_delete is not None:
-            self.delete = PyMethod_New(Object.delete, self, cls)
-        self._m_move = _smart_class_get_impl_method(cls, "move")
-        if self._m_move is not None:
-            self.move = PyMethod_New(Object.move, self, cls)
-        self._m_resize = _smart_class_get_impl_method(cls, "resize")
-        if self._m_resize is not None:
-            self.resize = PyMethod_New(Object.resize, self, cls)
-        self._m_show = _smart_class_get_impl_method(cls, "show")
-        if self._m_show is not None:
-            self.show = PyMethod_New(Object.show, self, cls)
-        self._m_hide = _smart_class_get_impl_method(cls, "hide")
-        if self._m_hide is not None:
-            self.hide = PyMethod_New(Object.hide, self, cls)
-        self._m_color_set = _smart_class_get_impl_method(cls, "color_set")
-        if self._m_color_set is not None:
-            self.color_set = PyMethod_New(Object.color_set, self, cls)
-        self._m_clip_set = _smart_class_get_impl_method(cls, "clip_set")
-        if self._m_clip_set is not None:
-            self.clip_set = PyMethod_New(Object.clip_set, self, cls)
-        self._m_clip_unset = _smart_class_get_impl_method(cls, "clip_unset")
-        if self._m_clip_unset is not None:
-            self.clip_unset = PyMethod_New(Object.clip_unset, self, cls)
-        self._m_calculate = _smart_class_get_impl_method_cls(
-            cls, SmartObject, "calculate")
-        if self._m_calculate is not None:
-            self.calculate = PyMethod_New(
-                SmartObject.calculate, self, cls)
-        self._m_member_add = _smart_class_get_impl_method_cls(
-            cls, SmartObject, "member_add")
-        if self._m_member_add is not None:
-            self.member_add = PyMethod_New(
-                SmartObject.member_add, self, cls)
-        self._m_member_del = _smart_class_get_impl_method_cls(
-            cls, SmartObject, "member_del")
-        if self._m_member_del is not None:
-            self.member_del = PyMethod_New(
-                SmartObject.member_del, self, cls)
 
     def __dealloc__(self):
         self._smart_callbacks = None
 
-    def __init__(self, Canvas canvas not None, **kwargs):
-        cdef uintptr_t addr
-        if type(self) is SmartObject:
-            raise TypeError("Must not instantiate SmartObject, but subclasses")
-        if self.obj == NULL:
-            addr = self.__evas_smart_class__
-            self._set_obj(evas_object_smart_add(canvas.obj, <Evas_Smart*>addr))
-
+    def __init__(self, Canvas canvas not None, Smart smart not None, **kwargs):
+        #_smart_classes.append(<uintptr_t>cls_def)
+        self._set_obj(evas_object_smart_add(canvas.obj, smart.cls))
         self._set_properties_from_keyword_args(kwargs)
 
     cdef int _set_obj(self, cEo *obj) except 0:
@@ -523,21 +575,29 @@ cdef class SmartObject(Object):
         """
         evas_object_smart_member_del(child.obj)
 
-    def members_get(self):
-        """members_get() -> tuple
+    property members:
+        """
 
         :rtype: tuple of :py:class:`Object`
 
         """
+        def __get__(self):
+            cdef:
+                Eina_List *lst = evas_object_smart_members_get(self.obj)
+                list ret = eina_list_objects_to_python_list(lst)
+            eina_list_free(lst)
+            return tuple(ret)
+
+    def members_get(self):
         cdef:
             Eina_List *lst = evas_object_smart_members_get(self.obj)
             list ret = eina_list_objects_to_python_list(lst)
         eina_list_free(lst)
         return tuple(ret)
 
-    property members:
+    property smart:
         def __get__(self):
-            return self.members_get()
+            return <Smart>evas_object_smart_data_get(self.obj)
 
     def callback_add(self, char *event, func, *args, **kargs):
         """Add a callback for the smart event specified by event.
@@ -620,23 +680,6 @@ cdef class SmartObject(Object):
         """
         evas_object_smart_callback_call(self.obj, event, <void*>event_info)
 
-    def delete(self):
-        """delete()
-
-        Default implementation to delete all children.
-
-        """
-        cdef:
-            Eina_List *lst
-            Eina_List *itr
-
-        lst = evas_object_smart_members_get(self.obj)
-        itr = lst
-        while itr:
-            evas_object_del(<Evas_Object*>itr.data)
-            itr = itr.next
-        eina_list_free(lst)
-
     def move_children_relative(self, int dx, int dy):
         """move_children_relative(int dx, int dy)
 
@@ -644,81 +687,6 @@ cdef class SmartObject(Object):
 
         """
         evas_object_smart_move_children_relative(self.obj, dx, dy)
-
-    def move(self, int x, int y):
-        """move(int x, int y)
-
-        Default implementation to move all children.
-
-        """
-        cdef int orig_x, orig_y, dx, dy
-        evas_object_geometry_get(self.obj, &orig_x, &orig_y, NULL, NULL)
-        dx = x - orig_x
-        dy = y - orig_y
-        self.move_children_relative(dx, dy)
-
-    def resize(self, int w, int h):
-        """resize(int w, int h)
-
-        Abstract method.
-
-        """
-        raise NotImplementedError
-        #print "%s.resize(w, h) not implemented." % self.__class__.__name__
-
-    def show(self):
-        """show()
-
-        Abstract method.
-
-        """
-        raise NotImplementedError
-        #print "%s.show() not implemented." % self.__class__.__name__
-
-    def hide(self):
-        """hide()
-
-        Abstract method.
-
-        """
-        raise NotImplementedError
-        #print "%s.hide() not implemented." % self.__class__.__name__
-
-    def color_set(self, int r, int g, int b, int a):
-        """color_set(int r, int g, int b, int a)
-
-        Abstract method.
-
-        """
-        raise NotImplementedError
-        #print "%s.color_set(r, g, b, a) not implemented." % \
-              #self.__class__.__name__
-
-    def clip_set(self, Object clip):
-        """clip_set(Object clip)
-
-        Abstract method.
-
-        """
-        raise NotImplementedError
-        #print "%s.clip_set(object) not implemented." % self.__class__.__name__
-
-    def clip_unset(self):
-        """clip_unset()
-
-        Abstract method.
-
-        """
-        raise NotImplementedError
-        #print "%s.clip_unset() not implemented." % self.__class__.__name__
-
-    def calculate(self):
-        """calculate()
-
-        Request object to recalculate it's internal state.
-
-        """
-        evas_object_smart_calculate(self.obj)
 
     def changed(self):
         """changed()
@@ -734,11 +702,8 @@ cdef class SmartObject(Object):
         """
         evas_object_smart_changed(self.obj)
 
-    # TODO: Move docstrings to property; What is the actual type of value?
-    def need_recalculate_set(self, unsigned int value):
-        """Set need_recalculate flag.
-
-        Set the need_recalculate flag of given smart object.
+    property need_recalculate:
+        """The need_recalculate flag of given smart object.
 
         If this flag is set then calculate() callback (method) of the
         given smart object will be called, if one is provided, during
@@ -753,12 +718,6 @@ cdef class SmartObject(Object):
             evas_object_smart_changed(), that will automatically call this
             function with 1 as parameter.
 
-        """
-        evas_object_smart_need_recalculate_set(self.obj, value)
-
-    def need_recalculate_get(self):
-        """Get the current value of need_recalculate flag.
-
         .. note::
             This flag will be unset during the render phase, after
             calculate() is called if one is provided.  If no calculate()
@@ -766,88 +725,22 @@ cdef class SmartObject(Object):
             phase.
 
         """
-        return evas_object_smart_need_recalculate_get(self.obj)
-
-    property need_recalculate:
         def __set__(self, value):
-            self.need_recalculate_set(value)
+            evas_object_smart_need_recalculate_set(self.obj, value)
 
         def __get__(self):
-            self.need_recalculate_get()
+            return evas_object_smart_need_recalculate_get(self.obj)
 
-    # Factory
-    def Rectangle(self, **kargs):
-        """Factory of children :py:class:`~efl.evas.Rectangle`.
+    def need_recalculate_set(self, unsigned int value):
+        evas_object_smart_need_recalculate_set(self.obj, value)
 
-        :rtype: :py:class:`~efl.evas.Rectangle`
+    def need_recalculate_get(self):
+        return evas_object_smart_need_recalculate_get(self.obj)
 
-        """
-        obj = Rectangle(self.evas, **kargs)
-        self.member_add(obj)
-        return obj
-
-    def Line(self, **kargs):
-        """Factory of children :py:class:`~efl.evas.Line`.
-
-        :rtype: :py:class:`~efl.evas.Line`
-
-        """
-        obj = Line(self.evas, **kargs)
-        self.member_add(obj)
-        return obj
-
-    def Image(self, **kargs):
-        """Factory of children :py:class:`evas.Image`.
-
-        :rtype: :py:class:`Image<evas.Image>`
-
-        """
-        obj = Image(self.evas, **kargs)
-        self.member_add(obj)
-        return obj
-
-    def FilledImage(self, **kargs):
-        """Factory of :py:class:`evas.FilledImage` associated with this canvas.
-
-        :rtype: :py:class:`FilledImage<evas.FilledImage>`
-
-        """
-        obj = FilledImage(self.evas, **kargs)
-        self.member_add(obj)
-        return obj
-
-    def Polygon(self, **kargs):
-        """Factory of children :py:class:`evas.Polygon`.
-
-        :rtype: :py:class:`Polygon<evas.Polygon>`
-
-        """
-        obj = Polygon(self.evas, **kargs)
-        self.member_add(obj)
-        return obj
-
-    def Text(self, **kargs):
-        """Factory of children :py:class:`evas.Text`.
-
-        :rtype: :py:class:`Text<evas.Text>`
-
-        """
-        obj = Text(self.evas, **kargs)
-        self.member_add(obj)
-        return obj
-
-    def Textblock(self, **kargs):
-        """Factory of children :py:class:`evas.Textblock`.
-
-        :rtype: :py:class:`Textblock<evas.Textblock>`
-
-        """
-        obj = Textblock(self.evas, **kargs)
-        self.member_add(obj)
-        return obj
+    def calculate(self):
+        evas_object_smart_calculate(self.obj)
 
 _object_mapping_register("Evas_Smart", SmartObject)
-
 
 
 cdef class ClippedSmartObject(SmartObject):
