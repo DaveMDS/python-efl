@@ -31,7 +31,7 @@ cdef void _smart_object_delete(Evas_Object *o) with gil:
         Smart cls
         Eo obj
 
-    tmp = evas_object_smart_data_get(o)
+    tmp = evas_smart_data_get(evas_object_smart_smart_get(o))
     if tmp == NULL:
         EINA_LOG_DOM_WARN(PY_EFL_EVAS_LOG_DOMAIN, "cls is NULL!", NULL)
         return
@@ -52,7 +52,7 @@ cdef void _smart_object_delete(Evas_Object *o) with gil:
     #     eo_event_callback_del(EO_EV_DEL, _eo_event_del_cb, <const void *>self))
     #eo_do(o, eo_key_data_del("python-eo"))
     evas_object_smart_data_set(obj.obj, NULL)
-    cls.cls = NULL
+    #cls.cls = NULL
     obj.obj = NULL
     Py_DECREF(cls)
     Py_DECREF(obj)
@@ -64,7 +64,7 @@ cdef void _smart_object_move(Evas_Object *o, Evas_Coord x, Evas_Coord y) with gi
         Smart cls
         Eo obj
 
-    tmp = evas_object_smart_data_get(o)
+    tmp = evas_smart_data_get(evas_object_smart_smart_get(o))
     if tmp == NULL:
         EINA_LOG_DOM_WARN(PY_EFL_EVAS_LOG_DOMAIN, "cls is NULL!", NULL)
         return
@@ -89,7 +89,7 @@ cdef void _smart_object_resize(Evas_Object *o, Evas_Coord w, Evas_Coord h) with 
         Smart cls
         Eo obj
 
-    tmp = evas_object_smart_data_get(o)
+    tmp = evas_smart_data_get(evas_object_smart_smart_get(o))
     if tmp == NULL:
         EINA_LOG_DOM_WARN(PY_EFL_EVAS_LOG_DOMAIN, "cls is NULL!", NULL)
         return
@@ -114,7 +114,7 @@ cdef void _smart_object_show(Evas_Object *o) with gil:
         Smart cls
         Eo obj
 
-    tmp = evas_object_smart_data_get(o)
+    tmp = evas_smart_data_get(evas_object_smart_smart_get(o))
     if tmp == NULL:
         EINA_LOG_DOM_WARN(PY_EFL_EVAS_LOG_DOMAIN, "cls is NULL!", NULL)
         return
@@ -139,7 +139,7 @@ cdef void _smart_object_hide(Evas_Object *o) with gil:
         Smart cls
         Eo obj
 
-    tmp = evas_object_smart_data_get(o)
+    tmp = evas_smart_data_get(evas_object_smart_smart_get(o))
     if tmp == NULL:
         EINA_LOG_DOM_WARN(PY_EFL_EVAS_LOG_DOMAIN, "cls is NULL!", NULL)
         return
@@ -164,7 +164,7 @@ cdef void _smart_object_color_set(Evas_Object *o, int r, int g, int b, int a) wi
         Smart cls
         Eo obj
 
-    tmp = evas_object_smart_data_get(o)
+    tmp = evas_smart_data_get(evas_object_smart_smart_get(o))
     if tmp == NULL:
         EINA_LOG_DOM_WARN(PY_EFL_EVAS_LOG_DOMAIN, "cls is NULL!", NULL)
         return
@@ -190,7 +190,7 @@ cdef void _smart_object_clip_set(Evas_Object *o, Evas_Object *clip) with gil:
         Eo obj
         Object other
 
-    tmp = evas_object_smart_data_get(o)
+    tmp = evas_smart_data_get(evas_object_smart_smart_get(o))
     if tmp == NULL:
         EINA_LOG_DOM_WARN(PY_EFL_EVAS_LOG_DOMAIN, "cls is NULL!", NULL)
         return
@@ -217,7 +217,7 @@ cdef void _smart_object_clip_unset(Evas_Object *o) with gil:
         Smart cls
         Eo obj
 
-    tmp = evas_object_smart_data_get(o)
+    tmp = evas_smart_data_get(evas_object_smart_smart_get(o))
     if tmp == NULL:
         EINA_LOG_DOM_WARN(PY_EFL_EVAS_LOG_DOMAIN, "cls is NULL!", NULL)
         return
@@ -242,7 +242,7 @@ cdef void _smart_object_calculate(Evas_Object *o) with gil:
         Smart cls
         Eo obj
 
-    tmp = evas_object_smart_data_get(o)
+    tmp = evas_smart_data_get(evas_object_smart_smart_get(o))
     if tmp == NULL:
         EINA_LOG_DOM_WARN(PY_EFL_EVAS_LOG_DOMAIN, "cls is NULL!", NULL)
         return
@@ -268,7 +268,7 @@ cdef void _smart_object_member_add(Evas_Object *o, Evas_Object *clip) with gil:
         Eo obj
         Object other
 
-    tmp = evas_object_smart_data_get(o)
+    tmp = evas_smart_data_get(evas_object_smart_smart_get(o))
     if tmp == NULL:
         EINA_LOG_DOM_WARN(PY_EFL_EVAS_LOG_DOMAIN, "cls is NULL!", NULL)
         return
@@ -296,7 +296,7 @@ cdef void _smart_object_member_del(Evas_Object *o, Evas_Object *clip) with gil:
         Eo obj
         Object other
 
-    tmp = evas_object_smart_data_get(o)
+    tmp = evas_smart_data_get(evas_object_smart_smart_get(o))
     if tmp == NULL:
         EINA_LOG_DOM_WARN(PY_EFL_EVAS_LOG_DOMAIN, "cls is NULL!", NULL)
         return
@@ -325,7 +325,7 @@ cdef void _smart_callback(void *data, Evas_Object *o, void *event_info) with gil
         Eo obj
         object event, ei
 
-    tmp = evas_object_smart_data_get(o)
+    tmp = evas_smart_data_get(evas_object_smart_smart_get(o))
     if tmp == NULL:
         EINA_LOG_DOM_WARN(PY_EFL_EVAS_LOG_DOMAIN, "cls is NULL!", NULL)
         return
@@ -352,13 +352,14 @@ cdef class Smart:
 
     cdef Evas_Smart *cls
 
-    def __cinit__(self, name):
+    def __cinit__(self):
         cdef Evas_Smart_Class *cls_def
 
         cls_def = <Evas_Smart_Class*>PyMem_Malloc(sizeof(Evas_Smart_Class))
         if cls_def == NULL:
             return # raise MemoryError
 
+        name = self.__class__.__name__
         if isinstance(name, unicode): name = PyUnicode_AsUTF8String(name)
 
         cls_def.name = name
@@ -427,7 +428,41 @@ cdef class Smart:
         pass
 
 
+cdef class SmartObjectIterator:
+
+    """Retrieves an iterator of the member objects of a given Evas smart
+    object
+
+    :return: Returns the iterator of the member objects of @p obj.
+
+    .. versionadded:: 1.14
+
+    """
+
+    cdef Eina_Iterator *itr
+
+    def __cinit__(self, SmartObject obj):
+        self.itr = evas_object_smart_iterator_new(obj.obj)
+
+    def __iter__(self):
+        return self
+
+    def __next__(self):
+        cdef:
+            void* tmp
+            Eina_Bool result
+
+        if not eina_iterator_next(self.itr, &tmp):
+            raise StopIteration
+
+        return <Object>tmp
+
+    def __dealloc__(self):
+        eina_iterator_free(self.itr)
+
+
 cdef class SmartObject(Object):
+
     """Smart Evas Objects.
 
     Smart objects are user-defined Evas components, often used to group
@@ -535,6 +570,7 @@ cdef class SmartObject(Object):
         #_smart_classes.append(<uintptr_t>cls_def)
         self._set_obj(evas_object_smart_add(canvas.obj, smart.cls))
         self._set_properties_from_keyword_args(kwargs)
+        Py_INCREF(smart)
 
     cdef int _set_obj(self, cEo *obj) except 0:
         assert self.obj == NULL, "Object must be clean"
@@ -547,6 +583,9 @@ cdef class SmartObject(Object):
         Py_INCREF(self)
 
         return 1
+
+    def __iter__(self):
+        return SmartObjectIterator(self)
 
     def member_add(self, Object child):
         """member_add(Object child)
@@ -597,7 +636,7 @@ cdef class SmartObject(Object):
 
     property smart:
         def __get__(self):
-            return <Smart>evas_object_smart_data_get(self.obj)
+            return <Smart>evas_smart_data_get(evas_object_smart_smart_get(self.obj))
 
     def callback_add(self, char *event, func, *args, **kargs):
         """Add a callback for the smart event specified by event.

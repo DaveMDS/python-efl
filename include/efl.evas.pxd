@@ -353,8 +353,8 @@ cdef extern from "Evas.h":
     ctypedef struct Evas_Hash
 
     ctypedef cEo Evas
-
     ctypedef cEo Evas_Object
+    ctypedef cEo Evas_Object_Smart
 
     ctypedef struct Evas_Modifier
     ctypedef struct Evas_Lock
@@ -805,6 +805,7 @@ cdef extern from "Evas.h":
     int evas_object_smart_need_recalculate_get(const Evas_Object *obj)
     void evas_object_smart_calculate(Evas_Object *obj)
     void evas_object_smart_move_children_relative(Evas_Object *obj, int dx, int dy)
+    Eina_Iterator *evas_object_smart_iterator_new(const Evas_Object_Smart *obj)
 
 
     ####################################################################
