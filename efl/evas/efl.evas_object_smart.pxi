@@ -50,8 +50,8 @@ cdef void _smart_object_delete(Evas_Object *o) with gil:
 
     # eo_do(self.obj,
     #     eo_event_callback_del(EO_EV_DEL, _eo_event_del_cb, <const void *>self))
-    #eo_do(o, eo_key_data_del("python-eo"))
-    evas_object_smart_data_set(obj.obj, NULL)
+    eo_do(o, eo_key_data_del("python-eo"))
+    #evas_object_smart_data_set(obj.obj, NULL)
     obj.obj = NULL
     Py_DECREF(obj)
 
