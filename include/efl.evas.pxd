@@ -806,6 +806,7 @@ cdef extern from "Evas.h":
     void evas_object_smart_calculate(Evas_Object *obj)
     void evas_object_smart_move_children_relative(Evas_Object *obj, int dx, int dy)
     Eina_Iterator *evas_object_smart_iterator_new(const Evas_Object_Smart *obj)
+    void evas_object_smart_clipped_smart_set(Evas_Smart_Class *sc)
 
 
     ####################################################################

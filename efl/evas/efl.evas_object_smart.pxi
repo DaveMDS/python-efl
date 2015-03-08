@@ -362,7 +362,7 @@ cdef class Smart:
 
     cdef Evas_Smart *cls
 
-    def __cinit__(self):
+    def __cinit__(self, clipped=False):
         cdef Evas_Smart_Class *cls_def
 
         cls_def = <Evas_Smart_Class*>PyMem_Malloc(sizeof(Evas_Smart_Class))
@@ -374,18 +374,23 @@ cdef class Smart:
 
         cls_def.name = name
         cls_def.version = EVAS_SMART_CLASS_VERSION
-        cls_def.add = NULL # use python constructor
-        cls_def.delete = _smart_object_delete
-        cls_def.move = _smart_object_move
-        cls_def.resize = _smart_object_resize
-        cls_def.show = _smart_object_show
-        cls_def.hide = _smart_object_hide
-        cls_def.color_set = _smart_object_color_set
-        cls_def.clip_set = _smart_object_clip_set
-        cls_def.clip_unset = _smart_object_clip_unset
-        cls_def.calculate = _smart_object_calculate
-        cls_def.member_add = _smart_object_member_add
-        cls_def.member_del = _smart_object_member_del
+
+        if clipped:
+            evas_object_smart_clipped_smart_set(cls_def)
+        else:
+            cls_def.add = NULL # use python constructor
+            cls_def.delete = _smart_object_delete
+            cls_def.move = _smart_object_move
+            cls_def.resize = _smart_object_resize
+            cls_def.show = _smart_object_show
+            cls_def.hide = _smart_object_hide
+            cls_def.color_set = _smart_object_color_set
+            cls_def.clip_set = _smart_object_clip_set
+            cls_def.clip_unset = _smart_object_clip_unset
+            cls_def.calculate = _smart_object_calculate
+            cls_def.member_add = _smart_object_member_add
+            cls_def.member_del = _smart_object_member_del
+
         cls_def.parent = NULL
         cls_def.callbacks = NULL
         cls_def.interfaces = NULL
@@ -396,6 +401,7 @@ cdef class Smart:
 
     def delete(self):
         evas_smart_free(self.cls)
+        self.cls = NULL
         Py_DECREF(self)
 
     @staticmethod
@@ -808,92 +814,3 @@ cdef class SmartObject(Object):
         evas_object_smart_calculate(self.obj)
 
 _object_mapping_register("Evas_Smart", SmartObject)
-
-
-cdef class ClippedSmartObject(SmartObject):
-    """SmartObject subclass that automatically handles an internal clipper.
-
-    This class is optimized for the recommended SmartObject usage of
-    having an internal clipper, with all member objects clipped to it and
-    operations like :py:func:`hide()`, :py:func:`show()`, :py:func:`color_set()`, :py:func:`clip_set()` and
-    :py:func:`clip_unset()` operating on it.
-
-    This internal clipper size is huge by default (and not the same as the
-    object size), this means that you should clip this object to another
-    object clipper to get its contents restricted. This is the default
-    because many times what we want are contents that can overflow SmartObject
-    boundaries (ie: members with animations coming in from outside).
-
-    :ivar clipper: the internal object used for clipping. You shouldn't
-       mess with it.
-
-    :todo: remove current code and wrap C version (now it's in evas).
-
-    :param canvas: Evas canvas for this object
-    :type canvas: Canvas
-    :keyword size: Width and height
-    :type size: tuple of ints
-    :keyword pos: X and Y
-    :type pos: tuple of ints
-    :keyword geometry: X, Y, width, height
-    :type geometry: tuple of ints
-    :keyword color: R, G, B, A
-    :type color: tuple of ints
-    :keyword name: Object name
-    :type name: string
-    :keyword file: File name
-    :type file: string
-
-    """
-    def __init__(self, Canvas canvas not None, **kargs):
-        if type(self) is ClippedSmartObject:
-            raise TypeError("Must not instantiate ClippedSmartObject, but "
-                            "subclasses")
-        SmartObject.__init__(self, canvas, **kargs)
-        if self.clipper is None:
-            self.clipper = Rectangle(canvas)
-            evas_object_move(self.clipper.obj, -100000, -100000)
-            evas_object_resize(self.clipper.obj, 200000, 200000)
-            evas_object_static_clip_set(self.clipper.obj, 1)
-            evas_object_pass_events_set(self.clipper.obj, 1)
-            evas_object_smart_member_add(self.clipper.obj, self.obj)
-
-    def member_add(self, Object child):
-        """Set an evas object as a member of this object, already clipping."""
-        if self.clipper is None or self.clipper is child:
-            return
-        evas_object_clip_set(child.obj, self.clipper.obj)
-        if evas_object_visible_get(self.obj):
-            evas_object_show(self.clipper.obj)
-
-    def member_del(self, Object child):
-        """Removes a member object from a smart object, already unsets its clip."""
-        if self.clipper is child:
-            return
-        evas_object_clip_unset(child.obj)
-        if evas_object_clipees_get(self.clipper.obj) == NULL:
-            evas_object_hide(self.clipper.obj)
-
-    def show(self):
-        """Default implementation that acts on the the clipper."""
-        if evas_object_clipees_get(self.clipper.obj) != NULL:
-            evas_object_show(self.clipper.obj)
-
-    def hide(self):
-        """Default implementation that acts on the the clipper."""
-        evas_object_hide(self.clipper.obj)
-
-    def color_set(self, int r, int g, int b, int a):
-        """Default implementation that acts on the the clipper."""
-        evas_object_color_set(self.clipper.obj, r, g, b, a)
-
-    def clip_set(self, Object clip):
-        """Default implementation that acts on the the clipper."""
-        evas_object_clip_set(self.clipper.obj, clip.obj)
-
-    def clip_unset(self):
-        """Default implementation that acts on the the clipper."""
-        evas_object_clip_unset(self.clipper.obj)
-
-_object_mapping_register("Evas_Smart_Clipped", ClippedSmartObject)
-
