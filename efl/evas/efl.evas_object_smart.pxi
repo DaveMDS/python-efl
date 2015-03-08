@@ -589,6 +589,13 @@ cdef class SmartObject(Object):
     def __iter__(self):
         return SmartObjectIterator(self)
 
+    # property parent:
+    #     def __get__(self):
+    #         return object_from_instance(evas_object_parent_get(self.obj))
+
+    # def parent_get(self):
+    #     return object_from_instance(evas_object_parent_get(self.obj))
+
     def member_add(self, Object child):
         """member_add(Object child)
 
@@ -639,6 +646,9 @@ cdef class SmartObject(Object):
     property smart:
         def __get__(self):
             return <Smart>evas_smart_data_get(evas_object_smart_smart_get(self.obj))
+
+    def smart_get(self):
+        return <Smart>evas_smart_data_get(evas_object_smart_smart_get(self.obj))
 
     def callback_add(self, char *event, func, *args, **kargs):
         """Add a callback for the smart event specified by event.
