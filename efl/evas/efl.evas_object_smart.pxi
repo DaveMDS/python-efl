@@ -40,8 +40,9 @@ cdef void _smart_object_delete(Evas_Object *o) with gil:
     eo_do_ret(o, tmp, eo_key_data_get("python-eo"))
     if tmp == NULL:
         EINA_LOG_DOM_WARN(PY_EFL_EVAS_LOG_DOMAIN, "obj is NULL!", NULL)
-        return
-    obj = <Eo>tmp
+        obj = None
+    else:
+        obj = <Eo>tmp
 
     try:
         cls.delete(obj)
@@ -71,8 +72,9 @@ cdef void _smart_object_move(Evas_Object *o, Evas_Coord x, Evas_Coord y) with gi
     eo_do_ret(o, tmp, eo_key_data_get("python-eo"))
     if tmp == NULL:
         EINA_LOG_DOM_WARN(PY_EFL_EVAS_LOG_DOMAIN, "obj is NULL!", NULL)
-        return
-    obj = <Eo>tmp
+        obj = None
+    else:
+        obj = <Eo>tmp
 
     if cls.move is not None:
         try:
@@ -96,8 +98,9 @@ cdef void _smart_object_resize(Evas_Object *o, Evas_Coord w, Evas_Coord h) with 
     eo_do_ret(o, tmp, eo_key_data_get("python-eo"))
     if tmp == NULL:
         EINA_LOG_DOM_WARN(PY_EFL_EVAS_LOG_DOMAIN, "obj is NULL!", NULL)
-        return
-    obj = <Eo>tmp
+        obj = None
+    else:
+        obj = <Eo>tmp
 
     if cls.resize is not None:
         try:
@@ -121,8 +124,9 @@ cdef void _smart_object_show(Evas_Object *o) with gil:
     eo_do_ret(o, tmp, eo_key_data_get("python-eo"))
     if tmp == NULL:
         EINA_LOG_DOM_WARN(PY_EFL_EVAS_LOG_DOMAIN, "obj is NULL!", NULL)
-        return
-    obj = <Eo>tmp
+        obj = None
+    else:
+        obj = <Eo>tmp
 
     if cls.show is not None:
         try:
@@ -146,8 +150,9 @@ cdef void _smart_object_hide(Evas_Object *o) with gil:
     eo_do_ret(o, tmp, eo_key_data_get("python-eo"))
     if tmp == NULL:
         EINA_LOG_DOM_WARN(PY_EFL_EVAS_LOG_DOMAIN, "obj is NULL!", NULL)
-        return
-    obj = <Eo>tmp
+        obj = None
+    else:
+        obj = <Eo>tmp
 
     if cls.hide is not None:
         try:
@@ -171,8 +176,9 @@ cdef void _smart_object_color_set(Evas_Object *o, int r, int g, int b, int a) wi
     eo_do_ret(o, tmp, eo_key_data_get("python-eo"))
     if tmp == NULL:
         EINA_LOG_DOM_WARN(PY_EFL_EVAS_LOG_DOMAIN, "obj is NULL!", NULL)
-        return
-    obj = <Eo>tmp
+        obj = None
+    else:
+        obj = <Eo>tmp
 
     if cls.color_set is not None:
         try:
@@ -197,8 +203,9 @@ cdef void _smart_object_clip_set(Evas_Object *o, Evas_Object *clip) with gil:
     eo_do_ret(o, tmp, eo_key_data_get("python-eo"))
     if tmp == NULL:
         EINA_LOG_DOM_WARN(PY_EFL_EVAS_LOG_DOMAIN, "obj is NULL!", NULL)
-        return
-    obj = <Eo>tmp
+        obj = None
+    else:
+        obj = <Eo>tmp
 
     other = object_from_instance(clip)
 
@@ -224,8 +231,9 @@ cdef void _smart_object_clip_unset(Evas_Object *o) with gil:
     eo_do_ret(o, tmp, eo_key_data_get("python-eo"))
     if tmp == NULL:
         EINA_LOG_DOM_WARN(PY_EFL_EVAS_LOG_DOMAIN, "obj is NULL!", NULL)
-        return
-    obj = <Eo>tmp
+        obj = None
+    else:
+        obj = <Eo>tmp
 
     if cls.clip_unset is not None:
         try:
@@ -249,8 +257,9 @@ cdef void _smart_object_calculate(Evas_Object *o) with gil:
     eo_do_ret(o, tmp, eo_key_data_get("python-eo"))
     if tmp == NULL:
         EINA_LOG_DOM_WARN(PY_EFL_EVAS_LOG_DOMAIN, "obj is NULL!", NULL)
-        return
-    obj = <Eo>tmp
+        obj = None
+    else:
+        obj = <Eo>tmp
 
     if cls.calculate is not None:
         try:
@@ -275,8 +284,9 @@ cdef void _smart_object_member_add(Evas_Object *o, Evas_Object *clip) with gil:
     eo_do_ret(o, tmp, eo_key_data_get("python-eo"))
     if tmp == NULL:
         EINA_LOG_DOM_WARN(PY_EFL_EVAS_LOG_DOMAIN, "obj is NULL!", NULL)
-        return
-    obj = <Eo>tmp
+        obj = None
+    else:
+        obj = <Eo>tmp
 
     other = object_from_instance(clip)
 
@@ -303,8 +313,9 @@ cdef void _smart_object_member_del(Evas_Object *o, Evas_Object *clip) with gil:
     eo_do_ret(o, tmp, eo_key_data_get("python-eo"))
     if tmp == NULL:
         EINA_LOG_DOM_WARN(PY_EFL_EVAS_LOG_DOMAIN, "obj is NULL!", NULL)
-        return
-    obj = <Eo>tmp
+        obj = None
+    else:
+        obj = <Eo>tmp
 
     other = object_from_instance(clip)
 
@@ -332,8 +343,9 @@ cdef void _smart_callback(void *data, Evas_Object *o, void *event_info) with gil
     eo_do_ret(o, tmp, eo_key_data_get("python-eo"))
     if tmp == NULL:
         EINA_LOG_DOM_WARN(PY_EFL_EVAS_LOG_DOMAIN, "obj is NULL!", NULL)
-        return
-    obj = <Eo>tmp
+        obj = None
+    else:
+        obj = <Eo>tmp
 
     event = <object>data
     ei = <object>event_info
