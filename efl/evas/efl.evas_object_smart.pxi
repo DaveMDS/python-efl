@@ -52,9 +52,7 @@ cdef void _smart_object_delete(Evas_Object *o) with gil:
     #     eo_event_callback_del(EO_EV_DEL, _eo_event_del_cb, <const void *>self))
     #eo_do(o, eo_key_data_del("python-eo"))
     evas_object_smart_data_set(obj.obj, NULL)
-    #cls.cls = NULL
     obj.obj = NULL
-    Py_DECREF(cls)
     Py_DECREF(obj)
 
 
@@ -382,6 +380,11 @@ cdef class Smart:
         cls_def.data = <void *>self
 
         self.cls = evas_smart_class_new(cls_def)
+        Py_INCREF(self)
+
+    def delete(self):
+        evas_smart_free(self.cls)
+        Py_DECREF(self)
 
     @staticmethod
     def delete(obj):
@@ -570,7 +573,6 @@ cdef class SmartObject(Object):
         #_smart_classes.append(<uintptr_t>cls_def)
         self._set_obj(evas_object_smart_add(canvas.obj, smart.cls))
         self._set_properties_from_keyword_args(kwargs)
-        Py_INCREF(smart)
 
     cdef int _set_obj(self, cEo *obj) except 0:
         assert self.obj == NULL, "Object must be clean"
