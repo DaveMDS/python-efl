@@ -662,10 +662,10 @@ cdef class SmartObject(Object):
     def smart_get(self):
         return <Smart>evas_smart_data_get(evas_object_smart_smart_get(self.obj))
 
-    def callback_add(self, char *event, func, *args, **kargs):
+    def callback_add(self, name, func, *args, **kargs):
         """Add a callback for the smart event specified by event.
 
-        :param event: Event name
+        :param name: Event name
         :param func:
             What to callback.
             Should have the signature::
@@ -682,55 +682,58 @@ cdef class SmartObject(Object):
         if not callable(func):
             raise TypeError("func must be callable")
 
-        # FIXME: Why is this interned?
-        #        What is the reason to use char * and cast it to void *?
-        e = intern(event)
-        lst = self._smart_callbacks.setdefault(e, [])
+        if isinstance(name, unicode): name = PyUnicode_AsUTF8String(name)
+
+        lst = self._smart_callbacks.setdefault(name, [])
         if not lst:
-            evas_object_smart_callback_add(self.obj, event, _smart_callback,
-                                           <void *>e)
+            evas_object_smart_callback_add(self.obj, name, _smart_callback,
+                                           <void *>name)
         lst.append((func, args, kargs))
 
-    def callback_del(self, char *event, func):
+    def callback_del(self, name, func):
         """callback_del(event, func)
 
         Remove a smart callback.
 
         Removes a callback that was added by :py:func:`callback_add()`.
 
-        :param event: event name
+        :param name: event name
         :param func: what to callback, should have be previously registered.
         :precond: **event** and **func** must be used as parameter for
            :py:func:`callback_add`.
 
         :raise ValueError: if there was no **func** connected with this event.
         """
-        try:
-            lst = self._smart_callbacks[event]
-        except KeyError:
-            raise ValueError("Unknown event %r" % event)
+        if isinstance(name, unicode): name = PyUnicode_AsUTF8String(name)
 
-        i = -1
-        f = None
+        try:
+            lst = self._smart_callbacks[name]
+        except KeyError:
+            raise ValueError("Unknown event %r" % name)
+
+        cdef:
+            int i = -1
+            object f = None
+
         for i, (f, a, k) in enumerate(lst):
             if func == f:
                 break
 
         if f != func:
             raise ValueError("Callback %s was not registered with event %r" %
-                             (func, event))
+                             (func, name))
         lst.pop(i)
         if lst:
             return
-        self._smart_callbacks.pop(event)
-        evas_object_smart_callback_del(self.obj, event, _smart_callback)
+        self._smart_callbacks.pop(name)
+        evas_object_smart_callback_del(self.obj, name, _smart_callback)
 
-    def callback_call(self, char *event, event_info=None):
+    def callback_call(self, name, event_info=None):
         """callback_call(event, event_info=None)
 
         Call any smart callbacks for event.
 
-        :param event: the event name
+        :param name: the event name
         :param event_info: an event specific info to pass to the callback.
 
         This should be called internally in the smart object when some
@@ -741,7 +744,8 @@ cdef class SmartObject(Object):
         .. attention::
             **event_info** will always be a python object.
         """
-        evas_object_smart_callback_call(self.obj, event, <void*>event_info)
+        if isinstance(name, unicode): name = PyUnicode_AsUTF8String(name)
+        evas_object_smart_callback_call(self.obj, name, <void*>event_info)
 
     def move_children_relative(self, int dx, int dy):
         """move_children_relative(int dx, int dy)
