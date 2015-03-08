@@ -4,7 +4,8 @@
 import os
 from random import randint
 
-from efl.evas import SmartObject, EXPAND_BOTH, FILL_BOTH
+from efl.evas import SmartObject, Smart, EXPAND_BOTH, FILL_BOTH, Rectangle, \
+    Line, FilledImage, Polygon, Text
 from efl import elementary
 from efl.elementary.window import StandardWindow
 from efl.elementary.box import Box
@@ -20,74 +21,90 @@ def random_color():
     return (randint(0, 255), randint(0, 255), randint(0, 255), 255)
 
 
+class MySmart(Smart):
+    @staticmethod
+    def resize(smart_object, w, h):
+        print("RESIZE", w, h)
+        smart_object.bg.size = w, h
+        smart_object.obj_text.size = w, 15
+        smart_object.dragpos.size = w, 15
+        smart_object.dragsize.size = 15, 15
+        smart_object.dragsize.pos = smart_object.bg.pos[0] + w - 15, smart_object.bg.pos[1] + h - 15
+
+    @staticmethod
+    def move(smart_object, x, y):
+        print("MOVE", x, y)
+        smart_object.bg.pos = x, y
+        smart_object.obj_text.pos = x, y
+        smart_object.dragpos.pos = x, y
+        smart_object.dragsize.pos = x + smart_object.bg.size[0] - 15, y + smart_object.bg.size[1] - 15
+        smart_object.obj_rect.pos = x + 5, y + 20
+        smart_object.obj_line.geometry = x + 30, y + 20, 15, 15
+        smart_object.obj_image.pos = x + 30, y + 45
+
+        smart_object.obj_poly.points_clear()
+        smart_object.obj_poly.point_add(x + 5 + 0,  y + 45 + 0)
+        smart_object.obj_poly.point_add(x + 5 + 15, y + 45 + 15)
+        smart_object.obj_poly.point_add(x + 5 + 0,  y + 45 + 15)
+
+    @staticmethod
+    def delete(smart_object):
+        print("my delete")
+
+    @staticmethod
+    def show(smart_object):
+        print("my show")
+        for o in smart_object.members:
+            o.show()
+
+    @staticmethod
+    def hide(smart_object):
+        print("my hide")
+        for o in smart_object.members:
+            o.hide()
+
+    @staticmethod
+    def clip_set(smart_object, o):
+        pass
+
+    @staticmethod
+    def clip_unset(smart_object):
+        pass
+
 class MySmartObj(SmartObject):
 
     def __init__(self, canvas):
-        SmartObject.__init__(self, canvas)
+        SmartObject.__init__(self, canvas, MySmart())
 
         # gray background
-        self.bg = self.Rectangle(color=(128, 128, 128, 128))
+        self.bg = Rectangle(canvas, color=(128, 128, 128, 128))
+        self.member_add(self.bg)
 
         # green dragbar to move the obj
-        self.dragpos = self.Rectangle(color=(0, 128, 0, 128))
+        self.dragpos = Rectangle(canvas, color=(0, 128, 0, 128))
+        self.member_add(self.dragpos)
         self.dragpos.on_mouse_down_add(self.start_drag_move)
         self.dragpos.on_mouse_up_add(self.stop_drag_move)
 
         # blue rect to resize the obj
-        self.dragsize = self.Rectangle(color=(0, 0, 128, 128))
+        self.dragsize = Rectangle(canvas, color=(0, 0, 128, 128))
+        self.member_add(self.dragsize)
         self.dragsize.on_mouse_down_add(self.start_drag_resize)
         self.dragsize.on_mouse_up_add(self.stop_drag_resize)
 
         # testing factories
-        self.obj_rect = self.Rectangle(size=(15, 15), color=random_color())
+        self.obj_rect = Rectangle(canvas, size=(15, 15), color=random_color())
+        self.member_add(self.obj_rect)
         self.obj_rect.on_mouse_down_add(lambda o, e: self.hide())
-        self.obj_line = self.Line(color=random_color())
-        self.obj_image = self.FilledImage(file=ic_file, size=(20, 20))
-        self.obj_poly = self.Polygon(color=random_color())
-        self.obj_text = self.Text(color=(0, 0, 0, 255), font="Sans",
+        self.obj_line = Line(canvas, color=random_color())
+        self.member_add(self.obj_line)
+        self.obj_image = FilledImage(canvas, file=ic_file, size=(20, 20))
+        self.member_add(self.obj_image)
+        self.obj_poly = Polygon(canvas, color=random_color())
+        self.member_add(self.obj_poly)
+        self.obj_text = Text(canvas, color=(0, 0, 0, 255), font="Sans",
                                   pass_events=True, text="Drag me")
-
-    def resize(self, w, h):
-        print("RESIZE", w, h)
-        self.bg.size = w, h
-        self.obj_text.size = w, 15
-        self.dragpos.size = w, 15
-        self.dragsize.size = 15, 15
-        self.dragsize.pos = self.bg.pos[0] + w - 15, self.bg.pos[1] + h - 15
-
-    def move(self, x, y):
-        print("MOVE", x, y)
-        self.bg.pos = x, y
-        self.obj_text.pos = x, y
-        self.dragpos.pos = x, y
-        self.dragsize.pos = x + self.bg.size[0] - 15, y + self.bg.size[1] - 15
-        self.obj_rect.pos = x + 5, y + 20
-        self.obj_line.geometry = x + 30, y + 20, 15, 15
-        self.obj_image.pos = x + 30, y + 45
-
-        self.obj_poly.points_clear()
-        self.obj_poly.point_add(x + 5 + 0,  y + 45 + 0)
-        self.obj_poly.point_add(x + 5 + 15, y + 45 + 15)
-        self.obj_poly.point_add(x + 5 + 0,  y + 45 + 15)
-
-    def delete(sef):
-        print("my delete")
-
-    def show(self):
-        print("my show")
-        for o in self.members:
-            o.show()
-
-    def hide(self):
-        print("my hide")
-        for o in self.members:
-            o.hide()
-
-    def clip_set(self, o):
-        pass
-
-    def clip_unset(self):
-        pass
+        self.member_add(self.obj_text)
 
     # dragpos (move obj)
     def start_drag_move(self, obj, event):

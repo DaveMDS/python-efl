@@ -4,9 +4,17 @@ from efl import evas
 import unittest
 
 
+class MySmart(evas.Smart):
+    @staticmethod
+    def resize(obj, w, h):
+        w2 = w / 2
+        h2 = h / 2
+        obj.r1.geometry = (0, 0, w2, h2)
+        obj.r2.geometry = (w2, h2, w2, h2)
+
 class MyObject(evas.SmartObject):
-    def __init__(self, canvas, *args, **kargs):
-        evas.SmartObject.__init__(self, canvas, *args, **kargs)
+    def __init__(self, canvas, smart, *args, **kargs):
+        evas.SmartObject.__init__(self, canvas, smart, *args, **kargs)
         w, h = self.size
         w2 = w / 2
         h2 = h / 2
@@ -18,19 +26,13 @@ class MyObject(evas.SmartObject):
                                 color="#00ff00")
         self.member_add(self.r2)
 
-    def resize(self, w, h):
-        w2 = w / 2
-        h2 = h / 2
-        self.r1.geometry = (0, 0, w2, h2)
-        self.r2.geometry = (w2, h2, w2, h2)
-
 class SmartObjectTest(unittest.TestCase):
     def setUp(self):
         self.canvas = evas.Canvas(method="buffer",
                                   size=(400, 500),
                                   viewport=(0, 0, 400, 500))
         self.canvas.engine_info_set(self.canvas.engine_info_get())
-        self.obj = MyObject(self.canvas)
+        self.obj = MyObject(self.canvas, MySmart())
 
     def testMembers(self):
         self.assertEqual(self.obj.members, (self.obj.r1, self.obj.r2))
