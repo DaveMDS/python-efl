@@ -49,13 +49,6 @@ cdef void _smart_object_delete(Evas_Object *o) with gil:
     except Exception:
         traceback.print_exc()
 
-    # eo_do(self.obj,
-    #     eo_event_callback_del(EO_EV_DEL, _eo_event_del_cb, <const void *>self))
-    eo_do(o, eo_key_data_del("python-eo"))
-    #evas_object_smart_data_set(obj.obj, NULL)
-    obj.obj = NULL
-    Py_DECREF(obj)
-
 
 cdef void _smart_object_move(Evas_Object *o, Evas_Coord x, Evas_Coord y) with gil:
     cdef:
@@ -617,8 +610,8 @@ cdef class SmartObject(Object):
 
         self.obj = obj
         eo_do(self.obj, eo_key_data_set("python-eo", <void *>self, NULL))
-        # eo_do(self.obj,
-        #     eo_event_callback_add(EO_EV_DEL, _eo_event_del_cb, <const void *>self))
+        evas_object_event_callback_add(obj, EVAS_CALLBACK_FREE,
+                                       obj_free_cb, <void *>self)
         Py_INCREF(self)
 
         return 1
