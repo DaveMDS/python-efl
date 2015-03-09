@@ -915,7 +915,8 @@ Module level functions
 
 
 from efl.utils.conversions cimport eina_list_strings_to_python_list
-from efl.eina cimport EINA_LOG_DOM_DBG, EINA_LOG_DOM_INFO, EINA_LOG_DOM_WARN
+from efl.eina cimport EINA_LOG_DOM_DBG, EINA_LOG_DOM_INFO, EINA_LOG_DOM_WARN, \
+    EINA_LOG_DOM_ERR, EINA_LOG_DOM_CRIT
 from efl.utils.logger cimport add_logger
 
 cdef int PY_EFL_EVAS_LOG_DOMAIN = add_logger(__name__).eina_log_domain

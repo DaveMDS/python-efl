@@ -189,7 +189,12 @@ def core_evas_smart_clicked(obj, item=None):
 if __name__ == "__main__":
     import logging
     efl_log = logging.getLogger("efl")
-    efl_log.addHandler(logging.StreamHandler())
+    efl_log_form = logging.Formatter(
+        "[%(name)s] %(levelname)s in %(funcName)s:%(lineno)d - %(message)s"
+        )
+    efl_log_handler = logging.StreamHandler()
+    efl_log_handler.setFormatter(efl_log_form)
+    efl_log.addHandler(efl_log_handler)
     elementary.init()
     core_evas_smart_clicked(None)
     elementary.run()

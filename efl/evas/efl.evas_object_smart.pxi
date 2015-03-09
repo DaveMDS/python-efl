@@ -33,7 +33,7 @@ cdef void _smart_object_delete(Evas_Object *o) with gil:
 
     tmp = evas_smart_data_get(evas_object_smart_smart_get(o))
     if tmp == NULL:
-        EINA_LOG_DOM_WARN(PY_EFL_EVAS_LOG_DOMAIN, "cls is NULL!", NULL)
+        EINA_LOG_DOM_ERR(PY_EFL_EVAS_LOG_DOMAIN, "cls is NULL!", NULL)
         return
     cls = <Smart>tmp
 
@@ -65,7 +65,7 @@ cdef void _smart_object_move(Evas_Object *o, Evas_Coord x, Evas_Coord y) with gi
 
     tmp = evas_smart_data_get(evas_object_smart_smart_get(o))
     if tmp == NULL:
-        EINA_LOG_DOM_WARN(PY_EFL_EVAS_LOG_DOMAIN, "cls is NULL!", NULL)
+        EINA_LOG_DOM_ERR(PY_EFL_EVAS_LOG_DOMAIN, "cls is NULL!", NULL)
         return
     cls = <Smart>tmp
 
@@ -91,7 +91,7 @@ cdef void _smart_object_resize(Evas_Object *o, Evas_Coord w, Evas_Coord h) with 
 
     tmp = evas_smart_data_get(evas_object_smart_smart_get(o))
     if tmp == NULL:
-        EINA_LOG_DOM_WARN(PY_EFL_EVAS_LOG_DOMAIN, "cls is NULL!", NULL)
+        EINA_LOG_DOM_ERR(PY_EFL_EVAS_LOG_DOMAIN, "cls is NULL!", NULL)
         return
     cls = <Smart>tmp
 
@@ -117,7 +117,7 @@ cdef void _smart_object_show(Evas_Object *o) with gil:
 
     tmp = evas_smart_data_get(evas_object_smart_smart_get(o))
     if tmp == NULL:
-        EINA_LOG_DOM_WARN(PY_EFL_EVAS_LOG_DOMAIN, "cls is NULL!", NULL)
+        EINA_LOG_DOM_ERR(PY_EFL_EVAS_LOG_DOMAIN, "cls is NULL!", NULL)
         return
     cls = <Smart>tmp
 
@@ -143,7 +143,7 @@ cdef void _smart_object_hide(Evas_Object *o) with gil:
 
     tmp = evas_smart_data_get(evas_object_smart_smart_get(o))
     if tmp == NULL:
-        EINA_LOG_DOM_WARN(PY_EFL_EVAS_LOG_DOMAIN, "cls is NULL!", NULL)
+        EINA_LOG_DOM_ERR(PY_EFL_EVAS_LOG_DOMAIN, "cls is NULL!", NULL)
         return
     cls = <Smart>tmp
 
@@ -169,7 +169,7 @@ cdef void _smart_object_color_set(Evas_Object *o, int r, int g, int b, int a) wi
 
     tmp = evas_smart_data_get(evas_object_smart_smart_get(o))
     if tmp == NULL:
-        EINA_LOG_DOM_WARN(PY_EFL_EVAS_LOG_DOMAIN, "cls is NULL!", NULL)
+        EINA_LOG_DOM_ERR(PY_EFL_EVAS_LOG_DOMAIN, "cls is NULL!", NULL)
         return
     cls = <Smart>tmp
 
@@ -196,7 +196,7 @@ cdef void _smart_object_clip_set(Evas_Object *o, Evas_Object *clip) with gil:
 
     tmp = evas_smart_data_get(evas_object_smart_smart_get(o))
     if tmp == NULL:
-        EINA_LOG_DOM_WARN(PY_EFL_EVAS_LOG_DOMAIN, "cls is NULL!", NULL)
+        EINA_LOG_DOM_ERR(PY_EFL_EVAS_LOG_DOMAIN, "cls is NULL!", NULL)
         return
     cls = <Smart>tmp
 
@@ -224,7 +224,7 @@ cdef void _smart_object_clip_unset(Evas_Object *o) with gil:
 
     tmp = evas_smart_data_get(evas_object_smart_smart_get(o))
     if tmp == NULL:
-        EINA_LOG_DOM_WARN(PY_EFL_EVAS_LOG_DOMAIN, "cls is NULL!", NULL)
+        EINA_LOG_DOM_ERR(PY_EFL_EVAS_LOG_DOMAIN, "cls is NULL!", NULL)
         return
     cls = <Smart>tmp
 
@@ -250,7 +250,7 @@ cdef void _smart_object_calculate(Evas_Object *o) with gil:
 
     tmp = evas_smart_data_get(evas_object_smart_smart_get(o))
     if tmp == NULL:
-        EINA_LOG_DOM_WARN(PY_EFL_EVAS_LOG_DOMAIN, "cls is NULL!", NULL)
+        EINA_LOG_DOM_ERR(PY_EFL_EVAS_LOG_DOMAIN, "cls is NULL!", NULL)
         return
     cls = <Smart>tmp
 
@@ -277,7 +277,7 @@ cdef void _smart_object_member_add(Evas_Object *o, Evas_Object *clip) with gil:
 
     tmp = evas_smart_data_get(evas_object_smart_smart_get(o))
     if tmp == NULL:
-        EINA_LOG_DOM_WARN(PY_EFL_EVAS_LOG_DOMAIN, "cls is NULL!", NULL)
+        EINA_LOG_DOM_ERR(PY_EFL_EVAS_LOG_DOMAIN, "cls is NULL!", NULL)
         return
     cls = <Smart>tmp
 
@@ -306,7 +306,7 @@ cdef void _smart_object_member_del(Evas_Object *o, Evas_Object *clip) with gil:
 
     tmp = evas_smart_data_get(evas_object_smart_smart_get(o))
     if tmp == NULL:
-        EINA_LOG_DOM_WARN(PY_EFL_EVAS_LOG_DOMAIN, "cls is NULL!", NULL)
+        EINA_LOG_DOM_ERR(PY_EFL_EVAS_LOG_DOMAIN, "cls is NULL!", NULL)
         return
     cls = <Smart>tmp
 
@@ -336,7 +336,7 @@ cdef void _smart_callback(void *data, Evas_Object *o, void *event_info) with gil
 
     tmp = evas_smart_data_get(evas_object_smart_smart_get(o))
     if tmp == NULL:
-        EINA_LOG_DOM_WARN(PY_EFL_EVAS_LOG_DOMAIN, "cls is NULL!", NULL)
+        EINA_LOG_DOM_ERR(PY_EFL_EVAS_LOG_DOMAIN, "cls is NULL!", NULL)
         return
     cls = <Smart>tmp
 

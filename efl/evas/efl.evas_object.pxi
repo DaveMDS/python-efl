@@ -235,26 +235,6 @@ cdef class Object(Eo):
     def evas_get(self):
         return object_from_instance(evas_object_evas_get(self.obj))
 
-# TODO move to Eo
-#     def type_get(self):
-#         """type_get()
-#
-#         Get the Evas object's type
-#
-#         :rtype: string
-#         """
-#         if self.obj:
-#             return _ctouni(evas_object_type_get(self.obj))
-
-#     property type:
-#         """Type name, ie: "rectangle".
-#
-#         :type: string
-#
-#         """
-#         def __get__(self):
-#             return self.type_get()
-
     def smart_member_add(self, SmartObject parent):
         """
 
