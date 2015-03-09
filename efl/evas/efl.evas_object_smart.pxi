@@ -615,7 +615,7 @@ cdef class SmartObject(Object):
     #     return object_from_instance(evas_object_parent_get(self.obj))
 
     def member_add(self, Object child):
-        """member_add(Object child)
+        """
 
         Set an evas object as a member of this object.
 
@@ -630,8 +630,9 @@ cdef class SmartObject(Object):
         """
         evas_object_smart_member_add(child.obj, self.obj)
 
-    def member_del(self, Object child):
-        """member_del(Object child)
+    @staticmethod
+    def member_del(Object child):
+        """
 
         Removes a member object from a smart object.
 

@@ -255,6 +255,26 @@ cdef class Object(Eo):
 #         def __get__(self):
 #             return self.type_get()
 
+    def smart_member_add(self, SmartObject parent):
+        """
+
+        Set this object as a member of the parent object.
+
+        Members will automatically be stacked and layered with the smart
+        object. The various stacking function will operate on members relative
+        to the other members instead of the entire canvas.
+
+        Non-member objects can not interleave a smart object's members.
+
+        :note: if this object is already member of another SmartObject, it
+           will be deleted from that membership and added to the given object.
+        """
+        evas_object_smart_member_add(self.obj, parent.obj)
+
+    def smart_member_del(self):
+        """Removes this object as a member of a smart object."""
+        evas_object_smart_member_del(self.obj)
+
     property layer:
         """Object's layer number.
 
