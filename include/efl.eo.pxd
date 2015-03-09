@@ -15,6 +15,7 @@
 # You should have received a copy of the GNU Lesser General Public License
 # along with this Python-EFL.  If not, see <http://www.gnu.org/licenses/>.
 
+from efl.eina cimport Eina_Iterator
 from efl.c_eo cimport Eo as cEo
 
 cdef:
@@ -26,6 +27,14 @@ cdef:
             int _set_obj(self, cEo *obj) except 0
             int _set_properties_from_keyword_args(self, dict kwargs) except 0
             #_add_obj(self, Eo_Class *klass, cEo *parent)
+
+    class EoIterator:
+        cdef Eina_Iterator *itr
+        @staticmethod
+        cdef inline create(Eina_Iterator *itr):
+            cdef EoIterator obj = EoIterator.__new__(EoIterator)
+            obj.itr = itr
+            return obj
 
 
     int PY_REFCOUNT(object o)

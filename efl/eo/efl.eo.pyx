@@ -34,7 +34,8 @@ from cpython cimport PyObject, Py_INCREF, Py_DECREF, PyUnicode_AsUTF8String
 from libc.stdint cimport uintptr_t
 from efl.eina cimport Eina_Bool, \
     Eina_Hash, eina_hash_string_superfast_new, eina_hash_add, eina_hash_del, \
-    eina_hash_find, EINA_LOG_DOM_DBG, EINA_LOG_DOM_INFO
+    eina_hash_find, EINA_LOG_DOM_DBG, EINA_LOG_DOM_INFO, \
+    Eina_Iterator, eina_iterator_next, eina_iterator_free
 from efl.c_eo cimport Eo as cEo, eo_init, eo_shutdown, eo_del, eo_do, \
     eo_do_ret, eo_class_name_get, eo_class_get, eo_base_class_get,\
     eo_key_data_set, eo_key_data_get, eo_key_data_del, \
@@ -42,7 +43,8 @@ from efl.c_eo cimport Eo as cEo, eo_init, eo_shutdown, eo_del, eo_do, \
     eo_parent_get, eo_parent_set, Eo_Event_Description, \
     eo_event_freeze, eo_event_thaw, eo_event_freeze_count_get, \
     eo_event_global_freeze, eo_event_global_thaw, \
-    eo_event_global_freeze_count_get, EO_CALLBACK_STOP
+    eo_event_global_freeze_count_get, EO_CALLBACK_STOP, \
+    eo_children_iterator_new
 
 from efl.utils.logger cimport add_logger
 
@@ -200,6 +202,25 @@ cdef Eina_Bool _eo_event_del_cb(void *data, cEo *obj,
     return EO_CALLBACK_STOP
 
 
+cdef class EoIterator:
+
+    def __iter__(self):
+        return self
+
+    def __next__(self):
+        cdef:
+            void* tmp
+            Eina_Bool result
+
+        if not eina_iterator_next(self.itr, &tmp):
+            raise StopIteration
+
+        return object_from_instance(<cEo *>tmp)
+
+    def __dealloc__(self):
+        eina_iterator_free(self.itr)
+
+
 cdef class Eo(object):
     """
 
@@ -247,6 +268,12 @@ cdef class Eo(object):
             for k, v in kwargs.items():
                 setattr(self, k, v)
         return 1
+
+    def __iter__(self):
+        cdef:
+            void *tmp = NULL
+        eo_do_ret(self.obj, tmp, eo_children_iterator_new())
+        return EoIterator.create(<Eina_Iterator *>tmp)
 
     def delete(self):
         """Delete the object and free internal resources.
@@ -300,7 +327,7 @@ cdef class Eo(object):
 
         :return: the freeze count
         :rtype: int
-        
+
         """
         cdef int fcount = 0
         fcount = <int>eo_do_ret(self.obj, fcount, eo_event_freeze_count_get())

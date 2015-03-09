@@ -15,7 +15,7 @@
 # You should have received a copy of the GNU Lesser General Public License
 # along with this Python-EFL.  If not, see <http://www.gnu.org/licenses/>.
 
-from efl.eina cimport Eina_Bool
+from efl.eina cimport Eina_Bool, Eina_Iterator
 
 cdef extern from "Eo.h":
 
@@ -126,3 +126,5 @@ cdef extern from "Eo.h":
 
     void eo_event_callback_add(const Eo_Event_Description *desc, Eo_Event_Cb cb, const void *data)
     void eo_event_callback_del(const Eo_Event_Description *desc, Eo_Event_Cb cb, const void *data)
+
+    Eina_Iterator * eo_children_iterator_new()

@@ -4,6 +4,7 @@
 import os
 from random import randint
 
+from efl.eo import Eo
 from efl.evas import SmartObject, Smart, EXPAND_BOTH, FILL_BOTH, Rectangle, \
     Line, FilledImage, Polygon, Text
 from efl import elementary
@@ -54,13 +55,13 @@ class MySmart(Smart):
     @staticmethod
     def show(smart_object):
         print("my show")
-        for o in smart_object.members:
+        for o in smart_object:
             o.show()
 
     @staticmethod
     def hide(smart_object):
         print("my hide")
-        for o in smart_object.members:
+        for o in smart_object:
             o.hide()
 
     @staticmethod

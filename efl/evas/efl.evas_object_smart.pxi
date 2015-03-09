@@ -17,7 +17,7 @@
 
 from efl.utils.conversions cimport eina_list_objects_to_python_list
 from efl.c_eo cimport eo_do, eo_do_ret, eo_key_data_del, eo_key_data_set, eo_key_data_get
-from efl.eo cimport Eo
+from efl.eo cimport Eo, EoIterator
 
 from cpython cimport PyMem_Malloc, PyMethod_New, Py_INCREF, Py_DECREF
 
@@ -548,30 +548,6 @@ cdef class Smart(object):
         pass
 
 
-cdef class SmartObjectIterator:
-
-    cdef Eina_Iterator *itr
-
-    def __cinit__(self, SmartObject obj):
-        self.itr = evas_object_smart_iterator_new(obj.obj)
-
-    def __iter__(self):
-        return self
-
-    def __next__(self):
-        cdef:
-            void* tmp
-            Eina_Bool result
-
-        if not eina_iterator_next(self.itr, &tmp):
-            raise StopIteration
-
-        return <Object>tmp
-
-    def __dealloc__(self):
-        eina_iterator_free(self.itr)
-
-
 cdef class SmartObject(Object):
 
     """
@@ -648,7 +624,7 @@ cdef class SmartObject(Object):
         return 1
 
     def __iter__(self):
-        return SmartObjectIterator(self)
+        return EoIterator.create(evas_object_smart_iterator_new(self.obj))
 
     # property parent:
     #     def __get__(self):
