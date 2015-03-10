@@ -16,7 +16,8 @@
 # along with this Python-EFL.  If not, see <http://www.gnu.org/licenses/>.
 
 from efl.evas cimport Eina_Bool, Eina_List, Evas_Object, Evas_Smart_Cb, \
-    Evas_Coord, Evas_Callback_Type, Object as evasObject, Canvas as evasCanvas
+    Evas_Coord, Evas_Callback_Type, Object as evasObject, SmartObject, \
+    Canvas as evasCanvas
 
 
 cdef extern from "Edje.h":
@@ -79,7 +80,7 @@ cdef extern from "Elementary.h":
     ctypedef enum Elm_Xdnd_Action:
         pass
 
-    
+
     ctypedef struct Elm_Theme
 
     ctypedef struct Elm_Object_Item
@@ -221,12 +222,8 @@ cdef extern from "Elementary.h":
     #TODO: void                elm_access_object_unregister(Evas_Object *obj)
 
 
-cdef class Canvas(evasCanvas):
-    pass
-
-cdef class Object(evasObject):
+cdef class Object(SmartObject):
     cdef:
-        dict _elmcallbacks
         list _elm_event_cbs, _elm_signal_cbs
         object cnp_drop_cb, cnp_drop_data
         object cnp_selection_loss_cb, cnp_selection_loss_data

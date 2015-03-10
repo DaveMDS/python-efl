@@ -280,7 +280,7 @@ from libc.stdint cimport uintptr_t
 from efl.eo cimport _object_mapping_register
 from efl.utils.conversions cimport _ctouni, eina_list_objects_to_python_list
 from efl.utils.deprecated cimport DEPRECATED
-from efl.evas cimport Object as evasObject, \
+from efl.evas cimport Object as evasObject, SmartObject, \
     EventKeyDown, EventKeyUp, EventMouseWheel, \
     evas_object_smart_callback_add, evas_object_smart_callback_del, \
     Evas_Callback_Type, EVAS_CALLBACK_KEY_DOWN, EVAS_CALLBACK_KEY_UP, \
@@ -295,27 +295,6 @@ import logging
 log = logging.getLogger("elementary")
 import traceback
 
-
-cdef void _object_callback(void *data,
-                           Evas_Object *o, void *event_info) with gil:
-    cdef:
-        Object obj
-        object event, ei, event_conv, func, args, kargs
-        tuple lst
-
-    obj = object_from_instance(o)
-    event = <object>data
-    # XXX: This is expensive code
-    lst = tuple(obj._elmcallbacks[event])
-    for event_conv, func, args, kargs in lst:
-        try:
-            if event_conv is None:
-                func(obj, *args, **kargs)
-            else:
-                ei = event_conv(<uintptr_t>event_info)
-                func(obj, ei, *args, **kargs)
-        except Exception:
-            traceback.print_exc()
 
 cdef bint _event_dispatcher(Object obj, Object src, Evas_Callback_Type t,
     event_info):
@@ -371,19 +350,7 @@ cdef void signal_callback(void *data, Evas_Object *obj,
             traceback.print_exc()
 
 
-# TODO: Is this handled in Eo now?
-cdef void _event_data_del_cb(void *data, Evas_Object *o,
-    void *event_info) with gil:
-    pass
-#     Py_DECREF(<object>data)
-
-
-# TODO: why the hell we redefine Canvas here??
-cdef class Canvas(evasCanvas):
-    def __init__(self):
-        pass
-
-cdef class Object(evasObject):
+cdef class Object(SmartObject):
     """
 
     An abstract class to manage object and callback handling.
@@ -1698,136 +1665,6 @@ cdef class Object(evasObject):
     def translatable_text_get(self):
         return _ctouni(elm_object_translatable_text_get(self.obj))
 
-    #
-    # Callbacks
-    # =========
-    #
-    # TODO: Should these be internal only? (cdef)
-    #       Or remove the individual widget callback_*_add/del methods and
-    #       use just these.
-    #
-
-    def _callback_add_full(self, event, event_conv, func, *args, **kargs):
-        """Add a callback for the smart event specified by event.
-
-        :param event: event name
-        :type event: string
-        :param event_conv: Conversion function to get the
-            pointer (as a long) to the object to be given to the
-            function as the second parameter. If None, then no
-            parameter will be given to the callback.
-        :type event_conv: function
-        :param func: what to callback. Should have the signature::
-
-            function(object, event_info, *args, **kargs)
-            function(object, *args, **kargs) (if no event_conv is provided)
-
-        :type func: function
-
-        :raise TypeError: if **func** is not callable.
-        :raise TypeError: if **event_conv** is not callable or None.
-
-        """
-        if not callable(func):
-            raise TypeError("func must be callable")
-        if event_conv is not None and not callable(event_conv):
-            raise TypeError("event_conv must be None or callable")
-
-        if self._elmcallbacks is None:
-            self._elmcallbacks = {}
-
-        e = intern(event)
-        lst = self._elmcallbacks.setdefault(e, [])
-        if isinstance(event, unicode): event = PyUnicode_AsUTF8String(event)
-        if not lst:
-            evas_object_smart_callback_add(self.obj,
-                <const char *>event if event is not None else NULL,
-                _object_callback, <void *>e)
-        lst.append((event_conv, func, args, kargs))
-
-    def _callback_del_full(self, event, event_conv, func):
-        """Remove a smart callback.
-
-        Removes a callback that was added by :py:func:`_callback_add_full()`.
-
-        :param event: event name
-        :type event: string
-        :param event_conv: same as registered with :py:func:`_callback_add_full()`
-        :type event_conv: function
-        :param func: what to callback, should have be previously registered.
-        :type func: function
-
-        :precond: **event**, **event_conv** and **func** must be used as
-           parameter for :py:func:`_callback_add_full()`.
-
-        :raise ValueError: if there was no **func** connected with this event.
-
-        """
-        try:
-            lst = self._elmcallbacks[event]
-        except KeyError as e:
-            raise ValueError("Unknown event %r" % event)
-
-        i = -1
-        ec = None
-        f = None
-        for i, (ec, f, a, k) in enumerate(lst):
-            if event_conv == ec and func == f:
-                break
-
-        if f != func or ec != event_conv:
-            raise ValueError("Callback %s was not registered with event %r" %
-                             (func, event))
-
-        lst.pop(i)
-        if lst:
-            return
-        self._elmcallbacks.pop(event)
-        if isinstance(event, unicode): event = PyUnicode_AsUTF8String(event)
-        evas_object_smart_callback_del(self.obj,
-            <const char *>event if event is not None else NULL,
-            _object_callback)
-
-    def _callback_add(self, event, func, *args, **kargs):
-        """Add a callback for the smart event specified by event.
-
-        :param event: event name
-        :type event: string
-        :param func: what to callback. Should have the signature:
-            *function(object, *args, **kargs)*
-        :type func: function
-
-        :raise TypeError: if **func** is not callable.
-
-        """
-        return self._callback_add_full(event, None, func, *args, **kargs)
-
-    def _callback_del(self, event, func):
-        """Remove a smart callback.
-
-        Removes a callback that was added by :py:func:`_callback_add()`.
-
-        :param event: event name
-        :type event: string
-        :param func: what to callback, should have be previously registered.
-        :type func: function
-
-        :precond: **event** and **func** must be used as parameter for
-            :py:func:`_callback_add()`.
-
-        :raise ValueError: if there was no **func** connected with this event.
-
-        """
-        return self._callback_del_full(event, None, func)
-
-    # FIXME: Remove this?
-    def _get_obj_addr(self):
-        """Return the address of the internal save Evas_Object
-
-        :return: Address of saved Evas_Object
-
-        """
-        return <uintptr_t>self.obj
 
     #
     # Copy and Paste

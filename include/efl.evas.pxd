@@ -1204,18 +1204,8 @@ cdef class Textblock(Object):
     pass
 
 
-# SmartObject disabled atm
 cdef class SmartObject(Object):
-    cdef object _smart_callbacks
-    cdef object _m_delete
-    cdef object _m_move
-    cdef object _m_resize
-    cdef object _m_show
-    cdef object _m_hide
-    cdef object _m_color_set
-    cdef object _m_clip_set
-    cdef object _m_clip_unset
-    cdef object _m_calculate
+    cdef dict _smart_callbacks
     cdef int _set_obj(self, cEo *obj) except 0
 
 

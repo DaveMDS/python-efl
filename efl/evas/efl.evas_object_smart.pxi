@@ -322,31 +322,27 @@ cdef void _smart_object_member_del(Evas_Object *o, Evas_Object *clip) with gil:
 cdef void _smart_callback(void *data, Evas_Object *o, void *event_info) with gil:
 
     cdef:
-        void *tmp
-        Smart cls
-        Eo obj
+        void *tmp = NULL
+        SmartObject obj
         object event, ei
-
-    tmp = evas_smart_data_get(evas_object_smart_smart_get(o))
-    if tmp == NULL:
-        EINA_LOG_DOM_ERR(PY_EFL_EVAS_LOG_DOMAIN, "cls is NULL!", NULL)
-        return
-    cls = <Smart>tmp
 
     eo_do_ret(o, tmp, eo_key_data_get("python-eo"))
     if tmp == NULL:
-        EINA_LOG_DOM_WARN(PY_EFL_EVAS_LOG_DOMAIN, "obj is NULL!", NULL)
-        obj = None
+        EINA_LOG_DOM_ERR(PY_EFL_EVAS_LOG_DOMAIN, "obj is NULL!", NULL)
+        return
     else:
-        obj = <Eo>tmp
+        obj = <SmartObject>tmp
 
     event = <object>data
-    ei = <object>event_info
     lst = tuple(obj._smart_callbacks[event])
 
-    for func, args, kargs in lst:
+    for event_conv, func, args, kargs in lst:
         try:
-            func(obj, ei, *args, **kargs)
+            if event_conv is None:
+                func(obj, *args, **kargs)
+            else:
+                ei = event_conv(<uintptr_t>event_info)
+                func(obj, ei, *args, **kargs)
         except Exception:
             traceback.print_exc()
 
@@ -619,13 +615,6 @@ cdef class SmartObject(Object):
     def __iter__(self):
         return EoIterator.create(evas_object_smart_iterator_new(self.obj))
 
-    # property parent:
-    #     def __get__(self):
-    #         return object_from_instance(evas_object_parent_get(self.obj))
-
-    # def parent_get(self):
-    #     return object_from_instance(evas_object_parent_get(self.obj))
-
     def member_add(self, Object child):
         """Set an evas object as a member of this object.
 
@@ -676,87 +665,6 @@ cdef class SmartObject(Object):
 
     def smart_get(self):
         return <Smart>evas_smart_data_get(evas_object_smart_smart_get(self.obj))
-
-    def callback_add(self, name, func, *args, **kargs):
-        """Add a callback for the smart event specified by event.
-
-        :param name: Event name
-        :param func:
-            What to callback.
-            Should have the signature::
-
-                function(object, event_info, *args, **kargs)
-
-        :raise TypeError: if **func** is not callable.
-
-        .. warning::
-            **event_info** will always be a python object, if the
-            signal is provided by a C-only class, it will crash.
-
-        """
-        if not callable(func):
-            raise TypeError("func must be callable")
-
-        if isinstance(name, unicode): name = PyUnicode_AsUTF8String(name)
-
-        lst = self._smart_callbacks.setdefault(name, [])
-        if not lst:
-            evas_object_smart_callback_add(self.obj, name, _smart_callback,
-                                           <void *>name)
-        lst.append((func, args, kargs))
-
-    def callback_del(self, name, func):
-        """Remove a smart callback.
-
-        Removes a callback that was added by :py:func:`callback_add()`.
-
-        :param name: event name
-        :param func: what to callback, should have be previously registered.
-        :precond: **event** and **func** must be used as parameter for
-           :py:func:`callback_add`.
-
-        :raise ValueError: if there was no **func** connected with this event.
-        """
-        if isinstance(name, unicode): name = PyUnicode_AsUTF8String(name)
-
-        try:
-            lst = self._smart_callbacks[name]
-        except KeyError:
-            raise ValueError("Unknown event %r" % name)
-
-        cdef:
-            int i = -1
-            object f = None
-
-        for i, (f, a, k) in enumerate(lst):
-            if func == f:
-                break
-
-        if f != func:
-            raise ValueError("Callback %s was not registered with event %r" %
-                             (func, name))
-        lst.pop(i)
-        if lst:
-            return
-        self._smart_callbacks.pop(name)
-        evas_object_smart_callback_del(self.obj, name, _smart_callback)
-
-    def callback_call(self, name, event_info=None):
-        """Call any smart callbacks for event.
-
-        :param name: the event name
-        :param event_info: an event specific info to pass to the callback.
-
-        This should be called internally in the smart object when some
-        specific event has occurred. The documentation for the smart object
-        should include a list of possible events and what type of
-        **event_info** to expect.
-
-        .. attention::
-            **event_info** will always be a python object.
-        """
-        if isinstance(name, unicode): name = PyUnicode_AsUTF8String(name)
-        evas_object_smart_callback_call(self.obj, name, <void*>event_info)
 
     def move_children_relative(self, int dx, int dy):
         """Move all children relatively."""
@@ -811,5 +719,174 @@ cdef class SmartObject(Object):
 
     def calculate(self):
         evas_object_smart_calculate(self.obj)
+
+    #
+    # Callbacks
+    # =========
+    #
+
+    def _callback_add_full(self, event, event_conv, func, *args, **kargs):
+        """Add a callback for the smart event specified by event.
+
+        :param event: event name
+        :type event: string
+        :param event_conv: Conversion function to get the
+            pointer (as a long) to the object to be given to the
+            function as the second parameter. If None, then no
+            parameter will be given to the callback.
+        :type event_conv: function
+        :param func: what to callback. Should have the signature::
+
+            function(object, event_info, *args, **kargs)
+            function(object, *args, **kargs) (if no event_conv is provided)
+
+        :type func: function
+
+        :raise TypeError: if **func** is not callable.
+        :raise TypeError: if **event_conv** is not callable or None.
+
+        """
+        if not callable(func):
+            raise TypeError("func must be callable")
+        if event_conv is not None and not callable(event_conv):
+            raise TypeError("event_conv must be None or callable")
+
+        if self._smart_callbacks is None:
+            self._smart_callbacks = {}
+
+        e = intern(event)
+        lst = self._smart_callbacks.setdefault(e, [])
+        if isinstance(event, unicode): event = PyUnicode_AsUTF8String(event)
+        if not lst:
+            evas_object_smart_callback_add(self.obj,
+                <const char *>event if event is not None else NULL,
+                _smart_callback, <void *>e)
+        lst.append((event_conv, func, args, kargs))
+
+    def _callback_del_full(self, event, event_conv, func):
+        """Remove a smart callback.
+
+        Removes a callback that was added by :py:func:`_callback_add_full()`.
+
+        :param event: event name
+        :type event: string
+        :param event_conv: same as registered with :py:func:`_callback_add_full()`
+        :type event_conv: function
+        :param func: what to callback, should have be previously registered.
+        :type func: function
+
+        :precond: **event**, **event_conv** and **func** must be used as
+           parameter for :py:func:`_callback_add_full()`.
+
+        :raise ValueError: if there was no **func** connected with this event.
+
+        """
+        try:
+            lst = self._smart_callbacks[event]
+        except KeyError as e:
+            raise ValueError("Unknown event %r" % event)
+
+        i = -1
+        ec = None
+        f = None
+        for i, (ec, f, a, k) in enumerate(lst):
+            if event_conv == ec and func == f:
+                break
+
+        if f != func or ec != event_conv:
+            raise ValueError("Callback %s was not registered with event %r" %
+                             (func, event))
+
+        lst.pop(i)
+        if lst:
+            return
+        self._smart_callbacks.pop(event)
+        if isinstance(event, unicode): event = PyUnicode_AsUTF8String(event)
+        evas_object_smart_callback_del(self.obj,
+            <const char *>event if event is not None else NULL,
+            _smart_callback)
+
+    def _callback_add(self, event, func, *args, **kargs):
+        """Add a callback for the smart event specified by event.
+
+        :param event: event name
+        :type event: string
+        :param func: what to callback. Should have the signature:
+            *function(object, *args, **kargs)*
+        :type func: function
+
+        :raise TypeError: if **func** is not callable.
+
+        """
+        return self._callback_add_full(event, None, func, *args, **kargs)
+
+    def _callback_del(self, event, func):
+        """Remove a smart callback.
+
+        Removes a callback that was added by :py:func:`_callback_add()`.
+
+        :param event: event name
+        :type event: string
+        :param func: what to callback, should have be previously registered.
+        :type func: function
+
+        :precond: **event** and **func** must be used as parameter for
+            :py:func:`_callback_add()`.
+
+        :raise ValueError: if there was no **func** connected with this event.
+
+        """
+        return self._callback_del_full(event, None, func)
+
+    def callback_add(self, name, func, *args, **kargs):
+        """Add a callback for the smart event specified by event.
+
+        :param name: Event name
+        :param func:
+            What to callback.
+            Should have the signature::
+
+                function(object, event_info, *args, **kargs)
+
+        :raise TypeError: if **func** is not callable.
+
+        .. warning::
+            **event_info** will always be a python object, if the
+            signal is provided by a C-only class, it will crash.
+
+        """
+        self._callback_add(name, func, *args, **kargs)
+
+    def callback_del(self, name, func):
+        """Remove a smart callback.
+
+        Removes a callback that was added by :py:func:`callback_add()`.
+
+        :param name: event name
+        :param func: what to callback, should have be previously registered.
+        :precond: **event** and **func** must be used as parameter for
+           :py:func:`callback_add`.
+
+        :raise ValueError: if there was no **func** connected with this event.
+        """
+        self._callback_del(name, func)
+
+    def callback_call(self, name, event_info=None):
+        """Call any smart callbacks for event.
+
+        :param name: the event name
+        :param event_info: an event specific info to pass to the callback.
+
+        This should be called internally in the smart object when some
+        specific event has occurred. The documentation for the smart object
+        should include a list of possible events and what type of
+        **event_info** to expect.
+
+        .. attention::
+            **event_info** will always be a python object.
+        """
+        if isinstance(name, unicode): name = PyUnicode_AsUTF8String(name)
+        evas_object_smart_callback_call(self.obj, name, <void*>event_info)
+
 
 _object_mapping_register("Evas_Smart", SmartObject)
