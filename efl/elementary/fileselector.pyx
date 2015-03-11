@@ -165,9 +165,9 @@ from layout_class cimport LayoutClass
 import traceback
 
 
-def _cb_string_conv(uintptr_t addr):
-    cdef const char *s = <const char *>addr
-    return _ctouni(s) if s is not NULL else None
+cdef _cb_string_conv(void *addr):
+    return _ctouni(<const char *>addr) if addr is not NULL else None
+
 
 cdef Eina_Bool py_elm_fileselector_custom_filter_cb(const char *path, Eina_Bool is_dir, void *data) with gil:
     cb_func, cb_data = <object>data

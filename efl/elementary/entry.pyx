@@ -797,7 +797,8 @@ cdef void py_elm_entry_filter_cb(void *data, Evas_Object *entry, char **text) wi
 
     text[0] = strdup(<char *>ret)
 
-class EntryAnchorInfo(object):
+
+cdef class EntryAnchorInfo(object):
     """EntryAnchorInfo(...)
 
     The info sent in the callback for the ``anchor,clicked`` signals emitted
@@ -811,15 +812,26 @@ class EntryAnchorInfo(object):
     :var h: Anchor geometry, relative to canvas.
 
     """
-    def __init__(self):
-        self.name = None
-        self.button = 0
-        self.x = 0
-        self.y = 0
-        self.w = 0
-        self.h = 0
+    cdef:
+        readonly unicode name
+        readonly int button, x, y, w, h
 
-class EntryAnchorHoverInfo(object):
+    @staticmethod
+    cdef EntryAnchorInfo create(Elm_Entry_Anchor_Info *addr):
+        cdef EntryAnchorInfo self = EntryAnchorInfo.__new__(EntryAnchorInfo)
+        self.name = _ctouni(addr.name)
+        self.button = addr.button
+        self.x = addr.x
+        self.y = addr.y
+        self.w = addr.w
+        self.h = addr.h
+        return self
+
+cdef object _entryanchor_conv(void *addr):
+    return EntryAnchorInfo.create(<Elm_Entry_Anchor_Info *>addr)
+
+
+cdef class EntryAnchorHoverInfo(object):
     """EntryAnchorHoverInfo(...)
 
     The info sent in the callback for ``anchor,clicked`` signals emitted by
@@ -834,38 +846,28 @@ class EntryAnchorHoverInfo(object):
     :var hover_bottom: Hint indicating content fits below the hover.
 
     """
-    def __init__(self):
-        self.anchor_info = None
-        self.hover = None
-        self.hover_parent = (0, 0, 0, 0)
-        self.hover_left = False
-        self.hover_right = False
-        self.hover_top = False
-        self.hover_bottom = False
+    cdef:
+        readonly EntryAnchorInfo anchor_info
+        readonly object hover
+        readonly tuple hover_parent
+        readonly bint hover_left, hover_right, hover_top, hover_bottom
 
-def _entryanchor_conv(uintptr_t addr):
-    cdef Elm_Entry_Anchor_Info *ei = <Elm_Entry_Anchor_Info *>addr
-    eai = EntryAnchorInfo()
-    eai.name = _ctouni(ei.name)
-    eai.button = ei.button
-    eai.x = ei.x
-    eai.y = ei.y
-    eai.w = ei.w
-    eai.h = ei.h
-    return eai
+    @staticmethod
+    cdef EntryAnchorHoverInfo create(Elm_Entry_Anchor_Hover_Info *addr):
+        cdef EntryAnchorHoverInfo self = EntryAnchorHoverInfo.__new__(EntryAnchorHoverInfo)
+        self.anchor_info = _entryanchor_conv(addr.anchor_info)
+        self.hover = object_from_instance(addr.hover)
+        self.hover_parent = (addr.hover_parent.x, addr.hover_parent.y,
+                           addr.hover_parent.w, addr.hover_parent.h)
+        self.hover_left = addr.hover_left
+        self.hover_right = addr.hover_right
+        self.hover_top = addr.hover_top
+        self.hover_bottom = addr.hover_bottom
+        return self
 
-def _entryanchorhover_conv(uintptr_t addr):
-    cdef Elm_Entry_Anchor_Hover_Info *ehi = <Elm_Entry_Anchor_Hover_Info *>addr
-    eahi = EntryAnchorHoverInfo()
-    eahi.anchor_info = _entryanchor_conv(<uintptr_t><void *>ehi.anchor_info)
-    eahi.hover = object_from_instance(ehi.hover)
-    eahi.hover_parent = (ehi.hover_parent.x, ehi.hover_parent.y,
-                       ehi.hover_parent.w, ehi.hover_parent.h)
-    eahi.hover_left = ehi.hover_left
-    eahi.hover_right = ehi.hover_right
-    eahi.hover_top = ehi.hover_top
-    eahi.hover_bottom = ehi.hover_bottom
-    return eahi
+cdef object _entryanchorhover_conv(void *addr):
+    return EntryAnchorHoverInfo.create(<Elm_Entry_Anchor_Hover_Info *>addr)
+
 
 cdef class Entry(LayoutClass):
     """

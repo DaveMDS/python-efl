@@ -15,6 +15,7 @@
 # You should have received a copy of the GNU Lesser General Public License
 # along with this Python-EFL.  If not, see <http://www.gnu.org/licenses/>.
 
+from cpython cimport PyObject
 from efl.eina cimport *
 from efl.eo cimport Eo
 from efl.c_eo cimport Eo as cEo, Eo_Class
@@ -1204,12 +1205,16 @@ cdef class Textblock(Object):
     pass
 
 
+# cdef extern from *:
+#     ctypedef object(*Smart_Conv_Func)(void *)
+
+
 cdef class SmartObject(Object):
     cdef:
         list _owned_references
         int _set_obj(self, cEo *obj) except 0
-        int _callback_add_full(self, event, event_conv, func, tuple args, dict kargs) except 0
-        int _callback_del_full(self, event, event_conv, func) except 0
+        int _callback_add_full(self, event, object(*)(void*), func, tuple args, dict kargs) except 0
+        int _callback_del_full(self, event, object(*)(void*), func) except 0
         int _callback_add(self, event, func, args, kargs) except 0
         int _callback_del(self, event, func) except 0
 

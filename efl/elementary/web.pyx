@@ -169,40 +169,42 @@ from object cimport Object
 import traceback
 
 
-def _cb_string_conv(uintptr_t addr):
-    cdef const char *s = <const char *>addr
-    return _ctouni(s) if s is not NULL else None
+cdef _cb_string_conv(void *addr):
+    return _ctouni(<const char *>addr) if addr is not NULL else None
 
-def _cb_bool_conv(uintptr_t addr):
-    cdef Eina_Bool *info = <Eina_Bool *>addr
-    if info == NULL:
-        return None
-    return info[0]
 
-def _web_double_conv(uintptr_t addr):
-    cdef double *info = <double *>addr
-    if info == NULL:
+cdef _cb_bool_conv(void *addr):
+    if addr == NULL:
         return None
-    return info[0]
+    cdef Eina_Bool *ret = <Eina_Bool *>addr
+    return <bint>ret[0]
 
-def _web_load_frame_error_conv(uintptr_t addr):
-    cdef Elm_Web_Frame_Load_Error *err = <Elm_Web_Frame_Load_Error *>addr
-    if err == NULL:
+
+cdef _web_double_conv(void *addr):
+    if addr == NULL:
         return None
-    ret = {"code": err.code, "is_cancellation": bool(err.is_cancellation),
+    cdef double *ret = <double *>addr
+    return ret[0]
+
+
+cdef _web_load_frame_error_conv(void *addr):
+    cdef Elm_Web_Frame_Load_Error *err
+    if addr == NULL:
+        return None
+    err = <Elm_Web_Frame_Load_Error *>addr
+    return {"code": err.code, "is_cancellation": bool(err.is_cancellation),
            "domain": _ctouni(err.domain) if err.domain else None,
            "description": _ctouni(err.description) if err.description else None,
            "failing_url": _ctouni(err.failing_url) if err.failing_url else None,
            "frame": object_from_instance(err.frame) if err.frame else None}
 
-    return ret
 
-
-def _web_link_hover_in_conv(uintptr_t addr):
-    cdef char **info = <char **>addr
-    if info == NULL:
+cdef _web_link_hover_in_conv(void *addr):
+    cdef char **info
+    if addr == NULL:
         url = title = None
     else:
+        info = <char **>addr
         url = None if info[0] == NULL else info[0]
         title = None if info[1] == NULL else info[1]
     return (url, title)

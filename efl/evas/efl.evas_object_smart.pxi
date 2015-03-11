@@ -325,6 +325,7 @@ cdef void _smart_callback(void *data, Evas_Object *o, void *event_info) with gil
         void *tmp = NULL
         SmartObject obj
         object ei
+        object(*event_conv)(void*)
 
     eo_do_ret(o, tmp, eo_key_data_get("python-eo"))
     if tmp == NULL:
@@ -337,13 +338,18 @@ cdef void _smart_callback(void *data, Evas_Object *o, void *event_info) with gil
         EINA_LOG_DOM_ERR(PY_EFL_EVAS_LOG_DOMAIN, "data is NULL!", NULL)
         return
     else:
-        event_conv, func, args, kargs = <tuple>data
+        conv, func, args, kargs = <tuple>data
+
+    if conv != 0:
+        event_conv = <object(*)(void*)><void *><uintptr_t>conv
+    else:
+        event_conv = NULL
 
     try:
-        if event_conv is None:
+        if event_conv is NULL:
             func(obj, *args, **kargs)
         else:
-            ei = event_conv(<uintptr_t>event_info)
+            ei = event_conv(event_info)
             func(obj, ei, *args, **kargs)
     except Exception:
         traceback.print_exc()
@@ -724,7 +730,7 @@ cdef class SmartObject(Object):
     # =========
     #
 
-    cdef int _callback_add_full(self, event, event_conv, func, tuple args, dict kargs) except 0:
+    cdef int _callback_add_full(self, event, object(*event_conv)(void *), func, tuple args, dict kargs) except 0:
         """Add a callback for the smart event specified by event.
 
         :param event: event name
@@ -747,11 +753,9 @@ cdef class SmartObject(Object):
         """
         if not callable(func):
             raise TypeError("func must be callable")
-        if event_conv is not None and not callable(event_conv):
-            raise TypeError("event_conv must be None or callable")
         if isinstance(event, unicode): event = PyUnicode_AsUTF8String(event)
 
-        spec = (event_conv, func, args, kargs)
+        spec = (<uintptr_t><void *>event_conv, func, args, kargs)
         self._owned_references.append(spec)
         #Py_INCREF(spec)
 
@@ -761,7 +765,7 @@ cdef class SmartObject(Object):
 
         return 1
 
-    cdef int _callback_del_full(self, event, event_conv, func) except 0:
+    cdef int _callback_del_full(self, event, object(*event_conv)(void *), func) except 0:
         """Remove a smart callback.
 
         Removes a callback that was added by :py:func:`_callback_add_full()`.
@@ -810,7 +814,7 @@ cdef class SmartObject(Object):
         :raise TypeError: if **func** is not callable.
 
         """
-        return self._callback_add_full(event, None, func, args, kargs)
+        return self._callback_add_full(event, NULL, func, args, kargs)
 
     cdef int _callback_del(self, event, func) except 0:
         """Remove a smart callback.
@@ -828,7 +832,7 @@ cdef class SmartObject(Object):
         :raise ValueError: if there was no **func** connected with this event.
 
         """
-        return self._callback_del_full(event, None, func)
+        return self._callback_del_full(event, NULL, func)
 
     def callback_add(self, name, func, *args, **kargs):
         """Add a callback for the smart event specified by event.
@@ -847,7 +851,7 @@ cdef class SmartObject(Object):
             signal is provided by a C-only class, it will crash.
 
         """
-        self._callback_add_full(name, None, func, args, kargs)
+        self._callback_add_full(name, NULL, func, args, kargs)
 
     def callback_del(self, name, func):
         """Remove a smart callback.
@@ -861,7 +865,7 @@ cdef class SmartObject(Object):
 
         :raise ValueError: if there was no **func** connected with this event.
         """
-        self._callback_del_full(name, None, func)
+        self._callback_del_full(name, NULL, func)
 
     def callback_call(self, name, event_info=None):
         """Call any smart callbacks for event.

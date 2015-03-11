@@ -125,7 +125,7 @@ from scroller cimport elm_scroller_policy_get, elm_scroller_policy_set, \
     elm_scroller_bounce_get, elm_scroller_bounce_set, Elm_Scroller_Policy
 
 
-class PhotocamProgressInfo(object):
+cdef class PhotocamProgressInfo(object):
     """PhotocamProgressInfo(...)
 
     The info sent in the callback for the ``download,progress`` signals emitted
@@ -137,18 +137,21 @@ class PhotocamProgressInfo(object):
     .. versionadded:: 1.8
 
     """
-    def __init__(self):
-        self.now = 0
-        self.total = 0
+    cdef:
+        readonly double now, total
 
-def _photocam_download_progress_conv(uintptr_t addr):
-    cdef Elm_Photocam_Progress *pp = <Elm_Photocam_Progress *>addr
-    ppi = PhotocamProgressInfo()
-    ppi.now = pp.now
-    ppi.total = pp.total
-    return ppi
+    @staticmethod
+    cdef PhotocamProgressInfo create(Elm_Photocam_Progress *addr):
+        cdef PhotocamProgressInfo self = PhotocamProgressInfo.__new__(PhotocamProgressInfo)
+        self.now = addr.now
+        self.total = addr.total
+        return self
 
-class PhotocamErrorInfo(object):
+cdef object _photocam_download_progress_conv(void *addr):
+    return PhotocamProgressInfo.create(<Elm_Photocam_Progress *>addr)
+
+
+cdef class PhotocamErrorInfo(object):
     """PhotocamErrorInfo(...)
 
     The info sent in the callback for the ``download,error`` signals emitted
@@ -160,16 +163,19 @@ class PhotocamErrorInfo(object):
     .. versionadded:: 1.8
 
     """
-    def __init__(self):
+    cdef:
+        readonly int status
+        readonly bint open_error
+
+    @staticmethod
+    cdef PhotocamErrorInfo create(Elm_Photocam_Error *addr):
+        cdef PhotocamErrorInfo self = PhotocamErrorInfo.__new__(PhotocamErrorInfo)
         self.status = 0
         self.open_error = False
+        return self
 
-def _photocam_download_error_conv(uintptr_t addr):
-    cdef Elm_Photocam_Error *pe = <Elm_Photocam_Error *>addr
-    pei = PhotocamErrorInfo()
-    pei.status = pe.status
-    pei.open_error = pe.open_error
-    return pei
+cdef object _photocam_download_error_conv(void *addr):
+    return PhotocamErrorInfo.create(<Elm_Photocam_Error *>addr)
 
 
 cdef class Photocam(Object):

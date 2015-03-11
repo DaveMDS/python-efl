@@ -360,9 +360,9 @@ from scroller cimport elm_scroller_policy_get, elm_scroller_policy_set, \
     elm_scroller_bounce_get, elm_scroller_bounce_set, Elm_Scroller_Policy
 
 
-def _cb_object_item_conv(uintptr_t addr):
-    cdef Elm_Object_Item *it = <Elm_Object_Item *>addr
-    return _object_item_to_python(it)
+cdef object _cb_object_item_conv(void *addr):
+    return _object_item_to_python(<Elm_Object_Item *>addr)
+
 
 cdef char *_py_elm_gengrid_item_text_get(void *data, Evas_Object *obj, const char *part) with gil:
     cdef:

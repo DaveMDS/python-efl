@@ -122,12 +122,11 @@ from efl.utils.conversions cimport _ctouni
 from efl.evas cimport Object as evasObject
 
 
-def _cb_string_conv(uintptr_t addr):
-    cdef const char *s = <const char *>addr
-    return _ctouni(s) if s is not NULL else None
+cdef _cb_string_conv(void *addr):
+    return _ctouni(<const char *>addr) if addr is not NULL else None
 
 
-class ImageProgressInfo(object):
+cdef class ImageProgressInfo(object):
     """ImageProgressInfo(...)
 
     The info sent in the callback for the ``download,progress`` signals emitted
@@ -139,18 +138,21 @@ class ImageProgressInfo(object):
     .. versionadded:: 1.8
 
     """
-    def __init__(self):
-        self.now = 0
-        self.total = 0
+    cdef:
+        readonly double now, total
 
-def _image_download_progress_conv(uintptr_t addr):
-    cdef Elm_Image_Progress *ip = <Elm_Image_Progress *>addr
-    ipi = ImageProgressInfo()
-    ipi.now = ip.now
-    ipi.total = ip.total
-    return ipi
+    @staticmethod
+    cdef ImageProgressInfo create(Elm_Image_Progress *addr):
+        cdef ImageProgressInfo self = ImageProgressInfo.__new__(ImageProgressInfo)
+        self.now = addr.now
+        self.total = addr.total
+        return self
 
-class ImageErrorInfo(object):
+cdef object _image_download_progress_conv(void *addr):
+    return ImageProgressInfo.create(<Elm_Image_Progress *>addr)
+
+
+cdef class ImageErrorInfo(object):
     """ImageErrorInfo(...)
 
     The info sent in the callback for the ``download,error`` signals emitted
@@ -162,17 +164,19 @@ class ImageErrorInfo(object):
     .. versionadded:: 1.8
 
     """
-    def __init__(self):
+    cdef:
+        readonly int status
+        readonly bint open_error
+
+    @staticmethod
+    cdef ImageErrorInfo create(Elm_Image_Error *addr):
+        cdef ImageErrorInfo self = ImageErrorInfo.__new__(ImageErrorInfo)
         self.status = 0
         self.open_error = False
+        return self
 
-def _image_download_error_conv(uintptr_t addr):
-    cdef Elm_Image_Error *ie = <Elm_Image_Error *>addr
-    iei = ImageErrorInfo()
-    iei.status = ie.status
-    iei.open_error = ie.open_error
-    return iei
-
+cdef object _image_download_error_conv(void *addr):
+    return ImageErrorInfo.create(<Elm_Image_Error *>addr)
 
 
 cdef class Image(Object):

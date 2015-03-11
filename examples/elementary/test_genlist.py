@@ -160,9 +160,9 @@ def genlist_clicked(obj, item=None):
             gli.tooltip_content_cb_set(tooltip_content_cb)
 
         if i == 50:
-            bt_50._callback_add("clicked", lambda bt, it: it.bring_in(), gli)
+            bt_50.callback_clicked_add(lambda bt, it: it.bring_in(), gli)
         elif i == 1500:
-            bt_1500._callback_add("clicked", lambda bt, it: it.bring_in(), gli)
+            bt_1500.callback_clicked_add(lambda bt, it: it.bring_in(), gli)
 
     win.resize(480, 800)
     win.show()
@@ -793,7 +793,7 @@ def genlist11_clicked(obj, item=None):
         gl.item_append(itc11, i)
     bx.pack_end(gl)
     gl.show()
-   
+
     win.show()
 
 if __name__ == "__main__":

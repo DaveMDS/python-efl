@@ -102,6 +102,7 @@ Inheritance diagram
 """
 
 from libc.stdint cimport uintptr_t
+from cpython cimport PyObject
 
 from efl.eo cimport _object_mapping_register
 from efl.utils.conversions cimport _ctouni
@@ -109,9 +110,9 @@ from efl.evas cimport Object as evasObject
 from layout_class cimport LayoutClass
 
 
-def _cb_string_conv(uintptr_t addr):
-    cdef const char *s = <const char *>addr
-    return _ctouni(s) if s is not NULL else None
+cdef object _cb_string_conv(void *addr):
+    return _ctouni(<const char *>addr) if addr is not NULL else None
+
 
 cdef class Actionslider(LayoutClass):
     """

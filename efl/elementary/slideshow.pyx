@@ -104,9 +104,10 @@ import traceback
 from object_item cimport _object_item_to_python, _object_item_list_to_python, \
     ObjectItem
 
-def _cb_object_item_conv(uintptr_t addr):
-    cdef Elm_Object_Item *it = <Elm_Object_Item *>addr
-    return _object_item_to_python(it)
+
+cdef object _cb_object_item_conv(void *addr):
+    return _object_item_to_python(<Elm_Object_Item *>addr)
+
 
 cdef Evas_Object *_py_elm_slideshow_item_get(void *data, Evas_Object *obj) with gil:
     cdef SlideshowItem item = <object>data

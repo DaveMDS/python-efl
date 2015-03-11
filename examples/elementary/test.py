@@ -44,7 +44,7 @@ items = [
         ("Evas Object Callbacks", "test_core_evas_object_callbacks",
          "core_evas_object_callbacks_clicked"),
         ("Evas Textgrid", "test_evas_textgrid", "evas_textgrid_clicked"),
-        # ("Evas Smart Object","test_core_evas_smart","core_evas_smart_clicked"),
+        ("Evas Smart Object","test_core_evas_smart","core_evas_smart_clicked"),
     ]),
     ("3D", [
         ("Evas Map 3D", "test_3d", "evas3d_clicked"),

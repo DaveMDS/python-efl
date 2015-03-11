@@ -108,9 +108,10 @@ from fileselector cimport elm_fileselector_path_set, \
     elm_fileselector_folder_only_get, elm_fileselector_is_save_set, \
     elm_fileselector_is_save_get
 
-def _cb_string_conv(uintptr_t addr):
-    cdef const char *s = <const char *>addr
-    return _ctouni(s) if s is not NULL else None
+
+cdef _cb_string_conv(void *addr):
+    return _ctouni(<const char *>addr) if addr is not NULL else None
+
 
 cdef class FileselectorButton(Button):
     """

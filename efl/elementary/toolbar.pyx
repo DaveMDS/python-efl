@@ -202,9 +202,9 @@ from scroller cimport elm_scroller_policy_get, elm_scroller_policy_set, \
 import traceback
 
 
-def _cb_object_item_conv(uintptr_t addr):
-    cdef Elm_Object_Item *it = <Elm_Object_Item *>addr
-    return _object_item_to_python(it)
+cdef object _cb_object_item_conv(void *addr):
+    return _object_item_to_python(<Elm_Object_Item *>addr)
+
 
 cdef void _toolbar_item_state_callback(void *data, Evas_Object *obj, void *event_info) with gil:
     cdef ToolbarItemState state = <object>data
