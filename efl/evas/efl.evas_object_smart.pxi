@@ -324,7 +324,7 @@ cdef void _smart_callback(void *data, Evas_Object *o, void *event_info) with gil
     cdef:
         void *tmp = NULL
         SmartObject obj
-        object event, ei
+        object ei
 
     eo_do_ret(o, tmp, eo_key_data_get("python-eo"))
     if tmp == NULL:
@@ -333,18 +333,20 @@ cdef void _smart_callback(void *data, Evas_Object *o, void *event_info) with gil
     else:
         obj = <SmartObject>tmp
 
-    event = <object>data
-    lst = tuple(obj._smart_callbacks[event])
+    if data == NULL:
+        EINA_LOG_DOM_ERR(PY_EFL_EVAS_LOG_DOMAIN, "data is NULL!", NULL)
+        return
+    else:
+        event_conv, func, args, kargs = <tuple>data
 
-    for event_conv, func, args, kargs in lst:
-        try:
-            if event_conv is None:
-                func(obj, *args, **kargs)
-            else:
-                ei = event_conv(<uintptr_t>event_info)
-                func(obj, ei, *args, **kargs)
-        except Exception:
-            traceback.print_exc()
+    try:
+        if event_conv is None:
+            func(obj, *args, **kargs)
+        else:
+            ei = event_conv(<uintptr_t>event_info)
+            func(obj, ei, *args, **kargs)
+    except Exception:
+        traceback.print_exc()
 
 
 cdef class Smart(object):
@@ -589,12 +591,6 @@ cdef class SmartObject(Object):
         should be instantiated and passed to this classes constructor as
         parameter ``smart``
     """
-    def __cinit__(self):
-        self._smart_callbacks = dict()
-
-    def __dealloc__(self):
-        self._smart_callbacks = None
-
     def __init__(self, Canvas canvas not None, Smart smart not None, **kwargs):
         #_smart_classes.append(<uintptr_t>cls_def)
         self._set_obj(evas_object_smart_add(canvas.obj, smart.cls))
@@ -750,18 +746,14 @@ cdef class SmartObject(Object):
             raise TypeError("func must be callable")
         if event_conv is not None and not callable(event_conv):
             raise TypeError("event_conv must be None or callable")
-
-        if self._smart_callbacks is None:
-            self._smart_callbacks = {}
-
-        e = intern(event)
-        lst = self._smart_callbacks.setdefault(e, [])
         if isinstance(event, unicode): event = PyUnicode_AsUTF8String(event)
-        if not lst:
-            evas_object_smart_callback_add(self.obj,
-                <const char *>event if event is not None else NULL,
-                _smart_callback, <void *>e)
-        lst.append((event_conv, func, args, kargs))
+
+        spec = (event_conv, func, args, kargs)
+        Py_INCREF(spec)
+
+        evas_object_smart_callback_add(self.obj,
+            <const char *>event if event is not None else NULL,
+            _smart_callback, <void *>spec)
 
         return 1
 
@@ -783,30 +775,21 @@ cdef class SmartObject(Object):
         :raise ValueError: if there was no **func** connected with this event.
 
         """
-        try:
-            lst = self._smart_callbacks[event]
-        except KeyError as e:
-            raise ValueError("Unknown event %r" % event)
+        cdef:
+            void *tmp
+            tuple spec
 
-        i = -1
-        ec = None
-        f = None
-        for i, (ec, f, a, k) in enumerate(lst):
-            if event_conv == ec and func == f:
-                break
-
-        if f != func or ec != event_conv:
-            raise ValueError("Callback %s was not registered with event %r" %
-                             (func, event))
-
-        lst.pop(i)
-        if lst:
-            return 1
-        self._smart_callbacks.pop(event)
         if isinstance(event, unicode): event = PyUnicode_AsUTF8String(event)
-        evas_object_smart_callback_del(self.obj,
+
+        tmp = evas_object_smart_callback_del(self.obj,
             <const char *>event if event is not None else NULL,
             _smart_callback)
+
+        if tmp == NULL:
+            return 1
+        else:
+            spec = <tuple>tmp
+            Py_DECREF(spec)
 
         return 1
 

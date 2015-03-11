@@ -1205,7 +1205,6 @@ cdef class Textblock(Object):
 
 
 cdef class SmartObject(Object):
-    cdef dict _smart_callbacks
     cdef int _set_obj(self, cEo *obj) except 0
     cdef int _callback_add_full(self, event, event_conv, func, tuple args, dict kargs) except 0
     cdef int _callback_del_full(self, event, event_conv, func) except 0
