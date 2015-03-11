@@ -591,6 +591,9 @@ cdef class SmartObject(Object):
         should be instantiated and passed to this classes constructor as
         parameter ``smart``
     """
+    def __cinit__(self):
+        self._owned_references = list()
+
     def __init__(self, Canvas canvas not None, Smart smart not None, **kwargs):
         #_smart_classes.append(<uintptr_t>cls_def)
         self._set_obj(evas_object_smart_add(canvas.obj, smart.cls))
@@ -749,7 +752,8 @@ cdef class SmartObject(Object):
         if isinstance(event, unicode): event = PyUnicode_AsUTF8String(event)
 
         spec = (event_conv, func, args, kargs)
-        Py_INCREF(spec)
+        self._owned_references.append(spec)
+        #Py_INCREF(spec)
 
         evas_object_smart_callback_add(self.obj,
             <const char *>event if event is not None else NULL,
@@ -789,7 +793,8 @@ cdef class SmartObject(Object):
             return 1
         else:
             spec = <tuple>tmp
-            Py_DECREF(spec)
+            self._owned_references.remove(spec)
+            #Py_DECREF(spec)
 
         return 1
 
