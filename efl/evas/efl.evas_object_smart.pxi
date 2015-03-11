@@ -598,7 +598,7 @@ cdef class SmartObject(Object):
         parameter ``smart``
     """
     def __cinit__(self):
-        self._owned_references = list()
+        self._smart_callback_specs = dict()
 
     def __init__(self, Canvas canvas not None, Smart smart not None, **kwargs):
         #_smart_classes.append(<uintptr_t>cls_def)
@@ -756,8 +756,8 @@ cdef class SmartObject(Object):
         if isinstance(event, unicode): event = PyUnicode_AsUTF8String(event)
 
         spec = (<uintptr_t><void *>event_conv, func, args, kargs)
-        self._owned_references.append(spec)
-        #Py_INCREF(spec)
+        lst = self._smart_callback_specs.setdefault(event, [])
+        lst.append(spec)
 
         evas_object_smart_callback_add(self.obj,
             <const char *>event if event is not None else NULL,
@@ -784,21 +784,36 @@ cdef class SmartObject(Object):
 
         """
         cdef:
-            void *tmp
             tuple spec
+            int found = 0
+            int i
+            void *tmp
 
         if isinstance(event, unicode): event = PyUnicode_AsUTF8String(event)
 
-        tmp = evas_object_smart_callback_del(self.obj,
+        lst = self._smart_callback_specs.get(event, None)
+
+        if lst is None:
+            raise ValueError("No callbacks registered for the given event type")
+
+        for i, spec in enumerate(lst):
+            if spec[1] is func:
+                found = 1
+                break
+
+        if found == 0:
+            raise ValueError("func not registered")
+
+        tmp = evas_object_smart_callback_del_full(self.obj,
             <const char *>event if event is not None else NULL,
-            _smart_callback)
+            _smart_callback,
+            <void *>spec
+            )
 
         if tmp == NULL:
-            return 1
-        else:
-            spec = <tuple>tmp
-            self._owned_references.remove(spec)
-            #Py_DECREF(spec)
+            raise RuntimeError("Something went wrong while unregistering!")
+
+        lst.pop(i)
 
         return 1
 

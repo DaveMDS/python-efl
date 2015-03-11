@@ -800,6 +800,7 @@ cdef extern from "Evas.h":
     void evas_object_smart_data_set(Evas_Object *obj, void *data)
     void evas_object_smart_callback_add(Evas_Object *obj, const char *event, Evas_Smart_Cb func, const void *data)
     void *evas_object_smart_callback_del(Evas_Object *obj, const char *event, Evas_Smart_Cb func)
+    void *evas_object_smart_callback_del_full(Evas_Object *obj, const char *event, Evas_Smart_Cb func, const void *data)
     void evas_object_smart_callback_call(Evas_Object *obj, const char *event, void *event_info)
     void evas_object_smart_changed(Evas_Object *obj)
     void evas_object_smart_need_recalculate_set(Evas_Object *obj, int value)
@@ -1211,7 +1212,7 @@ cdef class Textblock(Object):
 
 cdef class SmartObject(Object):
     cdef:
-        list _owned_references
+        dict _smart_callback_specs
         int _set_obj(self, cEo *obj) except 0
         int _callback_add_full(self, event, object(*)(void*), func, tuple args, dict kargs) except 0
         int _callback_del_full(self, event, object(*)(void*), func) except 0
