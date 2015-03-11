@@ -1644,7 +1644,7 @@ cdef class Map(Object):
 
     def callback_clicked_add(self, func, *args, **kwargs):
         """ Add a callback to be called on the "clicked" signal. """
-        self._callback_add("clicked", func, *args, **kwargs)
+        self._callback_add("clicked", func, args, kwargs)
 
     def callback_clicked_del(self, func):
         """ Delete a previously attached callback """
@@ -1652,7 +1652,7 @@ cdef class Map(Object):
 
     def callback_clicked_double_add(self, func, *args, **kwargs):
         """ Add a callback to be called on the "clicked,double" signal. """
-        self._callback_add("clicked,double", func, *args, **kwargs)
+        self._callback_add("clicked,double", func, args, kwargs)
 
     def callback_clicked_double_del(self, func):
         """ Delete a previously attached callback """
@@ -1660,7 +1660,7 @@ cdef class Map(Object):
 
     def callback_press_add(self, func, *args, **kwargs):
         """ Add a callback to be called on the "press" signal. """
-        self._callback_add("press", func, *args, **kwargs)
+        self._callback_add("press", func, args, kwargs)
 
     def callback_press_del(self, func):
         """ Delete a previously attached callback """
@@ -1668,7 +1668,7 @@ cdef class Map(Object):
 
     def callback_longpressed_add(self, func, *args, **kwargs):
         """ Add a callback to be called on the "longpressed" signal. """
-        self._callback_add("longpressed", func, *args, **kwargs)
+        self._callback_add("longpressed", func, args, kwargs)
 
     def callback_longpressed_del(self, func):
         """ Delete a previously attached callback """
@@ -1676,7 +1676,7 @@ cdef class Map(Object):
 
     def callback_scroll_add(self, func, *args, **kwargs):
         """ Add a callback to be called on the "scroll" signal. """
-        self._callback_add("scroll", func, *args, **kwargs)
+        self._callback_add("scroll", func, args, kwargs)
 
     def callback_scroll_del(self, func):
         """ Delete a previously attached callback """
@@ -1684,7 +1684,7 @@ cdef class Map(Object):
 
     def callback_scroll_drag_start_add(self, func, *args, **kwargs):
         """ Add a callback to be called on the "scroll,drag,start" signal. """
-        self._callback_add("scroll,drag,start", func, *args, **kwargs)
+        self._callback_add("scroll,drag,start", func, args, kwargs)
 
     def callback_scroll_drag_start_del(self, func):
         """ Delete a previously attached callback """
@@ -1692,7 +1692,7 @@ cdef class Map(Object):
 
     def callback_scroll_drag_stop_add(self, func, *args, **kwargs):
         """ Add a callback to be called on the "scroll,drag,stop" signal. """
-        self._callback_add("scroll,drag,stop", func, *args, **kwargs)
+        self._callback_add("scroll,drag,stop", func, args, kwargs)
 
     def callback_scroll_drag_stop_del(self, func):
         """ Delete a previously attached callback """
@@ -1700,7 +1700,7 @@ cdef class Map(Object):
 
     def callback_scroll_anim_start_add(self, func, *args, **kwargs):
         """ Add a callback to be called on the "scroll,anim,start" signal. """
-        self._callback_add("scroll,anim,start", func, *args, **kwargs)
+        self._callback_add("scroll,anim,start", func, args, kwargs)
 
     def callback_scroll_anim_start_del(self, func):
         """ Delete a previously attached callback """
@@ -1708,7 +1708,7 @@ cdef class Map(Object):
 
     def callback_scroll_anim_stop_add(self, func, *args, **kwargs):
         """ Add a callback to be called on the "scroll,anim,stop" signal. """
-        self._callback_add("scroll,anim,stop", func, *args, **kwargs)
+        self._callback_add("scroll,anim,stop", func, args, kwargs)
 
     def callback_scroll_anim_stop_del(self, func):
         """ Delete a previously attached callback """
@@ -1716,7 +1716,7 @@ cdef class Map(Object):
 
     def callback_zoom_start_add(self, func, *args, **kwargs):
         """ Add a callback to be called on the "zoom,start" signal. """
-        self._callback_add("zoom,start", func, *args, **kwargs)
+        self._callback_add("zoom,start", func, args, kwargs)
 
     def callback_zoom_start_del(self, func):
         """ Delete a previously attached callback """
@@ -1724,7 +1724,7 @@ cdef class Map(Object):
 
     def callback_zoom_stop_add(self, func, *args, **kwargs):
         """ Add a callback to be called on the "zoom,stop" signal. """
-        self._callback_add("zoom,stop", func, *args, **kwargs)
+        self._callback_add("zoom,stop", func, args, kwargs)
 
     def callback_zoom_stop_del(self, func):
         """ Delete a previously attached callback """
@@ -1732,7 +1732,7 @@ cdef class Map(Object):
 
     def callback_zoom_change_add(self, func, *args, **kwargs):
         """ Add a callback to be called on the "zoom,change" signal. """
-        self._callback_add("zoom,change", func, *args, **kwargs)
+        self._callback_add("zoom,change", func, args, kwargs)
 
     def callback_zoom_change_del(self, func):
         """ Delete a previously attached callback """
@@ -1740,7 +1740,7 @@ cdef class Map(Object):
 
     def callback_tile_load_add(self, func, *args, **kwargs):
         """ Add a callback to be called on the "tile,load" signal. """
-        self._callback_add("tile,load", func, *args, **kwargs)
+        self._callback_add("tile,load", func, args, kwargs)
 
     def callback_tile_load_del(self, func):
         """ Delete a previously attached callback """
@@ -1748,7 +1748,7 @@ cdef class Map(Object):
 
     def callback_tile_loaded_add(self, func, *args, **kwargs):
         """ Add a callback to be called on the "tile,loaded" signal. """
-        self._callback_add("tile,loaded", func, *args, **kwargs)
+        self._callback_add("tile,loaded", func, args, kwargs)
 
     def callback_tile_loaded_del(self, func):
         """ Delete a previously attached callback """
@@ -1756,7 +1756,7 @@ cdef class Map(Object):
 
     def callback_tile_loaded_fail_add(self, func, *args, **kwargs):
         """ Add a callback to be called on the "tile,loaded,fail" signal. """
-        self._callback_add("tile,loaded,fail", func, *args, **kwargs)
+        self._callback_add("tile,loaded,fail", func, args, kwargs)
 
     def callback_tile_loaded_fail_del(self, func):
         """ Delete a previously attached callback """
@@ -1764,7 +1764,7 @@ cdef class Map(Object):
 
     def callback_route_load_add(self, func, *args, **kwargs):
         """ Add a callback to be called on the "route,load" signal. """
-        self._callback_add("route,load", func, *args, **kwargs)
+        self._callback_add("route,load", func, args, kwargs)
 
     def callback_route_load_del(self, func):
         """ Delete a previously attached callback """
@@ -1772,7 +1772,7 @@ cdef class Map(Object):
 
     def callback_route_loaded_add(self, func, *args, **kwargs):
         """ Add a callback to be called on the "route,loaded" signal. """
-        self._callback_add("route,loaded", func, *args, **kwargs)
+        self._callback_add("route,loaded", func, args, kwargs)
 
     def callback_route_loaded_del(self, func):
         """ Delete a previously attached callback """
@@ -1780,7 +1780,7 @@ cdef class Map(Object):
 
     def callback_route_loaded_fail_add(self, func, *args, **kwargs):
         """ Add a callback to be called on the "route,loaded,fail" signal. """
-        self._callback_add("route,loaded,fail", func, *args, **kwargs)
+        self._callback_add("route,loaded,fail", func, args, kwargs)
 
     def callback_route_loaded_fail_del(self, func):
         """ Delete a previously attached callback """
@@ -1788,7 +1788,7 @@ cdef class Map(Object):
 
     def callback_name_load_add(self, func, *args, **kwargs):
         """ Add a callback to be called on the "name,load" signal. """
-        self._callback_add("name,load", func, *args, **kwargs)
+        self._callback_add("name,load", func, args, kwargs)
 
     def callback_name_load_del(self, func):
         """ Delete a previously attached callback """
@@ -1796,7 +1796,7 @@ cdef class Map(Object):
 
     def callback_name_loaded_add(self, func, *args, **kwargs):
         """ Add a callback to be called on the "name,loaded" signal. """
-        self._callback_add("name,loaded", func, *args, **kwargs)
+        self._callback_add("name,loaded", func, args, kwargs)
 
     def callback_name_loaded_del(self, func):
         """ Delete a previously attached callback """
@@ -1804,7 +1804,7 @@ cdef class Map(Object):
 
     def callback_name_loaded_fail_add(self, func, *args, **kwargs):
         """ Add a callback to be called on the "name,loaded,fail" signal. """
-        self._callback_add("name,loaded,fail", func, *args, **kwargs)
+        self._callback_add("name,loaded,fail", func, args, kwargs)
 
     def callback_name_loaded_fail_del(self, func):
         """ Delete a previously attached callback """
@@ -1812,7 +1812,7 @@ cdef class Map(Object):
 
     def callback_overlay_clicked_add(self, func, *args, **kwargs):
         """ Add a callback to be called on the "overlay,clicked" signal. """
-        self._callback_add("overlay,clicked", func, *args, **kwargs)
+        self._callback_add("overlay,clicked", func, args, kwargs)
 
     def callback_overlay_clicked_del(self, func):
         """ Delete a previously attached callback """
@@ -1820,7 +1820,7 @@ cdef class Map(Object):
 
     def callback_overlay_del_add(self, func, *args, **kwargs):
         """ Add a callback to be called on the "overlay,del" signal. """
-        self._callback_add("overlay,del", func, *args, **kwargs)
+        self._callback_add("overlay,del", func, args, kwargs)
 
     def callback_overlay_del_del(self, func):
         """ Delete a previously attached callback """
@@ -1828,7 +1828,7 @@ cdef class Map(Object):
 
     def callback_loaded_add(self, func, *args, **kwargs):
         """ Add a callback to be called on the "loaded" signal. """
-        self._callback_add("loaded", func, *args, **kwargs)
+        self._callback_add("loaded", func, args, kwargs)
 
     def callback_loaded_del(self, func):
         """ Delete a previously attached callback """
@@ -1836,7 +1836,7 @@ cdef class Map(Object):
 
     def callback_language_changed_add(self, func, *args, **kwargs):
         """ Add a callback to be called on the "language,changed" signal. """
-        self._callback_add("language,changed", func, *args, **kwargs)
+        self._callback_add("language,changed", func, args, kwargs)
 
     def callback_language_changed_del(self, func):
         """ Delete a previously attached callback """
@@ -1847,7 +1847,7 @@ cdef class Map(Object):
 
         .. versionadded:: 1.8
         """
-        self._callback_add("focused", func, *args, **kwargs)
+        self._callback_add("focused", func, args, kwargs)
 
     def callback_focused_del(self, func):
         self._callback_del("focused", func)
@@ -1857,7 +1857,7 @@ cdef class Map(Object):
 
         .. versionadded:: 1.8
         """
-        self._callback_add("unfocused", func, *args, **kwargs)
+        self._callback_add("unfocused", func, args, kwargs)
 
     def callback_unfocused_del(self, func):
         self._callback_del("unfocused", func)

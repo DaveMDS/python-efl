@@ -706,63 +706,63 @@ cdef class Scrollable(Object):
 
     def callback_edge_left_add(self, func, *args, **kwargs):
         """The left edge of the content has been reached."""
-        self._callback_add("edge,left", func, *args, **kwargs)
+        self._callback_add("edge,left", func, args, kwargs)
 
     def callback_edge_left_del(self, func):
         self._callback_del("edge,left", func)
 
     def callback_edge_right_add(self, func, *args, **kwargs):
         """The right edge of the content has been reached."""
-        self._callback_add("edge,right", func, *args, **kwargs)
+        self._callback_add("edge,right", func, args, kwargs)
 
     def callback_edge_right_del(self, func):
         self._callback_del("edge,right", func)
 
     def callback_edge_top_add(self, func, *args, **kwargs):
         """The top edge of the content has been reached."""
-        self._callback_add("edge,top", func, *args, **kwargs)
+        self._callback_add("edge,top", func, args, kwargs)
 
     def callback_edge_top_del(self, func):
         self._callback_del("edge,top", func)
 
     def callback_edge_bottom_add(self, func, *args, **kwargs):
         """The bottom edge of the content has been reached."""
-        self._callback_add("edge,bottom", func, *args, **kwargs)
+        self._callback_add("edge,bottom", func, args, kwargs)
 
     def callback_edge_bottom_del(self, func):
         self._callback_del("edge,bottom", func)
 
     def callback_scroll_add(self, func, *args, **kwargs):
         """The content has been scrolled (moved)."""
-        self._callback_add("scroll", func, *args, **kwargs)
+        self._callback_add("scroll", func, args, kwargs)
 
     def callback_scroll_del(self, func):
         self._callback_del("scroll", func)
 
     def callback_scroll_left_add(self, func, *args, **kwargs):
         """the content has been scrolled (moved) leftwards"""
-        self._callback_add("scroll,left", func, *args, **kwargs)
+        self._callback_add("scroll,left", func, args, kwargs)
 
     def callback_scroll_left_del(self, func):
         self._callback_del("scroll,left", func)
 
     def callback_scroll_right_add(self, func, *args, **kwargs):
         """the content has been scrolled (moved) rightwards"""
-        self._callback_add("scroll,right", func, *args, **kwargs)
+        self._callback_add("scroll,right", func, args, kwargs)
 
     def callback_scroll_right_del(self, func):
         self._callback_del("scroll,right", func)
 
     def callback_scroll_up_add(self, func, *args, **kwargs):
         """the content has been scrolled (moved) upwards"""
-        self._callback_add("scroll,up", func, *args, **kwargs)
+        self._callback_add("scroll,up", func, args, kwargs)
 
     def callback_scroll_up_del(self, func):
         self._callback_del("scroll,up", func)
 
     def callback_scroll_down_add(self, func, *args, **kwargs):
         """the content has been scrolled (moved) downwards"""
-        self._callback_add("scroll,down", func, *args, **kwargs)
+        self._callback_add("scroll,down", func, args, kwargs)
 
     def callback_scroll_down_del(self, func):
         self._callback_del("scroll,down", func)
@@ -770,77 +770,77 @@ cdef class Scrollable(Object):
 
     def callback_scroll_anim_start_add(self, func, *args, **kwargs):
         """Scrolling animation has started."""
-        self._callback_add("scroll,anim,start", func, *args, **kwargs)
+        self._callback_add("scroll,anim,start", func, args, kwargs)
 
     def callback_scroll_anim_start_del(self, func):
         self._callback_del("scroll,anim,start", func)
 
     def callback_scroll_anim_stop_add(self, func, *args, **kwargs):
         """Scrolling animation has stopped."""
-        self._callback_add("scroll,anim,stop", func, *args, **kwargs)
+        self._callback_add("scroll,anim,stop", func, args, kwargs)
 
     def callback_scroll_anim_stop_del(self, func):
         self._callback_del("scroll,anim,stop", func)
 
     def callback_scroll_drag_start_add(self, func, *args, **kwargs):
         """Dragging the contents around has started."""
-        self._callback_add("scroll,drag,start", func, *args, **kwargs)
+        self._callback_add("scroll,drag,start", func, args, kwargs)
 
     def callback_scroll_drag_start_del(self, func):
         self._callback_del("scroll,drag,start", func)
 
     def callback_scroll_drag_stop_add(self, func, *args, **kwargs):
         """Dragging the contents around has stopped."""
-        self._callback_add("scroll,drag,stop", func, *args, **kwargs)
+        self._callback_add("scroll,drag,stop", func, args, kwargs)
 
     def callback_scroll_drag_stop_del(self, func):
         self._callback_del("scroll,drag,stop", func)
 
     def callback_vbar_drag_add(self, func, *args, **kwargs):
         """the vertical scroll bar has been dragged"""
-        self._callback_add("vbar,drag", func, *args, **kwargs)
+        self._callback_add("vbar,drag", func, args, kwargs)
 
     def callback_vbar_drag_del(self, func):
         self._callback_del("vbar,drag", func)
 
     def callback_vbar_press_add(self, func, *args, **kwargs):
         """the vertical scroll bar has been pressed"""
-        self._callback_add("vbar,press", func, *args, **kwargs)
+        self._callback_add("vbar,press", func, args, kwargs)
 
     def callback_vbar_press_del(self, func):
         self._callback_del("vbar,press", func)
 
     def callback_vbar_unpress_add(self, func, *args, **kwargs):
         """the vertical scroll bar has been unpressed"""
-        self._callback_add("vbar,unpress", func, *args, **kwargs)
+        self._callback_add("vbar,unpress", func, args, kwargs)
 
     def callback_vbar_unpress_del(self, func):
         self._callback_del("vbar,unpress", func)
 
     def callback_hbar_drag_add(self, func, *args, **kwargs):
         """the horizontal scroll bar has been dragged"""
-        self._callback_add("hbar,drag", func, *args, **kwargs)
+        self._callback_add("hbar,drag", func, args, kwargs)
 
     def callback_hbar_drag_del(self, func):
         self._callback_del("hbar,drag", func)
 
     def callback_hbar_press_add(self, func, *args, **kwargs):
         """the horizontal scroll bar has been pressed"""
-        self._callback_add("hbar,press", func, *args, **kwargs)
+        self._callback_add("hbar,press", func, args, kwargs)
 
     def callback_hbar_press_del(self, func):
         self._callback_del("hbar,press", func)
 
     def callback_hbar_unpress_add(self, func, *args, **kwargs):
         """the horizontal scroll bar has been unpressed"""
-        self._callback_add("hbar,unpress", func, *args, **kwargs)
+        self._callback_add("hbar,unpress", func, args, kwargs)
 
     def callback_hbar_unpress_del(self, func):
         self._callback_del("hbar,unpress", func)
 
     def callback_scroll_page_changed_add(self, func, *args, **kwargs):
         """the visible page has changed"""
-        self._callback_add("scroll,page,changed", func, *args, **kwargs)
+        self._callback_add("scroll,page,changed", func, args, kwargs)
 
     def callback_scroll_page_changed_del(self, func):
         self._callback_del("scroll,page,changed", func)
@@ -850,7 +850,7 @@ cdef class Scrollable(Object):
 
         .. versionadded:: 1.8
         """
-        self._callback_add("focused", func, *args, **kwargs)
+        self._callback_add("focused", func, args, kwargs)
 
     def callback_focused_del(self, func):
         self._callback_del("focused", func)
@@ -860,7 +860,7 @@ cdef class Scrollable(Object):
 
         .. versionadded:: 1.8
         """
-        self._callback_add("unfocused", func, *args, **kwargs)
+        self._callback_add("unfocused", func, args, kwargs)
 
     def callback_unfocused_del(self, func):
         self._callback_del("unfocused", func)

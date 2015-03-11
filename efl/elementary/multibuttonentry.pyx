@@ -512,61 +512,61 @@ cdef class MultiButtonEntry(Object):
         Py_INCREF(cbdata)
 
     def callback_item_selected_add(self, func, *args, **kwargs):
-        self._callback_add_full("item,selected", _cb_object_item_conv, func, *args, **kwargs)
+        self._callback_add_full("item,selected", _cb_object_item_conv, func, args, kwargs)
 
     def callback_item_selected_del(self, func):
         self._callback_del_full("item,selected", _cb_object_item_conv, func)
 
     def callback_item_added_add(self, func, *args, **kwargs):
-        self._callback_add_full("item,added", _cb_object_item_conv, func, *args, **kwargs)
+        self._callback_add_full("item,added", _cb_object_item_conv, func, args, kwargs)
 
     def callback_item_added_del(self, func):
         self._callback_del_full("item,added", _cb_object_item_conv, func)
 
     def callback_item_deleted_add(self, func, *args, **kwargs):
-        self._callback_add_full("item,deleted", _cb_object_item_conv, func, *args, **kwargs)
+        self._callback_add_full("item,deleted", _cb_object_item_conv, func, args, kwargs)
 
     def callback_item_deleted_del(self, func):
         self._callback_del_full("item,deleted", _cb_object_item_conv, func)
 
     def callback_item_clicked_add(self, func, *args, **kwargs):
-        self._callback_add_full("item,clicked", _cb_object_item_conv, func, *args, **kwargs)
+        self._callback_add_full("item,clicked", _cb_object_item_conv, func, args, kwargs)
 
     def callback_item_clicked_del(self, func):
         self._callback_del_full("item,clicked", _cb_object_item_conv, func)
 
     def callback_clicked_add(self, func, *args, **kwargs):
-        self._callback_add("clicked", func, *args, **kwargs)
+        self._callback_add("clicked", func, args, kwargs)
 
     def callback_clicked_del(self, func):
         self._callback_del("clicked", func)
 
     def callback_focused_add(self, func, *args, **kwargs):
-        self._callback_add("focused", func, *args, **kwargs)
+        self._callback_add("focused", func, args, kwargs)
 
     def callback_focused_del(self, func):
         self._callback_del("focused", func)
 
     def callback_unfocused_add(self, func, *args, **kwargs):
-        self._callback_add("unfocused", func, *args, **kwargs)
+        self._callback_add("unfocused", func, args, kwargs)
 
     def callback_unfocused_del(self, func):
         self._callback_del("unfocused", func)
 
     def callback_expanded_add(self, func, *args, **kwargs):
-        self._callback_add("expanded", func, *args, **kwargs)
+        self._callback_add("expanded", func, args, kwargs)
 
     def callback_expanded_del(self, func):
         self._callback_del("expanded", func)
 
     def callback_contracted_add(self, func, *args, **kwargs):
-        self._callback_add("contracted", func, *args, **kwargs)
+        self._callback_add("contracted", func, args, kwargs)
 
     def callback_contracted_del(self, func):
         self._callback_del("contracted", func)
 
     def callback_expand_state_changed_add(self, func, *args, **kwargs):
-        self._callback_add("expand,state,changed", func, *args, **kwargs)
+        self._callback_add("expand,state,changed", func, args, kwargs)
 
     def callback_expand_state_changed_del(self, func):
         self._callback_del("expand,state,changed", func)

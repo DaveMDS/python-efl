@@ -146,7 +146,7 @@ cdef class Frame(LayoutClass):
 
     def callback_clicked_add(self, func, *args, **kwargs):
         """The user has clicked the frame's label."""
-        self._callback_add("clicked", func, *args, **kwargs)
+        self._callback_add("clicked", func, args, kwargs)
 
     def callback_clicked_del(self, func):
         self._callback_del("clicked", func)

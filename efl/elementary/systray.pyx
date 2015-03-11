@@ -80,7 +80,6 @@ from cpython cimport PyUnicode_AsUTF8String, Py_INCREF
 
 from efl.c_eo cimport eo_do, eo_do_ret, eo_add, Eo as cEo
 from efl.eo cimport Eo, object_from_instance
-from object cimport Object
 from efl.ecore cimport Event, EventHandler, _event_mapping_register
 from efl.utils.conversions cimport _ctouni
 
@@ -95,7 +94,7 @@ cdef class EventSystrayReady(Event):
 _event_mapping_register(ELM_EVENT_SYSTRAY_READY, EventSystrayReady)
 
 
-cdef class Systray(Object):
+cdef class Systray(Eo):
 
     """
 

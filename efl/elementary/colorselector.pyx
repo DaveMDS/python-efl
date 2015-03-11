@@ -287,7 +287,7 @@ cdef class Colorselector(LayoutClass):
         :rtype: list of :py:class:`ColorselectorPaletteItem`
 
         .. versionadded:: 1.9
-        
+
         """
         cdef:
             list ret = list()
@@ -313,7 +313,7 @@ cdef class Colorselector(LayoutClass):
 
     def callback_changed_add(self, func, *args, **kwargs):
         """When the color value changes on selector"""
-        self._callback_add("changed", func, *args, **kwargs)
+        self._callback_add("changed", func, args, kwargs)
 
     def callback_changed_del(self, func):
         self._callback_del("changed", func)
@@ -323,7 +323,7 @@ cdef class Colorselector(LayoutClass):
         callback will be the selected color item."""
         self._callback_add_full("color,item,selected",
                                 _cb_object_item_conv,
-                                func, *args, **kwargs)
+                                func, args, kwargs)
 
     def callback_color_item_selected_del(self, func):
         self._callback_del_full("color,item,selected",
@@ -334,7 +334,7 @@ cdef class Colorselector(LayoutClass):
         the callback will be the selected color item."""
         self._callback_add_full("color,item,longpressed",
                                 _cb_object_item_conv,
-                                func, *args, **kwargs)
+                                func, args, kwargs)
 
     def callback_color_item_longpressed_del(self, func):
         self._callback_del_full("color,item,longpressed",
@@ -345,7 +345,7 @@ cdef class Colorselector(LayoutClass):
 
         .. versionadded:: 1.8
         """
-        self._callback_add("focused", func, *args, **kwargs)
+        self._callback_add("focused", func, args, kwargs)
 
     def callback_focused_del(self, func):
         self._callback_del("focused", func)
@@ -355,7 +355,7 @@ cdef class Colorselector(LayoutClass):
 
         .. versionadded:: 1.8
         """
-        self._callback_add("unfocused", func, *args, **kwargs)
+        self._callback_add("unfocused", func, args, kwargs)
 
     def callback_unfocused_del(self, func):
         self._callback_del("unfocused", func)

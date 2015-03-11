@@ -408,14 +408,14 @@ cdef class Photocam(Object):
     def callback_clicked_add(self, func, *args, **kwargs):
         """This is called when a user has clicked the photo without dragging
         around."""
-        self._callback_add("clicked", func, *args, **kwargs)
+        self._callback_add("clicked", func, args, kwargs)
 
     def callback_clicked_del(self, func):
         self._callback_del("clicked", func)
 
     def callback_press_add(self, func, *args, **kwargs):
         """This is called when a user has pressed down on the photo."""
-        self._callback_add("press", func, *args, **kwargs)
+        self._callback_add("press", func, args, kwargs)
 
     def callback_press_del(self, func):
         self._callback_del("press", func)
@@ -423,21 +423,21 @@ cdef class Photocam(Object):
     def callback_longpressed_add(self, func, *args, **kwargs):
         """This is called when a user has pressed down on the photo for a
         long time without dragging around."""
-        self._callback_add("longpressed", func, *args, **kwargs)
+        self._callback_add("longpressed", func, args, kwargs)
 
     def callback_longpressed_del(self, func):
         self._callback_del("longpressed", func)
 
     def callback_clicked_double_add(self, func, *args, **kwargs):
         """This is called when a user has double-clicked the photo."""
-        self._callback_add("clicked,double", func, *args, **kwargs)
+        self._callback_add("clicked,double", func, args, kwargs)
 
     def callback_clicked_double_del(self, func):
         self._callback_del("clicked,double", func)
 
     def callback_load_add(self, func, *args, **kwargs):
         """Photo load begins."""
-        self._callback_add("load", func, *args, **kwargs)
+        self._callback_add("load", func, args, kwargs)
 
     def callback_load_del(self, func):
         self._callback_del("load", func)
@@ -445,14 +445,14 @@ cdef class Photocam(Object):
     def callback_loaded_add(self, func, *args, **kwargs):
         """This is called when the image file load is complete for the first
         view (low resolution blurry version)."""
-        self._callback_add("loaded", func, *args, **kwargs)
+        self._callback_add("loaded", func, args, kwargs)
 
     def callback_loaded_del(self, func):
         self._callback_del("loaded", func)
 
     def callback_load_detail_add(self, func, *args, **kwargs):
         """Photo detailed data load begins."""
-        self._callback_add("load,detail", func, *args, **kwargs)
+        self._callback_add("load,detail", func, args, kwargs)
 
     def callback_load_detail_del(self, func):
         self._callback_del("load,detail", func)
@@ -460,63 +460,63 @@ cdef class Photocam(Object):
     def callback_loaded_detail_add(self, func, *args, **kwargs):
         """This is called when the image file load is complete for the
         detailed image data (full resolution needed)."""
-        self._callback_add("loaded,detail", func, *args, **kwargs)
+        self._callback_add("loaded,detail", func, args, kwargs)
 
     def callback_loaded_detail_del(self, func):
         self._callback_del("loaded,detail", func)
 
     def callback_zoom_start_add(self, func, *args, **kwargs):
         """Zoom animation started."""
-        self._callback_add("zoom,start", func, *args, **kwargs)
+        self._callback_add("zoom,start", func, args, kwargs)
 
     def callback_zoom_start_del(self, func):
         self._callback_del("zoom,start", func)
 
     def callback_zoom_stop_add(self, func, *args, **kwargs):
         """Zoom animation stopped."""
-        self._callback_add("zoom,stop", func, *args, **kwargs)
+        self._callback_add("zoom,stop", func, args, kwargs)
 
     def callback_zoom_stop_del(self, func):
         self._callback_del("zoom,stop", func)
 
     def callback_zoom_change_add(self, func, *args, **kwargs):
         """Zoom changed when using an auto zoom mode."""
-        self._callback_add("zoom,change", func, *args, **kwargs)
+        self._callback_add("zoom,change", func, args, kwargs)
 
     def callback_zoom_change_del(self, func):
         self._callback_del("zoom,change", func)
 
     def callback_scroll_add(self, func, *args, **kwargs):
         """The content has been scrolled (moved)."""
-        self._callback_add("scroll", func, *args, **kwargs)
+        self._callback_add("scroll", func, args, kwargs)
 
     def callback_scroll_del(self, func):
         self._callback_del("scroll", func)
 
     def callback_scroll_anim_start_add(self, func, *args, **kwargs):
         """Scrolling animation has started."""
-        self._callback_add("scroll,anim,start", func, *args, **kwargs)
+        self._callback_add("scroll,anim,start", func, args, kwargs)
 
     def callback_scroll_anim_start_del(self, func):
         self._callback_del("scroll,anim,start", func)
 
     def callback_scroll_anim_stop_add(self, func, *args, **kwargs):
         """Scrolling animation has stopped."""
-        self._callback_add("scroll,anim,stop", func, *args, **kwargs)
+        self._callback_add("scroll,anim,stop", func, args, kwargs)
 
     def callback_scroll_anim_stop_del(self, func):
         self._callback_del("scroll,anim,stop", func)
 
     def callback_scroll_drag_start_add(self, func, *args, **kwargs):
         """Dragging the contents around has started."""
-        self._callback_add("scroll,drag,start", func, *args, **kwargs)
+        self._callback_add("scroll,drag,start", func, args, kwargs)
 
     def callback_scroll_drag_start_del(self, func):
         self._callback_del("scroll,drag,start", func)
 
     def callback_scroll_drag_stop_add(self, func, *args, **kwargs):
         """Dragging the contents around has stopped."""
-        self._callback_add("scroll,drag,stop", func, *args, **kwargs)
+        self._callback_add("scroll,drag,stop", func, args, kwargs)
 
     def callback_scroll_drag_stop_del(self, func):
         self._callback_del("scroll,drag,stop", func)
@@ -527,7 +527,7 @@ cdef class Photocam(Object):
         .. versionadded:: 1.8
 
         """
-        self._callback_add("download,start", func, *args, **kwargs)
+        self._callback_add("download,start", func, args, kwargs)
 
     def callback_download_start_del(self, func):
         self._callback_del("download,start", func)
@@ -538,7 +538,7 @@ cdef class Photocam(Object):
         .. versionadded:: 1.8
 
         """
-        self._callback_add_full("download,progress", _photocam_download_progress_conv, func, *args, **kwargs)
+        self._callback_add_full("download,progress", _photocam_download_progress_conv, func, args, kwargs)
 
     def callback_download_progress_del(self, func):
         self._callback_del_full("download,progress", _photocam_download_progress_conv, func)
@@ -549,7 +549,7 @@ cdef class Photocam(Object):
         .. versionadded:: 1.8
 
         """
-        self._callback_add("download,done", func, *args, **kwargs)
+        self._callback_add("download,done", func, args, kwargs)
 
     def callback_download_done_del(self, func):
         self._callback_del("download,end", func)
@@ -560,17 +560,17 @@ cdef class Photocam(Object):
         .. versionadded:: 1.8
 
         """
-        self._callback_add_full("download,error", _photocam_download_error_conv, func, *args, **kwargs)
+        self._callback_add_full("download,error", _photocam_download_error_conv, func, args, kwargs)
 
     def callback_download_error_del(self, func):
-        self._callback_add_full("download,error", _photocam_download_error_conv, func)
+        self._callback_del_full("download,error", _photocam_download_error_conv, func)
 
     def callback_focused_add(self, func, *args, **kwargs):
         """When the photocam has received focus.
 
         .. versionadded:: 1.8
         """
-        self._callback_add("focused", func, *args, **kwargs)
+        self._callback_add("focused", func, args, kwargs)
 
     def callback_focused_del(self, func):
         self._callback_del("focused", func)
@@ -580,7 +580,7 @@ cdef class Photocam(Object):
 
         .. versionadded:: 1.8
         """
-        self._callback_add("unfocused", func, *args, **kwargs)
+        self._callback_add("unfocused", func, args, kwargs)
 
     def callback_unfocused_del(self, func):
         self._callback_del("unfocused", func)

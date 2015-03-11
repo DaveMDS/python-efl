@@ -306,7 +306,7 @@ cdef class FileselectorButton(Button):
         """The user has selected a path which comes as the ``event_info``
         data."""
         self._callback_add_full("file,chosen", _cb_string_conv,
-                                func, *args, **kwargs)
+                                func, args, kwargs)
 
     def callback_file_chosen_del(self, func):
         self._callback_del_full("file,chosen", _cb_string_conv, func)
@@ -317,7 +317,7 @@ cdef class FileselectorButton(Button):
         .. versionadded:: 1.8.1
 
         """
-        self._callback_add("language,changed", func, *args, **kwargs)
+        self._callback_add("language,changed", func, args, kwargs)
 
     def callback_language_changed_del(self, func):
         self._callback_del("language,changed", func)

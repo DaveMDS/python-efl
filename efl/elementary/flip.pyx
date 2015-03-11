@@ -358,14 +358,14 @@ cdef class Flip(Object):
 
     def callback_animate_begin_add(self, func, *args, **kwargs):
         """When a flip animation was started."""
-        self._callback_add("animate,begin", func, *args, **kwargs)
+        self._callback_add("animate,begin", func, args, kwargs)
 
     def callback_animate_begin_del(self, func):
         self._callback_del("animate,begin", func)
 
     def callback_animate_done_add(self, func, *args, **kwargs):
         """When a flip animation is finished."""
-        self._callback_add("animate,done", func, *args, **kwargs)
+        self._callback_add("animate,done", func, args, kwargs)
 
     def callback_animate_done_del(self, func):
         self._callback_del("animate,done", func)

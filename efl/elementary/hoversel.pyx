@@ -392,21 +392,21 @@ cdef class Hoversel(Button):
 
     def callback_clicked_add(self, func, *args, **kwargs):
         """The user clicked the hoversel button and popped up the sel."""
-        self._callback_add("clicked", func, *args, **kwargs)
+        self._callback_add("clicked", func, args, kwargs)
 
     def callback_clicked_del(self, func):
         self._callback_del("clicked", func)
 
     def callback_selected_add(self, func, *args, **kwargs):
         """An item in the hoversel list is selected. event_info is the item."""
-        self._callback_add_full("selected", _cb_object_item_conv, func, *args, **kwargs)
+        self._callback_add_full("selected", _cb_object_item_conv, func, args, kwargs)
 
     def callback_selected_del(self, func):
         self._callback_del_full("selected", _cb_object_item_conv, func)
 
     def callback_dismissed_add(self, func, *args, **kwargs):
         """The hover is dismissed."""
-        self._callback_add("dismissed", func, *args, **kwargs)
+        self._callback_add("dismissed", func, args, kwargs)
 
     def callback_dismissed_del(self, func):
         self._callback_del("dismissed", func)
@@ -417,7 +417,7 @@ cdef class Hoversel(Button):
         .. versionadded:: 1.9
 
         """
-        self._callback_add("expanded", func, *args, **kwargs)
+        self._callback_add("expanded", func, args, kwargs)
 
     def callback_expanded_del(self, func):
         self._callback_del("expanded", func)
@@ -428,7 +428,7 @@ cdef class Hoversel(Button):
         .. versionadded:: 1.10
 
         """
-        self._callback_add_full("item,focused", _cb_object_item_conv, func, *args, **kwargs)
+        self._callback_add_full("item,focused", _cb_object_item_conv, func, args, kwargs)
 
     def callback_item_focused_del(self, func):
         self._callback_del_full("item,focused", _cb_object_item_conv, func)
@@ -439,7 +439,7 @@ cdef class Hoversel(Button):
         .. versionadded:: 1.10
 
         """
-        self._callback_add_full("item,unfocused", _cb_object_item_conv, func, *args, **kwargs)
+        self._callback_add_full("item,unfocused", _cb_object_item_conv, func, args, kwargs)
 
     def callback_item_unfocused_del(self, func):
         self._callback_del_full("item,unfocused", _cb_object_item_conv, func)

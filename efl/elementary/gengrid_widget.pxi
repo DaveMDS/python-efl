@@ -737,21 +737,21 @@ cdef class Gengrid(Object):
 
     def callback_activated_add(self, func, *args, **kwargs):
         self._callback_add_full("activated", _cb_object_item_conv,
-                                func, *args, **kwargs)
+                                func, args, kwargs)
 
     def callback_activated_del(self, func):
         self._callback_del_full("activated", _cb_object_item_conv, func)
 
     def callback_clicked_double_add(self, func, *args, **kwargs):
         self._callback_add_full("clicked,double", _cb_object_item_conv,
-                                func, *args, **kwargs)
+                                func, args, kwargs)
 
     def callback_clicked_double_del(self, func):
         self._callback_del_full("clicked,double", _cb_object_item_conv, func)
 
     def callback_clicked_add(self, func, *args, **kwargs):
         self._callback_add_full("clicked", _cb_object_item_conv,
-                                func, *args, **kwargs)
+                                func, args, kwargs)
 
     def callback_clicked_del(self, func):
         self._callback_del_full("clicked", _cb_object_item_conv, func)
@@ -763,21 +763,21 @@ cdef class Gengrid(Object):
 
         """
         self._callback_add_full("clicked,right", _cb_object_item_conv,
-                                func, *args, **kwargs)
+                                func, args, kwargs)
 
     def callback_clicked_right_del(self, func):
         self._callback_del_full("clicked,right", _cb_object_item_conv, func)
 
     def callback_selected_add(self, func, *args, **kwargs):
         self._callback_add_full("selected", _cb_object_item_conv,
-                                func, *args, **kwargs)
+                                func, args, kwargs)
 
     def callback_selected_del(self, func):
         self._callback_del_full("selected",  _cb_object_item_conv, func)
 
     def callback_unselected_add(self, func, *args, **kwargs):
         self._callback_add_full("unselected", _cb_object_item_conv,
-                                func, *args, **kwargs)
+                                func, args, kwargs)
 
     def callback_unselected_del(self, func):
         self._callback_del_full("unselected", _cb_object_item_conv, func)
@@ -791,7 +791,7 @@ cdef class Gengrid(Object):
         :py:attr:`GengridItem.object`, because it may point to freed
         objects."""
         self._callback_add_full("realized", _cb_object_item_conv,
-                                func, *args, **kwargs)
+                                func, args, kwargs)
 
     def callback_realized_del(self, func):
         self._callback_del_full("realized", _cb_object_item_conv, func)
@@ -801,7 +801,7 @@ cdef class Gengrid(Object):
         object for this item is deleted. ``event_info`` is the gengrid
         item that was deleted."""
         self._callback_add_full("unrealized", _cb_object_item_conv,
-                                func, *args, **kwargs)
+                                func, args, kwargs)
 
     def callback_unrealized_del(self, func):
         self._callback_del_full("unrealized", _cb_object_item_conv, func)
@@ -810,7 +810,7 @@ cdef class Gengrid(Object):
         """Called when an item is added, removed, resized
         or moved and when the gengrid is resized or gets "horizontal"
         property changes."""
-        self._callback_add("changed", func, *args, **kwargs)
+        self._callback_add("changed", func, args, kwargs)
 
     def callback_changed_del(self, func):
         self._callback_del("changed", func)
@@ -818,7 +818,7 @@ cdef class Gengrid(Object):
     def callback_scroll_anim_start_add(self, func, *args, **kwargs):
         """This is called when scrolling animation has
         started."""
-        self._callback_add("scroll,anim,start", func, *args, **kwargs)
+        self._callback_add("scroll,anim,start", func, args, kwargs)
 
     def callback_scroll_anim_start_del(self, func):
         self._callback_del("scroll,anim,start", func)
@@ -826,7 +826,7 @@ cdef class Gengrid(Object):
     def callback_scroll_anim_stop_add(self, func, *args, **kwargs):
         """This is called when scrolling animation has
         stopped."""
-        self._callback_add("scroll,anim,stop", func, *args, **kwargs)
+        self._callback_add("scroll,anim,stop", func, args, kwargs)
 
     def callback_scroll_anim_stop_del(self, func):
         self._callback_del("scroll,anim,stop", func)
@@ -834,7 +834,7 @@ cdef class Gengrid(Object):
     def callback_drag_start_up_add(self, func, *args, **kwargs):
         """Called when the item in the gengrid has
         been dragged (not scrolled) up."""
-        self._callback_add("drag,start,up", func, *args, **kwargs)
+        self._callback_add("drag,start,up", func, args, kwargs)
 
     def callback_drag_start_up_del(self, func):
         self._callback_del("drag,start,up", func)
@@ -842,7 +842,7 @@ cdef class Gengrid(Object):
     def callback_drag_start_down_add(self, func, *args, **kwargs):
         """Called when the item in the gengrid has
         been dragged (not scrolled) down."""
-        self._callback_add("drag,start,down", func, *args, **kwargs)
+        self._callback_add("drag,start,down", func, args, kwargs)
 
     def callback_drag_start_down_del(self, func):
         self._callback_del("drag,start,down", func)
@@ -850,7 +850,7 @@ cdef class Gengrid(Object):
     def callback_drag_start_left_add(self, func, *args, **kwargs):
         """Called when the item in the gengrid has
         been dragged (not scrolled) left."""
-        self._callback_add("drag,start,left", func, *args, **kwargs)
+        self._callback_add("drag,start,left", func, args, kwargs)
 
     def callback_drag_start_left_del(self, func):
         self._callback_del("drag,start,left", func)
@@ -858,7 +858,7 @@ cdef class Gengrid(Object):
     def callback_drag_start_right_add(self, func, *args, **kwargs):
         """Called when the item in the gengrid has
         been dragged (not scrolled) right."""
-        self._callback_add("drag,start,right", func, *args, **kwargs)
+        self._callback_add("drag,start,right", func, args, kwargs)
 
     def callback_drag_start_right_del(self, func):
         self._callback_del("drag,start,right", func)
@@ -866,7 +866,7 @@ cdef class Gengrid(Object):
     def callback_drag_stop_add(self, func, *args, **kwargs):
         """Called when the item in the gengrid has
         stopped being dragged."""
-        self._callback_add("drag,stop", func, *args, **kwargs)
+        self._callback_add("drag,stop", func, args, kwargs)
 
     def callback_drag_stop_del(self, func):
         self._callback_del("drag,stop", func)
@@ -874,7 +874,7 @@ cdef class Gengrid(Object):
     def callback_drag_add(self, func, *args, **kwargs):
         """Called when the item in the gengrid is being
         dragged."""
-        self._callback_add("drag", func, *args, **kwargs)
+        self._callback_add("drag", func, args, kwargs)
 
     def callback_drag_del(self, func):
         self._callback_del("drag", func)
@@ -882,7 +882,7 @@ cdef class Gengrid(Object):
     def callback_scroll_add(self, func, *args, **kwargs):
         """called when the content has been scrolled
         (moved)."""
-        self._callback_add("scroll", func, *args, **kwargs)
+        self._callback_add("scroll", func, args, kwargs)
 
     def callback_scroll_del(self, func):
         self._callback_del("scroll", func)
@@ -890,7 +890,7 @@ cdef class Gengrid(Object):
     def callback_scroll_drag_start_add(self, func, *args, **kwargs):
         """called when dragging the content has
         started."""
-        self._callback_add("scroll,drag,start", func, *args, **kwargs)
+        self._callback_add("scroll,drag,start", func, args, kwargs)
 
     def callback_scroll_drag_start_del(self, func):
         self._callback_del("scroll,drag,start", func)
@@ -898,7 +898,7 @@ cdef class Gengrid(Object):
     def callback_scroll_drag_stop_add(self, func, *args, **kwargs):
         """called when dragging the content has
         stopped."""
-        self._callback_add("scroll,drag,stop", func, *args, **kwargs)
+        self._callback_add("scroll,drag,stop", func, args, kwargs)
 
     def callback_scroll_drag_stop_del(self, func):
         self._callback_del("scroll,drag,stop", func)
@@ -906,7 +906,7 @@ cdef class Gengrid(Object):
     def callback_edge_top_add(self, func, *args, **kwargs):
         """This is called when the gengrid is scrolled until
         the top edge."""
-        self._callback_add("edge,top", func, *args, **kwargs)
+        self._callback_add("edge,top", func, args, kwargs)
 
     def callback_edge_top_del(self, func):
         self._callback_del("edge,top", func)
@@ -914,7 +914,7 @@ cdef class Gengrid(Object):
     def callback_edge_bottom_add(self, func, *args, **kwargs):
         """This is called when the gengrid is scrolled
         until the bottom edge."""
-        self._callback_add("edge,bottom", func, *args, **kwargs)
+        self._callback_add("edge,bottom", func, args, kwargs)
 
     def callback_edge_bottom_del(self, func):
         self._callback_del("edge,bottom", func)
@@ -922,7 +922,7 @@ cdef class Gengrid(Object):
     def callback_edge_left_add(self, func, *args, **kwargs):
         """This is called when the gengrid is scrolled
         until the left edge."""
-        self._callback_add("edge,left", func, *args, **kwargs)
+        self._callback_add("edge,left", func, args, kwargs)
 
     def callback_edge_left_del(self, func):
         self._callback_del("edge,left", func)
@@ -930,7 +930,7 @@ cdef class Gengrid(Object):
     def callback_edge_right_add(self, func, *args, **kwargs):
         """This is called when the gengrid is scrolled
         until the right edge."""
-        self._callback_add("edge,right", func, *args, **kwargs)
+        self._callback_add("edge,right", func, args, kwargs)
 
     def callback_edge_right_del(self, func):
         self._callback_del("edge,right", func)
@@ -940,7 +940,7 @@ cdef class Gengrid(Object):
         interaction in a reorder mode. The %c event_info parameter is the item that
         was moved."""
         self._callback_add_full("moved", _cb_object_item_conv,
-                                func, *args, **kwargs)
+                                func, args, kwargs)
 
     def callback_moved_del(self, func):
         self._callback_del_full("moved", _cb_object_item_conv, func)
@@ -948,7 +948,7 @@ cdef class Gengrid(Object):
     def callback_index_update_add(self, func, *args, **kwargs):
         """This is called when a gengrid item index is changed.
         Note that this callback is called while each item is being realized."""
-        self._callback_add("index,update", func, *args, **kwargs)
+        self._callback_add("index,update", func, args, kwargs)
 
     def callback_index_update_del(self, func):
         self._callback_del("index,update", func)
@@ -959,7 +959,7 @@ cdef class Gengrid(Object):
         physically highlighted. The ``event_info`` parameter is the item that was
         highlighted."""
         self._callback_add_full("highlighted", _cb_object_item_conv,
-                                func, *args, **kwargs)
+                                func, args, kwargs)
 
     def callback_highlighted_del(self, func):
         self._callback_del_full("highlighted", _cb_object_item_conv, func)
@@ -970,7 +970,7 @@ cdef class Gengrid(Object):
         is physically unhighlighted. The ``event_info`` parameter is the item that
         was unhighlighted."""
         self._callback_add_full("unhighlighted", _cb_object_item_conv,
-                                func, *args, **kwargs)
+                                func, args, kwargs)
 
     def callback_unhighlighted_del(self, func):
         self._callback_del_full("unhighlighted", _cb_object_item_conv, func)
@@ -979,14 +979,14 @@ cdef class Gengrid(Object):
         """This is called when the program's language is
         changed. Call :meth:`Gengrid.realized_items_update` if items text
         should be translated."""
-        self.callback_add("language,changed", func, *args, **kwargs)
+        self.callback_add("language,changed", func, args, kwargs)
 
     def callback_focused_add(self, func, *args, **kwargs):
         """When the gengrid has received focus.
 
         .. versionadded:: 1.8
         """
-        self._callback_add("focused", func, *args, **kwargs)
+        self._callback_add("focused", func, args, kwargs)
 
     def callback_focused_del(self, func):
         self._callback_del("focused", func)
@@ -996,7 +996,7 @@ cdef class Gengrid(Object):
 
         .. versionadded:: 1.8
         """
-        self._callback_add("unfocused", func, *args, **kwargs)
+        self._callback_add("unfocused", func, args, kwargs)
 
     def callback_unfocused_del(self, func):
         self._callback_del("unfocused", func)
@@ -1007,7 +1007,7 @@ cdef class Gengrid(Object):
         .. versionadded:: 1.10
 
         """
-        self._callback_add_full("item,focused", _cb_object_item_conv, func, *args, **kwargs)
+        self._callback_add_full("item,focused", _cb_object_item_conv, func, args, kwargs)
 
     def callback_item_focused_del(self, func):
         self._callback_del_full("item,focused", _cb_object_item_conv, func)
@@ -1018,7 +1018,7 @@ cdef class Gengrid(Object):
         .. versionadded:: 1.10
 
         """
-        self._callback_add_full("item,unfocused", _cb_object_item_conv, func, *args, **kwargs)
+        self._callback_add_full("item,unfocused", _cb_object_item_conv, func, args, kwargs)
 
     def callback_item_unfocused_del(self, func):
         self._callback_del_full("item,unfocused", _cb_object_item_conv, func)
@@ -1029,7 +1029,7 @@ cdef class Gengrid(Object):
         .. versionadded:: 1.10
 
         """
-        self._callback_add_full("item,reorder,anim,start", _cb_object_item_conv, func, *args, **kwargs)
+        self._callback_add_full("item,reorder,anim,start", _cb_object_item_conv, func, args, kwargs)
 
     def callback_item_reorder_anim_start_del(self, func):
         self._callback_del_full("item,reorder,anim,start", _cb_object_item_conv, func)
@@ -1040,7 +1040,7 @@ cdef class Gengrid(Object):
         .. versionadded:: 1.10
 
         """
-        self._callback_add_full("item,reorder,anim,stop", _cb_object_item_conv, func, *args, **kwargs)
+        self._callback_add_full("item,reorder,anim,stop", _cb_object_item_conv, func, args, kwargs)
 
     def callback_item_reorder_anim_stop_del(self, func):
         self._callback_del_full("item,reorder,anim,stop", _cb_object_item_conv, func)

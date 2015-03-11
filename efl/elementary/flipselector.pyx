@@ -421,7 +421,7 @@ cdef class FlipSelector(Object):
 
     def callback_selected_add(self, func, *args, **kwargs):
         """When the widget's selected text item is changed."""
-        self._callback_add("selected", func, *args, **kwargs)
+        self._callback_add("selected", func, args, kwargs)
 
     def callback_selected_del(self, func):
         self._callback_del("selected", func)
@@ -429,7 +429,7 @@ cdef class FlipSelector(Object):
     def callback_overflowed_add(self, func, *args, **kwargs):
         """When the widget's current selection is changed from the first
         item in its list to the last."""
-        self._callback_add("overflowed", func, *args, **kwargs)
+        self._callback_add("overflowed", func, args, kwargs)
 
     def callback_overflowed_del(self, func):
         self._callback_del("overflowed", func)
@@ -437,7 +437,7 @@ cdef class FlipSelector(Object):
     def callback_underflowed_add(self, func, *args, **kwargs):
         """When the widget's current selection is changed from the last item
         in its list to the first."""
-        self._callback_add("underflowed", func, *args, **kwargs)
+        self._callback_add("underflowed", func, args, kwargs)
 
     def callback_underflowed_del(self, func):
         self._callback_del("underflowed", func)
@@ -447,7 +447,7 @@ cdef class FlipSelector(Object):
 
         .. versionadded:: 1.8
         """
-        self._callback_add("focused", func, *args, **kwargs)
+        self._callback_add("focused", func, args, kwargs)
 
     def callback_focused_del(self, func):
         self._callback_del("focused", func)
@@ -457,7 +457,7 @@ cdef class FlipSelector(Object):
 
         .. versionadded:: 1.8
         """
-        self._callback_add("unfocused", func, *args, **kwargs)
+        self._callback_add("unfocused", func, args, kwargs)
 
     def callback_unfocused_del(self, func):
         self._callback_del("unfocused", func)

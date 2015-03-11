@@ -521,7 +521,7 @@ cdef class Thumb(Object):
     def callback_clicked_add(self, func, *args, **kwargs):
         """This is called when a user has clicked the thumbnail object
         without dragging it around."""
-        self._callback_add("clicked", func, *args, **kwargs)
+        self._callback_add("clicked", func, args, kwargs)
 
     def callback_clicked_del(self, func):
         self._callback_del("clicked", func)
@@ -529,7 +529,7 @@ cdef class Thumb(Object):
     def callback_clicked_double_add(self, func, *args, **kwargs):
         """This is called when a user has double-clicked the thumbnail
         object."""
-        self._callback_add("clicked,double", func, *args, **kwargs)
+        self._callback_add("clicked,double", func, args, kwargs)
 
     def callback_clicked_double_del(self, func):
         self._callback_del("clicked,double", func)
@@ -537,35 +537,35 @@ cdef class Thumb(Object):
     def callback_press_add(self, func, *args, **kwargs):
         """This is called when a user has pressed down over the thumbnail
         object."""
-        self._callback_add("press", func, *args, **kwargs)
+        self._callback_add("press", func, args, kwargs)
 
     def callback_press_del(self, func):
         self._callback_del("press", func)
 
     def callback_generate_start_add(self, func, *args, **kwargs):
         """The thumbnail generation has started."""
-        self._callback_add("generate,start", func, *args, **kwargs)
+        self._callback_add("generate,start", func, args, kwargs)
 
     def callback_generate_start_del(self, func):
         self._callback_del("generate,start", func)
 
     def callback_generate_stop_add(self, func, *args, **kwargs):
         """The generation process has stopped."""
-        self._callback_add("generate,stop", func, *args, **kwargs)
+        self._callback_add("generate,stop", func, args, kwargs)
 
     def callback_generate_stop_del(self, func):
         self._callback_del("generate,stop", func)
 
     def callback_generate_error_add(self, func, *args, **kwargs):
         """The thumbnail generation failed."""
-        self._callback_add("generate,error", func, *args, **kwargs)
+        self._callback_add("generate,error", func, args, kwargs)
 
     def callback_generate_error_del(self, func):
         self._callback_del("generate,error", func)
 
     def callback_load_error_add(self, func, *args, **kwargs):
         """The thumbnail image loading failed."""
-        self._callback_add("load,error", func, *args, **kwargs)
+        self._callback_add("load,error", func, args, kwargs)
 
     def callback_load_error_del(self, func):
         self._callback_del("load,error", func)

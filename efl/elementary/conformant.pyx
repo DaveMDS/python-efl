@@ -87,7 +87,7 @@ cdef class Conformant(LayoutClass):
         .. versionadded:: 1.8
 
         """
-        self._callback_add("virtualkeypad,state,on", func, *args, **kwargs)
+        self._callback_add("virtualkeypad,state,on", func, args, kwargs)
 
     def callback_virtualkeypad_state_on_del(self, func):
         self._callback_del("virtualkeypad,state,on", func)
@@ -98,7 +98,7 @@ cdef class Conformant(LayoutClass):
         .. versionadded:: 1.8
 
         """
-        self._callback_add("virtualkeypad,state,off", func, *args, **kwargs)
+        self._callback_add("virtualkeypad,state,off", func, args, kwargs)
 
     def callback_virtualkeypad_state_off_del(self, func):
         self._callback_del("virtualkeypad,state,off", func)
@@ -109,7 +109,7 @@ cdef class Conformant(LayoutClass):
         .. versionadded:: 1.8
 
         """
-        self._callback_add("clipboard,state,on", func, *args, **kwargs)
+        self._callback_add("clipboard,state,on", func, args, kwargs)
 
     def callback_clipboard_state_on_del(self, func):
         self._callback_del("clipboard,state,on", func)
@@ -120,7 +120,7 @@ cdef class Conformant(LayoutClass):
         .. versionadded:: 1.8
 
         """
-        self._callback_add("clipboard,state,off", func, *args, **kwargs)
+        self._callback_add("clipboard,state,off", func, args, kwargs)
 
     def callback_clipboard_state_off_del(self, func):
         self._callback_del("clipboard,state,off", func)

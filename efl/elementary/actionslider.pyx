@@ -201,7 +201,7 @@ cdef class Actionslider(LayoutClass):
     def callback_selected_add(self, func, *args, **kwargs):
         """Called when user selects an enabled position. The label is passed
         as event info."""
-        self._callback_add_full("selected", _cb_string_conv, func, *args, **kwargs)
+        self._callback_add_full("selected", _cb_string_conv, func, args, kwargs)
 
     def callback_selected_del(self, func):
         self._callback_del_full("selected", _cb_string_conv, func)
@@ -209,7 +209,7 @@ cdef class Actionslider(LayoutClass):
     def callback_pos_changed_add(self, func, *args, **kwargs):
         """Called when the indicator reaches any of the positions **left**,
         **right** or **center**. The label is passed as event info."""
-        self._callback_add_full("pos_changed", _cb_string_conv, func, *args, **kwargs)
+        self._callback_add_full("pos_changed", _cb_string_conv, func, args, kwargs)
 
     def callback_pos_changed_del(self, func):
         self._callback_del_full("pos_changed", _cb_string_conv, func)

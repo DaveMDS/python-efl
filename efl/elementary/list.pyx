@@ -972,7 +972,7 @@ cdef class List(Object):
 
         `func` signature: ``cb(list, item, *args, **kwargs)`` """
         self._callback_add_full("activated", _cb_object_item_conv,
-                                func, *args, **kwargs)
+                                func, args, kwargs)
 
     def callback_activated_del(self, func):
         self._callback_del_full("activated",  _cb_object_item_conv, func)
@@ -982,7 +982,7 @@ cdef class List(Object):
 
         `func` signature: ``cb(list, item, *args, **kwargs)`` """
         self._callback_add_full("clicked,double", _cb_object_item_conv,
-                                func, *args, **kwargs)
+                                func, args, kwargs)
 
     def callback_clicked_double_del(self, func):
         self._callback_del_full("clicked,double",  _cb_object_item_conv, func)
@@ -996,7 +996,7 @@ cdef class List(Object):
 
         """
         self._callback_add_full("clicked,right", _cb_object_item_conv,
-                                func, *args, **kwargs)
+                                func, args, kwargs)
 
     def callback_clicked_right_del(self, func):
         self._callback_del_full("clicked,right", _cb_object_item_conv, func)
@@ -1006,7 +1006,7 @@ cdef class List(Object):
 
         `func` signature: ``cb(list, item, *args, **kwargs)`` """
         self._callback_add_full("selected", _cb_object_item_conv,
-                                func, *args, **kwargs)
+                                func, args, kwargs)
 
     def callback_selected_del(self, func):
         self._callback_del_full("selected", _cb_object_item_conv, func)
@@ -1016,7 +1016,7 @@ cdef class List(Object):
 
         `func` signature: ``cb(list, item, *args, **kwargs)`` """
         self._callback_add_full("unselected", _cb_object_item_conv,
-                                func, *args, **kwargs)
+                                func, args, kwargs)
 
     def callback_unselected_del(self, func):
         self._callback_del_full("unselected", _cb_object_item_conv, func)
@@ -1026,42 +1026,42 @@ cdef class List(Object):
 
         `func` signature: ``cb(list, item, *args, **kwargs)`` """
         self._callback_add_full("longpressed", _cb_object_item_conv,
-                                func, *args, **kwargs)
+                                func, args, kwargs)
 
     def callback_longpressed_del(self, func):
         self._callback_del_full("longpressed", _cb_object_item_conv, func)
 
     def callback_edge_top_add(self, func, *args, **kwargs):
         """The list is scrolled until the top edge."""
-        self._callback_add("edge,top", func, *args, **kwargs)
+        self._callback_add("edge,top", func, args, kwargs)
 
     def callback_edge_top_del(self, func):
         self._callback_del("edge,top",  func)
 
     def callback_edge_bottom_add(self, func, *args, **kwargs):
         """The list is scrolled until the bottom edge."""
-        self._callback_add("edge,bottom", func, *args, **kwargs)
+        self._callback_add("edge,bottom", func, args, kwargs)
 
     def callback_edge_bottom_del(self, func):
         self._callback_del("edge,bottom",  func)
 
     def callback_edge_left_add(self, func, *args, **kwargs):
         """The list is scrolled until the left edge."""
-        self._callback_add("edge,left", func, *args, **kwargs)
+        self._callback_add("edge,left", func, args, kwargs)
 
     def callback_edge_left_del(self, func):
         self._callback_del("edge,left",  func)
 
     def callback_edge_right_add(self, func, *args, **kwargs):
         """The list is scrolled until the right edge."""
-        self._callback_add("edge,right", func, *args, **kwargs)
+        self._callback_add("edge,right", func, args, kwargs)
 
     def callback_edge_right_del(self, func):
         self._callback_del("edge,right",  func)
 
     def callback_language_changed_add(self, func, *args, **kwargs):
         """The program's language changed."""
-        self._callback_add("language,changed", func, *args, **kwargs)
+        self._callback_add("language,changed", func, args, kwargs)
 
     def callback_language_changed_del(self, func):
         self._callback_del("language,changed",  func)
@@ -1077,7 +1077,7 @@ cdef class List(Object):
 
         """
         self._callback_add_full("highlighted", _cb_object_item_conv,
-                                func, *args, **kwargs)
+                                func, args, kwargs)
 
     def callback_highlighted_del(self, func):
         self._callback_del_full("highlighted", _cb_object_item_conv, func)
@@ -1093,14 +1093,14 @@ cdef class List(Object):
 
         """
         self._callback_add_full("unhighlighted", _cb_object_item_conv,
-                                func, *args, **kwargs)
+                                func, args, kwargs)
 
     def callback_unhighlighted_del(self, func):
         self._callback_del_full("unhighlighted", _cb_object_item_conv, func)
 
     def callback_language_changed_add(self, func, *args, **kwargs):
         """the program's language changed"""
-        self._callback_add("language,changed", func, *args, **kwargs)
+        self._callback_add("language,changed", func, args, kwargs)
 
     def callback_language_changed_del(self, func):
         self._callback_del("language,changed", func)
@@ -1110,7 +1110,7 @@ cdef class List(Object):
 
         .. versionadded:: 1.8
         """
-        self._callback_add("focused", func, *args, **kwargs)
+        self._callback_add("focused", func, args, kwargs)
 
     def callback_focused_del(self, func):
         self._callback_del("focused", func)
@@ -1120,7 +1120,7 @@ cdef class List(Object):
 
         .. versionadded:: 1.8
         """
-        self._callback_add("unfocused", func, *args, **kwargs)
+        self._callback_add("unfocused", func, args, kwargs)
 
     def callback_unfocused_del(self, func):
         self._callback_del("unfocused", func)
@@ -1134,7 +1134,7 @@ cdef class List(Object):
 
         """
         self._callback_add_full("item,focused", _cb_object_item_conv,
-                                func, *args, **kwargs)
+                                func, args, kwargs)
 
     def callback_item_focused_del(self, func):
         self._callback_del_full("item,focused", _cb_object_item_conv, func)
@@ -1148,7 +1148,7 @@ cdef class List(Object):
 
         """
         self._callback_add_full("item,unfocused", _cb_object_item_conv,
-                                func, *args, **kwargs)
+                                func, args, kwargs)
 
     def callback_item_unfocused_del(self, func):
         self._callback_del_full("item,unfocused", _cb_object_item_conv, func)

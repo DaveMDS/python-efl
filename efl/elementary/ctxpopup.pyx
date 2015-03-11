@@ -481,14 +481,14 @@ cdef class Ctxpopup(LayoutClass):
 
     def callback_dismissed_add(self, func, *args, **kwargs):
         """the ctxpopup was dismissed"""
-        self._callback_add("dismissed", func, *args, **kwargs)
+        self._callback_add("dismissed", func, args, kwargs)
 
     def callback_dismissed_del(self, func):
         self._callback_del("dismissed", func)
 
     def callback_language_changed_add(self, func, *args, **kwargs):
         """This is called when the program's language is changed."""
-        self._callback_add("language,changed", func, *args, **kwargs)
+        self._callback_add("language,changed", func, args, kwargs)
 
     def callback_language_changed_del(self, func):
         self._callback_del("language,changed", func)
@@ -498,7 +498,7 @@ cdef class Ctxpopup(LayoutClass):
 
         .. versionadded:: 1.8
         """
-        self._callback_add("focused", func, *args, **kwargs)
+        self._callback_add("focused", func, args, kwargs)
 
     def callback_focused_del(self, func):
         self._callback_del("focused", func)
@@ -508,7 +508,7 @@ cdef class Ctxpopup(LayoutClass):
 
         .. versionadded:: 1.8
         """
-        self._callback_add("unfocused", func, *args, **kwargs)
+        self._callback_add("unfocused", func, args, kwargs)
 
     def callback_unfocused_del(self, func):
         self._callback_del("unfocused", func)

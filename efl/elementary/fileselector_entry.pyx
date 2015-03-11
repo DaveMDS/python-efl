@@ -344,7 +344,7 @@ cdef class FileselectorEntry(LayoutClass):
 
     def callback_changed_add(self, func, *args, **kwargs):
         """The text within the entry was changed."""
-        self._callback_add("changed", func, *args, **kwargs)
+        self._callback_add("changed", func, args, kwargs)
 
     def callback_changed_del(self, func):
         self._callback_del("changed", func)
@@ -356,7 +356,7 @@ cdef class FileselectorEntry(LayoutClass):
         :see: :py:meth:`~efl.elementary.fileselector.Fileselector.callback_activated_add`
 
         """
-        self._callback_add("activated", func, *args, **kwargs)
+        self._callback_add("activated", func, args, kwargs)
 
     @DEPRECATED("1.9", "Combine with Fileselector class instead")
     def callback_activated_del(self, func):
@@ -364,70 +364,70 @@ cdef class FileselectorEntry(LayoutClass):
 
     def callback_press_add(self, func, *args, **kwargs):
         """The entry has been clicked."""
-        self._callback_add("press", func, *args, **kwargs)
+        self._callback_add("press", func, args, kwargs)
 
     def callback_press_del(self, func):
         self._callback_del("press", func)
 
     def callback_longpressed_add(self, func, *args, **kwargs):
         """The entry has been clicked (and held) for a couple seconds."""
-        self._callback_add("longpressed", func, *args, **kwargs)
+        self._callback_add("longpressed", func, args, kwargs)
 
     def callback_longpressed_del(self, func):
         self._callback_del("longpressed", func)
 
     def callback_clicked_add(self, func, *args, **kwargs):
         """The entry has been clicked."""
-        self._callback_add("clicked", func, *args, **kwargs)
+        self._callback_add("clicked", func, args, kwargs)
 
     def callback_clicked_del(self, func):
         self._callback_del("clicked", func)
 
     def callback_clicked_double_add(self, func, *args, **kwargs):
         """The entry has been double clicked."""
-        self._callback_add("clicked,double", func, *args, **kwargs)
+        self._callback_add("clicked,double", func, args, kwargs)
 
     def callback_clicked_double_del(self, func):
         self._callback_del("clicked,double", func)
 
     def callback_focused_add(self, func, *args, **kwargs):
         """The entry has received focus."""
-        self._callback_add("focused", func, *args, **kwargs)
+        self._callback_add("focused", func, args, kwargs)
 
     def callback_focused_del(self, func):
         self._callback_del("focused", func)
 
     def callback_unfocused_add(self, func, *args, **kwargs):
         """The entry has lost focus."""
-        self._callback_add("unfocused", func, *args, **kwargs)
+        self._callback_add("unfocused", func, args, kwargs)
 
     def callback_unfocused_del(self, func):
         self._callback_del("unfocused", func)
 
     def callback_selection_paste_add(self, func, *args, **kwargs):
         """A paste action has occurred on the entry."""
-        self._callback_add("selection,paste", func, *args, **kwargs)
+        self._callback_add("selection,paste", func, args, kwargs)
 
     def callback_selection_paste_del(self, func):
         self._callback_del("selection,paste", func)
 
     def callback_selection_copy_add(self, func, *args, **kwargs):
         """A copy action has occurred on the entry."""
-        self._callback_add("selection,copy", func, *args, **kwargs)
+        self._callback_add("selection,copy", func, args, kwargs)
 
     def callback_selection_copy_del(self, func):
         self._callback_del("selection,copy", func)
 
     def callback_selection_cut_add(self, func, *args, **kwargs):
         """A cut action has occurred on the entry."""
-        self._callback_add("selection,cut", func, *args, **kwargs)
+        self._callback_add("selection,cut", func, args, kwargs)
 
     def callback_selection_cut_del(self, func):
         self._callback_del("selection,cut", func)
 
     def callback_unpressed_add(self, func, *args, **kwargs):
         """The file selector entry's button was released after being pressed."""
-        self._callback_add("unpressed", func, *args, **kwargs)
+        self._callback_add("unpressed", func, args, kwargs)
 
     def callback_unpressed_del(self, func):
         self._callback_del("unpressed", func)
@@ -438,7 +438,7 @@ cdef class FileselectorEntry(LayoutClass):
 
         """
         self._callback_add_full("file,chosen", _cb_string_conv,
-                                func, *args, **kwargs)
+                                func, args, kwargs)
 
     def callback_file_chosen_del(self, func):
         self._callback_del_full("file,chosen", _cb_string_conv, func)
@@ -449,7 +449,7 @@ cdef class FileselectorEntry(LayoutClass):
         .. versionadded:: 1.8.1
 
         """
-        self._callback_add("language,changed", func, *args, **kwargs)
+        self._callback_add("language,changed", func, args, kwargs)
 
     def callback_language_changed_del(self, func):
         self._callback_del("language,changed", func)

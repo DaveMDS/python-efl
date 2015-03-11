@@ -648,7 +648,7 @@ cdef class Genlist(Object):
     def search_by_text_item_get(self, GenlistItem item_to_search_from,
                                 part_name, pattern, Elm_Glob_Match_Flags flags):
         """Search genlist item by given string.
-        
+
         This function uses globs (like "\*.jpg") for searching and takes
         search flags as last parameter. That is a bitfield with values
         to be ored together or 0 for no flags.
@@ -684,8 +684,8 @@ cdef class Genlist(Object):
                     <const char *>part_name if part_name is not None else NULL,
                     <const char *>pattern if pattern is not None else NULL,
                     flags))
-    
-    
+
+
     property focus_on_selection:
         """
 
@@ -819,14 +819,14 @@ cdef class Genlist(Object):
 
     def callback_activated_add(self, func, *args, **kwargs):
         self._callback_add_full("activated", _cb_object_item_conv,
-                                func, *args, **kwargs)
+                                func, args, kwargs)
 
     def callback_activated_del(self, func):
         self._callback_del_full("activated",  _cb_object_item_conv, func)
 
     def callback_clicked_double_add(self, func, *args, **kwargs):
         self._callback_add_full("clicked,double", _cb_object_item_conv,
-                                func, *args, **kwargs)
+                                func, args, kwargs)
 
     def callback_clicked_double_del(self, func):
         self._callback_del_full("clicked,double",  _cb_object_item_conv, func)
@@ -838,188 +838,188 @@ cdef class Genlist(Object):
 
         """
         self._callback_add_full("clicked,right", _cb_object_item_conv,
-                                func, *args, **kwargs)
+                                func, args, kwargs)
 
     def callback_clicked_right_del(self, func):
         self._callback_del_full("clicked,right", _cb_object_item_conv, func)
 
     def callback_selected_add(self, func, *args, **kwargs):
         self._callback_add_full("selected", _cb_object_item_conv,
-                                func, *args, **kwargs)
+                                func, args, kwargs)
 
     def callback_selected_del(self, func):
         self._callback_del_full("selected", _cb_object_item_conv, func)
 
     def callback_unselected_add(self, func, *args, **kwargs):
         self._callback_add_full("unselected", _cb_object_item_conv,
-                                func, *args, **kwargs)
+                                func, args, kwargs)
 
     def callback_unselected_del(self, func):
         self._callback_del_full("unselected",  _cb_object_item_conv, func)
 
     def callback_expanded_add(self, func, *args, **kwargs):
         self._callback_add_full("expanded", _cb_object_item_conv,
-                                func, *args, **kwargs)
+                                func, args, kwargs)
 
     def callback_expanded_del(self, func):
         self._callback_del_full("expanded",  _cb_object_item_conv, func)
 
     def callback_contracted_add(self, func, *args, **kwargs):
         self._callback_add_full("contracted", _cb_object_item_conv,
-                                func, *args, **kwargs)
+                                func, args, kwargs)
 
     def callback_contracted_del(self, func):
         self._callback_del_full("contracted",  _cb_object_item_conv, func)
 
     def callback_expand_request_add(self, func, *args, **kwargs):
         self._callback_add_full("expand,request", _cb_object_item_conv,
-                                func, *args, **kwargs)
+                                func, args, kwargs)
 
     def callback_expand_request_del(self, func):
         self._callback_del_full("expand,request",  _cb_object_item_conv, func)
 
     def callback_contract_request_add(self, func, *args, **kwargs):
         self._callback_add_full("contract,request", _cb_object_item_conv,
-                                func, *args, **kwargs)
+                                func, args, kwargs)
 
     def callback_contract_request_del(self, func):
         self._callback_del_full("contract,request",  _cb_object_item_conv, func)
 
     def callback_realized_add(self, func, *args, **kwargs):
         self._callback_add_full("realized", _cb_object_item_conv,
-                                func, *args, **kwargs)
+                                func, args, kwargs)
 
     def callback_realized_del(self, func):
         self._callback_del_full("realized",  _cb_object_item_conv, func)
 
     def callback_unrealized_add(self, func, *args, **kwargs):
         self._callback_add_full("unrealized", _cb_object_item_conv,
-                                func, *args, **kwargs)
+                                func, args, kwargs)
 
     def callback_unrealized_del(self, func):
         self._callback_del_full("unrealized",  _cb_object_item_conv, func)
 
     def callback_drag_start_up_add(self, func, *args, **kwargs):
         self._callback_add_full("drag,start,up", _cb_object_item_conv,
-                                func, *args, **kwargs)
+                                func, args, kwargs)
 
     def callback_drag_start_up_del(self, func):
         self._callback_del_full("drag,start,up",  _cb_object_item_conv, func)
 
     def callback_drag_start_down_add(self, func, *args, **kwargs):
         self._callback_add_full("drag,start,down", _cb_object_item_conv,
-                                func, *args, **kwargs)
+                                func, args, kwargs)
 
     def callback_drag_start_down_del(self, func):
         self._callback_del_full("drag,start,down",  _cb_object_item_conv, func)
 
     def callback_drag_start_left_add(self, func, *args, **kwargs):
         self._callback_add_full("drag,start,left", _cb_object_item_conv,
-                                func, *args, **kwargs)
+                                func, args, kwargs)
 
     def callback_drag_start_left_del(self, func):
         self._callback_del_full("drag,start,left",  _cb_object_item_conv, func)
 
     def callback_drag_start_right_add(self, func, *args, **kwargs):
         self._callback_add_full("drag,start,right", _cb_object_item_conv,
-                                func, *args, **kwargs)
+                                func, args, kwargs)
 
     def callback_drag_start_right_del(self, func):
         self._callback_del_full("drag,start,right",  _cb_object_item_conv, func)
 
     def callback_drag_stop_add(self, func, *args, **kwargs):
         self._callback_add_full("drag,stop", _cb_object_item_conv,
-                                func, *args, **kwargs)
+                                func, args, kwargs)
 
     def callback_drag_stop_del(self, func):
         self._callback_del_full("drag,stop",  _cb_object_item_conv, func)
 
     def callback_drag_add(self, func, *args, **kwargs):
         self._callback_add_full("drag", _cb_object_item_conv,
-                                func, *args, **kwargs)
+                                func, args, kwargs)
 
     def callback_drag_del(self, func):
         self._callback_del_full("drag",  _cb_object_item_conv, func)
 
     def callback_longpressed_add(self, func, *args, **kwargs):
         self._callback_add_full("longpressed", _cb_object_item_conv,
-                                func, *args, **kwargs)
+                                func, args, kwargs)
 
     def callback_longpressed_del(self, func):
         self._callback_del_full("longpressed", _cb_object_item_conv, func)
 
 
     def callback_multi_swipe_left_add(self, func, *args, **kwargs):
-        self._callback_add("multi,swipe,left", func, *args, **kwargs)
+        self._callback_add("multi,swipe,left", func, args, kwargs)
 
     def callback_multi_swipe_left_del(self, func):
         self._callback_del("multi,swipe,left", func)
 
     def callback_multi_swipe_right_add(self, func, *args, **kwargs):
-        self._callback_add("multi,swipe,right", func, *args, **kwargs)
+        self._callback_add("multi,swipe,right", func, args, kwargs)
 
     def callback_multi_swipe_right_del(self, func):
         self._callback_del("multi,swipe,right", func)
 
     def callback_multi_swipe_up_add(self, func, *args, **kwargs):
-        self._callback_add("multi,swipe,up", func, *args, **kwargs)
+        self._callback_add("multi,swipe,up", func, args, kwargs)
 
     def callback_multi_swipe_up_del(self, func):
         self._callback_del("multi,swipe,up", func)
 
     def callback_multi_swipe_down_add(self, func, *args, **kwargs):
-        self._callback_add("multi,swipe,down", func, *args, **kwargs)
+        self._callback_add("multi,swipe,down", func, args, kwargs)
 
     def callback_multi_swipe_down_del(self, func):
         self._callback_del("multi,swipe,down", func)
 
     def callback_multi_pinch_out_add(self, func, *args, **kwargs):
-        self._callback_add("multi,pinch,out", func, *args, **kwargs)
+        self._callback_add("multi,pinch,out", func, args, kwargs)
 
     def callback_multi_pinch_out_del(self, func):
         self._callback_del("multi,pinch,out", func)
 
     def callback_multi_pinch_in_add(self, func, *args, **kwargs):
-        self._callback_add("multi,pinch,in", func, *args, **kwargs)
+        self._callback_add("multi,pinch,in", func, args, kwargs)
 
     def callback_multi_pinch_in_del(self, func):
         self._callback_del("multi,pinch,in", func)
 
     def callback_swipe_add(self, func, *args, **kwargs):
-        self._callback_add("swipe", func, *args, **kwargs)
+        self._callback_add("swipe", func, args, kwargs)
 
     def callback_swipe_del(self, func):
         self._callback_del("swipe", func)
 
     def callback_moved_add(self, func, *args, **kwargs):
         self._callback_add_full("moved", _cb_object_item_conv,
-                                func, *args, **kwargs)
+                                func, args, kwargs)
 
     def callback_moved_del(self, func):
         self._callback_del_full("moved",  _cb_object_item_conv, func)
 
     def callback_moved_after_add(self, func, *args, **kwargs):
         self._callback_add_full("moved,after", _cb_object_item_conv,
-                                func, *args, **kwargs)
+                                func, args, kwargs)
 
     def callback_moved_after_del(self, func):
         self._callback_del_full("moved,after",  _cb_object_item_conv, func)
 
     def callback_moved_before_add(self, func, *args, **kwargs):
         self._callback_add_full("moved,before", _cb_object_item_conv,
-                                func, *args, **kwargs)
+                                func, args, kwargs)
 
     def callback_moved_before_del(self, func):
         self._callback_del_full("moved,before",  _cb_object_item_conv, func)
 
     def callback_language_changed_add(self, func, *args, **kwargs):
-        self._callback_add("language,changed", func, *args, **kwargs)
+        self._callback_add("language,changed", func, args, kwargs)
 
     def callback_language_changed_del(self, func):
         self._callback_del("language,changed", func)
 
     def callback_tree_effect_finished_add(self, func, *args, **kwargs):
-        self._callback_add("tree,effect,finished", func, *args, **kwargs)
+        self._callback_add("tree,effect,finished", func, args, kwargs)
 
     def callback_tree_effect_finished_del(self, func):
         self._callback_del("tree,effect,finished", func)
@@ -1030,7 +1030,7 @@ cdef class Genlist(Object):
         physically highlighted. The %c event_info parameter is the item that was
         highlighted."""
         self._callback_add_full("highlighted", _cb_object_item_conv,
-                                func, *args, **kwargs)
+                                func, args, kwargs)
 
     def callback_highlighted_del(self, func):
         self._callback_del_full("highlighted", _cb_object_item_conv, func)
@@ -1041,7 +1041,7 @@ cdef class Genlist(Object):
         is physically unhighlighted. The %c event_info parameter is the item that
         was unhighlighted."""
         self._callback_add_full("unhighlighted", _cb_object_item_conv,
-                                func, *args, **kwargs)
+                                func, args, kwargs)
 
     def callback_unhighlighted_del(self, func):
         self._callback_del_full("unhighlighted", _cb_object_item_conv, func)
@@ -1051,7 +1051,7 @@ cdef class Genlist(Object):
 
         .. versionadded:: 1.8
         """
-        self._callback_add("focused", func, *args, **kwargs)
+        self._callback_add("focused", func, args, kwargs)
 
     def callback_focused_del(self, func):
         self._callback_del("focused", func)
@@ -1061,7 +1061,7 @@ cdef class Genlist(Object):
 
         .. versionadded:: 1.8
         """
-        self._callback_add("unfocused", func, *args, **kwargs)
+        self._callback_add("unfocused", func, args, kwargs)
 
     def callback_unfocused_del(self, func):
         self._callback_del("unfocused", func)
@@ -1072,7 +1072,7 @@ cdef class Genlist(Object):
         .. versionadded:: 1.10
 
         """
-        self._callback_add_full("item,focused", _cb_object_item_conv, func, *args, **kwargs)
+        self._callback_add_full("item,focused", _cb_object_item_conv, func, args, kwargs)
 
     def callback_item_focused_del(self, func):
         self._callback_del_full("item,focused", _cb_object_item_conv, func)
@@ -1083,7 +1083,7 @@ cdef class Genlist(Object):
         .. versionadded:: 1.10
 
         """
-        self._callback_add_full("item,unfocused", _cb_object_item_conv, func, *args, **kwargs)
+        self._callback_add_full("item,unfocused", _cb_object_item_conv, func, args, kwargs)
 
     def callback_item_unfocused_del(self, func):
         self._callback_del_full("item,unfocused", _cb_object_item_conv, func)

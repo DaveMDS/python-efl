@@ -202,14 +202,14 @@ cdef class Notify(Object):
 
     def callback_timeout_add(self, func, *args, **kwargs):
         """When timeout happens on notify and it's hidden."""
-        self._callback_add("timeout", func, *args, **kwargs)
+        self._callback_add("timeout", func, args, kwargs)
 
     def callback_timeout_del(self, func):
         self._callback_del("timeout", func)
 
     def callback_block_clicked_add(self, func, *args, **kwargs):
         """When a click outside of the notify happens."""
-        self._callback_add("block,clicked", func, *args, **kwargs)
+        self._callback_add("block,clicked", func, args, kwargs)
 
     def callback_block_clicked_del(self, func):
         self._callback_del("block,clicked", func)

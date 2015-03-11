@@ -571,7 +571,7 @@ cdef class Datetime(Object):
 
     def callback_changed_add(self, func, *args, **kwargs):
         """Whenever Datetime field value is changed, this signal is sent."""
-        self._callback_add("changed", func, *args, **kwargs)
+        self._callback_add("changed", func, args, kwargs)
 
     def callback_changed_del(self, func):
         self._callback_del("changed", func)
@@ -579,11 +579,11 @@ cdef class Datetime(Object):
     @DEPRECATED("1.10", "Use callback_language_changed_add instead.")
     def callback_languge_changed_add(self, func, *args, **kwargs):
         """Whenever system locale changes, this signal is sent."""
-        self._callback_add("language,changed", func, *args, **kwargs)
+        self._callback_add("language,changed", func, args, kwargs)
 
     def callback_language_changed_add(self, func, *args, **kwargs):
         """Whenever system locale changes, this signal is sent."""
-        self._callback_add("language,changed", func, *args, **kwargs)
+        self._callback_add("language,changed", func, args, kwargs)
 
     def callback_language_changed_del(self, func):
         self._callback_del("language,changed", func)
@@ -593,7 +593,7 @@ cdef class Datetime(Object):
 
         .. versionadded:: 1.8
         """
-        self._callback_add("focused", func, *args, **kwargs)
+        self._callback_add("focused", func, args, kwargs)
 
     def callback_focused_del(self, func):
         self._callback_del("focused", func)
@@ -603,7 +603,7 @@ cdef class Datetime(Object):
 
         .. versionadded:: 1.8
         """
-        self._callback_add("unfocused", func, *args, **kwargs)
+        self._callback_add("unfocused", func, args, kwargs)
 
     def callback_unfocused_del(self, func):
         self._callback_del("unfocused", func)

@@ -402,21 +402,21 @@ cdef class Slider(LayoutClass):
 
     def callback_changed_add(self, func, *args, **kwargs):
         """Whenever the slider value is changed by the user."""
-        self._callback_add("changed", func, *args, **kwargs)
+        self._callback_add("changed", func, args, kwargs)
 
     def callback_changed_del(self, func):
         self._callback_del("changed", func)
 
     def callback_slider_drag_start_add(self, func, *args, **kwargs):
         """Dragging the slider indicator around has started."""
-        self._callback_add("slider,drag,start", func, *args, **kwargs)
+        self._callback_add("slider,drag,start", func, args, kwargs)
 
     def callback_slider_drag_start_del(self, func):
         self._callback_del("slider,drag,start", func)
 
     def callback_slider_drag_stop_add(self, func, *args, **kwargs):
         """Dragging the slider indicator around has stopped."""
-        self._callback_add("slider,drag,stop", func, *args, **kwargs)
+        self._callback_add("slider,drag,stop", func, args, kwargs)
 
     def callback_slider_drag_stop_del(self, func):
         self._callback_del("slider,drag,stop", func)
@@ -428,7 +428,7 @@ cdef class Slider(LayoutClass):
         expensive reactions to the value change.
 
         """
-        self._callback_add("delay,changed", func, *args, **kwargs)
+        self._callback_add("delay,changed", func, args, kwargs)
 
     def callback_delay_changed_del(self, func):
         self._callback_del("delay,changed", func)
@@ -438,7 +438,7 @@ cdef class Slider(LayoutClass):
 
         .. versionadded:: 1.8
         """
-        self._callback_add("focused", func, *args, **kwargs)
+        self._callback_add("focused", func, args, kwargs)
 
     def callback_focused_del(self, func):
         self._callback_del("focused", func)
@@ -448,7 +448,7 @@ cdef class Slider(LayoutClass):
 
         .. versionadded:: 1.8
         """
-        self._callback_add("unfocused", func, *args, **kwargs)
+        self._callback_add("unfocused", func, args, kwargs)
 
     def callback_unfocused_del(self, func):
         self._callback_del("unfocused", func)

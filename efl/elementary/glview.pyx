@@ -348,21 +348,21 @@ cdef class GLView(LayoutClass):
 
     def callback_focused_add(self, func, *args, **kwargs):
         """when glview has received focus."""
-        self._callback_add("focused", func, *args, **kwargs)
+        self._callback_add("focused", func, args, kwargs)
 
     def callback_focused_del(self, func):
         self._callback_del("focused", func)
 
     def callback_unfocused_add(self, func, *args, **kwargs):
         """when glview has lost focus."""
-        self._callback_add("unfocused", func, *args, **kwargs)
+        self._callback_add("unfocused", func, args, kwargs)
 
     def callback_unfocused_del(self, func):
         self._callback_del("unfocused", func)
 
     def callback_language_changed_add(self, func, *args, **kwargs):
         """the program's language changed"""
-        self._callback_add("language,changed", func, *args, **kwargs)
+        self._callback_add("language,changed", func, args, kwargs)
 
     def callback_language_changed_del(self, func):
         self._callback_del("language,changed", func)

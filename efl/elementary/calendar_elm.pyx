@@ -549,14 +549,14 @@ cdef class Calendar(LayoutClass):
 
     def callback_changed_add(self, func, *args, **kwargs):
         """Emitted when the date in the calendar is changed."""
-        self._callback_add("changed", func, *args, **kwargs)
+        self._callback_add("changed", func, args, kwargs)
 
     def callback_changed_del(self, func):
         self._callback_del("changed", func)
 
     def callback_display_changed_add(self, func, *args, **kwargs):
         """Emitted when the current month displayed in the calendar is changed."""
-        self._callback_add("display,changed", func, *args, **kwargs)
+        self._callback_add("display,changed", func, args, kwargs)
 
     def callback_changed_del(self, func):
         self._callback_del("display,changed", func)
@@ -566,7 +566,7 @@ cdef class Calendar(LayoutClass):
 
         .. versionadded:: 1.8
         """
-        self._callback_add("focused", func, *args, **kwargs)
+        self._callback_add("focused", func, args, kwargs)
 
     def callback_focused_del(self, func):
         self._callback_del("focused", func)
@@ -576,7 +576,7 @@ cdef class Calendar(LayoutClass):
 
         .. versionadded:: 1.8
         """
-        self._callback_add("unfocused", func, *args, **kwargs)
+        self._callback_add("unfocused", func, args, kwargs)
 
     def callback_unfocused_del(self, func):
         self._callback_del("unfocused", func)

@@ -225,28 +225,28 @@ cdef class Panes(LayoutClass):
 
     def callback_press_add(self, func, *args, **kwargs):
         """The panes has been pressed (button wasn't released yet)."""
-        self._callback_add("press", func, *args, **kwargs)
+        self._callback_add("press", func, args, kwargs)
 
     def callback_press_del(self, func):
         self._callback_del("press", func)
 
     def callback_unpress_add(self, func, *args, **kwargs):
         """The panes was released after being pressed."""
-        self._callback_add("unpress", func, *args, **kwargs)
+        self._callback_add("unpress", func, args, kwargs)
 
     def callback_unpress_del(self, func):
         self._callback_del("unpress", func)
 
     def callback_clicked_add(self, func, *args, **kwargs):
         """The panes has been clicked."""
-        self._callback_add("clicked", func, *args, **kwargs)
+        self._callback_add("clicked", func, args, kwargs)
 
     def callback_clicked_del(self, func):
         self._callback_del("clicked", func)
 
     def callback_clicked_double_add(self, func, *args, **kwargs):
         """The panes has been double clicked."""
-        self._callback_add("clicked,double", func, *args, **kwargs)
+        self._callback_add("clicked,double", func, args, kwargs)
 
     def callback_clicked_double_del(self, func):
         self._callback_del("clicked,double", func)

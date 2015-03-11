@@ -301,14 +301,14 @@ cdef class Label(LayoutClass):
 
     def callback_language_changed_add(self, func, *args, **kwargs):
         """The program's language changed."""
-        self._callback_add("language,changed", func, *args, **kwargs)
+        self._callback_add("language,changed", func, args, kwargs)
 
     def callback_language_changed_del(self, func):
         self._callback_del("language,changed", func)
 
     def callback_slide_end_add(self, func, *args, **kwargs):
         """A slide effect has ended."""
-        self._callback_add("slide,end", func, *args, **kwargs)
+        self._callback_add("slide,end", func, args, kwargs)
 
     def callback_slide_end_del(self, func):
         self._callback_del("slide,end", func)

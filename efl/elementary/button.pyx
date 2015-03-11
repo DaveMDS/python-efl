@@ -175,28 +175,28 @@ cdef class Button(LayoutClass):
 
     def callback_clicked_add(self, func, *args, **kwargs):
         """The user clicked the button (press/release)."""
-        self._callback_add("clicked", func, *args, **kwargs)
+        self._callback_add("clicked", func, args, kwargs)
 
     def callback_clicked_del(self, func):
         self._callback_del("clicked", func)
 
     def callback_repeated_add(self, func, *args, **kwargs):
         """The user pressed the button without releasing it."""
-        self._callback_add("repeated", func, *args, **kwargs)
+        self._callback_add("repeated", func, args, kwargs)
 
     def callback_repeated_del(self, func):
         self._callback_del("repeated", func)
 
     def callback_pressed_add(self, func, *args, **kwargs):
         """The button was pressed."""
-        self._callback_add("pressed", func, *args, **kwargs)
+        self._callback_add("pressed", func, args, kwargs)
 
     def callback_pressed_del(self, func):
         self._callback_del("pressed", func)
 
     def callback_unpressed_add(self, func, *args, **kwargs):
         """The button was released after being pressed."""
-        self._callback_add("unpressed", func, *args, **kwargs)
+        self._callback_add("unpressed", func, args, kwargs)
 
     def callback_unpressed_del(self, func):
         self._callback_del("unpressed", func)
@@ -207,7 +207,7 @@ cdef class Button(LayoutClass):
         .. versionadded:: 1.8
 
         """
-        self._callback_add("focused", func, *args, **kwargs)
+        self._callback_add("focused", func, args, kwargs)
 
     def callback_focused_del(self, func):
         self._callback_del("focused", func)
@@ -218,7 +218,7 @@ cdef class Button(LayoutClass):
         .. versionadded:: 1.8
 
         """
-        self._callback_add("unfocused", func, *args, **kwargs)
+        self._callback_add("unfocused", func, args, kwargs)
 
     def callback_unfocused_del(self, func):
         self._callback_del("unfocused", func)

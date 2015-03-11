@@ -448,7 +448,7 @@ cdef class Diskselector(Object):
 
     def callback_selected_add(self, func, *args, **kwargs):
         """When item is selected, i.e. scroller stops."""
-        self._callback_add_full("selected", _cb_object_item_conv, func, *args, **kwargs)
+        self._callback_add_full("selected", _cb_object_item_conv, func, args, kwargs)
 
     def callback_selected_del(self, func):
         self._callback_del_full("selected", _cb_object_item_conv, func)
@@ -458,35 +458,35 @@ cdef class Diskselector(Object):
 
         .. versionadded:: 1.8
         """
-        self._callback_add_full("clicked", _cb_object_item_conv, func, *args, **kwargs)
+        self._callback_add_full("clicked", _cb_object_item_conv, func, args, kwargs)
 
     def callback_clicked_del(self, func):
         self._callback_del_full("clicked", _cb_object_item_conv, func)
 
     def callback_scroll_anim_start_add(self, func, *args, **kwargs):
         """Scrolling animation has started."""
-        self._callback_add("scroll,anim,start", func, *args, **kwargs)
+        self._callback_add("scroll,anim,start", func, args, kwargs)
 
     def callback_scroll_anim_start_del(self, func):
         self._callback_del("scroll,anim,start", func)
 
     def callback_scroll_anim_stop_add(self, func, *args, **kwargs):
         """Scrolling animation has stopped."""
-        self._callback_add("scroll,anim,stop", func, *args, **kwargs)
+        self._callback_add("scroll,anim,stop", func, args, kwargs)
 
     def callback_scroll_anim_stop_del(self, func):
         self._callback_del("scroll,anim,stop", func)
 
     def callback_scroll_drag_start_add(self, func, *args, **kwargs):
         """Dragging the diskselector has started."""
-        self._callback_add("scroll,drag,start", func, *args, **kwargs)
+        self._callback_add("scroll,drag,start", func, args, kwargs)
 
     def callback_scroll_drag_start_del(self, func):
         self._callback_del("scroll,drag,start", func)
 
     def callback_scroll_drag_stop_add(self, func, *args, **kwargs):
         """Dragging the diskselector has stopped."""
-        self._callback_add("scroll,drag,stop", func, *args, **kwargs)
+        self._callback_add("scroll,drag,stop", func, args, kwargs)
 
     def callback_scroll_drag_stop_del(self, func):
         self._callback_del("scroll,drag,stop", func)
@@ -496,7 +496,7 @@ cdef class Diskselector(Object):
 
         .. versionadded:: 1.8
         """
-        self._callback_add("focused", func, *args, **kwargs)
+        self._callback_add("focused", func, args, kwargs)
 
     def callback_focused_del(self, func):
         self._callback_del("focused", func)
@@ -506,7 +506,7 @@ cdef class Diskselector(Object):
 
         .. versionadded:: 1.8
         """
-        self._callback_add("unfocused", func, *args, **kwargs)
+        self._callback_add("unfocused", func, args, kwargs)
 
     def callback_unfocused_del(self, func):
         self._callback_del("unfocused", func)

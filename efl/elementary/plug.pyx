@@ -122,14 +122,14 @@ cdef class Plug(Object):
 
     def callback_clicked_add(self, func, *args, **kwargs):
         """the user clicked the image (press/release)."""
-        self._callback_add("clicked", func, *args, **kwargs)
+        self._callback_add("clicked", func, args, kwargs)
 
     def callback_clicked_del(self, func):
         self._callback_del("clicked", func)
 
     def callback_image_deleted_add(self, func, *args, **kwargs):
         """the server side was deleted."""
-        self._callback_add("image,deleted", func, *args, **kwargs)
+        self._callback_add("image,deleted", func, args, kwargs)
 
     def callback_image_deleted_del(self, func):
         self._callback_del("image,deleted", func)
@@ -138,7 +138,7 @@ cdef class Plug(Object):
     # def callback_image_resized_add(self, func, *args, **kwargs):
     #     """the server side was resized. The ``event_info`` parameter of
     #     the callback will be ``Evas_Coord_Size`` (two integers)."""
-    #     self._callback_add("image,resized", func, *args, **kwargs)
+    #     self._callback_add("image,resized", func, args, kwargs)
 
     # def callback_image_resized_del(self, func):
     #     self._callback_del("image,resized", func)

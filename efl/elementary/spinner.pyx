@@ -408,7 +408,7 @@ cdef class Spinner(LayoutClass):
 
     def callback_changed_add(self, func, *args, **kwargs):
         """Whenever the spinner value is changed."""
-        self._callback_add("changed", func, *args, **kwargs)
+        self._callback_add("changed", func, args, kwargs)
 
     def callback_changed_del(self, func):
         self._callback_del("changed", func)
@@ -420,14 +420,14 @@ cdef class Spinner(LayoutClass):
         expensive reactions to the value change.
 
         """
-        self._callback_add("delay,changed", func, *args, **kwargs)
+        self._callback_add("delay,changed", func, args, kwargs)
 
     def callback_delay_changed_del(self, func):
         self._callback_del("delay,changed", func)
 
     def callback_language_changed_add(self, func, *args, **kwargs):
         """the program's language changed"""
-        self._callback_add("language,changed", func, *args, **kwargs)
+        self._callback_add("language,changed", func, args, kwargs)
 
     def callback_language_changed_del(self, func):
         self._callback_del("language,changed", func)
@@ -437,7 +437,7 @@ cdef class Spinner(LayoutClass):
 
         .. versionadded:: 1.8
         """
-        self._callback_add("focused", func, *args, **kwargs)
+        self._callback_add("focused", func, args, kwargs)
 
     def callback_focused_del(self, func):
         self._callback_del("focused", func)
@@ -447,7 +447,7 @@ cdef class Spinner(LayoutClass):
 
         .. versionadded:: 1.8
         """
-        self._callback_add("unfocused", func, *args, **kwargs)
+        self._callback_add("unfocused", func, args, kwargs)
 
     def callback_unfocused_del(self, func):
         self._callback_del("unfocused", func)

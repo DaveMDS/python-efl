@@ -397,14 +397,14 @@ cdef class Popup(LayoutClass):
 
     def callback_timeout_add(self, func, *args, **kwargs):
         """When popup is closed as a result of timeout."""
-        self._callback_add("timeout", func, *args, **kwargs)
+        self._callback_add("timeout", func, args, kwargs)
 
     def callback_timeout_del(self, func):
         self._callback_del("timeout", func)
 
     def callback_block_clicked_add(self, func, *args, **kwargs):
         """When the user taps on Blocked Event area."""
-        self._callback_add("block,clicked", func, *args, **kwargs)
+        self._callback_add("block,clicked", func, args, kwargs)
 
     def callback_block_clicked_del(self, func):
         self._callback_del("block,clicked", func)
@@ -414,7 +414,7 @@ cdef class Popup(LayoutClass):
 
         .. versionadded:: 1.8
         """
-        self._callback_add("focused", func, *args, **kwargs)
+        self._callback_add("focused", func, args, kwargs)
 
     def callback_focused_del(self, func):
         self._callback_del("focused", func)
@@ -424,7 +424,7 @@ cdef class Popup(LayoutClass):
 
         .. versionadded:: 1.8
         """
-        self._callback_add("unfocused", func, *args, **kwargs)
+        self._callback_add("unfocused", func, args, kwargs)
 
     def callback_unfocused_del(self, func):
         self._callback_del("unfocused", func)
@@ -434,7 +434,7 @@ cdef class Popup(LayoutClass):
 
         .. versionadded:: 1.8
         """
-        self._callback_add("language,changed", func, *args, **kwargs)
+        self._callback_add("language,changed", func, args, kwargs)
 
     def callback_language_changed_del(self, func):
         self._callback_del("language,changed", func)
@@ -445,7 +445,7 @@ cdef class Popup(LayoutClass):
         .. versionadded:: 1.10
 
         """
-        self._callback_add_full("item,focused", _cb_object_item_conv, func, *args, **kwargs)
+        self._callback_add_full("item,focused", _cb_object_item_conv, func, args, kwargs)
 
     def callback_item_focused_del(self, func):
         self._callback_del_full("item,focused", _cb_object_item_conv, func)
@@ -456,7 +456,7 @@ cdef class Popup(LayoutClass):
         .. versionadded:: 1.10
 
         """
-        self._callback_add_full("item,unfocused", _cb_object_item_conv, func, *args, **kwargs)
+        self._callback_add_full("item,unfocused", _cb_object_item_conv, func, args, kwargs)
 
     def callback_item_unfocused_del(self, func):
         self._callback_del_full("item,unfocused", _cb_object_item_conv, func)

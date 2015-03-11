@@ -715,7 +715,7 @@ cdef class Slideshow(LayoutClass):
         """When the slideshow switches its view to a new item. event_info
         parameter in callback contains the current visible item."""
         self._callback_add_full("changed", _cb_object_item_conv,
-                                func, *args, **kwargs)
+                                func, args, kwargs)
 
     def callback_changed_del(self, func):
         self._callback_del_full("changed", _cb_object_item_conv, func)
@@ -724,7 +724,7 @@ cdef class Slideshow(LayoutClass):
         """When a slide transition ends. event_info parameter in callback
         contains the current visible item."""
         self._callback_add_full("transition,end", _cb_object_item_conv,
-                                func, *args, **kwargs)
+                                func, args, kwargs)
 
     def callback_transition_end_del(self, func):
         self._callback_del_full("transition,end", _cb_object_item_conv, func)
@@ -734,7 +734,7 @@ cdef class Slideshow(LayoutClass):
 
         .. versionadded:: 1.8
         """
-        self._callback_add("focused", func, *args, **kwargs)
+        self._callback_add("focused", func, args, kwargs)
 
     def callback_focused_del(self, func):
         self._callback_del("focused", func)
@@ -744,7 +744,7 @@ cdef class Slideshow(LayoutClass):
 
         .. versionadded:: 1.8
         """
-        self._callback_add("unfocused", func, *args, **kwargs)
+        self._callback_add("unfocused", func, args, kwargs)
 
     def callback_unfocused_del(self, func):
         self._callback_del("unfocused", func)

@@ -257,7 +257,7 @@ cdef class Video(LayoutClass):
 
         .. versionadded:: 1.8
         """
-        self._callback_add("focused", func, *args, **kwargs)
+        self._callback_add("focused", func, args, kwargs)
 
     def callback_focused_del(self, func):
         self._callback_del("focused", func)
@@ -267,7 +267,7 @@ cdef class Video(LayoutClass):
 
         .. versionadded:: 1.8
         """
-        self._callback_add("unfocused", func, *args, **kwargs)
+        self._callback_add("unfocused", func, args, kwargs)
 
     def callback_unfocused_del(self, func):
         self._callback_del("unfocused", func)
@@ -317,66 +317,66 @@ cdef class Player(LayoutClass):
 
     def callback_forward_clicked_add(self, func, *args, **kwargs):
         """the user clicked the forward button."""
-        self._callback_add_full("forward,clicked", func, *args, **kwargs)
+        self._callback_add("forward,clicked", func, args, kwargs)
 
     def callback_forward_clicked_del(self, func):
-        self._callback_del_full("forward,clicked", func)
+        self._callback_del("forward,clicked", func)
 
     def callback_info_clicked_add(self, func, *args, **kwargs):
         """the user clicked the info button."""
-        self._callback_add_full("info,clicked", func, *args, **kwargs)
+        self._callback_add("info,clicked", func, args, kwargs)
 
     def callback_info_clicked_del(self, func):
-        self._callback_del_full("info,clicked", func)
+        self._callback_del("info,clicked", func)
 
     def callback_next_clicked_add(self, func, *args, **kwargs):
         """the user clicked the next button."""
-        self._callback_add_full("next,clicked", func, *args, **kwargs)
+        self._callback_add("next,clicked", func, args, kwargs)
 
     def callback_next_clicked_del(self, func):
-        self._callback_del_full("next,clicked", func)
+        self._callback_del("next,clicked", func)
 
     def callback_pause_clicked_add(self, func, *args, **kwargs):
         """the user clicked the pause button."""
-        self._callback_add_full("pause,clicked", func, *args, **kwargs)
+        self._callback_add("pause,clicked", func, args, kwargs)
 
     def callback_pause_clicked_del(self, func):
-        self._callback_del_full("pause,clicked", func)
+        self._callback_del("pause,clicked", func)
 
     def callback_play_clicked_add(self, func, *args, **kwargs):
         """the user clicked the play button."""
-        self._callback_add_full("play,clicked", func, *args, **kwargs)
+        self._callback_add("play,clicked", func, args, kwargs)
 
     def callback_play_clicked_del(self, func):
-        self._callback_del_full("play,clicked", func)
+        self._callback_del("play,clicked", func)
 
     def callback_prev_clicked_add(self, func, *args, **kwargs):
         """the user clicked the prev button."""
-        self._callback_add_full("prev,clicked", func, *args, **kwargs)
+        self._callback_add("prev,clicked", func, args, kwargs)
 
     def callback_prev_clicked_del(self, func):
-        self._callback_del_full("prev,clicked", func)
+        self._callback_del("prev,clicked", func)
 
     def callback_rewind_clicked_add(self, func, *args, **kwargs):
         """the user clicked the rewind button."""
-        self._callback_add_full("rewind,clicked", func, *args, **kwargs)
+        self._callback_add("rewind,clicked", func, args, kwargs)
 
     def callback_rewind_clicked_del(self, func):
-        self._callback_del_full("rewind,clicked", func)
+        self._callback_del("rewind,clicked", func)
 
     def callback_stop_clicked_add(self, func, *args, **kwargs):
         """the user clicked the stop button."""
-        self._callback_add_full("stop,clicked", func, *args, **kwargs)
+        self._callback_add("stop,clicked", func, args, kwargs)
 
     def callback_stop_clicked_del(self, func):
-        self._callback_del_full("stop,clicked", func)
+        self._callback_del("stop,clicked", func)
 
     def callback_focused_add(self, func, *args, **kwargs):
         """When the player has received focus.
 
         .. versionadded:: 1.8
         """
-        self._callback_add("focused", func, *args, **kwargs)
+        self._callback_add("focused", func, args, kwargs)
 
     def callback_focused_del(self, func):
         self._callback_del("focused", func)
@@ -386,7 +386,7 @@ cdef class Player(LayoutClass):
 
         .. versionadded:: 1.8
         """
-        self._callback_add("unfocused", func, *args, **kwargs)
+        self._callback_add("unfocused", func, args, kwargs)
 
     def callback_unfocused_del(self, func):
         self._callback_del("unfocused", func)

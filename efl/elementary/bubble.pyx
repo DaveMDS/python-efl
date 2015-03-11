@@ -152,7 +152,7 @@ cdef class Bubble(LayoutClass):
 
     def callback_clicked_add(self, func, *args, **kwargs):
         """This is called when a user has clicked the bubble."""
-        self._callback_add("clicked", func, *args, **kwargs)
+        self._callback_add("clicked", func, args, kwargs)
 
     def callback_clicked_del(self, func):
         self._callback_del("clicked", func)
@@ -163,7 +163,7 @@ cdef class Bubble(LayoutClass):
         .. versionadded:: 1.8
 
         """
-        self._callback_add("focused", func, *args, **kwargs)
+        self._callback_add("focused", func, args, kwargs)
 
     def callback_focused_del(self, func):
         self._callback_del("focused", func)
@@ -174,7 +174,7 @@ cdef class Bubble(LayoutClass):
         .. versionadded:: 1.8
 
         """
-        self._callback_add("unfocused", func, *args, **kwargs)
+        self._callback_add("unfocused", func, args, kwargs)
 
     def callback_unfocused_del(self, func):
         self._callback_del("unfocused", func)

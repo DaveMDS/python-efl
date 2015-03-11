@@ -439,7 +439,7 @@ cdef class SegmentControl(LayoutClass):
         selected and get selected. The event_info parameter is the segment
         item."""
         self._callback_add_full("changed", _cb_object_item_conv,
-                                func, *args, **kwargs)
+                                func, args, kwargs)
 
     def callback_changed_del(self, func):
         self._callback_del_full("changed", _cb_object_item_conv, func)

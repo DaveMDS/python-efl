@@ -589,7 +589,7 @@ cdef class Index(LayoutClass):
     def callback_changed_add(self, func, *args, **kwargs):
         """When the selected index item changes. ``event_info`` is the selected
         item's data."""
-        self._callback_add_full("changed", _cb_object_item_conv, func, *args, **kwargs)
+        self._callback_add_full("changed", _cb_object_item_conv, func, args, kwargs)
 
     def callback_changed_del(self, func):
         self._callback_del_full("changed",  _cb_object_item_conv, func)
@@ -597,7 +597,7 @@ cdef class Index(LayoutClass):
     def callback_delay_changed_add(self, func, *args, **kwargs):
         """When the selected index item changes, but after a small idling
         period. ``event_info`` is the selected item's data."""
-        self._callback_add_full("delay,changed", _cb_object_item_conv, func, *args, **kwargs)
+        self._callback_add_full("delay,changed", _cb_object_item_conv, func, args, kwargs)
 
     def callback_delay_changed_del(self, func):
         self._callback_del_full("delay,changed",  _cb_object_item_conv, func)
@@ -605,7 +605,7 @@ cdef class Index(LayoutClass):
     def callback_selected_add(self, func, *args, **kwargs):
         """When the user releases a mouse button and selects an item.
         ``event_info`` is the selected item's data ."""
-        self._callback_add_full("selected", _cb_object_item_conv, func, *args, **kwargs)
+        self._callback_add_full("selected", _cb_object_item_conv, func, args, kwargs)
 
     def callback_selected_del(self, func):
         self._callback_del_full("selected",  _cb_object_item_conv, func)
@@ -613,7 +613,7 @@ cdef class Index(LayoutClass):
     def callback_level_up_add(self, func, *args, **kwargs):
         """When the user moves a finger from the first level to the second
         level."""
-        self._callback_add("level,up", func, *args, **kwargs)
+        self._callback_add("level,up", func, args, kwargs)
 
     def callback_level_up_del(self, func):
         self._callback_del("level,up", func)
@@ -621,14 +621,14 @@ cdef class Index(LayoutClass):
     def callback_level_down_add(self, func, *args, **kwargs):
         """When the user moves a finger from the second level to the first
         level."""
-        self._callback_add("level,down", func, *args, **kwargs)
+        self._callback_add("level,down", func, args, kwargs)
 
     def callback_level_down_del(self, func):
         self._callback_del("level,down", func)
 
     def callback_language_changed_add(self, func, *args, **kwargs):
         """the program's language changed"""
-        self._callback_add("language,changed", func, *args, **kwargs)
+        self._callback_add("language,changed", func, args, kwargs)
 
     def callback_language_changed_del(self, func):
         self._callback_del("language,changed", func)
@@ -638,7 +638,7 @@ cdef class Index(LayoutClass):
 
         .. versionadded:: 1.8
         """
-        self._callback_add("focused", func, *args, **kwargs)
+        self._callback_add("focused", func, args, kwargs)
 
     def callback_focused_del(self, func):
         self._callback_del("focused", func)
@@ -648,7 +648,7 @@ cdef class Index(LayoutClass):
 
         .. versionadded:: 1.8
         """
-        self._callback_add("unfocused", func, *args, **kwargs)
+        self._callback_add("unfocused", func, args, kwargs)
 
     def callback_unfocused_del(self, func):
         self._callback_del("unfocused", func)

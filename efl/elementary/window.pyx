@@ -1678,129 +1678,129 @@ cdef class Window(Object):
 
     def callback_delete_request_add(self, func, *args, **kwargs):
         """The user requested to close the window. See :py:attr:`autodel`."""
-        self._callback_add("delete,request", func, *args, **kwargs)
+        self._callback_add("delete,request", func, args, kwargs)
 
     def callback_delete_request_del(self, func):
         self._callback_del("delete,request", func)
 
     def callback_focus_in_add(self, func, *args, **kwargs):
         """window got focus"""
-        self._callback_add("focus,in", func, *args, **kwargs)
+        self._callback_add("focus,in", func, args, kwargs)
 
     def callback_focus_in_del(self, func):
         self._callback_del("focus,in", func)
 
     def callback_focus_out_add(self, func, *args, **kwargs):
         """window lost focus"""
-        self._callback_add("focus,out", func, *args, **kwargs)
+        self._callback_add("focus,out", func, args, kwargs)
 
     def callback_focus_out_del(self, func):
-        self._callback_del("focus,out")
+        self._callback_del("focus,out", func)
 
     def callback_moved_add(self, func, *args, **kwargs):
         """window that holds the canvas was moved"""
-        self._callback_add("moved", func, *args, **kwargs)
+        self._callback_add("moved", func, args, kwargs)
 
     def callback_moved_del(self, func):
-        self._callback_del("moved")
+        self._callback_del("moved", func)
 
     def callback_withdrawn_add(self, func, *args, **kwargs):
         """window is still managed normally but removed from view"""
-        self._callback_add("withdrawn", func, *args, **kwargs)
+        self._callback_add("withdrawn", func, args, kwargs)
 
     def callback_withdrawn_del(self, func):
-        self._callback_del("withdrawn")
+        self._callback_del("withdrawn", func)
 
     def callback_iconified_add(self, func, *args, **kwargs):
         """window is minimized (perhaps into an icon or taskbar)"""
-        self._callback_add("iconified", func, *args, **kwargs)
+        self._callback_add("iconified", func, args, kwargs)
 
     def callback_iconified_del(self, func):
-        self._callback_del("iconified")
+        self._callback_del("iconified", func)
 
     def callback_normal_add(self, func, *args, **kwargs):
         """window is in a normal state (not withdrawn or iconified)"""
-        self._callback_add("normal", func, *args, **kwargs)
+        self._callback_add("normal", func, args, kwargs)
 
     def callback_normal_del(self, func):
-        self._callback_del("normal")
+        self._callback_del("normal", func)
 
     def callback_stick_add(self, func, *args, **kwargs):
         """window has become sticky (shows on all desktops)"""
-        self._callback_add("stick", func, *args, **kwargs)
+        self._callback_add("stick", func, args, kwargs)
 
     def callback_stick_del(self, func):
-        self._callback_del("stick")
+        self._callback_del("stick", func)
 
     def callback_unstick_add(self, func, *args, **kwargs):
         """window has stopped being sticky"""
-        self._callback_add("unstick", func, *args, **kwargs)
+        self._callback_add("unstick", func, args, kwargs)
 
     def callback_unstick_del(self, func):
-        self._callback_del("unstick")
+        self._callback_del("unstick", func)
 
     def callback_fullscreen_add(self, func, *args, **kwargs):
         """window has become fullscreen"""
-        self._callback_add("fullscreen", func, *args, **kwargs)
+        self._callback_add("fullscreen", func, args, kwargs)
 
     def callback_fullscreen_del(self, func):
-        self._callback_del("fullscreen")
+        self._callback_del("fullscreen", func)
 
     def callback_unfullscreen_add(self, func, *args, **kwargs):
         """window has stopped being fullscreen"""
-        self._callback_add("unfullscreen", func, *args, **kwargs)
+        self._callback_add("unfullscreen", func, args, kwargs)
 
     def callback_unfullscreen_del(self, func):
-        self._callback_del("unfullscreen")
+        self._callback_del("unfullscreen", func)
 
     def callback_maximized_add(self, func, *args, **kwargs):
         """window has been maximized"""
-        self._callback_add("maximized", func, *args, **kwargs)
+        self._callback_add("maximized", func, args, kwargs)
 
     def callback_maximized_del(self, func):
-        self._callback_del("maximized")
+        self._callback_del("maximized", func)
 
     def callback_unmaximized_add(self, func, *args, **kwargs):
         """window has stopped being maximized"""
-        self._callback_add("unmaximized", func, *args, **kwargs)
+        self._callback_add("unmaximized", func, args, kwargs)
 
     def callback_unmaximized_del(self, func):
-        self._callback_del("unmaximized")
+        self._callback_del("unmaximized", func)
 
     def callback_ioerr_add(self, func, *args, **kwargs):
         """there has been a low-level I/O error with the display system"""
-        self._callback_add("ioerr", func, *args, **kwargs)
+        self._callback_add("ioerr", func, args, kwargs)
 
     def callback_ioerr_del(self, func):
-        self._callback_del("ioerr")
+        self._callback_del("ioerr", func)
 
     def callback_indicator_prop_changed_add(self, func, *args, **kwargs):
         """an indicator's property has been changed"""
-        self._callback_add("indicator,prop,changed", func, *args, **kwargs)
+        self._callback_add("indicator,prop,changed", func, args, kwargs)
 
     def callback_indicator_prop_changed_del(self, func):
-        self._callback_del("indicator,prop,changed")
+        self._callback_del("indicator,prop,changed", func)
 
     def callback_rotation_changed_add(self, func, *args, **kwargs):
         """window rotation has been changed"""
-        self._callback_add("rotation,changed", func, *args, **kwargs)
+        self._callback_add("rotation,changed", func, args, kwargs)
 
     def callback_rotation_changed_del(self, func):
-        self._callback_del("rotation,changed")
+        self._callback_del("rotation,changed", func)
 
     def callback_profile_changed_add(self, func, *args, **kwargs):
         """profile of the window has been changed"""
-        self._callback_add("profile,changed", func, *args, **kwargs)
+        self._callback_add("profile,changed", func, args, kwargs)
 
     def callback_profile_changed_del(self, func):
-        self._callback_del("profile,changed")
+        self._callback_del("profile,changed", func)
 
     def callback_focused_add(self, func, *args, **kwargs):
         """When the window has received focus.
 
         .. versionadded:: 1.8
         """
-        self._callback_add("focused", func, *args, **kwargs)
+        self._callback_add("focused", func, args, kwargs)
 
     def callback_focused_del(self, func):
         self._callback_del("focused", func)
@@ -1810,7 +1810,7 @@ cdef class Window(Object):
 
         .. versionadded:: 1.8
         """
-        self._callback_add("unfocused", func, *args, **kwargs)
+        self._callback_add("unfocused", func, args, kwargs)
 
     def callback_unfocused_del(self, func):
         self._callback_del("unfocused", func)
@@ -1820,7 +1820,7 @@ cdef class Window(Object):
 
         .. versionadded:: 1.13
         """
-        self._callback_add("theme,changed", func, *args, **kwargs)
+        self._callback_add("theme,changed", func, args, kwargs)
 
     def callback_theme_changed_del(self, func):
         self._callback_del("theme,changed", func)

@@ -233,14 +233,14 @@ cdef class Dayselector(LayoutClass):
 
     def callback_dayselector_changed_add(self, func, *args, **kwargs):
         """when the user changes the state of a day."""
-        self._callback_add("dayselector,changed", func, *args, **kwargs)
+        self._callback_add("dayselector,changed", func, args, kwargs)
 
     def callback_dayselector_changed_del(self, func):
         self._callback_del("dayselector,changed", func)
 
     def callback_language_changed_add(self, func, *args, **kwargs):
         """the program's language changed"""
-        self._callback_add("language,changed", func, *args, **kwargs)
+        self._callback_add("language,changed", func, args, kwargs)
 
     def callback_language_changed_del(self, func):
         self._callback_del("language,changed", func)

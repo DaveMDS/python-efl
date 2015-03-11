@@ -229,7 +229,7 @@ cdef class Hover(LayoutClass):
 
     def callback_clicked_add(self, func, *args, **kwargs):
         """the user clicked the empty space in the hover to dismiss"""
-        self._callback_add("clicked", func, *args, **kwargs)
+        self._callback_add("clicked", func, args, kwargs)
 
     def callback_clicked_del(self, func):
         self._callback_del("clicked", func)
@@ -240,7 +240,7 @@ cdef class Hover(LayoutClass):
         .. versionadded:: 1.8.1
 
         """
-        self._callback_add("dismissed", func, *args, **kwargs)
+        self._callback_add("dismissed", func, args, kwargs)
 
     def callback_dismissed_del(self, func):
         self._callback_del("dismissed", func)
@@ -248,7 +248,7 @@ cdef class Hover(LayoutClass):
     def callback_smart_changed_add(self, func, *args, **kwargs):
         """a content object placed under the "smart" policy was replaced to a
         new slot direction."""
-        self._callback_add("smart,changed", func, *args, **kwargs)
+        self._callback_add("smart,changed", func, args, kwargs)
 
     def callback_smart_changed_del(self, func):
         self._callback_del("smart,changed", func)
@@ -258,7 +258,7 @@ cdef class Hover(LayoutClass):
 
         .. versionadded:: 1.8
         """
-        self._callback_add("focused", func, *args, **kwargs)
+        self._callback_add("focused", func, args, kwargs)
 
     def callback_focused_del(self, func):
         self._callback_del("focused", func)
@@ -268,7 +268,7 @@ cdef class Hover(LayoutClass):
 
         .. versionadded:: 1.8
         """
-        self._callback_add("unfocused", func, *args, **kwargs)
+        self._callback_add("unfocused", func, args, kwargs)
 
     def callback_unfocused_del(self, func):
         self._callback_del("unfocused", func)

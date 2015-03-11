@@ -578,7 +578,7 @@ cdef class Fileselector(LayoutClass):
         double-clicking or pressing Enter key. (**event_info** is a
         string with the activated file path)."""
         self._callback_add_full("activated", _cb_string_conv, func,
-            *args, **kwargs)
+            args, kwargs)
 
     def callback_activated_del(self, func):
         self._callback_del_full("activated", _cb_string_conv, func)
@@ -588,7 +588,7 @@ cdef class Fileselector(LayoutClass):
         directory (when in folders-only mode). Parameter ``event_info``
         contains the selected file or directory."""
         self._callback_add_full("selected", _cb_string_conv,
-                                func, *args, **kwargs)
+                                func, args, kwargs)
 
     def callback_selected_del(self, func):
         self._callback_del_full("selected", _cb_string_conv, func)
@@ -598,7 +598,7 @@ cdef class Fileselector(LayoutClass):
     #
     #def callback_selected_invalid_add(self, func, *args, **kwargs):
         #"""The user has tried to access a path which does not exist."""
-        #self._callback_add("selected,invalid", func, *args, **kwargs)
+        #self._callback_add("selected,invalid", func, args, kwargs)
 
     #def callback_selected_invalid_del(self, func):
         #self._callback_del("selected,invalid", func)
@@ -607,7 +607,7 @@ cdef class Fileselector(LayoutClass):
         """The list has been populated with new content (*event_info* is
         the directory's path)."""
         self._callback_add_full("directory,open", _cb_string_conv,
-                                func, *args, **kwargs)
+                                func, args, kwargs)
 
     def callback_directory_open_del(self, func):
         self._callback_del_full("directory,open", _cb_string_conv, func)
@@ -616,7 +616,7 @@ cdef class Fileselector(LayoutClass):
         """The user has clicked on the "ok" or "cancel" buttons
         (*event_info* is a string with the selection's path)."""
         self._callback_add_full("done", _cb_string_conv,
-                                func, *args, **kwargs)
+                                func, args, kwargs)
 
     def callback_done_del(self, func):
         self._callback_del_full("done", _cb_string_conv, func)

@@ -605,7 +605,7 @@ cdef class Image(Object):
 
     def callback_clicked_add(self, func, *args, **kwargs):
         """This is called when a user has clicked the image."""
-        self._callback_add("clicked", func, *args, **kwargs)
+        self._callback_add("clicked", func, args, kwargs)
 
     def callback_clicked_del(self, func):
         self._callback_del("clicked", func)
@@ -614,7 +614,7 @@ cdef class Image(Object):
         """This is called when a user has dropped an image typed object onto
         the object in question -- the event info argument is the path to that
         image file."""
-        self._callback_add_full("drop", _cb_string_conv, func, *args, **kwargs)
+        self._callback_add_full("drop", _cb_string_conv, func, args, kwargs)
 
     def callback_drop_del(self, func):
         self._callback_del_full("drop", _cb_string_conv, func)
@@ -625,7 +625,7 @@ cdef class Image(Object):
         .. versionadded:: 1.8
 
         """
-        self._callback_add("download,start", func, *args, **kwargs)
+        self._callback_add("download,start", func, args, kwargs)
 
     def callback_download_start_del(self, func):
         self._callback_del("download,start", func)
@@ -636,7 +636,7 @@ cdef class Image(Object):
         .. versionadded:: 1.8
 
         """
-        self._callback_add_full("download,progress", _image_download_progress_conv, func, *args, **kwargs)
+        self._callback_add_full("download,progress", _image_download_progress_conv, func, args, kwargs)
 
     def callback_download_progress_del(self, func):
         self._callback_del_full("download,progress", _image_download_progress_conv, func)
@@ -647,7 +647,7 @@ cdef class Image(Object):
         .. versionadded:: 1.8
 
         """
-        self._callback_add("download,done", func, *args, **kwargs)
+        self._callback_add("download,done", func, args, kwargs)
 
     def callback_download_done_del(self, func):
         self._callback_del("download,end", func)
@@ -658,10 +658,10 @@ cdef class Image(Object):
         .. versionadded:: 1.8
 
         """
-        self._callback_add_full("download,error", _image_download_error_conv, func, *args, **kwargs)
+        self._callback_add_full("download,error", _image_download_error_conv, func, args, kwargs)
 
     def callback_download_error_del(self, func):
-        self._callback_add_full("download,error", _image_download_error_conv, func)
+        self._callback_del_full("download,error", _image_download_error_conv, func)
 
 
 _object_mapping_register("Elm_Image", Image)

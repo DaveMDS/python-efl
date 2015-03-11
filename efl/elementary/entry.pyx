@@ -2114,126 +2114,126 @@ cdef class Entry(LayoutClass):
 
     def callback_changed_add(self, func, *args, **kwargs):
         """The text within the entry was changed."""
-        self._callback_add("changed", func, *args, **kwargs)
+        self._callback_add("changed", func, args, kwargs)
 
     def callback_changed_del(self, func):
         self._callback_del("changed", func)
 
     def callback_changed_user_add(self, func, *args, **kwargs):
         """The text within the entry was changed because of user interaction."""
-        self._callback_add("changed,user", func, *args, **kwargs)
+        self._callback_add("changed,user", func, args, kwargs)
 
     def callback_changed_user_del(self, func):
         self._callback_del("changed,user", func)
 
     def callback_activated_add(self, func, *args, **kwargs):
         """The enter key was pressed on a single line entry."""
-        self._callback_add("activated", func, *args, **kwargs)
+        self._callback_add("activated", func, args, kwargs)
 
     def callback_activated_del(self, func):
         self._callback_del("activated", func)
 
     def callback_aborted_add(self, func, *args, **kwargs):
         """The enter key was pressed on a single line entry."""
-        self._callback_add("aborted", func, *args, **kwargs)
+        self._callback_add("aborted", func, args, kwargs)
 
     def callback_aborted_del(self, func):
         self._callback_del("aborted", func)
 
     def callback_press_add(self, func, *args, **kwargs):
         """A mouse button has been pressed on the entry."""
-        self._callback_add("press", func, *args, **kwargs)
+        self._callback_add("press", func, args, kwargs)
 
     def callback_press_del(self, func):
         self._callback_del("press", func)
 
     def callback_longpressed_add(self, func, *args, **kwargs):
         """A mouse button has been pressed and held for a couple seconds."""
-        self._callback_add("longpressed", func, *args, **kwargs)
+        self._callback_add("longpressed", func, args, kwargs)
 
     def callback_longpressed_del(self, func):
         self._callback_del("longpressed", func)
 
     def callback_clicked_add(self, func, *args, **kwargs):
         """The entry has been clicked (mouse press and release)."""
-        self._callback_add("clicked", func, *args, **kwargs)
+        self._callback_add("clicked", func, args, kwargs)
 
     def callback_clicked_del(self, func):
         self._callback_del("clicked", func)
 
     def callback_double_clicked_add(self, func, *args, **kwargs):
         """The entry has been double clicked."""
-        self._callback_add("clicked,double", func, *args, **kwargs)
+        self._callback_add("clicked,double", func, args, kwargs)
 
     def callback_double_clicked_del(self, func):
         self._callback_del("clicked,double", func)
 
     def callback_triple_clicked_add(self, func, *args, **kwargs):
         """The entry has been triple clicked."""
-        self._callback_add("clicked,triple", func, *args, **kwargs)
+        self._callback_add("clicked,triple", func, args, kwargs)
 
     def callback_triple_clicked_del(self, func):
         self._callback_del("clicked,triple", func)
 
     def callback_focused_add(self, func, *args, **kwargs):
         """The entry has received focus."""
-        self._callback_add("focused", func, *args, **kwargs)
+        self._callback_add("focused", func, args, kwargs)
 
     def callback_focused_del(self, func):
         self._callback_del("focused", func)
 
     def callback_unfocused_add(self, func, *args, **kwargs):
         """The entry has lost focus."""
-        self._callback_add("unfocused", func, *args, **kwargs)
+        self._callback_add("unfocused", func, args, kwargs)
 
     def callback_unfocused_del(self, func):
         self._callback_del("unfocused", func)
 
     def callback_selection_paste_add(self, func, *args, **kwargs):
         """A paste of the clipboard contents was requested."""
-        self._callback_add("selection,paste", func, *args, **kwargs)
+        self._callback_add("selection,paste", func, args, kwargs)
 
     def callback_selection_paste_del(self, func):
         self._callback_del("selection,paste", func)
 
     def callback_selection_copy_add(self, func, *args, **kwargs):
         """A copy of the selected text into the clipboard was requested."""
-        self._callback_add("selection,copy", func, *args, **kwargs)
+        self._callback_add("selection,copy", func, args, kwargs)
 
     def callback_selection_copy_del(self, func):
         self._callback_del("selection,copy", func)
 
     def callback_selection_cut_add(self, func, *args, **kwargs):
         """A cut of the selected text into the clipboard was requested."""
-        self._callback_add("selection,cut", func, *args, **kwargs)
+        self._callback_add("selection,cut", func, args, kwargs)
 
     def callback_selection_cut_del(self, func):
         self._callback_del("selection,cut", func)
 
     def callback_selection_start_add(self, func, *args, **kwargs):
         """A selection has begun and no previous selection existed."""
-        self._callback_add("selection,start", func, *args, **kwargs)
+        self._callback_add("selection,start", func, args, kwargs)
 
     def callback_selection_start_del(self, func):
         self._callback_del("selection,start", func)
 
     def callback_selection_changed_add(self, func, *args, **kwargs):
         """The current selection has changed."""
-        self._callback_add("selection,changed", func, *args, **kwargs)
+        self._callback_add("selection,changed", func, args, kwargs)
 
     def callback_selection_changed_del(self, func):
         self._callback_del("selection,changed", func)
 
     def callback_selection_cleared_add(self, func, *args, **kwargs):
         """The current selection has been cleared."""
-        self._callback_add("selection,cleared", func, *args, **kwargs)
+        self._callback_add("selection,cleared", func, args, kwargs)
 
     def callback_selection_cleared_del(self, func):
         self._callback_del("selection,cleared", func)
 
     def callback_cursor_changed_add(self, func, *args, **kwargs):
         """The cursor has changed position."""
-        self._callback_add("cursor,changed", func, *args, **kwargs)
+        self._callback_add("cursor,changed", func, args, kwargs)
 
     def callback_cursor_changed_del(self, func):
         self._callback_del("cursor,changed", func)
@@ -2244,7 +2244,7 @@ cdef class Entry(LayoutClass):
 
         """
         self._callback_add_full("anchor,clicked", _entryanchor_conv,
-                                func, *args, **kwargs)
+                                func, args, kwargs)
 
     def callback_anchor_clicked_del(self, func):
         self._callback_del_full("anchor,clicked", _entryanchor_conv,
@@ -2256,7 +2256,7 @@ cdef class Entry(LayoutClass):
 
         """
         self._callback_add_full("anchor,in", _entryanchor_conv,
-                                func, *args, **kwargs)
+                                func, args, kwargs)
 
     def callback_anchor_in_del(self, func):
         self._callback_del_full("anchor,in", _entryanchor_conv,
@@ -2268,7 +2268,7 @@ cdef class Entry(LayoutClass):
 
         """
         self._callback_add_full("anchor,out", _entryanchor_conv,
-                                func, *args, **kwargs)
+                                func, args, kwargs)
 
     def callback_anchor_out_del(self, func):
         self._callback_del_full("anchor,out", _entryanchor_conv,
@@ -2280,7 +2280,7 @@ cdef class Entry(LayoutClass):
 
         """
         self._callback_add_full("anchor,up", _entryanchor_conv,
-                                func, *args, **kwargs)
+                                func, args, kwargs)
 
     def callback_anchor_up_del(self, func):
         self._callback_del_full("anchor,up", _entryanchor_conv,
@@ -2292,7 +2292,7 @@ cdef class Entry(LayoutClass):
 
         """
         self._callback_add_full("anchor,down", _entryanchor_conv,
-                                func, *args, **kwargs)
+                                func, args, kwargs)
 
     def callback_anchor_down_del(self, func):
         self._callback_del_full("anchor,down", _entryanchor_conv,
@@ -2300,7 +2300,7 @@ cdef class Entry(LayoutClass):
 
     def callback_anchor_hover_opened_add(self, func, *args, **kwargs):
         self._callback_add_full("anchor,hover,opened", _entryanchorhover_conv,
-                                func, *args, **kwargs)
+                                func, args, kwargs)
 
     def callback_anchor_hover_opened_del(self, func):
         self._callback_del_full("anchor,hover,opened", _entryanchorhover_conv,
@@ -2308,21 +2308,21 @@ cdef class Entry(LayoutClass):
 
     def callback_preedit_changed_add(self, func, *args, **kwargs):
         """The preedit string has changed."""
-        self._callback_add("preedit,changed", func, *args, **kwargs)
+        self._callback_add("preedit,changed", func, args, kwargs)
 
     def callback_preedit_changed_del(self, func):
         self._callback_del("preedit,changed", func)
 
     def callback_language_changed_add(self, func, *args, **kwargs):
         """Program language changed."""
-        self._callback_add("language,changed", func, *args, **kwargs)
+        self._callback_add("language,changed", func, args, kwargs)
 
     def callback_language_changed_del(self, func):
         self._callback_del("language,changed", func)
 
     def callback_text_set_done_add(self, func, *args, **kwargs):
         """Whole text has been set to the entry."""
-        self._callback_add("text,set,done", func, *args, **kwargs)
+        self._callback_add("text,set,done", func, args, kwargs)
 
     def callback_text_set_done_del(self, func):
         self._callback_del("text,set,done", func)
@@ -2333,7 +2333,7 @@ cdef class Entry(LayoutClass):
         .. versionadded:: 1.9
 
         """
-        self._callback_add("rejected", func, *args, **kwargs)
+        self._callback_add("rejected", func, args, kwargs)
 
     def callback_text_set_done_del(self, func):
         self._callback_del("rejected", func)

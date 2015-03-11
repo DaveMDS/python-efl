@@ -484,7 +484,7 @@ cdef class Menu(Object):
 
     def callback_clicked_add(self, func, *args, **kwargs):
         """The user clicked the empty space in the menu to dismiss."""
-        self._callback_add("clicked", func, *args, **kwargs)
+        self._callback_add("clicked", func, args, kwargs)
 
     def callback_clicked_del(self, func):
         self._callback_del("clicked", func)
@@ -494,7 +494,7 @@ cdef class Menu(Object):
 
         .. versionadded:: 1.8
         """
-        self._callback_add("dismissed", func, *args, **kwargs)
+        self._callback_add("dismissed", func, args, kwargs)
 
     def callback_dismissed_del(self, func):
         self._callback_del("dismissed", func)

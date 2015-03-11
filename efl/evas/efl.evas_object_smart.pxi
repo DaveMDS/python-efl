@@ -725,7 +725,7 @@ cdef class SmartObject(Object):
     # =========
     #
 
-    def _callback_add_full(self, event, event_conv, func, *args, **kargs):
+    cdef int _callback_add_full(self, event, event_conv, func, tuple args, dict kargs) except 0:
         """Add a callback for the smart event specified by event.
 
         :param event: event name
@@ -763,7 +763,9 @@ cdef class SmartObject(Object):
                 _smart_callback, <void *>e)
         lst.append((event_conv, func, args, kargs))
 
-    def _callback_del_full(self, event, event_conv, func):
+        return 1
+
+    cdef int _callback_del_full(self, event, event_conv, func) except 0:
         """Remove a smart callback.
 
         Removes a callback that was added by :py:func:`_callback_add_full()`.
@@ -799,14 +801,16 @@ cdef class SmartObject(Object):
 
         lst.pop(i)
         if lst:
-            return
+            return 1
         self._smart_callbacks.pop(event)
         if isinstance(event, unicode): event = PyUnicode_AsUTF8String(event)
         evas_object_smart_callback_del(self.obj,
             <const char *>event if event is not None else NULL,
             _smart_callback)
 
-    def _callback_add(self, event, func, *args, **kargs):
+        return 1
+
+    cdef int _callback_add(self, event, func, args, kargs) except 0:
         """Add a callback for the smart event specified by event.
 
         :param event: event name
@@ -818,9 +822,9 @@ cdef class SmartObject(Object):
         :raise TypeError: if **func** is not callable.
 
         """
-        return self._callback_add_full(event, None, func, *args, **kargs)
+        return self._callback_add_full(event, None, func, args, kargs)
 
-    def _callback_del(self, event, func):
+    cdef int _callback_del(self, event, func) except 0:
         """Remove a smart callback.
 
         Removes a callback that was added by :py:func:`_callback_add()`.
@@ -855,7 +859,7 @@ cdef class SmartObject(Object):
             signal is provided by a C-only class, it will crash.
 
         """
-        self._callback_add(name, func, *args, **kargs)
+        self._callback_add_full(name, None, func, args, kargs)
 
     def callback_del(self, name, func):
         """Remove a smart callback.
@@ -869,7 +873,7 @@ cdef class SmartObject(Object):
 
         :raise ValueError: if there was no **func** connected with this event.
         """
-        self._callback_del(name, func)
+        self._callback_del_full(name, None, func)
 
     def callback_call(self, name, event_info=None):
         """Call any smart callbacks for event.

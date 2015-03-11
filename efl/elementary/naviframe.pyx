@@ -572,21 +572,21 @@ cdef class Naviframe(LayoutClass):
 
     def callback_transition_finished_add(self, func, *args, **kwargs):
         """When the transition is finished in changing the item."""
-        self._callback_add("transition,finished", func, *args, **kwargs)
+        self._callback_add("transition,finished", func, args, kwargs)
 
     def callback_transition_finished_del(self, func):
         self._callback_del("transition,finished", func)
 
     def callback_title_transition_finished_add(self, func, *args, **kwargs):
         """When the title transition is finished."""
-        self._callback_add("title,transition,finished", func, *args, **kwargs)
+        self._callback_add("title,transition,finished", func, args, kwargs)
 
     def callback_title_transition_finished_del(self, func):
         self._callback_del("title,transition,finished", func)
 
     def callback_title_clicked_add(self, func, *args, **kwargs):
         """User clicked title area."""
-        self._callback_add("title,clicked", func, *args, **kwargs)
+        self._callback_add("title,clicked", func, args, kwargs)
 
     def callback_title_clicked_del(self, func):
         self._callback_del("title,clicked", func)
@@ -596,7 +596,7 @@ cdef class Naviframe(LayoutClass):
 
         .. versionadded:: 1.8
         """
-        self._callback_add("focused", func, *args, **kwargs)
+        self._callback_add("focused", func, args, kwargs)
 
     def callback_focused_del(self, func):
         self._callback_del("focused", func)
@@ -606,7 +606,7 @@ cdef class Naviframe(LayoutClass):
 
         .. versionadded:: 1.8
         """
-        self._callback_add("unfocused", func, *args, **kwargs)
+        self._callback_add("unfocused", func, args, kwargs)
 
     def callback_unfocused_del(self, func):
         self._callback_del("unfocused", func)

@@ -961,14 +961,14 @@ cdef class Web(Object):
 
     def callback_editorclient_contents_changed_add(self, func, *args, **kwargs):
         """Editor client's contents changed."""
-        self._callback_add("editorclient,contents,changed", func, *args, **kwargs)
+        self._callback_add("editorclient,contents,changed", func, args, kwargs)
 
     def callback_editorclient_contents_changed_del(self, func):
         self._callback_del("editorclient,contents,changed", func)
 
     def callback_editorclient_selection_changed_add(self, func, *args, **kwargs):
         """Editor client's selection changed."""
-        self._callback_add("editorclient,selection,changed", func, *args, **kwargs)
+        self._callback_add("editorclient,selection,changed", func, args, kwargs)
 
     def callback_editorclient_selection_changed_del(self, func):
         self._callback_del("editorclient,selection,changed", func)
@@ -977,14 +977,14 @@ cdef class Web(Object):
     # def callback_frame_created_add(self, func, *args, **kwargs):
     #     """A new frame was created. Event info is an
     #     Evas_Object which can be handled with WebKit's ewk_frame API."""
-    #     self._callback_add("frame,created", func, *args, **kwargs)
+    #     self._callback_add("frame,created", func, args, kwargs)
 
     # def callback_frame_created_del(self, func):
     #     self._callback_del("frame,created", func)
 
     def callback_icon_received_add(self, func, *args, **kwargs):
         """An icon was received by the main frame."""
-        self._callback_add("icon,received", func, *args, **kwargs)
+        self._callback_add("icon,received", func, args, kwargs)
 
     def callback_icon_received_del(self, func):
         self._callback_del("icon,received", func)
@@ -993,14 +993,14 @@ cdef class Web(Object):
         """Input method changed. Event info is an Eina_Bool indicating whether
         it's enabled or not."""
         self._callback_add_full("inputmethod,changed", _cb_bool_conv, func,
-            *args, **kwargs)
+            args, kwargs)
 
     def callback_inputmethod_changed_del(self, func):
         self._callback_del_full("inputmethod,changed", _cb_bool_conv, func)
 
     def callback_js_windowobject_clear_add(self, func, *args, **kwargs):
         """JS window object has been cleared."""
-        self._callback_add("js,windowobject,clear", func, *args, **kwargs)
+        self._callback_add("js,windowobject,clear", func, args, kwargs)
 
     def callback_js_windowobject_clear_del(self, func):
         self._callback_del("js,windowobject,clear", func)
@@ -1010,14 +1010,14 @@ cdef class Web(Object):
         is a tuple, where the first string contains the URL the link
         points to, and the second one the title of the link."""
         self._callback_add_full("link,hover,in", _web_link_hover_in_conv, func,
-            *args, **kwargs)
+            args, kwargs)
 
     def callback_link_hover_in_del(self, func):
         self._callback_del_full("link,hover,in", _web_link_hover_in_conv, func)
 
     def callback_link_hover_out_add(self, func, *args, **kwargs):
         """Mouse cursor left the link."""
-        self._callback_add("link,hover,out", func, *args, **kwargs)
+        self._callback_add("link,hover,out", func, args, kwargs)
 
     def callback_link_hover_out_del(self, func):
         self._callback_del("link,hover,out", func)
@@ -1026,7 +1026,7 @@ cdef class Web(Object):
     # def callback_load_document_finished_add(self, func, *args, **kwargs):
     #     """Loading of a document finished. Event info
     #     is the frame that finished loading."""
-    #     self._callback_add("load,document,finished", func, *args, **kwargs)
+    #     self._callback_add("load,document,finished", func, args, kwargs)
 
     # def callback_load_document_finished_del(self, func):
     #     self._callback_del("load,document,finished", func)
@@ -1034,7 +1034,7 @@ cdef class Web(Object):
     def callback_load_error_add(self, func, *args, **kwargs):
         """Load failed. Event info is a WebFrameLoadError instance."""
         self._callback_add_full("load,error", _web_load_frame_error_conv, func,
-            *args, **kwargs)
+            args, kwargs)
 
     def callback_load_error_del(self, func):
         self._callback_del_full("load,error", _web_load_frame_error_conv, func)
@@ -1042,14 +1042,14 @@ cdef class Web(Object):
     def callback_load_finished_add(self, func, *args, **kwargs):
         """Load finished. Event info is None on success, on error it's
         a pointer to Elm_Web_Frame_Load_Error."""
-        self._callback_add_full("load,finished", _web_load_frame_error_conv, func, *args, **kwargs)
+        self._callback_add_full("load,finished", _web_load_frame_error_conv, func, args, kwargs)
 
     def callback_load_finished_del(self, func):
         self._callback_del_full("load,finished", _web_load_frame_error_conv, func)
 
     def callback_load_newwindow_show_add(self, func, *args, **kwargs):
         """A new window was created and is ready to be shown."""
-        self._callback_add("load,newwindow,show", func, *args, **kwargs)
+        self._callback_add("load,newwindow,show", func, args, kwargs)
 
     def callback_load_newwindow_show_del(self, func):
         self._callback_del("load,newwindow,show", func)
@@ -1058,21 +1058,21 @@ cdef class Web(Object):
         """Overall load progress. Event info is a double containing
         a value between 0.0 and 1.0."""
         self._callback_add_full("load,progress", _web_double_conv, func,
-            *args, **kwargs)
+            args, kwargs)
 
     def callback_load_progress_del(self, func):
         self._callback_del_full("load,progress", _web_double_conv, func)
 
     def callback_load_provisional_add(self, func, *args, **kwargs):
         """Started provisional load."""
-        self._callback_add("load,provisional", func, *args, **kwargs)
+        self._callback_add("load,provisional", func, args, kwargs)
 
     def callback_load_provisional_del(self, func):
         self._callback_del("load,provisional", func)
 
     def callback_load_started_add(self, func, *args, **kwargs):
         """Loading of a document started."""
-        self._callback_add("load,started", func, *args, **kwargs)
+        self._callback_add("load,started", func, args, kwargs)
 
     def callback_load_started_del(self, func):
         self._callback_del("load,started", func)
@@ -1092,7 +1092,7 @@ cdef class Web(Object):
         """Informs menubar visibility. Event info is
         a bool indicating the visibility."""
         self._callback_add_full("menubar,visible,set", _cb_bool_conv, func,
-            *args, **kwargs)
+            args, kwargs)
 
     def callback_menubar_visible_set_del(self, func):
         self._callback_del_full("menubar,visible,set", _cb_bool_conv, func)
@@ -1101,7 +1101,7 @@ cdef class Web(Object):
     # def callback_popup_created_add(self, func, *args, **kwargs):
     #     """A dropdown widget was activated, requesting its
     #     popup menu to be created. Event info is a pointer to Elm_Web_Menu."""
-    #     self._callback_add("popup,created", func, *args, **kwargs)
+    #     self._callback_add("popup,created", func, args, kwargs)
 
     # def callback_popup_created_del(self, func):
     #     self._callback_del("popup,created", func)
@@ -1109,14 +1109,14 @@ cdef class Web(Object):
     # def callback_popup_willdelete_add(self, func, *args, **kwargs):
     #     """The web object is ready to destroy the popup
     #     object created. Event info is a pointer to Elm_Web_Menu."""
-    #     self._callback_add("popup,willdelete", func, *args, **kwargs)
+    #     self._callback_add("popup,willdelete", func, args, kwargs)
 
     # def callback_popup_willdelete_del(self, func):
     #     self._callback_del("popup,willdelete", func)
 
     def callback_ready_add(self, func, *args, **kwargs):
         """Page is fully loaded."""
-        self._callback_add("ready", func, *args, **kwargs)
+        self._callback_add("ready", func, args, kwargs)
 
     def callback_ready_del(self, func):
         self._callback_del("ready", func)
@@ -1134,7 +1134,7 @@ cdef class Web(Object):
         """Informs scrollbars visibility. Event info
         is a bool with the visibility state set."""
         self._callback_add_full("scrollbars,visible,set", _cb_bool_conv, func,
-            *args, **kwargs)
+            args, kwargs)
 
     def callback_scrollbars_visible_set_del(self, func):
         self._callback_del_full("scrollbars,visible,set", _cb_bool_conv, func)
@@ -1143,7 +1143,7 @@ cdef class Web(Object):
         """Text of the statusbar changed. Event info is
         a string with the new text."""
         self._callback_add_full("statusbar,text,set", _cb_string_conv, func,
-            *args, **kwargs)
+            args, kwargs)
 
     def callback_statusbar_text_set_del(self, func):
         self._callback_del_full("statusbar,text,set", _cb_string_conv, func)
@@ -1162,7 +1162,7 @@ cdef class Web(Object):
         """Informs statusbar visibility. Event info is
         a bool with the visibility value."""
         self._callback_add_full("statusbar,visible,set", _cb_bool_conv, func,
-            *args, **kwargs)
+            args, kwargs)
 
     def callback_statusbar_visible_set_del(self, func):
         self._callback_del_full("statusbar,visible,set", _cb_bool_conv, func)
@@ -1170,7 +1170,7 @@ cdef class Web(Object):
     def callback_title_changed_add(self, func, *args, **kwargs):
         """Title of the main frame changed. Event info is a
         string with the new title."""
-        self._callback_add_full("title,changed", _cb_string_conv, func, *args, **kwargs)
+        self._callback_add_full("title,changed", _cb_string_conv, func, args, kwargs)
 
     def callback_title_changed_del(self, func):
         self._callback_del_full("title,changed", _cb_string_conv, func)
@@ -1188,16 +1188,16 @@ cdef class Web(Object):
         """Informs the visibility of toolbars. Event
         info is a bool with the visibility state."""
         self._callback_add_full("toolbars,visible,set", _cb_bool_conv, func,
-            *args, **kwargs)
+            args, kwargs)
 
     def callback_toolbars_visible_set_del(self, func):
-        self._callback_del_full("toolbars,visible,set", func)
+        self._callback_del_full("toolbars,visible,set", _cb_bool_conv, func)
 
     def callback_tooltip_text_set_add(self, func, *args, **kwargs):
         """Show and set text of a tooltip. Event info is
         a string with the text to show."""
         self._callback_add_full("tooltip,text,set", _cb_string_conv, func,
-            *args, **kwargs)
+            args, kwargs)
 
     def callback_tooltip_text_set_del(self, func):
         self._callback_del_full("tooltip,text,set", _cb_string_conv, func)
@@ -1206,7 +1206,7 @@ cdef class Web(Object):
         """URI of the main frame changed. Event info is a string.
         (deprecated. use "url,changed" instead)"""
         self._callback_add_full("uri,changed", _cb_string_conv, func,
-            *args, **kwargs)
+            args, kwargs)
 
     def callback_uri_changed_del(self, func):
         self._callback_del_full("uri,changed", _cb_string_conv, func)
@@ -1215,14 +1215,14 @@ cdef class Web(Object):
         """URL of the main frame changed. Event info is a string
         with the new URI."""
         self._callback_add_full("url,changed", _cb_string_conv, func,
-            *args, **kwargs)
+            args, kwargs)
 
     def callback_url_changed_del(self, func):
         self._callback_del_full("url,changed", _cb_string_conv, func)
 
     def callback_view_resized_add(self, func, *args, **kwargs):
         """The web object internal's view changed sized."""
-        self._callback_add("view,resized", func, *args, **kwargs)
+        self._callback_add("view,resized", func, args, kwargs)
 
     def callback_view_resized_del(self, func):
         self._callback_del("view,resized", func)
@@ -1230,14 +1230,14 @@ cdef class Web(Object):
     def callback_windows_close_request_add(self, func, *args, **kwargs):
         """A JavaScript request to close the current
         window was requested."""
-        self._callback_add("windows,close,request", func, *args, **kwargs)
+        self._callback_add("windows,close,request", func, args, kwargs)
 
     def callback_windows_close_request_del(self, func):
         self._callback_del("windows,close,request", func)
 
     def callback_zoom_animated_end_add(self, func, *args, **kwargs):
         """Animated zoom finished."""
-        self._callback_add("zoom,animated,end", func, *args, **kwargs)
+        self._callback_add("zoom,animated,end", func, args, kwargs)
 
     def callback_zoom_animated_end_del(self, func):
         self._callback_del("zoom,animated,end", func)
@@ -1248,7 +1248,7 @@ cdef class Web(Object):
         .. versionadded:: 1.8
 
         """
-        self._callback_add("focused", func, *args, **kwargs)
+        self._callback_add("focused", func, args, kwargs)
 
     def callback_focused_del(self, func):
         self._callback_del("focused", func)
@@ -1259,7 +1259,7 @@ cdef class Web(Object):
         .. versionadded:: 1.8
 
         """
-        self._callback_add("unfocused", func, *args, **kwargs)
+        self._callback_add("unfocused", func, args, kwargs)
 
     def callback_unfocused_del(self, func):
         self._callback_del("unfocused", func)

@@ -1128,21 +1128,21 @@ cdef class Toolbar(LayoutClass):
 
     def callback_clicked_add(self, func, *args, **kwargs):
         """When the user clicks on a toolbar item and becomes selected."""
-        self._callback_add("clicked", func, *args, **kwargs)
+        self._callback_add("clicked", func, args, kwargs)
 
     def callback_clicked_del(self, func):
         self._callback_del("clicked", func)
 
     def callback_longpressed_add(self, func, *args, **kwargs):
         """When the toolbar is pressed for a certain amount of time."""
-        self._callback_add("longpressed", func, *args, **kwargs)
+        self._callback_add("longpressed", func, args, kwargs)
 
     def callback_longpressed_del(self, func):
         self._callback_del("longpressed", func)
 
     def callback_language_changed_add(self, func, *args, **kwargs):
         """When the program language changes."""
-        self._callback_add("language,changed", func, *args, **kwargs)
+        self._callback_add("language,changed", func, args, kwargs)
 
     def callback_language_changed_del(self, func):
         self._callback_del("language,changed", func)
@@ -1152,7 +1152,7 @@ cdef class Toolbar(LayoutClass):
 
         .. versionadded:: 1.8
         """
-        self._callback_add("focused", func, *args, **kwargs)
+        self._callback_add("focused", func, args, kwargs)
 
     def callback_focused_del(self, func):
         self._callback_del("focused", func)
@@ -1162,7 +1162,7 @@ cdef class Toolbar(LayoutClass):
 
         .. versionadded:: 1.8
         """
-        self._callback_add("unfocused", func, *args, **kwargs)
+        self._callback_add("unfocused", func, args, kwargs)
 
     def callback_unfocused_del(self, func):
         self._callback_del("unfocused", func)
@@ -1173,7 +1173,7 @@ cdef class Toolbar(LayoutClass):
         .. versionadded:: 1.10
 
         """
-        self._callback_add_full("item,focused", _cb_object_item_conv, func, *args, **kwargs)
+        self._callback_add_full("item,focused", _cb_object_item_conv, func, args, kwargs)
 
     def callback_item_focused_del(self, func):
         self._callback_del_full("item,focused", _cb_object_item_conv, func)
@@ -1184,7 +1184,7 @@ cdef class Toolbar(LayoutClass):
         .. versionadded:: 1.10
 
         """
-        self._callback_add_full("item,unfocused", _cb_object_item_conv, func, *args, **kwargs)
+        self._callback_add_full("item,unfocused", _cb_object_item_conv, func, args, kwargs)
 
     def callback_item_unfocused_del(self, func):
         self._callback_del_full("item,unfocused", _cb_object_item_conv, func)
@@ -1195,7 +1195,7 @@ cdef class Toolbar(LayoutClass):
         .. versionadded:: 1.11
 
         """
-        self._callback_add_full("selected", _cb_object_item_conv, func, *args, **kwargs)
+        self._callback_add_full("selected", _cb_object_item_conv, func, args, kwargs)
 
     def callback_selected_del(self, func):
         self._callback_del_full("selected", _cb_object_item_conv, func)
@@ -1206,7 +1206,7 @@ cdef class Toolbar(LayoutClass):
         .. versionadded:: 1.11
 
         """
-        self._callback_add_full("unselected", _cb_object_item_conv, func, *args, **kwargs)
+        self._callback_add_full("unselected", _cb_object_item_conv, func, args, kwargs)
 
     def callback_unselected_del(self, func):
         self._callback_del_full("unselected", _cb_object_item_conv, func)

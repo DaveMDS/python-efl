@@ -191,7 +191,7 @@ cdef class Photo(Object):
 
     def callback_clicked_add(self, func, *args, **kwargs):
         """This is called when a user has clicked the photo."""
-        self._callback_add("clicked", func, *args, **kwargs)
+        self._callback_add("clicked", func, args, kwargs)
 
     def callback_clicked_del(self, func):
         self._callback_del("clicked", func)
@@ -201,14 +201,14 @@ cdef class Photo(Object):
         frame.
 
         """
-        self._callback_add("drag,start", func, *args, **kwargs)
+        self._callback_add("drag,start", func, args, kwargs)
 
     def callback_drag_start_del(self, func):
         self._callback_del("drag,start", func)
 
     def callback_drag_end_add(self, func, *args, **kwargs):
         """One has dropped the dragged image somewhere."""
-        self._callback_add("drag,end", func, *args, **kwargs)
+        self._callback_add("drag,end", func, args, kwargs)
 
     def callback_drag_end_del(self, func):
         self._callback_del("drag,end", func)
