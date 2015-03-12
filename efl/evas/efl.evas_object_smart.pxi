@@ -19,10 +19,14 @@ from efl.utils.conversions cimport eina_list_objects_to_python_list
 from efl.c_eo cimport eo_do, eo_do_ret, eo_key_data_del, eo_key_data_set, eo_key_data_get
 from efl.eo cimport Eo, EoIterator
 
-from cpython cimport PyMem_Malloc, PyMethod_New, Py_INCREF, Py_DECREF
+from cpython cimport PyMem_Malloc, Py_INCREF, Py_DECREF
 
 #cdef object _smart_classes
 #_smart_classes = list()
+
+
+cdef object _smart_cb_pass_conv(void *addr):
+    return <object>addr
 
 
 cdef void _smart_object_delete(Evas_Object *o) with gil:
@@ -322,37 +326,49 @@ cdef void _smart_object_member_del(Evas_Object *o, Evas_Object *clip) with gil:
 cdef void _smart_callback(void *data, Evas_Object *o, void *event_info) with gil:
 
     cdef:
-        void *tmp = NULL
         SmartObject obj
-        object ei
         object(*event_conv)(void*)
-
-    eo_do_ret(o, tmp, eo_key_data_get("python-eo"))
-    if tmp == NULL:
-        EINA_LOG_DOM_ERR(PY_EFL_EVAS_LOG_DOMAIN, "obj is NULL!", NULL)
-        return
-    else:
-        obj = <SmartObject>tmp
+        uintptr_t conv
+        object func
+        tuple args
+        dict kargs
+        tuple tmp
 
     if data == NULL:
         EINA_LOG_DOM_ERR(PY_EFL_EVAS_LOG_DOMAIN, "data is NULL!", NULL)
         return
-    else:
-        conv, func, args, kargs = <tuple>data
 
-    if conv != 0:
-        event_conv = <object(*)(void*)><void *><uintptr_t>conv
-    else:
-        event_conv = NULL
+    #obj, conv, func, args, kargs = <tuple>data
 
-    try:
-        if event_conv is NULL:
+    tmp = <tuple>data
+    obj = <SmartObject>tmp[0]
+    conv = <uintptr_t>tmp[1]
+    func = tmp[2]
+    args = <tuple>tmp[3]
+    kargs = <dict>tmp[4]
+
+    if event_info == NULL:
+        try:
             func(obj, *args, **kargs)
-        else:
+        except Exception:
+            traceback.print_exc()
+    elif conv == 0:
+        EINA_LOG_DOM_WARN(
+            PY_EFL_EVAS_LOG_DOMAIN,
+            "event_info is not NULL and there is no event_conv!",
+            NULL
+            )
+        try:
+            func(obj, *args, **kargs)
+        except Exception:
+            traceback.print_exc()
+    else:
+        event_conv = <object(*)(void*)><void *>conv
+        try:
             ei = event_conv(event_info)
             func(obj, ei, *args, **kargs)
-    except Exception:
-        traceback.print_exc()
+        except Exception:
+            traceback.print_exc()
 
 
 cdef class Smart(object):
@@ -755,7 +771,7 @@ cdef class SmartObject(Object):
             raise TypeError("func must be callable")
         if isinstance(event, unicode): event = PyUnicode_AsUTF8String(event)
 
-        spec = (<uintptr_t><void *>event_conv, func, args, kargs)
+        spec = (self, <uintptr_t><void *>event_conv, func, args, kargs)
         lst = self._smart_callback_specs.setdefault(event, [])
         lst.append(spec)
 
@@ -797,7 +813,7 @@ cdef class SmartObject(Object):
             raise ValueError("No callbacks registered for the given event type")
 
         for i, spec in enumerate(lst):
-            if spec[1] is func:
+            if spec[2] is func:
                 found = 1
                 break
 
@@ -866,7 +882,7 @@ cdef class SmartObject(Object):
             signal is provided by a C-only class, it will crash.
 
         """
-        self._callback_add_full(name, NULL, func, args, kargs)
+        self._callback_add_full(name, _smart_cb_pass_conv, func, args, kargs)
 
     def callback_del(self, name, func):
         """Remove a smart callback.
@@ -880,7 +896,7 @@ cdef class SmartObject(Object):
 
         :raise ValueError: if there was no **func** connected with this event.
         """
-        self._callback_del_full(name, NULL, func)
+        self._callback_del_full(name, _smart_cb_pass_conv, func)
 
     def callback_call(self, name, event_info=None):
         """Call any smart callbacks for event.
