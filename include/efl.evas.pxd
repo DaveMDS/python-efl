@@ -1209,9 +1209,12 @@ cdef class Textblock(Object):
 # cdef extern from *:
 #     ctypedef object(*Smart_Conv_Func)(void *)
 
+cdef class Smart:
+    cdef Evas_Smart *cls
 
 cdef class SmartObject(Object):
     cdef:
+        public Smart smart
         dict _smart_callback_specs
         int _set_obj(self, cEo *obj) except 0
         int _callback_add_full(self, event, object(*)(void*), func, tuple args, dict kargs) except 0

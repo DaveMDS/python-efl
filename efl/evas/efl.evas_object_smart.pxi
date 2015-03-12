@@ -19,7 +19,8 @@ from efl.utils.conversions cimport eina_list_objects_to_python_list
 from efl.c_eo cimport eo_do, eo_do_ret, eo_key_data_del, eo_key_data_set, eo_key_data_get
 from efl.eo cimport Eo, EoIterator
 
-from cpython cimport PyMem_Malloc, Py_INCREF, Py_DECREF, PyObject_Call
+from cpython cimport Py_INCREF, Py_DECREF, PyObject_Call, \
+    PyMem_Malloc, PyMem_Free
 
 #cdef object _smart_classes
 #_smart_classes = list()
@@ -376,8 +377,6 @@ cdef class Smart(object):
     """
     An abstract class with callback methods.
 
-    Use :meth:`free` to delete the instance.
-
     :param clipped: Make this Smart use a clipped class, ignoring the provided
         callback methods.
     :type clipped: bool
@@ -396,14 +395,12 @@ cdef class Smart(object):
     .. versionadded:: 1.14
     """
 
-    cdef Evas_Smart *cls
-
     def __cinit__(self, bint clipped=False):
         cdef Evas_Smart_Class *cls_def
 
         cls_def = <Evas_Smart_Class*>PyMem_Malloc(sizeof(Evas_Smart_Class))
         if cls_def == NULL:
-            return # raise MemoryError
+            raise MemoryError
 
         name = self.__class__.__name__
         if isinstance(name, unicode): name = PyUnicode_AsUTF8String(name)
@@ -433,13 +430,13 @@ cdef class Smart(object):
         cls_def.data = <void *>self
 
         self.cls = evas_smart_class_new(cls_def)
-        Py_INCREF(self)
 
-    def free(self):
-        """Deletes this Smart instance and frees the C resources."""
+    def __dealloc__(self):
+        cdef const Evas_Smart_Class *cls_def
+        cls_def = evas_smart_class_get(self.cls)
+        PyMem_Free(<void*>cls_def)
         evas_smart_free(self.cls)
         self.cls = NULL
-        Py_DECREF(self)
 
     @staticmethod
     def delete(obj):
@@ -620,6 +617,7 @@ cdef class SmartObject(Object):
         #_smart_classes.append(<uintptr_t>cls_def)
         self._set_obj(evas_object_smart_add(canvas.obj, smart.cls))
         self._set_properties_from_keyword_args(kwargs)
+        self.smart = smart
 
     cdef int _set_obj(self, cEo *obj) except 0:
         assert self.obj == NULL, "Object must be clean"
@@ -680,12 +678,8 @@ cdef class SmartObject(Object):
         eina_list_free(lst)
         return tuple(ret)
 
-    property smart:
-        def __get__(self):
-            return <Smart>evas_smart_data_get(evas_object_smart_smart_get(self.obj))
-
     def smart_get(self):
-        return <Smart>evas_smart_data_get(evas_object_smart_smart_get(self.obj))
+        return self.smart
 
     def move_children_relative(self, int dx, int dy):
         """Move all children relatively."""
