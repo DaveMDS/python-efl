@@ -222,7 +222,6 @@ cdef class Object(Eo):
         """
         evas_object_del(self.obj)
 
-
     property evas:
         """ The evas Canvas that owns this object.
 
@@ -254,6 +253,441 @@ cdef class Object(Eo):
     def smart_member_del(self):
         """Removes this object as a member of a smart object."""
         evas_object_smart_member_del(self.obj)
+
+
+    def show(self):
+        """show()
+
+        Show the object.
+
+        """
+        evas_object_show(self.obj)
+
+    def hide(self):
+        """hide()
+
+        Hide the object.
+
+        """
+        evas_object_hide(self.obj)
+
+    property visible:
+        """Whenever it's visible or not.
+
+        :type: bool
+
+        """
+        def __get__(self):
+            return bool(evas_object_visible_get(self.obj))
+
+        def __set__(self, spec):
+            if spec:
+                self.show()
+            else:
+                self.hide()
+
+    def visible_get(self):
+        return bool(evas_object_visible_get(self.obj))
+    def visible_set(self, spec):
+        if spec:
+            self.show()
+        else:
+            self.hide()
+
+    property precise_is_inside:
+        """Set whether to use precise (usually expensive) point collision
+        detection for a given Evas object.
+
+        Use this function to make Evas treat objects' transparent areas as
+        **not** belonging to it with regard to mouse pointer events. By
+        default, all of the object's boundary rectangle will be taken in
+        account for them.
+
+        :type: bool
+
+        .. warning:: By using precise point collision detection you'll be
+            making Evas more resource intensive.
+
+        """
+        def __set__(self, precise):
+            evas_object_precise_is_inside_set(self.obj, precise)
+
+        def __get__(self):
+            return bool(evas_object_precise_is_inside_get(self.obj))
+
+    def precise_is_inside_set(self, precise):
+        evas_object_precise_is_inside_set(self.obj, precise)
+
+    def precise_is_inside_get(self):
+        return bool(evas_object_precise_is_inside_get(self.obj))
+
+    property static_clip:
+        """A hint flag on the object, whether this is used as a static clipper
+        or not.
+
+        :type: bool
+
+        """
+        def __get__(self):
+            return bool(evas_object_static_clip_get(self.obj))
+
+        def __set__(self, value):
+            evas_object_static_clip_set(self.obj, value)
+
+    def static_clip_get(self):
+        return bool(evas_object_static_clip_get(self.obj))
+    def static_clip_set(self, int value):
+        evas_object_static_clip_set(self.obj, value)
+
+    property render_op:
+        """Render operation used at drawing.
+
+        :type: Evas_Render_Op
+
+        """
+        def __get__(self):
+            return evas_object_render_op_get(self.obj)
+
+        def __set__(self, int value):
+            evas_object_render_op_set(self.obj, <Evas_Render_Op>value)
+
+    def render_op_get(self):
+        return evas_object_render_op_get(self.obj)
+    def render_op_set(self, int value):
+        evas_object_render_op_set(self.obj, <Evas_Render_Op>value)
+
+    property anti_alias:
+        """If anti-aliased primitives should be used.
+
+        :type: bool
+
+        """
+        def __get__(self):
+            return bool(evas_object_anti_alias_get(self.obj))
+
+        def __set__(self, int value):
+            evas_object_anti_alias_set(self.obj, value)
+
+    def anti_alias_get(self):
+        return bool(evas_object_anti_alias_get(self.obj))
+    def anti_alias_set(self, int value):
+        evas_object_anti_alias_set(self.obj, value)
+
+    property scale:
+        """The scaling factor for an Evas object. Does not affect all objects.
+
+        Value of ``1.0`` means no scaling, default size.
+
+        This will multiply the object's dimension by the given factor, thus
+        altering its geometry (width and height). Useful when you want
+        scalable UI elements, possibly at run time.
+
+        :type: double
+
+        .. note:: Only text and textblock objects have scaling change
+            handlers. Other objects won't change visually on this call.
+
+        """
+        def __set__(self, scale):
+            evas_object_scale_set(self.obj, scale)
+
+        def __get__(self):
+            return evas_object_scale_get(self.obj)
+
+    def scale_set(self, double scale):
+        evas_object_scale_set(self.obj, scale)
+
+    def scale_get(self):
+        return evas_object_scale_get(self.obj)
+
+    property color:
+        """Object's (r, g, b, a) color, in pre-multiply colorspace.
+
+        :type: (int **r**, int **g**, int **b**, int **a**)
+
+        """
+
+        def __get__(self):
+            cdef int r, g, b, a
+            evas_object_color_get(self.obj, &r, &g, &b, &a)
+            return (r, g, b, a)
+
+        def __set__(self, color):
+            cdef int r, g, b, a
+            r, g, b, a = color
+            evas_object_color_set(self.obj, r, g, b, a)
+
+    def color_set(self, int r, int g, int b, int a):
+        evas_object_color_set(self.obj, r, g, b, a)
+    def color_get(self):
+        cdef int r, g, b, a
+        evas_object_color_get(self.obj, &r, &g, &b, &a)
+        return (r, g, b, a)
+
+    property clip:
+        """Object's clipper.
+
+        :type: :py:class:`efl.evas.Object`
+
+        """
+        def __get__(self):
+            return object_from_instance(evas_object_clip_get(self.obj))
+
+        def __set__(self, value):
+            cdef Evas_Object *clip
+            cdef Object o
+            if value is None:
+                evas_object_clip_unset(self.obj)
+            elif isinstance(value, Object):
+                o = <Object>value
+                clip = o.obj
+                evas_object_clip_set(self.obj, clip)
+            else:
+                raise ValueError("clip must be evas.Object or None")
+
+        def __del__(self):
+            evas_object_clip_unset(self.obj)
+
+    def clip_get(self):
+        return object_from_instance(evas_object_clip_get(self.obj))
+
+    def clip_set(self, value):
+        cdef Evas_Object *clip
+        cdef Object o
+        if value is None:
+            evas_object_clip_unset(self.obj)
+        elif isinstance(value, Object):
+            o = <Object>value
+            clip = o.obj
+            evas_object_clip_set(self.obj, clip)
+        else:
+            raise ValueError("clip must be evas.Object or None")
+
+    def clip_unset(self):
+        evas_object_clip_unset(self.obj)
+
+    property clipees:
+        """Objects that this object clips.
+
+        :type: tuple of :py:class:`efl.evas.Object`
+
+        """
+        def __get__(self):
+            return self.clipees_get()
+
+    def clipees_get(self):
+        return eina_list_objects_to_python_list(evas_object_clipees_get(self.obj))
+
+    property name:
+        """Object name or *None*.
+
+        :type: string
+
+        """
+        def __get__(self):
+            return _ctouni(evas_object_name_get(self.obj))
+
+        def __set__(self, value):
+            if isinstance(value, unicode): value = PyUnicode_AsUTF8String(value)
+            evas_object_name_set(self.obj,
+                <const char *>value if value is not None else NULL)
+
+    def name_get(self):
+        return _ctouni(evas_object_name_get(self.obj))
+    def name_set(self, value):
+        if isinstance(value, unicode): value = PyUnicode_AsUTF8String(value)
+        evas_object_name_set(self.obj,
+            <const char *>value if value is not None else NULL)
+
+    property focus:
+        """Whenever object currently have the focus.
+
+        :type: bool
+
+        """
+        def __get__(self):
+            return bool(evas_object_focus_get(self.obj))
+
+        def __set__(self, value):
+            evas_object_focus_set(self.obj, value)
+
+    def focus_get(self):
+        return bool(evas_object_focus_get(self.obj))
+    def focus_set(self, value):
+        evas_object_focus_set(self.obj, value)
+
+    property pointer_mode:
+        """If pointer should be grabbed while processing events.
+
+        If *EVAS_OBJECT_POINTER_MODE_AUTOGRAB*, then when mouse is
+        down at this object, events will be restricted to it as source, mouse
+        moves, for example, will be emitted even if outside this object area.
+
+        If *EVAS_OBJECT_POINTER_MODE_NOGRAB*, then events will be emitted
+        just when inside this object area.
+
+        The default value is *EVAS_OBJECT_POINTER_MODE_AUTOGRAB*.
+
+        :type: Evas_Object_Pointer_Mode
+
+        """
+        def __get__(self):
+            return <int>evas_object_pointer_mode_get(self.obj)
+
+        def __set__(self, int value):
+            evas_object_pointer_mode_set(self.obj, <Evas_Object_Pointer_Mode>value)
+
+    def pointer_mode_get(self):
+        return <int>evas_object_pointer_mode_get(self.obj)
+    def pointer_mode_set(self, int value):
+        evas_object_pointer_mode_set(self.obj, <Evas_Object_Pointer_Mode>value)
+
+    property smart_parent:
+        """Object that this object is member of, or *None*.
+
+        :type: :py:class:`efl.evas.Object`
+
+        .. versionchanged:: 1.14
+
+            This was renamed from ``parent`` as it was clashing with
+            :py:meth:`efl.eo.Eo.parent_get` and is more correct in regards to
+            C api naming.
+
+        """
+        def __get__(self):
+            cdef Evas_Object *obj
+            obj = evas_object_smart_parent_get(self.obj)
+            return object_from_instance(obj)
+
+    def smart_parent_get(self):
+        cdef Evas_Object *obj
+        obj = evas_object_smart_parent_get(self.obj)
+        return object_from_instance(obj)
+
+    property map_enabled:
+        """Map enabled state
+
+        :type: bool
+
+        """
+        def __get__(self):
+            return bool(evas_object_map_enable_get(self.obj))
+        def __set__(self, value):
+            evas_object_map_enable_set(self.obj, bool(value))
+
+    def map_enabled_set(self, enabled):
+        evas_object_map_enable_set(self.obj, bool(enabled))
+    def map_enabled_get(self):
+        return bool(evas_object_map_enable_get(self.obj))
+
+    property map:
+        """Map
+
+        :type: :py:class:`Map`
+
+        """
+        def __get__(self):
+            cdef Map ret = Map.__new__(Map)
+            ret.map = <Evas_Map *>evas_object_map_get(self.obj)
+            return ret
+        def __set__(self, Map m):
+            evas_object_map_set(self.obj, m.map)
+
+    def map_set(self, Map m):
+        evas_object_map_set(self.obj, m.map)
+
+    def map_get(self):
+        cdef Map ret = Map.__new__(Map)
+        ret.map = <Evas_Map *>evas_object_map_get(self.obj)
+        return ret
+
+    def key_grab(self, keyname not None, Evas_Modifier_Mask modifiers, Evas_Modifier_Mask not_modifiers, bint exclusive):
+        """Requests ``keyname`` key events be directed to ``obj``.
+
+        :param keyname: the key to request events for.
+        :param modifiers: a mask of modifiers that must be present to
+            trigger the event.
+        :type modifiers: Evas_Modifier_Mask
+        :param not_modifiers: a mask of modifiers that must **not** be present
+            to trigger the event.
+        :type not_modifiers: Evas_Modifier_Mask
+        :param exclusive: request that the ``obj`` is the only object
+            receiving the ``keyname`` events.
+        :type exclusive: bool
+        :raise RuntimeError: if grabbing the key was unsuccesful
+
+        Key grabs allow one or more objects to receive key events for
+        specific key strokes even if other objects have focus. Whenever a
+        key is grabbed, only the objects grabbing it will get the events
+        for the given keys.
+
+        ``keyname`` is a platform dependent symbolic name for the key
+        pressed
+
+        ``modifiers`` and ``not_modifiers`` are bit masks of all the
+        modifiers that must and mustn't, respectively, be pressed along
+        with ``keyname`` key in order to trigger this new key
+        grab. Modifiers can be things such as Shift and Ctrl as well as
+        user defined types via evas_key_modifier_add(). Retrieve them with
+        evas_key_modifier_mask_get() or use ``0`` for empty masks.
+
+        ``exclusive`` will make the given object the only one permitted to
+        grab the given key. If given ``EINA_TRUE``, subsequent calls on this
+        function with different ``obj`` arguments will fail, unless the key
+        is ungrabbed again.
+
+        .. warning:: Providing impossible modifier sets creates undefined behavior
+
+        :see: evas_object_key_ungrab
+        :see: evas_object_focus_set
+        :see: evas_object_focus_get
+        :see: evas_focus_get
+        :see: evas_key_modifier_add
+
+        """
+        if isinstance(keyname, unicode): keyname = PyUnicode_AsUTF8String(keyname)
+        if not evas_object_key_grab(self.obj, <const char *>keyname, modifiers, not_modifiers, exclusive):
+            raise RuntimeError("Could not grab key.")
+
+    def key_ungrab(self, keyname not None, Evas_Modifier_Mask modifiers, Evas_Modifier_Mask not_modifiers):
+        """Removes the grab on ``keyname`` key events by ``obj``.
+
+        :param keyname: the key the grab is set for.
+        :param modifiers: a mask of modifiers that must be present to
+            trigger the event.
+        :param not_modifiers: a mask of modifiers that must not not be
+            present to trigger the event.
+
+        Removes a key grab on ``obj`` if ``keyname``, ``modifiers``, and
+        ``not_modifiers`` match.
+
+        :see: evas_object_key_grab
+        :see: evas_object_focus_set
+        :see: evas_object_focus_get
+        :see: evas_focus_get
+
+        """
+        if isinstance(keyname, unicode): keyname = PyUnicode_AsUTF8String(keyname)
+        evas_object_key_ungrab(self.obj, <const char *>keyname, modifiers, not_modifiers)
+
+    property is_frame_object:
+        """:type: bool"""
+        def __set__(self, bint is_frame):
+            evas_object_is_frame_object_set(self.obj, is_frame)
+
+        def __get__(self):
+            return bool(evas_object_is_frame_object_get(self.obj))
+
+    def is_frame_object_set(self, bint is_frame):
+        evas_object_is_frame_object_set(self.obj, is_frame)
+
+    def is_frame_object_get(self):
+        return bool(evas_object_is_frame_object_get(self.obj))
+
+
+    ##################
+    #### Stacking ####
+    ##################
 
     property layer:
         """Object's layer number.
@@ -346,6 +780,11 @@ cdef class Object(Eo):
 
     def bottom_get(self):
         return self.evas.bottom_get()
+
+
+    ########################
+    #### Pixel geometry ####
+    ########################
 
     property geometry:
         """Object's position and size.
@@ -708,6 +1147,38 @@ cdef class Object(Eo):
             evas_object_move(self.obj, r.x0, r.y0)
             evas_object_resize(self.obj, r._w, r._h)
 
+
+    def move(self, int x, int y):
+        """Same as assigning to :py:attr:`pos`.
+
+        :param x:
+        :type x: int
+        :param y:
+        :type y: int
+
+        """
+        evas_object_move(self.obj, x, y)
+
+    def move_relative(self, int dx, int dy):
+        """Move relatively to objects current position.
+
+        :param dx:
+        :type dx: int
+        :param dy:
+        :type dy: int
+
+        """
+        cdef int x, y, x2, y2
+        evas_object_geometry_get(self.obj, &x, &y, NULL, NULL)
+        x2 = x + dx
+        y2 = y + dy
+        evas_object_move(self.obj, x2, y2)
+
+
+    ####################
+    #### Size hints ####
+    ####################
+
     property size_hint_min:
         """Hint about minimum size.
 
@@ -1010,292 +1481,111 @@ cdef class Object(Eo):
     def size_hint_padding_set(self, int l, int r, int t, int b):
         evas_object_size_hint_padding_set(self.obj, l, r, t, b)
 
-    def move(self, int x, int y):
-        """Same as assigning to :py:attr:`pos`.
 
-        :param x:
-        :type x: int
-        :param y:
-        :type y: int
+    ############################
+    #### Evas_Object Events ####
+    ############################
 
-        """
-        evas_object_move(self.obj, x, y)
+    property pass_events:
+        """Whenever object should ignore and pass events.
 
-    def move_relative(self, int dx, int dy):
-        """Move relatively to objects current position.
+        If True, this will cause events on it to be ignored. They will be
+        triggered on the next lower object (that is not set to pass events)
+        instead.
 
-        :param dx:
-        :type dx: int
-        :param dy:
-        :type dy: int
-
-        """
-        cdef int x, y, x2, y2
-        evas_object_geometry_get(self.obj, &x, &y, NULL, NULL)
-        x2 = x + dx
-        y2 = y + dy
-        evas_object_move(self.obj, x2, y2)
-
-    def show(self):
-        """show()
-
-        Show the object.
-
-        """
-        evas_object_show(self.obj)
-
-    def hide(self):
-        """hide()
-
-        Hide the object.
-
-        """
-        evas_object_hide(self.obj)
-
-    property visible:
-        """Whenever it's visible or not.
+        Objects that pass events will also not be accounted in some operations
+        unless explicitly required, like
+        :py:func:`efl.evas.Canvas.top_at_xy_get`,
+        :py:func:`efl.evas.Canvas.top_in_rectangle_get`,
+        :py:func:`efl.evas.Canvas.objects_at_xy_get`,
+        :py:func:`efl.evas.Canvas.objects_in_rectangle_get`.
 
         :type: bool
 
         """
         def __get__(self):
-            return bool(evas_object_visible_get(self.obj))
-
-        def __set__(self, spec):
-            if spec:
-                self.show()
-            else:
-                self.hide()
-
-    def visible_get(self):
-        return bool(evas_object_visible_get(self.obj))
-    def visible_set(self, spec):
-        if spec:
-            self.show()
-        else:
-            self.hide()
-
-    property precise_is_inside:
-        """Set whether to use precise (usually expensive) point collision
-        detection for a given Evas object.
-
-        Use this function to make Evas treat objects' transparent areas as
-        **not** belonging to it with regard to mouse pointer events. By
-        default, all of the object's boundary rectangle will be taken in
-        account for them.
-
-        :type: bool
-
-        .. warning:: By using precise point collision detection you'll be
-            making Evas more resource intensive.
-
-        """
-        def __set__(self, precise):
-            evas_object_precise_is_inside_set(self.obj, precise)
-
-        def __get__(self):
-            return bool(evas_object_precise_is_inside_get(self.obj))
-
-    def precise_is_inside_set(self, precise):
-        evas_object_precise_is_inside_set(self.obj, precise)
-
-    def precise_is_inside_get(self):
-        return bool(evas_object_precise_is_inside_get(self.obj))
-
-    property static_clip:
-        """A hint flag on the object, whether this is used as a static clipper
-        or not.
-
-        :type: bool
-
-        """
-        def __get__(self):
-            return bool(evas_object_static_clip_get(self.obj))
-
-        def __set__(self, value):
-            evas_object_static_clip_set(self.obj, value)
-
-    def static_clip_get(self):
-        return bool(evas_object_static_clip_get(self.obj))
-    def static_clip_set(self, int value):
-        evas_object_static_clip_set(self.obj, value)
-
-    property render_op:
-        """Render operation used at drawing.
-
-        :type: Evas_Render_Op
-
-        """
-        def __get__(self):
-            return evas_object_render_op_get(self.obj)
+            return bool(evas_object_pass_events_get(self.obj))
 
         def __set__(self, int value):
-            evas_object_render_op_set(self.obj, <Evas_Render_Op>value)
+            evas_object_pass_events_set(self.obj, value)
 
-    def render_op_get(self):
-        return evas_object_render_op_get(self.obj)
-    def render_op_set(self, int value):
-        evas_object_render_op_set(self.obj, <Evas_Render_Op>value)
+    def pass_events_get(self):
+        return bool(evas_object_pass_events_get(self.obj))
+    def pass_events_set(self, value):
+        evas_object_pass_events_set(self.obj, value)
 
-    property anti_alias:
-        """If anti-aliased primitives should be used.
+    property repeat_events:
+        """Whenever object should process and then repeat events.
+
+        If True, this will cause events on it to be processed but then
+        they will be triggered on the next lower object (that is not set to
+        pass events).
 
         :type: bool
 
         """
         def __get__(self):
-            return bool(evas_object_anti_alias_get(self.obj))
+            return bool(evas_object_repeat_events_get(self.obj))
 
         def __set__(self, int value):
-            evas_object_anti_alias_set(self.obj, value)
+            evas_object_repeat_events_set(self.obj, value)
 
-    def anti_alias_get(self):
-        return bool(evas_object_anti_alias_get(self.obj))
-    def anti_alias_set(self, int value):
-        evas_object_anti_alias_set(self.obj, value)
+    def repeat_events_get(self):
+        return bool(evas_object_repeat_events_get(self.obj))
+    def repeat_events_set(self, value):
+        evas_object_repeat_events_set(self.obj, value)
 
-    property scale:
-        """The scaling factor for an Evas object. Does not affect all objects.
+    property propagate_events:
+        """Whenever object should propagate events to its parent.
 
-        Value of ``1.0`` means no scaling, default size.
-
-        This will multiply the object's dimension by the given factor, thus
-        altering its geometry (width and height). Useful when you want
-        scalable UI elements, possibly at run time.
-
-        :type: double
-
-        .. note:: Only text and textblock objects have scaling change
-            handlers. Other objects won't change visually on this call.
-
-        """
-        def __set__(self, scale):
-            evas_object_scale_set(self.obj, scale)
-
-        def __get__(self):
-            return evas_object_scale_get(self.obj)
-
-    def scale_set(self, double scale):
-        evas_object_scale_set(self.obj, scale)
-
-    def scale_get(self):
-        return evas_object_scale_get(self.obj)
-
-    property color:
-        """Object's (r, g, b, a) color, in pre-multiply colorspace.
-
-        :type: (int **r**, int **g**, int **b**, int **a**)
-
-        """
-
-        def __get__(self):
-            cdef int r, g, b, a
-            evas_object_color_get(self.obj, &r, &g, &b, &a)
-            return (r, g, b, a)
-
-        def __set__(self, color):
-            cdef int r, g, b, a
-            r, g, b, a = color
-            evas_object_color_set(self.obj, r, g, b, a)
-
-    def color_set(self, int r, int g, int b, int a):
-        evas_object_color_set(self.obj, r, g, b, a)
-    def color_get(self):
-        cdef int r, g, b, a
-        evas_object_color_get(self.obj, &r, &g, &b, &a)
-        return (r, g, b, a)
-
-    property clip:
-        """Object's clipper.
-
-        :type: :py:class:`efl.evas.Object`
-
-        """
-        def __get__(self):
-            return object_from_instance(evas_object_clip_get(self.obj))
-
-        def __set__(self, value):
-            cdef Evas_Object *clip
-            cdef Object o
-            if value is None:
-                evas_object_clip_unset(self.obj)
-            elif isinstance(value, Object):
-                o = <Object>value
-                clip = o.obj
-                evas_object_clip_set(self.obj, clip)
-            else:
-                raise ValueError("clip must be evas.Object or None")
-
-        def __del__(self):
-            evas_object_clip_unset(self.obj)
-
-    def clip_get(self):
-        return object_from_instance(evas_object_clip_get(self.obj))
-
-    def clip_set(self, value):
-        cdef Evas_Object *clip
-        cdef Object o
-        if value is None:
-            evas_object_clip_unset(self.obj)
-        elif isinstance(value, Object):
-            o = <Object>value
-            clip = o.obj
-            evas_object_clip_set(self.obj, clip)
-        else:
-            raise ValueError("clip must be evas.Object or None")
-
-    def clip_unset(self):
-        evas_object_clip_unset(self.obj)
-
-    property clipees:
-        """Objects that this object clips.
-
-        :type: tuple of :py:class:`efl.evas.Object`
-
-        """
-        def __get__(self):
-            return self.clipees_get()
-
-    def clipees_get(self):
-        return eina_list_objects_to_python_list(evas_object_clipees_get(self.obj))
-
-    property name:
-        """Object name or *None*.
-
-        :type: string
-
-        """
-        def __get__(self):
-            return _ctouni(evas_object_name_get(self.obj))
-
-        def __set__(self, value):
-            if isinstance(value, unicode): value = PyUnicode_AsUTF8String(value)
-            evas_object_name_set(self.obj,
-                <const char *>value if value is not None else NULL)
-
-    def name_get(self):
-        return _ctouni(evas_object_name_get(self.obj))
-    def name_set(self, value):
-        if isinstance(value, unicode): value = PyUnicode_AsUTF8String(value)
-        evas_object_name_set(self.obj,
-            <const char *>value if value is not None else NULL)
-
-    property focus:
-        """Whenever object currently have the focus.
+        If True, this will cause events on this object to propagate to its
+        :py:class:`efl.evas.SmartObject` parent, if it's a member
+        of one.
 
         :type: bool
 
         """
         def __get__(self):
-            return bool(evas_object_focus_get(self.obj))
+            return bool(evas_object_propagate_events_get(self.obj))
 
-        def __set__(self, value):
-            evas_object_focus_set(self.obj, value)
+        def __set__(self, int value):
+            evas_object_propagate_events_set(self.obj, value)
 
-    def focus_get(self):
-        return bool(evas_object_focus_get(self.obj))
-    def focus_set(self, value):
-        evas_object_focus_set(self.obj, value)
+    def propagate_events_get(self):
+        return bool(evas_object_propagate_events_get(self.obj))
+    def propagate_events_set(self, value):
+        evas_object_propagate_events_set(self.obj, value)
+
+    property freeze_events:
+        """Whether an Evas object is to freeze (discard) events.
+
+        If True, events will be **discarded**. Unlike :py:attr:`pass_events`,
+        events will not be passed to **next** lower object. This API can be used
+        for blocking events while the object is on transiting.
+
+        If False, events will be processed as normal.
+
+        :type: bool
+
+        .. seealso::
+
+            :py:attr:`pass_events`
+            :py:attr:`repeat_events`
+            :py:attr:`propagate_events`
+
+        """
+        def __set__(self, freeze):
+            evas_object_freeze_events_set(self.obj, freeze)
+
+        def __get__(self):
+            return bool(evas_object_freeze_events_get(self.obj))
+
+    def freeze_events_set(self, freeze):
+        evas_object_freeze_events_set(self.obj, freeze)
+
+    def freeze_events_get(self):
+        return bool(evas_object_freeze_events_get(self.obj))
+
 
     def event_callback_add(self, Evas_Callback_Type type, func, *args, **kargs):
         """Add a new callback for the given event.
@@ -1594,271 +1884,3 @@ cdef class Object(Eo):
     def on_changed_size_hints_del(self, func):
         """Same as event_callback_del(EVAS_CALLBACK_CHANGED_SIZE_HINTS, ...)"""
         self.event_callback_del(EVAS_CALLBACK_CHANGED_SIZE_HINTS, func)
-
-    property pass_events:
-        """Whenever object should ignore and pass events.
-
-        If True, this will cause events on it to be ignored. They will be
-        triggered on the next lower object (that is not set to pass events)
-        instead.
-
-        Objects that pass events will also not be accounted in some operations
-        unless explicitly required, like
-        :py:func:`efl.evas.Canvas.top_at_xy_get`,
-        :py:func:`efl.evas.Canvas.top_in_rectangle_get`,
-        :py:func:`efl.evas.Canvas.objects_at_xy_get`,
-        :py:func:`efl.evas.Canvas.objects_in_rectangle_get`.
-
-        :type: bool
-
-        """
-        def __get__(self):
-            return bool(evas_object_pass_events_get(self.obj))
-
-        def __set__(self, int value):
-            evas_object_pass_events_set(self.obj, value)
-
-    def pass_events_get(self):
-        return bool(evas_object_pass_events_get(self.obj))
-    def pass_events_set(self, value):
-        evas_object_pass_events_set(self.obj, value)
-
-    property repeat_events:
-        """Whenever object should process and then repeat events.
-
-        If True, this will cause events on it to be processed but then
-        they will be triggered on the next lower object (that is not set to
-        pass events).
-
-        :type: bool
-
-        """
-        def __get__(self):
-            return bool(evas_object_repeat_events_get(self.obj))
-
-        def __set__(self, int value):
-            evas_object_repeat_events_set(self.obj, value)
-
-    def repeat_events_get(self):
-        return bool(evas_object_repeat_events_get(self.obj))
-    def repeat_events_set(self, value):
-        evas_object_repeat_events_set(self.obj, value)
-
-    property propagate_events:
-        """Whenever object should propagate events to its parent.
-
-        If True, this will cause events on this object to propagate to its
-        :py:class:`efl.evas.SmartObject` parent, if it's a member
-        of one.
-
-        :type: bool
-
-        """
-        def __get__(self):
-            return bool(evas_object_propagate_events_get(self.obj))
-
-        def __set__(self, int value):
-            evas_object_propagate_events_set(self.obj, value)
-
-    def propagate_events_get(self):
-        return bool(evas_object_propagate_events_get(self.obj))
-    def propagate_events_set(self, value):
-        evas_object_propagate_events_set(self.obj, value)
-
-    property freeze_events:
-        """Whether an Evas object is to freeze (discard) events.
-
-        If True, events will be **discarded**. Unlike :py:attr:`pass_events`,
-        events will not be passed to **next** lower object. This API can be used
-        for blocking events while the object is on transiting.
-
-        If False, events will be processed as normal.
-
-        :type: bool
-
-        .. seealso::
-
-            :py:attr:`pass_events`
-            :py:attr:`repeat_events`
-            :py:attr:`propagate_events`
-
-        """
-        def __set__(self, freeze):
-            evas_object_freeze_events_set(self.obj, freeze)
-
-        def __get__(self):
-            return bool(evas_object_freeze_events_get(self.obj))
-
-    def freeze_events_set(self, freeze):
-        evas_object_freeze_events_set(self.obj, freeze)
-
-    def freeze_events_get(self):
-        return bool(evas_object_freeze_events_get(self.obj))
-
-    property pointer_mode:
-        """If pointer should be grabbed while processing events.
-
-        If *EVAS_OBJECT_POINTER_MODE_AUTOGRAB*, then when mouse is
-        down at this object, events will be restricted to it as source, mouse
-        moves, for example, will be emitted even if outside this object area.
-
-        If *EVAS_OBJECT_POINTER_MODE_NOGRAB*, then events will be emitted
-        just when inside this object area.
-
-        The default value is *EVAS_OBJECT_POINTER_MODE_AUTOGRAB*.
-
-        :type: Evas_Object_Pointer_Mode
-
-        """
-        def __get__(self):
-            return <int>evas_object_pointer_mode_get(self.obj)
-
-        def __set__(self, int value):
-            evas_object_pointer_mode_set(self.obj, <Evas_Object_Pointer_Mode>value)
-
-    def pointer_mode_get(self):
-        return <int>evas_object_pointer_mode_get(self.obj)
-    def pointer_mode_set(self, int value):
-        evas_object_pointer_mode_set(self.obj, <Evas_Object_Pointer_Mode>value)
-
-    property smart_parent:
-        """Object that this object is member of, or *None*.
-
-        :type: :py:class:`efl.evas.Object`
-
-        .. versionchanged:: 1.14
-
-            This was renamed from ``parent`` as it was clashing with
-            :py:meth:`efl.eo.Eo.parent_get` and is more correct in regards to
-            C api naming.
-
-        """
-        def __get__(self):
-            cdef Evas_Object *obj
-            obj = evas_object_smart_parent_get(self.obj)
-            return object_from_instance(obj)
-
-    def smart_parent_get(self):
-        cdef Evas_Object *obj
-        obj = evas_object_smart_parent_get(self.obj)
-        return object_from_instance(obj)
-
-    property map_enabled:
-        """Map enabled state
-
-        :type: bool
-
-        """
-        def __get__(self):
-            return bool(evas_object_map_enable_get(self.obj))
-        def __set__(self, value):
-            evas_object_map_enable_set(self.obj, bool(value))
-
-    def map_enabled_set(self, enabled):
-        evas_object_map_enable_set(self.obj, bool(enabled))
-    def map_enabled_get(self):
-        return bool(evas_object_map_enable_get(self.obj))
-
-    property map:
-        """Map
-
-        :type: :py:class:`Map`
-
-        """
-        def __get__(self):
-            cdef Map ret = Map.__new__(Map)
-            ret.map = <Evas_Map *>evas_object_map_get(self.obj)
-            return ret
-        def __set__(self, Map m):
-            evas_object_map_set(self.obj, m.map)
-
-    def map_set(self, Map m):
-        evas_object_map_set(self.obj, m.map)
-
-    def map_get(self):
-        cdef Map ret = Map.__new__(Map)
-        ret.map = <Evas_Map *>evas_object_map_get(self.obj)
-        return ret
-
-    def key_grab(self, keyname not None, Evas_Modifier_Mask modifiers, Evas_Modifier_Mask not_modifiers, bint exclusive):
-        """Requests ``keyname`` key events be directed to ``obj``.
-
-        :param keyname: the key to request events for.
-        :param modifiers: a mask of modifiers that must be present to
-            trigger the event.
-        :type modifiers: Evas_Modifier_Mask
-        :param not_modifiers: a mask of modifiers that must **not** be present
-            to trigger the event.
-        :type not_modifiers: Evas_Modifier_Mask
-        :param exclusive: request that the ``obj`` is the only object
-            receiving the ``keyname`` events.
-        :type exclusive: bool
-        :raise RuntimeError: if grabbing the key was unsuccesful
-
-        Key grabs allow one or more objects to receive key events for
-        specific key strokes even if other objects have focus. Whenever a
-        key is grabbed, only the objects grabbing it will get the events
-        for the given keys.
-
-        ``keyname`` is a platform dependent symbolic name for the key
-        pressed
-
-        ``modifiers`` and ``not_modifiers`` are bit masks of all the
-        modifiers that must and mustn't, respectively, be pressed along
-        with ``keyname`` key in order to trigger this new key
-        grab. Modifiers can be things such as Shift and Ctrl as well as
-        user defined types via evas_key_modifier_add(). Retrieve them with
-        evas_key_modifier_mask_get() or use ``0`` for empty masks.
-
-        ``exclusive`` will make the given object the only one permitted to
-        grab the given key. If given ``EINA_TRUE``, subsequent calls on this
-        function with different ``obj`` arguments will fail, unless the key
-        is ungrabbed again.
-
-        .. warning:: Providing impossible modifier sets creates undefined behavior
-
-        :see: evas_object_key_ungrab
-        :see: evas_object_focus_set
-        :see: evas_object_focus_get
-        :see: evas_focus_get
-        :see: evas_key_modifier_add
-
-        """
-        if isinstance(keyname, unicode): keyname = PyUnicode_AsUTF8String(keyname)
-        if not evas_object_key_grab(self.obj, <const char *>keyname, modifiers, not_modifiers, exclusive):
-            raise RuntimeError("Could not grab key.")
-
-    def key_ungrab(self, keyname not None, Evas_Modifier_Mask modifiers, Evas_Modifier_Mask not_modifiers):
-        """Removes the grab on ``keyname`` key events by ``obj``.
-
-        :param keyname: the key the grab is set for.
-        :param modifiers: a mask of modifiers that must be present to
-            trigger the event.
-        :param not_modifiers: a mask of modifiers that must not not be
-            present to trigger the event.
-
-        Removes a key grab on ``obj`` if ``keyname``, ``modifiers``, and
-        ``not_modifiers`` match.
-
-        :see: evas_object_key_grab
-        :see: evas_object_focus_set
-        :see: evas_object_focus_get
-        :see: evas_focus_get
-
-        """
-        if isinstance(keyname, unicode): keyname = PyUnicode_AsUTF8String(keyname)
-        evas_object_key_ungrab(self.obj, <const char *>keyname, modifiers, not_modifiers)
-
-    property is_frame_object:
-        """:type: bool"""
-        def __set__(self, bint is_frame):
-            evas_object_is_frame_object_set(self.obj, is_frame)
-
-        def __get__(self):
-            return bool(evas_object_is_frame_object_get(self.obj))
-
-    def is_frame_object_set(self, bint is_frame):
-        evas_object_is_frame_object_set(self.obj, is_frame)
-
-    def is_frame_object_get(self):
-        return bool(evas_object_is_frame_object_get(self.obj))
