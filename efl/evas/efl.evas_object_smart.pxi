@@ -25,10 +25,6 @@ from cpython cimport PyMem_Malloc, Py_INCREF, Py_DECREF
 #_smart_classes = list()
 
 
-cdef object _smart_cb_pass_conv(void *addr):
-    return <object>addr
-
-
 cdef void _smart_object_delete(Evas_Object *o) with gil:
     cdef:
         void *tmp
@@ -323,50 +319,46 @@ cdef void _smart_object_member_del(Evas_Object *o, Evas_Object *clip) with gil:
             traceback.print_exc()
 
 
-cdef void _smart_callback(void *data, Evas_Object *o, void *event_info) with gil:
-
+cdef class _SmartCb:
     cdef:
+        const char *event
         SmartObject obj
         object(*event_conv)(void*)
         uintptr_t conv
         object func
         tuple args
         dict kargs
-        tuple tmp
 
+
+cdef object _smart_cb_pass_conv(void *addr):
+    return <object>addr
+
+
+cdef void _smart_callback(void *data, Evas_Object *o, void *event_info) with gil:
     if data == NULL:
         EINA_LOG_DOM_ERR(PY_EFL_EVAS_LOG_DOMAIN, "data is NULL!", NULL)
         return
 
-    #obj, conv, func, args, kargs = <tuple>data
-
-    tmp = <tuple>data
-    obj = <SmartObject>tmp[0]
-    conv = <uintptr_t>tmp[1]
-    func = tmp[2]
-    args = <tuple>tmp[3]
-    kargs = <dict>tmp[4]
+    cdef _SmartCb spec = <_SmartCb>data
 
     if event_info == NULL:
         try:
-            func(obj, *args, **kargs)
+            spec.func(spec.obj, *spec.args, **spec.kargs)
         except Exception:
             traceback.print_exc()
-    elif conv == 0:
+    elif spec.event_conv == NULL:
         EINA_LOG_DOM_WARN(
             PY_EFL_EVAS_LOG_DOMAIN,
-            "event_info is not NULL and there is no event_conv!",
-            NULL
+            'event_info for event "%s" is not NULL and there is no event_conv!',
+            spec.event
             )
         try:
-            func(obj, *args, **kargs)
+            spec.func(spec.obj, *spec.args, **spec.kargs)
         except Exception:
             traceback.print_exc()
     else:
-        event_conv = <object(*)(void*)><void *>conv
         try:
-            ei = event_conv(event_info)
-            func(obj, ei, *args, **kargs)
+            spec.func(spec.obj, spec.event_conv(event_info), *spec.args, **spec.kargs)
         except Exception:
             traceback.print_exc()
 
@@ -769,9 +761,17 @@ cdef class SmartObject(Object):
         """
         if not callable(func):
             raise TypeError("func must be callable")
+
         if isinstance(event, unicode): event = PyUnicode_AsUTF8String(event)
 
-        spec = (self, <uintptr_t><void *>event_conv, func, args, kargs)
+        cdef _SmartCb spec = _SmartCb()
+        spec.event = event
+        spec.obj = self
+        spec.event_conv = event_conv
+        spec.func = func
+        spec.args = args
+        spec.kargs = kargs
+
         lst = self._smart_callback_specs.setdefault(event, [])
         lst.append(spec)
 
@@ -800,7 +800,7 @@ cdef class SmartObject(Object):
 
         """
         cdef:
-            tuple spec
+            _SmartCb spec
             int found = 0
             int i
             void *tmp
@@ -813,7 +813,7 @@ cdef class SmartObject(Object):
             raise ValueError("No callbacks registered for the given event type")
 
         for i, spec in enumerate(lst):
-            if spec[2] is func:
+            if spec.func is func:
                 found = 1
                 break
 
