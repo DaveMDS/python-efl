@@ -363,6 +363,9 @@ cdef class Object(SmartObject):
         if type(self) is Object:
             raise TypeError("Must not instantiate Object, but subclasses")
 
+    cdef int _set_obj(self, Evas_Object *obj) except 0:
+        return evasObject._set_obj(self, obj)
+
     def part_text_set(self, part, text):
         """Sets the text of a given part of this object.
 
