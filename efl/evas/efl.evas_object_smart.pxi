@@ -19,7 +19,7 @@ from efl.utils.conversions cimport eina_list_objects_to_python_list
 from efl.c_eo cimport eo_do, eo_do_ret, eo_key_data_del, eo_key_data_set, eo_key_data_get
 from efl.eo cimport Eo, EoIterator
 
-from cpython cimport PyMem_Malloc, Py_INCREF, Py_DECREF
+from cpython cimport PyMem_Malloc, Py_INCREF, Py_DECREF, PyObject_Call
 
 #cdef object _smart_classes
 #_smart_classes = list()
@@ -340,10 +340,13 @@ cdef void _smart_callback(void *data, Evas_Object *o, void *event_info) with gil
         return
 
     cdef _SmartCb spec = <_SmartCb>data
+    cdef list tmp_args
 
     if event_info == NULL:
         try:
-            spec.func(spec.obj, *spec.args, **spec.kargs)
+            tmp_args = [spec.obj]
+            tmp_args.extend(spec.args)
+            PyObject_Call(spec.func, tuple(tmp_args), spec.kargs)
         except Exception:
             traceback.print_exc()
     elif spec.event_conv == NULL:
@@ -353,12 +356,17 @@ cdef void _smart_callback(void *data, Evas_Object *o, void *event_info) with gil
             spec.event
             )
         try:
-            spec.func(spec.obj, *spec.args, **spec.kargs)
+            tmp_args = [spec.obj]
+            tmp_args.extend(spec.args)
+            PyObject_Call(spec.func, tuple(tmp_args), spec.kargs)
         except Exception:
             traceback.print_exc()
     else:
         try:
-            spec.func(spec.obj, spec.event_conv(event_info), *spec.args, **spec.kargs)
+            tmp_args = [spec.obj]
+            tmp_args.append(spec.event_conv(event_info))
+            tmp_args.extend(spec.args)
+            PyObject_Call(spec.func, tuple(tmp_args), spec.kargs)
         except Exception:
             traceback.print_exc()
 
