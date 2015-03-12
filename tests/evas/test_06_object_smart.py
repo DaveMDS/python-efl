@@ -12,6 +12,11 @@ class MySmart(evas.Smart):
         obj.r1.geometry = (0, 0, w2, h2)
         obj.r2.geometry = (w2, h2, w2, h2)
 
+    @staticmethod
+    def move(obj, x, y):
+        obj.callback_call("event1")
+
+
 class MyObject(evas.SmartObject):
     def __init__(self, canvas, smart, *args, **kargs):
         evas.SmartObject.__init__(self, canvas, smart, *args, **kargs)
@@ -26,6 +31,7 @@ class MyObject(evas.SmartObject):
                                 color="#00ff00")
         self.member_add(self.r2)
 
+
 class SmartObjectTest(unittest.TestCase):
     def setUp(self):
         self.canvas = evas.Canvas(method="buffer",
@@ -38,15 +44,104 @@ class SmartObjectTest(unittest.TestCase):
         self.assertEqual(self.obj.members, (self.obj.r1, self.obj.r2))
 
     def testResize(self):
-        print(self.obj.geometry)
-        print(self.obj.r1.geometry)
         self.obj.resize(100, 100)
-        print(self.obj.geometry)
-        print(self.obj.r1.geometry)
         self.assertEqual(self.obj.r1.geometry, (0, 0, 50, 50))
         self.assertEqual(self.obj.r2.geometry, (50, 50, 50, 50))
 
+    def testCallbackSimple(self):
+        self.expected_cbs = 2
+        def _event1_cb(obj):
+            self.expected_cbs -= 1
+        self.obj.callback_add("event1", _event1_cb)
+        self.obj.move(1, 1) # should fire "event1"
+        self.obj.move(2, 2) # should fire "event1"
+        self.obj.callback_del("event1", _event1_cb)
+        self.obj.move(0, 0) # should NOT fire "event1"
+        self.assertEqual(self.expected_cbs, 0)
 
+    def testCallbackArgs(self):
+        def _event1_cb(obj, arg1, arg2, arg3, mykarg2, mykarg1):
+            self.assertEqual(arg1, 11)
+            self.assertEqual(arg2, 22)
+            self.assertEqual(arg3, "arg3")
+            self.assertEqual(mykarg2, "k2")
+            self.assertEqual(mykarg1, "k1")
+        self.obj.callback_add("event1", _event1_cb, 11, 22, "arg3", mykarg1="k1", mykarg2="k2")
+        self.obj.move(1, 1) # should fire "event1" with the correct args
+        self.obj.callback_del("event1", _event1_cb)
+        self.obj.move(0, 0)
+
+    def testCallbackMulti(self):
+        def _event1_cb1(obj):
+            self.expected_cbs += 1
+        def _event1_cb2(obj):
+            self.expected_cbs += 10
+
+        self.expected_cbs = 0
+        self.obj.callback_add("event1", _event1_cb1)
+        self.obj.move(1, 1) # should fire "event1" in cb1
+        self.assertEqual(self.expected_cbs, 1)
+
+        self.expected_cbs = 0
+        self.obj.callback_add("event1", _event1_cb2)
+        self.obj.move(2, 2) # should fire "event1" in both cbs
+        self.assertEqual(self.expected_cbs, 11)
+
+        self.expected_cbs = 0
+        self.obj.callback_del("event1", _event1_cb1)
+        self.obj.move(3, 3) # should fire "event1" only in cb2
+        self.assertEqual(self.expected_cbs, 10)
+
+        self.expected_cbs = 0
+        self.obj.callback_del("event1", _event1_cb2)
+        self.obj.move(0, 0) # should NOT fire "event1"
+        self.assertEqual(self.expected_cbs, 0)
+
+    def testCallbackLots(self):
+        def _event1_cb(obj):
+            self.expected_cbs -= 1
+
+        self.expected_cbs = 20000
+        self.obj.callback_add("event1", _event1_cb)
+        self.obj.callback_add("event1", _event1_cb)
+        for i in range(10000):
+            self.obj.move(i+1, i-1) # should fire "event1" 10000 times * 2 cbs
+        self.assertEqual(self.expected_cbs, 0)
+        self.obj.callback_del("event1", _event1_cb)
+        self.obj.callback_del("event1", _event1_cb)
+        self.obj.move(0, 0) # should NOT fire "event1"
+        self.assertEqual(self.expected_cbs, 0)
+
+    def testCallbackLots2(self):
+        def _event1_cb(obj):
+            self.expected_cbs -= 1
+
+        self.expected_cbs = 10000
+        for i in range(10000):
+            self.obj.callback_add("event1", _event1_cb)
+        self.obj.move(1, 1)
+        self.assertEqual(self.expected_cbs, 0)
+        for i in range(10000):
+            self.obj.callback_del("event1", _event1_cb)
+        self.assertRaises(ValueError, self.obj.callback_del, "event1", _event1_cb)
+        self.obj.move(0, 0) # should NOT fire "event1"
+        self.assertEqual(self.expected_cbs, 0)
+
+    def testCallbackWrongDel1(self):
+        def _event1_cb(obj):
+            pass
+        self.assertRaises(ValueError, self.obj.callback_del, "event1", _event1_cb)
+
+    def testCallbackWrongDel2(self):
+        def _event1_cb(obj):
+            pass
+        self.obj.callback_add("event1", _event1_cb)
+        self.obj.callback_add("event1", _event1_cb)
+        self.obj.callback_del("event1", _event1_cb)
+        self.obj.callback_del("event1", _event1_cb)
+        self.assertRaises(ValueError, self.obj.callback_del, "event1", _event1_cb)
+        
+        
 if __name__ == '__main__':
     unittest.main(verbosity=2)
     evas.shutdown()
