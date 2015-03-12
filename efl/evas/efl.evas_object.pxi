@@ -1180,17 +1180,24 @@ cdef class Object(Eo):
     ####################
 
     property size_hint_min:
-        """Hint about minimum size.
+        """Hints for an object's minimum size.
 
         This is not an enforcement, just a hint that can be used by
         other objects like Edje, boxes, tables and others.
 
-        Value 0 is disabled.
+        Values ``0`` will be treated as unset hint components, when queried
+        by managers.
 
         When this property changes, EVAS_CALLBACK_CHANGED_SIZE_HINTS
         will be emitted.
 
         :type: (int **w**, int **h**)
+
+        .. note::
+
+            Smart objects (such as elementary) can have their own size hint
+            policy. So calling this API may or may not affect the size of smart
+            objects.
 
         """
         def __get__(self):
@@ -1210,17 +1217,24 @@ cdef class Object(Eo):
         evas_object_size_hint_min_set(self.obj, w, h)
 
     property size_hint_max:
-        """Hint about maximum size.
+        """The hints for an object's maximum size.
 
-        This is not an enforcement, just a hint that can be used by
-        other objects like Edje, boxes, tables and others.
+        This is not an enforcement, just a hint that can be used by other
+        objects like Edje, boxes, tables and others.
 
-        Value -1 is disabled.
+        Values ``-1`` will be treated as unset hint components, when queried by
+        managers.
 
-        When this property changes, EVAS_CALLBACK_CHANGED_SIZE_HINTS
-        will be emitted.
+        When this property changes, EVAS_CALLBACK_CHANGED_SIZE_HINTS will be
+        emitted.
 
         :type: (int **w**, int **h**)
+
+        .. note::
+
+            Smart objects(such as elementary) can have their own size hint
+            policy. So calling this API may or may not affect the size of smart
+            objects.
 
         """
         def __get__(self):
@@ -1246,7 +1260,9 @@ cdef class Object(Eo):
         used whenever appropriate. This mode can be used objects display mode
         like compress or expand.
 
-        :type: Evas_Display_Mode
+        This can be used for objects display mode like compress or expand.
+
+        :type: :ref:`Evas_Display_Mode`
 
         """
         def __get__(self):
@@ -1262,17 +1278,23 @@ cdef class Object(Eo):
         evas_object_size_hint_display_mode_set(self.obj, dispmode)
 
     property size_hint_request:
-        """Hint about request size.
+        """The hints for an object's optimum size.
 
-        This is not an enforcement, just a hint that can be used by
-        other objects like Edje, boxes, tables and others.
+        This is not an enforcement, just a hint that can be used by other
+        objects like Edje, boxes, tables and others.
 
         Value 0 is disabled.
 
-        When this property changes, EVAS_CALLBACK_CHANGED_SIZE_HINTS
-        will be emitted.
+        When this property changes, EVAS_CALLBACK_CHANGED_SIZE_HINTS will be
+        emitted.
 
         :type: (int **w**, int **h**)
+
+        .. note::
+
+            Smart objects(such as elementary) can have their own size hint
+            policy. So calling this API may or may not affect the size of smart
+            objects.
 
         """
         def __get__(self):
@@ -1292,17 +1314,27 @@ cdef class Object(Eo):
         evas_object_size_hint_request_set(self.obj, w, h)
 
     property size_hint_aspect:
-        """Hint about aspect.
+        """The hints for an object's aspect ratio.
 
-        This is not an enforcement, just a hint that can be used by
-        other objects like Edje, boxes, tables and others.
+        This is not an enforcement, just a hint that can be used by other
+        objects like Edje, boxes, tables and others.
 
         Aspect EVAS_ASPECT_CONTROL_NONE is disabled.
 
-        When this property changes, EVAS_CALLBACK_CHANGED_SIZE_HINTS
-        will be emitted.
+        If any of the given aspect ratio terms are ``0``, the object's
+        container will ignore the aspect and scale the object to occupy the
+        whole available area, for any given policy.
 
-        :type: (Evas_Aspect_Control **aspect**, int **w**, int **h**)
+        When this property changes, EVAS_CALLBACK_CHANGED_SIZE_HINTS will be
+        emitted.
+
+        :type: (:ref:`Evas_Aspect_Control` **aspect**, int **w**, int **h**)
+
+        .. note::
+
+            Smart objects (such as elementary) can have their own size hint
+            policy. So calling this API may or may not affect the size of smart
+            objects.
 
         """
         def __get__(self):
@@ -1327,19 +1359,29 @@ cdef class Object(Eo):
                                          w, h)
 
     property size_hint_align:
-        """Hint about alignment.
+        """The hints for an object's alignment.
 
-        This is not an enforcement, just a hint that can be used by
-        other objects like Edje, boxes, tables and others.
+        This is not an enforcement, just a hint that can be used by other
+        objects like Edje, boxes, tables and others.
 
-        Accepted values are in the 0.0 to 1.0 range, with the special value
-        -1.0 (EVAS_HINT_FILL) used to specify "justify" or "fill" by some
-        users.
+        These are hints on how to align an object **inside the boundaries of a
+        container/manager**. Accepted values are in the ``0.0`` to ``1.0``
+        range, with the special value :attr:`EVAS_HINT_FILL` used to specify
+        "justify" or "fill" by some users. In this case, maximum size hints
+        should be enforced with higher priority, if they are set. Also, any
+        padding hint set on objects should add up to the alignment space on the
+        final scene composition.
 
-        When this property changes, EVAS_CALLBACK_CHANGED_SIZE_HINTS
-        will be emitted.
+        For the horizontal component, ``0.0`` means to the left, ``1.0`` means
+        to the right. Analogously, for the vertical component, ``0.0`` to the
+        top, ``1.0`` means to the bottom.
 
-        :type: (double **x**, double **y**)
+        .. note:: Default alignment hint values are 0.5, for both axis.
+
+        When this property changes, EVAS_CALLBACK_CHANGED_SIZE_HINTS will be
+        emitted.
+
+        :type: (float **x**, float **y**)
 
         .. seealso:: :ref:`evas-size-hints`
 
@@ -1357,7 +1399,7 @@ cdef class Object(Eo):
         cdef double x, y
         evas_object_size_hint_align_get(self.obj, &x, &y)
         return (x, y)
-    def size_hint_align_set(self, float x, float y):
+    def size_hint_align_set(self, double x, double y):
         evas_object_size_hint_align_set(self.obj, x, y)
 
     property size_hint_fill:
@@ -1368,7 +1410,7 @@ cdef class Object(Eo):
         exclusive to align).
         This is **exactly** the same as using :attr:`size_hint_align`
 
-        :type: (double **x**, double **y**)
+        :type: (float **x**, float **y**)
 
         .. seealso:: :ref:`evas-size-hints`
 
@@ -1388,21 +1430,36 @@ cdef class Object(Eo):
         cdef double x, y
         evas_object_size_hint_fill_get(self.obj, &x, &y)
         return (x, y)
-    def size_hint_fill_set(self, float x, float y):
+    def size_hint_fill_set(self, double x, double y):
         evas_object_size_hint_fill_set(self.obj, x, y)
 
     property size_hint_weight:
         """Hint about weight.
 
-        This is not an enforcement, just a hint that can be used by
-        other objects like Edje, boxes, tables and others.
+        This is not an enforcement, just a hint that can be used by other
+        objects like Edje, boxes, tables and others.
 
-        Value 0.0 is disabled.
+        This is a hint on how a container object should **resize** a given
+        child within its area. Containers may adhere to the simpler logic of
+        just expanding the child object's dimensions to fit its own (see the
+        :attr:`EVAS_HINT_EXPAND` helper weight macro) or the complete one of
+        taking each child's weight hint as real **weights** to how much of its
+        size to allocate for them in each axis. A container is supposed to,
+        after **normalizing** the weights of its children (with weight hints),
+        distribute the space it has to layout them by those factors -- most
+        weighted children get larger in this process than the least ones.
 
-        When this property changes, EVAS_CALLBACK_CHANGED_SIZE_HINTS
-        will be emitted.
+        Accepted values are zero or positive values. Some users might use this
+        hint as a boolean, but some might consider it as a **proportion**, see
+        documentation of possible users, which in Evas are the :class:`Box` and
+        :class:`Table` smart objects.
 
-        :type: (double **x**, double **y**)
+        .. note:: Default weight hint values are ``0.0``, for both axis.
+
+        When this property changes, EVAS_CALLBACK_CHANGED_SIZE_HINTS will be
+        emitted.
+
+        :type: (float **x**, float **y**)
 
         .. seealso:: :ref:`evas-size-hints`
 
@@ -1420,7 +1477,7 @@ cdef class Object(Eo):
         cdef double x, y
         evas_object_size_hint_weight_get(self.obj, &x, &y)
         return (x, y)
-    def size_hint_weight_set(self, float x, float y):
+    def size_hint_weight_set(self, double x, double y):
         evas_object_size_hint_weight_set(self.obj, x, y)
 
     property size_hint_expand:
@@ -1430,7 +1487,7 @@ cdef class Object(Eo):
         that **weight** is also used for **expand** properties.
         This is **exactly** the same as using :attr:`size_hint_weight`
 
-        :type: (double **x**, double **y**)
+        :type: (float **x**, float **y**)
 
         .. seealso:: :ref:`evas-size-hints`
 
@@ -1450,19 +1507,29 @@ cdef class Object(Eo):
         cdef double x, y
         evas_object_size_hint_expand_get(self.obj, &x, &y)
         return (x, y)
-    def size_hint_expand_set(self, float x, float y):
+    def size_hint_expand_set(self, double x, double y):
         evas_object_size_hint_expand_set(self.obj, x, y)
 
     property size_hint_padding:
-        """Hint about padding.
+        """The hints for an object's padding space.
 
-        This is not an enforcement, just a hint that can be used by
-        other objects like Edje, boxes, tables and others.
+        This is not an enforcement, just a hint that can be used by other
+        objects like Edje, boxes, tables and others.
 
-        When this property changes, EVAS_CALLBACK_CHANGED_SIZE_HINTS
-        will be emitted.
+        Padding is extra space an object takes on each of its delimiting
+        rectangle sides, in canvas units. This space will be rendered
+        transparent.
+
+        When this property changes, EVAS_CALLBACK_CHANGED_SIZE_HINTS will be
+        emitted.
 
         :type: (int **l**, int **r**, int **t**, int **b**)
+
+        .. note::
+
+            Smart objects(such as elementary) can have their own size hint
+            policy. So calling this API may or may not affect the size of smart
+            objects.
 
         """
         def __get__(self):
