@@ -4,9 +4,8 @@
 import os
 from random import randint
 
-from efl.eo import Eo
 from efl.evas import SmartObject, Smart, EXPAND_BOTH, FILL_BOTH, Rectangle, \
-    Line, FilledImage, Polygon, Text
+    Line, FilledImage, Polygon, Text, SmartCbDescription
 from efl import elementary
 from efl.elementary.window import StandardWindow
 from efl.elementary.box import Box
@@ -23,6 +22,7 @@ def random_color():
 
 
 class MySmart(Smart):
+
     @staticmethod
     def resize(smart_object, w, h):
         print("RESIZE", w, h)
@@ -72,10 +72,15 @@ class MySmart(Smart):
     def clip_unset(smart_object):
         pass
 
+descriptions = (
+    SmartCbDescription("mycb", "i"),
+    )
+
+
 class MySmartObj(SmartObject):
 
-    def __init__(self, canvas):
-        SmartObject.__init__(self, canvas, MySmart())
+    def __init__(self, canvas, smart):
+        SmartObject.__init__(self, canvas, smart)
 
         # gray background
         self.bg = Rectangle(canvas, color=(128, 128, 128, 128))
@@ -131,11 +136,13 @@ class MySmartObj(SmartObject):
 
 
 def btn_add_cb(b):
-    sm = MySmartObj(b.evas)
-    sm.size = 100, 100
-    sm.pos = 100, 100
-    sm.show()
-    objects.append(sm)
+    sm = MySmart(callback_descriptions=descriptions)
+    print(sm.callback_descriptions)
+    so = MySmartObj(b.evas, sm)
+    so.size = 100, 100
+    so.pos = 100, 100
+    so.show()
+    objects.append(so)
 
 
 def btn_del_cb(b):
@@ -154,6 +161,7 @@ def btn_show_cb(b):
 
 def core_evas_smart_clicked(obj, item=None):
     win = StandardWindow("evassmart", "Evas Smart Object Test", autodel=True)
+    print(win.callback_descriptions_get())
     if obj is None:
         win.callback_delete_request_add(lambda o: elementary.exit())
 

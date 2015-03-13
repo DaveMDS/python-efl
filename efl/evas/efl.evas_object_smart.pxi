@@ -21,9 +21,77 @@ from efl.eo cimport Eo, EoIterator
 
 from cpython cimport Py_INCREF, Py_DECREF, PyObject_Call, \
     PyMem_Malloc, PyMem_Free
+from libc.stdlib cimport malloc
+from libc.string cimport strdup
 
 #cdef object _smart_classes
 #_smart_classes = list()
+
+cdef list _descriptions_to_list(const Evas_Smart_Cb_Description **arr, unsigned int arr_len):
+    cdef:
+        unsigned int i
+        list ret = list()
+
+    if arr == NULL:
+        return ret
+
+    for i in range(arr_len):
+        ret.append(SmartCbDescription.create(arr[i]))
+
+    if arr[i+1] != NULL:
+        EINA_LOG_DOM_WARN(PY_EFL_EVAS_LOG_DOMAIN, "array was not NULL terminated!", NULL)
+
+    return ret
+
+cdef Evas_Smart_Cb_Description *_descriptions_to_array(descs):
+    cdef:
+        unsigned int arr_len = len(descs)
+        Evas_Smart_Cb_Description *arr
+        SmartCbDescription desc
+
+    if arr_len == 0:
+        return NULL
+
+    # allocate arr_len + 1 so it's NULL terminated
+    arr = <Evas_Smart_Cb_Description *>malloc(arr_len + 1 * sizeof(Evas_Smart_Cb_Description))
+
+    for i, desc in enumerate(descs):
+        arr[i] = desc.desc[0]
+
+    return arr
+
+
+cdef class SmartCbDescription:
+    """Introspection description for a smart callback"""
+    cdef const Evas_Smart_Cb_Description *desc
+
+    def __init__(self, name, types):
+        cdef Evas_Smart_Cb_Description *tmp
+        tmp = <Evas_Smart_Cb_Description *>malloc(sizeof(Evas_Smart_Cb_Description*))
+        if isinstance(name, unicode): name = PyUnicode_AsUTF8String(name)
+        tmp.name = strdup(name)
+        if isinstance(types, unicode): types = PyUnicode_AsUTF8String(types)
+        tmp.type = strdup(types)
+        self.desc = <const Evas_Smart_Cb_Description *>tmp
+
+    @staticmethod
+    cdef create(const Evas_Smart_Cb_Description *desc):
+        cdef SmartCbDescription ret = SmartCbDescription.__new__(SmartCbDescription)
+        ret.desc = desc
+        return ret
+
+    def __repr__(self):
+        return "%s(%r, %r)" % (self.__class__.__name__, self.name, self.type)
+
+    property name:
+        """:type: string"""
+        def __get__(self):
+            return _ctouni(self.desc.name)
+
+    property type:
+        """:type: string"""
+        def __get__(self):
+            return _ctouni(self.desc.type)
 
 
 cdef void _smart_object_delete(Evas_Object *o) with gil:
@@ -416,8 +484,9 @@ cdef class Smart(object):
     .. versionadded:: 1.14
     """
 
-    def __cinit__(self, bint clipped=False):
-        cdef Evas_Smart_Class *cls_def
+    def __cinit__(self, Smart parent=None, bint clipped=False, callback_descriptions=[], *args, **kwargs):
+        cdef:
+            Evas_Smart_Class *cls_def
 
         cls_def = <Evas_Smart_Class*>PyMem_Malloc(sizeof(Evas_Smart_Class))
         if cls_def == NULL:
@@ -445,19 +514,54 @@ cdef class Smart(object):
             cls_def.member_add = _smart_object_member_add
             cls_def.member_del = _smart_object_member_del
 
-        cls_def.parent = NULL
-        cls_def.callbacks = NULL
+        cls_def.parent = parent.cls_def if parent is not None else NULL
+
+        cls_def.callbacks = _descriptions_to_array(callback_descriptions)
+
+        # TODO: interfaces?
         cls_def.interfaces = NULL
+
         cls_def.data = <void *>self
 
-        self.cls = evas_smart_class_new(cls_def)
+        self.cls_def = <const Evas_Smart_Class *>cls_def
+        self.cls = evas_smart_class_new(self.cls_def)
 
     def __dealloc__(self):
         cdef const Evas_Smart_Class *cls_def
         cls_def = evas_smart_class_get(self.cls)
         PyMem_Free(<void*>cls_def)
-        evas_smart_free(self.cls)
+        evas_smart_free(self.cls) # FIXME: Check that all resources (cb descriptions etc.) are truly freed
         self.cls = NULL
+
+    property callback_descriptions:
+        def __get__(self):
+            cdef:
+                const Evas_Smart_Cb_Description **descriptions
+                unsigned int count
+
+            descriptions = evas_smart_callbacks_descriptions_get(self.cls, &count)
+
+            return _descriptions_to_list(descriptions, count)
+
+    def callback_descriptions_get(self):
+        cdef:
+            const Evas_Smart_Cb_Description **descriptions
+            unsigned int count
+
+        descriptions = evas_smart_callbacks_descriptions_get(self.cls, &count)
+
+        return _descriptions_to_list(descriptions, count)
+
+    def callback_description_find(self, name):
+        cdef:
+            const Evas_Smart_Cb_Description *desc
+
+        if isinstance(name, unicode): name = PyUnicode_AsUTF8String(name)
+        desc = evas_smart_callback_description_find(self.cls, name)
+        if desc == NULL:
+            return None
+
+        return SmartCbDescription.create(desc)
 
     @staticmethod
     def delete(obj):
@@ -638,7 +742,7 @@ cdef class SmartObject(Object):
         #_smart_classes.append(<uintptr_t>cls_def)
         self._set_obj(evas_object_smart_add(canvas.obj, smart.cls))
         self._set_properties_from_keyword_args(kwargs)
-        self.smart = smart
+        self._smart = smart
 
     cdef int _set_obj(self, cEo *obj) except 0:
         assert self.obj == NULL, "Object must be clean"
@@ -698,6 +802,13 @@ cdef class SmartObject(Object):
             list ret = eina_list_objects_to_python_list(lst)
         eina_list_free(lst)
         return tuple(ret)
+
+    property smart:
+        def __get__(self):
+            if self._smart is not None:
+                return self._smart
+            else:
+                return Smart.create(evas_object_smart_smart_get(self.obj))
 
     def smart_get(self):
         return self.smart
@@ -947,5 +1058,114 @@ cdef class SmartObject(Object):
             <void*>event_info if event_info is not None else NULL
             )
 
+    def callback_descriptions_set(self, descriptions):
+        """Set an smart object **instance's** smart callbacks descriptions.
+
+        :return: ``True`` on success, ``False`` on failure.
+
+        These descriptions are hints to be used by introspection and are
+        not enforced in any way.
+
+        It will not be checked if instance callbacks descriptions have the same
+        name as respective possibly registered in the smart object **class**.
+        Both are kept in different arrays and users of
+        :meth:`callbacks_descriptions_get` should handle this case as they
+        wish.
+
+        .. note::
+
+            While instance callbacks descriptions are possible, they are
+            **not** recommended. Use **class** callbacks descriptions
+            instead as they make you smart object user's life simpler and
+            will use less memory, as descriptions and arrays will be
+            shared among all instances.
+
+
+        :param descriptions: A list with :class:`SmartCbDescription`
+            descriptions. List elements won't be modified at run time, but
+            references to them and their contents will be made, so this array
+            should be kept alive during the whole object's lifetime.
+
+        """
+
+        if not evas_object_smart_callbacks_descriptions_set(
+                self.obj,
+                <const Evas_Smart_Cb_Description *>_descriptions_to_array(descriptions)
+                ):
+            raise ValueError("Could not set callback descriptions")
+
+    def callback_descriptions_get(self, get_class=True, get_instance=True):
+        """Retrieve a smart object's known smart callback descriptions
+
+        This call searches for registered callback descriptions for both
+        instance and class of the given smart object. These lists will be
+        sorted by name.
+
+        .. note::
+
+            If just class descriptions are of interest, try
+            :meth:`Smart.callbacks_descriptions_get` instead.
+
+        :param bool get_class: Get class descriptions
+        :param bool get_instance: Get instance descriptions
+        :return: A tuple with two lists, for both class and instance
+            descriptions.
+        :rtype: tuple
+        """
+        cdef:
+            const Evas_Smart_Cb_Description **class_descriptions
+            const Evas_Smart_Cb_Description **instance_descriptions
+            unsigned int class_count, instance_count
+
+        evas_object_smart_callbacks_descriptions_get(
+            self.obj,
+            &class_descriptions if get_class is True else NULL,
+            &class_count,
+            &instance_descriptions if get_instance is True else NULL,
+            &instance_count
+            )
+        return (
+            _descriptions_to_list(class_descriptions, class_count),
+            _descriptions_to_list(instance_descriptions, instance_count)
+            )
+
+    def callback_description_find(self, name, search_class=True, search_instance=True):
+        """Find callback description for callback given in ``name``.
+
+        or ``None`` if not found.
+
+        :param string name: name of desired callback, must **not** be ``None``.
+        :param bool search_class: whether to search in class descriptions
+        :param bool search_instance: whether to search in instance descriptions
+        :return: reference to description if found, ``None`` if not found.
+
+        ..
+            The
+            search have a special case for ``name`` being the same
+            pointer as registered with Evas_Smart_Cb_Description, one
+            can use it to avoid excessive use of strcmp().
+        """
+        cdef:
+            const Evas_Smart_Cb_Description *class_description
+            const Evas_Smart_Cb_Description *instance_description
+            list ret = list()
+
+        if isinstance(name, unicode): name = PyUnicode_AsUTF8String(name)
+
+        evas_object_smart_callback_description_find(
+            self.obj, name,
+            &class_description if search_class is True else NULL,
+            &instance_description if search_instance is True else NULL
+            )
+
+        if class_description != NULL:
+            ret.append(SmartCbDescription.create(class_description))
+        else:
+            ret.append(None)
+        if instance_description != NULL:
+            ret.append(SmartCbDescription.create(instance_description))
+        else:
+            ret.append(None)
+        return ret
 
 _object_mapping_register("Evas_Smart", SmartObject)

@@ -387,7 +387,7 @@ cdef extern from "Evas.h":
         void (*member_add)(Evas_Object *o, Evas_Object *child)
         void (*member_del)(Evas_Object *o, Evas_Object *child)
         const Evas_Smart_Class *parent
-        Evas_Smart_Cb_Description *callbacks
+        const Evas_Smart_Cb_Description *callbacks
         const Evas_Smart_Interface **interfaces
         const void *data
 
@@ -781,12 +781,14 @@ cdef extern from "Evas.h":
 
 
     ####################################################################
-    # Smart Object (py3:TODO)
+    # Smart Object
     #
     void evas_smart_free(Evas_Smart *s)
     Evas_Smart *evas_smart_class_new(Evas_Smart_Class *sc)
     Evas_Smart_Class *evas_smart_class_get(Evas_Smart *s)
     const Eo_Class *evas_object_smart_class_get()
+    const Evas_Smart_Cb_Description **evas_smart_callbacks_descriptions_get(const Evas_Smart *s, unsigned int *count)
+    const Evas_Smart_Cb_Description  *evas_smart_callback_description_find(const Evas_Smart *s, const char *name)
 
     void *evas_smart_data_get(Evas_Smart *s)
 
@@ -809,6 +811,9 @@ cdef extern from "Evas.h":
     void evas_object_smart_move_children_relative(Evas_Object *obj, int dx, int dy)
     Eina_Iterator *evas_object_smart_iterator_new(const Evas_Object_Smart *obj)
     void evas_object_smart_clipped_smart_set(Evas_Smart_Class *sc)
+    Eina_Bool evas_object_smart_callbacks_descriptions_set(Evas_Object_Smart *obj, const Evas_Smart_Cb_Description *descriptions)
+    void evas_object_smart_callbacks_descriptions_get(const Evas_Object_Smart *obj, const Evas_Smart_Cb_Description ***class_descriptions, unsigned int *class_count, const Evas_Smart_Cb_Description ***instance_descriptions, unsigned int *instance_count)
+    void evas_object_smart_callback_description_find(const Evas_Object_Smart *obj, const char *name, const Evas_Smart_Cb_Description **class_description, const Evas_Smart_Cb_Description **instance_description)
 
 
     ####################################################################
@@ -1210,11 +1215,20 @@ cdef class Textblock(Object):
 #     ctypedef object(*Smart_Conv_Func)(void *)
 
 cdef class Smart:
-    cdef Evas_Smart *cls
+    cdef:
+        Evas_Smart *cls
+        const Evas_Smart_Class *cls_def
+
+    @staticmethod
+    cdef inline create(Evas_Smart *cls):
+        cdef Smart ret = Smart.__new__(Smart)
+        ret.cls = cls
+        ret.cls_def = evas_smart_class_get(cls)
+        return ret
 
 cdef class SmartObject(Object):
     cdef:
-        public Smart smart
+        Smart _smart
         dict _smart_callback_specs
         int _set_obj(self, cEo *obj) except 0
         int _callback_add_full(self, event, object(*)(void*), func, tuple args, dict kargs) except 0
