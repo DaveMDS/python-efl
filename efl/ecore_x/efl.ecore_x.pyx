@@ -297,6 +297,7 @@ def screensaver_supend():
 
 def screensaver_suspend():
     """ .. versionadded:: 1.14 """
+    ecore_x_screensaver_suspend()
 
 def screensaver_resume():
     """ .. versionadded:: 1.11 """
