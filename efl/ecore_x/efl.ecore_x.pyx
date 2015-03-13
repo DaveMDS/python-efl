@@ -297,6 +297,9 @@ def screensaver_resume():
     """ .. versionadded:: 1.11 """
     ecore_x_screensaver_resume()
 
+def cursor_shape_get(int shape):
+    """ .. versionadded:: 1.14 """
+    return ecore_x_cursor_shape_get(shape)
 
 include "efl.ecore_x_window.pxi"
 include "efl.ecore_x_events.pxi"
