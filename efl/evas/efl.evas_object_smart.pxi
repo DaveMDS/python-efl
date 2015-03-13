@@ -340,36 +340,52 @@ cdef void _smart_callback(void *data, Evas_Object *o, void *event_info) with gil
         EINA_LOG_DOM_ERR(PY_EFL_EVAS_LOG_DOMAIN, "data is NULL!", NULL)
         return
 
-    cdef _SmartCb spec = <_SmartCb>data
-    cdef list tmp_args
+    cdef:
+        void *tmp = NULL
+        SmartObject obj
+        object event, ei
+        _SmartCb spec
+        list tmp_args
+        list lst
 
-    if event_info == NULL:
-        try:
-            tmp_args = [spec.obj]
-            tmp_args.extend(spec.args)
-            PyObject_Call(spec.func, tuple(tmp_args), spec.kargs)
-        except Exception:
-            traceback.print_exc()
-    elif spec.event_conv == NULL:
-        EINA_LOG_DOM_WARN(
-            PY_EFL_EVAS_LOG_DOMAIN,
-            'event_info for event "%s" is not NULL and there is no event_conv!',
-            spec.event
-            )
-        try:
-            tmp_args = [spec.obj]
-            tmp_args.extend(spec.args)
-            PyObject_Call(spec.func, tuple(tmp_args), spec.kargs)
-        except Exception:
-            traceback.print_exc()
+    eo_do_ret(o, tmp, eo_key_data_get("python-eo"))
+    if tmp == NULL:
+        EINA_LOG_DOM_ERR(PY_EFL_EVAS_LOG_DOMAIN, "obj is NULL!", NULL)
+        return
     else:
-        try:
-            tmp_args = [spec.obj]
-            tmp_args.append(spec.event_conv(event_info))
-            tmp_args.extend(spec.args)
-            PyObject_Call(spec.func, tuple(tmp_args), spec.kargs)
-        except Exception:
-            traceback.print_exc()
+        obj = <SmartObject>tmp
+
+    event = <object>data
+    lst = <list>obj._smart_callback_specs[event]
+
+    for spec in lst:
+        if event_info == NULL:
+            try:
+                tmp_args = [spec.obj]
+                tmp_args.extend(spec.args)
+                PyObject_Call(spec.func, tuple(tmp_args), spec.kargs)
+            except Exception:
+                traceback.print_exc()
+        elif spec.event_conv == NULL:
+            EINA_LOG_DOM_WARN(
+                PY_EFL_EVAS_LOG_DOMAIN,
+                'event_info for event "%s" is not NULL and there is no event_conv!',
+                spec.event
+                )
+            try:
+                tmp_args = [spec.obj]
+                tmp_args.extend(spec.args)
+                PyObject_Call(spec.func, tuple(tmp_args), spec.kargs)
+            except Exception:
+                traceback.print_exc()
+        else:
+            try:
+                tmp_args = [spec.obj]
+                tmp_args.append(spec.event_conv(event_info))
+                tmp_args.extend(spec.args)
+                PyObject_Call(spec.func, tuple(tmp_args), spec.kargs)
+            except Exception:
+                traceback.print_exc()
 
 
 cdef class Smart(object):
@@ -764,9 +780,14 @@ cdef class SmartObject(Object):
         if not callable(func):
             raise TypeError("func must be callable")
 
+        cdef:
+            list lst
+            _SmartCb spec
+            object e = intern(event)
+
         if isinstance(event, unicode): event = PyUnicode_AsUTF8String(event)
 
-        cdef _SmartCb spec = _SmartCb()
+        spec = _SmartCb.__new__(_SmartCb)
         spec.event = event
         spec.obj = self
         spec.event_conv = event_conv
@@ -774,12 +795,14 @@ cdef class SmartObject(Object):
         spec.args = args
         spec.kargs = kargs
 
-        lst = self._smart_callback_specs.setdefault(event, [])
+        lst = <list>self._smart_callback_specs.setdefault(e, [])
+        if not lst:
+            evas_object_smart_callback_add(self.obj,
+                spec.event,
+                _smart_callback,
+                <void *>e
+                )
         lst.append(spec)
-
-        evas_object_smart_callback_add(self.obj,
-            <const char *>event if event is not None else NULL,
-            _smart_callback, <void *>spec)
 
         return 1
 
@@ -806,10 +829,9 @@ cdef class SmartObject(Object):
             int found = 0
             int i
             void *tmp
+            list lst
 
-        if isinstance(event, unicode): event = PyUnicode_AsUTF8String(event)
-
-        lst = self._smart_callback_specs.get(event, None)
+        lst = <list>self._smart_callback_specs.get(event, None)
 
         if lst is None:
             raise ValueError("No callbacks registered for the given event type")
@@ -822,16 +844,16 @@ cdef class SmartObject(Object):
         if found == 0:
             raise ValueError("func not registered")
 
-        tmp = evas_object_smart_callback_del_full(self.obj,
-            <const char *>event if event is not None else NULL,
-            _smart_callback,
-            <void *>spec
-            )
-
-        if tmp == NULL:
-            raise RuntimeError("Something went wrong while unregistering!")
-
         lst.pop(i)
+
+        if not lst:
+            if isinstance(event, unicode): event = PyUnicode_AsUTF8String(event)
+            tmp = evas_object_smart_callback_del(self.obj,
+                event,
+                _smart_callback
+                )
+            if tmp == NULL:
+                raise RuntimeError("Something went wrong while unregistering!")
 
         return 1
 
@@ -915,7 +937,10 @@ cdef class SmartObject(Object):
             **event_info** will always be a python object.
         """
         if isinstance(name, unicode): name = PyUnicode_AsUTF8String(name)
-        evas_object_smart_callback_call(self.obj, name, <void*>event_info)
+        evas_object_smart_callback_call(
+            self.obj, name,
+            <void*>event_info if event_info is not None else NULL
+            )
 
 
 _object_mapping_register("Evas_Smart", SmartObject)
