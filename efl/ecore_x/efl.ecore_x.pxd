@@ -1317,7 +1317,7 @@ cdef extern from "Ecore_X.h":
     void ecore_x_screensaver_event_listen_set(Eina_Bool on)
     Eina_Bool ecore_x_screensaver_custom_blanking_enable()
     Eina_Bool ecore_x_screensaver_custom_blanking_disable()
-    void ecore_x_screensaver_supend()
+    void ecore_x_screensaver_suspend()
     void ecore_x_screensaver_resume()
 
 

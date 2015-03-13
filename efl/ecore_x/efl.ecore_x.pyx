@@ -17,6 +17,7 @@
 
 #from cpython cimport PyObject, Py_INCREF, Py_DECREF
 from cpython cimport PyMem_Malloc, PyMem_Free, PyUnicode_AsUTF8String
+from efl.utils.deprecated cimport DEPRECATED
 
 
 def init(name=None):
@@ -289,17 +290,34 @@ def screensaver_custom_blanking_disable():
     """ .. versionadded:: 1.11 """
     return bool(ecore_x_screensaver_custom_blanking_disable())
 
+@DEPRECATED("1.14", "Use screensaver_suspend() instead.")
 def screensaver_supend():
     """ .. versionadded:: 1.11 """
-    ecore_x_screensaver_supend()
+    ecore_x_screensaver_suspend()
+
+def screensaver_suspend():
+    """ .. versionadded:: 1.14 """
 
 def screensaver_resume():
     """ .. versionadded:: 1.11 """
     ecore_x_screensaver_resume()
 
 def cursor_shape_get(int shape):
-    """ .. versionadded:: 1.14 """
+    """
+    :param int shape: The shape ID (check Ecore_X_Cursor.h for these)
+    :return: The cursor id
+    :rtype: Ecore_X_Cursor
+
+    .. versionadded:: 1.14
+    """
     return ecore_x_cursor_shape_get(shape)
+
+def cursor_free(Ecore_X_Cursor c):
+    """
+    :param Ecore_X_Cursor c: The cursor ID
+
+    .. versionadded:: 1.14
+    """
 
 include "efl.ecore_x_window.pxi"
 include "efl.ecore_x_events.pxi"
