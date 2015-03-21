@@ -106,9 +106,6 @@ cdef void _smart_object_delete(Evas_Object *o) with gil:
         return
     cls = <Smart>tmp
 
-    if "delete" not in cls.__class__.__dict__:
-        return
-
     eo_do_ret(o, tmp, eo_key_data_get("python-eo"))
     if tmp == NULL:
         EINA_LOG_DOM_WARN(PY_EFL_EVAS_LOG_DOMAIN, "obj is NULL!", NULL)
@@ -133,9 +130,6 @@ cdef void _smart_object_move(Evas_Object *o, Evas_Coord x, Evas_Coord y) with gi
         EINA_LOG_DOM_ERR(PY_EFL_EVAS_LOG_DOMAIN, "cls is NULL!", NULL)
         return
     cls = <Smart>tmp
-
-    if "move" not in cls.__class__.__dict__:
-        return
 
     eo_do_ret(o, tmp, eo_key_data_get("python-eo"))
     if tmp == NULL:
@@ -315,9 +309,6 @@ cdef void _smart_object_calculate(Evas_Object *o) with gil:
         return
     cls = <Smart>tmp
 
-    if "calculate" not in cls.__class__.__dict__:
-        return
-
     eo_do_ret(o, tmp, eo_key_data_get("python-eo"))
     if tmp == NULL:
         EINA_LOG_DOM_WARN(PY_EFL_EVAS_LOG_DOMAIN, "obj is NULL!", NULL)
@@ -343,9 +334,6 @@ cdef void _smart_object_member_add(Evas_Object *o, Evas_Object *clip) with gil:
         EINA_LOG_DOM_ERR(PY_EFL_EVAS_LOG_DOMAIN, "cls is NULL!", NULL)
         return
     cls = <Smart>tmp
-
-    if "member_add" not in cls.__class__.__dict__:
-        return
 
     eo_do_ret(o, tmp, eo_key_data_get("python-eo"))
     if tmp == NULL:
@@ -374,9 +362,6 @@ cdef void _smart_object_member_del(Evas_Object *o, Evas_Object *clip) with gil:
         EINA_LOG_DOM_ERR(PY_EFL_EVAS_LOG_DOMAIN, "cls is NULL!", NULL)
         return
     cls = <Smart>tmp
-
-    if "member_del" not in cls.__class__.__dict__:
-        return
 
     eo_do_ret(o, tmp, eo_key_data_get("python-eo"))
     if tmp == NULL:
@@ -464,29 +449,70 @@ cdef void _smart_callback(void *data, Evas_Object *o, void *event_info) with gil
 cdef class Smart(object):
 
     """
-    An abstract class with callback methods.
+    An abstract class that defines the behavior of the SmartObject.
 
     :param clipped: Make this Smart use a clipped class, ignoring the provided
-        callback methods.
+        callback methods, except :meth:`calculate` and :meth:`resize`.
     :type clipped: bool
 
-    ..
-        note::
-        You should never instantiate the Smart base class directly,
-        but inherit and implement methods, then instantiate this new subclass.
-
-    .. note::
-        Do not call your parent on methods you want to replace the behavior
-        instead of extending it. For example, some methods have default
-        implementation, you may want to remove and replace it with something
-        else.
-
     .. versionadded:: 1.14
+
+    .. staticmethod:: delete(obj)
+
+        Called in order to remove object from canvas and deallocate its resources.
+
+        Usually you delete object's children here.
+
+    .. staticmethod:: member_add(obj, Object child)
+
+        Called when children is added to object.
+
+    .. staticmethod:: member_del(obj, Object child)
+
+        Called when children is removed from object.
+
+    .. staticmethod:: move(obj, int x, int y)
+
+        Called in order to move object to given position.
+
+        Usually you move children here.
+
+    .. staticmethod:: resize(obj, int w, int h)
+
+        Called in order to resize object.
+
+    .. staticmethod:: show(obj)
+
+        Called in order to show the given element.
+
+        Usually you call the same function on children.
+
+    .. staticmethod:: hide(obj)
+
+        Called in order to hide the given element.
+
+        Usually you call the same function on children.
+
+    .. staticmethod:: color_set(obj, int r, int g, int b, int a)
+
+        Called in order to change object color.
+
+    .. staticmethod:: clip_set(obj, Eo clip)
+
+        Called in order to limit object's visible area.
+
+    .. staticmethod:: clip_unset(obj)
+
+        Called in order to unlimit object's visible area.
+
+    .. staticmethod:: calculate(obj)
+
+        Called before object is used for rendering and it is marked as dirty/changed with :py:func:`changed`.
+
     """
 
     def __cinit__(self, Smart parent=None, bint clipped=False, callback_descriptions=[], *args, **kwargs):
-        cdef:
-            Evas_Smart_Class *cls_def
+        cdef Evas_Smart_Class *cls_def
 
         cls_def = <Evas_Smart_Class*>PyMem_Malloc(sizeof(Evas_Smart_Class))
         if cls_def == NULL:
@@ -500,19 +526,65 @@ cdef class Smart(object):
 
         if clipped:
             evas_object_smart_clipped_smart_set(cls_def)
+            # override add to NULL?
         else:
             cls_def.add = NULL # use python constructor
-            cls_def.delete = _smart_object_delete
-            cls_def.move = _smart_object_move
+
+            if "delete" in self.__class__.__dict__:
+                cls_def.delete = _smart_object_delete
+            else:
+                cls_def.delete = NULL
+
+            if "move" in self.__class__.__dict__:
+                cls_def.move = _smart_object_move
+            else:
+                cls_def.move = NULL
+
+            if "show" in self.__class__.__dict__:
+                cls_def.show = _smart_object_show
+            else:
+                cls_def.show = NULL
+
+            if "hide" in self.__class__.__dict__:
+                cls_def.hide = _smart_object_hide
+            else:
+                cls_def.hide = NULL
+
+            if "color_set" in self.__class__.__dict__:
+                cls_def.color_set = _smart_object_color_set
+            else:
+                cls_def.color_set = NULL
+
+            if "clip_set" in self.__class__.__dict__:
+                cls_def.clip_set = _smart_object_clip_set
+            else:
+                cls_def.clip_set = NULL
+
+            if "clip_unset" in self.__class__.__dict__:
+                cls_def.clip_unset = _smart_object_clip_unset
+            else:
+                cls_def.clip_unset = NULL
+
+            if "member_add" in self.__class__.__dict__:
+                cls_def.member_add = _smart_object_member_add
+            else:
+                cls_def.member_add = NULL
+
+            if "member_del" in self.__class__.__dict__:
+                cls_def.member_del = _smart_object_member_del
+            else:
+                cls_def.member_del = NULL
+
+        if "resize" in self.__class__.__dict__:
             cls_def.resize = _smart_object_resize
-            cls_def.show = _smart_object_show
-            cls_def.hide = _smart_object_hide
-            cls_def.color_set = _smart_object_color_set
-            cls_def.clip_set = _smart_object_clip_set
-            cls_def.clip_unset = _smart_object_clip_unset
+        else:
+            cls_def.resize = NULL
+
+        if "calculate" in self.__class__.__dict__:
             cls_def.calculate = _smart_object_calculate
-            cls_def.member_add = _smart_object_member_add
-            cls_def.member_del = _smart_object_member_del
+        else:
+            cls_def.calculate = NULL
+
 
         cls_def.parent = parent.cls_def if parent is not None else NULL
 
@@ -562,125 +634,6 @@ cdef class Smart(object):
             return None
 
         return SmartCbDescription.create(desc)
-
-    @staticmethod
-    def delete(obj):
-        """
-        Called in order to remove object from canvas and deallocate its resources.
-
-        Usually you delete object's children here.
-
-        ..
-            *Default implementation deletes all registered children.*
-        """
-        pass
-
-    @staticmethod
-    def member_add(obj, Object child):
-        """
-        Called when children is added to object.
-
-        ..
-            *Default implementation does nothing.*
-        """
-        pass
-
-    @staticmethod
-    def member_del(obj, Object child):
-        """
-        Called when children is removed from object.
-
-        ..
-            *Default implementation does nothing.*
-        """
-        pass
-
-    @staticmethod
-    def move(obj, int x, int y):
-        """
-        Called in order to move object to given position.
-
-        Usually you move children here.
-
-        ..
-            *Default implementation calculates offset and move registered children
-            by it.*
-        """
-        pass
-
-    @staticmethod
-    def resize(obj, int w, int h):
-        """
-        Called in order to resize object.
-
-        ..
-            *No default implementation.*
-        """
-        raise NotImplementedError("%s.resize(w, h) not implemented." % obj.__class__.__name__)
-
-    @staticmethod
-    def show(obj):
-        """
-        Called in order to show the given element.
-
-        Usually you call the same function on children.
-
-        ..
-            *No default implementation.*
-        """
-        raise NotImplementedError("%s.show() not implemented." % obj.__class__.__name__)
-
-    @staticmethod
-    def hide(obj):
-        """
-        Called in order to hide the given element.
-
-        Usually you call the same function on children.
-
-        ..
-            *No default implementation.*
-        """
-        raise NotImplementedError("%s.hide() not implemented." % obj.__class__.__name__)
-
-    @staticmethod
-    def color_set(obj, int r, int g, int b, int a):
-        """
-        Called in order to change object color.
-
-        ..
-            *No default implementation.*
-        """
-        raise NotImplementedError("%s.color_set(r, g, b, a) not implemented." % obj.__class__.__name__)
-
-    @staticmethod
-    def clip_set(obj, Object clip):
-        """
-        Called in order to limit object's visible area.
-
-        ..
-            *No default implementation.*
-        """
-        raise NotImplementedError("%s.clip_set(object) not implemented." % obj.__class__.__name__)
-
-    @staticmethod
-    def clip_unset(obj):
-        """
-        Called in order to unlimit object's visible area.
-
-        ..
-            *No default implementation.*
-        """
-        raise NotImplementedError("%s.clip_unset() not implemented." % obj.__class__.__name__)
-
-    @staticmethod
-    def calculate(obj):
-        """
-        Called before object is used for rendering and it is marked as dirty/changed with :py:func:`changed`.
-
-        ..
-            *Default implementation does nothing.*
-        """
-        pass
 
 
 cdef class SmartObject(Object):
