@@ -7,6 +7,7 @@ import platform
 import subprocess
 from distutils.core import setup, Command
 from distutils.extension import Extension
+from distutils.command.build_ext import build_ext
 from distutils.version import StrictVersion, LooseVersion
 from efl import __version__, __version_info__ as vers
 
@@ -216,7 +217,7 @@ if set(("build", "build_ext", "install", "bdist", "sdist")) & set(sys.argv):
     if USE_CYTHON:
         # check if cython is installed
         try:
-            from Cython.Distutils import Extension
+            from Cython.Distutils import Extension, build_ext
             from Cython.Build import cythonize
             import Cython.Compiler.Options
         except ImportError:
@@ -515,6 +516,7 @@ setup(
         'build_doc': BuildDoc,
         'clean_generated_files': CleanGenerated,
         'uninstall': Uninstall,
+        'build_ext': build_ext,
     },
     command_options={
         'build_doc': {
@@ -523,7 +525,7 @@ setup(
         },
         'install': {
             'record': ('setup.py', RECORD_FILE),
-        }
+        },
     },
     packages=packages,
     ext_package="efl",
