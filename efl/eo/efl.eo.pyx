@@ -294,22 +294,24 @@ cdef class Eo(object):
         """
         return bool(self.obj == NULL)
 
-    def parent_set(self, Eo parent):
-        """Set the parent object.
+    property parent:
+        """The parent object
 
-        :param parent: The object to set as parent.
-        :type parent: :class:`Eo`
+        :type: :class:`Eo`
 
         """
+        def __set__(self, Eo parent):
+            eo_do(self.obj, eo_parent_set(parent.obj))
+
+        def __get__(self):
+            cdef cEo *parent = NULL
+            parent = <cEo *>eo_do_ret(self.obj, parent, eo_parent_get())
+            return object_from_instance(parent)
+
+    def parent_set(self, Eo parent):
         eo_do(self.obj, eo_parent_set(parent.obj))
 
     def parent_get(self):
-        """Get the parent object.
-
-        :return: The parent object
-        :rtype: :class:`Eo`
-
-        """
         cdef cEo *parent = NULL
         parent = <cEo *>eo_do_ret(self.obj, parent, eo_parent_get())
         return object_from_instance(parent)
