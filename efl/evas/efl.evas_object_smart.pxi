@@ -21,7 +21,7 @@ from efl.eo cimport Eo, EoIterator
 
 from cpython cimport Py_INCREF, Py_DECREF, PyObject_Call, \
     PyMem_Malloc, PyMem_Free
-from libc.stdlib cimport malloc
+from libc.stdlib cimport malloc, calloc
 from libc.string cimport strdup
 
 #cdef object _smart_classes
@@ -53,7 +53,7 @@ cdef Evas_Smart_Cb_Description *_descriptions_to_array(descs):
         return NULL
 
     # allocate arr_len + 1 so it's NULL terminated
-    arr = <Evas_Smart_Cb_Description *>malloc(arr_len + 1 * sizeof(Evas_Smart_Cb_Description))
+    arr = <Evas_Smart_Cb_Description *>calloc(arr_len + 1, sizeof(Evas_Smart_Cb_Description))
 
     for i, desc in enumerate(descs):
         arr[i] = desc.desc[0]
