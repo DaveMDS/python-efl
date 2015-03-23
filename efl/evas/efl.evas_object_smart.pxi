@@ -420,11 +420,13 @@ cdef void _smart_callback(void *data, Evas_Object *o, void *event_info) with gil
         if event_info == NULL:
             try:
                 tmp_args = [spec.obj]
+                if spec.event_conv != NULL:
+                    tmp_args.append(None)
                 tmp_args.extend(spec.args)
                 PyObject_Call(spec.func, tuple(tmp_args), spec.kargs)
             except Exception:
                 traceback.print_exc()
-        elif spec.event_conv == NULL:
+        elif event_info != NULL and spec.event_conv == NULL:
             EINA_LOG_DOM_WARN(
                 PY_EFL_EVAS_LOG_DOMAIN,
                 'event_info for event "%s" is not NULL and there is no event_conv!',
