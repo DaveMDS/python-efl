@@ -121,6 +121,28 @@ from object_item cimport _object_item_to_python, _object_item_list_to_python, \
 
 from efl.utils.deprecated cimport DEPRECATED
 
+import traceback
+
+cdef object _cb_object_item_conv(void *addr):
+    return _object_item_to_python(<Elm_Object_Item *>addr)
+
+cdef Eina_Bool py_elm_naviframe_item_pop_cb(void *data, Elm_Object_Item *it):
+    cdef:
+        ObjectItem item = _object_item_to_python(it)
+        object func
+        tuple args
+        dict kwargs
+        bint ret
+
+    try:
+        func, args, kwargs = item.pop_cb_spec
+        ret = func(*args, **kwargs)
+    except Exception:
+        traceback.print_exc()
+
+    return ret
+
+
 cdef class NaviframeItem(ObjectItem):
     """
 
@@ -133,6 +155,7 @@ cdef class NaviframeItem(ObjectItem):
         Evas_Object *prev_btn
         Evas_Object *next_btn
         Evas_Object *item_content
+        tuple pop_cb_spec
 
     def __cinit__(self):
         self.prev_btn = NULL
@@ -381,30 +404,30 @@ cdef class NaviframeItem(ObjectItem):
             elm_naviframe_item_title_enabled_set(self.item, enabled, transition)
 
     def title_enabled_set(self, enabled, transition):
-        """title_enabled_set(self, enabled, transition)
-
-        Enable/Disable the title area with transition effect.
-
-        :param enabled: if `True`, title area will be visible, hidden otherwise.
-        :type enabled: bool
-        :param transition: if `True`, transition effect of the title will be visible.
-        :type transition: bool
-
-        .. versionadded:: 1.9
-
-        """
         elm_naviframe_item_title_enabled_set(self.item, enabled, transition)
 
     def title_enabled_get(self):
-        """
-
-        :return: `True` if the title is visible.
-        :rtype: bool
-
-        .. versionadded:: 1.9
-
-        """
         return bool(elm_naviframe_item_title_enabled_get(self.item))
+
+    def pop_cb_set(self, func, *args, **kwargs):
+        """Set a function to be called when the item is going to be popped.
+
+        :param func: the callback function.
+
+        .. warning::
+
+            Don't set "clicked" callback to the prev button additionally if the
+            function does an exact same logic with this ``func``. When hardware
+            back key is pressed then both callbacks will be called.
+
+        .. versionadded:: 1.14
+
+        """
+        if not callable(func):
+            raise ValueError("func must be callable!")
+
+        self.pop_cb_spec = (func, args, kwargs)
+        elm_naviframe_item_pop_cb_set(self.item, py_elm_naviframe_item_pop_cb, NULL)
 
 
 cdef class Naviframe(LayoutClass):
@@ -572,24 +595,24 @@ cdef class Naviframe(LayoutClass):
 
     def callback_transition_finished_add(self, func, *args, **kwargs):
         """When the transition is finished in changing the item."""
-        self._callback_add("transition,finished", func, args, kwargs)
+        self._callback_add_full("transition,finished", _cb_object_item_conv, func, args, kwargs)
 
     def callback_transition_finished_del(self, func):
-        self._callback_del("transition,finished", func)
+        self._callback_del_full("transition,finished", _cb_object_item_conv, func)
 
     def callback_title_transition_finished_add(self, func, *args, **kwargs):
         """When the title transition is finished."""
-        self._callback_add("title,transition,finished", func, args, kwargs)
+        self._callback_add_full("title,transition,finished", _cb_object_item_conv, func, args, kwargs)
 
     def callback_title_transition_finished_del(self, func):
-        self._callback_del("title,transition,finished", func)
+        self._callback_del_full("title,transition,finished", _cb_object_item_conv, func)
 
     def callback_title_clicked_add(self, func, *args, **kwargs):
         """User clicked title area."""
-        self._callback_add("title,clicked", func, args, kwargs)
+        self._callback_add_full("title,clicked", _cb_object_item_conv, func, args, kwargs)
 
     def callback_title_clicked_del(self, func):
-        self._callback_del("title,clicked", func)
+        self._callback_del_full("title,clicked", _cb_object_item_conv, func)
 
     def callback_focused_add(self, func, *args, **kwargs):
         """When the naviframe has received focus.

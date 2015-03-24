@@ -2,6 +2,8 @@ from efl.evas cimport Evas_Object, Eina_Bool, Eina_List
 from object_item cimport Elm_Object_Item
 
 cdef extern from "Elementary.h":
+    ctypedef Eina_Bool (*Elm_Naviframe_Item_Pop_Cb)(void *data, Elm_Object_Item *it)
+
     Evas_Object             *elm_naviframe_add(Evas_Object *parent)
     Elm_Object_Item         *elm_naviframe_item_push(Evas_Object *obj, const char *title_label, Evas_Object *prev_btn, Evas_Object *next_btn, Evas_Object *content, const char *item_style)
     Elm_Object_Item         *elm_naviframe_item_insert_before(Evas_Object *obj, Elm_Object_Item *before, const char *title_label, Evas_Object *prev_btn, Evas_Object *next_btn, Evas_Object *content, const char *item_style)
@@ -26,3 +28,4 @@ cdef extern from "Elementary.h":
     Eina_Bool                elm_naviframe_event_enabled_get(const Evas_Object *obj)
     Elm_Object_Item         *elm_naviframe_item_simple_push(Evas_Object *obj, Evas_Object *content)
     void                     elm_naviframe_item_simple_promote(Evas_Object *obj, Evas_Object *content)
+    void                     elm_naviframe_item_pop_cb_set(Elm_Object_Item *it, Elm_Naviframe_Item_Pop_Cb func, void *data)
