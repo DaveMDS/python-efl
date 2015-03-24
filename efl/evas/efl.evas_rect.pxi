@@ -19,7 +19,7 @@ from efl.utils.deprecated cimport DEPRECATED
 cimport cython
 
 
-cdef int _spans_intersect(int c1, int l1, int c2, int l2):
+cdef inline int _spans_intersect(int c1, int l1, int c2, int l2) nogil:
     return not (((c2 + l2) <= c1) or (c2 >= (c1 + l1)))
 
 
