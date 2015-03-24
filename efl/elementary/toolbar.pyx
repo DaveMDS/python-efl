@@ -1128,17 +1128,17 @@ cdef class Toolbar(LayoutClass):
 
     def callback_clicked_add(self, func, *args, **kwargs):
         """When the user clicks on a toolbar item and becomes selected."""
-        self._callback_add("clicked", func, args, kwargs)
+        self._callback_add_full("clicked", _cb_object_item_conv, func, args, kwargs)
 
     def callback_clicked_del(self, func):
-        self._callback_del("clicked", func)
+        self._callback_del_full("clicked", _cb_object_item_conv, func)
 
     def callback_longpressed_add(self, func, *args, **kwargs):
         """When the toolbar is pressed for a certain amount of time."""
-        self._callback_add("longpressed", func, args, kwargs)
+        self._callback_add_full("longpressed", _cb_object_item_conv, func, args, kwargs)
 
     def callback_longpressed_del(self, func):
-        self._callback_del("longpressed", func)
+        self._callback_del_full("longpressed", _cb_object_item_conv, func)
 
     def callback_language_changed_add(self, func, *args, **kwargs):
         """When the program language changes."""
