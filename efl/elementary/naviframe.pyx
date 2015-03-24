@@ -128,7 +128,7 @@ cdef object _cb_object_item_conv(void *addr):
 
 cdef Eina_Bool py_elm_naviframe_item_pop_cb(void *data, Elm_Object_Item *it):
     cdef:
-        ObjectItem item = _object_item_to_python(it)
+        NaviframeItem item = _object_item_to_python(it)
         object func
         tuple args
         dict kwargs
@@ -136,7 +136,7 @@ cdef Eina_Bool py_elm_naviframe_item_pop_cb(void *data, Elm_Object_Item *it):
 
     try:
         func, args, kwargs = item.pop_cb_spec
-        ret = func(*args, **kwargs)
+        ret = func(item, *args, **kwargs)
     except Exception:
         traceback.print_exc()
 
@@ -192,12 +192,9 @@ cdef class NaviframeItem(ObjectItem):
         if isinstance(title_label, unicode): title_label = PyUnicode_AsUTF8String(title_label)
         self.label = title_label
 
-        if prev_btn is not None:
-            self.prev_btn = prev_btn.obj
-        if next_btn is not None:
-            self.next_btn = next_btn.obj
-        if content is not None:
-            self.item_content = content.obj
+        self.prev_btn = prev_btn.obj if prev_btn is not None else NULL
+        self.next_btn = next_btn.obj if next_btn is not None else NULL
+        self.item_content = content.obj if content is not None else NULL
 
         self.args = args
         self.kwargs = kwargs
