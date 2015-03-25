@@ -330,15 +330,15 @@ tt {
     padding: 1px;
 }
 
-tt.descname, tt.descclassname, tt.xref {
+.descname, .descclassname, .xref {
     border: 0;
 }
 
-tt.descname {
+.descname {
     color: rgb(200,200,255);
 }
 
-tt.descclassname {
+.descclassname {
     color: rgb(160,160,255);
 }
 
