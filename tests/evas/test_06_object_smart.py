@@ -50,7 +50,7 @@ class SmartObjectTest(unittest.TestCase):
 
     def testCallbackSimple(self):
         self.expected_cbs = 2
-        def _event1_cb(obj):
+        def _event1_cb(obj, event_info):
             self.expected_cbs -= 1
         self.obj.callback_add("event1", _event1_cb)
         self.obj.move(1, 1) # should fire "event1"
@@ -60,7 +60,7 @@ class SmartObjectTest(unittest.TestCase):
         self.assertEqual(self.expected_cbs, 0)
 
     def testCallbackArgs(self):
-        def _event1_cb(obj, arg1, arg2, arg3, mykarg2, mykarg1):
+        def _event1_cb(obj, event_info, arg1, arg2, arg3, mykarg2, mykarg1):
             self.assertEqual(arg1, 11)
             self.assertEqual(arg2, 22)
             self.assertEqual(arg3, "arg3")
@@ -72,9 +72,9 @@ class SmartObjectTest(unittest.TestCase):
         self.obj.move(0, 0)
 
     def testCallbackMulti(self):
-        def _event1_cb1(obj):
+        def _event1_cb1(obj, event_info):
             self.expected_cbs += 1
-        def _event1_cb2(obj):
+        def _event1_cb2(obj, event_info):
             self.expected_cbs += 10
 
         self.expected_cbs = 0
@@ -98,7 +98,7 @@ class SmartObjectTest(unittest.TestCase):
         self.assertEqual(self.expected_cbs, 0)
 
     def testCallbackLots(self):
-        def _event1_cb(obj):
+        def _event1_cb(obj, event_info):
             self.expected_cbs -= 1
 
         self.expected_cbs = 20000
@@ -113,7 +113,7 @@ class SmartObjectTest(unittest.TestCase):
         self.assertEqual(self.expected_cbs, 0)
 
     def testCallbackLots2(self):
-        def _event1_cb(obj):
+        def _event1_cb(obj, event_info):
             self.expected_cbs -= 1
 
         self.expected_cbs = 10000
@@ -128,20 +128,20 @@ class SmartObjectTest(unittest.TestCase):
         self.assertEqual(self.expected_cbs, 0)
 
     def testCallbackWrongDel1(self):
-        def _event1_cb(obj):
+        def _event1_cb(obj, event_info):
             pass
         self.assertRaises(ValueError, self.obj.callback_del, "event1", _event1_cb)
 
     def testCallbackWrongDel2(self):
-        def _event1_cb(obj):
+        def _event1_cb(obj, event_info):
             pass
         self.obj.callback_add("event1", _event1_cb)
         self.obj.callback_add("event1", _event1_cb)
         self.obj.callback_del("event1", _event1_cb)
         self.obj.callback_del("event1", _event1_cb)
         self.assertRaises(ValueError, self.obj.callback_del, "event1", _event1_cb)
-        
-        
+
+
 if __name__ == '__main__':
     unittest.main(verbosity=2)
     evas.shutdown()
