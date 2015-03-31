@@ -769,7 +769,19 @@ cdef class SmartObject(Object):
         return self.smart
 
     def move_children_relative(self, int dx, int dy):
-        """Move all children relatively."""
+        """Moves all children objects relative to a given offset.
+
+        This will make each of object's children to move, from where
+        they before, with those delta values (offsets) on both directions.
+
+        .. note:: This is most useful on custom :func:`Smart.move` functions.
+
+        .. note:: Clipped smart objects already make use of this function on
+            their :func:`Smart.move` function definition.
+
+        :param dx: horizontal offset (delta).
+        :param dy: vertical offset (delta).
+        """
         evas_object_smart_move_children_relative(self.obj, dx, dy)
 
     def changed(self):
