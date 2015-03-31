@@ -9,7 +9,6 @@ BUGS
     - Multibuttonentry.format_function_set()
     - Multibuttonentry.filter_append()
     - Multibuttonentry.filterprepend()
-* Evas: SmartObject callbacks broken when object is deleted
 
 Failing unit tests
 ------------------
@@ -23,8 +22,7 @@ TODO
   http://www.freedesktop.org/wiki/Software/DBusBindings
   (requires fd.org shell account?)
 * Review the internal functions and name them consistently
-* Evas: SmartObject needs testing, work. Make it inheritable by extension
-  classes?
+* Evas: SmartObject needs testing
 * Improve ethumb
 * edje: complete the unit tests
 * Initial Evas GL support (for Elm)
@@ -36,11 +34,12 @@ Elm
 * Drag-n-Drop
 * Automate compilation of the example edje files.
 * Add more examples
-* Prefs
+* Prefs (only supports simple types, not so great for us)
 * GLView
 * Unit tests
 * Images missing in the documentation:
    - datetime
+   - systray
    - video
    - web
    - window ?
