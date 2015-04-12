@@ -243,6 +243,19 @@ cdef extern from "Evas.h":
     ctypedef enum Evas_Image_Animated_Loop_Hint:
         pass
 
+    cpdef enum Evas_Image_Orient:
+        EVAS_IMAGE_ORIENT_NONE
+        EVAS_IMAGE_ORIENT_0
+        EVAS_IMAGE_ORIENT_90
+        EVAS_IMAGE_ORIENT_180
+        EVAS_IMAGE_ORIENT_270
+        EVAS_IMAGE_FLIP_HORIZONTAL
+        EVAS_IMAGE_FLIP_VERTICAL
+        EVAS_IMAGE_FLIP_TRANSPOSE
+        EVAS_IMAGE_FLIP_TRANSVERSE
+    ctypedef enum Evas_Image_Orient:
+        pass
+
     cpdef enum Evas_Engine_Render_Mode:
         EVAS_RENDER_MODE_BLOCKING
         EVAS_RENDER_MODE_NONBLOCKING
@@ -910,7 +923,8 @@ cdef extern from "Evas.h":
     int                 evas_object_image_animated_loop_count_get(const Evas_Object *obj)
     double              evas_object_image_animated_frame_duration_get(const Evas_Object *obj, int start_frame, int fram_num)
     void                evas_object_image_animated_frame_set(Evas_Object *obj, int frame_num)
-
+    Evas_Image_Orient   evas_object_image_orient_get(Evas_Object *obj)
+    void                evas_object_image_orient_set(Evas_Object *obj, Evas_Image_Orient orient)
 
     ####################################################################
     # Polygon Object

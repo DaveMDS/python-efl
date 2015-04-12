@@ -668,6 +668,48 @@ Evas_Image_Animated_Loop_Hint
     Pingpong
 
 
+.. _Evas_Image_Orient:
+
+Evas_Image_Orient
+-------------------------------------
+
+.. data:: EVAS_IMAGE_ORIENT_NONE
+
+    No orientation change
+
+.. data:: EVAS_IMAGE_ORIENT_0
+
+    No orientation change
+
+.. data:: EVAS_IMAGE_ORIENT_90
+
+    Orient 90 degrees clockwise
+
+.. data:: EVAS_IMAGE_ORIENT_180
+
+    Orient 180 degrees clockwise
+
+.. data:: EVAS_IMAGE_ORIENT_270
+
+    Rotate 90 degrees counter-clockwise (i.e. 270 degrees clockwise)
+
+.. data:: EVAS_IMAGE_FLIP_HORIZONTAL
+
+    Flip image horizontally
+
+.. data:: EVAS_IMAGE_FLIP_VERTICAL
+
+    Flip image vertically
+
+.. data:: EVAS_IMAGE_FLIP_TRANSVERSE
+
+    Flip image along the y = (width - x) line (bottom-left to top-right)
+
+.. data:: EVAS_IMAGE_ORIENT
+
+    Flip image along the y = x line (top-left to bottom-right)
+
+
 .. _Evas_Engine_Render_Mode:
 
 Evas_Engine_Render_Mode

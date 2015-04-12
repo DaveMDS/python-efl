@@ -1,9 +1,14 @@
 #!/usr/bin/env python
 # encoding: utf-8
 
-from efl.evas import Rectangle, Line, Text, Polygon
+import os
+from efl.evas import Rectangle, Line, Text, Polygon, FilledImage, \
+    EVAS_IMAGE_ORIENT_180
 from efl import elementary
 from efl.elementary.window import StandardWindow
+
+img_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), "images")
+ic_file = os.path.join(img_path, "logo.png")
 
 def events_cb1(rect, event_name):
     print(event_name + " No data for event")
@@ -32,6 +37,10 @@ def core_evas_objects_clicked(obj, item=None):
     poly.point_add(100,120)
     poly.point_add(20,30)
     poly.show()
+
+    image = FilledImage(win.evas, file=ic_file, size=(50,70), pos=(120,70))
+    image.orient = EVAS_IMAGE_ORIENT_180
+    image.show()
 
     win.resize(320, 320)
     win.show()

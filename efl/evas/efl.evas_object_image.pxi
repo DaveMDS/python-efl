@@ -903,6 +903,27 @@ cdef class Image(Object):
     def load_orientation_get(self):
         return bool(evas_object_image_load_orientation_get(self.obj))
 
+    property orient:
+        """The image orientation.
+
+        This allows to rotate or flip the image.
+
+        :type: Evas_Image_Orient
+
+        .. versionadded:: 1.14
+        
+        """
+        def __set__(self, value):
+            evas_object_image_orient_set(self.obj, <Evas_Image_Orient>value)
+        def __get__(self):
+            return evas_object_image_orient_get(self.obj)
+
+    def orient_set(self, orient):
+        evas_object_image_orient_set(self.obj, <Evas_Image_Orient>orient)
+
+    def orient_get(self):
+        return evas_object_image_orient_get(self.obj)
+
     property colorspace:
         """The colorspace of image data (pixels).
 
