@@ -1,7 +1,10 @@
 #!/usr/bin/env python
 # encoding: utf-8
 
-from efl.evas import EVAS_HINT_EXPAND, EVAS_HINT_FILL, EXPAND_BOTH, FILL_BOTH
+from efl.evas import EVAS_HINT_EXPAND, EVAS_HINT_FILL, EXPAND_BOTH, FILL_BOTH, \
+    EVAS_IMAGE_ORIENT_0, EVAS_IMAGE_ORIENT_90, EVAS_IMAGE_ORIENT_180, \
+    EVAS_IMAGE_ORIENT_270, EVAS_IMAGE_FLIP_HORIZONTAL, EVAS_IMAGE_FLIP_VERTICAL, \
+    EVAS_IMAGE_FLIP_TRANSPOSE, EVAS_IMAGE_FLIP_TRANSVERSE
 from efl import elementary
 from efl.elementary.window import StandardWindow
 from efl.elementary.box import Box
@@ -48,6 +51,10 @@ def _cb_pc_download_progress(im, progress, pb):
 def _cb_pc_download_error(im, info, pb):
     print("CB DOWNLOAD ERROR [status %s, open_error: %s]" % (info.status, info.open_error))
     pb.hide()
+
+
+def _cb_orient(btn, pc, orient):
+    pc.image_orient = orient
 
 
 def photocam_clicked(obj):
@@ -117,6 +124,28 @@ def photocam_clicked(obj):
     bt.callback_clicked_add(lambda b: pc.zoom_mode_set(ELM_PHOTOCAM_ZOOM_MODE_AUTO_FILL))
     tb.pack(bt, 2, 2, 1, 1)
     bt.show()
+
+    # Orient buttons
+    box = Box(win, size_hint_weight=EXPAND_BOTH, size_hint_align=FILL_BOTH)
+    tb.pack(box, 0, 1, 1, 1)
+    box.show()
+
+    orients = [
+        (EVAS_IMAGE_ORIENT_0, "Orient 0"),
+        (EVAS_IMAGE_ORIENT_90, "Orient 90"),
+        (EVAS_IMAGE_ORIENT_180, "Orient 180"),
+        (EVAS_IMAGE_ORIENT_270, "Orient 270"),
+        (EVAS_IMAGE_FLIP_HORIZONTAL, "Flip Horiz"),
+        (EVAS_IMAGE_FLIP_VERTICAL, "Flip Vert"),
+        (EVAS_IMAGE_FLIP_TRANSPOSE, "Transpose"),
+        (EVAS_IMAGE_FLIP_TRANSVERSE, "Transverse"),
+    ]
+
+    for val, label in orients:
+        bt = Button(win, text=label, size_hint_align=(0.1, 0.5))
+        bt.callback_clicked_add(_cb_orient, pc, val)
+        box.pack_end(bt)
+        bt.show()
 
     # show the win
     win.show()

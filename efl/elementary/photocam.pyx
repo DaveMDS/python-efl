@@ -354,6 +354,24 @@ cdef class Photocam(Object):
         """
         elm_photocam_image_region_bring_in(self.obj, x, y, w, h)
 
+    property image_orient:
+        """This allows to rotate or flip the photocam image.
+
+        :type: :ref:`Evas_Image_Orient`
+
+        .. versionadded:: 1.14
+
+        """
+        def __set__(self, orient):
+            elm_photocam_image_orient_set(self.obj, orient)
+        def __get__(self):
+            return elm_photocam_image_orient_get(self.obj)
+
+    def image_orient_set(self, orient):
+        elm_photocam_image_orient_set(self.obj, orient)
+    def image_orient_get(self):
+        return elm_photocam_image_orient_get(self.obj)
+
     property paused:
         """Set the paused state for photocam
 

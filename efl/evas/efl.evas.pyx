@@ -701,11 +701,11 @@ Evas_Image_Orient
 
     Flip image vertically
 
-.. data:: EVAS_IMAGE_FLIP_TRANSVERSE
+.. data:: EVAS_IMAGE_FLIP_TRANSPOSE
 
     Flip image along the y = (width - x) line (bottom-left to top-right)
 
-.. data:: EVAS_IMAGE_ORIENT
+.. data:: EVAS_IMAGE_FLIP_TRANSVERSE
 
     Flip image along the y = x line (top-left to bottom-right)
 

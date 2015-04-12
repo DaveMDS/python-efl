@@ -1,4 +1,4 @@
-from efl.evas cimport Eina_Bool, Evas_Object, Evas_Load_Error
+from efl.evas cimport Eina_Bool, Evas_Object, Evas_Load_Error, Evas_Image_Orient
 
 
 cdef extern from "Elementary.h":
@@ -32,6 +32,8 @@ cdef extern from "Elementary.h":
     void                     elm_photocam_image_region_get(const Evas_Object *obj, int *x, int *y, int *w, int *h)
     void                     elm_photocam_image_region_show(Evas_Object *obj, int x, int y, int w, int h)
     void                     elm_photocam_image_region_bring_in(Evas_Object *obj, int x, int y, int w, int h)
+    Evas_Image_Orient        elm_photocam_image_orient_get(const Evas_Object *obj)
+    void                     elm_photocam_image_orient_set(const Evas_Object *obj, Evas_Image_Orient orient)
     void                     elm_photocam_paused_set(Evas_Object *obj, Eina_Bool paused)
     Eina_Bool                elm_photocam_paused_get(const Evas_Object *obj)
     Evas_Object             *elm_photocam_internal_image_get(const Evas_Object *obj)
