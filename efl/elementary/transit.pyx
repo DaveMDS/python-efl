@@ -618,6 +618,16 @@ cdef class Transit(object):
         """
         elm_transit_go(self.obj)
 
+    def go_in(self, seconds):
+        """Starts the transition in given seconds.
+
+        :param float seconds: The interval value in seconds
+
+        .. versionadded:: 1.14
+
+        """
+        elm_transit_go_in(self.obj, seconds)
+
     property paused:
         """Pause/Resume the transition.
 

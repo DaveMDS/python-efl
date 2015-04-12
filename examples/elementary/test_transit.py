@@ -69,8 +69,8 @@ def transit_wipe(obj):
     trans.effect_wipe_add(ELM_TRANSIT_EFFECT_WIPE_TYPE_HIDE,
                           ELM_TRANSIT_EFFECT_WIPE_DIR_RIGHT)
 
-    trans.duration = 5.0
-    trans.go()
+    trans.duration = 2.0
+    trans.go_in(3.0)
 
 def transit_del_cb(transit, *args, **kwargs):
     obj = args[0]
@@ -182,7 +182,7 @@ def transit_clicked(obj, item=None):
     bt.show()
     bt.callback_clicked_add(transit_rotation_color)
 
-    bt = Button(win, text="Wipe Effect", size_hint_weight=EXPAND_BOTH)
+    bt = Button(win, text="Wipe Effect (in 3 sec)", size_hint_weight=EXPAND_BOTH)
     bx.pack_end(bt)
     bt.show()
     bt.callback_clicked_add(transit_wipe)
