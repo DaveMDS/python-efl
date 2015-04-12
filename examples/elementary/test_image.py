@@ -3,14 +3,15 @@
 
 import os
 
-from efl.evas import EVAS_HINT_EXPAND, EVAS_HINT_FILL, EXPAND_BOTH, FILL_BOTH
+from efl.evas import EVAS_HINT_EXPAND, EVAS_HINT_FILL, EXPAND_BOTH, FILL_BOTH, \
+    EVAS_IMAGE_ORIENT_0,EVAS_IMAGE_ORIENT_90, EVAS_IMAGE_ORIENT_180, \
+    EVAS_IMAGE_ORIENT_270, EVAS_IMAGE_FLIP_HORIZONTAL, EVAS_IMAGE_FLIP_VERTICAL, \
+    EVAS_IMAGE_FLIP_TRANSPOSE, EVAS_IMAGE_FLIP_TRANSVERSE
 from efl import elementary
 from efl.elementary.window import StandardWindow
 from efl.elementary.box import Box, ELM_BOX_LAYOUT_FLOW_HORIZONTAL
 from efl.elementary.button import Button
-from efl.elementary.image import Image, ELM_IMAGE_ROTATE_90, \
-    ELM_IMAGE_ROTATE_180, ELM_IMAGE_ROTATE_270, ELM_IMAGE_FLIP_HORIZONTAL, \
-    ELM_IMAGE_FLIP_VERTICAL, ELM_IMAGE_FLIP_TRANSPOSE, ELM_IMAGE_FLIP_TRANSVERSE
+from efl.elementary.image import Image
 from efl.elementary.progressbar import Progressbar
 from efl.elementary.separator import Separator
 from efl.elementary.label import Label
@@ -22,13 +23,14 @@ script_path = os.path.dirname(os.path.abspath(__file__))
 img_path = os.path.join(script_path, "images")
 
 orients = [
-    ("Rotate 90", ELM_IMAGE_ROTATE_90),
-    ("Rotate 180", ELM_IMAGE_ROTATE_180),
-    ("Rotate 270", ELM_IMAGE_ROTATE_270),
-    ("Flip Horizontal", ELM_IMAGE_FLIP_HORIZONTAL),
-    ("Flip Vertical", ELM_IMAGE_FLIP_VERTICAL),
-    ("Flip Transpose", ELM_IMAGE_FLIP_TRANSPOSE),
-    ("Flip Tranverse", ELM_IMAGE_FLIP_TRANSVERSE),
+    ("Orient 0", EVAS_IMAGE_ORIENT_0),
+    ("Orient 90", EVAS_IMAGE_ORIENT_90),
+    ("Orient 180", EVAS_IMAGE_ORIENT_180),
+    ("Orient 270", EVAS_IMAGE_ORIENT_270),
+    ("Flip Horizontal", EVAS_IMAGE_FLIP_HORIZONTAL),
+    ("Flip Vertical", EVAS_IMAGE_FLIP_VERTICAL),
+    ("Flip Transpose", EVAS_IMAGE_FLIP_TRANSPOSE),
+    ("Flip Tranverse", EVAS_IMAGE_FLIP_TRANSVERSE),
 ]
 
 remote_url = "http://31.media.tumblr.com/29f1ecd4f98aaff73fb21f479b450d4c/tumblr_mqsxdciQmB1rrju89o1_1280.jpg"

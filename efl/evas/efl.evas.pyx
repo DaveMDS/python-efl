@@ -673,6 +673,8 @@ Evas_Image_Animated_Loop_Hint
 Evas_Image_Orient
 -------------------------------------
 
+.. versionadded:: 1.14
+
 .. data:: EVAS_IMAGE_ORIENT_NONE
 
     No orientation change
