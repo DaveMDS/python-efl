@@ -1117,7 +1117,6 @@ cdef class Configuration(object):
         def __set__(self, bint disabled):
             elm_config_item_select_on_focus_disabled_set(disabled)
 
-
     property focus_autoscroll_mode:
         """Focus Autoscroll Mode
 
@@ -1135,7 +1134,40 @@ cdef class Configuration(object):
         def __set__(self, Elm_Focus_Autoscroll_Mode mode):
             elm_config_focus_autoscroll_mode_set(mode)
 
+    property window_auto_focus_enable:
+        """The auto focus enable flag
 
+        This determines if elementary will show a focus box indicating the
+        focused widget automatically if keyboard controls like "Tab" are
+        used to switch focus between widgets. Mouse or touch control will
+        hide this auto shown focus, unless focus display has been explicitly
+        forced on for the window.
+
+        :type: bool
+
+        .. versionadded:: 1.14
+
+        """
+        def __set__(self, bint enable):
+            elm_config_window_auto_focus_enable_set(enable)
+        def __get__(self):
+            return bool(elm_config_window_auto_focus_enable_get())
+
+    property window_auto_focus_animate:
+        """The auto focus animate flag
+
+        If auto focus is enabled then this will determine if the focus
+        display will be animated or not.
+
+        :type: bool
+
+        .. versionadded:: 1.14
+
+        """
+        def __set__(self, bint enable):
+            elm_config_window_auto_focus_animate_set(enable)
+        def __get__(self):
+            return bool(elm_config_window_auto_focus_animate_get())
 
     property mirrored:
         """Get the system mirrored mode. This determines the default
