@@ -19,6 +19,9 @@ eolog.setLevel(logging.INFO)
 evaslog = logging.getLogger("efl.evas")
 evaslog.setLevel(logging.INFO)
 
+elmlog = logging.getLogger("efl.elementary")
+elmlog.setLevel(logging.INFO)
+
 from efl.evas import EVAS_HINT_EXPAND, EVAS_HINT_FILL, EXPAND_BOTH, FILL_BOTH
 from efl import elementary
 from efl.elementary.window import StandardWindow

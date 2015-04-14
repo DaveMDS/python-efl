@@ -308,6 +308,12 @@ def init():
     This function initializes Elementary and increments a counter of the number
     of calls to it. It returns the new counter's value.
 
+    .. versionchanged:: 1.14
+
+        The Python module calls this function when it is imported so you
+        should no longer have any need to call this manually. Calling it does
+        not carry any penalty though.
+
     """
     EINA_LOG_DOM_INFO(PY_EFL_ELM_LOG_DOMAIN,
         "Initializing efl.elementary", NULL)
@@ -345,6 +351,12 @@ def shutdown():
         shutdown() will iterate main loop until all ecore_evas are freed. There
         is a possibility to call your ecore callbacks(timer, animator, event,
         job, and etc.) in shutdown()
+
+    .. versionchanged:: 1.14
+
+        The Python module calls this function when it is exiting so you
+        should no longer have any need to call this manually. Calling it does
+        not carry any penalty though.
 
     """
     EINA_LOG_DOM_INFO(PY_EFL_ELM_LOG_DOMAIN,
