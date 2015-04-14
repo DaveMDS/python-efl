@@ -88,6 +88,9 @@ cdef class Video(LayoutClass):
         .. versionchanged:: 1.8
             Raises RuntimeError if setting the file/uri fails
 
+        .. versionchanged:: 1.14
+            Property is now also readable
+
         """
         def __set__(self, filename):
             if isinstance(filename, unicode): filename = PyUnicode_AsUTF8String(filename)
@@ -95,12 +98,20 @@ cdef class Video(LayoutClass):
                 <const char *>filename if filename is not None else NULL):
                     raise RuntimeError("Could not set file.")
 
+        def __get__(self):
+            cdef:
+                const char *file
+            elm_video_file_get(self.obj, &file)
+            return _ctouni(file)
+
     # NOTE: clash with layout.file_set
     def file_set(self, filename, group = None):
         if isinstance(filename, unicode): filename = PyUnicode_AsUTF8String(filename)
         if not elm_video_file_set(self.obj,
             <const char *>filename if filename is not None else NULL):
                 raise RuntimeError("Could not set file.")
+    def file_get(self):
+        return self.file
 
     property emotion:
         """The underlying Emotion object.

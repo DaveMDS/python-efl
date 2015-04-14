@@ -193,6 +193,9 @@ cdef class LayoutClass(Object):
         .. versionchanged:: 1.8
             Raises RuntimeError if setting the file fails
 
+        .. versionchanged:: 1.14
+            Property is now also readable
+
         """
         def __set__(self, value):
             filename, group = value
@@ -203,6 +206,13 @@ cdef class LayoutClass(Object):
                 <const char *>group if group is not None else NULL):
                     raise RuntimeError("Could not set file.")
 
+        def __get__(self):
+            cdef:
+                const char *file
+                const char *group
+            elm_layout_file_get(self.obj, &file, &group)
+            return (_ctouni(file), _ctouni(group)) 
+
     def file_set(self, filename, group = None):
         if isinstance(filename, unicode): filename = PyUnicode_AsUTF8String(filename)
         if isinstance(group, unicode): group = PyUnicode_AsUTF8String(group)
@@ -210,6 +220,8 @@ cdef class LayoutClass(Object):
             <const char *>filename if filename is not None else NULL,
             <const char *>group if group is not None else NULL):
                 raise RuntimeError("Could not set file.")
+    def file_get(self):
+        return self.file
 
     def freeze(self):
         """Freezes the Elementary layout object.

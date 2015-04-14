@@ -4,6 +4,7 @@ cdef extern from "Elementary.h":
     Evas_Object             *elm_player_add(Evas_Object *parent)
     Evas_Object             *elm_video_add(Evas_Object *parent)
     Eina_Bool                elm_video_file_set(Evas_Object *video, const char *filename)
+    void                     elm_video_file_get(Evas_Object *video, const char **filename)
     Evas_Object             *elm_video_emotion_get(const Evas_Object *video)
     void                     elm_video_play(Evas_Object *video)
     void                     elm_video_pause(Evas_Object *video)

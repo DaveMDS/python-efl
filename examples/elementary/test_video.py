@@ -17,6 +17,8 @@ def my_bt_open(bt, vfile, video):
     if (vfile and video):
         video.file_set(vfile)
         video.play()
+    print(video.file)
+    print(video.file_get())
 
 def notify_show(video, event, no):
     no.show()

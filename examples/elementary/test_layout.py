@@ -25,6 +25,8 @@ def layout_clicked(obj):
         size_hint_weight=EXPAND_BOTH)
     win.resize_object_add(ly)
     ly.show()
+    print(ly.file)
+    print(ly.file_get())
 
     bt = Button(win, text="Button 1")
     ly.part_content_set("element1", bt)
