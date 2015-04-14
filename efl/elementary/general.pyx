@@ -333,6 +333,7 @@ cdef void py_elm_sys_notify_send_cb(void *data, unsigned int id):
     except Exception:
         traceback.print_exc()
 
+
 cdef class SysNotifyNotificationClosed(Event):
 
     cdef Elm_Sys_Notify_Notification_Closed *obj
@@ -363,6 +364,7 @@ cdef class SysNotifyNotificationClosed(Event):
         """
         def __get__(self):
             return self.obj.reason
+
 
 cdef class SysNotifyActionInvoked(Event):
 
@@ -395,6 +397,104 @@ cdef class SysNotifyActionInvoked(Event):
         def __get__(self):
             return _touni(self.obj.action_key)
 
+
+cdef class EthumbConnect(Event):
+    cdef int _set_obj(self, void *o) except 0:
+        return 1
+
+    def __repr__(self):
+        return "<%s()>" % (self.__class__.__name__,)
+
+_event_mapping_register(ELM_ECORE_EVENT_ETHUMB_CONNECT, EthumbConnect)
+
+def on_ethumb_connect(func, *args, **kwargs):
+    """Use this to set a handler for the ethumb connect event."""
+    return EventHandler(ELM_ECORE_EVENT_ETHUMB_CONNECT, func, *args, **kwargs)
+
+
+cdef class ConfigAllChanged(Event):
+    cdef int _set_obj(self, void *o) except 0:
+        return 1
+
+    def __repr__(self):
+        return "<%s()>" % (self.__class__.__name__,)
+
+_event_mapping_register(ELM_EVENT_CONFIG_ALL_CHANGED, ConfigAllChanged)
+
+def on_config_all_changed(func, *args, **kwargs):
+    """Use this to set a handler for the config all changed event.
+
+    Emitted when the application has reconfigured elementary settings due to an
+    external configuration tool asking it to.
+    """
+    return EventHandler(ELM_EVENT_CONFIG_ALL_CHANGED, func, *args, **kwargs)
+
+
+cdef class PolicyChanged(Event):
+
+    cdef:
+        public unsigned int policy
+        public int new_value
+        public int old_value
+
+    cdef int _set_obj(self, void *o) except 0:
+        cdef Elm_Event_Policy_Changed *obj
+        obj = <Elm_Event_Policy_Changed *>o
+        self.policy = obj.policy
+        self.new_value = obj.new_value
+        self.old_value = obj.old_value
+        return 1
+
+    def __repr__(self):
+        return "<%s(policy=%d, new_value=%d, old_value=%d)>" % (
+            self.__class__.__name__,
+            self.policy, self.new_value, self.old_value)
+
+_event_mapping_register(ELM_EVENT_POLICY_CHANGED, PolicyChanged)
+
+def on_policy_changed(func, *args, **kwargs):
+    """Use this to set a handler for the policy changed event.
+
+    Emitted when any Elementary's policy value is changed."""
+    return EventHandler(ELM_EVENT_POLICY_CHANGED, func, *args, **kwargs)
+
+
+cdef class ProcessBackground(Event):
+    cdef int _set_obj(self, void *o) except 0:
+        return 1
+
+    def __repr__(self):
+        return "<%s()>" % (self.__class__.__name__,)
+
+_event_mapping_register(ELM_EVENT_PROCESS_BACKGROUND, ProcessBackground)
+
+def on_process_background(func, *args, **kwargs):
+    """Use this to set a handler for the process background event.
+
+    Emitted when nothing is visible and the process as a whole should go into a
+    background state.
+    """
+    return EventHandler(ELM_EVENT_PROCESS_BACKGROUND, func, *args, **kwargs)
+
+
+cdef class ProcessForeground(Event):
+    cdef int _set_obj(self, void *o) except 0:
+        return 1
+
+    def __repr__(self):
+        return "<%s()>" % (self.__class__.__name__,)
+
+_event_mapping_register(ELM_EVENT_PROCESS_FOREGROUND, ProcessForeground)
+
+def on_process_background(func, *args, **kwargs):
+    """Use this to set a handler for the process foreground event.
+
+    Emitted when going from nothing being visible to at least one window being
+    visible.
+    """
+    return EventHandler(ELM_EVENT_PROCESS_FOREGROUND, func, *args, **kwargs)
+
+
 if elm_need_sys_notify():
     _event_mapping_register(
         ELM_EVENT_SYS_NOTIFY_NOTIFICATION_CLOSED,
@@ -415,6 +515,7 @@ if elm_need_sys_notify():
         return EventHandler(
             ELM_EVENT_SYS_NOTIFY_NOTIFICATION_CLOSED, func, *args, **kargs
             )
+
 
 cdef class FontProperties(object):
 
@@ -755,3 +856,4 @@ def sys_notify_send(
         <Elm_Sys_Notify_Send_Cb>py_elm_sys_notify_send_cb if cb is not None else NULL,
         <const void *>py_cb_data if cb is not None else NULL
         )
+

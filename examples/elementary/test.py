@@ -38,6 +38,8 @@ elog.setLevel(logging.DEBUG)
 
 items = [
     ("Core Libs", [
+        ("Ecore Events In Elm", "test_core_ecore_events_in_elm",
+         "core_ecore_events_in_elm_clicked"),
         ("Evas Objects", "test_core_evas_objects", "core_evas_objects_clicked"),
         ("Evas Canvas Callbacks", "test_core_evas_canvas_callbacks",
          "core_evas_canvas_callbacks_clicked"),

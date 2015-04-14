@@ -46,6 +46,11 @@ cdef extern from "Elementary.h":
 
     #define
     cpdef enum:
+        ELM_ECORE_EVENT_ETHUMB_CONNECT
+        ELM_EVENT_CONFIG_ALL_CHANGED
+        ELM_EVENT_POLICY_CHANGED
+        ELM_EVENT_PROCESS_BACKGROUND
+        ELM_EVENT_PROCESS_FOREGROUND
         ELM_EVENT_SYS_NOTIFY_NOTIFICATION_CLOSED
         ELM_EVENT_SYS_NOTIFY_ACTION_INVOKED
 
@@ -140,6 +145,12 @@ cdef extern from "Elementary.h":
     ctypedef Evas_Object *  (*Elm_Tooltip_Item_Content_Cb)  (void *data, Evas_Object *obj, Evas_Object *tooltip, void *item)
 
     # General
+    struct _Elm_Event_Policy_Changed:
+        unsigned int policy # the policy identifier
+        int          new_value # value the policy had before the change
+        int          old_value # new value the policy got
+    ctypedef _Elm_Event_Policy_Changed Elm_Event_Policy_Changed
+
     int                     elm_init(int argc, char** argv)
     int                     elm_shutdown()
     void                    elm_run() nogil
