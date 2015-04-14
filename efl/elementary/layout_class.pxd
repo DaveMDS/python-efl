@@ -28,6 +28,7 @@ cdef extern from "Elementary.h":
     Eina_Bool       elm_layout_text_set(Evas_Object *obj, const char *part, const char *text)
     const char *    elm_layout_text_get(const Evas_Object *obj, const char *part)
     Eina_Bool       elm_layout_file_set(Evas_Object *obj, const char *file, const char *group)
+    void            elm_layout_file_get(Evas_Object *obj, const char **file, const char **group)
     int             elm_layout_freeze(Evas_Object *obj)
     int             elm_layout_thaw(Evas_Object *obj)
     Eina_Bool       elm_layout_theme_set(Evas_Object *obj, const char *clas, const char *group, const char *style)
