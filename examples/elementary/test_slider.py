@@ -12,9 +12,15 @@ from efl.elementary.window import StandardWindow
 from efl.elementary.box import Box
 from efl.elementary.button import Button
 from efl.elementary.frame import Frame
+from efl.elementary.label import Label
 from efl.elementary.list import List
 from efl.elementary.icon import Icon
-from efl.elementary.slider import Slider
+from efl.elementary.radio import Radio
+from efl.elementary.slider import Slider, \
+    ELM_SLIDER_INDICATOR_VISIBLE_MODE_DEFAULT, \
+    ELM_SLIDER_INDICATOR_VISIBLE_MODE_ALWAYS, \
+    ELM_SLIDER_INDICATOR_VISIBLE_MODE_ON_FOCUS, \
+    ELM_SLIDER_INDICATOR_VISIBLE_MODE_NONE
 
 
 ALIGN_CENTER = 0.5, 0.5
@@ -77,6 +83,7 @@ def slider_clicked(obj):
     bx.pack_end(sl)
     sl.show()
 
+    # manual step
     step = step_size_calculate(0, 9)
     sl = Slider(bx, unit_format="%1.0f units", indicator_format="%1.0f",
         span_size=120, min_max=(0, 9), text="Manual step", step=step,
@@ -174,9 +181,8 @@ def slider_clicked(obj):
 
     # normal vertical slider
     sl = Slider(bx2, text="Vertical", unit_format="%1.1f units", span_size=60,
-        size_hint_align=FILL_VERT,
-        size_hint_weight=EXPAND_VERT, indicator_show=False,
-        value=0.2, scale=1.0, horizontal=False)
+        size_hint_align=FILL_VERT, size_hint_weight=EXPAND_VERT,
+        value=0.2, scale=1.0, horizontal=False, indicator_format="%.1f")
     sl.callback_changed_add(change_print_cb, sl)
     bx2.pack_end(sl)
     sl.show()
@@ -205,6 +211,38 @@ def slider_clicked(obj):
     bt.callback_clicked_add(bt_m1, sl)
     bt.show()
     bx2.pack_end(bt)
+
+    # box for indicator visible mode
+    bx2 = Box(win,size_hint_weight=EXPAND_HORIZ, horizontal=True)
+    bx.pack_end(bx2)
+    bx2.show()
+
+    lb = Label(win, text="Indicator mode:")
+    bx2.pack_end(lb)
+    lb.show()
+    
+    rd = rdg = Radio(win, text="Default", state_value=ELM_SLIDER_INDICATOR_VISIBLE_MODE_DEFAULT)
+    rd.callback_changed_add(lambda r: sl.indicator_visible_mode_set(ELM_SLIDER_INDICATOR_VISIBLE_MODE_DEFAULT))
+    bx2.pack_end(rd)
+    rd.show()
+
+    rd = Radio(win, text="Always", state_value=ELM_SLIDER_INDICATOR_VISIBLE_MODE_ALWAYS)
+    rd.callback_changed_add(lambda r: sl.indicator_visible_mode_set(ELM_SLIDER_INDICATOR_VISIBLE_MODE_ALWAYS))
+    rd.group_add(rdg)
+    bx2.pack_end(rd)
+    rd.show()
+
+    rd = Radio(win, text="On Focus", state_value=ELM_SLIDER_INDICATOR_VISIBLE_MODE_ON_FOCUS)
+    rd.callback_changed_add(lambda r: sl.indicator_visible_mode_set(ELM_SLIDER_INDICATOR_VISIBLE_MODE_ON_FOCUS))
+    rd.group_add(rdg)
+    bx2.pack_end(rd)
+    rd.show()
+
+    rd = Radio(win, text="None", state_value=ELM_SLIDER_INDICATOR_VISIBLE_MODE_NONE)
+    rd.callback_changed_add(lambda r: sl.indicator_visible_mode_set(ELM_SLIDER_INDICATOR_VISIBLE_MODE_NONE))
+    rd.group_add(rdg)
+    bx2.pack_end(rd)
+    rd.show()
 
 if __name__ == "__main__":
     elementary.init()

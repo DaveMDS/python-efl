@@ -1,6 +1,15 @@
 from efl.evas cimport Eina_Bool, Evas_Object, Evas_Coord
 
 cdef extern from "Elementary.h":
+
+    cpdef enum Elm_Slider_Indicator_Visible_Mode:
+        ELM_SLIDER_INDICATOR_VISIBLE_MODE_DEFAULT
+        ELM_SLIDER_INDICATOR_VISIBLE_MODE_ALWAYS
+        ELM_SLIDER_INDICATOR_VISIBLE_MODE_ON_FOCUS
+        ELM_SLIDER_INDICATOR_VISIBLE_MODE_NONE
+    ctypedef enum Elm_Slider_Indicator_Visible_Mode:
+        pass
+
     Evas_Object *   elm_slider_add(Evas_Object *parent)
     void            elm_slider_span_size_set(Evas_Object *obj, Evas_Coord size)
     Evas_Coord      elm_slider_span_size_get(const Evas_Object *obj)
@@ -20,5 +29,7 @@ cdef extern from "Elementary.h":
     Eina_Bool       elm_slider_inverted_get(const Evas_Object *obj)
     void            elm_slider_indicator_show_set(Evas_Object *obj, Eina_Bool show)
     Eina_Bool       elm_slider_indicator_show_get(const Evas_Object *obj)
+    void            elm_slider_indicator_visible_mode_set(const Evas_Object *obj, Elm_Slider_Indicator_Visible_Mode indicator_visible_mode)
+    Elm_Slider_Indicator_Visible_Mode  elm_slider_indicator_visible_mode_get(const Evas_Object *obj)
     void            elm_slider_step_set(Evas_Object *obj, double step)
     double          elm_slider_step_get(const Evas_Object *obj)

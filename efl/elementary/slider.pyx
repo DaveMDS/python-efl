@@ -375,6 +375,25 @@ cdef class Slider(LayoutClass):
     def indicator_show_get(self):
         return bool(elm_slider_indicator_show_get(self.obj))
 
+
+    property indicator_visible_mode:
+        """The visible mode of indicator
+
+        :type: :ref:`Elm_Slider_Indicator_Visible_Mode`
+
+        .. versionadded:: 1.14
+
+        """
+        def __set__(self, indicator_visible_mode):
+            elm_slider_indicator_visible_mode_set(self.obj, indicator_visible_mode)
+        def __get__(self):
+            return elm_slider_indicator_visible_mode_get(self.obj)
+
+    def indicator_visible_mode_set(self, indicator_visible_mode):
+        elm_slider_indicator_visible_mode_set(self.obj, indicator_visible_mode)
+    def indicator_visible_mode_get(self):
+        return elm_slider_indicator_visible_mode_get(self.obj)
+
     property step:
         """The step by which slider indicator will move.
 
