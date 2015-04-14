@@ -452,7 +452,10 @@ cdef class EthumbConnect(Event):
 _event_mapping_register(ELM_ECORE_EVENT_ETHUMB_CONNECT, EthumbConnect)
 
 def on_ethumb_connect(func, *args, **kwargs):
-    """Use this to set a handler for the ethumb connect event."""
+    """Use this to set a handler for the ethumb connect event.
+
+    .. versionadded:: 1.14
+    """
     return EventHandler(ELM_ECORE_EVENT_ETHUMB_CONNECT, func, *args, **kwargs)
 
 
@@ -470,6 +473,8 @@ def on_config_all_changed(func, *args, **kwargs):
 
     Emitted when the application has reconfigured elementary settings due to an
     external configuration tool asking it to.
+
+    .. versionadded:: 1.14
     """
     return EventHandler(ELM_EVENT_CONFIG_ALL_CHANGED, func, *args, **kwargs)
 
@@ -499,7 +504,10 @@ _event_mapping_register(ELM_EVENT_POLICY_CHANGED, PolicyChanged)
 def on_policy_changed(func, *args, **kwargs):
     """Use this to set a handler for the policy changed event.
 
-    Emitted when any Elementary's policy value is changed."""
+    Emitted when any Elementary's policy value is changed.
+
+    .. versionadded:: 1.14
+    """
     return EventHandler(ELM_EVENT_POLICY_CHANGED, func, *args, **kwargs)
 
 
@@ -517,6 +525,8 @@ def on_process_background(func, *args, **kwargs):
 
     Emitted when nothing is visible and the process as a whole should go into a
     background state.
+
+    .. versionadded:: 1.14
     """
     return EventHandler(ELM_EVENT_PROCESS_BACKGROUND, func, *args, **kwargs)
 
@@ -535,6 +545,8 @@ def on_process_background(func, *args, **kwargs):
 
     Emitted when going from nothing being visible to at least one window being
     visible.
+
+    .. versionadded:: 1.14
     """
     return EventHandler(ELM_EVENT_PROCESS_FOREGROUND, func, *args, **kwargs)
 
