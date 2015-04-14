@@ -55,6 +55,16 @@ cdef extern from "Elementary.h":
         ELM_EVENT_SYS_NOTIFY_ACTION_INVOKED
 
     #enums
+    cpdef enum Elm_Object_Layer:
+        ELM_OBJECT_LAYER_BACKGROUND # where to place backgrounds
+        ELM_OBJECT_LAYER_DEFAULT # Evas_Object default layer (and thus for Elementary)
+        ELM_OBJECT_LAYER_FOCUS # where focus object visualization is
+        ELM_OBJECT_LAYER_TOOLTIP # where to show tooltips
+        ELM_OBJECT_LAYER_CURSOR # where to show cursors
+        ELM_OBJECT_LAYER_LAST # last layer known by Elementary
+    ctypedef enum Elm_Object_Layer:
+        pass
+
     cpdef enum Elm_Policy:
         ELM_POLICY_QUIT
         ELM_POLICY_EXIT

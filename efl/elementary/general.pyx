@@ -52,6 +52,38 @@ Different profiles may have pre-set values for finger sizes.
 Enumerations
 ============
 
+.. _Elm_Object_Layer:
+
+Object layers
+-------------
+
+.. versionadded:: 1.14
+
+.. data:: ELM_OBJECT_LAYER_BACKGROUND
+
+    where to place backgrounds
+
+.. data:: ELM_OBJECT_LAYER_DEFAULT
+
+    Evas_Object default layer (and thus for Elementary)
+
+.. data:: ELM_OBJECT_LAYER_FOCUS
+
+    where focus object visualization is
+
+.. data:: ELM_OBJECT_LAYER_TOOLTIP
+
+    where to show tooltips
+
+.. data:: ELM_OBJECT_LAYER_CURSOR
+
+    where to show cursors
+
+.. data:: ELM_OBJECT_LAYER_LAST
+
+    last layer known by Elementary
+
+
 .. _Elm_Policy:
 
 Policy types
