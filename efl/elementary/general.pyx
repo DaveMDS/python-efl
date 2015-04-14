@@ -262,6 +262,67 @@ from efl.elementary.need cimport elm_need_sys_notify
 
 import sys
 import traceback
+import atexit
+
+
+elm_log = add_logger("efl.elementary")
+cdef int PY_EFL_ELM_LOG_DOMAIN = elm_log.eina_log_domain
+
+def init():
+    """Initialize Elementary
+
+    :return int: The init counter value.
+
+    This function initializes Elementary and increments a counter of the number
+    of calls to it. It returns the new counter's value.
+
+    """
+    EINA_LOG_DOM_INFO(PY_EFL_ELM_LOG_DOMAIN,
+        "Initializing efl.elementary", NULL)
+
+    # FIXME: Why are we passing the cl args to elm_init here?
+
+    cdef:
+        int argc, i, arg_len
+        char **argv
+        char *arg
+
+    argc = len(sys.argv)
+    argv = <char **>PyMem_Malloc(argc * sizeof(char *))
+    for i in range(argc):
+        t = sys.argv[i]
+        if isinstance(t, unicode): t = PyUnicode_AsUTF8String(t)
+        arg = t
+        arg_len = len(arg)
+        argv[i] = <char *>PyMem_Malloc(arg_len + 1)
+        memcpy(argv[i], arg, arg_len + 1)
+
+    return elm_init(argc, argv)
+
+def shutdown():
+    """Shut down Elementary
+
+    :return int: The init counter value.
+
+    This should be called at the end of your application, just before it ceases
+    to do any more processing. This will clean up any permanent resources your
+    application may have allocated via Elementary that would otherwise persist.
+
+    .. note::
+
+        shutdown() will iterate main loop until all ecore_evas are freed. There
+        is a possibility to call your ecore callbacks(timer, animator, event,
+        job, and etc.) in shutdown()
+
+    """
+    EINA_LOG_DOM_INFO(PY_EFL_ELM_LOG_DOMAIN,
+        "Shutting down efl.elementary", NULL)
+    return elm_shutdown()
+
+
+init()
+atexit.register(shutdown)
+
 
 cdef void py_elm_sys_notify_send_cb(void *data, unsigned int id):
     cdef object func, func_data
@@ -378,59 +439,6 @@ cdef class FontProperties(object):
         def __get__(self):
             return eina_list_strings_to_python_list(self.efp.styles)
 
-elm_log = add_logger("efl.elementary")
-cdef int PY_EFL_ELM_LOG_DOMAIN = elm_log.eina_log_domain
-
-def init():
-    """Initialize Elementary
-
-    :return int: The init counter value.
-
-    This function initializes Elementary and increments a counter of the number
-    of calls to it. It returns the new counter's value.
-
-    """
-    EINA_LOG_DOM_INFO(PY_EFL_ELM_LOG_DOMAIN,
-        "Initializing efl.elementary", NULL)
-
-    # FIXME: Why are we passing the cl args to elm_init here?
-
-    cdef:
-        int argc, i, arg_len
-        char **argv
-        char *arg
-
-    argc = len(sys.argv)
-    argv = <char **>PyMem_Malloc(argc * sizeof(char *))
-    for i in range(argc):
-        t = sys.argv[i]
-        if isinstance(t, unicode): t = PyUnicode_AsUTF8String(t)
-        arg = t
-        arg_len = len(arg)
-        argv[i] = <char *>PyMem_Malloc(arg_len + 1)
-        memcpy(argv[i], arg, arg_len + 1)
-
-    return elm_init(argc, argv)
-
-def shutdown():
-    """Shut down Elementary
-
-    :return int: The init counter value.
-
-    This should be called at the end of your application, just before it ceases
-    to do any more processing. This will clean up any permanent resources your
-    application may have allocated via Elementary that would otherwise persist.
-
-    .. note::
-
-        shutdown() will iterate main loop until all ecore_evas are freed. There
-        is a possibility to call your ecore callbacks(timer, animator, event,
-        job, and etc.) in shutdown()
-
-    """
-    EINA_LOG_DOM_INFO(PY_EFL_ELM_LOG_DOMAIN,
-        "Shutting down efl.elementary", NULL)
-    return elm_shutdown()
 
 def run():
     """Run Elementary's main loop
