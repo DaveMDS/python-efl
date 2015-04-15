@@ -55,6 +55,8 @@ cdef int PY_REFCOUNT(object o):
     cdef PyObject *obj = <PyObject *>o
     return obj.ob_refcnt
 
+import atexit
+
 ######################################################################
 
 def init():
@@ -66,6 +68,7 @@ def shutdown():
     return eo_shutdown()
 
 init()
+atexit.register(shutdown)
 
 def event_global_freeze_count_get():
     cdef int fcount = 0

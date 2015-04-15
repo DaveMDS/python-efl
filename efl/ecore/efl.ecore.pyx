@@ -246,11 +246,12 @@ Classes
 """
 
 from libc.stdint cimport uintptr_t
-import traceback
 from efl.eo cimport Eo, PY_REFCOUNT
 from efl.utils.conversions cimport _ctouni
 from cpython cimport Py_INCREF, Py_DECREF
 
+import traceback
+import atexit
 
 
 cdef Eina_Bool _ecore_task_cb(void *data) with gil:
@@ -342,6 +343,7 @@ include "efl.ecore_file_download.pxi"
 include "efl.ecore_file_monitor.pxi"
 
 init()
+atexit.register(shutdown)
 
 
 #---------------------------------------------------------------------------

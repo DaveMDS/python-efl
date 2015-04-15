@@ -965,6 +965,8 @@ from efl.utils.logger cimport add_logger
 
 cdef int PY_EFL_EVAS_LOG_DOMAIN = add_logger(__name__).eina_log_domain
 
+import atexit
+
 
 # TODO doc
 EVAS_HINT_FILL = -1.0
@@ -1189,3 +1191,4 @@ include "efl.evas_object_grid.pxi"
 
 
 init()
+atexit.register(shutdown)
