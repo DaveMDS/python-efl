@@ -347,6 +347,31 @@ cdef class Edje(Object):
             <const char *>font if font is not None else NULL,
             size)
 
+    def text_class_get(self, text_class):
+        """ Gets font and font size from edje text class.
+
+        This function gets the font and the font size from the object
+        text class.
+
+        :param string text_class: The text class name to query
+
+        :return: The font name and the font size
+        :rtype: (font_name, font_size)
+
+        .. versionadded:: 1.14
+
+        """
+        cdef:
+            const char *font
+            int size
+        if isinstance(text_class, unicode):
+            text_class = PyUnicode_AsUTF8String(text_class)
+        edje_object_text_class_get(self.obj,
+            <const char *>text_class if text_class is not None else NULL,
+            &font, &size)
+        return (_ctouni(font), size)
+        
+        
     property scale:
         """The scaling factor for a given Edje object.
 

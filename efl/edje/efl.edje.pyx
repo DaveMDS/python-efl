@@ -206,6 +206,29 @@ def text_class_set(text_class, font, int size):
         size)
 
 
+def text_class_get(text_class):
+    """ Get the font and the font size from Edje text class.
+
+    This function gets the font and the font name from the specified Edje
+    text class.
+
+    :param string text_class: The text class name to query
+
+    :return: The font name and the font size
+    :rtype: (font_name, font_size)
+
+    .. versionadded:: 1.14
+
+    """
+    cdef:
+        const char *font
+        int size
+    if isinstance(text_class, unicode): text_class = PyUnicode_AsUTF8String(text_class)
+    edje_text_class_get(
+        <const char *>text_class if text_class is not None else NULL,
+        &font, &size)
+    return (_ctouni(font), size)
+
 def text_class_del(text_class):
     if isinstance(text_class, unicode): text_class = PyUnicode_AsUTF8String(text_class)
     edje_text_class_del(

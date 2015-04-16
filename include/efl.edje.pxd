@@ -321,6 +321,7 @@ cdef extern from "Edje.h":
     Eina_List * edje_color_class_list()
 
     void edje_text_class_set(char *text_class, char *font, Evas_Font_Size size)
+    Eina_Bool edje_text_class_get(const char *text_class, const char **font, Evas_Font_Size *size)
     void edje_text_class_del(char *text_class)
     Eina_List * edje_text_class_list()
 
@@ -369,6 +370,7 @@ cdef extern from "Edje.h":
     void edje_object_color_class_get(Evas_Object *obj, char *color_class, int *r, int *g, int *b, int *a, int *r2, int *g2, int *b2, int *a2, int *r3, int *g3, int *b3, int *a3)
     void edje_object_color_class_del(Evas_Object *obj, char *color_class)
     void edje_object_text_class_set(Evas_Object *obj, char *text_class, char *font, Evas_Font_Size size)
+    Eina_Bool edje_object_text_class_get(Evas_Object *obj, const char *text_class, const char **font, Evas_Font_Size *size)
 
     void edje_object_size_min_get(Evas_Object *obj, Evas_Coord *minw, Evas_Coord *minh)
     void edje_object_size_max_get(Evas_Object *obj, Evas_Coord *maxw, Evas_Coord *maxh)
