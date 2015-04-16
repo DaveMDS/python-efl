@@ -60,6 +60,8 @@ cdef extern from "Elementary.h":
     void                     elm_scroller_gravity_get(const Evas_Object *obj, double *x, double *y)
     void                     elm_scroller_movement_block_set(Evas_Object *obj, Elm_Scroller_Movement_Block block)
     Elm_Scroller_Movement_Block elm_scroller_movement_block_get(const Evas_Object *obj)
+    void                     elm_scroller_loop_set(Evas_Object *obj, Eina_Bool loop_h, Eina_Bool loop_v)
+    void                     elm_scroller_loop_get(const Evas_Object *obj, Eina_Bool *loop_h, Eina_Bool *loop_v)
 
 cdef class Scrollable(Object):
     pass

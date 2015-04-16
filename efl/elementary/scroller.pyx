@@ -696,13 +696,38 @@ cdef class Scrollable(Object):
 
         .. versionadded:: 1.8
 
-
         """
         def __set__(self, Elm_Scroller_Movement_Block block):
             elm_scroller_movement_block_set(self.obj, block)
 
         def __get__(self):
             return elm_scroller_movement_block_get(self.obj)
+
+    property loop:
+        """
+
+        Set an infinite loop for the scroller
+
+        :type: (bool **h**, bool **v**)
+
+        .. versionadded:: 1.14
+
+        """
+        def __set__(self, value):
+            h, v = value
+            elm_scroller_loop_set(self.obj, h, v)
+
+        def __get__(self):
+            cdef Eina_Bool h, v
+            elm_scroller_loop_get(self.obj, &h, &v)
+            return (h, v)
+
+    def loop_set(self, h, v):
+        elm_scroller_loop_set(self.obj, h, v)
+    def loop_get(self):
+        cdef Eina_Bool h, v
+        elm_scroller_loop_get(self.obj, &h, &v)
+        return (h, v)
 
     def callback_edge_left_add(self, func, *args, **kwargs):
         """The left edge of the content has been reached."""
