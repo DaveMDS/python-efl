@@ -804,12 +804,41 @@ cdef class EntryAnchorInfo(object):
     The info sent in the callback for the ``anchor,clicked`` signals emitted
     by entries.
 
-    :var name: The name of the anchor, as stated in its href.
-    :var button: The mouse button used to click on it.
-    :var x: Anchor geometry, relative to canvas.
-    :var y: Anchor geometry, relative to canvas.
-    :var w: Anchor geometry, relative to canvas.
-    :var h: Anchor geometry, relative to canvas.
+    .. attribute:: name
+
+        The name of the anchor, as stated in its href.
+
+        :type: string
+
+    .. attribute:: button
+
+        The mouse button used to click on it.
+
+        :type: :class:`~efl.elementary.button.Button`
+
+    .. attribute:: x
+
+        Anchor geometry, relative to canvas.
+
+        :type: int
+
+    .. attribute:: y
+
+        Anchor geometry, relative to canvas.
+
+        :type: int
+
+    .. attribute:: w
+
+        Anchor geometry, relative to canvas.
+
+        :type: int
+
+    .. attribute:: h
+
+        Anchor geometry, relative to canvas.
+
+        :type: int
 
     """
     cdef:
@@ -834,16 +863,50 @@ cdef object _entryanchor_conv(void *addr):
 cdef class EntryAnchorHoverInfo(object):
     """EntryAnchorHoverInfo(...)
 
-    The info sent in the callback for ``anchor,clicked`` signals emitted by
-    the entries.
+    The info sent in the callback for ``anchor,hover,opened`` signals emitted
+    by the entries.
 
-    :var anchor_info: The actual anchor info.
-    :var hover: The hover object to use for the popup.
-    :var hover_parent: Geometry of the object used as parent by the hover.
-    :var hover_left: Hint indicating if there's space for content on the left side of the hover.
-    :var hover_right: Hint indicating content fits on the right side of the hover.
-    :var hover_top: Hint indicating content fits on top of the hover.
-    :var hover_bottom: Hint indicating content fits below the hover.
+    .. attribute:: anchor_info
+
+        The actual anchor info.
+
+        :type: :class:`EntryAnchorInfo`
+
+    .. attribute:: hover
+
+        The hover object to use for the popup.
+
+        :type: :class:`~efl.elementary.hover.Hover`
+
+    .. attribute:: hover_parent
+
+        The object used as parent by the hover.
+
+        :type: :class:`~efl.eo.Eo`
+
+    .. attribute:: hover_left
+
+        Hint indicating if there's space for content on the left side of the hover.
+
+        :type: bool
+
+    .. attribute:: hover_right
+
+        Hint indicating content fits on the right side of the hover.
+
+        :type: bool
+
+    .. attribute:: hover_top
+
+        Hint indicating content fits on top of the hover.
+
+        :type: bool
+
+    .. attribute:: hover_bottom
+
+        Hint indicating content fits below the hover.
+
+        :type: bool
 
     """
     cdef:
@@ -855,7 +918,7 @@ cdef class EntryAnchorHoverInfo(object):
     @staticmethod
     cdef EntryAnchorHoverInfo create(Elm_Entry_Anchor_Hover_Info *addr):
         cdef EntryAnchorHoverInfo self = EntryAnchorHoverInfo.__new__(EntryAnchorHoverInfo)
-        self.anchor_info = _entryanchor_conv(addr.anchor_info)
+        self.anchor_info = _entryanchor_conv(<void *>addr.anchor_info)
         self.hover = object_from_instance(addr.hover)
         self.hover_parent = (addr.hover_parent.x, addr.hover_parent.y,
                            addr.hover_parent.w, addr.hover_parent.h)
@@ -908,9 +971,13 @@ cdef class Entry(LayoutClass):
 
         If there is styles in the user style stack, the properties in the
         top style of user style stack will replace the properties in current
-        theme. The input style is specified in format
-        ``tag='property=value'`` (i.e. ``DEFAULT='font=Sans
-        font_size=60'hilight=' + font_weight=Bold'``).
+        theme. The input style is specified in format::
+
+            tag='property=value'
+
+        i.e.::
+
+            DEFAULT='font=Sans font_size=60' hilight=' + font_weight=Bold'
 
         :param string style: The style user to push
 
@@ -1075,11 +1142,14 @@ cdef class Entry(LayoutClass):
         functions; The former will either not work at all, or break the correct
         functionality.
 
-        IMPORTANT: Many functions may change (i.e delete and create a new one)
-        the internal textblock object. Do NOT cache the returned object, and try
-        not to mix calls on this object with regular elm_entry calls (which may
-        change the internal textblock object). This applies to all cursors
-        returned from textblock calls, and all the other derivative values.
+        .. warning::
+
+            Many functions may change (i.e delete and create a new one) the
+            internal textblock object. Do NOT cache the returned object, and
+            try not to mix calls on this object with regular elm_entry calls
+            (which may change the internal textblock object). This applies to
+            all cursors returned from textblock calls, and all the other
+            derivative values.
 
         :type: :py:class:`~efl.evas.Textblock`
 
