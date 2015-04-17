@@ -16,9 +16,15 @@ SCROLL_POLICY_VERT = ELM_SCROLLER_POLICY_OFF, ELM_SCROLLER_POLICY_AUTO
 
 counter = 0
 
-def cb_item_selected(mbe, *args, **kwargs):
-    # XXX: This gets called twice
-    print(mbe)
+def cb_item_selected(mbe, item):
+    print("ITEM SELECTED", item)
+
+def cb_item_clicked(mbe, item):
+    print("ITEM CLICKED", item)
+
+def cb_item_longpressed(mbe, item):
+    print("ITEM LONGPRESSED", item)
+
 
 def cb_btn_item_prepend(btn, mbe):
     global counter
@@ -75,6 +81,8 @@ def multibuttonentry_clicked(obj, item=None):
     mbe = MultiButtonEntry(win, size_hint_align=FILL_BOTH,
         size_hint_weight=EXPAND_BOTH, text="To: ")
     mbe.callback_item_selected_add(cb_item_selected)
+    mbe.callback_item_clicked_add(cb_item_clicked)
+    mbe.callback_item_longpressed_add(cb_item_longpressed)
     mbe.part_text_set("guide", "Tap to add recipient")
     mbe.filter_append(cb_filter1)
     mbe.show()

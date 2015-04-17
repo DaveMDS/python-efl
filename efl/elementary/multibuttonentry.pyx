@@ -52,6 +52,8 @@ Emitted signals
 - ``item,clicked`` - this is called when an item is clicked by user
   interaction. Both "item,selected" and "item,clicked" are needed.
   event_info contains the item.
+- ``item,longpressed`` - this is called when an item is longpressed by user
+  interaction. event_info contains the item. (since 1.14)
 - ``clicked`` - when multi-button entry is clicked.
 - ``focused`` - when multi-button entry is focused.
 - ``unfocused`` - when multi-button entry is unfocused.
@@ -535,6 +537,18 @@ cdef class MultiButtonEntry(Object):
 
     def callback_item_clicked_del(self, func):
         self._callback_del_full("item,clicked", _cb_object_item_conv, func)
+
+    def callback_item_longpressed_add(self, func, *args, **kwargs):
+        """
+        .. versionadded:: 1.14
+        """
+        self._callback_add_full("item,longpressed", _cb_object_item_conv, func, args, kwargs)
+
+    def callback_item_longpressed_del(self, func):
+        """
+        .. versionadded:: 1.14
+        """
+        self._callback_del_full("item,longpressed", _cb_object_item_conv, func)
 
     def callback_clicked_add(self, func, *args, **kwargs):
         self._callback_add("clicked", func, args, kwargs)
