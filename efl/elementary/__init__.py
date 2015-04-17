@@ -84,6 +84,7 @@ __all__ = (
     "slideshow",
     "spinner",
     #"store",
+    "systray",
     "table",
     "theme",
     "thumb",

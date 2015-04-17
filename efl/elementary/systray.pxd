@@ -6,9 +6,6 @@ cdef extern from "Elementary.h":
 
     ctypedef Eo Elm_Systray
 
-    cpdef enum:
-        ELM_EVENT_SYSTRAY_READY
-
     cpdef enum _Elm_Systray_Category:
         ELM_SYSTRAY_CATEGORY_APP_STATUS
         ELM_SYSTRAY_CATEGORY_COMMUNICATIONS

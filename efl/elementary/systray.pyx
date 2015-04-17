@@ -84,16 +84,6 @@ from efl.ecore cimport Event, EventHandler, _event_mapping_register
 from efl.utils.conversions cimport _ctouni
 
 
-cdef class EventSystrayReady(Event):
-    cdef int _set_obj(self, void *o) except 0:
-        return 1
-
-    def __repr__(self):
-        return "<%s()>" % (self.__class__.__name__,)
-
-_event_mapping_register(ELM_EVENT_SYSTRAY_READY, EventSystrayReady)
-
-
 cdef class Systray(Eo):
 
     """

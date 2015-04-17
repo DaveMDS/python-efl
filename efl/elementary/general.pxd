@@ -53,6 +53,7 @@ cdef extern from "Elementary.h":
         ELM_EVENT_PROCESS_FOREGROUND
         ELM_EVENT_SYS_NOTIFY_NOTIFICATION_CLOSED
         ELM_EVENT_SYS_NOTIFY_ACTION_INVOKED
+        ELM_EVENT_SYSTRAY_READY
 
     #enums
     cpdef enum Elm_Object_Layer:

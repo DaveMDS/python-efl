@@ -290,7 +290,8 @@ from efl.eina cimport EINA_LOG_DOM_DBG, EINA_LOG_DOM_INFO, \
     EINA_LOG_DOM_WARN, EINA_LOG_DOM_ERR, EINA_LOG_DOM_CRIT
 
 from efl.ecore cimport Event, EventHandler, _event_mapping_register
-from efl.elementary.need cimport elm_need_sys_notify
+from efl.elementary.need cimport elm_need_sys_notify, elm_need_systray, \
+    elm_need_ethumb
 
 import sys
 import traceback
@@ -300,82 +301,13 @@ import atexit
 elm_log = add_logger("efl.elementary")
 cdef int PY_EFL_ELM_LOG_DOMAIN = elm_log.eina_log_domain
 
-def init():
-    """Initialize Elementary
 
-    :return int: The init counter value.
+cdef class EventSystrayReady(Event):
+    cdef int _set_obj(self, void *o) except 0:
+        return 1
 
-    This function initializes Elementary and increments a counter of the number
-    of calls to it. It returns the new counter's value.
-
-    .. versionchanged:: 1.14
-
-        The Python module calls this function when it is imported so you
-        should no longer have any need to call this manually. Calling it does
-        not carry any penalty though.
-
-    """
-    EINA_LOG_DOM_INFO(PY_EFL_ELM_LOG_DOMAIN,
-        "Initializing efl.elementary", NULL)
-
-    # FIXME: Why are we passing the cl args to elm_init here?
-
-    cdef:
-        int argc, i, arg_len
-        char **argv
-        char *arg
-
-    argc = len(sys.argv)
-    argv = <char **>PyMem_Malloc(argc * sizeof(char *))
-    for i in range(argc):
-        t = sys.argv[i]
-        if isinstance(t, unicode): t = PyUnicode_AsUTF8String(t)
-        arg = t
-        arg_len = len(arg)
-        argv[i] = <char *>PyMem_Malloc(arg_len + 1)
-        memcpy(argv[i], arg, arg_len + 1)
-
-    return elm_init(argc, argv)
-
-def shutdown():
-    """Shut down Elementary
-
-    :return int: The init counter value.
-
-    This should be called at the end of your application, just before it ceases
-    to do any more processing. This will clean up any permanent resources your
-    application may have allocated via Elementary that would otherwise persist.
-
-    .. note::
-
-        shutdown() will iterate main loop until all ecore_evas are freed. There
-        is a possibility to call your ecore callbacks(timer, animator, event,
-        job, and etc.) in shutdown()
-
-    .. versionchanged:: 1.14
-
-        The Python module calls this function when it is exiting so you
-        should no longer have any need to call this manually. Calling it does
-        not carry any penalty though.
-
-    """
-    EINA_LOG_DOM_INFO(PY_EFL_ELM_LOG_DOMAIN,
-        "Shutting down efl.elementary", NULL)
-    return elm_shutdown()
-
-
-init()
-atexit.register(shutdown)
-
-
-cdef void py_elm_sys_notify_send_cb(void *data, unsigned int id):
-    cdef object func, func_data
-    func, func_data = <object>data
-    # FIXME: Is this cb called more than once? Py_DECREF if not.
-    try:
-        func(func_data, id)
-    except Exception:
-        traceback.print_exc()
+    def __repr__(self):
+        return "<%s()>" % (self.__class__.__name__,)
 
 
 cdef class SysNotifyNotificationClosed(Event):
@@ -449,15 +381,6 @@ cdef class EthumbConnect(Event):
     def __repr__(self):
         return "<%s()>" % (self.__class__.__name__,)
 
-_event_mapping_register(ELM_ECORE_EVENT_ETHUMB_CONNECT, EthumbConnect)
-
-def on_ethumb_connect(func, *args, **kwargs):
-    """Use this to set a handler for the ethumb connect event.
-
-    .. versionadded:: 1.14
-    """
-    return EventHandler(ELM_ECORE_EVENT_ETHUMB_CONNECT, func, *args, **kwargs)
-
 
 cdef class ConfigAllChanged(Event):
     cdef int _set_obj(self, void *o) except 0:
@@ -465,18 +388,6 @@ cdef class ConfigAllChanged(Event):
 
     def __repr__(self):
         return "<%s()>" % (self.__class__.__name__,)
-
-_event_mapping_register(ELM_EVENT_CONFIG_ALL_CHANGED, ConfigAllChanged)
-
-def on_config_all_changed(func, *args, **kwargs):
-    """Use this to set a handler for the config all changed event.
-
-    Emitted when the application has reconfigured elementary settings due to an
-    external configuration tool asking it to.
-
-    .. versionadded:: 1.14
-    """
-    return EventHandler(ELM_EVENT_CONFIG_ALL_CHANGED, func, *args, **kwargs)
 
 
 cdef class PolicyChanged(Event):
@@ -499,7 +410,152 @@ cdef class PolicyChanged(Event):
             self.__class__.__name__,
             self.policy, self.new_value, self.old_value)
 
-_event_mapping_register(ELM_EVENT_POLICY_CHANGED, PolicyChanged)
+
+cdef class ProcessBackground(Event):
+    cdef int _set_obj(self, void *o) except 0:
+        return 1
+
+    def __repr__(self):
+        return "<%s()>" % (self.__class__.__name__,)
+
+
+cdef class ProcessForeground(Event):
+    cdef int _set_obj(self, void *o) except 0:
+        return 1
+
+    def __repr__(self):
+        return "<%s()>" % (self.__class__.__name__,)
+
+
+def init():
+    """Initialize Elementary
+
+    :return int: The init counter value.
+
+    This function initializes Elementary and increments a counter of the number
+    of calls to it. It returns the new counter's value.
+
+    .. versionchanged:: 1.14
+
+        The Python module calls this function when it is imported so you
+        should no longer have any need to call this manually. Calling it does
+        not carry any penalty though.
+
+    """
+    EINA_LOG_DOM_INFO(PY_EFL_ELM_LOG_DOMAIN,
+        "Initializing efl.elementary", NULL)
+
+    # FIXME: Why are we passing the cl args to elm_init here?
+
+    cdef:
+        int argc, i, arg_len
+        char **argv
+        char *arg
+        int ret
+
+    argc = len(sys.argv)
+    argv = <char **>PyMem_Malloc(argc * sizeof(char *))
+    for i in range(argc):
+        t = sys.argv[i]
+        if isinstance(t, unicode): t = PyUnicode_AsUTF8String(t)
+        arg = t
+        arg_len = len(arg)
+        argv[i] = <char *>PyMem_Malloc(arg_len + 1)
+        memcpy(argv[i], arg, arg_len + 1)
+
+    ret = elm_init(argc, argv)
+
+    if ret != 1:
+        return ret
+
+    if elm_need_ethumb():
+        _event_mapping_register(ELM_ECORE_EVENT_ETHUMB_CONNECT, EthumbConnect)
+    else:
+        EINA_LOG_DOM_WARN(PY_EFL_ELM_LOG_DOMAIN, "Ethumb not available", NULL)
+
+    _event_mapping_register(ELM_EVENT_CONFIG_ALL_CHANGED, ConfigAllChanged)
+    _event_mapping_register(ELM_EVENT_POLICY_CHANGED, PolicyChanged)
+    _event_mapping_register(ELM_EVENT_PROCESS_BACKGROUND, ProcessBackground)
+    _event_mapping_register(ELM_EVENT_PROCESS_FOREGROUND, ProcessForeground)
+
+    if elm_need_systray():
+        _event_mapping_register(ELM_EVENT_SYSTRAY_READY, EventSystrayReady)
+    else:
+        EINA_LOG_DOM_WARN(PY_EFL_ELM_LOG_DOMAIN, "Systray not available", NULL)
+
+    if elm_need_sys_notify():
+        _event_mapping_register(
+            ELM_EVENT_SYS_NOTIFY_NOTIFICATION_CLOSED,
+            SysNotifyNotificationClosed
+            )
+        _event_mapping_register(
+            ELM_EVENT_SYS_NOTIFY_ACTION_INVOKED,
+            SysNotifyActionInvoked
+            )
+    else:
+        EINA_LOG_DOM_WARN(PY_EFL_ELM_LOG_DOMAIN, "Sys notify not available", NULL)
+
+    return ret
+
+def shutdown():
+    """Shut down Elementary
+
+    :return int: The init counter value.
+
+    This should be called at the end of your application, just before it ceases
+    to do any more processing. This will clean up any permanent resources your
+    application may have allocated via Elementary that would otherwise persist.
+
+    .. note::
+
+        shutdown() will iterate main loop until all ecore_evas are freed. There
+        is a possibility to call your ecore callbacks(timer, animator, event,
+        job, and etc.) in shutdown()
+
+    .. versionchanged:: 1.14
+
+        The Python module calls this function when it is exiting so you
+        should no longer have any need to call this manually. Calling it does
+        not carry any penalty though.
+
+    """
+    EINA_LOG_DOM_INFO(PY_EFL_ELM_LOG_DOMAIN,
+        "Shutting down efl.elementary", NULL)
+    return elm_shutdown()
+
+
+init()
+atexit.register(shutdown)
+
+
+cdef void py_elm_sys_notify_send_cb(void *data, unsigned int id):
+    cdef object func, func_data
+    func, func_data = <object>data
+    # FIXME: Is this cb called more than once? Py_DECREF if not.
+    try:
+        func(func_data, id)
+    except Exception:
+        traceback.print_exc()
+
+
+def on_ethumb_connect(func, *args, **kwargs):
+    """Use this to set a handler for the ethumb connect event.
+
+    .. versionadded:: 1.14
+    """
+    return EventHandler(ELM_ECORE_EVENT_ETHUMB_CONNECT, func, *args, **kwargs)
+
+
+def on_config_all_changed(func, *args, **kwargs):
+    """Use this to set a handler for the config all changed event.
+
+    Emitted when the application has reconfigured elementary settings due to an
+    external configuration tool asking it to.
+
+    .. versionadded:: 1.14
+    """
+    return EventHandler(ELM_EVENT_CONFIG_ALL_CHANGED, func, *args, **kwargs)
+
 
 def on_policy_changed(func, *args, **kwargs):
     """Use this to set a handler for the policy changed event.
@@ -510,15 +566,6 @@ def on_policy_changed(func, *args, **kwargs):
     """
     return EventHandler(ELM_EVENT_POLICY_CHANGED, func, *args, **kwargs)
 
-
-cdef class ProcessBackground(Event):
-    cdef int _set_obj(self, void *o) except 0:
-        return 1
-
-    def __repr__(self):
-        return "<%s()>" % (self.__class__.__name__,)
-
-_event_mapping_register(ELM_EVENT_PROCESS_BACKGROUND, ProcessBackground)
 
 def on_process_background(func, *args, **kwargs):
     """Use this to set a handler for the process background event.
@@ -531,15 +578,6 @@ def on_process_background(func, *args, **kwargs):
     return EventHandler(ELM_EVENT_PROCESS_BACKGROUND, func, *args, **kwargs)
 
 
-cdef class ProcessForeground(Event):
-    cdef int _set_obj(self, void *o) except 0:
-        return 1
-
-    def __repr__(self):
-        return "<%s()>" % (self.__class__.__name__,)
-
-_event_mapping_register(ELM_EVENT_PROCESS_FOREGROUND, ProcessForeground)
-
 def on_process_background(func, *args, **kwargs):
     """Use this to set a handler for the process foreground event.
 
@@ -551,26 +589,16 @@ def on_process_background(func, *args, **kwargs):
     return EventHandler(ELM_EVENT_PROCESS_FOREGROUND, func, *args, **kwargs)
 
 
-if elm_need_sys_notify():
-    _event_mapping_register(
-        ELM_EVENT_SYS_NOTIFY_NOTIFICATION_CLOSED,
-        SysNotifyNotificationClosed
+def on_sys_notify_notification_closed(func, *args, **kargs):
+    return EventHandler(
+        ELM_EVENT_SYS_NOTIFY_NOTIFICATION_CLOSED, func, *args, **kargs
         )
 
-    def on_sys_notify_notification_closed(func, *args, **kargs):
-        return EventHandler(
-            ELM_EVENT_SYS_NOTIFY_NOTIFICATION_CLOSED, func, *args, **kargs
-            )
 
-    _event_mapping_register(
-        ELM_EVENT_SYS_NOTIFY_ACTION_INVOKED,
-        SysNotifyActionInvoked
+def on_sys_notify_action_invoked(func, *args, **kargs):
+    return EventHandler(
+        ELM_EVENT_SYS_NOTIFY_NOTIFICATION_CLOSED, func, *args, **kargs
         )
-
-    def on_sys_notify_action_invoked(func, *args, **kargs):
-        return EventHandler(
-            ELM_EVENT_SYS_NOTIFY_NOTIFICATION_CLOSED, func, *args, **kargs
-            )
 
 
 cdef class FontProperties(object):
