@@ -190,17 +190,17 @@ cdef class Systray(Eo):
             eo_do(self.obj, elm_obj_systray_menu_set(value.obj))
 
         def __get__(self):
-            cdef cEo *value = NULL
+            cdef const cEo *value = NULL
             eo_do_ret(self.obj, value, elm_obj_systray_menu_get())
-            return object_from_instance(value)
+            return object_from_instance(<cEo *>value)
 
     def menu_set(self, Eo value):
         eo_do(self.obj, elm_obj_systray_menu_set(value.obj))
 
     def menu_get(self):
-        cdef cEo *value = NULL
+        cdef const cEo *value = NULL
         eo_do_ret(self.obj, value, elm_obj_systray_menu_get())
-        return object_from_instance(value)
+        return object_from_instance(<cEo *>value)
 
     property att_icon_name:
         """The name of the attention icon to be used by the Status Notifier Item.
