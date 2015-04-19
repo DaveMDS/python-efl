@@ -40,6 +40,8 @@ Emitted signals
 ===============
 
 - ``"changed"`` - When the color value changes on selector
+- ``"changed,user"`` - When the color value changes after a user interaction,
+    not fired when the value is changed by an api call (since 1.14)
 - ``"color,item,selected"`` - When user clicks on color item.
     The event_info parameter of the callback will be the selected
     color item.
@@ -317,6 +319,19 @@ cdef class Colorselector(LayoutClass):
 
     def callback_changed_del(self, func):
         self._callback_del("changed", func)
+
+    def callback_changed_user_add(self, func, *args, **kwargs):
+        """When the color value is changed by the user
+
+        .. versionadded:: 1.14
+        """
+        self._callback_add("changed,user", func, args, kwargs)
+
+    def callback_changed_user_del(self, func):
+        """
+        .. versionadded:: 1.14
+        """
+        self._callback_del("changed,user", func)
 
     def callback_color_item_selected_add(self, func, *args, **kwargs):
         """When user clicks on color item. The event_info parameter of the
