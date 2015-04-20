@@ -290,8 +290,6 @@ from efl.eina cimport EINA_LOG_DOM_DBG, EINA_LOG_DOM_INFO, \
     EINA_LOG_DOM_WARN, EINA_LOG_DOM_ERR, EINA_LOG_DOM_CRIT
 
 from efl.ecore cimport Event, EventHandler, _event_mapping_register
-from efl.elementary.need cimport elm_need_sys_notify, elm_need_systray, \
-    elm_need_ethumb
 
 import sys
 import traceback
@@ -300,86 +298,6 @@ import atexit
 
 elm_log = add_logger("efl.elementary")
 cdef int PY_EFL_ELM_LOG_DOMAIN = elm_log.eina_log_domain
-
-
-cdef class EventSystrayReady(Event):
-    cdef int _set_obj(self, void *o) except 0:
-        return 1
-
-    def __repr__(self):
-        return "<%s()>" % (self.__class__.__name__,)
-
-
-cdef class SysNotifyNotificationClosed(Event):
-
-    cdef Elm_Sys_Notify_Notification_Closed *obj
-
-    cdef int _set_obj(self, void *o) except 0:
-        self.obj = <Elm_Sys_Notify_Notification_Closed*>o
-        return 1
-
-    def __repr__(self):
-        # TODO: int -> string for 'reason'
-        return "<%s(id=%d, reason=%s)>" % \
-            (type(self).__name__, self.id, self.reason)
-
-    property id:
-        """ID of the notification.
-
-        :type: int
-
-        """
-        def __get__(self):
-            return self.obj.id
-
-    property reason:
-        """The Reason the notification was closed.
-
-        :type: :ref:`Elm_Sys_Notify_Closed_Reason`
-
-        """
-        def __get__(self):
-            return self.obj.reason
-
-
-cdef class SysNotifyActionInvoked(Event):
-
-    cdef Elm_Sys_Notify_Action_Invoked *obj
-
-    cdef int _set_obj(self, void *o) except 0:
-        self.obj = <Elm_Sys_Notify_Action_Invoked*>o
-        return 1
-
-    def __repr__(self):
-        return "<%s(id=%d, action_key=%s)>" % \
-            (type(self).__name__, self.id, self.action_key)
-
-    property id:
-        """ID of the notification.
-
-        :type: int
-
-        """
-        def __get__(self):
-            return self.obj.id
-
-    property action_key:
-        """The key of the action invoked. These match the keys sent over in the
-        list of actions.
-
-        :type: string
-
-        """
-        def __get__(self):
-            return _touni(self.obj.action_key)
-
-
-cdef class EthumbConnect(Event):
-    cdef int _set_obj(self, void *o) except 0:
-        return 1
-
-    def __repr__(self):
-        return "<%s()>" % (self.__class__.__name__,)
 
 
 cdef class ConfigAllChanged(Event):
@@ -463,39 +381,7 @@ def init():
         argv[i] = <char *>PyMem_Malloc(arg_len + 1)
         memcpy(argv[i], arg, arg_len + 1)
 
-    ret = elm_init(argc, argv)
-
-    if ret != 1:
-        return ret
-
-    if elm_need_ethumb():
-        _event_mapping_register(ELM_ECORE_EVENT_ETHUMB_CONNECT, EthumbConnect)
-    else:
-        EINA_LOG_DOM_WARN(PY_EFL_ELM_LOG_DOMAIN, "Ethumb not available", NULL)
-
-    _event_mapping_register(ELM_EVENT_CONFIG_ALL_CHANGED, ConfigAllChanged)
-    _event_mapping_register(ELM_EVENT_POLICY_CHANGED, PolicyChanged)
-    _event_mapping_register(ELM_EVENT_PROCESS_BACKGROUND, ProcessBackground)
-    _event_mapping_register(ELM_EVENT_PROCESS_FOREGROUND, ProcessForeground)
-
-    if elm_need_systray():
-        _event_mapping_register(ELM_EVENT_SYSTRAY_READY, EventSystrayReady)
-    else:
-        EINA_LOG_DOM_WARN(PY_EFL_ELM_LOG_DOMAIN, "Systray not available", NULL)
-
-    if elm_need_sys_notify():
-        _event_mapping_register(
-            ELM_EVENT_SYS_NOTIFY_NOTIFICATION_CLOSED,
-            SysNotifyNotificationClosed
-            )
-        _event_mapping_register(
-            ELM_EVENT_SYS_NOTIFY_ACTION_INVOKED,
-            SysNotifyActionInvoked
-            )
-    else:
-        EINA_LOG_DOM_WARN(PY_EFL_ELM_LOG_DOMAIN, "Sys notify not available", NULL)
-
-    return ret
+    return elm_init(argc, argv)
 
 def shutdown():
     """Shut down Elementary
@@ -526,6 +412,11 @@ def shutdown():
 
 init()
 atexit.register(shutdown)
+
+_event_mapping_register(ELM_EVENT_CONFIG_ALL_CHANGED, ConfigAllChanged)
+_event_mapping_register(ELM_EVENT_POLICY_CHANGED, PolicyChanged)
+_event_mapping_register(ELM_EVENT_PROCESS_BACKGROUND, ProcessBackground)
+_event_mapping_register(ELM_EVENT_PROCESS_FOREGROUND, ProcessForeground)
 
 
 cdef void py_elm_sys_notify_send_cb(void *data, unsigned int id):

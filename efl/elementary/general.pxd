@@ -93,14 +93,6 @@ cdef extern from "Elementary.h":
     ctypedef enum Elm_Policy_Throttle:
         pass
 
-    cpdef enum Elm_Sys_Notify_Closed_Reason:
-        ELM_SYS_NOTIFY_CLOSED_EXPIRED
-        ELM_SYS_NOTIFY_CLOSED_DISMISSED
-        ELM_SYS_NOTIFY_CLOSED_REQUESTED
-        ELM_SYS_NOTIFY_CLOSED_UNDEFINED
-    ctypedef enum Elm_Sys_Notify_Closed_Reason:
-        pass
-
     cpdef enum Elm_Sys_Notify_Urgency:
         ELM_SYS_NOTIFY_URGENCY_LOW
         ELM_SYS_NOTIFY_URGENCY_NORMAL
@@ -207,14 +199,6 @@ cdef extern from "Elementary.h":
 
     # sys_notify.h
     ctypedef void (*Elm_Sys_Notify_Send_Cb)(void *data, unsigned int id)
-
-    ctypedef struct Elm_Sys_Notify_Notification_Closed:
-        unsigned int id # ID of the notification.
-        Elm_Sys_Notify_Closed_Reason reason # The Reason the notification was closed.
-
-    ctypedef struct Elm_Sys_Notify_Action_Invoked:
-        unsigned int id # ID of the notification.
-        char *action_key # The key of the action invoked. These match the keys sent over in the list of actions.
 
     void      elm_sys_notify_close(unsigned int id)
     void      elm_sys_notify_send(  unsigned int replaces_id,

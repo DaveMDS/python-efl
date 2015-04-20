@@ -29,6 +29,87 @@ This functions are used to tell elementary of optionals modules usage.
 
 
 from efl.utils.deprecated cimport DEPRECATED
+from efl.utils.conversions cimport _touni
+from efl.ecore cimport Event, _event_mapping_register
+
+
+cdef class SysNotifyNotificationClosed(Event):
+
+    cdef Elm_Sys_Notify_Notification_Closed *obj
+
+    cdef int _set_obj(self, void *o) except 0:
+        self.obj = <Elm_Sys_Notify_Notification_Closed*>o
+        return 1
+
+    def __repr__(self):
+        # TODO: int -> string for 'reason'
+        return "<%s(id=%d, reason=%s)>" % \
+            (type(self).__name__, self.id, self.reason)
+
+    property id:
+        """ID of the notification.
+
+        :type: int
+
+        """
+        def __get__(self):
+            return self.obj.id
+
+    property reason:
+        """The Reason the notification was closed.
+
+        :type: :ref:`Elm_Sys_Notify_Closed_Reason`
+
+        """
+        def __get__(self):
+            return self.obj.reason
+
+
+cdef class SysNotifyActionInvoked(Event):
+
+    cdef Elm_Sys_Notify_Action_Invoked *obj
+
+    cdef int _set_obj(self, void *o) except 0:
+        self.obj = <Elm_Sys_Notify_Action_Invoked*>o
+        return 1
+
+    def __repr__(self):
+        return "<%s(id=%d, action_key=%s)>" % \
+            (type(self).__name__, self.id, self.action_key)
+
+    property id:
+        """ID of the notification.
+
+        :type: int
+
+        """
+        def __get__(self):
+            return self.obj.id
+
+    property action_key:
+        """The key of the action invoked. These match the keys sent over in the
+        list of actions.
+
+        :type: string
+
+        """
+        def __get__(self):
+            return _touni(self.obj.action_key)
+
+
+cdef class EthumbConnect(Event):
+    cdef int _set_obj(self, void *o) except 0:
+        return 1
+
+    def __repr__(self):
+        return "<%s()>" % (self.__class__.__name__,)
+
+cdef class EventSystrayReady(Event):
+    cdef int _set_obj(self, void *o) except 0:
+        return 1
+
+    def __repr__(self):
+        return "<%s()>" % (self.__class__.__name__,)
 
 
 def need_efreet():
@@ -57,7 +138,13 @@ def need_systray():
     .. versionadded:: 1.8
 
     """
-    return bool(elm_need_systray())
+    cdef bint ret = elm_need_systray()
+    if ret:
+        try:
+            _event_mapping_register(ELM_EVENT_SYSTRAY_READY, EventSystrayReady)
+        except ValueError:
+            pass
+    return ret
 
 def need_sys_notify():
     """Request that your elementary application needs Elm_Sys_Notify
@@ -72,7 +159,20 @@ def need_sys_notify():
     .. versionadded:: 1.8
 
     """
-    return bool(elm_need_sys_notify())
+    cdef bint ret = elm_need_sys_notify()
+    if ret:
+        try:
+            _event_mapping_register(
+                ELM_EVENT_SYS_NOTIFY_NOTIFICATION_CLOSED,
+                SysNotifyNotificationClosed
+                )
+            _event_mapping_register(
+                ELM_EVENT_SYS_NOTIFY_ACTION_INVOKED,
+                SysNotifyActionInvoked
+                )
+        except ValueError:
+            pass
+    return ret
 
 @DEPRECATED("1.8", "Use :py:func:`need_eldbus` for eldbus (v2) support. Old API is deprecated.")
 def need_e_dbus():
@@ -131,7 +231,12 @@ def need_ethumb():
     :rtype: bool
 
     """
-    return bool(elm_need_ethumb())
+    cdef bint ret = elm_need_ethumb()
+    try:
+        _event_mapping_register(ELM_ECORE_EVENT_ETHUMB_CONNECT, EthumbConnect)
+    except ValueError:
+        pass
+    return ret
 
 def need_web():
     """Request that your elementary application needs web support
