@@ -325,7 +325,7 @@ cite, code, tt {
 code, tt {
     background-color: rgb(51,51,51); /*#f2f2f2*/
     border: 1px solid rgb(32,32,32); /*#ddd*/
-    border-radius: 2px;
+    border-radius: 3px;
     color: white; /*#333*/
     padding: 1px;
 }
@@ -406,8 +406,8 @@ table td, table th {
 div.admonition, div.warning {
     font-size: 0.9em;
     margin: 1em 0 1em 0;
-    border: 1px solid rgb(32,32,32); /*#86989B*/
-    border-radius: 2px;
+    border: 1px dashed rgb(32,32,32); /*#86989B*/
+    border-radius: 12px;
     background-color: rgb(51,51,51); /*#f7f7f7*/
     padding: 0;
 }
@@ -429,7 +429,7 @@ div.warning p.admonition-title {
 }
 
 div.warning {
-    border: 1px solid rgb(101,16,16); /*#940000*/
+    border-color: rgb(101,16,16); /*#940000*/
     background-color: rgb(101,51,51); /*#FFCCCF*/
 }
 
@@ -506,9 +506,13 @@ dl.class {
 }
 
 dl.class > dt {
-    font-size: 20px;
+    font-size: 1.2em;
     background-color: #333;
     padding: 2px;
+}
+
+dl.class > dt em {
+    font-size: 0.8em;
 }
 
 dl.class dt{
