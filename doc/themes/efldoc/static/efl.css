@@ -322,7 +322,7 @@ cite, code, tt {
     letter-spacing: -0.02em;
 }
 
-tt {
+code, tt {
     background-color: rgb(51,51,51); /*#f2f2f2*/
     border: 1px solid rgb(32,32,32); /*#ddd*/
     border-radius: 2px;
@@ -351,12 +351,12 @@ hr {
     margin: 2em;
 }
 
-a tt {
+a tt, a code{
     border: 0;
     color: rgb(200,200,170);
 }
 
-a tt:hover {
+a tt:hover, a code:hover{
     color: rgb(230,230,200);
 }
 
