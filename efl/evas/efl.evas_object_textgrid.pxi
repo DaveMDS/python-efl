@@ -15,47 +15,6 @@
 # You should have received a copy of the GNU Lesser General Public License
 # along with this Python-EFL.  If not, see <http://www.gnu.org/licenses/>.
 
-"""
-
-.. _Evas_Textgrid_Palette:
-
-.. rubric:: The palette to use for the foreground and background colors.
-
-.. data:: EVAS_TEXTGRID_PALETTE_NONE
-
-    No palette is used
-
-.. data:: EVAS_TEXTGRID_PALETTE_STANDARD
-
-    standard palette (around 16 colors)
-
-.. data:: EVAS_TEXTGRID_PALETTE_EXTENDED
-
-    extended palette (at max 256 colors)
-
-.. data:: EVAS_TEXTGRID_PALETTE_LAST
-
-    ignore it
-
-
-.. _Evas_Textgrid_Font_Style:
-
-.. rubric:: The style to give to each character of the grid.
-
-.. data:: EVAS_TEXTGRID_FONT_STYLE_NORMAL
-
-    Normal style
-
-.. data:: EVAS_TEXTGRID_FONT_STYLE_BOLD
-
-    Bold style
-
-.. data:: EVAS_TEXTGRID_FONT_STYLE_ITALIC
-
-    Oblique style
-
-"""
-
 from libc.stdlib cimport malloc
 
 
@@ -74,9 +33,9 @@ cdef class TextgridCell(object):
         return "%s" % (self.codepoint,)
 
     def __repr__(self):
-        return "%s(codepoint = %s, fg = %s, bg = %s, bold = %s, \
+        return "<%s(codepoint = %s, fg = %s, bg = %s, bold = %s, \
             italic = %s, underline = %s, strikethrough = %s, \
-            fg_extended = %s, bg_extended = %s, double_width = %s)" % (
+            fg_extended = %s, bg_extended = %s, double_width = %s)>" % (
             type(self).__name__, self.codepoint,
             self.fg, self.bg, self.bold, self.italic,
             self.underline, self.strikethrough,
@@ -223,7 +182,7 @@ cdef class Textgrid(Object):
         :type canvas: :py:class:`~efl.evas.Canvas`
         :keyword \**kwargs: All the remaining keyword arguments are interpreted
                             as properties of the instance
-        
+
         """
         self._set_obj(evas_object_textgrid_add(canvas.obj))
         self._set_properties_from_keyword_args(kwargs)
@@ -231,9 +190,8 @@ cdef class Textgrid(Object):
     property size:
         """The size of the textgrid object.
 
-        The number of lines **h** and the number
-        of columns **w** of the textgrid object. Values
-        less than or equal to 0 are ignored.
+        The number of lines **h** and the number of columns **w** of the
+        textgrid object. Values less than or equal to 0 are ignored.
 
         :type: (int **w**, int **h**)
 
@@ -251,13 +209,12 @@ cdef class Textgrid(Object):
     property font_source:
         """The font (source) file used on a given textgrid object.
 
-        This allows the font file to be explicitly
-        set for the textgrid object, overriding system lookup, which
-        will first occur in the given file's contents. If
-        None or an empty string is assigned, or the same font_source has already
-        been set, or on error, this does nothing.
+        This allows the font file to be explicitly set for the textgrid object,
+        overriding system lookup, which will first occur in the given file's
+        contents. If None or an empty string is assigned, or the same
+        font_source has already been set, or on error, this does nothing.
 
-        :type: unicode
+        :type: string
 
         .. seealso:: :py:attr:`font`
 
@@ -283,7 +240,7 @@ cdef class Textgrid(Object):
         ``None``, or if it is an empty string, or if **font_size** is less or
         equal than 0, or on error, this function does nothing.
 
-        :type: (unicode **font_name**, unicode **font_size**)
+        :type: (string **font_name**, int **font_size**)
 
         :see: :py:attr:`font_source`
 
@@ -306,14 +263,12 @@ cdef class Textgrid(Object):
             return (_ctouni(font_name), font_size)
 
     property cell_size:
-        """The size of a cell of the given textgrid object in pixels.
+        """The width and height of a cell in pixels.
 
-        This functions retrieves the width and height, in pixels, of a cell
-        of the textgrid object **obj** and store them respectively in the
-        buffers **width** and **height**. Their value depends on the
-        monospace font used for the textgrid object, as well as the
-        style. **width** and **height** can be ``None``. On error, they are
-        set to 0.
+        This read-only property has the width and height, in pixels, of a cell
+        of the textgrid object. Their value depends on the monospace font used
+        for the textgrid object, as well as the style. On error, they are set
+        to 0.
 
         :type: (int **width**, int **height**)
 
@@ -330,25 +285,26 @@ cdef class Textgrid(Object):
             return (w, h)
 
     def palette_set(self, Evas_Textgrid_Palette pal, int idx, int r, int g, int b, int a):
-        """The set color to the given palette at the given index of the given textgrid object.
+        """Set color to the given palette at the given index.
 
         :param pal: The type of the palette to set the color.
-        :param idx: The index of the paletter to wich the color is stored.
-        :param r: The red component of the color.
-        :param g: The green component of the color.
-        :param b: The blue component of the color.
-        :param a: The alpha component of the color.
+        :type pal: :ref:`Evas_Textgrid_Palette`
+        :param int idx: The index of the paletter to which the color is stored.
+        :param int r: The red component of the color.
+        :param int g: The green component of the color.
+        :param int b: The blue component of the color.
+        :param int a: The alpha component of the color.
 
         This function sets the color for the palette of type **pal** at the
-        index **idx** of the textgrid object **obj**. The ARGB components are
-        given by **r**, **g**, **b** and **a**. This color can be used when
-        setting the :py:class:`TextgridCell` object. The components must set
-        a pre-multiplied color. If pal is EVAS_TEXTGRID_PALETTE_NONE or
-        EVAS_TEXTGRID_PALETTE_LAST, or if **idx** is not between 0 and 255,
-        or on error, this function does nothing. The color components are
-        clamped between 0 and 255. If **idx** is greater than the latest set
-        color, the colors between this last index and **idx** - 1 are set to
-        black (0, 0, 0, 0).
+        index **idx** of the textgrid object. The ARGB components are given by
+        **r**, **g**, **b** and **a**. This color can be used when setting the
+        :py:class:`TextgridCell` object. The components must set a pre-
+        multiplied color. If pal is EVAS_TEXTGRID_PALETTE_NONE or
+        EVAS_TEXTGRID_PALETTE_LAST, or if **idx** is not between 0 and 255, or
+        on error, this function does nothing. The color components are clamped
+        between 0 and 255. If **idx** is greater than the latest set color, the
+        colors between this last index and **idx** - 1 are set to black (0, 0,
+        0, 0).
 
         :see: :py:func:`palette_get`
 
@@ -356,21 +312,21 @@ cdef class Textgrid(Object):
         evas_object_textgrid_palette_set(self.obj, pal, idx, r, g, b, a)
 
     def palette_get(self, Evas_Textgrid_Palette pal, int idx):
-        """The retrieve color to the given palette at the given index of the given textgrid object.
+        """Retrieve color from the given palette at the given index.
 
         :param pal: The type of the palette to set the color.
-        :param idx: The index of the palette to which the color is stored.
+        :type pal: :ref:`Evas_Textgrid_Palette`
+        :param int idx: The index of the palette to which the color is stored.
         :rtype: (int **r**, int **g**, int **b**, int **a**)
 
-        This function retrieves the color for the palette of type **pal** at the
-        index **idx** of the textgrid object **obj**. The ARGB components are
+        This method retrieves the color for the palette of type **pal** at
+        the index **idx** of the textgrid object. The ARGB components are
         stored in the buffers **r**, **g**, **b** and **a**. If **idx** is not
         between 0 and the index of the latest set color, or if **pal** is
-        EVAS_TEXTGRID_PALETTE_NONE or EVAS_TEXTGRID_PALETTE_LAST, the
-        values of the components are 0. **r**, **g**, **b** and **a** can be
-        ``None``.
+        EVAS_TEXTGRID_PALETTE_NONE or EVAS_TEXTGRID_PALETTE_LAST, the values of
+        the components are 0.
 
-        :see: :py:func:`palette_set`
+        :see: :py:meth:`palette_set`
 
         """
         cdef:
@@ -388,23 +344,21 @@ cdef class Textgrid(Object):
             return evas_object_textgrid_supported_font_styles_get(self.obj)
 
     def cellrow_set(self, int y, list row not None):
-        """Set the string at the given row of the given textgrid object.
+        """Set the string at the given row.
 
         :param y: The row index of the grid.
         :type y: int
-        :param row: The string as a sequence of #Evas_Textgrid_Cell.
+        :param row: The string as a sequence of :class:`TextgridCell`.
         :type row: list
 
-        This function returns cells to the textgrid taken by
-        :py:func:`cellrow_get`. The row pointer **row** should be the
-        same row pointer returned by :py:func:`cellrow_get` for the
-        same row **y**.
+        This method allows returning cells to the textgrid, retrieved with
+        :py:meth:`cellrow_get`.
 
         .. seealso::
 
-            :py:func:`cellrow_get`
+            :py:meth:`cellrow_get`
             :py:attr:`size`
-            :py:func:`update_add`
+            :py:meth:`update_add`
 
         """
         cdef:
@@ -422,20 +376,21 @@ cdef class Textgrid(Object):
         evas_object_textgrid_cellrow_set(self.obj, y, crow[0])
 
     def cellrow_get(self, int y):
-        """Get the string at the given row of the given textgrid object.
+        """Get the string at the given row.
 
-        :param y: The row index of the grid.
-        :return: A pointer to the first cell of the given row.
+        :param int y: The row index of the grid.
+        :return: A list of :class:`TextgridCell`
+        :rtype: list
 
-        This function returns a pointer to the first cell of the line **y**
-        of the textgrid object **obj**. If **y** is not between 0 and the
-        number of lines of the grid - 1, or on error, this function return ``None``.
+        This method returns a list of cells in the line **y** of
+        the textgrid object. If **y** is not between 0 and the number
+        of lines of the grid - 1, or on error, this function return ``None``.
 
         .. seealso::
 
-            :py:func:`cellrow_set`
+            :py:meth:`cellrow_set`
             :py:attr:`size`
-            :py:func:`update_add`
+            :py:meth:`update_add`
 
         """
         cdef:
@@ -457,12 +412,12 @@ cdef class Textgrid(Object):
     def update_add(self, int x, int y, int w, int h):
         """Indicate for evas that part of a textgrid region (cells) has been updated.
 
-        :param x: The rect region of cells top-left x (column)
-        :param y: The rect region of cells top-left y (row)
-        :param w: The rect region size in number of cells (columns)
-        :param h: The rect region size in number of cells (rows)
+        :param int x: The rect region of cells top-left x (column)
+        :param int y: The rect region of cells top-left y (row)
+        :param int w: The rect region size in number of cells (columns)
+        :param int h: The rect region size in number of cells (rows)
 
-        This function declares to evas that a region of cells was updated by
+        This method declares to evas that a region of cells was updated by
         code and needs refreshing. An application should modify cells like this
         as an example::
 
@@ -474,8 +429,8 @@ cdef class Textgrid(Object):
 
         .. seealso::
 
-            :py:func:`cellrow_set`
-            :py:func:`cellrow_get`
+            :py:meth:`cellrow_set`
+            :py:meth:`cellrow_get`
             :py:attr:`size`
 
         """

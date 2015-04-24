@@ -914,42 +914,46 @@ Evas_Textblock_Cursor_Type
 
 .. _Evas_Textgrid_Palette:
 
-_Evas_Textgrid_Palette
--------------------------------------
+Textgrid Palette
+----------------
+
+The palette to use for the foreground and background colors.
 
 .. data:: EVAS_TEXTGRID_PALETTE_NONE
 
-    None.
+    No palette is used.
 
 .. data:: EVAS_TEXTGRID_PALETTE_STANDARD
 
-    Standard.
+    Standard palette (around 16 colors).
 
 .. data:: EVAS_TEXTGRID_PALETTE_EXTENDED
 
-    Extended.
+    Extended palette (at max 256 colors).
 
 .. data:: EVAS_TEXTGRID_PALETTE_LAST
 
-    Last.
+    Ignore it.
 
 
 .. _Evas_Textgrid_Font_Style:
 
-Evas_Textgrid_Font_Style
--------------------------------------
+Textgrid Font Style
+-------------------
+
+The style to give to each character of the grid.
 
 .. data:: EVAS_TEXTGRID_FONT_STYLE_NORMAL
 
-    Normal.
+    Normal style.
 
 .. data:: EVAS_TEXTGRID_FONT_STYLE_BOLD
 
-    Bold.
+    Bold style.
 
 .. data:: EVAS_TEXTGRID_FONT_STYLE_ITALIC
 
-    italic.
+    Oblique style.
 
 
 Module level functions
