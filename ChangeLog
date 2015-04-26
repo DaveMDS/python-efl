@@ -1,5 +1,52 @@
 
 ===================
+2015-04-26  v1.14.0
+===================
+
+Improvements:
+
+ * Added evas.Smart and changed elm.Object to inherit from Smart
+ * Better init/shutdown management in elm, no more need to manually call
+   those functions
+
+
+Changes:
+
+ * elm.List.callback_highlighted_add: Added item param to func
+ * elm.List.callback_unhighlighted_add: Added item param to func
+ 
+
+Additions:
+
+ * evas.Smart
+ * evas.Image.orient
+ * edje.Edje.text_class_get
+ * edje.text_class_get
+ * elm.systray
+ * elm.Configuration.window_auto_focus_animate
+ * elm.Configuration.window_auto_focus_enable
+ * elm.Image.memfile_set
+ * elm.MultiButtonEntry.callback_item_longpressed_add
+ * elm.MultiButtonEntry.callback_item_longpressed_del
+ * elm.NaviframeItem.pop_cb_set
+ * elm.Photocam.image_orient
+ * elm.Scrollable.loop
+ * elm.Slider.indicator_visible_mode
+ * elm.Transit.go_in
+ * elm.on_config_all_changed
+ * elm.on_ethumb_connect
+ * elm.on_policy_changed
+ * elm.on_process_background
+ * elm.LayoutClass.file is now also readable
+ * elm.Video.file is now also readable
+
+ 
+Deprecation:
+
+ * evas.Rect.intercepts: Use intersects() instead
+ 
+ 
+===================
 2015-02-09  v1.13.0
 ===================
 
@@ -51,7 +98,8 @@ Deprecation:
 
  * elm.Configuration.engine
  * elm.Configuration.preferred_engine
- 
+
+
 ===================
 2014-11-23  v1.12.0
 ===================
