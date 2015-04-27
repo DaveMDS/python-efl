@@ -17,8 +17,8 @@
 
 """
 
-:mod:`efl.edje` Module
-######################
+:mod:`efl.emotion` Module
+#########################
 
 Classes
 =======
