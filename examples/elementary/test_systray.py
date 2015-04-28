@@ -1,36 +1,38 @@
 #!/usr/bin/python
 
-from efl.ecore import ECORE_CALLBACK_DONE
 import efl.elementary as elm
-elm.init()
-if not elm.need_systray():
-    raise SystemExit("systray support missing")
 
 from efl.elementary.window import StandardWindow
 from efl.elementary.systray import Systray, on_systray_ready
 from efl.elementary.menu import Menu
 
 
-def ready_cb(event):
-    print(tray.register())
+def systray_clicked(obj, item=None):
+    if not elm.need_systray():
+        print("systray support not available")
+        return
 
-    return ECORE_CALLBACK_DONE
+    win = StandardWindow("test", "systray test", size=(400, 400), autodel=True)
+    if not obj:
+        win.callback_delete_request_add(lambda x: elm.exit())
 
+    menu = Menu(win)
+    menu.item_add(None, "it works!")
 
-win = StandardWindow("test", "systray test", size=(400, 400))
-win.callback_delete_request_add(lambda x: elm.exit())
+    global tray
+    tray = Systray(win)
+    tray.icon_name = "elementary"
+    tray.att_icon_name = "elementary"
+    tray.menu = menu
 
-on_systray_ready(ready_cb)
+    on_systray_ready(lambda x: tray.register())
 
-menu = Menu(win)
-menu.item_add(None, "it works!")
+    win.show()
 
-tray = Systray(win)
-tray.icon_name = "elementary"
-tray.att_icon_name = "elementary"
-tray.menu = menu
+if __name__ == "__main__":
+    elm.init()
 
-win.show()
+    systray_clicked(None)
 
-elm.run()
-elm.shutdown()
+    elm.run()
+    elm.shutdown()
