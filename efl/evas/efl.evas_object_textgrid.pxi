@@ -42,6 +42,14 @@ cdef class TextgridCell(object):
             self.fg_extended, self.bg_extended,
             self.double_width)
 
+    @staticmethod
+    cdef TextgridCell create(Evas_Textgrid_Cell *cell):
+        if cell == NULL:
+            raise ValueError("Invalid pointer for evas textgrid cell!")
+        cdef TextgridCell ret = TextgridCell.__new__(TextgridCell)
+        ret.cell = cell
+        return ret
+
     property codepoint:
         """the UNICODE value of the character
 
@@ -166,6 +174,35 @@ cdef class TextgridCell(object):
 
         def __get__(self):
             return <bint>self.cell.double_width
+
+
+cdef class TextgridCellRow:
+
+    cdef:
+        Evas_Textgrid_Cell *row
+        unsigned int rowsize
+
+    @staticmethod
+    cdef TextgridCellRow create(Evas_Textgrid_Cell *row, unsigned int rowsize):
+        if row == NULL:
+            raise ValueError("Invalid pointer for evas textgrid cell row!")
+        cdef TextgridCellRow ret = TextgridCellRow.__new__(TextgridCellRow)
+        ret.row = row
+        ret.rowsize = rowsize
+        return ret
+
+    def __len__(self):
+        return self.rowsize
+
+    def __getitem__(self, x):
+        if x > self.rowsize - 1:
+            raise IndexError
+        if x < 0:
+            x = self.rowsize - x
+        if x < 0:
+            raise IndexError
+        return TextgridCell.create(&self.row[x])
+
 
 cdef class Textgrid(Object):
     """
@@ -343,13 +380,13 @@ cdef class Textgrid(Object):
         def __get__(self):
             return evas_object_textgrid_supported_font_styles_get(self.obj)
 
-    def cellrow_set(self, int y, list row not None):
+    def cellrow_set(self, int y, TextgridCellRow row not None):
         """Set the string at the given row.
 
         :param y: The row index of the grid.
         :type y: int
         :param row: The string as a sequence of :class:`TextgridCell`.
-        :type row: list
+        :type row: :class:`TextgridCellRow`
 
         This method allows returning cells to the textgrid, retrieved with
         :py:meth:`cellrow_get`.
@@ -361,26 +398,14 @@ cdef class Textgrid(Object):
             :py:meth:`update_add`
 
         """
-        cdef:
-            TextgridCell cell
-            Evas_Textgrid_Cell **crow
-            int rlen = len(row)
-            int i
-
-        crow = <Evas_Textgrid_Cell **>malloc(rlen * sizeof(Evas_Textgrid_Cell *))
-
-        for i in range(rlen):
-            cell = row[i]
-            crow[i] = cell.cell
-
-        evas_object_textgrid_cellrow_set(self.obj, y, crow[0])
+        evas_object_textgrid_cellrow_set(self.obj, y, row.row)
 
     def cellrow_get(self, int y):
         """Get the string at the given row.
 
         :param int y: The row index of the grid.
         :return: A list of :class:`TextgridCell`
-        :rtype: list
+        :rtype: :class:`TextgridCellRow`
 
         This method returns a list of cells in the line **y** of
         the textgrid object. If **y** is not between 0 and the number
@@ -393,21 +418,8 @@ cdef class Textgrid(Object):
             :py:meth:`update_add`
 
         """
-        cdef:
-            Evas_Textgrid_Cell *row = evas_object_textgrid_cellrow_get(self.obj, y)
-            int i
-            list ret = []
-            TextgridCell cell
-
-        if row == NULL:
-            return None
-
-        for i in range(self.size[0]):
-            cell = TextgridCell.__new__(TextgridCell)
-            cell.cell = &row[i]
-            ret.append(cell)
-
-        return ret
+        return TextgridCellRow.create(
+            evas_object_textgrid_cellrow_get(self.obj, y), self.size[0])
 
     def update_add(self, int x, int y, int w, int h):
         """Indicate for evas that part of a textgrid region (cells) has been updated.
