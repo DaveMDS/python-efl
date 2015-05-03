@@ -1,7 +1,12 @@
 
 ===================
-2015-04-26  v1.14.0
+2015-05-03  v1.14.0
 ===================
+
+Fixes:
+
+ * Fixed evas.Textgrid to not leak on cellrow_set()
+
 
 Improvements:
 
@@ -14,7 +19,7 @@ Changes:
 
  * elm.List.callback_highlighted_add: Added item param to func
  * elm.List.callback_unhighlighted_add: Added item param to func
- 
+
 
 Additions:
 
@@ -40,12 +45,12 @@ Additions:
  * elm.LayoutClass.file is now also readable
  * elm.Video.file is now also readable
 
- 
+
 Deprecation:
 
  * evas.Rect.intercepts: Use intersects() instead
- 
- 
+
+
 ===================
 2015-02-09  v1.13.0
 ===================
