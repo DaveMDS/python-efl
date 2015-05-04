@@ -20,6 +20,8 @@ Changes:
 
  * elm.List.callback_highlighted_add: Added item param to func
  * elm.List.callback_unhighlighted_add: Added item param to func
+ * elm.Slideshow: item_data are now a single value, instead of args/kargs,
+   like is implemented in Gengrid/Genlist
 
 
 Additions:
