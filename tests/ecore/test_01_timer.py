@@ -39,7 +39,7 @@ class TestTimer(unittest.TestCase):
 
         self.assertEqual(before1, after1)
         self.assertEqual(before2, after2)
-        self.assertNotEqual(before3, after3) # already deleted 
+        self.assertNotEqual(before3, after3) # already deleted
         self.assertNotEqual(before4, after4) # already deleted
 
         self.assertEqual(t1.is_deleted(), False)
@@ -57,4 +57,3 @@ class TestTimer(unittest.TestCase):
 
 if __name__ == '__main__':
     unittest.main(verbosity=2)
-    ecore.shutdown()

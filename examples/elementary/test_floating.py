@@ -59,9 +59,7 @@ def floating_clicked(obj):
         win.callback_delete_request_add(lambda o: elementary.exit())
 
 if __name__ == "__main__":
-    elementary.init()
 
     floating_clicked(None)
 
     elementary.run()
-    elementary.shutdown()

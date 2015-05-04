@@ -151,9 +151,7 @@ def core_evas_object_callbacks_clicked(obj, item=None):
 
 
 if __name__ == "__main__":
-    elementary.init()
 
     core_evas_object_callbacks_clicked(None)
 
     elementary.run()
-    elementary.shutdown()

@@ -183,9 +183,7 @@ def scroller_clicked(obj):
 
 
 if __name__ == "__main__":
-    elementary.init()
 
     scroller_clicked(None)
 
     elementary.run()
-    elementary.shutdown()

@@ -203,7 +203,5 @@ if __name__ == "__main__":
     efl_log_handler = logging.StreamHandler()
     efl_log_handler.setFormatter(efl_log_form)
     efl_log.addHandler(efl_log_handler)
-    elementary.init()
     core_evas_smart_clicked(None)
     elementary.run()
-    elementary.shutdown()

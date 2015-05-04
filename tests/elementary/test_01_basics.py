@@ -7,7 +7,6 @@ from efl import elementary
 from efl.elementary.window import Window, ELM_WIN_BASIC
 from efl.elementary.button import Button
 
-elementary.init()
 
 def cb1(*args):
     pass
@@ -54,4 +53,3 @@ class TestElmBasics(unittest.TestCase):
 
 if __name__ == '__main__':
     unittest.main(verbosity=2)
-    elementary.shutdown()

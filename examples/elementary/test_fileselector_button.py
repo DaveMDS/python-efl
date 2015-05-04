@@ -85,7 +85,6 @@ def fileselector_button_clicked(obj, item=None):
 
 
 if __name__ == "__main__":
-    elementary.init()
 
     import logging
     efl_log = logging.getLogger("efl")
@@ -94,4 +93,3 @@ if __name__ == "__main__":
     fileselector_button_clicked(None)
 
     elementary.run()
-    elementary.shutdown()

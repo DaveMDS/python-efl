@@ -320,9 +320,7 @@ def notify_clicked(obj=None):
 
 
 if __name__ == "__main__":
-    elementary.init()
 
     notify_clicked(None)
 
     elementary.run()
-    elementary.shutdown()

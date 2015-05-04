@@ -13,7 +13,6 @@ from efl.elementary.icon import Icon
 script_path = os.path.dirname(os.path.abspath(__file__))
 img_path = os.path.join(script_path, "images")
 
-elementary.init()
 
 class TestElmImage(unittest.TestCase):
 
@@ -95,4 +94,3 @@ class TestElmIcon(unittest.TestCase):
 
 if __name__ == '__main__':
     unittest.main(verbosity=2)
-    elementary.shutdown()

@@ -1,8 +1,6 @@
 #!/usr/bin/env python
 
 from efl import evas
-from efl import ecore
-from efl import edje
 from efl.edje import EDJE_PART_TYPE_RECTANGLE
 from efl.edje_edit import EdjeEdit, Text_Style, Text_Style_Tag, Color_Class, \
                           Part, Program
@@ -482,7 +480,3 @@ class TestEdjeEditPartStates(unittest.TestCase):
 
 if __name__ == '__main__':
     unittest.main(verbosity=2)
-    edje.shutdown()
-    ecore.shutdown()
-    evas.shutdown()
-

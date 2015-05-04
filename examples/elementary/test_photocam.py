@@ -152,9 +152,7 @@ def photocam_clicked(obj):
 
 
 if __name__ == "__main__":
-    elementary.init()
 
     photocam_clicked(None)
 
     elementary.run()
-    elementary.shutdown()

@@ -77,10 +77,8 @@ def clock_clicked(obj):
 
 
 if __name__ == "__main__":
-    elementary.init()
 
     clock_clicked(None)
 
     elementary.run()
-    elementary.shutdown()
 

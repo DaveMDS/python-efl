@@ -20,7 +20,7 @@ class TestIdler(unittest.TestCase):
 
         self.assertIsInstance(i1, ecore.Idler)
         self.assertIsInstance(i2, ecore.Idler)
-        
+
         before1 = i1.__repr__()
         before2 = i2.__repr__()
 
@@ -36,8 +36,8 @@ class TestIdler(unittest.TestCase):
         self.assertEqual(t.is_deleted(), True)
         self.assertEqual(i1.is_deleted(), False)
         self.assertEqual(i2.is_deleted(), True)
-        
-        
+
+
         i1.delete()
         del t
         del i1
@@ -46,4 +46,3 @@ class TestIdler(unittest.TestCase):
 
 if __name__ == '__main__':
     unittest.main(verbosity=2)
-    ecore.shutdown()

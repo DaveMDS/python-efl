@@ -327,9 +327,7 @@ def gesture_layer_clicked(obj):
     win.show()
 
 if __name__ == "__main__":
-    elementary.init()
 
     gesture_layer_clicked(None)
 
     elementary.run()
-    elementary.shutdown()

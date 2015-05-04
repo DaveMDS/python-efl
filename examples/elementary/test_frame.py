@@ -59,9 +59,7 @@ def frame_clicked(obj):
     win.show()
 
 if __name__ == "__main__":
-    elementary.init()
 
     frame_clicked(None)
 
     elementary.run()
-    elementary.shutdown()

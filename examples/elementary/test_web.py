@@ -146,9 +146,7 @@ def web_clicked(obj):
 
 
 if __name__ == "__main__":
-    elementary.init()
     if not elementary.need_web():
-        elementary.shutdown()
         raise SystemExit("EFL-webkit not available!")
 
     elementary.policy_set(elementary.ELM_POLICY_QUIT,
@@ -157,4 +155,3 @@ if __name__ == "__main__":
     web_clicked(None)
 
     elementary.run()
-    elementary.shutdown()

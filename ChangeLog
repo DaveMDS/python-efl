@@ -12,8 +12,8 @@ Improvements:
 
  * Re-added evas.SmartObject (with incompatible API compared to the earlier
    incarnation) and made elm.Object inherit from it.
- * Better init/shutdown management in eo/evas/ecore/elm, no more need to
-   manually call those functions (no harm in doing that though).
+ * Better init/shutdown management in all modules, no more need to
+   manually call those functions (no harm in doing it though).
 
 
 Changes:

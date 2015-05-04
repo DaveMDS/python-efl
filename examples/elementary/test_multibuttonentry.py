@@ -180,10 +180,8 @@ def multibuttonentry_clicked(obj, item=None):
 
 
 if __name__ == "__main__":
-    elementary.init()
 
     multibuttonentry_clicked(None)
 
     elementary.run()
-    elementary.shutdown()
 

@@ -51,7 +51,7 @@ class TestIdleExiter(unittest.TestCase):
         self.assertEqual(t.is_deleted(), True)
         self.assertEqual(i1.is_deleted(), False)
         self.assertEqual(i2.is_deleted(), True)
-        
+
         i1.delete()
         del i1
         del i2 # already deleted since returned false
@@ -62,4 +62,3 @@ class TestIdleExiter(unittest.TestCase):
 
 if __name__ == '__main__':
     unittest.main(verbosity=2)
-    ecore.shutdown()

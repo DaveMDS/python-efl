@@ -245,10 +245,8 @@ def slider_clicked(obj):
     rd.show()
 
 if __name__ == "__main__":
-    elementary.init()
 
     slider_clicked(None)
 
     elementary.run()
-    elementary.shutdown()
 

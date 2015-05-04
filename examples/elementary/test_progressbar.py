@@ -151,9 +151,7 @@ def progressbar_clicked(obj):
 
 
 if __name__ == "__main__":
-    elementary.init()
 
     progressbar_clicked(None)
 
     elementary.run()
-    elementary.shutdown()

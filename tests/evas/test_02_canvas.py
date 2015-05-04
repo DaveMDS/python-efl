@@ -74,7 +74,7 @@ class TestCanvasProperties(unittest.TestCase):
 
 
 class TestCanvasDeletion(unittest.TestCase):
-    def testEmptyCanvasDelete(self):  
+    def testEmptyCanvasDelete(self):
         canvas = _new_canvas()
         canvas.delete()
 
@@ -100,12 +100,12 @@ class TestCanvasFactory(unittest.TestCase):
     def tearDown(self):
         self.canvas.delete()
 
-    def testRectangle(self):  
+    def testRectangle(self):
         o = self.canvas.Rectangle()
         self.assertEqual(type(o), evas.Rectangle)
         o.delete()
 
-    def testImage(self):  
+    def testImage(self):
         o = self.canvas.Image()
         self.assertEqual(type(o), evas.Image)
         o.delete()
@@ -133,5 +133,3 @@ class TestCanvasFactory(unittest.TestCase):
 
 if __name__ == '__main__':
     unittest.main(verbosity=2)
-    evas.shutdown()
-

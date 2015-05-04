@@ -108,9 +108,7 @@ def diskselector_clicked(obj):
     win.show()
 
 if __name__ == "__main__":
-    elementary.init()
 
     diskselector_clicked(None)
 
     elementary.run()
-    elementary.shutdown()

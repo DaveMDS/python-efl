@@ -356,9 +356,7 @@ def config_clicked(obj, data=None):
     win.show()
 
 if __name__ == "__main__":
-    elementary.init()
 
     config_clicked(None)
 
     elementary.run()
-    elementary.shutdown()

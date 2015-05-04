@@ -48,7 +48,7 @@ class DBusNode(object):
     @property
     def name(self):
         return self._name
-    
+
     @property
     def parent(self):
         return self._parent
@@ -72,17 +72,17 @@ class DBusInterface(DBusNode):
         self._properties = []
         self._methods = []
         self._signals = []
-        
+
         parent_obj.interfaces.append(self)
-    
+
     @property
     def properties(self):
         return self._properties
-    
+
     @property
     def methods(self):
         return self._methods
-    
+
     @property
     def signals(self):
         return self._signals
@@ -184,7 +184,7 @@ def recursive_introspect(bus, named_service, object_path, ret_data=None):
         # found a new object
         obj = DBusObject(object_path, named_service)
         ret_data.append(obj)
-    
+
     for xml_node in xml_root:
         # found an interface
         if xml_node.tag == 'interface':
@@ -255,7 +255,7 @@ class NamesList(Genlist):
         self.public_group = self.item_append(self.itc_g, "Public Services",
                                flags=elm.ELM_GENLIST_ITEM_GROUP)
         self.public_group.select_mode_set(elm.ELM_OBJECT_SELECT_MODE_DISPLAY_ONLY)
-        
+
         self.private_group = self.item_append(self.itc_g, "Private Services",
                                flags=elm.ELM_GENLIST_ITEM_GROUP)
         self.private_group.select_mode_set(elm.ELM_OBJECT_SELECT_MODE_DISPLAY_ONLY)
@@ -269,11 +269,11 @@ class NamesList(Genlist):
 
         # keep the list updated when a name changes
         if self.sig1: self.sig1.remove()
-        self.sig1 = bus.add_signal_receiver(self.name_owner_changed_cb, 
+        self.sig1 = bus.add_signal_receiver(self.name_owner_changed_cb,
                                             "NameOwnerChanged")
         # bus.add_signal_receiver(self.name_acquired_cb, "NameAcquired")
         # bus.add_signal_receiver(self.name_lost_cb, "NameLost")
-    
+
     def clear(self):
         self.public_group.subitems_clear()
         self.private_group.subitems_clear()
@@ -281,10 +281,10 @@ class NamesList(Genlist):
     def item_selected_cb(self, gl, item):
         name = item.data
         self.win.detail_list.populate(name)
-    
+
     def sort_cb(self, it1, it2):
         return 1 if it1.data.lower() < it2.data.lower() else -1
-        
+
 
     def service_add(self, name):
         print("service_add('%s')" % name)
@@ -302,7 +302,7 @@ class NamesList(Genlist):
                 item.delete()
                 return
             item = item.next
-        
+
     def name_owner_changed_cb(self, name, old_owner, new_owner):
         print("NameOwnerChanged(name='%s', old_owner='%s', new_owner='%s')" %
               (name, old_owner, new_owner))
@@ -352,8 +352,8 @@ class DetailList(Genlist):
         self.callback_contract_request_add(self.contract_request_cb)
         self.callback_contracted_add(self.contracted_cb)
         self.callback_clicked_double_add(self.double_click_cb)
-        
-        
+
+
     def populate(self, name):
         print("populate: %s" % name)
         self.clear()
@@ -363,7 +363,7 @@ class DetailList(Genlist):
             obj_item = self.item_append(self.itc_g, obj,
                                         flags=elm.ELM_GENLIST_ITEM_GROUP)
             obj_item.select_mode_set(elm.ELM_OBJECT_SELECT_MODE_DISPLAY_ONLY)
-            
+
             # interfaces
             for iface in obj.interfaces:
                 if options.hide_introspect_stuff and \
@@ -392,7 +392,7 @@ class DetailList(Genlist):
         iface = item.data
         for obj in iface.properties + iface.methods + iface.signals:
             self.item_sorted_insert(self.itc, obj, self.sort_cb, parent_item=item)
-    
+
     def contract_request_cb(self, genlist, item):
         item.expanded = False
 
@@ -447,7 +447,7 @@ class MethodRunner(Popup):
             sp.horizontal = True
             sp.show()
             vbox.pack_end(sp)
-        
+
         # returns label + entry
         label = Label(parent)
         label.size_hint_align = 0.0, 0.5
@@ -558,13 +558,13 @@ class MyWin(StandardWindow):
         self.resize_object_add(box)
         box.size_hint_weight_set(evas.EVAS_HINT_EXPAND, evas.EVAS_HINT_EXPAND)
         box.show()
-        
+
         flip = FlipSelector(self)
         flip.item_append("Session Bus", self.flip_selected_cb, session_bus)
         flip.item_append("System Bus", self.flip_selected_cb, system_bus)
         box.pack_end(flip)
         flip.show()
-        
+
         panes = Panes(self)
         panes.size_hint_weight = (evas.EVAS_HINT_EXPAND, evas.EVAS_HINT_EXPAND)
         panes.size_hint_align = (evas.EVAS_HINT_FILL, evas.EVAS_HINT_FILL)
@@ -594,8 +594,5 @@ class MyWin(StandardWindow):
 
 
 if __name__ == "__main__":
-    elm.init()
     win = MyWin()
     elm.run()
-    elm.shutdown()
-

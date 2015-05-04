@@ -77,9 +77,7 @@ def core_ecore_events_in_elm_clicked(obj, item=None):
 
 
 if __name__ == "__main__":
-    elementary.init()
 
     core_ecore_events_in_elm_clicked(None)
 
     elementary.run()
-    elementary.shutdown()

@@ -3,7 +3,6 @@
 import os, unittest
 
 from efl import evas
-from efl import ecore
 from efl import edje
 
 from efl.elementary.actionslider import Actionslider
@@ -370,8 +369,3 @@ class TestElementaryExternal(unittest.TestCase):
 
 if __name__ == '__main__':
     unittest.main(verbosity=2)
-
-    elementary.shutdown()
-    edje.shutdown()
-    ecore.shutdown()
-    evas.shutdown()

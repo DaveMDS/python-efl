@@ -60,10 +60,8 @@ def panel_scroll_clicked(obj):
 
 
 if __name__ == "__main__":
-    elementary.init()
 
     panel_scroll_clicked(None)
 
     elementary.run()
-    elementary.shutdown()
 

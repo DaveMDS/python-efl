@@ -88,10 +88,8 @@ def theme_clicked(obj, data=None):
 
 
 if __name__ == "__main__":
-    elementary.init()
 
     theme_clicked(None)
 
     elementary.run()
-    elementary.shutdown()
 

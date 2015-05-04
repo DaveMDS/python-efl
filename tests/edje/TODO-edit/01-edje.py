@@ -239,6 +239,3 @@ class Basics(unittest.TestCase):
 edje.file_cache_set(0)
 suite = unittest.TestLoader().loadTestsFromTestCase(Basics)
 unittest.TextTestRunner(verbosity=2).run(suite)
-edje.shutdown()
-ecore.evas.shutdown()
-

@@ -8,7 +8,6 @@ from efl import elementary
 from efl.elementary.window import Window, ELM_WIN_BASIC
 from efl.elementary.entry import Entry
 
-elementary.init()
 
 class TestElmBasics(unittest.TestCase):
 
@@ -27,4 +26,3 @@ class TestElmBasics(unittest.TestCase):
 
 if __name__ == '__main__':
     unittest.main(verbosity=2)
-    elementary.shutdown()

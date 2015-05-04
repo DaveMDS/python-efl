@@ -51,10 +51,8 @@ def evas_textgrid_clicked(obj, item=None):
 
 if __name__ == "__main__":
     evas.init()
-    elementary.init()
 
     evas_textgrid_clicked(None)
 
     elementary.run()
-    elementary.shutdown()
     evas.shutdown()

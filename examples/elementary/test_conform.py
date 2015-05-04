@@ -152,7 +152,6 @@ def conformant2_clicked(obj, item=None):
     win.show()
 
 if __name__ == "__main__":
-    elementary.init()
     win = StandardWindow("test", "python-elementary test application",
         size=(320,520))
     win.callback_delete_request_add(lambda o: elementary.exit())
@@ -187,4 +186,3 @@ if __name__ == "__main__":
 
     win.show()
     elementary.run()
-    elementary.shutdown()

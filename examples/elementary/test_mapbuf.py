@@ -169,9 +169,7 @@ def mapbuf_clicked(obj, item=None):
 
 
 if __name__ == "__main__":
-    elementary.init()
 
     mapbuf_clicked(None)
 
     elementary.run()
-    elementary.shutdown()

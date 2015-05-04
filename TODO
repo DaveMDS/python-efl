@@ -43,4 +43,3 @@ Elm
    - video
    - web
    - window ?
-* How are the ecore events managed? for example: ELM_EVENT_PROCESS_FOREGROUND

@@ -91,10 +91,8 @@ def elm_input_events_clicked(obj, item=None):
 
 
 if __name__ == "__main__":
-    elementary.init()
 
     elm_input_events_clicked(None)
 
     elementary.run()
-    elementary.shutdown()
 

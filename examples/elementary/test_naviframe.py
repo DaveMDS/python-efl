@@ -129,9 +129,7 @@ def naviframe_clicked(obj):
 
 
 if __name__ == "__main__":
-    elementary.init()
 
     naviframe_clicked(None)
 
     elementary.run()
-    elementary.shutdown()

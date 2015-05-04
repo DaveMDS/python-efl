@@ -22,7 +22,7 @@ def poller_cb2(one, two, three, test):
 
 class TestPoller(unittest.TestCase):
     def testInit(self):
-        
+
         p1 = ecore.Poller(4, poller_cb)
         p2 = ecore.Poller(2, poller_cb2, ecore.ECORE_POLLER_CORE,
                           "uno", "due", three="tre", test=self)
@@ -41,4 +41,3 @@ class TestPoller(unittest.TestCase):
 
 if __name__ == '__main__':
     unittest.main(verbosity=2)
-    ecore.shutdown()

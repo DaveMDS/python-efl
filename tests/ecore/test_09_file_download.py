@@ -26,11 +26,10 @@ class TestFileDownload(unittest.TestCase):
         ecore.FileDownload("http://www.google.com", dst,
                             completion_cb = _completion_cb,
                             progress_cb = _progress_cb)
-        
+
         ecore.main_loop_begin()
-        
+
 
 
 if __name__ == '__main__':
     unittest.main(verbosity=2)
-    ecore.shutdown()

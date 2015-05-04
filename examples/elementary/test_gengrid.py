@@ -380,9 +380,7 @@ def gengrid_clicked(obj):
 
 
 if __name__ == "__main__":
-    elementary.init()
 
     gengrid_clicked(None)
 
     elementary.run()
-    elementary.shutdown()

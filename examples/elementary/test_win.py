@@ -149,10 +149,8 @@ def window_states_clicked(obj):
 
 
 if __name__ == "__main__":
-    elementary.init()
 
     window_states_clicked(None)
 
     elementary.run()
-    elementary.shutdown()
 

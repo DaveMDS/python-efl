@@ -124,6 +124,3 @@ class TestEdjeObject(unittest.TestCase):
 
 if __name__ == '__main__':
     unittest.main(verbosity=2)
-    edje.shutdown()
-    ecore.shutdown()
-    evas.shutdown()

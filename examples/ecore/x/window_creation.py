@@ -1,9 +1,8 @@
 #!/usr/bin/env python
 
 import efl.ecore
-from efl.ecore.x import init, Window, on_window_configure_add
+from efl.ecore.x import Window, on_window_configure_add
 
-init()
 
 # method 1
 main_window = Window(w=800, h=600)

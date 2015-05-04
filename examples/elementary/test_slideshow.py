@@ -165,9 +165,7 @@ def slideshow_clicked(obj):
 
 
 if __name__ == "__main__":
-    elementary.init()
 
     slideshow_clicked(None)
 
     elementary.run()
-    elementary.shutdown()

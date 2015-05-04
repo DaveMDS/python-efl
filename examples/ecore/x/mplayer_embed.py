@@ -2,14 +2,13 @@
 
 import sys
 import efl.ecore
-from efl.ecore.x import init, Window, on_window_configure_add
+from efl.ecore.x import Window, on_window_configure_add
 from subprocess import Popen, PIPE
 
-init()
 
 try:
     filename = sys.argv[1]
-except IndexError, e:
+except IndexError:
     raise SystemExit("Usage: %s <filename>" % sys.argv[0])
 
 main_window = Window(w=800, h=600)
