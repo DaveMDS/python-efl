@@ -19,6 +19,8 @@
 from cpython cimport PyMem_Malloc, PyMem_Free, PyUnicode_AsUTF8String
 from efl.utils.deprecated cimport DEPRECATED
 
+import atexit
+
 
 def init(name=None):
     """Initialize the X display connection to the given display.
@@ -322,3 +324,6 @@ def cursor_free(Ecore_X_Cursor c):
 
 include "efl.ecore_x_window.pxi"
 include "efl.ecore_x_events.pxi"
+
+init()
+atexit.register(shutdown)

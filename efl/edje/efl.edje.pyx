@@ -30,10 +30,6 @@ Classes
 
 """
 
-
-import traceback
-import warnings
-
 from cpython cimport PyMem_Malloc, PyMem_Free, PyUnicode_AsUTF8String
 cimport libc.stdlib
 from libc.stdint cimport uintptr_t
@@ -45,6 +41,9 @@ from efl.eo cimport _object_mapping_register, object_from_instance, \
 from efl.utils.conversions cimport _ctouni, _touni, \
     eina_list_strings_to_python_list
 
+import traceback
+import warnings
+import atexit
 
 
 def init():
@@ -288,3 +287,4 @@ include "efl.edje_object.pxi"
 
 
 init()
+atexit.register(shutdown)

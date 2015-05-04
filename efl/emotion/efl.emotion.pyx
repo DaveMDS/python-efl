@@ -41,6 +41,8 @@ from efl.utils.conversions cimport _ctouni
 from efl.evas cimport Canvas, evas_object_smart_callback_add, \
     evas_object_smart_callback_del
 
+import atexit
+
 
 cdef void _emotion_callback(void *data, Evas_Object *o, void *ei) with gil:
     cdef Emotion obj
@@ -1285,3 +1287,4 @@ _object_mapping_register("Emotion_Object", Emotion)
 
 
 init()
+atexit.register(shutdown)
