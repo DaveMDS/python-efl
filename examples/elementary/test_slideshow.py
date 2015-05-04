@@ -74,40 +74,45 @@ def spin(sp, ss):
     if (ss.timeout > 0):
         ss.timeout = sp.value
 
-def slide_transition(ss, slide_it, slide_last_it):
-    if (slide_last_it == slide_it):
+
+def ss_changed_cb(ss, item):
+    print("CHANGED", item)
+
+def ss_transition_end_cb(ss, item, last_item):
+    print("TRANSITION END", item)
+    if item == last_item:
         print("Reaches to End of slides\n")
 
 class ssClass(SlideshowItemClass):
-    def get(self, obj, *args, **kwargs):
-        photo = Photo(obj, file=args[0], fill_inside=True, style="shadow")
+    def get(self, obj, item_data):
+        print("Class get", item_data)
+        photo = Photo(obj, file=item_data, fill_inside=True, style="shadow")
         return photo
 
+    def delete(self, obj, item_data):
+        print("Class delete", item_data)
+
 def slideshow_clicked(obj):
-    win = StandardWindow("slideshow", "Slideshow", autodel=True,
-        size=(500, 400))
+    win = StandardWindow("slideshow", "Slideshow",
+                         autodel=True, size=(500, 400))
 
     ss = Slideshow(win, loop=True, size_hint_weight=EXPAND_BOTH)
     win.resize_object_add(ss)
     ss.show()
 
     ssc = ssClass()
-    ss.item_add(ssc, os.path.join(img_path, images[0]))
-    ss.item_add(ssc, os.path.join(img_path, images[1]))
-    ss.item_add(ssc, os.path.join(img_path, images[2]))
-    ss.item_add(ssc, os.path.join(img_path, images[3]))
-    ss.item_add(ssc, os.path.join(img_path, images[8]))
-    ss.item_add(ssc, os.path.join(img_path, images[4]))
-    ss.item_add(ssc, os.path.join(img_path, images[5]))
-    ss.item_add(ssc, os.path.join(img_path, images[6]))
-    slide_last_it = ss.item_add(ssc, os.path.join(img_path, images[7]))
-    ss.callback_transition_end_add(slide_transition, slide_last_it)
+    for i in range(len(images)):
+        print("ADD", images[i])
+        slide_last_it = ss.item_add(ssc, os.path.join(img_path, images[i]))
+
+    ss.callback_changed_add(ss_changed_cb)
+    ss.callback_transition_end_add(ss_transition_end_cb, slide_last_it)
 
     bx = Box(win, horizontal=True)
     bx.show()
 
-    no = Notify(win, align=(0.5, 1.0),
-        size_hint_weight=EXPAND_BOTH, timeout=3.0, content=bx)
+    no = Notify(win, align=(0.5, 1.0), timeout=3.0, content=bx,
+                size_hint_weight=EXPAND_BOTH)
     win.resize_object_add(no)
 
     bx.event_callback_add(EVAS_CALLBACK_MOUSE_IN, mouse_in, no)
@@ -136,8 +141,8 @@ def slideshow_clicked(obj):
          hv.item_add(layout, None, 0, layout_select, ss, layout)
     hv.show()
 
-    sp = Spinner(win, label_format="%2.0f secs.", step=1, min_max=(1, 30),
-        value=3)
+    sp = Spinner(win, label_format="%2.0f secs.",
+                 step=1, min_max=(1, 30), value=3)
     sp.callback_changed_add(spin, ss)
     bx.pack_end(sp)
     sp.show()

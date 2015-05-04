@@ -110,9 +110,10 @@ cdef object _cb_object_item_conv(void *addr):
 
 
 cdef Evas_Object *_py_elm_slideshow_item_get(void *data, Evas_Object *obj) with gil:
-    cdef SlideshowItem item = <object>data
-    cdef evasObject icon
-    cdef SlideshowItemClass itc = item.cls
+    cdef:
+        SlideshowItem item = <SlideshowItem>data
+        SlideshowItemClass itc = item.item_class
+        evasObject icon
 
     func = itc._get_func
     if func is None:
@@ -120,37 +121,39 @@ cdef Evas_Object *_py_elm_slideshow_item_get(void *data, Evas_Object *obj) with 
 
     try:
         o = object_from_instance(obj)
-        ret = func(o, *item.args, **item.kwargs)
+        icon = func(o, item.item_data)
     except Exception:
         traceback.print_exc()
         return NULL
 
-    if ret is None:
+    if icon is not None:
+        return icon.obj
+    else:
         return NULL
 
-    icon = ret
-    return icon.obj
 
 cdef void _py_elm_slideshow_item_del(void *data, Evas_Object *obj) with gil:
-    cdef SlideshowItem item = <object>data
-    cdef SlideshowItemClass itc = item.cls
+    cdef:
+        SlideshowItem item = <SlideshowItem>data
+        SlideshowItemClass itc = item.item_class
 
     func = itc._del_func
     if func is not None:
         try:
             o = object_from_instance(obj)
-            func(o, *item.args, **item.kwargs)
+            func(o, item.item_data)
         except Exception:
             traceback.print_exc()
 
     # XXX: SlideShow item handling is weird
-    #item._unset_obj()
+    # item._unset_obj()
     #Py_DECREF(item)
 
 cdef int _py_elm_slideshow_compare_func(const void *data1, const void *data2) with gil:
-    cdef SlideshowItem item1    = <object>data1
-    cdef SlideshowItem item2    = <object>data2
-    cdef object func            = item1.compare_func
+    cdef:
+        SlideshowItem item1 = <SlideshowItem>data1
+        SlideshowItem item2 = <SlideshowItem>data2
+        object func = item1.compare_func
 
     if func is None:
         return 0
@@ -192,17 +195,17 @@ cdef class SlideshowItemClass (object):
         ``func(obj, item_data)``
 
     .. note:: In all these signatures, 'obj' means Slideshow and
-        'item_data' is the value given to Slideshow item append/prepend
+        'item_data' is the value given to Slideshow item add/sorted_insert
         methods, it should represent your item model as you want.
 
     """
-    cdef Elm_Slideshow_Item_Class obj
+    cdef Elm_Slideshow_Item_Class cls
     cdef readonly object _get_func
     cdef readonly object _del_func
 
-    def __cinit__(self, *a, **ka):
-        self.obj.func.get = _py_elm_slideshow_item_get
-        self.obj.func.del_ = _py_elm_slideshow_item_del
+    def __cinit__(self):
+        self.cls.func.get = _py_elm_slideshow_item_get
+        self.cls.func.del_ = _py_elm_slideshow_item_del
 
     def __init__(self, get_func=None, del_func=None):
         if get_func and not callable(get_func):
@@ -228,7 +231,7 @@ cdef class SlideshowItemClass (object):
                (type(self).__name__,
                 <uintptr_t><void *>self,
                 PY_REFCOUNT(self),
-                <uintptr_t>&self.obj,
+                <uintptr_t>&self.cls,
                 self._get_func,
                 self._del_func)
 
@@ -236,7 +239,7 @@ cdef class SlideshowItemClass (object):
         """To be called by Slideshow for each item to get its icon.
 
         :param obj: the Slideshow instance
-        :param item_data: the value given to slideshow append/prepend.
+        :param item_data: the value given to slideshow item_add func.
 
         :return: icon object to be used and swallowed.
         :rtype: evas Object or None
@@ -251,8 +254,8 @@ cdef class SlideshowItem(ObjectItem):
     """
 
     cdef:
-        SlideshowItemClass cls
-        object compare_func
+        readonly SlideshowItemClass item_class
+        object item_data, compare_func
 
     cdef int _set_obj(self, Elm_Object_Item *item) except 0:
         assert self.item == NULL, "Object must be clean"
@@ -264,8 +267,10 @@ cdef class SlideshowItem(ObjectItem):
         assert self.item != NULL, "Object must wrap something"
         self.item = NULL
 
-    def __init__(self, SlideshowItemClass item_class not None, *args, **kwargs):
-        self.cls = item_class
+    def __init__(self, SlideshowItemClass item_class not None,
+                 item_data=None, *args, **kwargs):
+        self.item_class = item_class
+        self.item_data = item_data
         self.args = args
         self.kwargs = kwargs
 
@@ -275,9 +280,9 @@ cdef class SlideshowItem(ObjectItem):
                (type(self).__name__,
                 <uintptr_t><void*>self,
                 PY_REFCOUNT(self),
-                <uintptr_t>self.obj,
-                type(self.cls).__name__,
-                self.args)
+                <uintptr_t>self.item,
+                type(self.item_class).__name__,
+                self.item_data)
 
     def add_to(self, Slideshow slideshow not None):
         """Add (append) a new item in a given slideshow widget.
@@ -303,7 +308,8 @@ cdef class SlideshowItem(ObjectItem):
         """
         cdef Elm_Object_Item *item
 
-        item = elm_slideshow_item_add(slideshow.obj, &self.cls.obj, <void*>self)
+        item = elm_slideshow_item_add(slideshow.obj, &self.item_class.cls,
+                                      <void*>self)
 
         if item == NULL:
             raise RuntimeError("The item could not be added to the widget.")
@@ -347,8 +353,8 @@ cdef class SlideshowItem(ObjectItem):
         self.compare_func = func
         compare = _py_elm_slideshow_compare_func
 
-        item = elm_slideshow_item_sorted_insert(slideshow.obj, &self.cls.obj, \
-            <void*>self, compare)
+        item = elm_slideshow_item_sorted_insert(slideshow.obj,
+                                    &self.item_class.cls, <void*>self, compare)
 
         if item == NULL:
             raise RuntimeError("The item could not be added to the widget.")
@@ -407,7 +413,7 @@ cdef class Slideshow(LayoutClass):
         self._set_obj(elm_slideshow_add(parent.obj))
         self._set_properties_from_keyword_args(kwargs)
 
-    def item_add(self, SlideshowItemClass item_class not None, *args, **kwargs):
+    def item_add(self, SlideshowItemClass item_class not None, item_data):
         """Add (append) a new item in a given slideshow widget.
 
         Add a new item to ``obj's`` internal list of items, appending it.
@@ -425,14 +431,19 @@ cdef class Slideshow(LayoutClass):
         :param item_class: The item class for the item
         :type item_class: :py:class:`SlideshowItemClass`
 
+        :param item_data: The data (model) associated with this item
+
         :return: A handle to the item added or ``None``, on errors
         :rtype: :py:class:`SlideshowItem`
 
+        .. versionchanged:: 1.14
+            use item_data param instead or args/kargs
+
         """
-        return SlideshowItem(item_class, *args, **kwargs).add_to(self)
+        return SlideshowItem(item_class, item_data).add_to(self)
 
     def item_sorted_insert(self, SlideshowItemClass item_class not None,
-                            func not None, *args, **kwargs):
+                            func not None, item_data):
         """Insert a new item into the given slideshow widget, using the ``func``
         function to sort items (by item handles).
 
@@ -454,11 +465,18 @@ cdef class Slideshow(LayoutClass):
         :param itc: The item class for the item
         :param func: The comparing function to be used to sort slideshow
             items **by SlideshowItemClass item handles**
-        :return: Returns The slideshow item handle, on success, or
-            ``None``, on errors
+
+        :param item_data: The data (model) associated with this item
+
+        :return: A handle to the item added or ``None``, on errors
+        :rtype: :py:class:`SlideshowItem`
+
+        .. versionchanged:: 1.14
+            use item_data param instead or args/kargs
+
 
         """
-        return SlideshowItem(item_class, *args, **kwargs).sorted_insert(self, func)
+        return SlideshowItem(item_class, item_data).sorted_insert(self, func)
 
     def next(self):
         """Slide to the **next** item, in a given slideshow widget
