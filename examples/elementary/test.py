@@ -309,7 +309,6 @@ def cb_filter(en, win):
     menu_create(en.text_get(), win)
 
 if __name__ == "__main__":
-    elementary.init()
     win = StandardWindow("test", "Python EFL test application")
     win.callback_delete_request_add(destroy, "test1", "test2",
                                     str3="test3", str4="test4")
@@ -364,4 +363,3 @@ if __name__ == "__main__":
     win.resize(480, 480)
     win.show()
     elementary.run()
-    elementary.shutdown()

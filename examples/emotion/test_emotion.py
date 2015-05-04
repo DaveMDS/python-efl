@@ -48,7 +48,7 @@ class MovieWindow(edje.Edje):
         self.part_text_set("video_alpha_txt", "alpha 255")
         self.part_drag_value_set("video_volume", 0.0, 0.5)
         self.part_text_set("video_volume_txt", "vol 0.50")
-        
+
         self.part_swallow("video_swallow", self.vid)
         self.data["moving"] = False
         self.data["resizing"] = False
@@ -365,8 +365,6 @@ def cmdline_parse():
 if __name__ == "__main__"or True:
     options, args = cmdline_parse()
 
-    elementary.init()
-
     # elementary window
     win = Window("test-emotion", ELM_WIN_BASIC)
     win.title_set("python-emotion test application")
@@ -414,9 +412,3 @@ if __name__ == "__main__"or True:
     del win.data["movie_windows"]
     win.delete()
     del scene
-    
-
-    elementary.shutdown()
-    emotion.shutdown()
-    edje.shutdown()
-    evas.shutdown()
