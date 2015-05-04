@@ -46,9 +46,10 @@ def tb_4a(obj, it, ph):
 def tb_5(obj, it, ph):
     ph.file = None
 
-def cb_clicked(tb):
+def cb_clicked(tb, it):
     print("CLICKED")
     print(tb)
+    print(it)
 
 def cb_item_focused(tb, item):
     print("ITEM FOCUSED")
