@@ -55,8 +55,6 @@ params = {
     "elementary": ("efl/elementary", "Elementary", "elm"),
 }
 
-EFL_MIN_VERSION = "1.9.99"
-
 parser = argparse.ArgumentParser(
     description="Reports EFL vs. Python-EFL API functions coverage"
     )
@@ -205,7 +203,7 @@ print("")
 
 for lib in args.libs:
 
-    inc_paths = pkg_config(lib, EFL_MIN_VERSION)
+    inc_paths = pkg_config(lib)
     inc_path = None
     for p in inc_paths:
         if lib in p:
