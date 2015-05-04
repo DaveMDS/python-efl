@@ -284,6 +284,22 @@ cdef class SlideshowItem(ObjectItem):
                 type(self.item_class).__name__,
                 self.item_data)
 
+    property data:
+        """ The data (model) associated with this item.
+
+        This is the data that has been passed to the add/sorted_insert
+        functions, and the same that you get in the ItemClass get and delete
+        functions.
+
+        .. versionadded:: 1.14
+
+        """
+        def __get__(self):
+            return self.item_data
+
+    def data_get(self):
+        return self.item_data
+
     def add_to(self, Slideshow slideshow not None):
         """Add (append) a new item in a given slideshow widget.
 
