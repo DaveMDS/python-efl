@@ -20,7 +20,9 @@ from efl.elementary.label import Label
 from efl.elementary.panes import Panes
 from efl.elementary.popup import Popup
 from efl.elementary.separator import Separator
-from efl.elementary.genlist import Genlist, GenlistItem, GenlistItemClass
+from efl.elementary.genlist import Genlist, GenlistItemClass, \
+    ELM_GENLIST_ITEM_GROUP, ELM_GENLIST_ITEM_TREE, \
+    ELM_OBJECT_SELECT_MODE_DISPLAY_ONLY
 from efl.dbus_mainloop import DBusEcoreMainLoop
 
 
@@ -253,12 +255,12 @@ class NamesList(Genlist):
 
         # add private & public group items
         self.public_group = self.item_append(self.itc_g, "Public Services",
-                               flags=elm.ELM_GENLIST_ITEM_GROUP)
-        self.public_group.select_mode_set(elm.ELM_OBJECT_SELECT_MODE_DISPLAY_ONLY)
+                               flags=ELM_GENLIST_ITEM_GROUP)
+        self.public_group.select_mode_set(ELM_OBJECT_SELECT_MODE_DISPLAY_ONLY)
 
         self.private_group = self.item_append(self.itc_g, "Private Services",
-                               flags=elm.ELM_GENLIST_ITEM_GROUP)
-        self.private_group.select_mode_set(elm.ELM_OBJECT_SELECT_MODE_DISPLAY_ONLY)
+                               flags=ELM_GENLIST_ITEM_GROUP)
+        self.private_group.select_mode_set(ELM_OBJECT_SELECT_MODE_DISPLAY_ONLY)
 
         # populate the genlist
         self.populate()
@@ -361,8 +363,8 @@ class DetailList(Genlist):
         # objects
         for obj in recursive_introspect(bus, name, '/'):
             obj_item = self.item_append(self.itc_g, obj,
-                                        flags=elm.ELM_GENLIST_ITEM_GROUP)
-            obj_item.select_mode_set(elm.ELM_OBJECT_SELECT_MODE_DISPLAY_ONLY)
+                                        flags=ELM_GENLIST_ITEM_GROUP)
+            obj_item.select_mode_set(ELM_OBJECT_SELECT_MODE_DISPLAY_ONLY)
 
             # interfaces
             for iface in obj.interfaces:
@@ -371,7 +373,7 @@ class DetailList(Genlist):
                   continue
                 iface_item = self.item_append(self.itc, iface,
                                               parent_item=obj_item,
-                                              flags=elm.ELM_GENLIST_ITEM_TREE)
+                                              flags=ELM_GENLIST_ITEM_TREE)
 
     def sort_cb(self, it1, it2):
         pri1 = pri2 = 0

@@ -2,7 +2,7 @@
 
 import sys
 import efl.ecore
-from efl.ecore.x import Window, on_window_configure_add
+from efl.ecore_x import Window, on_window_configure_add
 from subprocess import Popen, PIPE
 
 
@@ -39,5 +39,5 @@ def on_configure(event, main_window, sub_window):
 on_window_configure_add(on_configure, main_window, sub_window)
 
 efl.ecore.fd_handler_add(
-    p.stdout, efl.ecore.ECORE_FD_ALL, handle_read, p.stdout)
+    p.stdout, efl.ecore_x.ECORE_FD_ALL, handle_read, p.stdout)
 efl.ecore.main_loop_begin()

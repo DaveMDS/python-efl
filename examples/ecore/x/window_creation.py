@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 
 import efl.ecore
-from efl.ecore.x import Window, on_window_configure_add
+from efl.ecore_x import Window, on_window_configure_add
 
 
 # method 1
