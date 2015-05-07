@@ -1,2 +1,0 @@
-
-.. automodule:: efl.elementary.general

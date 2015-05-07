@@ -381,93 +381,17 @@ if set(("build", "build_ext", "install", "bdist", "sdist")) & set(sys.argv):
     ext_modules.append(dbus_ml_ext)
 
     # === Elementary ===
-    elm_mods = (
-        #"access",
-        "actionslider",
-        "background",
-        "box",
-        "bubble",
-        "button",
-        "calendar_elm",
-        "check",
-        "clock",
-        "colorselector",
-        "configuration",
-        "conformant",
-        "ctxpopup",
-        "datetime_elm",
-        "dayselector",
-        "diskselector",
-        "entry",
-        "fileselector_button",
-        "fileselector_entry",
-        "fileselector",
-        "flip",
-        "flipselector",
-        "frame",
-        "general",
-        "gengrid",
-        "genlist",
-        "gesture_layer",
-        #"glview",
-        "grid",
-        "hover",
-        "hoversel",
-        "icon",
-        "image",
-        "index",
-        "innerwindow",
-        "label",
-        "layout_class",
-        "layout",
-        "list",
-        "mapbuf",
-        "map",
-        "menu",
-        "multibuttonentry",
-        "naviframe",
-        "need",
-        "notify",
-        "object_item",
-        "object",
-        "panel",
-        "panes",
-        "photocam",
-        "photo",
-        "plug",
-        "popup",
-        "progressbar",
-        "radio",
-        "scroller",
-        "segment_control",
-        "separator",
-        "slider",
-        "slideshow",
-        "spinner",
-        #"store",
-        "systray",
-        "table",
-        "theme",
-        "thumb",
-        "toolbar",
-        "transit",
-        "video",
-        "web",
-        "window",
-    )
-
     elm_cflags, elm_libs = pkg_config('Elementary', 'elementary', ELM_MIN_VER)
-    for m in elm_mods:
-        e = Extension("elementary." + m,
-                      ["efl/elementary/" + m + module_suffix],
-                      define_macros=[
-                        ('EFL_BETA_API_SUPPORT', 1),
-                        ('EFL_EO_API_SUPPORT', 1)
-                      ],
-                      include_dirs=["include/"],
-                      extra_compile_args=elm_cflags,
-                      extra_link_args=elm_libs + eina_libs + eo_libs + evas_libs)
-        ext_modules.append(e)
+    e = Extension("elementary.__init__",
+                  ["efl/elementary/__init__" + module_suffix],
+                  define_macros=[
+                    ('EFL_BETA_API_SUPPORT', 1),
+                    ('EFL_EO_API_SUPPORT', 1)
+                  ],
+                  include_dirs=["include/"],
+                  extra_compile_args=elm_cflags,
+                  extra_link_args=elm_libs + eina_libs + eo_libs + evas_libs)
+    ext_modules.append(e)
 
     packages.append("efl.elementary")
 

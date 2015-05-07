@@ -16,10 +16,6 @@
 # along with this Python-EFL.  If not, see <http://www.gnu.org/licenses/>.
 #
 
-from efl.elementary.general import *
-from efl.elementary.need import *
-
-
 __all__ = (
     #"access",
     "actionslider",
@@ -57,7 +53,6 @@ __all__ = (
     "index",
     "innerwindow",
     "label",
-    "layout_class",
     "layout",
     "list",
     "map",
@@ -68,7 +63,6 @@ __all__ = (
     "need",
     "notify",
     "object",
-    "object_item",
     "panel",
     "panes",
     "photo",

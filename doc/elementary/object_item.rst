@@ -1,2 +1,13 @@
+.. currentmodule:: efl.elementary
 
-.. automodule:: efl.elementary.object_item
+Object Item
+###########
+
+Inheritance diagram
+===================
+
+.. inheritance-diagram:: ObjectItem
+    :parts: 2
+
+
+.. autoclass:: ObjectItem

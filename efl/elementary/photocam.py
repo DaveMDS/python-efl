@@ -1,0 +1,7 @@
+from . import Photocam
+
+from . import ELM_PHOTOCAM_ZOOM_MODE_MANUAL
+from . import ELM_PHOTOCAM_ZOOM_MODE_AUTO_FIT
+from . import ELM_PHOTOCAM_ZOOM_MODE_AUTO_FILL
+from . import ELM_PHOTOCAM_ZOOM_MODE_AUTO_FIT_IN
+from . import ELM_PHOTOCAM_ZOOM_MODE_LAST

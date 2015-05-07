@@ -602,7 +602,7 @@ cdef class GenlistItem(ObjectItem):
     property select_mode:
         """Item's select mode. Possible values are:
 
-        :type: :ref:`Elm_Genlist_Object_Select_Mode`
+        :type: :ref:`Elm_Object_Select_Mode`
 
         """
         def __set__(self, mode):

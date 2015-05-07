@@ -45,7 +45,7 @@ cdef class Table(Object):
         :type canvas: :py:class:`~efl.evas.Canvas`
         :keyword \**kwargs: All the remaining keyword arguments are interpreted
                             as properties of the instance
-        
+
         """
         self._set_obj(evas_object_table_add(canvas.obj))
         self._set_properties_from_keyword_args(kwargs)
@@ -55,7 +55,7 @@ cdef class Table(Object):
         """Create a table that is child of a given parent.
 
         :param parent:
-        :type parent: Object
+        :type parent: :class:`~efl.evas.Object`
 
         """
         Object._set_obj(cls, evas_object_table_add_to(parent.obj))

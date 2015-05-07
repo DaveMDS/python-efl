@@ -135,7 +135,7 @@ cdef class Image(Object):
         :type file: string or tuple
         :param \**kwargs: All the remaining keyword arguments are interpreted
                           as properties of the instance
-        
+
         """
         self._set_obj(evas_object_image_add(canvas.obj))
 
@@ -470,7 +470,6 @@ cdef class Image(Object):
             of the image. If data is None the current image data will be freed.
 
         :param buf: The buffer
-        :type buf: data
 
         """
         cdef:
@@ -911,7 +910,7 @@ cdef class Image(Object):
         :type: Evas_Image_Orient
 
         .. versionadded:: 1.14
-        
+
         """
         def __set__(self, value):
             evas_object_image_orient_set(self.obj, <Evas_Image_Orient>value)
@@ -1372,7 +1371,7 @@ cdef class FilledImage(Image):
         :type canvas: :py:class:`~efl.evas.Canvas`
         :param \**kwargs: All the remaining keyword arguments are interpreted
                           as properties of the instance
-        
+
         """
         Image.__init__(self, canvas, **kargs)
         w, h = self.size_get()

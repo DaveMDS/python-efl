@@ -1,0 +1,40 @@
+cdef extern from "Ecore.h":
+    ctypedef void (*Ecore_Cb)(void *data)
+
+cdef extern from "Evas.h":
+    ctypedef void *Evas_Object_Box_Data
+    ctypedef void *Elm_Box_Transition
+    ctypedef void (*Evas_Object_Box_Layout)(Evas_Object *o, Evas_Object_Box_Data *priv, void *user_data)
+    void evas_object_box_layout_horizontal(Evas_Object *o, Evas_Object_Box_Data *priv, void *data)
+    void evas_object_box_layout_vertical(Evas_Object *o, Evas_Object_Box_Data *priv, void *data)
+    void evas_object_box_layout_homogeneous_vertical(Evas_Object *o, Evas_Object_Box_Data *priv, void *data)
+    void evas_object_box_layout_homogeneous_horizontal(Evas_Object *o, Evas_Object_Box_Data *priv, void *data)
+    void evas_object_box_layout_homogeneous_max_size_horizontal(Evas_Object *o, Evas_Object_Box_Data *priv, void *data)
+    void evas_object_box_layout_homogeneous_max_size_vertical(Evas_Object *o, Evas_Object_Box_Data *priv, void *data)
+    void evas_object_box_layout_flow_horizontal(Evas_Object *o, Evas_Object_Box_Data *priv, void *data)
+    void evas_object_box_layout_flow_vertical(Evas_Object *o, Evas_Object_Box_Data *priv, void *data)
+    void evas_object_box_layout_stack(Evas_Object *o, Evas_Object_Box_Data *priv, void *data)
+    void elm_box_layout_transition(Evas_Object *o, Evas_Object_Box_Data *priv, void *data)
+
+cdef extern from "Elementary.h":
+    Evas_Object             *elm_box_add(Evas_Object *parent)
+    void                     elm_box_horizontal_set(Evas_Object *obj, Eina_Bool horizontal)
+    Eina_Bool                elm_box_horizontal_get(const Evas_Object *obj)
+    void                     elm_box_homogeneous_set(Evas_Object *obj, Eina_Bool homogeneous)
+    Eina_Bool                elm_box_homogeneous_get(const Evas_Object *obj)
+    void                     elm_box_pack_start(Evas_Object *obj, Evas_Object *subobj)
+    void                     elm_box_pack_end(Evas_Object *obj, Evas_Object *subobj)
+    void                     elm_box_pack_before(Evas_Object *obj, Evas_Object *subobj, Evas_Object *before)
+    void                     elm_box_pack_after(Evas_Object *obj, Evas_Object *subobj, Evas_Object *after)
+    void                     elm_box_clear(Evas_Object *obj)
+    void                     elm_box_unpack(Evas_Object *obj, Evas_Object *subobj)
+    void                     elm_box_unpack_all(Evas_Object *obj)
+    void                     elm_box_recalculate(Evas_Object *obj)
+    Eina_List               *elm_box_children_get(const Evas_Object *obj)
+    void                     elm_box_padding_set(Evas_Object *obj, Evas_Coord horizontal, Evas_Coord vertical)
+    void                     elm_box_padding_get(const Evas_Object *obj, Evas_Coord *horizontal, Evas_Coord *vertical)
+    void                     elm_box_align_set(Evas_Object *obj, double horizontal, double vertical)
+    void                     elm_box_align_get(const Evas_Object *obj, double *horizontal, double *vertical)
+    void                     elm_box_layout_set(Evas_Object *obj, Evas_Object_Box_Layout cb, void *data, Ecore_Cb free_data)
+    Elm_Box_Transition      *elm_box_transition_new(double duration, Evas_Object_Box_Layout start_layout, void *start_layout_data, Ecore_Cb start_layout_free_data, Evas_Object_Box_Layout end_layout, void *end_layout_data, Ecore_Cb end_layout_free_data, Ecore_Cb transition_end_cb, void *transition_end_data)
+    void                     elm_box_transition_free(void *data)
