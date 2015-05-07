@@ -75,7 +75,9 @@ Release process instructions
 
 * ssh to download.enlightenment.org and mv tarballs & md5sums to:
     /srv/web/download.enlightenment.org/public_html/rel/bindings/python
-* Upload the .tar.gz archive to pypi
+* Upload the .tar.gz archive to pypi:
+   - first upload the PKG-INFO file from the "edit" section on pypi
+   - then upload the tarball from the "files" section
 * Create and push the tag for the release
     git tag -a v1.9.0 && git push origin v1.9.0
 * Create and push the branch for stable backporting
