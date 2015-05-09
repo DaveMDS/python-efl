@@ -110,7 +110,10 @@ def init():
     EINA_LOG_DOM_INFO(PY_EFL_ELM_LOG_DOMAIN,
         "Initializing efl.elementary", NULL)
 
-    # FIXME: Why are we passing the cl args to elm_init here?
+    # argc and argv are currently used by EFL to support app restart
+    # and binary relocation. These are probably not useful to us but we
+    # pass the information here regardless because useful functionality
+    # may be added in the future.
 
     cdef:
         int argc = 0, i, arg_len
