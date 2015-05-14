@@ -48,3 +48,4 @@ Inheritance diagram
 
 
 .. autoclass:: SegmentControl
+.. autoclass:: SegmentControlItem
