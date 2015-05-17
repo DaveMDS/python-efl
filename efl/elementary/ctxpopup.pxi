@@ -360,7 +360,7 @@ cdef class Ctxpopup(LayoutClass):
 
         Use this function to simulate clicking outside the ctxpopup to
         dismiss it. In this way, the ctxpopup will be hidden and the
-        "clicked" signal will be emitted.
+        "dismissed" signal will be emitted.
 
         """
         elm_ctxpopup_dismiss(self.obj)
