@@ -259,7 +259,7 @@ cdef class Eo(object):
         assert obj != NULL, "Cannot set a NULL object"
 
         self.obj = obj
-        eo_do(self.obj, eo_key_data_set("python-eo", <void *>self, NULL))
+        eo_do(self.obj, eo_key_data_set("python-eo", <void *>self))
         eo_do(self.obj,
             eo_event_callback_add(EO_EV_DEL, _eo_event_del_cb, <const void *>self))
         Py_INCREF(self)

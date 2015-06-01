@@ -704,7 +704,7 @@ cdef class SmartObject(Object):
         assert obj != NULL, "Cannot set a NULL object"
 
         self.obj = obj
-        eo_do(self.obj, eo_key_data_set("python-eo", <void *>self, NULL))
+        eo_do(self.obj, eo_key_data_set("python-eo", <void *>self))
         evas_object_event_callback_add(obj, EVAS_CALLBACK_FREE,
                                        obj_free_cb, <void *>self)
         Py_INCREF(self)
