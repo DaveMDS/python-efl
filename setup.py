@@ -69,8 +69,10 @@ def pkg_config(name, require, min_vers=None):
         call = subprocess.Popen(["pkg-config", "--modversion", require],
                                 stdout=subprocess.PIPE)
         out, err = call.communicate()
-        ver = out.decode("utf-8").strip()
+        if call.returncode != 0:
+            raise SystemExit("Did not find " + name + " with 'pkg-config'.")
 
+        ver = out.decode("utf-8").strip()
         if min_vers is not None:
             assert (LooseVersion(ver) >= LooseVersion(min_vers)) is True
 
@@ -313,7 +315,7 @@ if set(("build", "build_ext", "install", "bdist", "sdist")) & set(sys.argv):
         ecore_x_cflags, ecore_x_libs = pkg_config('EcoreX', 'ecore-x',
                                                   EFL_MIN_VER)
     except SystemExit:
-        pass
+        print("Not found, will not be built")
     else:
         ecore_x_ext = Extension("ecore_x",
                                 ["efl/ecore_x/efl.ecore_x" + module_suffix],
