@@ -17,8 +17,8 @@
  * along with this Python-EFL.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include <stdbool.h>
 #include "e_dbus.h"
+#include <stdbool.h>
 
 
 #ifndef E_DBUS_COLOR_DEFAULT
