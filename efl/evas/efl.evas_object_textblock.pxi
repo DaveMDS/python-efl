@@ -182,6 +182,52 @@ cdef class Textblock(Object):
         evas_object_textblock_style_insets_get(self.obj, &l, &r, &t, &b)
         return (l, r, t, b)
 
+    def obstacle_add(self, Object obstacle):
+        """
+        Add obstacle evas object to be observed during layout of text.
+        The textblock does the layout of the text according to the position
+        of the obstacle.
+
+        :param obstacle: An evas object to be used as an obstacle
+        :type obstacle: :class:`Object`
+
+        :return: ``True`` on success or ``False`` on failure
+        :rtype: bool
+
+        .. versionadded:: 1.15
+
+        """
+        return bool(evas_object_textblock_obstacle_add(self.obj, obstacle.obj))
+
+    def obstacle_del(self, Object obstacle):
+        """Removes an object from observation during text layout.
+
+        :param obstacle: An evas object to be removed as an obstacle
+        :type obstacle: :class:`Object`
+
+        :return: ``True`` on success or ``False`` on failure
+        :rtype: bool
+
+        .. versionadded:: 1.15
+
+
+        """
+        return bool(evas_object_textblock_obstacle_del(self.obj, obstacle.obj))
+
+    def obstacles_update(self):
+        """Triggers for relayout due to obstacles' state change. 
+
+        The obstacles alone don't affect the layout, until this is called. Use 
+        this after doing changes (moving, positioning etc.) in the obstacles 
+        that you would like to be considered in the layout. For example: if you 
+        have just repositioned the obstacles to differrent coordinates relative 
+        to the textblock, you need to call this so it will consider this new 
+        state and will relayout the text.
+
+        .. versionadded:: 1.15
+
+        """
+        evas_object_textblock_obstacles_update(self.obj)
 
 _object_mapping_register("Evas_Textblock", Textblock)
 

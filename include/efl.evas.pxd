@@ -1027,6 +1027,9 @@ cdef extern from "Evas.h":
     void evas_object_textblock_size_formatted_get(const Evas_Object *obj, Evas_Coord *w, Evas_Coord *h)
     void evas_object_textblock_size_native_get(const Evas_Object *obj, Evas_Coord *w, Evas_Coord *h)
     void evas_object_textblock_style_insets_get(const Evas_Object *obj, Evas_Coord *l, Evas_Coord *r, Evas_Coord *t, Evas_Coord *b)
+    Eina_Bool evas_object_textblock_obstacle_add(const Evas_Object *obj, Evas_Object *obstacle)
+    Eina_Bool evas_object_textblock_obstacle_del(const Evas_Object *obj, Evas_Object *obstacle)
+    Eina_Bool evas_object_textblock_obstacles_update(const Evas_Object *obj)
 
 
     ####################################################################
