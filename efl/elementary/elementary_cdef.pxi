@@ -66,6 +66,7 @@ cdef extern from "Elementary.h":
     cpdef enum Elm_Policy_Quit:
         ELM_POLICY_QUIT_NONE
         ELM_POLICY_QUIT_LAST_WINDOW_CLOSED
+        ELM_POLICY_QUIT_LAST_WINDOW_HIDDEN
     ctypedef enum Elm_Policy_Quit:
         pass
 

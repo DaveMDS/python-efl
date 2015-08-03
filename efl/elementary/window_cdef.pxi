@@ -81,6 +81,8 @@ cdef extern from "Elementary.h":
     const Evas_Object       *elm_win_icon_object_get(const Evas_Object*)
     void                     elm_win_autodel_set(Evas_Object *obj, Eina_Bool autodel)
     Eina_Bool                elm_win_autodel_get(const Evas_Object *obj)
+    void                     elm_win_autohide_set(Evas_Object *obj, Eina_Bool autodel)
+    Eina_Bool                elm_win_autohide_get(const Evas_Object *obj)
     void                     elm_win_activate(Evas_Object *obj)
     void                     elm_win_lower(Evas_Object *obj)
     void                     elm_win_raise(Evas_Object *obj)

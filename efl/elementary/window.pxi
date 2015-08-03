@@ -209,6 +209,35 @@ cdef class Window(Object):
     def autodel_get(self):
         return elm_win_autodel_get(self.obj)
 
+    property autohide:
+        """The window's autohide state.
+
+        This property works similarly to :func:`autodel`, automatically handling
+        "delete,request" signals when set to ``True``, with the difference
+        that it will hide the window, instead of destroying it.
+
+        It is specially designed to work together with 
+        ELM_POLICY_QUIT_LAST_WINDOW_HIDDEN which allows exiting Elementary's
+        main loop when all the windows are hidden.
+        
+        .. note:: :func:`autodel` and :func:`autohide` are not mutually exclusive.
+                  The window will be deleted if both are set to ``True``.
+
+        :type: bool
+        
+        .. versionadded:: 1.15
+
+        """
+        def __get__(self):
+            return elm_win_autohide_get(self.obj)
+        def __set__(self, autohide):
+            elm_win_autohide_set(self.obj, autohide)
+
+    def autohide_set(self, autohide):
+        elm_win_autohide_set(self.obj, autohide)
+    def autohide_get(self):
+        return elm_win_autohide_get(self.obj)
+
     def activate(self):
         """Activate a window object.
 

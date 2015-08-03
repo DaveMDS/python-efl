@@ -115,6 +115,12 @@ Quit policy types
 
     Quit when the application's last window is closed
 
+.. data:: ELM_POLICY_QUIT_LAST_WINDOW_HIDDEN
+
+    Quit when the application's last window is hidden
+    
+    .. versionadded:: 1.15
+
 
 .. _Elm_Policy_Exit:
 
