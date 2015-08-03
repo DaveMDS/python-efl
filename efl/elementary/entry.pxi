@@ -1800,7 +1800,7 @@ cdef class Entry(LayoutClass):
         """
         self._callback_add("rejected", func, args, kwargs)
 
-    def callback_text_set_done_del(self, func):
+    def callback_rejected_del(self, func):
         self._callback_del("rejected", func)
 
 
