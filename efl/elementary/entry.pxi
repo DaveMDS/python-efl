@@ -1803,6 +1803,17 @@ cdef class Entry(LayoutClass):
     def callback_rejected_del(self, func):
         self._callback_del("rejected", func)
 
+    def callback_context_open_add(self, func, *args, **kwargs):
+        """Called before showing the context menu.
+
+        .. versionadded:: 1.15
+
+        """
+        self._callback_add("context,open", func, args, kwargs)
+
+    def callback_context_open_del(self, func):
+        self._callback_del("context,open", func)
+
 
     property scrollbar_policy:
         """
