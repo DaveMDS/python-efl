@@ -105,6 +105,12 @@ Focus move policy
 
     .. versionadded:: 1.10
 
+.. data:: ELM_FOCUS_MOVE_POLICY_KEY_ONLY
+
+    Focus is set on key input like Left, Right, Up, Down, Tab, or Shift+Tab
+
+    .. versionadded:: 1.15
+
 
 .. _Elm_Focus_Autoscroll_Mode:
 

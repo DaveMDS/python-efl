@@ -143,6 +143,7 @@ items = [
         ("Focus 3", "test_focus", "focus3_clicked"),
         ("Focus 4", "test_focus", "focus4_clicked"),
         ("Focus Custom", "test_focus", "focus5_clicked"),
+        ("Focus Move Policy", "test_focus", "focus6_clicked"),
     ]),
     ("Geographic", [
         ("Map", "test_map", "map_clicked"),

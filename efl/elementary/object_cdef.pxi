@@ -35,6 +35,7 @@ cdef extern from "Elementary.h":
     cpdef enum Elm_Focus_Move_Policy:
         ELM_FOCUS_MOVE_POLICY_CLICK
         ELM_FOCUS_MOVE_POLICY_IN
+        ELM_FOCUS_MOVE_POLICY_KEY_ONLY
     ctypedef enum Elm_Focus_Move_Policy:
         pass
 
@@ -156,6 +157,8 @@ cdef extern from "Elementary.h":
     Eina_Bool               elm_object_focus_highlight_style_set(Evas_Object *obj, const char *style)
     const char *            elm_object_focus_highlight_style_get(const Evas_Object *obj)
     Elm_Object_Item *       elm_object_focused_item_get(const Evas_Object *obj)
+    void                    elm_object_focus_move_policy_set(Evas_Object *obj, Elm_Focus_Move_Policy policy)
+    Elm_Focus_Move_Policy   elm_object_focus_move_policy_get(Evas_Object *obj)
 
     # Object - Mirroring (elm_mirroring.h)
     Eina_Bool               elm_object_mirrored_get(const Evas_Object *obj)

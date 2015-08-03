@@ -22,9 +22,12 @@ from efl.elementary.check import Check
 from efl.elementary.entry import Entry
 from efl.elementary.table import Table
 from efl.elementary.toolbar import Toolbar, ELM_TOOLBAR_SHRINK_MENU
-from efl.elementary.object import ELM_FOCUS_DOWN, ELM_FOCUS_UP
+from efl.elementary.object import ELM_FOCUS_DOWN, ELM_FOCUS_UP, \
+    ELM_FOCUS_MOVE_POLICY_CLICK, ELM_FOCUS_MOVE_POLICY_IN, \
+    ELM_FOCUS_MOVE_POLICY_KEY_ONLY
 from efl.elementary.configuration import Configuration
 from efl.elementary.theme import theme_overlay_add
+from efl.elementary.radio import Radio
 
 
 script_path = os.path.dirname(os.path.abspath(__file__))
@@ -553,6 +556,91 @@ def focus5_clicked(obj, item=None):
     win.show()
 
 
+# Focus Move Policy
+def _move_policy_changed_cb(radio, bt3, text):
+    bt3.text = "Test Button " + text
+    bt3.focus_move_policy = radio.state_value
+
+def focus6_clicked(obj, item=None):
+    win = StandardWindow("focus6", "Focus Move Policy", 
+                         autodel=True, size=(320, 320))
+    win.focus_highlight_enabled = True
+    win.focus_highlight_animate = True
+
+    bx = Box(win, size_hint_expand=EXPAND_BOTH, size_hint_fill=FILL_BOTH)
+    win.resize_object_add(bx)
+    bx.show()
+
+    # first frame
+    fr = Frame(bx, text="Focusable Buttons", size_hint_fill=FILL_BOTH)
+    bx.pack_end(fr)
+    fr.show()
+
+    frbx = Box(fr, size_hint_expand=EXPAND_BOTH, size_hint_fill=FILL_BOTH)
+    fr.content = frbx
+    frbx.show()
+
+    bt1 = Button(frbx, text="Button 1", size_hint_fill=FILL_HORIZ)
+    frbx.pack_end(bt1)
+    bt1.show()
+
+    bt2 = Button(frbx, text="Button 2", size_hint_fill=FILL_HORIZ)
+    frbx.pack_end(bt2)
+    bt2.show()
+
+    bt3 = Button(frbx, text="Test Button (MOUSE CLICK or KEY)", 
+                 size_hint_fill=FILL_HORIZ)
+    frbx.pack_end(bt3)
+    bt3.show()
+
+    bt4 = Button(frbx, text="Button 4", size_hint_fill=FILL_HORIZ)
+    frbx.pack_end(bt4)
+    bt4.show()
+
+
+    # second frame
+    fr = Frame(bx, text="Focus Options for a TEST button", 
+               size_hint_fill=FILL_BOTH)
+    bx.pack_end(fr)
+    fr.show()
+
+    frbx = Box(fr, size_hint_expand=EXPAND_BOTH, size_hint_fill=FILL_BOTH)
+    fr.content = frbx
+    frbx.show()
+
+    lbl = Label(frbx, text="This focus option will be applied only for the TEST button. <br/>The focus policies of other buttons will remain in MOUSE CLICK status.",
+                size_hint_expand=EXPAND_HORIZ)
+    frbx.pack_end(lbl)
+    lbl.show()
+    
+    rdg = Radio(frbx, state_value=ELM_FOCUS_MOVE_POLICY_CLICK,
+                text="Focus Move Pollicy Mouse Click",
+                size_hint_align=(0.0,0.5))
+    frbx.pack_end(rdg)
+    rdg.show()
+    rdg.callback_changed_add(_move_policy_changed_cb, bt3, "(MOUSE CLICK or KEY)")
+
+    rd = Radio(frbx, state_value=ELM_FOCUS_MOVE_POLICY_IN,
+               text="Focus Move Policy Mouse In",
+               size_hint_align=(0.0,0.5))
+    frbx.pack_end(rd)
+    rd.group_add(rdg)
+    rd.show()
+    rd.callback_changed_add(_move_policy_changed_cb, bt3, "(MOUSE IN or KEY))")
+
+    rd = Radio(frbx, state_value=ELM_FOCUS_MOVE_POLICY_KEY_ONLY,
+               text="Focus Move Pollicy Key Only",
+               size_hint_align=(0.0,0.5))
+    frbx.pack_end(rd)
+    rd.group_add(rdg)
+    rd.show()
+    rd.callback_changed_add(_move_policy_changed_cb, bt3, "(KEY ONLY)")
+
+    # show the win
+    bt1.focus = True
+    win.show()
+
+
 if __name__ == "__main__":
     win = StandardWindow("test", "python-elementary test application",
         size=(320,520))
@@ -576,7 +664,9 @@ if __name__ == "__main__":
              ("Focus 2", focus2_clicked),
              ("Focus 3", focus3_clicked),
              ("Focus 4", focus4_clicked),
-             ("Focus Custom", focus5_clicked)]
+             ("Focus Custom", focus5_clicked),
+             ("Focus Move Policy", focus6_clicked),
+            ]
 
     li = List(win, size_hint_weight=EXPAND_BOTH, size_hint_align=FILL_BOTH)
     box0.pack_end(li)

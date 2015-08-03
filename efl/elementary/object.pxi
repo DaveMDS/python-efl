@@ -924,6 +924,26 @@ cdef class Object(SmartObject):
     def tree_focus_allow_get(self):
         return bool(elm_object_tree_focus_allow_get(self.obj))
 
+    property focus_move_policy:
+        """The focus movement policy for the object.
+        
+        :type: :ref:`Elm_Focus_Move_Policy`
+        
+        .. versionadded:: 1.15
+
+        """
+        def __get__(self):
+            return elm_object_focus_move_policy_get(self.obj)
+
+        def __set__(self, Elm_Focus_Move_Policy policy):
+            elm_object_focus_move_policy_set(self.obj, policy)
+
+    def focus_move_policy_get(self):
+        return elm_object_focus_move_policy_get(self.obj)
+    def focus_move_policy_set(self, Elm_Focus_Move_Policy policy):
+        elm_object_focus_move_policy_set(self.obj, policy)
+
+
     #
     # Mirroring
     # =========
