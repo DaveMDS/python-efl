@@ -199,4 +199,6 @@ cdef extern from "Elementary.h":
 
     void                    elm_config_slider_indicator_visible_mode_set(Elm_Slider_Indicator_Visible_Mode mode)
     Elm_Slider_Indicator_Visible_Mode elm_config_slider_indicator_visible_mode_get()
+    void                    elm_config_transition_duration_factor_set(double factor)
+    double                  elm_config_transition_duration_factor_get()
 

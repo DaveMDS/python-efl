@@ -380,6 +380,22 @@ cdef class Configuration(object):
             return elm_config_softcursor_mode_get()
 
 
+    property transition_duration_factor:
+        """The transitions duration factor.
+
+        This set the edje transition duration factor, it will affect the
+        duration of edje animations.
+
+        :type: float
+
+        .. versionadded:: 1.15
+
+        """
+        def __get__(self):
+            return elm_config_transition_duration_factor_get()
+        def __set__(self, double delay):
+            elm_config_transition_duration_factor_set(delay)
+
     property tooltip_delay:
         """The duration after which tooltip will be shown.
 
