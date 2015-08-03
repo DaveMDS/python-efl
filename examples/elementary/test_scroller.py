@@ -70,6 +70,9 @@ def cb_loop_v(chk, scroller):
     h, v = scroller.loop
     scroller.loop = h, chk.state
 
+def cb_wheel_disabled(chk, scroller):
+    scroller.wheel_disabled = chk.state
+
 
 def scroller_clicked(obj):
     win = StandardWindow("scroller", "Scroller", autodel=True, size=(320, 320))
@@ -152,6 +155,11 @@ def scroller_clicked(obj):
 
     ck = Check(box, text="Loop in Y axis")
     ck.callback_changed_add(cb_loop_v, sc)
+    box.pack_end(ck)
+    ck.show()
+
+    ck = Check(box, text="Wheel disabled")
+    ck.callback_changed_add(cb_wheel_disabled, sc)
     box.pack_end(ck)
     ck.show()
 

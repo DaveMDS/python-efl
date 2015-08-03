@@ -495,6 +495,28 @@ cdef class Scrollable(Object):
     def propagate_events_get(self):
         return bool(elm_scroller_propagate_events_get(self.obj))
 
+    property wheel_disabled:
+        """Enable or disable mouse wheel to be used to scroll the scroller.
+        
+        Mouse wheel can be used to scroll up and down the scroller.
+        Wheel is enabled by default.
+
+        :type: bool
+        
+        .. versionadded:: 1.15
+
+        """
+        def __get__(self):
+            return bool(elm_scroller_wheel_disabled_get(self.obj))
+
+        def __set__(self, disabled):
+            elm_scroller_wheel_disabled_set(self.obj, disabled)
+
+    def wheel_disabled_set(self, disabled):
+        elm_scroller_wheel_disabled_set(self.obj, disabled)
+    def wheel_disabled_get(self):
+        return bool(elm_scroller_wheel_disabled_get(self.obj))
+
     property gravity:
         """Scrolling gravity on a scroller
 
