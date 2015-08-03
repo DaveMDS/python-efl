@@ -100,6 +100,7 @@ cdef extern from "Evas.h":
         EVAS_CALLBACK_IMAGE_RESIZE
         EVAS_CALLBACK_DEVICE_CHANGED
         EVAS_CALLBACK_AXIS_UPDATE
+        EVAS_CALLBACK_CANVAS_VIEWPORT_RESIZE
         EVAS_CALLBACK_LAST
     ctypedef enum Evas_Callback_Type:
         pass

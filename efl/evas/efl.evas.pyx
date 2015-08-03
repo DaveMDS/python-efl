@@ -257,6 +257,10 @@ Evas_Callback_Type
 
     Input device changed value on some axis. (since 1.13)
 
+.. data:: EVAS_CALLBACK_CANVAS_VIEWPORT_RESIZE
+
+    Canvas viewport resized. (since 1.15)
+
 .. data:: EVAS_CALLBACK_LAST
 
     kept as last element/sentinel – not really an event.

@@ -246,9 +246,18 @@ cdef void cb_object_canvas_render_post(void *data, Evas *e,
                                        Evas_Object *obj, void *e_inf) with gil:
     print("EVAS_CALLBACK_RENDER_POST is not supported by object.")
 
+cdef void cb_object_axis_update(void *data, Evas *e,
+                                       Evas_Object *obj, void *e_inf) with gil:
+    print("EVAS_CALLBACK_AXIS_UPDATE is not supported by object.")
+
+cdef void cb_object_viewport_resize(void *data, Evas *e,
+                                       Evas_Object *obj, void *e_inf) with gil:
+    print("EVAS_CALLBACK_CANVAS_VIEWPORT_RESIZE is not supported by object.")
+
+
 cdef int evas_object_event_callbacks_len
-cdef Evas_Object_Event_Cb evas_object_event_callbacks[34]
-evas_object_event_callbacks_len = 34
+cdef Evas_Object_Event_Cb evas_object_event_callbacks[36]
+evas_object_event_callbacks_len = 36
 evas_object_event_callbacks[<int>EVAS_CALLBACK_MOUSE_IN] = cb_object_mouse_in
 evas_object_event_callbacks[<int>EVAS_CALLBACK_MOUSE_OUT] = cb_object_mouse_out
 evas_object_event_callbacks[<int>EVAS_CALLBACK_MOUSE_DOWN] = cb_object_mouse_down
@@ -283,3 +292,5 @@ evas_object_event_callbacks[<int>EVAS_CALLBACK_RENDER_PRE] = cb_object_canvas_re
 evas_object_event_callbacks[<int>EVAS_CALLBACK_RENDER_POST] = cb_object_canvas_render_post
 evas_object_event_callbacks[<int>EVAS_CALLBACK_IMAGE_RESIZE] = cb_object_image_resize
 evas_object_event_callbacks[<int>EVAS_CALLBACK_DEVICE_CHANGED] = cb_object_device_changed
+evas_object_event_callbacks[<int>EVAS_CALLBACK_AXIS_UPDATE] = cb_object_axis_update
+evas_object_event_callbacks[<int>EVAS_CALLBACK_CANVAS_VIEWPORT_RESIZE] = cb_object_viewport_resize

@@ -7,6 +7,7 @@ from efl.evas import EVAS_HINT_EXPAND, EVAS_HINT_FILL, EXPAND_BOTH, FILL_BOTH, \
     EVAS_CALLBACK_CANVAS_OBJECT_FOCUS_IN, \
     EVAS_CALLBACK_CANVAS_OBJECT_FOCUS_OUT, \
     EVAS_CALLBACK_RENDER_FLUSH_PRE, EVAS_CALLBACK_RENDER_FLUSH_POST, \
+    EVAS_CALLBACK_CANVAS_VIEWPORT_RESIZE, \
     Text, Rectangle
 
 # edje is imported because the canvas callbacks point to an edje obj,
@@ -30,6 +31,7 @@ def btn_del_cbs_cb(button):
     canvas.event_callback_del(EVAS_CALLBACK_RENDER_FLUSH_POST, events_cb1)
     canvas.event_callback_del(EVAS_CALLBACK_RENDER_PRE, events_cb1)
     canvas.event_callback_del(EVAS_CALLBACK_RENDER_POST, events_cb1)
+    canvas.event_callback_del(EVAS_CALLBACK_CANVAS_VIEWPORT_RESIZE, events_cb1)
 
 
 def events_cb1(rect, event_name):
@@ -69,6 +71,9 @@ def core_evas_canvas_callbacks_clicked(obj, item=None):
         events_cb1, "EVAS_CALLBACK_RENDER_PRE")
     canvas.event_callback_add(EVAS_CALLBACK_RENDER_POST,
         events_cb1, "EVAS_CALLBACK_RENDER_POST")
+
+    canvas.event_callback_add(EVAS_CALLBACK_CANVAS_VIEWPORT_RESIZE,
+        events_cb1, "EVAS_CALLBACK_CANVAS_VIEWPORT_RESIZE")
 
     r2 = Rectangle(win.evas, size=(120,70), color=(0,100,0,100), pos=(70,70))
     r2.show()
