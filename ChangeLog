@@ -1,16 +1,33 @@
 ===================
-2015-08-03  v1.15.0
+2015-08-05  v1.15.0
 ===================
 
 Fixes:
 
-Improvements:
+ * elm.Entry: Fixed name of the callback_rejected_del function
+ * Fixed build on OSX
+ * Fixed build when ecore-x is not available
+ * Fixed module init from embedded interpreter
+
 
 Changes:
 
+ * Elm: Unify modules into a monolithic module
+
+
 Additions:
 
-Deprecation:
+ * elm.Configuration.transition_duration_factor
+ * elm.Window.autohide
+ * elm.ELM_POLICY_QUIT_LAST_WINDOW_HIDDEN
+ * elm.Entry.callback_context_open_add/del
+ * elm.ELM_FOCUS_MOVE_POLICY_KEY_ONLY
+ * elm.Object.focus_move_policy
+ * elm.Scrollable.wheel_disabled
+ * evas.Textblock.obstacle_add
+ * evas.Textblock.obstacle_del
+ * evas.Textblock.obstacles_update
+ * evas.EVAS_CALLBACK_CANVA_VIEWPORT_RESIZE
 
 
 ===================
