@@ -58,3 +58,4 @@ Inheritance diagram
 
 
 .. autoclass:: MultiButtonEntry
+.. autoclass:: MultiButtonEntryItem

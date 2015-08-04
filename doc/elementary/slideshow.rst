@@ -72,3 +72,5 @@ Inheritance diagram
 
 
 .. autoclass:: Slideshow
+.. autoclass:: SlideshowItem
+.. autoclass:: SlideshowItemClass

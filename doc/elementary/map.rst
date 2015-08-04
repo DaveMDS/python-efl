@@ -200,3 +200,13 @@ Inheritance diagram
 
 
 .. autoclass:: Map
+.. autoclass:: MapRoute
+.. autoclass:: MapName
+.. autoclass:: MapOverlay
+.. autoclass:: MapOverlayClass
+.. autoclass:: MapOverlayBubble
+.. autoclass:: MapOverlayLine
+.. autoclass:: MapOverlayPolygon
+.. autoclass:: MapOverlayCircle
+.. autoclass:: MapOverlayScale
+.. autoclass:: MapOverlayRoute

@@ -134,3 +134,4 @@ Inheritance diagram
 
 
 .. autoclass:: Scroller
+.. autoclass:: Scrollable

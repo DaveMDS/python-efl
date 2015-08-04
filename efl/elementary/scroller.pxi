@@ -19,8 +19,7 @@
 include "scroller_cdef.pxi"
 
 cdef class Scrollable(Object):
-    """Scrollable(..)
-
+    """
     An Elementary scrollable interface will handle an internal **panning**
     object. It has the function of clipping and moving the actual scrollable
     content around, by the command of the scrollable interface calls.
