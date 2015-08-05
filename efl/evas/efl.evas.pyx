@@ -990,13 +990,13 @@ FILL_VERT  = 0.5, EVAS_HINT_FILL
 
 def init():
     EINA_LOG_DOM_INFO(PY_EFL_EVAS_LOG_DOMAIN, "Initializing efl.evas", NULL)
-    # when changing these, also change __init__.py!
-#     if evas_object_event_callbacks_len != EVAS_CALLBACK_LAST:
-#         raise SystemError("Number of object callbacks changed from %d to %d." %
-#                           (evas_object_event_callbacks_len, EVAS_CALLBACK_LAST))
-#     if evas_canvas_event_callbacks_len != EVAS_CALLBACK_LAST:
-#         raise SystemError("Number of canvas callbacks changed from %d to %d." %
-#                           (evas_canvas_event_callbacks_len, EVAS_CALLBACK_LAST))
+
+    if evas_object_event_callbacks_len != EVAS_CALLBACK_LAST:
+        raise SystemError("Number of object callbacks changed from %d to %d." %
+                          (evas_object_event_callbacks_len, EVAS_CALLBACK_LAST))
+    if evas_canvas_event_callbacks_len != EVAS_CALLBACK_LAST:
+        raise SystemError("Number of canvas callbacks changed from %d to %d." %
+                          (evas_canvas_event_callbacks_len, EVAS_CALLBACK_LAST))
     return evas_init()
 
 
