@@ -58,7 +58,7 @@ Tips
 Release process instructions
 ============================
 
-* Announce at enlightenment-release@lists.sourceforge.net that you are planning
+* Announce at release@lists.enlightenment.org that you are planning
   for the release
 * Change versions in efl/__init__.py (ex: 1.9.0)
 * Update the ChangeLog file:
@@ -67,14 +67,14 @@ Release process instructions
 * Test the generated tarballs
 * scp tarballs & md5sums to:
   download.enlightenment.org:/srv/web/download.enlightenment.org/public_html/pre-releases/
-* Announce at enlightenment-release@lists.sourceforge.net that tarballs are
+* Announce at release@lists.enlightenment.org that tarballs are
   ready for testing
 
 ... wait 24 hours, fix any issues found. In the mean time you can prepare the
     release announcement for phame/ml.
 
 * ssh to download.enlightenment.org and mv tarballs & md5sums to:
-    /srv/web/download.enlightenment.org/public_html/rel/bindings/python
+    /srv/web/download.enlightenment.org/public_html/rel/bindings/python/
 * Upload the .tar.gz archive to pypi:
    - first upload the PKG-INFO file from the "edit" section on pypi
    - then upload the tarball from the "files" section
@@ -82,10 +82,12 @@ Release process instructions
     git tag -a v1.9.0 && git push origin v1.9.0
 * Create and push the branch for stable backporting
     git branch python-efl-1.9 && git push origin python-efl-1.9
+* scp the generated html documentation to:
+  download.enlightenment.org:/srv/web/docs.enlightenment.org/public_html/python-efl/1.XX.0/
+  and update the 'current' link on the server (ssh)
+* Update download and docs link on the website wiki
 * Publish the blog post on phame (Official Announcements)
 * Announce the release to release@lists.enlightenment.org
-    (an alias for e-announce etc.)
-* Update download link on website (clone website/www.git, edit, commit, push)
 * Change versions again in efl/__init__.py (ex: 1.9.99)
 
 more info at:
