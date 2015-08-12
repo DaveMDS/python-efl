@@ -1251,6 +1251,24 @@ cdef class Object(SmartObject):
     def tooltip_style_get(self):
         return _ctouni(elm_object_tooltip_style_get(self.obj))
 
+    property tooltip_orient:
+        """The orientation of the tooltip around the owner region.
+
+        :type: :ref:`Elm_Tooltip_Orient`
+
+        .. versionadded:: 1.16
+
+        """
+        def __get__(self):
+            return elm_object_tooltip_orient_get(self.obj)
+        def __set__(self, Elm_Tooltip_Orient orient):
+            elm_object_tooltip_orient_set(self.obj, orient)
+    
+    def tooltip_orient_set(self, Elm_Tooltip_Orient orient):
+        elm_object_tooltip_orient_set(self.obj, orient)
+    def tooltip_orient_get(self):
+        return elm_object_tooltip_orient_get(self.obj)
+    
     property tooltip_window_mode:
         def __get__(self):
             return bool(elm_object_tooltip_window_mode_get(self.obj))

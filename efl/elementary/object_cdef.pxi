@@ -77,6 +77,20 @@ cdef extern from "Elementary.h":
     ctypedef enum Elm_Xdnd_Action:
         pass
 
+    cpdef enum Elm_Tooltip_Orient:
+       ELM_TOOLTIP_ORIENT_NONE
+       ELM_TOOLTIP_ORIENT_TOP_LEFT
+       ELM_TOOLTIP_ORIENT_TOP
+       ELM_TOOLTIP_ORIENT_TOP_RIGHT
+       ELM_TOOLTIP_ORIENT_LEFT
+       ELM_TOOLTIP_ORIENT_CENTER
+       ELM_TOOLTIP_ORIENT_RIGHT
+       ELM_TOOLTIP_ORIENT_BOTTOM_LEFT
+       ELM_TOOLTIP_ORIENT_BOTTOM
+       ELM_TOOLTIP_ORIENT_BOTTOM_RIGHT
+       ELM_TOOLTIP_ORIENT_LAST
+    ctypedef enum Elm_Tooltip_Orient:
+        pass
 
     ctypedef struct Elm_Theme
 
@@ -203,6 +217,8 @@ cdef extern from "Elementary.h":
     void                    elm_object_tooltip_move_freeze_push(Evas_Object *obj)
     void                    elm_object_tooltip_move_freeze_pop(Evas_Object *obj)
     int                     elm_object_tooltip_move_freeze_get(const Evas_Object *obj)
+    void                    elm_object_tooltip_orient_set(Evas_Object *obj, Elm_Tooltip_Orient orient)
+    Elm_Tooltip_Orient      elm_object_tooltip_orient_get(const Evas_Object *obj)
 
     # Object - Translatable text (elm_general.h) (py3: DONE)
     void                    elm_object_domain_translatable_part_text_set(Evas_Object *obj, const char *part, const char *domain, const char *text)

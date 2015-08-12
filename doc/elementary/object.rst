@@ -278,6 +278,79 @@ Selection modes
     No select mode with no finger size rule
 
 
+.. _Elm_Tooltip_Orient:
+
+Tooltip orientation
+-------------------
+
+.. data:: ELM_TOOLTIP_ORIENT_NONE
+
+    Default value, Tooltip moves with mouse pointer
+    
+    .. versionadded:: 1.16
+
+.. data:: ELM_TOOLTIP_ORIENT_TOP_LEFT
+
+    Tooltip should appear at the top left of parent
+
+    .. versionadded:: 1.16
+
+.. data:: ELM_TOOLTIP_ORIENT_TOP
+
+    Tooltip should appear at the top of parent
+
+    .. versionadded:: 1.16
+
+.. data:: ELM_TOOLTIP_ORIENT_TOP_RIGHT
+
+    Tooltip should appear at the top right of parent
+
+    .. versionadded:: 1.16
+
+.. data:: ELM_TOOLTIP_ORIENT_LEFT
+
+    Tooltip should appear at the left of parent
+
+    .. versionadded:: 1.16
+
+.. data:: ELM_TOOLTIP_ORIENT_CENTER
+
+    Tooltip should appear at the center of parent
+
+    .. versionadded:: 1.16
+
+.. data:: ELM_TOOLTIP_ORIENT_RIGHT
+
+    Tooltip should appear at the right of parent
+
+    .. versionadded:: 1.16
+
+.. data:: ELM_TOOLTIP_ORIENT_BOTTOM_LEFT
+
+    Tooltip should appear at the bottom left of parent
+
+    .. versionadded:: 1.16
+
+.. data:: ELM_TOOLTIP_ORIENT_BOTTOM
+
+    Tooltip should appear at the bottom of parent
+
+    .. versionadded:: 1.16
+
+.. data:: ELM_TOOLTIP_ORIENT_BOTTOM_RIGHT
+
+    Tooltip should appear at the bottom right of parent
+
+    .. versionadded:: 1.16
+
+.. data:: ELM_TOOLTIP_ORIENT_LAST
+
+    Sentinel value, don't use
+
+    .. versionadded:: 1.16
+
+
+
 Inheritance diagram
 ===================
 
