@@ -262,12 +262,21 @@ cdef class GenlistItem(ObjectItem):
         return self
 
     property data:
-        """User data for the item."""
+        """User data (model) for the item.
+
+        .. versionchanged:: 1.16
+            Property is now also writable
+
+        """
         def __get__(self):
             return self.item_data
+        def __set__(self, data):
+            self.item_data = data
 
     def data_get(self):
         return self.item_data
+    def data_set(self, data):
+        self.item_data = data
 
     property next:
         """This returns the item placed after the ``item``, on the container
