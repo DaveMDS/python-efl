@@ -23,6 +23,45 @@ Style
   ...also because I found it more readable and I like it more :P -davemds-
 
 
+Documentation cheatsheet
+========================
+
+* Links:
+
+  :class:`List`        (for classes)
+  :func:`elm_list_go`  (for functions)
+  :attr:`homogeneous`  (for properties)
+  :ref:`Elm_List_Mode` (for enums)
+
+  :func:`efl.evas.Object.delete`  (for items not in current scope)
+  :func:`~efl.evas.Object.delete` (will show it short, just "delete")
+
+* Formatting:
+
+  ``ELM_LIST_SCROLL``  (for enum values, bools and None)
+
+
+* Versions:
+
+.. versionadded:: 1.15
+
+.. versionchanged:: 1.15
+    Description of the change.
+
+.. deprecated:: 1.15
+    Use the blah, blah way instead.
+
+* Notes:
+
+    .. seealso:: :py:attr:`mode`
+
+    .. note:: Some text to be noted, blah, blah, blah,
+        some more information for this note, etc.
+
+    .. warning:: Same as note, but the box will be red
+        some more information for this warning, etc.
+
+
 Design patterns
 ===============
 

@@ -14,8 +14,8 @@ Elementary that could have more flexible items and allow many more
 entries while still being fast and low on memory usage. At the same time
 it was also made to be able to do tree structures. But the price to pay
 is more complexity when it comes to usage. If all you want is a simple
-list with icons and a single text, use the normal
-:py:class:`~efl.elementary.list.List` object.
+list (not much items) with icons and a single text, use the normal
+:class:`List` object.
 
 Genlist has a fairly large API, mostly because it's relatively complex,
 trying to be both expansive, powerful and efficient. First we will begin
@@ -26,63 +26,45 @@ Genlist item classes - creating items
 =====================================
 
 In order to have the ability to add and delete items on the fly, genlist
-implements a class (callback) system where the application provides a
+implements the item class (callback) system where the application provides a
 structure with information about that type of item (genlist may contain
 multiple different items with different classes, states and styles).
-Genlist will call the functions in this struct (methods) when an item is
+Genlist will call the functions in this class (methods) when an item is
 "realized" (i.e., created dynamically, while the user is scrolling the
 grid). All objects will simply be deleted when no longer needed with
-:py:meth:`~efl.evas.Object.delete`. :py:class:`GenlistItemClass` contains the
+:func:`efl.evas.Object.delete`. :class:`GenlistItemClass` contains the
 following members:
 
-- ``item_style`` - This is a constant string and simply defines the name
-  of the item style. It **must** be specified and the default should be
-  ``"default".``
-- ``decorate_item_style`` - This is a constant string and simply defines
-  the name of the decorate mode item style. It is used to specify
-  decorate mode item style. It can be used when you call
-  :py:attr:`GenlistItem.decorate_mode`.
-- ``decorate_all_item_style`` - This is a constant string and simply
-  defines the name of the decorate all item style. It is used to specify
-  decorate all item style. It can be used to set selection, checking and
-  deletion mode. This is used when you call
-  :py:attr:`Genlist.decorate_mode`.
-- ``func`` - A struct with pointers to functions that will be called when
-  an item is going to be actually created. All of them receive a ``data``
-  parameter that will point to the same data passed to
-  :py:meth:`GenlistItem.append_to` and related item creation functions, and an
-  ``obj`` parameter that points to the genlist object itself.
-
-The function pointers inside ``func`` are ``text_get``, ``content_get``,
-``state_get`` and ``del``. The 3 first functions also receive a ``part``
-parameter described below. A brief description of these functions follows:
-
-- ``text_get`` - The ``part`` parameter is the name string of one of the
-  existing text parts in the Edje group implementing the item's theme.
-  See :py:meth:`GenlistItemClass.text_get`.
-- ``content_get`` - The ``part`` parameter is the name string of one of the
-  existing (content) swallow parts in the Edje group implementing the
-  item's theme. It must return ``None``, when no content is desired, or
-  a valid object handle, otherwise.  The object will be deleted by the
+- ``item_style`` - This is a constant string and define the name of the default
+  item style. It **must** be provided.
+- ``decorate_item_style`` - This is a constant string and define the name of
+  the style to be used in the "decorate" mode.
+  See :attr:`GenlistItem.decorate_mode`.
+- ``decorate_all_item_style`` - This is a constant string and
+  define the name of the style to be used in the "decorate all" mode.
+  See :attr:`Genlist.decorate_mode`.
+- ``text_get`` - This function will be called for every text part. Should
+  return the text to display. See :func:`GenlistItemClass.text_get`.
+- ``content_get`` - This function will be called for every content part.
+  Should return an object to display, the object will be deleted by the
   genlist on its deletion or when the item is "unrealized". See
-  :py:meth:`GenlistItemClass.content_get`.
-- ``func.state_get`` - The ``part`` parameter is the name string of one of
-  the state parts in the Edje group implementing the item's theme. Return
-  ``False`` for false/off or ``True`` for true/on. Genlists will
+  :func:`GenlistItemClass.content_get`.
+- ``state_get`` - This function will be called for every state part. Must
+  return ``True`` for false/off or ``True`` for true/on. Genlists will
   emit a signal to its theming Edje object with ``"elm,state,xxx,active"``
   and ``"elm"`` as "emission" and "source" arguments, respectively, when
   the state is true (the default is false), where ``xxx`` is the name of
-  the (state) part.  See :py:meth:`GenlistItemClass.state_get`.
+  the (state) part.  See :func:`GenlistItemClass.state_get`.
 - ``func.del`` - This is intended for use when genlist items are deleted,
   so any data attached to the item (e.g. its data parameter on creation)
-  can be deleted. See :py:meth:`GenlistItemClass.delete`.
+  can be deleted. See :func:`GenlistItemClass.delete`.
 
 
 Available item styles
 =====================
 
-- ``default``
-- ``default_style`` The text part is a textblock
+- ``default`` The default style: icon, text, end icon
+- ``default_style`` The text part is a textblock and can use markups
 - ``double_label`` Two different text parts
 - ``icon_top_text_bottom``
 - ``group_index``
@@ -108,11 +90,6 @@ than one part is provided, they must have names listed separated by
 spaces in the data fields. For the default genlist item theme, we have
 **one** text part (``elm.text``), **two** content parts
 (``elm.swallow.icon`` and ``elm.swallow.end``) and **no** state parts.
-
-A genlist item may be at one of several styles. Elementary provides one
-by default - "default", but this can be extended by system or application
-custom themes/overlays/extensions (see :py:mod:`themes<efl.elementary.theme>`)
-for more details).
 
 
 Editing and Navigating
@@ -147,7 +124,7 @@ item. :py:meth:`GenlistItem.subitems_clear` will clear all items that are
 children of the indicated parent item.
 
 To help inspect list items you can jump to the item at the top of the list
-with :py:attr:`Genlist.first_item` which will return the item pointer, and
+with :py:attr:`Genlist.first_item` which will return the first item, and
 similarly :py:attr:`Genlist.last_item` gets the item at the end of the list.
 :py:attr:`GenlistItem.next` and :py:attr:`GenlistItem.prev` get the next
 and previous items respectively relative to the indicated item. Using

@@ -67,29 +67,29 @@ cdef class Genlist(Object):
     property mode:
         """The mode used for sizing items horizontally.
 
-        Default value is ELM_LIST_SCROLL. This mode means that if items are too
+        Default value is ``ELM_LIST_SCROLL``. This mode means that if items are too
         wide to fit, the scroller will scroll horizontally. Otherwise items are
         expanded to fill the width of the viewport of the scroller. If it is
-        ELM_LIST_LIMIT, items will be expanded to the viewport width and limited
-        to that size. If it is ELM_LIST_COMPRESS, the item width will be fixed
+        ``ELM_LIST_LIMIT``, items will be expanded to the viewport width and limited
+        to that size. If it is ``ELM_LIST_COMPRESS``, the item width will be fixed
         (restricted to a minimum of) to the list width when calculating its size
         in order to allow the height to be calculated based on it. This allows,
         for instance, text block to wrap lines if the Edje part is configured
         with "text.min: 0 1".
 
-        .. note:: ELM_LIST_COMPRESS will make list resize slower as it will
+        :type: :ref:`Elm_List_Mode`
+
+        .. note:: ``ELM_LIST_COMPRESS`` will make list resize slower as it will
             have to recalculate every item height again whenever the list
             width changes!
 
-        .. note:: With Homogeneous mode all items in the genlist have the same
-            width/height. With ELM_LIST_COMPRESS the genlist items have
+        .. note:: With :attr:`homogeneous` mode all items in the genlist have the same
+            width/height. With ``ELM_LIST_COMPRESS`` the genlist items have
             fast initializing. However there are no sub-objects in genlist
             which can be on-the-fly resizable (such as TEXTBLOCK), as some
             dynamic resizable objects would not be diplayed properly.
 
         """
-        # TODO: The above description had badly broken English, check that
-        #       it's correct.
         def __set__(self, mode):
             elm_genlist_mode_set(self.obj, mode)
 
