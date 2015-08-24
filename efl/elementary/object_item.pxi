@@ -468,7 +468,14 @@ cdef class ObjectItem(object):
             <const char *>text if text is not None else NULL)
 
     property tooltip_window_mode:
-        # TODO: document this
+        """Disables the size restrictions on an object's tooltip.
+
+        If ``True`` allows the tooltip to expand beyond its parent window's
+        canvas. It is instead limited only by the size of the display.
+
+        :type: bool
+
+        """
         def __set__(self, disable):
             if not elm_object_item_tooltip_window_mode_set(self.item, disable):
                 raise RuntimeWarning("Could not set tooltip_window_mode.")
