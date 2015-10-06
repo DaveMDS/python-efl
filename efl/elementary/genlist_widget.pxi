@@ -1088,7 +1088,16 @@ cdef class Genlist(Object):
     def callback_item_unfocused_del(self, func):
         self._callback_del_full("item,unfocused", _cb_object_item_conv, func)
 
+    def callback_changed_add(self, func, *args, **kwargs):
+        """Genlist is now changed their items and properties and all
+           calculation is finished.
 
+        .. versionadded:: 1.16
+        """
+        self._callback_add("changed", func, args, kwargs)
+
+    def callback_changed_del(self, func):
+        self._callback_del("changed", func)
 
     property scroller_policy:
         """

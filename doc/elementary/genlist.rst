@@ -348,6 +348,8 @@ Emitted signals
 - ``unfocused`` - When the genlist has lost focus. (since 1.8)
 - ``item,focused`` - When the genlist item has received focus. (since 1.10)
 - ``item,unfocused`` - When the genlist item has lost focus. (since 1.10)
+- ``changed`` - Genlist is now changed their items and properties and all
+  calculation is finished. (since 1.16)
 
 
 Enumerations
