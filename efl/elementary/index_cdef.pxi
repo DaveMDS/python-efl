@@ -23,3 +23,6 @@ cdef extern from "Elementary.h":
     double                   elm_index_delay_change_time_get(const Evas_Object *obj)
     void                     elm_index_omit_enabled_set(Evas_Object *obj, Eina_Bool enabled)
     Eina_Bool                elm_index_omit_enabled_get(const Evas_Object *obj)
+    void                     elm_index_standard_priority_set(Evas_Object *obj, int priority)
+    int                      elm_index_standard_priority_get(Evas_Object *obj)
+    void                     elm_index_item_priority_set(Elm_Object_Item *item, int priority)

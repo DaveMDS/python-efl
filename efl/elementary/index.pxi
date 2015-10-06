@@ -281,6 +281,26 @@ cdef class IndexItem(ObjectItem):
     def letter_get(self):
         return _ctouni(elm_index_item_letter_get(self.item))
 
+    property priority:
+        """The priority of an item.
+
+        The priority is -1 by default, which means that the item doesn't belong
+        to a group. The value of the priority starts from 0.
+        In elm_index_level_go, the items are sorted in ascending order according
+        to priority. Items of the same priority make a group and the primary
+        group is shown by default.
+
+        :type: int
+
+        ..versionadded:: 1.16
+
+        """
+        def __set__(self, int value):
+            elm_index_item_priority_set(self.item, value)
+
+    def priority_set(self, int value):
+        elm_index_item_priority_set(self.item, value)
+
 
 cdef class Index(LayoutClass):
     """
@@ -466,6 +486,26 @@ cdef class Index(LayoutClass):
     def horizontal_get(self):
         return bool(elm_index_horizontal_get(self.obj))
 
+    property standard_priority:
+        """Control standard_priority group of index.
+
+        Priority group will be shown as many items as it can, and other group
+        will be shown one character only.
+
+        :type: int
+
+        ..versionadded:: 1.16
+
+        """
+        def __get__(self):
+            return elm_index_standard_priority_get(self.obj)
+        def __set__(self, int value):
+            elm_index_standard_priority_set(self.obj, value)
+
+    def standard_priority_set(self, int value):
+        elm_index_standard_priority_set(self.obj, value)
+    def standard_priority_get(self):
+        return elm_index_standard_priority_get(self.obj)
 
     property delay_change_time:
         """Delay change time for index object.
