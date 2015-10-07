@@ -250,6 +250,24 @@ cdef class Hoversel(Button):
     def expanded_get(self):
         return bool(elm_hoversel_expanded_get(self.obj))
 
+    property label_auto_changed:
+        """Change the label of hoversel to that of selected item automatically.
+
+        :type: bool
+
+        ..versionadded:: 1.16
+
+        """
+        def __get__(self):
+            return bool(elm_hoversel_label_auto_changed_get(self.obj))
+        def __set__(self, bint enable):
+            elm_hoversel_label_auto_changed_set(self.obj, enable)
+
+    def elabel_auto_changed_get(self):
+        return bool(elm_hoversel_label_auto_changed_get(self.obj))
+    def elabel_auto_changed_set(self, bint enable):
+        elm_hoversel_label_auto_changed_set(self.obj, enable)
+
     def clear(self):
         """This will remove all the children items from the hoversel.
 
