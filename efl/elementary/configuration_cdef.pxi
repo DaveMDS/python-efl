@@ -100,6 +100,12 @@ cdef extern from "Elementary.h":
     void                    elm_config_scroll_thumbscroll_acceleration_time_limit_set(double time_limit)
     double                  elm_config_scroll_thumbscroll_acceleration_weight_get()
     void                    elm_config_scroll_thumbscroll_acceleration_weight_set(double weight)
+    Eina_Bool               elm_config_scroll_thumbscroll_smooth_start_get()
+    void                    elm_config_scroll_thumbscroll_smooth_start_set(Eina_Bool enable)
+    double                  elm_config_scroll_thumbscroll_smooth_amount_get()
+    void                    elm_config_scroll_thumbscroll_smooth_amount_set(double amount)
+    double                  elm_config_scroll_thumbscroll_smooth_time_window_get()
+    void                    elm_config_scroll_thumbscroll_smooth_time_window_set(double amount)
 
     double                  elm_config_longpress_timeout_get()
     void                    elm_config_longpress_timeout_set(double longpress_timeout)

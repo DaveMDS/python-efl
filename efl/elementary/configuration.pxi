@@ -350,6 +350,53 @@ cdef class Configuration(object):
         def __set__(self, double weight):
             elm_config_scroll_thumbscroll_acceleration_weight_set(weight)
 
+    property scroll_thumbscroll_smooth_start:
+        """The smooth start mode for scrolling with your finger.
+
+        :type: bool
+
+        .. versionadded:: 1.16
+
+        """
+        def __get__(self):
+            return elm_config_scroll_thumbscroll_smooth_start_get()
+        def __set__(self, bint enable):
+            elm_config_scroll_thumbscroll_smooth_start_set(enable)
+
+    property scroll_thumbscroll_smooth_amount:
+        """The amount of smoothing to apply to scrolling.
+
+        Scrolling with your finger can be smoothed out and the amount to smooth
+        is determined by this parameter. 0.0 means to not smooth at all and
+        1.0 is to smoth as much as possible.
+
+        :type: float
+
+        .. versionadded:: 1.16
+
+        """
+        def __get__(self):
+            return elm_config_scroll_thumbscroll_smooth_amount_get()
+        def __set__(self, double amount):
+            elm_config_scroll_thumbscroll_smooth_amount_set(amount)
+
+    property scroll_thumbscroll_smooth_time_window:
+        """The time window to look back at for events for smoothing.
+
+        Scrolling with your finger can be smoothed out and the window of time
+        to look at is determined by this config. The value is in seconds and
+        is from 0.0 to 1.0
+
+        :type: float
+
+        .. versionadded:: 1.16
+
+        """
+        def __get__(self):
+            return elm_config_scroll_thumbscroll_smooth_time_window_get()
+        def __set__(self, double amount):
+            elm_config_scroll_thumbscroll_smooth_time_window_set(amount)
+
     property longpress_timeout:
         """The duration for occurring long press event.
 
