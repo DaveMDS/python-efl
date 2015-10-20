@@ -20,5 +20,5 @@ cdef extern from "Elementary.h":
     Elm_Object_Item         *elm_hoversel_item_add(Evas_Object *obj, const char *label, const char *icon_file, Elm_Icon_Type icon_type, Evas_Smart_Cb func, void *data)
     void                     elm_hoversel_item_icon_set(Elm_Object_Item *it, const char *icon_file, const char *icon_group, Elm_Icon_Type icon_type)
     void                     elm_hoversel_item_icon_get(const Elm_Object_Item *it, const char **icon_file, const char **icon_group, Elm_Icon_Type *icon_type)
-    void                     elm_hoversel_label_auto_changed_set(Evas_Object *obj, Eina_Bool enable)
-    Eina_Bool                elm_hoversel_label_auto_changed_get(Evas_Object *obj)
+    void                     elm_hoversel_auto_update_set(Evas_Object *obj, Eina_Bool enable)
+    Eina_Bool                elm_hoversel_auto_update_get(Evas_Object *obj)

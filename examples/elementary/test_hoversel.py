@@ -32,7 +32,7 @@ def hoversel_clicked(obj):
         Timer(2.0, lambda: hoversel.text_set("Labels"))
 
     bt = Hoversel(win, hover_parent=win, text="Labels",
-        size_hint_weight=WEIGHT_ZERO, size_hint_align=ALIGN_CENTER)
+                  size_hint_weight=WEIGHT_ZERO, size_hint_align=ALIGN_CENTER)
     bt.item_add("Item 1")
     bt.item_add("Item 2")
     bt.item_add("Item 3")
@@ -42,7 +42,7 @@ def hoversel_clicked(obj):
     bt.show()
 
     bt = Hoversel(win, hover_parent=win, text="Some Icons",
-        size_hint_weight=WEIGHT_ZERO, size_hint_align=ALIGN_CENTER)
+                  size_hint_weight=WEIGHT_ZERO, size_hint_align=ALIGN_CENTER)
     bt.item_add("Item 1")
     bt.item_add("Item 2")
     bt.item_add("Item 3", "home", ELM_ICON_STANDARD)
@@ -51,7 +51,7 @@ def hoversel_clicked(obj):
     bt.show()
 
     bt = Hoversel(win, hover_parent=win, text="All Icons",
-        size_hint_weight=WEIGHT_ZERO, size_hint_align=ALIGN_CENTER)
+                  size_hint_weight=WEIGHT_ZERO, size_hint_align=ALIGN_CENTER)
     bt.item_add("Item 1", "apps", ELM_ICON_STANDARD)
     bt.item_add("Item 2", "arrow_down", ELM_ICON_STANDARD)
     bt.item_add("Item 3", "home", ELM_ICON_STANDARD)
@@ -60,18 +60,18 @@ def hoversel_clicked(obj):
     bt.show()
 
     bt = Hoversel(win, hover_parent=win, text="All Icons",
-        size_hint_weight=WEIGHT_ZERO, size_hint_align=ALIGN_CENTER)
+                  size_hint_weight=WEIGHT_ZERO, size_hint_align=ALIGN_CENTER)
     bt.item_add("Item 1", "apps", ELM_ICON_STANDARD)
     bt.item_add("Item 2", os.path.join(img_path, "logo_small.png"),
-        ELM_ICON_FILE)
+                ELM_ICON_FILE)
     bt.item_add("Item 3", "home", ELM_ICON_STANDARD)
     bt.item_add("Item 4", "close", ELM_ICON_STANDARD)
     bx.pack_end(bt)
     bt.show()
 
     bt = Hoversel(win, hover_parent=win, text="Disabled Hoversel",
-        disabled=True, size_hint_weight=WEIGHT_ZERO,
-        size_hint_align=ALIGN_CENTER)
+                  disabled=True, size_hint_weight=WEIGHT_ZERO,
+                  size_hint_align=ALIGN_CENTER)
     bt.item_add("Item 1", "apps", ELM_ICON_STANDARD)
     bt.item_add("Item 2", "close", ELM_ICON_STANDARD)
     bx.pack_end(bt)
@@ -79,7 +79,7 @@ def hoversel_clicked(obj):
 
     ic = Icon(win, file=os.path.join(img_path, "sky_03.jpg"))
     bt = Hoversel(win, hover_parent=win, text="Icon + Label", content=ic,
-        size_hint_weight=WEIGHT_ZERO, size_hint_align=ALIGN_CENTER)
+                  size_hint_weight=WEIGHT_ZERO, size_hint_align=ALIGN_CENTER)
     ic.show()
 
     bt.item_add("Item 1", "apps", ELM_ICON_STANDARD)
@@ -90,7 +90,7 @@ def hoversel_clicked(obj):
     bt.show()
 
     bt = Hoversel(win, hover_parent=win, text="Label auto changed",
-                  label_auto_changed=True,
+                  auto_update=True,
                   size_hint_weight=WEIGHT_ZERO, size_hint_align=ALIGN_CENTER)
 
     bt.item_add("Item 1", "apps", ELM_ICON_STANDARD)
