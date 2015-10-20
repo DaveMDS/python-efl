@@ -2,7 +2,7 @@
 # encoding: utf-8
 
 from efl.evas import EVAS_HINT_EXPAND, EVAS_HINT_FILL, \
-    EXPAND_BOTH, FILL_BOTH, EXPAND_HORIZ
+    EXPAND_BOTH, FILL_BOTH, EXPAND_HORIZ, FILL_HORIZ
 from efl import elementary
 from efl.elementary.window import StandardWindow
 from efl.elementary.background import Background
@@ -12,6 +12,7 @@ from efl.elementary.box import Box
 from efl.elementary.list import List
 from efl.elementary.label import Label
 from efl.elementary.frame import Frame
+from efl.elementary.slider import Slider
 
 
 ### Table
@@ -290,6 +291,99 @@ def table7_clicked(obj, item=None):
     win.show()
 
 
+### Table Padding
+def table8_clicked(obj, item=None):
+    win = StandardWindow("table7", "Table Multi 2", autodel=True)
+
+    bx = Box(win, size_hint_expand=EXPAND_BOTH)
+    win.resize_object_add(bx)
+    bx.show()
+
+    # outer table for the table alignment and background
+    tb_out = Table(win, size_hint_fill=FILL_BOTH, size_hint_expand=EXPAND_BOTH)
+    bx.pack_end(tb_out)
+    tb_out.show()
+
+    # table background
+    bg = Background(tb_out, color=(255, 255, 0), size_hint_fill=FILL_BOTH,
+                    size_hint_expand=EXPAND_BOTH)
+    tb_out.pack(bg, 0, 0, 1, 1)
+    bg.show()
+
+    # actual table for a padding test
+    tb = Table(tb_out, padding=(10,10))
+    tb_out.pack(tb, 0, 0, 1, 1)
+    tb.show()
+
+    # first row
+    bt = Button(tb, text="colspan 1", size_hint_expand=EXPAND_BOTH,
+                size_hint_fill=FILL_BOTH)
+    tb.pack(bt, 0, 0, 1, 1)
+    bt.show()
+
+    bt = Button(tb, text="colspan 1", size_hint_expand=EXPAND_BOTH,
+                size_hint_fill=FILL_BOTH)
+    tb.pack(bt, 1, 0, 1, 1)
+    bt.show()
+
+    bt = Button(tb, text="colspan 1", size_hint_expand=EXPAND_BOTH,
+                size_hint_fill=FILL_BOTH)
+    tb.pack(bt, 2, 0, 1, 1)
+    bt.show()
+
+    # second row
+    bt = Button(tb, text="colspan 3", size_hint_expand=EXPAND_BOTH,
+                size_hint_fill=FILL_BOTH)
+    tb.pack(bt, 0, 1, 3, 1)
+    bt.show()
+
+    # third row
+    bt = Button(tb, text="rowspan 1", size_hint_expand=EXPAND_BOTH,
+                size_hint_fill=FILL_BOTH)
+    tb.pack(bt, 0, 2, 1, 1)
+    bt.show()
+
+    bt = Button(tb, text="rowspan 1", size_hint_expand=EXPAND_BOTH,
+                size_hint_fill=FILL_BOTH)
+    tb.pack(bt, 1, 2, 1, 1)
+    bt.show()
+
+    bt = Button(tb, text="rowspan 2", size_hint_expand=EXPAND_BOTH,
+                size_hint_fill=FILL_BOTH)
+    tb.pack(bt, 2, 2, 1, 2)
+    bt.show()
+ 
+    # fourth row
+    bt = Button(tb, text="rowspan 1", size_hint_expand=EXPAND_BOTH,
+                size_hint_fill=FILL_BOTH)
+    tb.pack(bt, 0, 3, 1, 1)
+    bt.show()
+   
+    bt = Button(tb, text="rowspan 1", size_hint_expand=EXPAND_BOTH,
+                size_hint_fill=FILL_BOTH)
+    tb.pack(bt, 1, 3, 1, 1)
+    bt.show()
+
+    # horizontal padding sliders
+    sl = Slider(bx, text="Horizontal Padding", unit_format="%1.0f pixel",
+                min_max=(0,100), value=10,
+                size_hint_fill=FILL_HORIZ, size_hint_expand=EXPAND_HORIZ)
+    sl.callback_changed_add(lambda s: tb.padding_set(s.value, tb.padding[1]))
+    bx.pack_end(sl)
+    sl.show()
+
+    # vertical padding sliders
+    sl = Slider(bx, text="Vertical Padding", unit_format="%1.0f pixel",
+                min_max=(0,100), value=10,
+                size_hint_fill=FILL_HORIZ, size_hint_expand=EXPAND_HORIZ)
+    sl.callback_changed_add(lambda s: tb.padding_set(tb.padding[0], sl.value))
+    bx.pack_end(sl)
+    sl.show()
+
+    #
+    win.show()
+
+
 if __name__ == "__main__":
     win = StandardWindow("test", "python-elementary test application",
         size=(320,520))
@@ -317,6 +411,7 @@ if __name__ == "__main__":
         ("Table Percent", table5_clicked),
         ("Table Multi", table6_clicked),
         ("Table Multi 2", table7_clicked),
+        ("Table Padding", table8_clicked),
     ]
 
     li = List(win, size_hint_weight=EXPAND_BOTH, size_hint_align=FILL_BOTH)

@@ -81,6 +81,7 @@ items = [
         ("Table Percent", "test_table", "table5_clicked"),
         ("Table Multi", "test_table", "table6_clicked"),
         ("Table Multi 2", "test_table", "table7_clicked"),
+        ("Table Padding", "test_table", "table8_clicked"),
     ]),
     ("Cursors", [
         ("Cursor", "test_cursor", "cursor_clicked"),
