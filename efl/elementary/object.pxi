@@ -943,6 +943,29 @@ cdef class Object(SmartObject):
     def focus_move_policy_set(self, Elm_Focus_Move_Policy policy):
         elm_object_focus_move_policy_set(self.obj, policy)
 
+    property focus_region_show_mode:
+        """The focus movement policy for the object.
+
+        When the focus is move to the object in scroller, it is scrolled to
+        show the focus region as a widget. If the focus region want to be shown
+        as an item, set the mode ELM_FOCUS_REGION_SHOW_ITEM. If then, it will
+        be scrolled as an item.
+
+        :type: :ref:`Elm_Focus_Region_Show_Mode`
+        
+        .. versionadded:: 1.16
+
+        """
+        def __get__(self):
+            return elm_object_focus_region_show_mode_get(self.obj)
+
+        def __set__(self, Elm_Focus_Region_Show_Mode mode):
+            elm_object_focus_region_show_mode_set(self.obj, mode)
+
+    def focus_region_show_mode_get(self):
+        return elm_object_focus_region_show_mode_get(self.obj)
+    def focus_region_show_mode_set(self, Elm_Focus_Region_Show_Mode mode):
+        elm_object_focus_region_show_mode_set(self.obj, mode)
 
     #
     # Mirroring

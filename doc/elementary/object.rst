@@ -137,6 +137,24 @@ Focus autoscroll mode
     .. versionadded:: 1.10
 
 
+.. _Elm_Focus_Region_Show_Mode:
+
+Focus region show mode
+----------------------
+
+.. data:: ELM_FOCUS_REGION_SHOW_WIDGET
+
+    as a widget
+
+    .. versionadded:: 1.16
+
+.. data:: ELM_FOCUS_REGION_SHOW_ITEM
+
+    as an item
+
+    .. versionadded:: 1.16
+
+
 .. _Elm_Input_Event_Type:
 
 Input event types
