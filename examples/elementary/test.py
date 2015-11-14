@@ -1,6 +1,7 @@
 #!/usr/bin/env python
 # encoding: utf-8
 
+import platform
 import logging
 elog = logging.getLogger("efl")
 elog.setLevel(logging.INFO)
@@ -23,7 +24,7 @@ elmlog = logging.getLogger("efl.elementary")
 elmlog.setLevel(logging.INFO)
 
 from efl.evas import EVAS_HINT_EXPAND, EVAS_HINT_FILL, EXPAND_BOTH, FILL_BOTH
-from efl import elementary
+from efl import elementary, __version__
 from efl.elementary.window import StandardWindow
 from efl.elementary.box import Box, ELM_BOX_LAYOUT_FLOW_HORIZONTAL
 from efl.elementary.button import Button
@@ -311,7 +312,9 @@ def cb_filter(en, win):
     menu_create(en.text_get(), win)
 
 if __name__ == "__main__":
-    win = StandardWindow("test", "Python EFL test application")
+    title = "Python EFL version %s (on python: %s)" % (
+             __version__, platform.python_version())
+    win = StandardWindow("test", title)
     win.callback_delete_request_add(destroy, "test1", "test2",
                                     str3="test3", str4="test4")
 
