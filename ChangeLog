@@ -1,3 +1,25 @@
+
+===================
+2015-11-14  v1.16.0
+===================
+
+Additions:
+
+ * elm.Configuration.scroll_thumbscroll_smooth_amount
+ * elm.Configuration.scroll_thumbscroll_smooth_start
+ * elm.Configuration.scroll_thumbscroll_smooth_time_window
+ * elm.Genlist.callback_changed_add
+ * elm.GenlistItem.data is now also writable
+ * elm.Object.focus_next_item_get
+ * elm.Object.focus_next_item_set
+ * elm.Object.focus_region_show_mode
+ * elm.Object.tooltip_orient
+ * elm.ObjectItem.focus_next_item_get
+ * elm.ObjectItem.focus_next_item_set
+ * elm.ObjectItem.focus_next_object_get
+ * elm.ObjectItem.focus_next_object_set
+
+
 ===================
 2015-08-05  v1.15.0
 ===================
