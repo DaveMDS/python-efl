@@ -44,6 +44,11 @@ cdef extern from "Elementary.h":
     Eina_Bool       elm_object_item_cursor_engine_only_get(const Elm_Object_Item *it)
     void            elm_object_item_focus_set(Elm_Object_Item *it, Eina_Bool focused)
     Eina_Bool       elm_object_item_focus_get(const Elm_Object_Item *it)
+    Evas_Object *     elm_object_item_focus_next_object_get(Elm_Object_Item *it, Elm_Focus_Direction dir)
+    void              elm_object_item_focus_next_object_set(Elm_Object_Item *it, Evas_Object *next, Elm_Focus_Direction dir)
+    Elm_Object_Item * elm_object_item_focus_next_item_get(Elm_Object_Item *it, Elm_Focus_Direction dir)
+    void              elm_object_item_focus_next_item_set(Elm_Object_Item *it, Elm_Object_Item *next_item, Elm_Focus_Direction dir)
+
 
 
     #TODO: Evas_Object *   elm_object_item_access_register(Elm_Object_Item *item)

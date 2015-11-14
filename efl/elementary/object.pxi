@@ -858,6 +858,44 @@ cdef class Object(SmartObject):
     def focused_object_get(self):
         return object_from_instance(elm_object_focused_object_get(self.obj))
 
+    def focus_next_item_get(self, Elm_Focus_Direction direction):
+        """Get next object item which was set with specific focus direction.
+
+        Get next object item which was set by :func:`focus_next_item_set`
+        with specific focus direction.
+
+        :return: Focus next object item or ``None``, if there is no focus next
+                 object item.
+        :rtype: :class:`ObjectItem`
+
+        .. versionadded:: 1.16
+
+        """
+        return _object_item_to_python(
+                        elm_object_focus_next_item_get(self.obj, direction))
+
+    def focus_next_item_set(self, ObjectItem next,
+                            Elm_Focus_Direction direction):
+        """ Set next object item with specific focus direction.
+
+        When focus next object item is set with specific focus direction, this
+        object item will be the first candidate when finding next focusable
+        object or item. If the focus next object item is set, it is preference
+        to focus next object. Focus next object item can be registered with six
+        directions that are previous, next, up, down, right, and left.
+
+        :param next: Focus next object item
+        :type next: :class:`ObjectItem`
+        :param dir: Focus direction
+        :type dir: :ref:`Elm_Focus_Direction`
+
+        :see: :py:func:`focus_next_item_get`
+
+        .. versionadded:: 1.16
+
+        """
+        elm_object_focus_next_item_set(self.obj, next.item, direction)
+        
     property focused_item:
         """The focused object item in an object tree.
 

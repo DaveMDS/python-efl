@@ -176,6 +176,8 @@ cdef extern from "Elementary.h":
     Eina_Bool               elm_object_tree_focus_allow_get(const Evas_Object *obj)
     Eina_Bool               elm_object_focus_highlight_style_set(Evas_Object *obj, const char *style)
     const char *            elm_object_focus_highlight_style_get(const Evas_Object *obj)
+    Elm_Object_Item *       elm_object_focus_next_item_get(const Evas_Object *obj, Elm_Focus_Direction dir)
+    void                    elm_object_focus_next_item_set(Evas_Object *obj, Elm_Object_Item *next_item, Elm_Focus_Direction dir)
     Elm_Object_Item *       elm_object_focused_item_get(const Evas_Object *obj)
     void                    elm_object_focus_move_policy_set(Evas_Object *obj, Elm_Focus_Move_Policy policy)
     Elm_Focus_Move_Policy   elm_object_focus_move_policy_get(Evas_Object *obj)

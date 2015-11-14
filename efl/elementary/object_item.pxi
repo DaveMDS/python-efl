@@ -641,6 +641,80 @@ cdef class ObjectItem(object):
     def focus_get(self):
         return elm_object_item_focus_get(self.item)
 
+    def focus_next_object_get(self, Elm_Focus_Direction direction):
+        """Get next object which was set with specific focus direction.
+
+        :param dir: Focus direction
+        :type dir: :ref:`Elm_Focus_Direction`
+        :return: Focus next object or None, if there is no focus next object.
+        :rtype: :class:`Object`
+
+        :see: :func:`focus_next_object_set`
+
+        .. versionadded:: 1.16
+
+        """
+        return object_from_instance(
+            elm_object_item_focus_next_object_get(self.item, direction)
+            )
+
+    def focus_next_object_set(self, evasObject next,
+                               Elm_Focus_Direction direction):
+        """Set next object with specific focus direction.
+
+        When focus next object is set with specific focus direction, this object
+        will be the first candidate when finding next focusable object. Focus
+        next object can be registered with six directions that are previous,
+        next, up, down, right, and left.
+
+        :param next: Focus next object
+        :type next: :class:`Object`
+        :param dir: Focus direction
+        :type dir: :ref:`Elm_Focus_Direction`
+
+        :see: :py:func:`focus_next_object_get`
+
+        .. versionadded:: 1.16
+
+        """
+        elm_object_item_focus_next_object_set(self.item, next.obj, direction)
+
+    def focus_next_item_get(self, Elm_Focus_Direction direction):
+        """Get next object item which was set with specific focus direction.
+
+        :return: Focus next object item or ``None``, if there is no focus next
+                 object item.
+        :rtype: :class:`ObjectItem`
+
+        .. versionadded:: 1.16
+
+        """
+        return _object_item_to_python(
+                    elm_object_item_focus_next_item_get(self.item, direction))
+
+    def focus_next_item_set(self, ObjectItem next,
+                            Elm_Focus_Direction direction):
+        """ Set next object item with specific focus direction.
+
+        When focus next object item is set with specific focus direction, this
+        object item will be the first candidate when finding next focusable
+        object or item. If the focus next object item is set, it is preference
+        to focus next object. Focus next object item can be registered with six
+        directions that are previous, next, up, down, right, and left.
+
+        :param next: Focus next object item
+        :type next: :class:`ObjectItem`
+        :param dir: Focus direction
+        :type dir: :ref:`Elm_Focus_Direction`
+
+        :see: :py:func:`focus_next_item_get`
+
+        .. versionadded:: 1.16
+
+        """
+        elm_object_item_focus_next_item_set(self.item, next.item, direction)
+        
+
 
     # TODO: Accessibility
     # def access_unregister(self):
