@@ -97,8 +97,8 @@ Tips
 Release process instructions
 ============================
 
-* Announce at release@lists.enlightenment.org that you are planning
-  for the release
+* Announce at enlightenment-release@lists.sourceforge.net and
+  enlightenment-devel@lists.sourceforge.net that you are planning for the release
 * Change versions in efl/__init__.py (ex: 1.9.0)
 * Update the ChangeLog file:
     setup.py build_doc -b changes ...and manually merge from the html file
@@ -106,8 +106,8 @@ Release process instructions
 * Test the generated tarballs
 * scp tarballs & md5sums to:
   download.enlightenment.org:/srv/web/download.enlightenment.org/public_html/pre-releases/
-* Announce at release@lists.enlightenment.org that tarballs are
-  ready for testing
+* Announce at enlightenment-release@lists.sourceforge.net and
+  enlightenment-devel@lists.sourceforge.net that tarballs are ready for testing
 
 ... wait 24 hours, fix any issues found. In the mean time you can prepare the
     release announcement for phame/ml.

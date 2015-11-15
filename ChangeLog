@@ -49,7 +49,7 @@ Additions:
  * evas.Textblock.obstacle_add
  * evas.Textblock.obstacle_del
  * evas.Textblock.obstacles_update
- * evas.EVAS_CALLBACK_CANVA_VIEWPORT_RESIZE
+ * evas.EVAS_CALLBACK_CANVAS_VIEWPORT_RESIZE
 
 
 ===================
