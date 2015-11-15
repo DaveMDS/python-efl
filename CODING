@@ -124,7 +124,7 @@ Release process instructions
 * scp the generated html documentation to:
   download.enlightenment.org:/srv/web/docs.enlightenment.org/public_html/python-efl/1.XX.0/
   and update the 'current' link on the server (ssh)
-* Update download and docs link on the website wiki
+* Update download link on the wiki (www.enlightenment.org/download)
 * Publish the blog post on phame (Official Announcements)
 * Announce the release to release@lists.enlightenment.org
 * Change versions again in efl/__init__.py (ex: 1.9.99)
