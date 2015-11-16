@@ -73,14 +73,6 @@ error. Any valid file descriptor can be used with this API, regardless of if
 was gotten with an OS specific API or from ecore.
 see :py:class:`FdHandler<efl.ecore.FdHandler>`
 
-File download
--------------
-
-Ecore provide the :py:class:`FileDownload<efl.ecore.FileDownload>` class
-to perform asyncronous download of files from the net. Two callbacks are
-used to inform the user while progress occurs and when the download has
-finished.
-
 
 File monitor
 ------------
@@ -91,6 +83,25 @@ Events will be generatd everytime a file or directory (that live in the
 give path) is created/deleted/modified.
 
 
+File download
+-------------
+
+Ecore provide the :py:class:`FileDownload<efl.ecore.FileDownload>` class
+to perform asyncronous download of files from the net. Two callbacks are
+used to inform the user while progress occurs and when the download has
+finished.
+
+
+Ecore Con
+---------
+
+The ecore_con module provide various utilities to perform different network
+related tasks. Everything provided in a fully async way. Most notable are the
+:class:`efl.ecore_con.Lookup` class to perform DNS requests, the
+:class:`efl.ecore_con.Url` class to perform HTTP requests and the
+:class:`efl.ecore_con.Server` class to implement your own server.
+
+
 
 API Reference
 -------------
@@ -99,6 +110,7 @@ API Reference
    :titlesonly:
 
    module-ecore
+   module-ecore_con
 
 
 Inheritance diagram

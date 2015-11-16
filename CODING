@@ -32,6 +32,7 @@ Documentation cheatsheet
   :func:`elm_list_go`  (for functions)
   :attr:`homogeneous`  (for properties)
   :ref:`Elm_List_Mode` (for enums)
+  :data:`ELM_LIST_LIMIT` (for enum values)
 
   :func:`efl.evas.Object.delete`  (for items not in current scope)
   :func:`~efl.evas.Object.delete` (will show it short, just "delete")

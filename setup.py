@@ -110,8 +110,9 @@ class CleanGenerated(Command):
         pass
 
     def run(self):
-        for lib in ("eo", "evas", "ecore", "ecore_x", "edje", "emotion",
-                    "elementary", "ethumb", "dbus_mainloop", "utils"):
+        for lib in ("eo", "evas", "ecore", "ecore_x", "ecore_con", "edje",
+                    "emotion", "elementary", "ethumb", "dbus_mainloop",
+                    "utils"):
             lib_path = os.path.join(script_path, "efl", lib)
             for root, dirs, files in os.walk(lib_path):
                 for f in files:
@@ -306,6 +307,19 @@ if set(("build", "build_ext", "install", "bdist", "sdist")) & set(sys.argv):
                           extra_link_args=ecore_libs + ecore_file_libs +
                                           eina_libs + evas_libs)
     ext_modules.append(ecore_ext)
+
+    # === Ecore Con ===
+    ecore_con_cflags, ecore_con_libs = pkg_config('EcoreCon', 'ecore-con',
+                                                  EFL_MIN_VER)
+    ecore_con_ext = Extension("ecore_con",
+                              ["efl/ecore_con/efl.ecore_con" + module_suffix],
+                              include_dirs=['include/'],
+                              extra_compile_args=list(set(ecore_cflags +
+                                                          ecore_file_cflags +
+                                                          ecore_con_cflags)),
+                              extra_link_args=ecore_libs + ecore_file_libs +
+                                              ecore_con_libs + eina_libs)
+    ext_modules.append(ecore_con_ext)
 
     # === Ecore X ===
     try:

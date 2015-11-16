@@ -371,6 +371,7 @@ cdef class EventHandler(object):
 
 cdef class Event(object):
     cdef int _set_obj(self, void *obj) except 0
+    cdef object _get_obj(self)
 
 
 cdef class EventSignalUser(Event):
@@ -444,5 +445,7 @@ cdef class FileMonitor:
 
     cdef object _exec_monitor(self, Ecore_File_Event event, const char *path)
 
+
 cdef object _event_mapping_register(int type, cls)
 cdef object _event_mapping_unregister(int type)
+cdef object _event_mapping_get(int type)

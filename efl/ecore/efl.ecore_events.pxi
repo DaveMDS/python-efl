@@ -29,6 +29,11 @@ cdef object _event_mapping_register(int type, cls):
 cdef object _event_mapping_unregister(int type):
     _event_type_mapping.pop(type)
 
+cdef object _event_mapping_get(int type):
+    if not type in _event_type_mapping:
+        raise ValueError("event type '%d' not registered." % type)
+    return _event_type_mapping.get(type)
+
 
 cdef Eina_Bool event_handler_cb(void *data, int type, void *event) with gil:
     cdef EventHandler handler
@@ -64,6 +69,9 @@ cdef class Event(object):
 
     cdef int _set_obj(self, void *obj) except 0:
         raise NotImplementedError("Event._set_obj() not implemented.")
+
+    cdef object _get_obj(self):
+        raise NotImplementedError("Event._get_obj() not implemented.")
 
 
 cdef class EventHandler(object):
