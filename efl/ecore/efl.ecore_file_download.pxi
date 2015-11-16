@@ -99,7 +99,7 @@ cdef class FileDownload(object):
         if not ecore_file_download(
             <const char *>url if url is not None else NULL,
             <const char *>dst if dst is not None else NULL,
-            _completion_cb, _progress_cb,
+            _completion_cb, _progress_cb, # TODO really connect everytime? or check if cb given?
             <void *>self, &job):
                 raise SystemError("could not download '%s' to %s" % (url, dst))
 

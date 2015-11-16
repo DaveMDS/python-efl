@@ -168,7 +168,7 @@ cdef class EventUrlProgress(Event):
 cdef class EventUrlData(Event):
     cdef readonly Url url
     cdef readonly int size
-    cdef readonly bytes data # TODO :/
+    cdef readonly bytes data
 
 
 cdef class ConEventFilter(object):
