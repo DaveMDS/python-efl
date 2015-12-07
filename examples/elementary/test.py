@@ -172,6 +172,7 @@ items = [
     ("Lists - Genlist", [
         ("Genlist 1", "test_genlist_1", "test_genlist_1"),
         ("Genlist 2", "test_genlist_2", "test_genlist_2"),
+        ("Genlist Tree", "test_genlist_tree", "test_genlist_tree"),
         ("Genlist Group", "test_genlist_group", "test_genlist_group"),
         ("Genlist Sorted", "test_genlist_sorted", "test_genlist_sorted"),
         ("Genlist Iteration", "test_genlist_iteration", "test_genlist_iteration"),
