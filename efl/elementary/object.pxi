@@ -895,7 +895,7 @@ cdef class Object(SmartObject):
 
         """
         elm_object_focus_next_item_set(self.obj, next.item, direction)
-        
+
     property focused_item:
         """The focused object item in an object tree.
 
@@ -964,9 +964,9 @@ cdef class Object(SmartObject):
 
     property focus_move_policy:
         """The focus movement policy for the object.
-        
+
         :type: :ref:`Elm_Focus_Move_Policy`
-        
+
         .. versionadded:: 1.15
 
         """
@@ -990,7 +990,7 @@ cdef class Object(SmartObject):
         be scrolled as an item.
 
         :type: :ref:`Elm_Focus_Region_Show_Mode`
-        
+
         .. versionadded:: 1.16
 
         """
@@ -1324,12 +1324,12 @@ cdef class Object(SmartObject):
             return elm_object_tooltip_orient_get(self.obj)
         def __set__(self, Elm_Tooltip_Orient orient):
             elm_object_tooltip_orient_set(self.obj, orient)
-    
+
     def tooltip_orient_set(self, Elm_Tooltip_Orient orient):
         elm_object_tooltip_orient_set(self.obj, orient)
     def tooltip_orient_get(self):
         return elm_object_tooltip_orient_get(self.obj)
-    
+
     property tooltip_window_mode:
         def __get__(self):
             return bool(elm_object_tooltip_window_mode_get(self.obj))
@@ -1619,177 +1619,161 @@ cdef class Object(SmartObject):
     # Drag n Drop
     # ===========
 
-    # def drop_target_add(self, Elm_Sel_Format format,
-    #     entercb, enterdata, leavecb, leavedata, poscb, posdata, dropcb, dropdata):
-    #     """Set the given object as a target for drops for drag-and-drop
+    def drop_target_add(self, Elm_Sel_Format fmt,
+        entercb=None, enterdata=None, leavecb=None, leavedata=None,
+        poscb=None, posdata=None, dropcb=None, dropdata=None):
+        """Set the given object as a target for drops for drag-and-drop
 
-    #     :param format: The formats supported for dropping
-    #     :param entercb: The function to call when the object is entered with a drag
-    #     :param enterdata: The application data to pass to enterdata
-    #     :param leavecb: The function to call when the object is left with a drag
-    #     :param leavedata: The application data to pass to leavecb
-    #     :param poscb: The function to call when the object has a drag over it
-    #     :param posdata: The application data to pass to poscb
-    #     :param dropcb: The function to call when a drop has occurred
-    #     :param cbdata: The application data to pass to dropcb
-    #     :raise RuntimeError: if adding as drop target fails.
+        :param format: The formats supported for dropping
+        :param entercb: The function to call when the object is entered with a drag
+        :param enterdata: The application data to pass to enterdata
+        :param leavecb: The function to call when the object is left with a drag
+        :param leavedata: The application data to pass to leavecb
+        :param poscb: The function to call when the object has a drag over it
+        :param posdata: The application data to pass to poscb
+        :param dropcb: The function to call when a drop has occurred
+        :param cbdata: The application data to pass to dropcb
+        :raise RuntimeError: if adding as drop target fails.
 
-    #     :since: 1.8
+        .. versionadded:: 1.17
 
-    #     """
-    #     if not callable(entercb) \
-    #     or not callable(leavecb) \
-    #     or not callable(poscb) \
-    #     or not callable(dropcb):
-    #         raise TypeError("A callback passed is not callable.")
+        """
+        if entercb:
+            if not callable(entercb):
+                raise TypeError("A callback passed is not callable.")
+            enter = (entercb, enterdata)
+            Py_INCREF(enter)
+        if leavecb:
+            if not callable(leavecb):
+                raise TypeError("A callback passed is not callable.")
+            leave = (leavecb, leavedata)
+            Py_INCREF(leave)
+        if poscb:
+            if not callable(poscb):
+                raise TypeError("A callback passed is not callable.")
+            pos = (poscb, posdata)
+            Py_INCREF(pos)
+        if dropcb:
+            if not callable(dropcb):
+                raise TypeError("A callback passed is not callable.")
+            drop = (dropcb, dropdata)
+            Py_INCREF(drop)
 
-    #     enter = (entercb, enterdata)
-    #     leave = (leavecb, leavedata)
-    #     pos = (poscb, posdata)
-    #     drop = (dropcb, dropdata)
+        if not elm_drop_target_add(
+            self.obj, fmt,
+            <Elm_Drag_State>py_elm_drag_state_cb if entercb else NULL, <void *>enter if entercb else NULL,
+            <Elm_Drag_State>py_elm_drag_state_cb if leavecb else NULL, <void *>leave if leavecb else NULL,
+            <Elm_Drag_Pos>py_elm_drag_pos_cb if poscb else NULL, <void *>pos if poscb else NULL,
+            <Elm_Drop_Cb>py_elm_drop_cb if dropcb else NULL, <void *>drop if dropcb else NULL
+            ):
+            raise RuntimeError("Could not add drop target.")
 
-    #     if not elm_drop_target_add(
-    #         self.obj, format,
-    #         py_elm_drag_state_cb, <void *>enter,
-    #         py_elm_drag_state_cb, <void *>leave,
-    #         py_elm_drag_pos_cb, <void *>pos,
-    #         py_elm_drop_cb, <void *>drop
-    #         ):
-    #         raise RuntimeError("Could not add drop target.")
+    def drop_target_del(self, Elm_Sel_Format fmt,
+        entercb, enterdata, leavecb, leavedata, poscb, posdata, dropcb, dropdata):
+        """Deletes the drop target status of an object
 
-    # def drop_target_del(self):
-    #     """Deletes the drop target status of an object
+        @param format The formats supported for dropping
+        @param entercb The function to call when the object is entered with a drag
+        @param enterdata The application data to pass to enterdata
+        @param leavecb The function to call when the object is left with a drag
+        @param leavedata The application data to pass to leavedata
+        @param poscb The function to call when the object has a drag over it
+        @param posdata The application data to pass to posdata
+        @param dropcb The function to call when a drop has occurred
+        @param dropdata The application data to pass to dropcb
+        @return Returns @c EINA_TRUE, if successful, or @c EINA_FALSE if not.
 
-    #     :raise RuntimeError: if removing drop status fails.
+        .. versionadded:: 1.17
 
-    #     :since: 1.8
+        """
+        if entercb:
+            if not callable(entercb):
+                raise TypeError("A callback passed is not callable.")
+            enter = (entercb, enterdata)
+            Py_INCREF(enter)
+        if leavecb:
+            if not callable(leavecb):
+                raise TypeError("A callback passed is not callable.")
+            leave = (leavecb, leavedata)
+            Py_INCREF(leave)
+        if poscb:
+            if not callable(poscb):
+                raise TypeError("A callback passed is not callable.")
+            pos = (poscb, posdata)
+            Py_INCREF(pos)
+        if dropcb:
+            if not callable(dropcb):
+                raise TypeError("A callback passed is not callable.")
+            drop = (dropcb, dropdata)
+            Py_INCREF(drop)
 
-    #     """
-    #     if not elm_drop_target_del(self.obj):
-    #         raise RuntimeError("Could not delete drop target status.")
+        if not elm_drop_target_del(
+            self.obj, fmt,
+            <Elm_Drag_State>py_elm_drag_state_cb if entercb else NULL, <void *>enter if entercb else NULL,
+            <Elm_Drag_State>py_elm_drag_state_cb if leavecb else NULL, <void *>leave if leavecb else NULL,
+            <Elm_Drag_Pos>py_elm_drag_pos_cb if poscb else NULL, <void *>pos if poscb else NULL,
+            <Elm_Drop_Cb>py_elm_drop_cb if dropcb else NULL, <void *>drop if dropcb else NULL
+            ):
+            raise RuntimeError("Could not del drop target.")
 
-    # def drag_start(self, Elm_Sel_Format format,
-    #     data, Elm_Xdnd_Action action, createicon, createdata,
-    #     dragpos, dragdata, acceptcb, acceptdata, dragdone, donecbdata):
-    #     """Begins a drag given a source object
+    def drag_start(self, Elm_Sel_Format format,
+        data, Elm_Xdnd_Action action, createicon, createdata,
+        dragpos, dragdata, acceptcb, acceptdata, dragdone, donecbdata):
+        """Begins a drag given a source object
 
-    #     :param format: The drag formats supported by the data
-    #     :param data: The drag data itself (a string)
-    #     :param action: The drag action to be done
-    #     :param createicon: Function to call to create a drag object,
-    #         or NULL if not wanted
-    #     :param createdata: Application data passed to ``createicon``
-    #     :param dragpos: Function called with each position of the drag,
-    #         x, y being screen coordinates if possible, and action being
-    #         the current action.
-    #     :param dragdata: Application data passed to ``dragpos``
-    #     :param acceptcb: Function called indicating if drop target accepts
-    #         (or does not) the drop data while dragging
+        :param format: The drag formats supported by the data
+        :param data: The drag data itself (a string)
+        :param action: The drag action to be done
+        :param createicon: Function to call to create a drag object,
+            or NULL if not wanted
+        :param createdata: Application data passed to ``createicon``
+        :param dragpos: Function called with each position of the drag,
+            x, y being screen coordinates if possible, and action being
+            the current action.
+        :param dragdata: Application data passed to ``dragpos``
+        :param acceptcb: Function called indicating if drop target accepts
+            (or does not) the drop data while dragging
 
-    #     :param acceptdata: Application data passed to ``acceptcb``
-    #     :param dragdone: Function to call when drag is done
-    #     :param donecbdata: Application data to pass to ``dragdone``
-    #     :raise RuntimeError: if starting drag fails.
+        :param acceptdata: Application data passed to ``acceptcb``
+        :param dragdone: Function to call when drag is done
+        :param donecbdata: Application data to pass to ``dragdone``
+        :raise RuntimeError: if starting drag fails.
 
-    #     :since: 1.8
+        .. versionadded:: 1.17
 
-    #     """
-    #     if not elm_drag_start(Evas_Object *obj, format,
-    #         <const char *>data, action,
-    #         Elm_Drag_Icon_Create_Cb createicon, void *createdata,
-    #         Elm_Drag_Pos dragpos, void *dragdata,
-    #         Elm_Drag_Accept acceptcb, void *acceptdata,
-    #         Elm_Drag_State dragdone, void *donecbdata):
-    #         raise RuntimeError("Could not start drag.")
+        """
+        if not callable(createicon) \
+        or not callable(dragpos) \
+        or not callable(acceptcb) \
+        or not callable(dragdone):
+            raise TypeError("A callback passed is not callable.")
 
-    # def drag_action_set(self, Elm_Xdnd_Action action):
-    #     """Changes the current drag action
+        create = (createicon, createdata)
+        pos = (dragpos, dragdata)
+        accept = (acceptcb, acceptdata)
+        done = (dragdone, donecbdata)
 
-    #     :param action: The drag action to be done
-    #     :raise RuntimeError: if changing drag action fails.
+        if not elm_drag_start(self.obj, format,
+            <const char *>data, action,
+            py_elm_drag_icon_create_cb, <void *>create,
+            py_elm_drag_pos_cb, <void *>pos,
+            py_elm_drag_accept_cb, <void *>accept,
+            py_elm_drag_state_cb, <void *>done
+            ):
+            raise RuntimeError("Could not start drag.")
 
-    #     :since: 1.8
+    def drag_action_set(self, Elm_Xdnd_Action action):
+        """Changes the current drag action
 
-    #     """
-    #     if not elm_drag_action_set(Evas_Object *obj, action):
-    #         raise RuntimeError("Could not set cnp xdnd action.")
+        :param action: The drag action to be done
+        :raise RuntimeError: if changing drag action fails.
 
-    # def drag_item_container_add(self, double tm_to_anim, double tm_to_drag,
-    # itemgetcb, data_get):
-    #     """
+        .. versionadded:: 1.17
 
-    #     Set a item container (list, genlist, grid) as source of drag
+        """
+        if not elm_drag_action_set(self.obj, action):
+            raise RuntimeError("Could not set cnp xdnd action.")
 
-    #     :param tm_to_anim: Time period to wait before start animation.
-    #     :param tm_to_drag: Time period to wait before start dragging.
-    #     :param itemgetcb: Callback to get Evas_Object pointer for item at (x,y)
-    #     :param data_get:  Callback to get drag info
-    #     :return: Returns EINA_TRUE, if successful, or EINA_FALSE if not.
-
-    #     :since: 1.8
-
-    #     """
-    #     if not elm_drag_item_container_add(self.obj, tm_to_anim, tm_to_drag,
-        #     Elm_Xy_Item_Get_Cb itemgetcb, Elm_Item_Container_Data_Get_Cb data_get):
-    #         raise RuntimeError
-
-    # def drag_item_container_del(self):
-    #     """
-
-    #     Deletes a item container from drag-source list
-
-    #     :return: Returns EINA_TRUE, if successful, or EINA_FALSE if not.
-
-    #     :since: 1.8
-
-    #     """
-    #     if not elm_drag_item_container_del(self.obj):
-    #         raise RuntimeError
-
-    # def drop_item_container_add(self, format, itemgetcb, entercb, enterdata,
-    # leavecb, leavedata, poscb, posdata, dropcb, cbdata):
-    #     """
-
-    #     Set a item container (list, genlist, grid) as target for drop.
-
-    #     :param format: The formats supported for dropping
-    #     :param itemgetcb: Callback to get Evas_Object pointer for item at (x,y)
-    #     :param entercb: The function to call when the object is entered with a drag
-    #     :param enterdata: The application data to pass to enterdata
-    #     :param leavecb: The function to call when the object is left with a drag
-    #     :param leavedata: The application data to pass to leavedata
-    #     :param poscb: The function to call when the object has a drag over it
-    #     :param posdata: The application data to pass to posdata
-    #     :param dropcb: The function to call when a drop has occurred
-    #     :param cbdata: The application data to pass to dropcb
-    #     :return: Returns EINA_TRUE, if successful, or EINA_FALSE if not.
-
-    #     :since: 1.8
-
-    #     """
-    #     if not elm_drop_item_container_add(self.obj,
-    #           Elm_Sel_Format format,
-    #           Elm_Xy_Item_Get_Cb itemgetcb,
-    #           Elm_Drag_State entercb, void *enterdata,
-    #           Elm_Drag_State leavecb, void *leavedata,
-    #           Elm_Drag_Item_Container_Pos poscb, void *posdata,
-    #           Elm_Drop_Item_Container_Cb dropcb, void *cbdata):
-    #         raise RuntimeError
-
-    # def drop_item_container_del(self):
-    #     """
-
-    #     Removes a container from list of drop targets.
-
-    #     :param obj: The container object
-    #     :return: Returns EINA_TRUE, if successful, or EINA_FALSE if not.
-
-
-    #     :since: 1.8
-
-    #     """
-    #     if not elm_drop_item_container_del(self.obj):
-    #         raise RuntimeError
 
     #
     # Access (TODO)

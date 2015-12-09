@@ -627,111 +627,111 @@ cdef class Gengrid(Object):
                     flags))
 
     #
-    # TODO: Drag and Drop
+    # Drag and Drop
     # =============
 
-    # def drag_item_container_add(self,
-    #     double tm_to_anim, double tm_to_drag,
-    #     itemgetcb = None,
-    #     data_get = None):
-    #     """
+    def drag_item_container_add(self,
+        double tm_to_anim, double tm_to_drag,
+        itemgetcb = None,
+        data_get = None):
+        """
 
-    #     Set a item container (list, genlist, grid) as source of drag
+        Set a item container (list, genlist, grid) as source of drag
 
-    #     :param tm_to_anim: Time period to wait before start animation.
-    #     :param tm_to_drag: Time period to wait before start dragging.
-    #     :param itemgetcb: Callback to get Evas object for item at (x,y)
-    #     :param data_get:  Callback to get drag info
+        :param tm_to_anim: Time period to wait before start animation.
+        :param tm_to_drag: Time period to wait before start dragging.
+        :param itemgetcb: Callback to get Evas object for item at (x,y)
+        :param data_get:  Callback to get drag info
 
-    #     :raise RuntimeError: if setting drag source failed.
+        :raise RuntimeError: if setting drag source failed.
 
-    #     :since: 1.8
+        .. versionadded:: 1.17
 
-    #     """
-    #     if itemgetcb is not None:
-    #         if not callable(itemgetcb):
-    #             raise TypeError("itemgetcb must be callable.")
-    #         self.data["xy_item_get_cb"] = itemgetcb
+        """
+        if itemgetcb is not None:
+            if not callable(itemgetcb):
+                raise TypeError("itemgetcb must be callable.")
+            self.data["xy_item_get_cb"] = itemgetcb
 
-    #     self.data["item_container_data_get_cb"] = data_get
+        self.data["item_container_data_get_cb"] = data_get
 
-    #     if not elm_drag_item_container_add(self.obj,
-    #         tm_to_anim,
-    #         tm_to_drag,
-    #         <Elm_Xy_Item_Get_Cb>py_elm_xy_item_get_cb if itemgetcb is not None else NULL,
-    #         <Elm_Item_Container_Data_Get_Cb>py_elm_item_container_data_get_cb if data_get is not None else NULL):
-    #         raise RuntimeError
+        if not elm_drag_item_container_add(self.obj,
+            tm_to_anim,
+            tm_to_drag,
+            <Elm_Xy_Item_Get_Cb>py_elm_xy_item_get_cb if itemgetcb is not None else NULL,
+            <Elm_Item_Container_Data_Get_Cb>py_elm_item_container_data_get_cb if data_get is not None else NULL):
+            raise RuntimeError
 
-    # def drag_item_container_del(self):
-    #     """
+    def drag_item_container_del(self):
+        """
 
-    #     Deletes a item container from drag-source list
+        Deletes a item container from drag-source list
 
-    #     :raise RuntimeError: if deleting drag source failed.
+        :raise RuntimeError: if deleting drag source failed.
 
-    #     :since: 1.8
+        .. versionadded:: 1.17
 
-    #     """
-    #     if not elm_drag_item_container_del(self.obj):
-    #         raise RuntimeError
+        """
+        if not elm_drag_item_container_del(self.obj):
+            raise RuntimeError
 
-    # def drop_item_container_add(self, Elm_Sel_Format format,
-    #     itemgetcb = None, entercb = None, enterdata = None,
-    #     leavecb = None, leavedata = None,
-    #     poscb = None, posdata = None, dropcb = None, cbdata = None):
-    #     """
+    def drop_item_container_add(self, Elm_Sel_Format format,
+        itemgetcb = None, entercb = None, enterdata = None,
+        leavecb = None, leavedata = None,
+        poscb = None, posdata = None, dropcb = None, cbdata = None):
+        """
 
-    #     Set a item container (list, genlist, grid) as target for drop.
+        Set a item container (list, genlist, grid) as target for drop.
 
-    #     :param format: The formats supported for dropping
-    #     :param itemgetcb: Callback to get Evas object for item at (x,y)
-    #     :param entercb: The function to call when the object is entered with a drag
-    #     :param enterdata: The application data to pass to enterdata
-    #     :param leavecb: The function to call when the object is left with a drag
-    #     :param leavedata: The application data to pass to leavedata
-    #     :param poscb: The function to call when the object has a drag over it
-    #     :param posdata: The application data to pass to posdata
-    #     :param dropcb: The function to call when a drop has occurred
-    #     :param cbdata: The application data to pass to dropcb
+        :param format: The formats supported for dropping
+        :param itemgetcb: Callback to get Evas object for item at (x,y)
+        :param entercb: The function to call when the object is entered with a drag
+        :param enterdata: The application data to pass to enterdata
+        :param leavecb: The function to call when the object is left with a drag
+        :param leavedata: The application data to pass to leavedata
+        :param poscb: The function to call when the object has a drag over it
+        :param posdata: The application data to pass to posdata
+        :param dropcb: The function to call when a drop has occurred
+        :param cbdata: The application data to pass to dropcb
 
-    #     :raise RuntimeError: if setting drop target failed.
+        :raise RuntimeError: if setting drop target failed.
 
-    #     :since: 1.8
+        .. versionadded:: 1.17
 
-    #     """
-    #     if itemgetcb is not None:
-    #         if not callable(itemgetcb):
-    #             raise TypeError("itemgetcb must be callable.")
-    #         self.data["xy_item_get_cb"] = itemgetcb
+        """
+        if itemgetcb is not None:
+            if not callable(itemgetcb):
+                raise TypeError("itemgetcb must be callable.")
+            self.data["xy_item_get_cb"] = itemgetcb
 
-    #     self.data["drag_item_container_pos"] = poscb
-    #     self.data["drop_item_container_cb"] = dropcb
+        self.data["drag_item_container_pos"] = poscb
+        self.data["drop_item_container_cb"] = dropcb
 
-    #     if not elm_drop_item_container_add(self.obj,
-    #         format,
-    #         <Elm_Xy_Item_Get_Cb>py_elm_xy_item_get_cb if itemgetcb is not None else NULL,
-    #         <Elm_Drag_State>py_elm_drag_state_cb if entercb is not None else NULL,
-    #         <void *>enterdata if enterdata is not None else NULL,
-    #         <Elm_Drag_State>py_elm_drag_state_cb if leavecb is not None else NULL,
-    #         <void *>leavedata if leavedata is not None else NULL,
-    #         <Elm_Drag_Item_Container_Pos>py_elm_drag_item_container_pos if poscb is not None else NULL,
-    #         <void *>posdata if posdata is not None else NULL,
-    #         <Elm_Drop_Item_Container_Cb>py_elm_drop_item_container_cb if dropcb is not None else NULL,
-    #         <void *>cbdata if cbdata is not None else NULL):
-    #         raise RuntimeError
+        if not elm_drop_item_container_add(self.obj,
+            format,
+            <Elm_Xy_Item_Get_Cb>py_elm_xy_item_get_cb if itemgetcb is not None else NULL,
+            <Elm_Drag_State>py_elm_drag_state_cb if entercb is not None else NULL,
+            <void *>enterdata if enterdata is not None else NULL,
+            <Elm_Drag_State>py_elm_drag_state_cb if leavecb is not None else NULL,
+            <void *>leavedata if leavedata is not None else NULL,
+            <Elm_Drag_Item_Container_Pos>py_elm_drag_item_container_pos if poscb is not None else NULL,
+            <void *>posdata if posdata is not None else NULL,
+            <Elm_Drop_Item_Container_Cb>py_elm_drop_item_container_cb if dropcb is not None else NULL,
+            <void *>cbdata if cbdata is not None else NULL):
+            raise RuntimeError
 
-    # def drop_item_container_del(self):
-    #     """
+    def drop_item_container_del(self):
+        """
 
-    #     Removes a container from list of drop targets.
+        Removes a container from list of drop targets.
 
-    #     :raise RuntimeError: if deleting drop target failed.
+        :raise RuntimeError: if deleting drop target failed.
 
-    #     :since: 1.8
+        .. versionadded:: 1.17
 
-    #     """
-    #     if not elm_drop_item_container_del(self.obj):
-    #         raise RuntimeError
+        """
+        if not elm_drop_item_container_del(self.obj):
+            raise RuntimeError
 
 
 

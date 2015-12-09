@@ -2,6 +2,15 @@
 # encoding: utf-8
 
 import os
+import logging
+
+efllog = logging.getLogger("efl")
+efllog.setLevel(logging.DEBUG)
+efllog.addHandler(logging.StreamHandler())
+elmlog = logging.getLogger("efl.elementary")
+elmlog.setLevel(logging.DEBUG)
+elmlog.propagate = False
+elmlog.addHandler(logging.StreamHandler())
 
 from efl.ecore import Timer, ECORE_CALLBACK_CANCEL, ECORE_CALLBACK_RENEW, \
     AnimatorTimeline
@@ -10,17 +19,21 @@ from efl.evas import EVAS_HINT_EXPAND, EVAS_HINT_FILL, EXPAND_BOTH, FILL_BOTH, \
     EVAS_CALLBACK_MOUSE_UP, EVAS_CALLBACK_MOUSE_DOWN, \
     EVAS_EVENT_FLAG_ON_HOLD
 from efl import elementary
-from efl.elementary.label import Label
-from efl.elementary.frame import Frame
-from efl.elementary.list import List
-from efl.elementary.box import Box
-from efl.elementary.window import StandardWindow
-from efl.elementary.icon import Icon
-from efl.elementary.genlist import Genlist, GenlistItemClass, \
+from efl.elementary import Label
+from efl.elementary import Frame
+from efl.elementary import List, ELM_LIST_LIMIT
+from efl.elementary import Box
+from efl.elementary import StandardWindow
+from efl.elementary import Icon
+from efl.elementary import Genlist, GenlistItem, GenlistItemClass, \
     ELM_SEL_FORMAT_TARGETS, ELM_GENLIST_ITEM_NONE, DragUserInfo
-from efl.elementary.gengrid import Gengrid, GengridItemClass
-from efl.elementary.configuration import Configuration
+from efl.elementary import Gengrid, GengridItemClass
+from efl.elementary import Background
+from efl.elementary import Check
+from efl.elementary import Button
+from efl.elementary import Configuration
 conf = Configuration()
+SCALE = conf.scale
 
 
 script_path = os.path.dirname(os.path.abspath(__file__))
@@ -39,19 +52,21 @@ img = (
     )
 
 class AnimIconSt:
-    start_x = 0
-    start_y = 0
-    o = None
+    def __init__(self):
+        self.start_x = 0
+        self.start_y = 0
+        self.o = None
 
 class DragAnimSt:
-    icwin = None
-    e = None
-    mdx = 0     # Mouse-down x
-    mdy = 0     # Mouse-down y
-    icons = []   # List of icons to animate (anim_icon_st)
-    tm = None
-    ea = None
-    gl = None
+    def __init__(self):
+        self.icwin = None
+        self.e = None
+        self.mdx = 0     # Mouse-down x
+        self.mdy = 0     # Mouse-down y
+        self.icons = []   # List of icons to animate (anim_icon_st)
+        self.tm = None
+        self.ea = None
+        self.gl = None
 
 DRAG_TIMEOUT = 0.3
 ANIM_TIME = 0.5
@@ -85,31 +100,30 @@ class DndGengridItemClass(GengridItemClass):
 gic = DndGengridItemClass()
 
 def win_del(obj, data):
-    print("will del <%s>" % data)
     data.drop_item_container_del()
     data.drag_item_container_del()
-
-    #elementary.exit()
 
 def gl_item_getcb(gl, x, y):
     # This function returns pointer to item under (x,y) coords
     gli, yposret = gl.at_xy_item_get(x, y)
     if gli is not None:
-        print("over <%s>, gli=%r yposret=%i" % (
-            gli.part_text_get("elm.text"), gli, yposret))
+        print("over %r yposret=%d" % (gli, yposret))
     else:
-        print("over none, yposret=%i" % yposret)
+        print("over none, yposret=%d" % yposret)
     return gli, None, yposret
 
 def grid_item_getcb(grid, x, y):
     # This function returns pointer to item under (x,y) coords
     item, xposret, yposret = grid.at_xy_item_get(x, y)
     if item is not None:
-        print("over <%s>, item=%r xposret=%i yposret=%i" % (
-            item.part_text_get("elm.text"), item, xposret, yposret))
+        print("over %r xposret=%d yposret=%d" % (item, xposret, yposret))
     else:
-        print("over none, xposret=%i yposret=%i", xposret, yposret)
+        print("over none, xposret=%d yposret=%d", xposret, yposret)
     return item, xposret, yposret
+
+def gl_poscb(obj, it, x, y, xposret, yposret, action, data):
+    print("obj: %r, item: %r, x y: %d %d, posret: %d %d" %
+          (obj, it, x, y, xposret, yposret))
 
 def gl_dropcb(obj, it, ev, xposret, yposret, data):
     # This function is called when data is dropped on the genlist
@@ -148,7 +162,6 @@ def grid_dropcb(obj, it, ev, xposret, yposret, data):
     p = ev.data
 
     wh0rdlist = p.split("#")
-
     wh0rdlist.pop(0)
     wh0rdlist.pop()
 
@@ -268,6 +281,7 @@ def gl_dragdone(obj, doaccept, data):
             it.delete()
 
 def gl_createicon(win, xoff, yoff, data):
+    print("in gl_createicon")
     it = data
     o = it.part_content_get("elm.swallow.icon")
 
@@ -297,7 +311,6 @@ def gl_createicon(win, xoff, yoff, data):
 def gl_icons_get(gl):
     # Start icons animation before actually drag-starts
 
-    yposret = 0
     icons = []
 
     xm, ym = gl.evas.pointer_canvas_xy
@@ -389,15 +402,14 @@ def gl_dnd_default_anim_data_getcb(gl, it, info):
     # Now, collect data to send for drop from ALL selected items
     # Save list pointer to remove items after drop and free list on done
     info.data, info.donecbdata = gl_get_drag_data(gl, it)
-
     info.acceptdata = info.donecbdata
 
     if info.data is not None:
-        return info
+        return True
     else:
-        return
+        return False
 
-def gl_data_getcb(gl, it, info):
+def gl_dnd_user_anim_data_getcb(gl, it, info):
     # This called before starting to drag, mouse-down was on it
     info.format = ELM_SEL_FORMAT_TARGETS
     info.createicon = gl_createicon
@@ -422,13 +434,12 @@ def grid_icons_get(grid):
 
     xm, ym = grid.evas.pointer_canvas_xy
     items = list(grid.selected_items)
-    print(items)
+
     gli, xposret, yposret = grid.at_xy_item_get(xm, ym)
     if gli is not None:
         # Add the item mouse is over to the list if NOT seleced
         if not gli in items:
             items.append(gli)
-    print(items)
 
     for gli in items:
         # Now add icons to animation window
@@ -472,18 +483,15 @@ def dnd_genlist_default_anim_clicked(obj, item=None):
         gl = Genlist(win, multi_select=True, size_hint_weight=EXPAND_BOTH,
             size_hint_align=FILL_BOTH)
 
-        # START Drag and Drop handling
         win.callback_delete_request_add(win_del, gl)
         gl.drop_item_container_add(ELM_SEL_FORMAT_TARGETS, gl_item_getcb,
+            #poscb=gl_poscb,
             dropcb=gl_dropcb)
 
         gl.drag_item_container_add(ANIM_TIME, DRAG_TIMEOUT, gl_item_getcb,
             gl_dnd_default_anim_data_getcb)
 
-        # FIXME:    This causes genlist to resize the horiz axis very slowly :(
-        #           Reenable this and resize the window horizontally, then try
-        #           to resize it back.
-        #elm_genlist_mode_set(gl, ELM_LIST_LIMIT)
+        gl.mode = ELM_LIST_LIMIT
         bxx.pack_end(gl)
         gl.show()
 
@@ -504,21 +512,17 @@ def dnd_genlist_user_anim_clicked(obj, item=None):
         gl = Genlist(win, multi_select=True, size_hint_weight=EXPAND_BOTH,
             size_hint_align=FILL_BOTH)
 
-        # START Drag and Drop handling
         win.callback_delete_request_add(win_del, gl)
         gl.drop_item_container_add(ELM_SEL_FORMAT_TARGETS, gl_item_getcb,
             dropcb=gl_dropcb)
 
         gl.drag_item_container_add(ANIM_TIME, DRAG_TIMEOUT, gl_item_getcb,
-            gl_data_getcb)
+            gl_dnd_user_anim_data_getcb)
 
         # We add mouse-down, up callbacks to start/stop drag animation
         gl.event_callback_add(EVAS_CALLBACK_MOUSE_DOWN, gl_obj_mouse_down, gl)
-        # END Drag and Drop handling
 
-        # FIXME: This causes genlist to resize the horiz axis very slowly :(
-        # Reenable this and resize the window horizontally, then try to resize it back
-        #elm_genlist_mode_set(gl, ELM_LIST_LIMIT)
+        gl.mode = ELM_LIST_LIMIT
         bxx.pack_end(gl)
         gl.show()
 
@@ -547,9 +551,7 @@ def dnd_genlist_gengrid_clicked(obj, item=None):
         gl_dnd_default_anim_data_getcb)
     # END Drag and Drop handling
 
-    # FIXME: This causes genlist to resize the horiz axis very slowly :(
-    # Reenable this and resize the window horizontally, then try to resize it back
-    #elm_genlist_mode_set(gl, ELM_LIST_LIMIT)
+    gl.mode = ELM_LIST_LIMIT
     bxx.pack_end(gl)
     gl.show()
 
@@ -576,6 +578,156 @@ def dnd_genlist_gengrid_clicked(obj, item=None):
     win.show()
 
 
+def _drop_box_button_new_cb(obj, ev, data):
+    win = data
+    if ev.data is None:
+        return False
+    if ev.len <= 0:
+        return False
+
+    p = ev.data
+
+    wh0rdlist = p.split("#")
+    wh0rdlist.pop(0)
+    wh0rdlist.pop()
+
+    for wh0rd in wh0rdlist:
+        ic = Icon(
+            win, file=os.path.join(img_path, wh0rd),
+            size_hint_aspect=(EVAS_ASPECT_CONTROL_VERTICAL, 1, 1))
+        bt = Button(win, text="Dropped button")
+        bt.part_content_set("icon", ic)
+        obj.pack_end(bt)
+        bt.show()
+        ic.show()
+
+    return True
+
+def _enter_but_cb(obj, data):
+    print("Entered _enter_but_cb - drop it here and I will never print this line anymore.")
+
+def _drop_but_icon_change_cb(obj, ev, data):
+    win = data
+    if ev.data is None:
+        return False
+    if ev.len <= 0:
+        return False
+
+    p = ev.data
+
+    wh0rdlist = p.split("#")
+    wh0rdlist.pop(0)
+    wh0rdlist.pop()
+
+    ic = Icon(
+        win, file=os.path.join(img_path, wh0rdlist[0]),
+        size_hint_aspect=(EVAS_ASPECT_CONTROL_VERTICAL, 1, 1))
+    obj.part_content_get("icon").delete()
+    obj.part_content_set("icon", ic)
+    ic.show()
+
+    return True
+
+# Callback used to test multi-callbacks feature */
+def _drop_but_cb_remove_cb(obj, ev, data):
+    print("Second callback called - removing it")
+    obj.drop_target_del(ELM_SEL_FORMAT_TARGETS, _enter_but_cb, NULL, NULL, NULL, NULL, NULL, _drop_but_cb_remove_cb, NULL)
+    return True
+
+def _drop_bg_change_cb(obj, ev, data):
+    if ev.data is None:
+        return False
+    if ev.len <= 0:
+        return False
+
+    p = ev.data
+
+    wh0rdlist = p.split("#")
+    wh0rdlist.pop(0)
+    wh0rdlist.pop()
+
+    obj.file = os.path.join(img_path, wh0rdlist[0])
+
+    return True
+
+def _5s_cancel_ck_changed(obj, ev, data):
+    _5s_cancel = obj.state
+
+
+def dnd_multi_features_clicked(obj, item=None):
+    win = StandardWindow("dnd-multi-features", "DnD-Multi Features",
+        autodel=True, size=(680,800))
+
+    bg = Background(win, size_hint_weight=EXPAND_BOTH)
+    bg.drop_target_add(ELM_SEL_FORMAT_TARGETS, dropcb=_drop_bg_change_cb)
+    win.resize_object_add(bg)
+    bg.show()
+
+    bxx = Box(win, horizontal=True, size_hint_weight=EXPAND_BOTH)
+    win.resize_object_add(bxx)
+    bxx.show()
+
+    grid = Gengrid(
+        bxx, horizontal=True, reorder_mode=False, multi_select=True,
+        size_hint_weight=EXPAND_BOTH, size_hint_align=FILL_BOTH,
+        item_size=(SCALE * 100, SCALE * 100))
+    win.callback_delete_request_add(win_del, grid)
+
+    gic = DndGengridItemClass()
+
+    grid.drag_item_container_add(ANIM_TIME, DRAG_TIMEOUT, grid_item_getcb, grid_data_getcb)
+    for i in range(10):
+         grid.item_append(gic, img[i % 9])
+    bxx.pack_end(grid)
+    grid.show()
+
+
+
+    vert_box = Box(bxx, size_hint_weight=EXPAND_BOTH)
+    bxx.pack_end(vert_box)
+    vert_box.show()
+    vert_box.drop_target_add(ELM_SEL_FORMAT_TARGETS, dropcb=_drop_box_button_new_cb, dropdata=win)
+
+    _5s_cancel = False
+    ck = Check(vert_box, style="toggle", text="Cancel after 5s:", state=_5s_cancel)
+    ck.callback_changed_add(_5s_cancel_ck_changed)
+    vert_box.pack_end(ck)
+    ck.show()
+
+    ic = Icon(
+        win, file=os.path.join(img_path, "logo_small.png"),
+        size_hint_aspect=(EVAS_ASPECT_CONTROL_VERTICAL, 1, 1))
+    bt = Button(win, text="Multi-callbacks check")
+    bt.drop_target_add(ELM_SEL_FORMAT_TARGETS, dropcb=_drop_but_icon_change_cb, dropdata=win)
+    bt.drop_target_add(ELM_SEL_FORMAT_TARGETS, _enter_but_cb, dropcb=_drop_but_cb_remove_cb)
+    bt.part_content_set("icon", ic)
+    vert_box.pack_end(bt)
+    bt.show()
+    ic.show()
+
+    ic = Icon(
+        win, file=os.path.join(img_path, "logo_small.png"),
+        size_hint_aspect=(EVAS_ASPECT_CONTROL_VERTICAL, 1, 1))
+    bt = Button(win, text="Drop into me to change my icon")
+    bt.drop_target_add(ELM_SEL_FORMAT_TARGETS, dropcb=_drop_but_icon_change_cb, dropdata=win)
+    bt.part_content_set("icon", ic)
+    vert_box.pack_end(bt)
+    bt.show()
+    ic.show()
+
+    ic = Icon(
+        win, file=os.path.join(img_path, "logo_small.png"),
+        size_hint_aspect=(EVAS_ASPECT_CONTROL_VERTICAL, 1, 1))
+    bt = Button(win, text="No action on drop")
+    bt.part_content_set("icon", ic)
+    vert_box.pack_end(bt)
+    bt.show()
+    ic.show()
+
+    win.show()
+
+
+
 if __name__ == "__main__":
     win = StandardWindow("test", "python-elementary test application",
         size=(320,520))
@@ -599,6 +751,7 @@ if __name__ == "__main__":
         ("DnD Genlist Default Anim", dnd_genlist_default_anim_clicked),
         ("DnD Genlist User Anim", dnd_genlist_user_anim_clicked),
         ("DnD Genlist+Gengrid", dnd_genlist_gengrid_clicked),
+        ("DnD-Multi Features", dnd_multi_features_clicked),
         ]
 
     li = List(win, size_hint_weight=EXPAND_BOTH, size_hint_align=FILL_BOTH)
