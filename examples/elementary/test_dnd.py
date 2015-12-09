@@ -631,7 +631,7 @@ def _drop_but_icon_change_cb(obj, ev, data):
 # Callback used to test multi-callbacks feature */
 def _drop_but_cb_remove_cb(obj, ev, data):
     print("Second callback called - removing it")
-    obj.drop_target_del(ELM_SEL_FORMAT_TARGETS, _enter_but_cb, NULL, NULL, NULL, NULL, NULL, _drop_but_cb_remove_cb, NULL)
+    obj.drop_target_del(ELM_SEL_FORMAT_TARGETS, _enter_but_cb, dropcb=_drop_but_cb_remove_cb)
     return True
 
 def _drop_bg_change_cb(obj, ev, data):

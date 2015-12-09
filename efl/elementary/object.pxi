@@ -1669,19 +1669,20 @@ cdef class Object(SmartObject):
             raise RuntimeError("Could not add drop target.")
 
     def drop_target_del(self, Elm_Sel_Format fmt,
-        entercb, enterdata, leavecb, leavedata, poscb, posdata, dropcb, dropdata):
+        entercb=None, enterdata=None, leavecb=None, leavedata=None,
+        poscb=None, posdata=None, dropcb=None, dropdata=None):
         """Deletes the drop target status of an object
 
-        @param format The formats supported for dropping
-        @param entercb The function to call when the object is entered with a drag
-        @param enterdata The application data to pass to enterdata
-        @param leavecb The function to call when the object is left with a drag
-        @param leavedata The application data to pass to leavedata
-        @param poscb The function to call when the object has a drag over it
-        @param posdata The application data to pass to posdata
-        @param dropcb The function to call when a drop has occurred
-        @param dropdata The application data to pass to dropcb
-        @return Returns @c EINA_TRUE, if successful, or @c EINA_FALSE if not.
+        :param format: The formats supported for dropping
+        :param entercb: The function to call when the object is entered with a drag
+        :param enterdata: The application data to pass to enterdata
+        :param leavecb: The function to call when the object is left with a drag
+        :param leavedata: The application data to pass to leavedata
+        :param poscb: The function to call when the object has a drag over it
+        :param posdata: The application data to pass to posdata
+        :param dropcb: The function to call when a drop has occurred
+        :param dropdata: The application data to pass to dropcb
+        :raise RuntimeError: if drop target cannot be deleted
 
         .. versionadded:: 1.17
 
@@ -1717,8 +1718,8 @@ cdef class Object(SmartObject):
             raise RuntimeError("Could not del drop target.")
 
     def drag_start(self, Elm_Sel_Format format,
-        data, Elm_Xdnd_Action action, createicon, createdata,
-        dragpos, dragdata, acceptcb, acceptdata, dragdone, donecbdata):
+        data, Elm_Xdnd_Action action, createicon=None, createdata=None,
+        dragpos=None, dragdata=None, acceptcb=None, acceptdata=None, dragdone=None, donecbdata=None):
         """Begins a drag given a source object
 
         :param format: The drag formats supported by the data
@@ -1742,23 +1743,37 @@ cdef class Object(SmartObject):
         .. versionadded:: 1.17
 
         """
-        if not callable(createicon) \
-        or not callable(dragpos) \
-        or not callable(acceptcb) \
-        or not callable(dragdone):
-            raise TypeError("A callback passed is not callable.")
-
-        create = (createicon, createdata)
-        pos = (dragpos, dragdata)
-        accept = (acceptcb, acceptdata)
-        done = (dragdone, donecbdata)
+        if createicon:
+            if not callable(createicon):
+                raise TypeError("A callback passed is not callable.")
+            create = (createicon, createdata)
+            Py_INCREF(create)
+        if dragpos:
+            if not callable(dragpos):
+                raise TypeError("A callback passed is not callable.")
+            pos = (dragpos, dragdata)
+            Py_INCREF(pos)
+        if acceptcb:
+            if not callable(acceptcb):
+                raise TypeError("A callback passed is not callable.")
+            accept = (acceptcb, acceptdata)
+            Py_INCREF(accept)
+        if dragdone:
+            if not callable(dragdone):
+                raise TypeError("A callback passed is not callable.")
+            done = (dragdone, donecbdata)
+            Py_INCREF(done)
 
         if not elm_drag_start(self.obj, format,
             <const char *>data, action,
-            py_elm_drag_icon_create_cb, <void *>create,
-            py_elm_drag_pos_cb, <void *>pos,
-            py_elm_drag_accept_cb, <void *>accept,
-            py_elm_drag_state_cb, <void *>done
+            <Elm_Drag_Icon_Create_Cb>py_elm_drag_icon_create_cb if createicon is not None else NULL,
+            <void *>create if createicon is not None else NULL,
+            <Elm_Drag_Pos>py_elm_drag_pos_cb if dragpos is not None else NULL,
+            <void *>pos if dragpos is not None else NULL,
+            <Elm_Drag_Accept>py_elm_drag_accept_cb if acceptcb is not None else NULL,
+            <void *>accept if acceptcb is not None else NULL,
+            <Elm_Drag_State>py_elm_drag_state_cb if dragdone is not None else NULL,
+            <void *>done if dragdone is not None else NULL
             ):
             raise RuntimeError("Could not start drag.")
 
