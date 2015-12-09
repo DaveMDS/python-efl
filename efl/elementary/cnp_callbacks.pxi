@@ -106,7 +106,6 @@ cdef Eina_Bool py_elm_drop_cb(void *data, Evas_Object *obj, Elm_Selection_Data *
     :param ev: struct holding information about selected data
 
     """
-    print("in drop_cb")
     assert data != NULL, "data is NULL"
     cdef:
         SelectionData sd = SelectionData.__new__(SelectionData)
@@ -136,7 +135,6 @@ cdef Elm_Object_Item *py_elm_xy_item_get_cb(Evas_Object *obj, Evas_Coord x, Evas
     :return: object under x,y cords or NULL if not found.
 
     """
-    print("in xy_item_get_cb")
     assert obj != NULL, "obj is NULL"
 
     cdef:
@@ -187,7 +185,6 @@ cdef Evas_Object *py_elm_drag_icon_create_cb(
     :return: An object to fill the drag window with or NULL if not needed
 
     """
-    print("in drag_icon_create_cb")
     assert data != NULL, "data is NULL"
 
     cdef:
@@ -227,7 +224,6 @@ cdef void py_elm_drag_state_cb(void *data, Evas_Object *obj) with gil:
     :param obj: The object where the drag started
 
     """
-    print("in drag_state_cb")
     assert data != NULL, "data is NULL"
 
     cdef:
@@ -248,7 +244,6 @@ cdef void py_elm_drag_done_cb(void *data, Evas_Object *obj, Eina_Bool accepted) 
     :param accepted: TRUE if the dropped-data is accepted on drop
 
     """
-    print("in drag_done_cb")
     assert data != NULL, "data is NULL"
 
     cdef:
@@ -269,7 +264,6 @@ cdef void py_elm_drag_accept_cb(void *data, Evas_Object *obj, Eina_Bool doaccept
     :param doaccept: A boolean as to if the target accepts the drag or not
 
     """
-    print("in drag_accept_cb")
     assert data != NULL, "data is NULL"
 
     cdef:
@@ -292,7 +286,6 @@ cdef void py_elm_drag_pos_cb(void *data, Evas_Object *obj,
     :param y: The Y coordinate relative to the top-left of the object
 
     """
-    print("in drag_pos_cb")
     assert data != NULL, "data is NULL"
 
     cdef:
@@ -323,8 +316,6 @@ cdef void py_elm_drag_item_container_pos(
     :param action: The drag action to be done
 
     """
-    print("in drag_item_container_pos")
-
     cdef:
         evasObject o = object_from_instance(cont)
         ObjectItem item = _object_item_to_python(it)
@@ -349,7 +340,6 @@ cdef Eina_Bool py_elm_drop_item_container_cb(
     :param yposret: Position relative to item (upper (-1), middle (0), bottom (1)
 
     """
-    print("in drop_item_container_cb")
     assert obj != NULL, "obj is NULL"
 
     cdef:
