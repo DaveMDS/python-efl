@@ -163,8 +163,8 @@ def get_pyapis(pxd_path, header_name, prefix):
 
     for path, dirs, files in os.walk(pxd_path):
         for f in files:
-            if not f.endswith(".pxd"):
-                continue
+            # if not f.endswith(".pxd"):
+            #     continue
             open_args = (os.path.join(path, f),)
             open_kwargs = dict(mode="r")
             if sys.version_info[0] > 2:
