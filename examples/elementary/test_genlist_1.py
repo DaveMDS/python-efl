@@ -110,19 +110,6 @@ def test_genlist_1(parent):
     win.resize_object_add(over)
     over.show()
 
-    # buttons
-    vbox = Box(win, horizontal=True)
-    box.pack_end(vbox)
-    vbox.show()
-
-    bt_50 = Button(win, text="Go to 50")
-    vbox.pack_end(bt_50)
-    bt_50.show()
-
-    bt_1500 = Button(win, text="Go to 1500")
-    vbox.pack_end(bt_1500)
-    bt_1500.show()
-
     # populate the genlist
     for i in range(0, 2000):
         
@@ -133,10 +120,58 @@ def test_genlist_1(parent):
             item = gl.item_append(itc2, i, func=item_selected_cb)
             item.tooltip_content_cb_set(tooltip_content_cb)
 
-        if i == 50:
-            bt_50.callback_clicked_add(lambda bt, it: it.bring_in(), item)
-        elif i == 1500:
-            bt_1500.callback_clicked_add(lambda bt, it: it.bring_in(), item)
+        if i == 50:     it_50 = item
+        elif i == 1500: it_1500 = item
+
+    # item 50 buttons
+    hbox = Box(win, horizontal=True)
+    box.pack_end(hbox)
+    hbox.show()
+
+    bt = Button(win, text="Show 50 (IN)")
+    bt.callback_clicked_add(lambda bt: it_50.show(elm.ELM_GENLIST_ITEM_SCROLLTO_IN))
+    hbox.pack_end(bt)
+    bt.show()
+
+    bt = Button(win, text="Show 50 (TOP)")
+    bt.callback_clicked_add(lambda bt: it_50.show(elm.ELM_GENLIST_ITEM_SCROLLTO_TOP))
+    hbox.pack_end(bt)
+    bt.show()
+
+    bt = Button(win, text="Show 50 (MID)")
+    bt.callback_clicked_add(lambda bt: it_50.show(elm.ELM_GENLIST_ITEM_SCROLLTO_MIDDLE))
+    hbox.pack_end(bt)
+    bt.show()
+
+    bt = Button(win, text="Bring 50 (IN)")
+    bt.callback_clicked_add(lambda bt: it_50.bring_in(elm.ELM_GENLIST_ITEM_SCROLLTO_IN))
+    hbox.pack_end(bt)
+    bt.show()
+
+    bt = Button(win, text="Bring 50 (TOP)")
+    bt.callback_clicked_add(lambda bt: it_50.bring_in(elm.ELM_GENLIST_ITEM_SCROLLTO_TOP))
+    hbox.pack_end(bt)
+    bt.show()
+
+    bt = Button(win, text="Bring 50 (MID)")
+    bt.callback_clicked_add(lambda bt: it_50.bring_in(elm.ELM_GENLIST_ITEM_SCROLLTO_MIDDLE))
+    hbox.pack_end(bt)
+    bt.show()
+
+    # item 1500 buttons
+    hbox = Box(win, horizontal=True)
+    box.pack_end(hbox)
+    hbox.show()
+
+    bt = Button(win, text="Show 1500 (IN)")
+    bt.callback_clicked_add(lambda bt: it_1500.show())
+    hbox.pack_end(bt)
+    bt.show()
+
+    bt = Button(win, text="Bring 1500 (IN)")
+    bt.callback_clicked_add(lambda bt: it_1500.bring_in())
+    hbox.pack_end(bt)
+    bt.show()
 
     # show the window
     win.show()
