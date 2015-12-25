@@ -774,9 +774,9 @@ def exe_pipe_run(exe_cmd, int flags=0, data=None):
 cdef class EventExeAdd(Event):
     """Represents Ecore_Exe_Event_Add event from C-api.
 
-    This event notifies the process created with :py:class:`Exe` was started.
+    This event notifies that the process created with :py:class:`Exe` has been started.
 
-    See property ``exe`` for ``Exe`` instance.
+    :ivar Exe exe: Instance of :py:class:`Exe` that created this event.
     """
     cdef int _set_obj(self, void *o) except 0:
         cdef Ecore_Exe_Event_Add *obj
@@ -793,9 +793,14 @@ cdef class EventExeAdd(Event):
 cdef class EventExeDel(Event):
     """Represents Ecore_Exe_Event_Del from C-api.
 
-    This event notifies the process created with ``Exe`` is now dead.
+    This event notifies that the process created with ``Exe`` is now dead.
 
-    See property ``exe`` for ``Exe`` instance.
+    :ivar Exe exe: Instance of :py:class:`Exe` that created this event.
+    :ivar int pid: Process ID
+    :ivar int exit_code: Exit code
+    :ivar int exit_signal: Exit signal
+    :ivar bool exited: Has process exited
+    :ivar bool signalled: Has process been signalled
     """
     cdef int _set_obj(self, void *o) except 0:
         cdef Ecore_Exe_Event_Del *obj
@@ -823,12 +828,10 @@ cdef class EventExeData(Event):
     This event is issued by :py:class:`Exe` instances created with flags that
     allow reading from either stdout or stderr.
 
-    See properties:
-
-      - **exe** instance of :py:class:`Exe` that created this event.
-      - **data** the raw string buffer with binary data from child process.
-      - **size** the size of **data** (same as ``len(data)``)
-      - **lines** list of strings with all text lines
+    :ivar Exe exe: Instance of :py:class:`Exe` that created this event.
+    :ivar string ~EventExeData.data: The raw string buffer with binary data from child process.
+    :ivar int ~EventExeData.size: The size of **data** (same as ``len(data)``)
+    :ivar list lines: List of strings with all text lines
     """
     cdef int _set_obj(self, void *o) except 0:
         cdef Ecore_Exe_Event_Data *obj
