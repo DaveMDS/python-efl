@@ -361,7 +361,7 @@ def cmdline_parse():
     return options, args
 
 
-if __name__ == "__main__"or True:
+if __name__ == "__main__":
     options, args = cmdline_parse()
 
     # elementary window
