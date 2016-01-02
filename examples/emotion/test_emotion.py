@@ -2,7 +2,6 @@
 
 import os
 import optparse
-import subprocess
 
 from efl import evas
 from efl import edje
