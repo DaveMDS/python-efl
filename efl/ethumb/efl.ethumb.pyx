@@ -20,7 +20,9 @@
 :mod:`efl.ethumb` Module
 ########################
 
+.. versionadded:: 1.17
 
+    
 Classes
 =======
 
@@ -189,7 +191,11 @@ def shutdown():
 
 
 cdef class Ethumb(object):
-    """ Ethumb thumbnail generator.
+    """
+
+    Ethumb thumbnail generator.
+
+    .. versionadded:: 1.17
 
     Use this class to generate thumbnails in the local process.
 

@@ -20,6 +20,8 @@
 :mod:`efl.ethumb_client` Module
 ###############################
 
+.. versionadded:: 1.17
+
 
 Classes
 =======
@@ -201,6 +203,8 @@ cdef class EthumbClient:
     """
 
     Client for Ethumbd server.
+
+    .. versionadded:: 1.17
 
     This client is the recommended way to generate thumbnails with
     Ethumb. All you have to do is create a client instance, wait it to
