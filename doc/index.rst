@@ -62,6 +62,7 @@ Ethumb
 ======
 
 .. toctree:: ethumb/ethumb.rst
+   :titlesonly:
 
 
 Edje
