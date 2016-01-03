@@ -338,7 +338,7 @@ cdef class Ethumb(object):
                 const char *group
                 const char *swallow
             ethumb_frame_get(self.obj, &theme, &group, &swallow)
-            return tuple(_ctouni(theme), _ctouni(group), _ctouni(swallow))
+            return _ctouni(theme), _ctouni(group), _ctouni(swallow)
 
     # destination thumb properties
     property thumb_path:
@@ -412,9 +412,7 @@ cdef class Ethumb(object):
                     <const char *>cat if cat is not None else NULL)
 
         def __get__(self):
-            cdef const char *cat
-            cat = ethumb_thumb_category_get(self.obj)
-            return _ctouni(cat)
+            return _ctouni(ethumb_thumb_category_get(self.obj))
 
     property thumb_fdo:
         """ Set a standard FDO thumbnail size
@@ -441,11 +439,9 @@ cdef class Ethumb(object):
             ethumb_thumb_size_set(self.obj, w, h)
 
         def __get__(self):
-            cdef:
-                int w
-                int h
+            cdef int w, h
             ethumb_thumb_size_get(self.obj, &w, &h)
-            return tuple(w, h)
+            return w, h
 
     property thumb_format:
         """ The fileformat for the thumbnails.
@@ -511,7 +507,7 @@ cdef class Ethumb(object):
                 float x
                 float y
             ethumb_thumb_crop_align_get(self.obj, &x, &y)
-            return tuple(x, y)
+            return x, y
 
     property thumb_quality:
         """ The thumbnail compression quality.

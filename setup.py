@@ -351,8 +351,9 @@ if set(("build", "build_ext", "install", "bdist", "sdist")) & set(sys.argv):
                            extra_link_args=ethumb_libs + eina_libs)
     ext_modules.append(ethumb_ext)
 
-    ethumb_client_cflags, ethumb_client_libs = pkg_config(
-        'Ethumb_Client', 'ethumb_client', EFL_MIN_VER)
+    # === Ethumb Client ===
+    ethumb_client_cflags, ethumb_client_libs = pkg_config('Ethumb_Client',
+                                                'ethumb_client', EFL_MIN_VER)
     ethumb_client_ext = Extension("ethumb_client",
                                   ["efl/ethumb/efl.ethumb_client" + module_suffix],
                                   include_dirs=['include/'],

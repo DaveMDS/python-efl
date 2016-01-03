@@ -14,19 +14,132 @@
 #
 # You should have received a copy of the GNU Lesser General Public License
 # along with this Python-EFL.  If not, see <http://www.gnu.org/licenses/>.
+"""
 
-from cpython cimport Py_INCREF, Py_DECREF
+:mod:`efl.ethumb_client` Module
+###############################
+
+
+Classes
+=======
+
+.. toctree::
+
+   class-ethumb_client.rst
+
+
+Enumerations
+============
+
+.. _Ethumb_Client_Thumb_FDO_Size:
+
+Ethumb_Thumb_FDO_Size
+---------------------
+
+.. data:: ETHUMB_THUMB_NORMAL
+
+    128x128 as defined by FreeDesktop.Org standard 
+
+.. data:: ETHUMB_THUMB_LARGE
+
+    256x256 as defined by FreeDesktop.Org standard 
+
+
+.. _Ethumb_Client_Thumb_Format:
+
+Ethumb_Thumb_Format
+-------------------
+
+.. data:: ETHUMB_THUMB_FDO
+
+    PNG as defined by FreeDesktop.Org standard. 
+
+.. data:: ETHUMB_THUMB_JPEG
+
+    JPEGs are often smaller and faster to read/write. 
+
+.. data:: ETHUMB_THUMB_EET 
+
+    EFL's own storage system, supports key parameter.
+
+
+.. _Ethumb_Client_Thumb_Aspect:
+
+Ethumb_Thumb_Aspect
+-------------------
+
+.. data:: ETHUMB_THUMB_KEEP_ASPECT
+
+    Keep original proportion between width and height
+
+.. data:: ETHUMB_THUMB_IGNORE_ASPECT 
+
+    Ignore aspect and foce it to match thumbnail's width and height 
+
+.. data:: ETHUMB_THUMB_CROP 
+
+    keep aspect but crop (cut) the largest dimension
+
+
+.. _Ethumb_Client_Thumb_Orientation:
+
+Ethumb_Thumb_Orientation
+------------------------
+
+.. data:: ETHUMB_THUMB_ORIENT_NONE 
+
+    Keep orientation as pixel data is 
+
+.. data:: ETHUMB_THUMB_ROTATE_90_CW 
+
+    Rotate 90° clockwise 
+
+.. data:: ETHUMB_THUMB_ROTATE_180 
+
+    Rotate 180° 
+
+.. data:: ETHUMB_THUMB_ROTATE_90_CCW 
+
+    Rotate 90° counter-clockwise 
+
+.. data:: ETHUMB_THUMB_FLIP_HORIZONTAL 
+
+    Flip horizontally 
+
+.. data:: ETHUMB_THUMB_FLIP_VERTICAL 
+
+    Flip vertically 
+
+.. data:: ETHUMB_THUMB_FLIP_TRANSPOSE 
+
+    Transpose
+
+.. data:: ETHUMB_THUMB_FLIP_TRANSVERSE 
+
+    Transverse
+
+.. data:: ETHUMB_THUMB_ORIENT_ORIGINAL 
+
+    Use orientation from metadata (EXIF-only currently) 
+
+
+Module level functions
+======================
+
+"""
+
+from cpython cimport Py_INCREF, Py_DECREF, PyUnicode_AsUTF8String
 from libc.stdint cimport uintptr_t
+
 import traceback
+import atexit
 
-def shutdown():
-    ethumb_client_shutdown()
+from efl.utils.conversions cimport _ctouni, _touni
+from efl.ethumb_client cimport Ethumb_Thumb_Orientation
 
-def init():
-    return ethumb_client_init()
 
 cdef void _connect_cb(void *data, Ethumb_Client *client, Eina_Bool success) with gil:
-    cdef Client self = <Client>data
+    cdef EthumbClient self = <EthumbClient>data
     s = bool(success)
     try:
         func, args, kargs = self._on_connect_callback
@@ -34,14 +147,8 @@ cdef void _connect_cb(void *data, Ethumb_Client *client, Eina_Bool success) with
     except Exception:
         traceback.print_exc()
 
-    if not s and self.obj != NULL:
-        ethumb_client_disconnect(self.obj)
-        self.obj = NULL
-    self._on_connect_callback = None
-
-
 cdef void _on_server_die_cb(void *data, Ethumb_Client *client) with gil:
-    cdef Client self = <Client>data
+    cdef EthumbClient self = <EthumbClient>data
     if self._on_server_die_callback is not None:
         try:
             func, args, kargs = self._on_server_die_callback
@@ -49,22 +156,15 @@ cdef void _on_server_die_cb(void *data, Ethumb_Client *client) with gil:
         except Exception:
             traceback.print_exc()
 
-    if self.obj != NULL:
-        ethumb_client_disconnect(self.obj)
-        self.obj = NULL
-    self._on_server_die_callback = None
-
+    self.disconnect()
 
 cdef void _generated_cb(void *data, Ethumb_Client *client, int id, const char *file, const char *key, const char *thumb_path, const char *thumb_key, Eina_Bool success) with gil:
     obj = <object>data
     (self, func, args, kargs) = obj
-    f = str_from_c(file)
-    k = str_from_c(key)
-    tp = str_from_c(thumb_path)
-    tk = str_from_c(thumb_key)
-    s = bool(success != 0)
+    status = bool(success != 0)
     try:
-        func(self, id, f, k, tp, tk, s, *args, **kargs)
+        func(self, id, _ctouni(file), _ctouni(key), _ctouni(thumb_path),
+             _ctouni(thumb_key), status, *args, **kargs)
     except Exception:
         traceback.print_exc()
 
@@ -75,21 +175,28 @@ cdef void _generated_cb_free_data(void *data) with gil:
 cdef void _thumb_exists_cb(void *data, Ethumb_Client *client, Ethumb_Exists *thread, Eina_Bool exists) with gil:
     #TODO
     print("Not implemented")
-    #pass
 
-cdef char *str_to_c(object s):
-    cdef char *mystr
-    if s is None:
-        mystr = NULL
-    else:
-        mystr = s
-    return mystr
 
-cdef object str_from_c(const char *mystr):
-    if mystr != NULL:
-        return mystr
+def init():
+    """ Initialize the ethumb_client library.
 
-cdef class Client:
+    .. note:: You never need to call this function, it is automatically called
+              on module import.
+
+    """
+    return ethumb_client_init()
+
+def shutdown():
+    """ Shutdown the ethumb_client library.
+
+    .. note:: You never need to call this function, it is automatically called
+              at exit.
+
+    """
+    ethumb_client_shutdown()
+
+
+cdef class EthumbClient:
     """
 
     Client for Ethumbd server.
@@ -99,22 +206,20 @@ cdef class Client:
     be connected to server, configure thumbnail parameters and then
     start feed it with file_set(), exists() generate(). Basic steps are:
 
-    - instantiate Client, wait for func to be called with success.
+    - instantiate EthumbClient, wait for func to be called with success.
     - set various parameters, like format and size.
     - loop on original files:
 
       - ``c.file_set(file)``
       - ``if not c.exists(): c.generate(generated_cb)``
 
-    When the last reference to client is released, server is
-    automatically disconnected. Since callback may contain references
-    to server itself, it is recommended explicit call to
-    :py:func:`disconnect` function.
+    It is recommended explicit call to :py:func:`disconnect` function when
+    you don't need the thumbnailer anymore.
 
     """
 
     def __init__(self, func, *args, **kargs):
-        """Client(...)
+        """ EthumbClient thumbnail generator.
 
         :param func: function to call when connection with server is
                      established.
@@ -147,15 +252,12 @@ cdef class Client:
                 ethumb_client_on_server_die_callback_set(
                     self.obj, _on_server_die_cb, <void*>self, NULL)
 
-    def __dealloc__(self):
-        if self.obj != NULL:
-            ethumb_client_disconnect(self.obj)
-
     def disconnect(self):
         """Explicitly request server disconnection.
 
         After this call object becomes shallow, that is operations
         will be void.
+
         """
         if self.obj != NULL:
             ethumb_client_disconnect(self.obj)
@@ -173,14 +275,13 @@ cdef class Client:
         if self.aspect == 2:
             aspect = "CROP[%f, %f]" % self.crop
         return (
-            "<%s(obj=%#x, file=(%r, %r), thumb=(%r, %r), exists=%s, "
+            "<%s(obj=%#x, file=(%r, %r), thumb=(%r, %r), "
             "size=%dx%d, format=%s, aspect=%s, quality=%d, compress=%d, "
-            "directory=%r, category=%r)>"
+            "dir_path=%r, category=%r)>"
             ) % (
             type(self).__name__, <uintptr_t><void *>self, f, k,
-            tf, tk, self.thumb_exists(),
-            w, h, format, aspect, self.quality, self.compress,
-            self.directory, self.category
+            tf, tk, w, h, format, aspect, self.quality, self.compress,
+            self.dir_path, self.category
             )
 
     def on_server_die_callback_set(self, func, *args, **kargs):
@@ -205,369 +306,7 @@ cdef class Client:
         else:
             raise TypeError("Parameter 'func' must be callable or None")
 
-    def fdo_set(self, int s):
-        """Configure future requests to use FreeDesktop.Org preset.
-
-        This is a preset to provide freedesktop.org (fdo) standard
-        compliant thumbnails. That is, files are stored as JPEG under
-        ~/.thumbnails/SIZE, with size being either normal (128x128) or
-        large (256x256).
-
-        :param s: size identifier, either ETHUMB_THUMB_NORMAL (0) or
-           ETHUMB_THUMB_LARGE.
-
-        .. seealso:: :py:func:`size_set`, :py:func:`format_set`, :py:func:`aspect_set`, :py:func:`crop_set`,
-           :py:func:`category_set`, :py:func:`directory_set`.
-        """
-        ethumb_client_fdo_set(self.obj, s)
-
-    def size_set(self, int w, int h):
-        """Configure future request to use custom size.
-
-        :param w: width, default is 128.
-        :param h: height, default is 128.
-        """
-        ethumb_client_size_set(self.obj, w, h)
-
-    def size_get(self):
-        """Get current size being used by requests.
-
-        :rtype: tuple of int.
-        """
-        cdef int w, h
-        ethumb_client_size_get(self.obj, &w, &h)
-        return (w, h)
-
-    property size:
-        def __set__(self, value):
-            cdef int w, h
-            w, h = value
-            self.size_set(w, h)
-
-        def __get__(self):
-            return self.size_get()
-
-    def format_set(self, int f):
-        """Configure format to use for future requests.
-
-        :param f: format identifier to use, either ETHUMB_THUMB_FDO (0),
-           ETHUMB_THUMB_JPEG (1) or ETHUMB_THUMB_EET (2). Default is FDO.
-        """
-        ethumb_client_format_set(self.obj, f)
-
-    def format_get(self):
-        """Get current format in use for requests.
-
-        :rtype: int
-        """
-        return ethumb_client_format_get(self.obj)
-
-    property format:
-        def __set__(self, value):
-            self.format_set(value)
-
-        def __get__(self):
-            return self.format_get()
-
-    def aspect_set(self, int a):
-        """Configure aspect mode to use.
-
-        If aspect is kept (ETHUMB_THUMB_KEEP_ASPECT), then image will
-        be rescaled so the largest dimension is not bigger than it's
-        specified size (see :py:func:`size_get`) and the other dimension is
-        resized in the same proportion. Example: size is 256x256,
-        image is 1000x500, resulting thumbnail is 256x128.
-
-        If aspect is ignored (ETHUMB_THUMB_IGNORE_ASPECT), then image
-        will be distorted to match required thumbnail size. Example:
-        size is 256x256, image is 1000x500, resulting thumbnail is
-        256x256.
-
-        If crop is required (ETHUMB_THUMB_CROP), then image will be
-        cropped so the smallest dimension is not bigger than its
-        specified size (see :py:func:`size_get`) and the other dimension
-        will overflow, not being visible in the final image. How it
-        will overflow is speficied by :py:func:`crop_set`
-        alignment. Example: size is 256x256, image is 1000x500, crop
-        alignment is 0.5, 0.5, resulting thumbnail is 256x256 with 250
-        pixels from left and 250 pixels from right being lost, that is
-        just the 500x500 central pixels of image will be considered
-        for scaling.
-
-        :param a: aspect mode identifier, either ETHUMB_THUMB_KEEP_ASPECT (0),
-           ETHUMB_THUMB_IGNORE_ASPECT (1) or ETHUMB_THUMB_CROP (2).
-
-        """
-        ethumb_client_aspect_set(self.obj, a)
-
-    def aspect_get(self):
-        """Get current aspect in use for requests.
-
-        :rtype: int
-        """
-        return ethumb_client_aspect_get(self.obj)
-
-    property aspect:
-        def __set__(self, value):
-            self.aspect_set(value)
-
-        def __get__(self):
-            return self.aspect_get()
-
-    def crop_set(self, float x, float y):
-        """Configure crop alignment in use for future requests.
-
-        :param x: horizontal alignment. 0.0 means left side will be
-           visible or right side is being lost. 1.0 means right
-           side will be visible or left side is being lost. 0.5
-           means just center is visible, both sides will be lost.
-           Default is 0.5.
-        :param y: vertical alignment. 0.0 is top visible, 1.0 is
-           bottom visible, 0.5 is center visible. Default is 0.5
-        """
-        ethumb_client_crop_align_set(self.obj, x, y)
-
-    def crop_get(self):
-        """Get current crop alignment in use for requests.
-
-        :rtype: tuple of float
-        """
-        cdef float x, y
-        ethumb_client_crop_align_get(self.obj, &x, &y)
-        return (x, y)
-
-    property crop:
-        def __set__(self, value):
-            cdef float x, y
-            x, y = value
-            self.crop_set(x, y)
-
-        def __get__(self):
-            return self.crop_get()
-
-    def quality_set(self, int quality):
-        """Configure quality to be used in thumbnails.
-
-        :param quality: value from 0 to 100, default is 80. The
-           effect depends on the format being used, PNG will not
-           use it.
-        """
-        ethumb_client_quality_set(self.obj, quality)
-
-    def quality_get(self):
-        """Get current quality in use for requests.
-
-        :rtype: int
-        """
-        return ethumb_client_quality_get(self.obj)
-
-    property quality:
-        def __set__(self, value):
-            self.quality_set(value)
-
-        def __get__(self):
-            return self.quality_get()
-
-    def compress_set(self, int compress):
-        """Configure compression level used in requests.
-
-        :param compress: value from 0 to 9, default is 9. The effect
-           depends on the format being used, JPEG will not use it.
-        """
-        ethumb_client_compress_set(self.obj, compress)
-
-    def compress_get(self):
-        """Get current compression level in use for requests.
-
-        :rtype: int
-        """
-        return ethumb_client_compress_get(self.obj)
-
-    property compress:
-        def __set__(self, value):
-            self.compress_set(value)
-
-        def __get__(self):
-            return self.compress_get()
-
-    def directory_set(self, path):
-        """Configure where to store thumbnails in future requests.
-
-        Note that this is the base, a category is added to this path
-        as a sub directory.
-
-        :param path: base directory where to store
-           thumbnails. Default is ~/.thumbnails
-        """
-        ethumb_client_dir_path_set(self.obj, str_to_c(path))
-
-    def directory_get(self):
-        """Get current base directory to store thumbnails.
-
-        :rtype: str or None
-        """
-        return str_from_c(ethumb_client_dir_path_get(self.obj))
-
-    property directory:
-        def __set__(self, value):
-            self.directory_set(value)
-
-        def __get__(self):
-            return self.directory_get()
-
-    def category_set(self, category):
-        """Category directory to store thumbnails.
-
-        :param category: category sub directory to store
-           thumbnail. Default is either "normal" or "large" for FDO
-           compliant thumbnails or
-           WIDTHxHEIGHT-ASPECT[-FRAMED]-FORMAT. It can be a string or
-           None to use auto generated names.
-        """
-        ethumb_client_category_set(self.obj, str_to_c(category))
-
-    def category_get(self):
-        """Get current category sub directory to store thumbnails.
-
-        :rtype: str or None
-        """
-        return str_from_c(ethumb_client_category_get(self.obj))
-
-    property category:
-        def __set__(self, value):
-            self.category_set(value)
-
-        def __get__(self):
-            return self.category_get()
-
-    def frame_set(self, file, group, swallow):
-        """Set frame to apply to future thumbnails.
-
-        This will create an edje object that will have image swallowed
-        in. This can be used to simulate Polaroid or wood frames in
-        the generated image. Remember it is bad to modify the original
-        contents of thumbnails, but sometimes it's useful to have it
-        composited and avoid runtime overhead.
-
-        :param file: file path to edje.
-        :param group: group inside edje to use.
-        :param swallow: name of swallow part.
-        """
-        cdef:
-            char *f
-            char *g
-            char *s
-        f = str_to_c(file)
-        g = str_to_c(group)
-        s = str_to_c(swallow)
-        return ethumb_client_frame_set(self.obj, f, g, s)
-
-    def file_set(self, path, key=None):
-        """Set file to thumbnail.
-
-        Calling this function will zero :py:func:`thumb_set`
-        specifications. This is done to avoid one using the last thumb
-        path for new images.
-
-        :param path: path to thumbnail subject.
-        :param key: path to key inside **path**, this is used to
-           generate thumbnail of edje groups or images inside EET.
-        """
-        cdef:
-            char *p
-            char *k
-        p = str_to_c(path)
-        k = str_to_c(key)
-        ethumb_client_file_set(self.obj, p, k)
-
-    def file_get(self):
-        """Get current file to thumbnail.
-
-        :rtype: tuple of str
-        """
-        cdef:
-            const char *p
-            const char *k
-        ethumb_client_file_get(self.obj, &p, &k)
-        return (str_from_c(p), str_from_c(k))
-
-    property file:
-        def __set__(self, value):
-            p, k = value
-            self.file_set(p, k)
-
-        def __get__(self):
-            return self.file_get()
-
-    def file_free(self):
-        """Zero/Reset file parameters.
-
-        This call will reset file and thumb specifications.
-
-        .. seealso:: :py:func:`file_set` and :py:func:`thumb_set`
-        """
-        ethumb_client_file_free(self.obj)
-
-    def thumb_set(self, path, key=None):
-        """Set thumbnail path and key.
-
-        Note that these parameters are forgotten (reset) after
-        :py:func:`file_set`.
-
-        :param path: path to generated thumbnail to use, this is an
-           absolute path to file, overriding directory and category.
-        :param key: path to key inside **path**, this is used to
-           generate thumbnail inside EET files.
-        """
-        cdef:
-            const char *p
-            const char *k
-        p = str_to_c(path)
-        k = str_to_c(key)
-        ethumb_client_thumb_path_set(self.obj, p, k)
-
-    def thumb_get(self):
-        """Get current path and key of thumbnail.
-
-        Note that if no explicit :py:func:`thumb_set` was called, it will
-        auto generate path based on existing parameters such as
-        directory, category and others.
-
-        :rtype: tuple of str
-        """
-        cdef:
-            const char *p
-            const char *k
-        ethumb_client_thumb_path_get(self.obj, &p, &k)
-        return (str_from_c(p), str_from_c(k))
-
-    property thumb_path:
-        def __set__(self, value):
-            p, k = value
-            self.thumb_set(p, k)
-        def __get__(self):
-            return self.thumb_get()
-
-    def video_time_set(self, float time):
-        ethumb_client_video_time_set(self.obj, time)
-
-    def video_start_set(self, float start):
-        ethumb_client_video_start_set(self.obj, start)
-
-    def video_interval_set(self, float interval):
-        ethumb_client_video_interval_set(self.obj, interval)
-
-    def video_ntimes_set(self, int ntimes):
-        ethumb_client_video_ntimes_set(self.obj, ntimes)
-
-    def video_fps_set(self, int fps):
-        ethumb_client_video_fps_set(self.obj, fps)
-
-    # document_page
-    def document_page_set(self, int page):
-        ethumb_client_document_page_set(self.obj, page)
-
-    def thumb_exists(self, callback = None, *args, **kwargs):
+    def thumb_exists(self, callback=None, *args, **kwargs):
         """Checks if thumbnail already exists.
 
         If you want to avoid regenerating thumbnails, check if they
@@ -651,4 +390,370 @@ cdef class Client:
         """
         ethumb_client_generate_cancel_all(self.obj)
 
+    ## source file setup
+    property file:
+        """ The file to thumbnail.
+
+        This is a tuple of 2 strings: ``path`` and ``key``.
+
+        For convenience you can also assign a single string value (``path``),
+        ignoring the key.
+
+        :type: **str** or (**str**, **str**)
+
+        :param path: path to thumbnail subject.
+        :param key: path to key inside **path**, this is used to
+           generate thumbnail of edje groups or images inside EET.
+
+        :raise RuntimeError: on failure setting the property
+
+        .. note:: setting this property will reset other thumbnail
+            specifications. This is done to avoid one using the last thumb
+            path for new images.
+
+        """
+        def __set__(self, value):
+            if isinstance(value, tuple):
+                path, key = value
+            else:
+                path, key = value, None
+            if isinstance(path, unicode): path = PyUnicode_AsUTF8String(path)
+            if isinstance(key, unicode): key = PyUnicode_AsUTF8String(key)
+            if ethumb_client_file_set(self.obj,
+                    <const char *>path if path is not None else NULL,
+                    <const char *>key if key is not None else NULL) == 0:
+                raise RuntimeError("Cannot set file")
+
+        def __get__(self):
+            cdef:
+                const char *path
+                const char *key
+            ethumb_client_file_get(self.obj, &path, &key)
+            return (_ctouni(path), _ctouni(key))
+
+    def file_free(self):
+        """Zero/Reset file parameters.
+
+        This call will reset file and thumb specifications.
+
+        .. seealso:: :py:func:`file_set` and :py:func:`thumb_set`
+        """
+        ethumb_client_file_free(self.obj)
+
+    property frame:
+        """ The optional edje file used to generate a frame around the thumbnail
+
+        This will create an edje object that will have image swallowed
+        in. This can be used to simulate Polaroid or wood frames in
+        the generated image. Remember it is bad to modify the original
+        contents of thumbnails, but sometimes it's useful to have it
+        composited and avoid runtime overhead.
+
+        :type: (**str**, **str**, **str**) **writeonly**
+
+        :param file: file path to edje.
+        :param group: group inside edje to use.
+        :param swallow: name of swallow part.
+
+        :raise RuntimeError: on failure setting the property
+
+        """
+        def __set__(self, tuple value):
+            theme, group, swallow = value
+            if isinstance(theme, unicode): theme = PyUnicode_AsUTF8String(theme)
+            if isinstance(group, unicode): group = PyUnicode_AsUTF8String(group)
+            if isinstance(swallow, unicode): swallow = PyUnicode_AsUTF8String(swallow)
+            if ethumb_client_frame_set(self.obj,
+                    <const char *>theme if theme is not None else NULL,
+                    <const char *>group if group is not None else NULL,
+                    <const char *>swallow if swallow is not None else NULL) == 0:
+                raise RuntimeError("Cannot set frame")
+
+    ## fine tune setup
+    property fdo:
+        """ Configure future requests to use FreeDesktop.Org preset.
+
+        This is a preset to provide freedesktop.org (fdo) standard
+        compliant thumbnails. That is, files are stored as JPEG under
+        ~/.thumbnails/SIZE, with size being either normal (128x128) or
+        large (256x256).
+
+        :type: :ref:`Ethumb_Client_Thumb_FDO_Size` **writeonly**
+
+        .. seealso:: :attr:`size`, :attr:`format`, :attr:`aspect`,
+            :attr:`crop_align`, :attr:`category`, :attr:`dir_path`.
+
+        """
+        def __set__(self, Ethumb_Thumb_FDO_Size value):
+            ethumb_client_fdo_set(self.obj, value)
+
+    property size:
+        """ The (custom) size of thumbnails.
+
+        :type: (int **w**, int **w**)
+
+        :param w: width, default is 128.
+        :param h: height, default is 128.
+
+        """
+        def __set__(self, tuple value):
+            w, h = value
+            ethumb_client_size_set(self.obj, w, h)
+
+        def __get__(self):
+            cdef int w, h
+            ethumb_client_size_get(self.obj, &w, &h)
+            return w, h
+
+    property format:
+        """ The fileformat for the thumbnails.
+
+        Thumbnails are compressed; possible formats are PNG, JPEG and EET.
+
+        :type: :ref:`Ethumb_Client_Thumb_Format`
+
+        """
+        def __set__(self, Ethumb_Thumb_Format value):
+            ethumb_client_format_set(self.obj, value)
+
+        def __get__(self):
+            return ethumb_client_format_get(self.obj)
+
+    property aspect:
+        """ The aspect ratio policy.
+
+        If aspect is kept (ETHUMB_THUMB_KEEP_ASPECT), then image will
+        be rescaled so the largest dimension is not bigger than it's
+        specified size (see :py:func:`size_get`) and the other dimension is
+        resized in the same proportion. Example: size is 256x256,
+        image is 1000x500, resulting thumbnail is 256x128.
+
+        If aspect is ignored (ETHUMB_THUMB_IGNORE_ASPECT), then image
+        will be distorted to match required thumbnail size. Example:
+        size is 256x256, image is 1000x500, resulting thumbnail is
+        256x256.
+
+        If crop is required (ETHUMB_THUMB_CROP), then image will be
+        cropped so the smallest dimension is not bigger than its
+        specified size (see :py:func:`size_get`) and the other dimension
+        will overflow, not being visible in the final image. How it
+        will overflow is speficied by :py:func:`crop_set`
+        alignment. Example: size is 256x256, image is 1000x500, crop
+        alignment is 0.5, 0.5, resulting thumbnail is 256x256 with 250
+        pixels from left and 250 pixels from right being lost, that is
+        just the 500x500 central pixels of image will be considered
+        for scaling.
+
+        :type: :ref:`Ethumb_Client_Thumb_Aspect`
+
+        """
+        def __set__(self, Ethumb_Thumb_Aspect value):
+            ethumb_client_aspect_set(self.obj, value)
+
+        def __get__(self):
+            return ethumb_client_aspect_get(self.obj)
+
+    property orientation:
+        """ The thumbnail rotation or flip.
+
+        :type: :ref:`Ethumb_Client_Thumb_Orientation`
+
+        """
+        def __set__(self, Ethumb_Thumb_Orientation value):
+            ethumb_client_orientation_set(self.obj, value)
+
+        def __get__(self):
+            return ethumb_client_orientation_get(self.obj)
+
+    property crop_align:
+        """ Crop alignment in use.
+
+        :param x: horizontal alignment. 0.0 means left side will be
+                  visible or right side is being lost. 1.0 means right side
+                  will be visible or left side is being lost. 0.5 means just
+                  center is visible, both sides will be lost. Default is 0.5.
+        :param y: vertical alignment. 0.0 is top visible, 1.0 is
+                  bottom visible, 0.5 is center visible. Default is 0.5
+
+        :type: (float **x**, float **y**)
+
+        """
+        def __set__(self, tuple value):
+            x, y = value
+            ethumb_client_crop_align_set(self.obj, x, y)
+
+        def __get__(self):
+            cdef float x, y
+            ethumb_client_crop_align_get(self.obj, &x, &y)
+            return x, y
+
+    property quality:
+        """ The thumbnail compression quality.
+
+        Value from 0 to 100, default is 80. The effect depends on the format
+        being used, PNG will not use it.
+
+        :type: int
+
+        """
+        def __set__(self, int value):
+            ethumb_client_quality_set(self.obj, value)
+
+        def __get__(self):
+            return ethumb_client_quality_get(self.obj)
+
+    property compress:
+        """ The thumbnail compression rate.
+
+        Value from 0 to 9, default is 9. The effect depends on the format being
+        used, JPEG will not use it.
+
+        :type: int
+
+        """
+        def __set__(self, int value):
+            ethumb_client_compress_set(self.obj, value)
+
+        def __get__(self):
+            return ethumb_client_compress_get(self.obj)
+
+    property dir_path:
+        """ Configure where to store thumbnails in future requests.
+
+        This is the base folder, a category folder is added to this path
+        as a sub directory. Default is ``~/.thumbnails``
+
+        :type: **str**
+
+        """
+        def __set__(self, path):
+            if isinstance(path, unicode): path = PyUnicode_AsUTF8String(path)
+            ethumb_client_dir_path_set(self.obj,
+                    <const char *>path if path is not None else NULL)
+
+        def __get__(self):
+            cdef const char *path
+            path = ethumb_client_dir_path_get(self.obj)
+            return _ctouni(path)
+
+    property category:
+        """ Category directory to store thumbnails.
+
+        Category sub directory to store thumbnail. Default is either "normal"
+        or "large" for FDO compliant thumbnails or
+        ``WIDTHxHEIGHT-ASPECT[-FRAMED]-FORMAT``. It can be a string or None to
+        use auto generated names.
+
+        :type: **str**
+
+        """
+        def __set__(self, cat):
+            if isinstance(cat, unicode): cat = PyUnicode_AsUTF8String(cat)
+            ethumb_client_category_set(self.obj,
+                    <const char *>cat if cat is not None else NULL)
+
+        def __get__(self):
+            return _ctouni(ethumb_client_category_get(self.obj))
+
+    property thumb_path:
+        """ The complete path of the generated thumbnail.
+
+        This is a tuple of 2 strings: ``path`` and ``key``.
+
+        For convenience you can also assign a single string value (``path``),
+        ignoring the key.
+
+        :type: **str** or (**str**, **str**)
+
+        :param path: path to generated thumbnail to use, this is an
+           absolute path to file, overriding directory and category.
+        :param key: path to key inside **path**, this is used to
+           generate thumbnail inside EET files.
+
+        """
+        def __set__(self, value):
+            if isinstance(value, tuple):
+                path, key = value
+            else:
+                path, key = value, None
+            if isinstance(path, unicode): path = PyUnicode_AsUTF8String(path)
+            if isinstance(key, unicode): key = PyUnicode_AsUTF8String(key)
+            ethumb_client_thumb_path_set(self.obj,
+                    <const char *>path if path is not None else NULL,
+                    <const char *>key if key is not None else NULL)
+
+        def __get__(self):
+            cdef:
+                const char *path
+                const char *key
+            ethumb_client_thumb_path_get(self.obj, &path, &key)
+            return (_ctouni(path), _ctouni(key))
+
+    ## video setup
+    property video_time:
+        """ The video time (duration) in seconds.
+
+        :type: float  (**readonly**)
+
+        """
+        def __set__(self, float value):
+            ethumb_client_video_time_set(self.obj, value)
+
+    property video_start:
+        """ The start point for video thumbnails.
+
+        :type: float (from 0.0 to 1.0) (**readonly**)
+
+        """
+        def __set__(self, float value):
+            ethumb_client_video_start_set(self.obj, value)
+
+    property video_interval:
+        """ The video frame interval, in seconds.
+
+        This is useful for animated thumbnail and will define skip time before
+        going to the next frame.
+
+        .. note:: that video backends might not be able to
+                  precisely skip that amount as it will depend on various
+                  factors, including video encoding.
+ 
+        :type: float (**readonly**)
+
+        """
+        def __set__(self, float value):
+            ethumb_client_video_interval_set(self.obj, value)
+
+    property video_ntimes:
+        """ The number of times the video loops (if applicable).
+
+        :type: int (**readonly**)
+
+        """
+        def __set__(self, int value):
+            ethumb_client_video_ntimes_set(self.obj, value)
+
+    property video_fps:
+        """ The thumbnail framerate.
+
+        Default to 10.
+
+        :type: int (**readonly**)
+
+        """
+        def __set__(self, int value):
+            ethumb_client_video_fps_set(self.obj, value)
+
+    ## document setup
+    property document_page:
+        """ The page number to thumbnail in paged documents.
+
+        :type: int
+
+        """
+        def __set__(self, int value):
+            ethumb_client_document_page_set(self.obj, value)
+
+
 init()
+atexit.register(shutdown)

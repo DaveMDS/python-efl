@@ -44,6 +44,7 @@ API Reference
    :titlesonly:
 
    module-ethumb.rst
+   module-ethumb_client.rst
 
 
 Inheritance diagram

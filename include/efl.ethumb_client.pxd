@@ -16,17 +16,64 @@
 # along with this Python-EFL.  If not, see <http://www.gnu.org/licenses/>.
 
 from efl.eina cimport Eina_Bool, Eina_Free_Cb
-from efl.ethumb cimport Ethumb_Thumb_Orientation
+
 
 cdef extern from "Ethumb_Client.h":
+
+    ####################################################################
+    # Enums
+    #
+    cpdef enum Ethumb_Thumb_Orientation:
+        ETHUMB_THUMB_ORIENT_NONE
+        ETHUMB_THUMB_ROTATE_90_CW
+        ETHUMB_THUMB_ROTATE_180
+        ETHUMB_THUMB_ROTATE_90_CCW
+        ETHUMB_THUMB_FLIP_HORIZONTAL
+        ETHUMB_THUMB_FLIP_VERTICAL
+        ETHUMB_THUMB_FLIP_TRANSPOSE
+        ETHUMB_THUMB_FLIP_TRANSVERSE
+        ETHUMB_THUMB_ORIENT_ORIGINAL
+    ctypedef enum Ethumb_Thumb_Orientation:
+        pass
+
+    cpdef enum Ethumb_Thumb_FDO_Size:
+        ETHUMB_THUMB_NORMAL
+        ETHUMB_THUMB_LARGE
+    ctypedef enum Ethumb_Thumb_FDO_Size:
+        pass
+
+    cpdef enum Ethumb_Thumb_Format:
+        ETHUMB_THUMB_FDO
+        ETHUMB_THUMB_JPEG
+        ETHUMB_THUMB_EET
+    ctypedef enum Ethumb_Thumb_Format:
+        pass
+
+    cpdef enum Ethumb_Thumb_Aspect:
+        ETHUMB_THUMB_KEEP_ASPECT
+        ETHUMB_THUMB_IGNORE_ASPECT
+        ETHUMB_THUMB_CROP
+    ctypedef enum Ethumb_Thumb_Aspect:
+        pass
+
+    ####################################################################
+    # Structs
+    #
     ctypedef struct Ethumb_Client
     ctypedef struct Ethumb_Exists
+
+    ####################################################################
+    # Other typedefs
+    #
     ctypedef void (*Ethumb_Client_Connect_Cb)(void *data, Ethumb_Client *client, Eina_Bool success)
     ctypedef void (*Ethumb_Client_Die_Cb)(void *data, Ethumb_Client *client)
     ctypedef void (*Ethumb_Client_Generate_Cb)(void *data, Ethumb_Client *client, int id, const char *file, const char *key, const char *thumb_path, const char *thumb_key, Eina_Bool success)
     ctypedef void (*Ethumb_Client_Thumb_Exists_Cb)(void *data, Ethumb_Client *client, Ethumb_Exists *thread, Eina_Bool exists)
     ctypedef void (*Ethumb_Client_Generate_Cancel_Cb)(void *data, Eina_Bool success)
 
+    ####################################################################
+    # Functions
+    #
     int             ethumb_client_init()
     int             ethumb_client_shutdown()
 
@@ -90,7 +137,8 @@ cdef extern from "Ethumb_Client.h":
 
     void            ethumb_client_thumb_async_cancel(Ethumb_Client *client, Ethumb_Client_Async *request)
 
-cdef class Client:
+
+cdef class EthumbClient:
     cdef Ethumb_Client *obj
     cdef object _on_connect_callback
     cdef object _on_server_die_callback
