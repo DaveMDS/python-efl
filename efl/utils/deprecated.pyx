@@ -76,12 +76,12 @@ class WRAPPER(object):
 
     def __call__(self, *args, **kwargs):
         cdef:
-            object stack
+            list stack
             tuple caller
             str msg
 
-        stack = traceback.extract_stack()
-        caller = stack[-1]
+        stack = list(traceback.extract_stack())
+        caller = tuple(stack[-1])
         caller_module, caller_line, caller_name, caller_code = caller
         if caller_code is not None:
             if hasattr(self.f, "__objclass__"):
