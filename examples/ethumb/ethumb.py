@@ -64,6 +64,8 @@ start_time = 0.0
 
 
 def generate_cb(et, success):
+    global in_progress
+
     # thumbnail completed
     if success is True:
         # print out the result
@@ -76,6 +78,9 @@ def generate_cb(et, success):
 
 
 def start_thumb(label, params):
+    global in_progress
+    global start_time
+
     # setup ethumb params
     et.file = filename
     for name, val in params.items():
@@ -83,7 +88,6 @@ def start_thumb(label, params):
 
     # print test name and keep track of start time
     print(label)
-    global start_time
     start_time = time.time()
 
     # start the thumbnailing process
