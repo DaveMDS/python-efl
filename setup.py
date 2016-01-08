@@ -308,6 +308,20 @@ if set(("build", "build_ext", "install", "bdist", "sdist")) & set(sys.argv):
                                           eina_libs + evas_libs)
     ext_modules.append(ecore_ext)
 
+    # === Ecore Input ===
+    ecore_input_cflags, ecore_input_libs = pkg_config('EcoreInput',
+                                                      'ecore-input',
+                                                      EFL_MIN_VER)
+    ecore_input_ext = Extension("ecore_input",
+                            ["efl/ecore_input/efl.ecore_input" + module_suffix],
+                            include_dirs=['include/'],
+                            extra_compile_args=list(set(ecore_cflags +
+                                                        ecore_file_cflags +
+                                                        ecore_input_cflags)),
+                            extra_link_args=ecore_libs + ecore_file_libs +
+                                            ecore_input_libs)
+    ext_modules.append(ecore_input_ext)
+
     # === Ecore Con ===
     ecore_con_cflags, ecore_con_libs = pkg_config('EcoreCon', 'ecore-con',
                                                   EFL_MIN_VER)
@@ -323,9 +337,6 @@ if set(("build", "build_ext", "install", "bdist", "sdist")) & set(sys.argv):
 
     # === Ecore X ===
     try:
-        ecore_input_cflags, ecore_input_libs = pkg_config('EcoreInput',
-                                                          'ecore-input',
-                                                          EFL_MIN_VER)
         ecore_x_cflags, ecore_x_libs = pkg_config('EcoreX', 'ecore-x',
                                                   EFL_MIN_VER)
     except SystemExit:

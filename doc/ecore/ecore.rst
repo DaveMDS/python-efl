@@ -110,6 +110,7 @@ API Reference
    :titlesonly:
 
    module-ecore
+   module-ecore_input
    module-ecore_con
 
 
