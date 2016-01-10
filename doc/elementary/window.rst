@@ -95,8 +95,6 @@ Emitted signals
 - ``indicator,prop,changed``: an indicator's property has been changed
 - ``rotation,changed``: window rotation has been changed
 - ``profile,changed``: profile of the window has been changed
-- ``focused`` - When the window has received focus. (since 1.8)
-- ``unfocused`` - When the window has lost focus. (since 1.8)
 - ``theme,changed`` - The theme was changed. (since 1.13)
 
 

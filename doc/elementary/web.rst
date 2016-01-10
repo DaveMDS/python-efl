@@ -76,8 +76,6 @@ Emitted signals
 - ``windows,close,request``: A JavaScript request to close the current
   window was requested
 - ``zoom,animated,end``: Animated zoom finished
-- ``focused`` : When the web has received focus. (since 1.8)
-- ``unfocused`` : When the web has lost focus. (since 1.8)
 
 
 Enumerations

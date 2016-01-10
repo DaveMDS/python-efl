@@ -37,8 +37,6 @@ Emitted signals
 
 - ``changed`` - This is called whenever the user changes the state of one of
     the radio objects within the group of radio objects that work together.
-- ``focused`` - When the radio has received focus. (since 1.8)
-- ``unfocused`` - When the radio has lost focus. (since 1.8)
 
 
 Layout text parts

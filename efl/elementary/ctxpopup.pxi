@@ -395,31 +395,5 @@ cdef class Ctxpopup(LayoutClass):
     def callback_dismissed_del(self, func):
         self._callback_del("dismissed", func)
 
-    def callback_language_changed_add(self, func, *args, **kwargs):
-        """This is called when the program's language is changed."""
-        self._callback_add("language,changed", func, args, kwargs)
-
-    def callback_language_changed_del(self, func):
-        self._callback_del("language,changed", func)
-
-    def callback_focused_add(self, func, *args, **kwargs):
-        """When the ctxpopup has received focus.
-
-        .. versionadded:: 1.8
-        """
-        self._callback_add("focused", func, args, kwargs)
-
-    def callback_focused_del(self, func):
-        self._callback_del("focused", func)
-
-    def callback_unfocused_add(self, func, *args, **kwargs):
-        """When the ctxpopup has lost focus.
-
-        .. versionadded:: 1.8
-        """
-        self._callback_add("unfocused", func, args, kwargs)
-
-    def callback_unfocused_del(self, func):
-        self._callback_del("unfocused", func)
 
 _object_mapping_register("Elm_Ctxpopup", Ctxpopup)

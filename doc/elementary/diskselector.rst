@@ -26,8 +26,6 @@ Emitted signals
 - ``scroll,anim,stop`` - scrolling animation has stopped
 - ``scroll,drag,start`` - dragging the diskselector has started
 - ``scroll,drag,stop`` - dragging the diskselector has stopped
-- ``focused`` - When the diskselector has received focus. (since 1.8)
-- ``unfocused`` - When the diskselector has lost focus. (since 1.8)
 
 .. note:: The ``scroll,anim,*`` and ``scroll,drag,*`` signals are only emitted
           by user intervention.

@@ -172,9 +172,6 @@ Emitted signals
 ===============
 
 - ``changed`` - whenever Datetime field value is changed, this signal is sent.
-- ``language,changed`` - whenever system locale changes, this signal is sent.
-- ``focused`` - When the datetime has received focus. (since 1.8)
-- ``unfocused`` - When the datetime has lost focus. (since 1.8)
 
 
 Enumerations

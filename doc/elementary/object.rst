@@ -47,6 +47,15 @@ More information is on
  - X11R6 Inter-Client Communication Conventions Manual, section 2
 
 
+Emitted smart events
+====================
+
+- ``moved`` - When the object change position. (since 1.17)
+- ``focus`` - When the object has received focus. (since 1.8)
+- ``unfocus`` - When the object has lost focus. (since 1.8)
+- ``language,changed`` - Whenever system locale changes.
+
+
 Enumerations
 ============
 

@@ -43,7 +43,6 @@ they like.
 Emitted signals
 ===============
 
-- ``language,changed`` - The program's language changed.
 - ``slide,end`` - The slide is end.
 
 

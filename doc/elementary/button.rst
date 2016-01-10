@@ -50,8 +50,6 @@ Emitted signals
 - ``repeated``: the user pressed the button without releasing it.
 - ``pressed``: button was pressed.
 - ``unpressed``: button was released after being pressed.
-- ``focused`` : When the button has received focus. (since 1.8)
-- ``unfocused`` : When the button has lost focus. (since 1.8)
 
 
 Inheritance diagram

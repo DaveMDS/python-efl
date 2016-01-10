@@ -1618,34 +1618,6 @@ cdef class Map(Object):
         """ Delete a previously attached callback """
         self._callback_del("loaded", func)
 
-    def callback_language_changed_add(self, func, *args, **kwargs):
-        """ Add a callback to be called on the "language,changed" signal. """
-        self._callback_add("language,changed", func, args, kwargs)
-
-    def callback_language_changed_del(self, func):
-        """ Delete a previously attached callback """
-        self._callback_del("language,changed", func)
-
-    def callback_focused_add(self, func, *args, **kwargs):
-        """When the map has received focus.
-
-        .. versionadded:: 1.8
-        """
-        self._callback_add("focused", func, args, kwargs)
-
-    def callback_focused_del(self, func):
-        self._callback_del("focused", func)
-
-    def callback_unfocused_add(self, func, *args, **kwargs):
-        """When the map has lost focus.
-
-        .. versionadded:: 1.8
-        """
-        self._callback_add("unfocused", func, args, kwargs)
-
-    def callback_unfocused_del(self, func):
-        self._callback_del("unfocused", func)
-
     property scroller_policy:
         """
 

@@ -36,12 +36,11 @@ Emitted signals
   interaction. Both "item,selected" and "item,clicked" are needed.
   event_info contains the item.
 - ``clicked`` - when multi-button entry is clicked.
-- ``focused`` - when multi-button entry is focused.
-- ``unfocused`` - when multi-button entry is unfocused.
 - ``expanded`` - when multi-button entry is expanded.
 - ``contracted`` - when multi-button entry is contracted.
 - ``expand,state,changed`` - when shrink mode state of
   multi-button entry is changed.
+
 
 Layout text parts
 =================

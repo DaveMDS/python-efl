@@ -478,18 +478,6 @@ cdef class MultiButtonEntry(Object):
     def callback_clicked_del(self, func):
         self._callback_del("clicked", func)
 
-    def callback_focused_add(self, func, *args, **kwargs):
-        self._callback_add("focused", func, args, kwargs)
-
-    def callback_focused_del(self, func):
-        self._callback_del("focused", func)
-
-    def callback_unfocused_add(self, func, *args, **kwargs):
-        self._callback_add("unfocused", func, args, kwargs)
-
-    def callback_unfocused_del(self, func):
-        self._callback_del("unfocused", func)
-
     def callback_expanded_add(self, func, *args, **kwargs):
         self._callback_add("expanded", func, args, kwargs)
 

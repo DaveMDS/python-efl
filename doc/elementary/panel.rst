@@ -14,12 +14,6 @@ A panel is a type of animated container that contains subobjects.
 It can be expanded or contracted by clicking the button on it's edge.
 
 
-Emitted signals
-===============
-
-- ``focused`` - When the panel has received focus. (since 1.8)
-- ``unfocused`` - When the panel has lost focus. (since 1.8)
-
 
 Layout content parts
 ====================

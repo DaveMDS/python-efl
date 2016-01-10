@@ -38,9 +38,6 @@ Emitted signals
 - ``unhighlighted`` - an item in the list is unhighlighted. This is called
   when the user releases an item or keyboard selection is moved so the item
   is physically unhighlighted.
-- ``language,changed`` - the program's language changed
-- ``focused`` - When the list has received focus. (since 1.8)
-- ``unfocused`` - When the list has lost focus. (since 1.8)
 - ``item,focused`` - When the list item has received focus. (since 1.10)
 - ``item,unfocused`` - When the list item has lost focus. (since 1.10)
 

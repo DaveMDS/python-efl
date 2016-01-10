@@ -28,8 +28,6 @@ Emitted signals
 - ``changed`` - emitted when the date in the calendar is changed.
 - ``display,changed`` - emitted when the current month displayed in the
   calendar is changed.
-- ``focused`` - When the calendar has received focus. (since 1.8)
-- ``unfocused`` - When the calendar has lost focus. (since 1.8)
 
 
 Enumerations

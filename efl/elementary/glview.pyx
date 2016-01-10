@@ -23,13 +23,6 @@ GLView hides all the complicated evas_gl details so that the user only
 has to deal with registering a few callback functions for rendering
 to a surface using OpenGL APIs.
 
-This widget emits the following signals, besides the ones sent from
-:py:class:`LayoutClass<efl.elementary.layout_class.LayoutClass>`:
-
-- ``focused`` - when glview has received focus.
-- ``unfocused`` - when glview has lost focus.
-- ``language,changed`` - the program's language changed
-
 
 Enumerations
 ============
@@ -346,25 +339,5 @@ cdef class GLView(LayoutClass):
         """
         elm_glview_changed_set(self.obj)
 
-    def callback_focused_add(self, func, *args, **kwargs):
-        """when glview has received focus."""
-        self._callback_add("focused", func, args, kwargs)
-
-    def callback_focused_del(self, func):
-        self._callback_del("focused", func)
-
-    def callback_unfocused_add(self, func, *args, **kwargs):
-        """when glview has lost focus."""
-        self._callback_add("unfocused", func, args, kwargs)
-
-    def callback_unfocused_del(self, func):
-        self._callback_del("unfocused", func)
-
-    def callback_language_changed_add(self, func, *args, **kwargs):
-        """the program's language changed"""
-        self._callback_add("language,changed", func, args, kwargs)
-
-    def callback_language_changed_del(self, func):
-        self._callback_del("language,changed", func)
 
 _object_mapping_register("Elm_Glview", GLView)

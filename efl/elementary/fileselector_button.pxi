@@ -217,15 +217,5 @@ cdef class FileselectorButton(Button):
     def callback_file_chosen_del(self, func):
         self._callback_del_full("file,chosen", _cb_string_conv, func)
 
-    def callback_language_changed_add(self, func, *args, **kwargs):
-        """The program's language changed.
-
-        .. versionadded:: 1.8.1
-
-        """
-        self._callback_add("language,changed", func, args, kwargs)
-
-    def callback_language_changed_del(self, func):
-        self._callback_del("language,changed", func)
 
 _object_mapping_register("Elm_Fileselector_Button", FileselectorButton)

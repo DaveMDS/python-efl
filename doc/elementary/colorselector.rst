@@ -28,8 +28,6 @@ Emitted signals
 - ``"color,item,longpressed"`` - When user long presses on color item.
     The event_info parameter of the callback will be the selected
     color item.
-- ``focused`` - When the colorselector has received focus. (since 1.8)
-- ``unfocused`` - When the colorselector has lost focus. (since 1.8)
 
 
 Enumerations

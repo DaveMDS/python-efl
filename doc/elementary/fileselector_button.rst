@@ -35,7 +35,6 @@ Emitted signals
 
 - ``file,chosen`` - the user has selected a path which comes as the
   ``event_info`` data
-- ``language,changed`` - the program's language changed
 
 
 Layout text parts

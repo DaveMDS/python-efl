@@ -52,9 +52,6 @@ Emitted signals
 - ``name,loaded,fail`` - Name request fails.
 - ``overlay,clicked`` - A overlay is clicked.
 - ``loaded`` - when a map is finally loaded.
-- ``language,changed`` - the program's language changed
-- ``focused`` - When the map has received focus. (since 1.8)
-- ``unfocused`` - When the map has lost focus. (since 1.8)
 
 
 Scrollable Interface

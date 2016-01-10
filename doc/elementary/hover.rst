@@ -39,8 +39,6 @@ Emitted signals
   (since 1.8)
 - ``smart,changed`` - a content object placed under the "smart"
   policy was replaced to a new slot direction.
-- ``focused`` - When the hover has received focus. (since 1.8)
-- ``unfocused`` - When the hover has lost focus. (since 1.8)
 
 
 Layout content parts

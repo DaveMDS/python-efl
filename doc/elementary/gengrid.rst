@@ -233,11 +233,6 @@ Emitted signals
   when the user releases an item or keyboard selection is moved so the item
   is physically unhighlighted. The ``event_info`` parameter is the item that
   was unhighlighted.
-- ``language,changed`` - This is called when the program's language is
-  changed. Call :meth:`~Gengrid.realized_items_update` if items text should
-  be translated.
-- ``focused`` - When the gengrid has received focus. (since 1.8)
-- ``unfocused`` - When the gengrid has lost focus. (since 1.8)
 - ``item,focused`` - When the gengrid item has received focus. (since 1.10)
 - ``item,unfocused`` - When the gengrid item has lost focus. (since 1.10)
 - ``item,reorder,anim,start`` - This is called when a gengrid item movement

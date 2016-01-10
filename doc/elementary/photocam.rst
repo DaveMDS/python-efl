@@ -41,8 +41,6 @@ Emitted signals
 - ``download,progress`` - url download in progress
 - ``download,end`` - remote url download has finished
 - ``download,error`` - remote url download has finished with errors
-- ``focused`` - When the photocam has received focus. (since 1.8)
-- ``unfocused`` - When the photocam has lost focus. (since 1.8)
 
 
 Scrollable Interface

@@ -406,26 +406,6 @@ cdef class Diskselector(Object):
     def callback_scroll_drag_stop_del(self, func):
         self._callback_del("scroll,drag,stop", func)
 
-    def callback_focused_add(self, func, *args, **kwargs):
-        """When the diskselector has received focus.
-
-        .. versionadded:: 1.8
-        """
-        self._callback_add("focused", func, args, kwargs)
-
-    def callback_focused_del(self, func):
-        self._callback_del("focused", func)
-
-    def callback_unfocused_add(self, func, *args, **kwargs):
-        """When the diskselector has lost focus.
-
-        .. versionadded:: 1.8
-        """
-        self._callback_add("unfocused", func, args, kwargs)
-
-    def callback_unfocused_del(self, func):
-        self._callback_del("unfocused", func)
-
 
     property scroller_policy:
         """

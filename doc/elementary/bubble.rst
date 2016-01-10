@@ -50,8 +50,6 @@ Emitted signals
 ===============
 
 - ``clicked`` - This is called when a user has clicked the bubble.
-- ``focused`` - When the bubble has received focus. (since 1.8)
-- ``unfocused`` - When the bubble has lost focus. (since 1.8)
 
 
 Enumerations

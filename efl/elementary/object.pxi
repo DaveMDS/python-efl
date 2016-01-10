@@ -595,6 +595,54 @@ cdef class Object(SmartObject):
         return bool(elm_object_orientation_mode_disabled_get(self.obj))
 
     #
+    # Smart event callbacks
+    # =====================
+
+    def callback_moved_add(self, func, *args, **kwargs):
+        """ The Object change position.
+
+        .. versionadded:: 1.17
+        """
+        self._callback_add("moved", func, args, kwargs)
+
+    def callback_moved_del(self, func):
+        """ Delete a previously attached callback """
+        self._callback_del("moved", func)
+
+    def callback_focused_add(self, func, *args, **kwargs):
+        """ The Object has received focus.
+
+        .. versionadded:: 1.8
+        """
+        self._callback_add("focused", func, args, kwargs)
+
+    def callback_focused_del(self, func):
+        """ Delete a previously attached callback """
+        self._callback_del("focused", func)
+
+    def callback_unfocused_add(self, func, *args, **kwargs):
+        """ The Object has lost focus.
+
+        .. versionadded:: 1.8
+        """
+        self._callback_add("unfocused", func, args, kwargs)
+
+    def callback_unfocused_del(self, func):
+        """ Delete a previously attached callback """
+        self._callback_del("unfocused", func)
+
+    def callback_language_changed_add(self, func, *args, **kwargs):
+        """ The program's language changed
+
+        .. versionadded:: 1.8.1
+        """
+        self._callback_add("language,changed", func, args, kwargs)
+
+    def callback_language_changed_del(self, func):
+        """ Delete a previously attached callback """
+        self._callback_del("language,changed", func)
+
+    #
     # Cursors
     # =======
 

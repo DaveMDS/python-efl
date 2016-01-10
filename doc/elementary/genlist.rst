@@ -344,8 +344,6 @@ Emitted signals
   when the user releases an item or keyboard selection is moved so the item
   is physically unhighlighted. The ``event_info`` parameter is the item that
   was unhighlighted.
-- ``focused`` - When the genlist has received focus. (since 1.8)
-- ``unfocused`` - When the genlist has lost focus. (since 1.8)
 - ``item,focused`` - When the genlist item has received focus. (since 1.10)
 - ``item,unfocused`` - When the genlist item has lost focus. (since 1.10)
 - ``changed`` - Genlist is now changed their items and properties and all

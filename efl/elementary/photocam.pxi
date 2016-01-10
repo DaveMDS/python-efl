@@ -482,25 +482,6 @@ cdef class Photocam(Object):
     def callback_download_error_del(self, func):
         self._callback_del_full("download,error", _photocam_download_error_conv, func)
 
-    def callback_focused_add(self, func, *args, **kwargs):
-        """When the photocam has received focus.
-
-        .. versionadded:: 1.8
-        """
-        self._callback_add("focused", func, args, kwargs)
-
-    def callback_focused_del(self, func):
-        self._callback_del("focused", func)
-
-    def callback_unfocused_add(self, func, *args, **kwargs):
-        """When the photocam has lost focus.
-
-        .. versionadded:: 1.8
-        """
-        self._callback_add("unfocused", func, args, kwargs)
-
-    def callback_unfocused_del(self, func):
-        self._callback_del("unfocused", func)
 
     property scroller_policy:
         """

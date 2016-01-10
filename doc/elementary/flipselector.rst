@@ -29,8 +29,6 @@ Emitted signals
   from the first item in its list to the last
 - ``underflowed`` - when the widget's current selection is changed
   from the last item in its list to the first
-- ``focused`` - When the flipselector has received focus. (since 1.8)
-- ``unfocused`` - When the flipselector has lost focus. (since 1.8)
 
 
 Layout text parts

@@ -60,8 +60,6 @@ Emitted signals
   event_info parameter in callback contains the current visible item
 - ``transition,end`` - when a slide transition ends. event_info
   parameter in callback contains the current visible item
-- ``focused`` - When the slideshow has received focus. (since 1.8)
-- ``unfocused`` - When the slideshow has lost focus. (since 1.8)
 
 
 Inheritance diagram

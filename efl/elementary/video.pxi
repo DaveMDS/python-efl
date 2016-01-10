@@ -228,25 +228,6 @@ cdef class Video(LayoutClass):
     def title_get(self):
         return _ctouni(elm_video_title_get(self.obj))
 
-    def callback_focused_add(self, func, *args, **kwargs):
-        """When the video has received focus.
-
-        .. versionadded:: 1.8
-        """
-        self._callback_add("focused", func, args, kwargs)
-
-    def callback_focused_del(self, func):
-        self._callback_del("focused", func)
-
-    def callback_unfocused_add(self, func, *args, **kwargs):
-        """When the video has lost focus.
-
-        .. versionadded:: 1.8
-        """
-        self._callback_add("unfocused", func, args, kwargs)
-
-    def callback_unfocused_del(self, func):
-        self._callback_del("unfocused", func)
 
 _object_mapping_register("Elm_Video", Video)
 
@@ -347,24 +328,5 @@ cdef class Player(LayoutClass):
     def callback_stop_clicked_del(self, func):
         self._callback_del("stop,clicked", func)
 
-    def callback_focused_add(self, func, *args, **kwargs):
-        """When the player has received focus.
-
-        .. versionadded:: 1.8
-        """
-        self._callback_add("focused", func, args, kwargs)
-
-    def callback_focused_del(self, func):
-        self._callback_del("focused", func)
-
-    def callback_unfocused_add(self, func, *args, **kwargs):
-        """When the player has lost focus.
-
-        .. versionadded:: 1.8
-        """
-        self._callback_add("unfocused", func, args, kwargs)
-
-    def callback_unfocused_del(self, func):
-        self._callback_del("unfocused", func)
 
 _object_mapping_register("Elm_Player", Player)

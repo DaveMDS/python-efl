@@ -346,36 +346,5 @@ cdef class Datetime(Object):
     def callback_changed_del(self, func):
         self._callback_del("changed", func)
 
-    @DEPRECATED("1.10", "Use callback_language_changed_add instead.")
-    def callback_languge_changed_add(self, func, *args, **kwargs):
-        """Whenever system locale changes, this signal is sent."""
-        self._callback_add("language,changed", func, args, kwargs)
-
-    def callback_language_changed_add(self, func, *args, **kwargs):
-        """Whenever system locale changes, this signal is sent."""
-        self._callback_add("language,changed", func, args, kwargs)
-
-    def callback_language_changed_del(self, func):
-        self._callback_del("language,changed", func)
-
-    def callback_focused_add(self, func, *args, **kwargs):
-        """When the datetime has received focus.
-
-        .. versionadded:: 1.8
-        """
-        self._callback_add("focused", func, args, kwargs)
-
-    def callback_focused_del(self, func):
-        self._callback_del("focused", func)
-
-    def callback_unfocused_add(self, func, *args, **kwargs):
-        """When the datetime has lost focus.
-
-        .. versionadded:: 1.8
-        """
-        self._callback_add("unfocused", func, args, kwargs)
-
-    def callback_unfocused_del(self, func):
-        self._callback_del("unfocused", func)
 
 _object_mapping_register("Elm_Datetime", Datetime)

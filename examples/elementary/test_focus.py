@@ -39,6 +39,9 @@ def _tb_sel(tb, item):
     print(item)
     print(item.text)
 
+def _obj_focused_cb(obj):
+    print("Focused: ", obj)
+
 def focus_clicked(obj, item=None):
     win = StandardWindow("focus", "Focus", autodel=True, size=(800,600))
     
@@ -51,6 +54,7 @@ def focus_clicked(obj, item=None):
     ### Toolbar
     tbar = Toolbar(win, shrink_mode=ELM_TOOLBAR_SHRINK_MENU,
                    size_hint_align=(EVAS_HINT_FILL,0.0))
+    tbar.callback_focused_add(_obj_focused_cb)
 
     tb_it = tbar.item_append("document-print", "Hello", _tb_sel)
     tb_it.disabled = True
@@ -89,6 +93,7 @@ def focus_clicked(obj, item=None):
     lb.show()
 
     tg = Check(win, style="toggle")
+    tg.callback_focused_add(_obj_focused_cb)
     tg.part_text_set("on", "Yes")
     tg.part_text_set("off", "No")
     bx.pack_end(tg)
@@ -96,6 +101,7 @@ def focus_clicked(obj, item=None):
     
     en = Entry(win, scrollable=True, single_line=True, text="This is a single line",
                     size_hint_weight=EXPAND_HORIZ, size_hint_align=FILL_HORIZ)
+    en.callback_focused_add(_obj_focused_cb)
     bx.pack_end(en)
     en.show()
 
@@ -106,6 +112,7 @@ def focus_clicked(obj, item=None):
 
     for i in range(2):
         bt = Button(win, text="Box", size_hint_align=FILL_BOTH, disabled=(i % 2))
+        bt.callback_focused_add(_obj_focused_cb)
         bx2.pack_end(bt)
         bt.show()
 
@@ -115,11 +122,13 @@ def focus_clicked(obj, item=None):
     sc.show()
 
     bt = Button(win, text="Scroller", size_hint_align=FILL_BOTH)
+    bt.callback_focused_add(_obj_focused_cb)
     sc.content = bt
     bt.show()
 
     #
     bt = Button(win, text="Box", size_hint_align=FILL_BOTH)
+    bt.callback_focused_add(_obj_focused_cb)
     bx.pack_end(bt)
     bt.show()
 
@@ -135,13 +144,14 @@ def focus_clicked(obj, item=None):
 
         for j in range(3):
             bt = Button(win, text="Box", size_hint_align=FILL_BOTH)
+            bt.callback_focused_add(_obj_focused_cb)
             bx3.pack_end(bt)
             bt.show()
     
 
     sc = Scroller(win, bounce=(False, True), content_min_limit=(1,0),
                   size_hint_align=FILL_BOTH, size_hint_weight=EXPAND_BOTH)
-    sc.content_min_limit=(1,1)
+    sc.content_min_limit=(1, 1) ## Why this do not work ???
     bx2.pack_end(sc)
     sc.show()
 
@@ -151,6 +161,7 @@ def focus_clicked(obj, item=None):
 
     for i in range(5):
         bt = Button(win, text="BX Scroller", size_hint_align=FILL_BOTH)
+        bt.callback_focused_add(_obj_focused_cb)
         bx3.pack_end(bt)
         bt.show()
 
@@ -167,6 +178,7 @@ def focus_clicked(obj, item=None):
 
     for i in range(3):
         bt = Button(win, text="Layout", size_hint_align=FILL_BOTH)
+        bt.callback_focused_add(_obj_focused_cb)
         bx2.pack_end(bt)
         bt.show()
         bx2.focus_custom_chain_prepend(bt)
@@ -177,12 +189,14 @@ def focus_clicked(obj, item=None):
 
     bt = Button(win, text="Disable", size_hint_align=FILL_BOTH)
     bt.callback_clicked_add(lambda b: b.disabled_set(True))
+    bt.callback_focused_add(_obj_focused_cb)
     bx2.pack_end(bt)
     bt.show()
     bx2.focus_custom_chain_prepend(bt)
 
     bt2 = Button(win, text="Enable", size_hint_align=FILL_BOTH)
     bt2.callback_clicked_add(lambda b, b1: b1.disabled_set(False), bt)
+    bt2.callback_focused_add(_obj_focused_cb)
     bx2.pack_end(bt2)
     bt2.show()
     bx2.focus_custom_chain_append(bt2)
@@ -203,6 +217,7 @@ def focus_clicked(obj, item=None):
     for j in range(1):
         for i in range(2):
             bt = Button(win, text="Table", size_hint_align=FILL_BOTH, size_hint_weight=EXPAND_BOTH)
+            bt.callback_focused_add(_obj_focused_cb)
             tb.pack(bt, i, j, 1, 1)
             bt.show()
 
@@ -216,10 +231,10 @@ def focus_clicked(obj, item=None):
     tb.show()
 
     for j in range(2):
-        for i in range(1):
-            bt = Button(win, text="Table", size_hint_align=FILL_BOTH, size_hint_weight=EXPAND_BOTH)
-            tb.pack(bt, i, j, 1, 1)
-            bt.show()
+        bt = Button(win, text="Table", size_hint_align=FILL_BOTH, size_hint_weight=EXPAND_BOTH)
+        bt.callback_focused_add(_obj_focused_cb)
+        tb.pack(bt, 0, j, 1, 1)
+        bt.show()
 
 
     win.show()

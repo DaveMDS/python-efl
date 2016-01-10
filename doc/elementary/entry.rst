@@ -223,8 +223,6 @@ Emitted signals
 - ``clicked``: The entry has been clicked (mouse press and release).
 - ``clicked,double``: The entry has been double clicked.
 - ``clicked,triple``: The entry has been triple clicked.
-- ``focused``: The entry has received focus.
-- ``unfocused``: The entry has lost focus.
 - ``selection,paste``: A paste of the clipboard contents was requested.
 - ``selection,copy``: A copy of the selected text into the clipboard was
   requested.
@@ -246,7 +244,6 @@ Emitted signals
 - ``anchor,down``: Mouse button has been pressed on an anchor. The event_info
   parameter for the callback will be an :py:class:`EntryAnchorInfo`.
 - ``preedit,changed``: The preedit string has changed.
-- ``language,changed``: Program language changed.
 - ``text,set,done``: Whole text has been set to the entry.
 - ``rejected``: .Called when some of inputs are rejected by the filter. (since 1.9)
 

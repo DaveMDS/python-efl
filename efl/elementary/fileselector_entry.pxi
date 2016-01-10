@@ -282,20 +282,6 @@ cdef class FileselectorEntry(LayoutClass):
     def callback_clicked_double_del(self, func):
         self._callback_del("clicked,double", func)
 
-    def callback_focused_add(self, func, *args, **kwargs):
-        """The entry has received focus."""
-        self._callback_add("focused", func, args, kwargs)
-
-    def callback_focused_del(self, func):
-        self._callback_del("focused", func)
-
-    def callback_unfocused_add(self, func, *args, **kwargs):
-        """The entry has lost focus."""
-        self._callback_add("unfocused", func, args, kwargs)
-
-    def callback_unfocused_del(self, func):
-        self._callback_del("unfocused", func)
-
     def callback_selection_paste_add(self, func, *args, **kwargs):
         """A paste action has occurred on the entry."""
         self._callback_add("selection,paste", func, args, kwargs)
@@ -335,15 +321,5 @@ cdef class FileselectorEntry(LayoutClass):
     def callback_file_chosen_del(self, func):
         self._callback_del_full("file,chosen", _cb_string_conv, func)
 
-    def callback_language_changed_add(self, func, *args, **kwargs):
-        """The program's language changed.
-
-        .. versionadded:: 1.8.1
-
-        """
-        self._callback_add("language,changed", func, args, kwargs)
-
-    def callback_language_changed_del(self, func):
-        self._callback_del("language,changed", func)
 
 _object_mapping_register("Elm_Fileselector_Entry", FileselectorEntry)

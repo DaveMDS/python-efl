@@ -1009,12 +1009,6 @@ cdef class Genlist(Object):
     def callback_moved_before_del(self, func):
         self._callback_del_full("moved,before",  _cb_object_item_conv, func)
 
-    def callback_language_changed_add(self, func, *args, **kwargs):
-        self._callback_add("language,changed", func, args, kwargs)
-
-    def callback_language_changed_del(self, func):
-        self._callback_del("language,changed", func)
-
     def callback_tree_effect_finished_add(self, func, *args, **kwargs):
         self._callback_add("tree,effect,finished", func, args, kwargs)
 
@@ -1042,26 +1036,6 @@ cdef class Genlist(Object):
 
     def callback_unhighlighted_del(self, func):
         self._callback_del_full("unhighlighted", _cb_object_item_conv, func)
-
-    def callback_focused_add(self, func, *args, **kwargs):
-        """When the genlist has received focus.
-
-        .. versionadded:: 1.8
-        """
-        self._callback_add("focused", func, args, kwargs)
-
-    def callback_focused_del(self, func):
-        self._callback_del("focused", func)
-
-    def callback_unfocused_add(self, func, *args, **kwargs):
-        """When the genlist has lost focus.
-
-        .. versionadded:: 1.8
-        """
-        self._callback_add("unfocused", func, args, kwargs)
-
-    def callback_unfocused_del(self, func):
-        self._callback_del("unfocused", func)
 
     def callback_item_focused_add(self, func, *args, **kwargs):
         """When the genlist item has received focus.

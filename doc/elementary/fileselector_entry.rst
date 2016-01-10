@@ -39,8 +39,6 @@ Emitted signals
   couple seconds
 - ``clicked`` - The entry has been clicked
 - ``clicked,double`` - The entry has been double clicked
-- ``focused`` - The entry has received focus
-- ``unfocused`` - The entry has lost focus
 - ``selection,paste`` - A paste action has occurred on the
   entry
 - ``selection,copy`` - A copy action has occurred on the entry
@@ -50,7 +48,6 @@ Emitted signals
 - ``file,chosen`` - The user has selected a path via the file
   selector entry's internal file selector, whose string
   comes as the ``event_info`` data.
-- ``language,changed`` - the program's language changed
 
 
 Layout text parts

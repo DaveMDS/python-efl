@@ -27,10 +27,6 @@ Emitted signals
   or 2. its parent area is changed or 3. the language is changed and also when
   4. the parent object is resized due to the window rotation. Then ctxpopup is
   dismissed.
-- ``language,changed`` - This is called when the program's language is
-  changed.
-- ``focused`` - When the ctxpopup has received focus. (since 1.8)
-- ``unfocused`` - When the ctxpopup has lost focus. (since 1.8)
 
 Layout content parts
 ====================

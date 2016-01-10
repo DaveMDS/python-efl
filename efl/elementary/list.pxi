@@ -882,13 +882,6 @@ cdef class List(Object):
     def callback_edge_right_del(self, func):
         self._callback_del("edge,right",  func)
 
-    def callback_language_changed_add(self, func, *args, **kwargs):
-        """The program's language changed."""
-        self._callback_add("language,changed", func, args, kwargs)
-
-    def callback_language_changed_del(self, func):
-        self._callback_del("language,changed",  func)
-
     def callback_highlighted_add(self, func, *args, **kwargs):
         """an item in the list is highlighted. This is called when
         the user presses an item or keyboard selection is done so the item is
@@ -920,33 +913,6 @@ cdef class List(Object):
 
     def callback_unhighlighted_del(self, func):
         self._callback_del_full("unhighlighted", _cb_object_item_conv, func)
-
-    def callback_language_changed_add(self, func, *args, **kwargs):
-        """the program's language changed"""
-        self._callback_add("language,changed", func, args, kwargs)
-
-    def callback_language_changed_del(self, func):
-        self._callback_del("language,changed", func)
-
-    def callback_focused_add(self, func, *args, **kwargs):
-        """When the list has received focus.
-
-        .. versionadded:: 1.8
-        """
-        self._callback_add("focused", func, args, kwargs)
-
-    def callback_focused_del(self, func):
-        self._callback_del("focused", func)
-
-    def callback_unfocused_add(self, func, *args, **kwargs):
-        """When the list has lost focus.
-
-        .. versionadded:: 1.8
-        """
-        self._callback_add("unfocused", func, args, kwargs)
-
-    def callback_unfocused_del(self, func):
-        self._callback_del("unfocused", func)
 
     def callback_item_focused_add(self, func, *args, **kwargs):
         """When the list item has received focus.

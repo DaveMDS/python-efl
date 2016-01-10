@@ -952,33 +952,6 @@ cdef class Toolbar(LayoutClass):
     def callback_longpressed_del(self, func):
         self._callback_del_full("longpressed", _cb_object_item_conv, func)
 
-    def callback_language_changed_add(self, func, *args, **kwargs):
-        """When the program language changes."""
-        self._callback_add("language,changed", func, args, kwargs)
-
-    def callback_language_changed_del(self, func):
-        self._callback_del("language,changed", func)
-
-    def callback_focused_add(self, func, *args, **kwargs):
-        """When the toolbar has received focus.
-
-        .. versionadded:: 1.8
-        """
-        self._callback_add("focused", func, args, kwargs)
-
-    def callback_focused_del(self, func):
-        self._callback_del("focused", func)
-
-    def callback_unfocused_add(self, func, *args, **kwargs):
-        """When the toolbar has lost focus.
-
-        .. versionadded:: 1.8
-        """
-        self._callback_add("unfocused", func, args, kwargs)
-
-    def callback_unfocused_del(self, func):
-        self._callback_del("unfocused", func)
-
     def callback_item_focused_add(self, func, *args, **kwargs):
         """When the toolbar item has received focus.
 

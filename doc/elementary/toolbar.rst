@@ -23,9 +23,6 @@ Emitted signals
 
 - ``clicked`` - when the user clicks on a toolbar item and becomes selected.
 - ``longpressed`` - when the toolbar is pressed for a certain amount of time.
-- ``language,changed`` - when the program language changes.
-- ``focused`` - When the toolbar has received focus. (since 1.8)
-- ``unfocused`` - When the toolbar has lost focus. (since 1.8)
 - ``item,focused`` - When the toolbar item has received focus. (since 1.10)
 - ``item,unfocused`` - When the toolbar item has lost focus. (since 1.10)
 

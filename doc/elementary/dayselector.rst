@@ -50,7 +50,6 @@ Emitted signals
 ===============
 
 - ``dayselector,changed`` - when the user changes the state of a day.
-- ``language,changed`` - the program's language changed
 
 
 Enumerations

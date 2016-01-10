@@ -151,7 +151,6 @@ Emitted signals
 ===============
 
 - ``theme,changed`` - The theme was changed.
-- ``language,changed`` - the program's language changed
 
 
 Inheritance diagram

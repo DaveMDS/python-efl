@@ -975,32 +975,6 @@ cdef class Gengrid(Object):
     def callback_unhighlighted_del(self, func):
         self._callback_del_full("unhighlighted", _cb_object_item_conv, func)
 
-    def callback_language_changed_add(self, func, *args, **kwargs):
-        """This is called when the program's language is
-        changed. Call :meth:`Gengrid.realized_items_update` if items text
-        should be translated."""
-        self.callback_add("language,changed", func, args, kwargs)
-
-    def callback_focused_add(self, func, *args, **kwargs):
-        """When the gengrid has received focus.
-
-        .. versionadded:: 1.8
-        """
-        self._callback_add("focused", func, args, kwargs)
-
-    def callback_focused_del(self, func):
-        self._callback_del("focused", func)
-
-    def callback_unfocused_add(self, func, *args, **kwargs):
-        """When the gengrid has lost focus.
-
-        .. versionadded:: 1.8
-        """
-        self._callback_add("unfocused", func, args, kwargs)
-
-    def callback_unfocused_del(self, func):
-        self._callback_del("unfocused", func)
-
     def callback_item_focused_add(self, func, *args, **kwargs):
         """When the gengrid item has received focus.
 

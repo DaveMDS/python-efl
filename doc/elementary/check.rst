@@ -21,8 +21,6 @@ Emitted signals
 
 - ``changed`` - This is called whenever the user changes the state of
   the check objects.
-- ``focused`` - When the check has received focus. (since 1.8)
-- ``unfocused`` - When the check has lost focus. (since 1.8)
 
 
 Layout content parts

@@ -69,9 +69,6 @@ Emitted signals
 
 - ``timeout`` - when ever popup is closed as a result of timeout.
 - ``block,clicked`` - when ever user taps on Blocked Event area.
-- ``focused`` - When the popup has received focus. (since 1.8)
-- ``unfocused`` - When the popup has lost focus. (since 1.8)
-- ``language,changed`` - the program's language changed (since 1.8)
 - ``item,focused`` - the popup item has received focus. (since 1.10)
 - ``item,unfocused`` - the popup item has lost focus. (since 1.10)
 

@@ -50,8 +50,6 @@ Emitted signals
 - ``hbar,press`` - the horizontal scroll bar has been pressed
 - ``hbar,unpress`` - the horizontal scroll bar has been unpressed
 - ``scroll,page,changed`` - the visible page has changed
-- ``focused`` - When the scroller has received focus. (since 1.8)
-- ``unfocused`` - When the scroller has lost focus. (since 1.8)
 
 .. note:: The "scroll,anim,*" and "scroll,drag,*" signals are only emitted by
     user intervention.

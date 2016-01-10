@@ -669,7 +669,6 @@ cdef class Scrollable(Object):
     def callback_scroll_down_del(self, func):
         self._callback_del("scroll,down", func)
 
-
     def callback_scroll_anim_start_add(self, func, *args, **kwargs):
         """Scrolling animation has started."""
         self._callback_add("scroll,anim,start", func, args, kwargs)
@@ -746,26 +745,6 @@ cdef class Scrollable(Object):
 
     def callback_scroll_page_changed_del(self, func):
         self._callback_del("scroll,page,changed", func)
-
-    def callback_focused_add(self, func, *args, **kwargs):
-        """When the scroller has received focus.
-
-        .. versionadded:: 1.8
-        """
-        self._callback_add("focused", func, args, kwargs)
-
-    def callback_focused_del(self, func):
-        self._callback_del("focused", func)
-
-    def callback_unfocused_add(self, func, *args, **kwargs):
-        """When the scroller has lost focus.
-
-        .. versionadded:: 1.8
-        """
-        self._callback_add("unfocused", func, args, kwargs)
-
-    def callback_unfocused_del(self, func):
-        self._callback_del("unfocused", func)
 
 
 cdef class _ScrollerWidget(LayoutClass):

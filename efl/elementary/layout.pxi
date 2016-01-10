@@ -927,12 +927,6 @@ cdef class LayoutClass(Object):
     def callback_theme_changed_del(self, func):
         self._callback_del("theme,changed", func)
 
-    def callback_language_changed_add(self,func,*args, **kwargs):
-        """the program's language changed"""
-        self._callback_add("language,changed", func, args, kwargs)
-
-    def callback_language_changed_del(self, func):
-        self._callback_del("language,changed", func)
 
 
 cdef class Layout(LayoutClass):

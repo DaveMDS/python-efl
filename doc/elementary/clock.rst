@@ -39,8 +39,6 @@ Emitted signals
 ===============
 
 - ``changed`` - the clock's user changed the time
-- ``focused`` - When the clock has received focus. (since 1.8)
-- ``unfocused`` - When the clock has lost focus. (since 1.8)
 
 
 Enumerations

@@ -42,9 +42,6 @@ Emitted signals
   level to the second level
 - ``level,down`` - when the user moves a finger from the second
   level to the first level
-- ``language,changed`` - the program's language changed
-- ``focused`` - When the index has received focus. (since 1.8)
-- ``unfocused`` - When the index has lost focus. (since 1.8)
 
 The ``delay,changed`` event has a delay on change before the event is actually
 reported and moreover just the last event happening on those time frames will
