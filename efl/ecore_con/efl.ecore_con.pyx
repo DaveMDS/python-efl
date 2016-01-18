@@ -227,7 +227,13 @@ cdef Eina_Bool _con_event_filter_cb(void *data, int ev_type, void *ev) with gil:
     event_cls = _event_mapping_get(ev_type)
     if event_cls:
         py_event = event_cls()
-        py_event._set_obj(ev)
+
+        # object_from_instance can fail in _set_obj if the event is
+        # generated from an object not managed by us, so just ignore it.
+        try:
+            py_event._set_obj(ev)
+        except:
+            return 1
 
         # do we have callbacks for this object/event ?
         try:
