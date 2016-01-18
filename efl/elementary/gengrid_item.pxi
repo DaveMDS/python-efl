@@ -301,7 +301,10 @@ cdef class GengridItem(ObjectItem):
     # XXX TODO elm_gengrid_item_item_class_get
 
     property select_mode:
-        # TODO: document this
+        """Item's select mode. Possible values are:
+
+        :type: :ref:`Elm_Object_Select_Mode`
+        """
         def __get__(self):
             return elm_gengrid_item_select_mode_get(self.item)
 
