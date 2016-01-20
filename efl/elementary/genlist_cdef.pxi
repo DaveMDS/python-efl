@@ -64,12 +64,14 @@ cdef extern from "Elementary.h":
     ctypedef char           *(*GenlistItemLabelGetFunc)     (void *data, Evas_Object *obj, const char *part)
     ctypedef Evas_Object    *(*GenlistItemIconGetFunc)      (void *data, Evas_Object *obj, const char *part)
     ctypedef Eina_Bool       (*GenlistItemStateGetFunc)     (void *data, Evas_Object *obj, const char *part)
+    ctypedef Eina_Bool       (*GenlistItemFilterGetFunc)    (void *data, Evas_Object *obj, void *key)
     ctypedef void            (*GenlistItemDelFunc)          (void *data, Evas_Object *obj)
 
     ctypedef struct Elm_Genlist_Item_Class_Func:
         GenlistItemLabelGetFunc text_get
         GenlistItemIconGetFunc content_get
         GenlistItemStateGetFunc state_get
+        GenlistItemFilterGetFunc filter_get
         GenlistItemDelFunc del_ "del"
 
     ctypedef struct Elm_Genlist_Item_Class:
@@ -155,3 +157,4 @@ cdef extern from "Elementary.h":
     Elm_Object_Item *       elm_genlist_nth_item_get(const Evas_Object *obj, unsigned int nth)
     void                    elm_genlist_focus_on_selection_set(Evas_Object *obj, Eina_Bool enabled)
     Eina_Bool               elm_genlist_focus_on_selection_get(const Evas_Object *obj)
+    void                    elm_genlist_filter_set(Evas_Object *obj, void *key)

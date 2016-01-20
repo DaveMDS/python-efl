@@ -80,6 +80,24 @@ cdef Eina_Bool _py_elm_genlist_item_state_get(void *data, Evas_Object *obj, cons
 
     return ret if ret is not None else 0
 
+cdef Eina_Bool _py_elm_genlist_item_filter_get(void *data, Evas_Object *obj, void *key) with gil:
+    cdef:
+        GenlistItem item = <GenlistItem>data
+        object pykey = <object>key
+
+    func = item.item_class._filter_get_func
+    if func is None:
+        return 1
+
+    try:
+        o = object_from_instance(obj)
+        ret = func(o, pykey, item.item_data)
+    except Exception:
+        traceback.print_exc()
+        return 0
+
+    return 1 if ret else 0
+
 cdef void _py_elm_genlist_object_item_del(void *data, Evas_Object *obj) with gil:
     cdef GenlistItem item = <GenlistItem>data
 

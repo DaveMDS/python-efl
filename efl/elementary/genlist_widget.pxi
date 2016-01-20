@@ -685,7 +685,6 @@ cdef class Genlist(Object):
                     <const char *>pattern if pattern is not None else NULL,
                     flags))
 
-
     property focus_on_selection:
         """
 
@@ -708,6 +707,33 @@ cdef class Genlist(Object):
 
         def __get__(self):
             return bool(elm_genlist_focus_on_selection_get(self.obj))
+
+    property filter:
+        """ Set filter mode with key.
+
+        This initiates the filter mode of genlist with user/application
+        provided key. If key is None, the filter mode is turned off.
+
+        The given key will be passed back in the filter_get function of
+        the GenlistItemClass
+
+        :type: any python object
+
+        .. versionadded:: 1.17
+
+        """
+        def __set__(self, object key):
+            self.data['__filterkeyref'] = key # keep a reference for key
+            elm_genlist_filter_set(self.obj, <void *>key if key is not None else NULL)
+
+        def __get__(self):
+            return self.data['__filterkeyref']
+
+    def filter_set(self, key):
+        self.data['__filterkeyref'] = key
+        elm_genlist_filter_set(self.obj, <void*>key if key is not None else NULL)
+    def filter_get(self):
+        return self.data['__filterkeyref']
 
     #
     # Drag and Drop
@@ -1069,6 +1095,16 @@ cdef class Genlist(Object):
 
     def callback_changed_del(self, func):
         self._callback_del("changed", func)
+
+    def callback_filter_done_add(self, func, *args, **kwargs):
+        """Genlist filter operation is completed.
+
+        .. versionadded:: 1.17
+        """
+        self._callback_add("filter,done", func, args, kwargs)
+
+    def callback_filter_done_del(self, func):
+        self._callback_del("filter,done", func)
 
     property scroller_policy:
         """

@@ -3,12 +3,14 @@ BUGS
 ====
 * EdjeEdit: PartState API does not work
 * Elm.Map: overlays_show segfaults, scrollers in examples are jumpy
+* Genlist: "filter,done" event is not always fired (see the genlist_filter.py test)
 * Elementary: when we use custom function callbacks we usually leak some
     reference around, some examples:
     - Fileselector.custom_filter_append()
     - Multibuttonentry.format_function_set()
     - Multibuttonentry.filter_append()
     - Multibuttonentry.filterprepend()
+   ... maybe do like is done in genlist filter_set() ??
 
 Failing unit tests
 ------------------
@@ -22,8 +24,6 @@ TODO
   http://www.freedesktop.org/wiki/Software/DBusBindings
   (requires fd.org shell account?)
 * Review the internal functions and name them consistently
-* Evas: SmartObject needs testing
-* Improve ethumb
 * edje: complete the unit tests
 * Initial Evas GL support (for Elm)
 * Add more documentation for callbacks, events, etc.

@@ -19,6 +19,7 @@ cdef class GenlistItemClass(object):
         object _text_get_func
         object _content_get_func
         object _state_get_func
+        object _filter_get_func
         object _del_func
         object _item_style
         object _decorate_item_style
@@ -29,6 +30,7 @@ cdef class GenlistItemClass(object):
         self.cls.func.text_get = _py_elm_genlist_item_text_get
         self.cls.func.content_get = _py_elm_genlist_item_content_get
         self.cls.func.state_get = _py_elm_genlist_item_state_get
+        self.cls.func.filter_get = _py_elm_genlist_item_filter_get
         # In C the struct member is del but we rename it to del_ in pxd
         self.cls.func.del_ = _py_elm_genlist_object_item_del
 
@@ -39,7 +41,7 @@ cdef class GenlistItemClass(object):
     def __init__(self, item_style=None, text_get_func=None,
                  content_get_func=None, state_get_func=None, del_func=None,
                  decorate_item_style=None, decorate_all_item_style=None,
-                 *args, **kwargs):
+                 filter_get_func=None, *args, **kwargs):
 
         """GenlistItemClass constructor.
 
@@ -106,6 +108,14 @@ cdef class GenlistItemClass(object):
         else:
             self._state_get_func = self.state_get
 
+        if filter_get_func is not None:
+            if callable(filter_get_func):
+                self._filter_get_func = filter_get_func
+            else:
+                raise TypeError("filter_get_func is not callable!")
+        else:
+            self._filter_get_func = self.filter_get
+
         if del_func is not None:
             if callable(del_func):
                 self._del_func = del_func
@@ -136,7 +146,7 @@ cdef class GenlistItemClass(object):
     def __repr__(self):
         return ("<%s(%#x, refcount=%d, Elm_Genlist_Item_Class=%#x, "
                 "item_style=%r, text_get_func=%s, content_get_func=%s, "
-                "state_get_func=%s, del_func=%s)>") % \
+                "state_get_func=%s, filter_get_func=%s, del_func=%s)>") % \
                (type(self).__name__,
                 <uintptr_t><void *>self,
                 PY_REFCOUNT(self),
@@ -145,6 +155,7 @@ cdef class GenlistItemClass(object):
                 self._text_get_func,
                 self._content_get_func,
                 self._state_get_func,
+                self._filter_get_func,
                 self._del_func)
 
     def ref(self):
@@ -236,4 +247,16 @@ cdef class GenlistItemClass(object):
         :rtype: bool or None
         """
         return False
+
+    def filter_get(self, evasObject obj, key, item_data):
+        """To be called by Genlist for each row when filter is enabled.
+
+        :param obj: the Genlist instance
+        :param key: the filter key given in the filter_set function
+        :param item_data: the value given to genlist append/prepend.
+
+        :return: Wheter the item should be visible or not
+        :rtype: bool
+        """
+        return True
 
