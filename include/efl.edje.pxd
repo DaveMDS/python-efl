@@ -374,6 +374,7 @@ cdef extern from "Edje.h":
     void edje_object_color_class_set(Evas_Object *obj, char *color_class, int r, int g, int b, int a, int r2, int g2, int b2, int a2, int r3, int g3, int b3, int a3)
     void edje_object_color_class_get(Evas_Object *obj, char *color_class, int *r, int *g, int *b, int *a, int *r2, int *g2, int *b2, int *a2, int *r3, int *g3, int *b3, int *a3)
     void edje_object_color_class_del(Evas_Object *obj, char *color_class)
+    Eina_Bool edje_object_color_class_clear(Evas_Object *obj)
 
     void edje_object_text_class_set(Evas_Object *obj, char *text_class, char *font, Evas_Font_Size size)
     Eina_Bool edje_object_text_class_get(Evas_Object *obj, const char *text_class, const char **font, Evas_Font_Size *size)

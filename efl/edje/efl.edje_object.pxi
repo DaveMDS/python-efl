@@ -331,6 +331,17 @@ cdef class Edje(Object):
         edje_object_color_class_del(self.obj,
             <const char *>color_class if color_class is not None else NULL)
 
+    def color_class_clear(self):
+        """ Clear all object color classes.
+
+        :return: True on success, False otherwise
+        :rtype: bool
+
+        .. versionadded:: 1.17
+
+        """
+        return bool(edje_object_color_class_clear(self.obj))
+
     def text_class_set(self, text_class, font, int size):
         """Set text class.
 
