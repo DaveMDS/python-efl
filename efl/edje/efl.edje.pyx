@@ -149,6 +149,7 @@ def password_show_last_set(int show_last):
 def password_show_last_timeout_set(double timeout):
     edje_password_show_last_timeout_set(timeout)
 
+
 def color_class_set(color_class,
                     int r, int g, int b, int a,
                     int r2, int g2, int b2, int a2,
@@ -158,7 +159,6 @@ def color_class_set(color_class,
     edje_color_class_set(
             <const char *>color_class if color_class is not None else NULL,
             r, g, b, a, r2, g2, b2, a2, r3, g3, b3, a3)
-
 
 def color_class_get(color_class):
     cdef int r, g, b, a
@@ -171,13 +171,11 @@ def color_class_get(color_class):
             &r, &g, &b, &a, &r2, &g2, &b2, &a2, &r3, &g3, &b3, &a3)
     return (r, g, b, a, r2, g2, b2, a2, r3, g3, b3, a3)
 
-
 def color_class_del(color_class):
     if isinstance(color_class, unicode):
         color_class = PyUnicode_AsUTF8String(color_class)
     edje_color_class_del(
         <const char *>color_class if color_class is not None else NULL)
-
 
 def color_class_list():
     cdef:
@@ -203,7 +201,6 @@ def text_class_set(text_class, font, int size):
         <const char *>text_class if text_class is not None else NULL,
         <const char *>font if font is not None else NULL,
         size)
-
 
 def text_class_get(text_class):
     """ Get the font and the font size from Edje text class.
@@ -233,13 +230,97 @@ def text_class_del(text_class):
     edje_text_class_del(
         <const char *>text_class if text_class is not None else NULL)
 
-
 def text_class_list():
     cdef:
         Eina_List *lst
         Eina_List *itr
     ret = []
     lst = edje_text_class_list()
+    itr = lst
+    while itr:
+        ret.append(_touni(<char*>itr.data))
+        eina_stringshare_del(<Eina_Stringshare*>itr.data)
+        itr = itr.next
+    eina_list_free(lst)
+    return ret
+
+
+def size_class_set(size_class, int minw, int minh, int maxw, int maxh):
+    """Set the Edje size class.
+
+    :param str size_class: The size class name
+    :param int minw: The min width
+    :param int minh: The min height
+    :param int maxw: The max width
+    :param int maxh: The max height
+
+    :return: True on success or False on error
+    :rtype: bool
+
+    .. versionadded:: 1.17
+
+    """
+    if isinstance(size_class, unicode):
+        size_class = PyUnicode_AsUTF8String(size_class)
+    return bool(edje_size_class_set(
+                    <const char *>size_class if size_class is not None else NULL,
+                    minw, minh, maxw, maxh))
+
+def size_class_get(size_class):
+    """Get the Edje size class.
+
+    :param str size_class: The size class name
+
+    :return: (minw, minh, maxw, maxh)
+    :rtype: 4 int's tuple
+
+    .. versionadded:: 1.17
+
+    """
+    cdef int minw, minh, maxw, maxh, ret
+    if isinstance(size_class, unicode):
+        size_class = PyUnicode_AsUTF8String(size_class)
+
+    ret = edje_size_class_get(
+                <const char *>size_class if size_class is not None else NULL,
+                &minw, &minh, &maxw, &maxh)
+    if ret == 0:
+        return None
+    else:
+        return (minw, minh, maxw, maxh)
+
+def size_class_del(size_class):
+    """Delete the size class.
+
+    This function deletes any values at the process level for the specified
+    size class.
+
+    :param str size_class: The size class name
+
+    .. versionadded:: 1.17
+
+    """
+    if isinstance(size_class, unicode):
+        size_class = PyUnicode_AsUTF8String(size_class)
+    edje_color_class_del(
+        <const char *>size_class if size_class is not None else NULL)
+
+def size_class_list():
+    """List size classes.
+
+    This function lists all size classes known about by the current process.
+
+    :return: A list of size class names.
+    :rtype: list of strings
+
+    .. versionadded:: 1.17
+
+    """
+    cdef:
+        Eina_List *lst
+        Eina_List *itr
+    ret = []
+    lst = edje_size_class_list()
     itr = lst
     while itr:
         ret.append(_touni(<char*>itr.data))

@@ -370,8 +370,76 @@ cdef class Edje(Object):
             <const char *>text_class if text_class is not None else NULL,
             &font, &size)
         return (_ctouni(font), size)
+
+    def size_class_set(self, size_class, int minw, int minh, int maxw, int maxh):
+        """Sets the object size class.
+
+        This function sets the min and max values for an object level size
+        class. This will make all edje parts in the specified object that have
+        the specified size class update their min and max size with given
+        values.
+
+        :param str size_class: The size class name
+        :param int minw: The min width
+        :param int minh: The min height
+        :param int maxw: The max width
+        :param int maxh: The max height
+
+        :return: True on success or False on error
+        :rtype: bool
+
+        .. versionadded:: 1.17
         
-        
+        """
+        if isinstance(size_class, unicode):
+            size_class = PyUnicode_AsUTF8String(size_class)
+        return bool(edje_object_size_class_set(self.obj,
+                    <const char *>size_class if size_class is not None else NULL,
+                    minw, minh, maxw, maxh))
+
+    def size_class_get(self, size_class):
+        """Gets the object size class.
+
+        This function gets the min and max values for an object level size
+        class. These values will only be valid until the size class is changed
+        or the edje object is deleted.
+
+        :param str size_class: The size class name
+
+        :return: (minw, minh, maxw, maxh)
+        :rtype: 4 int's tuple
+
+        .. versionadded:: 1.17
+
+        """
+        cdef int minw, minh, maxw, maxh
+
+        if isinstance(size_class, unicode):
+            size_class = PyUnicode_AsUTF8String(size_class)
+        edje_object_size_class_get(self.obj,
+            <const char *>size_class if size_class is not None else NULL,
+            &minw, &minh, &maxw, &maxh)
+        return (minw, minh, maxw, maxh)
+
+    def size_class_del(self, size_class):
+        """Delete the object size class.
+
+        This function deletes any values at the object level for the specified
+        object and size class.
+
+        Note: Deleting the size class will revert it to the values defined by
+        edje_size_class_set() or the size class defined in the theme file.
+
+        :param str size_class: The size class name
+
+        .. versionadded:: 1.17
+
+        """
+        if isinstance(size_class, unicode):
+            size_class = PyUnicode_AsUTF8String(size_class)
+        edje_object_size_class_del(self.obj,
+            <const char *>size_class if size_class is not None else NULL)
+
     property scale:
         """The scaling factor for a given Edje object.
 
