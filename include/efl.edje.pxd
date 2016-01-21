@@ -377,6 +377,7 @@ cdef extern from "Edje.h":
 
     void edje_object_text_class_set(Evas_Object *obj, char *text_class, char *font, Evas_Font_Size size)
     Eina_Bool edje_object_text_class_get(Evas_Object *obj, const char *text_class, const char **font, Evas_Font_Size *size)
+    void edje_object_text_class_del(Evas_Object *obj, const char *text_class)
 
     Eina_Bool edje_object_size_class_set(Evas_Object *obj, const char *size_class, int minw, int minh, int maxw, int maxh)
     Eina_Bool edje_object_size_class_get(Evas_Object *obj, const char *size_class, int *minw, int *minh, int *maxw, int *maxh)

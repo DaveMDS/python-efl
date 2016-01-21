@@ -371,6 +371,25 @@ cdef class Edje(Object):
             &font, &size)
         return (_ctouni(font), size)
 
+    def text_class_del(self, text_class):
+        """Delete the object text class.
+
+        This function deletes any values at the object level for the specified
+        text class.
+
+        Note: deleting the text class will revert it to the values defined by
+        edje_text_class_set() or the text class defined in the theme file.
+
+        :param string text_class: The text class name to be deleted
+
+        .. versionadded:: 1.17
+
+        """
+        if isinstance(text_class, unicode):
+            text_class = PyUnicode_AsUTF8String(text_class)
+        edje_object_text_class_del(self.obj,
+                <const char *>text_class if text_class is not None else NULL)
+        
     def size_class_set(self, size_class, int minw, int minh, int maxw, int maxh):
         """Sets the object size class.
 
