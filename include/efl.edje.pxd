@@ -325,6 +325,11 @@ cdef extern from "Edje.h":
     void edje_text_class_del(char *text_class)
     Eina_List * edje_text_class_list()
 
+    Eina_Bool edje_size_class_set(const char *size_class, Evas_Coord minw, Evas_Coord minh, Evas_Coord maxw, Evas_Coord maxh)
+    Eina_Bool edje_size_class_get(const char *size_class, Evas_Coord *minw, Evas_Coord *minh, Evas_Coord *maxw, Evas_Coord *maxh)
+    void edje_size_class_del(const char *size_class)
+    Eina_List *edje_size_class_list()
+
     void edje_scale_set(double scale)
     double edje_scale_get()
 
@@ -369,8 +374,15 @@ cdef extern from "Edje.h":
     void edje_object_color_class_set(Evas_Object *obj, char *color_class, int r, int g, int b, int a, int r2, int g2, int b2, int a2, int r3, int g3, int b3, int a3)
     void edje_object_color_class_get(Evas_Object *obj, char *color_class, int *r, int *g, int *b, int *a, int *r2, int *g2, int *b2, int *a2, int *r3, int *g3, int *b3, int *a3)
     void edje_object_color_class_del(Evas_Object *obj, char *color_class)
+
     void edje_object_text_class_set(Evas_Object *obj, char *text_class, char *font, Evas_Font_Size size)
     Eina_Bool edje_object_text_class_get(Evas_Object *obj, const char *text_class, const char **font, Evas_Font_Size *size)
+
+    Eina_Bool edje_object_size_class_set(Evas_Object *obj, const char *size_class, int minw, int minh, int maxw, int maxh)
+    Eina_Bool edje_object_size_class_get(Evas_Object *obj, const char *size_class, int *minw, int *minh, int *maxw, int *maxh)
+    void      edje_object_size_class_del(Evas_Object *obj, const char *size_class)
+
+
 
     void edje_object_size_min_get(Evas_Object *obj, Evas_Coord *minw, Evas_Coord *minh)
     void edje_object_size_max_get(Evas_Object *obj, Evas_Coord *maxw, Evas_Coord *maxh)
