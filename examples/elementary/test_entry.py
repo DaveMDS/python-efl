@@ -5,6 +5,7 @@ from efl.evas import EVAS_HINT_EXPAND, EVAS_HINT_FILL, EXPAND_BOTH, FILL_BOTH, \
     EXPAND_HORIZ, FILL_HORIZ
 from efl import elementary
 from efl.elementary.check import Check
+from efl.elementary.configuration import Configuration
 from efl.elementary.window import StandardWindow
 from efl.elementary.background import Background
 from efl.elementary.box import Box
@@ -44,6 +45,9 @@ def my_entry_bt_3(bt, en):
 
 def my_entry_bt_4(bt, en):
     en.entry_insert("Insert some <b>BOLD</> text")
+
+def my_entry_bt_5(chk):
+    Configuration().context_menu_disabled = chk.state
 
 def my_entry_anchor_test(obj, anchor, en, *args, **kwargs):
     en.entry_insert("ANCHOR CLICKED")
@@ -94,6 +98,12 @@ def entry_clicked(obj, item=None):
     bt.callback_clicked_add(my_entry_bt_4, en)
     bx2.pack_end(bt)
     bt.show()
+
+    ck = Check(win, text="Context menu disabled")#, size_hint_weight=EXPAND_HORIZ,
+                  # size_hint_align=FILL_BOTH)
+    ck.callback_changed_add(my_entry_bt_5)
+    bx2.pack_end(ck)
+    ck.show()
 
     bx.pack_end(bx2)
     bx2.show()

@@ -1215,6 +1215,21 @@ cdef class Configuration(object):
         def __set__(self, mode):
             elm_config_slider_indicator_visible_mode_set(mode)
 
+    property context_menu_disabled:
+        """
+
+        Enable or disable context menu in entries.
+
+        :type: bool
+
+        .. versionadded:: 1.17
+
+        """
+        def __get__(self):
+            return bool(elm_config_context_menu_disabled_get())
+        def __set__(self, bint disabled):
+            elm_config_context_menu_disabled_set(disabled)
+
 #For compatibility
 def config_finger_size_get():
     return elm_config_finger_size_get()

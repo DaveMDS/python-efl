@@ -180,6 +180,8 @@ cdef extern from "Elementary.h":
     Eina_Bool               elm_config_window_auto_focus_animate_get()
     void                    elm_config_window_auto_focus_animate_set(Eina_Bool enable)
 
+    Eina_Bool               elm_config_context_menu_disabled_get()
+    void                    elm_config_context_menu_disabled_set(Eina_Bool disabled)
 
     Eina_Bool               elm_config_mirrored_get()
     void                    elm_config_mirrored_set(Eina_Bool mirrored)
