@@ -266,6 +266,12 @@ Items' scroll to types
 
     Scroll to the middle of viewport
 
+.. data:: ELM_GENGRID_ITEM_SCROLLTO_BOTTOM
+
+    Scroll to the bottom of viewport
+
+    .. versionadded:: 1.17
+
 
 .. _Elm_Gengrid_Object_Multi_Select_Mode:
 

@@ -1,9 +1,17 @@
 from . import Gengrid, GengridItem, GengridItemClass
 
+# deprecated
 from . import ELM_GENLIST_ITEM_SCROLLTO_NONE
 from . import ELM_GENLIST_ITEM_SCROLLTO_IN
 from . import ELM_GENLIST_ITEM_SCROLLTO_TOP
 from . import ELM_GENLIST_ITEM_SCROLLTO_MIDDLE
+#
+
+from . import ELM_GENGRID_ITEM_SCROLLTO_NONE
+from . import ELM_GENGRID_ITEM_SCROLLTO_IN
+from . import ELM_GENGRID_ITEM_SCROLLTO_TOP
+from . import ELM_GENGRID_ITEM_SCROLLTO_MIDDLE
+from . import ELM_GENGRID_ITEM_SCROLLTO_BOTTOM
 
 from . import ELM_OBJECT_SELECT_MODE_DEFAULT
 from . import ELM_OBJECT_SELECT_MODE_ALWAYS

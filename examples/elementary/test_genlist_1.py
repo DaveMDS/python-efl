@@ -5,7 +5,7 @@
 from efl.evas import Rectangle, EXPAND_BOTH, FILL_BOTH, EVAS_CALLBACK_MOUSE_DOWN
 
 from efl import elementary as elm
-from efl.elementary import StandardWindow, Box, Label, Button, Icon, \
+from efl.elementary import StandardWindow, Box, Label, Button, Radio, Icon, \
     Genlist, GenlistItemClass, ELM_LIST_COMPRESS
 
 
@@ -123,60 +123,63 @@ def test_genlist_1(parent):
         if i == 50:     it_50 = item
         elif i == 1500: it_1500 = item
 
-    # item 50 buttons
+    # scroll_to methods
     hbox = Box(win, horizontal=True)
     box.pack_end(hbox)
     hbox.show()
 
-    bt = Button(win, text="Show 50 (IN)")
-    bt.callback_clicked_add(lambda bt: it_50.show(elm.ELM_GENLIST_ITEM_SCROLLTO_IN))
-    hbox.pack_end(bt)
-    bt.show()
+    rdg = rd = Radio(win, text='SCROLL_IN',
+                     state_value=elm.ELM_GENLIST_ITEM_SCROLLTO_IN)
+    hbox.pack_end(rd)
+    rd.show()
 
-    bt = Button(win, text="Show 50 (TOP)")
-    bt.callback_clicked_add(lambda bt: it_50.show(elm.ELM_GENLIST_ITEM_SCROLLTO_TOP))
-    hbox.pack_end(bt)
-    bt.show()
+    rd = Radio(win, text='SCROLL_TOP',
+               state_value=elm.ELM_GENLIST_ITEM_SCROLLTO_TOP)
+    rd.group_add(rdg)
+    hbox.pack_end(rd)
+    rd.show()
 
-    bt = Button(win, text="Show 50 (MID)")
-    bt.callback_clicked_add(lambda bt: it_50.show(elm.ELM_GENLIST_ITEM_SCROLLTO_MIDDLE))
-    hbox.pack_end(bt)
-    bt.show()
+    rd = Radio(win, text='SCROLL_MIDDLE',
+               state_value=elm.ELM_GENLIST_ITEM_SCROLLTO_MIDDLE)
+    rd.group_add(rdg)
+    hbox.pack_end(rd)
+    rd.show()
 
-    bt = Button(win, text="Bring 50 (IN)")
-    bt.callback_clicked_add(lambda bt: it_50.bring_in(elm.ELM_GENLIST_ITEM_SCROLLTO_IN))
-    hbox.pack_end(bt)
-    bt.show()
+    rd = Radio(win, text='SCROLL_BOTTOM',
+               state_value=elm.ELM_GENLIST_ITEM_SCROLLTO_BOTTOM)
+    rd.group_add(rdg)
+    hbox.pack_end(rd)
+    rd.show()
 
-    bt = Button(win, text="Bring 50 (TOP)")
-    bt.callback_clicked_add(lambda bt: it_50.bring_in(elm.ELM_GENLIST_ITEM_SCROLLTO_TOP))
-    hbox.pack_end(bt)
-    bt.show()
+    rdg.value = elm.ELM_GENLIST_ITEM_SCROLLTO_IN
 
-    bt = Button(win, text="Bring 50 (MID)")
-    bt.callback_clicked_add(lambda bt: it_50.bring_in(elm.ELM_GENLIST_ITEM_SCROLLTO_MIDDLE))
-    hbox.pack_end(bt)
-    bt.show()
-
-    # item 1500 buttons
+    # item 50/1500 buttons
     hbox = Box(win, horizontal=True)
     box.pack_end(hbox)
     hbox.show()
 
-    bt = Button(win, text="Show 1500 (IN)")
-    bt.callback_clicked_add(lambda bt: it_1500.show())
+    bt = Button(win, text="Show 50")
+    bt.callback_clicked_add(lambda bt: it_50.show(rdg.value))
     hbox.pack_end(bt)
     bt.show()
 
-    bt = Button(win, text="Bring 1500 (IN)")
-    bt.callback_clicked_add(lambda bt: it_1500.bring_in())
+    bt = Button(win, text="BringIn 50")
+    bt.callback_clicked_add(lambda bt: it_50.bring_in(rdg.value))
+    hbox.pack_end(bt)
+    bt.show()
+
+    bt = Button(win, text="Show 1500")
+    bt.callback_clicked_add(lambda bt: it_1500.show(rdg.value))
+    hbox.pack_end(bt)
+    bt.show()
+
+    bt = Button(win, text="BringIn 1500")
+    bt.callback_clicked_add(lambda bt: it_1500.bring_in(rdg.value))
     hbox.pack_end(bt)
     bt.show()
 
     # show the window
     win.show()
-
-
 
 
 if __name__ == "__main__":

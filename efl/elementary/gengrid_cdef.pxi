@@ -2,12 +2,22 @@ cdef extern from "Elementary.h":
 
     ctypedef cEo Elm_Gengrid
 
+    # deprecated
     cpdef enum Elm_Genlist_Item_Scrollto_Type:
         ELM_GENLIST_ITEM_SCROLLTO_NONE
         ELM_GENLIST_ITEM_SCROLLTO_IN
         ELM_GENLIST_ITEM_SCROLLTO_TOP
         ELM_GENLIST_ITEM_SCROLLTO_MIDDLE
     ctypedef enum Elm_Genlist_Item_Scrollto_Type:
+        pass
+
+    cpdef enum Elm_Gengrid_Item_Scrollto_Type:
+        ELM_GENGRID_ITEM_SCROLLTO_NONE
+        ELM_GENGRID_ITEM_SCROLLTO_IN
+        ELM_GENGRID_ITEM_SCROLLTO_TOP
+        ELM_GENGRID_ITEM_SCROLLTO_MIDDLE
+        ELM_GENGRID_ITEM_SCROLLTO_BOTTOM
+    ctypedef enum Elm_Gengrid_Item_Scrollto_Type:
         pass
 
     cpdef enum Elm_Object_Select_Mode:

@@ -415,6 +415,12 @@ Genlist items' scroll-to types
 
     Scroll to the middle of viewport
 
+.. data:: ELM_GENLIST_ITEM_SCROLLTO_BOTTTOM
+
+    Scroll to the bottom of viewport
+
+    .. versionadded:: 1.17
+
 
 Inheritance diagram
 ===================

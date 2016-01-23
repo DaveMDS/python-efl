@@ -21,6 +21,7 @@ cdef extern from "Elementary.h":
         ELM_GENLIST_ITEM_SCROLLTO_IN
         ELM_GENLIST_ITEM_SCROLLTO_TOP
         ELM_GENLIST_ITEM_SCROLLTO_MIDDLE
+        ELM_GENLIST_ITEM_SCROLLTO_BOTTOM
     ctypedef enum Elm_Genlist_Item_Scrollto_Type:
         pass
 

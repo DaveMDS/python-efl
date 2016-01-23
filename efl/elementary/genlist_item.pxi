@@ -330,23 +330,25 @@ cdef class GenlistItem(ObjectItem):
         cdef bint ret = elm_genlist_item_selected_get(self.item)
         return ret
 
-    def show(self, scrollto_type = ELM_GENLIST_ITEM_SCROLLTO_IN):
+    def show(self, scrollto_type=ELM_GENLIST_ITEM_SCROLLTO_IN):
         """This causes genlist to jump to the item and show it (by
         jumping to that position), if it is not fully visible.
 
-        :type: :ref:`Elm_Genlist_Item_Scrollto_Type`
+        :param scrollto_type: Where to position the item in the viewport.
+        :type scrollto_type: :ref:`Elm_Genlist_Item_Scrollto_Type`
 
         .. seealso:: :py:func:`bring_in()`
 
         """
         elm_genlist_item_show(self.item, scrollto_type)
 
-    def bring_in(self, scrollto_type = ELM_GENLIST_ITEM_SCROLLTO_IN):
+    def bring_in(self, scrollto_type=ELM_GENLIST_ITEM_SCROLLTO_IN):
         """This causes genlist to jump to the item and show it (by
         animatedly scrolling), if it is not fully visible.
         This may use animation and take a some time to do so.
 
-        :type: :ref:`Elm_Genlist_Item_Scrollto_Type`
+        :param scrollto_type: Where to position the item in the viewport.
+        :type scrollto_type: :ref:`Elm_Genlist_Item_Scrollto_Type`
 
         .. seealso:: :py:func:`show()`
 

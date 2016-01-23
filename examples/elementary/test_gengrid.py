@@ -6,19 +6,10 @@ import os
 
 from efl.evas import EVAS_HINT_EXPAND, EVAS_HINT_FILL, EXPAND_BOTH, FILL_BOTH, \
     EXPAND_HORIZ, FILL_HORIZ, EVAS_ASPECT_CONTROL_BOTH
-from efl import elementary
-from efl.elementary.window import StandardWindow
-from efl.elementary.background import Background
-from efl.elementary.button import Button
-from efl.elementary.check import Check
-from efl.elementary.entry import Entry
-from efl.elementary.image import Image
-from efl.elementary.label import Label
-from efl.elementary.general import ELM_GLOB_MATCH_NOCASE
-from efl.elementary.gengrid import Gengrid, GengridItemClass
-from efl.elementary.slider import Slider
-from efl.elementary.table import Table
-from efl.elementary.scroller import Scrollable
+from efl import elementary as elm
+from efl.elementary import StandardWindow, Button, Check, Entry, Image, \
+    Label, Gengrid, GengridItemClass, Slider, Radio, Table, Scrollable, \
+    ELM_GLOB_MATCH_NOCASE
 
 
 script_path = os.path.dirname(os.path.abspath(__file__))
@@ -69,7 +60,7 @@ def gengrid_clicked(obj):
 
     win = StandardWindow("gengrid", "Gengrid", autodel=True, size=(480, 600))
     if obj is None:
-        win.callback_delete_request_add(lambda o: elementary.exit())
+        win.callback_delete_request_add(lambda o: elm.exit())
 
     tb = Table(win, homogeneous=False, size_hint_weight=EXPAND_BOTH)
     win.resize_object_add(tb)
@@ -248,38 +239,6 @@ def gengrid_clicked(obj):
     tb.pack(bt, 5, 2, 1, 1)
     bt.show()
 
-    # show first/last
-    def show_clicked(bt, gg, first):
-        ggi = gg.first_item if first else gg.last_item
-        if ggi:
-            ggi.show()
-
-    bt = Button(win, size_hint_align=(EVAS_HINT_FILL, 0), text="Show first")
-    bt.callback_clicked_add(show_clicked, gg, True)
-    tb.pack(bt, 2, 3, 1, 1)
-    bt.show()
-
-    bt = Button(win, size_hint_align=(EVAS_HINT_FILL, 0), text="Show last")
-    bt.callback_clicked_add(show_clicked, gg, False)
-    tb.pack(bt, 3, 3, 1, 1)
-    bt.show()
-
-    # bring-in first/last
-    def bring_in_clicked(bt, gg, first):
-        ggi = gg.first_item if first else gg.last_item
-        if ggi:
-            ggi.bring_in()
-
-    bt = Button(win, size_hint_align=(EVAS_HINT_FILL, 0), text="BringIn first")
-    bt.callback_clicked_add(bring_in_clicked, gg, True)
-    tb.pack(bt, 4, 3, 1, 1)
-    bt.show()
-
-    bt = Button(win, size_hint_align=(EVAS_HINT_FILL, 0), text="BringIn last")
-    bt.callback_clicked_add(bring_in_clicked, gg, False)
-    tb.pack(bt, 5, 3, 1, 1)
-    bt.show()
-
     # append
     def append_clicked(bt, gg, n):
         global item_count
@@ -290,22 +249,22 @@ def gengrid_clicked(obj):
 
     bt = Button(win, size_hint_align=FILL_HORIZ, text="Append 1")
     bt.callback_clicked_add(append_clicked, gg, 1)
-    tb.pack(bt, 2, 4, 1, 1)
+    tb.pack(bt, 2, 3, 1, 1)
     bt.show()
 
     bt = Button(win, size_hint_align=FILL_HORIZ, text="Append 100")
     bt.callback_clicked_add(append_clicked, gg, 100)
-    tb.pack(bt, 3, 4, 1, 1)
+    tb.pack(bt, 3, 3, 1, 1)
     bt.show()
 
     bt = Button(win, size_hint_align=FILL_HORIZ, text="Append 1000")
     bt.callback_clicked_add(append_clicked, gg, 1000)
-    tb.pack(bt, 4, 4, 1, 1)
+    tb.pack(bt, 4, 3, 1, 1)
     bt.show()
 
     bt = Button(win, size_hint_align=FILL_HORIZ, text="Append 10000 :)")
     bt.callback_clicked_add(append_clicked, gg, 10000)
-    tb.pack(bt, 5, 4, 1, 1)
+    tb.pack(bt, 5, 3, 1, 1)
     bt.show()
 
     # prepend
@@ -316,7 +275,7 @@ def gengrid_clicked(obj):
 
     bt = Button(win, size_hint_align=FILL_HORIZ, text="Prepend")
     bt.callback_clicked_add(prepend_clicked, gg)
-    tb.pack(bt, 2, 5, 1, 1)
+    tb.pack(bt, 2, 4, 1, 1)
     bt.show()
 
     # insert_before
@@ -331,7 +290,7 @@ def gengrid_clicked(obj):
 
     bt = Button(win, size_hint_align=FILL_HORIZ, text="Ins before")
     bt.callback_clicked_add(ins_before_clicked, gg)
-    tb.pack(bt, 3, 5, 1, 1)
+    tb.pack(bt, 3, 4, 1, 1)
     bt.show()
 
     # insert_after
@@ -346,7 +305,75 @@ def gengrid_clicked(obj):
 
     bt = Button(win, size_hint_align=FILL_HORIZ, text="Ins after")
     bt.callback_clicked_add(ins_after_clicked, gg)
-    tb.pack(bt, 4, 5, 1, 1)
+    tb.pack(bt, 4, 4, 1, 1)
+    bt.show()
+
+    # scroll_to methods
+    rdg = rd = Radio(win, text='SCROLL_IN',
+                     state_value=elm.ELM_GENGRID_ITEM_SCROLLTO_IN)
+    tb.pack(rd, 2, 5, 1, 1)
+    rd.show()
+
+    rd = Radio(win, text='SCROLL_TOP',
+               state_value=elm.ELM_GENGRID_ITEM_SCROLLTO_TOP)
+    rd.group_add(rdg)
+    tb.pack(rd, 3, 5, 1, 1)
+    rd.show()
+
+    rd = Radio(win, text='SCROLL_MIDDLE',
+               state_value=elm.ELM_GENGRID_ITEM_SCROLLTO_MIDDLE)
+    rd.group_add(rdg)
+    tb.pack(rd, 4, 5, 1, 1)
+    rd.show()
+
+    rd = Radio(win, text='SCROLL_BOTTOM',
+               state_value=elm.ELM_GENGRID_ITEM_SCROLLTO_BOTTOM)
+    rd.group_add(rdg)
+    tb.pack(rd, 5, 5, 1, 1)
+    rd.show()
+
+    rdg.value = elm.ELM_GENGRID_ITEM_SCROLLTO_IN
+
+    # show first/last
+    def show_clicked(bt, gg, rdg, what):
+        ggi = getattr(gg, what)
+        if ggi:
+            ggi.show(rdg.value)
+
+    bt = Button(win, size_hint_align=(EVAS_HINT_FILL, 0), text="Show first")
+    bt.callback_clicked_add(show_clicked, gg, rdg, "first_item")
+    tb.pack(bt, 2, 6, 1, 1)
+    bt.show()
+
+    bt = Button(win, size_hint_align=(EVAS_HINT_FILL, 0), text="Show last")
+    bt.callback_clicked_add(show_clicked, gg, rdg, "last_item")
+    tb.pack(bt, 3, 6, 1, 1)
+    bt.show()
+
+    bt = Button(win, size_hint_align=(EVAS_HINT_FILL, 0), text="Show selected")
+    bt.callback_clicked_add(show_clicked, gg, rdg, "selected_item")
+    tb.pack(bt, 2, 7, 2, 1)
+    bt.show()
+
+    # bring-in first/last/selected
+    def bring_in_clicked(bt, gg, rdg, what):
+        ggi = getattr(gg, what)
+        if ggi:
+            ggi.bring_in(rdg.value)
+
+    bt = Button(win, size_hint_align=(EVAS_HINT_FILL, 0), text="BringIn first")
+    bt.callback_clicked_add(bring_in_clicked, gg, rdg, "first_item")
+    tb.pack(bt, 4, 6, 1, 1)
+    bt.show()
+
+    bt = Button(win, size_hint_align=(EVAS_HINT_FILL, 0), text="BringIn last")
+    bt.callback_clicked_add(bring_in_clicked, gg, rdg, "last_item")
+    tb.pack(bt, 5, 6, 1, 1)
+    bt.show()
+
+    bt = Button(win, size_hint_align=(EVAS_HINT_FILL, 0), text="BringIn selected")
+    bt.callback_clicked_add(bring_in_clicked, gg, rdg, "selected_item")
+    tb.pack(bt, 4, 7, 2, 1)
     bt.show()
 
     # search_by_text_item_get
@@ -362,14 +389,14 @@ def gengrid_clicked(obj):
             gg.selected_item.selected = False
         
     lb = Label(win, text="Search:")
-    tb.pack(lb, 2, 6, 1, 1)
+    tb.pack(lb, 0, 6, 2, 1)
     lb.show()
 
     en = Entry(win, single_line=True, scrollable=True,
                size_hint_weight=EXPAND_HORIZ, size_hint_align=FILL_HORIZ)
     en.part_text_set("guide", "Type the search query")
     en.callback_activated_add(search_cb, gg)
-    tb.pack(en, 3, 6, 3, 1)
+    tb.pack(en, 0, 7, 2, 1)
     en.show()
     en.focus = True
     
@@ -383,4 +410,4 @@ if __name__ == "__main__":
 
     gengrid_clicked(None)
 
-    elementary.run()
+    elm.run()

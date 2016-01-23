@@ -261,26 +261,28 @@ cdef class GengridItem(ObjectItem):
     def selected_get(self):
         return bool(elm_gengrid_item_selected_get(self.item))
 
-    def show(self, scrollto_type = ELM_GENLIST_ITEM_SCROLLTO_IN):
+    def show(self, scrollto_type=ELM_GENGRID_ITEM_SCROLLTO_IN):
         """This causes gengrid to **redraw** its viewport's contents to the
         region containing the given ``item``, if it is not fully
         visible.
 
         .. seealso:: :py:func:`bring_in()`
 
-        :param type: Where to position the item in the viewport.
+        :param scrollto_type: Where to position the item in the viewport.
+        :type scrollto_type: :ref:`Elm_Gengrid_Item_Scrollto_Type`
 
         """
         elm_gengrid_item_show(self.item, scrollto_type)
 
-    def bring_in(self, scrollto_type = ELM_GENLIST_ITEM_SCROLLTO_IN):
+    def bring_in(self, scrollto_type=ELM_GENGRID_ITEM_SCROLLTO_IN):
         """This causes gengrid to jump to the item and show
         it (by scrolling), if it is not fully visible. This will use
         animation to do so and take a period of time to complete.
 
         .. seealso:: :py:func:`show()`
 
-        :param type: Where to position the item in the viewport.
+        :param scrollto_type: Where to position the item in the viewport.
+        :type scrollto_type: :ref:`Elm_Gengrid_Item_Scrollto_Type`
 
         """
         elm_gengrid_item_bring_in(self.item, scrollto_type)
