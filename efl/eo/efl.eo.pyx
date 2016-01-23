@@ -235,6 +235,7 @@ cdef class Eo(object):
 
     def __cinit__(self):
         self.data = dict()
+        self.internal_data = dict()
 
     def __init__(self, *args, **kwargs):
         if type(self) is Eo:

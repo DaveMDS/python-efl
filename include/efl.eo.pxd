@@ -23,6 +23,7 @@ cdef:
         cdef:
             cEo *obj
             readonly dict data
+            dict internal_data
 
             int _set_obj(self, cEo *obj) except 0
             int _set_properties_from_keyword_args(self, dict kwargs) except 0
