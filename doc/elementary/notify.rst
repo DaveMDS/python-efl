@@ -21,6 +21,7 @@ Emitted signals
 
 - ``timeout`` - when timeout happens on notify and it's hidden
 - ``block,clicked`` - when a click outside of the notify happens
+- ``dismissed`` - When notify is closed as a result of a dismiss (since 1.17)
 
 
 Layout content parts

@@ -26,4 +26,4 @@ cdef extern from "Elementary.h":
     Eina_Bool                elm_notify_allow_events_get(const Evas_Object *obj)
     void                     elm_notify_align_set(Evas_Object *obj, double horizontal, double vertical)
     void                     elm_notify_align_get(const Evas_Object *obj, double *horizontal, double *vertical)
-
+    void                     elm_notify_dismiss(const Evas_Object *obj)

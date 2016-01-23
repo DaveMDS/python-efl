@@ -110,6 +110,13 @@ cdef class Notify(Object):
     def allow_events_get(self):
         return bool(elm_notify_allow_events_get(self.obj))
 
+    def dismiss(self):
+        """Dismiss a notify object.
+
+        .. versionadded:: 1.17
+
+        """
+        elm_notify_dismiss(self.obj)
 
     property align:
         """Set the alignment of the notify object
@@ -156,6 +163,17 @@ cdef class Notify(Object):
 
     def callback_block_clicked_del(self, func):
         self._callback_del("block,clicked", func)
+
+    def callback_dismissed_add(self, func, *args, **kwargs):
+        """When notify is closed as a result of a dismiss.
+
+        .. versionadded:: 1.17
+
+        """
+        self._callback_add("dismissed", func, args, kwargs)
+
+    def callback_dismissed_del(self, func):
+        self._callback_del("dismissed", func)
 
 
     property orient:
