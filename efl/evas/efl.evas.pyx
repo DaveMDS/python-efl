@@ -111,6 +111,12 @@ Evas_BiDi_Direction
 
     Right to left direction.
 
+.. data:: EVAS_BIDI_DIRECTION_INHERIT
+
+    Inherit direction from parent object.
+
+    .. versionadded:: 1.17
+
 
 .. _Evas_Callback_Type:
 

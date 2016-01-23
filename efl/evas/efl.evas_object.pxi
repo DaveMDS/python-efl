@@ -684,6 +684,24 @@ cdef class Object(Eo):
     def is_frame_object_get(self):
         return bool(evas_object_is_frame_object_get(self.obj))
 
+    property paragraph_direction:
+        """This handles text paragraph direction of the object.
+
+        Even if the object is not textblock or text, its smart child objects
+        can inherit the paragraph direction from the object.
+
+        The default paragraph direction is EVAS_BIDI_DIRECTION_INHERIT.
+
+        :type: :ref:`Evas_BiDi_Direction`
+
+        .. versionadded:: 1.17
+
+        """
+        def __set__(self, Evas_BiDi_Direction direction):
+            evas_object_paragraph_direction_set(self.obj, direction)
+
+        def __get__(self):
+            return evas_object_paragraph_direction_get(self.obj)
 
     ##################
     #### Stacking ####

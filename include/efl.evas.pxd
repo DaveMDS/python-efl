@@ -61,6 +61,7 @@ cdef extern from "Evas.h":
         EVAS_BIDI_DIRECTION_NEUTRAL
         EVAS_BIDI_DIRECTION_LTR
         EVAS_BIDI_DIRECTION_RTL
+        EVAS_BIDI_DIRECTION_INHERIT
     ctypedef enum Evas_BiDi_Direction:
         pass
 
@@ -802,6 +803,9 @@ cdef extern from "Evas.h":
     void                 evas_object_key_ungrab(Evas_Object *obj, const char *keyname, Evas_Modifier_Mask modifiers, Evas_Modifier_Mask not_modifiers)
     void         evas_object_is_frame_object_set(Evas_Object *obj, Eina_Bool is_frame)
     Eina_Bool    evas_object_is_frame_object_get(Evas_Object *obj)
+
+    void                 evas_object_paragraph_direction_set(Evas_Object *obj, Evas_BiDi_Direction direction)
+    Evas_BiDi_Direction  evas_object_paragraph_direction_get(Evas_Object *obj)
 
 
     ####################################################################
