@@ -143,7 +143,7 @@ cdef Elm_Object_Item *py_elm_xy_item_get_cb(Evas_Object *obj, Evas_Coord x, Evas
         ObjectItem it
 
     try:
-        ret = o.data["xy_item_get_cb"](o, x, y)
+        ret = o.internal_data["xy_item_get_cb"](o, x, y)
         it, xpos1, ypos1 = ret
     except Exception:
         traceback.print_exc()
@@ -321,7 +321,7 @@ cdef void py_elm_drag_item_container_pos(
         ObjectItem item = _object_item_to_python(it)
 
     try:
-        o.data["drag_item_container_pos"](o, item, x, y, xposret, yposret, action, <object>data if data is not NULL else None)
+        o.internal_data["drag_item_container_pos"](o, item, x, y, xposret, yposret, action, <object>data if data is not NULL else None)
     except Exception:
         traceback.print_exc()
 
@@ -352,7 +352,7 @@ cdef Eina_Bool py_elm_drop_item_container_cb(
 
     evdata.sel_data = ev
 
-    cb = o.data["drop_item_container_cb"]
+    cb = o.internal_data["drop_item_container_cb"]
 
     if data != NULL:
         cbdata = <object>data
@@ -434,7 +434,7 @@ cdef Eina_Bool py_elm_item_container_data_get_cb(
         bint ret
 
     try:
-        func = o.data["item_container_data_get_cb"]
+        func = o.internal_data["item_container_data_get_cb"]
         ret = func(o, item, pyinfo)
     except Exception:
         traceback.print_exc()

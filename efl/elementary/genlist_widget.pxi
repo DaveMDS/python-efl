@@ -723,17 +723,17 @@ cdef class Genlist(Object):
 
         """
         def __set__(self, object key):
-            self.data['__filterkeyref'] = key # keep a reference for key
+            self.internal_data['__filterkeyref'] = key # keep a reference for key
             elm_genlist_filter_set(self.obj, <void *>key if key is not None else NULL)
 
         def __get__(self):
-            return self.data['__filterkeyref']
+            return self.internal_data['__filterkeyref']
 
     def filter_set(self, key):
-        self.data['__filterkeyref'] = key
+        self.internal_data['__filterkeyref'] = key
         elm_genlist_filter_set(self.obj, <void*>key if key is not None else NULL)
     def filter_get(self):
-        return self.data['__filterkeyref']
+        return self.internal_data['__filterkeyref']
 
     #
     # Drag and Drop
@@ -757,9 +757,9 @@ cdef class Genlist(Object):
         if itemgetcb is not None:
             if not callable(itemgetcb):
                 raise TypeError("itemgetcb must be callable.")
-            self.data["xy_item_get_cb"] = itemgetcb
+            self.internal_data["xy_item_get_cb"] = itemgetcb
 
-        self.data["item_container_data_get_cb"] = data_get
+        self.internal_data["item_container_data_get_cb"] = data_get
 
         if not elm_drag_item_container_add(self.obj,
             tm_to_anim,
@@ -808,10 +808,10 @@ cdef class Genlist(Object):
         if itemgetcb is not None:
             if not callable(itemgetcb):
                 raise TypeError("itemgetcb must be callable.")
-            self.data["xy_item_get_cb"] = itemgetcb
+            self.internal_data["xy_item_get_cb"] = itemgetcb
 
-        self.data["drag_item_container_pos"] = poscb
-        self.data["drop_item_container_cb"] = dropcb
+        self.internal_data["drag_item_container_pos"] = poscb
+        self.internal_data["drop_item_container_cb"] = dropcb
 
         if not elm_drop_item_container_add(self.obj,
             format,
