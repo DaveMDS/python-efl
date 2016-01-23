@@ -21,7 +21,7 @@ from libc.string cimport memcpy, strdup
 from libc.stdlib cimport malloc, free
 from libc.stdint cimport uintptr_t
 
-from efl.evas cimport Object as evasObject
+from efl.evas cimport Object as evasObject, Evas_Coord_Rectangle, Rect
 
 from efl.utils.conversions cimport _touni, _ctouni, \
     python_list_strings_to_eina_list, eina_list_strings_to_python_list
@@ -598,6 +598,10 @@ cdef object _cb_string_conv(void *addr):
 
 cdef object _cb_object_item_conv(void *addr):
     return _object_item_to_python(<Elm_Object_Item *>addr)
+
+cdef object _cb_rectangle_conv(void *addr):
+    cdef Evas_Coord_Rectangle *geom = <Evas_Coord_Rectangle *>addr
+    return Rect(geom.x, geom.y, geom.w, geom.h)
 
 
 #include "access.pxi"

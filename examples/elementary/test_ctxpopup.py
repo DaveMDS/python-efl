@@ -47,8 +47,12 @@ def cb_dismissed(cp):
     if "img" in cp.data:
         cp.data["img"].delete()
 
+def cb_geometry_update(cp, geom):
+    print("geometry,update", geom)
+
 def cb_item1(li, item):
     cp = Ctxpopup(li)
+    cp.callback_geometry_update_add(cb_geometry_update)
     it = item_new(cp, "Go to home folder", "home")
     it = item_new(cp, "Save file", "file")
     it = item_new(cp, "Delete file", "delete")

@@ -347,11 +347,21 @@ cdef extern from "Evas.h":
         int x
         int y
 
-    ctypedef struct Evas_Coord_Point: # Evas_Coord is int now
+    ctypedef struct Evas_Coord_Point:
         Evas_Coord x
         Evas_Coord y
 
-    ctypedef struct Evas_Coord_Precision_Point: # Evas_Coord is int now
+    ctypedef struct Evas_Coord_Size:
+        Evas_Coord w
+        Evas_Coord h
+
+    ctypedef struct Evas_Coord_Rectangle:
+        Evas_Coord x
+        Evas_Coord y
+        Evas_Coord w
+        Evas_Coord h
+
+    ctypedef struct Evas_Coord_Precision_Point:
         Evas_Coord x
         Evas_Coord y
         double xsub

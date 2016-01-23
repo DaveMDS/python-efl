@@ -395,5 +395,16 @@ cdef class Ctxpopup(LayoutClass):
     def callback_dismissed_del(self, func):
         self._callback_del("dismissed", func)
 
+    def callback_geometry_update_add(self, func, *args, **kwargs):
+        """the ctxpopup geometry has changed
+
+        .. versionadded:: 1.17
+
+        """
+        self._callback_add_full("geometry,update", _cb_rectangle_conv, func, args, kwargs)
+
+    def callback_geometry_update_del(self, func):
+        self._callback_del_full("geometry,update", _cb_rectangle_conv, func)
+
 
 _object_mapping_register("Elm_Ctxpopup", Ctxpopup)

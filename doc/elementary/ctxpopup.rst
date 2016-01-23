@@ -28,6 +28,8 @@ Emitted signals
   4. the parent object is resized due to the window rotation. Then ctxpopup is
   dismissed.
 
+- ``geometry,update`` - The geometry has changed (since 1.17)
+
 Layout content parts
 ====================
 
