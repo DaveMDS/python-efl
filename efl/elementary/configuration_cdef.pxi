@@ -60,8 +60,13 @@ cdef extern from "Elementary.h":
     const char *            elm_config_profile_dir_get(const char *profile, Eina_Bool is_user)
     void                    elm_config_profile_dir_free(const char *p_dir)
     Eina_List *             elm_config_profile_list_get()
+    Eina_List *             elm_config_profile_list_full_get()
     void                    elm_config_profile_list_free(Eina_List *l)
     void                    elm_config_profile_set(const char *profile)
+    Eina_Bool               elm_config_profile_exists(const char *profile)
+    void                    elm_config_profile_derived_add(const char *profile, const char *derive_options)
+    void                    elm_config_profile_derived_del(const char *profile)
+    void                    elm_config_profile_save(const char *profile)
 
     Eina_Bool               elm_config_scroll_bounce_enabled_get()
     void                    elm_config_scroll_bounce_enabled_set(Eina_Bool enabled)

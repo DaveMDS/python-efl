@@ -92,7 +92,7 @@ cdef class Configuration(object):
     property profile_list:
         """Get Elementary's list of available profiles.
 
-        :type: tuple of strings
+        :type: tuple of strings (**readonly**)
 
         """
         def __get__(self):
@@ -100,6 +100,99 @@ cdef class Configuration(object):
             ret = tuple(eina_list_strings_to_python_list(lst))
             elm_config_profile_list_free(lst)
             return ret
+
+    property profile_list_full:
+        """Get Elementary's list of available profiles, including hidden ones.
+
+        This gets a full list of profiles even with hidden names that should
+        not be user-visible.
+
+        :type: tuple of strings (**readonly**)
+
+        .. versionadded:: 1.17
+
+        """
+        def __get__(self):
+            cdef Eina_List *lst = elm_config_profile_list_full_get()
+            ret = tuple(eina_list_strings_to_python_list(lst))
+            elm_config_profile_list_free(lst)
+            return ret
+
+    def profile_exists(self, profile):
+        """Check if a profile of the given name exists.
+
+        :param str profile: Name of the pofile to search
+        :return: ``True`` if the profile exists, or ``False`` if not
+        :rtype: bool
+
+        .. versionadded:: 1.17
+
+        """
+        if isinstance(profile, unicode): profile = PyUnicode_AsUTF8String(profile)
+        return bool(elm_config_profile_exists(
+                        <const char *>profile if profile is not None else NULL))
+
+    def profile_derived_add(self, profile, derive_options):
+        """Add a new profile of the given name to be derived from the current profile
+
+        This creates a new profile of name ``profile`` that will be derived from
+        the currently used profile using the modification commands encoded in
+        the ``derive_options`` string.
+
+        At this point it is not expected that anyone would generally use this
+        API except if you are a destktop environment and so the user base of
+        this API will be enlightenment itself.
+
+        :param str profile: The new profile's name
+        :param str derive_options: Derive options detailing how to modify
+
+        .. versionadded:: 1.17
+
+        """
+        if isinstance(profile, unicode): profile = PyUnicode_AsUTF8String(profile)
+        if isinstance(derive_options, unicode): derive_options = PyUnicode_AsUTF8String(derive_options)
+    
+        elm_config_profile_derived_add(
+            <const char *>profile if profile is not None else NULL,
+            <const char *>derive_options if derive_options is not None else NULL)
+
+    def profile_derived_del(self, profile):
+        """Deletes a profile that is derived from the current one
+
+        This deletes a derived profile added by :func:`profile_derived_add`.
+        This will delete the profile of the given name ``profile`` that is
+        derived from the current profile.
+
+        At this point it is not expected that anyone would generally use this
+        API except if you are a destktop environment and so the user base of
+        this API will be enlightenment itself.
+
+        :param str profile: The profile's name that is to be deleted
+
+        .. versionadded:: 1.17
+
+        """
+        if isinstance(profile, unicode): profile = PyUnicode_AsUTF8String(profile)
+    
+        elm_config_profile_derived_del(
+            <const char *>profile if profile is not None else NULL)
+
+    def profile_save(self, profile):
+        """Take the current config and write it out to the named profile.
+
+        This will take the current in-memory config and write it out to the
+        named profile specified by ``profile``. This will not change profile
+        for the application or make other processes switch profile.
+
+        :param str profile: The profile's name
+
+        .. versionadded:: 1.17
+
+        """
+        if isinstance(profile, unicode): profile = PyUnicode_AsUTF8String(profile)
+    
+        elm_config_profile_save(
+            <const char *>profile if profile is not None else NULL)
 
     property scroll_bounce_enabled:
         """Whether scrollers should bounce when they reach their
@@ -189,7 +282,6 @@ cdef class Configuration(object):
             return elm_config_scroll_thumbscroll_threshold_get()
         def __set__(self, int threshold):
             elm_config_scroll_thumbscroll_threshold_set(threshold)
-
 
     property scroll_thumbscroll_hold_threshold:
         """The number of pixels the range which can be scrolled,
@@ -309,7 +401,6 @@ cdef class Configuration(object):
         def __set__(self, double friction):
             elm_config_scroll_thumbscroll_sensitivity_friction_set(friction)
 
-
     property scroll_thumbscroll_acceleration_threshold:
         """The minimum speed of mouse cursor movement which will accelerate
         scrolling velocity after a mouse up event (pixels/second).
@@ -425,7 +516,6 @@ cdef class Configuration(object):
             elm_config_softcursor_mode_set(mode)
         def __get__(self):
             return elm_config_softcursor_mode_get()
-
 
     property transition_duration_factor:
         """The transitions duration factor.
@@ -907,7 +997,6 @@ cdef class Configuration(object):
             return elm_config_cache_image_cache_size_get()
         def __set__(self, int size):
             elm_config_cache_image_cache_size_set(size)
-
 
     property cache_edje_file_cache_size:
         """The globally configured edje file cache size, in number of files.
