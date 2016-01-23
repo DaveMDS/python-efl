@@ -174,6 +174,7 @@ items = [
         ("Genlist 2", "test_genlist_2", "test_genlist_2"),
         ("Genlist Tree", "test_genlist_tree", "test_genlist_tree"),
         ("Genlist Group", "test_genlist_group", "test_genlist_group"),
+        ("Genlist Filter", "test_genlist_filter", "test_genlist_filter"),
         ("Genlist Sorted", "test_genlist_sorted", "test_genlist_sorted"),
         ("Genlist Iteration", "test_genlist_iteration", "test_genlist_iteration"),
         ("Genlist Decorate Item Mode", "test_genlist_decorate", "test_genlist_decorate"),
@@ -217,6 +218,7 @@ items = [
     ("Selectors", [
         ("Action Slider", "test_actionslider", "actionslider_clicked"),
         ("Color Selector", "test_colorselector", "colorselector_clicked"),
+        ("Combobox", "test_combobox", "combobox_clicked"),
         ("Day Selector", "test_dayselector", "dayselector_clicked"),
         ("Disk Selector", "test_diskselector", "diskselector_clicked"),
         ("File Selector", "test_fileselector", "fileselector_clicked"),

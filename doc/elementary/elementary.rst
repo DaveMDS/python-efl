@@ -402,6 +402,7 @@ Inheritance diagram
     efl.elementary.Check
     efl.elementary.Clock
     efl.elementary.Colorselector
+    efl.elementary.Combobox
     efl.elementary.Configuration
     efl.elementary.Conformant
     efl.elementary.Ctxpopup
