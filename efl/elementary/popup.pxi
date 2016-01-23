@@ -211,6 +211,25 @@ cdef class Popup(LayoutClass):
         def __get__(self):
             return bool(elm_popup_allow_events_get(self.obj))
 
+    def dismiss(self):
+        """Dismiss a popup object.
+
+        .. versionadded:: 1.17
+
+        """
+        elm_popup_dismiss(self.obj)
+
+    def callback_dismissed_add(self, func, *args, **kwargs):
+        """When popup is closed as a result of a dismiss.
+
+        .. versionadded:: 1.17
+
+        """
+        self._callback_add("dismissed", func, args, kwargs)
+
+    def callback_dismissed_del(self, func):
+        self._callback_del("dismissed", func)
+
     def callback_timeout_add(self, func, *args, **kwargs):
         """When popup is closed as a result of timeout."""
         self._callback_add("timeout", func, args, kwargs)

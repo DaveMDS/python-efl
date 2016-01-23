@@ -168,8 +168,27 @@ def cb_popup_center_text_1button_hide_show(li, item, win):
     g_popup.show()
 
 
+def _popup_dismissed_cb(popup):
+    print("dismissed", popup)
+    popup.delete()
+
+def cb_popup_center_title_1button_hide_effect(li, item, win):
+    popup = Popup(win, text="This Popup has title area, content area and " \
+                  "action area set, action area has one button Close",
+                  size_hint_expand=EXPAND_BOTH)
+    popup.part_text_set("title", "Title")
+    popup.callback_dismissed_add(_popup_dismissed_cb)
+
+    btn = Button(popup, text="Close")
+    btn.callback_clicked_add(lambda b: popup.dismiss())
+    popup.part_content_set("button1", btn)
+
+    popup.show()
+    
+
+
 def popup_clicked(obj):
-    win = StandardWindow("popup", "Popup test", autodel=True, size=(480, 800))
+    win = StandardWindow("popup", "Popup test", autodel=True, size=(400, 400))
     if obj is None:
         win.callback_delete_request_add(lambda o: elementary.exit())
 
@@ -196,6 +215,8 @@ def popup_clicked(obj):
                    cb_popup_center_title_text_2button_restack, win)
     li.item_append("popup-center-text + 1 button (check hide, show)", None, None,
                    cb_popup_center_text_1button_hide_show, win)
+    li.item_append("popup-center-title + text + 1 button + hide effect", None, None,
+                   cb_popup_center_title_1button_hide_effect, win)
 
     li.go()
 

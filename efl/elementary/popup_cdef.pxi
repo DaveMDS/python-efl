@@ -33,3 +33,4 @@ cdef extern from "Elementary.h":
     double                   elm_popup_timeout_get(const Evas_Object *obj)
     void                     elm_popup_allow_events_set(Evas_Object *obj, Eina_Bool allow)
     Eina_Bool                elm_popup_allow_events_get(const Evas_Object *obj)
+    void                     elm_popup_dismiss(const Evas_Object *obj)

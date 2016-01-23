@@ -71,6 +71,7 @@ Emitted signals
 - ``block,clicked`` - when ever user taps on Blocked Event area.
 - ``item,focused`` - the popup item has received focus. (since 1.10)
 - ``item,unfocused`` - the popup item has lost focus. (since 1.10)
+- ``dismissed`` - the popup has been dismissed. (since 1.17)
 
 
 Layout content parts
