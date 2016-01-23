@@ -33,7 +33,7 @@ orients = [
     ("Flip Tranverse", EVAS_IMAGE_FLIP_TRANSVERSE),
 ]
 
-remote_url = "http://31.media.tumblr.com/29f1ecd4f98aaff73fb21f479b450d4c/tumblr_mqsxdciQmB1rrju89o1_1280.jpg"
+remote_url = "http://41.media.tumblr.com/29f1ecd4f98aaff73fb21f479b450d4c/tumblr_mqsxdciQmB1rrju89o1_1280.jpg"
 
 
 def _cb_im_download_start(im, pb):
