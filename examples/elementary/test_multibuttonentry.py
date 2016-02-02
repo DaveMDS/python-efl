@@ -1,16 +1,13 @@
 #!/usr/bin/env python
 # encoding: utf-8
 
-from efl.evas import EVAS_HINT_EXPAND, EVAS_HINT_FILL, \
-    EXPAND_BOTH, FILL_BOTH, EXPAND_HORIZ, FILL_HORIZ
+from efl.evas import EXPAND_BOTH, FILL_BOTH, EXPAND_HORIZ, FILL_HORIZ
 from efl import elementary
-from efl.elementary.window import StandardWindow
-from efl.elementary.box import Box
-from efl.elementary.button import Button
-from efl.elementary.entry import Entry
-from efl.elementary.multibuttonentry import MultiButtonEntry
-from efl.elementary.scroller import Scroller, ELM_SCROLLER_POLICY_OFF, \
-    ELM_SCROLLER_POLICY_AUTO
+from efl.elementary import StandardWindow
+from efl.elementary import Box
+from efl.elementary import Button
+from efl.elementary import MultiButtonEntry, MultiButtonEntryFilterOut
+from efl.elementary import Scroller, ELM_SCROLLER_POLICY_OFF, ELM_SCROLLER_POLICY_AUTO
 
 SCROLL_POLICY_VERT = ELM_SCROLLER_POLICY_OFF, ELM_SCROLLER_POLICY_AUTO
 
@@ -30,27 +27,27 @@ def cb_btn_item_prepend(btn, mbe):
     global counter
 
     counter += 1
-    item = mbe.item_prepend("item #%d" % (counter), cb_item_selected)
+    mbe.item_prepend("item #%d" % (counter), cb_item_selected)
 
 def cb_btn_item_append(btn, mbe):
     global counter
 
     counter += 1
-    item = mbe.item_append("item #%d" % (counter), cb_item_selected)
+    mbe.item_append("item #%d" % (counter), cb_item_selected)
 
 def cb_btn_item_insert_after(btn, mbe):
     global counter
 
     counter += 1
     after = mbe.selected_item
-    item = mbe.item_insert_after(after, "item #%d" % (counter), cb_item_selected)
+    mbe.item_insert_after(after, "item #%d" % (counter), cb_item_selected)
 
 def cb_btn_item_insert_before(btn, mbe):
     global counter
 
     counter += 1
     before = mbe.selected_item
-    item = mbe.item_insert_before(before, "item #%d" % (counter), cb_item_selected)
+    mbe.item_insert_before(before, "item #%d" % (counter), cb_item_selected)
 
 def cb_btn_clear2(btn, mbe):
     for item in mbe.items:
@@ -58,7 +55,13 @@ def cb_btn_clear2(btn, mbe):
 
 def cb_filter1(mbe, text):
     print(text)
-    return True
+
+def cb_filter2(mbe, text):
+    return text[:-2]
+
+def cb_filter3(mbe, text):
+    print(text)
+    #raise MultiButtonEntryFilterOut
 
 def cb_print(btn, mbe):
     for i in mbe.items:
@@ -85,6 +88,8 @@ def multibuttonentry_clicked(obj, item=None):
     mbe.callback_item_longpressed_add(cb_item_longpressed)
     mbe.part_text_set("guide", "Tap to add recipient")
     mbe.filter_append(cb_filter1)
+    mbe.filter_append(cb_filter2)
+    mbe.filter_append(cb_filter3)
     mbe.show()
 
     sc = Scroller(win, bounce=(False, True), policy=SCROLL_POLICY_VERT,
@@ -181,7 +186,18 @@ def multibuttonentry_clicked(obj, item=None):
 
 if __name__ == "__main__":
 
+    import logging
+    elog = logging.getLogger("efl")
+    elog.setLevel(logging.INFO)
+
+    elog_form = logging.Formatter(
+        "[%(name)s] %(levelname)s in %(funcName)s:%(lineno)d - %(message)s"
+        )
+    elog_hdlr = logging.StreamHandler()
+    elog_hdlr.setFormatter(elog_form)
+
+    elog.addHandler(elog_hdlr)
+
     multibuttonentry_clicked(None)
 
     elementary.run()
-

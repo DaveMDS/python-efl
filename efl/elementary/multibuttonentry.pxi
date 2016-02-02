@@ -18,24 +18,51 @@
 
 include "multibuttonentry_cdef.pxi"
 
+class MultiButtonEntryFilterOut(Exception):
+    """An exception you may raise in an item filter callback if you wish to prevent addition of the item"""
+    pass
+
 cdef Eina_Bool _multibuttonentry_filter_callback(Evas_Object *obj, \
-    const char *item_label, void *item_data, void *data) with gil:
+    char *item_label, void *item_data, void *data) with gil:
 
     cdef:
         MultiButtonEntry mbe = object_from_instance(obj)
-        bint ret
+        object ret
+        list callbacks = mbe._item_filters
 
-    (callback, a, ka) = <object>data
+    for func, args, kargs in callbacks:
+        try:
+            # raise MultiButtonEntryFilterOut -> cancels item add
+            # ret is None -> no change, continue to next filter
+            # ret is not None -> change label to value of ret, continue to next filter
+            ret = func(mbe, _ctouni(item_label), *args, **kargs)
+        except MultiButtonEntryFilterOut:
+            #free(item_label) # FIXME: This will result in a double free, find out if it's bad elm documentation
+                              #        or wrong ref handling on our side.
 
-    try:
-        ret = callback(mbe, _ctouni(item_label), *a, **ka)
-    except Exception:
-        traceback.print_exc()
+            #item_label = NULL
+            return 0
+        except Exception:
+            traceback.print_exc()
+            continue
 
-    return ret
+        if ret:
+            if not isinstance(ret, basestring):
+                EINA_LOG_DOM_WARN(PY_EFL_ELM_LOG_DOMAIN,
+                    "Ignoring invalid return value from MultiButtonEntry item filter callback!", NULL)
+                continue
+            if isinstance(ret, unicode): ret = PyUnicode_AsUTF8String(ret)
+            #free(item_label) # FIXME: This will result in a double free, find out if it's bad elm documentation
+                              #        or wrong ref handling on our side.
+
+            item_label = strdup(ret) # Elm will manage the string
+                                     # FIXME: This doesn't apply, why?
+
+    return 1
 
 cdef char * _multibuttonentry_format_cb(int count, void *data) with gil:
-    (callback, a, ka) = <object>data
+    cdef MultiButtonEntry obj = <MultiButtonEntry>data
+    (callback, a, ka) = obj.internal_data["multibuttonentry_format_cb"]
 
     try:
         s = callback(count, *a, **ka)
@@ -44,8 +71,7 @@ cdef char * _multibuttonentry_format_cb(int count, void *data) with gil:
         traceback.print_exc()
         return NULL
 
-    # FIXME: leak here
-    return strdup(<char *>s)
+    return strdup(s) # Elm will manage the string
 
 
 cdef class MultiButtonEntryItem(ObjectItem):
@@ -198,6 +224,8 @@ cdef class MultiButtonEntry(Object):
 
     """
 
+    cdef list _item_filters
+
     def __init__(self, evasObject parent, *args, **kwargs):
         """MultiButtonEntry(...)
 
@@ -213,6 +241,7 @@ cdef class MultiButtonEntry(Object):
             _py_elm_mbe_item_added_cb, NULL
             )
         self._set_properties_from_keyword_args(kwargs)
+        self._item_filters = list()
 
     property entry:
         """The Entry object child of the multibuttonentry.
@@ -227,7 +256,10 @@ cdef class MultiButtonEntry(Object):
         return object_from_instance(elm_multibuttonentry_entry_get(self.obj))
 
     property expanded:
-        """The expanded state of the multibuttonentry.
+        """Control the multibuttonentry to expanded state.
+
+        In expanded state, the complete entry will be displayed.
+        Otherwise, only single line of the entry will be displayed.
 
         :type: bool
 
@@ -342,6 +374,11 @@ cdef class MultiButtonEntry(Object):
             return None
 
     property items:
+        """List of items in the multibuttonentry
+
+        :type: list
+
+        """
         def __get__(self):
             return _object_item_list_to_python(elm_multibuttonentry_items_get(self.obj))
 
@@ -349,6 +386,11 @@ cdef class MultiButtonEntry(Object):
         return _object_item_list_to_python(elm_multibuttonentry_items_get(self.obj))
 
     property first_item:
+        """The first item in the multibuttonentry
+
+        :type: :class:`MultiButtonEntryItem`
+
+        """
         def __get__(self):
             return _object_item_to_python(elm_multibuttonentry_first_item_get(self.obj))
 
@@ -356,6 +398,11 @@ cdef class MultiButtonEntry(Object):
         return _object_item_to_python(elm_multibuttonentry_first_item_get(self.obj))
 
     property last_item:
+        """The last item in the multibuttonentry
+
+        :type: :class:`MultiButtonEntryItem`
+
+        """
         def __get__(self):
             return _object_item_to_python(elm_multibuttonentry_last_item_get(self.obj))
 
@@ -363,6 +410,11 @@ cdef class MultiButtonEntry(Object):
         return _object_item_to_python(elm_multibuttonentry_last_item_get(self.obj))
 
     property selected_item:
+        """The selected item in the multibuttonentry
+
+        :type: :class:`MultiButtonEntryItem`
+
+        """
         def __get__(self):
             return _object_item_to_python(elm_multibuttonentry_selected_item_get(self.obj))
 
@@ -370,29 +422,66 @@ cdef class MultiButtonEntry(Object):
         return _object_item_to_python(elm_multibuttonentry_selected_item_get(self.obj))
 
     def clear(self):
+        """Remove all items in the multibuttonentry"""
         elm_multibuttonentry_clear(self.obj)
 
     def filter_append(self, func, *args, **kwargs):
+        """Append an item filter function for text inserted in the Multibuttonentry
+
+        Append the given callback to the list. This function will be called
+        whenever any text is inserted into the Multibuttonentry, with the text to be inserted
+        as a parameter. The callback function is free to alter the text in any way
+        it wants with the modified text passed back as return value.
+        If the new text is to be left intact, the function can return ``None``.
+        If the new text is to be discarded, the function must raise
+        :class:`MultiButtonEntryFilterOut`.
+        This will also prevent any following filters from being called.
+
+        Callback signature::
+
+            func(obj, text, *args, **kwargs) -> modified text or None
+
+        """
+        if not self._item_filters:
+            elm_multibuttonentry_item_filter_append(
+                self.obj,
+                _multibuttonentry_filter_callback,
+                NULL)
+
         cbdata = (func, args, kwargs)
-
-        elm_multibuttonentry_item_filter_append(self.obj,
-            _multibuttonentry_filter_callback, <void *>cbdata)
-
-        # FIXME: leak here
-        Py_INCREF(cbdata)
+        self._item_filters.append(cbdata)
 
     def filter_prepend(self, func, *args, **kwargs):
+        """Prepend a filter function for text inserted in the Multibuttonentry
+
+        Prepend the given callback to the list. See :meth:`filter_append`
+        for more information
+
+        """
+        if not self._item_filters:
+            elm_multibuttonentry_item_filter_append(
+                self.obj,
+                _multibuttonentry_filter_callback,
+                NULL)
+
         cbdata = (func, args, kwargs)
+        self._item_filters[0] = cbdata
 
-        elm_multibuttonentry_item_filter_prepend(self.obj,
-            _multibuttonentry_filter_callback, <void *>cbdata)
+    def filter_remove(self, func, *args, **kwargs):
+        """Remove a filter from the list
 
-        # FIXME: leak here
-        Py_INCREF(cbdata)
+        Removes the given callback from the filter list. See :meth:`filter_append`
+        for more information.
 
-    #TODO
-    #def filter_remove(self, func, *args, **kwargs):
-        #pass
+        """
+        cbdata = (func, args, kwargs)
+        self._item_filters.remove(cbdata)
+
+        if not self._item_filters:
+            elm_multibuttonentry_item_filter_remove(
+                self.obj,
+                _multibuttonentry_filter_callback,
+                NULL)
 
     property editable:
         """Whether the multibuttonentry is to be editable or not.
@@ -428,15 +517,16 @@ cdef class MultiButtonEntry(Object):
 
         """
         if func is None:
+            self.internal_data["multibuttonentry_format_cb"] = None
             elm_multibuttonentry_format_function_set(self.obj, NULL, NULL)
             return
 
         cbdata = (func, args, kwargs)
+        self.internal_data["multibuttonentry_format_cb"] = cbdata
+
         elm_multibuttonentry_format_function_set(self.obj,
                                                 _multibuttonentry_format_cb,
-                                                <void *>cbdata)
-        # FIXME: leak here
-        Py_INCREF(cbdata)
+                                                <void *>self)
 
     def callback_item_selected_add(self, func, *args, **kwargs):
         self._callback_add_full("item,selected", _cb_object_item_conv, func, args, kwargs)

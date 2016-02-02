@@ -1,6 +1,6 @@
 cdef extern from "Elementary.h":
 
-    ctypedef Eina_Bool (*Elm_Multibuttonentry_Item_Filter_Cb)(Evas_Object *obj, const char *item_label, void *item_data, void *data)
+    ctypedef Eina_Bool (*Elm_Multibuttonentry_Item_Filter_Cb)(Evas_Object *obj, char *item_label, void *item_data, void *data)
     ctypedef char * (*Elm_Multibuttonentry_Format_Cb)(int count, void *data)
 
     Evas_Object             *elm_multibuttonentry_add(Evas_Object *parent)
@@ -22,7 +22,7 @@ cdef extern from "Elementary.h":
     Elm_Object_Item         *elm_multibuttonentry_item_next_get(const Elm_Object_Item *it)
     void                     elm_multibuttonentry_item_filter_append(Evas_Object *obj, Elm_Multibuttonentry_Item_Filter_Cb func, void *data)
     void                     elm_multibuttonentry_item_filter_prepend(Evas_Object *obj, Elm_Multibuttonentry_Item_Filter_Cb func, void *data)
-    # TODO: void                     elm_multibuttonentry_item_filter_remove(Evas_Object *obj, Elm_Multibuttonentry_Item_Filter_Cb func, void *data)
+    void                     elm_multibuttonentry_item_filter_remove(Evas_Object *obj, Elm_Multibuttonentry_Item_Filter_Cb func, void *data)
     void                    elm_multibuttonentry_editable_set(Evas_Object *obj, Eina_Bool editable)
     Eina_Bool               elm_multibuttonentry_editable_get(const Evas_Object *obj)
     void                    elm_multibuttonentry_format_function_set(Evas_Object *obj, Elm_Multibuttonentry_Format_Cb f_func, const void *data)
