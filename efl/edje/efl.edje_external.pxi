@@ -78,10 +78,8 @@ cdef ExternalParam ExternalParam_from_ptr(Edje_External_Param *param):
     p.obj = param
     return p
 
-# XXX: this should be C-only, but it would require edje_edit
-# XXX: being able to use it.
-def _ExternalParam_from_ptr(uintptr_t ptr):
-    return ExternalParam_from_ptr(<Edje_External_Param *>ptr)
+#def _ExternalParam_from_ptr(uintptr_t ptr):
+#    return ExternalParam_from_ptr(<Edje_External_Param *>ptr)
 
 
 cdef class ExternalParamInfo:

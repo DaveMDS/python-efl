@@ -26,7 +26,7 @@ cdef extern from "Edje.h":
     cdef int EDJE_EXTERNAL_INT_UNSET
     cdef double EDJE_EXTERNAL_DOUBLE_UNSET
     cdef unsigned int EDJE_EXTERNAL_TYPE_ABI_VERSION
-    
+
     ####################################################################
     # Enums
     #
@@ -567,3 +567,6 @@ cdef class Edje(Object):
     cdef void message_send_int_set(self, int id, data)
     cdef void message_send_float_set(self, int id, data)
     cdef message_send_set(self, int id, data)
+
+
+cdef ExternalParam ExternalParam_from_ptr(Edje_External_Param *param)

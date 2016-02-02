@@ -23,7 +23,7 @@ from efl.utils.conversions cimport _touni, _ctouni, \
     eina_list_strings_to_python_list
 from efl.eo cimport _register_decorated_callbacks
 from efl.evas cimport Canvas
-from efl.edje cimport Edje_Part_Type, Edje
+from efl.edje cimport Edje_Part_Type, Edje, ExternalParam_from_ptr
 from efl.edje import EDJE_PART_TYPE_EXTERNAL
 
 
