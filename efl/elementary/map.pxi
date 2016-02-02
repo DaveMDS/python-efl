@@ -164,7 +164,6 @@ cdef class MapName(object):
             <const char *>address if address is not None else NULL,
             lon, lat, _map_name_callback, <void *>data)
         Py_INCREF(data)
-        # XXX: why incref self in __init__?
         Py_INCREF(self)
 
     def delete(self):

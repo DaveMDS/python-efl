@@ -38,7 +38,6 @@ cdef void _tooltip_data_del_cb(void *data, Evas_Object *o, void *event_info) wit
 cdef bint _event_dispatcher(Object obj, Object src, Evas_Callback_Type t,
     event_info):
     cdef bint ret
-    # XXX: This is expensive code
     for func, args, kargs in obj._elm_event_cbs:
         try:
             ret = func(obj, src, t, event_info, *args, **kargs)
@@ -478,7 +477,7 @@ cdef class Object(SmartObject):
             signal_callback)
 
     #
-    # FIXME: Review this
+    # TODO: Review this
     #
     # NOTE: name clash with evas event_callback_*
     def elm_event_callback_add(self, func, *args, **kargs):
@@ -1871,5 +1870,5 @@ cdef class Object(SmartObject):
     #     """
     #     elm_access_highlight_set(self.obj)
 
-# TODO: Check if this is used correctly here
+# FIXME: Check if this is used correctly here
 _object_mapping_register("Elm_Widget", Object)

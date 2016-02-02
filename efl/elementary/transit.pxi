@@ -141,16 +141,17 @@ cdef class Transit(object):
         """
         elm_transit_del(self.obj)
 
-    # TODO: Fix the documentation
     def effect_add(self, TransitCustomEffect effect):
         """Add a new effect to the transit.
 
         Example::
 
+            class MyEffect(TransitCustomEffect):
+                # define your methods...
+
             t = Transit()
-            t.effect_add(   elm_transit_effect_blend_op,
-                            elm_transit_effect_blend_context_new(),
-                            elm_transit_effect_blend_context_free)
+            e = MyEffect()
+            t.effect_add(e)
 
         .. warning:: The transit will free the context data at the and of the
             transition with the data_free_cb function. Do not share the
@@ -160,7 +161,7 @@ cdef class Transit(object):
             you try to add an existing effect, nothing is done.
         .. note:: After the first addition of an effect to ``transit``, if its
             effect list become empty again, the ``transit`` will be killed by
-            elm_transit_del(transit) function.
+            :meth:`delete` function.
 
         :param effect: The context data of the effect.
 

@@ -1384,7 +1384,7 @@ cdef class FilledImage(Image):
         raise NotImplementedError("FilledImage doesn't support fill_set()")
 
 
-#TODO: Check if this is right
+#FIXME: Check if this is right
 _object_mapping_register("Evas_FilledImage", FilledImage)
 
 def extension_can_load(filename):

@@ -50,7 +50,7 @@ cdef class Program(object):
     def run(self):
         return bool(edje_edit_program_run(self.edje.obj, self.name))
 
-    # XXX TODO: add (or better convert) all this to properties
+    # TODO: add (or better convert) all this to properties
     #       like is done in Part()
     def source_get(self):
         cdef const char *s

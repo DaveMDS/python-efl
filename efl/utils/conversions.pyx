@@ -72,7 +72,7 @@ cdef const char ** python_list_strings_to_array_of_strings(list strings) except 
         unsigned int str_len, i
         unsigned int arr_len = len(strings)
 
-    # TODO: Should we just return NULL in this case?
+    # FIXME: Should we just return NULL in this case?
     if arr_len == 0:
         array = <const char **>malloc(sizeof(const char*))
         if not array:

@@ -256,7 +256,6 @@ cdef class Genlist(Object):
                             ObjectItem parent_item=None,
                             int flags=ELM_GENLIST_ITEM_NONE,
                             func=None
-                            #API XXX: *args, **kwargs
                             ):
         """This inserts a new item in the genlist based on a user defined
         comparison function.
@@ -356,8 +355,8 @@ cdef class Genlist(Object):
         """
         def __get__(self):
             return _object_item_list_to_python(elm_genlist_realized_items_get(self.obj))
-            # XXX: Free the list? We could return a custom list-like object here
-            #      that frees the C list in its __dealloc__
+            # FIXME: Free the list! We could return a custom list-like object here
+            #        that frees the C list in its __dealloc__
 
     def realized_items_get(self):
         return _object_item_list_to_python(elm_genlist_realized_items_get(self.obj))

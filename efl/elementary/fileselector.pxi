@@ -351,8 +351,8 @@ cdef class Fileselector(LayoutClass):
 
         """
         cb_data = (func, data)
-        # TODO: This is now a ref leak. It should be stored somewhere and
-        #       deleted in the remove method.
+        # FIXME: This is now a ref leak. It should be stored somewhere and
+        #        deleted in the remove method.
         Py_INCREF(cb_data)
 
         if isinstance(filter_name, unicode): filter_name = PyUnicode_AsUTF8String(filter_name)
@@ -443,7 +443,7 @@ cdef class Fileselector(LayoutClass):
         self._callback_del_full("selected", _cb_string_conv, func)
 
     #
-    # FIXME: This seems to be a thing that the application should handle
+    # TODO: This seems to be a thing that the application should handle
     #
     #def callback_selected_invalid_add(self, func, *args, **kwargs):
         #"""The user has tried to access a path which does not exist."""

@@ -866,7 +866,7 @@ cdef extern from "Evas.h":
     Evas_Object        *evas_object_image_add(Evas *e)
     # TODO: Use this?: Evas_Object         *evas_object_image_filled_add(Evas *e)
     # TODO: void                evas_object_image_memfile_set(Evas_Object *obj, void *data, int size, char *format, char *key)
-    # FIXME: Is this needed?: const Eo_Class *evas_object_image_class_get()
+    # TODO: Is this needed?: const Eo_Class *evas_object_image_class_get()
     void                evas_object_image_file_set(Evas_Object *obj, const char *file, const char *key)
     void                evas_object_image_file_get(const Evas_Object *obj, const char **file, const char **key)
     void                evas_object_image_border_set(Evas_Object *obj, int l, int r, int t, int b)
@@ -1051,7 +1051,7 @@ cdef extern from "Evas.h":
     #
     Evas_Object *evas_object_box_add(Evas *e)
     Evas_Object *evas_object_box_add_to(Evas_Object *parent)
-    # FIXME: Is this needed?: const Eo_Class *evas_object_box_class_get()
+    # TODO: Is this needed?: const Eo_Class *evas_object_box_class_get()
 
     void evas_object_box_align_set(Evas_Object  *o, double horizontal, double vertical)
     void evas_object_box_align_get(const Evas_Object *o, double *horizontal, double *vertical)
@@ -1174,8 +1174,8 @@ cdef extern from "Evas.h":
     Eina_Bool                          evas_object_table_unpack(Evas_Object *o, Evas_Object *child)
     void                               evas_object_table_clear(Evas_Object *o, Eina_Bool clear)
     void                               evas_object_table_col_row_size_get(const Evas_Object *o, int *cols, int *rows)
-    # FIXME: Not needed?: Eina_Iterator                     *evas_object_table_iterator_new(const Evas_Object *o)
-    # FIXME: Not needed?: Eina_Accessor                     *evas_object_table_accessor_new(const Evas_Object *o)
+    # TODO: Not needed?: Eina_Iterator                     *evas_object_table_iterator_new(const Evas_Object *o)
+    # TODO: Not needed?: Eina_Accessor                     *evas_object_table_accessor_new(const Evas_Object *o)
     Eina_List                         *evas_object_table_children_get(const Evas_Object *o)
     Evas_Object                       *evas_object_table_child_get(const Evas_Object *o, unsigned short col, unsigned short row)
 
@@ -1192,8 +1192,8 @@ cdef extern from "Evas.h":
     Eina_Bool      evas_object_grid_unpack(Evas_Object *o, Evas_Object *child)
     void           evas_object_grid_clear(Evas_Object *o, Eina_Bool clear)
     Eina_Bool      evas_object_grid_pack_get(const Evas_Object *o, Evas_Object *child, int *x, int *y, int *w, int *h)
-    # FIXME: Is this needed? Eina_Iterator *evas_object_grid_iterator_new(const Evas_Object *o)
-    # FIXME: Is this needed? Eina_Accessor *evas_object_grid_accessor_new(const Evas_Object *o)
+    # TODO: Is this needed? Eina_Iterator *evas_object_grid_iterator_new(const Evas_Object *o)
+    # TODO: Is this needed? Eina_Accessor *evas_object_grid_accessor_new(const Evas_Object *o)
     Eina_List     *evas_object_grid_children_get(const Evas_Object *o)
 
 

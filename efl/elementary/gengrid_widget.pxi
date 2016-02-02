@@ -210,7 +210,7 @@ cdef class Gengrid(Object):
         return GengridItem(item_class, item_data, func, item_data)\
                           .insert_before(after_item)
 
-    # XXX TODO elm_gengrid_item_sorted_insert()
+    # TODO: elm_gengrid_item_sorted_insert()
 
     property selected_item:
         """This returns the selected item. If multi selection is enabled

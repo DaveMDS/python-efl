@@ -298,9 +298,9 @@ cdef class GengridItem(ObjectItem):
         elm_gengrid_item_pos_get(self.item, &x, &y)
         return (x, y)
 
-    # XXX TODO elm_gengrid_item_item_class_update
+    # TODO: elm_gengrid_item_item_class_update
 
-    # XXX TODO elm_gengrid_item_item_class_get
+    # TODO: elm_gengrid_item_item_class_get
 
     property select_mode:
         """Item's select mode. Possible values are:

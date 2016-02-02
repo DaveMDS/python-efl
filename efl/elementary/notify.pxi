@@ -17,7 +17,7 @@
 
 include "notify_cdef.pxi"
 
-# FIXME: cdef extern this
+# TODO: move this to cdefs
 ELM_NOTIFY_ALIGN_FILL = -1.0
 
 cdef class Notify(Object):

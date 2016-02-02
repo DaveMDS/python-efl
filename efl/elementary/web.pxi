@@ -928,7 +928,7 @@ cdef class Web(Object):
     #     """Queries if the menubar is visible. Event info
     #     is a bool where the callback should set True if
     #     the menubar is visible, or False in case it's not."""
-    #     # XXX: the cb for this should use the return value, not the bool passed.
+    #     # FIXME: the cb for this should use the return value, not the bool passed.
     #     self._callback_add_full("menubar,visible,get", _cb_bool_conv, func,
     #         *args, **kwargs)
 

@@ -175,7 +175,7 @@ cdef void _register_decorated_callbacks(Eo obj):
     cdef object attr_name, attrib, func_name, func
     cdef type cls = type(obj)
 
-    # XXX: This whole thing is really slow. Can we do it better?
+    # FIXME: This whole thing is really slow. Can we do it better?
 
     for attr_name, attrib in cls.__dict__.items():
         if "__decorated_callbacks__" in dir(attrib):

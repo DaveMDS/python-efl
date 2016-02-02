@@ -44,7 +44,7 @@ cdef char * _multibuttonentry_format_cb(int count, void *data) with gil:
         traceback.print_exc()
         return NULL
 
-    # TODO leak here
+    # FIXME: leak here
     return strdup(<char *>s)
 
 
@@ -378,6 +378,7 @@ cdef class MultiButtonEntry(Object):
         elm_multibuttonentry_item_filter_append(self.obj,
             _multibuttonentry_filter_callback, <void *>cbdata)
 
+        # FIXME: leak here
         Py_INCREF(cbdata)
 
     def filter_prepend(self, func, *args, **kwargs):
@@ -386,6 +387,7 @@ cdef class MultiButtonEntry(Object):
         elm_multibuttonentry_item_filter_prepend(self.obj,
             _multibuttonentry_filter_callback, <void *>cbdata)
 
+        # FIXME: leak here
         Py_INCREF(cbdata)
 
     #TODO
@@ -433,7 +435,7 @@ cdef class MultiButtonEntry(Object):
         elm_multibuttonentry_format_function_set(self.obj,
                                                 _multibuttonentry_format_cb,
                                                 <void *>cbdata)
-        # TODO leak here
+        # FIXME: leak here
         Py_INCREF(cbdata)
 
     def callback_item_selected_add(self, func, *args, **kwargs):
