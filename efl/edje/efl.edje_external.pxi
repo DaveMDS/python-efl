@@ -78,9 +78,6 @@ cdef ExternalParam ExternalParam_from_ptr(Edje_External_Param *param):
     p.obj = param
     return p
 
-#def _ExternalParam_from_ptr(uintptr_t ptr):
-#    return ExternalParam_from_ptr(<Edje_External_Param *>ptr)
-
 
 cdef class ExternalParamInfo:
     property name:

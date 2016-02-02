@@ -100,27 +100,6 @@ cdef class Label(LayoutClass):
     def ellipsis_get(self):
         return elm_label_ellipsis_get(self.obj)
 
-# FIXME: Why was this commented out???
-#     property slide:
-#         """
-#
-#         .. deprecated:: 1.8
-#             Use :py:attr:`slide_mode` instead.
-#
-#         """
-#         def __get__(self):
-#             return self.slide_get()
-#
-#         def __set__(self, slide):
-#             self.slide_set(True if slide else False)
-#
-#     @DEPRECATED("1.8", "Use :py:attr:`slide_mode` instead.")
-#     def slide_set(self, bint slide):
-#         elm_label_slide_mode_set(self.obj, 2 if slide else 0)
-#     @DEPRECATED("1.8", "Use :py:attr:`slide_mode` instead.")
-#     def slide_get(self):
-#         return bool(elm_label_slide_mode_get(self.obj))
-
     property slide_duration:
         """The duration time in moving text from slide begin position to
         slide end position
