@@ -34,6 +34,8 @@ cdef class Fileselector(LayoutClass):
 
     """
 
+    cdef list _custom_filters
+
     def __init__(self, evasObject parent, *args, **kwargs):
         """Fileselector(...)
 
@@ -45,6 +47,7 @@ cdef class Fileselector(LayoutClass):
         """
         self._set_obj(elm_fileselector_add(parent.obj))
         self._set_properties_from_keyword_args(kwargs)
+        self._custom_filters = list()
 
     property is_save:
         """Enable/disable the file name entry box where the user can type
@@ -351,9 +354,7 @@ cdef class Fileselector(LayoutClass):
 
         """
         cb_data = (func, data)
-        # FIXME: This is now a ref leak. It should be stored somewhere and
-        #        deleted in the remove method.
-        Py_INCREF(cb_data)
+        self._custom_filters.append(cb_data)
 
         if isinstance(filter_name, unicode): filter_name = PyUnicode_AsUTF8String(filter_name)
         elm_fileselector_custom_filter_append(self.obj,
@@ -373,6 +374,7 @@ cdef class Fileselector(LayoutClass):
         .. versionadded:: 1.8
 
         """
+        del self._custom_filters[:]
         elm_fileselector_filters_clear(self.obj)
 
     property hidden_visible:
