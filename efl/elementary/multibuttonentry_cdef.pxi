@@ -1,6 +1,6 @@
 cdef extern from "Elementary.h":
 
-    ctypedef Eina_Bool (*Elm_Multibuttonentry_Item_Filter_Cb)(Evas_Object *obj, char *item_label, void *item_data, void *data)
+    ctypedef Eina_Bool (*Elm_Multibuttonentry_Item_Filter_Cb)(Evas_Object *obj, const char *item_label, void *item_data, void *data)
     ctypedef char * (*Elm_Multibuttonentry_Format_Cb)(int count, void *data)
 
     Evas_Object             *elm_multibuttonentry_add(Evas_Object *parent)

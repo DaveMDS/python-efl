@@ -18,45 +18,26 @@
 
 include "multibuttonentry_cdef.pxi"
 
-class MultiButtonEntryFilterOut(Exception):
-    """An exception you may raise in an item filter callback if you wish to prevent addition of the item"""
-    pass
-
 cdef Eina_Bool _multibuttonentry_filter_callback(Evas_Object *obj, \
-    char *item_label, void *item_data, void *data) with gil:
+    const char *item_label, void *item_data, void *data) with gil:
 
     cdef:
         MultiButtonEntry mbe = object_from_instance(obj)
-        object ret
+        bint ret
         list callbacks = mbe._item_filters
 
     for func, args, kargs in callbacks:
         try:
-            # raise MultiButtonEntryFilterOut -> cancels item add
-            # ret is None -> no change, continue to next filter
-            # ret is not None -> change label to value of ret, continue to next filter
             ret = func(mbe, _ctouni(item_label), *args, **kargs)
-        except MultiButtonEntryFilterOut:
-            #free(item_label) # FIXME: This will result in a double free, find out if it's bad elm documentation
-                              #        or wrong ref handling on our side.
-
-            #item_label = NULL
-            return 0
         except Exception:
             traceback.print_exc()
             continue
 
         if ret:
-            if not isinstance(ret, basestring):
-                EINA_LOG_DOM_WARN(PY_EFL_ELM_LOG_DOMAIN,
-                    "Ignoring invalid return value from MultiButtonEntry item filter callback!", NULL)
-                continue
-            if isinstance(ret, unicode): ret = PyUnicode_AsUTF8String(ret)
-            #free(item_label) # FIXME: This will result in a double free, find out if it's bad elm documentation
-                              #        or wrong ref handling on our side.
-
-            item_label = strdup(ret) # Elm will manage the string
-                                     # FIXME: This doesn't apply, why?
+            continue
+        else:
+            return 0 # This emulates the behavior of C code where callbacks
+                     # are iterated until EINA_FALSE is returned by user
 
     return 1
 

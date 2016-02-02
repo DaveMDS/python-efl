@@ -6,7 +6,7 @@ from efl import elementary
 from efl.elementary import StandardWindow
 from efl.elementary import Box
 from efl.elementary import Button
-from efl.elementary import MultiButtonEntry, MultiButtonEntryFilterOut
+from efl.elementary import MultiButtonEntry
 from efl.elementary import Scroller, ELM_SCROLLER_POLICY_OFF, ELM_SCROLLER_POLICY_AUTO
 
 SCROLL_POLICY_VERT = ELM_SCROLLER_POLICY_OFF, ELM_SCROLLER_POLICY_AUTO
@@ -55,13 +55,13 @@ def cb_btn_clear2(btn, mbe):
 
 def cb_filter1(mbe, text):
     print(text)
+    return True
 
 def cb_filter2(mbe, text):
-    return text[:-2]
-
-def cb_filter3(mbe, text):
-    print(text)
-    #raise MultiButtonEntryFilterOut
+    if text == "nope":
+        return False
+    else:
+        return True
 
 def cb_print(btn, mbe):
     for i in mbe.items:
@@ -86,10 +86,9 @@ def multibuttonentry_clicked(obj, item=None):
     mbe.callback_item_selected_add(cb_item_selected)
     mbe.callback_item_clicked_add(cb_item_clicked)
     mbe.callback_item_longpressed_add(cb_item_longpressed)
-    mbe.part_text_set("guide", "Tap to add recipient")
+    mbe.part_text_set("guide", "Tap to add recipient. Type \"nope\" to test filter rejection.")
     mbe.filter_append(cb_filter1)
     mbe.filter_append(cb_filter2)
-    mbe.filter_append(cb_filter3)
     mbe.show()
 
     sc = Scroller(win, bounce=(False, True), policy=SCROLL_POLICY_VERT,
