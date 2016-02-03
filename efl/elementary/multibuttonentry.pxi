@@ -163,6 +163,11 @@ cdef class MultiButtonEntryItem(ObjectItem):
         return self
 
     property selected:
+        """Control the selected state of an item
+
+        :type: bool
+
+        """
         def __get__(self):
             return bool(elm_multibuttonentry_item_selected_get(self.item))
 
@@ -175,6 +180,11 @@ cdef class MultiButtonEntryItem(ObjectItem):
         return bool(elm_multibuttonentry_item_selected_get(self.item))
 
     property prev:
+        """Get the previous item in the multibuttonentry
+
+        :type: :class:`MultiButtonEntryItem`
+
+        """
         def __get__(self):
             return _object_item_to_python(elm_multibuttonentry_item_prev_get(self.item))
 
@@ -182,6 +192,11 @@ cdef class MultiButtonEntryItem(ObjectItem):
         return _object_item_to_python(elm_multibuttonentry_item_prev_get(self.item))
 
     property next:
+        """Get the next item in the multibuttonentry
+
+        :type: :class:`MultiButtonEntryItem`
+
+        """
         def __get__(self):
             return _object_item_to_python(elm_multibuttonentry_item_next_get(self.item))
 
@@ -239,8 +254,11 @@ cdef class MultiButtonEntry(Object):
     property expanded:
         """Control the multibuttonentry to expanded state.
 
-        In expanded state, the complete entry will be displayed.
-        Otherwise, only single line of the entry will be displayed.
+        In expanded state the entry widget expands to accommodate all items.
+        Otherwise a single line of items will be displayed with a counter for
+        items that don't fit the line.
+
+        .. seealso:: :meth:`format_function_set`
 
         :type: bool
 
@@ -257,6 +275,16 @@ cdef class MultiButtonEntry(Object):
         return bool(elm_multibuttonentry_expanded_get(self.obj))
 
     def item_prepend(self, label, func = None, *args, **kwargs):
+        """Prepend a new item to the multibuttonentry
+
+        :param string label: The label of new item
+        :param func: The callback function to be invoked when this item is pressed.
+        :param \*args: The data to be attached for callback
+        :param \*\*kwargs: The data to be attached for callback
+
+        :return: :class:`MultiButtonEntryItem`
+
+        """
         cdef:
             Elm_Object_Item *item
             Evas_Smart_Cb cb = NULL
@@ -281,6 +309,16 @@ cdef class MultiButtonEntry(Object):
             return None
 
     def item_append(self, label, func = None, *args, **kwargs):
+        """Append a new item to the multibuttonentry
+
+        :param string label: The label of new item
+        :param func: The callback function to be invoked when this item is pressed.
+        :param \*args: The data to be attached for callback
+        :param \*\*kwargs: The data to be attached for callback
+
+        :return: :class:`MultiButtonEntryItem`
+
+        """
         cdef:
             Elm_Object_Item *item
             Evas_Smart_Cb cb = NULL
@@ -305,6 +343,17 @@ cdef class MultiButtonEntry(Object):
             return None
 
     def item_insert_before(self, MultiButtonEntryItem before, label, func = None, *args, **kwargs):
+        """Add a new item to the multibuttonentry before the indicated object
+
+        :param MultiButtonEntryItem before: The item before which to add it
+        :param string label: The label of new item
+        :param func: The callback function to be invoked when this item is pressed.
+        :param \*args: The data to be attached for callback
+        :param \*\*kwargs: The data to be attached for callback
+
+        :return: :class:`MultiButtonEntryItem`
+
+        """
         cdef:
             Elm_Object_Item *item
             Evas_Smart_Cb cb = NULL
@@ -330,6 +379,17 @@ cdef class MultiButtonEntry(Object):
             return None
 
     def item_insert_after(self, MultiButtonEntryItem after, label, func = None, *args, **kwargs):
+        """Add a new item to the multibuttonentry after the indicated object
+
+        :param MultiButtonEntryItem before: The item after which to add it
+        :param string label: The label of new item
+        :param func: The callback function to be invoked when this item is pressed.
+        :param \*args: The data to be attached for callback
+        :param \*\*kwargs: The data to be attached for callback
+
+        :return: :class:`MultiButtonEntryItem`
+
+        """
         cdef:
             Elm_Object_Item *item
             Evas_Smart_Cb cb = NULL
@@ -407,20 +467,19 @@ cdef class MultiButtonEntry(Object):
         elm_multibuttonentry_clear(self.obj)
 
     def filter_append(self, func, *args, **kwargs):
-        """Append an item filter function for text inserted in the Multibuttonentry
+        """Append an item filter function for items inserted in the Multibuttonentry
 
         Append the given callback to the list. This function will be called
-        whenever any text is inserted into the Multibuttonentry, with the text to be inserted
-        as a parameter. The callback function is free to alter the text in any way
-        it wants with the modified text passed back as return value.
-        If the new text is to be left intact, the function can return ``None``.
-        If the new text is to be discarded, the function must raise
-        :class:`MultiButtonEntryFilterOut`.
-        This will also prevent any following filters from being called.
+        when a new text item is inserted into the Multibuttonentry, with the
+        text to be inserted as a parameter.
+
+        If the item is wanted the function should return ``True``, else return
+        ``False``. Returning ``False`` will also prevent any subsequent filters
+        from being called.
 
         Callback signature::
 
-            func(obj, text, *args, **kwargs) -> modified text or None
+            func(obj, text, *args, **kwargs) -> bool
 
         """
         if not self._item_filters:
@@ -433,7 +492,7 @@ cdef class MultiButtonEntry(Object):
         self._item_filters.append(cbdata)
 
     def filter_prepend(self, func, *args, **kwargs):
-        """Prepend a filter function for text inserted in the Multibuttonentry
+        """Prepend a filter function for items inserted in the Multibuttonentry
 
         Prepend the given callback to the list. See :meth:`filter_append`
         for more information
@@ -453,6 +512,8 @@ cdef class MultiButtonEntry(Object):
 
         Removes the given callback from the filter list. See :meth:`filter_append`
         for more information.
+
+        .. versionadded:: 1.17
 
         """
         cbdata = (func, args, kwargs)
@@ -485,8 +546,11 @@ cdef class MultiButtonEntry(Object):
         return bool(elm_multibuttonentry_editable_get(self.obj))
 
     def format_function_set(self, func, *args, **kwargs):
-        """Set a function to format the string that will be used to display
-        the hidden items counter.
+        """Set a function to format the string for the counter
+
+        Sets a function to format the string that will be used to display a
+        counter for items that don't fit the line when the widget is not in
+        :attr:`expanded` state.
 
         :param func: The actual format function.
                      signature: (int count, args, kwargs)->string
