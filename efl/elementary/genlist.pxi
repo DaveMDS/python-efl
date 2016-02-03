@@ -66,6 +66,8 @@ cdef Eina_Bool _py_elm_genlist_item_state_get(void *data, Evas_Object *obj, cons
     cdef:
         GenlistItem item = <GenlistItem>data
         unicode u = _ctouni(part)
+        bint ret
+        Genlist o
 
     func = item.item_class._state_get_func
     if func is None:
@@ -78,12 +80,14 @@ cdef Eina_Bool _py_elm_genlist_item_state_get(void *data, Evas_Object *obj, cons
         traceback.print_exc()
         return 0
 
-    return ret if ret is not None else 0
+    return ret
 
 cdef Eina_Bool _py_elm_genlist_item_filter_get(void *data, Evas_Object *obj, void *key) with gil:
     cdef:
         GenlistItem item = <GenlistItem>data
         object pykey = <object>key
+        bint ret
+        Genlist o
 
     func = item.item_class._filter_get_func
     if func is None:
@@ -96,7 +100,7 @@ cdef Eina_Bool _py_elm_genlist_item_filter_get(void *data, Evas_Object *obj, voi
         traceback.print_exc()
         return 0
 
-    return 1 if ret else 0
+    return ret
 
 cdef void _py_elm_genlist_object_item_del(void *data, Evas_Object *obj) with gil:
     cdef GenlistItem item = <GenlistItem>data
