@@ -3,15 +3,7 @@ BUGS
 ====
 * EdjeEdit: PartState API does not work
 * Elm.Map: overlays_show segfaults, scrollers in examples are jumpy
-* Genlist: "filter,done" event is not always fired (see the genlist_filter.py test)
-* Elementary: when we use custom function callbacks we usually leak some
-    reference around, some examples:
-    - Fileselector.custom_filter_append()
-    - Multibuttonentry.format_function_set()
-    - Multibuttonentry.filter_append()
-    - Multibuttonentry.filterprepend()
-   ... maybe do like is done in genlist filter_set() ??
-* API break in https://git.enlightenment.org/bindings/python/python-efl.git/commit/efl/elementary/label.pyx?id=9be98bb979917932cc2850a54f6e79281c871401 , find out if it had users anywhere, remove if not
+* Genlist: "filter,done" event is sometimes fired before filter callbacks are done (see the genlist_filter.py test)
 
 Failing unit tests
 ------------------
@@ -32,7 +24,6 @@ TODO
 
 Elm
 ---
-* Drag-n-Drop
 * Automate compilation of the example edje files.
 * Add more examples
 * Prefs (only supports simple types, not so great for us)
