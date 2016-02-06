@@ -1,4 +1,65 @@
 
+==================
+2016-01-7  v1.17.0
+==================
+
+Fixes:
+ * Fixed compatibility with python 3.5 (utils.deprecated was broken)
+ * Various ref leaks fixed in elementary
+ * Multibuttonentry filter callback
+
+Additions:
+ * ecore_input Module
+ * ecore_con Module
+ * ecore_con.Url Class
+ * ecore_con.Lookup Class
+ * evas.Object.paragraph_direction
+ * evas.EVAS_BIDI_DIRECTION_INHERIT
+ * edje.Edje.color_class_clear
+ * edje.Edje.size_class_del
+ * edje.Edje.size_class_get
+ * edje.Edje.size_class_set
+ * edje.Edje.text_class_del
+ * edje.size_class_del
+ * edje.size_class_get
+ * edje.size_class_list
+ * edje.size_class_set
+ * ethumb Module
+ * ethumb.Ethumb Class
+ * ethumb_client Module
+ * ethumb_client.EthumbClient Class
+ * elm.Combobox Class
+ * elm.Configuration.context_menu_disabled
+ * elm.Configuration.profile_derived_add
+ * elm.Configuration.profile_derived_del
+ * elm.Configuration.profile_exists
+ * elm.Configuration.profile_list_full
+ * elm.Configuration.profile_save
+ * elm.Ctxpopup.callback_geometry_update_add
+ * elm.ELM_GENGRID_ITEM_SCROLLTO_BOTTOM
+ * elm.Gengrid.drag_item_container_add
+ * elm.Gengrid.drag_item_container_del
+ * elm.Gengrid.drop_item_container_add
+ * elm.Gengrid.drop_item_container_del
+ * elm.ELM_GENLIST_ITEM_SCROLLTO_BOTTTOM
+ * elm.Genlist.callback_filter_done_add
+ * elm.Genlist.drag_item_container_add
+ * elm.Genlist.drag_item_container_del
+ * elm.Genlist.drop_item_container_add
+ * elm.Genlist.drop_item_container_del
+ * elm.Genlist.filter
+ * elm.MultiButtonEntry.filter_remove
+ * elm.Notify.callback_dismissed_add
+ * elm.Notify.dismiss
+ * elm.Object.callback_moved_add
+ * elm.Object.drag_action_set
+ * elm.Object.drag_start
+ * elm.Object.drop_target_add
+ * elm.Object.drop_target_del
+ * elm.Popup.callback_dismissed_add
+ * elm.Popup.dismiss
+
+
 ===================
 2015-11-14  v1.16.0
 ===================
