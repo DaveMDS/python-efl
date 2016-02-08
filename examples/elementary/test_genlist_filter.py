@@ -37,6 +37,8 @@ def gl_filter_get(obj, key, item_data):
 def entry_changed_cb(en, gl):
     gl.filter = en.text or None
 
+def filter_done_cb(gl):
+    print("filter,done")
 
 def test_genlist_filter(parent):
     win = StandardWindow("genlist-filter", "Genlist Filter", autodel=True,
@@ -52,7 +54,7 @@ def test_genlist_filter(parent):
     gl = Genlist(win, mode=elm.ELM_LIST_COMPRESS, homogeneous=True,
                  select_mode=elm.ELM_OBJECT_SELECT_MODE_ALWAYS,
                  size_hint_expand=EXPAND_BOTH, size_hint_fill=FILL_BOTH)
-    gl.callback_filter_done_add(lambda g: print("filter,done"))
+    gl.callback_filter_done_add(filter_done_cb)
     gl.show()
     box.pack_end(gl)
 

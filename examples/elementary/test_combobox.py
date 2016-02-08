@@ -40,6 +40,11 @@ def combobox_item_pressed_cb(cbox, item):
 def combobox_changed_cb(cbox):
     cbox.filter = cbox.text
 
+def generic_obj_cb(cbox, event_name):
+    print("EV", event_name, cbox)
+
+def generic_item_cb(cbox, item, event_name):
+    print("EV", event_name, item)
 
 def combobox_clicked(obj):
     win = StandardWindow("combobox", "Combobox", autodel=True, size=(320, 500))
@@ -57,10 +62,10 @@ def combobox_clicked(obj):
                      size_hint_fill=FILL_HORIZ)
     cbox1.part_text_set("guide", "A short list (with callbacks attached)")
     cbox1.callback_item_pressed_add(combobox_item_pressed_cb)
-    cbox1.callback_dismissed_add(lambda cbox: print("DISMISSED", cbox))
-    cbox1.callback_expanded_add(lambda cbox: print("EXPANDED", cbox))
-    cbox1.callback_clicked_add(lambda cbox: print("CLICKED", cbox))
-    cbox1.callback_item_selected_add(lambda cbox, item: print("ITEM,SELECTED", item))
+    cbox1.callback_dismissed_add(generic_obj_cb, "DISMISSED")
+    cbox1.callback_expanded_add(generic_obj_cb, "EXPANDED")
+    cbox1.callback_clicked_add(generic_obj_cb, "CLICKED")
+    cbox1.callback_item_selected_add(generic_item_cb, "ITEM,SELECTED")
 
     for i in range(1, 7):
         cbox1.item_append(itc,  "Item # %d" % i)
@@ -73,7 +78,7 @@ def combobox_clicked(obj):
     cbox2.part_text_set("guide", "A long list (with item filtering)")
     cbox2.callback_item_pressed_add(combobox_item_pressed_cb)
     cbox2.callback_changed_add(combobox_changed_cb)
-    cbox2.callback_filter_done_add(lambda cbox: print("FILTER,DONE", cbox))
+    cbox2.callback_filter_done_add(generic_obj_cb, "FILTER,DONE")
 
     for i in range(1, 1001):
         cbox2.item_append(itc, "Item # %d" % i)
