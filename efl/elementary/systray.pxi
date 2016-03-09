@@ -26,7 +26,9 @@ cdef class Systray(Eo):
     """
 
     def __init__(self, Eo parent not None, *args, **kwargs):
-        self._set_obj(eo_add(elm_systray_class_get(), parent.obj))
+        cdef cEo *obj
+        eo_add(&obj, elm_systray_class_get(), parent.obj)
+        self._set_obj(obj)
         self._set_properties_from_keyword_args(kwargs)
 
     property id:

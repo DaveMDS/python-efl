@@ -39,12 +39,12 @@ from efl.eina cimport Eina_Bool, \
 from efl.c_eo cimport Eo as cEo, eo_init, eo_shutdown, eo_del, \
     eo_class_name_get, eo_class_get, eo_base_class_get,\
     eo_key_data_set, eo_key_data_get, eo_key_data_del, \
-    eo_event_callback_add, eo_event_callback_del, EO_EV_DEL, \
+    eo_event_callback_add, eo_event_callback_del, EO_BASE_EVENT_DEL, \
     eo_parent_get, eo_parent_set, Eo_Event_Description, \
     eo_event_freeze, eo_event_thaw, eo_event_freeze_count_get, \
     eo_event_global_freeze, eo_event_global_thaw, \
     eo_event_global_freeze_count_get, EO_CALLBACK_STOP, \
-    eo_children_iterator_new, Eo_Event2
+    eo_children_iterator_new, Eo_Event
 
 from efl.utils.logger cimport add_logger
 
@@ -182,14 +182,14 @@ cdef void _register_decorated_callbacks(Eo obj):
 ######################################################################
 
 
-cdef Eina_Bool _eo_event_del_cb(void *data, const Eo_Event2 *event) with gil:
+cdef Eina_Bool _eo_event_del_cb(void *data, const Eo_Event *event) with gil:
     cdef:
         Eo self = <Eo>data
         const char *cls_name = eo_class_name_get(eo_class_get(self.obj))
 
     EINA_LOG_DOM_DBG(PY_EFL_EO_LOG_DOMAIN, "Deleting Eo: %s", cls_name)
 
-    eo_event_callback_del(self.obj, EO_EV_DEL, _eo_event_del_cb, <const void *>self)
+    eo_event_callback_del(self.obj, EO_BASE_EVENT_DEL, _eo_event_del_cb, <const void *>self)
     eo_key_data_del(self.obj, "python-eo")
     self.obj = NULL
     Py_DECREF(self)
@@ -253,7 +253,7 @@ cdef class Eo(object):
 
         self.obj = obj
         eo_key_data_set(self.obj, "python-eo", <void *>self)
-        eo_event_callback_add(self.obj, EO_EV_DEL, _eo_event_del_cb, <const void *>self)
+        eo_event_callback_add(self.obj, EO_BASE_EVENT_DEL, _eo_event_del_cb, <const void *>self)
         Py_INCREF(self)
 
         return 1

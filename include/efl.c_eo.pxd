@@ -77,20 +77,19 @@ cdef extern from "Eo.h":
         const Eo_Event_Description *desc # The event description. */
         void *event_info # Extra event information passed by the event caller. */
     ctypedef _Eo_Event Eo_Event
-    ctypedef _Eo_Event Eo_Event2
 
 
     ####################################################################
     # Eo Events
     #
 
-    cdef const Eo_Event_Description *EO_EV_DEL
+    cdef const Eo_Event_Description *EO_BASE_EVENT_DEL
 
 
     ####################################################################
     # Other typedefs
     #
-    ctypedef Eina_Bool (*Eo_Event_Cb)(void *data, const Eo_Event2 *event)
+    ctypedef Eina_Bool (*Eo_Event_Cb)(void *data, const Eo_Event *event)
 
     ctypedef void (*eo_key_data_free_func)(void *)
 
@@ -101,7 +100,7 @@ cdef extern from "Eo.h":
     int eo_init()
     int eo_shutdown()
 
-    Eo *eo_add(const Eo_Class *klass, Eo *parent, ...)
+    void eo_add(Eo **objp, const Eo_Class *klass, Eo *parent, ...)
     Eo *eo_ref(const Eo *obj)
     void eo_unref(const Eo *obj)
     int eo_ref_get(const Eo *obj)
