@@ -100,7 +100,7 @@ cdef extern from "Eo.h":
     int eo_init()
     int eo_shutdown()
 
-    void eo_add(Eo **objp, const Eo_Class *klass, Eo *parent, ...)
+    Eo *eo_add(const Eo_Class *klass, Eo *parent, ...)
     Eo *eo_ref(const Eo *obj)
     void eo_unref(const Eo *obj)
     int eo_ref_get(const Eo *obj)
