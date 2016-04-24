@@ -112,7 +112,7 @@ cdef extern from "Eo.h":
 
     void  eo_key_data_set(Eo *obj, const char *key, const void *data)
     void *eo_key_data_get(Eo *obj, const char *key)
-    void  eo_key_data_del(Eo *obj, const char *key)
+    void  eo_key_del(Eo *obj, const char *key)
 
     const Eo_Class *eo_class_get(const Eo *obj)
     const char *eo_class_name_get(const Eo_Class *klass)

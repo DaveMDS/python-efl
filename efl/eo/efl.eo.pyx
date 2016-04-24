@@ -38,7 +38,7 @@ from efl.eina cimport Eina_Bool, \
     Eina_Iterator, eina_iterator_next, eina_iterator_free
 from efl.c_eo cimport Eo as cEo, eo_init, eo_shutdown, eo_del, \
     eo_class_name_get, eo_class_get, eo_base_class_get,\
-    eo_key_data_set, eo_key_data_get, eo_key_data_del, \
+    eo_key_data_set, eo_key_data_get, eo_key_del, \
     eo_event_callback_add, eo_event_callback_del, EO_BASE_EVENT_DEL, \
     eo_parent_get, eo_parent_set, Eo_Event_Description, \
     eo_event_freeze, eo_event_thaw, eo_event_freeze_count_get, \
@@ -190,7 +190,7 @@ cdef Eina_Bool _eo_event_del_cb(void *data, const Eo_Event *event) with gil:
     EINA_LOG_DOM_DBG(PY_EFL_EO_LOG_DOMAIN, "Deleting Eo: %s", cls_name)
 
     eo_event_callback_del(self.obj, EO_BASE_EVENT_DEL, _eo_event_del_cb, <const void *>self)
-    eo_key_data_del(self.obj, "python-eo")
+    eo_key_del(self.obj, "python-eo")
     self.obj = NULL
     Py_DECREF(self)
 

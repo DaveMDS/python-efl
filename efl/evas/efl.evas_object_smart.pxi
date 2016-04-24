@@ -16,7 +16,7 @@
 # along with this Python-EFL.  If not, see <http://www.gnu.org/licenses/>.
 
 from efl.utils.conversions cimport eina_list_objects_to_python_list
-from efl.c_eo cimport eo_key_data_del, eo_key_data_set, eo_key_data_get
+from efl.c_eo cimport eo_key_data_set, eo_key_data_get
 from efl.eo cimport Eo, EoIterator
 
 from cpython cimport Py_INCREF, Py_DECREF, PyObject_Call, \
