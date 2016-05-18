@@ -36,10 +36,10 @@ from efl.eina cimport Eina_Bool, \
     Eina_Hash, eina_hash_string_superfast_new, eina_hash_add, eina_hash_del, \
     eina_hash_find, EINA_LOG_DOM_DBG, EINA_LOG_DOM_INFO, \
     Eina_Iterator, eina_iterator_next, eina_iterator_free
-from efl.c_eo cimport Eo as cEo, eo_init, eo_shutdown, eo_del, \
+from efl.c_eo cimport Eo as cEo, eo_init, eo_shutdown, eo_unref, \
     eo_class_name_get, eo_class_get, eo_base_class_get,\
-    eo_key_data_set, eo_key_data_get, eo_key_del, \
-    eo_event_callback_add, eo_event_callback_del, EO_BASE_EVENT_DEL, \
+    eo_key_data_set, eo_key_data_get, \
+    eo_event_callback_add, eo_event_callback_del, EO_EVENT_DEL, \
     eo_parent_get, eo_parent_set, Eo_Event_Description, \
     eo_event_freeze, eo_event_thaw, eo_event_freeze_count_get, \
     eo_event_global_freeze, eo_event_global_thaw, \
@@ -189,8 +189,8 @@ cdef Eina_Bool _eo_event_del_cb(void *data, const Eo_Event *event) with gil:
 
     EINA_LOG_DOM_DBG(PY_EFL_EO_LOG_DOMAIN, "Deleting Eo: %s", cls_name)
 
-    eo_event_callback_del(self.obj, EO_BASE_EVENT_DEL, _eo_event_del_cb, <const void *>self)
-    eo_key_del(self.obj, "python-eo")
+    eo_event_callback_del(self.obj, EO_EVENT_DEL, _eo_event_del_cb, <const void *>self)
+    eo_key_data_set(self.obj, "python-eo", NULL)
     self.obj = NULL
     Py_DECREF(self)
 
@@ -253,7 +253,7 @@ cdef class Eo(object):
 
         self.obj = obj
         eo_key_data_set(self.obj, "python-eo", <void *>self)
-        eo_event_callback_add(self.obj, EO_BASE_EVENT_DEL, _eo_event_del_cb, <const void *>self)
+        eo_event_callback_add(self.obj, EO_EVENT_DEL, _eo_event_del_cb, <const void *>self)
         Py_INCREF(self)
 
         return 1
@@ -275,7 +275,7 @@ cdef class Eo(object):
             garbage collector when there are no more reference to it.
 
         """
-        eo_del(self.obj)
+        eo_unref(self.obj)
 
     def is_deleted(self):
         """Check if the object has been deleted thus leaving the object shallow.
