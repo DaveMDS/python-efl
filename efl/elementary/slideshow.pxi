@@ -499,13 +499,13 @@ cdef class Slideshow(LayoutClass):
             return elm_slideshow_timeout_get(self.obj)
 
     property loop:
-        """If, after a slideshow is started, for a given slideshow
-        widget, its items should be displayed cyclically or not.
+        """If the slideshow items should be displayed cyclically or not.
 
-        .. note:: The methods :py:func:`next()` and :py:func:`previous()`
-            will **ignore** what is set by this property, i.e.,
-            they'll **always** cycle through items. This affects only
-            the "automatic" slideshow, as set by :py:attr:`timeout`.
+        This means that, when the end is reached, it will restart from the first
+        item.
+
+        .. note:: This will affect the "automatic" slidshow behaviour and the
+            :py:func:`next()` and :py:func:`previous()` functions as well.
 
         :type: bool
 
