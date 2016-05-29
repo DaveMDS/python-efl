@@ -256,6 +256,10 @@ cdef class Eo(object):
         eo_event_callback_add(self.obj, EO_EVENT_DEL, _eo_event_del_cb, <const void *>self)
         Py_INCREF(self)
 
+        # from efl 1.18 eo.parent changed behaviour, objects are now reparented
+        # when, fe, swallowed. This is the hack to keep the old behavior.
+        self.internal_data["_legacy_parent"] = object_from_instance(eo_parent_get(obj))
+
         return 1
 
     cdef int _set_properties_from_keyword_args(self, dict kwargs) except 0:
@@ -293,16 +297,18 @@ cdef class Eo(object):
 
         """
         def __set__(self, Eo parent):
+            self.internal_data["_legacy_parent"] = parent
             eo_parent_set(self.obj, parent.obj)
 
         def __get__(self):
-            return object_from_instance(eo_parent_get(self.obj))
+            return self.internal_data["_legacy_parent"]
 
     def parent_set(self, Eo parent):
+        self.internal_data["_legacy_parent"] = parent
         eo_parent_set(self.obj, parent.obj)
 
     def parent_get(self):
-        return object_from_instance(eo_parent_get(self.obj))
+        return self.internal_data["_legacy_parent"]
 
     def event_freeze(self):
         """Pause event propagation for this object."""
