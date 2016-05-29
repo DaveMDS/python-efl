@@ -258,7 +258,11 @@ cdef class Eo(object):
 
         # from efl 1.18 eo.parent changed behaviour, objects are now reparented
         # when, fe, swallowed. This is the hack to keep the old behavior.
-        self.internal_data["_legacy_parent"] = object_from_instance(eo_parent_get(obj))
+        try:
+            parent = object_from_instance(eo_parent_get(obj))
+        except ValueError:
+            parent = None
+        self.internal_data["_legacy_parent"] = parent
 
         return 1
 
