@@ -103,4 +103,4 @@ cdef class Rectangle(Object):
         self._set_properties_from_keyword_args(kwargs)
 
 
-_object_mapping_register("Evas_Rectangle", Rectangle)
+_object_mapping_register("Efl_Canvas_Rectangle", Rectangle)
