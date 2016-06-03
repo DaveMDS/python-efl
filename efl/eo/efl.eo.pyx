@@ -266,6 +266,11 @@ cdef class Eo(object):
 
         return 1
 
+    def _wipe_obj_data_NEVER_USE_THIS(self):
+        # only used in tests/eo/test_02_class_names.py
+        # to force object_from_instance() to recreate the obj
+        eo_key_data_set(self.obj, "python-eo", NULL)
+
     cdef int _set_properties_from_keyword_args(self, dict kwargs) except 0:
         if kwargs:
             for k, v in kwargs.items():
