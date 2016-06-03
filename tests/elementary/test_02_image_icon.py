@@ -30,13 +30,14 @@ class TestElmImage(unittest.TestCase):
 
     def testImageFile(self):
         self.o.file = os.path.join(script_path, u"icon.png")
-        self.assertEqual(
-            self.o.file[0], os.path.join(script_path, u"icon.png"))
+        self.assertEqual(self.o.file[0],
+                         os.path.join(script_path, u"icon.png"))
         self.assertEqual(self.o.object_size, (48, 48))
 
     def testImageFileException(self):
-        self.assertRaises(
-            RuntimeError, setattr, self.o, "file", u"this_fails.png")
+        self.assertRaises(RuntimeError,
+                          setattr, self.o, "file",
+                          u"this_fails.png")
 
     def testImageEvas(self):
         self.assertIsInstance(self.o.object, evasImage)
@@ -89,8 +90,9 @@ class TestElmIcon(unittest.TestCase):
         self.assertEqual(u"elementary", self.o.standard)
 
     def testIconStandardException(self):
-        self.assertRaises(
-            RuntimeWarning, setattr, self.o, "standard", u"this_fails")
+        self.assertRaises(RuntimeWarning,
+                          setattr, self.o, "standard",
+                          u"this_fails")
 
 if __name__ == '__main__':
     unittest.main(verbosity=2)
