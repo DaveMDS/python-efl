@@ -36,7 +36,7 @@ from efl.eina cimport Eina_Bool, \
     Eina_Hash, eina_hash_string_superfast_new, eina_hash_add, eina_hash_del, \
     eina_hash_find, EINA_LOG_DOM_DBG, EINA_LOG_DOM_INFO, \
     Eina_Iterator, eina_iterator_next, eina_iterator_free
-from efl.c_eo cimport Eo as cEo, eo_init, eo_shutdown, eo_unref, \
+from efl.c_eo cimport Eo as cEo, eo_init, eo_shutdown, eo_del, \
     eo_class_name_get, eo_class_get, eo_base_class_get,\
     eo_key_data_set, eo_key_data_get, \
     eo_event_callback_add, eo_event_callback_del, EO_EVENT_DEL, \
@@ -283,7 +283,7 @@ cdef class Eo(object):
             garbage collector when there are no more reference to it.
 
         """
-        eo_unref(self.obj)
+        eo_del(self.obj)
 
     def is_deleted(self):
         """Check if the object has been deleted thus leaving the object shallow.
