@@ -54,9 +54,6 @@ cdef extern from "Eo.h":
         EO_CALLBACK_PRIORITY_DEFAULT
         EO_CALLBACK_PRIORITY_AFTER
 
-    cdef enum:
-        EO_CALLBACK_STOP
-        EO_CALLBACK_CONTINUE
 
     ####################################################################
     # Structures
@@ -89,7 +86,7 @@ cdef extern from "Eo.h":
     ####################################################################
     # Other typedefs
     #
-    ctypedef Eina_Bool (*Eo_Event_Cb)(void *data, const Eo_Event *event)
+    ctypedef void (*Eo_Event_Cb)(void *data, const Eo_Event *event)
 
     ctypedef void (*eo_key_data_free_func)(void *)
 
@@ -119,6 +116,7 @@ cdef extern from "Eo.h":
     void eo_parent_set(Eo *obj, Eo *parent)
     Eo  *eo_parent_get(const Eo *obj)
 
+    void eo_event_callback_stop(Eo *obj)
     void eo_event_callback_forwarder_add(Eo *obj, const Eo_Event_Description *desc, Eo *new_obj)
     void eo_event_callback_forwarder_del(Eo *obj, const Eo_Event_Description *desc, Eo *new_obj)
 
