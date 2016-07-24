@@ -11,7 +11,7 @@ class TestCon(unittest.TestCase):
 
     def testLookup(self):
         def _dns_complete(canonname, ip, sockaddr, arg1, my_karg):
-            self.assertEqual(canonname, 'google-public-dns-a.google.com.')
+            self.assertEqual(canonname, 'google-public-dns-a.google.com')
             self.assertEqual(ip, '8.8.8.8')
             self.assertEqual(arg1, "arg1")
             self.assertEqual(my_karg, 1234)
