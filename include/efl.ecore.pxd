@@ -107,7 +107,7 @@ cdef extern from "Ecore.h":
     # Basic Types
     #
     ctypedef cEo Ecore_Timer
-    ctypedef cEo Ecore_Animator
+    ctypedef struct Ecore_Animator
     ctypedef cEo Ecore_Poller
     ctypedef cEo Ecore_Idler
     ctypedef cEo Ecore_Idle_Enterer
@@ -307,6 +307,8 @@ cdef class Animator(Eo):
     cdef readonly tuple args
     cdef readonly dict kargs
     cpdef bint _task_exec(self) except *
+    # we cannot use Eo.obj here because animators are no more eo objects in C
+    cdef Ecore_Animator *obj2
 
 
 cdef class Poller(Eo):

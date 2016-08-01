@@ -60,26 +60,43 @@ cdef class Animator(Eo):
         self.func = func
         self.args = args
         self.kargs = kargs
-        self._set_obj(ecore_animator_add(_ecore_task_cb, <void *>self))
+
+        # From efl 1.18 animators are no more Eo objects in C, thus
+        # we cannot use Eo.obj and _set_obj() anymore :(
+        # self._set_obj(ecore_animator_add(_ecore_task_cb, <void *>self))
+        self.obj2 = ecore_animator_add(_ecore_task_cb, <void *>self)
+        Py_INCREF(self)
 
     def __str__(self):
-        return "%s Animator(func=%s, args=%s, kargs=%s)" % (Eo.__repr__(self),
-               self.func, self.args, self.kargs)
+        return "Animator(obj=%#x, func=%s, args=%s, kargs=%s)" % (
+                         <uintptr_t>self.obj2, self.func, self.args, self.kargs)
 
     def __repr__(self):
-        return "%s Animator(func=%s, args=%s, kargs=%s)" % (Eo.__repr__(self),
-                self.func, self.args, self.kargs)
+        return "Animator(obj=%#x, func=%s, args=%s, kargs=%s)" % (
+                         <uintptr_t>self.obj2, self.func, self.args, self.kargs)
 
     cpdef bint _task_exec(self) except *:
         return self.func(*self.args, **self.kargs)
 
+    def is_deleted(self):
+        """Check if the object has been deleted thus leaving the object shallow.
+
+        :return: True if the object has been deleted yet, False otherwise.
+        :rtype: bool
+
+        """
+        return bool(self.obj2 == NULL)
+
     def delete(self):
         """Stop callback emission and free internal resources."""
-        ecore_animator_del(self.obj)
+        ecore_animator_del(self.obj2)
+        self.obj2 = NULL
+        Py_DECREF(self)
 
     def stop(self):
         """Alias for delete()."""
         self.delete()
+
 
 cdef Eina_Bool _ecore_timeline_cb(void *data, double pos) with gil:
     assert data != NULL
@@ -146,10 +163,16 @@ cdef class AnimatorTimeline(Animator):
         self.func = func
         self.args = args
         self.kargs = kargs
-        self._set_obj(ecore_animator_timeline_add(runtime, _ecore_timeline_cb, <void *>self))
+
+        # From efl 1.18 animators are no more Eo objects in C, thus
+        # we cannot use Eo.obj and _set_obj() anymore :(
+        # self._set_obj(ecore_animator_timeline_add(runtime, _ecore_timeline_cb, <void *>self))
+        self.obj2 = ecore_animator_timeline_add(runtime, _ecore_timeline_cb, <void *>self)
+        Py_INCREF(self)
 
     cpdef bint _task_exec(self) except *:
         return self.func(*self.args, **self.kargs)
+
 
 def animator_add(func, *args, **kargs):
     """Animator factory, for C-api compatibility.

@@ -255,8 +255,9 @@ import atexit
 
 
 cdef Eina_Bool _ecore_task_cb(void *data) with gil:
-    cdef Eo obj = <Eo>data
-    cdef Eina_Bool ret
+    cdef:
+        Eo obj = <Eo>data
+        Eina_Bool ret
 
     try:
         ret = obj._task_exec()
