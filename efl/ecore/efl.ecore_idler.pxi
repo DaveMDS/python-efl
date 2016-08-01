@@ -59,22 +59,38 @@ cdef class Idler(Eo):
         self.func = func
         self.args = args
         self.kargs = kargs
-        self._set_obj(ecore_idler_add(_ecore_task_cb, <void *>self))
+
+        # From efl 1.18 idlers are no more Eo objects in C, thus
+        # we cannot use Eo.obj and _set_obj() anymore :(
+        # self._set_obj(ecore_idler_add(_ecore_task_cb, <void *>self))
+        self.obj2 = ecore_idler_add(_ecore_task_cb, <void *>self)
+        Py_INCREF(self)
 
     def __str__(self):
-        return "%s Idler(func=%s, args=%s, kargs=%s)" % (Eo.__repr__(self),
-               self.func, self.args, self.kargs)
+        return "Idler(obj=%#x, func=%s, args=%s, kargs=%s)" % (
+                      <uintptr_t>self.obj2, self.func, self.args, self.kargs)
 
     def __repr__(self):
-        return "%s Idler(func=%s, args=%s, kargs=%s)" % (Eo.__repr__(self),
-                self.func, self.args, self.kargs)
+        return "Idler(obj=%#x, func=%s, args=%s, kargs=%s)" % (
+                      <uintptr_t>self.obj2, self.func, self.args, self.kargs)
 
     cpdef bint _task_exec(self) except *:
         return self.func(*self.args, **self.kargs)
 
+    def is_deleted(self):
+        """Check if the object has been deleted thus leaving the object shallow.
+
+        :return: True if the object has been deleted yet, False otherwise.
+        :rtype: bool
+
+        """
+        return bool(self.obj2 == NULL)
+
     def delete(self):
         """Stop callback emission and free internal resources."""
-        ecore_idler_del(self.obj)
+        ecore_idler_del(self.obj2)
+        self.obj2 = NULL
+        Py_DECREF(self)
 
     def stop(self):
         """Alias for stop()."""
@@ -126,11 +142,18 @@ cdef class IdleEnterer(Idler):
         self.func = func
         self.args = args
         self.kargs = kargs
-        self._set_obj(ecore_idle_enterer_add(_ecore_task_cb, <void *>self))
+
+        # From efl 1.18 idlers are no more Eo objects in C, thus
+        # we cannot use Eo.obj and _set_obj() anymore :(
+        # self._set_obj(ecore_idle_enterer_add(_ecore_task_cb, <void *>self))
+        self.obj2 = ecore_idle_enterer_add(_ecore_task_cb, <void *>self)
+        Py_INCREF(self)
 
     def delete(self):
         """Stop callback emission and free internal resources."""
-        ecore_idle_enterer_del(self.obj)
+        ecore_idle_enterer_del(self.obj2)
+        self.obj2 = NULL
+        Py_DECREF(self)
 
 
 cdef class IdleExiter(Idler):
@@ -173,11 +196,18 @@ cdef class IdleExiter(Idler):
         self.func = func
         self.args = args
         self.kargs = kargs
-        self._set_obj(ecore_idle_exiter_add(_ecore_task_cb, <void *>self))
+        
+        # From efl 1.18 idlers are no more Eo objects in C, thus
+        # we cannot use Eo.obj and _set_obj() anymore :(
+        # self._set_obj(ecore_idle_exiter_add(_ecore_task_cb, <void *>self))
+        self.obj2 = ecore_idle_exiter_add(_ecore_task_cb, <void *>self)
+        Py_INCREF(self)
 
     def delete(self):
         """Stop callback emission and free internal resources."""
-        ecore_idle_exiter_del(self.obj)
+        ecore_idle_exiter_del(self.obj2)
+        self.obj2 = NULL
+        Py_DECREF(self)
 
 
 def idler_add(func, *args, **kargs):
