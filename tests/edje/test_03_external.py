@@ -360,6 +360,7 @@ class TestElementaryExternal(unittest.TestCase):
 
         # TODO test params
 
+    @unittest.skip("Elm Web not maintained atm")
     def testExternalWeb(self):
         elm_web = self.theme.part_external_object_get("ext_elm_web")
         self.assertIsInstance(elm_web, Web)

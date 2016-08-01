@@ -12,8 +12,9 @@ theme_path = os.path.dirname(os.path.abspath(__file__))
 theme_file = os.path.join(theme_path, "theme.edj")
 
 
-expected_signals = ["edje,state,ltr", "load", "edje,state,ltr", "resize",
-                    "cursor,changed", "changed", "emit,message", "emit,message"]
+expected_signals = ["edje,language,none", "edje,state,ltr", "load",
+                    "edje,state,ltr", "resize", "cursor,changed", "changed",
+                    "emit,message", "emit,message"]
 expected_signals2 = ["load", "resize"]
 expected_messages = [33, 33]
 expected_text_parts = ["label", "label"]
@@ -31,7 +32,7 @@ class MyEdje(Edje):
     @edje.on_signal("load", "*")
     @edje.on_signal("resize", "*")
     def cb_signal_load_resize(self, emission, source):
-         expected_signals2.remove(emission)
+        expected_signals2.remove(emission)
 
     @edje.message_handler
     def message_handler(self, msg):
