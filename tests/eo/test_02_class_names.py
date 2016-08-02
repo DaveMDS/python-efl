@@ -1,6 +1,8 @@
 #!/usr/bin/env python
 
 from efl import evas
+from efl import edje
+from efl import emotion
 from efl import elementary as elm
 
 import unittest
@@ -66,7 +68,8 @@ class TestElmClassNames(unittest.TestCase):
 
     def testEvas(self):
         for cls in [evas.Image, evas.Line, evas.Polygon, evas.Text, evas.Textblock,
-                    evas.Box, evas.Textgrid, evas.Table, evas.Grid]:
+                    evas.Box, evas.Textgrid, evas.Table, evas.Grid,
+                    edje.Edje, emotion.Emotion]:
             obj1 = cls(self.win.evas)
             self.frame.content = obj1
 
