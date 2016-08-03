@@ -2,6 +2,7 @@
 
 from efl import evas
 import os, unittest
+import logging
 
 
 icon_file = os.path.join(os.path.dirname(__file__), "icon.png")
@@ -26,4 +27,10 @@ class TestImageBasics(unittest.TestCase):
 
 
 if __name__ == '__main__':
+    formatter = logging.Formatter("[%(levelname)s] %(name)s (%(filename)s: %(lineno)d) --- %(message)s")
+    handler = logging.StreamHandler()
+    handler.setFormatter(formatter)
+    efllog = logging.getLogger("efl")
+    efllog.addHandler(handler)
+    efllog.setLevel(logging.DEBUG)
     unittest.main(verbosity=2)

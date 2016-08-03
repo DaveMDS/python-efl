@@ -3,6 +3,7 @@
 
 from efl.evas import Canvas, Textgrid, TextgridCell
 import unittest
+import logging
 
 
 class TestTextgridBasics(unittest.TestCase):
@@ -37,4 +38,10 @@ class TestTextgridBasics(unittest.TestCase):
 
 
 if __name__ == '__main__':
+    formatter = logging.Formatter("[%(levelname)s] %(name)s (%(filename)s: %(lineno)d) --- %(message)s")
+    handler = logging.StreamHandler()
+    handler.setFormatter(formatter)
+    efllog = logging.getLogger("efl")
+    efllog.addHandler(handler)
+    efllog.setLevel(logging.DEBUG)
     unittest.main(verbosity=2)

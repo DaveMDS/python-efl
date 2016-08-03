@@ -5,6 +5,7 @@ from efl.edje import EDJE_PART_TYPE_RECTANGLE
 from efl.edje_edit import EdjeEdit, Text_Style, Text_Style_Tag, Color_Class, \
                           Part, Program
 import os, unittest, shutil
+import logging
 
 
 theme_path = os.path.dirname(os.path.abspath(__file__))
@@ -479,4 +480,10 @@ class TestEdjeEditPartStates(unittest.TestCase):
         print(s.rel1_to_get())
 
 if __name__ == '__main__':
+    formatter = logging.Formatter("[%(levelname)s] %(name)s (%(filename)s: %(lineno)d) --- %(message)s")
+    handler = logging.StreamHandler()
+    handler.setFormatter(formatter)
+    efllog = logging.getLogger("efl")
+    efllog.addHandler(handler)
+    efllog.setLevel(logging.DEBUG)
     unittest.main(verbosity=2)

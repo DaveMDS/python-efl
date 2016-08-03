@@ -3,6 +3,7 @@
 from efl import evas
 from efl import edje
 import os, unittest
+import logging
 
 
 theme_path = os.path.dirname(os.path.abspath(__file__))
@@ -71,4 +72,10 @@ class TestBasics(unittest.TestCase):
 
 
 if __name__ == '__main__':
+    formatter = logging.Formatter("[%(levelname)s] %(name)s (%(filename)s: %(lineno)d) --- %(message)s")
+    handler = logging.StreamHandler()
+    handler.setFormatter(formatter)
+    efllog = logging.getLogger("efl")
+    efllog.addHandler(handler)
+    efllog.setLevel(logging.DEBUG)
     unittest.main(verbosity=2)

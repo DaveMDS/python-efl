@@ -6,6 +6,7 @@ from efl import emotion
 from efl import elementary as elm
 
 import unittest
+import logging
 
 
 """ NOT TESTED YET:
@@ -83,6 +84,10 @@ class TestElmClassNames(unittest.TestCase):
 
 
 if __name__ == '__main__':
+    formatter = logging.Formatter("[%(levelname)s] %(name)s (%(filename)s: %(lineno)d) --- %(message)s")
+    handler = logging.StreamHandler()
+    handler.setFormatter(formatter)
+    efllog = logging.getLogger("efl")
+    efllog.addHandler(handler)
+    efllog.setLevel(logging.DEBUG)
     unittest.main(verbosity=2)
-
-
