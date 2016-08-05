@@ -60,8 +60,8 @@ cdef void py_eina_log_print_cb(const Eina_Log_Domain *d, Eina_Log_Level level,
 
     vsprintf(log_buf, fmt, args)
 
-    msg = log_buf.decode("utf-8")
-    name = d.name.decode("utf-8")
+    msg = log_buf.decode('UTF-8', 'replace')
+    name = d.name.decode('UTF-8', 'replace')
 
     rec = logging.LogRecord(
         name, log_levels[level], file, line, msg, None, None, fnc)
