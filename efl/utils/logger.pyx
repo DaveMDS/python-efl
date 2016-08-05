@@ -55,16 +55,18 @@ cdef void py_eina_log_print_cb(const Eina_Log_Domain *d, Eina_Log_Level level,
     const char *fmt, void *data, va_list args) with gil:
 
     cdef:
-        unicode msg, name
+        unicode msg, name, ufile, ufnc
         object rec, logger
 
     vsprintf(log_buf, fmt, args)
 
     msg = log_buf.decode('UTF-8', 'replace')
     name = d.name.decode('UTF-8', 'replace')
+    ufile = file.decode('UTF-8', 'replace')
+    ufnc = fnc.decode('UTF-8', 'replace')
 
     rec = logging.LogRecord(
-        name, log_levels[level], file, line, msg, None, None, fnc)
+        name, log_levels[level], ufile, line, msg, None, None, ufnc)
     logger = loggers.get(name, loggers["efl"])
     logger.handle(rec)
 
