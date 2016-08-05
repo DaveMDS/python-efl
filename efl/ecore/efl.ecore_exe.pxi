@@ -43,6 +43,8 @@ cdef exe_flags2str(int value):
         flags.append("USE_SH")
     if value & ECORE_EXE_NOT_LEADER:
         flags.append("NOT_LEADER")
+    if value & ECORE_EXE_TERM_WITH_PARENT:
+        flags.append("ECORE_EXE_TERM_WITH_PARENT")
     return ", ".join(flags)
 
 
@@ -297,6 +299,9 @@ cdef class Exe(object):
         ECORE_EXE_NOT_LEADER
             Do not use setsid() to have the executed process be its own
             session leader
+
+        ECORE_EXE_TERM_WITH_PARENT
+            Makes child receive SIGTERM when parent dies
 
     :type flags: int
     :param data: extra data to be associated and available with ``data_get()``
