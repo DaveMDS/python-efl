@@ -72,6 +72,9 @@ cb_dispatch_status(DBusConnection *conn, DBusDispatchStatus new_status, void *da
 {
    E_DBus_Connection *cd = data;
 
+   if (_edbus_init_count <= 0)
+      return;
+
    DBG("dispatch status: %d!", new_status);
 
    if (new_status == DBUS_DISPATCH_DATA_REMAINS && !cd->idler)
@@ -190,6 +193,9 @@ cb_watch_del(DBusWatch *watch, void *data)
 {
    E_DBus_Handler_Data *hd;
 
+   if (_edbus_init_count <= 0)
+      return;
+
    DDBG("Watch del on fd: %d (flags: %d)", dbus_watch_get_unix_fd(watch),
         dbus_watch_get_flags(watch));
 
@@ -209,6 +215,9 @@ static void
 cb_watch_toggle(DBusWatch *watch, void *data)
 {
    E_DBus_Handler_Data *hd;
+
+   if (_edbus_init_count <= 0)
+      return;
 
    DDBG("Watch toggle on fd: %d (flags: %d) enable: %d",
         dbus_watch_get_unix_fd(watch), dbus_watch_get_flags(watch),
@@ -330,7 +339,9 @@ e_dbus_connection_free(void *data)
    E_DBus_Handler_Data *hd;
    Ecore_Timer *timer;
    Eina_List *l, *ll;
-   DBG("e_dbus_connection free!");
+
+   if (_edbus_init_count <= 0)
+      return;
 
    EINA_LIST_FOREACH_SAFE(cd->fd_handlers, l, ll, hd)
       e_dbus_fd_handler_del(hd);
