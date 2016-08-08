@@ -128,7 +128,7 @@ cdef extern from "Eo.h":
     void eo_event_global_thaw(Eo *obj)
     int eo_event_global_freeze_count_get(const Eo *obj)
 
-    void eo_event_callback_add(Eo *obj, const Eo_Event_Description *desc, Eo_Event_Cb cb, const void *data)
-    void eo_event_callback_del(Eo *obj, const Eo_Event_Description *desc, Eo_Event_Cb cb, const void *data)
+    Eina_Bool eo_event_callback_add(Eo *obj, const Eo_Event_Description *desc, Eo_Event_Cb cb, const void *data)
+    Eina_Bool eo_event_callback_del(Eo *obj, const Eo_Event_Description *desc, Eo_Event_Cb cb, const void *data)
 
     Eina_Iterator * eo_children_iterator_new(Eo *obj)
