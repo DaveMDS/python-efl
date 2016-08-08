@@ -30,9 +30,9 @@ static int _e_dbus_log_dom = -1;
 #define WARN(...) EINA_LOG_DOM_WARN(_e_dbus_log_dom, __VA_ARGS__)
 #define ERR(...)   EINA_LOG_DOM_ERR(_e_dbus_log_dom, __VA_ARGS__)
 
-static int connection_slot = -1;
-static int e_dbus_idler_active = 0;
-static int close_connection = 0;
+static int _edbus_connection_slot = -1;
+static int _edbus_idler_active = 0;
+static int _edbus_close_connection = 0;
 static int _edbus_init_count = 0;
 
 // change this define for extra debug
@@ -52,18 +52,18 @@ e_dbus_idler(void *data)
       cd->idler = NULL;
       return ECORE_CALLBACK_CANCEL;
    }
-   e_dbus_idler_active++;
+   _edbus_idler_active++;
    dbus_connection_ref(cd->conn);
    DBG("dispatch()");
    dbus_connection_dispatch(cd->conn);
    dbus_connection_unref(cd->conn);
-   e_dbus_idler_active--;
-   if (!e_dbus_idler_active && close_connection)
+   _edbus_idler_active--;
+   if (!_edbus_idler_active && _edbus_close_connection)
    {
       do
       {
          e_dbus_connection_close(cd);
-      } while (--close_connection);
+      } while (--_edbus_close_connection);
    }
    return ECORE_CALLBACK_RENEW;
 }
@@ -404,9 +404,9 @@ e_dbus_connection_setup(DBusConnection *conn)
 
    /* connection_setup */
    dbus_connection_set_exit_on_disconnect(cd->conn, EINA_FALSE);
-   dbus_connection_allocate_data_slot(&connection_slot);
+   dbus_connection_allocate_data_slot(&_edbus_connection_slot);
 
-   dbus_connection_set_data(cd->conn, connection_slot, (void *)cd,
+   dbus_connection_set_data(cd->conn, _edbus_connection_slot, (void *)cd,
                             e_dbus_connection_free);
    dbus_connection_set_watch_functions(cd->conn,
                                        cb_watch_add,
@@ -434,13 +434,13 @@ e_dbus_connection_close(E_DBus_Connection *conn)
    if (!conn) return;
    DBG("e_dbus_connection_close");
 
-   if (e_dbus_idler_active)
+   if (_edbus_idler_active)
    {
-      close_connection++;
+      _edbus_close_connection++;
       return;
    }
 
-   dbus_connection_free_data_slot(&connection_slot);
+   dbus_connection_free_data_slot(&_edbus_connection_slot);
    dbus_connection_set_watch_functions(conn->conn,
                                        NULL,
                                        NULL,
