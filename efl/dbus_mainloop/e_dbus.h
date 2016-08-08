@@ -35,7 +35,6 @@ struct E_DBus_Connection
   Eina_List *fd_handlers;
   Eina_List *timeouts;
   Ecore_Idler *idler;
-  int refcount;
 };
 
 struct E_DBus_Handler_Data
