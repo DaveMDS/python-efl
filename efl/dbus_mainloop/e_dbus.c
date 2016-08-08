@@ -43,8 +43,7 @@ static int _edbus_init_count = 0;
 static Eina_Bool
 e_dbus_idler(void *data)
 {
-   E_DBus_Connection *cd;
-   cd = data;
+   E_DBus_Connection *cd = data;
 
    if (DBUS_DISPATCH_COMPLETE == dbus_connection_get_dispatch_status(cd->conn))
    {
@@ -71,10 +70,9 @@ e_dbus_idler(void *data)
 static void
 cb_dispatch_status(DBusConnection *conn, DBusDispatchStatus new_status, void *data)
 {
-   E_DBus_Connection *cd;
+   E_DBus_Connection *cd = data;
 
    DBG("dispatch status: %d!", new_status);
-   cd = data;
 
    if (new_status == DBUS_DISPATCH_DATA_REMAINS && !cd->idler)
       cd->idler = ecore_idler_add(e_dbus_idler, cd);
@@ -225,9 +223,7 @@ cb_watch_toggle(DBusWatch *watch, void *data)
 static Eina_Bool
 e_dbus_timeout_handler(void *data)
 {
-   E_DBus_Timeout_Data *td;
-
-   td = data;
+   E_DBus_Timeout_Data *td = data;
 
    if (!dbus_timeout_get_enabled(td->timeout))
    {
@@ -245,6 +241,7 @@ static void
 e_dbus_timeout_data_free(void *timeout_data)
 {
    E_DBus_Timeout_Data *td = timeout_data;
+
    DBG("e_dbus_timeout_data_free");
    if (td->handler) ecore_timer_del(td->handler);
    free(td);
@@ -253,10 +250,9 @@ e_dbus_timeout_data_free(void *timeout_data)
 static dbus_bool_t 
 cb_timeout_add(DBusTimeout *timeout, void *data)
 {
-   E_DBus_Connection *cd;
+   E_DBus_Connection *cd = data;
    E_DBus_Timeout_Data *td;
 
-   cd = data;
    DBG("timeout add!");
    td = calloc(1, sizeof(E_DBus_Timeout_Data));
    td->cd = cd;
