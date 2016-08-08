@@ -51,7 +51,6 @@ struct E_DBus_Timeout_Data
   Ecore_Timer *handler;
   DBusTimeout *timeout;
   E_DBus_Connection *cd;
-  int interval;
 };
 
 

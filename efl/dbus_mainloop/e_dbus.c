@@ -262,11 +262,11 @@ cb_timeout_add(DBusTimeout *timeout, void *data)
    td->cd = cd;
    dbus_timeout_set_data(timeout, (void *)td, e_dbus_timeout_data_free);
 
-   td->interval = dbus_timeout_get_interval(timeout);
    td->timeout = timeout;
 
    if (dbus_timeout_get_enabled(timeout))
-      td->handler = ecore_timer_add(td->interval, e_dbus_timeout_handler, td);
+      td->handler = ecore_timer_add(dbus_timeout_get_interval(timeout),
+                                    e_dbus_timeout_handler, td);
    td->cd->timeouts = eina_list_append(td->cd->timeouts, td->handler);
 
    return true;
@@ -300,8 +300,8 @@ cb_timeout_toggle(DBusTimeout *timeout, void *data)
 
    if (dbus_timeout_get_enabled(td->timeout))
    {
-      td->interval = dbus_timeout_get_interval(timeout);
-      td->handler = ecore_timer_add(td->interval, e_dbus_timeout_handler, td);
+      td->handler = ecore_timer_add(dbus_timeout_get_interval(timeout),
+                                    e_dbus_timeout_handler, td);
    }
    else
    {
