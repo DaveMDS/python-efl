@@ -225,15 +225,13 @@ e_dbus_timeout_handler(void *data)
 {
    E_DBus_Timeout_Data *td = data;
 
-   if (!dbus_timeout_get_enabled(td->timeout))
-   {
-      DBG("timeout_handler (not enabled, ending)");
-      td->handler = NULL;
-      return ECORE_CALLBACK_CANCEL;
-   }
+   DBG("timeout expired!");
 
-   DBG("timeout handler!");
-   dbus_timeout_handle(td->timeout);
+   if (dbus_timeout_get_enabled(td->timeout))
+      dbus_timeout_handle(td->timeout);
+
+   td->cd->timeouts = eina_list_remove(td->cd->timeouts, td->handler);
+   td->handler = NULL;
    return ECORE_CALLBACK_CANCEL;
 }
 
@@ -253,17 +251,21 @@ cb_timeout_add(DBusTimeout *timeout, void *data)
    E_DBus_Connection *cd = data;
    E_DBus_Timeout_Data *td;
 
-   DBG("timeout add!");
+   DBG("timeout add! enabled: %d, interval: %d",
+       dbus_timeout_get_enabled(timeout),
+       dbus_timeout_get_interval(timeout));
+
    td = calloc(1, sizeof(E_DBus_Timeout_Data));
    td->cd = cd;
+   td->timeout = timeout;
    dbus_timeout_set_data(timeout, (void *)td, e_dbus_timeout_data_free);
 
-   td->timeout = timeout;
-
    if (dbus_timeout_get_enabled(timeout))
+   {
       td->handler = ecore_timer_add(dbus_timeout_get_interval(timeout),
                                     e_dbus_timeout_handler, td);
-   td->cd->timeouts = eina_list_append(td->cd->timeouts, td->handler);
+      cd->timeouts = eina_list_append(cd->timeouts, td->handler);
+   }
 
    return true;
 }
@@ -271,14 +273,14 @@ cb_timeout_add(DBusTimeout *timeout, void *data)
 static void
 cb_timeout_del(DBusTimeout *timeout, void *data)
 {
-   E_DBus_Timeout_Data *td;
-   DBG("timeout del!");
+   E_DBus_Connection *cd = data;
+   E_DBus_Timeout_Data *td = dbus_timeout_get_data(timeout);
 
-   td = (E_DBus_Timeout_Data *)dbus_timeout_get_data(timeout);
+   DBG("timeout del!");
 
    if (td->handler) 
    {
-      td->cd->timeouts = eina_list_remove(td->cd->timeouts, td->handler);
+      cd->timeouts = eina_list_remove(cd->timeouts, td->handler);
       ecore_timer_del(td->handler);
       td->handler = NULL;
    }
@@ -289,18 +291,19 @@ cb_timeout_del(DBusTimeout *timeout, void *data)
 static void
 cb_timeout_toggle(DBusTimeout *timeout, void *data)
 {
-   E_DBus_Timeout_Data *td;
+   E_DBus_Connection *cd = data;
+   E_DBus_Timeout_Data *td = dbus_timeout_get_data(timeout);
    DBG("timeout toggle!");
-
-   td = (E_DBus_Timeout_Data *)dbus_timeout_get_data(timeout);
 
    if (dbus_timeout_get_enabled(td->timeout))
    {
       td->handler = ecore_timer_add(dbus_timeout_get_interval(timeout),
                                     e_dbus_timeout_handler, td);
+      cd->timeouts = eina_list_append(cd->timeouts, td->handler);
    }
    else
    {
+      cd->timeouts = eina_list_remove(cd->timeouts, td->handler);
       ecore_timer_del(td->handler);
       td->handler = NULL;
    }
