@@ -329,9 +329,10 @@ e_dbus_connection_free(void *data)
    E_DBus_Connection *cd = data;
    E_DBus_Handler_Data *hd;
    Ecore_Timer *timer;
+   Eina_List *l, *ll;
    DBG("e_dbus_connection free!");
 
-   EINA_LIST_FREE(cd->fd_handlers, hd)
+   EINA_LIST_FOREACH_SAFE(cd->fd_handlers, l, ll, hd)
       e_dbus_fd_handler_del(hd);
 
    EINA_LIST_FREE(cd->timeouts, timer)
