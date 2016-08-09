@@ -253,6 +253,25 @@ cdef class Configuration(object):
         def __set__(self, double friction):
             elm_config_scroll_zoom_friction_set(friction)
 
+    property scroll_accel_factor:
+        """Scroll acceleration factor.
+        
+        Using a mouse wheel or touchpad to scroll will result in events
+        being processed. If events occur quickly, the scroll amount will
+        be multiplied by this value to accelerate the scrolling.
+        Accepted value range from 0 to 10, where 0 means no accelleration
+        and 10 means maximum acceleration.
+
+        :type: float
+
+        .. versionadded:: 1.18
+
+        """
+        def __get__(self):
+            return elm_config_scroll_accel_factor_get()
+        def __set__(self, double accel):
+            elm_config_scroll_accel_factor_set(accel)
+
     property scroll_thumbscroll_enabled:
         """Whether scrollers should be draggable from any point in their views.
 
