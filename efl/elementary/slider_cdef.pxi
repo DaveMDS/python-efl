@@ -31,3 +31,8 @@ cdef extern from "Elementary.h":
     Elm_Slider_Indicator_Visible_Mode  elm_slider_indicator_visible_mode_get(const Evas_Object *obj)
     void            elm_slider_step_set(Evas_Object *obj, double step)
     double          elm_slider_step_get(const Evas_Object *obj)
+
+    Eina_Bool       elm_slider_range_enabled_get(const Evas_Object *obj)
+    void            elm_slider_range_enabled_set(Evas_Object *obj, Eina_Bool enable)
+    void            elm_slider_range_get(const Evas_Object *obj, double *fr, double *to)
+    void            elm_slider_range_set(Evas_Object *obj, double fr, double to)

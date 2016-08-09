@@ -226,6 +226,51 @@ cdef class Slider(LayoutClass):
         elm_slider_min_max_get(self.obj, &min, &max)
         return (min, max)
 
+    property range_enabled:
+        """Enables the range ability.
+
+        This enables two indicators in slider, so that the user can select
+        a range, not just a single value.
+
+        :type: bool
+
+        .. versionadded:: 1.18
+
+        """
+        def __get__(self):
+            return bool(elm_slider_range_enabled_get(self.obj))
+        def __set__(self, bint enabled):
+            elm_slider_range_enabled_set(self.obj, enabled)
+
+    def range_enabled_set(self, bint enabled):
+        elm_slider_range_enabled_set(self.obj, enabled)
+    def range_enabled_get(self):
+        return bool(elm_slider_range_enabled_get(self.obj))
+
+    property range:
+        """The values of the two indicators.
+
+        :type: (float, float)
+
+        .. versionadded:: 1.18
+
+        """
+        def __get__(self):
+            cdef double fr, to
+            elm_slider_range_get(self.obj, &fr, &to)
+            return (fr, to)
+
+        def __set__(self, value):
+            fr, to = value
+            elm_slider_range_set(self.obj, fr, to)
+
+    def range_set(self, double fr, double to):
+        elm_slider_range_set(self.obj, fr, to)
+    def range_get(self):
+        cdef double fr, to
+        elm_slider_range_get(self.obj, &fr, &to)
+        return (fr, to)
+
     property value:
         """The value displayed in the slider.
 

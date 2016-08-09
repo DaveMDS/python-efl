@@ -36,6 +36,9 @@ def delay_change_cb(obj, data=None):
 def change_cb(obj, data=None):
     data.value = obj.value
 
+def range_change_cb(obj):
+    print("Range: %d %d" % obj.range)
+
 def change_print_cb(obj, data=None):
     print("change to %3.3f" % obj.value)
 
@@ -114,6 +117,15 @@ def slider_clicked(obj):
         size_hint_weight=(0.0, 0.0))
     sl.part_content_set("end", ic)
     sl.callback_delay_changed_add(delay_change_cb)
+    bx.pack_end(sl)
+    sl.show()
+
+    # range slider (2 indicators)
+    sl = Slider(bx, text="Range (2 indicators)", range_enabled=True,
+                min_max=(0, 100), range=(20, 80),
+                unit_format="%.0f units", indicator_format="%.0f",
+                size_hint_expand=EXPAND_HORIZ, size_hint_fill=FILL_HORIZ)
+    sl.callback_changed_add(range_change_cb)
     bx.pack_end(sl)
     sl.show()
 
