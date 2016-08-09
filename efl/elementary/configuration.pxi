@@ -272,6 +272,22 @@ cdef class Configuration(object):
         def __set__(self, double accel):
             elm_config_scroll_accel_factor_set(accel)
 
+    property scroll_animation_disabled:
+        """Disable scroller animations at all.
+
+        This option disables timed animations during scrolling and forces
+        scroll actions to be performed immediately.
+
+        :type: bool
+
+        .. versionadded:: 1.18
+
+        """
+        def __get__(self):
+            return bool(elm_config_scroll_animation_disabled_get())
+        def __set__(self, bint disabled):
+            elm_config_scroll_animation_disabled_set(disabled)
+
     property scroll_thumbscroll_enabled:
         """Whether scrollers should be draggable from any point in their views.
 

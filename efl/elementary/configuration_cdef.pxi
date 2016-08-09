@@ -80,6 +80,8 @@ cdef extern from "Elementary.h":
     void                    elm_config_scroll_zoom_friction_set(double friction)
     double                  elm_config_scroll_accel_factor_get()
     void                    elm_config_scroll_accel_factor_set(double factor)
+    Eina_Bool               elm_config_scroll_animation_disabled_get()
+    void                    elm_config_scroll_animation_disabled_set(Eina_Bool disabled)
 
     Eina_Bool               elm_config_scroll_thumbscroll_enabled_get()
     void                    elm_config_scroll_thumbscroll_enabled_set(Eina_Bool enabled)
