@@ -486,10 +486,23 @@ cdef class GenlistItem(ObjectItem):
         item, meaning that they will no longer be managed by genlist and are
         floating "orphans" that can be re-used elsewhere if the user wants to.
 
+        :return: The list of now orphans objects
+        :rtype: list
+
+        .. versionadded:: 1.18
+
+        .. warning:: Don't forget to do something with the returned objects,
+            they are hidden in the canvas, but still alive. You should
+            at least delete them if you don't need to reuse.
+
         """
-        cdef Eina_List *lst
-        elm_genlist_item_all_contents_unset(self.item, &lst)
-        return _object_item_list_to_python(lst)
+        cdef:
+            Eina_List *l = NULL
+            list ret
+        elm_genlist_item_all_contents_unset(self.item, &l)
+        ret = eina_list_objects_to_python_list(l)
+        eina_list_free(l)
+        return ret
 
     def promote(self):
         """Promote an item to the top of the list"""

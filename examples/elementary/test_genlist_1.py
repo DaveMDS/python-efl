@@ -178,6 +178,25 @@ def test_genlist_1(parent):
     hbox.pack_end(bt)
     bt.show()
 
+    # item content unset
+    def content_unset_clicked(bt, gl):
+        item = gl.selected_item
+        if item is None:
+            print("You must select an item first!")
+        else:
+            contents = item.all_contents_unset()
+            print(contents)
+            for obj in contents:
+                obj.pos = (200, 0)
+                obj.show()
+            # Now all the unsetted objects are orphan in the canvas,
+            # the user should do something with them
+        
+    bt = Button(win, text="Item content unset")
+    bt.callback_clicked_add(content_unset_clicked, gl)
+    hbox.pack_end(bt)
+    bt.show()
+
     # show the window
     win.show()
 
