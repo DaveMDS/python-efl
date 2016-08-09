@@ -975,6 +975,22 @@ cdef class Edje(Object):
                         <const char *>part if part is not None else NULL,
                         obj.obj, reference.obj))
 
+    def part_box_insert_after(self, part, Object obj, Object reference):
+        """Inserts an item in a BOX part after the reference object.
+
+        :param part: the name of the BOX part
+        :param obj: the efl.evas.Object to append
+        :param reference: the efl.evas.Object used as reference
+        :rtype: bool
+
+        .. versionadded:: 1.18
+
+        """
+        if isinstance(part, unicode): part = PyUnicode_AsUTF8String(part)
+        return bool(edje_object_part_box_insert_after(self.obj,
+                        <const char *>part if part is not None else NULL,
+                        obj.obj, reference.obj))
+
     def part_box_remove(self, part, Object obj):
         """Removes the object given from a BOX part.
 
