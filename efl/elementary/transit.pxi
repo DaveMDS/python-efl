@@ -343,7 +343,6 @@ cdef class Transit(object):
         def __get__(self):
             return elm_transit_tween_mode_get(self.obj)
 
-
     property tween_mode_factor:
         """Transit animation acceleration factor.
 
@@ -454,6 +453,28 @@ cdef class Transit(object):
 
         """
         elm_transit_go_in(self.obj, seconds)
+
+    def revert(self):
+        """This can be used to reverse play an ongoing transition.
+
+        It shows effect only when an animation is going on.
+        If this function is called twice transition will go in forward
+        direction as normal one.
+        If a repeat count is set, this function call will revert just the
+        ongoing cycle and once it is reverted back completely, the transition
+        will go in forward direction.
+        If an autoreverse is set for the transition and this function is called
+        in the midst of the transition the ongoing transition will be reverted
+        and once it is done, the transition will begin again and complete a
+        full auto reverse cycle.
+
+        :return: ``True`` if the transition is reverted, ``False`` otherwise.
+        :rtype: bool
+
+        .. versionadded:: 1.18
+
+        """
+        return bool(elm_transit_revert(self.obj))
 
     property paused:
         """Pause/Resume the transition.

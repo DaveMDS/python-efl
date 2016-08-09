@@ -65,6 +65,7 @@ cdef extern from "Elementary.h":
     double                   elm_transit_duration_get(Elm_Transit *transit)
     void                     elm_transit_go(Elm_Transit *transit)
     void                     elm_transit_go_in(Elm_Transit *transit, double seconds)
+    Eina_Bool                elm_transit_revert(Elm_Transit *transit)
     void                     elm_transit_paused_set(Elm_Transit *transit, Eina_Bool paused)
     Eina_Bool                elm_transit_paused_get(Elm_Transit *transit)
     double                   elm_transit_progress_value_get(Elm_Transit *transit)

@@ -23,6 +23,7 @@ CTRL_W, CTRL_H = 15, 15
 ctrl_pt1 = None
 ctrl_pt2 = None
 label = None
+revert_btn = None
 bezier_lines = []
 
 def clamp(minimum, x, maximum):
@@ -79,6 +80,7 @@ def ctrl_pt_mouse_move_cb(obj, event):
         update_curve()
 
 def transit_del_cb(obj):
+    revert_btn.disabled = True
     for w in ctrl_pt1, ctrl_pt2, ctrl_pt1.data["line"], ctrl_pt2.data["line"]:
         w.show()
 
@@ -92,14 +94,22 @@ def btn_clicked_cb(btn):
     transit.del_cb_set(transit_del_cb)
     transit.go()
 
+    revert_btn.disabled = False
+    revert_btn.data['transit'] = transit
     for w in ctrl_pt1, ctrl_pt2, ctrl_pt1.data["line"], ctrl_pt2.data["line"]:
         w.hide()
 
+def revert_btn_clicked_cb(btn):
+    transit = btn.data['transit']
+    transit.revert()
+    
 def transit_bezier_clicked(obj, item=None):
-    global ctrl_pt1, ctrl_pt2, label, bezier_lines
+    global ctrl_pt1, ctrl_pt2, label, bezier_lines, revert_btn
 
     win = Window("transit_bezier", ELM_WIN_BASIC, title="Transit Bezier",
                  autodel=True, size=(WIN_W, WIN_H))
+    if obj is None:
+        win.callback_delete_request_add(lambda o: elementary.exit())
 
     # BG. Fix window size
     bg = Background(win, size_hint_min=(WIN_W, WIN_H))
@@ -144,6 +154,12 @@ def transit_bezier_clicked(obj, item=None):
     # Label
     label = Label(win, size=(WIN_W, 50), pass_events=True)
     label.show()
+
+    # Revert btn
+    btn = Button(win, text="Revert", size=(70,50), pos=(100,0), disabled=True)
+    btn.callback_clicked_add(revert_btn_clicked_cb)
+    btn.show()
+    revert_btn = btn
 
     # Button
     btn = Button(win, text="Go", size=(BTN_SIZE,BTN_SIZE),
