@@ -308,6 +308,24 @@ def gengrid_clicked(obj):
     tb.pack(bt, 4, 4, 1, 1)
     bt.show()
 
+    # item content unset
+    def content_unset_clicked(bt, gg):
+        item = gg.selected_item
+        if item is None:
+            print("You must select an item first!")
+        else:
+            contents = item.all_contents_unset()
+            for obj in contents:
+                obj.pos = (0, 0)
+                obj.show()
+            # Now all the unsetted objects are orphan in the canvas,
+            # the user should do something with them
+        
+    bt = Button(win, size_hint_align=FILL_HORIZ, text="Item content unset")
+    bt.callback_clicked_add(content_unset_clicked, gg)
+    tb.pack(bt, 5, 4, 1, 1)
+    bt.show()
+
     # scroll_to methods
     rdg = rd = Radio(win, text='SCROLL_IN',
                      state_value=elm.ELM_GENGRID_ITEM_SCROLLTO_IN)

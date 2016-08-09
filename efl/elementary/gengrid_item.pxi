@@ -318,3 +318,28 @@ cdef class GengridItem(ObjectItem):
     def select_mode_get(self):
         return elm_gengrid_item_select_mode_get(self.item)
 
+    def all_contents_unset(self):
+        """Unset all contents fetched by the item class
+
+        This instructs gengrid to release references to contents in the item,
+        meaning that they will no longer be managed by gengrid and are
+        floating "orphans" that can be re-used elsewhere.
+
+        :return: The list of now orphans objects
+        :rtype: list
+        
+        .. versionadded:: 1.18
+
+        .. warning:: Don't forget to do something with the returned objects,
+            they are hidden in the canvas, but still alive. You should
+            at least delete them if you don't need to reuse.
+
+        """
+        cdef:
+            Eina_List *l = NULL
+            list ret
+        elm_gengrid_item_all_contents_unset(self.item, &l)
+        ret = eina_list_objects_to_python_list(l)
+        eina_list_free(l)
+        return ret
+

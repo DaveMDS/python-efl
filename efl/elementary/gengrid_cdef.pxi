@@ -121,6 +121,8 @@ cdef extern from "Elementary.h":
     void                    elm_gengrid_item_bring_in(Elm_Object_Item *item, Elm_Genlist_Item_Scrollto_Type scrollto_type)
     void                    elm_gengrid_item_update(Elm_Object_Item *item)
     void                    elm_gengrid_item_pos_get(const Elm_Object_Item *item, unsigned int *x, unsigned int *y)
+    void                    elm_gengrid_item_all_contents_unset(Elm_Object_Item *obj, Eina_List **l)
+
     Elm_Object_Item *       elm_gengrid_nth_item_get(const Evas_Object *obj, unsigned int nth)
     Elm_Object_Item *       elm_gengrid_at_xy_item_get(const Evas_Object *obj, Evas_Coord x, Evas_Coord y, int *xposret, int *yposret)
     Elm_Object_Item *       elm_gengrid_search_by_text_item_get(const Evas_Object *obj, Elm_Object_Item *item_to_search_from, const char *part_name, const char *pattern, Elm_Glob_Match_Flags flags)
