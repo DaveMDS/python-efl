@@ -39,6 +39,7 @@ def entry_changed_cb(en, gl):
 
 def filter_done_cb(gl):
     print("filter,done")
+    print("Filtered items count: ", gl.filtered_items_count())
 
 def test_genlist_filter(parent):
     win = StandardWindow("genlist-filter", "Genlist Filter", autodel=True,

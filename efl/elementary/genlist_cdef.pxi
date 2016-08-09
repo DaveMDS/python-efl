@@ -161,3 +161,4 @@ cdef extern from "Elementary.h":
     void                    elm_genlist_focus_on_selection_set(Evas_Object *obj, Eina_Bool enabled)
     Eina_Bool               elm_genlist_focus_on_selection_get(const Evas_Object *obj)
     void                    elm_genlist_filter_set(Evas_Object *obj, void *key)
+    unsigned int            elm_genlist_filtered_items_count(Evas_Object *obj)

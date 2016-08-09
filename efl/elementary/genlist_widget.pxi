@@ -734,6 +734,20 @@ cdef class Genlist(Object):
     def filter_get(self):
         return self.internal_data['__filterkeyref']
 
+    def filtered_items_count(self):
+        """Return how many items have passed the filter currently.
+
+        This behaviour is O(1) and may or may not return the filtered count for
+        complete genlist based on the timing of the call. To get complete
+        count, call after "filter,done" callback.
+
+        :return: The number of filtered items
+        :rtype: int
+
+        .. versionadded:: 1.18
+
+        """
+        return elm_genlist_filtered_items_count(self.obj)
     #
     # Drag and Drop
     # =============
