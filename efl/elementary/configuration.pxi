@@ -579,6 +579,22 @@ cdef class Configuration(object):
         def __set__(self, double delay):
             elm_config_tooltip_delay_set(delay)
 
+    property popup_scrollable:
+        """The popup scrollable flag
+
+        If scrollable is ``True``, popup's contents is wrapped in a scroller
+        container in order to popup shouldn't be larger than its parent.
+
+        :type: bool
+
+        .. versionadded:: 1.18
+
+        """
+        def __get__(self):
+            return bool(elm_config_popup_scrollable_get())
+        def __set__(self, bint scrollable):
+            elm_config_popup_scrollable_set(scrollable)
+
     property cursor_engine_only:
         """The globally configured exclusive usage of engine cursors.
 
