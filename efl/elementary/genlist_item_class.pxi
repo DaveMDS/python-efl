@@ -18,6 +18,7 @@ cdef class GenlistItemClass(object):
         Elm_Genlist_Item_Class *cls
         object _text_get_func
         object _content_get_func
+        object _reusable_content_get_func
         object _state_get_func
         object _filter_get_func
         object _del_func
@@ -29,6 +30,7 @@ cdef class GenlistItemClass(object):
         self.cls = elm_genlist_item_class_new()
         self.cls.func.text_get = _py_elm_genlist_item_text_get
         self.cls.func.content_get = _py_elm_genlist_item_content_get
+        self.cls.func.reusable_content_get = _py_elm_genlist_item_reusable_content_get
         self.cls.func.state_get = _py_elm_genlist_item_state_get
         self.cls.func.filter_get = _py_elm_genlist_item_filter_get
         # In C the struct member is del but we rename it to del_ in pxd
@@ -41,7 +43,8 @@ cdef class GenlistItemClass(object):
     def __init__(self, item_style=None, text_get_func=None,
                  content_get_func=None, state_get_func=None, del_func=None,
                  decorate_item_style=None, decorate_all_item_style=None,
-                 filter_get_func=None, *args, **kwargs):
+                 filter_get_func=None, reusable_content_get_func=None,
+                 *args, **kwargs):
 
         """GenlistItemClass constructor.
 
@@ -76,6 +79,14 @@ cdef class GenlistItemClass(object):
             and similar. This function should have the signature:
             ``func(obj, part, item_data)``
 
+        :param reusable_content_get_func: if provided will override the behavior
+            defined by :py:func:`reusable_content_get()` in this class.
+            Its purpose is to return the icon object to be used (swallowed) by a
+            given part and row. This can be used to reuse (cache) contents
+            (since 1.18)
+            This function should have the signature:
+            ``func(obj, part, item_data, old_content) -> obj``
+
         .. note:: In all these signatures, 'obj' means Genlist and
             'item_data' is the value given to Genlist item append/prepend
             methods, it should represent your row model as you want.
@@ -99,6 +110,14 @@ cdef class GenlistItemClass(object):
                 raise TypeError("content_get_func is not callable!")
         else:
             self._content_get_func = self.content_get
+
+        if reusable_content_get_func is not None:
+            if callable(reusable_content_get_func):
+                self._reusable_content_get_func = reusable_content_get_func
+            else:
+                raise TypeError("reusable_content_get_func is not callable!")
+        else:
+            self._reusable_content_get_func = self.reusable_content_get
 
         if state_get_func is not None:
             if callable(state_get_func):
@@ -230,6 +249,20 @@ cdef class GenlistItemClass(object):
         :param obj: the Genlist instance
         :param part: the part that is being handled.
         :param item_data: the value given to genlist append/prepend.
+
+        :return: icon object to be used and swallowed.
+        :rtype: evas Object or None
+        """
+        return None
+
+    def reusable_content_get(self, evasObject obj, part, item_data, old_content):
+        """To be called by Genlist for each row to get its icon.
+
+        :param obj: the Genlist instance
+        :param part: the part that is being handled.
+        :param item_data: the value given to genlist append/prepend.
+        :param old_content: the old (if available) content that can be used
+            instead of creating a new object every time.
 
         :return: icon object to be used and swallowed.
         :rtype: evas Object or None

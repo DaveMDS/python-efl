@@ -181,6 +181,7 @@ items = [
         ("Genlist Decorate All Mode", "test_genlist_decorate_all", "test_genlist_decorate_all"),
         ("Genlist Search by Text", "test_genlist_search", "test_genlist_search"),
         ("Genlist Reorder Mode", "test_genlist_reorder", "test_genlist_reorder"),
+        ("Genlist Reusable Contents", "test_genlist_reusable", "test_genlist_reusable"),
     ]),
     ("Lists - List", [
         ("List", "test_list", "list_clicked"),

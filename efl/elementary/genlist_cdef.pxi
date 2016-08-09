@@ -62,15 +62,17 @@ cdef extern from "Elementary.h":
         pass
 
 
-    ctypedef char           *(*GenlistItemLabelGetFunc)     (void *data, Evas_Object *obj, const char *part)
-    ctypedef Evas_Object    *(*GenlistItemIconGetFunc)      (void *data, Evas_Object *obj, const char *part)
-    ctypedef Eina_Bool       (*GenlistItemStateGetFunc)     (void *data, Evas_Object *obj, const char *part)
-    ctypedef Eina_Bool       (*GenlistItemFilterGetFunc)    (void *data, Evas_Object *obj, void *key)
-    ctypedef void            (*GenlistItemDelFunc)          (void *data, Evas_Object *obj)
+    ctypedef char           *(*GenlistItemLabelGetFunc)       (void *data, Evas_Object *obj, const char *part)
+    ctypedef Evas_Object    *(*GenlistItemIconGetFunc)        (void *data, Evas_Object *obj, const char *part)
+    ctypedef Evas_Object    *(*GenlistItemReusableIconGetFunc)(void *data, Evas_Object *obj, const char *part, Evas_Object *old)
+    ctypedef Eina_Bool       (*GenlistItemStateGetFunc)       (void *data, Evas_Object *obj, const char *part)
+    ctypedef Eina_Bool       (*GenlistItemFilterGetFunc)      (void *data, Evas_Object *obj, void *key)
+    ctypedef void            (*GenlistItemDelFunc)            (void *data, Evas_Object *obj)
 
     ctypedef struct Elm_Genlist_Item_Class_Func:
         GenlistItemLabelGetFunc text_get
         GenlistItemIconGetFunc content_get
+        GenlistItemReusableIconGetFunc reusable_content_get
         GenlistItemStateGetFunc state_get
         GenlistItemFilterGetFunc filter_get
         GenlistItemDelFunc del_ "del"

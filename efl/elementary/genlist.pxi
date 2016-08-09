@@ -62,6 +62,30 @@ cdef Evas_Object *_py_elm_genlist_item_content_get(void *data, Evas_Object *obj,
     else:
         return NULL
 
+cdef Evas_Object *_py_elm_genlist_item_reusable_content_get(void *data, Evas_Object *obj, const char *part, Evas_Object *old) with gil:
+    cdef:
+        GenlistItem item = <GenlistItem>data
+        unicode u = _ctouni(part)
+        evasObject icon
+
+    func = item.item_class._reusable_content_get_func
+    if func is None:
+        return NULL
+
+    o = object_from_instance(obj)
+    old_content = object_from_instance(old)
+
+    try:
+        icon = func(o, u, item.item_data, old_content)
+    except Exception:
+        traceback.print_exc()
+        return NULL
+
+    if icon is not None:
+        return icon.obj
+    else:
+        return NULL
+
 cdef Eina_Bool _py_elm_genlist_item_state_get(void *data, Evas_Object *obj, const char *part) with gil:
     cdef:
         GenlistItem item = <GenlistItem>data
