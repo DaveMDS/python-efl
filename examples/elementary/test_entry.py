@@ -105,8 +105,7 @@ def entry_clicked(obj, item=None):
     bx2.pack_end(bt)
     bt.show()
 
-    ck = Check(win, text="Context menu disabled")#, size_hint_weight=EXPAND_HORIZ,
-                  # size_hint_align=FILL_BOTH)
+    ck = Check(win, text="Context menu disabled")
     ck.callback_changed_add(my_entry_bt_5)
     bx2.pack_end(ck)
     ck.show()
@@ -128,6 +127,11 @@ def entry_clicked(obj, item=None):
     bt.callback_clicked_add(my_entry_bt_7, en)
     bx2.pack_end(bt)
     bt.show()
+
+    ck = Check(win, text="Select allow", state=True)
+    ck.callback_changed_add(lambda c: setattr(en, "select_allow", c.state))
+    bx2.pack_end(ck)
+    ck.show()
     
     bx.pack_end(bx2)
     bx2.show()

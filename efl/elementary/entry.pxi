@@ -687,6 +687,24 @@ cdef class Entry(LayoutClass):
         elm_entry_select_region_get(self.obj, &start, &end)
         return (start, end)
 
+    property select_allow:
+        """Whether selection in the entry is allowed.
+
+        :type: bool
+
+        .. versionadded:: 1.18
+
+        """
+        def __get__(self):
+            return bool(elm_entry_select_allow_get(self.obj))
+        def __set__(self, bint allow):
+            elm_entry_select_allow_set(self.obj, allow)
+
+    def select_allow_set(self, bint allow):
+        elm_entry_select_allow_set(self.obj, allow)
+    def select_allow_get(self):
+        return bool(elm_entry_select_allow_get(self.obj))
+
     def cursor_next(self):
         """This moves the cursor one place to the right within the entry.
 

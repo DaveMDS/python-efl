@@ -170,6 +170,8 @@ cdef extern from "Elementary.h":
     Elm_Wrap_Type           elm_entry_line_wrap_get(const Evas_Object *obj)
     void                    elm_entry_editable_set(Evas_Object *obj, Eina_Bool editable)
     Eina_Bool               elm_entry_editable_get(const Evas_Object *obj)
+    void                    elm_entry_select_allow_set(Evas_Object *obj, Eina_Bool allow)
+    Eina_Bool               elm_entry_select_allow_get(const Evas_Object *obj)
     void                    elm_entry_select_none(Evas_Object *obj)
     void                    elm_entry_select_all(Evas_Object *obj)
     void                    elm_entry_select_region_set(Evas_Object *obj, int start, int end)
