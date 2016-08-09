@@ -363,6 +363,7 @@ def subprocess_warning(*a, **ka):
         Instead of using subprocess.Popen(), please consider using Ecore's
         Exe() class.
         """)
+    traceback.print_stack()
     return _orig_subprocess(*a, **ka)
 
 if subprocess.Popen is not subprocess_warning:
