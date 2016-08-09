@@ -645,6 +645,23 @@ cdef class Entry(LayoutClass):
         """This selects all text within the entry."""
         elm_entry_select_all(self.obj)
 
+    property select_region:
+        """The selected region within the entry.
+
+        :type: 2 ints tuple (start, end)
+
+        .. versionadded: 1.18
+
+        """
+        def __get__(self):
+            cdef int start, end
+            elm_entry_select_region_get(self.obj, &start, &end)
+            return (start, end)
+        def __set__(self, value):
+            cdef int start, end
+            start, end = value
+            elm_entry_select_region_set(self.obj, start, end)
+
     def select_region_set(self, int start, int end):
         """This selects a region of text within the entry.
 
@@ -657,6 +674,18 @@ cdef class Entry(LayoutClass):
 
         """
         elm_entry_select_region_set(self.obj, start, end)
+    def select_region_get(self):
+        """Get the current position of the selection cursors in the entry.
+
+        :return: the 2 ints tuple (start, end)
+        :rtype: tuple
+
+        .. versionadded: 1.18
+
+        """
+        cdef int start, end
+        elm_entry_select_region_get(self.obj, &start, &end)
+        return (start, end)
 
     def cursor_next(self):
         """This moves the cursor one place to the right within the entry.

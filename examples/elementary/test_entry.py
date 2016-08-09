@@ -52,6 +52,12 @@ def my_entry_bt_5(chk):
 def my_entry_anchor_test(obj, anchor, en, *args, **kwargs):
     en.entry_insert("ANCHOR CLICKED")
 
+def my_entry_bt_6(bt, en):
+    en.select_region = (3, 10)
+
+def my_entry_bt_7(bt, en):
+    print("Sel region: ", en.select_region)
+
 def entry_clicked(obj, item=None):
     win = StandardWindow("entry", "Entry", autodel=True)
 
@@ -105,6 +111,24 @@ def entry_clicked(obj, item=None):
     bx2.pack_end(ck)
     ck.show()
 
+    bx.pack_end(bx2)
+    bx2.show()
+
+    bx2 = Box(win, horizontal=True, size_hint_weight=EXPAND_HORIZ,
+              size_hint_align=FILL_BOTH)
+
+    bt = Button(win, text="Sel region set", size_hint_weight=EXPAND_HORIZ,
+                size_hint_align=FILL_BOTH)
+    bt.callback_clicked_add(my_entry_bt_6, en)
+    bx2.pack_end(bt)
+    bt.show()
+
+    bt = Button(win, text="Sel region get", size_hint_weight=EXPAND_HORIZ,
+                size_hint_align=FILL_BOTH)
+    bt.callback_clicked_add(my_entry_bt_7, en)
+    bx2.pack_end(bt)
+    bt.show()
+    
     bx.pack_end(bx2)
     bx2.show()
 

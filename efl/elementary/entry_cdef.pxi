@@ -173,6 +173,7 @@ cdef extern from "Elementary.h":
     void                    elm_entry_select_none(Evas_Object *obj)
     void                    elm_entry_select_all(Evas_Object *obj)
     void                    elm_entry_select_region_set(Evas_Object *obj, int start, int end)
+    void                    elm_entry_select_region_get(Evas_Object *obj, int *start, int *end)
     Eina_Bool               elm_entry_cursor_next(Evas_Object *obj)
     Eina_Bool               elm_entry_cursor_prev(Evas_Object *obj)
     Eina_Bool               elm_entry_cursor_up(Evas_Object *obj)
