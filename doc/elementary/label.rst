@@ -20,9 +20,17 @@ Available styles
 ================
 
 ``default``
-    No animation
+    The default style
+``default/left``
+    Left aligned label (since 1.18)
+``default/right``
+    Right aligned label (since 1.18)
 ``marker``
     Centers the text in the label and makes it bold by default
+``marker/left``
+    Like marker but left aligned (since 1.18)
+``marker/right``
+    Like marker but right aligned (since 1.18)
 ``slide_long``
     The entire text appears from the right of the screen and
     slides until it disappears in the left of the screen(reappearing on

@@ -66,6 +66,31 @@ def label_clicked(obj):
     vbox.pack_end(lb)
     lb.show()
 
+    lb = Label(win, style="default/left", text="Left aligned style",
+               size_hint_weight=EXPAND_HORIZ, size_hint_align=FILL_BOTH)
+    vbox.pack_end(lb)
+    lb.show()
+
+    lb = Label(win, style="default/right", text="Right aligned style",
+               size_hint_weight=EXPAND_HORIZ, size_hint_align=FILL_BOTH)
+    vbox.pack_end(lb)
+    lb.show()
+
+    lb = Label(win, style="marker", text="Marker style",
+               size_hint_weight=EXPAND_HORIZ, size_hint_align=FILL_BOTH)
+    vbox.pack_end(lb)
+    lb.show()
+
+    lb = Label(win, style="marker/left", text="Marker left style",
+               size_hint_weight=EXPAND_HORIZ, size_hint_align=FILL_BOTH)
+    vbox.pack_end(lb)
+    lb.show()
+
+    lb = Label(win, style="marker/right", text="Marker right style",
+               size_hint_weight=EXPAND_HORIZ, size_hint_align=FILL_BOTH)
+    vbox.pack_end(lb)
+    lb.show()
+
     sp = Separator(win, horizontal=True)
     vbox.pack_end(sp)
     sp.show()
