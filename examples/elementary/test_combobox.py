@@ -5,7 +5,7 @@ from efl.evas import EVAS_HINT_EXPAND, EXPAND_BOTH, EXPAND_HORIZ, FILL_HORIZ, \
     EVAS_ASPECT_CONTROL_VERTICAL
 from efl import elementary as elm
 from efl.elementary import StandardWindow, Box, Button, Icon, Separator, \
-    Combobox, GenlistItemClass
+    Combobox, GenlistItemClass, Label
 
 
 class ComboboxItemClass(GenlistItemClass):
@@ -97,6 +97,16 @@ def combobox_clicked(obj):
     bt.callback_clicked_add(btn_click_cb, cbox1)
     bx.pack_start(bt)
     bt.show()
+
+    lb = Label(win, text="""<failure>
+<big><b>THE COMBOBOX WIDGET IS BROKEN AND DEPRECATED.<br>
+DO NOT USE IN ANY CASE.<b></big><br><br>
+The behaviour and the API of the Combobox will change in future release.<br> <br>
+If you are already using this we really encourage you to switch to other widgets.<br><br>
+We are really sorry about this breakage, but there is nothing we can do to avoid this :( <br><br></failure>
+""")
+    bx.pack_start(lb)
+    lb.show()
 
     #
     win.show()

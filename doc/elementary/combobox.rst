@@ -3,8 +3,18 @@
 Combobox
 ########
 
-.. image:: /images/combobox-preview.png
+.. warning::
+    **THE COMBOBOX IS BROKEN AND DEPRECATED, DO NOT USE IN ANY CASE !!**
 
+    The behaviour and the API of the Combobox will change in future release.
+
+    If you are already using this we really encourage you to switch
+    to other widgets.
+
+    We are really sorry about this breakage, but there is nothing we can do
+    to avoid this :(
+
+.. image:: /images/combobox-preview.png
 
 Widget description
 ==================

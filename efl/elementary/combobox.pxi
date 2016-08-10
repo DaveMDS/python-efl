@@ -97,7 +97,21 @@ class Combobox(_Combobox, Button, Entry, Genlist, Hover):
 
     This is the class that actually implements the widget.
 
+    .. warning::
+        **THE COMBOBOX WIDGET IS BROKEN AND DEPRECATED, DO NOT USE IN ANY CASE !!**
+
+        The behaviour and the API of the Combobox will change in future release.
+
+        If you are already using this we really encourage you to switch
+        to other widgets.
+
+        We are really sorry about this breakage, but there is nothing we can do
+        to avoid this :(
+
     .. versionadded:: 1.17
+
+    .. versionchanged:: 1.18
+        The combobox widget has been deprecated. Don't use it in ANY case.
 
     """
     def __init__(self, evasObject parent, *args, **kwargs):
@@ -109,6 +123,17 @@ class Combobox(_Combobox, Button, Entry, Genlist, Hover):
                           as properties of the instance
 
         """
+        print("""
+        **THE COMBOBOX IS BROKEN AND DEPRECATED, DO NOT USE IN ANY CASE !!**
+
+        The behaviour and the API of the Combobox will change in future release.
+
+        If you are already using this we really encourage you to switch
+        to other widgets.
+
+        We are really sorry about this breakage, but there is nothing we can do
+        to avoid this :(
+        """)
         _Combobox.__init__(self, parent, *args, **kwargs)
 
 
