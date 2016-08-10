@@ -1016,6 +1016,8 @@ cdef class Object(SmartObject):
 
         .. versionadded:: 1.15
 
+        .. seealso:: :attr:`focus_move_policy_automatic`
+
         """
         def __get__(self):
             return elm_object_focus_move_policy_get(self.obj)
@@ -1027,6 +1029,33 @@ cdef class Object(SmartObject):
         return elm_object_focus_move_policy_get(self.obj)
     def focus_move_policy_set(self, Elm_Focus_Move_Policy policy):
         elm_object_focus_move_policy_set(self.obj, policy)
+
+    property focus_move_policy_automatic:
+        """The widget's focus movement policy mode setting.
+
+        When widget in automatic mode, it follows the system focus movement
+        policy mode set by :attr:`efl.elementary.Configuration.focus_move_policy`.
+
+        :type: bool
+
+        .. versionadded:: 1.18
+
+        .. seealso::
+            :attr:`focus_move_policy`
+
+            :attr:`efl.elementary.Configuration.focus_move_policy`
+
+        """
+        def __get__(self):
+            return bool(elm_object_focus_move_policy_automatic_get(self.obj))
+        def __set__(self, bint automatic):
+            elm_object_focus_move_policy_automatic_set(self.obj, automatic)
+
+    def focus_move_policy_automatic_get(self):
+        return bool(elm_object_focus_move_policy_automatic_get(self.obj))
+    def focus_move_policy_automatic_set(self, bint automatic):
+        elm_object_focus_move_policy_automatic_set(self.obj, automatic)
+
 
     property focus_region_show_mode:
         """The focus movement policy for the object.

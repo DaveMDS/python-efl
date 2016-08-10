@@ -183,6 +183,8 @@ cdef extern from "Elementary.h":
     Elm_Focus_Move_Policy   elm_object_focus_move_policy_get(Evas_Object *obj)
     void                       elm_object_focus_region_show_mode_set(Evas_Object *obj, Elm_Focus_Region_Show_Mode mode)
     Elm_Focus_Region_Show_Mode elm_object_focus_region_show_mode_get(const Evas_Object *obj)
+    Eina_Bool               elm_object_focus_move_policy_automatic_get(const Evas_Object *obj)
+    void                    elm_object_focus_move_policy_automatic_set(Evas_Object *obj, Eina_Bool automatic)
 
     # Object - Mirroring (elm_mirroring.h)
     Eina_Bool               elm_object_mirrored_get(const Evas_Object *obj)
