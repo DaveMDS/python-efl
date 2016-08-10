@@ -201,6 +201,9 @@ cdef extern from "Elementary.h":
     Eina_Bool               elm_config_popup_scrollable_get()
     void                    elm_config_popup_scrollable_set(Eina_Bool scrollable)
 
+    const char *            elm_config_web_backend_get()
+    void                    elm_config_web_backend_set(const char *backend)
+
     const char *            elm_config_indicator_service_get(int rotation)
 
     double                  elm_config_glayer_long_tap_start_timeout_get()

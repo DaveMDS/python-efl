@@ -1370,6 +1370,25 @@ cdef class Configuration(object):
         def __set__(self, bint disabled):
             elm_config_context_menu_disabled_set(disabled)
 
+    property web_backend:
+        """The backend engine used by Elm_Web widget
+
+        This is the name of the external module used by elm_web to render web
+        page.
+
+        :type: string
+
+        .. versionadded:: 1.18
+
+        """
+        def __get__(self):
+            return _ctouni(elm_config_web_backend_get())
+        def __set__(self, backend):
+            if isinstance(backend, unicode): backend = PyUnicode_AsUTF8String(backend)
+            elm_config_web_backend_set(
+                        <const char *>backend if backend is not None else NULL)
+
+
 #For compatibility
 def config_finger_size_get():
     return elm_config_finger_size_get()
