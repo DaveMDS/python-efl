@@ -28,6 +28,8 @@ cdef extern from "Elementary.h":
     void                     elm_list_go(Evas_Object *obj)
     void                     elm_list_multi_select_set(Evas_Object *obj, Eina_Bool multi)
     Eina_Bool                elm_list_multi_select_get(const Evas_Object *obj)
+    void                     elm_list_multi_select_mode_set(Evas_Object *obj, Elm_Object_Multi_Select_Mode mode)
+    Elm_Object_Multi_Select_Mode elm_list_multi_select_mode_get(const Evas_Object *obj)
     void                     elm_list_mode_set(Evas_Object *obj, Elm_List_Mode mode)
     Elm_List_Mode            elm_list_mode_get(const Evas_Object *obj)
     void                     elm_list_horizontal_set(Evas_Object *obj, Eina_Bool horizontal)

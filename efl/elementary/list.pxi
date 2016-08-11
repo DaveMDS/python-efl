@@ -467,6 +467,36 @@ cdef class List(Object):
     def multi_select_get(self):
         return bool(elm_list_multi_select_get(self.obj))
 
+
+    property multi_select_mode:
+        """Control the list multi select mode.
+
+        - #ELM_OBJECT_MULTI_SELECT_MODE_DEFAULT : select/unselect items whenever
+          each item is clicked.
+        - #ELM_OBJECT_MULTI_SELECT_MODE_WITH_CONTROL : Only
+          one item will be selected although multi-selection is enabled, if clicked
+          without pressing control key. This mode is only available with
+          multi-selection.
+
+        .. seealso:: :attr:`multi_select`
+
+        :type: :ref:`Elm_Object_Multi_Select_Mode`
+
+        .. versionadded:: 1.18
+
+        """
+        def __set__(self, Elm_Object_Multi_Select_Mode mode):
+            elm_list_multi_select_mode_set(self.obj, mode)
+
+        def __get__(self):
+            return elm_list_multi_select_mode_get(self.obj)
+
+    def multi_select_mode_set(self, Elm_Object_Multi_Select_Mode mode):
+        elm_list_multi_select_mode_set(self.obj, mode)
+
+    def multi_select_mode_get(self):
+        return elm_list_multi_select_mode_get(self.obj)
+
     property mode:
         """Which mode to use for the list object.
 

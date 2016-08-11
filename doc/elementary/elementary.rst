@@ -118,7 +118,7 @@ Quit policy types
 .. data:: ELM_POLICY_QUIT_LAST_WINDOW_HIDDEN
 
     Quit when the application's last window is hidden
-    
+
     .. versionadded:: 1.15
 
 
@@ -156,6 +156,24 @@ Possible values for the #ELM_POLICY_THROTTLE policy.
 .. data:: ELM_POLICY_THROTTLE_NEVER
 
     Never throttle when windows are all hidden, regardless of config settings.
+
+
+.. _Elm_Object_Multi_Select_Mode:
+
+Object multi select policy values
+---------------------------------
+
+Possible values for the #ELM_OBJECT_MULTI_SELECT_MODE policy.
+
+.. versionadded:: 1.18
+
+.. data:: ELM_OBJECT_MULTI_SELECT_MODE_DEFAULT
+
+    Default multiple select mode.
+
+.. data:: ELM_OBJECT_MULTI_SELECT_MODE_WITH_CONTROL
+
+    Disallow mutiple selection when clicked without control key pressed.
 
 
 .. _Elm_Process_State:

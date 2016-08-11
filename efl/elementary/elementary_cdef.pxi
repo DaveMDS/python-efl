@@ -83,6 +83,13 @@ cdef extern from "Elementary.h":
     ctypedef enum Elm_Policy_Throttle:
         pass
 
+    cpdef enum Elm_Object_Multi_Select_Mode:
+        ELM_OBJECT_MULTI_SELECT_MODE_DEFAULT
+        ELM_OBJECT_MULTI_SELECT_MODE_WITH_CONTROL
+        ELM_OBJECT_MULTI_SELECT_MODE_MAX
+    ctypedef enum Elm_Object_Multi_Select_Mode:
+        pass
+
     cpdef enum Elm_Sys_Notify_Urgency:
         ELM_SYS_NOTIFY_URGENCY_LOW
         ELM_SYS_NOTIFY_URGENCY_NORMAL
