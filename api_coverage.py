@@ -24,6 +24,7 @@ c_exclude_list = [
     "elm_access",  # Access disabled until 1.9
     "elm_config_access",  # Access disabled until 1.9
     "elm_object_item_access",  # Access disabled until 1.9
+    "elm_systray",  # We currently have this in using Eo API
 ]
 c_excludes = "|".join(c_exclude_list)
 
