@@ -2,8 +2,8 @@
 # encoding: utf-8
 
 
-from efl.evas import EXPAND_BOTH, EXPAND_HORIZ, FILL_BOTH
 from efl import elementary as elm
+from efl.evas import EXPAND_BOTH, EXPAND_HORIZ, FILL_BOTH
 
 
 class MyItemClass(elm.GenlistItemClass):
@@ -15,18 +15,31 @@ class MyItemClass(elm.GenlistItemClass):
 
     def content_get(self, obj, part, item_data):
         if part == 'elm.swallow.icon':
-            return elm.Icon(obj, standard='user-home')
+            print('Creating NEW content (icon) for item #%d' % item_data)
+            txt = 'Content for item %i' % item_data
+            return elm.Label(obj, text=txt, color=(255, 0, 0, 255))
+
         if part == 'elm.swallow.end':
-            print('Creating NEW content for item #%d' % item_data)
-            txt = '<warning>Content for item %i</warning>' % item_data
-            return elm.Label(obj, text=txt)
+            print('Creating NEW content (end) for item #%d' % item_data)
+            txt = 'Content for item %i' % item_data
+            return elm.Label(obj, text=txt, color=(0, 255, 0, 255))
+
         return None
 
-    def reusable_content_get(self, obj, part, item_data, old_content):
-        if part == 'elm.swallow.end' and old_content:
-            if obj.data['reusable_enabled'] == True:
-                print('REUSING content for item # %i' % item_data)
-                return old_content
+    def reusable_content_get(self, obj, part, item_data, old):
+        if obj.data['reusable_enabled'] == False:
+            return None
+
+        if old and part == 'elm.swallow.icon':
+            print('REUSING content (icon) for item # %i' % item_data)
+            old.text = 'Content for item %i' % item_data
+            return old
+
+        if old and part == 'elm.swallow.end':
+            print('REUSING content (end) for item # %i' % item_data)
+            old.text = 'Content for item %i' % item_data
+            return old
+
         return None
 
 itc = MyItemClass()
@@ -46,20 +59,23 @@ def test_genlist_reusable(parent):
     box.show()
 
     # info frame
+    txt = 'Labels in left content (icon) must be red.<br>' \
+          'Labels in right content (end) must be green.<br>' \
+          'The 3 numbers in one row should always match.'
     fr = elm.Frame(win, text='Information',  size_hint_expand=EXPAND_HORIZ,
                    size_hint_fill=FILL_BOTH)
-    fr.content = elm.Label(fr, text='Numbers on the left should always match the one on the right')
+    fr.content = elm.Label(fr, text=txt)
     box.pack_end(fr)
     fr.show()
 
     # genlist
-    gl = elm.Genlist(win, homogeneous=True, mode=elm.ELM_LIST_COMPRESS,
+    gl = elm.Genlist(win, homogeneous=True,
                      size_hint_expand=EXPAND_BOTH, size_hint_fill=FILL_BOTH)
+    gl.data['reusable_enabled'] = True
     box.pack_end(gl)
     for i in range(0, 2000):
         gl.item_append(itc, i)
     gl.show()
-    gl.data['reusable_enabled'] = True
 
     # buttons
     ck = elm.Check(win, text='Enable reusable contents', state=True)
