@@ -90,47 +90,6 @@ cdef class Image(Object):
         self._set_obj(elm_image_add(parent.obj))
         self._set_properties_from_keyword_args(kwargs)
 
-    def memfile_set(self, img, size, format=None, key=None):
-        """Set a location in memory to be used as an image object's source
-        bitmap.
-
-        This function is handy when the contents of an image file are
-        mapped in memory, for example.
-
-        The ``format`` string should be something like ``"png"``, ``"jpg"``,
-        ``"tga"``, ``"tiff"``, ``"bmp"`` etc, when provided. This improves
-        the loader performance as it tries the "correct" loader first,
-        before trying a range of other possible loaders until one succeeds.
-
-        :return: ``True`` on success or ``False`` on error
-
-        .. versionadded:: 1.14
-
-        :param img: The binary data that will be used as image source, must
-                    support the buffer interface
-        :param size: The size of binary data blob ``img``
-        :param format: (Optional) expected format of ``img`` bytes
-        :param key: Optional indexing key of ``img`` to be passed to the
-            image loader (eg. if ``img`` is a memory-mapped EET file)
-
-        """
-        cdef Py_buffer view
-        cdef Eina_Bool ret
-
-        if isinstance(format, unicode): format = PyUnicode_AsUTF8String(format)
-        if isinstance(key, unicode): key = PyUnicode_AsUTF8String(key)
-
-        PyObject_GetBuffer(img, &view, PyBUF_SIMPLE)
-
-        ret = elm_image_memfile_set(self.obj,
-                                    <void *>view.buf,
-                                    size,
-                                    <const char *>format if format else NULL,
-                                    <const char *>key if key else NULL)
-
-        PyBuffer_Release(&view)
-        return bool(ret)
-
     property file:
         """The file (and edje group) that will be used as the image's source.
 
@@ -187,6 +146,77 @@ cdef class Image(Object):
         elm_image_file_get(self.obj, &filename, &group)
         return (_ctouni(filename), _ctouni(group))
 
+    property prescale:
+        """The prescale size for the image
+
+        This is the size for pixmap representation of the given image. It
+        allows the image to be loaded already in the specified size,
+        reducing the memory usage and load time when loading a big image
+        with load size set to a smaller size.
+
+        It's equivalent to the
+        :py:attr:`efl.elementary.background.Background.load_size` property for bg.
+
+        .. note:: this is just a hint, the real size of the pixmap may differ
+            depending on the type of image being loaded, being bigger than
+            requested.
+
+        :type: int
+
+        """
+        def __get__(self):
+            return elm_image_prescale_get(self.obj)
+        def __set__(self, size):
+            elm_image_prescale_set(self.obj, size)
+
+    def prescale_set(self, size):
+        elm_image_prescale_set(self.obj, size)
+    def prescale_get(self):
+        return elm_image_prescale_get(self.obj)
+
+    # TODO:
+    #property mmap_file:
+    #    """The file (and edje group) that will be used as the image's source.
+
+    #    .. note:: Setting this will trigger the Edje file case based on the
+    #        extension of the ``file`` string (expects ``".edj"``, for this
+    #        case).
+
+    #    .. note:: If you use animated gif image and create multiple image
+    #        objects with one gif image file, you should set the ``group``
+    #        differently for each object, else image objects will share one evas
+    #        image cache entry and you will get unwanted frames.
+
+    #    :type: unicode **file** or (unicode **file**, unicode **group**)
+    #    :raise RuntimeError: when setting the file fails
+
+    #    .. versionadded:: 1.18
+
+    #    """
+    #    def __set__(self, value):
+    #        cdef Eina_File file_handle
+    #        if isinstance(value, tuple):
+    #            filename, group = value
+    #        else:
+    #            filename = value
+    #            group = None
+    #        if isinstance(filename, unicode): filename = PyUnicode_AsUTF8String(filename)
+    #        if isinstance(group, unicode): group = PyUnicode_AsUTF8String(group)
+    #        file_handle = eina_file_open(filename, EINA_FALSE)
+    #        if not elm_image_mmap_set(self.obj,
+    #            file_handle,
+    #            <const char *>group if group is not None else NULL):
+    #                raise RuntimeError("Could not set mmap file.")
+    #def mmap_file_set(self, filename, group = None):
+    #    cdef Eina_File file_handle
+    #    if isinstance(filename, unicode): filename = PyUnicode_AsUTF8String(filename)
+    #    if isinstance(group, unicode): group = PyUnicode_AsUTF8String(group)
+    #    file_handle = eina_file_open(filename, EINA_FALSE)
+    #    if not elm_image_mmap_set(self.obj,
+    #        file_handle,
+    #        <const char *>group if group is not None else NULL):
+    #            raise RuntimeError("Could not set mmap file.")
+
     property smooth:
         """The smooth effect for an image.
 
@@ -213,70 +243,155 @@ cdef class Image(Object):
     def smooth_get(self):
         return bool(elm_image_smooth_get(self.obj))
 
-    property object_size:
-        """The current size of the image.
+    property animated_play:
+        """Start or stop an image object's animation.
 
-        This is the real size of the image, not the size of the object.
+        To actually start playing any image object's animation, if it
+        supports it, one must do something like::
 
-        :type: (int **width**, int **height**)
+            if img.animated_available:
+                img.animated = True
+                img.animated_play = True
 
-        """
-        def __get__(self):
-            cdef int width, height
-            elm_image_object_size_get(self.obj, &width, &height)
-            return (width, height)
+        :py:attr:`animated` will enable animation on the image, **but not start it yet**.
+        This is the property one uses to start and stop animation on
+        an image object or get whether it is animating or not.
 
-    def object_size_get(self):
-        cdef int width, height
-        elm_image_object_size_get(self.obj, &width, &height)
-        return (width, height)
-
-    property no_scale:
-        """Whether to disable scaling of this object.
-
-        This disables scaling of the elm_image widget through the property
-        :py:attr:`efl.elementary.object.Object.scale`. However, this does not
-        affect the widget size/resize in any way. For that effect, take a look
-        at :py:attr:`resizable`.
+        .. seealso:: :py:attr:`animated_available` :py:attr:`animated`
 
         :type: bool
 
         """
         def __get__(self):
-            return bool(elm_image_no_scale_get(self.obj))
-        def __set__(self, no_scale):
-            elm_image_no_scale_set(self.obj, no_scale)
+            return bool(elm_image_animated_play_get(self.obj))
+        def __set__(self, play):
+            elm_image_animated_play_set(self.obj, play)
 
-    def no_scale_set(self, no_scale):
-        elm_image_no_scale_set(self.obj, no_scale)
-    def no_scale_get(self):
-        return bool(elm_image_no_scale_get(self.obj))
+    def animated_play_set(self, play):
+        elm_image_animated_play_set(self.obj, play)
+    def animated_play_get(self):
+        return bool(elm_image_animated_play_get(self.obj))
 
-    property resizable:
-        """Whether the object is (up/down) resizable.
+    property animated:
+        """Whether an image object (which supports animation) is to
+        animate itself or not.
 
-        This limits the image resize ability. If  set to *False*, the
-        object can't have its height or width resized to a value higher than
-        the original image size. Same is valid for *size_down*.
+        An image object, even if it supports animation, will be displayed
+        by default without animation. Set this to ``True`` to enable its
+        animation. To start or stop the
+        animation, actually, use :py:attr:`animated_play`.
 
-        :type: (bool **size_up**, bool **size_down**)
+        .. seealso:: :py:attr:`animated_available` :py:attr:`animated_play`
+
+        :type: bool
 
         """
         def __get__(self):
-            cdef Eina_Bool size_up, size_down
-            elm_image_resizable_get(self.obj, &size_up, &size_down)
-            return (size_up, size_down)
+            return bool(elm_image_animated_get(self.obj))
+        def __set__(self, animated):
+            elm_image_animated_set(self.obj, animated)
 
-        def __set__(self, value):
-            size_up, size_down = value
-            elm_image_resizable_set(self.obj, size_up, size_down)
+    def animated_set(self, animated):
+        elm_image_animated_set(self.obj, animated)
+    def animated_get(self):
+        return bool(elm_image_animated_get(self.obj))
 
-    def resizable_set(self, size_up, size_down):
-        elm_image_resizable_set(self.obj, size_up, size_down)
-    def resizable_get(self):
-        cdef Eina_Bool size_up, size_down
-        elm_image_resizable_get(self.obj, &size_up, &size_down)
-        return (size_up, size_down)
+    property animated_available:
+        """Whether an image object supports animation or not.
+
+        This returns if this Elementary image object's internal
+        image can be animated. Currently Evas only supports GIF
+        animation. If the return value is **False**, other
+        ``animated_xxx`` API calls won't work.
+
+        .. seealso:: :py:attr:`animated`
+
+        :type: bool
+
+        """
+        def __get__(self):
+            return bool(elm_image_animated_available_get(self.obj))
+
+    def animated_available_get(self):
+        return bool(elm_image_animated_available_get(self.obj))
+
+    property editable:
+        """Whether the image is 'editable'.
+
+        This means the image is a valid drag target for drag and drop, and
+        can be cut or pasted too. Default is *False*.
+
+        :type: bool
+
+        """
+        def __get__(self):
+            return bool(elm_image_editable_get(self.obj))
+        def __set__(self, editable):
+            elm_image_editable_set(self.obj, editable)
+
+    def editable_set(self, editable):
+        elm_image_editable_set(self.obj, editable)
+    def editable_get(self):
+        return bool(elm_image_editable_get(self.obj))
+
+    def memfile_set(self, img, size, format=None, key=None):
+        """Set a location in memory to be used as an image object's source
+        bitmap.
+
+        This function is handy when the contents of an image file are
+        mapped in memory, for example.
+
+        The ``format`` string should be something like ``"png"``, ``"jpg"``,
+        ``"tga"``, ``"tiff"``, ``"bmp"`` etc, when provided. This improves
+        the loader performance as it tries the "correct" loader first,
+        before trying a range of other possible loaders until one succeeds.
+
+        :return: ``True`` on success or ``False`` on error
+
+        .. versionadded:: 1.14
+
+        :param img: The binary data that will be used as image source, must
+                    support the buffer interface
+        :param size: The size of binary data blob ``img``
+        :param format: (Optional) expected format of ``img`` bytes
+        :param key: Optional indexing key of ``img`` to be passed to the
+            image loader (eg. if ``img`` is a memory-mapped EET file)
+
+        """
+        cdef Py_buffer view
+        cdef Eina_Bool ret
+
+        if isinstance(format, unicode): format = PyUnicode_AsUTF8String(format)
+        if isinstance(key, unicode): key = PyUnicode_AsUTF8String(key)
+
+        PyObject_GetBuffer(img, &view, PyBUF_SIMPLE)
+
+        ret = elm_image_memfile_set(self.obj,
+                                    <void *>view.buf,
+                                    size,
+                                    <const char *>format if format else NULL,
+                                    <const char *>key if key else NULL)
+
+        PyBuffer_Release(&view)
+        return bool(ret)
+
+    property scale:
+        """Control the scale of the object's image.
+
+        :type: float
+
+        .. versionadded:: 1.18
+
+        """
+        def __set__(self, scale):
+            elm_image_scale_set(self.obj, scale)
+        def __get__(self):
+            return elm_image_scale_get(self.obj)
+
+    def scale_set(self, scale):
+        elm_image_scale_set(self.obj, scale)
+    def scale_get(self):
+        return elm_image_scale_get(self.obj)
 
     property fill_outside:
         """Whether the image fills the entire object area, when keeping the
@@ -318,34 +433,6 @@ cdef class Image(Object):
     def preload_disabled_set(self, disabled):
         elm_image_preload_disabled_set(self.obj, disabled)
 
-    property prescale:
-        """The prescale size for the image
-
-        This is the size for pixmap representation of the given image. It
-        allows the image to be loaded already in the specified size,
-        reducing the memory usage and load time when loading a big image
-        with load size set to a smaller size.
-
-        It's equivalent to the
-        :py:attr:`efl.elementary.background.Background.load_size` property for bg.
-
-        .. note:: this is just a hint, the real size of the pixmap may differ
-            depending on the type of image being loaded, being bigger than
-            requested.
-
-        :type: int
-
-        """
-        def __get__(self):
-            return elm_image_prescale_get(self.obj)
-        def __set__(self, size):
-            elm_image_prescale_set(self.obj, size)
-
-    def prescale_set(self, size):
-        elm_image_prescale_set(self.obj, size)
-    def prescale_get(self):
-        return elm_image_prescale_get(self.obj)
-
     property orient:
         """The image orientation.
 
@@ -363,25 +450,6 @@ cdef class Image(Object):
         elm_image_orient_set(self.obj, orientation)
     def orient_get(self):
         return elm_image_orient_get(self.obj)
-
-    property editable:
-        """Whether the image is 'editable'.
-
-        This means the image is a valid drag target for drag and drop, and
-        can be cut or pasted too. Default is *False*.
-
-        :type: bool
-
-        """
-        def __get__(self):
-            return bool(elm_image_editable_get(self.obj))
-        def __set__(self, editable):
-            elm_image_editable_set(self.obj, editable)
-
-    def editable_set(self, editable):
-        elm_image_editable_set(self.obj, editable)
-    def editable_get(self):
-        return bool(elm_image_editable_get(self.obj))
 
     property object:
         """Get the inlined image object of the image widget.
@@ -401,6 +469,151 @@ cdef class Image(Object):
 
     def object_get(self):
         return object_from_instance(elm_image_object_get(self.obj))
+
+    property object_size:
+        """The current size of the image.
+
+        This is the real size of the image, not the size of the object.
+
+        :type: (int **width**, int **height**)
+
+        """
+        def __get__(self):
+            cdef int width, height
+            elm_image_object_size_get(self.obj, &width, &height)
+            return (width, height)
+
+    def object_size_get(self):
+        cdef int width, height
+        elm_image_object_size_get(self.obj, &width, &height)
+        return (width, height)
+
+    # TODO: API break, these were renamed to scale_up/down in 1.18 development
+    #       but compatibility funcs were forgotten.
+    #       Add them in once this gets fixed. See phab T4342
+    #
+    #property resize_down:
+    #    """Control whether the object's image can be resized to a size smaller
+    #    than the original one.
+
+    #    :type: bool
+
+    #    .. versionadded:: 1.18
+
+    #    """
+    #    def __set__(self, bint resize_down):
+    #        elm_image_resize_down_set(self.obj, resize_down)
+    #    def __get__(self):
+    #        return bool(elm_image_resize_down_get(self.obj))
+
+    #def resize_down_set(self, bint resize_down):
+    #    elm_image_resize_down_set(self.obj, resize_down)
+    #def resize_down_get(self):
+    #    return bool(elm_image_resize_down_get(self.obj))
+
+    #property resize_up:
+    #    """Control whether the object's image can be resized to a size larger
+    #    than the original one.
+
+    #    :type: bool
+
+    #    .. versionadded:: 1.18
+
+    #    """
+    #    def __set__(self, bint resize_up):
+    #        elm_image_resize_up_set(self.obj, resize_up)
+    #    def __get__(self):
+    #        return bool(elm_image_resize_up_get(self.obj))
+
+    #def resize_up_set(self, bint resize_up):
+    #    elm_image_resize_up_set(self.obj, resize_up)
+    #def resize_up_get(self):
+    #    return bool(elm_image_resize_up_get(self.obj))
+
+    def sizing_evas(self):
+        """Re-evaluate the object's final geometry.
+
+        .. versionadded:: 1.18
+
+        """
+        elm_image_sizing_eval(self.obj)
+
+    property resizable:
+        """Whether the object is (up/down) resizable.
+
+        This limits the image resize ability. If  set to *False*, the
+        object can't have its height or width resized to a value higher than
+        the original image size. Same is valid for *size_down*.
+
+        :type: (bool **size_up**, bool **size_down**)
+
+        """
+        def __get__(self):
+            cdef Eina_Bool size_up, size_down
+            elm_image_resizable_get(self.obj, &size_up, &size_down)
+            return (size_up, size_down)
+
+        def __set__(self, value):
+            size_up, size_down = value
+            elm_image_resizable_set(self.obj, size_up, size_down)
+
+    def resizable_set(self, size_up, size_down):
+        elm_image_resizable_set(self.obj, size_up, size_down)
+    def resizable_get(self):
+        cdef Eina_Bool size_up, size_down
+        elm_image_resizable_get(self.obj, &size_up, &size_down)
+        return (size_up, size_down)
+
+    property no_scale:
+        """Whether to disable scaling of this object.
+
+        This disables scaling of the elm_image widget through the property
+        :py:attr:`efl.elementary.object.Object.scale`. However, this does not
+        affect the widget size/resize in any way. For that effect, take a look
+        at :py:attr:`resizable`.
+
+        :type: bool
+
+        """
+        def __get__(self):
+            return bool(elm_image_no_scale_get(self.obj))
+        def __set__(self, no_scale):
+            elm_image_no_scale_set(self.obj, no_scale)
+
+    def no_scale_set(self, no_scale):
+        elm_image_no_scale_set(self.obj, no_scale)
+    def no_scale_get(self):
+        return bool(elm_image_no_scale_get(self.obj))
+
+    property fill_inside:
+        """Whether the whole image is inside entire object area, when keeping the
+        aspect ratio.
+
+        If the image should keep its aspect ratio when the object resized to
+        another aspect ratio, there are two possibilities to scale the image:
+        keep the entire image inside the limits of height and width of the
+        object (*fill_inside* is *True*) or let the extra width or height go
+        outside of the object, and the image will fill the entire object
+        (*fill_outside* is *False*).
+
+        .. note:: This option will have no effect if :py:attr:`aspect_fixed`
+            is set to *False*.
+
+        :type: bool
+
+        .. versionadded:: 1.18
+
+        """
+        def __get__(self):
+            return bool(elm_image_fill_inside_get(self.obj))
+
+        def __set__(self, fill_inside):
+            elm_image_fill_inside_set(self.obj, fill_inside)
+
+    def fill_inside_set(self, fill_inside):
+        elm_image_fill_inside_set(self.obj, fill_inside)
+    def fill_inside_get(self):
+        return bool(elm_image_fill_inside_get(self.obj))
 
     property aspect_fixed:
         """Whether the original aspect ratio of the image should be kept on
@@ -426,78 +639,6 @@ cdef class Image(Object):
         elm_image_aspect_fixed_set(self.obj, fixed)
     def aspect_fixed_get(self):
         return bool(elm_image_aspect_fixed_get(self.obj))
-
-    property animated_available:
-        """Whether an image object supports animation or not.
-
-        This returns if this Elementary image object's internal
-        image can be animated. Currently Evas only supports GIF
-        animation. If the return value is **False**, other
-        ``animated_xxx`` API calls won't work.
-
-        .. seealso:: :py:attr:`animated`
-
-        :type: bool
-
-        """
-        def __get__(self):
-            return bool(elm_image_animated_available_get(self.obj))
-
-    def animated_available_get(self):
-        return bool(elm_image_animated_available_get(self.obj))
-
-    property animated:
-        """Whether an image object (which supports animation) is to
-        animate itself or not.
-
-        An image object, even if it supports animation, will be displayed
-        by default without animation. Set this to ``True`` to enable its
-        animation. To start or stop the
-        animation, actually, use :py:attr:`animated_play`.
-
-        .. seealso:: :py:attr:`animated_available` :py:attr:`animated_play`
-
-        :type: bool
-
-        """
-        def __get__(self):
-            return bool(elm_image_animated_get(self.obj))
-        def __set__(self, animated):
-            elm_image_animated_set(self.obj, animated)
-
-    def animated_set(self, animated):
-        elm_image_animated_set(self.obj, animated)
-    def animated_get(self):
-        return bool(elm_image_animated_get(self.obj))
-
-    property animated_play:
-        """Start or stop an image object's animation.
-
-        To actually start playing any image object's animation, if it
-        supports it, one must do something like::
-
-            if img.animated_available:
-                img.animated = True
-                img.animated_play = True
-
-        :py:attr:`animated` will enable animation on the image, **but not start it yet**.
-        This is the property one uses to start and stop animation on
-        an image object or get whether it is animating or not.
-
-        .. seealso:: :py:attr:`animated_available` :py:attr:`animated`
-
-        :type: bool
-
-        """
-        def __get__(self):
-            return bool(elm_image_animated_play_get(self.obj))
-        def __set__(self, play):
-            elm_image_animated_play_set(self.obj, play)
-
-    def animated_play_set(self, play):
-        elm_image_animated_play_set(self.obj, play)
-    def animated_play_get(self):
-        return bool(elm_image_animated_play_get(self.obj))
 
     def callback_clicked_add(self, func, *args, **kwargs):
         """This is called when a user has clicked the image."""
