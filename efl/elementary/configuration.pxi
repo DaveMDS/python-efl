@@ -18,6 +18,8 @@
 
 include "configuration_cdef.pxi"
 
+ELM_CONFIG_ICON_THEME_ELEMENTARY = "_Elementary_Icon_Theme"
+
 cdef class Configuration(object):
 
     """The configuration class"""
@@ -1212,6 +1214,26 @@ cdef class Configuration(object):
         """
         def __set__(self, int mode):
             elm_config_font_hint_type_set(mode)
+
+    property icon_theme:
+        """The FDO icon theme for all elementary apps.
+
+        This property control the icon theme for all
+        :attr:`efl.elementary.Icon.standard` calls. Valid parameters are the
+        name of an installed freedesktop.org icon theme or
+        ELM_CONFIG_ICON_THEME_ELEMENTARY for the built in theme.
+
+        :type: string
+
+        .. versionadded:: 1.18
+
+        """
+        def __get__(self):
+            return _ctouni(elm_config_icon_theme_get())
+        def __set__(self, theme):
+            if isinstance(theme, unicode): theme = PyUnicode_AsUTF8String(theme)
+            elm_config_icon_theme_set(
+                <const char *>theme if theme is not None else NULL)
 
     property window_auto_focus_enable:
         """The auto focus enable flag

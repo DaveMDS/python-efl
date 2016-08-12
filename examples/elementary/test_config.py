@@ -262,6 +262,9 @@ def FRAME(win, bx, t):
 def config_clicked(obj, data=None):
     siname = "_TestConfigSocketImage_"
 
+    print("ELM_CONFIG_ICON_THEME_ELEMENTARY = '%s'" % \
+          elementary.ELM_CONFIG_ICON_THEME_ELEMENTARY)
+
     win = StandardWindow("config", "Configuration", autodel=True,
         size=(400,500))
     global ad

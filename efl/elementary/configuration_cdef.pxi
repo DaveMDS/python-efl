@@ -187,6 +187,9 @@ cdef extern from "Elementary.h":
     void                    elm_config_item_select_on_focus_disabled_set(Eina_Bool disabled)
     Eina_Bool               elm_config_first_item_focus_on_first_focusin_get()
     void                    elm_config_first_item_focus_on_first_focusin_set(Eina_Bool enabled)
+
+    const char *            elm_config_icon_theme_get()
+    void                    elm_config_icon_theme_set(const char *theme)
     
     Elm_Focus_Autoscroll_Mode elm_config_focus_autoscroll_mode_get()
     void                    elm_config_focus_autoscroll_mode_set(Elm_Focus_Autoscroll_Mode mode)
