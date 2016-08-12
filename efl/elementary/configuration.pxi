@@ -1235,6 +1235,22 @@ cdef class Configuration(object):
             elm_config_icon_theme_set(
                 <const char *>theme if theme is not None else NULL)
 
+    property vsync:
+        """The configured vsync flag
+
+        This is the globally configured vsync flag that asks some backend
+        engines to use vsync display if possible.
+
+        :type: bool
+
+        .. versionadded:: 1.18
+
+        """
+        def __set__(self, bint enabled):
+            elm_config_vsync_set(enabled)
+        def __get__(self):
+            return bool(elm_config_vsync_get())
+
     property window_auto_focus_enable:
         """The auto focus enable flag
 

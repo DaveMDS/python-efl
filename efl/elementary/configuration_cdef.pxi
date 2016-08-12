@@ -190,6 +190,9 @@ cdef extern from "Elementary.h":
 
     const char *            elm_config_icon_theme_get()
     void                    elm_config_icon_theme_set(const char *theme)
+
+    Eina_Bool               elm_config_vsync_get()
+    void                    elm_config_vsync_set(Eina_Bool enabled)
     
     Elm_Focus_Autoscroll_Mode elm_config_focus_autoscroll_mode_get()
     void                    elm_config_focus_autoscroll_mode_set(Elm_Focus_Autoscroll_Mode mode)
