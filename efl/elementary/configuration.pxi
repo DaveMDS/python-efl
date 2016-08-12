@@ -718,6 +718,23 @@ cdef class Configuration(object):
             elm_config_accel_preference_set(
                 <const char *>pref if pref is not None else NULL)
 
+    property accel_preference_override:
+        """The acceleration override preference flag
+
+        This is a flag that has the global system acceleration preference
+        configuration forcibly override whatever acceleration preference the
+        application may want.
+
+        :type: bool
+
+        .. versionadded:: 1.18
+
+        """
+        def __get__(self):
+            return bool(elm_config_accel_preference_override_get())
+        def __set__(self, bint enabled):
+            elm_config_accel_preference_override_set(enabled)
+
     property text_classes_list:
         """Get Elementary's list of supported text classes.
 
