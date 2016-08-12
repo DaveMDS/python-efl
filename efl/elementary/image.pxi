@@ -375,24 +375,6 @@ cdef class Image(Object):
         PyBuffer_Release(&view)
         return bool(ret)
 
-    property scale:
-        """Control the scale of the object's image.
-
-        :type: float
-
-        .. versionadded:: 1.18
-
-        """
-        def __set__(self, scale):
-            elm_image_scale_set(self.obj, scale)
-        def __get__(self):
-            return elm_image_scale_get(self.obj)
-
-    def scale_set(self, scale):
-        elm_image_scale_set(self.obj, scale)
-    def scale_get(self):
-        return elm_image_scale_get(self.obj)
-
     property fill_outside:
         """Whether the image fills the entire object area, when keeping the
         aspect ratio.
@@ -488,56 +470,6 @@ cdef class Image(Object):
         elm_image_object_size_get(self.obj, &width, &height)
         return (width, height)
 
-    # TODO: API break, these were renamed to scale_up/down in 1.18 development
-    #       but compatibility funcs were forgotten.
-    #       Add them in once this gets fixed. See phab T4342
-    #
-    #property resize_down:
-    #    """Control whether the object's image can be resized to a size smaller
-    #    than the original one.
-
-    #    :type: bool
-
-    #    .. versionadded:: 1.18
-
-    #    """
-    #    def __set__(self, bint resize_down):
-    #        elm_image_resize_down_set(self.obj, resize_down)
-    #    def __get__(self):
-    #        return bool(elm_image_resize_down_get(self.obj))
-
-    #def resize_down_set(self, bint resize_down):
-    #    elm_image_resize_down_set(self.obj, resize_down)
-    #def resize_down_get(self):
-    #    return bool(elm_image_resize_down_get(self.obj))
-
-    #property resize_up:
-    #    """Control whether the object's image can be resized to a size larger
-    #    than the original one.
-
-    #    :type: bool
-
-    #    .. versionadded:: 1.18
-
-    #    """
-    #    def __set__(self, bint resize_up):
-    #        elm_image_resize_up_set(self.obj, resize_up)
-    #    def __get__(self):
-    #        return bool(elm_image_resize_up_get(self.obj))
-
-    #def resize_up_set(self, bint resize_up):
-    #    elm_image_resize_up_set(self.obj, resize_up)
-    #def resize_up_get(self):
-    #    return bool(elm_image_resize_up_get(self.obj))
-
-    def sizing_evas(self):
-        """Re-evaluate the object's final geometry.
-
-        .. versionadded:: 1.18
-
-        """
-        elm_image_sizing_eval(self.obj)
-
     property resizable:
         """Whether the object is (up/down) resizable.
 
@@ -584,36 +516,6 @@ cdef class Image(Object):
         elm_image_no_scale_set(self.obj, no_scale)
     def no_scale_get(self):
         return bool(elm_image_no_scale_get(self.obj))
-
-    property fill_inside:
-        """Whether the whole image is inside entire object area, when keeping the
-        aspect ratio.
-
-        If the image should keep its aspect ratio when the object resized to
-        another aspect ratio, there are two possibilities to scale the image:
-        keep the entire image inside the limits of height and width of the
-        object (*fill_inside* is *True*) or let the extra width or height go
-        outside of the object, and the image will fill the entire object
-        (*fill_outside* is *False*).
-
-        .. note:: This option will have no effect if :py:attr:`aspect_fixed`
-            is set to *False*.
-
-        :type: bool
-
-        .. versionadded:: 1.18
-
-        """
-        def __get__(self):
-            return bool(elm_image_fill_inside_get(self.obj))
-
-        def __set__(self, fill_inside):
-            elm_image_fill_inside_set(self.obj, fill_inside)
-
-    def fill_inside_set(self, fill_inside):
-        elm_image_fill_inside_set(self.obj, fill_inside)
-    def fill_inside_get(self):
-        return bool(elm_image_fill_inside_get(self.obj))
 
     property aspect_fixed:
         """Whether the original aspect ratio of the image should be kept on

@@ -72,18 +72,6 @@ class TestElmImage(unittest.TestCase):
         self.o.smooth = False
         self.assertFalse(self.o.smooth)
 
-        # self.assertTrue(self.o.resize_up)
-        # self.o.resize_up = False
-        # self.assertFalse(self.o.resize_up)
-
-        # self.assertTrue(self.o.resize_down)
-        # self.o.resize_down = False
-        # self.assertFalse(self.o.resize_down)
-
-        self.assertFalse(self.o.fill_inside)
-        self.o.fill_inside = True
-        self.assertTrue(self.o.fill_inside)
-
 
 class TestElmIcon(unittest.TestCase):
 
