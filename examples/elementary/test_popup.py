@@ -185,7 +185,15 @@ def cb_popup_center_title_1button_hide_effect(li, item, win):
 
     popup.show()
 
-
+def cb_popup_scrollable(li, item, win):
+    lorem = "Lorem ipsum dolor sit amet, consectetur adipiscing elit."
+    popup = Popup(win, text=lorem*160, scrollable=True,
+                  size_hint_weight=EXPAND_BOTH)
+    bt = Button(win, text="Close")
+    bt.callback_clicked_add(cb_bnt_close, popup)
+    popup.part_content_set("button1", bt)
+    popup.show()
+    
 def cb_popup_align(li, item, win):
     popup = Popup(win, text="Align (0.2, 0.8)", align=(0.2, 0.8),
                   size_hint_weight=EXPAND_BOTH)
@@ -243,6 +251,8 @@ def popup_clicked(obj):
                    cb_popup_center_text_1button_hide_show, win)
     li.item_append("popup-center-title + text + 1 button + hide effect", None, None,
                    cb_popup_center_title_1button_hide_effect, win)
+    li.item_append("Popup Scrollable", None, None,
+                   cb_popup_scrollable, win)
     li.item_append("Popup Align (0.2, 0.8)", None, None,
                    cb_popup_align, win)
     for name, val in orients:

@@ -238,6 +238,21 @@ cdef class Popup(LayoutClass):
             elm_popup_align_get(self.obj, &h, &v)
             return (h, v)
 
+    property scrollable:
+        """The scrollable state of popup content area
+
+        Normally content area does not contain scroller.
+
+        :type: bool
+
+        .. versionadded:: 1.18
+
+        """
+        def __set__(self, bint scrollable):
+            elm_popup_scrollable_set(self.obj, scrollable)
+        def __get__(self):
+            return bool(elm_popup_scrollable_get(self.obj))
+
     def callback_dismissed_add(self, func, *args, **kwargs):
         """When popup is closed as a result of a dismiss.
 

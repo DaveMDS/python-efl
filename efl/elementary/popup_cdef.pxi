@@ -36,3 +36,5 @@ cdef extern from "Elementary.h":
     void                     elm_popup_allow_events_set(Evas_Object *obj, Eina_Bool allow)
     Eina_Bool                elm_popup_allow_events_get(const Evas_Object *obj)
     void                     elm_popup_dismiss(const Evas_Object *obj)
+    void                     elm_popup_scrollable_set(Evas_Object *obj, Eina_Bool scroll)
+    Eina_Bool                elm_popup_scrollable_get(const Evas_Object *obj)
