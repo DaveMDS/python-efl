@@ -25,6 +25,15 @@ images = ["panel_01.jpg",
           "sky_04.jpg",
           "wood_01.jpg"]
 
+def drag_start_cb(ph):
+    print("drag start %r" % ph)
+
+def drag_end_cb(ph):
+    print("drag end %r" % ph)
+
+def _clicked_cb(ph):
+    print("clicked on %r" % ph)
+
 def photo_clicked(obj):
     win = StandardWindow("photo", "Photo test", autodel=True, size=(300, 300))
     if obj is None:
@@ -42,8 +51,10 @@ def photo_clicked(obj):
     n = 0
     for j in range(12):
         for i in range(12):
-            ph = Photo(win, aspect_fixed=False, size=80, editable=True,
+            ph = Photo(
+                win, aspect_fixed=False, size=80, editable=True,
                 size_hint_weight=EXPAND_BOTH, size_hint_align=FILL_BOTH)
+            ph.callback_clicked_add(_clicked_cb)
             name = os.path.join(img_path, images[n])
             n += 1
             if n >= 9: n = 0
@@ -51,6 +62,8 @@ def photo_clicked(obj):
                 ph.thumb = name
             else:
                 ph.file = name
+            ph.callback_drag_start_add(drag_start_cb)
+            ph.callback_drag_end_add(drag_end_cb)
             if n in [2, 3]:
                 ph.fill_inside = True
                 ph.style = "shadow"
