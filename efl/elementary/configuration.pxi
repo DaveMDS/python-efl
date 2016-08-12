@@ -1169,6 +1169,22 @@ cdef class Configuration(object):
         def __set__(self, bint disabled):
             elm_config_item_select_on_focus_disabled_set(disabled)
 
+    property first_item_focus_on_first_focusin:
+        """The first item focus on first focusin feature.
+
+        If this is enabled, then on the first focus of the widget the
+        first item in lists will be automatically selected.
+
+        :type: bool
+
+        .. versionadded:: 1.18
+
+        """
+        def __get__(self):
+            return bool(elm_config_first_item_focus_on_first_focusin_get())
+        def __set__(self, bint enabled):
+            elm_config_first_item_focus_on_first_focusin_set(enabled)
+
     property focus_autoscroll_mode:
         """Focus Autoscroll Mode
 
