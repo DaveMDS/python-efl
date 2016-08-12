@@ -219,6 +219,25 @@ cdef class Popup(LayoutClass):
         """
         elm_popup_dismiss(self.obj)
 
+    property align:
+        """The alignment of the popup object.
+
+        The alignment in which the popup will appear inside its parent.
+
+        :type: 2 doubles tuple: (horiz, vert)
+
+        .. versionadded:: 1.18
+
+        """
+        def __set__(self, value):
+            cdef double h, v
+            h, v = value
+            elm_popup_align_set(self.obj, h, v)
+        def __get__(self):
+            cdef double h, v
+            elm_popup_align_get(self.obj, &h, &v)
+            return (h, v)
+
     def callback_dismissed_add(self, func, *args, **kwargs):
         """When popup is closed as a result of a dismiss.
 

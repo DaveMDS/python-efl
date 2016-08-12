@@ -5,7 +5,7 @@ import os
 
 from efl.evas import EVAS_HINT_EXPAND, EVAS_HINT_FILL, EXPAND_BOTH, FILL_BOTH, \
     FilledImage
-from efl import elementary
+from efl import elementary as elm
 from efl.elementary.window import StandardWindow
 from efl.elementary.button import Button
 from efl.elementary.list import List, ELM_LIST_LIMIT
@@ -184,13 +184,39 @@ def cb_popup_center_title_1button_hide_effect(li, item, win):
     popup.part_content_set("button1", btn)
 
     popup.show()
-    
 
+
+def cb_popup_align(li, item, win):
+    popup = Popup(win, text="Align (0.2, 0.8)", align=(0.2, 0.8),
+                  size_hint_weight=EXPAND_BOTH)
+    bt = Button(win, text="Close")
+    bt.callback_clicked_add(cb_bnt_close, popup)
+    popup.part_content_set("button1", bt)
+    popup.show()
+
+def cb_popup_orient(li, item, win, name, orient):
+    popup = Popup(win, text=name, orient=orient, size_hint_weight=EXPAND_BOTH)
+    bt = Button(win, text="Close")
+    bt.callback_clicked_add(cb_bnt_close, popup)
+    popup.part_content_set("button1", bt)
+    popup.show()
+
+orients = [
+    ("ELM_POPUP_ORIENT_TOP", elm.ELM_POPUP_ORIENT_TOP),
+    ("ELM_POPUP_ORIENT_CENTER", elm.ELM_POPUP_ORIENT_CENTER),
+    ("ELM_POPUP_ORIENT_BOTTOM", elm.ELM_POPUP_ORIENT_BOTTOM),
+    ("ELM_POPUP_ORIENT_LEFT", elm.ELM_POPUP_ORIENT_LEFT),
+    ("ELM_POPUP_ORIENT_RIGHT", elm.ELM_POPUP_ORIENT_RIGHT),
+    ("ELM_POPUP_ORIENT_TOP_LEFT", elm.ELM_POPUP_ORIENT_TOP_LEFT),
+    ("ELM_POPUP_ORIENT_TOP_RIGHT", elm.ELM_POPUP_ORIENT_TOP_RIGHT),
+    ("ELM_POPUP_ORIENT_BOTTOM_LEFT", elm.ELM_POPUP_ORIENT_BOTTOM_LEFT),
+    ("ELM_POPUP_ORIENT_BOTTOM_RIGHT", elm.ELM_POPUP_ORIENT_BOTTOM_RIGHT),
+]
 
 def popup_clicked(obj):
     win = StandardWindow("popup", "Popup test", autodel=True, size=(400, 400))
     if obj is None:
-        win.callback_delete_request_add(lambda o: elementary.exit())
+        win.callback_delete_request_add(lambda o: elm.exit())
 
     li = List(win, mode=ELM_LIST_LIMIT, size_hint_weight=EXPAND_BOTH)
     li.callback_selected_add(lambda li, it: it.selected_set(False))
@@ -217,6 +243,11 @@ def popup_clicked(obj):
                    cb_popup_center_text_1button_hide_show, win)
     li.item_append("popup-center-title + text + 1 button + hide effect", None, None,
                    cb_popup_center_title_1button_hide_effect, win)
+    li.item_append("Popup Align (0.2, 0.8)", None, None,
+                   cb_popup_align, win)
+    for name, val in orients:
+        li.item_append("Popup Orient (%s)" % name, None, None,
+                      cb_popup_orient, win, name, val)
 
     li.go()
 
@@ -227,4 +258,4 @@ if __name__ == "__main__":
 
     popup_clicked(None)
 
-    elementary.run()
+    elm.run()

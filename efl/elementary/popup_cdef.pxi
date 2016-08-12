@@ -24,6 +24,8 @@ cdef extern from "Elementary.h":
 
 
     Evas_Object             *elm_popup_add(Evas_Object *parent)
+    void                     elm_popup_align_set(Evas_Object *obj, double horizontal, double vertical)
+    void                     elm_popup_align_get(const Evas_Object *obj, double *horizontal, double *vertical)
     Elm_Object_Item         *elm_popup_item_append(Evas_Object *obj, const char *label, Evas_Object *icon, Evas_Smart_Cb func, void *data)
     void                     elm_popup_content_text_wrap_type_set(Evas_Object *obj, Elm_Wrap_Type wrap)
     Elm_Wrap_Type            elm_popup_content_text_wrap_type_get(const Evas_Object *obj)
