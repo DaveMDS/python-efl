@@ -84,31 +84,45 @@ cdef class Photo(Object):
             <const char *>group if group is not None else NULL)
 
     property size:
-        """Set the size that will be used on the photo.
+        """The size that will be used on the photo.
 
         :type: int
 
+        .. versionchanged:: 1.18
+            This property is now also readable
+
         """
-        def __set__(self, size):
+        def __set__(self, int size):
             elm_photo_size_set(self.obj, size)
+        def __get__(self):
+            return elm_photo_size_get(self.obj)
 
     def size_set(self, size):
         elm_photo_size_set(self.obj, size)
+    def size_get(self):
+        return elm_photo_size_get(self.obj)
 
     property fill_inside:
-        """Set if the photo should be completely visible or not.
+        """If the photo should be completely visible or not.
 
         :type: bool
 
-        """
-        def __set__(self, fill):
-            elm_photo_fill_inside_set(self.obj, fill)
+        .. versionchanged:: 1.18
+            This property is now also readable
 
-    def fill_inside_set(self, fill):
+        """
+        def __set__(self, bint fill):
+            elm_photo_fill_inside_set(self.obj, fill)
+        def __get__(self):
+            return bool(elm_photo_fill_inside_get(self.obj))
+
+    def fill_inside_set(self, bint fill):
         elm_photo_fill_inside_set(self.obj, fill)
+    def fill_inside_set(self):
+        return bool(elm_photo_fill_inside_get(self.obj))
 
     property editable:
-        """Set editability of the photo.
+        """Editability of the photo.
 
         An editable photo can be dragged to or from, and can be cut or
         pasted too.  Note that pasting an image or dropping an item on the
@@ -116,12 +130,19 @@ cdef class Photo(Object):
 
         :type: bool
 
-        """
-        def __set__(self, fill):
-            elm_photo_editable_set(self.obj, fill)
+        .. versionchanged:: 1.18
+            This property is now also readable
 
-    def editable_set(self, fill):
-        elm_photo_editable_set(self.obj, fill)
+        """
+        def __set__(self, bint editable):
+            elm_photo_editable_set(self.obj, editable)
+        def __get__(self):
+            return bool(elm_photo_editable_get(self.obj))
+
+    def editable_set(self, bint editable):
+        elm_photo_editable_set(self.obj, editable)
+    def editable_get(self):
+       return bool(elm_photo_editable_get(self.obj))
 
     property aspect_fixed:
         """Whether the original aspect ratio of the photo should be kept on

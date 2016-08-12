@@ -55,6 +55,11 @@ def photo_clicked(obj):
                 ph.fill_inside = True
                 ph.style = "shadow"
 
+            if j == i == 0:
+                print("Size:", ph.size)
+                print("Fill Inside:", ph.fill_inside)
+                print("Editable:", ph.editable) # THIS ONE IS FAILING !!
+
             tb.pack(ph, i, j, 1, 1)
             ph.show()
 
