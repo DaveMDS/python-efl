@@ -1202,6 +1202,17 @@ cdef class Configuration(object):
         def __set__(self, Elm_Focus_Autoscroll_Mode mode):
             elm_config_focus_autoscroll_mode_set(mode)
 
+    property font_hint_type:
+        """ Apply the specified font hinting type.
+
+        :type: :ref:`Evas_Font_Hinting_Flags` (**writeonly**)
+
+        .. versionadded:: 1.18
+
+        """
+        def __set__(self, int mode):
+            elm_config_font_hint_type_set(mode)
+
     property window_auto_focus_enable:
         """The auto focus enable flag
 

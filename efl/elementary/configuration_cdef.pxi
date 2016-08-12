@@ -158,6 +158,7 @@ cdef extern from "Elementary.h":
     void                    elm_config_selection_unfocused_clear_set(Eina_Bool enabled)
     void                    elm_config_font_overlay_unset(const char *text_class)
     void                    elm_config_font_overlay_apply()
+    void                    elm_config_font_hint_type_set(int type)
     Evas_Coord              elm_config_finger_size_get()
     void                    elm_config_finger_size_set(Evas_Coord size)
 
