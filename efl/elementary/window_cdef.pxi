@@ -186,5 +186,8 @@ cdef extern from "Elementary.h":
     void                     elm_win_floating_mode_set(Evas_Object *obj, Eina_Bool floating)
     Eina_Bool                elm_win_floating_mode_get(const Evas_Object *obj)
 
+    Eina_Bool                elm_win_noblank_get(const Evas_Object *obj)
+    void                     elm_win_noblank_set(Evas_Object *obj, Eina_Bool noblank)
+
     # X specific call - won't work on non-x engines (return 0)
     unsigned int             elm_win_xwindow_get(const Evas_Object *obj)

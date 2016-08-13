@@ -35,6 +35,10 @@ def cb_iconify_and_deiconify(bt, win):
 def cb_win_moved(win):
     print("MOVE - win geom: x %d, y %d, w %d, h %d" % win.geometry)
 
+def set_and_report(win, prop, val):
+    setattr(win, prop, val)
+    print("Property: '%s' is now: '%s'" % (prop, getattr(win, prop)))
+
 def window_states_clicked(obj):
     win = Window("window-states", ELM_WIN_BASIC, autodel=True,
                  title="Window States test", size=(280, 400))
@@ -114,12 +118,17 @@ def window_states_clicked(obj):
     ck.show()
 
     ck = Check(win, text="Borderless")
-    ck.callback_changed_add(lambda c: win.borderless_set(c.state))
+    ck.callback_changed_add(lambda c: set_and_report(win, 'borderless', c.state))
     hbox.pack_end(ck)
     ck.show()
 
     ck = Check(win, text="Fullscreen")
-    ck.callback_changed_add(lambda c: win.fullscreen_set(c.state))
+    ck.callback_changed_add(lambda c: set_and_report(win, 'fullscreen', c.state))
+    hbox.pack_end(ck)
+    ck.show()
+
+    ck = Check(win, text="NoBlank")
+    ck.callback_changed_add(lambda c: set_and_report(win, 'noblank', c.state))
     hbox.pack_end(ck)
     ck.show()
 

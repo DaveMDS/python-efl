@@ -1334,6 +1334,30 @@ cdef class Window(Object):
     def floating_mode_get(self):
         return bool(elm_win_floating_mode_get(self.obj))
 
+    property noblank:
+        """The noblank property of a window.
+
+        The "noblank" property is a way to request the display on which the
+        window is shown does not blank, screensaver or otherwise hide or
+        obscure the window. It is intended for uses such as media playback on a
+        television where a user may not want to be interrupted by an idle
+        screen. The noblank property may have no effect if the window is
+        iconified/minimized or hidden.
+
+        :type: bool
+
+        .. versionadded:: 1.18
+
+        """
+        def __get__(self):
+            return bool(elm_win_noblank_get(self.obj))
+        def __set__(self, bint noblank):
+            elm_win_noblank_set(self.obj, noblank)
+
+    def noblank_set(self, bint noblank):
+        elm_win_noblank_set(self.obj, noblank)
+    def noblank_get(self):
+        return bool(elm_win_noblank_get(self.obj))
 
     def callback_delete_request_add(self, func, *args, **kwargs):
         """The user requested to close the window. See :py:attr:`autodel`."""
