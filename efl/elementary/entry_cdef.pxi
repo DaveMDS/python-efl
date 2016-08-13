@@ -210,6 +210,7 @@ cdef extern from "Elementary.h":
     Eina_Bool               elm_entry_file_set(Evas_Object *obj, const char *file, Elm_Text_Format format)
     void                    elm_entry_file_get(const Evas_Object *obj, const char **file, Elm_Text_Format *format)
     void                    elm_entry_file_save(Evas_Object *obj)
+    void                    elm_entry_file_text_format_set(Evas_Object *obj, Elm_Text_Format format)
     void                    elm_entry_autosave_set(Evas_Object *obj, Eina_Bool autosave)
     Eina_Bool               elm_entry_autosave_get(const Evas_Object *obj)
     void                    elm_entry_scrollable_set(Evas_Object *obj, Eina_Bool scrollable)

@@ -1120,6 +1120,29 @@ cdef class Entry(LayoutClass):
         """
         elm_entry_file_save(self.obj)
 
+    property file_text_format:
+        """The text format used to load and save the file
+
+        Text format can be plain text or markup text.
+
+        Default is ``ELM_TEXT_FORMAT_PLAIN_UTF8``, if you want to use
+        ``ELM_TEXT_FORMAT_MARKUP_UTF8`` then you need to set the text format
+        before calling :attr:`file` or :func:`file_set`.
+ 
+        You could also set it before a call to :func:`file_save` in order to
+        save with the given format.
+
+        :type: :ref:`Elm_Entry_Text_Format` (**write only**)
+
+        .. versionadded:: 1.18
+
+        """
+        def __set__(self, Elm_Text_Format format):
+            elm_entry_file_text_format_set(self.obj, format)
+
+    def file_text_format_set(self, Elm_Text_Format format):
+        elm_entry_file_text_format_set(self.obj, format)
+
     property autosave:
         """Whether the entry object 'autosaves' the loaded text file or not.
 
