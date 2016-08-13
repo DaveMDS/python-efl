@@ -129,6 +129,14 @@ def slider_clicked(obj):
     bx.pack_end(sl)
     sl.show()
 
+    # indicator show on focus
+    sl = Slider(bx, text="Indicator on focus", indicator_show_on_focus=True,
+                unit_format="%1.2f units", indicator_format="%1.2f",
+                span_size=120, # this shouldn't be needed, see T4357
+                size_hint_align=FILL_HORIZ, size_hint_weight=EXPAND_HORIZ)
+    bx.pack_end(sl)
+    sl.show()
+
     # disabled horizontally inverted slider
     ic = Icon(bx, file=os.path.join(img_path, "logo_small.png"),
         size_hint_aspect=(EVAS_ASPECT_CONTROL_VERTICAL, 1, 1))

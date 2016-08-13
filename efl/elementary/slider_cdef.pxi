@@ -29,6 +29,8 @@ cdef extern from "Elementary.h":
     Eina_Bool       elm_slider_indicator_show_get(const Evas_Object *obj)
     void            elm_slider_indicator_visible_mode_set(const Evas_Object *obj, Elm_Slider_Indicator_Visible_Mode indicator_visible_mode)
     Elm_Slider_Indicator_Visible_Mode  elm_slider_indicator_visible_mode_get(const Evas_Object *obj)
+    Eina_Bool       elm_slider_indicator_show_on_focus_get(const Evas_Object *obj)
+    void            elm_slider_indicator_show_on_focus_set(Evas_Object *obj, Eina_Bool flag)
     void            elm_slider_step_set(Evas_Object *obj, double step)
     double          elm_slider_step_get(const Evas_Object *obj)
 

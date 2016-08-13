@@ -345,7 +345,6 @@ cdef class Slider(LayoutClass):
     def indicator_show_get(self):
         return bool(elm_slider_indicator_show_get(self.obj))
 
-
     property indicator_visible_mode:
         """The visible mode of indicator
 
@@ -363,6 +362,25 @@ cdef class Slider(LayoutClass):
         elm_slider_indicator_visible_mode_set(self.obj, indicator_visible_mode)
     def indicator_visible_mode_get(self):
         return elm_slider_indicator_visible_mode_get(self.obj)
+
+    property indicator_show_on_focus:
+        """Whether to show the indicator of the slider on focus.
+
+        :type: bool
+
+        .. versionadded: 1.18
+
+        """
+        def __get__(self):
+            return bool(elm_slider_indicator_show_on_focus_get(self.obj))
+
+        def __set__(self, bint show):
+            elm_slider_indicator_show_on_focus_set(self.obj, show)
+
+    def indicator_show_on_focus_set(self, bint show):
+        elm_slider_indicator_show_on_focus_set(self.obj, show)
+    def indicator_show_on_focus_get(self):
+        return bool(elm_slider_indicator_show_on_focus_get(self.obj))
 
     property step:
         """The step by which slider indicator will move.
@@ -387,7 +405,6 @@ cdef class Slider(LayoutClass):
         elm_slider_step_set(self.obj, step)
     def step_get(self):
         return elm_slider_step_get(self.obj)
-
 
     def callback_changed_add(self, func, *args, **kwargs):
         """Whenever the slider value is changed by the user."""
