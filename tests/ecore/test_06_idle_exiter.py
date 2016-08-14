@@ -1,64 +1,83 @@
 #!/usr/bin/env python
 
-from efl import ecore
 import unittest
 import logging
+import time
 
-
-def cb_true(n, t, a):
-    print("cb_true: %s %s %s" % (n, t, a))
-    return True
-
-def cb_false(n, t, a):
-    print("cb_false: %s %s %s" % (n, t, a))
-    return False
-
-def cb_idle():
-    print("idle...")
-    return True
-
-def sleeper():
-    import time
-    print("sleep 0.1s")
-    time.sleep(0.1)
-    return True
+from efl import ecore
 
 
 class TestIdleExiter(unittest.TestCase):
+
+    def cb_renew(self, n, t, a):
+        self.assertEqual(n, 123)
+        self.assertEqual(t, "teste")
+        self.assertEqual(a, 456)
+        self.counters[0] += 1
+        return ecore.ECORE_CALLBACK_RENEW
+
+    def cb_cancel(self, n, t, a):
+        self.assertEqual(n, 789)
+        self.assertEqual(t, "bla")
+        self.assertEqual(a, "something in a")
+        self.counters[1] += 1
+        return ecore.ECORE_CALLBACK_CANCEL
+
+    def cb_idle(self):
+        self.counters[2] += 1
+        return ecore.ECORE_CALLBACK_RENEW
+
+    def cb_sleeper(self):
+        time.sleep(0.1)
+        self.counters[3] += 1
+        return ecore.ECORE_CALLBACK_RENEW
+
     def testInit(self):
-        i1 = ecore.idle_exiter_add(cb_true, 123, "teste", a=456)
-        i2 = ecore.IdleExiter(cb_false, 789, "bla", a="something in a")
+        self.counters = [0, 0, 0, 0]
+
+        i1 = ecore.idle_exiter_add(self.cb_renew, 123, "teste", a=456)
+        i2 = ecore.IdleExiter(self.cb_cancel, 789, "bla", a="something in a")
 
         self.assertIsInstance(i1, ecore.IdleExiter)
         self.assertIsInstance(i2, ecore.IdleExiter)
 
-        before1 = i1.__repr__()
-        before2 = i2.__repr__()
+        timer = ecore.timer_add(0.1, self.cb_sleeper)
+        idler = ecore.idler_add(self.cb_idle)
 
         t = ecore.timer_add(1, ecore.main_loop_quit)
-        timer = ecore.timer_add(0.1, sleeper)
-        idler = ecore.idler_add(cb_idle)
-
         ecore.main_loop_begin()
-        timer.delete()
-        idler.delete()
 
-        after1 = i1.__repr__()
-        after2 = i2.__repr__()
+        # all the callback has been called?
+        self.assertTrue(self.counters[0] > 1)
+        self.assertTrue(self.counters[1] == 1)
+        self.assertTrue(self.counters[2] > 1)
+        self.assertTrue(self.counters[3] > 1)
 
-        self.assertEqual(before1, after1)
-        self.assertNotEqual(before2, after2) # already deleted
-
-        self.assertEqual(t.is_deleted(), True)
+        # "i1"  not yet deleted since returned true
         self.assertEqual(i1.is_deleted(), False)
-        self.assertEqual(i2.is_deleted(), True)
-
         i1.delete()
+        self.assertEqual(i1.is_deleted(), True)
         del i1
-        del i2 # already deleted since returned false
+
+        # "i2" already deleted since returned false
+        self.assertEqual(i2.is_deleted(), True)
+        del i2
+
+        # "t" already deleted since returned false
+        self.assertEqual(t.is_deleted(), True)
         del t
-        del timer
+
+        # "idler" not yet deleted since returned true
+        self.assertEqual(idler.is_deleted(), False)
+        idler.delete()
+        self.assertEqual(idler.is_deleted(), True)
         del idler
+
+        # "timer" not yet deleted since returned true
+        self.assertEqual(timer.is_deleted(), False)
+        timer.delete()
+        self.assertEqual(timer.is_deleted(), True)
+        del timer
 
 
 if __name__ == '__main__':

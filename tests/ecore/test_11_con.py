@@ -8,6 +8,8 @@ import logging
 from efl import ecore, ecore_con
 
 
+TIMEOUT = 5.0 # seconds
+
 class TestCon(unittest.TestCase):
 
     def testLookup(self):
@@ -16,11 +18,18 @@ class TestCon(unittest.TestCase):
             self.assertEqual(ip, '8.8.8.8')
             self.assertEqual(arg1, "arg1")
             self.assertEqual(my_karg, 1234)
+            self.complete = True
             ecore.main_loop_quit()
 
+        self.complete = False
         ecore_con.Lookup('google-public-dns-a.google.com',
                           _dns_complete, "arg1", my_karg=1234)
+
+        t = ecore.Timer(TIMEOUT, ecore.main_loop_quit)
         ecore.main_loop_begin()
+        t.delete()
+
+        self.assertTrue(self.complete)
 
     def testUrl(self):
         self.complete_counter = 0
@@ -64,7 +73,9 @@ class TestCon(unittest.TestCase):
 
         self.assertTrue(u.get()) #perform the GET request
 
+        t = ecore.Timer(TIMEOUT, ecore.main_loop_quit)
         ecore.main_loop_begin()
+        t.delete()
 
         self.assertEqual(u.status_code, 200) # assume net is ok
         self.assertEqual(self.complete_counter, 16)
@@ -76,7 +87,6 @@ class TestCon(unittest.TestCase):
         u.delete()
 
     def testUrlDelete(self):
-
         self.test_url1 = 'http://www.example.com'
         self.test_url2 = 'http://www.google.com'
         self.complete_counter = 0
@@ -85,11 +95,15 @@ class TestCon(unittest.TestCase):
             self.assertIsInstance(event, ecore_con.EventUrlComplete)
             self.assertEqual(event.url.url, self.test_url1)
             self.complete_counter += 1
+            if self.complete_counter >= 11:
+                ecore.main_loop_quit()
 
         def _on_complete2(event):
             self.assertIsInstance(event, ecore_con.EventUrlComplete)
             self.assertEqual(event.url.url, self.test_url2)
             self.complete_counter += 10
+            if self.complete_counter >= 11:
+                ecore.main_loop_quit()
             
         u1 = ecore_con.Url(self.test_url1)
         u1.on_complete_event_add(_on_complete1)
@@ -105,8 +119,9 @@ class TestCon(unittest.TestCase):
         self.assertTrue(u1.get()) #perform the GET request
         self.assertTrue(u2.get()) #perform the GET request
 
-        ecore.Timer(2.5, lambda: ecore.main_loop_quit())
+        t = ecore.Timer(TIMEOUT, ecore.main_loop_quit)
         ecore.main_loop_begin()
+        t.delete()
 
         self.assertEqual(u1.status_code, 200) # assume net is ok
         self.assertEqual(u2.status_code, 200) # assume net is ok
@@ -117,8 +132,10 @@ class TestCon(unittest.TestCase):
 
     def testUrlToFile(self):
         self.test_url = 'http://www.example.com'
+        self.complete = False
 
         def _on_complete(event):
+            self.complete = True
             ecore.main_loop_quit()
 
         fd, path = tempfile.mkstemp()
@@ -126,7 +143,11 @@ class TestCon(unittest.TestCase):
         u.on_complete_event_add(_on_complete)
         u.get()
 
+        t = ecore.Timer(TIMEOUT, ecore.main_loop_quit)
         ecore.main_loop_begin()
+        t.delete()
+
+        self.assertEqual(self.complete, True)
         self.assertEqual(u.status_code, 200) # assume net is ok
         self.assertEqual(os.path.getsize(path), u.received_bytes)
         os.unlink(path)
@@ -147,10 +168,12 @@ class TestCon(unittest.TestCase):
         u.on_complete_event_add(_on_complete)
         # u.post(self.data_to_post, "multipart/form-data")
         u.post(self.data_to_post, "text/txt")
-        
-        ecore.main_loop_begin()
-        self.assertEqual(u.status_code, 200) # assume net is ok
 
+        t = ecore.Timer(TIMEOUT, ecore.main_loop_quit)
+        ecore.main_loop_begin()
+        t.delete()
+
+        self.assertEqual(u.status_code, 200) # assume net is ok
         u.delete()
 
 if __name__ == '__main__':

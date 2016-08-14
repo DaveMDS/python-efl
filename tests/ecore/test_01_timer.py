@@ -1,24 +1,35 @@
 #!/usr/bin/env python
 
-from efl import ecore
 import unittest
 import logging
 
-
-def cb(n, t, a):
-    print("cb data: %s %s %s" % (n, t, a))
-    return True
-
-def cb_false(n, t, a):
-    print("cb data false: %s %s %s" % (n, t, a))
-    return False
+from efl import ecore
 
 
 class TestTimer(unittest.TestCase):
+
+    def cb_renew1(self, n, t, a):
+        self.assertEqual(n, 123)
+        self.assertEqual(t, "teste")
+        self.assertEqual(a, 456)
+        return ecore.ECORE_CALLBACK_RENEW
+
+    def cb_renew2(self, n, t, a):
+        self.assertEqual(n, 789)
+        self.assertEqual(t, "bla")
+        self.assertEqual(a, "something in a")
+        return ecore.ECORE_CALLBACK_RENEW
+
+    def cb_cancel(self, n, t, a):
+        self.assertEqual(n, 666)
+        self.assertEqual(t, "bla")
+        self.assertEqual(a, "something else in a")
+        return ecore.ECORE_CALLBACK_CANCEL
+
     def testInit(self):
-        t1 = ecore.timer_add(0.2, cb, 123, "teste", a=456)
-        t2 = ecore.Timer(0.5, cb, 789, "bla", a="something in a")
-        t3 = ecore.Timer(0.4, cb_false, 666, "bla", a="something else in a")
+        t1 = ecore.timer_add(0.2, self.cb_renew1, 123, "teste", a=456)
+        t2 = ecore.Timer(0.5, self.cb_renew2, 789, "bla", a="something in a")
+        t3 = ecore.Timer(0.4, self.cb_cancel, 666, "bla", a="something else in a")
         t4 = ecore.timer_add(1, ecore.main_loop_quit)
 
         self.assertIsInstance(t1, ecore.Timer)
@@ -49,8 +60,10 @@ class TestTimer(unittest.TestCase):
         self.assertEqual(t4.is_deleted(), True)
 
         t1.delete()
+        self.assertEqual(t1.is_deleted(), True)
         del t1
         t2.delete()
+        self.assertEqual(t2.is_deleted(), True)
         del t2
         del t3 # already deleted since returned false
         del t4 # already deleted since returned false

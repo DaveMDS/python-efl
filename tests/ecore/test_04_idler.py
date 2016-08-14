@@ -1,48 +1,54 @@
 #!/usr/bin/env python
 
-from efl import ecore
 import unittest
 import logging
 
-
-def cb_true(n, t, a):
-    print("cb_true: %s %s %s" % (n, t, a))
-    return True
-
-def cb_false(n, t, a):
-    print("cb_false: %s %s %s" % (n, t, a))
-    return False
+from efl import ecore
 
 
 class TestIdler(unittest.TestCase):
+
+    def cb_renew(self, n, t, a):
+        self.assertEqual(n, 123)
+        self.assertEqual(t, "teste")
+        self.assertEqual(a, 456)
+        self.counters[0] += 1
+        return ecore.ECORE_CALLBACK_RENEW
+
+    def cb_cancel(self, n, t, a):
+        self.assertEqual(n, 789)
+        self.assertEqual(t, "bla")
+        self.assertEqual(a, "something in a")
+        self.counters[1] += 1
+        return ecore.ECORE_CALLBACK_CANCEL
+
     def testInit(self):
-        i1 = ecore.idler_add(cb_true, 123, "teste", a=456)
-        i2 = ecore.Idler(cb_false, 789, "bla", a="something in a")
+        self.counters = [0, 0]
+
+        i1 = ecore.idler_add(self.cb_renew, 123, "teste", a=456)
+        i2 = ecore.Idler(self.cb_cancel, 789, "bla", a="something in a")
 
         self.assertIsInstance(i1, ecore.Idler)
         self.assertIsInstance(i2, ecore.Idler)
 
-        before1 = i1.__repr__()
-        before2 = i2.__repr__()
-
         t = ecore.timer_add(1, ecore.main_loop_quit)
         ecore.main_loop_begin()
 
-        after1 = i1.__repr__()
-        after2 = i2.__repr__()
+        # all the callback has been called?
+        self.assertTrue(self.counters[0] > 1)
+        self.assertTrue(self.counters[1] == 1)
 
-        self.assertEqual(before1, after1)
-        self.assertNotEqual(before2, after2) # already deleted
-
-        self.assertEqual(t.is_deleted(), True)
+        # not yet deleted since returned true
         self.assertEqual(i1.is_deleted(), False)
-        self.assertEqual(i2.is_deleted(), True)
-
-
         i1.delete()
-        del t
+        self.assertEqual(i1.is_deleted(), True)
         del i1
-        del i2 # already deleted since returned false
+
+        # already deleted since returned false
+        self.assertEqual(i2.is_deleted(), True)
+        self.assertEqual(t.is_deleted(), True)
+        del i2 
+        del t
 
 
 if __name__ == '__main__':

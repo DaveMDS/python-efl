@@ -1,31 +1,30 @@
 #!/usr/bin/env python
 
-from efl import ecore
 import unittest
 import logging
 
-
-counters = [0, 0]
-params = None
-
-
-def poller_cb():
-    counters[0] += 1
-    return True
-
-def poller_cb2(one, two, three, test):
-    global params
-
-    params = (one, two, three)
-    counters[1] += 1
-    return False
+from efl import ecore
 
 
 class TestPoller(unittest.TestCase):
-    def testInit(self):
 
-        p1 = ecore.Poller(4, poller_cb)
-        p2 = ecore.Poller(2, poller_cb2, ecore.ECORE_POLLER_CORE,
+    def cb_renew(self):
+        self.counters[0] += 1
+        return ecore.ECORE_CALLBACK_RENEW
+
+    def cb_cancel(self, one, two, three, test):
+        self.assertEqual(one, "uno")
+        self.assertEqual(two, "due")
+        self.assertEqual(three, "tre")
+        self.assertEqual(test, self)
+        self.counters[1] += 1
+        return ecore.ECORE_CALLBACK_CANCEL
+
+    def testInit(self):
+        self.counters = [0, 0]
+
+        p1 = ecore.Poller(4, self.cb_renew)
+        p2 = ecore.Poller(2, self.cb_cancel, ecore.ECORE_POLLER_CORE,
                           "uno", "due", three="tre", test=self)
         p3 = ecore.Poller(16, lambda: ecore.main_loop_quit())
 
@@ -35,9 +34,20 @@ class TestPoller(unittest.TestCase):
 
         ecore.main_loop_begin()
 
-        self.assertEqual(counters, [4, 1])
-        self.assertEqual(params, ("uno", "due", "tre"))
+        # all the callback has been called?
+        self.assertEqual(self.counters, [4, 1])
 
+        # not yet deleted since returned true
+        self.assertEqual(p1.is_deleted(), False)
+        p1.delete()
+        self.assertEqual(p1.is_deleted(), True)
+        del p1
+
+        # already deleted since returned false
+        self.assertEqual(p2.is_deleted(), True)
+        self.assertEqual(p3.is_deleted(), True)
+        del p2 
+        del p3
 
 
 if __name__ == '__main__':

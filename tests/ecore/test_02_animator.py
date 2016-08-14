@@ -1,26 +1,31 @@
 #!/usr/bin/env python
 
-from efl import ecore
 import unittest
 import logging
 
-
-def cb_true(n, t, a):
-    print("cb_true: %s %s %s" % (n, t, a))
-    return True
-
-def cb_false(n, t, a):
-    print("cb_false: %s %s %s" % (n, t, a))
-    return False
+from efl import ecore
 
 
 class TestAnimator(unittest.TestCase):
+
+    def cb_renew(self, n, t, a):
+        self.assertEqual(n, 123)
+        self.assertEqual(t, "teste")
+        self.assertEqual(a, 456)
+        return ecore.ECORE_CALLBACK_RENEW
+
+    def cb_cancel(self, n, t, a):
+        self.assertEqual(n, 789)
+        self.assertEqual(t, "bla")
+        self.assertEqual(a, "something in a")
+        return ecore.ECORE_CALLBACK_CANCEL
+
     def testInit(self):
         ecore.animator_frametime_set(1.0/24.0)
         self.assertEqual(ecore.animator_frametime_get(), 1.0/24.0)
 
-        a1 = ecore.animator_add(cb_true, 123, "teste", a=456)
-        a2 = ecore.Animator(cb_false, 789, "bla", a="something in a")
+        a1 = ecore.animator_add(self.cb_renew, 123, "teste", a=456)
+        a2 = ecore.Animator(self.cb_cancel, 789, "bla", a="something in a")
         a3 = ecore.animator_add(ecore.main_loop_quit)
 
         self.assertIsInstance(a1, ecore.Animator)
@@ -46,6 +51,7 @@ class TestAnimator(unittest.TestCase):
         self.assertEqual(a3.is_deleted(), True)
 
         a1.delete()
+        self.assertEqual(a1.is_deleted(), True)
         del a1
         del a2 # already deleted since returned false
         del a3 # already deleted since returned false
