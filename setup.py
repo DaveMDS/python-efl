@@ -20,7 +20,7 @@ VERSION = "%d.%d" % (vers[0], vers[1] if vers[2] < 99 else vers[1] + 1)
 
 # dependencies
 CYTHON_MIN_VERSION = "0.21"
-CYTHON_BLACKLIST = ("0.23")
+CYTHON_BLACKLIST = ("0.23", "0.24")
 EFL_MIN_VER = RELEASE
 ELM_MIN_VER = RELEASE
 
