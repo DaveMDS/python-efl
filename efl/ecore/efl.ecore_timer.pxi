@@ -36,6 +36,10 @@ cdef class Timer(Eo):
     returning *False* from ``func``, otherwise they'll continue alive, even
     if the current python context delete it's reference to it.
 
+    For convenience and readability callback can also return one of the
+    :ref:`Ecore_Callback_Returns`. That is ``ECORE_CALLBACK_RENEW`` (like
+    returning True) or ``ECORE_CALLBACK_CANCEL`` (like returning False).
+
     """
     def __init__(self, double interval, func, *args, **kargs):
         """Timer(...)

@@ -15,8 +15,8 @@ great responsiveness without the need for threads(or any other concurrency).
 Timers
 ------
 
-:py:class:`Timers<efl.ecore.Timer>` serve two main purposes: doing something at a specified time and
-repeatedly doing something with a set interval.
+:py:class:`Timers<efl.ecore.Timer>` serve two main purposes: doing something at
+a specified time and repeatedly doing something with a set interval.
 
 
 Animators

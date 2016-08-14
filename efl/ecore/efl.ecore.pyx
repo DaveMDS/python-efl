@@ -114,6 +114,8 @@ Flags for executing a child with its stdin and/or stdout piped back.
     Makes child receive SIGTERM when parent dies
 
 
+.. _Ecore_Callback_Returns:
+
 Callback return values
 ----------------------
 
@@ -125,6 +127,8 @@ Callback return values
 
     Return value to keep a callback
 
+
+.. _Ecore_Event_Returns:
 
 Event return values
 -------------------
