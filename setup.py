@@ -190,7 +190,13 @@ class Test(Command):
 # === use cython or pre-generated C files ===
 USE_CYTHON = False
 if os.getenv("DISABLE_CYTHON") is not None:
-    USE_CYTHON = False
+    if os.path.exists(os.path.join(script_path, "efl/eo/efl.eo.c")):
+        USE_CYTHON = False
+    else:
+        sys.exit(
+            "You have requested to use pregenerated files with DISABLE_CYTHON\n"
+            "but the files are not available!\n"
+            "Unset DISABLE_CYTHON from your build environment and try again.")
 elif os.getenv("ENABLE_CYTHON") is not None:
     USE_CYTHON = True
 elif not os.path.exists(os.path.join(script_path, "efl/eo/efl.eo.c")):
