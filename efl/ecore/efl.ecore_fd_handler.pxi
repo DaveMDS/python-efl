@@ -144,6 +144,17 @@ cdef class FdHandler(object):
     cdef object _exec(self):
         return self.func(self, *self.args, **self.kargs)
 
+    def is_deleted(self):
+        """Check if the object has been deleted thus leaving the object shallow.
+
+        :return: True if the object has been deleted yet, False otherwise.
+        :rtype: bool
+
+        .. versionadded:: 1.18
+
+        """
+        return bool(self.obj == NULL)
+
     def delete(self):
         """Stop callback emission and free internal resources."""
         if self.obj != NULL:
