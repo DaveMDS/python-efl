@@ -142,7 +142,8 @@ class Uninstall(Command):
                 print("removing file %s" % entry)
                 os.unlink(entry)
             except OSError as e:
-                error(e)
+                print(e)
+                return
 
             directory = os.path.dirname(entry)
             while os.listdir(directory) == []:
@@ -150,7 +151,8 @@ class Uninstall(Command):
                     print("removing empty directory %s" % directory)
                     os.rmdir(directory)
                 except OSError as e:
-                    error(e)
+                    print(e)
+                    break
                 directory = os.path.dirname(directory)
 
     def run(self):
