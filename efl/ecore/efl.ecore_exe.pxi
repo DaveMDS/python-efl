@@ -368,6 +368,17 @@ cdef class Exe(object):
                  <uintptr_t>self.exe, PY_REFCOUNT(self),
                  pid, cmd, flags, data)
 
+    def is_deleted(self):
+        """Check if the object has been deleted thus leaving the object shallow.
+
+        :return: True if the object has been deleted yet, False otherwise.
+        :rtype: bool
+
+        .. versionadded:: 1.18
+
+        """
+        return bool(self.exe == NULL)
+
     def delete(self):
         """Forcefully frees the given process handle.
 
