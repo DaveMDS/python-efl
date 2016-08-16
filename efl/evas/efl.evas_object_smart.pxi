@@ -381,6 +381,7 @@ cdef void _smart_object_member_del(Evas_Object *o, Evas_Object *clip) with gil:
 cdef class _SmartCb:
     cdef:
         SmartObject obj
+        bytes event
         object(*event_conv)(void*)
         uintptr_t conv
         object func
@@ -873,6 +874,7 @@ cdef class SmartObject(Object):
 
         spec = _SmartCb.__new__(_SmartCb)
         spec.obj = self
+        spec.event = event
         spec.event_conv = event_conv
         spec.func = func
         spec.args = args
@@ -881,9 +883,9 @@ cdef class SmartObject(Object):
         lst = <list>self._smart_callback_specs.setdefault(event, [])
         if not lst:
             evas_object_smart_callback_add(self.obj,
-                <const char*>event,
+                <const char*>spec.event,
                 _smart_callback,
-                <void *>event
+                <void *>spec.event
                 )
         lst.append(spec)
 
