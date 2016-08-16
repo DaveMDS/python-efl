@@ -345,29 +345,29 @@ cdef Message MessageStringFloatSet_from_ptr(void *msg):
 
 cdef Message Message_from_type(Edje_Message_Type type, int id, void *msg):
     cdef Message m
-    if type == <int>EDJE_MESSAGE_NONE:
+    if type == <int>enums.EDJE_MESSAGE_NONE:
         return None
-    elif type == <int>EDJE_MESSAGE_SIGNAL:
+    elif type == <int>enums.EDJE_MESSAGE_SIGNAL:
         m = MessageSignal()
-    elif type == <int>EDJE_MESSAGE_STRING:
+    elif type == <int>enums.EDJE_MESSAGE_STRING:
         m = MessageString_from_ptr(msg)
-    elif type == <int>EDJE_MESSAGE_INT:
+    elif type == <int>enums.EDJE_MESSAGE_INT:
         m = MessageInt_from_ptr(msg)
-    elif type == <int>EDJE_MESSAGE_FLOAT:
+    elif type == <int>enums.EDJE_MESSAGE_FLOAT:
         m = MessageFloat_from_ptr(msg)
-    elif type == <int>EDJE_MESSAGE_STRING_SET:
+    elif type == <int>enums.EDJE_MESSAGE_STRING_SET:
         m = MessageStringSet_from_ptr(msg)
-    elif type == <int>EDJE_MESSAGE_INT_SET:
+    elif type == <int>enums.EDJE_MESSAGE_INT_SET:
         m = MessageIntSet_from_ptr(msg)
-    elif type == <int>EDJE_MESSAGE_FLOAT_SET:
+    elif type == <int>enums.EDJE_MESSAGE_FLOAT_SET:
         m = MessageFloatSet_from_ptr(msg)
-    elif type == <int>EDJE_MESSAGE_STRING_INT:
+    elif type == <int>enums.EDJE_MESSAGE_STRING_INT:
         m = MessageStringInt_from_ptr(msg)
-    elif type == <int>EDJE_MESSAGE_STRING_FLOAT:
+    elif type == <int>enums.EDJE_MESSAGE_STRING_FLOAT:
         m = MessageStringFloat_from_ptr(msg)
-    elif type == <int>EDJE_MESSAGE_STRING_INT_SET :
+    elif type == <int>enums.EDJE_MESSAGE_STRING_INT_SET :
         m = MessageStringIntSet_from_ptr(msg)
-    elif type == <int>EDJE_MESSAGE_STRING_FLOAT_SET :
+    elif type == <int>enums.EDJE_MESSAGE_STRING_FLOAT_SET :
         m = MessageStringFloatSet_from_ptr(msg)
 
     m._type = type

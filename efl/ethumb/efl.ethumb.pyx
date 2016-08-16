@@ -22,7 +22,7 @@
 
 .. versionadded:: 1.17
 
-    
+
 Classes
 =======
 
@@ -41,11 +41,11 @@ Ethumb_Thumb_FDO_Size
 
 .. data:: ETHUMB_THUMB_NORMAL
 
-    128x128 as defined by FreeDesktop.Org standard 
+    128x128 as defined by FreeDesktop.Org standard
 
 .. data:: ETHUMB_THUMB_LARGE
 
-    256x256 as defined by FreeDesktop.Org standard 
+    256x256 as defined by FreeDesktop.Org standard
 
 
 .. _Ethumb_Thumb_Format:
@@ -55,13 +55,13 @@ Ethumb_Thumb_Format
 
 .. data:: ETHUMB_THUMB_FDO
 
-    PNG as defined by FreeDesktop.Org standard. 
+    PNG as defined by FreeDesktop.Org standard.
 
 .. data:: ETHUMB_THUMB_JPEG
 
-    JPEGs are often smaller and faster to read/write. 
+    JPEGs are often smaller and faster to read/write.
 
-.. data:: ETHUMB_THUMB_EET 
+.. data:: ETHUMB_THUMB_EET
 
     EFL's own storage system, supports key parameter.
 
@@ -75,11 +75,11 @@ Ethumb_Thumb_Aspect
 
     Keep original proportion between width and height
 
-.. data:: ETHUMB_THUMB_IGNORE_ASPECT 
+.. data:: ETHUMB_THUMB_IGNORE_ASPECT
 
-    Ignore aspect and foce it to match thumbnail's width and height 
+    Ignore aspect and foce it to match thumbnail's width and height
 
-.. data:: ETHUMB_THUMB_CROP 
+.. data:: ETHUMB_THUMB_CROP
 
     keep aspect but crop (cut) the largest dimension
 
@@ -89,41 +89,41 @@ Ethumb_Thumb_Aspect
 Ethumb_Thumb_Orientation
 ------------------------
 
-.. data:: ETHUMB_THUMB_ORIENT_NONE 
+.. data:: ETHUMB_THUMB_ORIENT_NONE
 
-    Keep orientation as pixel data is 
+    Keep orientation as pixel data is
 
-.. data:: ETHUMB_THUMB_ROTATE_90_CW 
+.. data:: ETHUMB_THUMB_ROTATE_90_CW
 
-    Rotate 90° clockwise 
+    Rotate 90° clockwise
 
-.. data:: ETHUMB_THUMB_ROTATE_180 
+.. data:: ETHUMB_THUMB_ROTATE_180
 
-    Rotate 180° 
+    Rotate 180°
 
-.. data:: ETHUMB_THUMB_ROTATE_90_CCW 
+.. data:: ETHUMB_THUMB_ROTATE_90_CCW
 
-    Rotate 90° counter-clockwise 
+    Rotate 90° counter-clockwise
 
-.. data:: ETHUMB_THUMB_FLIP_HORIZONTAL 
+.. data:: ETHUMB_THUMB_FLIP_HORIZONTAL
 
-    Flip horizontally 
+    Flip horizontally
 
-.. data:: ETHUMB_THUMB_FLIP_VERTICAL 
+.. data:: ETHUMB_THUMB_FLIP_VERTICAL
 
-    Flip vertically 
+    Flip vertically
 
-.. data:: ETHUMB_THUMB_FLIP_TRANSPOSE 
+.. data:: ETHUMB_THUMB_FLIP_TRANSPOSE
 
     Transpose
 
-.. data:: ETHUMB_THUMB_FLIP_TRANSVERSE 
+.. data:: ETHUMB_THUMB_FLIP_TRANSVERSE
 
     Transverse
 
-.. data:: ETHUMB_THUMB_ORIENT_ORIGINAL 
+.. data:: ETHUMB_THUMB_ORIENT_ORIGINAL
 
-    Use orientation from metadata (EXIF-only currently) 
+    Use orientation from metadata (EXIF-only currently)
 
 
 Module level functions
@@ -156,6 +156,29 @@ from efl.c_ethumb cimport Ethumb as cEthumb, Ethumb_Thumb_FDO_Size, \
 
 import atexit
 import traceback
+
+cimport efl.ethumb.enums as enums
+
+ETHUMB_THUMB_ORIENT_NONE = enums.ETHUMB_THUMB_ORIENT_NONE
+ETHUMB_THUMB_ROTATE_90_CW = enums.ETHUMB_THUMB_ROTATE_90_CW
+ETHUMB_THUMB_ROTATE_180 = enums.ETHUMB_THUMB_ROTATE_180
+ETHUMB_THUMB_ROTATE_90_CCW = enums.ETHUMB_THUMB_ROTATE_90_CCW
+ETHUMB_THUMB_FLIP_HORIZONTAL = enums.ETHUMB_THUMB_FLIP_HORIZONTAL
+ETHUMB_THUMB_FLIP_VERTICAL = enums.ETHUMB_THUMB_FLIP_VERTICAL
+ETHUMB_THUMB_FLIP_TRANSPOSE = enums.ETHUMB_THUMB_FLIP_TRANSPOSE
+ETHUMB_THUMB_FLIP_TRANSVERSE = enums.ETHUMB_THUMB_FLIP_TRANSVERSE
+ETHUMB_THUMB_ORIENT_ORIGINAL = enums.ETHUMB_THUMB_ORIENT_ORIGINAL
+
+ETHUMB_THUMB_NORMAL = enums.ETHUMB_THUMB_NORMAL
+ETHUMB_THUMB_LARGE = enums.ETHUMB_THUMB_LARGE
+
+ETHUMB_THUMB_FDO = enums.ETHUMB_THUMB_FDO
+ETHUMB_THUMB_JPEG = enums.ETHUMB_THUMB_JPEG
+ETHUMB_THUMB_EET = enums.ETHUMB_THUMB_EET
+
+ETHUMB_THUMB_KEEP_ASPECT = enums.ETHUMB_THUMB_KEEP_ASPECT
+ETHUMB_THUMB_IGNORE_ASPECT = enums.ETHUMB_THUMB_IGNORE_ASPECT
+ETHUMB_THUMB_CROP = enums.ETHUMB_THUMB_CROP
 
 
 cdef void _generate_cb(void *data, cEthumb *e, Eina_Bool success) with gil:
@@ -240,7 +263,7 @@ cdef class Ethumb(object):
         return bool(ethumb_exists(self.obj))
 
     def generate(self, func, *args, **kargs):
-        """ Generate the thumbnail. 
+        """ Generate the thumbnail.
 
         Thumbnail generation is asynchronous and depend on ecore main
         loop running. Given function will be called back with
@@ -258,7 +281,7 @@ cdef class Ethumb(object):
             with success being ``True`` for successful generation or
             ``False`` on failure.
 
-        :return: ``True`` on success and ``False`` on failure 
+        :return: ``True`` on success and ``False`` on failure
 
         :raise TypeError: if **func** is not callable.
 
@@ -579,7 +602,7 @@ cdef class Ethumb(object):
         .. note:: that video backends might not be able to
                   precisely skip that amount as it will depend on various
                   factors, including video encoding.
- 
+
         :type: float
 
         """

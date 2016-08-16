@@ -126,7 +126,7 @@ def need_systray():
     cdef bint ret = elm_need_systray()
     if ret:
         try:
-            _event_mapping_register(ELM_EVENT_SYSTRAY_READY, EventSystrayReady)
+            _event_mapping_register(enums.ELM_EVENT_SYSTRAY_READY, EventSystrayReady)
         except ValueError:
             pass
     return ret
@@ -148,11 +148,11 @@ def need_sys_notify():
     if ret:
         try:
             _event_mapping_register(
-                ELM_EVENT_SYS_NOTIFY_NOTIFICATION_CLOSED,
+                enums.ELM_EVENT_SYS_NOTIFY_NOTIFICATION_CLOSED,
                 SysNotifyNotificationClosed
                 )
             _event_mapping_register(
-                ELM_EVENT_SYS_NOTIFY_ACTION_INVOKED,
+                enums.ELM_EVENT_SYS_NOTIFY_ACTION_INVOKED,
                 SysNotifyActionInvoked
                 )
         except ValueError:
@@ -218,7 +218,7 @@ def need_ethumb():
     """
     cdef bint ret = elm_need_ethumb()
     try:
-        _event_mapping_register(ELM_ECORE_EVENT_ETHUMB_CONNECT, EthumbConnect)
+        _event_mapping_register(enums.ELM_ECORE_EVENT_ETHUMB_CONNECT, EthumbConnect)
     except ValueError:
         pass
     return ret

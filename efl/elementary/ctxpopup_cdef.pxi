@@ -1,15 +1,6 @@
+from efl.elementary.enums cimport Elm_Ctxpopup_Direction
+
 cdef extern from "Elementary.h":
-
-    cpdef enum Elm_Ctxpopup_Direction:
-        ELM_CTXPOPUP_DIRECTION_DOWN
-        ELM_CTXPOPUP_DIRECTION_RIGHT
-        ELM_CTXPOPUP_DIRECTION_LEFT
-        ELM_CTXPOPUP_DIRECTION_UP
-        ELM_CTXPOPUP_DIRECTION_UNKNOWN
-    ctypedef enum Elm_Ctxpopup_Direction:
-        pass
-
-
     Evas_Object             *elm_ctxpopup_add(Evas_Object *parent)
     void                     elm_ctxpopup_hover_parent_set(Evas_Object *obj, Evas_Object *parent)
     Evas_Object             *elm_ctxpopup_hover_parent_get(const Evas_Object *obj)

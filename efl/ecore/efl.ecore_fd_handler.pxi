@@ -31,11 +31,11 @@ cdef void fd_handler_prepare_cb(void *data, Ecore_Fd_Handler *fdh) with gil:
 
 cdef flags2str(int value):
     flags = []
-    if value & <int>ECORE_FD_READ:
+    if value & <int>enums.ECORE_FD_READ:
         flags.append("READ")
-    if value & <int>ECORE_FD_WRITE:
+    if value & <int>enums.ECORE_FD_WRITE:
         flags.append("WRITE")
-    if value & <int>ECORE_FD_ERROR:
+    if value & <int>enums.ECORE_FD_ERROR:
         flags.append("ERROR")
     return ", ".join(flags)
 
@@ -204,15 +204,15 @@ cdef class FdHandler(object):
 
     def can_read(self):
         """:rtype: bool"""
-        return bool(ecore_main_fd_handler_active_get(self.obj, ECORE_FD_READ))
+        return bool(ecore_main_fd_handler_active_get(self.obj, enums.ECORE_FD_READ))
 
     def can_write(self):
         """:rtype: bool"""
-        return bool(ecore_main_fd_handler_active_get(self.obj, ECORE_FD_WRITE))
+        return bool(ecore_main_fd_handler_active_get(self.obj, enums.ECORE_FD_WRITE))
 
     def has_error(self):
         """:rtype: bool"""
-        return bool(ecore_main_fd_handler_active_get(self.obj, ECORE_FD_ERROR))
+        return bool(ecore_main_fd_handler_active_get(self.obj, enums.ECORE_FD_ERROR))
 
     def prepare_callback_set(self, func, *args, **kargs):
         """Set a function to call before doing the select() on the fd.

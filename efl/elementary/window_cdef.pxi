@@ -1,70 +1,7 @@
+from efl.elementary.enums cimport Elm_Win_Type, Elm_Win_Indicator_Mode, \
+    Elm_Win_Indicator_Opacity_Mode, Elm_Win_Keyboard_Mode, Elm_Illume_Command
+
 cdef extern from "Elementary.h":
-
-    cpdef enum Elm_Win_Type:
-        ELM_WIN_UNKNOWN
-        ELM_WIN_BASIC
-        ELM_WIN_DIALOG_BASIC
-        ELM_WIN_DESKTOP
-        ELM_WIN_DOCK
-        ELM_WIN_TOOLBAR
-        ELM_WIN_MENU
-        ELM_WIN_UTILITY
-        ELM_WIN_SPLASH
-        ELM_WIN_DROPDOWN_MENU
-        ELM_WIN_POPUP_MENU
-        ELM_WIN_TOOLTIP
-        ELM_WIN_NOTIFICATION
-        ELM_WIN_COMBO
-        ELM_WIN_DND
-        ELM_WIN_INLINED_IMAGE
-        ELM_WIN_SOCKET_IMAGE
-    ctypedef enum Elm_Win_Type:
-        pass
-
-    cpdef enum Elm_Win_Indicator_Mode:
-        ELM_WIN_INDICATOR_UNKNOWN
-        ELM_WIN_INDICATOR_HIDE
-        ELM_WIN_INDICATOR_SHOW
-    ctypedef enum Elm_Win_Indicator_Mode:
-        pass
-
-    cpdef enum Elm_Win_Indicator_Opacity_Mode:
-        ELM_WIN_INDICATOR_OPACITY_UNKNOWN
-        ELM_WIN_INDICATOR_OPAQUE
-        ELM_WIN_INDICATOR_TRANSLUCENT
-        ELM_WIN_INDICATOR_TRANSPARENT
-    ctypedef enum Elm_Win_Indicator_Opacity_Mode:
-        pass
-
-    cpdef enum Elm_Win_Keyboard_Mode:
-        ELM_WIN_KEYBOARD_UNKNOWN
-        ELM_WIN_KEYBOARD_OFF
-        ELM_WIN_KEYBOARD_ON
-        ELM_WIN_KEYBOARD_ALPHA
-        ELM_WIN_KEYBOARD_NUMERIC
-        ELM_WIN_KEYBOARD_PIN
-        ELM_WIN_KEYBOARD_PHONE_NUMBER
-        ELM_WIN_KEYBOARD_HEX
-        ELM_WIN_KEYBOARD_TERMINAL
-        ELM_WIN_KEYBOARD_PASSWORD
-        ELM_WIN_KEYBOARD_IP
-        ELM_WIN_KEYBOARD_HOST
-        ELM_WIN_KEYBOARD_FILE
-        ELM_WIN_KEYBOARD_URL
-        ELM_WIN_KEYBOARD_KEYPAD
-        ELM_WIN_KEYBOARD_J2ME
-    ctypedef enum Elm_Win_Keyboard_Mode:
-        pass
-
-    cpdef enum Elm_Illume_Command:
-        ELM_ILLUME_COMMAND_FOCUS_BACK
-        ELM_ILLUME_COMMAND_FOCUS_FORWARD
-        ELM_ILLUME_COMMAND_FOCUS_HOME
-        ELM_ILLUME_COMMAND_CLOSE
-    ctypedef enum Elm_Illume_Command:
-        pass
-
-
     Evas_Object             *elm_win_add(Evas_Object *parent, const char *name, Elm_Win_Type type)
     Evas_Object             *elm_win_util_standard_add(const char *name, const char *title)
     Evas_Object             *elm_win_util_dialog_add(Evas_Object *parent, const char *name, const char *title)

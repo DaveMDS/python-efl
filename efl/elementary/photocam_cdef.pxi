@@ -1,15 +1,6 @@
+from efl.elementary.enums cimport Elm_Photocam_Zoom_Mode
+
 cdef extern from "Elementary.h":
-
-    cpdef enum Elm_Photocam_Zoom_Mode:
-        ELM_PHOTOCAM_ZOOM_MODE_MANUAL
-        ELM_PHOTOCAM_ZOOM_MODE_AUTO_FIT
-        ELM_PHOTOCAM_ZOOM_MODE_AUTO_FILL
-        ELM_PHOTOCAM_ZOOM_MODE_AUTO_FIT_IN
-        ELM_PHOTOCAM_ZOOM_MODE_LAST
-    ctypedef enum Elm_Photocam_Zoom_Mode:
-        pass
-
-
     ctypedef struct Elm_Photocam_Progress:
         double now
         double total

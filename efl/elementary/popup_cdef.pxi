@@ -1,28 +1,6 @@
+from efl.elementary.enums cimport Elm_Popup_Orient, Elm_Wrap_Type
+
 cdef extern from "Elementary.h":
-
-    cpdef enum Elm_Popup_Orient:
-        ELM_POPUP_ORIENT_TOP
-        ELM_POPUP_ORIENT_CENTER
-        ELM_POPUP_ORIENT_BOTTOM
-        ELM_POPUP_ORIENT_LEFT
-        ELM_POPUP_ORIENT_RIGHT
-        ELM_POPUP_ORIENT_TOP_LEFT
-        ELM_POPUP_ORIENT_TOP_RIGHT
-        ELM_POPUP_ORIENT_BOTTOM_LEFT
-        ELM_POPUP_ORIENT_BOTTOM_RIGHT
-        ELM_POPUP_ORIENT_LAST
-    ctypedef enum Elm_Popup_Orient:
-        pass
-
-    cpdef enum Elm_Wrap_Type:
-        ELM_WRAP_NONE
-        ELM_WRAP_CHAR
-        ELM_WRAP_WORD
-        ELM_WRAP_MIXED
-    ctypedef enum Elm_Wrap_Type:
-        pass
-
-
     Evas_Object             *elm_popup_add(Evas_Object *parent)
     void                     elm_popup_align_set(Evas_Object *obj, double horizontal, double vertical)
     void                     elm_popup_align_get(const Evas_Object *obj, double *horizontal, double *vertical)

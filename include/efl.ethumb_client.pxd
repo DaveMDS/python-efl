@@ -17,44 +17,10 @@
 
 from efl.eina cimport Eina_Bool, Eina_Free_Cb
 
+from efl.ethumb.enums cimport Ethumb_Thumb_Orientation, \
+    Ethumb_Thumb_FDO_Size, Ethumb_Thumb_Format, Ethumb_Thumb_Aspect
 
 cdef extern from "Ethumb_Client.h":
-
-    ####################################################################
-    # Enums
-    #
-    cpdef enum Ethumb_Thumb_Orientation:
-        ETHUMB_THUMB_ORIENT_NONE
-        ETHUMB_THUMB_ROTATE_90_CW
-        ETHUMB_THUMB_ROTATE_180
-        ETHUMB_THUMB_ROTATE_90_CCW
-        ETHUMB_THUMB_FLIP_HORIZONTAL
-        ETHUMB_THUMB_FLIP_VERTICAL
-        ETHUMB_THUMB_FLIP_TRANSPOSE
-        ETHUMB_THUMB_FLIP_TRANSVERSE
-        ETHUMB_THUMB_ORIENT_ORIGINAL
-    ctypedef enum Ethumb_Thumb_Orientation:
-        pass
-
-    cpdef enum Ethumb_Thumb_FDO_Size:
-        ETHUMB_THUMB_NORMAL
-        ETHUMB_THUMB_LARGE
-    ctypedef enum Ethumb_Thumb_FDO_Size:
-        pass
-
-    cpdef enum Ethumb_Thumb_Format:
-        ETHUMB_THUMB_FDO
-        ETHUMB_THUMB_JPEG
-        ETHUMB_THUMB_EET
-    ctypedef enum Ethumb_Thumb_Format:
-        pass
-
-    cpdef enum Ethumb_Thumb_Aspect:
-        ETHUMB_THUMB_KEEP_ASPECT
-        ETHUMB_THUMB_IGNORE_ASPECT
-        ETHUMB_THUMB_CROP
-    ctypedef enum Ethumb_Thumb_Aspect:
-        pass
 
     ####################################################################
     # Structs

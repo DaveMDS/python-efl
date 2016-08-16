@@ -22,7 +22,8 @@ from efl.eo cimport Eo, object_from_instance
 from efl.ecore cimport Ecore_Event_Handler, Event
 from efl.utils.conversions cimport _ctouni, eina_list_strings_to_python_list
 
-
+from efl.ecore_con.enums cimport Ecore_Con_Type, Ecore_Con_Url_Time, \
+    Ecore_Con_Url_Http_Version
 
 cdef extern from "Ecore_Con.h":
 
@@ -59,39 +60,6 @@ cdef extern from "Ecore_Con.h":
     ctypedef void (*Ecore_Con_Dns_Cb)(const char *canonname, const char *ip,
                                       sockaddr *addr, int addrlen, void *data)
 
-    # enums
-    cpdef enum Ecore_Con_Type:
-        ECORE_CON_LOCAL_USER
-        ECORE_CON_LOCAL_SYSTEM
-        ECORE_CON_LOCAL_ABSTRACT
-        ECORE_CON_REMOTE_TCP
-        ECORE_CON_REMOTE_MCAST
-        ECORE_CON_REMOTE_UDP
-        ECORE_CON_REMOTE_BROADCAST
-        ECORE_CON_REMOTE_NODELAY
-        ECORE_CON_REMOTE_CORK
-        ECORE_CON_USE_SSL2
-        ECORE_CON_USE_SSL3
-        ECORE_CON_USE_TLS
-        ECORE_CON_USE_MIXED
-        ECORE_CON_LOAD_CERT
-        ECORE_CON_NO_PROXY
-        ECORE_CON_SOCKET_ACTIVATE
-    ctypedef enum Ecore_Con_Type:
-        pass
-
-    cpdef enum Ecore_Con_Url_Time:
-        ECORE_CON_URL_TIME_NONE
-        ECORE_CON_URL_TIME_IFMODSINCE
-        ECORE_CON_URL_TIME_IFUNMODSINCE
-    ctypedef enum Ecore_Con_Url_Time:
-        pass
-
-    cpdef enum Ecore_Con_Url_Http_Version:
-        ECORE_CON_URL_HTTP_VERSION_1_0
-        ECORE_CON_URL_HTTP_VERSION_1_1
-    ctypedef enum Ecore_Con_Url_Http_Version:
-        pass
 
     # functions
     int               ecore_con_init()
@@ -103,7 +71,7 @@ cdef extern from "Ecore_Con.h":
     void              ecore_con_url_pipeline_set(Eina_Bool enable)
     Eina_Bool         ecore_con_url_pipeline_get()
     Eina_Bool         ecore_con_lookup(const char *name, Ecore_Con_Dns_Cb done_cb, const void *data)
-    
+
     Ecore_Con_Url    *ecore_con_url_new(const char *url)
     void              ecore_con_url_free(Ecore_Con_Url *url_obj)
     Ecore_Con_Url *   ecore_con_url_custom_new(const char *url, const char *custom_request)

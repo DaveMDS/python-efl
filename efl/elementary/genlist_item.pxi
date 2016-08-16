@@ -13,7 +13,7 @@ cdef class GenlistItem(ObjectItem):
 
     def __init__(self, GenlistItemClass item_class not None, item_data=None,
                  GenlistItem parent_item=None,
-                 Elm_Genlist_Item_Type flags=ELM_GENLIST_ITEM_NONE,
+                 Elm_Genlist_Item_Type flags=enums.ELM_GENLIST_ITEM_NONE,
                  func=None, func_data=None, *args, **kwargs):
         """GenlistItem(...)
 
@@ -330,7 +330,7 @@ cdef class GenlistItem(ObjectItem):
         cdef bint ret = elm_genlist_item_selected_get(self.item)
         return ret
 
-    def show(self, scrollto_type=ELM_GENLIST_ITEM_SCROLLTO_IN):
+    def show(self, scrollto_type=enums.ELM_GENLIST_ITEM_SCROLLTO_IN):
         """This causes genlist to jump to the item and show it (by
         jumping to that position), if it is not fully visible.
 
@@ -342,7 +342,7 @@ cdef class GenlistItem(ObjectItem):
         """
         elm_genlist_item_show(self.item, scrollto_type)
 
-    def bring_in(self, scrollto_type=ELM_GENLIST_ITEM_SCROLLTO_IN):
+    def bring_in(self, scrollto_type=enums.ELM_GENLIST_ITEM_SCROLLTO_IN):
         """This causes genlist to jump to the item and show it (by
         animatedly scrolling), if it is not fully visible.
         This may use animation and take a some time to do so.

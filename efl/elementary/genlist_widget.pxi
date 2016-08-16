@@ -105,7 +105,7 @@ cdef class Genlist(Object):
                     GenlistItemClass item_class not None,
                     item_data,
                     ObjectItem parent_item=None,
-                    int flags=ELM_GENLIST_ITEM_NONE,
+                    int flags=enums.ELM_GENLIST_ITEM_NONE,
                     func=None):
         """Append a new item (add as last row) to this genlist.
 
@@ -143,7 +143,7 @@ cdef class Genlist(Object):
                         GenlistItemClass item_class not None,
                         item_data,
                         ObjectItem parent_item=None,
-                        int flags=ELM_GENLIST_ITEM_NONE,
+                        int flags=enums.ELM_GENLIST_ITEM_NONE,
                         func=None):
         """Prepend a new item (add as first row) to this genlist.
 
@@ -181,7 +181,7 @@ cdef class Genlist(Object):
                             GenlistItemClass item_class not None,
                             item_data,
                             ObjectItem before_item=None,
-                            int flags=ELM_GENLIST_ITEM_NONE,
+                            int flags=enums.ELM_GENLIST_ITEM_NONE,
                             func=None
                             ):
         """Insert a new item before another item to this genlist.
@@ -217,7 +217,7 @@ cdef class Genlist(Object):
                             GenlistItemClass item_class not None,
                             item_data,
                             ObjectItem after_item=None,
-                            int flags=ELM_GENLIST_ITEM_NONE,
+                            int flags=enums.ELM_GENLIST_ITEM_NONE,
                             func=None
                             ):
         """Insert a new item after another item to this genlist.
@@ -254,7 +254,7 @@ cdef class Genlist(Object):
                             item_data,
                             comparison_func not None,
                             ObjectItem parent_item=None,
-                            int flags=ELM_GENLIST_ITEM_NONE,
+                            int flags=enums.ELM_GENLIST_ITEM_NONE,
                             func=None
                             ):
         """This inserts a new item in the genlist based on a user defined

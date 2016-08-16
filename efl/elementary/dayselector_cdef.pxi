@@ -1,18 +1,6 @@
+from efl.elementary.enums cimport Elm_Dayselector_Day
+
 cdef extern from "Elementary.h":
-
-    cpdef enum Elm_Dayselector_Day:
-        ELM_DAYSELECTOR_SUN
-        ELM_DAYSELECTOR_MON
-        ELM_DAYSELECTOR_TUE
-        ELM_DAYSELECTOR_WED
-        ELM_DAYSELECTOR_THU
-        ELM_DAYSELECTOR_FRI
-        ELM_DAYSELECTOR_SAT
-        ELM_DAYSELECTOR_MAX
-    ctypedef enum Elm_Dayselector_Day:
-        pass
-
-
     Evas_Object             *elm_dayselector_add(Evas_Object *parent)
     void                     elm_dayselector_day_selected_set(Evas_Object *obj, Elm_Dayselector_Day day, Eina_Bool selected)
     Eina_Bool                elm_dayselector_day_selected_get(const Evas_Object *obj, Elm_Dayselector_Day day)

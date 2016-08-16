@@ -32,7 +32,7 @@ cdef class HoverselItem(ObjectItem):
         Elm_Icon_Type icon_type
 
     def __init__(self, label = None, icon_file = None,
-            icon_type = ELM_ICON_NONE, callback = None, cb_data = None,
+            icon_type = enums.ELM_ICON_NONE, callback = None, cb_data = None,
             *args, **kwargs):
         """HoverselItem(...)
 
@@ -295,7 +295,7 @@ cdef class Hoversel(Button):
         return _object_item_list_to_python(elm_hoversel_items_get(self.obj))
 
     def item_add(self, label = None, icon_file = None,
-        icon_type = ELM_ICON_NONE, callback = None, *args, **kwargs):
+        icon_type = enums.ELM_ICON_NONE, callback = None, *args, **kwargs):
         cdef:
             Elm_Object_Item *item
             Evas_Smart_Cb cb = NULL

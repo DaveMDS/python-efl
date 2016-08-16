@@ -1,15 +1,6 @@
+from efl.elementary.enums cimport Elm_Actionslider_Pos
+
 cdef extern from "Elementary.h":
-
-    cpdef enum Elm_Actionslider_Pos:
-        ELM_ACTIONSLIDER_NONE
-        ELM_ACTIONSLIDER_LEFT
-        ELM_ACTIONSLIDER_CENTER
-        ELM_ACTIONSLIDER_RIGHT
-        ELM_ACTIONSLIDER_ALL
-    ctypedef enum Elm_Actionslider_Pos:
-        pass
-
-
     Evas_Object             *elm_actionslider_add(Evas_Object *parent)
     const char              *elm_actionslider_selected_label_get(const Evas_Object *obj)
     void                     elm_actionslider_indicator_pos_set(Evas_Object *obj, Elm_Actionslider_Pos pos)

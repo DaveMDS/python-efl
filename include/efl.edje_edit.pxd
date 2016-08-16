@@ -21,19 +21,9 @@ from efl.evas cimport Evas_Object, Evas
 from efl.edje cimport Edje_Part_Type, Edje_Text_Effect, Edje_Tween_Mode, \
     Edje_Action_Type
 
+from efl.edje_edit.enums cimport Edje_Edit_Image_Comp
 
 cdef extern from "Edje_Edit.h":
-    ####################################################################
-    # Enums
-    #
-    cpdef enum Edje_Edit_Image_Comp:
-        EDJE_EDIT_IMAGE_COMP_RAW
-        EDJE_EDIT_IMAGE_COMP_USER
-        EDJE_EDIT_IMAGE_COMP_COMP
-        EDJE_EDIT_IMAGE_COMP_LOSSY
-    ctypedef enum Edje_Edit_Image_Comp:
-        pass
-
     ####################################################################
     # Structures
     #

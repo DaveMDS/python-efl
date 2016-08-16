@@ -26,6 +26,12 @@ from efl.evas cimport Canvas
 from efl.edje cimport Edje_Part_Type, Edje, ExternalParam_from_ptr
 from efl.edje import EDJE_PART_TYPE_EXTERNAL
 
+cimport efl.edje_edit.enums as enums
+
+EDJE_EDIT_IMAGE_COMP_RAW = enums.EDJE_EDIT_IMAGE_COMP_RAW
+EDJE_EDIT_IMAGE_COMP_USER = enums.EDJE_EDIT_IMAGE_COMP_USER
+EDJE_EDIT_IMAGE_COMP_COMP = enums.EDJE_EDIT_IMAGE_COMP_COMP
+EDJE_EDIT_IMAGE_COMP_LOSSY = enums.EDJE_EDIT_IMAGE_COMP_LOSSY
 
 cdef class EdjeEdit(Edje):
 

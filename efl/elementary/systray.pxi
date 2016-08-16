@@ -215,4 +215,4 @@ cdef class Systray(Eo):
 
 def on_systray_ready(func, *args, **kwargs):
     """Use this to set a handler for the systray ready event."""
-    return EventHandler(ELM_EVENT_SYSTRAY_READY, func, *args, **kwargs)
+    return EventHandler(enums.ELM_EVENT_SYSTRAY_READY, func, *args, **kwargs)

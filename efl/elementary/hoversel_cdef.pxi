@@ -1,12 +1,4 @@
 cdef extern from "Elementary.h":
-
-    cpdef enum Elm_Icon_Type:
-        ELM_ICON_NONE
-        ELM_ICON_FILE
-        ELM_ICON_STANDARD
-    ctypedef enum Elm_Icon_Type:
-        pass
-
     Evas_Object             *elm_hoversel_add(Evas_Object *parent)
     void                     elm_hoversel_horizontal_set(Evas_Object *obj, Eina_Bool horizontal)
     Eina_Bool                elm_hoversel_horizontal_get(const Evas_Object *obj)

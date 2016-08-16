@@ -1,51 +1,7 @@
+from efl.elementary.enums cimport Elm_Map_Overlay_Type, Elm_Map_Route_Method, \
+    Elm_Map_Route_Type, Elm_Map_Source_Type, Elm_Map_Zoom_Mode
+
 cdef extern from "Elementary.h":
-
-    cpdef enum Elm_Map_Overlay_Type:
-        ELM_MAP_OVERLAY_TYPE_NONE
-        ELM_MAP_OVERLAY_TYPE_DEFAULT
-        ELM_MAP_OVERLAY_TYPE_CLASS
-        ELM_MAP_OVERLAY_TYPE_GROUP
-        ELM_MAP_OVERLAY_TYPE_BUBBLE
-        ELM_MAP_OVERLAY_TYPE_ROUTE
-        ELM_MAP_OVERLAY_TYPE_LINE
-        ELM_MAP_OVERLAY_TYPE_POLYGON
-        ELM_MAP_OVERLAY_TYPE_CIRCLE
-        ELM_MAP_OVERLAY_TYPE_SCALE
-    ctypedef enum Elm_Map_Overlay_Type:
-        pass
-
-    cpdef enum Elm_Map_Route_Method:
-        ELM_MAP_ROUTE_METHOD_FASTEST
-        ELM_MAP_ROUTE_METHOD_SHORTEST
-        ELM_MAP_ROUTE_METHOD_LAST
-    ctypedef enum Elm_Map_Route_Method:
-        pass
-
-    cpdef enum Elm_Map_Route_Type:
-        ELM_MAP_ROUTE_TYPE_MOTOCAR
-        ELM_MAP_ROUTE_TYPE_BICYCLE
-        ELM_MAP_ROUTE_TYPE_FOOT
-        ELM_MAP_ROUTE_TYPE_LAST
-    ctypedef enum Elm_Map_Route_Type:
-        pass
-
-    cpdef enum Elm_Map_Source_Type:
-        ELM_MAP_SOURCE_TYPE_TILE
-        ELM_MAP_SOURCE_TYPE_ROUTE
-        ELM_MAP_SOURCE_TYPE_NAME
-        ELM_MAP_SOURCE_TYPE_LAST
-    ctypedef enum Elm_Map_Source_Type:
-        pass
-
-    cpdef enum Elm_Map_Zoom_Mode:
-        ELM_MAP_ZOOM_MODE_MANUAL
-        ELM_MAP_ZOOM_MODE_AUTO_FIT
-        ELM_MAP_ZOOM_MODE_AUTO_FILL
-        ELM_MAP_ZOOM_MODE_LAST
-    ctypedef enum Elm_Map_Zoom_Mode:
-        pass
-
-
     ctypedef void *Elm_Map_Overlay
     ctypedef void *Elm_Map_Route
     ctypedef void *Elm_Map_Name

@@ -1,35 +1,8 @@
-cdef extern from "Edje.h":
-
-    cpdef enum Edje_Channel:
-        EDJE_CHANNEL_EFFECT
-        EDJE_CHANNEL_BACKGROUND
-        EDJE_CHANNEL_MUSIC
-        EDJE_CHANNEL_FOREGROUND
-        EDJE_CHANNEL_INTERFACE
-        EDJE_CHANNEL_INPUT
-        EDJE_CHANNEL_ALERT
-        EDJE_CHANNEL_ALL
-    ctypedef enum Edje_Channel:
-        pass
-
+from efl.elementary.enums cimport Elm_Softcursor_Mode, \
+    Elm_Slider_Indicator_Visible_Mode, Elm_Focus_Move_Policy, \
+    Elm_Focus_Autoscroll_Mode, Edje_Channel
 
 cdef extern from "Elementary.h":
-
-    cpdef enum Elm_Softcursor_Mode:
-        ELM_SOFTCURSOR_MODE_AUTO
-        ELM_SOFTCURSOR_MODE_ON
-        ELM_SOFTCURSOR_MODE_OFF
-    ctypedef enum Elm_Softcursor_Mode:
-        pass
-
-    cpdef enum Elm_Slider_Indicator_Visible_Mode:
-        ELM_SLIDER_INDICATOR_VISIBLE_MODE_DEFAULT
-        ELM_SLIDER_INDICATOR_VISIBLE_MODE_ALWAYS
-        ELM_SLIDER_INDICATOR_VISIBLE_MODE_ON_FOCUS
-        ELM_SLIDER_INDICATOR_VISIBLE_MODE_NONE
-    ctypedef enum Elm_Slider_Indicator_Visible_Mode:
-        pass
-
     ctypedef struct Elm_Font_Overlay:
         const char *text_class
         const char *font
@@ -193,7 +166,7 @@ cdef extern from "Elementary.h":
 
     Eina_Bool               elm_config_vsync_get()
     void                    elm_config_vsync_set(Eina_Bool enabled)
-    
+
     Elm_Focus_Autoscroll_Mode elm_config_focus_autoscroll_mode_get()
     void                    elm_config_focus_autoscroll_mode_set(Elm_Focus_Autoscroll_Mode mode)
     Eina_Bool               elm_config_window_auto_focus_enable_get()

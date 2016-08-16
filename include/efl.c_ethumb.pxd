@@ -17,23 +17,10 @@
 
 from efl.eina cimport Eina_Bool, Eina_Free_Cb
 
+from efl.ethumb.enums cimport Ethumb_Thumb_Orientation, \
+    Ethumb_Thumb_FDO_Size, Ethumb_Thumb_Format, Ethumb_Thumb_Aspect
 
 cdef extern from "Ethumb.h":
-
-    ####################################################################
-    # Enums
-    #
-    ctypedef enum Ethumb_Thumb_Orientation:
-        pass
-
-    ctypedef enum Ethumb_Thumb_FDO_Size:
-        pass
-
-    ctypedef enum Ethumb_Thumb_Format:
-        pass
-
-    ctypedef enum Ethumb_Thumb_Aspect:
-        pass
 
     ####################################################################
     # Structs

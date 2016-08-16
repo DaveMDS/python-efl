@@ -55,27 +55,27 @@ Ecore_Event_Modifier
 
 .. data:: ECORE_EVENT_MODIFIER_SHIFT
 
-.. data:: ECORE_EVENT_MODIFIER_CTRL   
+.. data:: ECORE_EVENT_MODIFIER_CTRL
 
-.. data:: ECORE_EVENT_MODIFIER_ALT    
+.. data:: ECORE_EVENT_MODIFIER_ALT
 
-.. data:: ECORE_EVENT_MODIFIER_WIN    
+.. data:: ECORE_EVENT_MODIFIER_WIN
 
-.. data:: ECORE_EVENT_MODIFIER_SCROLL 
+.. data:: ECORE_EVENT_MODIFIER_SCROLL
 
-.. data:: ECORE_EVENT_MODIFIER_NUM    
+.. data:: ECORE_EVENT_MODIFIER_NUM
 
-.. data:: ECORE_EVENT_MODIFIER_CAPS   
+.. data:: ECORE_EVENT_MODIFIER_CAPS
 
-.. data:: ECORE_EVENT_LOCK_SCROLL     
+.. data:: ECORE_EVENT_LOCK_SCROLL
 
-.. data:: ECORE_EVENT_LOCK_NUM        
+.. data:: ECORE_EVENT_LOCK_NUM
 
-.. data:: ECORE_EVENT_LOCK_CAPS       
+.. data:: ECORE_EVENT_LOCK_CAPS
 
-.. data:: ECORE_EVENT_LOCK_SHIFT      
+.. data:: ECORE_EVENT_LOCK_SHIFT
 
-.. data:: ECORE_EVENT_MODIFIER_ALTGR  
+.. data:: ECORE_EVENT_MODIFIER_ALTGR
 
 
 Classes and Functions
@@ -87,6 +87,7 @@ Classes and Functions
 import atexit
 import traceback
 
+cimport efl.ecore_input.enums as enums
 
 def init():
     """ Initialize the Ecore Input library

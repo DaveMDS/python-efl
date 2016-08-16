@@ -20,7 +20,7 @@ VERSION = "%d.%d" % (vers[0], vers[1] if vers[2] < 99 else vers[1] + 1)
 
 # dependencies
 CYTHON_MIN_VERSION = "0.21"
-CYTHON_BLACKLIST = ("0.23", "0.24")
+CYTHON_BLACKLIST = ()
 EFL_MIN_VER = RELEASE
 ELM_MIN_VER = RELEASE
 
@@ -390,7 +390,7 @@ if set(("build", "build_ext", "install", "bdist", "sdist")) & set(sys.argv):
 
     # === Edje_Edit ===
     edje_edit_ext = Extension("edje_edit",
-                              ["efl/edje/efl.edje_edit" + module_suffix],
+                              ["efl/edje_edit/efl.edje_edit" + module_suffix],
                               define_macros=[('EDJE_EDIT_IS_UNSTABLE_AND_I_KNOW_ABOUT_IT', None)],
                               include_dirs=['include/'],
                               extra_compile_args=edje_cflags,

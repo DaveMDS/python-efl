@@ -1,20 +1,6 @@
+from efl.elementary.enums cimport Elm_Wrap_Type, Elm_Label_Slide_Mode
+
 cdef extern from "Elementary.h":
-
-    cpdef enum Elm_Wrap_Type:
-        ELM_WRAP_NONE
-        ELM_WRAP_CHAR
-        ELM_WRAP_WORD
-        ELM_WRAP_MIXED
-    ctypedef enum Elm_Wrap_Type:
-        pass
-
-    cpdef enum Elm_Label_Slide_Mode:
-        ELM_LABEL_SLIDE_MODE_NONE
-        ELM_LABEL_SLIDE_MODE_AUTO
-        ELM_LABEL_SLIDE_MODE_ALWAYS
-    ctypedef enum Elm_Label_Slide_Mode:
-        pass
-
     Evas_Object          *elm_label_add(Evas_Object *parent)
     void                  elm_label_line_wrap_set(Evas_Object *obj, Elm_Wrap_Type wrap)
     Elm_Wrap_Type         elm_label_line_wrap_get(const Evas_Object *obj)

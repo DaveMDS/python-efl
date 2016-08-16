@@ -523,7 +523,7 @@ cdef class Smart(object):
         if isinstance(name, unicode): name = PyUnicode_AsUTF8String(name)
 
         cls_def.name = name
-        cls_def.version = EVAS_SMART_CLASS_VERSION
+        cls_def.version = enums.EVAS_SMART_CLASS_VERSION
 
         if clipped:
             evas_object_smart_clipped_smart_set(cls_def)
@@ -704,7 +704,7 @@ cdef class SmartObject(Object):
 
         self.obj = obj
         eo_key_data_set(self.obj, "python-eo", <void *>self)
-        evas_object_event_callback_add(obj, EVAS_CALLBACK_FREE,
+        evas_object_event_callback_add(obj, enums.EVAS_CALLBACK_FREE,
                                        obj_free_cb, <void *>self)
         Py_INCREF(self)
 

@@ -871,7 +871,7 @@ cdef class Entry(LayoutClass):
         """
         elm_entry_context_menu_clear(self.obj)
 
-    def context_menu_item_add(self, label = None, icon_file = None, Elm_Icon_Type icon_type = ELM_ICON_NONE, func = None, *args, **kwargs):
+    def context_menu_item_add(self, label = None, icon_file = None, Elm_Icon_Type icon_type = enums.ELM_ICON_NONE, func = None, *args, **kwargs):
         """This adds an item to the entry's contextual menu.
 
         A longpress on an entry will make the contextual menu show up, if this
@@ -1096,7 +1096,7 @@ cdef class Entry(LayoutClass):
             if isinstance(a1, unicode): a1 = PyUnicode_AsUTF8String(a1)
             if not elm_entry_file_set(self.obj,
                 <const char *>a1 if a1 is not None else NULL,
-                a2 if a2 is not None else ELM_TEXT_FORMAT_PLAIN_UTF8):
+                a2 if a2 is not None else enums.ELM_TEXT_FORMAT_PLAIN_UTF8):
                 raise RuntimeError("Could not set file")
 
     def file_set(self, file_name, file_format):
@@ -1105,7 +1105,7 @@ cdef class Entry(LayoutClass):
         if isinstance(a1, unicode): a1 = PyUnicode_AsUTF8String(a1)
         if not elm_entry_file_set(self.obj,
             <const char *>a1 if a1 is not None else NULL,
-            a2 if a2 is not None else ELM_TEXT_FORMAT_PLAIN_UTF8):
+            a2 if a2 is not None else enums.ELM_TEXT_FORMAT_PLAIN_UTF8):
             raise RuntimeError("Could not set file")
     def file_get(self):
         cdef const char *file
@@ -1128,7 +1128,7 @@ cdef class Entry(LayoutClass):
         Default is ``ELM_TEXT_FORMAT_PLAIN_UTF8``, if you want to use
         ``ELM_TEXT_FORMAT_MARKUP_UTF8`` then you need to set the text format
         before calling :attr:`file` or :func:`file_set`.
- 
+
         You could also set it before a call to :func:`file_save` in order to
         save with the given format.
 

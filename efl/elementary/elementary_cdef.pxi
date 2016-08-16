@@ -3,11 +3,15 @@ from efl.eina cimport Eina_Rectangle, Eina_Compare_Cb, \
     eina_list_free, eina_list_append, eina_stringshare_del
 from efl.evas cimport Eina_List, Eina_Bool, Evas_Object, Evas_Font_Size, \
     Evas_Coord, Evas_Callback_Type, Evas_Smart_Cb, Evas_Event_Flags, \
-    Evas_Load_Error, Evas_Image_Orient, EVAS_EVENT_FLAG_NONE, \
-    evas_object_smart_callback_add, EVAS_CALLBACK_KEY_DOWN, \
+    Evas_Load_Error, Evas_Image_Orient, \
+    evas_object_smart_callback_add
+from efl.evas.enums cimport EVAS_EVENT_FLAG_NONE, EVAS_CALLBACK_KEY_DOWN, \
     EVAS_CALLBACK_KEY_UP, EVAS_CALLBACK_MOUSE_WHEEL
 
 from efl.ecore cimport Ecore_Pos_Map
+
+from efl.elementary.enums cimport Elm_Process_State, Elm_Sys_Notify_Urgency, \
+    Elm_Policy, Elm_Policy_Quit, Elm_Policy_Exit, Elm_Policy_Throttle
 
 
 cdef extern from "time.h":
@@ -32,85 +36,6 @@ cdef extern from "Edje.h":
     ctypedef void (*Edje_Signal_Cb)(void *data, Evas_Object *obj, const char *emission, const char *source)
 
 cdef extern from "Elementary.h":
-
-    #define
-    cpdef enum:
-        ELM_ECORE_EVENT_ETHUMB_CONNECT
-        ELM_EVENT_CONFIG_ALL_CHANGED
-        ELM_EVENT_POLICY_CHANGED
-        ELM_EVENT_PROCESS_BACKGROUND
-        ELM_EVENT_PROCESS_FOREGROUND
-        ELM_EVENT_SYS_NOTIFY_NOTIFICATION_CLOSED
-        ELM_EVENT_SYS_NOTIFY_ACTION_INVOKED
-        ELM_EVENT_SYSTRAY_READY
-
-    #enums
-    cpdef enum Elm_Object_Layer:
-        ELM_OBJECT_LAYER_BACKGROUND # where to place backgrounds
-        ELM_OBJECT_LAYER_DEFAULT # Evas_Object default layer (and thus for Elementary)
-        ELM_OBJECT_LAYER_FOCUS # where focus object visualization is
-        ELM_OBJECT_LAYER_TOOLTIP # where to show tooltips
-        ELM_OBJECT_LAYER_CURSOR # where to show cursors
-        ELM_OBJECT_LAYER_LAST # last layer known by Elementary
-    ctypedef enum Elm_Object_Layer:
-        pass
-
-    cpdef enum Elm_Policy:
-        ELM_POLICY_QUIT
-        ELM_POLICY_EXIT
-        ELM_POLICY_THROTTLE
-        ELM_POLICY_LAST
-    ctypedef enum Elm_Policy:
-        pass
-
-    cpdef enum Elm_Policy_Quit:
-        ELM_POLICY_QUIT_NONE
-        ELM_POLICY_QUIT_LAST_WINDOW_CLOSED
-        ELM_POLICY_QUIT_LAST_WINDOW_HIDDEN
-    ctypedef enum Elm_Policy_Quit:
-        pass
-
-    cpdef enum Elm_Policy_Exit:
-        ELM_POLICY_EXIT_NONE
-        ELM_POLICY_EXIT_WINDOWS_DEL
-    ctypedef enum Elm_Policy_Exit:
-        pass
-
-    cpdef enum Elm_Policy_Throttle:
-        ELM_POLICY_THROTTLE_CONFIG
-        ELM_POLICY_THROTTLE_HIDDEN_ALWAYS
-        ELM_POLICY_THROTTLE_NEVER
-    ctypedef enum Elm_Policy_Throttle:
-        pass
-
-    cpdef enum Elm_Object_Multi_Select_Mode:
-        ELM_OBJECT_MULTI_SELECT_MODE_DEFAULT
-        ELM_OBJECT_MULTI_SELECT_MODE_WITH_CONTROL
-        ELM_OBJECT_MULTI_SELECT_MODE_MAX
-    ctypedef enum Elm_Object_Multi_Select_Mode:
-        pass
-
-    cpdef enum Elm_Sys_Notify_Urgency:
-        ELM_SYS_NOTIFY_URGENCY_LOW
-        ELM_SYS_NOTIFY_URGENCY_NORMAL
-        ELM_SYS_NOTIFY_URGENCY_CRITICAL
-    ctypedef enum Elm_Sys_Notify_Urgency:
-        pass
-
-    cpdef enum Elm_Glob_Match_Flags:
-        ELM_GLOB_MATCH_NO_ESCAPE
-        ELM_GLOB_MATCH_PATH
-        ELM_GLOB_MATCH_PERIOD
-        ELM_GLOB_MATCH_NOCASE
-    ctypedef enum Elm_Glob_Match_Flags:
-        pass
-
-    cpdef enum Elm_Process_State:
-        ELM_PROCESS_STATE_FOREGROUND
-        ELM_PROCESS_STATE_BACKGROUND
-    ctypedef enum Elm_Process_State:
-        pass
-
     #colors
     ctypedef struct Elm_Color_RGBA:
         unsigned int r

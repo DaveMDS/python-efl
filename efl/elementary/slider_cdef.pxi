@@ -1,13 +1,4 @@
 cdef extern from "Elementary.h":
-
-    cpdef enum Elm_Slider_Indicator_Visible_Mode:
-        ELM_SLIDER_INDICATOR_VISIBLE_MODE_DEFAULT
-        ELM_SLIDER_INDICATOR_VISIBLE_MODE_ALWAYS
-        ELM_SLIDER_INDICATOR_VISIBLE_MODE_ON_FOCUS
-        ELM_SLIDER_INDICATOR_VISIBLE_MODE_NONE
-    ctypedef enum Elm_Slider_Indicator_Visible_Mode:
-        pass
-
     Evas_Object *   elm_slider_add(Evas_Object *parent)
     void            elm_slider_span_size_set(Evas_Object *obj, Evas_Coord size)
     Evas_Coord      elm_slider_span_size_get(const Evas_Object *obj)

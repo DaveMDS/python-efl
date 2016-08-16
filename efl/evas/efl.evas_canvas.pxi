@@ -684,11 +684,11 @@ cdef class Canvas(Eo):
             function(object, *args, **kargs)
 
         """
-        self.event_callback_add(EVAS_CALLBACK_CANVAS_FOCUS_IN, func, *a, **k)
+        self.event_callback_add(enums.EVAS_CALLBACK_CANVAS_FOCUS_IN, func, *a, **k)
 
     def on_canvas_focus_in_del(self, func):
         """Same as event_callback_del(EVAS_CALLBACK_CANVAS_FOCUS_IN, ...)"""
-        self.event_callback_del(EVAS_CALLBACK_CANVAS_FOCUS_IN, func)
+        self.event_callback_del(enums.EVAS_CALLBACK_CANVAS_FOCUS_IN, func)
 
     def on_canvas_focus_out_add(self, func, *a, **k):
         """Same as event_callback_add(EVAS_CALLBACK_CANVAS_FOCUS_OUT, ...)
@@ -698,11 +698,11 @@ cdef class Canvas(Eo):
             function(object, *args, **kargs)
 
         """
-        self.event_callback_add(EVAS_CALLBACK_CANVAS_FOCUS_OUT, func, *a, **k)
+        self.event_callback_add(enums.EVAS_CALLBACK_CANVAS_FOCUS_OUT, func, *a, **k)
 
     def on_canvas_focus_out_del(self, func):
         """Same as event_callback_del(EVAS_CALLBACK_CANVAS_FOCUS_OUT, ...)"""
-        self.event_callback_del(EVAS_CALLBACK_CANVAS_FOCUS_OUT, func)
+        self.event_callback_del(enums.EVAS_CALLBACK_CANVAS_FOCUS_OUT, func)
 
     def on_render_flush_pre_add(self, func, *a, **k):
         """Same as event_callback_add(EVAS_CALLBACK_RENDER_FLUSH_PRE, ...)
@@ -712,11 +712,11 @@ cdef class Canvas(Eo):
             function(object, *args, **kargs)
 
         """
-        self.event_callback_add(EVAS_CALLBACK_RENDER_FLUSH_PRE, func, *a, **k)
+        self.event_callback_add(enums.EVAS_CALLBACK_RENDER_FLUSH_PRE, func, *a, **k)
 
     def on_render_flush_pre_del(self, func):
         """Same as event_callback_del(EVAS_CALLBACK_RENDER_FLUSH_PRE, ...)"""
-        self.event_callback_del(EVAS_CALLBACK_RENDER_FLUSH_PRE, func)
+        self.event_callback_del(enums.EVAS_CALLBACK_RENDER_FLUSH_PRE, func)
 
     def on_render_flush_post_add(self, func, *a, **k):
         """Same as event_callback_add(EVAS_CALLBACK_RENDER_FLUSH_POST, ...)
@@ -726,11 +726,11 @@ cdef class Canvas(Eo):
             function(object, *args, **kargs)
 
         """
-        self.event_callback_add(EVAS_CALLBACK_RENDER_FLUSH_POST, func, *a, **k)
+        self.event_callback_add(enums.EVAS_CALLBACK_RENDER_FLUSH_POST, func, *a, **k)
 
     def on_render_flush_post_del(self, func):
         """Same as event_callback_del(EVAS_CALLBACK_RENDER_FLUSH_POST, ...)"""
-        self.event_callback_del(EVAS_CALLBACK_RENDER_FLUSH_POST, func)
+        self.event_callback_del(enums.EVAS_CALLBACK_RENDER_FLUSH_POST, func)
 
     # Event feeding
     def feed_mouse_down(self, int b, Evas_Button_Flags flags,

@@ -261,7 +261,7 @@ cdef class GengridItem(ObjectItem):
     def selected_get(self):
         return bool(elm_gengrid_item_selected_get(self.item))
 
-    def show(self, scrollto_type=ELM_GENGRID_ITEM_SCROLLTO_IN):
+    def show(self, scrollto_type=enums.ELM_GENGRID_ITEM_SCROLLTO_IN):
         """This causes gengrid to **redraw** its viewport's contents to the
         region containing the given ``item``, if it is not fully
         visible.
@@ -274,7 +274,7 @@ cdef class GengridItem(ObjectItem):
         """
         elm_gengrid_item_show(self.item, scrollto_type)
 
-    def bring_in(self, scrollto_type=ELM_GENGRID_ITEM_SCROLLTO_IN):
+    def bring_in(self, scrollto_type=enums.ELM_GENGRID_ITEM_SCROLLTO_IN):
         """This causes gengrid to jump to the item and show
         it (by scrolling), if it is not fully visible. This will use
         animation to do so and take a period of time to complete.
@@ -327,7 +327,7 @@ cdef class GengridItem(ObjectItem):
 
         :return: The list of now orphans objects
         :rtype: list
-        
+
         .. versionadded:: 1.18
 
         .. warning:: Don't forget to do something with the returned objects,

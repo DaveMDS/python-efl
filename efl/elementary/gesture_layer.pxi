@@ -404,19 +404,19 @@ cdef class GestureLayer(Object):
             if not callable(callback):
                 raise TypeError("callback is not callable")
 
-        if  idx == <int>ELM_GESTURE_N_TAPS or \
-            idx == <int>ELM_GESTURE_N_LONG_TAPS or \
-            idx == <int>ELM_GESTURE_N_DOUBLE_TAPS or \
-            idx == <int>ELM_GESTURE_N_TRIPLE_TAPS:
+        if  idx == <int>enums.ELM_GESTURE_N_TAPS or \
+            idx == <int>enums.ELM_GESTURE_N_LONG_TAPS or \
+            idx == <int>enums.ELM_GESTURE_N_DOUBLE_TAPS or \
+            idx == <int>enums.ELM_GESTURE_N_TRIPLE_TAPS:
             cb = _gesture_layer_taps_event_cb
-        elif idx == <int>ELM_GESTURE_MOMENTUM:
+        elif idx == <int>enums.ELM_GESTURE_MOMENTUM:
             cb = _gesture_layer_momentum_event_cb
-        elif idx == <int>ELM_GESTURE_N_LINES or \
-            idx == <int>ELM_GESTURE_N_FLICKS:
+        elif idx == <int>enums.ELM_GESTURE_N_LINES or \
+            idx == <int>enums.ELM_GESTURE_N_FLICKS:
             cb = _gesture_layer_line_event_cb
-        elif idx == <int>ELM_GESTURE_ZOOM:
+        elif idx == <int>enums.ELM_GESTURE_ZOOM:
             cb = _gesture_layer_zoom_event_cb
-        elif idx == <int>ELM_GESTURE_ROTATE:
+        elif idx == <int>enums.ELM_GESTURE_ROTATE:
             cb = _gesture_layer_rotate_event_cb
         else:
             raise TypeError("Unknown gesture type")

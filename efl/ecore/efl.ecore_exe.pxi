@@ -25,25 +25,25 @@ cdef extern from "Python.h":
 
 cdef exe_flags2str(int value):
     flags = []
-    if value & ECORE_EXE_PIPE_READ:
+    if value & enums.ECORE_EXE_PIPE_READ:
         flags.append("PIPE_READ")
-    if value & ECORE_EXE_PIPE_WRITE:
+    if value & enums.ECORE_EXE_PIPE_WRITE:
         flags.append("PIPE_WRITE")
-    if value & ECORE_EXE_PIPE_ERROR:
+    if value & enums.ECORE_EXE_PIPE_ERROR:
         flags.append("PIPE_ERROR")
-    if value & ECORE_EXE_PIPE_READ_LINE_BUFFERED:
+    if value & enums.ECORE_EXE_PIPE_READ_LINE_BUFFERED:
         flags.append("PIPE_READ_LINE_BUFFERED")
-    if value & ECORE_EXE_PIPE_ERROR_LINE_BUFFERED:
+    if value & enums.ECORE_EXE_PIPE_ERROR_LINE_BUFFERED:
         flags.append("PIPE_ERROR_LINE_BUFFERED")
-    if value & ECORE_EXE_PIPE_AUTO:
+    if value & enums.ECORE_EXE_PIPE_AUTO:
         flags.append("PIPE_AUTO")
-    if value & ECORE_EXE_RESPAWN:
+    if value & enums.ECORE_EXE_RESPAWN:
         flags.append("RESPAWN")
-    if value & ECORE_EXE_USE_SH:
+    if value & enums.ECORE_EXE_USE_SH:
         flags.append("USE_SH")
-    if value & ECORE_EXE_NOT_LEADER:
+    if value & enums.ECORE_EXE_NOT_LEADER:
         flags.append("NOT_LEADER")
-    if value & ECORE_EXE_TERM_WITH_PARENT:
+    if value & enums.ECORE_EXE_TERM_WITH_PARENT:
         flags.append("ECORE_EXE_TERM_WITH_PARENT")
     return ", ".join(flags)
 
@@ -60,17 +60,17 @@ cdef Eina_Bool _exe_event_filter_cb(void *data, int type, void *event) with gil:
 
     try:
         assert self.event_type == type, "event is not what we asked? impossible"
-        if type == ECORE_EXE_EVENT_ADD:
+        if type == enums.ECORE_EXE_EVENT_ADD:
             e_add = <Ecore_Exe_Event_Add *>event
             if e_add.exe != self.exe:
                 return 1
             e = EventExeAdd()
-        elif type == ECORE_EXE_EVENT_DEL:
+        elif type == enums.ECORE_EXE_EVENT_DEL:
             e_del = <Ecore_Exe_Event_Del *>event
             if e_del.exe != self.exe:
                 return 1
             e = EventExeDel()
-        elif type == ECORE_EXE_EVENT_DATA or type == ECORE_EXE_EVENT_ERROR:
+        elif type == enums.ECORE_EXE_EVENT_DATA or type == enums.ECORE_EXE_EVENT_ERROR:
             e_data = <Ecore_Exe_Event_Data *>event
             if e_data.exe != self.exe:
                 return 1
@@ -648,10 +648,10 @@ cdef class Exe(object):
         :see: on_exe_add_event_add()
 
         """
-        filter = self.__callbacks.get(ECORE_EXE_EVENT_ADD)
+        filter = self.__callbacks.get(enums.ECORE_EXE_EVENT_ADD)
         if filter is None:
-            filter = ExeEventFilter(self, ECORE_EXE_EVENT_ADD)
-            self.__callbacks[ECORE_EXE_EVENT_ADD] = filter
+            filter = ExeEventFilter(self, enums.ECORE_EXE_EVENT_ADD)
+            self.__callbacks[enums.ECORE_EXE_EVENT_ADD] = filter
         filter.callback_add(func, args, kargs)
 
     def on_add_event_del(self, func, *args, **kargs):
@@ -662,7 +662,7 @@ cdef class Exe(object):
         :raise ValueError: if parameters don't match an already
                            registered callback.
         """
-        filter = self.__callbacks.get(ECORE_EXE_EVENT_ADD)
+        filter = self.__callbacks.get(enums.ECORE_EXE_EVENT_ADD)
         if filter is None:
             raise ValueError("callback not registered %s, args=%s, kargs=%s" %
                              (func, args, kargs))
@@ -684,10 +684,10 @@ cdef class Exe(object):
         :see: on_del_event_del()
         :see: on_exe_del_event_add()
         """
-        filter = self.__callbacks.get(ECORE_EXE_EVENT_DEL)
+        filter = self.__callbacks.get(enums.ECORE_EXE_EVENT_DEL)
         if filter is None:
-            filter = ExeEventFilter(self, ECORE_EXE_EVENT_DEL)
-            self.__callbacks[ECORE_EXE_EVENT_DEL] = filter
+            filter = ExeEventFilter(self, enums.ECORE_EXE_EVENT_DEL)
+            self.__callbacks[enums.ECORE_EXE_EVENT_DEL] = filter
         filter.callback_add(func, args, kargs)
 
     def on_del_event_del(self, func, *args, **kargs):
@@ -698,7 +698,7 @@ cdef class Exe(object):
         :raise ValueError: if parameters don't match an already
                            registered callback.
         """
-        filter = self.__callbacks.get(ECORE_EXE_EVENT_DEL)
+        filter = self.__callbacks.get(enums.ECORE_EXE_EVENT_DEL)
         if filter is None:
             raise ValueError("callback not registered %s, args=%s, kargs=%s" %
                              (func, args, kargs))
@@ -720,10 +720,10 @@ cdef class Exe(object):
         :see: on_data_event_del()
         :see: on_exe_data_event_add()
         """
-        filter = self.__callbacks.get(ECORE_EXE_EVENT_DATA)
+        filter = self.__callbacks.get(enums.ECORE_EXE_EVENT_DATA)
         if filter is None:
-            filter = ExeEventFilter(self, ECORE_EXE_EVENT_DATA)
-            self.__callbacks[ECORE_EXE_EVENT_DATA] = filter
+            filter = ExeEventFilter(self, enums.ECORE_EXE_EVENT_DATA)
+            self.__callbacks[enums.ECORE_EXE_EVENT_DATA] = filter
         filter.callback_add(func, args, kargs)
 
     def on_data_event_del(self, func, *args, **kargs):
@@ -734,7 +734,7 @@ cdef class Exe(object):
         :raise ValueError: if parameters don't match an already
                            registered callback.
         """
-        filter = self.__callbacks.get(ECORE_EXE_EVENT_DATA)
+        filter = self.__callbacks.get(enums.ECORE_EXE_EVENT_DATA)
         if filter is None:
             raise ValueError("callback not registered %s, args=%s, kargs=%s" %
                              (func, args, kargs))
@@ -756,10 +756,10 @@ cdef class Exe(object):
         :see: on_error_event_del()
         :see: on_exe_error_event_add()
         """
-        filter = self.__callbacks.get(ECORE_EXE_EVENT_ERROR)
+        filter = self.__callbacks.get(enums.ECORE_EXE_EVENT_ERROR)
         if filter is None:
-            filter = ExeEventFilter(self, ECORE_EXE_EVENT_ERROR)
-            self.__callbacks[ECORE_EXE_EVENT_ERROR] = filter
+            filter = ExeEventFilter(self, enums.ECORE_EXE_EVENT_ERROR)
+            self.__callbacks[enums.ECORE_EXE_EVENT_ERROR] = filter
         filter.callback_add(func, args, kargs)
 
     def on_error_event_del(self, func, *args, **kargs):
@@ -770,7 +770,7 @@ cdef class Exe(object):
         :raise ValueError: if parameters don't match an already
                            registered callback.
         """
-        filter = self.__callbacks.get(ECORE_EXE_EVENT_ERROR)
+        filter = self.__callbacks.get(enums.ECORE_EXE_EVENT_ERROR)
         if filter is None:
             raise ValueError("callback not registered %s, args=%s, kargs=%s" %
                              (func, args, kargs))
@@ -899,7 +899,7 @@ def on_exe_add_event_add(func, *args, **kargs):
        :see: EventHandler
        :see: EventHandlerExe
     """
-    return EventHandlerExe(ECORE_EXE_EVENT_ADD, func, *args, **kargs)
+    return EventHandlerExe(enums.ECORE_EXE_EVENT_ADD, func, *args, **kargs)
 
 
 def on_exe_del_event_add(func, *args, **kargs):
@@ -908,7 +908,7 @@ def on_exe_del_event_add(func, *args, **kargs):
        :see: EventHandler
        :see: EventHandlerExe
     """
-    return EventHandlerExe(ECORE_EXE_EVENT_DEL, func, *args, **kargs)
+    return EventHandlerExe(enums.ECORE_EXE_EVENT_DEL, func, *args, **kargs)
 
 
 def on_exe_data_event_add(func, *args, **kargs):
@@ -917,7 +917,7 @@ def on_exe_data_event_add(func, *args, **kargs):
        :see: EventHandler
        :see: EventHandlerExe
     """
-    return EventHandlerExe(ECORE_EXE_EVENT_DATA, func, *args, **kargs)
+    return EventHandlerExe(enums.ECORE_EXE_EVENT_DATA, func, *args, **kargs)
 
 
 def on_exe_error_event_add(func, *args, **kargs):
@@ -926,4 +926,4 @@ def on_exe_error_event_add(func, *args, **kargs):
        :see: :py:class:`EventHandler`
        :see: :py:class:`EventHandlerExe`
     """
-    return EventHandlerExe(ECORE_EXE_EVENT_ERROR, func, *args, **kargs)
+    return EventHandlerExe(enums.ECORE_EXE_EVENT_ERROR, func, *args, **kargs)

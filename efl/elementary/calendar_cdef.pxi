@@ -1,3 +1,6 @@
+from efl.elementary.enums cimport Elm_Calendar_Mark_Repeat_Type, \
+    Elm_Calendar_Select_Mode, Elm_Calendar_Selectable, Elm_Calendar_Weekday
+
 cdef extern from "time.h":
     struct tm:
         int tm_sec
@@ -14,46 +17,6 @@ cdef extern from "time.h":
         const char *tm_zone
 
 cdef extern from "Elementary.h":
-
-    cpdef enum Elm_Calendar_Mark_Repeat_Type:
-        ELM_CALENDAR_UNIQUE
-        ELM_CALENDAR_DAILY
-        ELM_CALENDAR_WEEKLY
-        ELM_CALENDAR_MONTHLY
-        ELM_CALENDAR_ANNUALLY
-        ELM_CALENDAR_LAST_DAY_OF_MONTH
-    ctypedef enum Elm_Calendar_Mark_Repeat_Type:
-        pass
-
-    cpdef enum Elm_Calendar_Select_Mode:
-        ELM_CALENDAR_SELECT_MODE_DEFAULT
-        ELM_CALENDAR_SELECT_MODE_ALWAYS
-        ELM_CALENDAR_SELECT_MODE_NONE
-        ELM_CALENDAR_SELECT_MODE_ONDEMAND
-    ctypedef enum Elm_Calendar_Select_Mode:
-        pass
-
-    cpdef enum Elm_Calendar_Selectable:
-        ELM_CALENDAR_SELECTABLE_NONE
-        ELM_CALENDAR_SELECTABLE_YEAR
-        ELM_CALENDAR_SELECTABLE_MONTH
-        ELM_CALENDAR_SELECTABLE_DAY
-    ctypedef enum Elm_Calendar_Selectable:
-        pass
-
-    cpdef enum Elm_Calendar_Weekday:
-        ELM_DAY_SUNDAY
-        ELM_DAY_MONDAY
-        ELM_DAY_TUESDAY
-        ELM_DAY_WEDNESDAY
-        ELM_DAY_THURSDAY
-        ELM_DAY_FRIDAY
-        ELM_DAY_SATURDAY
-        ELM_DAY_LAST
-    ctypedef enum Elm_Calendar_Weekday:
-        pass
-
-
     ctypedef char           *(*Elm_Calendar_Format_Cb)     (tm *stime)
 
 

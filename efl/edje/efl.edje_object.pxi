@@ -60,23 +60,23 @@ cdef void signal_cb(void *data, Evas_Object *obj,
 
 class EdjeLoadError(Exception):
     def __init__(self, int code, char *file, char *group):
-        if code == EDJE_LOAD_ERROR_NONE:
+        if code == enums.EDJE_LOAD_ERROR_NONE:
             msg = "No error"
-        elif code == EDJE_LOAD_ERROR_GENERIC:
+        elif code == enums.EDJE_LOAD_ERROR_GENERIC:
             msg = "Generic error"
-        elif code == EDJE_LOAD_ERROR_DOES_NOT_EXIST:
+        elif code == enums.EDJE_LOAD_ERROR_DOES_NOT_EXIST:
             msg = "Does not exist"
-        elif code == EDJE_LOAD_ERROR_PERMISSION_DENIED:
+        elif code == enums.EDJE_LOAD_ERROR_PERMISSION_DENIED:
             msg = "Permission denied"
-        elif code == EDJE_LOAD_ERROR_RESOURCE_ALLOCATION_FAILED:
+        elif code == enums.EDJE_LOAD_ERROR_RESOURCE_ALLOCATION_FAILED:
             msg = "Resource allocation failed"
-        elif code == EDJE_LOAD_ERROR_CORRUPT_FILE:
+        elif code == enums.EDJE_LOAD_ERROR_CORRUPT_FILE:
             msg = "Corrupt file"
-        elif code == EDJE_LOAD_ERROR_UNKNOWN_FORMAT:
+        elif code == enums.EDJE_LOAD_ERROR_UNKNOWN_FORMAT:
             msg = "Unknown format"
-        elif code == EDJE_LOAD_ERROR_INCOMPATIBLE_FILE:
+        elif code == enums.EDJE_LOAD_ERROR_INCOMPATIBLE_FILE:
             msg = "Incompatible file"
-        elif code == EDJE_LOAD_ERROR_UNKNOWN_COLLECTION:
+        elif code == enums.EDJE_LOAD_ERROR_UNKNOWN_COLLECTION:
             msg = "Unknown collection"
 
         self.code = code
@@ -400,7 +400,7 @@ cdef class Edje(Object):
             text_class = PyUnicode_AsUTF8String(text_class)
         edje_object_text_class_del(self.obj,
                 <const char *>text_class if text_class is not None else NULL)
-        
+
     def size_class_set(self, size_class, int minw, int minh, int maxw, int maxh):
         """Sets the object size class.
 
@@ -419,7 +419,7 @@ cdef class Edje(Object):
         :rtype: bool
 
         .. versionadded:: 1.17
-        
+
         """
         if isinstance(size_class, unicode):
             size_class = PyUnicode_AsUTF8String(size_class)
@@ -852,13 +852,13 @@ cdef class Edje(Object):
 
         p.name = c_param
         if isinstance(value, bool): # bool is int, so keep it before!
-            p.type = EDJE_EXTERNAL_PARAM_TYPE_BOOL
+            p.type = enums.EDJE_EXTERNAL_PARAM_TYPE_BOOL
             p.i = value
         elif isinstance(value, int):
-            p.type = EDJE_EXTERNAL_PARAM_TYPE_INT
+            p.type = enums.EDJE_EXTERNAL_PARAM_TYPE_INT
             p.i = value
         elif isinstance(value, float):
-            p.type = EDJE_EXTERNAL_PARAM_TYPE_DOUBLE
+            p.type = enums.EDJE_EXTERNAL_PARAM_TYPE_DOUBLE
             p.d = value
         elif isinstance(value, (str, unicode)):
             # may be STRING or CHOICE
@@ -904,19 +904,19 @@ cdef class Edje(Object):
 
         p.name = c_param
         p.type = edje_object_part_external_param_type_get(self.obj, c_part, c_param)
-        if p.type >= <int>EDJE_EXTERNAL_PARAM_TYPE_MAX:
+        if p.type >= <int>enums.EDJE_EXTERNAL_PARAM_TYPE_MAX:
             return None
 
         if not edje_object_part_external_param_get(self.obj, c_part, &p):
             return None
-        if p.type == <int>EDJE_EXTERNAL_PARAM_TYPE_BOOL:
+        if p.type == <int>enums.EDJE_EXTERNAL_PARAM_TYPE_BOOL:
             return bool(p.i)
-        elif p.type == <int>EDJE_EXTERNAL_PARAM_TYPE_INT:
+        elif p.type == <int>enums.EDJE_EXTERNAL_PARAM_TYPE_INT:
             return p.i
-        elif p.type == <int>EDJE_EXTERNAL_PARAM_TYPE_DOUBLE:
+        elif p.type == <int>enums.EDJE_EXTERNAL_PARAM_TYPE_DOUBLE:
             return p.d
-        elif p.type == <int>EDJE_EXTERNAL_PARAM_TYPE_STRING or \
-             p.type == <int>EDJE_EXTERNAL_PARAM_TYPE_CHOICE:
+        elif p.type == <int>enums.EDJE_EXTERNAL_PARAM_TYPE_STRING or \
+             p.type == <int>enums.EDJE_EXTERNAL_PARAM_TYPE_CHOICE:
             return _ctouni(p.s)
 
     def part_box_append(self, part, Object obj):
@@ -1199,18 +1199,18 @@ cdef class Edje(Object):
     cdef void message_send_int(self, int id, int data):
         cdef Edje_Message_Int m
         m.val = data
-        edje_object_message_send(self.obj, EDJE_MESSAGE_INT, id, <void*>&m)
+        edje_object_message_send(self.obj, enums.EDJE_MESSAGE_INT, id, <void*>&m)
 
     cdef void message_send_float(self, int id, float data):
         cdef Edje_Message_Float m
         m.val = data
-        edje_object_message_send(self.obj, EDJE_MESSAGE_FLOAT, id, <void*>&m)
+        edje_object_message_send(self.obj, enums.EDJE_MESSAGE_FLOAT, id, <void*>&m)
 
     cdef void message_send_str(self, int id, data):
         cdef Edje_Message_String m
         if isinstance(data, unicode): data = PyUnicode_AsUTF8String(data)
         m.str = <char *>data if data is not None else NULL
-        edje_object_message_send(self.obj, EDJE_MESSAGE_STRING, id, <void*>&m)
+        edje_object_message_send(self.obj, enums.EDJE_MESSAGE_STRING, id, <void*>&m)
 
     cdef void message_send_str_set(self, int id, data):
         cdef int count, i
@@ -1226,7 +1226,7 @@ cdef class Edje(Object):
             m.str[i] = s
             i += 1
 
-        edje_object_message_send(self.obj, EDJE_MESSAGE_STRING_SET, id,
+        edje_object_message_send(self.obj, enums.EDJE_MESSAGE_STRING_SET, id,
                                  <void*>m)
         PyMem_Free(m)
 
@@ -1235,7 +1235,7 @@ cdef class Edje(Object):
         if isinstance(s, unicode): s = PyUnicode_AsUTF8String(s)
         m.str = <char *>s if s is not None else NULL
         m.val = i
-        edje_object_message_send(self.obj, EDJE_MESSAGE_STRING_INT, id,
+        edje_object_message_send(self.obj, enums.EDJE_MESSAGE_STRING_INT, id,
                                  <void*>&m)
 
     cdef void message_send_str_float(self, int id, s, float f):
@@ -1243,7 +1243,7 @@ cdef class Edje(Object):
         if isinstance(s, unicode): s = PyUnicode_AsUTF8String(s)
         m.str = <char *>s if s is not None else NULL
         m.val = f
-        edje_object_message_send(self.obj, EDJE_MESSAGE_STRING_FLOAT, id,
+        edje_object_message_send(self.obj, enums.EDJE_MESSAGE_STRING_FLOAT, id,
                                  <void*>&m)
 
     cdef void message_send_str_int_set(self, int id, s, data):
@@ -1262,7 +1262,7 @@ cdef class Edje(Object):
             m.val[i] = f
             i += 1
 
-        edje_object_message_send(self.obj, EDJE_MESSAGE_STRING_INT_SET, id,
+        edje_object_message_send(self.obj, enums.EDJE_MESSAGE_STRING_INT_SET, id,
                                  <void*>m)
         PyMem_Free(m)
 
@@ -1283,7 +1283,7 @@ cdef class Edje(Object):
             m.val[i] = f
             i += 1
 
-        edje_object_message_send(self.obj, EDJE_MESSAGE_STRING_FLOAT_SET, id,
+        edje_object_message_send(self.obj, enums.EDJE_MESSAGE_STRING_FLOAT_SET, id,
                                  <void*>m)
         PyMem_Free(m)
 
@@ -1301,7 +1301,7 @@ cdef class Edje(Object):
             m.val[i] = f
             i += 1
 
-        edje_object_message_send(self.obj, EDJE_MESSAGE_INT_SET, id,
+        edje_object_message_send(self.obj, enums.EDJE_MESSAGE_INT_SET, id,
                                  <void*>m)
         PyMem_Free(m)
 
@@ -1319,7 +1319,7 @@ cdef class Edje(Object):
             m.val[i] = f
             i += 1
 
-        edje_object_message_send(self.obj, EDJE_MESSAGE_FLOAT_SET, id,
+        edje_object_message_send(self.obj, enums.EDJE_MESSAGE_FLOAT_SET, id,
                                  <void*>m)
         PyMem_Free(m)
 

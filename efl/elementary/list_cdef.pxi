@@ -1,29 +1,4 @@
 cdef extern from "Elementary.h":
-
-    cpdef enum Elm_List_Mode:
-        ELM_LIST_COMPRESS
-        ELM_LIST_SCROLL
-        ELM_LIST_LIMIT
-        ELM_LIST_EXPAND
-    ctypedef enum Elm_List_Mode:
-        pass
-
-    cpdef enum Elm_Object_Select_Mode:
-        ELM_OBJECT_SELECT_MODE_DEFAULT
-        ELM_OBJECT_SELECT_MODE_ALWAYS
-        ELM_OBJECT_SELECT_MODE_NONE
-        ELM_OBJECT_SELECT_MODE_DISPLAY_ONLY
-        ELM_OBJECT_SELECT_MODE_MAX
-    ctypedef enum Elm_Object_Select_Mode:
-        pass
-
-    cpdef enum Elm_Scroller_Policy:
-        ELM_SCROLLER_POLICY_AUTO
-        ELM_SCROLLER_POLICY_ON
-        ELM_SCROLLER_POLICY_OFF
-    ctypedef enum Elm_Scroller_Policy:
-        pass
-
     Evas_Object             *elm_list_add(Evas_Object *parent)
     void                     elm_list_go(Evas_Object *obj)
     void                     elm_list_multi_select_set(Evas_Object *obj, Eina_Bool multi)

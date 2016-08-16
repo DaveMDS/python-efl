@@ -20,6 +20,21 @@ from efl.utils.conversions cimport _ctouni
 from efl.ecore cimport _event_mapping_register, _event_mapping_get
 
 
+ECORE_EVENT_MODIFIER_SHIFT = enums.ECORE_EVENT_MODIFIER_SHIFT
+ECORE_EVENT_MODIFIER_CTRL = enums.ECORE_EVENT_MODIFIER_CTRL
+ECORE_EVENT_MODIFIER_ALT = enums.ECORE_EVENT_MODIFIER_ALT
+ECORE_EVENT_MODIFIER_WIN = enums.ECORE_EVENT_MODIFIER_WIN
+ECORE_EVENT_MODIFIER_SCROLL = enums.ECORE_EVENT_MODIFIER_SCROLL
+ECORE_EVENT_MODIFIER_NUM = enums.ECORE_EVENT_MODIFIER_NUM
+ECORE_EVENT_MODIFIER_CAPS = enums.ECORE_EVENT_MODIFIER_CAPS
+ECORE_EVENT_LOCK_SCROLL = enums.ECORE_EVENT_LOCK_SCROLL
+ECORE_EVENT_LOCK_NUM = enums.ECORE_EVENT_LOCK_NUM
+ECORE_EVENT_LOCK_CAPS = enums.ECORE_EVENT_LOCK_CAPS
+ECORE_EVENT_LOCK_SHIFT = enums.ECORE_EVENT_LOCK_SHIFT
+ECORE_EVENT_MODIFIER_ALTGR = enums.ECORE_EVENT_MODIFIER_ALTGR
+
+
+
 cdef int _input_events_registered = 0
 
 cdef int _ecore_input_events_register() except 0:
@@ -93,7 +108,7 @@ cdef class EventKey(Event):
     :ivar str keyname: The key name
     :ivar str key: The key symbol
     :ivar str string:
-    :ivar int compose: Final string corresponding to the key symbol composed 
+    :ivar int compose: Final string corresponding to the key symbol composed
     :ivar int timestamp: Time when the event occurred.
     :ivar int modifiers: :ref:`Ecore_Event_Modifier` The OR combination of modifiers key
     :ivar bool same_screen: Same screen flag
@@ -132,16 +147,16 @@ cdef class EventPoint:
 
 cdef class EventMulti:
     """
-    :ivar int device: 0 if normal mouse, 1+ for other mouse-devices (eg multi-touch - other fingers) 
-    :ivar double radius: radius of press point - radius_x and y if its an ellipse (radius is the average of the 2) 
-    :ivar double radius_x: 
-    :ivar double radius_y: 
-    :ivar double pressure: 1.0 == normal, > 1.0 == more, 0.0 == none 
-    :ivar double angle: relative to perpendicular (0.0 == perpendicular), in degrees 
-    :ivar double x: with sub-pixel precision, if available 
-    :ivar double y:  with sub-pixel precision, if available 
-    :ivar double root_x:  with sub-pixel precision, if available 
-    :ivar double root_y:  with sub-pixel precision, if available 
+    :ivar int device: 0 if normal mouse, 1+ for other mouse-devices (eg multi-touch - other fingers)
+    :ivar double radius: radius of press point - radius_x and y if its an ellipse (radius is the average of the 2)
+    :ivar double radius_x:
+    :ivar double radius_y:
+    :ivar double pressure: 1.0 == normal, > 1.0 == more, 0.0 == none
+    :ivar double angle: relative to perpendicular (0.0 == perpendicular), in degrees
+    :ivar double x: with sub-pixel precision, if available
+    :ivar double y:  with sub-pixel precision, if available
+    :ivar double root_x:  with sub-pixel precision, if available
+    :ivar double root_y:  with sub-pixel precision, if available
     """
     def __init__(self, int device, double radius, double radius_x, double radius_y,
                  double pressure, double angle, double x, double y,
@@ -173,9 +188,9 @@ cdef class EventMouseButton(Event):
     :ivar int buttons: The button that was used
     :ivar bool double_click: Double click event
     :ivar bool triple_click: Triple click event
-    :ivar bool same_screen: Same screen flag 
-    :ivar int x: x coordinate relative to window where event happened 
-    :ivar int y: y coordinate relative to window where event happened 
+    :ivar bool same_screen: Same screen flag
+    :ivar int x: x coordinate relative to window where event happened
+    :ivar int y: y coordinate relative to window where event happened
     :ivar EventPoint root: :class:`EventPoint` Coordinates relative to root window
 
     """
@@ -211,9 +226,9 @@ cdef class EventMouseMove(Event):
 
     :ivar int timestamp: Time when the event occurred
     :ivar int modifiers: :ref:`Ecore_Event_Modifier` The OR combination of modifiers key
-    :ivar bool same_screen: Same screen flag 
-    :ivar int x: x coordinate relative to window where event happened 
-    :ivar int y: y coordinate relative to window where event happened 
+    :ivar bool same_screen: Same screen flag
+    :ivar int x: x coordinate relative to window where event happened
+    :ivar int y: y coordinate relative to window where event happened
     :ivar EventPoint root: Coordinates relative to root window
 
     """
@@ -246,8 +261,8 @@ cdef class EventMouseIO(Event):
 
     :ivar int timestamp: Time when the event occurred
     :ivar int modifiers: :ref:`Ecore_Event_Modifier` The OR combination of modifiers key
-    :ivar int x: x coordinate relative to window where event happened 
-    :ivar int y: y coordinate relative to window where event happened 
+    :ivar int x: x coordinate relative to window where event happened
+    :ivar int y: y coordinate relative to window where event happened
 
     """
     cdef int _set_obj(self, void *o) except 0:
@@ -271,12 +286,12 @@ cdef class EventMouseWheel(Event):
 
     :ivar int timestamp: Time when the event occurred
     :ivar int modifiers: :ref:`Ecore_Event_Modifier` The OR combination of modifiers key
-    :ivar bool same_screen: Same screen flag 
-    :ivar int direction: Orientation of the wheel (horizontal/vertical)  
-    :ivar int z: Value of the wheel event (+1/-1) 
-    :ivar int x: x coordinate relative to window where event happened 
-    :ivar int y: y coordinate relative to window where event happened 
-    :ivar EventPoint root: Coordinates relative to root window. 
+    :ivar bool same_screen: Same screen flag
+    :ivar int direction: Orientation of the wheel (horizontal/vertical)
+    :ivar int z: Value of the wheel event (+1/-1)
+    :ivar int x: x coordinate relative to window where event happened
+    :ivar int y: y coordinate relative to window where event happened
+    :ivar EventPoint root: Coordinates relative to root window.
 
     """
     cdef int _set_obj(self, void *o) except 0:

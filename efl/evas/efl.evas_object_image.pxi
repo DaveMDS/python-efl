@@ -206,7 +206,7 @@ cdef class Image(Object):
                 <const char *>filename if filename is not None else NULL,
                 <const char *>key if key is not None else NULL)
             err = evas_object_image_load_error_get(self.obj)
-            if err != EVAS_LOAD_ERROR_NONE:
+            if err != enums.EVAS_LOAD_ERROR_NONE:
                 raise EvasLoadError(err, filename, key)
 
     def file_set(self, filename, key=None):
@@ -217,7 +217,7 @@ cdef class Image(Object):
             <const char *>filename if filename is not None else NULL,
             <const char *>key if key is not None else NULL)
         err = evas_object_image_load_error_get(self.obj)
-        if err != EVAS_LOAD_ERROR_NONE:
+        if err != enums.EVAS_LOAD_ERROR_NONE:
             raise EvasLoadError(err, filename, key)
 
     def file_get(self):
@@ -1328,19 +1328,19 @@ cdef class Image(Object):
 
     def on_image_preloaded_add(self, func, *a, **k):
         """Same as event_callback_add(EVAS_CALLBACK_IMAGE_PRELOADED, ...)"""
-        self.event_callback_add(EVAS_CALLBACK_IMAGE_PRELOADED, func, *a, **k)
+        self.event_callback_add(enums.EVAS_CALLBACK_IMAGE_PRELOADED, func, *a, **k)
 
     def on_image_preloaded_del(self, func):
         """Same as event_callback_del(EVAS_CALLBACK_IMAGE_PRELOADED, ...)"""
-        self.event_callback_del(EVAS_CALLBACK_IMAGE_PRELOADED, func)
+        self.event_callback_del(enums.EVAS_CALLBACK_IMAGE_PRELOADED, func)
 
     def on_image_unloaded_add(self, func, *a, **k):
         """Same as event_callback_add(EVAS_CALLBACK_IMAGE_UNLOADED, ...)"""
-        self.event_callback_add(EVAS_CALLBACK_IMAGE_UNLOADED, func, *a, **k)
+        self.event_callback_add(enums.EVAS_CALLBACK_IMAGE_UNLOADED, func, *a, **k)
 
     def on_image_unloaded_del(self, func):
         """Same as event_callback_del(EVAS_CALLBACK_IMAGE_UNLOADED, ...)"""
-        self.event_callback_del(EVAS_CALLBACK_IMAGE_UNLOADED, func)
+        self.event_callback_del(enums.EVAS_CALLBACK_IMAGE_UNLOADED, func)
 
 
 _object_mapping_register("Evas_Image", Image)
@@ -1376,7 +1376,7 @@ cdef class FilledImage(Image):
         Image.__init__(self, canvas, **kargs)
         w, h = self.size_get()
         Image.fill_set(self, 0, 0, w, h)
-        evas_object_event_callback_add(self.obj, EVAS_CALLBACK_RESIZE,
+        evas_object_event_callback_add(self.obj, enums.EVAS_CALLBACK_RESIZE,
                                        _cb_on_filled_image_resize, NULL)
 
     def fill_set(self, int x, int y, int w, int h):
