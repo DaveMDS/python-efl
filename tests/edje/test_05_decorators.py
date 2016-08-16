@@ -14,7 +14,7 @@ theme_file = os.path.join(theme_path, "theme.edj")
 
 
 expected_signals = ["edje,language,none", "edje,state,ltr", "load",
-                    "edje,state,ltr", "resize", "cursor,changed", "changed",
+                    "edje,state,ltr", "resize",
                     "emit,message", "emit,message"]
 expected_signals2 = ["load", "resize"]
 expected_messages = [33, 33]
@@ -28,7 +28,8 @@ class MyEdje(Edje):
 
     @edje.on_signal("*", "*")
     def cb_signal_all(self, emission, source):
-        expected_signals.remove(emission)
+        if source == "" or source == "edje":
+            expected_signals.remove(emission)
 
     @edje.on_signal("load", "*")
     @edje.on_signal("resize", "*")
@@ -50,13 +51,16 @@ class TestEdjeDecoratedCallbacks(unittest.TestCase):
                                   size=(400, 500),
                                   viewport=(0, 0, 400, 500))
         self.canvas.engine_info_set(self.canvas.engine_info_get())
+        self.o = MyEdje(self.canvas)
+        self.assertIsInstance(self.o, Edje)
 
     def tearDown(self):
+        self.o.delete()
+        self.assertTrue(self.o.is_deleted())
         self.canvas.delete()
 
     def testDecorators(self):
-        o = MyEdje(self.canvas)
-        self.assertIsInstance(o, Edje)
+        o = self.o
 
         # this should trigger text_change, two times
         ecore.Timer(0.1, lambda: o.part_text_set("label", "asd"))
@@ -75,9 +79,6 @@ class TestEdjeDecoratedCallbacks(unittest.TestCase):
         self.assertEqual(expected_signals2, [])
         self.assertEqual(expected_messages, [])
         self.assertEqual(expected_text_parts, [])
-
-        o.delete()
-        self.assertTrue(o.is_deleted())
 
 
 if __name__ == '__main__':
