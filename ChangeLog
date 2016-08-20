@@ -1,4 +1,50 @@
 
+===================
+2016-08-22  v1.18.0
+===================
+
+Fixes:
+ * Fixed (workaround) dbus crash on python >= 3.5
+ * Fixed Logger module to not fail on unicode error messages
+
+Changes:
+ * Changed enums implementation to gain compatibility with Cython > 0.22
+ * Docs: Allow to skip last_updated and sphinx_version
+ * elm.Combobox: The combobox widget has been deprecated.
+ * elm.Photo.editable property is now also readable
+ * elm.Photo.fill_inside property is now also readable
+ * elm.Photo.size property is now also readable
+
+Additions:
+ * ecore.Exe.is_deleted 
+ * ecore.FdHandler.is_deleted
+ * edje.Edje.part_box_insert_after
+ * elm.Configuration.accel_preference_override
+ * elm.Configuration.first_item_focus_on_first_focusin
+ * elm.Configuration.font_hint_type
+ * elm.Configuration.icon_theme
+ * elm.Configuration.popup_scrollable
+ * elm.Configuration.scroll_accel_factor
+ * elm.Configuration.scroll_animation_disabled
+ * elm.Configuration.vsync
+ * elm.Configuration.web_backend
+ * elm.Entry.file_text_format
+ * elm.Entry.select_allow
+ * elm.Entry.select_region
+ * elm.GengridItem.all_contents_unset
+ * elm.Genlist.filtered_items_count
+ * elm.GenlistItem.all_contents_unset
+ * elm.List.multi_select_mode (and the Elm_Object_Multi_Select_Mode enum)
+ * elm.Object.focus_move_policy_automatic
+ * elm.Popup.align
+ * elm.Popup.scrollable
+ * elm.Slider.range
+ * elm.Slider.range_enabled
+ * elm.Slider.indicator_show_on_focus
+ * elm.Transit.revert
+ * elm.Window.noblank
+
+
 ==================
 2016-01-7  v1.17.0
 ==================

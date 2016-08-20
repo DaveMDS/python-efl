@@ -650,7 +650,7 @@ cdef class Entry(LayoutClass):
 
         :type: 2 ints tuple (start, end)
 
-        .. versionadded: 1.18
+        .. versionadded:: 1.18
 
         """
         def __get__(self):
@@ -670,7 +670,7 @@ cdef class Entry(LayoutClass):
         :param end: The ending position
         :type end: int
 
-        .. versionadded: 1.9
+        .. versionadded:: 1.9
 
         """
         elm_entry_select_region_set(self.obj, start, end)
@@ -680,7 +680,7 @@ cdef class Entry(LayoutClass):
         :return: the 2 ints tuple (start, end)
         :rtype: tuple
 
-        .. versionadded: 1.18
+        .. versionadded:: 1.18
 
         """
         cdef int start, end

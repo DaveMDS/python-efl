@@ -368,7 +368,7 @@ cdef class Slider(LayoutClass):
 
         :type: bool
 
-        .. versionadded: 1.18
+        .. versionadded:: 1.18
 
         """
         def __get__(self):

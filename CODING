@@ -98,6 +98,7 @@ Tips
 Release process instructions
 ============================
 
+* use "api_coverage.py --python elementary" to see the missing bindings
 * Announce at enlightenment-release@lists.sourceforge.net and
   enlightenment-devel@lists.sourceforge.net that you are planning for the release
 * Change versions in efl/__init__.py (ex: 1.9.0)
