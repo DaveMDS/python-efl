@@ -18,7 +18,7 @@
 from cpython cimport PyObject
 from efl.eina cimport *
 from efl.eo cimport Eo
-from efl.c_eo cimport Eo as cEo, Eo_Class
+from efl.c_eo cimport Eo as cEo, Efl_Class
 
 from efl.evas.enums cimport Evas_Button_Flags, Evas_BiDi_Direction, \
     Evas_Callback_Type, Evas_Event_Flags, Evas_Touch_Point_State, \
@@ -304,7 +304,7 @@ cdef extern from "Evas.h":
     Evas *evas_new()
     void  evas_free(Evas *e)
 
-    const Eo_Class *evas_class_get()
+    const Efl_Class *evas_class_get()
 
     int        evas_render_method_lookup(const char *name)
     Eina_List *evas_render_method_list()
@@ -516,7 +516,7 @@ cdef extern from "Evas.h":
     void              evas_smart_free(Evas_Smart *s)
     Evas_Smart       *evas_smart_class_new(Evas_Smart_Class *sc)
     Evas_Smart_Class *evas_smart_class_get(Evas_Smart *s)
-    const Eo_Class   *evas_object_smart_class_get()
+    const Efl_Class   *evas_object_smart_class_get()
     const Evas_Smart_Cb_Description **evas_smart_callbacks_descriptions_get(const Evas_Smart *s, unsigned int *count)
     const Evas_Smart_Cb_Description  *evas_smart_callback_description_find(const Evas_Smart *s, const char *name)
 
@@ -550,7 +550,7 @@ cdef extern from "Evas.h":
     # Rectangle Object
     #
     Evas_Object    *evas_object_rectangle_add(Evas *e)
-    const Eo_Class *evas_object_rectangle_class_get()
+    const Efl_Class *evas_object_rectangle_class_get()
 
 
     ####################################################################
@@ -559,7 +559,7 @@ cdef extern from "Evas.h":
     Evas_Object    *evas_object_line_add(Evas *e)
     void            evas_object_line_xy_set(Evas_Object *obj, Evas_Coord x1, Evas_Coord y1, Evas_Coord x2, Evas_Coord y2)
     void            evas_object_line_xy_get(const Evas_Object *obj, Evas_Coord *x1, Evas_Coord *y1, Evas_Coord *x2, Evas_Coord *y2)
-    const Eo_Class *evas_object_line_class_get()
+    const Efl_Class *evas_object_line_class_get()
 
 
     ####################################################################
@@ -568,7 +568,7 @@ cdef extern from "Evas.h":
     Evas_Object        *evas_object_image_add(Evas *e)
     # TODO: Use this?: Evas_Object         *evas_object_image_filled_add(Evas *e)
     # TODO: void                evas_object_image_memfile_set(Evas_Object *obj, void *data, int size, char *format, char *key)
-    # TODO: Is this needed?: const Eo_Class *evas_object_image_class_get()
+    # TODO: Is this needed?: const Efl_Class *evas_object_image_class_get()
     void                evas_object_image_file_set(Evas_Object *obj, const char *file, const char *key)
     void                evas_object_image_file_get(const Evas_Object *obj, const char **file, const char **key)
     void                evas_object_image_border_set(Evas_Object *obj, int l, int r, int t, int b)
@@ -647,7 +647,7 @@ cdef extern from "Evas.h":
     # Polygon Object
     #
     Evas_Object    *evas_object_polygon_add(Evas *e)
-    const Eo_Class *evas_object_polygon_class_get()
+    const Efl_Class *evas_object_polygon_class_get()
     void            evas_object_polygon_point_add(Evas_Object *obj, Evas_Coord x, Evas_Coord y)
     void            evas_object_polygon_points_clear(Evas_Object *obj)
 
@@ -656,7 +656,7 @@ cdef extern from "Evas.h":
     # Text Object (py3:TODO)
     #
     Evas_Object         *evas_object_text_add(Evas *e)
-    const Eo_Class      *evas_object_text_class_get()
+    const Efl_Class      *evas_object_text_class_get()
     void                 evas_object_text_font_source_set(Evas_Object *obj, const char *font)
     const char          *evas_object_text_font_source_get(const Evas_Object *obj)
     void                 evas_object_text_font_set(Evas_Object *obj, const char *font, Evas_Font_Size size)
@@ -689,7 +689,7 @@ cdef extern from "Evas.h":
     # Textblock Object (py3:TODO)
     #
     Evas_Object           *evas_object_textblock_add(Evas *e)
-    const Eo_Class        *evas_object_textblock_class_get()
+    const Efl_Class        *evas_object_textblock_class_get()
     Evas_Textblock_Style  *evas_textblock_style_new()
     void                   evas_textblock_style_free(Evas_Textblock_Style *ts)
     void                   evas_textblock_style_set(Evas_Textblock_Style *ts, const char *text)
@@ -753,7 +753,7 @@ cdef extern from "Evas.h":
     #
     Evas_Object *evas_object_box_add(Evas *e)
     Evas_Object *evas_object_box_add_to(Evas_Object *parent)
-    # TODO: Is this needed?: const Eo_Class *evas_object_box_class_get()
+    # TODO: Is this needed?: const Efl_Class *evas_object_box_class_get()
 
     void evas_object_box_align_set(Evas_Object  *o, double horizontal, double vertical)
     void evas_object_box_align_get(const Evas_Object *o, double *horizontal, double *vertical)

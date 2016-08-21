@@ -26,7 +26,7 @@ cdef class Systray(Eo):
     """
 
     def __init__(self, Eo parent not None, *args, **kwargs):
-        cdef cEo *obj = eo_add(elm_systray_class_get(), parent.obj)
+        cdef cEo *obj = efl_add(elm_systray_class_get(), parent.obj)
         self._set_obj(obj)
         self._set_properties_from_keyword_args(kwargs)
 
@@ -108,13 +108,13 @@ cdef class Systray(Eo):
             elm_obj_systray_menu_set(self.obj, value.obj)
 
         def __get__(self):
-            return object_from_instance(elm_obj_systray_menu_get(self.obj))
+            return object_from_instance(<cEo *>elm_obj_systray_menu_get(self.obj))
 
     def menu_set(self, Eo value):
         elm_obj_systray_menu_set(self.obj, value.obj)
 
     def menu_get(self):
-        return object_from_instance(elm_obj_systray_menu_get(self.obj))
+        return object_from_instance(<cEo *>elm_obj_systray_menu_get(self.obj))
 
     property att_icon_name:
         """The name of the attention icon to be used by the Status Notifier Item.

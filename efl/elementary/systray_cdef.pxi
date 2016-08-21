@@ -4,7 +4,7 @@ cdef extern from "Elementary.h":
 
     ctypedef cEo Elm_Systray
 
-    const Eo_Class *elm_systray_class_get()
+    const Efl_Class *elm_systray_class_get()
 
     void  elm_obj_systray_id_set(cEo *obj, const char *id)
     const char * elm_obj_systray_id_get(const cEo *obj)

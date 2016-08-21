@@ -36,15 +36,15 @@ from efl.eina cimport Eina_Bool, \
     Eina_Hash, eina_hash_string_superfast_new, eina_hash_add, eina_hash_del, \
     eina_hash_find, EINA_LOG_DOM_DBG, EINA_LOG_DOM_INFO, \
     Eina_Iterator, eina_iterator_next, eina_iterator_free
-from efl.c_eo cimport Eo as cEo, eo_init, eo_shutdown, eo_del, \
-    eo_class_name_get, eo_class_get, eo_base_class_get,\
-    eo_key_data_set, eo_key_data_get, \
-    eo_event_callback_add, eo_event_callback_del, EO_EVENT_DEL, \
-    eo_parent_get, eo_parent_set, Eo_Event_Description, \
-    eo_event_freeze, eo_event_thaw, eo_event_freeze_count_get, \
-    eo_event_global_freeze, eo_event_global_thaw, \
-    eo_event_global_freeze_count_get, eo_event_callback_stop, \
-    eo_children_iterator_new, Eo_Event
+from efl.c_eo cimport Eo as cEo, efl_object_init, efl_object_shutdown, efl_del, \
+    efl_class_name_get, efl_class_get, efl_object_class_get,\
+    efl_key_data_set, efl_key_data_get, \
+    efl_event_callback_add, efl_event_callback_del, EFL_EVENT_DEL, \
+    efl_parent_get, efl_parent_set, Efl_Event_Description, \
+    efl_event_freeze, efl_event_thaw, efl_event_freeze_count_get, \
+    efl_event_global_freeze, efl_event_global_thaw, \
+    efl_event_global_freeze_count_get, efl_event_callback_stop, \
+    efl_children_iterator_new, Eo_Event
 
 from efl.utils.logger cimport add_logger
 
@@ -61,23 +61,23 @@ import atexit
 
 def init():
     EINA_LOG_DOM_INFO(PY_EFL_EO_LOG_DOMAIN, "Initializing efl.eo", NULL)
-    return eo_init()
+    return efl_object_init()
 
 def shutdown():
     EINA_LOG_DOM_INFO(PY_EFL_EO_LOG_DOMAIN, "Shutting down efl.eo", NULL)
-    return eo_shutdown()
+    return efl_object_shutdown()
 
 init()
 atexit.register(shutdown)
 
 def event_global_freeze_count_get():
-    return eo_event_global_freeze_count_get(<const cEo *>eo_base_class_get())
+    return efl_event_global_freeze_count_get(<const cEo *>efl_object_class_get())
 
 def event_global_freeze():
-    eo_event_global_freeze(<const cEo *>eo_base_class_get())
+    efl_event_global_freeze(<const cEo *>efl_object_class_get())
 
 def event_global_thaw():
-    eo_event_global_thaw(<const cEo *>eo_base_class_get())
+    efl_event_global_thaw(<const cEo *>efl_object_class_get())
 
 ######################################################################
 
@@ -113,14 +113,14 @@ cdef api object object_from_instance(cEo *obj):
     cdef:
         void *data = NULL
         Eo o
-        const char *cls_name = eo_class_name_get(eo_class_get(obj))
+        const char *cls_name = efl_class_name_get(efl_class_get(obj))
         type cls
         void *cls_ret
 
     if obj == NULL:
         return None
 
-    data = eo_key_data_get(obj, "python-eo")
+    data = efl_key_data_get(obj, "python-eo")
     if data != NULL:
         EINA_LOG_DOM_DBG(PY_EFL_EO_LOG_DOMAIN,
             "Returning a Python object instance for Eo of type %s.", cls_name)
@@ -182,16 +182,16 @@ cdef void _register_decorated_callbacks(Eo obj):
 ######################################################################
 
 
-cdef void _eo_event_del_cb(void *data, const Eo_Event *event) with gil:
+cdef void _efl_event_del_cb(void *data, const Eo_Event *event) with gil:
     cdef:
         Eo self = <Eo>data
-        const char *cls_name = eo_class_name_get(eo_class_get(self.obj))
+        const char *cls_name = efl_class_name_get(efl_class_get(self.obj))
 
     EINA_LOG_DOM_DBG(PY_EFL_EO_LOG_DOMAIN, "Deleting Eo: %s", cls_name)
 
-    eo_event_callback_stop(self.obj)
-    eo_event_callback_del(self.obj, EO_EVENT_DEL, _eo_event_del_cb, <const void *>self)
-    eo_key_data_set(self.obj, "python-eo", NULL)
+    efl_event_callback_stop(self.obj)
+    efl_event_callback_del(self.obj, EFL_EVENT_DEL, _efl_event_del_cb, <const void *>self)
+    efl_key_data_set(self.obj, "python-eo", NULL)
     self.obj = NULL
     Py_DECREF(self)
 
@@ -235,7 +235,7 @@ cdef class Eo(object):
     def __repr__(self):
         cdef cEo *parent = NULL
         if self.obj != NULL:
-            parent = eo_parent_get(self.obj)
+            parent = efl_parent_get(self.obj)
         return ("<%s object (Eo) at %#x (obj=%#x, parent=%#x, refcount=%d)>") % (
             type(self).__name__,
             <uintptr_t><void *>self,
@@ -251,14 +251,14 @@ cdef class Eo(object):
         assert obj != NULL, "Cannot set a NULL object"
 
         self.obj = obj
-        eo_key_data_set(self.obj, "python-eo", <void *>self)
-        eo_event_callback_add(self.obj, EO_EVENT_DEL, _eo_event_del_cb, <const void *>self)
+        efl_key_data_set(self.obj, "python-eo", <void *>self)
+        efl_event_callback_add(self.obj, EFL_EVENT_DEL, _efl_event_del_cb, <const void *>self)
         Py_INCREF(self)
 
         # from efl 1.18 eo.parent changed behaviour, objects are now reparented
         # when, fe, swallowed. This is the hack to keep the old behavior.
         try:
-            parent = object_from_instance(eo_parent_get(obj))
+            parent = object_from_instance(efl_parent_get(obj))
         except ValueError:
             parent = None
         self.internal_data["_legacy_parent"] = parent
@@ -268,7 +268,7 @@ cdef class Eo(object):
     def _wipe_obj_data_NEVER_USE_THIS(self):
         # only used in tests/eo/test_02_class_names.py
         # to force object_from_instance() to recreate the obj
-        eo_key_data_set(self.obj, "python-eo", NULL)
+        efl_key_data_set(self.obj, "python-eo", NULL)
 
     cdef int _set_properties_from_keyword_args(self, dict kwargs) except 0:
         if kwargs:
@@ -277,7 +277,7 @@ cdef class Eo(object):
         return 1
 
     def __iter__(self):
-        return EoIterator.create(eo_children_iterator_new(self.obj))
+        return EoIterator.create(efl_children_iterator_new(self.obj))
 
     def delete(self):
         """Delete the object and free internal resources.
@@ -287,7 +287,7 @@ cdef class Eo(object):
             garbage collector when there are no more reference to it.
 
         """
-        eo_del(self.obj)
+        efl_del(self.obj)
 
     def is_deleted(self):
         """Check if the object has been deleted thus leaving the object shallow.
@@ -306,25 +306,25 @@ cdef class Eo(object):
         """
         def __set__(self, Eo parent):
             self.internal_data["_legacy_parent"] = parent
-            eo_parent_set(self.obj, parent.obj)
+            efl_parent_set(self.obj, parent.obj)
 
         def __get__(self):
             return self.internal_data["_legacy_parent"]
 
     def parent_set(self, Eo parent):
         self.internal_data["_legacy_parent"] = parent
-        eo_parent_set(self.obj, parent.obj)
+        efl_parent_set(self.obj, parent.obj)
 
     def parent_get(self):
         return self.internal_data["_legacy_parent"]
 
     def event_freeze(self):
         """Pause event propagation for this object."""
-        eo_event_freeze(self.obj)
+        efl_event_freeze(self.obj)
 
     def event_thaw(self):
         """Restart event propagation for this object."""
-        eo_event_thaw(self.obj)
+        efl_event_thaw(self.obj)
 
     def event_freeze_count_get(self):
         """Get the event freeze count for this object.
@@ -333,4 +333,4 @@ cdef class Eo(object):
         :rtype: int
 
         """
-        return eo_event_freeze_count_get(self.obj)
+        return efl_event_freeze_count_get(self.obj)

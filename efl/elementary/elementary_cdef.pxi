@@ -1,4 +1,4 @@
-from efl.c_eo cimport Eo as cEo, Eo_Class, eo_add
+from efl.c_eo cimport Eo as cEo, Efl_Class, efl_add
 from efl.eina cimport Eina_Rectangle, Eina_Compare_Cb, \
     eina_list_free, eina_list_append, eina_stringshare_del
 from efl.evas cimport Eina_List, Eina_Bool, Evas_Object, Evas_Font_Size, \
