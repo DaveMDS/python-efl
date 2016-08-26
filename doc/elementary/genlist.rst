@@ -73,6 +73,7 @@ Available item styles
 - ``no_icon`` No icon (since: 1.1)
 - ``full`` Only one object, elm.swallow.content, which consumes whole area of
   the genlist item (since: 1.7)
+- ``indent`` Has indentation to match tree group items (since: 1.19)
 
 
 Structure of items
