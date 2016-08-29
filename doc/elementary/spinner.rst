@@ -31,6 +31,8 @@ Emitted signals
   the user.  This will be called only when the user stops dragging
   for a very short period or when they release their finger/mouse,
   so it avoids possibly expensive reactions to the value change.
+- ``spinner,drag,start`` - When dragging has started.
+- ``spinner,drag,stop`` - When dragging has stopped.
 
 
 Available styles

@@ -299,7 +299,7 @@ cdef class Spinner(LayoutClass):
 
         Rounding works as follows:
 
-        ``rounded_val = base + (double)(((value - base) / round) round)``
+        ``rounded_val = base + (double)(((value - base) / round) * round)``
 
         Where rounded_val, value and base are doubles, and round is an integer.
 
@@ -307,11 +307,9 @@ cdef class Spinner(LayoutClass):
         of "round" starting from the value of this property. The default
         base for rounding is 0.
 
-        Example: round = 3, base = 2
-        Values:  3, 6, 9, 12, 15, ...
+        Example: round = 3, base = 2 Values: ..., -2, 0, 2, 5, 8, 11, 14, ...
 
-        Example: round = 2, base = 5.5
-        Values: 5.5, 7.5, 9.5, 11.5, ...
+        Example: round = 2, base = 5.5 Values: ..., -0.5, 1.5, 3.5, 5.5, 7.5, 9.5, 11.5, ...
 
         .. seealso:: :py:attr:`round`
 
@@ -366,6 +364,28 @@ cdef class Spinner(LayoutClass):
 
     def callback_delay_changed_del(self, func):
         self._callback_del("delay,changed", func)
+
+    def callback_drag_start_add(self, func, *args, **kwargs):
+        """When dragging has started.
+
+        .. versionadded:: 1.19
+
+        """
+        self._callback_add("spinner,drag,start", func, args, kwargs)
+
+    def callback_drag_start_del(self, func):
+        self._callback_del("spinner,drag,start", func)
+
+    def callback_drag_stop_add(self, func, *args, **kwargs):
+        """When dragging has stopped.
+
+        .. versionadded:: 1.19
+
+        """
+        self._callback_add("spinner,drag,stop", func, args, kwargs)
+
+    def callback_drag_stop_del(self, func):
+        self._callback_del("spinner,drag,stop", func)
 
 
 _object_mapping_register("Elm_Spinner", Spinner)
