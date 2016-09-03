@@ -209,9 +209,12 @@ cdef class Emotion(evasObject):
         :type canvas: :py:class:`~efl.evas.Canvas`
         :keyword module_name: name of the engine to use
         :type module_name: string
-        :keyword module_params: Extra parameters, module specific
-        :keyword \**kwargs: All the remaining keyword arguments are interpreted
-                            as properties of the instance
+        :keyword module_params:
+            DEPRECATED! Use :attr:`video_mute`/:attr:`audio_mute` instead.
+            Extra parameters, module specific
+        :keyword \**kwargs:
+            All the remaining keyword arguments are interpreted
+            as properties of the instance
 
         """
 

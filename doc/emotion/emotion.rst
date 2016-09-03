@@ -47,9 +47,20 @@ loaded file.
 
 There will be a delay between an API being called and it being really
 executed, since this request will be done in the main thread, and it needs to
-be sent to the decoding thread. For this reason, always call functions like
-emotion_object_size_get() or emotion_object_length_get() after some signal
-being sent, like "playback_started" or "open_done".
+be sent to the decoding thread. For this reason, never access properties or
+call methods before a start up signal being sent, such "playback_started" or
+"open_done".
+
+
+Supported module names
+======================
+
+- **gstreamer1** (default)
+- **xine**
+- **libvlc**
+- generic modules (launched in a separate process)
+
+  - **vlc**
 
 
 Emitted signals
@@ -70,7 +81,7 @@ interesting signals:
 - ``length_change`` Emitted if the media change it's size
 - ``channels_change`` Emitted when the number of channels change
 - ``title_change`` Emitted when the title change (?)
-- ``progress_change`` 
+- ``progress_change``
 - ``ref_change``
 - ``button_num_change``
 - ``button_change``
