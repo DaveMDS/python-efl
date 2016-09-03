@@ -201,7 +201,7 @@ cdef class Emotion(evasObject):
     def __cinit__(self, *a, **ka):
         self._emotion_callbacks = {}
 
-    def __init__(self, Canvas canvas not None, module_name="gstreamer",
+    def __init__(self, Canvas canvas not None, module_name="gstreamer1",
                  module_params=None, **kwargs):
         """Emotion(...)
 
