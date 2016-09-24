@@ -42,7 +42,7 @@ cdef class ListItem(ObjectItem):
         :param   end: The icon object to use for the right side of the item. An
             icon can be any Evas object.
         :type    end: :py:class:`~efl.evas.Object`
-        :param callable callback: The function to call when the item is clicked.
+        :param callable callback: The function to call when the item is selected.
         :param cb_data: User data for the callback function
         :param \**kwargs: All the remaining keyword arguments are interpreted
                           as properties of the instance
