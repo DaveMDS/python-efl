@@ -426,27 +426,29 @@ atexit.register(shutdown)
 
 
 #---------------------------------------------------------------------------
+# This conflict seems to not exists anymore, see tests/ecore/test_08_exe.py
+#---------------------------------------------------------------------------
 # let's try to warn users that ecore conflicts with subprocess module
-import subprocess
-
-_orig_subprocess = None
-
-def subprocess_warning(*a, **ka):
-    print("""    DEVELOPER WARNING:
-        Using subprocess (Popen and derivatives) with Ecore is a bad idea.
-
-        Ecore will set some signal handlers subprocess module depends and this
-        may cause this module to operate unexpectedly.
-
-        Instead of using subprocess.Popen(), please consider using Ecore's
-        Exe() class.
-        """)
-    traceback.print_stack()
-    return _orig_subprocess(*a, **ka)
-
-if subprocess.Popen is not subprocess_warning:
-    _orig_subprocess = subprocess.Popen
-    subprocess.Popen = subprocess_warning
+# import subprocess
+#
+# _orig_subprocess = None
+#
+# def subprocess_warning(*a, **ka):
+#     print("""    DEVELOPER WARNING:
+#         Using subprocess (Popen and derivatives) with Ecore is a bad idea.
+#
+#         Ecore will set some signal handlers subprocess module depends and this
+#         may cause this module to operate unexpectedly.
+#
+#         Instead of using subprocess.Popen(), please consider using Ecore's
+#         Exe() class.
+#         """)
+#     traceback.print_stack()
+#     return _orig_subprocess(*a, **ka)
+#
+# if subprocess.Popen is not subprocess_warning:
+#     _orig_subprocess = subprocess.Popen
+#     subprocess.Popen = subprocess_warning
 
 
 #---------------------------------------------------------------------------
