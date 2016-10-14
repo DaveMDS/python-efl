@@ -1213,7 +1213,7 @@ FILL_VERT  = 0.5, EVAS_HINT_FILL
 
 
 def init():
-    EINA_LOG_DOM_INFO(PY_EFL_EVAS_LOG_DOMAIN, "Initializing efl.evas", NULL)
+    EINA_LOG_DOM_INFO(PY_EFL_EVAS_LOG_DOMAIN, "Initializing efl.evas")
 
     if evas_object_event_callbacks_len != enums.EVAS_CALLBACK_LAST:
         raise SystemError("Number of object callbacks changed from %d to %d." %
@@ -1225,7 +1225,7 @@ def init():
 
 
 def shutdown():
-    EINA_LOG_DOM_INFO(PY_EFL_EVAS_LOG_DOMAIN, "Shutting down efl.evas", NULL)
+    EINA_LOG_DOM_INFO(PY_EFL_EVAS_LOG_DOMAIN, "Shutting down efl.evas")
     return evas_shutdown()
 
 

@@ -713,8 +713,7 @@ def init():
         not carry any penalty though.
 
     """
-    EINA_LOG_DOM_INFO(PY_EFL_ELM_LOG_DOMAIN,
-        "Initializing efl.elementary", NULL)
+    EINA_LOG_DOM_INFO(PY_EFL_ELM_LOG_DOMAIN, "Initializing efl.elementary")
 
     # argc and argv are currently used by EFL to support app restart
     # and binary relocation. These are probably not useful to us but we
@@ -761,8 +760,7 @@ def shutdown():
         not carry any penalty though.
 
     """
-    EINA_LOG_DOM_INFO(PY_EFL_ELM_LOG_DOMAIN,
-        "Shutting down efl.elementary", NULL)
+    EINA_LOG_DOM_INFO(PY_EFL_ELM_LOG_DOMAIN, "Shutting down efl.elementary")
     return elm_shutdown()
 
 
@@ -880,8 +878,7 @@ def run():
     running the main (event/processing) loop for Elementary.
 
     """
-    EINA_LOG_DOM_DBG(PY_EFL_ELM_LOG_DOMAIN,
-        "Starting up main loop.", NULL)
+    EINA_LOG_DOM_DBG(PY_EFL_ELM_LOG_DOMAIN, "Starting up main loop.")
     with nogil:
         elm_run()
 
@@ -901,8 +898,7 @@ def exit():
         for you.
 
     """
-    EINA_LOG_DOM_DBG(PY_EFL_ELM_LOG_DOMAIN,
-        "Ending main loop.", NULL)
+    EINA_LOG_DOM_DBG(PY_EFL_ELM_LOG_DOMAIN, "Ending main loop.")
     elm_exit()
 
 def policy_set(Elm_Policy policy, value):

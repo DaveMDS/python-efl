@@ -60,11 +60,11 @@ import atexit
 ######################################################################
 
 def init():
-    EINA_LOG_DOM_INFO(PY_EFL_EO_LOG_DOMAIN, "Initializing efl.eo", NULL)
+    EINA_LOG_DOM_INFO(PY_EFL_EO_LOG_DOMAIN, "Initializing efl.eo")
     return efl_object_init()
 
 def shutdown():
-    EINA_LOG_DOM_INFO(PY_EFL_EO_LOG_DOMAIN, "Shutting down efl.eo", NULL)
+    EINA_LOG_DOM_INFO(PY_EFL_EO_LOG_DOMAIN, "Shutting down efl.eo")
     return efl_object_shutdown()
 
 init()

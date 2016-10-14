@@ -125,4 +125,4 @@ rootlog.propagate = False
 cdef public int PY_EFL_LOG_DOMAIN = rootlog.eina_log_domain
 
 def logger_test_dbg():
-    EINA_LOG_DOM_DBG(PY_EFL_LOG_DOMAIN, "test message", NULL)
+    EINA_LOG_DOM_DBG(PY_EFL_LOG_DOMAIN, "test message")

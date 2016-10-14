@@ -52,8 +52,7 @@ cdef _object_item_to_python(Elm_Object_Item *it):
 
     if data == NULL:
         # Create a dummy object item.
-        EINA_LOG_DOM_WARN(PY_EFL_ELM_LOG_DOMAIN,
-            "Creating an incomplete ObjectItem.", NULL)
+        EINA_LOG_DOM_WARN(PY_EFL_ELM_LOG_DOMAIN, "Creating an incomplete ObjectItem.")
         item = ObjectItem.__new__(ObjectItem)
         item._set_obj(it)
     else:
