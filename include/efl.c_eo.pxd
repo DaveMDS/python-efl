@@ -69,11 +69,11 @@ cdef extern from "Eo.h":
         Eina_Bool legacy_is # Internal use: if is a legacy event.
     ctypedef _Efl_Event_Description Efl_Event_Description
 
-    ctypedef struct _Eo_Event:
+    ctypedef struct _Efl_Event:
         Efl_Object *obj # The object the event was called on. */
         const Efl_Event_Description *desc # The event description. */
         void *event_info # Extra event information passed by the event caller. */
-    ctypedef _Eo_Event Eo_Event
+    ctypedef _Efl_Event Efl_Event
 
 
     ####################################################################
@@ -86,7 +86,7 @@ cdef extern from "Eo.h":
     ####################################################################
     # Other typedefs
     #
-    ctypedef void (*Efl_Event_Cb)(void *data, const Eo_Event *event)
+    ctypedef void (*Efl_Event_Cb)(void *data, const Efl_Event *event)
 
     ctypedef void (*efl_key_data_free_func)(void *)
 

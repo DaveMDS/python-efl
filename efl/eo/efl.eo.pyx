@@ -44,7 +44,7 @@ from efl.c_eo cimport Eo as cEo, efl_object_init, efl_object_shutdown, efl_del, 
     efl_event_freeze, efl_event_thaw, efl_event_freeze_count_get, \
     efl_event_global_freeze, efl_event_global_thaw, \
     efl_event_global_freeze_count_get, efl_event_callback_stop, \
-    efl_children_iterator_new, Eo_Event
+    efl_children_iterator_new, Efl_Event
 
 from efl.utils.logger cimport add_logger
 
@@ -182,7 +182,7 @@ cdef void _register_decorated_callbacks(Eo obj):
 ######################################################################
 
 
-cdef void _efl_event_del_cb(void *data, const Eo_Event *event) with gil:
+cdef void _efl_event_del_cb(void *data, const Efl_Event *event) with gil:
     cdef:
         Eo self = <Eo>data
         const char *cls_name = efl_class_name_get(efl_class_get(self.obj))
