@@ -92,19 +92,12 @@ cdef class Radio(LayoutClass):
         """Set a convenience pointer to a integer to change when radio group
         value changes.
 
-        This sets a pointer to a integer, that, in addition to the radio
-        objects state will also be modified directly. To stop setting the
-        object pointed to simply use None as the ``valuep`` argument. If
-        valuep is not None, then when this is called, the radio objects
-        state will also be modified to reflect the value of the integer
-        valuep points to, just like calling :py:attr:`value`.
-
-        :param valuep: Pointer to the integer to modify
-        :type valuep: int
+        This function DO NOTHING in python !! DO NOT USE !!
 
         """
-        cdef int * valuep = <int *>value
-        elm_radio_value_pointer_set(self.obj, valuep)
+        # cdef int * valuep = <int *>value
+        # elm_radio_value_pointer_set(self.obj, valuep)
+        pass
 
     property selected_object:
         """Get the selected radio object.

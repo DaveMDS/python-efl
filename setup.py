@@ -213,6 +213,7 @@ packages = ["efl"]
 common_cflags = [
     "-Wno-deprecated-declarations", # we bind deprecated functions
     "-Wno-unused-variable", # eo_instance_from_object() is unused
+    # "-Werror", "-Wfatal-errors" # use this to stop build on first warnings
 ]
 
 if set(("build", "build_ext", "install", "bdist", "sdist")) & set(sys.argv):
