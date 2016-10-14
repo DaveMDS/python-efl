@@ -292,7 +292,7 @@ cdef class ExternalParamInfoChoice(ExternalParamInfo):
 
     property translated_choices:
         def __get__(self):
-            cdef const char *t
+            cdef const char *trans
             if self._external_type_obj == NULL or \
                self._external_type_obj.translate == NULL:
                 return self.choices
