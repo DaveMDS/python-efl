@@ -29,7 +29,7 @@ from libc.string cimport strdup
 
 cdef list _descriptions_to_list(const Evas_Smart_Cb_Description **arr, unsigned int arr_len):
     cdef:
-        unsigned int i
+        unsigned int i = 0
         list ret = list()
 
     if arr == NULL:

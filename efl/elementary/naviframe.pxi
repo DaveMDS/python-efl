@@ -23,7 +23,7 @@ cdef Eina_Bool py_elm_naviframe_item_pop_cb(void *data, Elm_Object_Item *it):
         object func
         tuple args
         dict kwargs
-        bint ret
+        bint ret = 0
 
     try:
         func, args, kwargs = item.pop_cb_spec
