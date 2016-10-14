@@ -210,6 +210,10 @@ elif os.path.exists(os.path.join(script_path, "Makefile")):
 ext_modules = []
 py_modules = []
 packages = ["efl"]
+common_cflags = [
+    "-Wno-deprecated-declarations", # we bind deprecated functions
+    "-Wno-unused-variable", # eo_instance_from_object() is unused
+]
 
 if set(("build", "build_ext", "install", "bdist", "sdist")) & set(sys.argv):
     sys.stdout.write("Python-EFL: %s\n" % RELEASE)
@@ -268,7 +272,7 @@ if set(("build", "build_ext", "install", "bdist", "sdist")) & set(sys.argv):
                             ('EFL_EO_API_SUPPORT', 1)
                         ],
                        include_dirs=['include/'],
-                       extra_compile_args=eo_cflags,
+                       extra_compile_args=eo_cflags + common_cflags,
                        extra_link_args=eo_libs + eina_libs
                       )
     ext_modules.append(eo_ext)
@@ -277,15 +281,15 @@ if set(("build", "build_ext", "install", "bdist", "sdist")) & set(sys.argv):
     utils_ext = [
         Extension("utils.deprecated", ["efl/utils/deprecated" + module_suffix],
                   include_dirs=['include/'],
-                  extra_compile_args=eina_cflags,
+                  extra_compile_args=eina_cflags + common_cflags,
                   extra_link_args=eina_libs),
         Extension("utils.conversions", ["efl/utils/conversions" + module_suffix],
                   include_dirs=['include/'],
-                  extra_compile_args=eo_cflags,
+                  extra_compile_args=eo_cflags + common_cflags,
                   extra_link_args=eo_libs + eina_libs),
         Extension("utils.logger", ["efl/utils/logger" + module_suffix],
                   include_dirs=['include/'],
-                  extra_compile_args=eina_cflags,
+                  extra_compile_args=eina_cflags + common_cflags,
                   extra_link_args=eina_libs),
     ]
     ext_modules.extend(utils_ext)
@@ -300,7 +304,7 @@ if set(("build", "build_ext", "install", "bdist", "sdist")) & set(sys.argv):
                             ('EFL_EO_API_SUPPORT', 1)
                          ],
                          include_dirs=['include/'],
-                         extra_compile_args=evas_cflags,
+                         extra_compile_args=evas_cflags + common_cflags,
                          extra_link_args=evas_libs + eina_libs + eo_libs)
     ext_modules.append(evas_ext)
 
@@ -311,7 +315,8 @@ if set(("build", "build_ext", "install", "bdist", "sdist")) & set(sys.argv):
     ecore_ext = Extension("ecore", ["efl/ecore/efl.ecore" + module_suffix],
                           include_dirs=['include/'],
                           extra_compile_args=list(set(ecore_cflags +
-                                                      ecore_file_cflags)),
+                                                      ecore_file_cflags +
+                                                      common_cflags)),
                           extra_link_args=ecore_libs + ecore_file_libs +
                                           eina_libs + evas_libs)
     ext_modules.append(ecore_ext)
@@ -325,7 +330,8 @@ if set(("build", "build_ext", "install", "bdist", "sdist")) & set(sys.argv):
                             include_dirs=['include/'],
                             extra_compile_args=list(set(ecore_cflags +
                                                         ecore_file_cflags +
-                                                        ecore_input_cflags)),
+                                                        ecore_input_cflags +
+                                                        common_cflags)),
                             extra_link_args=ecore_libs + ecore_file_libs +
                                             ecore_input_libs)
     ext_modules.append(ecore_input_ext)
@@ -338,7 +344,8 @@ if set(("build", "build_ext", "install", "bdist", "sdist")) & set(sys.argv):
                               include_dirs=['include/'],
                               extra_compile_args=list(set(ecore_cflags +
                                                           ecore_file_cflags +
-                                                          ecore_con_cflags)),
+                                                          ecore_con_cflags +
+                                                          common_cflags)),
                               extra_link_args=ecore_libs + ecore_file_libs +
                                               ecore_con_libs + eina_libs)
     ext_modules.append(ecore_con_ext)
@@ -356,7 +363,8 @@ if set(("build", "build_ext", "install", "bdist", "sdist")) & set(sys.argv):
                                 extra_compile_args=list(set(ecore_cflags +
                                                             ecore_file_cflags +
                                                             ecore_x_cflags +
-                                                            ecore_input_cflags)),
+                                                            ecore_input_cflags +
+                                                            common_cflags)),
                                 extra_link_args=ecore_libs + ecore_file_libs +
                                                 ecore_x_libs + ecore_input_libs +
                                                 eina_libs + evas_libs)
@@ -366,7 +374,7 @@ if set(("build", "build_ext", "install", "bdist", "sdist")) & set(sys.argv):
     ethumb_cflags, ethumb_libs = pkg_config('Ethumb', 'ethumb', EFL_MIN_VER)
     ethumb_ext = Extension("ethumb", ["efl/ethumb/efl.ethumb" + module_suffix],
                            include_dirs=['include/'],
-                           extra_compile_args=ethumb_cflags,
+                           extra_compile_args=ethumb_cflags + common_cflags,
                            extra_link_args=ethumb_libs + eina_libs)
     ext_modules.append(ethumb_ext)
 
@@ -376,7 +384,8 @@ if set(("build", "build_ext", "install", "bdist", "sdist")) & set(sys.argv):
     ethumb_client_ext = Extension("ethumb_client",
                                   ["efl/ethumb/efl.ethumb_client" + module_suffix],
                                   include_dirs=['include/'],
-                                  extra_compile_args=ethumb_client_cflags,
+                                  extra_compile_args=ethumb_client_cflags +
+                                                     common_cflags,
                                   extra_link_args=ethumb_client_libs + eina_libs)
     ext_modules.append(ethumb_client_ext)
 
@@ -384,7 +393,7 @@ if set(("build", "build_ext", "install", "bdist", "sdist")) & set(sys.argv):
     edje_cflags, edje_libs = pkg_config('Edje', 'edje', EFL_MIN_VER)
     edje_ext = Extension("edje", ["efl/edje/efl.edje" + module_suffix],
                          include_dirs=['include/'],
-                         extra_compile_args=edje_cflags,
+                         extra_compile_args=edje_cflags + common_cflags,
                          extra_link_args=edje_libs + eina_libs + evas_libs)
     ext_modules.append(edje_ext)
 
@@ -393,7 +402,7 @@ if set(("build", "build_ext", "install", "bdist", "sdist")) & set(sys.argv):
                               ["efl/edje_edit/efl.edje_edit" + module_suffix],
                               define_macros=[('EDJE_EDIT_IS_UNSTABLE_AND_I_KNOW_ABOUT_IT', None)],
                               include_dirs=['include/'],
-                              extra_compile_args=edje_cflags,
+                              extra_compile_args=edje_cflags + common_cflags,
                               extra_link_args=edje_libs + eina_libs + evas_libs)
     ext_modules.append(edje_edit_ext)
 
@@ -402,9 +411,8 @@ if set(("build", "build_ext", "install", "bdist", "sdist")) & set(sys.argv):
     emotion_ext = Extension("emotion",
                             ["efl/emotion/efl.emotion" + module_suffix],
                             include_dirs=['include/'],
-                            extra_compile_args=emotion_cflags,
-                            extra_link_args=emotion_libs +
-                            eina_libs + evas_libs)
+                            extra_compile_args=emotion_cflags + common_cflags,
+                            extra_link_args=emotion_libs + eina_libs + evas_libs)
     ext_modules.append(emotion_ext)
 
     # === dbus mainloop integration ===
@@ -412,7 +420,9 @@ if set(("build", "build_ext", "install", "bdist", "sdist")) & set(sys.argv):
     dbus_ml_ext = Extension("dbus_mainloop",
                             ["efl/dbus_mainloop/dbus_mainloop" + module_suffix,
                             "efl/dbus_mainloop/e_dbus.c"],
-                            extra_compile_args=list(set(dbus_cflags + ecore_cflags)),
+                            extra_compile_args=list(set(dbus_cflags +
+                                                        ecore_cflags +
+                                                        common_cflags)),
                             extra_link_args=dbus_libs + ecore_libs)
     ext_modules.append(dbus_ml_ext)
 
@@ -425,7 +435,7 @@ if set(("build", "build_ext", "install", "bdist", "sdist")) & set(sys.argv):
                     ('EFL_EO_API_SUPPORT', 1)
                   ],
                   include_dirs=["include/"],
-                  extra_compile_args=elm_cflags,
+                  extra_compile_args=elm_cflags + common_cflags,
                   extra_link_args=elm_libs + eina_libs + eo_libs + evas_libs)
     ext_modules.append(e)
 
