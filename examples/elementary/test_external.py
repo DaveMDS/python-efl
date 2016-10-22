@@ -128,6 +128,22 @@ def edje_external_video_clicked(obj, item=None):
 
     win.show()
 
+def edje_external_icon_clicked(obj, item=None):
+    win = StandardWindow("edje-external-icon", "Edje External Icon",
+        autodel=True, size=(320, 400))
+    if obj is None:
+        win.callback_delete_request_add(lambda o: elementary.exit())
+
+    ly = Layout(win, file=(
+        os.path.join(script_path, "test_external.edj"),
+        "external/icon"),
+        size_hint_weight=EXPAND_BOTH)
+    win.resize_object_add(ly)
+    ly.show()
+    ly.signal_emit("elm_test,animations,start", "elm_test")
+
+    win.show()
+
 
 if __name__ == "__main__":
     win = StandardWindow("test", "python-elementary test application",
@@ -148,11 +164,14 @@ if __name__ == "__main__":
     box0.pack_end(fr)
     fr.show()
 
-    items = [("Ext Button", edje_external_button_clicked),
-            ("Ext ProgressBar", edje_external_pbar_clicked),
-            ("Ext Scroller", edje_external_scroller_clicked),
-            ("Ext Slider", edje_external_slider_clicked),
-            ("Ext Video", edje_external_video_clicked)]
+    items = [
+        ("Ext Button", edje_external_button_clicked),
+        ("Ext ProgressBar", edje_external_pbar_clicked),
+        ("Ext Scroller", edje_external_scroller_clicked),
+        ("Ext Slider", edje_external_slider_clicked),
+        ("Ext Video", edje_external_video_clicked),
+        ("Ext Icon", edje_external_icon_clicked),
+    ]
 
     li = List(win, size_hint_weight=EXPAND_BOTH, size_hint_align=FILL_BOTH)
     box0.pack_end(li)
