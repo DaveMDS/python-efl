@@ -36,7 +36,7 @@ cdef int _object_unregister_callbacks(Object obj) except 0:
                 cb = evas_object_event_callbacks[i]
                 evas_object_event_callback_del(o, i, cb)
 
-    evas_object_event_callback_del(o, EVAS_CALLBACK_FREE, obj_free_cb)
+        evas_object_event_callback_del(o, EVAS_CALLBACK_FREE, obj_free_cb)
     return 1
 
 
