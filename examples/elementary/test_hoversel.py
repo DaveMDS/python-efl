@@ -45,35 +45,35 @@ def hoversel_clicked(obj):
                   size_hint_weight=WEIGHT_ZERO, size_hint_align=ALIGN_CENTER)
     bt.item_add("Item 1")
     bt.item_add("Item 2")
-    bt.item_add("Item 3", "home", ELM_ICON_STANDARD)
-    bt.item_add("Item 4", "close", ELM_ICON_STANDARD)
+    bt.item_add("Item 3", "user-home", ELM_ICON_STANDARD)
+    bt.item_add("Item 4", "view-close", ELM_ICON_STANDARD)
     bx.pack_end(bt)
     bt.show()
 
     bt = Hoversel(win, hover_parent=win, text="All Icons",
                   size_hint_weight=WEIGHT_ZERO, size_hint_align=ALIGN_CENTER)
-    bt.item_add("Item 1", "apps", ELM_ICON_STANDARD)
-    bt.item_add("Item 2", "arrow_down", ELM_ICON_STANDARD)
-    bt.item_add("Item 3", "home", ELM_ICON_STANDARD)
-    bt.item_add("Item 4", "close", ELM_ICON_STANDARD)
+    bt.item_add("Item 1", "user-trash", ELM_ICON_STANDARD)
+    bt.item_add("Item 2", "go-down", ELM_ICON_STANDARD)
+    bt.item_add("Item 3", "user-home", ELM_ICON_STANDARD)
+    bt.item_add("Item 4", "view-close", ELM_ICON_STANDARD)
     bx.pack_end(bt)
     bt.show()
 
     bt = Hoversel(win, hover_parent=win, text="All Icons",
                   size_hint_weight=WEIGHT_ZERO, size_hint_align=ALIGN_CENTER)
-    bt.item_add("Item 1", "apps", ELM_ICON_STANDARD)
+    bt.item_add("Item 1", "user-trash", ELM_ICON_STANDARD)
     bt.item_add("Item 2", os.path.join(img_path, "logo_small.png"),
                 ELM_ICON_FILE)
-    bt.item_add("Item 3", "home", ELM_ICON_STANDARD)
-    bt.item_add("Item 4", "close", ELM_ICON_STANDARD)
+    bt.item_add("Item 3", "user-home", ELM_ICON_STANDARD)
+    bt.item_add("Item 4", "view-close", ELM_ICON_STANDARD)
     bx.pack_end(bt)
     bt.show()
 
     bt = Hoversel(win, hover_parent=win, text="Disabled Hoversel",
                   disabled=True, size_hint_weight=WEIGHT_ZERO,
                   size_hint_align=ALIGN_CENTER)
-    bt.item_add("Item 1", "apps", ELM_ICON_STANDARD)
-    bt.item_add("Item 2", "close", ELM_ICON_STANDARD)
+    bt.item_add("Item 1", "folder", ELM_ICON_STANDARD)
+    bt.item_add("Item 2", "view-close", ELM_ICON_STANDARD)
     bx.pack_end(bt)
     bt.show()
 
@@ -82,10 +82,10 @@ def hoversel_clicked(obj):
                   size_hint_weight=WEIGHT_ZERO, size_hint_align=ALIGN_CENTER)
     ic.show()
 
-    bt.item_add("Item 1", "apps", ELM_ICON_STANDARD)
-    bt.item_add("Item 2", "arrow_down", ELM_ICON_STANDARD)
-    bt.item_add("Item 3", "home", ELM_ICON_STANDARD)
-    bt.item_add("Item 4", "close", ELM_ICON_STANDARD)
+    bt.item_add("Item 1", "user-trash", ELM_ICON_STANDARD)
+    bt.item_add("Item 2", "go-down", ELM_ICON_STANDARD)
+    bt.item_add("Item 3", "user-home", ELM_ICON_STANDARD)
+    bt.item_add("Item 4", "view-close", ELM_ICON_STANDARD)
     bx.pack_end(bt)
     bt.show()
 
@@ -93,10 +93,10 @@ def hoversel_clicked(obj):
                   auto_update=True,
                   size_hint_weight=WEIGHT_ZERO, size_hint_align=ALIGN_CENTER)
 
-    bt.item_add("Item 1", "apps", ELM_ICON_STANDARD)
-    bt.item_add("Item 2", "arrow_down", ELM_ICON_STANDARD)
-    bt.item_add("Item 3", "home", ELM_ICON_STANDARD)
-    bt.item_add("Item 4", "close", ELM_ICON_STANDARD)
+    bt.item_add("Item 1", "user-trash", ELM_ICON_STANDARD)
+    bt.item_add("Item 2", "go-down", ELM_ICON_STANDARD)
+    bt.item_add("Item 3", "user-home", ELM_ICON_STANDARD)
+    bt.item_add("Item 4", "view-close", ELM_ICON_STANDARD)
     bx.pack_end(bt)
     bt.show()
 

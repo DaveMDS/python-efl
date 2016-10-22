@@ -14,7 +14,7 @@ def menu_show(rect, evtinfo, menu):
     menu.show()
 
 def menu_populate_4(menu, item):
-    menu.item_add(item, "menu 2", "clock")
+    menu.item_add(item, "menu 2", "folder")
 
     item2 = menu.item_add(item, "menu 3", "folder-new")
 
@@ -26,7 +26,7 @@ def menu_populate_4(menu, item):
     item3 = menu.item_add(item, "Disabled item", "mail-send")
     item3.disabled = True
 
-    item3 = menu.item_add(item, "Disabled item", "refresh")
+    item3 = menu.item_add(item, "Disabled item", "view-refresh")
     item3.disabled = True
 
 def menu_populate_3(menu, item):
@@ -36,7 +36,7 @@ def menu_populate_3(menu, item):
 
     menu.item_separator_add(item)
 
-    item3 = menu.item_add(item, "Disabled item", "clock")
+    item3 = menu.item_add(item, "Disabled item", "folder")
     item3.disabled = True
 
 def menu_populate_2(menu, item):
@@ -48,7 +48,7 @@ def menu_populate_2(menu, item):
 
     menu.item_separator_add(item)
 
-    item2 = menu.item_add(item, "menu 2", "refresh")
+    item2 = menu.item_add(item, "menu 2", "view-refresh")
 
     menu.item_separator_add(item)
 
@@ -58,7 +58,7 @@ def menu_populate_2(menu, item):
     menu_populate_4(menu, item2)
 
 def menu_populate_1(menu, item):
-    item2 = menu.item_add(item, "menu 1", "refresh")
+    item2 = menu.item_add(item, "menu 1", "view-refresh")
 
     menu_populate_2(menu, item2)
 
@@ -73,7 +73,7 @@ def menu_clicked(obj):
     rect.show()
 
     menu = Menu(win)
-    item = menu.item_add(None, "first item", "clock")
+    item = menu.item_add(None, "first item", "folder")
     item = menu.item_add(None, "second item", "mail-send")
     menu_populate_1(menu, item)
 

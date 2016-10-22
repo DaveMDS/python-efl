@@ -38,7 +38,7 @@ def panel_clicked(obj):
 
     toolbar = Toolbar(panel1, homogeneous=False,
                       shrink_mode=ELM_TOOLBAR_SHRINK_NONE)
-    toolbar.item_append("home", "Hello Toolbar")
+    toolbar.item_append("user-home", "Hello Toolbar")
     panel1.content = toolbar
     toolbar.show()
 
@@ -60,7 +60,7 @@ def panel_clicked(obj):
 
     li = List(panel2, size_hint_weight=EXPAND_BOTH, size_hint_align=FILL_BOTH)
     for i in range(1, 50):
-        ic = Icon(win, standard="home")
+        ic = Icon(win, standard="user-home")
         li.item_append("Item #%d" % i, ic)
     panel2.content = li
     li.show()
@@ -86,7 +86,7 @@ def panel_clicked(obj):
     toolbar = Toolbar(panel4, homogeneous=False,
                       shrink_mode=ELM_TOOLBAR_SHRINK_NONE,
                       size_hint_weight=EXPAND_HORIZ, size_hint_align=FILL_BOTH)
-    toolbar.item_append("home", "Hello Toolbar")
+    toolbar.item_append("user-home", "Hello Toolbar")
     panel4.content = toolbar
     toolbar.show()
 

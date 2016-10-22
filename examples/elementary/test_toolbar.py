@@ -102,21 +102,21 @@ def toolbar_clicked(obj, item=None):
     item = tb.item_append("document-print", "Hello", tb_1)
     item.disabled = True
 
-    item = tb.item_append("clock", "World,", tb_2, ph2)
+    item = tb.item_append("document-open", "World,", tb_2, ph2)
     item.selected = True
 
     tb.item_append("folder-new", "here", tb_3, ph4)
-    tb.item_append("clock", "comes", tb_4, ph4)
-    tb.item_append("folder-new", "python-elementary!", tb_5, ph4)
+    tb.item_append("document-save", "comes", tb_4, ph4)
+    tb.item_append("document-send", "python-elementary!", tb_5, ph4)
 
-    item = tb.item_append("clock", "Menu", tb_5, ph4)
+    item = tb.item_append("go-down", "Menu", tb_5, ph4)
     item.menu = True
     tb.menu_parent = win
 
     menu = item.menu
 
-    menu.item_add(None, "Here", "clock", tb_3, ph4)
-    menu_item = menu.item_add(None, "Comes", "refresh", tb_4, ph4)
+    menu.item_add(None, "Here", "folder", tb_3, ph4)
+    menu_item = menu.item_add(None, "Comes", "view-refresh", tb_4, ph4)
     menu.item_add(menu_item, "hey ho", "folder-new", tb_4, ph4)
     menu.item_add(None, "python-elementary", "document-print", tb_5, ph4)
 
@@ -177,15 +177,15 @@ def toolbar5_clicked(obj, item=None):
     tb_it.state_add("object-rotate-left", "H2", tb_3b, ph4)
     tb_it.priority = 150
 
-    tb_it = tb.item_append("mail-send", "Comes", tb_4a, ph4)
+    tb_it = tb.item_append("object-rotate-left", "Comes", tb_4a, ph4)
     tb_it.state_add("emptytrash", "Comes2", tb_4a, ph4)
     tb_it.state_add("trashcan_full", "Comes3", tb_4a, ph4)
     tb_it.priority = 0
 
-    tb_it = tb.item_append("clock", "Elementary", tb_5, ph4)
+    tb_it = tb.item_append("user-trash", "Elementary", tb_5, ph4)
     tb_it.priority = -200
 
-    tb_it = tb.item_append("refresh", "Menu")
+    tb_it = tb.item_append("view-refresh", "Menu")
     tb_it.menu = True
     tb_it.priority = -9999
     tb.menu_parent = win

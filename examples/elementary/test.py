@@ -117,6 +117,7 @@ items = [
         ("Ext Scroller", "test_external", "edje_external_scroller_clicked"),
         ("Ext Slider", "test_external", "edje_external_slider_clicked"),
         ("Ext Video", "test_external", "edje_external_video_clicked"),
+        ("Ext Icon", "test_external", "edje_external_icon_clicked"),
     ]),
     ("Effects", [
         ("Flip", "test_flip", "flip_clicked"),

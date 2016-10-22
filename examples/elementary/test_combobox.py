@@ -14,9 +14,9 @@ class ComboboxItemClass(GenlistItemClass):
 
     def content_get(self, gl, part, item_data):
         if part == 'elm.swallow.end':
-            return Icon(gl, standard='clock')
+            return Icon(gl, standard='folder')
         else:
-            return Icon(gl, standard='home')
+            return Icon(gl, standard='user-home')
     
     def filter_get(self, gl, key, item_data):
         if not key:

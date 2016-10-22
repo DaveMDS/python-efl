@@ -60,10 +60,10 @@ def focus_clicked(obj, item=None):
     tb_it.disabled = True
     tb_it = tbar.item_append("folder-new", "World", _tb_sel)
     tb_it = tbar.item_append("object-rotate-right", "H", _tb_sel)
-    tb_it = tbar.item_append("mail-send", "Comes", _tb_sel)
-    tb_it = tbar.item_append("clock", "Elementary", _tb_sel)
+    tb_it = tbar.item_append("object-rotate-left", "Comes", _tb_sel)
+    tb_it = tbar.item_append("folder", "Elementary", _tb_sel)
 
-    tb_it = tbar.item_append("refresh", "Menu", _tb_sel)
+    tb_it = tbar.item_append("view-refresh", "Menu", _tb_sel)
     tb_it.menu = True
     tbar.menu_parent = win
     menu = tb_it.menu
@@ -206,7 +206,7 @@ def focus_clicked(obj, item=None):
     mainbx.pack_end(bx)
     bx.show()
 
-    fr = Frame(win, text="Frame", )
+    fr = Frame(win, text="Frame")
     bx.pack_end(fr)
     fr.show()
 

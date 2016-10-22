@@ -53,16 +53,16 @@ def cb_geometry_update(cp, geom):
 def cb_item1(li, item):
     cp = Ctxpopup(li)
     cp.callback_geometry_update_add(cb_geometry_update)
-    it = item_new(cp, "Go to home folder", "home")
-    it = item_new(cp, "Save file", "file")
-    it = item_new(cp, "Delete file", "delete")
+    it = item_new(cp, "Go to home folder", "user-home")
+    it = item_new(cp, "Save file", "document-save")
+    it = item_new(cp, "Delete file", "user-trash")
     it = item_new(cp, "Navigate to folder", "folder")
     it.disabled = True
-    it = item_new(cp, "Edit entry", "edit")
-    it = item_new(cp, "Sate date and time", "clock")
+    it = item_new(cp, "Edit entry", "list-add")
+    it = item_new(cp, "Sate date and time", "list-remove")
     it.disabled = True
 
-    ic = Icon(cp, standard="home", resizable=(False,False))
+    ic = Icon(cp, standard="user-home", resizable=(False,False))
     cp.item_prepend("Prepended item", ic, cb_items)
 
     (x, y) = li.evas.pointer_canvas_xy_get()
@@ -91,13 +91,13 @@ def cb_item1(li, item):
 
 def cb_item2(li, item):
     cp = Ctxpopup(li)
-    it = item_new(cp, "", "home")
-    it = item_new(cp, "", "file")
-    it = item_new(cp, "", "delete")
+    it = item_new(cp, "", "user-home")
+    it = item_new(cp, "", "user-trash")
+    it = item_new(cp, "", "user-bookmarks")
     it = item_new(cp, "", "folder")
-    it = item_new(cp, "", "edit")
+    it = item_new(cp, "", "document-save")
     it.disabled = True
-    it = item_new(cp, "", "clock")
+    it = item_new(cp, "", "document-send")
 
     (x, y) = li.evas.pointer_canvas_xy_get()
     cp.move(x, y)
@@ -120,12 +120,12 @@ def cb_item3(li, item):
 def cb_item4(li, item):
     cp = Ctxpopup(li)
     cp.horizontal = True
-    it = item_new(cp, "", "home")
-    it = item_new(cp, "", "file")
-    it = item_new(cp, "", "delete")
+    it = item_new(cp, "", "user-home")
+    it = item_new(cp, "", "document-save")
+    it = item_new(cp, "", "user-trash")
     it = item_new(cp, "", "folder")
-    it = item_new(cp, "", "edit")
-    it = item_new(cp, "", "clock")
+    it = item_new(cp, "", "user-bookmarks")
+    it = item_new(cp, "", "document-send")
 
     (x, y) = li.evas.pointer_canvas_xy_get()
     cp.move(x, y)

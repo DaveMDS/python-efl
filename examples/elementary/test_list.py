@@ -37,12 +37,12 @@ def list_clicked(obj, item=None):
     ic = Icon(win, file=os.path.join(img_path, "logo_small.png"),
         resizable=(False, False))
     li.item_append("Hello", ic)
-    ic = Icon(win, standard="edit", resizable=(False, False))
-    ic2 = Icon(win, standard="clock", resizable=(False, False))
+    ic = Icon(win, standard="folder", resizable=(False, False))
+    ic2 = Icon(win, standard="user-home", resizable=(False, False))
     li.item_append(".", ic, ic2)
 
-    ic = Icon(win, standard="delete", resizable=(False, False))
-    ic2 = Icon(win, standard="clock", resizable=(False, False))
+    ic = Icon(win, standard="user-trash", resizable=(False, False))
+    ic2 = Icon(win, standard="folder", resizable=(False, False))
     it2 = li.item_append("How", ic, ic2)
 
     bx = Box(win, horizontal=True)
@@ -149,11 +149,11 @@ def list2_clicked(obj, item=None):
     ic = Icon(win, file=os.path.join(img_path, "logo_small.png"),
         resizable=(False, False))
     li.item_append("world", ic)
-    ic = Icon(win, standard="edit", resizable=(False, False))
+    ic = Icon(win, standard="folder", resizable=(False, False))
     li.item_append(".", ic)
 
-    ic = Icon(win, standard="delete", resizable=(False, False))
-    ic2 = Icon(win, standard="clock", resizable=(False, False))
+    ic = Icon(win, standard="user-trash", resizable=(False, False))
+    ic2 = Icon(win, standard="go-next", resizable=(False, False))
     it2 = li.item_append("How", ic, ic2)
 
     bx2 = Box(win, horizontal=True)
@@ -214,17 +214,17 @@ def list3_clicked(obj, item=None):
     ic = Icon(win, file=os.path.join(img_path, "logo_small.png"),
         resizable=(False, False))
     li.item_append("world", ic)
-    ic = Icon(win, standard="edit", resizable=(False, False))
+    ic = Icon(win, standard="folder", resizable=(False, False))
     li.item_append(".", ic)
 
-    ic = Icon(win, standard="delete", resizable=(False, False))
-    ic2 = Icon(win, standard="clock", resizable=(False, False))
+    ic = Icon(win, standard="view-close", resizable=(False, False))
+    ic2 = Icon(win, standard="view-refresh", resizable=(False, False))
     it2 = li.item_append("How", ic, ic2)
 
     bx = Box(win, horizontal=True)
     bx.horizontal_set(True)
 
-    ic = Icon(win, standard="delete", resizable=(False, False),
+    ic = Icon(win, standard="user-trash", resizable=(False, False),
         size_hint_align=ALIGN_CENTER)
     bx.pack_end(ic)
     ic.show()

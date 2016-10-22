@@ -315,11 +315,11 @@ def entry_scrolled_clicked(obj, item = None):
                          single_line=True, size_hint_weight=EXPAND_BOTH,
                          size_hint_align=FILL_BOTH,
                          text="entry with icon and end objects")
-    bt = Icon(win, standard="home", size_hint_min=(48, 48),
+    bt = Icon(win, standard="user-home", size_hint_min=(48, 48),
               color=(128, 0, 0, 128))
     bt.show()
     en.part_content_set("icon", bt)
-    bt = Icon(win, standard="delete", size_hint_min=(48, 48),
+    bt = Icon(win, standard="user-trash", size_hint_min=(48, 48),
               color=(128, 0, 0, 128))
     bt.show()
     en.part_content_set("end", bt)

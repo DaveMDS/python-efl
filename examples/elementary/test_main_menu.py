@@ -27,19 +27,19 @@ def main_menu_clicked(obj):
 
     menu = win.main_menu_get()
 
-    menu_it = menu.item_add(None, "first item", "home")
-    menu.item_add(menu_it, "first item", "elementary")
+    menu_it = menu.item_add(None, "first item", "user-home")
+    menu.item_add(menu_it, "first item", "user-trash")
     menu_it1 = menu.item_add(menu_it, "submenu")
     menu.item_add(menu_it1,  "first item")
     menu.item_add(menu_it1, "second item",  "gimp")
 
-    menu_it = menu.item_add(None, "second item")
+    menu_it = menu.item_add(None, "second item", "folder")
     menu_it1 = menu.item_add(menu_it, "disabled item")
     menu_it1.disabled = True
 
     menu.item_separator_add(menu_it)
     menu.item_add(menu_it, "click me :-)", None, _click_me_cb, menu_it1)
-    menu.item_add(menu_it, "third item", "applications-email-panel", )
+    menu.item_add(menu_it, "third item", "folder")
     menu_it1 = menu.item_add(menu_it, "sub menu")
     menu.item_add(menu_it1, "first sub item")
 
