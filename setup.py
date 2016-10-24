@@ -213,6 +213,7 @@ packages = ["efl"]
 common_cflags = [
     "-Wno-deprecated-declarations", # we bind deprecated functions
     "-Wno-unused-variable", # eo_instance_from_object() is unused
+    "-Wno-format-security", # some cc don't like the way cython use EINA_LOG macros
     # "-Werror", "-Wfatal-errors" # use this to stop build on first warnings
 ]
 
