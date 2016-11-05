@@ -15,34 +15,35 @@
 # You should have received a copy of the GNU Lesser General Public License
 # along with this Python-EFL.  If not, see <http://www.gnu.org/licenses/>.
 
-import traceback
-import types
-from functools import update_wrapper
 
-from cpython cimport PY_VERSION_HEX, PyUnicode_AsUTF8String
+import functools
 
-from efl.eina cimport EINA_LOG_DOM_WARN
-from efl.utils.logger cimport PY_EFL_LOG_DOMAIN
 
-cdef class DEPRECATED(object):
+class DEPRECATED(object):
 
-    def __init__(self, version=None, message=None):
+    def __init__(self, version, message):
         self.version = version
         self.message = message
 
-    def __call__(self, f):
-        wrapper = WRAPPER(f, self.version, self.message)
+    def __call__(self, func_or_meth):
 
+        # This wrapper will be called instead of the original one
+        def wrapper(*args, **kwargs):
+
+            print("WARNING: Deprecated function '{0}' called. {1}".format(
+                  func_or_meth.__name__, self.message))
+
+            return func_or_meth(*args, **kwargs)
+
+        # copy metadata from original func
         assignments = ["__name__", "__doc__"]
-        if hasattr(f, "__module__"):
+        if hasattr(func_or_meth, "__module__"):
             assignments.append("__module__")
-        update_wrapper(wrapper, f, assigned=assignments)
+        functools.update_wrapper(wrapper, func_or_meth, assigned=assignments)
 
-        # Version is required for the deprecated directive
-
+        # Augment the function doc with the sphinx deprecated tag
         doc = wrapper.__doc__
-
-        if doc is not None and self.version is not None:
+        if doc is not None:
             lines = doc.expandtabs().splitlines()
 
             indent = 0
@@ -53,53 +54,11 @@ cdef class DEPRECATED(object):
                         indent = len(line) - len(stripped)
                         break
 
-            wrapper.__doc__ += "\n\n"
-
-            wrapper.__doc__ += indent * " " + ".. deprecated:: %s\n" % (self.version,)
-
-            wrapper.__doc__ += (indent + 4) * " " + "%s\n" % (self.message,)
+            wrapper.__doc__ += \
+                "\n\n" \
+                "{indent}.. deprecated:: {version}\n" \
+                "{indent}    {message}\n".format(
+                indent=indent * " ", version=self.version, message=self.message)
 
         return wrapper
 
-
-class WRAPPER(object):
-    def __init__(self, f, version, message):
-        self.f = f
-        self.version = version
-        self.message = message
-
-    def __get__(self, obj, objtype):
-        if PY_VERSION_HEX < 0x03000000:
-            return types.MethodType(self, obj, objtype)
-        else:
-            return types.MethodType(self, obj)
-
-    def __call__(self, *args, **kwargs):
-        cdef:
-            list stack
-            tuple caller
-            str msg
-
-        stack = list(traceback.extract_stack())
-        caller = tuple(stack[-1])
-        caller_module, caller_line, caller_name, caller_code = caller
-        if caller_code is not None:
-            if hasattr(self.f, "__objclass__"):
-                msg = "Deprecated method %s of class %s called in %s:%s %s." % \
-                    (self.f.__name__, self.f.__objclass__.__name__, caller_module, caller_line, caller_code)
-            else:
-                msg = "Deprecated function %s called in %s:%s %s." % \
-                    (self.f.__name__, caller_module, caller_line, caller_code)
-        else:
-            msg = "Deprecated function %s called in %s:%s." % \
-                (self.f.__name__, caller_module, caller_line)
-
-        if self.message is not None:
-            msg += " " + self.message
-
-        msg2 = msg
-        if isinstance(msg2, unicode): msg2 = PyUnicode_AsUTF8String(msg2)
-
-        EINA_LOG_DOM_WARN(PY_EFL_LOG_DOMAIN, msg2, NULL)
-
-        return self.f(*args, **kwargs)

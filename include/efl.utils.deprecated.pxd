@@ -15,7 +15,9 @@
 # You should have received a copy of the GNU Lesser General Public License
 # along with this Python-EFL.  If not, see <http://www.gnu.org/licenses/>.
 
-cdef:
-    class DEPRECATED(object):
-        cdef:
-            str version, message
+# 1.19: Converted to pure python implementation
+
+# cdef:
+#     class DEPRECATED(object):
+#         cdef:
+#             str version, message

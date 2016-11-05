@@ -17,7 +17,7 @@
 
 #from cpython cimport PyObject, Py_INCREF, Py_DECREF
 from cpython cimport PyMem_Malloc, PyMem_Free, PyUnicode_AsUTF8String
-from efl.utils.deprecated cimport DEPRECATED
+from efl.utils.deprecated import DEPRECATED
 
 import atexit
 

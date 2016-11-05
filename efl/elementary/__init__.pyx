@@ -1187,7 +1187,7 @@ def sys_notify_send(
 from cpython cimport PyObject_GetBuffer, PyBuffer_Release, PyBUF_SIMPLE, \
     PyObject_CheckBuffer
 
-from efl.utils.deprecated cimport DEPRECATED
+from efl.utils.deprecated import DEPRECATED
 from efl.utils.conversions cimport *
 from efl.eo cimport Eo, object_from_instance
 from efl.evas cimport SmartObject, EventKeyDown, EventKeyUp, EventMouseWheel
