@@ -189,7 +189,10 @@ cdef void _efl_event_del_cb(void *data, const Efl_Event *event) with gil:
 
     EINA_LOG_DOM_DBG(PY_EFL_EO_LOG_DOMAIN, "Deleting Eo: %s", cls_name)
 
-    efl_event_callback_stop(self.obj)
+    # This callback_stop call cause lots of warning in lots of places, mainy
+    # visible in genlist/gengrid scrolling, seems this stop evas del event
+    # to be emitted...didn't find the root cause, so comment out for the moment.
+    # efl_event_callback_stop(self.obj)
     efl_event_callback_del(self.obj, EFL_EVENT_DEL, _efl_event_del_cb, <const void *>self)
     efl_key_data_set(self.obj, "python-eo", NULL)
     self.obj = NULL
