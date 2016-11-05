@@ -15,39 +15,47 @@ from efl.elementary import StandardWindow, Button, Check, Entry, Image, \
 script_path = os.path.dirname(os.path.abspath(__file__))
 img_path = os.path.join(script_path, "images")
 
+
 class ScrollableGengrid(Scrollable, Gengrid):
     def __init__(self, canvas, *args, **kwargs):
         Gengrid.__init__(self, canvas, *args, **kwargs)
 
 
 images = ["panel_01.jpg", "plant_01.jpg", "rock_01.jpg", "rock_02.jpg",
-        "sky_01.jpg", "sky_02.jpg", "sky_03.jpg", "sky_04.jpg", "wood_01.jpg"]
+          "sky_01.jpg", "sky_02.jpg", "sky_03.jpg", "sky_04.jpg", "wood_01.jpg"]
 
 
 def gg_text_get(obj, part, item_data):
     return "Item # %s" % (item_data)
 
+
 def gg_content_get(obj, part, data):
     if part == "elm.swallow.icon":
         im = Image(obj, file=os.path.join(img_path, random.choice(images)),
-            size_hint_aspect=(EVAS_ASPECT_CONTROL_BOTH, 1, 1))
+                   size_hint_aspect=(EVAS_ASPECT_CONTROL_BOTH, 1, 1))
         return im
+
     return None
+
 
 def gg_state_get(obj, part, item_data):
     return False
+
 
 def gg_del(obj, item_data):
     # commented out because this make clear() slow with many items
     # print "[item del] # %d - %s" % (item_data, obj)
     pass
 
+
 def gg_sel(gg, ggi, *args, **kwargs):
     (x, y) = ggi.pos_get()
     print(("[item selected] # %d  at pos %d %d" % (ggi.data, x, y)))
 
+
 def gg_unsel(gg, ggi, *args, **kwargs):
     print(("[item unselected] # %d" % (ggi.data)))
+
 
 def gg_clicked_double(gg, ggi, *args, **kwargs):
     print(("[item double clicked] # %d" % (ggi.data)))
@@ -56,7 +64,8 @@ def gg_clicked_double(gg, ggi, *args, **kwargs):
 def gengrid_clicked(obj):
 
     global item_count
-    item_count = 25
+    # item_count = 25
+    item_count = 50
 
     win = StandardWindow("gengrid", "Gengrid", autodel=True, size=(480, 600))
     if obj is None:
@@ -68,13 +77,14 @@ def gengrid_clicked(obj):
 
     # gengrid
     itc = GengridItemClass(item_style="default",
-                                       text_get_func=gg_text_get,
-                                       content_get_func=gg_content_get,
-                                       state_get_func=gg_state_get,
-                                       del_func=gg_del)
+                           text_get_func=gg_text_get,
+                           content_get_func=gg_content_get,
+                           state_get_func=gg_state_get,
+                           del_func=gg_del)
     gg = ScrollableGengrid(win, size_hint_weight=EXPAND_BOTH,
-        size_hint_align=FILL_BOTH, horizontal=False, bounce=(False, True),
-        item_size=(80, 80), align=(0.5, 0.0))
+                           size_hint_align=FILL_BOTH, horizontal=False,
+                           bounce=(False, True),
+                           item_size=(80, 80), align=(0.5, 0.0))
     tb.pack(gg, 0, 0, 6, 1)
     gg.callback_selected_add(gg_sel)
     gg.callback_unselected_add(gg_unsel)
@@ -159,14 +169,14 @@ def gengrid_clicked(obj):
         print((gg.item_size_get()))
 
     (w, h) = gg.item_size
-    sl = Slider(win, text="ItemSizeW", min_max=(0, 500),
-        indicator_format="%.0f", unit_format="%.0f", span_size=100, value=w)
+    sl = Slider(win, text="ItemSizeW", min_max=(0, 500), span_size=100,
+                indicator_format="%.0f", unit_format="%.0f", value=w)
     sl.callback_changed_add(item_size_w_changed, gg)
     tb.pack(sl, 0, 2, 2, 1)
     sl.show()
 
-    sl = Slider(win, text="ItemSizeH", min_max=(0, 500),
-        indicator_format="%.0f", unit_format="%.0f", span_size=100, value=h)
+    sl = Slider(win, text="ItemSizeH", min_max=(0, 500), span_size=100,
+                indicator_format="%.0f", unit_format="%.0f", value=h)
     sl.callback_changed_add(item_size_h_changed, gg)
     tb.pack(sl, 0, 3, 2, 1)
     sl.show()
@@ -184,14 +194,14 @@ def gengrid_clicked(obj):
 
     (ax, ay) = gg.align
 
-    sl = Slider(win, text="AlignX", min_max=(0.0, 1.0),
-        indicator_format="%.2f", unit_format="%.2f", span_size=100, value=ax)
+    sl = Slider(win, text="AlignX", min_max=(0.0, 1.0), span_size=100,
+                indicator_format="%.2f", unit_format="%.2f", value=ax)
     sl.callback_changed_add(alignx_changed, gg)
     tb.pack(sl, 0, 4, 2, 1)
     sl.show()
 
-    sl = Slider(win, text="AlignY", min_max=(0.0, 1.0),
-        indicator_format="%.2f", unit_format="%.2f", span_size=100, value=ay)
+    sl = Slider(win, text="AlignY", min_max=(0.0, 1.0), span_size=100,
+                indicator_format="%.2f", unit_format="%.2f", value=ay)
     sl.callback_changed_add(aligny_changed, gg)
     tb.pack(sl, 0, 5, 2, 1)
     sl.show()
@@ -320,7 +330,7 @@ def gengrid_clicked(obj):
                 obj.show()
             # Now all the unsetted objects are orphan in the canvas,
             # the user should do something with them
-        
+
     bt = Button(win, size_hint_align=FILL_HORIZ, text="Item content unset")
     bt.callback_clicked_add(content_unset_clicked, gg)
     tb.pack(bt, 5, 4, 1, 1)
@@ -389,7 +399,7 @@ def gengrid_clicked(obj):
     tb.pack(bt, 5, 6, 1, 1)
     bt.show()
 
-    bt = Button(win, size_hint_align=(EVAS_HINT_FILL, 0), text="BringIn selected")
+    bt = Button(win, size_hint_align=(EVAS_HINT_FILL, 0), text="BringIn sel")
     bt.callback_clicked_add(bring_in_clicked, gg, rdg, "selected_item")
     tb.pack(bt, 4, 7, 2, 1)
     bt.show()
@@ -405,7 +415,7 @@ def gengrid_clicked(obj):
             en.focus = True
         elif gg.selected_item:
             gg.selected_item.selected = False
-        
+
     lb = Label(win, text="Search:")
     tb.pack(lb, 0, 6, 2, 1)
     lb.show()
@@ -417,7 +427,6 @@ def gengrid_clicked(obj):
     tb.pack(en, 0, 7, 2, 1)
     en.show()
     en.focus = True
-    
 
     print(gg)
 
