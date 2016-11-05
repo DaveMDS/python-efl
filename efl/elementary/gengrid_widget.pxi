@@ -208,7 +208,7 @@ cdef class Gengrid(Object):
             value given as parameter to this function.
         """
         return GengridItem(item_class, item_data, func, item_data)\
-                          .insert_before(after_item)
+                          .insert_after(after_item)
 
     # TODO: elm_gengrid_item_sorted_insert()
 
