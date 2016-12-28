@@ -1091,4 +1091,4 @@ cdef class Web(Object):
 
 
 
-_object_mapping_register("Elm_Web", Web)
+_object_mapping_register("Elm.Web", Web)

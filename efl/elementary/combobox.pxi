@@ -138,4 +138,4 @@ class Combobox(_Combobox, Button, Entry, Genlist, Hover):
 
 
 
-_object_mapping_register("Elm_Combobox", Combobox)
+_object_mapping_register("Elm.Combobox", Combobox)

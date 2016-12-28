@@ -391,4 +391,4 @@ cdef class Calendar(LayoutClass):
         self._callback_del("display,changed", func)
 
 
-_object_mapping_register("Elm_Calendar", Calendar)
+_object_mapping_register("Elm.Calendar", Calendar)

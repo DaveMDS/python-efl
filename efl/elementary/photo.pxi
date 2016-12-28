@@ -192,4 +192,4 @@ cdef class Photo(Object):
         self._callback_del("drag,end", func)
 
 
-_object_mapping_register("Elm_Photo", Photo)
+_object_mapping_register("Elm.Photo", Photo)

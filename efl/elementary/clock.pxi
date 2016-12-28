@@ -221,4 +221,4 @@ cdef class Clock(LayoutClass):
         self._callback_del("changed", func)
 
 
-_object_mapping_register("Elm_Clock", Clock)
+_object_mapping_register("Elm.Clock", Clock)

@@ -440,4 +440,4 @@ cdef class Slider(LayoutClass):
         self._callback_del("delay,changed", func)
 
 
-_object_mapping_register("Elm_Slider", Slider)
+_object_mapping_register("Elm.Slider", Slider)

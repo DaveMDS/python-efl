@@ -147,4 +147,4 @@ cdef class Icon(Image):
         self._callback_del("thumb,error", func)
 
 
-_object_mapping_register("Elm_Icon", Icon)
+_object_mapping_register("Elm.Icon", Icon)

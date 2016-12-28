@@ -65,4 +65,4 @@ cdef class Check(LayoutClass):
         self._callback_del("changed", func)
 
 
-_object_mapping_register("Elm_Check", Check)
+_object_mapping_register("Elm.Check", Check)

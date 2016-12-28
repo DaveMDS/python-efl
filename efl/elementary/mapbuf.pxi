@@ -159,4 +159,4 @@ cdef class Mapbuf(Object):
         return (r, g, b, a)
 
 
-_object_mapping_register("Elm_Mapbuf", Mapbuf)
+_object_mapping_register("Elm.Mapbuf", Mapbuf)

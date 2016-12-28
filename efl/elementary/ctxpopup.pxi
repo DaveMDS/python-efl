@@ -407,4 +407,4 @@ cdef class Ctxpopup(LayoutClass):
         self._callback_del_full("geometry,update", _cb_rectangle_conv, func)
 
 
-_object_mapping_register("Elm_Ctxpopup", Ctxpopup)
+_object_mapping_register("Elm.Ctxpopup", Ctxpopup)

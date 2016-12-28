@@ -229,7 +229,7 @@ cdef class Video(LayoutClass):
         return _ctouni(elm_video_title_get(self.obj))
 
 
-_object_mapping_register("Efl_Ui_Video", Video)
+_object_mapping_register("Efl.Ui.Video", Video)
 
 
 cdef class Player(LayoutClass):
@@ -329,4 +329,4 @@ cdef class Player(LayoutClass):
         self._callback_del("stop,clicked", func)
 
 
-_object_mapping_register("Elm_Player", Player)
+_object_mapping_register("Elm.Player", Player)

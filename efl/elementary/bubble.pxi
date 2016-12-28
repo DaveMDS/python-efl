@@ -66,4 +66,4 @@ cdef class Bubble(LayoutClass):
         self._callback_del("clicked", func)
 
 
-_object_mapping_register("Elm_Bubble", Bubble)
+_object_mapping_register("Elm.Bubble", Bubble)

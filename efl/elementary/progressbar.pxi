@@ -249,4 +249,4 @@ cdef class Progressbar(LayoutClass):
         self._callback_del("changed", func)
 
 
-_object_mapping_register("Elm_Progressbar", Progressbar)
+_object_mapping_register("Elm.Progressbar", Progressbar)

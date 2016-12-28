@@ -1912,4 +1912,4 @@ cdef class Entry(LayoutClass):
         return (h, v)
 
 
-_object_mapping_register("Elm_Entry", Entry)
+_object_mapping_register("Elm.Entry", Entry)

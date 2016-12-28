@@ -707,4 +707,4 @@ cdef class GestureLayer(Object):
     #     """
     #     elm_gesture_layer_tap_longpress_cb_del(self.obj, Elm_Gesture_State state, Elm_Gesture_Event_Cb cb, void *data)
 
-_object_mapping_register("Elm_Gesture_Layer", GestureLayer)
+_object_mapping_register("Elm.Gesture_Layer", GestureLayer)

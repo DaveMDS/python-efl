@@ -383,4 +383,4 @@ cdef class FlipSelector(Object):
         self._callback_del("underflowed", func)
 
 
-_object_mapping_register("Elm_Flipselector", FlipSelector)
+_object_mapping_register("Elm.Flipselector", FlipSelector)

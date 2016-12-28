@@ -763,4 +763,4 @@ class Scroller(Scrollable, _ScrollerWidget):
         _ScrollerWidget.__init__(self, parent, *args, **kwargs)
 
 
-_object_mapping_register("Elm_Scroller", Scroller)
+_object_mapping_register("Elm.Scroller", Scroller)

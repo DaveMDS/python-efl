@@ -280,4 +280,4 @@ cdef class Colorselector(LayoutClass):
                                 _cb_object_item_conv, func)
 
 
-_object_mapping_register("Elm_Colorselector", Colorselector)
+_object_mapping_register("Elm.Colorselector", Colorselector)

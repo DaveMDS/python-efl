@@ -388,4 +388,4 @@ cdef class Spinner(LayoutClass):
         self._callback_del("spinner,drag,stop", func)
 
 
-_object_mapping_register("Elm_Spinner", Spinner)
+_object_mapping_register("Elm.Spinner", Spinner)

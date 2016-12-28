@@ -218,4 +218,4 @@ cdef class FileselectorButton(Button):
         self._callback_del_full("file,chosen", _cb_string_conv, func)
 
 
-_object_mapping_register("Elm_Fileselector_Button", FileselectorButton)
+_object_mapping_register("Elm.Fileselector_Button", FileselectorButton)

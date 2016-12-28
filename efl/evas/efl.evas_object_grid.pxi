@@ -160,4 +160,4 @@ cdef class Grid(Object):
         eina_list_free(lst)
         return ret
 
-_object_mapping_register("Evas_Grid", Grid)
+_object_mapping_register("Evas.Grid", Grid)

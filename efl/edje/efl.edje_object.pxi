@@ -1506,4 +1506,4 @@ def on_text_change(func):
     return func
 
 
-_object_mapping_register("Edje_Object", Edje)
+_object_mapping_register("Edje.Object", Edje)

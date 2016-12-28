@@ -113,4 +113,4 @@ cdef class Panel(LayoutClass):
         elm_panel_toggle(self.obj)
 
 
-_object_mapping_register("Elm_Panel", Panel)
+_object_mapping_register("Elm.Panel", Panel)

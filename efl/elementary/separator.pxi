@@ -54,4 +54,4 @@ cdef class Separator(LayoutClass):
         return bool(elm_separator_horizontal_get(self.obj))
 
 
-_object_mapping_register("Elm_Separator", Separator)
+_object_mapping_register("Elm.Separator", Separator)

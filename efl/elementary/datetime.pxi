@@ -347,4 +347,5 @@ cdef class Datetime(Object):
         self._callback_del("changed", func)
 
 
-_object_mapping_register("Elm_Datetime", Datetime)
+# _object_mapping_register("Elm.Datetime", Datetime)
+_object_mapping_register("Efl.Ui.Clock", Datetime)

@@ -81,4 +81,4 @@ cdef class Conformant(LayoutClass):
         self._callback_del("clipboard,state,off", func)
 
 
-_object_mapping_register("Elm_Conformant", Conformant)
+_object_mapping_register("Elm.Conformant", Conformant)

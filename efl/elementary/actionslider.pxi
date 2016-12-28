@@ -120,4 +120,4 @@ cdef class Actionslider(LayoutClass):
         self._callback_del_full("pos_changed", _cb_string_conv, func)
 
 
-_object_mapping_register("Elm_Actionslider", Actionslider)
+_object_mapping_register("Elm.Actionslider", Actionslider)

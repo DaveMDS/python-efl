@@ -1043,4 +1043,4 @@ cdef class Toolbar(LayoutClass):
         elm_scroller_bounce_get(self.obj, &h, &v)
         return (h, v)
 
-_object_mapping_register("Elm_Toolbar", Toolbar)
+_object_mapping_register("Elm.Toolbar", Toolbar)

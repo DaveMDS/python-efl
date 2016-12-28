@@ -195,4 +195,4 @@ def table_pack_get(evasObject subobj):
     elm_table_pack_get(subobj.obj, &x, &y, &w, &h)
     return (x, y, w, h)
 
-_object_mapping_register("Elm_Table", Table)
+_object_mapping_register("Elm.Table", Table)

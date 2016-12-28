@@ -590,4 +590,4 @@ cdef class Index(LayoutClass):
         self._callback_del("level,down", func)
 
 
-_object_mapping_register("Elm_Index", Index)
+_object_mapping_register("Elm.Index", Index)

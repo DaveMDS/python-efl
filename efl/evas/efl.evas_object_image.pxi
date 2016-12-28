@@ -1343,7 +1343,7 @@ cdef class Image(Object):
         self.event_callback_del(enums.EVAS_CALLBACK_IMAGE_UNLOADED, func)
 
 
-_object_mapping_register("Evas_Image", Image)
+_object_mapping_register("Evas.Image", Image)
 
 
 cdef void _cb_on_filled_image_resize(void *data, Evas *e,
@@ -1385,7 +1385,7 @@ cdef class FilledImage(Image):
 
 
 #FIXME: Check if this is right
-_object_mapping_register("Evas_FilledImage", FilledImage)
+_object_mapping_register("Evas.FilledImage", FilledImage)
 
 def extension_can_load(filename):
     """Check if a file extension is supported by :py:class:`Image`.

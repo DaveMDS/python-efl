@@ -140,4 +140,4 @@ cdef class Hover(LayoutClass):
         self._callback_del("smart,changed", func)
 
 
-_object_mapping_register("Elm_Hover", Hover)
+_object_mapping_register("Elm.Hover", Hover)

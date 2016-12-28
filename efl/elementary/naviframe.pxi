@@ -503,4 +503,4 @@ cdef class Naviframe(LayoutClass):
         self._callback_del_full("title,clicked", _cb_object_item_conv, func)
 
 
-_object_mapping_register("Elm_Naviframe", Naviframe)
+_object_mapping_register("Elm.Naviframe", Naviframe)

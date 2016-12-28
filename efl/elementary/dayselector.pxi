@@ -134,4 +134,4 @@ cdef class Dayselector(LayoutClass):
         self._callback_del("dayselector,changed", func)
 
 
-_object_mapping_register("Elm_Dayselector", Dayselector)
+_object_mapping_register("Elm.Dayselector", Dayselector)

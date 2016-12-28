@@ -95,4 +95,4 @@ cdef class Frame(LayoutClass):
         self._callback_del("clicked", func)
 
 
-_object_mapping_register("Efl_Ui_Frame", Frame)
+_object_mapping_register("Efl.Ui.Frame", Frame)

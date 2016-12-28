@@ -376,4 +376,4 @@ cdef class Hoversel(Button):
     def callback_item_unfocused_del(self, func):
         self._callback_del_full("item,unfocused", _cb_object_item_conv, func)
 
-_object_mapping_register("Elm_Hoversel", Hoversel)
+_object_mapping_register("Elm.Hoversel", Hoversel)

@@ -294,4 +294,4 @@ cdef class Box(Object):
         return evas_object_box_remove_all(self.obj, clear)
 
 
-_object_mapping_register("Evas_Box", Box)
+_object_mapping_register("Evas.Box", Box)

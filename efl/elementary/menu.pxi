@@ -448,4 +448,4 @@ cdef class Menu(Object):
         self._callback_del("dismissed", func)
 
 
-_object_mapping_register("Elm_Menu", Menu)
+_object_mapping_register("Elm.Menu", Menu)

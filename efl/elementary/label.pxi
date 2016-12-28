@@ -181,4 +181,4 @@ cdef class Label(LayoutClass):
     def callback_slide_end_del(self, func):
         self._callback_del("slide,end", func)
 
-_object_mapping_register("Elm_Label", Label)
+_object_mapping_register("Elm.Label", Label)

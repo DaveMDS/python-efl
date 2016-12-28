@@ -1019,4 +1019,5 @@ cdef class List(Object):
         elm_scroller_bounce_get(self.obj, &h, &v)
         return (h, v)
 
-_object_mapping_register("Elm_List", List)
+
+_object_mapping_register("Elm.List", List)

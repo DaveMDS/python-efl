@@ -191,4 +191,4 @@ cdef class Notify(Object):
         return elm_notify_orient_get(self.obj)
 
 
-_object_mapping_register("Elm_Notify", Notify)
+_object_mapping_register("Elm.Notify", Notify)

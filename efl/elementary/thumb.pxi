@@ -393,4 +393,4 @@ cdef class Thumb(Object):
         self._callback_del("load,error", func)
 
 
-_object_mapping_register("Elm_Thumb", Thumb)
+_object_mapping_register("Elm.Thumb", Thumb)

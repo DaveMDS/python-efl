@@ -1664,4 +1664,4 @@ cdef class Map(Object):
         elm_scroller_bounce_get(self.obj, &h, &v)
         return (h, v)
 
-_object_mapping_register("Elm_Map", Map)
+_object_mapping_register("Elm.Map", Map)

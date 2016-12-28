@@ -1362,7 +1362,7 @@ def on_event(event_name):
     return decorator
 
 
-_object_mapping_register("Emotion_Object", Emotion)
+_object_mapping_register("Efl.Canvas.Video", Emotion)
 
 
 init()

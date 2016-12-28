@@ -674,4 +674,4 @@ cdef class Slideshow(LayoutClass):
         self._callback_del_full("transition,end", _cb_object_item_conv, func)
 
 
-_object_mapping_register("Elm_Slideshow", Slideshow)
+_object_mapping_register("Elm.Slideshow", Slideshow)
