@@ -1359,6 +1359,95 @@ cdef class Window(Object):
     def noblank_get(self):
         return bool(elm_win_noblank_get(self.obj))
 
+    property stack_id:
+        """Get the stack ID string of the window as an opaque string.
+
+        An opaque string that has no specific format, but identified a specific
+        unique window on the display.
+
+        This ID is immutable and can never be modified. It will be an opaque
+        string that has no specific desfined format or content other than it
+        being a string (no character with a value of 0).
+
+        This string is intended for use as a stack master ID to be use by other
+        windows to make this window part of a stack of windows to be placed on
+        top of eachother as if they are a series of dialogs or questions one
+        after the other and that you may go back through history.
+
+        :type: string (**readonly**)
+
+        .. versionadded:: 1.19
+
+        """
+        def __get__(self):
+            return _ctouni(elm_win_stack_id_get(self.obj))
+
+    def stack_id_get(self):
+        return _ctouni(elm_win_stack_id_get(self.obj))
+
+    property stack_master_id:
+        """ The window stack ID to use as the master top-level.
+
+        This is the ID string to be used as the master top-level window as
+        the base of a stack of windows. This must be set before the first time
+        the window is shown and should never be changed after that point in
+        time ever again.
+
+        :type: string
+
+        .. versionadded:: 1.19
+
+        """
+        def __get__(self):
+            return _ctouni(elm_win_stack_master_id_get(self.obj))
+        def __set__(self, value):
+            if isinstance(value, unicode): value = PyUnicode_AsUTF8String(value)
+            elm_win_stack_master_id_set(self.obj,
+                <const char *>value if value is not None else NULL)
+
+    def stack_master_id_get(self):
+        return _ctouni(elm_win_stack_master_id_get(self.obj))
+    def stack_master_id_set(self, value):
+        if isinstance(value, unicode): value = PyUnicode_AsUTF8String(value)
+        elm_win_stack_master_id_set(self.obj,
+            <const char *>value if value is not None else NULL)
+
+    property stack_base:
+        """ The stack base state of this window
+
+        This is a boolean flag that determines if this window will become the
+        base of a stack at all. You must enable this on a base (bottom of a
+        window stack) for things to work correctly.
+
+        This state should be set before a window is shown for the first time
+        and never changed again after that.
+
+        :type: bool
+
+        .. versionadded:: 1.19
+
+        """
+        def __get__(self):
+            return bool(elm_win_stack_base_get(self.obj))
+        def __set__(self, bint base):
+            elm_win_stack_base_set(self.obj, base)
+
+    def stack_base_get(self):
+        return bool(elm_win_stack_base_get(self.obj))
+    def stack_base_set(self, bint base):
+        elm_win_stack_base_set(self.obj, base)
+
+    def stack_pop_to(self):
+        """ Pop (delete) all windows in the stack above this window.
+
+        This will try and delete all the windows in the stack that are above
+        the window.
+
+        .. versionadded:: 1.19
+
+        """
+        elm_win_stack_pop_to(self.obj)
+
     def callback_delete_request_add(self, func, *args, **kwargs):
         """The user requested to close the window. See :py:attr:`autodel`."""
         self._callback_add("delete,request", func, args, kwargs)

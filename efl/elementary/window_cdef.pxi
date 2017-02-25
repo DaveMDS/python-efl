@@ -126,5 +126,12 @@ cdef extern from "Elementary.h":
     Eina_Bool                elm_win_noblank_get(const Evas_Object *obj)
     void                     elm_win_noblank_set(Evas_Object *obj, Eina_Bool noblank)
 
+    const char *             elm_win_stack_id_get(const Evas_Object *obj)
+    const char *             elm_win_stack_master_id_get(const Evas_Object *obj)
+    void                     elm_win_stack_master_id_set(const Evas_Object *obj, const char *id)
+    Eina_Bool                elm_win_stack_base_get(const Evas_Object *obj)
+    void                     elm_win_stack_base_set(Evas_Object *obj, Eina_Bool base)
+    void                     elm_win_stack_pop_to(Evas_Object *obj)
+
     # X specific call - won't work on non-x engines (return 0)
     unsigned int             elm_win_xwindow_get(const Evas_Object *obj)
