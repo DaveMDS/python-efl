@@ -10,3 +10,5 @@ cdef extern from "Elementary.h":
     void                     elm_panel_scrollable_set(Evas_Object *obj, Eina_Bool scrollable)
     Eina_Bool                elm_panel_scrollable_get(const Evas_Object *obj)
     void                     elm_panel_scrollable_content_size_set(Evas_Object *obj, double ratio)
+    void                     elm_panel_scrollable_content_size_set(Evas_Object *obj, double ratio)
+    double                   elm_panel_scrollable_content_size_get(Evas_Object *obj)

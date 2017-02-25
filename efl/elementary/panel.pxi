@@ -101,12 +101,18 @@ cdef class Panel(LayoutClass):
 
         .. versionadded:: 1.12
 
+        .. versionchanged:: 1.19 Property is now also readable
+
         """
         def __set__(self, double ratio):
             elm_panel_scrollable_content_size_set(self.obj, ratio)
+        def __get__(self):
+            return elm_panel_scrollable_content_size_get(self.obj)
 
     def scrollable_content_size_set(self, double ratio):
         elm_panel_scrollable_content_size_set(self.obj, ratio)
+    def scrollable_content_size_get(self):
+        return elm_panel_scrollable_content_size_get(self.obj)
 
     def toggle(self):
         """Toggle the hidden state of the panel from code."""
