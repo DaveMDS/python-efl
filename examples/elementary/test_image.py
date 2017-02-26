@@ -3,34 +3,25 @@
 
 import os
 
-from efl.evas import EVAS_HINT_EXPAND, EVAS_HINT_FILL, EXPAND_BOTH, FILL_BOTH, \
-    EVAS_IMAGE_ORIENT_0,EVAS_IMAGE_ORIENT_90, EVAS_IMAGE_ORIENT_180, \
-    EVAS_IMAGE_ORIENT_270, EVAS_IMAGE_FLIP_HORIZONTAL, EVAS_IMAGE_FLIP_VERTICAL, \
-    EVAS_IMAGE_FLIP_TRANSPOSE, EVAS_IMAGE_FLIP_TRANSVERSE
-from efl import elementary
-from efl.elementary.window import StandardWindow
-from efl.elementary.box import Box, ELM_BOX_LAYOUT_FLOW_HORIZONTAL
-from efl.elementary.button import Button
-from efl.elementary.image import Image
-from efl.elementary.progressbar import Progressbar
-from efl.elementary.separator import Separator
-from efl.elementary.label import Label
-from efl.elementary.frame import Frame
-from efl.elementary.list import List
+from efl import evas
+from efl import elementary as elm
+from efl.evas import EXPAND_BOTH, FILL_BOTH
+from efl.elementary import StandardWindow, Box, Button, Image, \
+    Progressbar, Separator
 
 
 script_path = os.path.dirname(os.path.abspath(__file__))
 img_path = os.path.join(script_path, "images")
 
 orients = [
-    ("Orient 0", EVAS_IMAGE_ORIENT_0),
-    ("Orient 90", EVAS_IMAGE_ORIENT_90),
-    ("Orient 180", EVAS_IMAGE_ORIENT_180),
-    ("Orient 270", EVAS_IMAGE_ORIENT_270),
-    ("Flip Horizontal", EVAS_IMAGE_FLIP_HORIZONTAL),
-    ("Flip Vertical", EVAS_IMAGE_FLIP_VERTICAL),
-    ("Flip Transpose", EVAS_IMAGE_FLIP_TRANSPOSE),
-    ("Flip Tranverse", EVAS_IMAGE_FLIP_TRANSVERSE),
+    ("Orient 0", evas.EVAS_IMAGE_ORIENT_0),
+    ("Orient 90", evas.EVAS_IMAGE_ORIENT_90),
+    ("Orient 180", evas.EVAS_IMAGE_ORIENT_180),
+    ("Orient 270", evas.EVAS_IMAGE_ORIENT_270),
+    ("Flip Horizontal", evas.EVAS_IMAGE_FLIP_HORIZONTAL),
+    ("Flip Vertical", evas.EVAS_IMAGE_FLIP_VERTICAL),
+    ("Flip Transpose", evas.EVAS_IMAGE_FLIP_TRANSPOSE),
+    ("Flip Tranverse", evas.EVAS_IMAGE_FLIP_TRANSVERSE),
 ]
 
 remote_url = "http://41.media.tumblr.com/29f1ecd4f98aaff73fb21f479b450d4c/tumblr_mqsxdciQmB1rrju89o1_1280.jpg"
@@ -54,10 +45,10 @@ def _cb_im_download_error(im, info, pb):
     pb.value = 1.0
 
 
-def image_clicked(obj, it=None):
+def test_image(obj, it=None):
     win = StandardWindow("image", "Image test", autodel=True, size=(320, 480))
     if obj is None:
-        win.callback_delete_request_add(lambda o: elementary.exit())
+        win.callback_delete_request_add(lambda o: elm.exit())
 
     vbox = Box(win, size_hint_weight=EXPAND_BOTH, size_hint_align=FILL_BOTH)
     win.resize_object_add(vbox)
@@ -72,7 +63,7 @@ def image_clicked(obj, it=None):
     vbox.pack_end(sep)
     sep.show()
 
-    hbox = Box(win, layout=ELM_BOX_LAYOUT_FLOW_HORIZONTAL,
+    hbox = Box(win, layout=elm.ELM_BOX_LAYOUT_FLOW_HORIZONTAL,
                size_hint_align=FILL_BOTH)
     vbox.pack_end(hbox)
     hbox.show()
@@ -109,56 +100,7 @@ def image_clicked(obj, it=None):
     win.show()
 
 
-def image2_clicked(obj, it=None):
-    win = StandardWindow("image", "Image test", autodel=True, size=(320, 480))
-    if obj is None:
-        win.callback_delete_request_add(lambda o: elementary.exit())
-
-    vbox = Box(win, size_hint_weight=EXPAND_BOTH, size_hint_align=FILL_BOTH)
-    win.resize_object_add(vbox)
-
-    im = Image(win, size_hint_weight=EXPAND_BOTH, size_hint_align=FILL_BOTH)
-
-    with open(os.path.join(img_path, "logo.png"), "rb") as fp:
-        image_data = fp.read()
-        im.memfile_set(image_data, len(image_data))
-    vbox.pack_end(im)
-    im.show()
-
-    vbox.show()
-    win.show()
-
-
 if __name__ == "__main__":
-    win = StandardWindow("test", "python-elementary test application",
-                         size=(320, 520))
-    win.callback_delete_request_add(lambda o: elementary.exit())
-
-    box0 = Box(win, size_hint_weight=EXPAND_BOTH)
-    win.resize_object_add(box0)
-    box0.show()
-
-    lb = Label(win)
-    lb.text_set("Please select a test from the list below<br>"
-                "by clicking the test button to show the<br>"
-                "test window.")
-    lb.show()
-
-    fr = Frame(win, text="Information", content=lb)
-    box0.pack_end(fr)
-    fr.show()
-
-    items = [("Image", image_clicked),
-             ("Image with memfile", image2_clicked)]
-
-    li = List(win, size_hint_weight=EXPAND_BOTH, size_hint_align=FILL_BOTH)
-    box0.pack_end(li)
-    li.show()
-
-    for item in items:
-        li.item_append(item[0], callback=item[1])
-
-    li.go()
-
-    win.show()
-    elementary.run()
+    elm.policy_set(elm.ELM_POLICY_QUIT, elm.ELM_POLICY_QUIT_LAST_WINDOW_CLOSED)
+    test_image(None)
+    elm.run()
