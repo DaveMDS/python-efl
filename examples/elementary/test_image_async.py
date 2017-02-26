@@ -12,6 +12,8 @@ script_path = os.path.dirname(os.path.abspath(__file__))
 img_path = os.path.join(script_path, "images")
 img_file = os.path.join(img_path, "insanely_huge_test_image.jpg")
 
+def image_load_cb(img, signal):
+    print("Signal: %s" % signal)
 
 def create_image(win):
     box = win.data["box"]
@@ -30,10 +32,10 @@ def create_image(win):
     box.pack_start(im)
     win.data["image"] = im
 
-    im.callback_load_open_add(lambda i: print("load,open"))
-    im.callback_load_ready_add(lambda i: print("load,ready"))
-    im.callback_load_error_add(lambda i: print("load,error"))
-    im.callback_load_cancel_add(lambda i: print("load,cancel"))
+    im.callback_load_open_add(image_load_cb, "load,open")
+    im.callback_load_ready_add(image_load_cb, "load,ready")
+    im.callback_load_error_add(image_load_cb, "load,error")
+    im.callback_load_cancel_add(image_load_cb, "load,cancel")
 
     im.show()
     im.file = img_file
