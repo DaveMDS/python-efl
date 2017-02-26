@@ -15,3 +15,4 @@ cdef extern from "Elementary.h":
     Eina_Bool                elm_progressbar_horizontal_get(const Evas_Object *obj)
     void                     elm_progressbar_inverted_set(Evas_Object *obj, Eina_Bool inverted)
     Eina_Bool                elm_progressbar_inverted_get(const Evas_Object *obj)
+    Eina_Bool                elm_progressbar_is_pulsing_get(const Evas_Object *obj)

@@ -75,6 +75,20 @@ cdef class Progressbar(LayoutClass):
         """
         elm_progressbar_pulse(self.obj, state)
 
+    property is_pulsing:
+        """ Get the pulsing state on a given progressbar widget.
+
+        :type: bool (**readonly**)
+
+        .. versionadded:: 1.19
+
+        """
+        def __get__(self):
+            return bool(elm_progressbar_is_pulsing_get(self.obj))
+    
+    def is_pulsing_get(self):
+        return bool(elm_progressbar_is_pulsing_get(self.obj))
+
     property value:
         """The progress value (in percentage) on a given progress bar widget.
 

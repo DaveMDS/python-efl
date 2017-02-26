@@ -42,7 +42,9 @@ def pb_timer_cb(pb1, pb2, pb3, pb4, pb5, pb6, pb7, pb8):
 
 def begin_test(obj, *args, **kwargs):
     (pb1, pb2, pb3, pb4, pb5, pb6, pb7, pb8) = args
+    print("Pbar 2 is_pulsing: %s" % (pb2.is_pulsing))
     pb2.pulse(True)
+    print("Pbar 2 is_pulsing: %s" % (pb2.is_pulsing))
     pb5.pulse(True)
     pb7.pulse(True)
     global my_progressbar_run
@@ -52,7 +54,9 @@ def begin_test(obj, *args, **kwargs):
         my_progressbar_run = True
 
 def end_test(obj, pb1, pb2, pb3, pb4, pb5, pb6, pb7, pb8):
+    print("Pbar 2 is_pulsing: %s" % (pb2.is_pulsing))
     pb2.pulse(False)
+    print("Pbar 2 is_pulsing: %s" % (pb2.is_pulsing))
     pb5.pulse(False)
     pb7.pulse(False)
     global my_progressbar_run
