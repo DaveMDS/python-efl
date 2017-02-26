@@ -155,6 +155,7 @@ cdef extern from "Elementary.h":
         ELM_CALENDAR_MONTHLY
         ELM_CALENDAR_ANNUALLY
         ELM_CALENDAR_LAST_DAY_OF_MONTH
+        ELM_CALENDAR_REVERSE_DAILY
 
     ctypedef enum Elm_Calendar_Select_Mode:
         ELM_CALENDAR_SELECT_MODE_DEFAULT

@@ -71,6 +71,12 @@ Calendar mark repeat types
     Marks will be displayed every last day of month after event day
     (inclusive).
 
+.. data:: ELM_CALENDAR_REVERSE_DAILY
+
+    Marks will be displayed every day before event day.
+
+    .. versionadded:: 1.19
+
 
 .. _Elm_Calendar_Select_Mode:
 
