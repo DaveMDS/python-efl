@@ -21,6 +21,20 @@ from efl.elementary.toolbar import Toolbar, ELM_TOOLBAR_SHRINK_NONE
 script_path = os.path.dirname(os.path.abspath(__file__))
 img_file = os.path.join(script_path, "images", "plant_01.jpg")
 
+
+def toolbar_item_clicked_cb(toolbar, item, win):
+    p = win.data["panel1"]
+    print("The top panel is currently %s" % ("hidden" if p.hidden else "shown"))
+    p = win.data["panel2"]
+    print("The left panel is currently %s" % ("hidden" if p.hidden else "shown"))
+    p = win.data["panel3"]
+    print("The right panel is currently %s" % ("hidden" if p.hidden else "shown"))
+    p = win.data["panel4"]
+    print("The bottom panel is currently %s" % ("hidden" if p.hidden else "shown"))
+
+def panel_toggled_cb(panel):
+    print("Panel toggled")
+
 def panel_clicked(obj):
     win = StandardWindow("panel", "Panel test", autodel=True, size=(320, 400))
     if obj is None:
@@ -33,12 +47,14 @@ def panel_clicked(obj):
     # top panel (toolbar content)
     panel1 = Panel(bx, orient=ELM_PANEL_ORIENT_TOP,
                    size_hint_weight=EXPAND_HORIZ, size_hint_align=FILL_BOTH)
+    panel1.callback_toggled_add(panel_toggled_cb)
     bx.pack_end(panel1)
     panel1.show()
+    win.data['panel1'] = panel1
 
     toolbar = Toolbar(panel1, homogeneous=False,
                       shrink_mode=ELM_TOOLBAR_SHRINK_NONE)
-    toolbar.item_append("user-home", "Hello Toolbar")
+    toolbar.item_append("user-home", "Hello", toolbar_item_clicked_cb, win)
     panel1.content = toolbar
     toolbar.show()
 
@@ -55,6 +71,7 @@ def panel_clicked(obj):
     # left panel (list content)
     panel2 = Panel(table, orient=ELM_PANEL_ORIENT_LEFT,
                    size_hint_weight=EXPAND_BOTH, size_hint_align=FILL_BOTH)
+    panel2.callback_toggled_add(panel_toggled_cb)
     table.pack(panel2, 0, 0, 2, 4)
     panel2.show()
 
@@ -64,12 +81,15 @@ def panel_clicked(obj):
         li.item_append("Item #%d" % i, ic)
     panel2.content = li
     li.show()
+    win.data['panel2'] = panel2
 
     # right panel (button content)
     panel3 = Panel(table, orient=ELM_PANEL_ORIENT_RIGHT, hidden=True,
                    size_hint_weight=EXPAND_BOTH, size_hint_align=FILL_BOTH)
+    panel3.callback_toggled_add(panel_toggled_cb)
     table.pack(panel3, 2, 0, 2, 4);
     panel3.show()
+    win.data['panel3'] = panel3
 
     bt = Button(panel3, text="HIDE ME :)", size_hint_weight=EXPAND_BOTH,
                 size_hint_align=FILL_BOTH)
@@ -80,13 +100,15 @@ def panel_clicked(obj):
     # bottom panel (toolbar content)
     panel4 = Panel(table, orient=ELM_PANEL_ORIENT_BOTTOM, hidden=True,
                    size_hint_weight=EXPAND_HORIZ, size_hint_align=FILL_BOTH)
+    panel4.callback_toggled_add(panel_toggled_cb)
     table.pack(panel4, 0, 4, 4, 1)
     panel4.show()
+    win.data['panel4'] = panel4
 
     toolbar = Toolbar(panel4, homogeneous=False,
                       shrink_mode=ELM_TOOLBAR_SHRINK_NONE,
                       size_hint_weight=EXPAND_HORIZ, size_hint_align=FILL_BOTH)
-    toolbar.item_append("user-home", "Hello Toolbar")
+    toolbar.item_append(None, "Hello", toolbar_item_clicked_cb, win)
     panel4.content = toolbar
     toolbar.show()
 

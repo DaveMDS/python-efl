@@ -14,6 +14,11 @@ A panel is a type of animated container that contains subobjects.
 It can be expanded or contracted by clicking the button on it's edge.
 
 
+Emitted signals
+===============
+
+- ``toggled`` - Emitted when the panel has been toggled. (since 1.19)
+
 
 Layout content parts
 ====================

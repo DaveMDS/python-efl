@@ -118,5 +118,15 @@ cdef class Panel(LayoutClass):
         """Toggle the hidden state of the panel from code."""
         elm_panel_toggle(self.obj)
 
+    def callback_toggled_add(self, func, *args, **kwargs):
+        """ The panel has been toggled.
+
+        .. versionadded:: 1.19
+
+        """
+        self._callback_add("toggled", func, args, kwargs)
+
+    def callback_toggled_del(self, func):
+        self._callback_del("toggled", func)
 
 _object_mapping_register("Elm.Panel", Panel)
