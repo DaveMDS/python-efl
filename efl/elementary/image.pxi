@@ -406,7 +406,7 @@ cdef class Image(Object):
     property preload_disabled:
         """Enable or disable preloading of the image
 
-        :type: bool
+        :type: bool (**writeonly**)
 
         """
         def __set__(self, disabled):
@@ -414,6 +414,22 @@ cdef class Image(Object):
 
     def preload_disabled_set(self, disabled):
         elm_image_preload_disabled_set(self.obj, disabled)
+
+    property async_open:
+        """ Enable asynchronous file I/O for file set.
+    
+        If True, this will make elm_image_file_set() an asynchronous operation.
+    
+        :type: bool (**writeonly**)
+    
+        .. versionadded:: 1.19
+    
+        """
+        def __set__(self, bint async):
+            elm_image_async_open_set(self.obj, async)
+
+    def async_open_set(self, bint async):
+        elm_image_async_open_set(self.obj, async)
 
     property orient:
         """The image orientation.
@@ -602,5 +618,51 @@ cdef class Image(Object):
     def callback_download_error_del(self, func):
         self._callback_del_full("download,error", _image_download_error_conv, func)
 
+    def callback_load_open_add(self, func, *args, **kwargs):
+        """ Triggered when the file has been opened, if async open is enabled
+        (image size is known)
+
+        .. versionadded:: 1.19
+
+        """
+        self._callback_add("load,open", func, args, kwargs)
+
+    def callback_load_open_del(self, func):
+        self._callback_del("load,open", func)
+
+    def callback_load_ready_add(self, func, *args, **kwargs):
+        """ Triggered when the image file is ready for display,
+        if preload is enabled 
+
+        .. versionadded:: 1.19
+
+        """
+        self._callback_add("load,ready", func, args, kwargs)
+
+    def callback_load_ready_del(self, func):
+        self._callback_del("load,ready", func)
+
+    def callback_load_error_add(self, func, *args, **kwargs):
+        """ Triggered if an async I/O or decoding error occurred,
+        if async open or preload is enabled
+
+        .. versionadded:: 1.19
+
+        """
+        self._callback_add("load,error", func, args, kwargs)
+
+    def callback_load_error_del(self, func):
+        self._callback_del("load,error", func)
+
+    def callback_load_cancel_add(self, func, *args, **kwargs):
+        """ Triggered whenener async I/O was cancelled
+
+        .. versionadded:: 1.19
+
+        """
+        self._callback_add("load,cancel", func, args, kwargs)
+
+    def callback_load_cancel_del(self, func):
+        self._callback_del("load,cancel", func)
 
 _object_mapping_register("Efl.Ui.Image", Image)

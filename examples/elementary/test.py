@@ -157,6 +157,7 @@ items = [
         ("Icon Standard", "test_icon", "icon_standard_clicked"),
         ("Image", "test_image", "test_image"),
         ("Image with memfile", "test_image_memfile", "test_image_memfile"),
+        ("Image async load", "test_image_async", "test_image_async"),
         ("Photo", "test_photo", "photo_clicked"),
         ("Photocam", "test_photocam", "photocam_clicked"),
         ("Slideshow", "test_slideshow", "slideshow_clicked"),

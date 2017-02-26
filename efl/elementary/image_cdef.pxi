@@ -38,3 +38,4 @@ cdef extern from "Elementary.h":
     Eina_Bool                elm_image_no_scale_get(const Evas_Object *obj)
     void                     elm_image_aspect_fixed_set(Evas_Object *obj, Eina_Bool fixed)
     Eina_Bool                elm_image_aspect_fixed_get(const Evas_Object *obj)
+    void                     elm_image_async_open_set(Evas_Object *obj, Eina_Bool async)

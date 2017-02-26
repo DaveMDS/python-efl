@@ -38,6 +38,13 @@ Emitted signals
 - ``download,progress`` - url download in progress
 - ``download,end`` - remote url download has finished
 - ``download,error`` - remote url download has finished with errors
+- ``load,open`` - Triggered when the file has been opened, if async open is
+  enabled (image size is known). (since 1.19)
+- ``load,ready`` - Triggered when the image file is ready for display, if
+  preload is enabled. (since 1.19)
+- ``load,error`` - Triggered if an async I/O or decoding error occurred, if
+  async open or preload is enabled (since 1.19)
+- ``load,cancel`` - Triggered whenener async I/O was cancelled. (since 1.19)
 
 
 Enumerations
