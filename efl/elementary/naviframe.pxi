@@ -502,5 +502,16 @@ cdef class Naviframe(LayoutClass):
     def callback_title_clicked_del(self, func):
         self._callback_del_full("title,clicked", _cb_object_item_conv, func)
 
+    def callback_item_activated_add(self, func, *args, **kwargs):
+        """ Naviframe item was activated
+
+        .. versionadded:: 1.19
+
+        """
+        self._callback_add_full("item,activated", _cb_object_item_conv, func, args, kwargs)
+
+    def callback_item_activated_del(self, func):
+        self._callback_del_full("item,activated", _cb_object_item_conv, func)
+
 
 _object_mapping_register("Elm.Naviframe", Naviframe)

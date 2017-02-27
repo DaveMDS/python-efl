@@ -3,14 +3,9 @@
 
 import os
 
-from efl.evas import EVAS_HINT_EXPAND, EVAS_HINT_FILL, EXPAND_BOTH, FILL_BOTH
-from efl import elementary
-from efl.elementary.window import StandardWindow
-from efl.elementary.box import Box
-from efl.elementary.button import Button
-from efl.elementary.icon import Icon
-from efl.elementary.naviframe import Naviframe
-from efl.elementary.photo import Photo
+from efl import elementary as elm
+from efl.elementary import StandardWindow, Box, Button, Icon, Naviframe, Photo
+from efl.evas import EXPAND_BOTH, FILL_BOTH
 
 
 script_path = os.path.dirname(os.path.abspath(__file__))
@@ -29,7 +24,7 @@ def page2(bt, nf):
     bt.callback_clicked_add(page3, nf)
 
     content = Photo(nf, file=os.path.join(img_path, "plant_01.jpg"),
-        fill_inside=True, style="shadow")
+                    fill_inside=True, style="shadow")
 
     item = nf.item_push("Page 2", None, bt, content, "basic")
     item.part_text_set("subtitle", "Here is sub-title part!")
@@ -42,7 +37,7 @@ def page3(bt, nf):
     bt2.callback_clicked_add(page4, nf)
 
     content = Photo(nf, file=os.path.join(img_path, "rock_01.jpg"),
-        fill_inside=True, style="shadow")
+                    fill_inside=True, style="shadow")
 
     item = nf.item_push("Page 3", bt, bt2, content, "basic")
 
@@ -55,7 +50,7 @@ def page4(bt, nf):
     bt.callback_clicked_add(page5, nf)
 
     content = Photo(nf, file=os.path.join(img_path, "rock_02.jpg"),
-        fill_inside=True, style="shadow")
+                    fill_inside=True, style="shadow")
 
     item = nf.item_push("Page 4", None, bt, content, "basic")
     ic = Icon(nf, file=os.path.join(img_path, "logo_small.png"))
@@ -73,7 +68,7 @@ def page5(bt, nf):
     bt2.callback_clicked_add(page6, nf)
 
     content = Photo(nf, file=os.path.join(img_path, "sky_01.jpg"),
-        fill_inside=True, style="shadow")
+                    fill_inside=True, style="shadow")
 
     item = nf.item_insert_after(nf.top_item_get(), "Page 5", bt, bt2, content, "basic")
     item.part_text_set("subtitle", "This page is inserted without transition")
@@ -86,7 +81,7 @@ def page6(bt, nf):
     bt2.callback_clicked_add(page7, nf)
 
     content = Photo(nf, file=os.path.join(img_path, "sky_03.jpg"),
-        fill_inside=True, style="shadow")
+                    fill_inside=True, style="shadow")
 
     item = nf.item_push("Page 6", bt, bt2, content, "overlap")
     item.part_text_set("subtitle", "Overlap style!")
@@ -99,20 +94,24 @@ def page7(bt, nf):
     bt2.callback_clicked_add(lambda x: nf.data["page1"].promote())
 
     content = Photo(nf, file=os.path.join(img_path, "sky_02.jpg"),
-        fill_inside=True, style="shadow")
+                    fill_inside=True, style="shadow")
 
     item = nf.item_push("Page 7", bt, bt2, content, "overlap")
     item.part_text_set("subtitle", "Overlap style!")
 
 
-def naviframe_clicked(obj):
-    win = StandardWindow("naviframe", "Naviframe test", autodel=True,
-        size=(400, 400))
+def push_pop_cb(nf, item, signal):
+    print("Signal: '%s' on item: %s " % (signal, item))
+
+
+def test_naviframe(obj):
+    win = StandardWindow("naviframe", "Naviframe test",
+                         autodel=True, size=(400, 400))
     win.focus_highlight_enabled = True
-    if obj is None:
-        win.callback_delete_request_add(lambda o: elementary.exit())
 
     nf = Naviframe(win, size_hint_weight=EXPAND_BOTH, size_hint_align=FILL_BOTH)
+    nf.callback_transition_finished_add(push_pop_cb, "transition,finished")
+    nf.callback_item_activated_add(push_pop_cb, "item,activated")
     win.resize_object_add(nf)
     nf.show()
 
@@ -120,7 +119,7 @@ def naviframe_clicked(obj):
     bt.callback_clicked_add(page2, nf)
 
     content = Photo(nf, file=os.path.join(img_path, "logo.png"),
-        fill_inside=True, style="shadow")
+                    fill_inside=True, style="shadow")
 
     item = nf.item_push("Page 1", None, bt, content, "basic")
     nf.data["page1"] = item
@@ -129,7 +128,6 @@ def naviframe_clicked(obj):
 
 
 if __name__ == "__main__":
-
-    naviframe_clicked(None)
-
-    elementary.run()
+    elm.policy_set(elm.ELM_POLICY_QUIT, elm.ELM_POLICY_QUIT_LAST_WINDOW_CLOSED)
+    test_naviframe(None)
+    elm.run()

@@ -65,6 +65,7 @@ Emitted signals
 - ``transition,finished`` - When the transition is finished in changing the item
 - ``title,transition,finished`` -  When the title area's transition is finished
 - ``title,clicked`` - User clicked title area
+- ``item,activated`` - Naviframe item was activated (since 1.19)
 
 All the parts, for content and text, described here will also be
 reachable by naviframe **items** direct calls:

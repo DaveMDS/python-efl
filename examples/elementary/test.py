@@ -200,7 +200,7 @@ items = [
         ("Themes", "test_theme", "theme_clicked"),
     ]),
     ("Naviframe", [
-        ("Naviframe", "test_naviframe", "naviframe_clicked"),
+        ("Naviframe", "test_naviframe", "test_naviframe"),
     ]),
     ("Popups", [
         ("Ctxpopup", "test_ctxpopup", "ctxpopup_clicked"),
