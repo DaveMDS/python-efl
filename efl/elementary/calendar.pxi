@@ -216,6 +216,73 @@ cdef class Calendar(LayoutClass):
             time.tm_isdst = tmtup.tm_isdst
             elm_calendar_selected_time_set(self.obj, &time)
 
+    property date_min:
+        """ Minimum date on calendar.
+
+        :type: datetime.date
+
+        .. versionadded:: 1.19
+
+        """
+        def __get__(self):
+            cdef const tm *time
+            time = elm_calendar_date_min_get(self.obj)
+            if time == NULL:
+                return None
+            return date(time.tm_year + 1900,
+                        time.tm_mon + 1,
+                        time.tm_mday)
+    
+        def __set__(self, min_date):
+            cdef tm time
+            tmtup = min_date.timetuple()
+            time.tm_mday = tmtup.tm_mday
+            time.tm_mon = tmtup.tm_mon - 1
+            time.tm_year = tmtup.tm_year - 1900
+            time.tm_wday = tmtup.tm_wday
+            time.tm_yday = tmtup.tm_yday
+            time.tm_isdst = tmtup.tm_isdst
+            elm_calendar_date_min_set(self.obj, &time)
+
+    def date_min_get(self):
+        return self.date_min
+    def date_min_set(self, min_date):
+        self.date_min = min_date
+
+    property date_max:
+        """ Maximum date on calendar.
+
+        :type: datetime.date
+
+        .. versionadded:: 1.19
+
+        """
+        def __get__(self):
+            cdef const tm *time
+            time = elm_calendar_date_max_get(self.obj)
+            if time == NULL:
+                return None
+            return date(time.tm_year + 1900,
+                        time.tm_mon + 1,
+                        time.tm_mday)
+    
+        def __set__(self, max_date):
+            cdef tm time
+            tmtup = max_date.timetuple()
+            time.tm_mday = tmtup.tm_mday
+            time.tm_mon = tmtup.tm_mon - 1
+            time.tm_year = tmtup.tm_year - 1900
+            time.tm_wday = tmtup.tm_wday
+            time.tm_yday = tmtup.tm_yday
+            time.tm_isdst = tmtup.tm_isdst
+            elm_calendar_date_max_set(self.obj, &time)
+
+    def date_max_get(self):
+        return self.date_max
+    def date_max_set(self, max_date):
+        self.date_max = max_date
+    
+
     # TODO:
     # property format_function:
     #     """Set a function to format the string that will be used to display

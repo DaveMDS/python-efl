@@ -46,4 +46,7 @@ cdef extern from "Elementary.h":
     void                        elm_calendar_selectable_set(Evas_Object *obj, Elm_Calendar_Selectable selectable)
     Elm_Calendar_Selectable     elm_calendar_selectable_get(const Evas_Object *obj)
     Eina_Bool                   elm_calendar_displayed_time_get(const Evas_Object *obj, tm *displayed_time)
-
+    const tm *                  elm_calendar_date_min_get(const Evas_Object *obj)
+    void                        elm_calendar_date_min_set(Evas_Object *obj, const tm *min)
+    const tm *                  elm_calendar_date_max_get(const Evas_Object *obj)
+    void                        elm_calendar_date_max_set(Evas_Object *obj, const tm *max)

@@ -106,17 +106,17 @@ def print_cal_info(cal, en):
     if not stm:
         return
 
-    interval = cal.interval
-    year_min, year_max = cal.min_max_year
     sel_enabled = True if cal.select_mode != ELM_CALENDAR_SELECT_MODE_NONE else False
     wds = cal.weekdays_names
 
     info = (
-        "  Day: %i, Mon: %i, Year %i, WeekDay: %i<br/>"
-        "  Interval: %0.2f, Year_Min: %i, Year_Max %i, Sel Enabled : %s<br/>"
-        "  Weekdays: %s, %s, %s, %s, %s, %s, %s<br/>" % (
+        "  Day: %i, Mon: %i, Year %i, WeekDay: %i<br>"
+        "  Interval: %0.2f, Sel Enabled : %s<br>"
+        "  Date Min: %s, Date Max: %s <br>"
+        "  Weekdays: %s, %s, %s, %s, %s, %s, %s<br>" % (
             stm.day, stm.month, stm.year, stm.weekday(),
-            interval, year_min, year_max, sel_enabled,
+            cal.interval, sel_enabled,
+            cal.date_min, cal.date_max,
             wds[0], wds[1], wds[2], wds[3], wds[4], wds[5], wds[6]
             )
         )
@@ -151,7 +151,7 @@ def calendar2_clicked(obj, item=None):
     cal = Calendar(bx, size_hint_weight=EXPAND_BOTH,
         size_hint_align=FILL_BOTH, weekdays_names=weekdays,
         first_day_of_week=ELM_DAY_SATURDAY, interval=0.4,
-        min_max_year=(2010, 2020))
+        date_min=datetime(2012, 12, 7), date_max=datetime(2020, 1, 3))
     cal.show()
     bx.pack_end(cal)
 
