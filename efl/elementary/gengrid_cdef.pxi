@@ -84,6 +84,8 @@ cdef extern from "Elementary.h":
     void                    elm_gengrid_item_update(Elm_Object_Item *item)
     void                    elm_gengrid_item_pos_get(const Elm_Object_Item *item, unsigned int *x, unsigned int *y)
     void                    elm_gengrid_item_all_contents_unset(Elm_Object_Item *obj, Eina_List **l)
+    void                    elm_gengrid_item_custom_size_set(Elm_Object_Item *obj, Evas_Coord w, Evas_Coord h)
+    void                    elm_gengrid_item_custom_size_get(Elm_Object_Item *obj, Evas_Coord *w, Evas_Coord *h)
 
     Elm_Object_Item *       elm_gengrid_nth_item_get(const Evas_Object *obj, unsigned int nth)
     Elm_Object_Item *       elm_gengrid_at_xy_item_get(const Evas_Object *obj, Evas_Coord x, Evas_Coord y, int *xposret, int *yposret)

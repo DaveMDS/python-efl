@@ -194,6 +194,34 @@ cdef class GengridItem(ObjectItem):
         self._set_properties_from_keyword_args(self.kwargs)
         return self
 
+    property custom_size:
+        """ Custom size mode for non-homogeneous gengrid.
+    
+        In case of a horizontal grid, only the widths will be resized and
+        in case of vertical only the heights can be resized. Item size
+        should be set by elm_gengrid_item_size_set() beforehand.
+    
+        :type: (int w, int h)
+    
+        .. versionadded:: 1.19
+    
+        """
+        def __get__(self):
+            cdef Evas_Coord w, h
+            elm_gengrid_item_custom_size_get(self.item, &w, &h)
+            return (w, h)
+
+        def __set__(self, value):
+            w, h = value
+            elm_gengrid_item_custom_size_set(self.item, w, h)
+
+    def custom_size_set(self, w, h):
+        elm_gengrid_item_custom_size_set(self.item, w, h)
+    def custom_size_get(self):
+        cdef Evas_Coord w, h
+        elm_gengrid_item_custom_size_get(self.item, &w, &h)
+        return (w, h)
+    
     property data:
         """User data for the item."""
         def __get__(self):
