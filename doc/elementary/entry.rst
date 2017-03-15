@@ -408,6 +408,12 @@ Input panel layouts
 
     .. versionadded:: 1.10
 
+.. data:: ELM_INPUT_PANEL_LAYOUT_VOICE
+
+    Voice layout, but if the IME does not support voice, then normal layout will be shown
+
+    .. versionadded:: 1.19
+
 
 .. _Elm_Input_Panel_Layout_Normal_Variation:
 
