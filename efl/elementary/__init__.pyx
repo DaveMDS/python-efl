@@ -1034,7 +1034,7 @@ def font_properties_get(font not None):
 
     """
     if isinstance(font, unicode): font = PyUnicode_AsUTF8String(font)
-    cdef FontProperties ret = FontProperties.__new__()
+    cdef FontProperties ret = FontProperties.__new__(FontProperties)
 
     ret.efp = elm_font_properties_get(<const char *>font)
 
