@@ -206,20 +206,6 @@ Window types
     its contents will be rendered to an image buffer and can be shown other
     process's plug image object
 
-.. data:: ELM_WIN_FAKE
-
-    This window was created using a pre-existing canvas. The window widget can
-    be deleted, but the canvas must be managed externally.
-
-    .. versionadded:: 1.19
-
-.. data:: ELM_WIN_NAVIFRAME_BASIC
-
-    Used for naviframe style replacement with a back button instead of a close
-    button.
-
-    .. versionadded:: 1.19
-
 
 .. _Elm_Win_Indicator_Mode:
 

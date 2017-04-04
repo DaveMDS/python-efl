@@ -707,8 +707,6 @@ cdef extern from "Elementary.h":
         ELM_WIN_DND
         ELM_WIN_INLINED_IMAGE
         ELM_WIN_SOCKET_IMAGE
-        ELM_WIN_FAKE
-        ELM_WIN_NAVIFRAME_BASIC
 
     ctypedef enum Elm_Win_Indicator_Mode:
         ELM_WIN_INDICATOR_UNKNOWN

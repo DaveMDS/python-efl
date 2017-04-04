@@ -269,7 +269,6 @@ items = [
         ("Window Standard/Dialog", "test_win_dialog", "window_dialog_clicked"),
         ("InnerWindow", "test_inwin", "inner_window_clicked"),
         ("Window States", "test_win", "window_states_clicked"),
-        ("Window Stack", "test_win_stack", "window_stack_clicked"),
         ("Bg Plain", "test_bg", "bg_plain_clicked"),
         ("Bg Image", "test_bg", "bg_image_clicked"),
     ])
