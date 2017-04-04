@@ -17,8 +17,6 @@ from . import ELM_WIN_COMBO
 from . import ELM_WIN_DND
 from . import ELM_WIN_INLINED_IMAGE
 from . import ELM_WIN_SOCKET_IMAGE
-from . import ELM_WIN_FAKE
-from . import ELM_WIN_NAVIFRAME_BASIC
 
 from . import ELM_WIN_INDICATOR_UNKNOWN
 from . import ELM_WIN_INDICATOR_HIDE
