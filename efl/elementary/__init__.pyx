@@ -854,6 +854,10 @@ cdef class FontProperties(object):
 
     cdef Elm_Font_Properties *efp
 
+    def __dealloc__(self):
+        elm_font_properties_free(self.efp)
+        self.efp = NULL
+
     property name:
         """:type: unicode"""
         def __set__(self, value):
@@ -1045,9 +1049,13 @@ def font_properties_free(FontProperties fp):
 
     .. versionadded:: 1.8
 
+    .. versionchanged:: 1.19
+
+        Changed to no-op as we now do the free automatically when there are
+        no more references to the FontProperties object
+
     """
-    elm_font_properties_free(fp.efp)
-    Py_DECREF(fp)
+    pass
 
 def font_fontconfig_name_get(font_name, style = None):
     """Translate a font name, bound to a style, into fontconfig's font names
