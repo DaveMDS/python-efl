@@ -71,6 +71,8 @@ cdef extern from "Ecore_Con.h":
     void              ecore_con_url_pipeline_set(Eina_Bool enable)
     Eina_Bool         ecore_con_url_pipeline_get()
     Eina_Bool         ecore_con_lookup(const char *name, Ecore_Con_Dns_Cb done_cb, const void *data)
+    void              ecore_con_url_data_set(Ecore_Con_Url *url_con, void *data)
+    void             *ecore_con_url_data_get(Ecore_Con_Url *url_con)
 
     Ecore_Con_Url    *ecore_con_url_new(const char *url)
     void              ecore_con_url_free(Ecore_Con_Url *url_obj)
@@ -113,7 +115,8 @@ cdef extern from "Ecore_Con.h":
 
 
 cdef class Url(Eo):
-    pass
+    # we cannot use Eo.obj here because Url is no more eo objects in C
+    cdef Ecore_Con_Url *obj2
 
 cdef class Lookup(object):
     cdef object done_cb

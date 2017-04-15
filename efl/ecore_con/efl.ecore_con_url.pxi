@@ -37,7 +37,7 @@ cdef class EventUrlProgress(Event):
         cdef Ecore_Con_Event_Url_Progress *event
         event = <Ecore_Con_Event_Url_Progress*>ev
 
-        self.url = object_from_instance(event.url_con)
+        self.url = <Url>ecore_con_url_data_get(event.url_con)
         self.down_total = event.down.total
         self.down_now = event.down.now
         self.up_total = event.up.total
@@ -61,7 +61,7 @@ cdef class EventUrlComplete(Event):
         cdef Ecore_Con_Event_Url_Complete *event
         event = <Ecore_Con_Event_Url_Complete*>ev
 
-        self.url = object_from_instance(event.url_con)
+        self.url = <Url>ecore_con_url_data_get(event.url_con)
         self.status = event.status
         return 1
 
@@ -87,7 +87,7 @@ cdef class EventUrlData(Event):
         cdef Ecore_Con_Event_Url_Data *event
         event = <Ecore_Con_Event_Url_Data*>ev
 
-        self.url = object_from_instance(event.url_con)
+        self.url = <Url>ecore_con_url_data_get(event.url_con)
         self.size = event.size
         self.data = event.data[:event.size] #raw string copy
         return 1
@@ -211,15 +211,22 @@ cdef class Url(Eo):
         """
         if isinstance(url, unicode): url = PyUnicode_AsUTF8String(url)
         if custom_request is None:
-            self._set_obj(ecore_con_url_new(
-                <const char *>url if url is not None else NULL))
+            # From efl 1.19 url are no more Eo objects in C, thus
+            # we cannot use Eo.obj and _set_obj() anymore :(
+            # self._set_obj(ecore_con_url_new(
+            #     <const char *>url if url is not None else NULL))
+            self.obj2 = ecore_con_url_new(
+                <const char *>url if url is not None else NULL)
+            
         else:
             if isinstance(custom_request, unicode):
                 custom_request = PyUnicode_AsUTF8String(custom_request)
-            self._set_obj(ecore_con_url_custom_new(
+            self.obj2 = ecore_con_url_custom_new(
                 <const char *>url if url is not None else NULL,
-                <const char *>custom_request if custom_request is not None else NULL))
-    
+                <const char *>custom_request if custom_request is not None else NULL)
+
+        ecore_con_url_data_set(self.obj2, <void *>self)
+        Py_INCREF(self)
         self._set_properties_from_keyword_args(kargs)
 
     def __repr__(self):
@@ -235,7 +242,18 @@ cdef class Url(Eo):
 
         """
         GEF.callback_del_full(self)
-        ecore_con_url_free(self.obj)
+        ecore_con_url_free(self.obj2)
+        self.obj2 = NULL
+        Py_DECREF(self)
+ 
+    def is_deleted(self):
+        """Check if the object has been deleted thus leaving the object shallow.
+
+        :return: True if the object has been deleted yet, False otherwise.
+        :rtype: bool
+
+        """
+        return bool(self.obj2 == NULL)
 
     property fd:
         """Set up a file to have response data written into.
@@ -254,7 +272,7 @@ cdef class Url(Eo):
 
         """
         def __set__(self, int fd):
-            ecore_con_url_fd_set(self.obj, fd)
+            ecore_con_url_fd_set(self.obj2, fd)
 
     def get(self):
         """Send a GET request.
@@ -266,7 +284,7 @@ cdef class Url(Eo):
         :return: ``True`` on success, ``False`` on error.
         
         """
-        return bool(ecore_con_url_get(self.obj))
+        return bool(ecore_con_url_get(self.obj2))
 
     def head(self):
         """Send a HEAD request.
@@ -278,7 +296,7 @@ cdef class Url(Eo):
         :return: ``True`` on success, ``False`` on error.
         
         """
-        return bool(ecore_con_url_head(self.obj))
+        return bool(ecore_con_url_head(self.obj2))
 
     def post(self, bytes data, content_type):
         """Send a post request.
@@ -298,7 +316,7 @@ cdef class Url(Eo):
         """
         if isinstance(content_type, unicode):
             content_type = PyUnicode_AsUTF8String(content_type)
-        return bool(ecore_con_url_post(self.obj,
+        return bool(ecore_con_url_post(self.obj2,
             <const void*><const char *>data if data is not None else NULL,
             len(data),
             <const char *>content_type if content_type is not None else NULL))
@@ -317,7 +335,7 @@ cdef class Url(Eo):
         :type timestamp: double
 
         """
-        ecore_con_url_time(self.obj, time_condition, timestamp)
+        ecore_con_url_time(self.obj2, time_condition, timestamp)
 
     def ftp_upload(self, filename, user, passwd, upload_dir):
         """Upload a file to an ftp site.
@@ -335,7 +353,7 @@ cdef class Url(Eo):
         if isinstance(user, unicode): user = PyUnicode_AsUTF8String(user)
         if isinstance(passwd, unicode): passwd = PyUnicode_AsUTF8String(passwd)
         if isinstance(upload_dir, unicode): upload_dir = PyUnicode_AsUTF8String(upload_dir)
-        return bool(ecore_con_url_ftp_upload(self.obj,
+        return bool(ecore_con_url_ftp_upload(self.obj2,
                 <const char *>filename if filename is not None else NULL,
                 <const char *>user if user is not None else NULL,
                 <const char *>passwd if passwd is not None else NULL,
@@ -348,7 +366,7 @@ cdef class Url(Eo):
 
         """
         def __set__(self, bint use_epsv):
-            ecore_con_url_ftp_use_epsv_set(self.obj, use_epsv)
+            ecore_con_url_ftp_use_epsv_set(self.obj2, use_epsv)
 
     def cookies_init(self):
         """Enable the cookie engine for subsequent HTTP requests. 
@@ -358,7 +376,7 @@ cdef class Url(Eo):
         in new HTTP requests.
 
         """
-        ecore_con_url_cookies_init(self.obj)
+        ecore_con_url_cookies_init(self.obj2)
 
     def cookies_clear(self):
         """Clear currently loaded cookies.
@@ -380,7 +398,7 @@ cdef class Url(Eo):
             this handler.
 
         """
-        ecore_con_url_cookies_clear(self.obj)
+        ecore_con_url_cookies_clear(self.obj2)
 
     def cookies_session_clear(self):
         """Clear currently loaded session cookies.
@@ -407,7 +425,7 @@ cdef class Url(Eo):
             :attr:`cookies_ignore_old_session`.
 
         """
-        ecore_con_url_cookies_session_clear(self.obj)
+        ecore_con_url_cookies_session_clear(self.obj2)
 
     def cookies_file_add(self, file_name):
         """Add a file to the list of files from which to load cookies.
@@ -435,7 +453,7 @@ cdef class Url(Eo):
         """
         if isinstance(file_name, unicode):
             file_name = PyUnicode_AsUTF8String(file_name)
-        ecore_con_url_cookies_file_add(self.obj,
+        ecore_con_url_cookies_file_add(self.obj2,
                     <const char *>file_name if file_name is not None else NULL)
 
     property cookies_jar_file:
@@ -460,11 +478,11 @@ cdef class Url(Eo):
         def __set__(self, cookiejar_file):
             if isinstance(cookiejar_file, unicode):
                 cookiejar_file = PyUnicode_AsUTF8String(cookiejar_file)
-            ecore_con_url_cookies_jar_file_set(self.obj,
+            ecore_con_url_cookies_jar_file_set(self.obj2,
                 <const char *>cookiejar_file if cookiejar_file is not None else NULL)
             if isinstance(cookiejar_file, unicode):
                 cookiejar_file = PyUnicode_AsUTF8String(cookiejar_file)
-            ecore_con_url_cookies_jar_file_set(self.obj,
+            ecore_con_url_cookies_jar_file_set(self.obj2,
                 <const char *>cookiejar_file if cookiejar_file is not None else NULL)
 
     def cookies_jar_write(self):
@@ -480,7 +498,7 @@ cdef class Url(Eo):
         .. seealso:: :attr:`cookies_jar_file`
 
         """
-        ecore_con_url_cookies_jar_write(self.obj)
+        ecore_con_url_cookies_jar_write(self.obj2)
     
     property cookies_ignore_old_session:
         """Control whether session cookies from previous sessions shall be loaded. 
@@ -500,7 +518,7 @@ cdef class Url(Eo):
 
         """
         def __set__(self, bint ignore):
-            ecore_con_url_cookies_ignore_old_session_set(self.obj, ignore)
+            ecore_con_url_cookies_ignore_old_session_set(self.obj2, ignore)
 
     property ssl_verify_peer:
         """Toggle libcurl's verify peer's certificate option. 
@@ -513,7 +531,7 @@ cdef class Url(Eo):
 
         """
         def __set__(self, bint verify):
-            ecore_con_url_ssl_verify_peer_set(self.obj, verify)
+            ecore_con_url_ssl_verify_peer_set(self.obj2, verify)
 
     property ssl_ca:
         """Set a custom CA to trust for SSL/TLS connections. 
@@ -532,7 +550,7 @@ cdef class Url(Eo):
         def __set__(self, ca_path):
             if isinstance(ca_path, unicode):
                 ca_path = PyUnicode_AsUTF8String(ca_path)
-            ecore_con_url_ssl_ca_set(self.obj,
+            ecore_con_url_ssl_ca_set(self.obj2,
                 <const char *>ca_path if ca_path is not None else NULL)
 
     property proxy:
@@ -552,7 +570,7 @@ cdef class Url(Eo):
         """
         def __set__(self, proxy):
             if isinstance(proxy, unicode): proxy = PyUnicode_AsUTF8String(proxy)
-            ecore_con_url_proxy_set(self.obj,
+            ecore_con_url_proxy_set(self.obj2,
                             <const char *>proxy if proxy is not None else NULL)
 
     property proxy_username:
@@ -566,7 +584,7 @@ cdef class Url(Eo):
         """
         def __set__(self, user):
             if isinstance(user, unicode): user = PyUnicode_AsUTF8String(user)
-            ecore_con_url_proxy_username_set(self.obj,
+            ecore_con_url_proxy_username_set(self.obj2,
                             <const char *>user if user is not None else NULL)
 
     property proxy_password:
@@ -580,7 +598,7 @@ cdef class Url(Eo):
         """
         def __set__(self, passwd):
             if isinstance(passwd, unicode): passwd = PyUnicode_AsUTF8String(passwd)
-            ecore_con_url_proxy_username_set(self.obj,
+            ecore_con_url_proxy_username_set(self.obj2,
                             <const char *>passwd if passwd is not None else NULL)
 
     property timeout:
@@ -595,7 +613,7 @@ cdef class Url(Eo):
 
         """
         def __set__(self, double timeout):
-            ecore_con_url_timeout_set(self.obj, timeout)
+            ecore_con_url_timeout_set(self.obj2, timeout)
 
     property http_version:
         """The HTTP version used for the request.
@@ -607,7 +625,7 @@ cdef class Url(Eo):
 
         """
         def __set__(self, Ecore_Con_Url_Http_Version version):
-            ecore_con_url_http_version_set(self.obj, version)
+            ecore_con_url_http_version_set(self.obj2, version)
 
     property status_code:
         """The returned HTTP STATUS code. 
@@ -619,7 +637,7 @@ cdef class Url(Eo):
 
         """
         def __get__(self):
-            return ecore_con_url_status_code_get(self.obj)
+            return ecore_con_url_status_code_get(self.obj2)
 
     property url:
         """Controls the URL to send the request to.
@@ -628,11 +646,11 @@ cdef class Url(Eo):
 
         """
         def __get__(self):
-            return _ctouni(ecore_con_url_url_get(self.obj))
+            return _ctouni(ecore_con_url_url_get(self.obj2))
 
         def __set__(self, url):
             if isinstance(url, unicode): url = PyUnicode_AsUTF8String(url)
-            ecore_con_url_url_set(self.obj, <const char *>url if url is not None else NULL)
+            ecore_con_url_url_set(self.obj2, <const char *>url if url is not None else NULL)
 
     property verbose:
         """Toggle libcurl's verbose output. 
@@ -645,7 +663,7 @@ cdef class Url(Eo):
 
         """
         def __set__(self, bint verbose):
-            ecore_con_url_verbose_set(self.obj, verbose)
+            ecore_con_url_verbose_set(self.obj2, verbose)
 
     def additional_header_add(self, key, value):
         """Add an additional header to the request connection object. 
@@ -662,7 +680,7 @@ cdef class Url(Eo):
         """
         if isinstance(key, unicode): key = PyUnicode_AsUTF8String(key)
         if isinstance(value, unicode): value = PyUnicode_AsUTF8String(value)
-        ecore_con_url_additional_header_add(self.obj,
+        ecore_con_url_additional_header_add(self.obj2,
                            <const char *>key if key is not None else NULL,
                            <const char *>value if value is not None else NULL)
 
@@ -673,7 +691,7 @@ cdef class Url(Eo):
         (previously added with :func:additional_header_add`).
 
         """
-        ecore_con_url_additional_headers_clear(self.obj)
+        ecore_con_url_additional_headers_clear(self.obj2)
 
     property response_headers:
         """The headers from last request sent. 
@@ -687,7 +705,7 @@ cdef class Url(Eo):
         """
         def __get__(self):
             return eina_list_strings_to_python_list(
-                        ecore_con_url_response_headers_get(self.obj))
+                        ecore_con_url_response_headers_get(self.obj2))
 
     property received_bytes:
         """The number of bytes received. 
@@ -699,7 +717,7 @@ cdef class Url(Eo):
 
         """
         def __get__(self):
-            return ecore_con_url_received_bytes_get(self.obj)
+            return ecore_con_url_received_bytes_get(self.obj2)
 
     def httpauth_set(self, username, password, bint safe):
         """Set to use http auth, with given username and password
@@ -719,7 +737,7 @@ cdef class Url(Eo):
             username = PyUnicode_AsUTF8String(username)
         if isinstance(password, unicode):
             password = PyUnicode_AsUTF8String(password)
-        return bool(ecore_con_url_httpauth_set(self.obj,
+        return bool(ecore_con_url_httpauth_set(self.obj2,
                     <const char *>username if username is not None else NULL,
                     <const char *>password if password is not None else NULL,
                     safe))
