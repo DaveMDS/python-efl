@@ -902,6 +902,34 @@ cdef class Image(Object):
     def load_orientation_get(self):
         return bool(evas_object_image_load_orientation_get(self.obj))
 
+    property load_head_skip:
+        """ A load option to skip initial header load and defer to preload
+    
+        This is meant to be used in conjunction with
+        evas_object_image_file_set() and evas_object_image_preload() by
+        deferring any header loading until a evas_object_image_preload() is
+        issued making the file file set simply set up the file to refer to
+        without any validation of its type or file existence or even inspecting
+        the image header to get size or alpha channel flags etc. All of this
+        will then be done as part of the preload stage.
+    
+        :type: bool
+    
+        .. versionadded:: 1.19
+    
+        """
+        def __get__(self):
+            return bool(evas_object_image_load_head_skip_get(self.obj))
+    
+        def __set__(self, bint value):
+            evas_object_image_load_head_skip_set(self.obj, value)
+    
+    def load_head_skip_get(self):
+        return bool(evas_object_image_load_head_skip_get(self.obj))
+    def load_head_skip_set(self, bint value):
+        evas_object_image_load_head_skip_set(self.obj, value)
+    
+
     property orient:
         """The image orientation.
 

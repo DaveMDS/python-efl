@@ -613,6 +613,8 @@ cdef extern from "Evas.h":
     void                evas_object_image_load_region_get(const Evas_Object *obj, int *x, int *y, int *w, int *h)
     void                evas_object_image_load_orientation_set(Evas_Object *obj, Eina_Bool enable)
     Eina_Bool           evas_object_image_load_orientation_get(const Evas_Object *obj)
+    void                evas_object_image_load_head_skip_set(Evas_Object *obj, Eina_Bool skip)
+    Eina_Bool           evas_object_image_load_head_skip_get(const Evas_Object *obj)
     void                evas_object_image_colorspace_set(Evas_Object *obj, Evas_Colorspace cspace)
     Evas_Colorspace     evas_object_image_colorspace_get(const Evas_Object *obj)
     Eina_Bool           evas_object_image_region_support_get(const Evas_Object *obj)
