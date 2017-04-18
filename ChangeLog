@@ -1,5 +1,41 @@
 
 ===================
+2017-04-18  v1.19.0
+===================
+
+Fixes:
+ * Fixes for cython 0.25 compatibility
+ * elm.font_properties_get
+ * elm.Gengrid.item_insert_after now work as expected
+
+Changes:
+ * Removed ecore warning about subprocess incompatibility, with test to prove it
+ * Emotion: changed default module_name to "gstreamer1"
+ * elm.font_properties_free: Changed to no-op as we now do the free
+   automatically when there are no more references to the FontProperties object
+ * elm.Panel.scrollable_content_size is now also readable
+ * EcoreConUrl is no more an Eo object in C
+
+Additions:
+ * evas.Image.load_head_skip
+ * elm.ELM_INPUT_PANEL_LAYOUT_VOICE
+ * elm.ELM_CALENDAR_REVERSE_DAILY
+ * elm.Calendar.date_max
+ * elm.Calendar.date_min
+ * elm.GengridItem.custom_size
+ * elm.Image.async_open
+ * elm.Image.callback_load_cancel_add
+ * elm.Image.callback_load_error_add
+ * elm.Image.callback_load_open_add
+ * elm.Image.callback_load_ready_add
+ * elm.Naviframe.callback_item_activated_add
+ * elm.Panel.callback_toggled_add
+ * elm.Progressbar.is_pulsing
+ * elm.Spinner.callback_drag_start_add
+ * elm.Spinner.callback_drag_stop_add
+
+
+===================
 2016-08-22  v1.18.0
 ===================
 
