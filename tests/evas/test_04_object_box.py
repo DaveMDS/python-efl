@@ -24,20 +24,17 @@ class TestBoxBasics(unittest.TestCase):
         size = (20, 30)
         pos = (40, 50)
         geometry = (60, 70, 80, 90)
-        color = (110, 120, 130, 140)
 
         # create box using size/pos
-        box1 = evas.Box(self.canvas, name="box1", color=color, size=size, pos=pos)
+        box1 = evas.Box(self.canvas, name="box1", size=size, pos=pos)
         self.assertEqual(box1.name, "box1")
-        self.assertEqual(box1.color, color)
         self.assertEqual(box1.size, size)
         self.assertEqual(box1.pos, pos)
         box1.delete()
 
         # create box2 using geometry
-        box2 = evas.Box(self.canvas, name="box2", color=color, geometry=geometry)
+        box2 = evas.Box(self.canvas, name="box2", geometry=geometry)
         self.assertEqual(box2.name, "box2")
-        self.assertEqual(box2.color, color)
         self.assertEqual(box2.geometry, geometry)
         box2.delete()
 
