@@ -104,7 +104,7 @@ Release process instructions
 * Change versions in efl/__init__.py (ex: 1.9.0)
 * Update the ChangeLog file:
     setup.py build_doc -b changes ...and manually merge from the html file
-* Git push and wait jenkins to generate the 2 tarballs
+* Git push and wait jenkins to generate the tarballs and the documentation
 * Test the generated tarballs
 * scp tarballs & md5sums to:
   download.enlightenment.org:/srv/web/download.enlightenment.org/public_html/pre-releases/
@@ -123,12 +123,13 @@ Release process instructions
     git tag -a v1.9.0 && git push origin v1.9.0
 * Create and push the branch for stable backporting
     git branch python-efl-1.9 && git push origin python-efl-1.9
-* scp the generated html documentation to:
+* scp the jenkins generated html documentation to:
   download.enlightenment.org:/srv/web/docs.enlightenment.org/public_html/python-efl/1.XX.0/
   and update the 'current' link on the server (ssh)
 * Update download link on the wiki (www.enlightenment.org/download)
 * Publish the blog post on phame (Official Announcements)
-* Announce the release to release@lists.enlightenment.org
+* Announce the release to release@lists.enlightenment.org and
+  enlightenment-release@lists.sourceforge.net
 * Change versions again in efl/__init__.py (ex: 1.9.99)
 
 more info at:
