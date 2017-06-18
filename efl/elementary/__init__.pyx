@@ -717,6 +717,11 @@ def init():
     """
     EINA_LOG_DOM_INFO(PY_EFL_ELM_LOG_DOMAIN, "Initializing efl.elementary")
 
+    # Force Edje object type to be always available, since we cannot
+    # anticipate when Elementary is going to return a pointer to one.
+
+    import efl.edje
+
     # argc and argv are currently used by EFL to support app restart
     # and binary relocation. These are probably not useful to us but we
     # pass the information here regardless because useful functionality
