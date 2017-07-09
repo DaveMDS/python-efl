@@ -283,11 +283,17 @@ cdef class Eo(object):
         return EoIterator.create(efl_children_iterator_new(self.obj))
 
     def delete(self):
-        """Delete the object and free internal resources.
+        """Decrease internal reference count and delete the object gracefully
 
-        .. note:: This will not delete the python object, but only the internal
-            C one. The python object will be automatically deleted by the
-            garbage collector when there are no more reference to it.
+        .. note:: Reference count will be decreased at the del callback, not
+            instantly when calling this. Same for setting the internal
+            object pointer to NULL and freeing any internal resources.
+
+        .. note:: This will not automatically free the Python object, only
+            the wrapped C object. This will prevent you from calling methods
+            other than :meth:`is_deleted` and accessing properties on the
+            object. The Python object will be automatically freed by Python
+            when there are no more references to it.
 
         """
         efl_del(self.obj)

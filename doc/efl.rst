@@ -6,6 +6,26 @@
 .. versionadded:: 1.8
 
 
+Object lifetime
+---------------
+
+Eo objects (and any which have the delete() method) get their reference count
+internally increased by one at object creation. This means that these objects
+will not get freed when you release all references to them in your application.
+You must call the objects' delete() method to decrease the internal reference
+count. This will usually also trigger some kind of action to destroy
+the object gracefully, i.e. hiding the graphical object etc, and will set the
+C object pointer to NULL, which will prevent you from calling methods on the
+object.
+
+If you can't keep track of when your application calls the delete method, you
+can check that your object is still valid with either the is_deleted() method,
+or with a non-zero check::
+
+    if eo_obj:
+        print(repr(eo_obj))
+
+
 Logging
 -------
 
