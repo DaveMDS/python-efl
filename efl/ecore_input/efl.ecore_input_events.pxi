@@ -17,7 +17,6 @@
 
 
 from efl.utils.conversions cimport _ctouni
-from efl.ecore cimport _event_mapping_register, _event_mapping_get
 
 
 ECORE_EVENT_MODIFIER_SHIFT = enums.ECORE_EVENT_MODIFIER_SHIFT
@@ -34,23 +33,25 @@ ECORE_EVENT_LOCK_SHIFT = enums.ECORE_EVENT_LOCK_SHIFT
 ECORE_EVENT_MODIFIER_ALTGR = enums.ECORE_EVENT_MODIFIER_ALTGR
 
 
-
-cdef int _input_events_registered = 0
+# NOTE: Cannot use ecore._event_mapping_register helper here
+#       because ECORE_EVENT_* are already registered by ecore.x
+#       Thus we need a separate mapping to not conflict.
+cdef object _input_event_type_mapping = None
 
 cdef int _ecore_input_events_register() except 0:
-    global _input_events_registered
+    global _input_event_type_mapping
 
-    if _input_events_registered == 0:
-        _event_mapping_register(ECORE_EVENT_KEY_DOWN, EventKey)
-        _event_mapping_register(ECORE_EVENT_KEY_UP, EventKey)
-        _event_mapping_register(ECORE_EVENT_MOUSE_BUTTON_DOWN, EventMouseButton)
-        _event_mapping_register(ECORE_EVENT_MOUSE_BUTTON_UP, EventMouseButton)
-        _event_mapping_register(ECORE_EVENT_MOUSE_MOVE, EventMouseMove)
-        _event_mapping_register(ECORE_EVENT_MOUSE_IN, EventMouseIO)
-        _event_mapping_register(ECORE_EVENT_MOUSE_OUT, EventMouseIO)
-        _event_mapping_register(ECORE_EVENT_MOUSE_WHEEL, EventMouseWheel)
-
-        _input_events_registered = 1
+    if not _input_event_type_mapping:
+        _input_event_type_mapping = {
+            ECORE_EVENT_KEY_DOWN: EventKey,
+            ECORE_EVENT_KEY_UP: EventKey,
+            ECORE_EVENT_MOUSE_BUTTON_DOWN: EventMouseButton,
+            ECORE_EVENT_MOUSE_BUTTON_UP: EventMouseButton,
+            ECORE_EVENT_MOUSE_MOVE: EventMouseMove,
+            ECORE_EVENT_MOUSE_IN: EventMouseIO,
+            ECORE_EVENT_MOUSE_OUT: EventMouseIO,
+            ECORE_EVENT_MOUSE_WHEEL: EventMouseWheel,
+        }
 
     return 1
 
@@ -85,7 +86,7 @@ cdef class InputEventHandler(EventHandler):
         if not callable(func):
             raise TypeError("Parameter 'func' must be callable")
 
-        event_cls = _event_mapping_get(type)
+        event_cls = _input_event_type_mapping.get(type)
         if event_cls is None:
             raise ValueError("Unknow Ecore_Event type %d" % type)
 
@@ -144,6 +145,7 @@ cdef class EventPoint:
 
     def __repr__(self):
         return "<EventPoint x=%d y=%d>" % (self.x, self.y)
+
 
 cdef class EventMulti:
     """
