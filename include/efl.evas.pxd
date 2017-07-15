@@ -822,6 +822,7 @@ cdef extern from "Evas.h":
     void            evas_map_point_image_uv_get(const Evas_Map *m, int idx, double *u, double *v)
     void            evas_map_point_color_set(Evas_Map *m, int idx, int r, int g, int b, int a)
     void            evas_map_point_color_get(const Evas_Map *m, int idx, int *r, int *g, int *b, int *a)
+    Eina_Bool       evas_map_coords_get(const Evas_Map *m, double x, double y, double *mx, double *my, int grab)
 
 
     ####################################################################

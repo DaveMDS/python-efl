@@ -394,6 +394,30 @@ cdef class Map(object):
         evas_map_point_coord_get(self.map, idx, &x, &y, &z)
         return (x, y, z)
 
+    def coords_get(self, double x, double y, int grab):
+        """Apply a map transformation on given coordinate.
+
+        :param x: point x source coordinate
+        :type x: double
+        :param y: point y source coordinate
+        :type y: double
+        :param grab: unknown
+        :type grab: int
+
+        :return: coordinates after transformation by map
+        :rtype: tuple of 2 doubles (mx, my)
+
+        :raise RuntimeError: when interpolation fail
+
+        .. versionadded:: 1.20
+
+        """
+        cdef double mx, my
+        if evas_map_coords_get(self.map, x, y, &mx, &my, grab) == 0:
+            raise(RuntimeError("Map interpolation failed"))
+        else:
+            return (mx, my)
+
     #
     # XXX:  Can't use property here since getter has an argument.
     #
