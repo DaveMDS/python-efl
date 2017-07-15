@@ -387,5 +387,27 @@ cdef class Spinner(LayoutClass):
     def callback_drag_stop_del(self, func):
         self._callback_del("spinner,drag,stop", func)
 
+    def callback_min_reached_add(self, func, *args, **kwargs):
+        """When spinner value reached min.
+
+        .. versionadded:: 1.20
+
+        """
+        self._callback_add("min,reached", func, args, kwargs)
+
+    def callback_min_reached_del(self, func):
+        self._callback_del("min,reached", func)
+
+    def callback_max_reached_add(self, func, *args, **kwargs):
+        """When spinner value reached max.
+
+        .. versionadded:: 1.20
+
+        """
+        self._callback_add("max,reached", func, args, kwargs)
+
+    def callback_max_reached_del(self, func):
+        self._callback_del("max,reached", func)
+
 
 _object_mapping_register("Elm.Spinner", Spinner)

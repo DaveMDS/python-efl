@@ -34,6 +34,8 @@ def spinner_clicked(obj):
     sp = Spinner(win, label_format="Percentage %%%1.2f something",
         step=5.0, min_max=(0.0, 100.0), size_hint_weight=EXPAND_BOTH,
         size_hint_align=FILL_HORIZ)
+    sp.callback_min_reached_add(lambda o: print("Min reached"))
+    sp.callback_max_reached_add(lambda o: print("Max reached"))
     bx.pack_end(sp)
     sp.show()
 

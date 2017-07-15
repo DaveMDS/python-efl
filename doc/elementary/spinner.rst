@@ -33,6 +33,8 @@ Emitted signals
   so it avoids possibly expensive reactions to the value change.
 - ``spinner,drag,start`` - When dragging has started.
 - ``spinner,drag,stop`` - When dragging has stopped.
+- ``min,reached`` - Called when spinner value reached min (since 1.20)
+- ``max,reached`` - Called when spinner value reached max (since 1.20)
 
 
 Available styles
