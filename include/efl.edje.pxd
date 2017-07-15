@@ -255,6 +255,8 @@ cdef extern from "Edje.h":
     void edje_object_part_text_input_hint_set(Evas_Object *obj, char *part, Edje_Input_Hints input_hints)
     Edje_Input_Hints edje_object_part_text_input_hint_get(Evas_Object *obj, char *part)
 
+    void edje_object_part_text_prediction_hint_set(Evas_Object *obj, char *part, const char *prediction_hint)
+
     void edje_object_part_swallow(Evas_Object *obj, char *part, Evas_Object *obj_swallow)
     void edje_object_part_unswallow(Evas_Object *obj, Evas_Object *obj_swallow)
     Evas_Object *edje_object_part_swallow_get(Evas_Object *obj, char *part)

@@ -783,6 +783,25 @@ cdef class Edje(Object):
         return edje_object_part_text_input_hint_get(self.obj,
                             <const char *>part if part is not None else NULL)
 
+    def part_text_prediction_hint_set(self, part, hint):
+        """Sets the prediction hint to use an intelligent reply suggestion
+        service.
+
+        :param part: the part name
+        :type part: str
+
+        :param hint: the prediction hint text
+        :type hint: str
+
+        .. versionadded:: 1.20
+
+        """
+        if isinstance(part, unicode): part = PyUnicode_AsUTF8String(part)
+        if isinstance(hint, unicode): hint = PyUnicode_AsUTF8String(hint)
+        edje_object_part_text_prediction_hint_set(self.obj,
+            <const char *>part if part is not None else NULL,
+            <const char *>hint if hint is not None else NULL)
+
     def part_swallow(self, part, Object obj):
         """Swallows an object into the edje
 

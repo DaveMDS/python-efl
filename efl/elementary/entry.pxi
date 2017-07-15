@@ -1472,6 +1472,24 @@ cdef class Entry(LayoutClass):
     def prediction_allow_get(self):
         return elm_entry_prediction_allow_get(self.obj)
 
+    property prediction_hint:
+        """The prediction hint to use an intelligent reply suggestion service.
+
+        :type: string (**writeonly**)
+
+        .. versionadded:: 1.20
+
+        """
+        def __set__(self, string):
+            if isinstance(string, unicode): string = PyUnicode_AsUTF8String(string)
+            elm_entry_prediction_hint_set(self.obj,
+                <const char *>string if string is not None else NULL)
+
+    def prediction_hint_set(self, string):
+        if isinstance(string, unicode): string = PyUnicode_AsUTF8String(string)
+        elm_entry_prediction_hint_set(self.obj,
+            <const char *>string if string is not None else NULL)
+
     # TODO:
     # def filter_limit_size(self, data, text):
     #     """Filter inserted text based on user defined character and byte limits
