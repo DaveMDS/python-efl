@@ -110,8 +110,8 @@ class CleanGenerated(Command):
         pass
 
     def run(self):
-        for lib in ("eo", "evas", "ecore", "ecore_x", "ecore_con", "edje",
-                    "emotion", "elementary", "ethumb", "dbus_mainloop",
+        for lib in ("eo", "evas", "ecore", "ecore_x", "ecore_input", "ecore_con",
+                    "edje", "emotion", "elementary", "ethumb", "dbus_mainloop",
                     "utils"):
             lib_path = os.path.join(script_path, "efl", lib)
             for root, dirs, files in os.walk(lib_path):
