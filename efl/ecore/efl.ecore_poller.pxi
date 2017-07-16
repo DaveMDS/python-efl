@@ -83,24 +83,39 @@ cdef class Poller(Eo):
         self.func = func
         self.args = args
         self.kargs = kargs
-        self._set_obj(ecore_poller_add(pol_type, interval, _ecore_task_cb, <void *>self))
+
+        # From efl 1.20 pollers are no more Eo objects in C, thus
+        # we cannot use Eo.obj and _set_obj() anymore :(
+        # self._set_obj(ecore_poller_add(pol_type, interval, _ecore_task_cb, <void *>self))
+        self.obj2 = ecore_poller_add(pol_type, interval, _ecore_task_cb, <void *>self)
+        Py_INCREF(self)
 
     def __str__(self):
-        return "%s Poller(func=%s, args=%s, kargs=%s)" % (Eo.__str__(self),
-               self.func, self.args, self.kargs)
+        return "Poller(func=%s, args=%s, kargs=%s)" % (
+                self.func, self.args, self.kargs)
 
     def __repr__(self):
-        return "%s Poller(interval=%d, func=%s, args=%s, kargs=%s)" % (Eo.__repr__(self),
-                self.interval if self.obj else -1,
+        return "Poller(interval=%d, func=%s, args=%s, kargs=%s)" % (
+                self.interval if self.obj2 else -1,
                 self.func, self.args, self.kargs)
 
     cpdef bint _task_exec(self) except *:
         return self.func(*self.args, **self.kargs)
 
+    def is_deleted(self):
+        """Check if the object has been deleted thus leaving the object shallow.
+
+        :return: True if the object has been deleted yet, False otherwise.
+        :rtype: bool
+
+        """
+        return bool(self.obj2 == NULL)
+
     def delete(self):
         """ Stop callback emission and free internal resources. """
-        ecore_poller_del(self.obj)
-
+        ecore_poller_del(self.obj2)
+        self.obj2 = NULL
+        Py_DECREF(self)
 
     property interval:
         """ The interval (in ticks) between each call of the poller
@@ -109,15 +124,15 @@ cdef class Poller(Eo):
 
         """
         def __get__(self):
-            return ecore_poller_poller_interval_get(self.obj)
+            return ecore_poller_poller_interval_get(self.obj2)
 
         def __set__(self, int t):
-            ecore_poller_poller_interval_set(self.obj, t)
+            ecore_poller_poller_interval_set(self.obj2, t)
 
     def interval_set(self, int t):
-        ecore_poller_poller_interval_set(self.obj, t)
+        ecore_poller_poller_interval_set(self.obj2, t)
     def interval_get(self):
-        return ecore_poller_poller_interval_get(self.obj)
+        return ecore_poller_poller_interval_get(self.obj2)
 
 
 def poller_add(int t, func, *args, **kargs):
