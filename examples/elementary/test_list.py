@@ -217,7 +217,7 @@ def list3_clicked(obj, item=None):
     ic = Icon(win, standard="folder", resizable=(False, False))
     li.item_append(".", ic)
 
-    ic = Icon(win, standard="view-close", resizable=(False, False))
+    ic = Icon(win, standard="window-close", resizable=(False, False))
     ic2 = Icon(win, standard="view-refresh", resizable=(False, False))
     it2 = li.item_append("How", ic, ic2)
 
