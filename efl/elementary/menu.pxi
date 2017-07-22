@@ -317,6 +317,16 @@ cdef class Menu(Object):
         """
         elm_menu_move(self.obj, x, y)
 
+    def open(self):
+        """Open a closed menu
+
+        Show the menu with no child sub-menus expanded.
+
+        .. versionadded:: 1.20
+
+        """
+        elm_menu_open(self.obj)
+
     def close(self):
         """Close a opened menu
 

@@ -4,6 +4,7 @@ cdef extern from "Elementary.h":
     Evas_Object             *elm_menu_parent_get(const Evas_Object *obj)
     void                     elm_menu_move(Evas_Object *obj, Evas_Coord x, Evas_Coord y)
     void                     elm_menu_close(Evas_Object *obj)
+    void                     elm_menu_open(Evas_Object *obj)
     Eina_List               *elm_menu_items_get(const Evas_Object *obj)
     Evas_Object             *elm_menu_item_object_get(const Elm_Object_Item *it)
     Elm_Object_Item         *elm_menu_item_add(Evas_Object *obj, Elm_Object_Item *parent, const char *icon, const char *label, Evas_Smart_Cb func, void *data)
