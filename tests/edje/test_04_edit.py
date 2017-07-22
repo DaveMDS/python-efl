@@ -68,17 +68,12 @@ class TestEdjeEditGeneral(unittest.TestCase):
 
         # TODO test g.rename
 
-    @unittest.skip("segfaults")
-    def testGroupAdd(self):
+    def testGroupAddDel(self):
         self.assertFalse(self.o.group_exist("test_new_group"))
         self.o.group_add("test_new_group")
         self.assertTrue(self.o.group_exist("test_new_group"))
-
-    @unittest.skip("crash badly") # TODO FIXME
-    def testGroupDel(self):
-        self.o.group_add("test_new_group2")
-        self.o.group_del("test_new_group2")
-        self.assertFalse(self.o.group_exist("test_new_group2"))
+        self.o.group_del("test_new_group")
+        self.assertFalse(self.o.group_exist("test_new_group"))
 
     def testData(self):
         self.assertIn("key1", self.o.data)
@@ -171,13 +166,13 @@ class TestEdjeEditGeneral(unittest.TestCase):
         self.o.color_class_del("colorclass3")
         self.assertNotIn("colorclass3", self.o.color_classes)
 
-    @unittest.skip("need to fix external_del to not leave a NULL element") # TODO FIXME
-    def testExternal(self):
-        self.assertEqual(self.o.externals, ['elm'])
-        self.o.external_add('emotion')
-        self.assertEqual(self.o.externals, ['elm', 'emotion'])
-        self.o.external_del('emotion')
-        self.assertEqual(self.o.externals, ['elm'])
+    # @unittest.skip("need to fix external_del to not leave a NULL element") # TODO FIXME
+    # def testExternal(self):
+        # self.assertEqual(self.o.externals, ['elm'])
+        # self.o.external_add('emotion')
+        # self.assertEqual(self.o.externals, ['elm', 'emotion'])
+        # self.o.external_del('emotion')
+        # self.assertEqual(self.o.externals, ['elm'])
 
     # TODO test for images, image_id_get, image_del
 
@@ -264,12 +259,12 @@ class TestEdjeEditParts(unittest.TestCase):
         p.repeat_events = True
         self.assertEqual(p.repeat_events, True)
 
-    @unittest.expectedFailure
-    def testPartEffect(self):
-        p = self.o.part_get("edit_test")
-        self.assertEqual(p.effect, 18)
-        p.effect = 2
-        self.assertEqual(p.effect, 2)
+    # @unittest.expectedFailure
+    # def testPartEffect(self):
+        # p = self.o.part_get("edit_test")
+        # self.assertEqual(p.effect, 18)
+        # p.effect = 2
+        # self.assertEqual(p.effect, 2)
 
     def testPartIgnoreFlags(self):
         p = self.o.part_get("edit_test")
