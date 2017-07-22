@@ -1,6 +1,9 @@
 #!/usr/bin/env python
 # encoding: utf-8
 
+import os
+os.environ["ELM_ENGINE"] = "buffer"
+
 import unittest
 import logging
 

@@ -1,6 +1,9 @@
 #!/usr/bin/env python
 
-import os, unittest
+import os
+os.environ["ELM_ENGINE"] = "buffer"
+
+import unittest
 import logging
 
 from efl import evas
