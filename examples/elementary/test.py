@@ -174,6 +174,7 @@ items = [
     ("Lists - Genlist", [
         ("Genlist 1", "test_genlist_1", "test_genlist_1"),
         ("Genlist 2", "test_genlist_2", "test_genlist_2"),
+        ("Genlist Multi Select", "test_genlist_multiselect", "test_genlist_multiselect"),
         ("Genlist Tree", "test_genlist_tree", "test_genlist_tree"),
         ("Genlist Group", "test_genlist_group", "test_genlist_group"),
         ("Genlist Filter", "test_genlist_filter", "test_genlist_filter"),

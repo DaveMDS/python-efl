@@ -64,6 +64,26 @@ cdef class Genlist(Object):
     def multi_select_get(self):
         return bool(elm_genlist_multi_select_get(self.obj))
 
+    property multi_select_mode:
+        """The genlist multi select mode.
+
+        Whenever the user need to pres Ctrl to perform multiselect or not.
+
+        :type: :ref:`Elm_Object_Multi_Select_Mode`
+
+        .. versionadded:: 1.20
+
+        """
+        def __set__(self, mode):
+            elm_genlist_multi_select_mode_set(self.obj, mode)
+        def __get__(self):
+            return elm_genlist_multi_select_mode_get(self.obj)
+
+    def multi_select_mode_set(self, mode):
+        elm_genlist_multi_select_mode_set(self.obj, mode)
+    def multi_select_mode_get(self):
+        return elm_genlist_multi_select_mode_get(self.obj)
+
     property mode:
         """The mode used for sizing items horizontally.
 

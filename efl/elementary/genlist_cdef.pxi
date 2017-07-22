@@ -28,6 +28,8 @@ cdef extern from "Elementary.h":
     void                    elm_genlist_clear(Evas_Object *obj)
     void                    elm_genlist_multi_select_set(Evas_Object *obj, Eina_Bool multi)
     Eina_Bool               elm_genlist_multi_select_get(const Evas_Object *obj)
+    void                    elm_genlist_multi_select_mode_set(Evas_Object *obj, Elm_Object_Multi_Select_Mode mode)
+    Elm_Object_Multi_Select_Mode elm_genlist_multi_select_mode_get(const Evas_Object *obj)
     void                    elm_genlist_mode_set(Evas_Object *obj, Elm_List_Mode mode)
     Elm_List_Mode           elm_genlist_mode_get(const Evas_Object *obj)
     Elm_Object_Item *       elm_genlist_item_append(Evas_Object *obj, Elm_Genlist_Item_Class *itc, void *data, Elm_Object_Item *parent, Elm_Genlist_Item_Type flags, Evas_Smart_Cb func, void *func_data)
