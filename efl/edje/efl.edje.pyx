@@ -180,7 +180,7 @@ def init():
 
     if edje_external_type_abi_version_get() != EDJE_EXTERNAL_TYPE_ABI_VERSION:
         raise TypeError("python-edje Edje_External_Type abi_version differs "
-                        "from libedje.so. Recompile python-edje!")
+                        "from libedje.so. Recompile python-efl!")
     return r
 
 
