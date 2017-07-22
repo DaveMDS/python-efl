@@ -1,0 +1,349 @@
+
+externals {
+    external: "elm";
+}
+
+collections {
+    group { name: "main";
+        parts {
+            part { name: "ext_elm_actionslider";
+                type: EXTERNAL;
+                source: "elm/actionslider";
+                description { state: "default";
+                    params {
+                        string: "label" "ActionSlideR";
+                    }
+                }
+            }
+            part { name: "ext_elm_bg";
+                type: EXTERNAL;
+                source: "elm/bg";
+                description { state: "default";
+                    params {
+                        // TODO
+                    }
+                }
+            }
+            part { name: "ext_elm_bubble";
+                type: EXTERNAL;
+                source: "elm/bubble";
+                description { state: "default";
+                    params {
+                        // TODO
+                    }
+                }
+            }
+            part { name: "ext_elm_button";
+                type: EXTERNAL;
+                source: "elm/button";
+                description { state: "default";
+                    params {
+                        // TODO
+                    }
+                }
+            }
+            part { name: "ext_elm_calendar";
+                type: EXTERNAL;
+                source: "elm/calendar";
+                description { state: "default";
+                    params {
+                        // TODO
+                    }
+                }
+            }
+            part { name: "ext_elm_check";
+                type: EXTERNAL;
+                source: "elm/check";
+                description { state: "default";
+                    params {
+                        // TODO
+                    }
+                }
+            }
+            part { name: "ext_elm_clock";
+                type: EXTERNAL;
+                source: "elm/clock";
+                description { state: "default";
+                    params {
+                        int: "hours" 23;
+                        int: "minutes" 58;
+                        int: "seconds" 59;
+                        bool: "editable" 1;
+                        bool: "am/pm" 1;
+                        bool: "show seconds" 1;
+                    }
+                }
+            }
+            part { name: "ext_elm_entry";
+                type: EXTERNAL;
+                source: "elm/entry";
+                description { state: "default";
+                    params {
+                        // TODO
+                    }
+                }
+            }
+            part { name: "ext_elm_fileselector";
+                type: EXTERNAL;
+                source: "elm/fileselector";
+                description { state: "default";
+                    params {
+                        // TODO
+                    }
+                }
+            }
+            part { name: "ext_elm_fileselector_button";
+                type: EXTERNAL;
+                source: "elm/fileselector_button";
+                description { state: "default";
+                    params {
+                        // TODO
+                    }
+                }
+            }
+            part { name: "ext_elm_fileselector_entry";
+                type: EXTERNAL;
+                source: "elm/fileselector_entry";
+                description { state: "default";
+                    params {
+                        // TODO
+                    }
+                }
+            }
+            part { name: "ext_elm_frame";
+                type: EXTERNAL;
+                source: "elm/frame";
+                description { state: "default";
+                    params {
+                        // TODO
+                    }
+                }
+            }
+            part { name: "ext_elm_gengrid";
+                type: EXTERNAL;
+                source: "elm/gengrid";
+                description { state: "default";
+                    params {
+                        // TODO
+                    }
+                }
+            }
+            part { name: "ext_elm_genlist";
+                type: EXTERNAL;
+                source: "elm/genlist";
+                description { state: "default";
+                    params {
+                        // TODO
+                    }
+                }
+            }
+            part { name: "ext_elm_hoversel";
+                type: EXTERNAL;
+                source: "elm/hoversel";
+                description { state: "default";
+                    params {
+                        // TODO
+                    }
+                }
+            }
+            part { name: "ext_elm_icon";
+                type: EXTERNAL;
+                source: "elm/icon";
+                description { state: "default";
+                    params {
+                        // TODO
+                    }
+                }
+            }
+            part { name: "ext_elm_index";
+                type: EXTERNAL;
+                source: "elm/index";
+                description { state: "default";
+                    params {
+                        // TODO
+                    }
+                }
+            }
+            part { name: "ext_elm_label";
+                type: EXTERNAL;
+                source: "elm/label";
+                description { state: "default";
+                    params {
+                        string: "label" "This is an elm label";
+                    }
+                }
+            }
+            part { name: "ext_elm_list";
+                type: EXTERNAL;
+                source: "elm/list";
+                description { state: "default";
+                    params {
+                        // TODO
+                    }
+                }
+            }
+            part { name: "ext_elm_map";
+                type: EXTERNAL;
+                source: "elm/map";
+                description { state: "default";
+                    params {
+                        // TODO
+                    }
+                }
+            }
+            part { name: "ext_elm_multibuttonentry";
+                type: EXTERNAL;
+                source: "elm/multibuttonentry";
+                description { state: "default";
+                    params {
+                        // TODO
+                    }
+                }
+            }
+            part { name: "ext_elm_naviframe";
+                type: EXTERNAL;
+                source: "elm/naviframe";
+                description { state: "default";
+                    params {
+                        // TODO
+                    }
+                }
+            }
+            part { name: "ext_elm_notify";
+                type: EXTERNAL;
+                source: "elm/notify";
+                description { state: "default";
+                    params {
+                        // TODO
+                    }
+                }
+            }
+            part { name: "ext_elm_panes";
+                type: EXTERNAL;
+                source: "elm/panes";
+                description { state: "default";
+                    params {
+                        // TODO
+                    }
+                }
+            }
+            part { name: "ext_elm_photocam";
+                type: EXTERNAL;
+                source: "elm/photocam";
+                description { state: "default";
+                    params {
+                        // TODO
+                    }
+                }
+            }
+            part { name: "ext_elm_progressbar";
+                type: EXTERNAL;
+                source: "elm/progressbar";
+                description { state: "default";
+                    params {
+                        // TODO
+                    }
+                }
+            }
+            part { name: "ext_elm_radio";
+                type: EXTERNAL;
+                source: "elm/radio";
+                description { state: "default";
+                    params {
+                        // TODO
+                    }
+                }
+            }
+            part { name: "ext_elm_scroller";
+                type: EXTERNAL;
+                source: "elm/scroller";
+                description { state: "default";
+                    params {
+                        // TODO
+                    }
+                }
+            }
+            part { name: "ext_elm_segment_control";
+                type: EXTERNAL;
+                source: "elm/segment_control";
+                description { state: "default";
+                    params {
+                        // TODO
+                    }
+                }
+            }
+            part { name: "ext_elm_slider";
+                type: EXTERNAL;
+                source: "elm/slider";
+                description { state: "default";
+                    params {
+                        string: "label" "external slider";
+                        double: "min" -1;
+                        double: "max" 999;
+                        double: "value" 0.6;
+                        bool: "inverted" 1;
+                        bool: "horizontal" 1;
+                        int: "span" 45;
+                        string: "unit format" "test %f";
+                        string: "indicator format" "%f ind";
+                        string: "icon" "folder";
+                    }
+                }
+            }
+            part { name: "ext_elm_slideshow";
+                type: EXTERNAL;
+                source: "elm/slideshow";
+                description { state: "default";
+                    params {
+                        // TODO
+                    }
+                }
+            }
+            part { name: "ext_elm_spinner";
+                type: EXTERNAL;
+                source: "elm/spinner";
+                description { state: "default";
+                    params {
+                        // TODO
+                    }
+                }
+            }
+            part { name: "ext_elm_thumb";
+                type: EXTERNAL;
+                source: "elm/thumb";
+                description { state: "default";
+                    params {
+                        // TODO
+                    }
+                }
+            }
+            part { name: "ext_elm_toolbar";
+                type: EXTERNAL;
+                source: "elm/toolbar";
+                description { state: "default";
+                    params {
+                        // TODO
+                    }
+                }
+            }
+            part { name: "ext_elm_video";
+                type: EXTERNAL;
+                source: "elm/video";
+                description { state: "default";
+                    params {
+                        // TODO
+                    }
+                }
+            }
+            part { name: "ext_elm_web";
+                type: EXTERNAL;
+                source: "elm/web";
+                description { state: "default";
+                    params {
+                        // TODO
+                    }
+                }
+            }
+        }
+    }
+}
