@@ -6,10 +6,7 @@ import logging
 
 from efl.eo import Eo
 from efl.evas import Image as evasImage
-from efl import elementary
-from efl.elementary.window import Window, ELM_WIN_BASIC
-from efl.elementary.image import Image
-from efl.elementary.icon import Icon
+from efl import elementary as elm
 
 script_path = os.path.dirname(os.path.abspath(__file__))
 img_path = os.path.join(script_path, "images")
@@ -18,8 +15,8 @@ img_path = os.path.join(script_path, "images")
 class TestElmImage(unittest.TestCase):
 
     def setUp(self):
-        self.w = Window("t", ELM_WIN_BASIC)
-        self.o = Image(self.w)
+        self.w = elm.Window("t", elm.ELM_WIN_BASIC)
+        self.o = elm.Image(self.w)
 
     def tearDown(self):
         self.o.delete()
@@ -76,8 +73,8 @@ class TestElmImage(unittest.TestCase):
 class TestElmIcon(unittest.TestCase):
 
     def setUp(self):
-        self.w = Window("t", ELM_WIN_BASIC)
-        self.o = Icon(self.w)
+        self.w = elm.Window("t", elm.ELM_WIN_BASIC)
+        self.o = elm.Icon(self.w)
 
     def tearDown(self):
         self.o.delete()
