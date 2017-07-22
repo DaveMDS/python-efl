@@ -44,7 +44,7 @@ class TestElmClassNames(unittest.TestCase):
         # 2. test all the other widgets
         for cls in [elm.Actionslider, elm.Background, elm.Box,
                     elm.Bubble, elm.Button, elm.Calendar, elm.Check, elm.Clock,
-                    elm.Colorselector, elm.Combobox, elm.Ctxpopup, elm.Datetime,
+                    elm.Colorselector, elm.Ctxpopup, elm.Datetime, # elm.Combobox
                     elm.Dayselector, elm.Diskselector, elm.Entry, elm.Fileselector,
                     elm.FileselectorButton, elm.FileselectorEntry, elm.Flip,
                     elm.FlipSelector, elm.Frame, elm.Gengrid, elm.Genlist,
