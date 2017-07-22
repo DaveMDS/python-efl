@@ -13,8 +13,8 @@ theme_path = os.path.dirname(os.path.abspath(__file__))
 theme_file = os.path.join(theme_path, "theme.edj")
 
 
-expected_signals = ["edje,language,none", "edje,state,ltr", "load",
-                    "edje,state,ltr", "resize",
+expected_signals = ["seat,added,seat1,default", "edje,language,none",
+                    "edje,state,ltr", "load", "edje,state,ltr", "resize",
                     "emit,message", "emit,message"]
 expected_signals2 = ["load", "resize"]
 expected_messages = [33, 33]

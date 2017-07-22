@@ -3,7 +3,7 @@
 from efl import evas
 from efl.edje import EDJE_PART_TYPE_RECTANGLE
 from efl.edje_edit import EdjeEdit, Text_Style, Text_Style_Tag, Color_Class, \
-                          Part, Program
+                          Part, State, Program
 import os, unittest, shutil
 import logging
 
@@ -201,7 +201,7 @@ class TestEdjeEditParts(unittest.TestCase):
         os.remove(theme_file)
 
     def testPart(self):
-        self.assertEqual(len(self.o.parts), 42)
+        self.assertEqual(len(self.o.parts), 6)
         self.assertTrue(self.o.part_exist("bg"))
         self.assertTrue(self.o.part_exist("rect"))
         self.assertFalse(self.o.part_exist("NOTEXIST"))
@@ -221,7 +221,7 @@ class TestEdjeEditParts(unittest.TestCase):
     def testPartAdd(self):
         self.o.part_add("new_part", EDJE_PART_TYPE_RECTANGLE)
         self.assertTrue(self.o.part_exist("new_part"))
-        self.assertEqual(len(self.o.parts), 43)
+        self.assertEqual(len(self.o.parts), 7)
 
         p = self.o.part_get("new_part")
         self.assertIsInstance(p, Part)
@@ -400,7 +400,6 @@ class TestEdjeEditPrograms(unittest.TestCase):
         p.targets_clear()
         self.assertEqual(p.targets_get(), [])
 
-    #@unittest.skip("Program.after_add() does not work")
     def testProgramAfters(self):
         p = self.o.program_get("prog1")
         self.assertEqual(p.afters_get(), ["prog2", "prog3"])
@@ -426,10 +425,10 @@ class TestEdjeEditPrograms(unittest.TestCase):
         p.api = ("new_name", "new_desc")
         self.assertEqual(p.api, ("new_name", "new_desc"))
 
-    #@unittest.skip("Program.script does not work")
     def testProgramScript(self):
         p = self.o.program_get("emit_back_message")
-        print(p.script)
+        self.assertIsInstance(p, Program)
+        self.assertEqual(p.script.strip(), "send_message(MSG_INT, 1, 33);")
 
 
 class TestEdjeEditPartStates(unittest.TestCase):
@@ -466,19 +465,17 @@ class TestEdjeEditPartStates(unittest.TestCase):
 
     # TODO test state_copy
 
-    #@unittest.skip("state_exist does not work") # TODO FIXME
     def testPartStateExist(self):
         p = self.o.part_get("edit_test")
         self.assertFalse(p.state_exist("stateNOTEXISTS", 0.1))
         self.assertTrue(p.state_exist("state1", 0.0))
         self.assertTrue(p.state_exist("state2", 0.1))
 
-    #@unittest.skip("PartState does not work") # TODO FIXME
     def testPartStateProps(self):
         p = self.o.part_get("edit_test")
         s = p.state_get("state1", 0.0)
-        print(s)
-        print(s.rel1_to_get())
+        self.assertIsInstance(s, State)
+        # TODO test more State properties
 
 if __name__ == '__main__':
     formatter = logging.Formatter("[%(levelname)s] %(name)s (%(filename)s: %(lineno)d) --- %(message)s")

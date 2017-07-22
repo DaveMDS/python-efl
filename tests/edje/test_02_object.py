@@ -111,9 +111,13 @@ class TestEdjeObject(unittest.TestCase):
         o.delete()
 
     def testSignals(self):
+        expected_signals = ["seat,added,seat1,default", "edje,language,none",
+                            "edje,state,ltr", "load", "edje,state,ltr",
+                            "resize", "quit"]
         def _signal_cb(obj, emission, source):
-            print("Signal: emission=%s, source=%s" % (emission, source))
+            expected_signals.remove(emission)
             if emission == "quit":
+                self.assertEqual(expected_signals, [])
                 ecore.main_loop_quit()
 
         o = edje.Edje(self.canvas, file=theme_file, group="main")
