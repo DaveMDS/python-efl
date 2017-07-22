@@ -137,22 +137,6 @@ cdef class Edje(Object):
         self._text_change_cb = None
         self._message_handler_cb = None
 
-    def __repr__(self):
-        x, y, w, h = self.geometry_get()
-        r, g, b, a = self.color_get()
-        file, group = self.file_get()
-        name = self.name_get()
-        if name:
-            name_str = "name=%r, "
-        else:
-            name_str = ""
-        clip = bool(self.clip_get() is not None)
-        return ("<%s(%sfile=%r, group=%r, geometry=(%d, %d, %d, %d), "
-                "color=(%d, %d, %d, %d), layer=%s, clip=%r, visible=%s)>") % \
-               (self.__class__.__name__, name_str, file, group,
-                x, y, w, h, r, g, b, a,
-                self.layer_get(), clip, self.visible_get())
-
     def data_get(self, key):
         """Get data from Edje data collection (defined in .edj).
 
