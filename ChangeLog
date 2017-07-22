@@ -1,5 +1,26 @@
 
 ===================
+2017-07-22  v1.20.0
+===================
+
+Fixes:
+ * ecore.input and ecore.x can now coexsist
+
+Changes:
+ * ecore.Poller is no more an Eo object in C (nothing should be changed in py)
+ * removed edje.Object custom __repr__ implementation
+
+Additions:
+ * elm.Entry.prediction_hint
+ * elm.Genlist.multi_select_mode
+ * elm.Menu.open()
+ * elm.Spinner.callback_max_reached_add()
+ * elm.Spinner.callback_max_reached_del()
+ * edje.part_text_prediction_hint_set()
+ * evas.Map.coords_get()
+
+
+===================
 2017-04-18  v1.19.0
 ===================
 

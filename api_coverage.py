@@ -25,6 +25,11 @@ c_exclude_list = [
     "elm_config_access",  # Access disabled until 1.9
     "elm_object_item_access",  # Access disabled until 1.9
     "elm_systray",  # We currently have this in using Eo API
+    "elm_code_",  # The code widget is still in beta
+    "elm_need_e_dbus",  # has been deprecated long time ago
+    "elm_check_selected_get",  # We already provide state_get
+    "elm_check_selected_set",  # We already provide state_set
+    
 ]
 c_excludes = "|".join(c_exclude_list)
 
