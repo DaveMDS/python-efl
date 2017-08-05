@@ -1,6 +1,6 @@
 
 ===================
-2017-07-22  v1.20.0
+2017-05-06  v1.20.0
 ===================
 
 Fixes:
@@ -9,6 +9,7 @@ Fixes:
 Changes:
  * ecore.Poller is no more an Eo object in C (nothing should be changed in py)
  * removed edje.Object custom __repr__ implementation
+ * Use Cython 23.5 to generate the C source in dist tarball (see T5589)
 
 Additions:
  * elm.Entry.prediction_hint
