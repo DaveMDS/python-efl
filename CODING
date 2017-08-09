@@ -105,6 +105,7 @@ Release process instructions
 * Update the ChangeLog file:
     setup.py build_doc -b changes ...and manually merge from the html file
 * Git push and wait jenkins to generate the tarballs and the documentation
+* HACK: Use cython 23.5 to generate the source and the tarball !! see T5589
 * Test the generated tarballs
 * scp tarballs & md5sums to:
   download.enlightenment.org:/srv/web/download.enlightenment.org/public_html/pre-releases/
