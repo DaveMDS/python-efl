@@ -105,7 +105,7 @@ Release process instructions
 * Update the ChangeLog file:
     setup.py build_doc -b changes ...and manually merge from the html file
 * Git push and wait jenkins to generate the tarballs and the documentation
-* HACK: Use cython 23.5 to generate the source and the tarball !! see T5589
+* HACK: Use cython 23.5 to generate the source and the tarball on your pc !! see T5589
 * Test the generated tarballs
 * scp tarballs & md5sums to:
   download.enlightenment.org:/srv/web/download.enlightenment.org/public_html/pre-releases/
@@ -118,8 +118,9 @@ Release process instructions
 * ssh to download.enlightenment.org and mv tarballs & md5sums to:
     /srv/web/download.enlightenment.org/public_html/rel/bindings/python/
 * Upload the .tar.gz archive to pypi:
-   - first upload the PKG-INFO file from the "edit" section on pypi
-   - then upload the tarball from the "files" section
+   - NOTE: pypi is migrating to pypi.org domain, you must work on the new one
+   - python setup.py sdist upload (need ~/.pypirc)
+   - more info at https://packaging.python.org/guides/migrating-to-pypi-org/
 * Create and push the tag for the release
     git tag -a v1.9.0 && git push origin v1.9.0
 * Create and push the branch for stable backporting
