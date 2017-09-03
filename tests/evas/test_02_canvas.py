@@ -13,8 +13,8 @@ def _new_canvas():
 
 class TestCanvasConstructor(unittest.TestCase):
     def testNoConstructorArgs(self):
-        c = evas.Canvas()
-        self.assertEqual(c.output_method_get(), 0)
+        c = evas.Canvas(method="buffer")
+        self.assertEqual(c.output_method_get(), 1)
         self.assertEqual(c.size_get(), (0, 0))
         self.assertEqual(c.viewport_get(), (0, 0, 1, 1))
         c.delete()
