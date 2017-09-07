@@ -410,4 +410,4 @@ cdef class Spinner(LayoutClass):
         self._callback_del("max,reached", func)
 
 
-_object_mapping_register("Efl.Ui.Spinner", Spinner)
+_object_mapping_register("Elm.Spinner", Spinner)
