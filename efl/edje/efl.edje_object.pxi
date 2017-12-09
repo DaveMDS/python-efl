@@ -1509,4 +1509,4 @@ def on_text_change(func):
     return func
 
 
-_object_mapping_register("Edje.Object", Edje)
+_object_mapping_register("Efl.Canvas.Layout", Edje)

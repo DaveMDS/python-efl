@@ -44,8 +44,8 @@ clean:
 	$(PY) setup.py clean --all
 
 
-.PHONY: maintaner-clean
-maintaner-clean:
+.PHONY: maintainer-clean
+maintainer-clean:
 	$(PY) setup.py clean --all clean_generated_files
 
 .PHONY: dist
