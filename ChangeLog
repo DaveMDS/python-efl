@@ -1,5 +1,18 @@
 
 ===================
+XXXX-XX-XX  v1.21.0
+===================
+
+BREAKS:
+ * systray.pxi do not work anymore as the widget has been removed from efl.
+   (commented in efl/elementary/__init__.pyx)
+   TODO FIXME... we still need to decide what to do with this breakage,
+      maybe an empty api with just a break notice? in this way apps using
+      systray will still run (not crash)
+
+
+
+===================
 2017-05-06  v1.20.0
 ===================
 
