@@ -949,5 +949,5 @@ cdef class Layout(LayoutClass):
         self._set_properties_from_keyword_args(kwargs)
 
 
-_object_mapping_register("Efl.Ui.Layout", Layout)
+_object_mapping_register("Efl.Ui.Layout_Legacy", Layout)
 

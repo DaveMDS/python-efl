@@ -229,7 +229,7 @@ cdef class Video(LayoutClass):
         return _ctouni(elm_video_title_get(self.obj))
 
 
-_object_mapping_register("Efl.Ui.Video", Video)
+_object_mapping_register("Efl.Ui.Video_Legacy", Video)
 
 
 cdef class Player(LayoutClass):

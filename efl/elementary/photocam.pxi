@@ -530,4 +530,4 @@ cdef class Photocam(Object):
         elm_scroller_bounce_get(self.obj, &h, &v)
         return (h, v)
 
-_object_mapping_register("Efl.Ui.Image_Zoomable", Photocam)
+_object_mapping_register("Efl.Ui.Image_Zoomable_Legacy", Photocam)

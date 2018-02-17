@@ -440,4 +440,4 @@ cdef class Slider(LayoutClass):
         self._callback_del("delay,changed", func)
 
 
-_object_mapping_register("Efl.Ui.Slider", Slider)
+_object_mapping_register("Efl.Ui.Slider_Legacy", Slider)

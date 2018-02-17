@@ -135,4 +135,4 @@ cdef class Button(LayoutClass):
         self._callback_del("unpressed", func)
 
 
-_object_mapping_register("Efl.Ui.Button", Button)
+_object_mapping_register("Efl.Ui.Button_Legacy", Button)

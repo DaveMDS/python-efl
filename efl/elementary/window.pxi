@@ -1488,7 +1488,7 @@ cdef class Window(Object):
     def callback_theme_changed_del(self, func):
         self._callback_del("theme,changed", func)
 
-_object_mapping_register("Efl.Ui.Win", Window)
+_object_mapping_register("Efl.Ui.Win_Legacy", Window)
 
 
 cdef class StandardWindow(Window):

@@ -665,4 +665,4 @@ cdef class Image(Object):
     def callback_load_cancel_del(self, func):
         self._callback_del("load,cancel", func)
 
-_object_mapping_register("Efl.Ui.Image", Image)
+_object_mapping_register("Efl.Ui.Image_Legacy", Image)
