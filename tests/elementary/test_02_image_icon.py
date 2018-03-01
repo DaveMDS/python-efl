@@ -29,9 +29,10 @@ class TestElmImage(unittest.TestCase):
         self.assertEqual(Eo.parent_get(self.o), self.w)
 
     def testImageFile(self):
-        self.o.file = os.path.join(script_path, u"icon.png")
-        self.assertEqual(self.o.file[0],
-                         os.path.join(script_path, u"icon.png"))
+        img_file = os.path.join(script_path, u"icon.png")
+        self.assertEqual(self.o.file, (None, None))
+        self.o.file = img_file
+        self.assertEqual(self.o.file, (img_file, None))
         self.assertEqual(self.o.object_size, (48, 48))
 
     def testImageFileException(self):
