@@ -875,13 +875,8 @@ cdef class LayoutClass(Object):
         """
         cdef:
             Eina_List *l = elm_layout_content_swallow_list_get(self.obj)
-            list ret = list()
-
-        while l:
-            ret.append(object_from_instance(<Evas_Object*>l.data))
-            l = l.next
+            list ret = eina_list_objects_to_python_list(l)
         eina_list_free(l)
-
         return ret
 
     property icon:
