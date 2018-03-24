@@ -1,5 +1,3 @@
-cdef extern from "Edje.h":
-    ctypedef void (*Edje_Signal_Cb)(void *data, Evas_Object *obj, const char *emission, const char *source)
 
 cdef extern from "Elementary.h":
     Eina_Bool       elm_layout_content_set(Evas_Object *obj, const char *swallow, Evas_Object *content)

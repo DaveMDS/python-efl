@@ -800,12 +800,6 @@ cdef extern from "Ecore_X.h":
         ECORE_X_REGION_BOUNDING
         ECORE_X_REGION_CLIP
 
-    ctypedef Ecore_X_ID Ecore_X_Picture
-    ctypedef Ecore_X_ID Ecore_X_Region
-    ctypedef enum Ecore_X_Region_Type:
-        ECORE_X_REGION_BOUNDING
-        ECORE_X_REGION_CLIP
-
     ctypedef Ecore_X_ID Ecore_X_Damage
 
     ctypedef enum Ecore_X_Damage_Report_Level:

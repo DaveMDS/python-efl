@@ -2,9 +2,6 @@ cdef extern from "Elementary.h":
 
     ctypedef struct Elm_Object_Item
 
-    ctypedef Evas_Object    *(*Elm_Tooltip_Content_Cb)      (void *data, Evas_Object *obj, Evas_Object *tooltip)
-    ctypedef Evas_Object    *(*Elm_Tooltip_Item_Content_Cb) (void *data, Evas_Object *obj, Evas_Object *tooltip, void *item)
-
     Evas_Object *   elm_object_item_widget_get(const Elm_Object_Item *it)
     void            elm_object_item_part_content_set(Elm_Object_Item *it, const char *part, Evas_Object* content)
     void            elm_object_item_content_set(Elm_Object_Item *it, Evas_Object* content)

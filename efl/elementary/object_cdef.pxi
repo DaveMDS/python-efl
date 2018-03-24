@@ -18,32 +18,11 @@
 from efl.elementary.enums cimport Elm_Sel_Type, Elm_Focus_Direction, \
     Elm_Focus_Region_Show_Mode, Elm_Tooltip_Orient
 
-cdef extern from "Edje.h":
-    ctypedef void (*Edje_Signal_Cb)(void *data, Evas_Object *obj, const char *emission, const char *source)
-
 
 cdef extern from "Elementary.h":
     ctypedef struct Elm_Theme
 
     ctypedef struct Elm_Object_Item
-
-    ctypedef struct Elm_Selection_Data:
-        Evas_Coord       x, y
-        Elm_Sel_Format   format
-        void            *data
-        size_t           len
-        Elm_Xdnd_Action  action
-
-    ctypedef Eina_Bool       (*Elm_Event_Cb)                (void *data, Evas_Object *obj, Evas_Object *src, Evas_Callback_Type t, void *event_info)
-    ctypedef Evas_Object    *(*Elm_Tooltip_Content_Cb)      (void *data, Evas_Object *obj, Evas_Object *tooltip)
-    ctypedef Evas_Object    *(*Elm_Tooltip_Item_Content_Cb) (void *data, Evas_Object *obj, Evas_Object *tooltip, void *item)
-
-    ctypedef Eina_Bool       (*Elm_Drop_Cb)                 (void *data, Evas_Object *obj, Elm_Selection_Data *ev)
-    ctypedef void            (*Elm_Selection_Loss_Cb)       (void *data, Elm_Sel_Type selection)
-    ctypedef Evas_Object    *(*Elm_Drag_Icon_Create_Cb)     (void *data, Evas_Object *win, Evas_Coord *xoff, Evas_Coord *yoff)
-    ctypedef void            (*Elm_Drag_State)              (void *data, Evas_Object *obj)
-    ctypedef void            (*Elm_Drag_Accept)             (void *data, Evas_Object *obj, Eina_Bool doaccept)
-    ctypedef void            (*Elm_Drag_Pos)                (void *data, Evas_Object *obj, Evas_Coord x, Evas_Coord y, Elm_Xdnd_Action action)
 
     # Object handling       (py3: DONE)
     void                    elm_object_part_text_set(Evas_Object *obj, const char *part, const char *label)

@@ -11,7 +11,8 @@ from efl.evas.enums cimport EVAS_EVENT_FLAG_NONE, EVAS_CALLBACK_KEY_DOWN, \
 from efl.ecore cimport Ecore_Pos_Map
 
 from efl.elementary.enums cimport Elm_Process_State, Elm_Sys_Notify_Urgency, \
-    Elm_Policy, Elm_Policy_Quit, Elm_Policy_Exit, Elm_Policy_Throttle
+    Elm_Policy, Elm_Policy_Quit, Elm_Policy_Exit, Elm_Policy_Throttle, \
+    Elm_Sel_Format, Elm_Xdnd_Action
 
 
 cdef extern from "time.h":
@@ -46,6 +47,14 @@ cdef extern from "Elementary.h":
     ctypedef struct _Elm_Custom_Palette:
         const char *palette_name
         Eina_List *color_list
+
+    #selection
+    ctypedef struct Elm_Selection_Data:
+        Evas_Coord       x, y
+        Elm_Sel_Format   format
+        void            *data
+        size_t           len
+        Elm_Xdnd_Action  action
 
     #event
     ctypedef Eina_Bool      (*Elm_Event_Cb)                 (void *data, Evas_Object *obj, Evas_Object *src, Evas_Callback_Type t, void *event_info)

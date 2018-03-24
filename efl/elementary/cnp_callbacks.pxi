@@ -1,14 +1,6 @@
 from efl.utils.conversions cimport python_list_objects_to_eina_list
 
 cdef extern from "Elementary.h":
-    struct _Elm_Selection_Data:
-        Evas_Coord       x, y
-        Elm_Sel_Format   format
-        void            *data
-        size_t           len
-        Elm_Xdnd_Action  action
-
-    ctypedef _Elm_Selection_Data Elm_Selection_Data
 
     ctypedef Eina_Bool       (*Elm_Drop_Cb)                 (void *data, Evas_Object *obj, Elm_Selection_Data *ev)
     ctypedef Elm_Object_Item *(*Elm_Xy_Item_Get_Cb)         (Evas_Object *obj, Evas_Coord x, Evas_Coord y, int *xposret, int *yposret)

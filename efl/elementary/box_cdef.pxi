@@ -1,5 +1,3 @@
-cdef extern from "Ecore.h":
-    ctypedef void (*Ecore_Cb)(void *data)
 
 cdef extern from "Evas.h":
     ctypedef void *Evas_Object_Box_Data

@@ -21,19 +21,10 @@ cdef extern from "Elementary.h":
         Eina_Bool hover_top
         Eina_Bool hover_bottom
 
-    ctypedef struct Elm_Selection_Data:
-        Evas_Coord       x, y
-        Elm_Sel_Format   format
-        void            *data
-        size_t           len
-        Elm_Xdnd_Action  action
-
     ctypedef struct Elm_Entry_Context_Menu_Item:
         pass
 
     ctypedef void (*Elm_Entry_Filter_Cb)(void *data, Evas_Object *entry, char **text)
-
-    ctypedef Eina_Bool       (*Elm_Drop_Cb)                 (void *data, Evas_Object *obj, Elm_Selection_Data *ev)
 
     # Data for the elm_entry_filter_limit_size() entry filter.
     ctypedef struct Elm_Entry_Filter_Limit_Size:

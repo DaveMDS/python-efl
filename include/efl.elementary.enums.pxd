@@ -21,7 +21,6 @@ cdef extern from "Elementary.h":
         ELM_EVENT_PROCESS_FOREGROUND
         ELM_EVENT_SYS_NOTIFY_NOTIFICATION_CLOSED
         ELM_EVENT_SYS_NOTIFY_ACTION_INVOKED
-        ELM_EVENT_SYSTRAY_READY
 
     #enums
     ctypedef enum Elm_Focus_Direction:
@@ -119,11 +118,6 @@ cdef extern from "Elementary.h":
         ELM_PROCESS_STATE_FOREGROUND
         ELM_PROCESS_STATE_BACKGROUND
 
-    ctypedef enum Elm_Sys_Notify_Urgency:
-        ELM_SYS_NOTIFY_URGENCY_LOW
-        ELM_SYS_NOTIFY_URGENCY_NORMAL
-        ELM_SYS_NOTIFY_URGENCY_CRITICAL
-
     # actionslider
     ctypedef enum Elm_Actionslider_Pos:
         ELM_ACTIONSLIDER_NONE
@@ -201,12 +195,6 @@ cdef extern from "Elementary.h":
         ELM_SOFTCURSOR_MODE_AUTO
         ELM_SOFTCURSOR_MODE_ON
         ELM_SOFTCURSOR_MODE_OFF
-
-    ctypedef enum Elm_Slider_Indicator_Visible_Mode:
-        ELM_SLIDER_INDICATOR_VISIBLE_MODE_DEFAULT
-        ELM_SLIDER_INDICATOR_VISIBLE_MODE_ALWAYS
-        ELM_SLIDER_INDICATOR_VISIBLE_MODE_ON_FOCUS
-        ELM_SLIDER_INDICATOR_VISIBLE_MODE_NONE
 
     # ctxpopup
     ctypedef enum Elm_Ctxpopup_Direction:
@@ -438,11 +426,6 @@ cdef extern from "Elementary.h":
         ELM_IMAGE_FLIP_TRANSVERSE
 
     # label
-    ctypedef enum Elm_Wrap_Type:
-        ELM_WRAP_NONE
-        ELM_WRAP_CHAR
-        ELM_WRAP_WORD
-        ELM_WRAP_MIXED
 
     ctypedef enum Elm_Label_Slide_Mode:
         ELM_LABEL_SLIDE_MODE_NONE
