@@ -142,6 +142,7 @@ cdef class CtxpopupItem(ObjectItem):
         def __get__(self):
             return _object_item_to_python(elm_ctxpopup_item_next_get(self.item))
 
+
 cdef class Ctxpopup(LayoutClass):
 
     """
@@ -221,6 +222,86 @@ cdef class Ctxpopup(LayoutClass):
         if isinstance(label, unicode): label = PyUnicode_AsUTF8String(label)
 
         item = elm_ctxpopup_item_append(self.obj,
+            <const char *>label if label is not None else NULL,
+            icon.obj if icon is not None else NULL,
+            cb, <void*>ret)
+
+        if item != NULL:
+            ret._set_obj(item)
+            ret.cb_func = func
+            ret.args = args
+            ret.kwargs = kwargs
+            return ret
+        else:
+            return None
+
+    def item_insert_before(self, CtxpopupItem before, label, evasObject icon=None,
+                           func=None, *args, **kwargs):
+        """Add a new item to the list before the indicated item
+
+        :param CtxpopupItem before: The item before which to add it
+        :param string label: The label of new item
+        :param evasObject icon: The icon of new item
+        :param func: The callback function to be invoked when this item is selected.
+        :param \*args: The data to be attached for callback
+        :param \*\*kwargs: The data to be attached for callback
+        :return: :class:`CtxpopupItem`
+
+        .. versionadded:: 1.21
+
+        """
+        cdef:
+            Elm_Object_Item *item
+            Evas_Smart_Cb cb = NULL
+            CtxpopupItem ret = CtxpopupItem.__new__(CtxpopupItem)
+
+        if func is not None and callable(func):
+            cb = _object_item_callback
+
+        if isinstance(label, unicode): label = PyUnicode_AsUTF8String(label)
+
+        item = elm_ctxpopup_item_insert_before(self.obj,
+            before.item if before is not None else NULL,
+            <const char *>label if label is not None else NULL,
+            icon.obj if icon is not None else NULL,
+            cb, <void*>ret)
+
+        if item != NULL:
+            ret._set_obj(item)
+            ret.cb_func = func
+            ret.args = args
+            ret.kwargs = kwargs
+            return ret
+        else:
+            return None
+
+    def item_insert_after(self, CtxpopupItem after, label, evasObject icon=None,
+                           func=None, *args, **kwargs):
+        """Add a new item to the list after the indicated item
+
+        :param CtxpopupItem after: The item after which to add it
+        :param string label: The label of new item
+        :param evasObject icon: The icon of new item
+        :param func: The callback function to be invoked when this item is selected.
+        :param \*args: The data to be attached for callback
+        :param \*\*kwargs: The data to be attached for callback
+        :return: :class:`CtxpopupItem`
+
+        .. versionadded:: 1.21
+
+        """
+        cdef:
+            Elm_Object_Item *item
+            Evas_Smart_Cb cb = NULL
+            CtxpopupItem ret = CtxpopupItem.__new__(CtxpopupItem)
+
+        if func is not None and callable(func):
+            cb = _object_item_callback
+
+        if isinstance(label, unicode): label = PyUnicode_AsUTF8String(label)
+
+        item = elm_ctxpopup_item_insert_after(self.obj,
+            after.item if after is not None else NULL,
             <const char *>label if label is not None else NULL,
             icon.obj if icon is not None else NULL,
             cb, <void*>ret)

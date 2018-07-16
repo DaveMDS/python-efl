@@ -20,3 +20,5 @@ cdef extern from "Elementary.h":
     Elm_Object_Item         *elm_ctxpopup_last_item_get(const Evas_Object *obj)
     Elm_Object_Item         *elm_ctxpopup_item_prev_get(const Elm_Object_Item *it)
     Elm_Object_Item         *elm_ctxpopup_item_next_get(const Elm_Object_Item *it)
+    Elm_Object_Item         *elm_ctxpopup_item_insert_before(Evas_Object *obj, Elm_Object_Item *before, const char *label, Evas_Object *icon, Evas_Smart_Cb func, const void *data)
+    Elm_Object_Item         *elm_ctxpopup_item_insert_after(Evas_Object *obj, Elm_Object_Item *before, const char *label, Evas_Object *icon, Evas_Smart_Cb func, const void *data)
