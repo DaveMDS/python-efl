@@ -50,6 +50,7 @@ cdef extern from "Ecore.h":
         ECORE_EXE_USE_SH
         ECORE_EXE_NOT_LEADER
         ECORE_EXE_TERM_WITH_PARENT
+        ECORE_EXE_ISOLATE_IO
 
     ctypedef enum Ecore_Pos_Map:
         ECORE_POS_MAP_LINEAR

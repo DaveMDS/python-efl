@@ -45,6 +45,8 @@ cdef exe_flags2str(int value):
         flags.append("NOT_LEADER")
     if value & enums.ECORE_EXE_TERM_WITH_PARENT:
         flags.append("ECORE_EXE_TERM_WITH_PARENT")
+    if value & enums.ECORE_EXE_ISOLATE_IO:
+        flags.append("ECORE_EXE_ISOLATE_IO")
     return ", ".join(flags)
 
 
@@ -303,6 +305,10 @@ cdef class Exe(object):
         ECORE_EXE_TERM_WITH_PARENT
             Makes child receive SIGTERM when parent dies
 
+        ECORE_EXE_ISOLATE_IO
+            Try and isolate stdin/out and err of the process so it isn't
+            shared with the parent. Since 1.21
+
     :type flags: int
     :param data: extra data to be associated and available with ``data_get()``
 
@@ -552,6 +558,10 @@ cdef class Exe(object):
          - ECORE_EXE_USE_SH: Use /bin/sh to run the command.
          - ECORE_EXE_NOT_LEADER Do not use setsid() to have the
            executed process be its own session leader
+         - ECORE_EXE_TERM_WITH_PARENT Makes child receive SIGTERM when
+           parent dies
+         - ECORE_EXE_ISOLATE_IO Try and isolate stdin/out and err of the
+           process so it isn't shared with the parent
 
         :return: set of masks, ORed.
 
