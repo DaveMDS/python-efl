@@ -786,6 +786,51 @@ cdef class Edje(Object):
             <const char *>part if part is not None else NULL,
             <const char *>hint if hint is not None else NULL)
 
+    def part_text_prediction_hint_hash_set(self, part, key, value):
+        """Sets the prediction hint data at the specified key
+
+        :param part: the part name
+        :type part: str
+
+        :param key: the key of the prediction hint
+        :type key: str
+
+        :param value: the data to replace
+        :type value: str
+
+        :return bool: `True` on success, `False` otherwise
+
+        .. versionadded:: 1.21
+
+        """
+        if isinstance(part, unicode): part = PyUnicode_AsUTF8String(part)
+        if isinstance(key, unicode): key = PyUnicode_AsUTF8String(key)
+        if isinstance(value, unicode): value = PyUnicode_AsUTF8String(value)
+        edje_object_part_text_prediction_hint_hash_set(self.obj,
+            <const char *>part if part is not None else NULL,
+            <const char *>key if key is not None else NULL,
+            <const char *>value if value is not None else NULL)
+
+    def part_text_prediction_hint_hash_del(self, part, key):
+        """Removes the prediction hint data identified by a key
+
+        :param part: the part name
+        :type part: str
+
+        :param key: the key of the prediction hint
+        :type key: str
+
+        :return bool: `True` on success, `False` otherwise
+
+        .. versionadded:: 1.21
+
+        """
+        if isinstance(part, unicode): part = PyUnicode_AsUTF8String(part)
+        if isinstance(key, unicode): key = PyUnicode_AsUTF8String(key)
+        edje_object_part_text_prediction_hint_hash_del(self.obj,
+            <const char *>part if part is not None else NULL,
+            <const char *>key if key is not None else NULL)
+
     def part_swallow(self, part, Object obj):
         """Swallows an object into the edje
 
