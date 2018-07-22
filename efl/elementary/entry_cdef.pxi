@@ -131,6 +131,8 @@ cdef extern from "Elementary.h":
     void                    elm_entry_prediction_allow_set(Evas_Object *obj, Eina_Bool allow)
     Eina_Bool               elm_entry_prediction_allow_get(const Evas_Object *obj)
     void                    elm_entry_prediction_hint_set(Evas_Object *obj, const char *prediction_hint)
+    Eina_Bool               elm_entry_prediction_hint_hash_set(Evas_Object *obj, const char *key, const char *value)
+    Eina_Bool               elm_entry_prediction_hint_hash_del(Evas_Object *obj, const char *key)
     # TODO: void                    elm_entry_filter_limit_size(void *data, Evas_Object *entry, char **text)
     # TODO: void                    elm_entry_filter_accept_set(void *data, Evas_Object *entry, char **text)
     # TODO: void                  *elm_entry_imf_context_get(const Evas_Object *obj)

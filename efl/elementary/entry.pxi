@@ -1490,6 +1490,40 @@ cdef class Entry(LayoutClass):
         elm_entry_prediction_hint_set(self.obj,
             <const char *>string if string is not None else NULL)
 
+    def prediction_hint_hash_set(self, key, value):
+        """Sets the prediction hint data at the specified key.
+
+        :param key: The key of the prediction hint
+        :type key: string
+        :param value: The data to replace
+        :type value: string
+
+        :return bool: `True` on success, `False` otherwise
+
+        .. versionadded:: 1.21
+
+        """
+        if isinstance(key, unicode): key = PyUnicode_AsUTF8String(key)
+        if isinstance(value, unicode): value = PyUnicode_AsUTF8String(value)
+        return bool(elm_entry_prediction_hint_hash_set(self.obj,
+                            <const char *>key if key is not None else NULL,
+                            <const char *>value if value is not None else NULL))
+
+    def prediction_hint_hash_del(self, key):
+        """Removes the prediction hint data identified by a key.
+
+        :param key: The key of the prediction hint
+        :type key: string
+
+        :return bool: `True` on success, `False` otherwise
+
+        .. versionadded:: 1.21
+
+        """
+        if isinstance(key, unicode): key = PyUnicode_AsUTF8String(key)
+        return bool(elm_entry_prediction_hint_hash_del(self.obj,
+                            <const char *>key if key is not None else NULL))
+
     # TODO:
     # def filter_limit_size(self, data, text):
     #     """Filter inserted text based on user defined character and byte limits
