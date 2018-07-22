@@ -59,7 +59,7 @@ def cb_item1(li, item):
     it = item_new(cp, "Navigate to folder", "folder")
     it.disabled = True
     it = item_new(cp, "Edit entry", "document-edit")
-    it = item_new(cp, "Sate date and time", "list-remove")
+    it = item_new(cp, "Set date and time", "list-remove")
     it.disabled = True
 
     ic = Icon(cp, standard="list-add", resizable=(False,False))
@@ -175,6 +175,16 @@ def cb_item6(li, item):
     cp.show()
     bt.data["ctxpopup"] = cp
 
+def cb_item11(li, item):
+    cp = Ctxpopup(li)
+    cp.callback_geometry_update_add(cb_geometry_update)
+    for i in range(100):
+        item_new(cp, "Item #%d" % i, "clock")
+
+    x, y = li.evas.pointer_canvas_xy_get()
+    cp.move(x, y)
+    cp.show()
+
 def ctxpopup_clicked(obj):
     win = StandardWindow("ctxpopup", "Context popup test", autodel=True,
         size=(400,400))
@@ -191,6 +201,7 @@ def ctxpopup_clicked(obj):
     li.item_append("Ctxpopup at horizontal mode", callback=cb_item4)
     li.item_append("Ctxpopup with user content", callback=cb_item5)
     li.item_append("Ctxpopup with restacking", callback=cb_item6)
+    li.item_append("Ctxpopup with more items", callback=cb_item11)
     li.go()
 
     win.show()
