@@ -80,9 +80,7 @@ class TestFileMonitor(unittest.TestCase):
         self.assertEqual(fm.path, path)
         fm.delete()
 
-        # FIXME: we receive two ECORE_FILE_EVENT_DELETED_SELF, it's wrong
-        # should be [0, 2, 2, 2, 2, 1, 2, 2]
-        self.assertEqual(self.counters, [0, 2, 2, 2, 2, 2, 2, 2])
+        self.assertEqual(self.counters, [0, 2, 2, 2, 2, 1, 2, 2])
 
 
 if __name__ == '__main__':
