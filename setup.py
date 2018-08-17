@@ -211,6 +211,8 @@ ext_modules = []
 py_modules = []
 packages = ["efl"]
 common_cflags = [
+    "-fno-var-tracking-assignments", # seems to lower the mem used during build
+    "-Wno-misleading-indentation", # not needed (we don't indent the C code)
     "-Wno-deprecated-declarations", # we bind deprecated functions
     "-Wno-unused-variable", # eo_instance_from_object() is unused
     "-Wno-format-security", # some cc don't like the way cython use EINA_LOG macros
