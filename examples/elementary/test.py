@@ -247,7 +247,6 @@ items = [
     ]),
     ("System", [
         ("Notification", "test_sys_notify", "sys_notify_clicked"),
-        ("Systray", "test_systray", "systray_clicked"),
     ]),
     ("Text", [
         ("Label", "test_label", "label_clicked"),

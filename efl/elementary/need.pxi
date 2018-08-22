@@ -89,13 +89,6 @@ cdef class EthumbConnect(Event):
     def __repr__(self):
         return "<%s()>" % (self.__class__.__name__,)
 
-cdef class EventSystrayReady(Event):
-    cdef int _set_obj(self, void *o) except 0:
-        return 1
-
-    def __repr__(self):
-        return "<%s()>" % (self.__class__.__name__,)
-
 
 def need_efreet():
     """Request that your elementary application needs Efreet
@@ -113,23 +106,17 @@ def need_efreet():
 def need_systray():
     """Request that your elementary application needs Elm_Systray
 
-    This initializes the Elm_Systray when called and, if support exists,
-    returns True, otherwise returns False. This must be called
-    before any elm_systray calls.
+    WARNING: elm is no more capable of systray functionality
 
-    :return: True if support exists and initialization succeeded.
+    :return: always return False
     :rtype: bool
 
     .. versionadded:: 1.8
+    .. versionremoved:: 1.21
 
     """
-    cdef bint ret = elm_need_systray()
-    if ret:
-        try:
-            _event_mapping_register(enums.ELM_EVENT_SYSTRAY_READY, EventSystrayReady)
-        except ValueError:
-            pass
-    return ret
+    print("ERROR: the Systray functionality do not exists anymore...apologies")
+    return False
 
 def need_sys_notify():
     """Request that your elementary application needs Elm_Sys_Notify

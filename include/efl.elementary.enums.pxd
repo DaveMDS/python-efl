@@ -568,22 +568,6 @@ cdef extern from "Elementary.h":
         ELM_SLIDER_INDICATOR_VISIBLE_MODE_ON_FOCUS
         ELM_SLIDER_INDICATOR_VISIBLE_MODE_NONE
 
-    # systray
-    ctypedef enum:
-        ELM_EVENT_SYSTRAY_READY
-
-    ctypedef enum Elm_Systray_Category:
-        ELM_SYSTRAY_CATEGORY_APP_STATUS
-        ELM_SYSTRAY_CATEGORY_COMMUNICATIONS
-        ELM_SYSTRAY_CATEGORY_SYS_SERVICES
-        ELM_SYSTRAY_CATEGORY_HARDWARE
-        ELM_SYSTRAY_CATEGORY_OTHER
-
-    ctypedef enum Elm_Systray_Status:
-        ELM_SYSTRAY_STATUS_PASSIVE
-        ELM_SYSTRAY_STATUS_ACTIVE
-        ELM_SYSTRAY_STATUS_ATTENTION
-
     # thumb
     ctypedef enum Elm_Thumb_Animation_Setting:
         ELM_THUMB_ANIMATION_START
