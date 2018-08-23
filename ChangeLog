@@ -1,15 +1,26 @@
 
 ===================
-XXXX-XX-XX  v1.21.0
+2018-08-24  v1.21.0
 ===================
 
 BREAKS:
  * systray.pxi do not work anymore as the widget has been removed from efl.
-   (commented in efl/elementary/__init__.pyx)
-   TODO FIXME... we still need to decide what to do with this breakage,
-      maybe an empty api with just a break notice? in this way apps using
-      systray will still run (not crash)
+    The widget has been completly removed and the function elm_need_systray
+    now always return False that means systray is not available.
+    Apologies for the inconvenient.
 
+Changes:
+ * Switched to Cython 0.28.4 for the tarball generation, should fix build
+   issues with python3.7
+
+Additions:
+ * ecore.ECORE_EXE_ISOLATE_IO
+ * edje.part_text_prediction_hint_hash_del
+ * edje.part_text_prediction_hint_hash_set
+ * elm.Entry.prediction_hint_hash_del
+ * elm.Entry.prediction_hint_hash_set
+ * elm.Ctxpopup.item_insert_after
+ * elm.Ctxpopup.item_insert_before
 
 
 ===================
