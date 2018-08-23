@@ -469,7 +469,6 @@ Inheritance diagram
     efl.elementary.Slider
     efl.elementary.Slideshow
     efl.elementary.Spinner
-    efl.elementary.Systray
     efl.elementary.Table
     efl.elementary.Theme
     efl.elementary.Thumb
