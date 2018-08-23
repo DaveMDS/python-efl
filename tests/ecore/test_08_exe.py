@@ -34,7 +34,7 @@ class TestExeSubprocess(unittest.TestCase):
         exe.on_del_event_add(self.on_exe_del)
 
         # start ml with a 5 secs timeout
-        t = ecore.timer_add(5, ecore.main_loop_quit)
+        t = ecore.timer_add(15, ecore.main_loop_quit)
         ecore.main_loop_begin()
         t.delete()
 
