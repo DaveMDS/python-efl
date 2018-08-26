@@ -105,7 +105,6 @@ Release process instructions
 * Update the ChangeLog file:
     setup.py build_doc -b changes ...and manually merge from the html file
 * Git push and wait jenkins to generate the tarballs and the documentation
-* HACK: Use cython 23.5 to generate the source and the tarball on your pc !! see T5589
 * Test the generated tarballs
 * scp tarballs & md5sums to:
   download.enlightenment.org:/srv/web/download.enlightenment.org/public_html/pre-releases/
@@ -136,31 +135,5 @@ Release process instructions
 
 more info at:
 phab.enlightenment.org/w/release_procedure/
+phab.enlightenment.org/w/hosting/ssh/
 
-
-Discussion
-==========
-
-* Internal utility functions used in the bindings must start with an
-  underscore and must have the shortest name as possible.
-  ^
-  This needs further discussion/expansion.
-
-  When we define a function with cdef it is not exposed to Python API.
-  This should be explicit enough to not need the underscore prefix, which
-  at best looks ugly, and at worst just plain confusing.
-
-  A function name should summarize its functionality in one clear text,
-  short sentence. We have both too long and too short names. And I admit to
-  being guilty of adding many of both.
-
-  Let's build up a short review so we can see where we stand with this and
-  make necessary corrections.
-
-  / kuuko
-
-
-  The underscore usage is a coding standard in all the EFL, we should try
-  to follow the efl style also here (where is possible and make sense)
-
-  / davemds
