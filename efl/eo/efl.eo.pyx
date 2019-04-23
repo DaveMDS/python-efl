@@ -71,13 +71,13 @@ init()
 atexit.register(shutdown)
 
 def event_global_freeze_count_get():
-    return efl_event_global_freeze_count_get(<const cEo *>efl_object_class_get())
+    return efl_event_global_freeze_count_get()
 
 def event_global_freeze():
-    efl_event_global_freeze(<const cEo *>efl_object_class_get())
+    efl_event_global_freeze()
 
 def event_global_thaw():
-    efl_event_global_thaw(<const cEo *>efl_object_class_get())
+    efl_event_global_thaw()
 
 ######################################################################
 
