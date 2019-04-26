@@ -105,6 +105,10 @@ Release process instructions
 * Update the ChangeLog file:
     setup.py build_doc -b changes ...and manually merge from the html file
 * Git push and wait jenkins to generate the tarballs and the documentation
+  JENKIS IS DEAD :(  these are the manual instructions:
+    * setup.py sdist --formats gztar,xztar
+    * (cd dist) sha256sum python-efl-1.9.0.tar.xz > python-efl-1.9.0.tar.xz.sha256
+    * setup.py build_doc (check that inheritance graphs are there)
 * Test the generated tarballs
 * scp tarballs & md5sums to:
   download.enlightenment.org:/srv/web/download.enlightenment.org/public_html/pre-releases/
