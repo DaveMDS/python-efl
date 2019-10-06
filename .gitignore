@@ -28,4 +28,5 @@ pip-log.txt
 # Cython generated files
 efl/*/*.c
 efl/*/*.h
+!efl/dbus_mainloop/e_dbus.*
 efl/*/*.html

@@ -171,6 +171,8 @@ def get_pyapis(pxd_path, header_name, prefix):
         for f in files:
             # if not f.endswith(".pxd"):
             #     continue
+            if f.endswith(".pyc"):
+                continue
             open_args = (os.path.join(path, f),)
             open_kwargs = dict(mode="r")
             if sys.version_info[0] > 2:
