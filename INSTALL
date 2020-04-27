@@ -3,17 +3,12 @@
 ===============
 
  * Python 2.6 or higher, 3.2 or higher (http://www.python.org/)
-   - Tested with Python 2.7 / 3.3 / 3.4
+   - Tested with Python 3.8
 
  * Cython 0.21 or higher (http://cython.org/)
-   - Tested with Cython 0.21.2
+   - Tested with Cython 0.29.16
 
- * EFL core library
-   - eo, evas, ecore, edje, emotion and elementary
-
- * pkg-config (http://www.freedesktop.org/wiki/Software/pkg-config)
-   - Windows executable (and GLib dependency) can be downloaded from
-     http://www.gtk.org/download/win32.php
+ * EFL libs
 
  * To build the DOCS you will also need:
    - python-sphinx
@@ -28,6 +23,11 @@
  building the wrapper using:
 
    python setup.py build
+
+ IMPORTANT NOTE:
+   To build the bindings you will need at least 4GB of free ram!
+   Otherwise the build process will badly fail.
+
 
  Distribution tarballs include pre-generated C source files, so
  cython usage is disabled by default, while is enabled in development git
