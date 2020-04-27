@@ -1,10 +1,12 @@
 #!/usr/bin/env python
 
+import os
+import unittest
+import logging
+
 from efl import evas
 from efl import ecore
 from efl import edje
-import os, unittest
-import logging
 
 
 theme_path = os.path.dirname(os.path.abspath(__file__))
@@ -111,9 +113,9 @@ class TestEdjeObject(unittest.TestCase):
         o.delete()
 
     def testSignals(self):
-        expected_signals = ["seat,added,seat1,default", "edje,language,none",
-                            "edje,state,ltr", "load", "edje,state,ltr",
-                            "resize", "quit"]
+        expected_signals = ["edje,language,none", "edje,state,ltr", "load",
+                            "edje,state,ltr", "resize", "quit"]
+
         def _signal_cb(obj, emission, source):
             expected_signals.remove(emission)
             if emission == "quit":

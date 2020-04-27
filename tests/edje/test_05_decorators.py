@@ -13,9 +13,9 @@ theme_path = os.path.dirname(os.path.abspath(__file__))
 theme_file = os.path.join(theme_path, "theme.edj")
 
 
-expected_signals = ["seat,added,seat1,default", "edje,language,none",
-                    "edje,state,ltr", "load", "edje,state,ltr", "resize",
-                    "emit,message", "emit,message"]
+expected_signals = ["edje,language,none", "edje,state,ltr", "load",
+                    "edje,state,ltr", "resize", "emit,message", "emit,message",
+                    "edje,text,changed", "edje,text,changed"]
 expected_signals2 = ["load", "resize"]
 expected_messages = [33, 33]
 expected_text_parts = ["label", "label"]
@@ -24,7 +24,6 @@ expected_text_parts = ["label", "label"]
 class MyEdje(Edje):
     def __init__(self, canvas):
         Edje.__init__(self, canvas, file=theme_file, group="main")
-
 
     @edje.on_signal("*", "*")
     def cb_signal_all(self, emission, source):

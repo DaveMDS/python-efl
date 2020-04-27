@@ -15,7 +15,7 @@ class TestCon(unittest.TestCase):
     def testLookup(self):
         def _dns_complete(canonname, ip, sockaddr, arg1, my_karg):
             self.assertEqual(canonname, 'google-public-dns-a.google.com')
-            self.assertEqual(ip, '8.8.8.8')
+            self.assertIn(ip, ('8.8.8.8', '2001:4860:4860::8888'))
             self.assertEqual(arg1, "arg1")
             self.assertEqual(my_karg, 1234)
             self.complete = True
@@ -23,7 +23,7 @@ class TestCon(unittest.TestCase):
 
         self.complete = False
         ecore_con.Lookup('google-public-dns-a.google.com',
-                          _dns_complete, "arg1", my_karg=1234)
+                         _dns_complete, "arg1", my_karg=1234)
 
         t = ecore.Timer(TIMEOUT, ecore.main_loop_quit)
         ecore.main_loop_begin()
@@ -35,7 +35,7 @@ class TestCon(unittest.TestCase):
         self.complete_counter = 0
         self.progress_counter = 0
         self.exit_counter = 3 # we expect 3 complete cb calls
-        self.test_url = 'http://www.example.com'
+        self.test_url = 'http://www.google.com'
         self.received_data = []
 
         def _on_complete(event, add=1):
@@ -87,7 +87,7 @@ class TestCon(unittest.TestCase):
         u.delete()
 
     def testUrlDelete(self):
-        self.test_url1 = 'http://www.example.com'
+        self.test_url1 = 'http://www.facebook.com'
         self.test_url2 = 'http://www.google.com'
         self.complete_counter = 0
 
@@ -131,7 +131,7 @@ class TestCon(unittest.TestCase):
         u2.delete()
 
     def testUrlToFile(self):
-        self.test_url = 'http://www.example.com'
+        self.test_url = 'http://www.google.com'
         self.complete = False
 
         def _on_complete(event):
