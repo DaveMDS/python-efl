@@ -229,5 +229,5 @@ cdef class Textblock(Object):
         """
         evas_object_textblock_obstacles_update(self.obj)
 
-_object_mapping_register("Efl.Canvas.Text", Textblock)
+_object_mapping_register("Efl.Canvas.Textblock", Textblock)
 
