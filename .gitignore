@@ -30,3 +30,6 @@ efl/*/*.c
 efl/*/*.h
 !efl/dbus_mainloop/e_dbus.*
 efl/*/*.html
+
+# Various editors trash
+.idea/
