@@ -111,7 +111,7 @@ Release process instructions
     * setup.py build_doc (check that inheritance graphs are there)
 * Test the generated tarballs
 * scp tarballs & md5sums to:
-  download.enlightenment.org:/srv/web/download.enlightenment.org/public_html/pre-releases/
+  download.enlightenment.org:/srv/web/download.enlightenment.org/pre-releases/
 * Announce at enlightenment-release@lists.sourceforge.net and
   enlightenment-devel@lists.sourceforge.net that tarballs are ready for testing
 
@@ -119,7 +119,7 @@ Release process instructions
     release announcement for phame/ml.
 
 * ssh to download.enlightenment.org and mv tarballs & md5sums to:
-    /srv/web/download.enlightenment.org/public_html/rel/bindings/python/
+    /srv/web/download.enlightenment.org/rel/bindings/python/
 * Upload the .tar.gz archive to pypi:
    - NOTE: pypi is migrating to pypi.org domain, you must work on the new one
    - python setup.py sdist upload (need ~/.pypirc)
@@ -129,7 +129,7 @@ Release process instructions
 * Create and push the branch for stable backporting
     git branch python-efl-1.9 && git push origin python-efl-1.9
 * scp the jenkins generated html documentation to:
-  download.enlightenment.org:/srv/web/docs.enlightenment.org/public_html/python-efl/1.XX.0/
+  download.enlightenment.org:/srv/web/docs.enlightenment.org/python-efl/1.XX.0/
   and update the 'current' link on the server (ssh)
 * Update download link on the wiki (www.enlightenment.org/download)
 * Publish the blog post on phame (Official Announcements)
