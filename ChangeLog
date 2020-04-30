@@ -1,5 +1,14 @@
 
 ===================
+2020-04-30  v1.24.0
+===================
+
+Changes:
+ * Switched to Cython 0.29.16 for the tarball generation
+ * No more pypi packages uploaded, you must install from tarball
+
+
+===================
 2019-10-06  v1.23.0
 ===================
 

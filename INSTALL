@@ -8,12 +8,14 @@
  * Cython 0.21 or higher (http://cython.org/)
    - Tested with Cython 0.29.16
 
- * EFL libs
+ * EFL must be the same minor version of the bindings,
+   es. python-efl 1.24 need efl 1.24
 
  * To build the DOCS you will also need:
    - python-sphinx
    - [optional] graphviz
 
+ * At least 4GB of free RAM to build
 
 
 2. BUILDING PYTHON-EFL
