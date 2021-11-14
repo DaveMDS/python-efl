@@ -33,3 +33,4 @@ efl/*/*.html
 
 # Various editors trash
 .idea/
+.vscode/
