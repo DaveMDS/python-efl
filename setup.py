@@ -474,7 +474,7 @@ setup(
     name="python-efl",
     fullname="Python bindings for Enlightenment Foundation Libraries",
     description="Python bindings for Enlightenment Foundation Libraries",
-    long_description=open(os.path.join(script_path, 'README')).read(),
+    long_description=open(os.path.join(script_path, 'README.md')).read(),
     version=RELEASE,
     author='Davide Andreoli, Kai Huuhko, and others',
     author_email="dave@gurumeditation.it, kai.huuhko@gmail.com",
