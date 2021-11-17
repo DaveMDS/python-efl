@@ -34,7 +34,7 @@ if "efl" in sys.modules:
 # -- General configuration -----------------------------------------------------
 
 # If your documentation needs a minimal Sphinx version, state it here.
-needs_sphinx = '1.1'
+needs_sphinx = '3.1'
 
 # Add any Sphinx extension module names here, as strings. They can be extensions
 # coming with Sphinx (named 'sphinx.ext.*') or your custom ones.
@@ -131,15 +131,14 @@ pygments_style = 'monokai'
 
 # -- Autodoc configuration -----------------------------------------------------
 
-autodoc_default_flags = [
-    'members',
-    'show-inheritance',
-    # 'inherited-members',
-    # 'undoc-members',
-]
-autoclass_content = "both"
-autodoc_docstring_signature = True
-# autodoc_member_order = "bysource"
+autodoc_default_options = {
+    'members': True,  # show methods for classes
+    'show-inheritance': True,  # show bases class
+    'member-order': 'alphabetical',  # bysource, alphabetical, groupwise
+    'special-members': '__init__',  # also document the __init__ method
+    'no-undoc-members': True,  # dont show members without docstring
+    'no-inherited-members': True,  # dont show members from parent classes
+}
 
 def setup(app):
     from sphinx.ext.autodoc import cut_lines
