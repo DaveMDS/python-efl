@@ -14,7 +14,7 @@ sudo python setup.py install
 NOTE: due to strange cython+gcc behaviour we highly suggest to build python-efl using clang. If you experience issues using gcc (like memory exhausted or strange compile errors) just use clang in this way:
 
 ```
-cc=clang python setup.py build
+CC=clang python setup.py build
 ```
 
 ## Source repository
