@@ -1,0 +1,9 @@
+[MESSAGES CONTROL]
+
+#enable=
+
+disable=consider-using-f-string,  # for older python we still support
+        redundant-u-string-prefix,  # for older python we still support
+        missing-function-docstring, 
+        missing-class-docstring, 
+        missing-module-docstring,

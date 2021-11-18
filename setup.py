@@ -8,7 +8,7 @@ import subprocess
 from distutils.core import setup, Command
 from distutils.extension import Extension
 from distutils.command.build_ext import build_ext
-from distutils.version import StrictVersion, LooseVersion
+from distutils.version import LooseVersion
 from efl import __version__, __version_info__ as vers
 
 script_path = os.path.dirname(os.path.abspath(__file__))
@@ -36,7 +36,7 @@ if vers[2] == 99:
         RELEASE += "a0"
 
 
-# XXX: Force default visibility. See phab T504
+# Force default visibility. See phab T504
 if os.getenv("CFLAGS") is not None and "-fvisibility=" in os.environ["CFLAGS"]:
     os.environ["CFLAGS"] += " -fvisibility=default"
 

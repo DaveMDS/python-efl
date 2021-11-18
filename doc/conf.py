@@ -6,32 +6,36 @@
 # list see the documentation:
 # https://www.sphinx-doc.org/en/master/usage/configuration.html
 
-import sys, os, platform
+# pylint: disable=invalid-name
+
+import os
+import sys
+import platform
 
 
 # -- Path setup --------------------------------------------------------------
 
 # If extensions (or modules to document with autodoc) are in another directory,
 # add these directories to sys.path here.
-d = "lib.%s-%s-%d.%d" % (
-        platform.system().lower(),
-        platform.machine(),
-        sys.version_info[0],
-        sys.version_info[1]
-    )
-sys.path.insert(0, os.path.abspath("../build/"+d))
-#sys.path.insert(0, os.path.abspath('../build/lib.linux-i686-3.2'))
+d = 'lib.%s-%s-%d.%d' % (
+    platform.system().lower(),
+    platform.machine(),
+    sys.version_info[0],
+    sys.version_info[1]
+)
+sys.path.insert(0, os.path.abspath('../build/' + d))
+# sys.path.insert(0, os.path.abspath('../build/lib.linux-i686-3.2'))
 
 # Delete any previously imported efl package
-if "efl" in sys.modules:
-    del sys.modules["efl"]
+if 'efl' in sys.modules:
+    del sys.modules['efl']
 
 
 # -- Project information -----------------------------------------------------
 
-project = u'Python EFL'
+project = 'Python EFL'
 author = 'The Python-EFL community (see AUTHORS)'
-copyright = u'2008-2021, ' + author
+copyright = '2008-2021, ' + author  # pylint: disable=redefined-builtin
 
 
 # -- General configuration ----------------------------------------------------
@@ -73,16 +77,15 @@ autodoc_default_options = {
 autoclass_content = 'both'
 
 def setup(app):
-    from sphinx.ext.autodoc import cut_lines
     app.connect('autodoc-process-signature', autodoc_process_signature)
 
-def autodoc_process_signature(app, what, name, obj, options, signature, return_annotation):
+def autodoc_process_signature(_app, what, _name, _obj, _options, signature, return_annotation):
     """Cleanup params: remove the 'self' param and all the cython types"""
 
     if what not in ('function', 'method'):
-        return
+        return None
 
-    params = list()
+    params = []
     for param in (p.strip() for p in signature[1:-1].split(',')):
         if param != 'self':
             params.append(param.rpartition(' ')[2])
@@ -93,28 +96,28 @@ def autodoc_process_signature(app, what, name, obj, options, signature, return_a
 # -- Inheritance Diagram ------------------------------------------------------
 
 try:
-    import gv
+    import gv  # pylint: disable=unused-import
 except ImportError:
     pass
 else:
     extensions.append('sphinx.ext.inheritance_diagram')
     # svg scale better (look at the full elm dia)
     # but svg links are broken :(
-    graphviz_output_format = "svg" # png (default) or svg
+    graphviz_output_format = 'svg'  # png (default) or svg
     inheritance_graph_attrs = dict(
-        bgcolor = 'gray25', #404040
+        bgcolor = 'gray25',  #404040
     )
     inheritance_node_attrs = dict(
-        style = 'rounded', # or 'filled',
-        # fillcolor = "gray20", # bg color (should be #CCCCCC)
-        color = 'gray10',     # border color (should be #202020)
+        style = 'rounded',  # or 'filled',
+        # fillcolor = 'gray20',  # bg color (should be #CCCCCC)
+        color = 'gray10',  # border color (should be #202020)
         fontcolor = 'white',
         font = 'sans',
 
     )
     inheritance_edge_attrs = dict(
-        color = 'dodgerblue3', # arrow color (should be #4399FF)
-        dir = 'none', # arrow direction (back, forward, both or none)
+        color = 'dodgerblue3',  # arrow color (should be #4399FF)
+        dir = 'none',  # arrow direction (back, forward, both or none)
     )
 
 
@@ -142,16 +145,16 @@ html_theme_path = ['themes']
 #html_title = None
 
 # A shorter title for the navigation bar.  Default is the same as html_title.
-html_short_title = "Python EFL"
+html_short_title = 'Python EFL'
 
 # The name of an image file (relative to this directory) to place at the top
 # of the sidebar.
-html_logo = "images/logo.png"
+html_logo = 'images/logo.png'
 
 # The name of an image file (within the static path) to use as favicon of the
 # docs.  This file should be a Windows icon file (.ico) being 16x16 or 32x32
 # pixels large.
-html_favicon = "images/logo.ico"
+html_favicon = 'images/logo.ico'
 
 # Add any paths that contain custom static files (such as style sheets) here,
 # relative to this directory. They are copied after the builtin static files,
@@ -161,10 +164,6 @@ html_static_path = ['images']
 # If not '', a 'Last updated on:' timestamp is inserted at every page bottom,
 # using the given strftime format.
 html_last_updated_fmt = '%b %d, %Y'
-
-# If true, SmartyPants will be used to convert quotes and dashes to
-# typographically correct entities.
-#html_use_smartypants = True
 
 # Custom sidebar templates, maps document names to template names.
 #html_sidebars = {}
