@@ -42,7 +42,7 @@ cdef class FlipSelectorItem(ObjectItem):
 
     def __init__(self, label = None, callback = None, cb_data = None,
         *args, **kwargs):
-        """FlipSelectorItem(...)
+        """
 
         :param label: The (text) label of the new item
         :type label: string
@@ -181,7 +181,7 @@ cdef class FlipSelector(Object):
     """
 
     def __init__(self, evasObject parent, *args, **kwargs):
-        """FlipSelector(...)
+        """
 
         :param parent: The parent object
         :type parent: :py:class:`efl.evas.Object`

@@ -24,7 +24,7 @@ cdef class Textblock(Object):
     """
 
     def __init__(self, Canvas canvas not None, **kwargs):
-        """Textblock(...)
+        """
 
         :param canvas: Evas canvas for this object
         :type canvas: :py:class:`~efl.evas.Canvas`

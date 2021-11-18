@@ -26,7 +26,7 @@ cdef class Dayselector(LayoutClass):
     """
 
     def __init__(self, evasObject parent, *args, **kwargs):
-        """Dayselector(...)
+        """
 
         :param parent: The parent object
         :type parent: :py:class:`efl.evas.Object`

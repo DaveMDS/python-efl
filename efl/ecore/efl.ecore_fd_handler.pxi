@@ -78,7 +78,7 @@ cdef class FdHandler(object):
 
     """
     def __init__(self, fd, int flags, func, *args, **kargs):
-        """FdHandler(...)
+        """
 
         :param fd: file descriptor or object with fileno() method.
         :param flags: bitwise OR of ECORE_FD_READ, ECORE_FD_WRITE...

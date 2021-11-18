@@ -19,7 +19,7 @@
 include "photocam_cdef.pxi"
 
 cdef class PhotocamProgressInfo(object):
-    """PhotocamProgressInfo(...)
+    """
 
     The info sent in the callback for the ``download,progress`` signals emitted
     by Photocam while downloading remote urls.
@@ -45,7 +45,7 @@ cdef object _photocam_download_progress_conv(void *addr):
 
 
 cdef class PhotocamErrorInfo(object):
-    """PhotocamErrorInfo(...)
+    """
 
     The info sent in the callback for the ``download,error`` signals emitted
     by Photocam when fail to download remote urls.
@@ -79,7 +79,7 @@ cdef class Photocam(Object):
     """
 
     def __init__(self, evasObject parent, *args, **kwargs):
-        """Photocam(...)
+        """
 
         :param parent: The parent object
         :type parent: :py:class:`efl.evas.Object`

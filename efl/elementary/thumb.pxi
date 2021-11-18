@@ -25,7 +25,7 @@ cdef class Thumb(Object):
     """
 
     def __init__(self, evasObject parent, *args, **kwargs):
-        """Thumb(...)
+        """
 
         :param parent: The parent object
         :type parent: :py:class:`efl.evas.Object`

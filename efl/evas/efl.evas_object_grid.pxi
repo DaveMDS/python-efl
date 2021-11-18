@@ -24,7 +24,7 @@ cdef class Grid(Object):
     """
 
     def __init__(self, Canvas canvas not None, **kwargs):
-        """Grid(...)
+        """
 
         :param canvas: The evas canvas for this object
         :type canvas: :py:class:`Canvas`

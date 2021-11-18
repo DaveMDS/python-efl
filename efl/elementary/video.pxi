@@ -25,7 +25,7 @@ cdef class Video(LayoutClass):
     """
 
     def __init__(self, evasObject parent, *args, **kwargs):
-        """Video(...)
+        """
 
         :param parent: The parent object
         :type parent: :py:class:`efl.evas.Object`
@@ -261,7 +261,7 @@ cdef class Player(LayoutClass):
     """
 
     def __init__(self, evasObject parent, *args, **kwargs):
-        """Player(...)
+        """
 
         :param parent: The parent object
         :type parent: :py:class:`efl.evas.Object`

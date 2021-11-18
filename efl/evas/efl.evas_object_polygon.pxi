@@ -23,7 +23,7 @@ cdef class Polygon(Object):
 
     """
     def __init__(self, Canvas canvas not None, points=None, **kwargs):
-        """Polygon(...)
+        """
 
         :param canvas: Evas canvas for this object
         :type canvas: :py:class:`~efl.evas.Canvas`

@@ -40,7 +40,7 @@ cdef class Idler(Eo):
 
     """
     def __init__(self, func, *args, **kargs):
-        """Idler(...)
+        """
 
         :param func: Function to call when system is idle.
         :type func: callable
@@ -123,7 +123,7 @@ cdef class IdleEnterer(Idler):
 
     """
     def __init__(self, func, *args, **kargs):
-        """IdleEnterer(...)
+        """
 
         :param func: Function to call when system enters idle.
         :type func: callable

@@ -79,7 +79,7 @@ cdef class Image(Object):
     """
 
     def __init__(self, evasObject parent, *args, **kwargs):
-        """Image(...)
+        """
 
         :param parent: The parent object
         :type parent: :py:class:`efl.evas.Object`

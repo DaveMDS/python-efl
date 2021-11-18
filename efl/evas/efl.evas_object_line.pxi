@@ -24,7 +24,7 @@ cdef class Line(Object):
     """
     def __init__(self, Canvas canvas not None, start=None, end=None,
                  geometry=None, size=None, pos=None, **kwargs):
-        """Line(...)
+        """
 
         :param canvas: Evas canvas for this object
         :type canvas: :py:class:`~efl.evas.Canvas`

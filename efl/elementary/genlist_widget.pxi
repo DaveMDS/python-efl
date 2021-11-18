@@ -10,7 +10,7 @@ cdef class Genlist(Object):
     """
 
     def __init__(self, evasObject parent not None, *args, **kwargs):
-        """Genlist(...)
+        """
 
         :param parent: The parent object
         :type parent: :py:class:`efl.evas.Object`

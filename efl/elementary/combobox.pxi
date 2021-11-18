@@ -115,7 +115,7 @@ class Combobox(_Combobox, Button, Entry, Genlist, Hover):
 
     """
     def __init__(self, evasObject parent, *args, **kwargs):
-        """Combobox(...)
+        """
 
         :param parent: The parent object
         :type parent: :py:class:`efl.evas.Object`

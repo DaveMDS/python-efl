@@ -26,7 +26,7 @@ cdef class Text(Object):
     def __init__(self, Canvas canvas not None, font=None, shadow_color=None,
                  glow_color=None, glow2_color=None, outline_color=None,
                  **kwargs):
-        """Text(...)
+        """
 
         :param canvas: Evas canvas for this object
         :type canvas: :py:class:`~efl.evas.Canvas`

@@ -127,7 +127,7 @@ cdef class Image(Object):
 
     """
     def __init__(self, Canvas canvas not None, file=None, **kwargs):
-        """Image(...)
+        """
 
         :param canvas: Evas canvas for this object
         :type canvas: Canvas

@@ -29,7 +29,7 @@ cdef class ColorselectorPaletteItem(ObjectItem):
     cdef int r, g, b, a
 
     def __init__(self, int r, int g, int b, int a, *args, **kwargs):
-        """ColorselectorPaletteItem(...)
+        """
 
         :param r: Red value of color
         :type r: int
@@ -108,7 +108,7 @@ cdef class Colorselector(LayoutClass):
     """
 
     def __init__(self, evasObject parent, *args, **kwargs):
-        """Colorselector(...)
+        """
 
         :param parent: The parent object
         :type parent: :py:class:`efl.evas.Object`

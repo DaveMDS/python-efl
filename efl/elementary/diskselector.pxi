@@ -56,7 +56,7 @@ cdef class DiskselectorItem(ObjectItem):
 
     def __init__(self, label=None, evasObject icon=None, callback=None,
         cb_data=None, *args, **kargs):
-        """DiskselectorItem(...)
+        """
 
         :param label: The label of the diskselector item.
         :type label: string
@@ -183,7 +183,7 @@ cdef class Diskselector(Object):
     """
 
     def __init__(self, evasObject parent, *args, **kwargs):
-        """Diskselector(...)
+        """
 
         :param parent: The parent object
         :type parent: :py:class:`efl.evas.Object`

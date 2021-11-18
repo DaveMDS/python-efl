@@ -28,7 +28,7 @@ cdef void layout_signal_callback(void *data, Evas_Object *obj,
             traceback.print_exc()
 
 cdef class LayoutClass(Object):
-    """LayoutClass(...)
+    """
 
     This is the base class for the :class:`~efl.elementary.layout.Layout`
     widget and all the other widgets that inherit from it.

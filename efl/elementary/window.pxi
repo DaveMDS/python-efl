@@ -26,7 +26,7 @@ cdef class Window(Object):
     """
 
     def __init__(self, name, type, evasObject parent=None, *args, **kwargs):
-        """Window(...)
+        """
 
         :param name: A name for the new window - used by the window
             manager for identifying the window uniquely amongst all the windows
@@ -1503,7 +1503,7 @@ cdef class StandardWindow(Window):
     """
 
     def __init__(self, name, title, *args, **kwargs):
-        """StandardWindow(..)
+        """
 
         :param name: A name for the new window.
         :type name: string
@@ -1534,7 +1534,7 @@ cdef class DialogWindow(Window):
     """
 
     def __init__(self, evasObject parent not None, name, title, *args, **kwargs):
-        """DialogWindow(...)
+        """
 
         :param parent: The parent window (mandatory)
         :type parent: :py:class:`efl.evas.Object`

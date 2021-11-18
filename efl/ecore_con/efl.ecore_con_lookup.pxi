@@ -31,7 +31,7 @@ cdef void _con_dns_lookup_cb(const char *canonname, const char *ip, sockaddr *so
 
 cdef class Lookup(object):
     def __init__(self, name, done_cb, *args, **kargs):
-        """Lookup()
+        """
 
         A simple class to perform asynchronous DNS lookups.
 

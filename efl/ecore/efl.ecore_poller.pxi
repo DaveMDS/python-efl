@@ -60,7 +60,7 @@ cdef class Poller(Eo):
 
      """
     def __init__(self, int interval, func, pol_type=0, *args, **kargs):
-        """Poller(...)
+        """
 
         :param interval: The poll interval
         :type interval: int

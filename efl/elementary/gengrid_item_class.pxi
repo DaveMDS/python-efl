@@ -35,7 +35,7 @@ cdef class GengridItemClass:
 
     def __init__(self, item_style=None, text_get_func=None,
                  content_get_func=None, state_get_func=None, del_func=None):
-        """GengridItemClass constructor.
+        """
 
         :param item_style: the string that defines the gengrid item
             theme to be used. The corresponding edje group will

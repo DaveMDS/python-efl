@@ -26,7 +26,7 @@ cdef class Actionslider(LayoutClass):
     """
 
     def __init__(self, evasObject parent, *args, **kwargs):
-        """Actionslider(..)
+        """
 
         :param parent: Parent object
         :type parent: :py:class:`efl.evas.Object`

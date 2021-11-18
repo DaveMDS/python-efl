@@ -203,7 +203,7 @@ cdef class Emotion(evasObject):
 
     def __init__(self, Canvas canvas not None, module_name="gstreamer1",
                  module_params=None, **kwargs):
-        """Emotion(...)
+        """
 
         :param canvas: Evas canvas for this object
         :type canvas: :py:class:`~efl.evas.Canvas`

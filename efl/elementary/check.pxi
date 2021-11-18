@@ -25,7 +25,7 @@ cdef class Check(LayoutClass):
     """
 
     def __init__(self, evasObject parent, *args, **kwargs):
-        """Check(...)
+        """
 
         :param parent: The parent object
         :type parent: :py:class:`efl.evas.Object`

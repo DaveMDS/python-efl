@@ -35,7 +35,7 @@ cdef class CtxpopupItem(ObjectItem):
 
     def __init__(self, label = None, evasObject icon = None,
         callback = None, cb_data = None, *args, **kargs):
-        """CtxpopupItem(...)
+        """
 
         :param label: The Label of the new item
         :type label: string
@@ -155,7 +155,7 @@ cdef class Ctxpopup(LayoutClass):
     """
 
     def __init__(self, evasObject parent, *args, **kwargs):
-        """Ctxpopup(...)
+        """
 
         :param parent: The parent object
         :type parent: :py:class:`efl.evas.Object`

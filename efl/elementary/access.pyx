@@ -47,7 +47,7 @@ cdef class Accessible(Object):
     """
 
     def __init__(self, target, parent = None):
-        """Accessible(...)
+        """
 
         :param target: The evas object to register as an accessible object.
         :param parent: The elementary object which is used for creating

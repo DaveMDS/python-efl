@@ -213,7 +213,7 @@ cdef class Textgrid(Object):
 
     """
     def __init__(self, Canvas canvas not None, **kwargs):
-        """Textgrid(...)
+        """
 
         :param canvas: Evas canvas for this object
         :type canvas: :py:class:`~efl.evas.Canvas`

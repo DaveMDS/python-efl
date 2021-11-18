@@ -30,7 +30,7 @@ cdef class Box(Object):
 
     """
     def __init__(self, Canvas canvas not None, **kwargs):
-        """Box(...)
+        """
 
         :param canvas: The evas canvas for this object
         :type canvas: :py:class:`Canvas`

@@ -247,7 +247,7 @@ cdef class EthumbClient:
     """
 
     def __init__(self, func, *args, **kargs):
-        """ EthumbClient thumbnail generator.
+        """
 
         :param func: function to call when connection with server is
                      established.

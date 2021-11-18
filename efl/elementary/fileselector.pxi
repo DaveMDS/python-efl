@@ -37,7 +37,7 @@ cdef class Fileselector(LayoutClass):
     cdef list _custom_filters
 
     def __init__(self, evasObject parent, *args, **kwargs):
-        """Fileselector(...)
+        """
 
         :param parent: The parent object
         :type parent: :py:class:`efl.evas.Object`

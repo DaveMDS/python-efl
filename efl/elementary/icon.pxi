@@ -26,7 +26,7 @@ cdef class Icon(Image):
     """
 
     def __init__(self, evasObject parent, *args, **kwargs):
-        """Icon(...)
+        """
 
         :param parent: The parent object
         :type parent: :py:class:`efl.evas.Object`

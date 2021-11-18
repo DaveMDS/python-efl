@@ -75,7 +75,7 @@ cdef class Box(Object):
     """
 
     def __init__(self, evasObject parent, *args, **kwargs):
-        """Box(...)
+        """
 
         :param parent: The parent object
         :type parent: :py:class:`efl.evas.Object`

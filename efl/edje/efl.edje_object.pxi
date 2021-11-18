@@ -106,7 +106,7 @@ cdef class Edje(Object):
 
     def __init__(self, Canvas canvas not None, file=None, group=None, size=None,
                  geometry=None, **kwargs):
-        """Edje(...)
+        """
 
         :param canvas: Evas canvas for this object
         :type canvas: :py:class:`~efl.evas.Canvas`

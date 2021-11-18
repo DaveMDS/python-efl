@@ -230,7 +230,6 @@ cdef class Ethumb(object):
         self.obj = NULL
 
     def __init__(self):
-        """ Ethumb constructor. """
         assert self.obj == NULL, "Object must be clean"
         self.obj = ethumb_new()
         if self.obj == NULL:

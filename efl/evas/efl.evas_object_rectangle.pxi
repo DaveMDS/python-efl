@@ -91,7 +91,7 @@ cdef class Rectangle(Object):
 
     """
     def __init__(self, Canvas canvas not None, **kwargs):
-        """Rectangle(...)
+        """
 
         :param canvas: Evas canvas for this object
         :type canvas: :py:class:`~efl.evas.Canvas`

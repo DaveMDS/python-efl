@@ -19,7 +19,7 @@
 include "gesture_layer_cdef.pxi"
 
 cdef class GestureTapsInfo(object):
-    """GestureTapsInfo(...)
+    """
 
     Holds taps info for user
 
@@ -64,7 +64,7 @@ cdef class GestureTapsInfo(object):
             return self.info.timestamp
 
 cdef class GestureMomentumInfo(object):
-    """GestureMomentumInfo(...)
+    """
 
     Holds momentum info for user
     x1 and y1 are not necessarily in sync
@@ -158,7 +158,7 @@ cdef class GestureMomentumInfo(object):
             return self.info.n
 
 cdef class GestureLineInfo(object):
-    """GestureLineInfo(...)
+    """
 
     Holds line info for user
 
@@ -187,7 +187,7 @@ cdef class GestureLineInfo(object):
             return self.info.angle
 
 cdef class GestureZoomInfo(object):
-    """GestureZoomInfo(...)
+    """
 
     Holds zoom info for user
 
@@ -241,7 +241,7 @@ cdef class GestureZoomInfo(object):
             return self.info.momentum
 
 cdef class GestureRotateInfo(object):
-    """GestureRotateInfo(...)
+    """
 
     Holds rotation info for user
 
@@ -364,7 +364,7 @@ cdef class GestureLayer(Object):
     """
 
     def __init__(self, evasObject parent, *args, **kwargs):
-        """GestureLayer(...)
+        """
 
         :param parent: The gesture layer's parent widget.
         :type parent: :py:class:`~efl.evas.Object`

@@ -25,7 +25,7 @@ cdef class Grid(Object):
     """
 
     def __init__(self, evasObject parent, *args, **kwargs):
-        """Grid(...)
+        """
 
         :param parent: The parent object
         :type parent: :py:class:`efl.evas.Object`

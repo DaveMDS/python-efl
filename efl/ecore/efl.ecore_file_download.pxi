@@ -73,7 +73,7 @@ cdef class FileDownload(object):
 
     """
     def __init__(self, url, dst, completion_cb, progress_cb, *args, **kargs):
-        """FileDownload(...)
+        """
 
         :param url: The complete url to download
         :param dst: Where to download the file

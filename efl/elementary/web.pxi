@@ -120,7 +120,7 @@ cdef class Web(Object):
     cdef object _console_message_hook
 
     def __init__(self,evasObject parent, *args, **kwargs):
-        """Web(...)
+        """
 
         :param parent: The parent object
         :type parent: :py:class:`efl.evas.Object`

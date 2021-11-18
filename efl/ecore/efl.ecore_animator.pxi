@@ -40,7 +40,7 @@ cdef class Animator(Eo):
 
     """
     def __init__(self, func, *args, **kargs):
-        """Animator(...)
+        """
 
         :param func: function to call at every frame.
         :type func: callable
@@ -141,7 +141,7 @@ cdef class AnimatorTimeline(Animator):
     """
 
     def __init__(self, func, double runtime, *args, **kargs):
-        """AnimatorTimeline(...)
+        """
 
         :param func: The function to call when it ticks off
         :type func: callable        

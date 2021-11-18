@@ -53,7 +53,7 @@ cdef class CalendarMark(object):
 
     def __init__(self, evasObject cal, mark_type, mark_time,
                  Elm_Calendar_Mark_Repeat_Type repeat):
-        """CalendarMark(...)
+        """
 
         :param parent: The parent object
         :type parent: :py:class:`efl.evas.Object`
@@ -109,7 +109,7 @@ cdef class Calendar(LayoutClass):
     """
 
     def __init__(self, evasObject parent, *args, **kwargs):
-        """Calendar(..)
+        """
 
         :param parent: The parent object
         :type parent: :py:class:`efl.evas.Object`

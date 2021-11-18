@@ -29,7 +29,7 @@ cdef class Panel(LayoutClass):
     """
 
     def __init__(self, evasObject parent, *args, **kwargs):
-        """Panel(...)
+        """
 
         :param parent: The parent object
         :type parent: :py:class:`efl.evas.Object`

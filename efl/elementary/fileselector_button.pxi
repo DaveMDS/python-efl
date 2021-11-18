@@ -26,7 +26,7 @@ cdef class FileselectorButton(Button):
     """
 
     def __init__(self, evasObject parent, *args, **kwargs):
-        """FileselectorButton(...)
+        """
 
         :param parent: The parent object
         :type parent: :py:class:`efl.evas.Object`

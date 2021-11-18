@@ -23,7 +23,7 @@ cdef class GengridItem(ObjectItem):
 
     def __init__(self, GengridItemClass item_class not None, item_data = None, \
         func = None, func_data = None, *args, **kwargs):
-        """GengridItem(..)
+        """
 
         :param item_class: a valid instance that defines the
             behavior of this item. See :py:class:`GengridItemClass`.

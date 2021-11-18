@@ -714,7 +714,7 @@ cdef class Map(Object):
 
     """
     def __init__(self, evasObject parent, *args, **kwargs):
-        """Map(...)
+        """
 
         :param parent: The parent object
         :type parent: :py:class:`efl.evas.Object`

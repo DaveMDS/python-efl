@@ -15,7 +15,7 @@ cdef class GenlistItem(ObjectItem):
                  GenlistItem parent_item=None,
                  Elm_Genlist_Item_Type flags=enums.ELM_GENLIST_ITEM_NONE,
                  func=None, func_data=None, *args, **kwargs):
-        """GenlistItem(...)
+        """
 
         :param item_data: Data that defines the model of this row.
             This value will be given to methods of ``item_class`` such as

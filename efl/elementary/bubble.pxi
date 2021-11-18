@@ -26,7 +26,7 @@ cdef class Bubble(LayoutClass):
     """
 
     def __init__(self, evasObject parent, *args, **kwargs):
-        """Bubble(...)
+        """
 
         :param parent: The parent object
         :type parent: :py:class:`efl.evas.Object`

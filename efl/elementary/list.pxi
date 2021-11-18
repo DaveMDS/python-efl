@@ -32,7 +32,7 @@ cdef class ListItem(ObjectItem):
 
     def __init__(self, label=None, evasObject icon=None, evasObject end=None,
                  callback=None, cb_data=None, *args, **kargs):
-        """ListItem(...)
+        """
 
         :param string label: The label of the list item.
         :param  icon: The icon object to use for the left side of the item. An
@@ -416,7 +416,7 @@ cdef class List(Object):
     """
 
     def __init__(self, evasObject parent, *args, **kwargs):
-        """List(...)
+        """
 
         :param parent: The parent object
         :type parent: :py:class:`efl.evas.Object`

@@ -49,7 +49,7 @@ def utf8_to_markup(string):
         <const char *>string if string is not None else NULL))
 
 cdef class EntryContextMenuItem(object):
-    """EntryContextMenuItem(...)
+    """
 
     Type of contextual item that can be added in to long press menu.
 
@@ -192,7 +192,7 @@ cdef void py_elm_entry_filter_cb(void *data, Evas_Object *entry, char **text) wi
 
 
 cdef class EntryAnchorInfo(object):
-    """EntryAnchorInfo(...)
+    """
 
     The info sent in the callback for the ``anchor,clicked`` signals emitted
     by entries.
@@ -254,7 +254,7 @@ cdef object _entryanchor_conv(void *addr):
 
 
 cdef class EntryAnchorHoverInfo(object):
-    """EntryAnchorHoverInfo(...)
+    """
 
     The info sent in the callback for ``anchor,hover,opened`` signals emitted
     by the entries.
@@ -348,7 +348,7 @@ cdef class Entry(LayoutClass):
         self.markup_filters = []
 
     def __init__(self, evasObject parent, *args, **kwargs):
-        """Entry(...)
+        """
 
         :param parent: The parent object
         :type parent: :py:class:`efl.evas.Object`

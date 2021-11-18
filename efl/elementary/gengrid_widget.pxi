@@ -8,7 +8,7 @@ cdef class Gengrid(Object):
     """
 
     def __init__(self, evasObject parent, *args, **kwargs):
-        """Gengrid(...)
+        """
 
         :param parent: The parent object
         :type parent: :py:class:`efl.evas.Object`

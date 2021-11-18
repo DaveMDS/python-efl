@@ -196,7 +196,7 @@ cdef class Url(Eo):
 
     """
     def __init__(self, url, custom_request=None, **kargs):
-        """Url(...)
+        """
 
         :param url: URL that will receive requests.
         :type url: string

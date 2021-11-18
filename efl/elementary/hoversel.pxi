@@ -34,7 +34,7 @@ cdef class HoverselItem(ObjectItem):
     def __init__(self, label = None, icon_file = None,
             icon_type = enums.ELM_ICON_NONE, callback = None, cb_data = None,
             *args, **kwargs):
-        """HoverselItem(...)
+        """
 
         :param label: The text label to use for the item (None if not desired)
         :type label: string
@@ -171,7 +171,7 @@ cdef class Hoversel(Button):
     """
 
     def __init__(self, evasObject parent, *args, **kwargs):
-        """Hoversel(...)
+        """
 
         :param parent: The parent object
         :type parent: :py:class:`efl.evas.Object`

@@ -60,7 +60,7 @@ cdef class FileMonitor(object):
 
     """
     def __init__(self, path, monitor_cb, *args, **kargs):
-        """FileMonitor(...)
+        """
 
         :param path: The complete path of the folder you want to monitor.
         :type path: str

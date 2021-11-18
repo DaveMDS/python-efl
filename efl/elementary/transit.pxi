@@ -108,7 +108,7 @@ cdef class Transit(object):
         dict del_cb_kwargs
 
     def __init__(self, *args, **kwargs):
-        """Transit(...)
+        """
 
         :param \**kwargs: All the remaining keyword arguments are interpreted
                           as properties of the instance

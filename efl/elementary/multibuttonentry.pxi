@@ -223,7 +223,7 @@ cdef class MultiButtonEntry(Object):
     cdef list _item_filters
 
     def __init__(self, evasObject parent, *args, **kwargs):
-        """MultiButtonEntry(...)
+        """
 
         :param parent: The parent object
         :type parent: :py:class:`efl.evas.Object`

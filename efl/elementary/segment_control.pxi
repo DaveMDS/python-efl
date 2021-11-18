@@ -182,7 +182,7 @@ cdef class SegmentControl(LayoutClass):
     """
 
     def __init__(self, evasObject parent, *args, **kwargs):
-        """SegmentControl(...)
+        """
 
         :param parent: The parent object
         :type parent: :py:class:`efl.evas.Object`

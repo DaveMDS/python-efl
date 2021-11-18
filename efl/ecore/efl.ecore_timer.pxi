@@ -42,7 +42,7 @@ cdef class Timer(Eo):
 
     """
     def __init__(self, double interval, func, *args, **kargs):
-        """Timer(...)
+        """
 
         :param interval: interval in seconds.
         :type interval: float

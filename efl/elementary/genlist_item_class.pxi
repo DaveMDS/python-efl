@@ -46,7 +46,7 @@ cdef class GenlistItemClass(object):
                  filter_get_func=None, reusable_content_get_func=None,
                  *args, **kwargs):
 
-        """GenlistItemClass constructor.
+        """
 
         :param item_style: the string that defines the genlist item
             theme to be used. The corresponding edje group will

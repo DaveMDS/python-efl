@@ -25,7 +25,7 @@ cdef class Separator(LayoutClass):
     """
 
     def __init__(self, evasObject parent, *args, **kwargs):
-        """Separator(...)
+        """
 
         :param parent: The parent object
         :type parent: :py:class:`efl.evas.Object`

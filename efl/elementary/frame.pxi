@@ -25,7 +25,7 @@ cdef class Frame(LayoutClass):
     """
 
     def __init__(self, evasObject parent, *args, **kwargs):
-        """Frame(...)
+        """
 
         :param parent: The parent object
         :type parent: :py:class:`efl.evas.Object`

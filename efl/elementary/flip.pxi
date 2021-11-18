@@ -26,7 +26,7 @@ cdef class Flip(Object):
     """
 
     def __init__(self, evasObject parent, *args, **kwargs):
-        """Flip(...)
+        """
 
         :param parent: The parent object
         :type parent: :py:class:`efl.evas.Object`
