@@ -103,7 +103,7 @@ else:
     extensions.append('sphinx.ext.inheritance_diagram')
     # svg scale better (look at the full elm dia)
     # but svg links are broken :(
-    graphviz_output_format = 'svg'  # png (default) or svg
+    graphviz_output_format = 'png'  # png (default) or svg
     inheritance_graph_attrs = dict(
         bgcolor = 'gray25',  #404040
     )
