@@ -21,8 +21,8 @@ body {
     font-size: 14px;
     text-align: center;
     /* background-image: url(bodybg.png); */
-    background-color: rgb(64,64,64); /* */
-    color: white; /*black*/
+    background-color: rgb(64,64,64);
+    color: white;
     padding: 0;
     margin: 0;
 }
@@ -97,7 +97,7 @@ div.document {
 
 div.bodywrapper {
     margin-right: 240px;
-    border-right: 1px solid rgb(111,111,111); /*#0a507a*/
+    border-right: 1px solid rgb(111,111,111);
 }
 
 div.body {
@@ -114,10 +114,10 @@ div.related {
 }
 
 div.related ul {
-    background-image: url(rel_background.png); /*url(relbg.png)*/
+    background-image: url(rel_background.png);
     height: 1.9em;
-    border-top: 1px solid rgb(32,32,32); /*#002e50*/
-    border-bottom: 1px solid rgb(32,32,32); /*#002e50*/
+    border-top: 1px solid rgb(32,32,32);
+    border-bottom: 1px solid rgb(32,32,32);
     margin-top: 6px;
     margin-bottom: 6px;
 }
@@ -138,13 +138,10 @@ div.related ul li a {
     padding: 0 5px 0 5px;
     line-height: 1.75em;
     color: rgb(249,249,240);
-    /* text-shadow: 0px 0px 1px rgba(0, 0, 0, 0.5); */
 }
 
 div.related ul li a:hover {
     color: white;
-    /*text-decoration: underline;*/
-    /* text-shadow: 0px 0px 1px rgba(255, 255, 255, 0.5); */
 }
 
 div.sphinxsidebarwrapper {
@@ -153,7 +150,6 @@ div.sphinxsidebarwrapper {
     top: 0px;
 */
     padding: 0;
-
 }
 
 div.sphinxsidebar {
@@ -217,7 +213,7 @@ div.sphinxsidebar .subscribeform input[type="submit"] {
 
 div.sphinxsidebar h3 {
     font-size: 1.5em;
-    border-top: 1px solid rgb(111,111,111); /*#0a507a;*/
+    border-top: 1px solid rgb(111,111,111);
     margin-top: 1em;
     margin-bottom: 0.5em;
     padding-top: 0.5em;
@@ -233,9 +229,8 @@ div.sphinxsidebar h3, div.sphinxsidebar h4 {
     margin-left: -15px;
     padding-right: 14px;
     padding-left: 14px;
-    color: rgb(51, 153, 255); /*#333*/
+    color: rgb(51, 153, 255);
     font-weight: 300;
-    /*text-shadow: 0px 0px 0.5px rgba(0, 0, 0, 0.4);*/
 }
 
 div.sphinxsidebarwrapper > h3:first-child {
@@ -244,7 +239,7 @@ div.sphinxsidebarwrapper > h3:first-child {
 }
 
 div.sphinxsidebar h3 a {
-    color: rgb(51, 153, 255); /*#333*/
+    color: rgb(51, 153, 255);
 }
 
 div.sphinxsidebar ul {
@@ -260,14 +255,14 @@ div.sphinxsidebar ul ul {
 }
 
 div.footer {
-    background-image: url(footer_background.png); /*url(footerbg.png)*/
+    background-image: url(footer_background.png);
     color: rgb(204,204,204);
     text-shadow: 0 0 .2px rgba(255, 255, 255, 0.8);
-    padding: 6px; /*3px 8px 3px 0*/
+    padding: 6px;
     clear: both;
     font-size: 0.8em;
-    text-align: center; /*right*/
-    height: 50px; /*3em*/
+    text-align: center;
+    height: 50px;
     margin-top: 18px;
 }
 
@@ -289,7 +284,7 @@ a {
 
 a:hover {
     color: rgb(200,200,210);
-    text-shadow: rgb(51, 153, 255) 0px 0px 6px; /* */
+    text-shadow: rgb(51, 153, 255) 0px 0px 6px;
 }
 
 div.body a {
@@ -297,19 +292,18 @@ div.body a {
 }
 
 h1 {
-    margin: 10px 0 0 0;
+    margin: 0.3em 0;
     font-size: 2.4em;
-    color: rgb(51, 153, 255); /*#0A507A*/
+    color: rgb(51, 153, 255);
     font-weight: 300;
 }
 
 h2 {
-    margin: 1.em 0 0.2em 0;
+    margin: 0.8em 0 0 0;
     font-size: 1.5em;
     font-weight: 300;
     padding: 0;
-    color: rgb(51, 153, 255); /*#174967*/
-    text-shadow: rgb(51, 153, 255) 0px 0px 10px; /* */
+    color: rgb(51, 153, 255);
 }
 
 h3 {
@@ -323,7 +317,7 @@ div.body h1 a, div.body h2 a, div.body h3 a, div.body h4 a, div.body h5 a, div.b
 }
 
 div.body h1 a tt, div.body h2 a tt, div.body h3 a tt, div.body h4 a tt, div.body h5 a tt, div.body h6 a tt {
-    color: rgb(51, 153, 255) !important; /*#0A507A*/
+    color: rgb(51, 153, 255) !important;
     font-size: inherit !important;
 }
 
@@ -358,10 +352,10 @@ table.deprecated code.literal {
 }
 
 code, tt {
-    background-color: rgb(51,51,51); /*#f2f2f2*/
-    border: 1px solid rgb(32,32,32); /*#ddd*/
+    background-color: rgb(51,51,51);
+    border: 1px solid rgb(32,32,32);
     border-radius: 3px;
-    color: white; /*#333*/
+    color: white;
     padding: 1px 0.2em;
 }
 
@@ -376,10 +370,6 @@ code, tt {
 .descclassname {
     color: rgb(160,160,255);
 }
-
-/*tt.xref {
-    color: rgb(200,200,255);
-}*/
 
 hr {
     border: 1px solid rgb(170,187,204);
@@ -402,9 +392,8 @@ pre {
     letter-spacing: 0.015em;
     line-height: 120%;
     padding: 0.5em;
-    border-radius: 4px; /*2px*/
-    background-color: rgb(51,51,51); /*#f8f8f8*/
-    border: 1px solid rgb(32,32,32);/*#ccc*/
+    border-radius: 6px;
+    background-color: rgb(51,51,51);
 }
 
 pre a {
@@ -434,36 +423,26 @@ table {
     margin: 0 -0.5em 0 -0.5em;
 }
 
-table td, table th {
+table td,
+table th
+{
     padding: 0.2em 0.5em 0.2em 0.5em;
 }
 
-div.admonition, div.warning {
-    font-size: 0.9em;
-    margin: 1em 0 1em 0;
-    border: 1px dashed rgb(32,32,32); /*#86989B*/
-    border-radius: 12px;
-    background-color: rgb(51,51,51); /*#f7f7f7*/
-    padding: 0;
+div.admonition,
+div.warning
+{
+    background-color: rgb(51,51,51);
 }
 
-div.admonition > p, div.warning > p {
-    margin: 0.5em 1em 0.5em 1em;
-    padding: 0;
-}
-
-div.admonition > pre, div.warning > pre {
+div.admonition > pre,
+div.warning > pre
+{
     margin: 0.4em 1em 0.4em 1em;
 }
 
-div.admonition > p.admonition-title,
-div.warning > p.admonition-title {
-    margin-top: 0.5em;
-    font-weight: bold;
-}
-
 div.warning {
-    border-color: rgb(101,16,16); /*#940000*/
+    border-color: rgb(101,16,16);
     /* background-color: rgb(101,51,51); /*#FFCCCF*/
 }
 
@@ -496,7 +475,7 @@ div.viewcode-block:target {
     table-layout: fixed;
 }
 
-dt:target, .highlighted { /* */
+dt:target, .highlighted {
     background-color: rgb(251,229,78);
     background-image: url(hilight_background.png);
     border-top: 1px solid rgb(32,32,32);
@@ -518,57 +497,96 @@ div.deprecated span.versionmodified {
     text-shadow: 0px 0px 3px rgba(180,60,20,0.6);
 }
 
+
+/* Toc tree */
+div.toctree-wrapper ul {
+    padding-left: 1.5em;
+    list-style-type: disc;
+    margin-top: 0.2em;
+    margin-bottom: 0.2em;
+}
+
+div.toctree-wrapper a {
+    text-decoration: none;
+}
+
+
 /* box for enumerations */
-div#enumerations > div.section {
+div#enumerations > div.section,  /* older sphinx */
+section#enumerations > section   /* newer sphinx */
+{
     border: 1px solid #202020;
     box-shadow: 5px 5px 5px rgba(0, 0, 0, 0.15);
     margin-bottom: 1em;
 }
 
-div#enumerations > div.section h3 {
+div#enumerations > div.section h3,  /* older sphinx */
+section#enumerations > section h3   /* newer sphinx */
+{
     background-color: #333;
     margin-top: 0;
-    padding: 3px;
+    padding: 2px 4px;
     font-weight: bold;
 }
 
-div#enumerations > div.section dl,
-div#enumerations > div.section p {
-    padding-left: 3px;
+div#enumerations > div.section > dl,  /* older sphinx */
+div#enumerations > div.section > p,
+section#enumerations > section > dl,  /* newer sphinx */
+section#enumerations > section > p 
+{
+    padding-left: 1em;
+    padding-right: 1em;
 }
 
 
 /* box for classes */
-dd {
-    padding-right: 3px;
-}
-
 dl.class {
     border: 1px solid #202020;
     box-shadow: 5px 5px 5px rgba(0, 0, 0, 0.15);
+    padding-bottom: 1em;
 }
 
 dl.class > dt {
     font-size: 1.2em;
     background-color: #333;
-    padding: 2px;
+    padding: 2px 4px;
 }
 
 dl.class > dt em {
     font-size: 0.8em;
 }
 
-dl.class dt{
+dl.class > dd {
+    margin-left: 1em;
+    margin-right: 1em;
+}
+
+
+/* attributes/properties/methods/etc. */
+dl.attribute > dt,
+dl.method > dt,
+dl.function > dt,
+dl.data > dt
+{
     border-bottom: 1px solid #333;
 }
 
-/* attributes/properties/methods/etc. */
-dl.attribute dd, dl.method dd, dl.data dd {
-    padding-left: 6px;
-    border-left: 1px solid rgba(200,200,255,0.4);
+dl.attribute > dd,
+dl.method > dd,
+dl.function > dd,
+dl.data > dd
+{
+    margin-left: 1em;
+}
+
+dl.field-list > dt {
+    padding-left: 0;
 }
 
 /* -- pygments fix ---------------------------------------------------------- */
+.highlight {
+    background: none;
+}
 .highlight .go {
     color: white !important;
 }
