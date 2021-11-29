@@ -60,9 +60,6 @@ templates_path = ['_templates']
 # directories to ignore when looking for source files.
 exclude_patterns = ['_build']
 
-# The name of the Pygments (syntax highlighting) style to use.
-pygments_style = 'monokai'
-
 
 # -- Autodoc configuration -----------------------------------------------------
 
