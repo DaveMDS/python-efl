@@ -4,7 +4,7 @@
 
     Sphinx layout template for the sphinxdoc theme.
 
-    :copyright: Copyright 2007-2013 by the Sphinx team, see AUTHORS.
+    :copyright: Copyright 2007-2019 by the Sphinx team, see AUTHORS.
     :license: BSD, see LICENSE for details.
 #}
 {%- extends "basic/layout.html" %}
@@ -12,7 +12,7 @@
 
 
 {% block extrahead %}
-    <link href='http://fonts.googleapis.com/css?family=Open+Sans:300,400,700'
+    <link href='https://fonts.googleapis.com/css?family=Open+Sans:300,400,700'
           rel='stylesheet' type='text/css'>
 {{ super() }}
 
@@ -24,7 +24,7 @@
       .related { display: none; }
       {% endif %}
     </style>
-    <script type="text/javascript">
+    <script>
       // intelligent scrolling of the sidebar content
       $(window).scroll(function() {
         var sb = $('.sphinxsidebarwrapper');
@@ -58,8 +58,8 @@
 
 
 {% block rootrellink %}
-        <li><a href="{{ pathto('index') }}">Home</a>&nbsp;|</li>
-       <!-- <li><a href="{{ pathto('contents') }}">Documentation</a> &raquo;</li>-->
+        <li><a href="{{ pathto('index') }}">Home</a>&#160;|</li>
+       <!-- <li><a href="{{ pathto('contents') }}">Documentation</a> &#187;</li>-->
 {% endblock %}
 
 {% block header %}
