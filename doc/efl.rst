@@ -29,7 +29,7 @@ or with a non-zero check::
 Logging
 -------
 
-PyEFL provides `logging <http://docs.python.org/2/library/logging.html>`_
+PyEFL provides `logging <https://docs.python.org/library/logging.html>`_
 to loggers which are usually named after their equivalent module,
 f.e. *efl.eo*. There is a root logger called *efl* which also receives
 any messages coming from the underlying C libraries.
