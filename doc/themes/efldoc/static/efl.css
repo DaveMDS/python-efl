@@ -13,6 +13,20 @@
 
 @import url("basic.css");
 
+/* -- main flex layout ----------------------------------------------------- */
+
+#layout {
+    display: flex;
+}
+#content {
+    flex-grow: 1;
+}
+#sidebar {
+    flex-grow: 0;
+    width: 230px;
+    border-left: 1px solid rgb(111,111,111);
+}
+
 /* -- page layout ----------------------------------------------------------- */
 
 body {
@@ -20,7 +34,6 @@ body {
                  'Verdana', sans-serif;
     font-size: 14px;
     text-align: center;
-    /* background-image: url(bodybg.png); */
     background-color: rgb(64,64,64);
     color: white;
     padding: 0;
@@ -42,7 +55,6 @@ body {
     height: 63px;
     padding-right: 18px;
     background: url("header_menu_background_last.png") no-repeat scroll right center transparent;
-
 }
 
 .pageheader li {
@@ -86,18 +98,12 @@ body {
 }
 
 div.document {
-   /* background-color: white; */
     text-align: left;
     border: 1px solid rgb(111,111,111);
     width: 90%;
     margin: 0 auto;
     min-width: 780px;
     max-width: 1080px;
-}
-
-div.bodywrapper {
-    margin-right: 240px;
-    border-right: 1px solid rgb(111,111,111);
 }
 
 div.body {
@@ -144,29 +150,27 @@ div.related ul li a:hover {
     color: white;
 }
 
-div.sphinxsidebarwrapper {
-/* Avoid the buggy moving sidebar
-    position: relative;
-    top: 0px;
-*/
-    padding: 0;
-}
+
+/* -- sidebar ------------------------------------------------------------- */
 
 div.sphinxsidebar {
     margin: 0;
-    padding: 0 15px 15px 0;
-    width: 210px;
-    float: right;
+    padding: 0;
+    float: none;
     font-size: 1em;
     text-align: left;
-    max-height: 0px;
+    position: sticky;
+    top: 0;
+}
+
+div.sphinxsidebarwrapper {
+    margin: 0;
+    padding: 15px 10px;
 }
 
 div.sphinxsidebar .logo {
-    font-size: 1.8em;
-    color: rgb(10,80,122);
-    font-weight: 300;
     text-align: center;
+    margin: 0;
 }
 
 div.sphinxsidebar .logo img {
@@ -224,11 +228,9 @@ div.sphinxsidebar h4 {
     margin-bottom: 0;
 }
 
-div.sphinxsidebar h3, div.sphinxsidebar h4 {
-    margin-right: -15px;
-    margin-left: -15px;
-    padding-right: 14px;
-    padding-left: 14px;
+div.sphinxsidebar h3,
+div.sphinxsidebar h4
+{
     color: rgb(51, 153, 255);
     font-weight: 300;
 }
@@ -254,6 +256,9 @@ div.sphinxsidebar ul ul {
     list-style-image: url(listitem.png);
 }
 
+
+/* -- footer ----------------------------------------------------------- */
+
 div.footer {
     background-image: url(footer_background.png);
     color: rgb(204,204,204);
@@ -270,6 +275,7 @@ div.footer {
 div.footer a {
     color: rgb(204,204,204);
 }
+
 
 /* -- body styles ----------------------------------------------------------- */
 
