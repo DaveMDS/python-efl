@@ -426,6 +426,7 @@ setup(
     fullname='Python bindings for Enlightenment Foundation Libraries',
     description='Python bindings for Enlightenment Foundation Libraries',
     long_description=read_file('README.md'),
+    long_description_content_type='text/markdown',
     version=RELEASE,
     author='Davide Andreoli, Kai Huuhko, and others',
     author_email='dave@gurumeditation.it, kai.huuhko@gmail.com',
