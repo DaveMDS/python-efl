@@ -100,31 +100,33 @@ Release process instructions
 
 * use "api_coverage.py --python elementary" to see the missing bindings
 
-* Change versions in efl/__init__.py (ex: 1.9.0), if needed also update 
-  EFL_MIN_VER in setup.py
+* Version:
+  - change versions in efl/__init__.py (ex: 1.9.0)
+  - update EFL_MIN_VER in setup.py (if needed)
 
 * Update the ChangeLog file:
-  setup.py build_doc -b changes ...and manually merge from the html file
+  - setup.py build_doc -b changes ...and manually merge from the html file
 
-* Generate the source and binary distribution:
+* Generate the source (tar) and binary (wheel) distributions:
   - make maintainer-clean  (just to be sure nothing is cached)
   - make dist
 
-* Test the generated tarballs
-  - the tar.gz should work by extracting and running: python setup.py install
-  - the wheel should be installable using: pip install dist/python-efl-xxxx.whl
+* Test the generated tarball and wheel:
+  - the targz must work by extracting and running: python setup.py install [--user]
+  - the targz must be installable using: pip install python-efl-1.9.0.tar.gz
+  - the wheel must be installable using: pip install python_efl-1.9.0-xxxx.whl
 
-* Publish the two tarballs on e.org:
+* Publish the 2 tar archive on e.org:
   - scp tarballs & md5sums to:
     download.enlightenment.org:/srv/web/download.enlightenment.org/rel/bindings/python/
   - update download link on the wiki (www.enlightenment.org/download)
 
-* Pubish the .tar.gz archive to pypi:
-  - python setup.py sdist upload (need ~/.pypirc)
-  - TODO !!!!!!!
+* Publish the .tar.gz archive on pypi:
+  - twine upload python-efl-1.9.0.tar.gz [--repository testpypy]
+  - TODO: also upload binary wheels for linux py36,37,38,39,310 (see manylinux on pypa)
 
 * Documentation:
-  - make doc (check that inheritance graphs are there)
+  - make doc  (check that inheritance graphs are there)
   - scp the generated html documentation to:
     download.enlightenment.org:/srv/web/docs.enlightenment.org/python-efl/1.9.0/
   - update the 'current' link on the server (ssh)
@@ -140,7 +142,10 @@ Release process instructions
 
 * Change versions again in efl/__init__.py (ex: 1.9.99)
 
-more info at:
-phab.enlightenment.org/w/release_procedure/
-phab.enlightenment.org/w/hosting/ssh/
+for more info:
+--------------
+ * packaging.python.org
+ * phab.enlightenment.org/w/release_procedure/
+ * phab.enlightenment.org/w/hosting/ssh/
+
 
