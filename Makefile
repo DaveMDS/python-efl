@@ -55,6 +55,7 @@ maintainer-clean:
 	rm -rf build/
 	rm -rf dist/
 	rm -rf python_efl.egg-info/
+	rm -f installed_files-*.txt
 
 
 .PHONY: dist

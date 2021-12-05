@@ -117,7 +117,7 @@ if os.getenv('CFLAGS') is not None and '-fvisibility=' in os.environ['CFLAGS']:
     os.environ['CFLAGS'] += ' -fvisibility=default'
 
 
-if set(('build', 'build_ext', 'install', 'bdist', 'sdist')) & set(sys.argv):
+if set(('build', 'build_ext', 'install', 'bdist', 'bdist_wheel', 'sdist')) & set(sys.argv):
     # === check cython version ===
     sys.stdout.write('Checking for Cython: ')
     if USE_CYTHON:
