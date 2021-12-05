@@ -8,13 +8,9 @@ import subprocess
 import unittest
 from distutils.version import LooseVersion
 from setuptools import setup, Extension, Command
-from efl import __version__, __version_info__ as vers
 
 script_path = os.path.dirname(os.path.abspath(__file__))
 
-
-# python-efl version (change in efl/__init__.py)
-RELEASE = __version__
 
 # dependencies
 EFL_MIN_VER = '1.25.99'
@@ -38,9 +34,18 @@ def cmd_output(cmd):
         return ''
     return p.stdout.read().decode('utf-8').strip()
 
+def get_version(rel_path):
+    for line in read_file(rel_path).splitlines():
+        if line.startswith('__version__'):
+            return line.split("'")[1]
+    raise SystemExit('Unable to find version string.')
+
+
+# python-efl version from sources
+RELEASE = get_version('efl/__init__.py')
 
 # add git commit count for dev builds
-if vers[2] == 99:
+if RELEASE.split('.')[2] == '99':
     count = cmd_output('git rev-list --count HEAD') or '0'
     RELEASE += 'a' + count
 sys.stdout.write('Python-EFL: %s\n' % RELEASE)
