@@ -29,6 +29,11 @@ install:
 	$(PY) setup.py install
 
 
+.PHONY: uninstall
+uninstall:
+	$(PY) setup.py uninstall
+
+
 .PHONY: doc
 doc:
 	$(PY) setup.py build build_doc
@@ -47,9 +52,17 @@ clean:
 .PHONY: maintainer-clean
 maintainer-clean:
 	$(PY) setup.py clean --all clean_generated_files
+	rm -rf build/
+	rm -rf dist/
+	rm -rf python_efl.egg-info/
+	rm -f installed_files-*.txt
+
 
 .PHONY: dist
 dist:
-	$(PY) setup.py sdist --formats=gztar,bztar
-
-
+	$(PY) setup.py sdist --formats=gztar,xztar
+	$(PY) setup.py bdist_wheel
+	@cd dist/; for f in `ls *.tar.*` ; do \
+	echo Generating sha256 for: $$f ; \
+	sha256sum $$f > $$f.sha256; \
+	done
