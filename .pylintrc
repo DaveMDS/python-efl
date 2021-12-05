@@ -4,6 +4,7 @@
 
 disable=consider-using-f-string,  # for older python we still support
         redundant-u-string-prefix,  # for older python we still support
+        invalid-name,  # seems too pedantic to me
         missing-function-docstring, 
         missing-class-docstring, 
         missing-module-docstring,

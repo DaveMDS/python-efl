@@ -22,15 +22,27 @@ CYTHON_BLACKLIST = ()
 EFL_MIN_VER = RELEASE
 
 
+# basic utils
+def read_file(rel_path):
+    with open(os.path.join(script_path, rel_path)) as fp:
+        return fp.read()
+
+def cmd_output(cmd):
+    p = subprocess.Popen(cmd, shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+    p.wait()
+    if p.returncode != 0:
+        print('WARNING: An error occurred while running "%s" (code %s)' % (cmd, p.returncode))
+        stderr_content = p.stderr.read().decode('utf-8').strip()
+        if stderr_content:
+            print(stderr_content)
+        return ''
+    return p.stdout.read().decode('utf-8').strip()
+
+
 # add git commit count for dev builds
 if vers[2] == 99:
-    try:
-        call = subprocess.Popen(['git', 'rev-list', '--count', 'HEAD'], stdout=subprocess.PIPE)
-        out, err = call.communicate()
-        count = out.decode('utf-8').strip()
-        RELEASE += 'a' + count
-    except Exception:
-        RELEASE += 'a0'
+    count = cmd_output('git rev-list --count HEAD') or '0'
+    RELEASE += 'a' + count
 sys.stdout.write('Python-EFL: %s\n' % RELEASE)
 
 
@@ -67,29 +79,16 @@ def pkg_config(name, require, min_vers=None):
     try:
         sys.stdout.write('Checking for %s: ' % name)
 
-        call = subprocess.Popen(['pkg-config', '--modversion', require], stdout=subprocess.PIPE)
-        out, err = call.communicate()
-        if call.returncode != 0:
+        ver = cmd_output('pkg-config --modversion %s' % require)
+        if not ver:
             raise SystemExit('Cannot find %s with pkg-config.' % name)
 
-        ver = out.decode('utf-8').strip()
         if min_vers is not None:
-            assert (LooseVersion(ver) >= LooseVersion(min_vers)) is True
-
-        call = subprocess.Popen(['pkg-config', '--cflags', require],
-                                stdout=subprocess.PIPE)
-        out, err = call.communicate()
-        cflags = out.decode('utf-8').split()
-
-        call = subprocess.Popen(['pkg-config', '--libs', require],
-                                stdout=subprocess.PIPE)
-        out, err = call.communicate()
-        libs = out.decode('utf-8').split()
-
+            assert LooseVersion(ver) >= LooseVersion(min_vers)
         sys.stdout.write('OK, found %s\n' % ver)
 
-        cflags = list(set(cflags))
-
+        cflags = cmd_output('pkg-config --cflags %s' % require).split()
+        libs = cmd_output('pkg-config --libs %s' % require).split()
         return (cflags, libs)
     except (OSError, subprocess.CalledProcessError):
         raise SystemExit('Did not find %s with pkg-config.' % name)
@@ -412,7 +411,7 @@ setup(
     name='python-efl',
     fullname='Python bindings for Enlightenment Foundation Libraries',
     description='Python bindings for Enlightenment Foundation Libraries',
-    long_description=open(os.path.join(script_path, 'README.md')).read(),
+    long_description=read_file('README.md'),
     version=RELEASE,
     author='Davide Andreoli, Kai Huuhko, and others',
     author_email='dave@gurumeditation.it, kai.huuhko@gmail.com',
