@@ -99,42 +99,45 @@ Release process instructions
 ============================
 
 * use "api_coverage.py --python elementary" to see the missing bindings
-* Announce at enlightenment-release@lists.sourceforge.net and
-  enlightenment-devel@lists.sourceforge.net that you are planning for the release
-* Change versions in efl/__init__.py (ex: 1.9.0)
+
+* Change versions in efl/__init__.py (ex: 1.9.0), if needed also update 
+  EFL_MIN_VER in setup.py
+
 * Update the ChangeLog file:
-    setup.py build_doc -b changes ...and manually merge from the html file
-* Git push and wait jenkins to generate the tarballs and the documentation
-  JENKIS IS DEAD :(  these are the manual instructions:
-    * setup.py sdist --formats gztar,xztar
-    * (cd dist) sha256sum python-efl-1.9.0.tar.xz > python-efl-1.9.0.tar.xz.sha256
-    * setup.py build_doc (check that inheritance graphs are there)
+  setup.py build_doc -b changes ...and manually merge from the html file
+
+* Generate the source and binary distribution:
+  - make maintainer-clean  (just to be sure nothing is cached)
+  - make dist
+
 * Test the generated tarballs
-* scp tarballs & md5sums to:
-  download.enlightenment.org:/srv/web/download.enlightenment.org/pre-releases/
-* Announce at enlightenment-release@lists.sourceforge.net and
-  enlightenment-devel@lists.sourceforge.net that tarballs are ready for testing
+  - the tar.gz should work by extracting and running: python setup.py install
+  - the wheel should be installable using: pip install dist/python-efl-xxxx.whl
 
-... wait 24 hours, fix any issues found. In the mean time you can prepare the
-    release announcement for phame/ml.
+* Publish the two tarballs on e.org:
+  - scp tarballs & md5sums to:
+    download.enlightenment.org:/srv/web/download.enlightenment.org/rel/bindings/python/
+  - update download link on the wiki (www.enlightenment.org/download)
 
-* ssh to download.enlightenment.org and mv tarballs & md5sums to:
-    /srv/web/download.enlightenment.org/rel/bindings/python/
-* Upload the .tar.gz archive to pypi:
-   - NOTE: pypi is migrating to pypi.org domain, you must work on the new one
-   - python setup.py sdist upload (need ~/.pypirc)
-   - more info at https://packaging.python.org/guides/migrating-to-pypi-org/
+* Pubish the .tar.gz archive to pypi:
+  - python setup.py sdist upload (need ~/.pypirc)
+  - TODO !!!!!!!
+
+* Documentation:
+  - make doc (check that inheritance graphs are there)
+  - scp the generated html documentation to:
+    download.enlightenment.org:/srv/web/docs.enlightenment.org/python-efl/1.9.0/
+  - update the 'current' link on the server (ssh)
+
 * Create and push the tag for the release
-    git tag -a v1.9.0 && git push origin v1.9.0
+  - git tag -a v1.9.0 && git push origin v1.9.0
+
 * Create and push the branch for stable backporting
     git branch python-efl-1.9 && git push origin python-efl-1.9
-* scp the jenkins generated html documentation to:
-  download.enlightenment.org:/srv/web/docs.enlightenment.org/python-efl/1.XX.0/
-  and update the 'current' link on the server (ssh)
-* Update download link on the wiki (www.enlightenment.org/download)
-* Publish the blog post on phame (Official Announcements)
+
 * Announce the release to release@lists.enlightenment.org and
   enlightenment-release@lists.sourceforge.net
+
 * Change versions again in efl/__init__.py (ex: 1.9.99)
 
 more info at:

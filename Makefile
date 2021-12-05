@@ -61,5 +61,8 @@ maintainer-clean:
 .PHONY: dist
 dist:
 	$(PY) setup.py sdist --formats=gztar,xztar
-
-
+	$(PY) setup.py bdist_wheel
+	@cd dist/; for f in `ls *.tar.*` ; do \
+	echo Generating sha256 for: $$f ; \
+	sha256sum $$f > $$f.sha256; \
+	done

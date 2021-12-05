@@ -1,3 +1,12 @@
+===================
+TO BE DONE  v1.26.0
+===================
+
+Changes:
+ * Switched to setuptools for the build system (can now install from pip again)
+ * Dropped py2.6 support, minimum is now 2.7
+ * Deprecated python2 support, with a big-fat-slow warning
+
 
 ===================
 2020-09-24  v1.25.0
