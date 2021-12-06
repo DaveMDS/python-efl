@@ -76,3 +76,17 @@ The HTML generated documentation will be available in the folder: `build/sphinx/
 
 ... and many more that cannot fit in this short list. If have some code and want it in this list just let us know.
 
+
+## A short history of Python-EFL
+
+Python-EFL was begun in 2007 by work of Gustavo Sverzut Barbieri and others while working for Nokia on the software project Canola Media Player. The language bindings were initially developed for the individual components of EFL, until merged together in 2013.
+
+He was later joined by Ulisses Furquim Freire da Silva, who together formed the company ProFUSION embedded systems where the developement continued and a new software project called Editje was created, which uses the Python bindings for most of its functionality.
+
+Python-EFL gained many more developers, also at this time an independent application project called EpyMC was created by Davide Andreoli.
+
+In the beginning of the year 2011 the developement was practically halted. In 2012 Davide Andreoli picked up the developement and Kai Huuhko (@kuuko) joined him shortly after. Work at this time was focused on finishing the Python bindings for Elementary, the toolkit library.
+
+In 2013 the individual components were merged together and a new documentation system was implemented, enabling easier access for the end-user developers.
+
+Currently (as in 2022) the bindings are still actively maintained and improved by Davide Andreoli, in his effort to bring to python a powerfull and attractive UI toolkit.
