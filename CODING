@@ -1,3 +1,28 @@
+TODO
+====
+* Automatically build and publish binary wheels on pypi
+  - for py: 36,37,38,39,310
+  - for linux x86 and rpi
+  - see https://packaging.python.org/guides/publishing-package-distribution-releases-using-github-actions-ci-cd-workflows/
+  - see https://github.com/pypa/manylinux
+  - also include efl itsef in the wheels? PySide is doing this
+
+* Drop python 2 compatibility
+  - Switch to cython3
+  - remove all the workarounds for py2 (see strings and enums)
+
+* Improved editors support, at least on VSCode and PyCharm
+
+* Try to implement better the elementary module, removing
+  the __init__ module hack (that create problems in the docs)
+
+* Make the examples a first citizen!
+  - install them with python efl
+  - make them easily runnable
+  - show them in the docs
+  - show the code inside the examples themself?
+  - make the code editable on the fly?
+
 
 Style
 =====

@@ -20,7 +20,7 @@ NOTE: Currently only sources packages are available on pip, this means that the 
 ## Install from released tarballs
 
 All the stable releases of python-efl can always be found at:
-http://download.enlightenment.org/rel/bindings/python/
+https://download.enlightenment.org/rel/bindings/python/
 
 To install download and unpack a tarball and run:
 ```
@@ -69,11 +69,9 @@ The HTML generated documentation will be available in the folder: `build/sphinx/
 | **EpyMC** - Media Center | https://github.com/DaveMDS/epymc |
 | **Espionage** - D-Bus inspector | https://phab.enlightenment.org/w/projects/espionage/ |
 | **Epour** - BitTorrent Client | https://phab.enlightenment.org/w/projects/epour/ |
-| **Econnman** - Connman GUI | https://phab.enlightenment.org/w/projects/econnman/ |
 | **Eluminance** - Fast photo browser | https://github.com/DaveMDS/eluminance |
 | **Egitu** - Git User Interface | https://github.com/DaveMDS/egitu |
 | **Edone** - GettingThingsDone  | https://github.com/DaveMDS/edone |
-| **Lekha** - PDF viewer | https://github.com/kaihu/lekha |
 | **Epack** - Archive extractor | https://github.com/wfx/epack |
 
 ... and many more that cannot fit in this short list. If have some code and want it in this list just let us know.
