@@ -67,7 +67,7 @@ cdef class SmartCbDescription:
 
     def __init__(self, name, types):
         cdef Evas_Smart_Cb_Description *tmp
-        tmp = <Evas_Smart_Cb_Description *>malloc(sizeof(Evas_Smart_Cb_Description*))
+        tmp = <Evas_Smart_Cb_Description *>malloc(sizeof(Evas_Smart_Cb_Description))
         if isinstance(name, unicode): name = PyUnicode_AsUTF8String(name)
         tmp.name = strdup(name)
         if isinstance(types, unicode): types = PyUnicode_AsUTF8String(types)
