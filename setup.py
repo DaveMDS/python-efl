@@ -7,8 +7,8 @@ import time
 import platform
 import subprocess
 import unittest
-from distutils.version import LooseVersion
 from setuptools import setup, Extension, Command
+from packaging.version import Version
 
 script_path = os.path.dirname(os.path.abspath(__file__))
 
@@ -98,7 +98,7 @@ def pkg_config(name, require, min_vers=None):
             raise SystemExit('Cannot find %s with pkg-config.' % name)
 
         if min_vers is not None:
-            assert LooseVersion(ver) >= LooseVersion(min_vers)
+            assert Version(ver) >= Version(min_vers)
         sys.stdout.write('OK, found %s\n' % ver)
 
         cflags = cmd_output('pkg-config --cflags %s' % require).split()
@@ -142,7 +142,7 @@ if set(('build', 'build_ext', 'install', 'bdist', 'bdist_wheel', 'sdist')) & set
             raise SystemExit('not found! Needed >= %s' % (CYTHON_MIN_VERSION))
 
         # check min version
-        if LooseVersion(Cython.__version__) < LooseVersion(CYTHON_MIN_VERSION):
+        if Version(Cython.__version__) < Version(CYTHON_MIN_VERSION):
             raise SystemExit('too old! Found %s  Needed %s' % (
                              Cython.__version__, CYTHON_MIN_VERSION))
 
