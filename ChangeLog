@@ -1,11 +1,15 @@
 ===================
-TO BE DONE  v1.26.0
+2022-02-27  v1.26.0
 ===================
 
 Changes:
  * Switched to setuptools for the build system (can now install from pip again)
  * Dropped py2.6 support, minimum is now 2.7
  * Deprecated python2 support, with a big-fat-slow warning
+ * Improved documentation
+
+Fixes:
+ * Fixed a memory allocation error in EvasSmart
 
 
 ===================
