@@ -35,7 +35,7 @@ if 'efl' in sys.modules:
 
 project = 'Python EFL'
 author = 'The Python-EFL community (see AUTHORS)'
-copyright = '2008-2021, ' + author  # pylint: disable=redefined-builtin
+copyright = '2008-2022, ' + author  # pylint: disable=redefined-builtin
 
 
 # -- General configuration ----------------------------------------------------

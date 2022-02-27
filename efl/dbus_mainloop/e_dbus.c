@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2007-2016 various contributors (see AUTHORS)
+ * Copyright (C) 2007-2022 various contributors (see AUTHORS)
  * 
  * This file is part of Python-EFL.
  * 

@@ -75,7 +75,7 @@ Acknowledgements
 ================
 
 :Copyright:
-    2008-2021 The Python-EFL community (see AUTHORS)
+    2008-2022 The Python-EFL community (see AUTHORS)
 
 :License:
     Python Bindings for EFL are licensed LGPL-3 (see COPYING)
