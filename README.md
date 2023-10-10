@@ -4,7 +4,7 @@ EFL, or the *Enlightenment Foundation Libraries*, is a collection of libraries f
 
 Python-EFL are the python bindings for the whole EFL stack (evas, ecore, edje, emotion, ethumb and elementary). You can use Python-EFL to build a portable GUI application in minutes.
 
-The documentation for Python-EFL is available [here](https://docs.enlightenment.org/python-efl/current/).
+The documentation for Python-EFL is available [here](https://docs.enlightenment.org/python-efl/current/). The tutorials section includes a ubuntu / mint install tutorial.
 
 ## Install from pypi
 
