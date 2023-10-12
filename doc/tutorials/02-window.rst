@@ -18,8 +18,6 @@ Mint <https://www.pythonkitchen.com/how-to-install-python-efl-on-ubuntu-or-linux
    Abdur-Ramaan Janhangeer
    Updated from Jeff Hoogland's tutos
    for Python3.9 and Python-elf 1.25.0
-
-   https://www.toolbox.com/tech/operating-systems/blogs/py-efl-tutorial-1-hello-elementary-022415/
    '''
    import efl.elementary as elm
    from efl.elementary.label import Label

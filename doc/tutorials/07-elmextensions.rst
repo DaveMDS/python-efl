@@ -15,12 +15,6 @@ install it
    Abdur-Ramaan Janhangeer
    Updated from Jeff Hoogland's tutos
    for Python3.9 and Python-elf 1.25.0
-
-   https://www.toolbox.com/tech/operating-systems/blogs/py-efl-tutorial-6-elmextensions-110115/
-   '''
-
-   '''
-   extentions
    '''
 
    AUTHORS = """

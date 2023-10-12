@@ -11,8 +11,6 @@ tutorials is an update from the original author.
    Abdur-Ramaan Janhangeer
    Updated from Jeff Hoogland's tutos
    for Python3.9 and Python-elf 1.25.0
-
-   https://www.toolbox.com/tech/programming/blogs/pyefl-tutorial-8-genlist-120215/
    '''
 
    import efl.elementary as elm

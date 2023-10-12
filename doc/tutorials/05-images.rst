@@ -12,8 +12,6 @@ tutorials is an update from the original author.
    Updated from Jeff Hoogland's tutos
    for Python3.9 and Python-elf 1.25.0
 
-   https://www.toolbox.com/tech/operating-systems/blogs/py-efl-tutorial-4-displaying-images-042415/
-
    Needs one image called image.png
    '''
 

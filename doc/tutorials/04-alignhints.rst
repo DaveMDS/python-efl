@@ -10,8 +10,6 @@ tutorials is an update from the original author.
    Abdur-Ramaan Janhangeer
    Updated from Jeff Hoogland's tutos
    for Python3.9 and Python-elf 1.25.0
-
-   https://www.toolbox.com/tech/operating-systems/blogs/py-efl-tutorial-3-align-hints-041415/
    '''
 
    import efl.elementary as elm

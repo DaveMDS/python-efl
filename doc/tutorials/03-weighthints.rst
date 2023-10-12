@@ -12,8 +12,6 @@ Callback demo
    Abdur-Ramaan Janhangeer
    Updated from Jeff Hoogland's tutos
    for Python3.9 and Python-elf 1.25.0
-
-   https://www.toolbox.com/tech/operating-systems/blogs/py-efl-tutorial-2-weight-hints-031215/
    '''
 
    import efl.elementary as elm
