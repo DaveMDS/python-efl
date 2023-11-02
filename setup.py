@@ -16,7 +16,7 @@ script_path = os.path.dirname(os.path.abspath(__file__))
 # dependencies
 EFL_MIN_VER = '1.26.0'
 CYTHON_MIN_VERSION = '0.29.34'
-CYTHON_BLACKLIST = ()
+CYTHON_BLACKLIST = ("1", "2", "3")
 
 
 # basic utils
@@ -148,8 +148,8 @@ if set(('build', 'build_ext', 'install', 'bdist', 'bdist_wheel', 'sdist')) & set
 
         # check black-listed releases
         if Cython.__version__.startswith(CYTHON_BLACKLIST):
-            raise SystemExit('found %s, its broken! Need another release' %
-                             Cython.__version__)
+            raise SystemExit('found %s, its broken! Need another release other than %s' % (
+                             Cython.__version__, ', '.join([version + '.x' for version in CYTHON_BLACKLIST])))
 
         sys.stdout.write('OK, found %s\n' % Cython.__version__)
         MODULES_EXT = 'pyx'
