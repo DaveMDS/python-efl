@@ -24,6 +24,7 @@ def read_file(rel_path):
     with open(os.path.join(script_path, rel_path)) as fp:
         return fp.read()
 
+
 def cmd_output(cmd):
     p = subprocess.Popen(cmd, shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
     p.wait()
@@ -34,6 +35,7 @@ def cmd_output(cmd):
             print(stderr_content)
         return ''
     return p.stdout.read().decode('utf-8').strip()
+
 
 def get_version(rel_path):
     for line in read_file(rel_path).splitlines():
@@ -90,6 +92,7 @@ elif os.path.exists(os.path.join(script_path, 'Makefile')):
 
 # === pkg-config helper ===
 def pkg_config(name, require, min_vers=None):
+    ver = None
     try:
         sys.stdout.write('Checking for %s: ' % name)
 
@@ -103,7 +106,7 @@ def pkg_config(name, require, min_vers=None):
 
         cflags = cmd_output('pkg-config --cflags %s' % require).split()
         libs = cmd_output('pkg-config --libs %s' % require).split()
-        return (cflags, libs)
+        return cflags, libs
     except (OSError, subprocess.CalledProcessError):
         raise SystemExit('Did not find %s with pkg-config.' % name)
     except AssertionError:
@@ -130,7 +133,7 @@ if os.getenv('CFLAGS') is not None and '-fvisibility=' in os.environ['CFLAGS']:
     os.environ['CFLAGS'] += ' -fvisibility=default'
 
 
-if set(('build', 'build_ext', 'install', 'bdist', 'bdist_wheel', 'sdist')) & set(sys.argv):
+if {'build', 'build_ext', 'install', 'bdist', 'bdist_wheel', 'sdist'} & set(sys.argv):
     # === check cython version ===
     sys.stdout.write('Checking for Cython: ')
     if USE_CYTHON:
@@ -139,7 +142,7 @@ if set(('build', 'build_ext', 'install', 'bdist', 'bdist_wheel', 'sdist')) & set
             import Cython
             import Cython.Compiler.Options
         except ImportError:
-            raise SystemExit('not found! Needed >= %s' % (CYTHON_MIN_VERSION))
+            raise SystemExit('not found! Needed >= %s' % CYTHON_MIN_VERSION)
 
         # check min version
         if Version(Cython.__version__) < Version(CYTHON_MIN_VERSION):
@@ -304,8 +307,8 @@ if set(('build', 'build_ext', 'install', 'bdist', 'bdist_wheel', 'sdist')) & set
             ext_modules,
             include_path=['include'],
             compiler_directives={
-                #'c_string_type': 'unicode',
-                #'c_string_encoding': 'utf-8',
+                # 'c_string_type': 'unicode',
+                # 'c_string_encoding': 'utf-8',
                 'embedsignature': True,
                 'binding': True,
                 'language_level': 2,
@@ -377,13 +380,16 @@ class CleanGenerated(Command):
                     if fname.endswith(('.c', '.html')) and fname != 'e_dbus.c':
                         self.remove(os.path.join(root, fname))
 
-    def remove(self, fullpath):
+    @staticmethod
+    def remove(fullpath):
         print('removing %s' % fullpath.replace(script_path, '').lstrip('/'))
         os.remove(fullpath)
 
 
 # === setup.py uninstall command ===
-RECORD_FILE = 'installed_files-%d.%d.txt' % sys.version_info[:2]
+RECORD_FILE = 'installed_files-%d.%d.txt' % (sys.version_info[0], sys.version_info[1])
+
+
 class Uninstall(Command):
     description = 'remove all the installed files recorded at installation time'
     user_options = []
@@ -394,7 +400,8 @@ class Uninstall(Command):
     def finalize_options(self):
         pass
 
-    def remove_entry(self, entry):
+    @staticmethod
+    def remove_entry(entry):
         if os.path.isfile(entry):
             try:
                 print('removing file %s' % entry)
@@ -404,7 +411,7 @@ class Uninstall(Command):
                 return
 
             directory = os.path.dirname(entry)
-            while os.listdir(directory) == []:
+            while not os.listdir(directory):
                 try:
                     print('removing empty directory %s' % directory)
                     os.rmdir(directory)
