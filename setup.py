@@ -439,7 +439,7 @@ setup(
     author_email='dave@gurumeditation.it, kai.huuhko@gmail.com',
     contact='Enlightenment developer mailing list',
     contact_email='enlightenment-devel@lists.sourceforge.net',
-    url='http://www.enlightenment.org',
+    url='https://www.enlightenment.org',
     license='GNU Lesser General Public License (LGPL)',
     keywords='efl wrapper binding enlightenment eo evas ecore edje emotion elementary ethumb',
     classifiers=[
@@ -451,7 +451,6 @@ setup(
         'Operating System :: POSIX',
         'Programming Language :: C',
         'Programming Language :: Cython',
-        'Programming Language :: Python :: 2',
         'Programming Language :: Python :: 3',
         'Topic :: Software Development :: Libraries :: Python Modules',
         'Topic :: Software Development :: User Interfaces',

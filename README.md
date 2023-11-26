@@ -64,15 +64,15 @@ The HTML generated documentation will be available in the folder: `build/sphinx/
 
 ## Some of the projects using Python-EFL (in random order)
 
-| **Project** | **Website** |
-| -- | -- |
-| **EpyMC** - Media Center | https://github.com/DaveMDS/epymc |
-| **Espionage** - D-Bus inspector | https://phab.enlightenment.org/w/projects/espionage/ |
-| **Epour** - BitTorrent Client | https://phab.enlightenment.org/w/projects/epour/ |
-| **Eluminance** - Fast photo browser | https://github.com/DaveMDS/eluminance |
-| **Egitu** - Git User Interface | https://github.com/DaveMDS/egitu |
-| **Edone** - GettingThingsDone  | https://github.com/DaveMDS/edone |
-| **Epack** - Archive extractor | https://github.com/wfx/epack |
+| **Project**                         | **Website**                                          |
+|-------------------------------------|------------------------------------------------------|
+| **EpyMC** - Media Center            | https://github.com/DaveMDS/epymc                     |
+| **Espionage** - D-Bus inspector     | https://phab.enlightenment.org/w/projects/espionage/ |
+| **Epour** - BitTorrent Client       | https://phab.enlightenment.org/w/projects/epour/     |
+| **Eluminance** - Fast photo browser | https://github.com/DaveMDS/eluminance                |
+| **Egitu** - Git User Interface      | https://github.com/DaveMDS/egitu                     |
+| **Edone** - GettingThingsDone       | https://github.com/DaveMDS/edone                     |
+| **Epack** - Archive extractor       | https://github.com/wfx/epack                         |
 
 ... and many more that cannot fit in this short list. If have some code and want it in this list just let us know.
 
