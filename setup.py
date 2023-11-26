@@ -16,6 +16,7 @@ script_path = os.path.dirname(os.path.abspath(__file__))
 # dependencies
 EFL_MIN_VER = '1.26.0'
 CYTHON_MIN_VERSION = '0.29.34'
+CYTHON_MAX_VERSION = '0.99.99'
 CYTHON_BLACKLIST = ()
 
 
@@ -146,8 +147,13 @@ if {'build', 'build_ext', 'install', 'bdist', 'bdist_wheel', 'sdist'} & set(sys.
 
         # check min version
         if Version(Cython.__version__) < Version(CYTHON_MIN_VERSION):
-            raise SystemExit('too old! Found %s  Needed %s' % (
+            raise SystemExit('too old! Found %s (need at least %s)' % (
                              Cython.__version__, CYTHON_MIN_VERSION))
+
+        # check max version
+        if Version(Cython.__version__) > Version(CYTHON_MAX_VERSION):
+            raise SystemExit('too new! Found %s (need at most %s)' % (
+                             Cython.__version__, CYTHON_MAX_VERSION))
 
         # check black-listed releases
         if Cython.__version__.startswith(CYTHON_BLACKLIST):
