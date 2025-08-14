@@ -17,7 +17,7 @@
 
 include "naviframe_cdef.pxi"
 
-cdef Eina_Bool py_elm_naviframe_item_pop_cb(void *data, Elm_Object_Item *it):
+cdef Eina_Bool py_elm_naviframe_item_pop_cb(void *data, Elm_Object_Item *it) noexcept:
     cdef:
         NaviframeItem item = _object_item_to_python(it)
         object func

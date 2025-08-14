@@ -28,7 +28,7 @@ cdef object _elm_map_overlay_to_python(Elm_Map_Overlay *ov):
         return None
     return <object>data
 
-cdef void _map_overlay_get_callback(void *data, Evas_Object *map, Elm_Map_Overlay *overlay) with gil:
+cdef void _map_overlay_get_callback(void *data, Evas_Object *map, Elm_Map_Overlay *overlay) noexcept with gil:
     cdef Object obj
 
     obj = object_from_instance(map)
@@ -38,11 +38,11 @@ cdef void _map_overlay_get_callback(void *data, Evas_Object *map, Elm_Map_Overla
     except Exception:
         traceback.print_exc()
 
-cdef void _map_overlay_del_cb(void *data, Evas_Object *map, Elm_Map_Overlay *overlay) with gil:
+cdef void _map_overlay_del_cb(void *data, Evas_Object *map, Elm_Map_Overlay *overlay) noexcept with gil:
     ov = <object>data
     ov.__del_cb()
 
-cdef void _map_route_callback(void *data, Evas_Object *map, Elm_Map_Route *route) with gil:
+cdef void _map_route_callback(void *data, Evas_Object *map, Elm_Map_Route *route) noexcept with gil:
     cdef Object obj
 
     obj = object_from_instance(map)
@@ -54,7 +54,7 @@ cdef void _map_route_callback(void *data, Evas_Object *map, Elm_Map_Route *route
 
     Py_DECREF(<object>data)
 
-cdef void _map_name_callback(void *data, Evas_Object *map, Elm_Map_Name *name) with gil:
+cdef void _map_name_callback(void *data, Evas_Object *map, Elm_Map_Name *name) noexcept with gil:
     cdef Object obj
 
     obj = object_from_instance(map)

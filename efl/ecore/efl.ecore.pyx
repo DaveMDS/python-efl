@@ -332,7 +332,7 @@ ECORE_FILE_PROGRESS_CONTINUE = enums.ECORE_FILE_PROGRESS_CONTINUE
 ECORE_FILE_PROGRESS_ABORT = enums.ECORE_FILE_PROGRESS_ABORT
 
 
-cdef Eina_Bool _ecore_task_cb(void *data) with gil:
+cdef Eina_Bool _ecore_task_cb(void *data) noexcept with gil:
     cdef:
         Eo obj = <Eo>data
         Eina_Bool ret

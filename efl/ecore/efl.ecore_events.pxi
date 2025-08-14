@@ -35,7 +35,7 @@ cdef object _event_mapping_get(int type):
     return _event_type_mapping.get(type)
 
 
-cdef Eina_Bool event_handler_cb(void *data, int type, void *event) with gil:
+cdef Eina_Bool event_handler_cb(void *data, int type, void *event) noexcept with gil:
     cdef EventHandler handler
     cdef Eina_Bool r
 
@@ -323,7 +323,7 @@ def event_type_new(cls):
     return type
 
 
-cdef void _event_free_cb(void *data, void *event) with gil:
+cdef void _event_free_cb(void *data, void *event) noexcept with gil:
     cdef QueuedEvent ev
 
     ev = <QueuedEvent>data

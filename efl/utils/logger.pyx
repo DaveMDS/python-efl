@@ -52,7 +52,7 @@ PyEval_InitThreads()
 
 cdef void py_eina_log_print_cb(const Eina_Log_Domain *d, Eina_Log_Level level,
     const char *file, const char *fnc, int line,
-    const char *fmt, void *data, va_list args) with gil:
+    const char *fmt, void *data, va_list args) noexcept with gil:
 
     cdef:
         unicode msg, name, ufile, ufnc

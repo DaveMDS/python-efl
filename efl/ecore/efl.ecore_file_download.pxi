@@ -17,7 +17,7 @@
 
 from cpython cimport PyUnicode_AsUTF8String
 
-cdef void _completion_cb(void *data, const char *file, int status) with gil:
+cdef void _completion_cb(void *data, const char *file, int status) noexcept with gil:
     obj = <FileDownload>data
     try:
         obj._exec_completion(file, status)
@@ -25,7 +25,7 @@ cdef void _completion_cb(void *data, const char *file, int status) with gil:
         traceback.print_exc()
 
 cdef int _progress_cb(void *data, const char *file, long int dltotal,
-                    long int dlnow, long int ultotal, long int ulnow) with gil:
+                    long int dlnow, long int ultotal, long int ulnow) noexcept with gil:
     obj = <FileDownload>data
     try:
         return obj._exec_progress(file, dltotal, dlnow, ultotal, ulnow)

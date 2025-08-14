@@ -94,7 +94,7 @@ cdef class SmartCbDescription:
             return _ctouni(self.desc.type)
 
 
-cdef void _smart_object_delete(Evas_Object *o) with gil:
+cdef void _smart_object_delete(Evas_Object *o) noexcept with gil:
     cdef:
         void *tmp
         Smart cls
@@ -119,7 +119,7 @@ cdef void _smart_object_delete(Evas_Object *o) with gil:
         traceback.print_exc()
 
 
-cdef void _smart_object_move(Evas_Object *o, Evas_Coord x, Evas_Coord y) with gil:
+cdef void _smart_object_move(Evas_Object *o, Evas_Coord x, Evas_Coord y) noexcept with gil:
     cdef:
         void *tmp
         Smart cls
@@ -144,7 +144,7 @@ cdef void _smart_object_move(Evas_Object *o, Evas_Coord x, Evas_Coord y) with gi
         traceback.print_exc()
 
 
-cdef void _smart_object_resize(Evas_Object *o, Evas_Coord w, Evas_Coord h) with gil:
+cdef void _smart_object_resize(Evas_Object *o, Evas_Coord w, Evas_Coord h) noexcept with gil:
     cdef:
         void *tmp
         Smart cls
@@ -169,7 +169,7 @@ cdef void _smart_object_resize(Evas_Object *o, Evas_Coord w, Evas_Coord h) with 
         traceback.print_exc()
 
 
-cdef void _smart_object_show(Evas_Object *o) with gil:
+cdef void _smart_object_show(Evas_Object *o) noexcept with gil:
     cdef:
         void *tmp
         Smart cls
@@ -194,7 +194,7 @@ cdef void _smart_object_show(Evas_Object *o) with gil:
         traceback.print_exc()
 
 
-cdef void _smart_object_hide(Evas_Object *o) with gil:
+cdef void _smart_object_hide(Evas_Object *o) noexcept with gil:
     cdef:
         void *tmp
         Smart cls
@@ -219,7 +219,7 @@ cdef void _smart_object_hide(Evas_Object *o) with gil:
         traceback.print_exc()
 
 
-cdef void _smart_object_color_set(Evas_Object *o, int r, int g, int b, int a) with gil:
+cdef void _smart_object_color_set(Evas_Object *o, int r, int g, int b, int a) noexcept with gil:
     cdef:
         void *tmp
         Smart cls
@@ -244,7 +244,7 @@ cdef void _smart_object_color_set(Evas_Object *o, int r, int g, int b, int a) wi
         traceback.print_exc()
 
 
-cdef void _smart_object_clip_set(Evas_Object *o, Evas_Object *clip) with gil:
+cdef void _smart_object_clip_set(Evas_Object *o, Evas_Object *clip) noexcept with gil:
     cdef:
         void *tmp
         Smart cls
@@ -272,7 +272,7 @@ cdef void _smart_object_clip_set(Evas_Object *o, Evas_Object *clip) with gil:
         traceback.print_exc()
 
 
-cdef void _smart_object_clip_unset(Evas_Object *o) with gil:
+cdef void _smart_object_clip_unset(Evas_Object *o) noexcept with gil:
     cdef:
         void *tmp
         Smart cls
@@ -297,7 +297,7 @@ cdef void _smart_object_clip_unset(Evas_Object *o) with gil:
         traceback.print_exc()
 
 
-cdef void _smart_object_calculate(Evas_Object *o) with gil:
+cdef void _smart_object_calculate(Evas_Object *o) noexcept with gil:
     cdef:
         void *tmp
         Smart cls
@@ -322,7 +322,7 @@ cdef void _smart_object_calculate(Evas_Object *o) with gil:
         traceback.print_exc()
 
 
-cdef void _smart_object_member_add(Evas_Object *o, Evas_Object *clip) with gil:
+cdef void _smart_object_member_add(Evas_Object *o, Evas_Object *clip) noexcept with gil:
     cdef:
         void *tmp
         Smart cls
@@ -350,7 +350,7 @@ cdef void _smart_object_member_add(Evas_Object *o, Evas_Object *clip) with gil:
         traceback.print_exc()
 
 
-cdef void _smart_object_member_del(Evas_Object *o, Evas_Object *clip) with gil:
+cdef void _smart_object_member_del(Evas_Object *o, Evas_Object *clip) noexcept with gil:
     cdef:
         void *tmp
         Smart cls
@@ -393,7 +393,7 @@ cdef object _smart_cb_pass_conv(void *addr):
     return <object>addr
 
 
-cdef void _smart_callback(void *data, Evas_Object *o, void *event_info) with gil:
+cdef void _smart_callback(void *data, Evas_Object *o, void *event_info) noexcept with gil:
     if data == NULL:
         EINA_LOG_DOM_ERR(PY_EFL_EVAS_LOG_DOMAIN, "data is NULL!")
         return

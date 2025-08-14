@@ -18,7 +18,7 @@
 
 include "entry_cdef.pxi"
 
-cdef void _entry_context_menu_callback(void *data, Evas_Object *obj, void *event_info) with gil:
+cdef void _entry_context_menu_callback(void *data, Evas_Object *obj, void *event_info) noexcept with gil:
     (callback, a, ka) = <object>data
     try:
         o = object_from_instance(obj)
@@ -161,7 +161,7 @@ cdef class FilterAcceptSet(object):
         def __get__(self):
             return _ctouni(self.fltr.rejected)
 
-cdef void py_elm_entry_filter_cb(void *data, Evas_Object *entry, char **text) with gil:
+cdef void py_elm_entry_filter_cb(void *data, Evas_Object *entry, char **text) noexcept with gil:
     """This callback type is used by entry filters to modify text.
 
     :param data: The data specified as the last param when adding the filter

@@ -18,7 +18,7 @@
 
 include "slideshow_cdef.pxi"
 
-cdef Evas_Object *_py_elm_slideshow_item_get(void *data, Evas_Object *obj) with gil:
+cdef Evas_Object *_py_elm_slideshow_item_get(void *data, Evas_Object *obj) noexcept with gil:
     cdef:
         SlideshowItem item = <SlideshowItem>data
         SlideshowItemClass itc = item.item_class
@@ -41,7 +41,7 @@ cdef Evas_Object *_py_elm_slideshow_item_get(void *data, Evas_Object *obj) with 
         return NULL
 
 
-cdef void _py_elm_slideshow_item_del(void *data, Evas_Object *obj) with gil:
+cdef void _py_elm_slideshow_item_del(void *data, Evas_Object *obj) noexcept with gil:
     cdef:
         SlideshowItem item = <SlideshowItem>data
         SlideshowItemClass itc = item.item_class
@@ -58,7 +58,7 @@ cdef void _py_elm_slideshow_item_del(void *data, Evas_Object *obj) with gil:
     # item._unset_obj()
     #Py_DECREF(item)
 
-cdef int _py_elm_slideshow_compare_func(const void *data1, const void *data2) with gil:
+cdef int _py_elm_slideshow_compare_func(const void *data1, const void *data2) noexcept with gil:
     cdef:
         SlideshowItem item1 = <SlideshowItem>data1
         SlideshowItem item2 = <SlideshowItem>data2

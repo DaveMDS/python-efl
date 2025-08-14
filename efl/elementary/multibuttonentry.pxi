@@ -19,7 +19,7 @@
 include "multibuttonentry_cdef.pxi"
 
 cdef Eina_Bool _multibuttonentry_filter_callback(Evas_Object *obj, \
-    const char *item_label, void *item_data, void *data) with gil:
+    const char *item_label, void *item_data, void *data) noexcept with gil:
 
     cdef:
         MultiButtonEntry mbe = object_from_instance(obj)
@@ -41,7 +41,7 @@ cdef Eina_Bool _multibuttonentry_filter_callback(Evas_Object *obj, \
 
     return 1
 
-cdef char * _multibuttonentry_format_cb(int count, void *data) with gil:
+cdef char * _multibuttonentry_format_cb(int count, void *data) noexcept with gil:
     cdef MultiButtonEntry obj = <MultiButtonEntry>data
     (callback, a, ka) = obj.internal_data["multibuttonentry_format_cb"]
 
@@ -204,7 +204,7 @@ cdef class MultiButtonEntryItem(ObjectItem):
         return _object_item_to_python(elm_multibuttonentry_item_next_get(self.item))
 
 cdef void _py_elm_mbe_item_added_cb(
-    void *data, Evas_Object *o, void *event_info) with gil:
+    void *data, Evas_Object *o, void *event_info) noexcept with gil:
     cdef:
         MultiButtonEntryItem it
         Elm_Object_Item *item = <Elm_Object_Item *>event_info

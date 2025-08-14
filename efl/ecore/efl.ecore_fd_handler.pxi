@@ -16,7 +16,7 @@
 # along with this Python-EFL.  If not, see <http://www.gnu.org/licenses/>.
 
 
-cdef void fd_handler_prepare_cb(void *data, Ecore_Fd_Handler *fdh) with gil:
+cdef void fd_handler_prepare_cb(void *data, Ecore_Fd_Handler *fdh) noexcept with gil:
     cdef FdHandler obj = <FdHandler>data
     cdef int r
 
@@ -40,7 +40,7 @@ cdef flags2str(int value):
     return ", ".join(flags)
 
 
-cdef Eina_Bool fd_handler_cb(void *data, Ecore_Fd_Handler *fdh) with gil:
+cdef Eina_Bool fd_handler_cb(void *data, Ecore_Fd_Handler *fdh) noexcept with gil:
     cdef FdHandler obj = <FdHandler>data
     cdef Eina_Bool r
 

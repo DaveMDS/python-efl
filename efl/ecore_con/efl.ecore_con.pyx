@@ -238,7 +238,7 @@ def shutdown():
     ecore_con_shutdown()
 
 
-cdef Eina_Bool _con_event_filter_cb(void *data, int ev_type, void *ev) with gil:
+cdef Eina_Bool _con_event_filter_cb(void *data, int ev_type, void *ev) noexcept with gil:
     cdef:
         ConEventFilter filter = <ConEventFilter>data
         object event_cls

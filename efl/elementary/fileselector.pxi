@@ -18,7 +18,7 @@
 
 include "fileselector_cdef.pxi"
 
-cdef Eina_Bool py_elm_fileselector_custom_filter_cb(const char *path, Eina_Bool is_dir, void *data) with gil:
+cdef Eina_Bool py_elm_fileselector_custom_filter_cb(const char *path, Eina_Bool is_dir, void *data) noexcept with gil:
     cb_func, cb_data = <object>data
     try:
         return cb_func(_ctouni(path), is_dir, cb_data)

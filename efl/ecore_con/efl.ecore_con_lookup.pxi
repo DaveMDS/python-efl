@@ -16,7 +16,7 @@
 # along with this Python-EFL.  If not, see <http://www.gnu.org/licenses/>.
 
 
-cdef void _con_dns_lookup_cb(const char *canonname, const char *ip, sockaddr *sockaddr, int addrlen, void *data) with gil:
+cdef void _con_dns_lookup_cb(const char *canonname, const char *ip, sockaddr *sockaddr, int addrlen, void *data) noexcept with gil:
     cdef Lookup self = <Lookup>data
 
     try:

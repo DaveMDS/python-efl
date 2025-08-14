@@ -18,7 +18,7 @@
 
 include "gengrid_cdef.pxi"
 
-cdef char *_py_elm_gengrid_item_text_get(void *data, Evas_Object *obj, const char *part) with gil:
+cdef char *_py_elm_gengrid_item_text_get(void *data, Evas_Object *obj, const char *part) noexcept with gil:
     cdef:
         GengridItem item = <GengridItem>data
         unicode u = _ctouni(part)
@@ -40,7 +40,7 @@ cdef char *_py_elm_gengrid_item_text_get(void *data, Evas_Object *obj, const cha
     else:
         return NULL
 
-cdef Evas_Object *_py_elm_gengrid_item_content_get(void *data, Evas_Object *obj, const char *part) with gil:
+cdef Evas_Object *_py_elm_gengrid_item_content_get(void *data, Evas_Object *obj, const char *part) noexcept with gil:
     cdef:
         GengridItem item = <GengridItem>data
         unicode u = _ctouni(part)
@@ -63,7 +63,7 @@ cdef Evas_Object *_py_elm_gengrid_item_content_get(void *data, Evas_Object *obj,
     else:
         return NULL
 
-cdef Eina_Bool _py_elm_gengrid_item_state_get(void *data, Evas_Object *obj, const char *part) with gil:
+cdef Eina_Bool _py_elm_gengrid_item_state_get(void *data, Evas_Object *obj, const char *part) noexcept with gil:
     cdef:
         GengridItem item = <GengridItem>data
         unicode u = _ctouni(part)
@@ -81,7 +81,7 @@ cdef Eina_Bool _py_elm_gengrid_item_state_get(void *data, Evas_Object *obj, cons
 
     return ret if ret is not None else 0
 
-cdef void _py_elm_gengrid_object_item_del(void *data, Evas_Object *obj) with gil:
+cdef void _py_elm_gengrid_object_item_del(void *data, Evas_Object *obj) noexcept with gil:
     cdef GengridItem item = <GengridItem>data
 
     if item is None:
@@ -98,7 +98,7 @@ cdef void _py_elm_gengrid_object_item_del(void *data, Evas_Object *obj) with gil
 
     item._unset_obj()
 
-cdef void _py_elm_gengrid_item_func(void *data, Evas_Object *obj, void *event_info) with gil:
+cdef void _py_elm_gengrid_item_func(void *data, Evas_Object *obj, void *event_info) noexcept with gil:
     cdef GengridItem item
 
     assert data != NULL, "data is NULL in Gengrid select cb"
@@ -112,7 +112,7 @@ cdef void _py_elm_gengrid_item_func(void *data, Evas_Object *obj, void *event_in
         except Exception:
             traceback.print_exc()
 
-cdef int _gengrid_compare_cb(const void *data1, const void *data2) with gil:
+cdef int _gengrid_compare_cb(const void *data1, const void *data2) noexcept with gil:
     cdef:
         Elm_Object_Item *citem1 = <Elm_Object_Item *>data1
         Elm_Object_Item *citem2 = <Elm_Object_Item *>data2

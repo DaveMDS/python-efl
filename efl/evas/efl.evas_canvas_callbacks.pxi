@@ -39,129 +39,129 @@ cdef int cb_canvas_dispatcher2(Canvas self, int type) except 0:
     return 1
 
 
-cdef void cb_canvas_mouse_in(void *data, Evas *e, void *e_inf) with gil:
+cdef void cb_canvas_mouse_in(void *data, Evas *e, void *e_inf) noexcept with gil:
     print("EVAS_CALLBACK_MOUSE_IN is not supported by canvas.")
 
-cdef void cb_canvas_mouse_out(void *data, Evas *e, void *e_inf) with gil:
+cdef void cb_canvas_mouse_out(void *data, Evas *e, void *e_inf) noexcept with gil:
     print("EVAS_CALLBACK_MOUSE_OUT is not supported by canvas.")
 
-cdef void cb_canvas_mouse_down(void *data, Evas *e, void *e_inf) with gil:
+cdef void cb_canvas_mouse_down(void *data, Evas *e, void *e_inf) noexcept with gil:
     print("EVAS_CALLBACK_MOUSE_DOWN is not supported by canvas.")
 
-cdef void cb_canvas_mouse_up(void *data, Evas *e, void *e_inf) with gil:
+cdef void cb_canvas_mouse_up(void *data, Evas *e, void *e_inf) noexcept with gil:
     print("EVAS_CALLBACK_MOUSE_UP is not supported by canvas.")
 
-cdef void cb_canvas_mouse_move(void *data, Evas *e, void *e_inf) with gil:
+cdef void cb_canvas_mouse_move(void *data, Evas *e, void *e_inf) noexcept with gil:
     print("EVAS_CALLBACK_MOUSE_MOVE is not supported by canvas.")
 
-cdef void cb_canvas_multi_down(void *data, Evas *e, void *e_inf) with gil:
+cdef void cb_canvas_multi_down(void *data, Evas *e, void *e_inf) noexcept with gil:
     print("EVAS_CALLBACK_MULTI_DOWN is not supported by canvas.")
 
-cdef void cb_canvas_multi_up(void *data, Evas *e, void *e_inf) with gil:
+cdef void cb_canvas_multi_up(void *data, Evas *e, void *e_inf) noexcept with gil:
     print("EVAS_CALLBACK_MULTI_UP is not supported by canvas.")
 
-cdef void cb_canvas_multi_move(void *data, Evas *e, void *e_inf) with gil:
+cdef void cb_canvas_multi_move(void *data, Evas *e, void *e_inf) noexcept with gil:
     print("EVAS_CALLBACK_MULTI_MOVE is not supported by canvas.")
 
-cdef void cb_canvas_mouse_wheel(void *data, Evas *e, void *e_inf) with gil:
+cdef void cb_canvas_mouse_wheel(void *data, Evas *e, void *e_inf) noexcept with gil:
     print("EVAS_CALLBACK_MOUSE_WHEEL is not supported by canvas.")
 
-cdef void cb_canvas_free(void *data, Evas *e, void *e_inf) with gil:
+cdef void cb_canvas_free(void *data, Evas *e, void *e_inf) noexcept with gil:
     print("EVAS_CALLBACK_FREE is not supported by canvas.")
 
-cdef void cb_canvas_key_down(void *data, Evas *e, void *e_inf) with gil:
+cdef void cb_canvas_key_down(void *data, Evas *e, void *e_inf) noexcept with gil:
     print("EVAS_CALLBACK_KEY_DOWN is not supported by canvas.")
 
-cdef void cb_canvas_key_up(void *data, Evas *e, void *e_inf) with gil:
+cdef void cb_canvas_key_up(void *data, Evas *e, void *e_inf) noexcept with gil:
     print("EVAS_CALLBACK_KEY_UP is not supported by canvas.")
 
-cdef void cb_canvas_focus_in(void *data, Evas *e, void *e_inf) with gil:
+cdef void cb_canvas_focus_in(void *data, Evas *e, void *e_inf) noexcept with gil:
     print("EVAS_CALLBACK_FOCUS_IN is not supported by canvas.")
 
-cdef void cb_canvas_focus_out(void *data, Evas *e, void *e_inf) with gil:
+cdef void cb_canvas_focus_out(void *data, Evas *e, void *e_inf) noexcept with gil:
     print("EVAS_CALLBACK_FOCUS_OUT is not supported by canvas.")
 
-cdef void cb_canvas_show(void *data, Evas *e, void *e_inf) with gil:
+cdef void cb_canvas_show(void *data, Evas *e, void *e_inf) noexcept with gil:
     print("EVAS_CALLBACK_SHOW is not supported by canvas.")
 
-cdef void cb_canvas_hide(void *data, Evas *e, void *e_inf) with gil:
+cdef void cb_canvas_hide(void *data, Evas *e, void *e_inf) noexcept with gil:
     print("EVAS_CALLBACK_HIDE is not supported by canvas.")
 
-cdef void cb_canvas_move(void *data, Evas *e, void *e_inf) with gil:
+cdef void cb_canvas_move(void *data, Evas *e, void *e_inf) noexcept with gil:
     print("EVAS_CALLBACK_MOVE is not supported by canvas.")
 
-cdef void cb_canvas_resize(void *data, Evas *e, void *e_inf) with gil:
+cdef void cb_canvas_resize(void *data, Evas *e, void *e_inf) noexcept with gil:
     print("EVAS_CALLBACK_RESIZE is not supported by canvas.")
 
-cdef void cb_canvas_restack(void *data, Evas *e, void *e_inf) with gil:
+cdef void cb_canvas_restack(void *data, Evas *e, void *e_inf) noexcept with gil:
     print("EVAS_CALLBACK_RESTACK is not supported by canvas.")
 
-cdef void cb_canvas_del(void *data, Evas *e, void *e_inf) with gil:
+cdef void cb_canvas_del(void *data, Evas *e, void *e_inf) noexcept with gil:
     print("EVAS_CALLBACK_DEL is not supported by canvas.")
 
-cdef void cb_canvas_hold(void *data, Evas *e, void *e_inf) with gil:
+cdef void cb_canvas_hold(void *data, Evas *e, void *e_inf) noexcept with gil:
     print("EVAS_CALLBACK_HOLD is not supported by canvas.")
 
-cdef void cb_canvas_changed_size_hints(void *data, Evas *e, void *e_inf) with gil:
+cdef void cb_canvas_changed_size_hints(void *data, Evas *e, void *e_inf) noexcept with gil:
     print("EVAS_CALLBACK_CHANGED_SIZE_HINTS is not supported by canvas.")
 
-cdef void cb_canvas_image_preloaded(void *data, Evas *e, void *e_inf) with gil:
+cdef void cb_canvas_image_preloaded(void *data, Evas *e, void *e_inf) noexcept with gil:
     print("EVAS_CALLBACK_IMAGE_PRELOADED is not supported by canvas.")
 
-cdef void cb_canvas_image_resize(void *data, Evas *e, void *e_inf) with gil:
+cdef void cb_canvas_image_resize(void *data, Evas *e, void *e_inf) noexcept with gil:
     print("EVAS_CALLBACK_IMAGE_RESIZE is not supported by canvas.")
 
-cdef void cb_canvas_device_changed(void *data, Evas *e, void *e_inf) with gil:
+cdef void cb_canvas_device_changed(void *data, Evas *e, void *e_inf) noexcept with gil:
     print("EVAS_CALLBACK_DEVICE_CHANGED is not supported by canvas.")
 
-cdef void cb_canvas_canvas_focus_in(void *data, Evas *e, void *e_inf) with gil:
+cdef void cb_canvas_canvas_focus_in(void *data, Evas *e, void *e_inf) noexcept with gil:
     cb_canvas_dispatcher2(<Canvas>data, EVAS_CALLBACK_CANVAS_FOCUS_IN)
 
 
-cdef void cb_canvas_canvas_focus_out(void *data, Evas *e, void *e_inf) with gil:
+cdef void cb_canvas_canvas_focus_out(void *data, Evas *e, void *e_inf) noexcept with gil:
     cb_canvas_dispatcher2(<Canvas>data, EVAS_CALLBACK_CANVAS_FOCUS_OUT)
 
 
-cdef void cb_canvas_render_flush_pre(void *data, Evas *e, void *e_inf) with gil:
+cdef void cb_canvas_render_flush_pre(void *data, Evas *e, void *e_inf) noexcept with gil:
     cb_canvas_dispatcher2(<Canvas>data, EVAS_CALLBACK_RENDER_FLUSH_PRE)
 
 
-cdef void cb_canvas_render_flush_post(void *data, Evas *e, void *e_inf) with gil:
+cdef void cb_canvas_render_flush_post(void *data, Evas *e, void *e_inf) noexcept with gil:
     cb_canvas_dispatcher2(<Canvas>data, EVAS_CALLBACK_RENDER_FLUSH_POST)
 
 
-cdef void cb_canvas_canvas_object_focus_in(void *data, Evas *e, void *e_inf) with gil:
+cdef void cb_canvas_canvas_object_focus_in(void *data, Evas *e, void *e_inf) noexcept with gil:
     cdef Evas_Object *obj = <Evas_Object*>e_inf
     o = object_from_instance(obj)
     cb_canvas_dispatcher(<Canvas>data, o, EVAS_CALLBACK_CANVAS_OBJECT_FOCUS_IN)
 
 
-cdef void cb_canvas_canvas_object_focus_out(void *data, Evas *e, void *e_inf) with gil:
+cdef void cb_canvas_canvas_object_focus_out(void *data, Evas *e, void *e_inf) noexcept with gil:
     cdef Evas_Object *obj = <Evas_Object*>e_inf
     o = object_from_instance(obj)
     cb_canvas_dispatcher(<Canvas>data, o, EVAS_CALLBACK_CANVAS_OBJECT_FOCUS_OUT)
 
 
-cdef void cb_canvas_image_unloaded(void *data, Evas *e, void *e_inf) with gil:
+cdef void cb_canvas_image_unloaded(void *data, Evas *e, void *e_inf) noexcept with gil:
     print("EVAS_CALLBACK_IMAGE_UNLOADED is not supported by canvas.")
 
-cdef void cb_canvas_render_pre(void *data, Evas *e, void *e_inf) with gil:
+cdef void cb_canvas_render_pre(void *data, Evas *e, void *e_inf) noexcept with gil:
     #cdef Evas_Object *obj = <Evas_Object*>e_inf
     #o = object_from_instance(obj)
     #cb_canvas_dispatcher(<Canvas>data, o, EVAS_CALLBACK_RENDER_PRE)
     cb_canvas_dispatcher2(<Canvas>data, EVAS_CALLBACK_RENDER_PRE)
 
 
-cdef void cb_canvas_render_post(void *data, Evas *e, void *e_inf) with gil:
+cdef void cb_canvas_render_post(void *data, Evas *e, void *e_inf) noexcept with gil:
     #cdef Evas_Object *obj = <Evas_Object*>e_inf
     #o = object_from_instance(obj)
     #cb_canvas_dispatcher(<Canvas>data, o, EVAS_CALLBACK_RENDER_POST)
     cb_canvas_dispatcher2(<Canvas>data, EVAS_CALLBACK_RENDER_POST)
 
-cdef void cb_canvas_axis_update(void *data, Evas *e, void *e_inf) with gil:
+cdef void cb_canvas_axis_update(void *data, Evas *e, void *e_inf) noexcept with gil:
     cb_canvas_dispatcher2(<Canvas>data, EVAS_CALLBACK_AXIS_UPDATE)
 
-cdef void cb_canvas_viewport_resize(void *data, Evas *e, void *e_inf) with gil:
+cdef void cb_canvas_viewport_resize(void *data, Evas *e, void *e_inf) noexcept with gil:
     cb_canvas_dispatcher2(<Canvas>data, EVAS_CALLBACK_CANVAS_VIEWPORT_RESIZE)
 
 

@@ -120,7 +120,7 @@ EMOTION_VIS_LIBVISUAL_PLASMA = enums.EMOTION_VIS_LIBVISUAL_PLASMA
 EMOTION_VIS_LAST = enums.EMOTION_VIS_LAST
 
 
-cdef void _emotion_callback(void *data, Evas_Object *o, void *ei) with gil:
+cdef void _emotion_callback(void *data, Evas_Object *o, void *ei) noexcept with gil:
     cdef Emotion obj
     cdef object event
     obj = object_from_instance(o)

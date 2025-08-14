@@ -18,7 +18,7 @@
 include "layout_cdef.pxi"
 
 cdef void layout_signal_callback(void *data, Evas_Object *obj,
-                    const char *emission, const char *source) with gil:
+                    const char *emission, const char *source) noexcept with gil:
     cdef Object self = object_from_instance(obj)
     lst = tuple(<object>data)
     for func, args, kargs in lst:

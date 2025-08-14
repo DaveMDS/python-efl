@@ -18,7 +18,7 @@
 
 include "toolbar_cdef.pxi"
 
-cdef void _toolbar_item_state_callback(void *data, Evas_Object *obj, void *event_info) with gil:
+cdef void _toolbar_item_state_callback(void *data, Evas_Object *obj, void *event_info) noexcept with gil:
     cdef ToolbarItemState state = <object>data
     cdef ToolbarItem item = ToolbarItem.__new__(ToolbarItem)
     item.item = <Elm_Object_Item *>event_info

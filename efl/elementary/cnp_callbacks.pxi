@@ -90,7 +90,7 @@ cdef class SelectionData(object):
             return self.sel_data.action
 
 
-cdef Eina_Bool py_elm_drop_cb(void *data, Evas_Object *obj, Elm_Selection_Data *ev) with gil:
+cdef Eina_Bool py_elm_drop_cb(void *data, Evas_Object *obj, Elm_Selection_Data *ev) noexcept with gil:
     """Callback invoked when the selected data is 'dropped' at its destination.
 
     :param data: Application specific data
@@ -116,7 +116,7 @@ cdef Eina_Bool py_elm_drop_cb(void *data, Evas_Object *obj, Elm_Selection_Data *
     sd.sel_data = NULL
     return ret
 
-cdef Elm_Object_Item *py_elm_xy_item_get_cb(Evas_Object *obj, Evas_Coord x, Evas_Coord y, int *xposret, int *yposret) with gil:
+cdef Elm_Object_Item *py_elm_xy_item_get_cb(Evas_Object *obj, Evas_Coord x, Evas_Coord y, int *xposret, int *yposret) noexcept with gil:
     """Callback invoked to find out what object is under (x,y) coords
 
     :param obj: The container object
@@ -151,7 +151,7 @@ cdef Elm_Object_Item *py_elm_xy_item_get_cb(Evas_Object *obj, Evas_Coord x, Evas
     else:
         return NULL
 
-cdef void py_elm_selection_loss_cb(void *data, Elm_Sel_Type selection) with gil:
+cdef void py_elm_selection_loss_cb(void *data, Elm_Sel_Type selection) noexcept with gil:
     """Callback invoked when the selection ownership for a given selection is lost.
 
     :param data: Application specific data
@@ -165,7 +165,7 @@ cdef void py_elm_selection_loss_cb(void *data, Elm_Sel_Type selection) with gil:
     cb_func(selection, cb_data)
 
 cdef Evas_Object *py_elm_drag_icon_create_cb(
-    void *data, Evas_Object *win, Evas_Coord *xoff, Evas_Coord *yoff) with gil:
+    void *data, Evas_Object *win, Evas_Coord *xoff, Evas_Coord *yoff) noexcept with gil:
     """Callback called to create a drag icon object
 
     :param data: Application specific data
@@ -209,7 +209,7 @@ cdef Evas_Object *py_elm_drag_icon_create_cb(
 
     return icon.obj
 
-cdef void py_elm_drag_state_cb(void *data, Evas_Object *obj) with gil:
+cdef void py_elm_drag_state_cb(void *data, Evas_Object *obj) noexcept with gil:
     """Callback called when a drag is finished, enters, or leaves an object
 
     :param data: Application specific data
@@ -228,7 +228,7 @@ cdef void py_elm_drag_state_cb(void *data, Evas_Object *obj) with gil:
     except Exception:
         traceback.print_exc()
 
-cdef void py_elm_drag_done_cb(void *data, Evas_Object *obj, Eina_Bool accepted) with gil:
+cdef void py_elm_drag_done_cb(void *data, Evas_Object *obj, Eina_Bool accepted) noexcept with gil:
     """Callback called when a drag is finished.
 
     :param data: Application specific data
@@ -248,7 +248,7 @@ cdef void py_elm_drag_done_cb(void *data, Evas_Object *obj, Eina_Bool accepted) 
     except Exception:
         traceback.print_exc()
 
-cdef void py_elm_drag_accept_cb(void *data, Evas_Object *obj, Eina_Bool doaccept) with gil:
+cdef void py_elm_drag_accept_cb(void *data, Evas_Object *obj, Eina_Bool doaccept) noexcept with gil:
     """Callback called when a drag is responded to with an accept or deny
 
     :param data: Application specific data
@@ -269,7 +269,7 @@ cdef void py_elm_drag_accept_cb(void *data, Evas_Object *obj, Eina_Bool doaccept
         traceback.print_exc()
 
 cdef void py_elm_drag_pos_cb(void *data, Evas_Object *obj,
-    Evas_Coord x, Evas_Coord y, Elm_Xdnd_Action action) with gil:
+    Evas_Coord x, Evas_Coord y, Elm_Xdnd_Action action) noexcept with gil:
     """Callback called when a drag is over an object, and gives object-relative coordinates
 
     :param data: Application specific data
@@ -293,7 +293,7 @@ cdef void py_elm_drag_pos_cb(void *data, Evas_Object *obj,
 cdef void py_elm_drag_item_container_pos(
     void *data, Evas_Object *cont, Elm_Object_Item *it,
     Evas_Coord x, Evas_Coord y, int xposret, int yposret,
-    Elm_Xdnd_Action action) with gil:
+    Elm_Xdnd_Action action) noexcept with gil:
     """
 
     Callback called when a drag is over an object
@@ -319,7 +319,7 @@ cdef void py_elm_drag_item_container_pos(
 
 cdef Eina_Bool py_elm_drop_item_container_cb(
     void *data, Evas_Object *obj, Elm_Object_Item *it,
-    Elm_Selection_Data *ev, int xposret, int yposret) with gil:
+    Elm_Selection_Data *ev, int xposret, int yposret) noexcept with gil:
     """
 
     Callback invoked in when the selected data is 'dropped' on container.

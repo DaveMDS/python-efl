@@ -19,7 +19,7 @@ from efl.evas cimport Object
 
 cdef void text_change_cb(void *data,
                          Evas_Object *obj,
-                         const char *part) with gil:
+                         const char *part) noexcept with gil:
     cdef Edje self
     self = <Edje>data
     if self._text_change_cb is None:
@@ -34,7 +34,7 @@ cdef void text_change_cb(void *data,
 cdef void message_handler_cb(void *data,
                              Evas_Object *obj,
                              Edje_Message_Type type,
-                             int id, void *msg) with gil:
+                             int id, void *msg) noexcept with gil:
     cdef Edje self
     self = <Edje>data
     if self._message_handler_cb is None:
@@ -47,7 +47,7 @@ cdef void message_handler_cb(void *data,
 
 
 cdef void signal_cb(void *data, Evas_Object *obj,
-                    const char *emission, const char *source) with gil:
+                    const char *emission, const char *source) noexcept with gil:
     cdef Edje self
     self = object_from_instance(obj)
     lst = tuple(<object>data)

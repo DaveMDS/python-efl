@@ -50,7 +50,7 @@ cdef exe_flags2str(int value):
     return ", ".join(flags)
 
 
-cdef Eina_Bool _exe_event_filter_cb(void *data, int type, void *event) with gil:
+cdef Eina_Bool _exe_event_filter_cb(void *data, int type, void *event) noexcept with gil:
     cdef:
         ExeEventFilter self = <ExeEventFilter>data
         Ecore_Exe_Event_Add *e_add
@@ -157,7 +157,7 @@ cdef object _ecore_exe_event_mapping
 _ecore_exe_event_mapping = {}
 
 
-cdef void _ecore_exe_pre_free_cb(void *data, const Ecore_Exe *exe) with gil:
+cdef void _ecore_exe_pre_free_cb(void *data, const Ecore_Exe *exe) noexcept with gil:
     cdef Exe obj
     try:
         if data == NULL:

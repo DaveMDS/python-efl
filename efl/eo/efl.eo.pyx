@@ -182,7 +182,7 @@ cdef void _register_decorated_callbacks(Eo obj):
 ######################################################################
 
 
-cdef void _efl_event_del_cb(void *data, const Efl_Event *event) with gil:
+cdef void _efl_event_del_cb(void *data, const Efl_Event *event) noexcept with gil:
     cdef:
         Eo self = <Eo>data
         const char *cls_name = efl_class_name_get(efl_class_get(self.obj))

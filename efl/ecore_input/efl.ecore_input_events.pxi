@@ -56,7 +56,7 @@ cdef int _ecore_input_events_register() except 0:
     return 1
 
 
-cdef Eina_Bool _input_event_handler_cb(void *data, int type, void *event) with gil:
+cdef Eina_Bool _input_event_handler_cb(void *data, int type, void *event) noexcept with gil:
     cdef EventHandler handler
     cdef Eina_Bool r
 

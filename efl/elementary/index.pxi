@@ -17,7 +17,7 @@
 
 include "index_cdef.pxi"
 
-cdef int _index_compare_func(const void *data1, const void *data2) with gil:
+cdef int _index_compare_func(const void *data1, const void *data2) noexcept with gil:
     """Comparison by IndexItem objects"""
     cdef:
         Elm_Object_Item *citem1 = <Elm_Object_Item *>data1
@@ -43,7 +43,7 @@ cdef int _index_compare_func(const void *data1, const void *data2) with gil:
     else:
         return 0
 
-cdef int _index_data_compare_func(const void *data1, const void *data2) with gil:
+cdef int _index_data_compare_func(const void *data1, const void *data2) noexcept with gil:
     """Comparison by IndexItem data"""
     cdef:
         IndexItem item1 = <object>data1

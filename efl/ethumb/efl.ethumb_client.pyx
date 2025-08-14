@@ -164,7 +164,7 @@ ETHUMB_THUMB_IGNORE_ASPECT = enums.ETHUMB_THUMB_IGNORE_ASPECT
 ETHUMB_THUMB_CROP = enums.ETHUMB_THUMB_CROP
 
 
-cdef void _connect_cb(void *data, Ethumb_Client *client, Eina_Bool success) with gil:
+cdef void _connect_cb(void *data, Ethumb_Client *client, Eina_Bool success) noexcept with gil:
     cdef EthumbClient self = <EthumbClient>data
     s = bool(success)
     try:
@@ -173,7 +173,7 @@ cdef void _connect_cb(void *data, Ethumb_Client *client, Eina_Bool success) with
     except Exception:
         traceback.print_exc()
 
-cdef void _on_server_die_cb(void *data, Ethumb_Client *client) with gil:
+cdef void _on_server_die_cb(void *data, Ethumb_Client *client) noexcept with gil:
     cdef EthumbClient self = <EthumbClient>data
     if self._on_server_die_callback is not None:
         try:
@@ -184,7 +184,7 @@ cdef void _on_server_die_cb(void *data, Ethumb_Client *client) with gil:
 
     self.disconnect()
 
-cdef void _generated_cb(void *data, Ethumb_Client *client, int id, const char *file, const char *key, const char *thumb_path, const char *thumb_key, Eina_Bool success) with gil:
+cdef void _generated_cb(void *data, Ethumb_Client *client, int id, const char *file, const char *key, const char *thumb_path, const char *thumb_key, Eina_Bool success) noexcept with gil:
     obj = <object>data
     (self, func, args, kargs) = obj
     status = bool(success != 0)
@@ -194,11 +194,11 @@ cdef void _generated_cb(void *data, Ethumb_Client *client, int id, const char *f
     except Exception:
         traceback.print_exc()
 
-cdef void _generated_cb_free_data(void *data) with gil:
+cdef void _generated_cb_free_data(void *data) noexcept with gil:
     obj = <object>data
     Py_DECREF(obj)
 
-cdef void _thumb_exists_cb(void *data, Ethumb_Client *client, Ethumb_Exists *thread, Eina_Bool exists) with gil:
+cdef void _thumb_exists_cb(void *data, Ethumb_Client *client, Ethumb_Exists *thread, Eina_Bool exists) noexcept with gil:
     #TODO
     print("Not implemented")
 

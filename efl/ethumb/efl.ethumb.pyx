@@ -181,7 +181,7 @@ ETHUMB_THUMB_IGNORE_ASPECT = enums.ETHUMB_THUMB_IGNORE_ASPECT
 ETHUMB_THUMB_CROP = enums.ETHUMB_THUMB_CROP
 
 
-cdef void _generate_cb(void *data, cEthumb *e, Eina_Bool success) with gil:
+cdef void _generate_cb(void *data, cEthumb *e, Eina_Bool success) noexcept with gil:
     obj = <object>data
     (self, func, args, kargs) = obj
     try:
@@ -189,7 +189,7 @@ cdef void _generate_cb(void *data, cEthumb *e, Eina_Bool success) with gil:
     except Exception:
         traceback.print_exc()
 
-cdef void _generate_free_cb(void *data) with gil:
+cdef void _generate_free_cb(void *data) noexcept with gil:
     obj = <object>data
     Py_DECREF(obj)
 

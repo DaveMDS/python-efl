@@ -18,7 +18,7 @@
 from cpython cimport PyUnicode_AsUTF8String
 
 
-cdef void _file_monitor_cb(void *data, Ecore_File_Monitor *em, Ecore_File_Event event, const char *path) with gil:
+cdef void _file_monitor_cb(void *data, Ecore_File_Monitor *em, Ecore_File_Event event, const char *path) noexcept with gil:
     obj = <FileMonitor>data
     try:
         obj._exec_monitor(event, path)

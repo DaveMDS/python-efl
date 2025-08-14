@@ -25,7 +25,7 @@ import dbus
 import dbus.mainloop
 import atexit
 
-cdef dbus_bool_t dbus_py_ecore_set_up_conn(DBusConnection *conn, void *data) with gil:
+cdef dbus_bool_t dbus_py_ecore_set_up_conn(DBusConnection *conn, void *data) noexcept with gil:
     e_dbus_connection_setup(conn)
     return True
 

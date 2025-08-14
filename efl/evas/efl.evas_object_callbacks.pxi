@@ -39,7 +39,7 @@ cdef int cb_object_dispatcher2(Object self, int type) except 0:
 
 
 cdef void cb_object_mouse_in(void *data, Evas *e,
-                             Evas_Object *obj, void *e_inf) with gil:
+                             Evas_Object *obj, void *e_inf) noexcept with gil:
     cdef EventMouseIn event
     event = EventMouseIn()
     event._set_obj(e_inf)
@@ -48,7 +48,7 @@ cdef void cb_object_mouse_in(void *data, Evas *e,
 
 
 cdef void cb_object_mouse_out(void *data, Evas *e,
-                              Evas_Object *obj, void *e_inf) with gil:
+                              Evas_Object *obj, void *e_inf) noexcept with gil:
     cdef EventMouseOut event
     event = EventMouseOut()
     event._set_obj(e_inf)
@@ -57,7 +57,7 @@ cdef void cb_object_mouse_out(void *data, Evas *e,
 
 
 cdef void cb_object_mouse_down(void *data, Evas *e,
-                               Evas_Object *obj, void *e_inf) with gil:
+                               Evas_Object *obj, void *e_inf) noexcept with gil:
     cdef EventMouseDown event
     event = EventMouseDown()
     event._set_obj(e_inf)
@@ -66,7 +66,7 @@ cdef void cb_object_mouse_down(void *data, Evas *e,
 
 
 cdef void cb_object_mouse_up(void *data, Evas *e,
-                             Evas_Object *obj, void *e_inf) with gil:
+                             Evas_Object *obj, void *e_inf) noexcept with gil:
     cdef EventMouseUp event
     event = EventMouseUp()
     event._set_obj(e_inf)
@@ -75,7 +75,7 @@ cdef void cb_object_mouse_up(void *data, Evas *e,
 
 
 cdef void cb_object_mouse_move(void *data, Evas *e,
-                               Evas_Object *obj, void *e_inf) with gil:
+                               Evas_Object *obj, void *e_inf) noexcept with gil:
     cdef EventMouseMove event
     event = EventMouseMove()
     event._set_obj(e_inf)
@@ -84,7 +84,7 @@ cdef void cb_object_mouse_move(void *data, Evas *e,
 
 
 cdef void cb_object_multi_down(void *data, Evas *e,
-                               Evas_Object *obj, void *e_inf) with gil:
+                               Evas_Object *obj, void *e_inf) noexcept with gil:
     cdef EventMultiDown event
     event = EventMultiDown()
     event._set_obj(e_inf)
@@ -92,7 +92,7 @@ cdef void cb_object_multi_down(void *data, Evas *e,
     event._unset_obj()
 
 cdef void cb_object_multi_up(void *data, Evas *e,
-                             Evas_Object *obj, void *e_inf) with gil:
+                             Evas_Object *obj, void *e_inf) noexcept with gil:
     cdef EventMultiUp event
     event = EventMultiUp()
     event._set_obj(e_inf)
@@ -101,7 +101,7 @@ cdef void cb_object_multi_up(void *data, Evas *e,
 
 
 cdef void cb_object_multi_move(void *data, Evas *e,
-                               Evas_Object *obj, void *e_inf) with gil:
+                               Evas_Object *obj, void *e_inf) noexcept with gil:
     cdef EventMultiMove event
     event = EventMultiMove()
     event._set_obj(e_inf)
@@ -110,7 +110,7 @@ cdef void cb_object_multi_move(void *data, Evas *e,
 
 
 cdef void cb_object_mouse_wheel(void *data, Evas *e,
-                                Evas_Object *obj, void *e_inf) with gil:
+                                Evas_Object *obj, void *e_inf) noexcept with gil:
     cdef EventMouseWheel event
     event = EventMouseWheel()
     event._set_obj(e_inf)
@@ -119,12 +119,12 @@ cdef void cb_object_mouse_wheel(void *data, Evas *e,
 
 
 cdef void cb_object_free(void *data, Evas *e,
-                         Evas_Object *obj, void *e_inf) with gil:
+                         Evas_Object *obj, void *e_inf) noexcept with gil:
     cb_object_dispatcher2(<Object>data, enums.EVAS_CALLBACK_FREE)
 
 
 cdef void cb_object_key_down(void *data, Evas *e,
-                             Evas_Object *obj, void *e_inf) with gil:
+                             Evas_Object *obj, void *e_inf) noexcept with gil:
     cdef EventKeyDown event
     event = EventKeyDown()
     event._set_obj(e_inf)
@@ -133,7 +133,7 @@ cdef void cb_object_key_down(void *data, Evas *e,
 
 
 cdef void cb_object_key_up(void *data, Evas *e,
-                           Evas_Object *obj, void *e_inf) with gil:
+                           Evas_Object *obj, void *e_inf) noexcept with gil:
     cdef EventKeyUp event
     event = EventKeyUp()
     event._set_obj(e_inf)
@@ -142,47 +142,47 @@ cdef void cb_object_key_up(void *data, Evas *e,
 
 
 cdef void cb_object_focus_in(void *data, Evas *e,
-                             Evas_Object *obj, void *e_inf) with gil:
+                             Evas_Object *obj, void *e_inf) noexcept with gil:
     cb_object_dispatcher2(<Object>data, enums.EVAS_CALLBACK_FOCUS_IN)
 
 
 cdef void cb_object_focus_out(void *data, Evas *e,
-                              Evas_Object *obj, void *e_inf) with gil:
+                              Evas_Object *obj, void *e_inf) noexcept with gil:
     cb_object_dispatcher2(<Object>data, enums.EVAS_CALLBACK_FOCUS_OUT)
 
 
 cdef void cb_object_show(void *data, Evas *e,
-                         Evas_Object *obj, void *e_inf) with gil:
+                         Evas_Object *obj, void *e_inf) noexcept with gil:
     cb_object_dispatcher2(<Object>data, enums.EVAS_CALLBACK_SHOW)
 
 
 cdef void cb_object_hide(void *data, Evas *e,
-                         Evas_Object *obj, void *e_inf) with gil:
+                         Evas_Object *obj, void *e_inf) noexcept with gil:
     cb_object_dispatcher2(<Object>data, enums.EVAS_CALLBACK_HIDE)
 
 
 cdef void cb_object_move(void *data, Evas *e,
-                         Evas_Object *obj, void *e_inf) with gil:
+                         Evas_Object *obj, void *e_inf) noexcept with gil:
     cb_object_dispatcher2(<Object>data, enums.EVAS_CALLBACK_MOVE)
 
 
 cdef void cb_object_resize(void *data, Evas *e,
-                           Evas_Object *obj, void *e_inf) with gil:
+                           Evas_Object *obj, void *e_inf) noexcept with gil:
     cb_object_dispatcher2(<Object>data, enums.EVAS_CALLBACK_RESIZE)
 
 
 cdef void cb_object_restack(void *data, Evas *e,
-                            Evas_Object *obj, void *e_inf) with gil:
+                            Evas_Object *obj, void *e_inf) noexcept with gil:
     cb_object_dispatcher2(<Object>data, enums.EVAS_CALLBACK_RESTACK)
 
 
 cdef void cb_object_del(void *data, Evas *e,
-                        Evas_Object *obj, void *e_inf) with gil:
+                        Evas_Object *obj, void *e_inf) noexcept with gil:
     cb_object_dispatcher2(<Object>data, enums.EVAS_CALLBACK_DEL)
 
 
 cdef void cb_object_hold(void *data, Evas *e,
-                         Evas_Object *obj, void *e_inf) with gil:
+                         Evas_Object *obj, void *e_inf) noexcept with gil:
     cdef EventHold event
     event = EventHold()
     event._set_obj(e_inf)
@@ -191,67 +191,67 @@ cdef void cb_object_hold(void *data, Evas *e,
 
 
 cdef void cb_object_changed_size_hints(void *data, Evas *e,
-                                       Evas_Object *obj, void *e_inf) with gil:
+                                       Evas_Object *obj, void *e_inf) noexcept with gil:
     cb_object_dispatcher2(<Object>data, enums.EVAS_CALLBACK_CHANGED_SIZE_HINTS)
 
 
 cdef void cb_object_image_preloaded(void *data, Evas *e,
-                                    Evas_Object *obj, void *e_inf) with gil:
+                                    Evas_Object *obj, void *e_inf) noexcept with gil:
     cb_object_dispatcher2(<Object>data, enums.EVAS_CALLBACK_IMAGE_PRELOADED)
 
 cdef void cb_object_image_resize(void *data, Evas *e,
-                                    Evas_Object *obj, void *e_inf) with gil:
+                                    Evas_Object *obj, void *e_inf) noexcept with gil:
     cb_object_dispatcher2(<Object>data, enums.EVAS_CALLBACK_IMAGE_RESIZE)
 
 cdef void cb_object_device_changed(void *data, Evas *e,
-                                   Evas_Object *obj, void *e_inf) with gil:
+                                   Evas_Object *obj, void *e_inf) noexcept with gil:
     cb_object_dispatcher2(<Object>data, enums.EVAS_CALLBACK_DEVICE_CHANGED)
 
 cdef void cb_object_canvas_focus_in(void *data, Evas *e,
-                                    Evas_Object *obj, void *e_inf) with gil:
+                                    Evas_Object *obj, void *e_inf) noexcept with gil:
     print("EVAS_CALLBACK_FOCUS_IN is not supported by object.")
 
 
 cdef void cb_object_canvas_focus_out(void *data, Evas *e,
-                                     Evas_Object *obj, void *e_inf) with gil:
+                                     Evas_Object *obj, void *e_inf) noexcept with gil:
     print("EVAS_CALLBACK_FOCUS_OUT is not supported by object.")
 
 
 cdef void cb_object_render_flush_pre(void *data, Evas *e,
-                                     Evas_Object *obj, void *e_inf) with gil:
+                                     Evas_Object *obj, void *e_inf) noexcept with gil:
     print("EVAS_CALLBACK_RENDER_FLUSH_PRE is not supported by object.")
 
 
 cdef void cb_object_render_flush_post(void *data, Evas *e,
-                                      Evas_Object *obj, void *e_inf) with gil:
+                                      Evas_Object *obj, void *e_inf) noexcept with gil:
     print("EVAS_CALLBACK_RENDER_FLUSH_POST is not supported by object.")
 
 cdef void cb_object_canvas_object_focus_in(void *data, Evas *e,
-                                           Evas_Object *obj, void *e_inf) with gil:
+                                           Evas_Object *obj, void *e_inf) noexcept with gil:
     print("EVAS_CALLBACK_CANVAS_OBJECT_FOCUS_IN is not supported by object.")
 
 cdef void cb_object_canvas_object_focus_out(void *data, Evas *e,
-                                            Evas_Object *obj, void *e_inf) with gil:
+                                            Evas_Object *obj, void *e_inf) noexcept with gil:
     print("EVAS_CALLBACK_CANVAS_OBJECT_FOCUS_OUT is not supported by object.")
 
 cdef void cb_object_image_unloaded(void *data, Evas *e,
-                                   Evas_Object *obj, void *e_inf) with gil:
+                                   Evas_Object *obj, void *e_inf) noexcept with gil:
     cb_object_dispatcher2(<Object>data, enums.EVAS_CALLBACK_IMAGE_UNLOADED)
 
 cdef void cb_object_canvas_render_pre(void *data, Evas *e,
-                                      Evas_Object *obj, void *e_inf) with gil:
+                                      Evas_Object *obj, void *e_inf) noexcept with gil:
     print("EVAS_CALLBACK_RENDER_PRE is not supported by object.")
 
 cdef void cb_object_canvas_render_post(void *data, Evas *e,
-                                       Evas_Object *obj, void *e_inf) with gil:
+                                       Evas_Object *obj, void *e_inf) noexcept with gil:
     print("EVAS_CALLBACK_RENDER_POST is not supported by object.")
 
 cdef void cb_object_axis_update(void *data, Evas *e,
-                                       Evas_Object *obj, void *e_inf) with gil:
+                                       Evas_Object *obj, void *e_inf) noexcept with gil:
     print("EVAS_CALLBACK_AXIS_UPDATE is not supported by object.")
 
 cdef void cb_object_viewport_resize(void *data, Evas *e,
-                                       Evas_Object *obj, void *e_inf) with gil:
+                                       Evas_Object *obj, void *e_inf) noexcept with gil:
     print("EVAS_CALLBACK_CANVAS_VIEWPORT_RESIZE is not supported by object.")
 
 

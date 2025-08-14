@@ -47,7 +47,7 @@ cdef class TransitCustomEffect(object):
         """
         pass
 
-cdef void elm_transit_effect_transition_cb(Elm_Transit_Effect *effect, Elm_Transit *transit, double progress) with gil:
+cdef void elm_transit_effect_transition_cb(Elm_Transit_Effect *effect, Elm_Transit *transit, double progress) noexcept with gil:
     cdef:
         TransitCustomEffect fect = <TransitCustomEffect?>effect
         Transit tsit = fect.transit
@@ -57,7 +57,7 @@ cdef void elm_transit_effect_transition_cb(Elm_Transit_Effect *effect, Elm_Trans
     except Exception:
         traceback.print_exc()
 
-cdef void elm_transit_effect_end_cb(Elm_Transit_Effect *effect, Elm_Transit *transit) with gil:
+cdef void elm_transit_effect_end_cb(Elm_Transit_Effect *effect, Elm_Transit *transit) noexcept with gil:
     cdef:
         TransitCustomEffect fect = <TransitCustomEffect?>effect
         Transit tsit = fect.transit
@@ -69,7 +69,7 @@ cdef void elm_transit_effect_end_cb(Elm_Transit_Effect *effect, Elm_Transit *tra
 
     Py_DECREF(fect)
 
-cdef void elm_transit_del_cb(void *data, Elm_Transit *transit) with gil:
+cdef void elm_transit_del_cb(void *data, Elm_Transit *transit) noexcept with gil:
     cdef:
         Transit trans
         tuple args

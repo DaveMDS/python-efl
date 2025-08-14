@@ -20,7 +20,7 @@ include "object_cdef.pxi"
 
 include "cnp_callbacks.pxi"
 
-cdef Evas_Object *_tooltip_content_create(void *data, Evas_Object *o, Evas_Object *t) with gil:
+cdef Evas_Object *_tooltip_content_create(void *data, Evas_Object *o, Evas_Object *t) noexcept  with gil:
     cdef Object ret, obj, tooltip
 
     obj = object_from_instance(o)
@@ -31,7 +31,7 @@ cdef Evas_Object *_tooltip_content_create(void *data, Evas_Object *o, Evas_Objec
         return NULL
     return ret.obj
 
-cdef void _tooltip_data_del_cb(void *data, Evas_Object *o, void *event_info) with gil:
+cdef void _tooltip_data_del_cb(void *data, Evas_Object *o, void *event_info) noexcept with gil:
     Py_DECREF(<object>data)
 
 
@@ -48,7 +48,7 @@ cdef bint _event_dispatcher(Object obj, Object src, Evas_Callback_Type t,
     return False
 
 cdef Eina_Bool _event_callback(void *data, Evas_Object *o, \
-    Evas_Object *src, Evas_Callback_Type t, void *event_info) with gil:
+    Evas_Object *src, Evas_Callback_Type t, void *event_info) noexcept with gil:
 
     cdef:
         Object obj = object_from_instance(o)
@@ -79,7 +79,7 @@ cdef Eina_Bool _event_callback(void *data, Evas_Object *o, \
     return ret
 
 cdef void signal_callback(void *data, Evas_Object *obj,
-                    const char *emission, const char *source) with gil:
+                    const char *emission, const char *source) noexcept with gil:
     cdef Object self = object_from_instance(obj)
     lst = tuple(<object>data)
     for func, args, kargs in lst:

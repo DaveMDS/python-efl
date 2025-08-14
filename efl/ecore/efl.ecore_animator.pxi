@@ -98,7 +98,7 @@ cdef class Animator(Eo):
         self.delete()
 
 
-cdef Eina_Bool _ecore_timeline_cb(void *data, double pos) with gil:
+cdef Eina_Bool _ecore_timeline_cb(void *data, double pos) noexcept with gil:
     assert data != NULL
     cdef:
         AnimatorTimeline obj = <AnimatorTimeline>data

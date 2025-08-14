@@ -41,7 +41,7 @@ cdef int _object_unregister_callbacks(Object obj) except 0:
 
 
 cdef void obj_free_cb(void *data, Evas *e,
-                      Evas_Object *obj, void *event_info) with gil:
+                      Evas_Object *obj, void *event_info) noexcept with gil:
     cdef Object self = <Object>data
 
     lst = self._event_callbacks[<int>EVAS_CALLBACK_FREE]

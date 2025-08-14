@@ -303,7 +303,7 @@ cdef class GestureRotateInfo(object):
         def __get__(self):
             return self.info.momentum
 
-cdef Evas_Event_Flags _gesture_layer_taps_event_cb(void *data, void *event_info) with gil:
+cdef Evas_Event_Flags _gesture_layer_taps_event_cb(void *data, void *event_info) noexcept with gil:
     callback, args, kwargs = <object>data
     cdef GestureTapsInfo ei = GestureTapsInfo.__new__(GestureTapsInfo)
     ei.info = <Elm_Gesture_Taps_Info *>event_info
@@ -313,7 +313,7 @@ cdef Evas_Event_Flags _gesture_layer_taps_event_cb(void *data, void *event_info)
     except Exception:
         traceback.print_exc()
 
-cdef Evas_Event_Flags _gesture_layer_momentum_event_cb(void *data, void *event_info) with gil:
+cdef Evas_Event_Flags _gesture_layer_momentum_event_cb(void *data, void *event_info) noexcept with gil:
     callback, args, kwargs = <object>data
     cdef GestureMomentumInfo ei = GestureMomentumInfo.__new__(GestureMomentumInfo)
     ei.info = <Elm_Gesture_Momentum_Info *>event_info
@@ -323,7 +323,7 @@ cdef Evas_Event_Flags _gesture_layer_momentum_event_cb(void *data, void *event_i
     except Exception:
         traceback.print_exc()
 
-cdef Evas_Event_Flags _gesture_layer_line_event_cb(void *data, void *event_info) with gil:
+cdef Evas_Event_Flags _gesture_layer_line_event_cb(void *data, void *event_info) noexcept with gil:
     callback, args, kwargs = <object>data
     cdef GestureLineInfo ei = GestureLineInfo.__new__(GestureLineInfo)
     ei.info = <Elm_Gesture_Line_Info *>event_info
@@ -333,7 +333,7 @@ cdef Evas_Event_Flags _gesture_layer_line_event_cb(void *data, void *event_info)
     except Exception:
         traceback.print_exc()
 
-cdef Evas_Event_Flags _gesture_layer_zoom_event_cb(void *data, void *event_info) with gil:
+cdef Evas_Event_Flags _gesture_layer_zoom_event_cb(void *data, void *event_info) noexcept with gil:
     callback, args, kwargs = <object>data
     cdef GestureZoomInfo ei = GestureZoomInfo.__new__(GestureZoomInfo)
     ei.info = <Elm_Gesture_Zoom_Info *>event_info
@@ -343,7 +343,7 @@ cdef Evas_Event_Flags _gesture_layer_zoom_event_cb(void *data, void *event_info)
     except Exception:
         traceback.print_exc()
 
-cdef Evas_Event_Flags _gesture_layer_rotate_event_cb(void *data, void *event_info) with gil:
+cdef Evas_Event_Flags _gesture_layer_rotate_event_cb(void *data, void *event_info) noexcept with gil:
     callback, args, kwargs = <object>data
     cdef GestureRotateInfo ei = GestureRotateInfo.__new__(GestureRotateInfo)
     ei.info = <Elm_Gesture_Rotate_Info *>event_info

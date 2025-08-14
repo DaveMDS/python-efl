@@ -55,7 +55,7 @@ cdef object _web_link_hover_in_conv(void *addr):
     return (url, title)
 
 
-cdef void _web_console_message_hook(void *data, Evas_Object *obj, const char *message, unsigned int line_number, const char *source_id) with gil:
+cdef void _web_console_message_hook(void *data, Evas_Object *obj, const char *message, unsigned int line_number, const char *source_id) noexcept with gil:
     cdef Web self = <Web>data
 
     try:

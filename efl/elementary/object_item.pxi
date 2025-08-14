@@ -17,7 +17,7 @@
 
 include "object_item_cdef.pxi"
 
-cdef Evas_Object *_tooltip_item_content_create(void *data, Evas_Object *o, Evas_Object *t, void *it) with gil:
+cdef Evas_Object *_tooltip_item_content_create(void *data, Evas_Object *o, Evas_Object *t, void *it) noexcept with gil:
     cdef:
         Object ret, obj, tooltip
         ObjectItem item
@@ -31,7 +31,7 @@ cdef Evas_Object *_tooltip_item_content_create(void *data, Evas_Object *o, Evas_
        return NULL
     return ret.obj
 
-cdef void _tooltip_item_data_del_cb(void *data, Evas_Object *o, void *event_info) with gil:
+cdef void _tooltip_item_data_del_cb(void *data, Evas_Object *o, void *event_info) noexcept with gil:
    Py_DECREF(<object>data)
 
 
@@ -71,14 +71,14 @@ cdef _object_item_list_to_python(const Eina_List *lst):
             ret.append(o)
     return ret
 
-cdef void _object_item_del_cb(void *data, Evas_Object *o, void *event_info) with gil:
+cdef void _object_item_del_cb(void *data, Evas_Object *o, void *event_info) noexcept with gil:
     cdef ObjectItem d
     if data != NULL:
         d = <object>data
         d.item = NULL
         Py_DECREF(d)
 
-cdef void _object_item_callback(void *data, Evas_Object *obj, void *event_info) with gil:
+cdef void _object_item_callback(void *data, Evas_Object *obj, void *event_info) noexcept with gil:
     # This should be used with old style items
     cdef ObjectItem item = <object>data
     try:
@@ -87,7 +87,7 @@ cdef void _object_item_callback(void *data, Evas_Object *obj, void *event_info) 
     except Exception:
         traceback.print_exc()
 
-cdef void _object_item_callback2(void *data, Evas_Object *obj, void *event_info) with gil:
+cdef void _object_item_callback2(void *data, Evas_Object *obj, void *event_info) noexcept with gil:
     # This should be used with new style items
     cdef ObjectItem item = <object>data
     try:
