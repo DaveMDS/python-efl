@@ -14,9 +14,9 @@ script_path = os.path.dirname(os.path.abspath(__file__))
 
 
 # dependencies
-EFL_MIN_VER = '1.26.0'
-CYTHON_MIN_VERSION = '0.29.34'
-CYTHON_MAX_VERSION = '0.99.99'
+EFL_MIN_VER = '1.28.0'
+CYTHON_MIN_VERSION = '3.0.0'
+CYTHON_MAX_VERSION = '3.99.99'
 CYTHON_BLACKLIST = ()
 
 
