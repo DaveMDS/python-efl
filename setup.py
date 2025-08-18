@@ -435,33 +435,6 @@ class Uninstall(Command):
 
 
 setup(
-    name='python-efl',
-    fullname='Python bindings for Enlightenment Foundation Libraries',
-    description='Python bindings for Enlightenment Foundation Libraries',
-    long_description=read_file('README.md'),
-    long_description_content_type='text/markdown',
-    version=RELEASE,
-    author='Davide Andreoli, Kai Huuhko, and others',
-    author_email='dave@gurumeditation.it, kai.huuhko@gmail.com',
-    contact='Enlightenment developer mailing list',
-    contact_email='enlightenment-devel@lists.sourceforge.net',
-    url='https://www.enlightenment.org',
-    license='GNU Lesser General Public License (LGPL)',
-    keywords='efl wrapper binding enlightenment eo evas ecore edje emotion elementary ethumb',
-    classifiers=[
-        'Development Status :: 5 - Production/Stable',
-        'Environment :: X11 Applications',
-        'Environment :: Console :: Framebuffer',
-        'Intended Audience :: End Users/Desktop',
-        'License :: OSI Approved :: GNU Library or Lesser General Public License (LGPL)',
-        'Operating System :: POSIX',
-        'Programming Language :: C',
-        'Programming Language :: Cython',
-        'Programming Language :: Python :: 3',
-        'Topic :: Software Development :: Libraries :: Python Modules',
-        'Topic :: Software Development :: User Interfaces',
-        'Topic :: Software Development :: Widget Sets',
-    ],
     cmdclass={
         'test': Test,
         'build_doc': BuildDoc,

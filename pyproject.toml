@@ -1,3 +1,48 @@
 [build-system]
-requires = ['setuptools', 'wheel', 'packaging']
+requires = ['setuptools', 'packaging', 'cython']
 build-backend = 'setuptools.build_meta'
+
+
+[project]
+dynamic = ['version']
+name = 'python-efl'
+description = 'Python bindings for Enlightenment Foundation Libraries'
+readme = 'README.md'
+license = 'LGPL-3.0-only'
+license-files = ['COPYING', 'COPYING.LESSER']
+keywords = [
+    'efl', 'wrapper', 'binding', 'enlightenment', 'eo', 
+    'evas', 'ecore', 'edje', 'emotion', 'elementary', 'ethumb',
+]
+classifiers = [
+    'Development Status :: 5 - Production/Stable',
+    'Environment :: X11 Applications',
+    'Environment :: Console :: Framebuffer',
+    'Intended Audience :: End Users/Desktop',
+    'Operating System :: POSIX',
+    'Programming Language :: C',
+    'Programming Language :: Cython',
+    'Programming Language :: Python :: 3',
+    'Topic :: Software Development :: Libraries :: Python Modules',
+    'Topic :: Software Development :: User Interfaces',
+    'Topic :: Software Development :: Widget Sets',
+]
+authors = [
+  {name = 'Davide Andreoli', email = 'dave@gurumeditation.it'},
+  {name = 'Kai Huuhko', email = 'kai.huuhko@gmail.com'},
+]
+maintainers = [
+  {name = 'Davide Andreoli', email = 'dave@gurumeditation.it'}
+]
+
+[project.urls]
+Homepage = 'https://www.enlightenment.org'
+Documentation = 'https://docs.enlightenment.org/python-efl/current/'
+Repository = 'https://git.enlightenment.org/enlightenment/python-efl'
+Changelog = 'https://git.enlightenment.org/enlightenment/python-efl/raw/branch/master/ChangeLog'
+
+
+[tool.setuptools.dynamic]
+version = {attr = 'efl.__version__'}
+
+
