@@ -283,7 +283,7 @@ p {
     margin: 0.8em 0 0.5em 0;
 }
 
-a {
+a, a:visited {
     color: rgb(170,170,180);
     text-decoration: none;
 }

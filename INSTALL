@@ -2,11 +2,9 @@
 1. REQUIREMENTS
 ===============
 
- * Python 2.6 or higher, 3.2 or higher (http://www.python.org/)
-   - Tested with Python 3.8
+ * Python 3.2 or higher (http://www.python.org/)
 
- * Cython 0.21 or higher (http://cython.org/)
-   - Tested with Cython 0.29.16
+ * Cython 3.0 or higher (http://cython.org/)
 
  * EFL must be the same minor version of the bindings,
    es. python-efl 1.24 need efl 1.24
@@ -75,10 +73,6 @@
 
     python setup.py install --user
 
- * To install for python3:
-
-    (sudo) python3 setup.py install (also cython need to be installed with py3)
-
  * Install with a custom prefix:
 
     (sudo) python setup.py install --prefix=/MY_PREFIX
@@ -96,15 +90,16 @@
  videos you need the YouTube module from sphinx contrib repository.
  packages: python-sphinx, graphviz, python-pygraphviz, libgv-python
 
- To build the docs just run:
-
-    python setup.py build_doc
+ To build the docs run:
+    python -m sphinx . ../build/docs/  (from the doc/ directory!)
+ or simply:
+    make doc (from base source directory)
 
  You will find the generated html docs under the folder:
- build/sphinx/html
+ build/docs/
 
- Note: you must build the bindings before building the docs, or you will end
-       up with empty documentation.
+ Note: you must have python-efl installed for building the docs, or you 
+       will end up with empty documentation.
 
 
 6. TESTS and EXAMPLES
@@ -113,8 +108,6 @@
  The tests/ folder contains all the unit tests available, you can run individual
  tests or use the 00_run_all_tests.py in each folder or even in the tests/ base
  dir to run all the tests at once.
-
- Python 2.7 / 3.2 or greater is required for running the tests.
 
  The scripts in examples/ folder must be run by the user as they require
  user interaction.

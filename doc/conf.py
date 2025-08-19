@@ -8,34 +8,20 @@
 
 # pylint: disable=invalid-name
 
-import os
-import sys
-import platform
-
-
-# -- Path setup --------------------------------------------------------------
-
-# If extensions (or modules to document with autodoc) are in another directory,
-# add these directories to sys.path here.
-d = 'lib.%s-%s-%d.%d' % (
-    platform.system().lower(),
-    platform.machine(),
-    sys.version_info[0],
-    sys.version_info[1]
-)
-sys.path.insert(0, os.path.abspath('../build/' + d))
-# sys.path.insert(0, os.path.abspath('../build/lib.linux-i686-3.2'))
-
-# Delete any previously imported efl package
-if 'efl' in sys.modules:
-    del sys.modules['efl']
-
 
 # -- Project information -----------------------------------------------------
+try:
+    from efl import __version__ as efl_version
+except Exception as e:
+    print('ERROR: Python EFL not found')
+    print('ERROR:', e)
+    exit(1)
 
 project = 'Python EFL'
+version = efl_version
+release = efl_version
 author = 'The Python-EFL community (see AUTHORS)'
-copyright = '2008-2022, ' + author  # pylint: disable=redefined-builtin
+copyright = '2008-2025, ' + author  # pylint: disable=redefined-builtin
 
 
 # -- General configuration ----------------------------------------------------

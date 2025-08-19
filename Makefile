@@ -36,7 +36,7 @@ uninstall:
 
 .PHONY: doc
 doc:
-	$(PY) setup.py build build_doc
+	cd doc; $(PY) -m sphinx . ../build/docs/; cd ..
 
 
 .PHONY: test

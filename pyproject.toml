@@ -42,6 +42,10 @@ Repository = 'https://git.enlightenment.org/enlightenment/python-efl'
 Changelog = 'https://git.enlightenment.org/enlightenment/python-efl/raw/branch/master/ChangeLog'
 
 
+[project.optional-dependencies]
+doc = ['sphinx', 'graphviz']
+
+
 [tool.setuptools.dynamic]
 version = {attr = 'efl.__version__'}
 
