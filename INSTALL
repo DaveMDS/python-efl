@@ -77,9 +77,6 @@
 
     (sudo) python setup.py install --prefix=/MY_PREFIX
 
- * You can also uninstall using:
-
-    (sudo) python setup.py uninstall
 
 
 5. DOCUMENTATION

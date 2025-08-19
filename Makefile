@@ -26,12 +26,10 @@ build:
 
 .PHONY: install
 install:
-	$(PY) setup.py install
-
-
-.PHONY: uninstall
-uninstall:
-	$(PY) setup.py uninstall
+# .PHONY: uninstall
+# uninstall:
+# 	$(PY) setup.py uninstall
+# 	$(PY) -m pip uninstall python-efl --break-system-packages
 
 
 .PHONY: doc

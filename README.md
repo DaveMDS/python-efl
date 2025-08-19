@@ -58,9 +58,9 @@ Feel free to make pull requests on GitHub.
 Documentation for the last stable release can be found [here](https://docs.enlightenment.org/python-efl/current/).
 Additionally you can generate the documentation yourself from the source code using the following command:
 ```
-  python setup.py build build_doc
+  make doc
 ```
-The HTML generated documentation will be available in the folder: `build/sphinx/html/`
+The HTML generated documentation will be available in the folder: `build/docs/`
 
 ## Some of the projects using Python-EFL (in random order)
 

@@ -376,49 +376,10 @@ class CleanGenerated(Command):
 RECORD_FILE = 'installed_files-%d.%d.txt' % (sys.version_info[0], sys.version_info[1])
 
 
-class Uninstall(Command):
-    description = 'remove all the installed files recorded at installation time'
-    user_options = []
-
-    def initialize_options(self):
-        pass
-
-    def finalize_options(self):
-        pass
-
-    @staticmethod
-    def remove_entry(entry):
-        if os.path.isfile(entry):
-            try:
-                print('removing file %s' % entry)
-                os.unlink(entry)
-            except OSError as err:
-                print(err)
-                return
-
-            directory = os.path.dirname(entry)
-            while not os.listdir(directory):
-                try:
-                    print('removing empty directory %s' % directory)
-                    os.rmdir(directory)
-                except OSError as err:
-                    print(err)
-                    break
-                directory = os.path.dirname(directory)
-
-    def run(self):
-        if not os.path.exists(RECORD_FILE):
-            print('ERROR: No %s file found!' % RECORD_FILE)
-        else:
-            for entry in open(RECORD_FILE).read().split():
-                self.remove_entry(entry)
-
-
 setup(
     cmdclass={
         'test': Test,
         'clean_generated_files': CleanGenerated,
-        'uninstall': Uninstall,
     },
     command_options={
         'install': {
