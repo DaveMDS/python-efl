@@ -34,7 +34,7 @@ install:
 
 .PHONY: doc
 doc:
-	cd doc; $(PY) -m sphinx . ../build/docs/; cd ..
+	$(PY) -m sphinx doc/ build/docs/
 
 
 .PHONY: test

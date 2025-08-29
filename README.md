@@ -57,7 +57,6 @@ Feel free to make pull requests on GitHub.
 
 
 ## Documentation
-
 Documentation for the last stable release can be found [here](https://docs.enlightenment.org/python-efl/current/).
 
 To build the docs for the bindings you need to have Sphinx installed, for
@@ -66,14 +65,13 @@ videos you need the YouTube module from sphinx contrib repository.
 packages: python-sphinx, graphviz, python-pygraphviz, libgv-python
 
 To build the docs run:
-`python -m sphinx . ../build/docs/  (from the doc/ directory!)`
-or simply:
-`make doc (from base source directory)`
+```
+python -m sphinx doc/ build/docs/
+```
 
 The HTML generated documentation will be available in the folder: `build/docs/`
 
-Note: you must have python-efl installed for building the docs, or you 
-       will end up with empty documentation.
+Note: you must have python-efl installed for building the docs, or you will end up with empty documentation.
 
 
 ## Tests and Examples
