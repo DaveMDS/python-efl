@@ -15,9 +15,6 @@ script_path = os.path.dirname(os.path.abspath(__file__))
 
 # dependencies
 EFL_MIN_VER = '1.28.0'
-CYTHON_MIN_VERSION = '3.0.0'
-CYTHON_MAX_VERSION = '3.99.99'
-CYTHON_BLACKLIST = ()
 
 
 # basic utils
@@ -143,22 +140,7 @@ if {'build', 'build_ext', 'install', 'bdist', 'bdist_wheel', 'sdist'} & set(sys.
             import Cython
             import Cython.Compiler.Options
         except ImportError:
-            raise SystemExit('not found! Needed >= %s' % CYTHON_MIN_VERSION)
-
-        # check min version
-        if Version(Cython.__version__) < Version(CYTHON_MIN_VERSION):
-            raise SystemExit('too old! Found %s (need at least %s)' % (
-                             Cython.__version__, CYTHON_MIN_VERSION))
-
-        # check max version
-        if Version(Cython.__version__) > Version(CYTHON_MAX_VERSION):
-            raise SystemExit('too new! Found %s (need at most %s)' % (
-                             Cython.__version__, CYTHON_MAX_VERSION))
-
-        # check black-listed releases
-        if Cython.__version__.startswith(CYTHON_BLACKLIST):
-            raise SystemExit('found %s, its broken! Need another release' %
-                             Cython.__version__)
+            raise SystemExit('not found!')
 
         sys.stdout.write('OK, found %s\n' % Cython.__version__)
         MODULES_EXT = 'pyx'
