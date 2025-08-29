@@ -17,7 +17,7 @@
 
 from efl.eina cimport Eina_Bool, Eina_Free_Cb
 
-from efl.ethumb.enums cimport Ethumb_Thumb_Orientation, \
+from efl.ethumb_enums cimport Ethumb_Thumb_Orientation, \
     Ethumb_Thumb_FDO_Size, Ethumb_Thumb_Format, Ethumb_Thumb_Aspect
 
 cdef extern from "Ethumb_Client.h":

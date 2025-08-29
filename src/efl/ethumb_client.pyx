@@ -140,7 +140,7 @@ import atexit
 from efl.utils.conversions cimport _ctouni, _touni
 from efl.ethumb_client cimport Ethumb_Thumb_Orientation
 
-cimport efl.ethumb.enums as enums
+cimport efl.ethumb_enums as enums
 
 ETHUMB_THUMB_ORIENT_NONE = enums.ETHUMB_THUMB_ORIENT_NONE
 ETHUMB_THUMB_ROTATE_90_CW = enums.ETHUMB_THUMB_ROTATE_90_CW

@@ -1,4 +1,4 @@
-from efl.evas.enums cimport EVAS_EVENT_FLAG_NONE
+from efl.evas_enums cimport EVAS_EVENT_FLAG_NONE
 
 from efl.elementary.enums cimport Elm_Gesture_State, Elm_Gesture_Type
 

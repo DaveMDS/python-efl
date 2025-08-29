@@ -18,7 +18,7 @@
 from efl.eina cimport *
 from efl.c_eo cimport Eo as cEo
 from efl.eo cimport Eo
-from efl.ecore.enums cimport Ecore_Fd_Handler_Flags, Ecore_Exe_Flags, \
+from efl.ecore_enums cimport Ecore_Fd_Handler_Flags, Ecore_Exe_Flags, \
     Ecore_Pos_Map, Ecore_Animator_Source, Ecore_Poller_Type, \
     Ecore_File_Event, Ecore_File_Progress_Return
 

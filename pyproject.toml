@@ -45,6 +45,8 @@ Changelog = 'https://git.enlightenment.org/enlightenment/python-efl/raw/branch/m
 [project.optional-dependencies]
 doc = ['sphinx', 'graphviz']
 
+[tool.setuptools.packages.find]
+where = ['src']
 
 [tool.setuptools.dynamic]
 version = {attr = 'efl.__version__'}

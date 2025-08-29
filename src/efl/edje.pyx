@@ -45,7 +45,7 @@ import traceback
 import warnings
 import atexit
 
-cimport efl.edje.enums as enums
+cimport efl.edje_enums as enums
 
 EDJE_MESSAGE_NONE = enums.EDJE_MESSAGE_NONE
 EDJE_MESSAGE_SIGNAL = enums.EDJE_MESSAGE_SIGNAL
@@ -491,9 +491,9 @@ def module_load(name):
                     <const char *>name if name is not None else NULL))
 
 
-include "efl.edje_message.pxi"
-include "efl.edje_external.pxi"
-include "efl.edje_object.pxi"
+include "edje_message.pxi"
+include "edje_external.pxi"
+include "edje_object.pxi"
 
 
 init()

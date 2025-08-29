@@ -971,7 +971,7 @@ Module level functions
 
 """
 
-cimport efl.evas.enums as enums
+cimport efl.evas_enums as enums
 
 from efl.utils.conversions cimport eina_list_strings_to_python_list
 from efl.eina cimport EINA_LOG_DOM_DBG, EINA_LOG_DOM_INFO, EINA_LOG_DOM_WARN, \
@@ -1400,24 +1400,24 @@ class EvasLoadError(Exception):
         Exception.__init__(self, "%s (file=%s, key=%s)" % (msg, filename, key))
 
 
-include "efl.evas_rect.pxi"
-include "efl.evas_map.pxi"
-include "efl.evas_canvas_callbacks.pxi"
-include "efl.evas_canvas.pxi"
-include "efl.evas_object_events.pxi"
-include "efl.evas_object_callbacks.pxi"
-include "efl.evas_object.pxi"
-include "efl.evas_object_smart.pxi"
-include "efl.evas_object_image.pxi"
-include "efl.evas_object_line.pxi"
-include "efl.evas_object_rectangle.pxi"
-include "efl.evas_object_polygon.pxi"
-include "efl.evas_object_text.pxi"
-include "efl.evas_object_textblock.pxi"
-include "efl.evas_object_box.pxi"
-include "efl.evas_object_textgrid.pxi"
-include "efl.evas_object_table.pxi"
-include "efl.evas_object_grid.pxi"
+include "evas_rect.pxi"
+include "evas_map.pxi"
+include "evas_canvas_callbacks.pxi"
+include "evas_canvas.pxi"
+include "evas_object_events.pxi"
+include "evas_object_callbacks.pxi"
+include "evas_object.pxi"
+include "evas_object_smart.pxi"
+include "evas_object_image.pxi"
+include "evas_object_line.pxi"
+include "evas_object_rectangle.pxi"
+include "evas_object_polygon.pxi"
+include "evas_object_text.pxi"
+include "evas_object_textblock.pxi"
+include "evas_object_box.pxi"
+include "evas_object_textgrid.pxi"
+include "evas_object_table.pxi"
+include "evas_object_grid.pxi"
 
 
 init()

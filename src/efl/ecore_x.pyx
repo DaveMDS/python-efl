@@ -322,8 +322,8 @@ def cursor_free(Ecore_X_Cursor c):
     .. versionadded:: 1.14
     """
 
-include "efl.ecore_x_window.pxi"
-include "efl.ecore_x_events.pxi"
+include "ecore_x_window.pxi"
+include "ecore_x_events.pxi"
 
 init()
 atexit.register(shutdown)

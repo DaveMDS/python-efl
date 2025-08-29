@@ -21,7 +21,7 @@ from efl.evas cimport Evas_Object, Evas
 from efl.edje cimport Edje_Part_Type, Edje_Text_Effect, Edje_Tween_Mode, \
     Edje_Action_Type
 
-from efl.edje_edit.enums cimport Edje_Edit_Image_Comp
+from efl.edje_edit_enums cimport Edje_Edit_Image_Comp
 
 cdef extern from "Edje_Edit.h":
     ####################################################################

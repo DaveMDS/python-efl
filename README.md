@@ -6,6 +6,7 @@ Python-EFL are the python bindings for the whole EFL stack (evas, ecore, edje, e
 
 The documentation for Python-EFL is available [here](https://docs.enlightenment.org/python-efl/current/).
 
+
 ## Install from pypi
 
 The last stable release is always available on pypi, and pip is the raccomanded way to install Python-EFL:
@@ -24,17 +25,19 @@ https://download.enlightenment.org/rel/bindings/python/
 
 To install download and unpack a tarball and run:
 ```
-python setup.py build
-python setup.py install --user
+python -m build
+python -m pip install dist/python-efl-X.Y.Z.whl
+
 or
-sudo python setup.py install (for sistem-wide installation)
+sudo python -m pip install dist/python-efl-X.Y.Z.whl (for sistem-wide installation)
 ```
 
-NOTE: due to strange cython+gcc behaviour we highly suggest to build python-efl using clang. If you experience issues using gcc (like memory exhausted or strange compile errors) just use clang in this way:
+NOTE: due to cython+gcc behaviour we highly suggest to build python-efl using clang, it's twice faster and eat less ram. If you experience issues using gcc (like memory exhausted or strange compile errors) just use clang in this way:
 
 ```
-CC=clang python setup.py build
+CC=clang python -m build
 ```
+
 
 ## Source repository
 
@@ -56,11 +59,31 @@ Feel free to make pull requests on GitHub.
 ## Documentation
 
 Documentation for the last stable release can be found [here](https://docs.enlightenment.org/python-efl/current/).
-Additionally you can generate the documentation yourself from the source code using the following command:
-```
-  make doc
-```
+
+To build the docs for the bindings you need to have Sphinx installed, for
+(optional) graphs you need Graphviz, for (optional) Youtube demonstration
+videos you need the YouTube module from sphinx contrib repository.
+packages: python-sphinx, graphviz, python-pygraphviz, libgv-python
+
+To build the docs run:
+`python -m sphinx . ../build/docs/  (from the doc/ directory!)`
+or simply:
+`make doc (from base source directory)`
+
 The HTML generated documentation will be available in the folder: `build/docs/`
+
+Note: you must have python-efl installed for building the docs, or you 
+       will end up with empty documentation.
+
+
+## Tests and Examples
+The tests/ folder contains all the unit tests available, you can run individual
+tests or use the 00_run_all_tests.py in each folder or even in the tests/ base
+dir to run all the tests at once.
+
+The scripts in examples/ folder must be run by the user as they require
+user interaction.
+
 
 ## Some of the projects using Python-EFL (in random order)
 
@@ -77,7 +100,7 @@ The HTML generated documentation will be available in the folder: `build/docs/`
 ... and many more that cannot fit in this short list. If have some code and want it in this list just let us know.
 
 
-## A short history of Python-EFL
+## A brief history of Python-EFL
 
 Python-EFL was begun in 2007 by work of Gustavo Sverzut Barbieri and others while working for Nokia on the software project Canola Media Player. The language bindings were initially developed for the individual components of EFL, until merged together in 2013.
 
@@ -89,4 +112,4 @@ In the beginning of the year 2011 the developement was practically halted. In 20
 
 In 2013 the individual components were merged together and a new documentation system was implemented, enabling easier access for the end-user developers.
 
-Currently (as in 2022) the bindings are still actively maintained and improved by Davide Andreoli, in his effort to bring to python a powerfull and attractive UI toolkit.
+Currently (as in 2025) the bindings are still actively maintained and improved by Davide Andreoli, in his effort to bring to python a powerfull and attractive UI toolkit.

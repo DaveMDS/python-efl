@@ -257,7 +257,7 @@ from cpython cimport Py_INCREF, Py_DECREF
 import traceback
 import atexit
 
-cimport efl.ecore.enums as enums
+cimport efl.ecore_enums as enums
 
 ECORE_EVENT_NONE = enums.ECORE_EVENT_NONE
 ECORE_EVENT_SIGNAL_USER = enums.ECORE_EVENT_SIGNAL_USER
@@ -411,15 +411,15 @@ def loop_time_get():
     return ecore_loop_time_get()
 
 
-include "efl.ecore_animator.pxi"
-include "efl.ecore_timer.pxi"
-include "efl.ecore_poller.pxi"
-include "efl.ecore_idler.pxi"
-include "efl.ecore_fd_handler.pxi"
-include "efl.ecore_events.pxi"
-include "efl.ecore_exe.pxi"
-include "efl.ecore_file_download.pxi"
-include "efl.ecore_file_monitor.pxi"
+include "ecore_animator.pxi"
+include "ecore_timer.pxi"
+include "ecore_poller.pxi"
+include "ecore_idler.pxi"
+include "ecore_fd_handler.pxi"
+include "ecore_events.pxi"
+include "ecore_exe.pxi"
+include "ecore_file_download.pxi"
+include "ecore_file_monitor.pxi"
 
 init()
 atexit.register(shutdown)

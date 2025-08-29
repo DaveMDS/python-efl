@@ -20,7 +20,7 @@ from efl.eina cimport *
 from efl.eo cimport Eo
 from efl.c_eo cimport Eo as cEo, Efl_Class
 
-from efl.evas.enums cimport Evas_Button_Flags, Evas_BiDi_Direction, \
+from efl.evas_enums cimport Evas_Button_Flags, Evas_BiDi_Direction, \
     Evas_Callback_Type, Evas_Event_Flags, Evas_Touch_Point_State, \
     Evas_Font_Hinting_Flags, Evas_Colorspace, \
     Evas_Object_Table_Homogeneous_Mode, Evas_Aspect_Control, \

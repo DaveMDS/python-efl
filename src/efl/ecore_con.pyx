@@ -173,7 +173,7 @@ import atexit
 from efl.ecore cimport _event_mapping_register, _event_mapping_get, \
     ecore_event_handler_add, ecore_event_handler_del
 
-cimport efl.ecore_con.enums as enums
+cimport efl.ecore_con_enums as enums
 
 ECORE_CON_LOCAL_USER = enums.ECORE_CON_LOCAL_USER
 ECORE_CON_LOCAL_SYSTEM = enums.ECORE_CON_LOCAL_SYSTEM
@@ -339,8 +339,8 @@ cdef class ConEventFilter(object):
 cdef ConEventFilter GEF = ConEventFilter()
 
 
-include "efl.ecore_con_lookup.pxi"
-include "efl.ecore_con_url.pxi"
+include "ecore_con_lookup.pxi"
+include "ecore_con_url.pxi"
 
 
 init()

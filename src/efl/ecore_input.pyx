@@ -87,7 +87,7 @@ Classes and Functions
 import atexit
 import traceback
 
-cimport efl.ecore_input.enums as enums
+cimport efl.ecore_input_enums as enums
 
 def init():
     """ Initialize the Ecore Input library
@@ -107,7 +107,7 @@ def shutdown():
     ecore_event_shutdown()
 
 
-include "efl.ecore_input_events.pxi"
+include "ecore_input_events.pxi"
 
 init()
 atexit.register(shutdown)

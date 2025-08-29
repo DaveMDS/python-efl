@@ -22,7 +22,7 @@ from efl.eo cimport Eo, object_from_instance
 from efl.ecore cimport Ecore_Event_Handler, Event
 from efl.utils.conversions cimport _ctouni, eina_list_strings_to_python_list
 
-from efl.ecore_con.enums cimport Ecore_Con_Type, Ecore_Con_Url_Time, \
+from efl.ecore_con_enums cimport Ecore_Con_Type, Ecore_Con_Url_Time, \
     Ecore_Con_Url_Http_Version
 
 cdef extern from "Ecore_Con.h":

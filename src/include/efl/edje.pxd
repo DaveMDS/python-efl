@@ -18,7 +18,7 @@
 from efl.eina cimport Eina_Bool, Eina_List, Eina_Iterator
 from efl.evas cimport Object, Evas_Object, Evas, Evas_Font_Size, Evas_Coord
 
-from efl.edje.enums cimport Edje_Message_Type, Edje_Aspect_Control, \
+from efl.edje_enums cimport Edje_Message_Type, Edje_Aspect_Control, \
     Edje_Drag_Dir, Edje_Load_Error, Edje_Part_Type, Edje_Text_Effect, \
     Edje_Action_Type, Edje_Tween_Mode, Edje_External_Param_Type, \
     Edje_Input_Hints

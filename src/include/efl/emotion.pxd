@@ -19,7 +19,7 @@ from efl.eina cimport Eina_Bool, Eina_List
 from efl.evas cimport Evas, Evas_Object
 from efl.evas cimport Object as evasObject
 
-from efl.emotion.enums cimport Emotion_Event, Emotion_Meta_Info, \
+from efl.emotion_enums cimport Emotion_Event, Emotion_Meta_Info, \
     Emotion_Aspect, Emotion_Suspend, Emotion_Vis
 
 cdef extern from "Emotion.h":

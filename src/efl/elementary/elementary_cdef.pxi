@@ -5,7 +5,7 @@ from efl.evas cimport Eina_List, Eina_Bool, Evas_Object, Evas_Font_Size, \
     Evas_Coord, Evas_Callback_Type, Evas_Smart_Cb, Evas_Event_Flags, \
     Evas_Load_Error, Evas_Image_Orient, \
     evas_object_smart_callback_add
-from efl.evas.enums cimport EVAS_EVENT_FLAG_NONE, EVAS_CALLBACK_KEY_DOWN, \
+from efl.evas_enums cimport EVAS_EVENT_FLAG_NONE, EVAS_CALLBACK_KEY_DOWN, \
     EVAS_CALLBACK_KEY_UP, EVAS_CALLBACK_MOUSE_WHEEL
 
 from efl.ecore cimport Ecore_Pos_Map

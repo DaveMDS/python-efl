@@ -26,7 +26,7 @@ from efl.evas cimport Canvas
 from efl.edje cimport Edje_Part_Type, Edje, ExternalParam_from_ptr
 from efl.edje import EDJE_PART_TYPE_EXTERNAL
 
-cimport efl.edje_edit.enums as enums
+cimport efl.edje_edit_enums as enums
 
 EDJE_EDIT_IMAGE_COMP_RAW = enums.EDJE_EDIT_IMAGE_COMP_RAW
 EDJE_EDIT_IMAGE_COMP_USER = enums.EDJE_EDIT_IMAGE_COMP_USER
@@ -516,8 +516,8 @@ cdef class Color_Class(object):
                                     r, g, b, a, r2, g2, b2, a2, r3, g3, b3, a3)
 
 
-include "efl.edje_edit_group.pxi"
-include "efl.edje_edit_part.pxi"
-include "efl.edje_edit_part_state.pxi"
-include "efl.edje_edit_program.pxi"
+include "edje_edit_group.pxi"
+include "edje_edit_part.pxi"
+include "edje_edit_part_state.pxi"
+include "edje_edit_program.pxi"
 

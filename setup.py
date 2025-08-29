@@ -161,24 +161,24 @@ if {'build', 'build_ext', 'install', 'bdist', 'bdist_wheel', 'sdist'} & set(sys.
     # === Eo ===
     eo_cflags, eo_libs = pkg_config('Eo', 'eo', EFL_MIN_VER)
     ext_modules.append(Extension(
-        'efl.eo', ['efl/eo/efl.eo.' + MODULES_EXT],
+        'efl.eo', ['src/efl/eo.' + MODULES_EXT],
         extra_compile_args=eo_cflags + common_cflags,
         extra_link_args=eo_libs
     ))
 
     # === Utilities ===
     ext_modules.append(Extension(
-        'efl.utils.deprecated', ['efl/utils/deprecated.' + MODULES_EXT],
+        'efl.utils.deprecated', ['src/efl/utils/deprecated.' + MODULES_EXT],
         extra_compile_args=eina_cflags + common_cflags,
         extra_link_args=eina_libs
     ))
     ext_modules.append(Extension(
-        'efl.utils.conversions', ['efl/utils/conversions.' + MODULES_EXT],
+        'efl.utils.conversions', ['src/efl/utils/conversions.' + MODULES_EXT],
         extra_compile_args=eo_cflags + common_cflags,
         extra_link_args=eo_libs + eina_libs
     ))
     ext_modules.append(Extension(
-        'efl.utils.logger', ['efl/utils/logger.' + MODULES_EXT],
+        'efl.utils.logger', ['src/efl/utils/logger.' + MODULES_EXT],
         extra_compile_args=eina_cflags + common_cflags,
         extra_link_args=eina_libs
     ))
@@ -188,7 +188,7 @@ if {'build', 'build_ext', 'install', 'bdist', 'bdist_wheel', 'sdist'} & set(sys.
     # === Evas ===
     evas_cflags, evas_libs = pkg_config('Evas', 'evas', EFL_MIN_VER)
     ext_modules.append(Extension(
-        'efl.evas', ['efl/evas/efl.evas.' + MODULES_EXT],
+        'efl.evas', ['src/efl/evas.' + MODULES_EXT],
         extra_compile_args=evas_cflags + common_cflags,
         extra_link_args=evas_libs
     ))
@@ -197,7 +197,7 @@ if {'build', 'build_ext', 'install', 'bdist', 'bdist_wheel', 'sdist'} & set(sys.
     ecore_cflags, ecore_libs = pkg_config('Ecore', 'ecore', EFL_MIN_VER)
     ecore_file_cflags, ecore_file_libs = pkg_config('EcoreFile', 'ecore-file', EFL_MIN_VER)
     ext_modules.append(Extension(
-        'efl.ecore', ['efl/ecore/efl.ecore.' + MODULES_EXT],
+        'efl.ecore', ['src/efl/ecore.' + MODULES_EXT],
         extra_compile_args=list(set(ecore_cflags + ecore_file_cflags + common_cflags)),
         extra_link_args=ecore_libs + ecore_file_libs
     ))
@@ -205,7 +205,7 @@ if {'build', 'build_ext', 'install', 'bdist', 'bdist_wheel', 'sdist'} & set(sys.
     # === Ecore Input ===
     ecore_input_cflags, ecore_input_libs = pkg_config('EcoreInput', 'ecore-input', EFL_MIN_VER)
     ext_modules.append(Extension(
-        'efl.ecore_input', ['efl/ecore_input/efl.ecore_input.' + MODULES_EXT],
+        'efl.ecore_input', ['src/efl/ecore_input.' + MODULES_EXT],
         extra_compile_args=ecore_input_cflags + common_cflags,
         extra_link_args=ecore_input_libs
     ))
@@ -213,7 +213,7 @@ if {'build', 'build_ext', 'install', 'bdist', 'bdist_wheel', 'sdist'} & set(sys.
     # === Ecore Con ===
     ecore_con_cflags, ecore_con_libs = pkg_config('EcoreCon', 'ecore-con', EFL_MIN_VER)
     ext_modules.append(Extension(
-        'efl.ecore_con', ['efl/ecore_con/efl.ecore_con.' + MODULES_EXT],
+        'efl.ecore_con', ['src/efl/ecore_con.' + MODULES_EXT],
         extra_compile_args=ecore_con_cflags + ecore_file_cflags + common_cflags,
         extra_link_args=ecore_con_libs
     ))
@@ -225,7 +225,7 @@ if {'build', 'build_ext', 'install', 'bdist', 'bdist_wheel', 'sdist'} & set(sys.
         print('Not found, will not be built')
     else:
         ext_modules.append(Extension(
-            'efl.ecore_x', ['efl/ecore_x/efl.ecore_x.' + MODULES_EXT],
+            'efl.ecore_x', ['src/efl/ecore_x.' + MODULES_EXT],
             extra_compile_args=ecore_x_cflags + common_cflags,
             extra_link_args=ecore_x_libs
         ))
@@ -233,7 +233,7 @@ if {'build', 'build_ext', 'install', 'bdist', 'bdist_wheel', 'sdist'} & set(sys.
     # === Ethumb ===
     ethumb_cflags, ethumb_libs = pkg_config('Ethumb', 'ethumb', EFL_MIN_VER)
     ext_modules.append(Extension(
-        'efl.ethumb', ['efl/ethumb/efl.ethumb.' + MODULES_EXT],
+        'efl.ethumb', ['src/efl/ethumb.' + MODULES_EXT],
         extra_compile_args=ethumb_cflags + common_cflags,
         extra_link_args=ethumb_libs
     ))
@@ -241,7 +241,7 @@ if {'build', 'build_ext', 'install', 'bdist', 'bdist_wheel', 'sdist'} & set(sys.
     # === Ethumb Client ===
     ethumb_cl_cflags, ethumb_cl_libs = pkg_config('Ethumb_Client', 'ethumb_client', EFL_MIN_VER)
     ext_modules.append(Extension(
-        'efl.ethumb_client', ['efl/ethumb/efl.ethumb_client.' + MODULES_EXT],
+        'efl.ethumb_client', ['src/efl/ethumb_client.' + MODULES_EXT],
         extra_compile_args=ethumb_cl_cflags + common_cflags,
         extra_link_args=ethumb_cl_libs
     ))
@@ -249,14 +249,14 @@ if {'build', 'build_ext', 'install', 'bdist', 'bdist_wheel', 'sdist'} & set(sys.
     # === Edje ===
     edje_cflags, edje_libs = pkg_config('Edje', 'edje', EFL_MIN_VER)
     ext_modules.append(Extension(
-        'efl.edje', ['efl/edje/efl.edje.' + MODULES_EXT],
+        'efl.edje', ['src/efl/edje.' + MODULES_EXT],
         extra_compile_args=edje_cflags + common_cflags,
         extra_link_args=edje_libs
     ))
 
     # === Edje_Edit ===
     ext_modules.append(Extension(
-        'efl.edje_edit', ['efl/edje_edit/efl.edje_edit.' + MODULES_EXT],
+        'efl.edje_edit', ['src/efl/edje_edit.' + MODULES_EXT],
         define_macros=[('EDJE_EDIT_IS_UNSTABLE_AND_I_KNOW_ABOUT_IT', None)],
         extra_compile_args=edje_cflags + common_cflags,
         extra_link_args=edje_libs
@@ -265,7 +265,7 @@ if {'build', 'build_ext', 'install', 'bdist', 'bdist_wheel', 'sdist'} & set(sys.
     # === Emotion ===
     emotion_cflags, emotion_libs = pkg_config('Emotion', 'emotion', EFL_MIN_VER)
     ext_modules.append(Extension(
-        'efl.emotion', ['efl/emotion/efl.emotion.' + MODULES_EXT],
+        'efl.emotion', ['src/efl/emotion.' + MODULES_EXT],
         extra_compile_args=emotion_cflags + common_cflags,
         extra_link_args=emotion_libs
     ))
@@ -273,8 +273,9 @@ if {'build', 'build_ext', 'install', 'bdist', 'bdist_wheel', 'sdist'} & set(sys.
     # === dbus mainloop integration ===
     dbus_cflags, dbus_libs = pkg_config('DBus', 'dbus-python', '0.83.0')
     ext_modules.append(Extension(
-        'efl.dbus_mainloop', ['efl/dbus_mainloop/efl.dbus_mainloop.' + MODULES_EXT,
-                              'efl/dbus_mainloop/e_dbus.c'],
+        'efl.dbus_mainloop', 
+        sources=['src/efl/dbus_mainloop.' + MODULES_EXT, 'src/efl/e_dbus.c'],
+        depends=['src/efl/e_dbus.h'],
         extra_compile_args=dbus_cflags + ecore_cflags + common_cflags,
         extra_link_args=dbus_libs + ecore_libs
     ))
@@ -282,7 +283,7 @@ if {'build', 'build_ext', 'install', 'bdist', 'bdist_wheel', 'sdist'} & set(sys.
     # === Elementary ===
     elm_cflags, elm_libs = pkg_config('Elementary', 'elementary', EFL_MIN_VER)
     ext_modules.append(Extension(
-        'efl.elementary.__init__', ['efl/elementary/__init__.' + MODULES_EXT],
+        'efl.elementary.__init__', ['src/efl/elementary/__init__.' + MODULES_EXT],
         extra_compile_args=elm_cflags + common_cflags,
         extra_link_args=elm_libs
     ))
@@ -293,7 +294,7 @@ if {'build', 'build_ext', 'install', 'bdist', 'bdist_wheel', 'sdist'} & set(sys.
         from Cython.Build import cythonize
         ext_modules = cythonize(
             ext_modules,
-            include_path=['include'],
+            include_path=['src/include'],
             compiler_directives={
                 # 'c_string_type': 'unicode',
                 # 'c_string_encoding': 'utf-8',

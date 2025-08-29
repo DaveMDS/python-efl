@@ -43,7 +43,7 @@ from efl.evas cimport Canvas, evas_object_smart_callback_add, \
 
 import atexit
 
-cimport efl.emotion.enums as enums
+cimport efl.emotion_enums as enums
 
 EMOTION_CHANNEL_AUTO = enums.EMOTION_CHANNEL_AUTO
 EMOTION_CHANNEL_DEFAULT = enums.EMOTION_CHANNEL_DEFAULT

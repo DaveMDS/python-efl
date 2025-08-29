@@ -157,7 +157,7 @@ from efl.c_ethumb cimport Ethumb as cEthumb, Ethumb_Thumb_FDO_Size, \
 import atexit
 import traceback
 
-cimport efl.ethumb.enums as enums
+cimport efl.ethumb_enums as enums
 
 ETHUMB_THUMB_ORIENT_NONE = enums.ETHUMB_THUMB_ORIENT_NONE
 ETHUMB_THUMB_ROTATE_90_CW = enums.ETHUMB_THUMB_ROTATE_90_CW
