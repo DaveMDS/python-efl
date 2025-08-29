@@ -52,22 +52,6 @@ if RELEASE.split('.')[2] == '99':
 sys.stdout.write('Python-EFL: %s\n' % RELEASE)
 
 
-# === check python version ===
-sys.stdout.write('Checking for Python: ')
-py_ver = sys.version_info
-py_ver = '%s.%s.%s' % (py_ver[0], py_ver[1], py_ver[2])
-if sys.hexversion < 0x020700f0:
-    raise SystemExit('too old. Found: %s  Need at least 2.7.0' % py_ver)
-sys.stdout.write('OK, found %s\n' % py_ver)
-if sys.version_info.major == 2:
-    print(
-        '\n'
-        'WARNING: Python 2 support is deprecated and will be removed soon.\n'
-        '         You should really upgrade to python 3, NOW !\n'
-        '         ...you have been warned, continue at your own risk.\n'
-    )
-    time.sleep(5)  # you really need to read the above message :P
-
 
 # === use cython or pre-generated C files ===
 USE_CYTHON = False

@@ -6,6 +6,7 @@ build-backend = 'setuptools.build_meta'
 [project]
 dynamic = ['version']
 name = 'python-efl'
+requires-python = '>= 3.6'
 description = 'Python bindings for Enlightenment Foundation Libraries'
 readme = 'README.md'
 license = 'LGPL-3.0-only'
