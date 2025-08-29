@@ -3,7 +3,6 @@
 
 import os
 import sys
-import time
 import platform
 import subprocess
 import unittest
@@ -18,11 +17,6 @@ EFL_MIN_VER = '1.28.0'
 
 
 # basic utils
-def read_file(rel_path):
-    with open(os.path.join(script_path, rel_path)) as fp:
-        return fp.read()
-
-
 def cmd_output(cmd):
     p = subprocess.Popen(cmd, shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
     p.wait()
@@ -33,24 +27,6 @@ def cmd_output(cmd):
             print(stderr_content)
         return ''
     return p.stdout.read().decode('utf-8').strip()
-
-
-def get_version(rel_path):
-    for line in read_file(rel_path).splitlines():
-        if line.startswith('__version__'):
-            return line.split("'")[1]
-    raise SystemExit('Unable to find version string.')
-
-
-# python-efl version from sources
-RELEASE = get_version('efl/__init__.py')
-
-# add git commit count for dev builds
-if RELEASE.split('.')[2] == '99':
-    count = cmd_output('git rev-list --count HEAD') or '0'
-    RELEASE += 'a' + count
-sys.stdout.write('Python-EFL: %s\n' % RELEASE)
-
 
 
 # === use cython or pre-generated C files ===
