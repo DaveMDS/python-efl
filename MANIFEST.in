@@ -1,8 +1,2 @@
 include README.md INSTALL COPYING COPYING.LESSER AUTHORS ChangeLog
-recursive-include efl *.c *.h *.pyx *.pxi *.pxd
-graft include
-graft tests
-recursive-exclude tests *.pyc
-graft examples
-recursive-exclude examples *.pyc
-graft doc
+exclude Makefile
