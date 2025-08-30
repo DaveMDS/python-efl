@@ -7,7 +7,7 @@ import logging
 from efl import ecore
 
 
-URL = "http://check.sourceforge.net/xml/check_unittest.xslt"
+URL = "https://raw.githubusercontent.com/DaveMDS/python-efl/refs/heads/master/Makefile"
 DST = "/tmp/ecore_dwnl_test.html"
 
 class TestFileDownload(unittest.TestCase):
