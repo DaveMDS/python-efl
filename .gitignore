@@ -1,36 +1,18 @@
+# Python
 *.py[co]
-MANIFEST
-installed_files-*.txt
+__pycache__
 
 # Packages
-*.egg
-*.egg-info
 dist
 build
-eggs
-parts
-bin
-var
-sdist
-develop-eggs
-.installed.cfg
-
-# Installer logs
-pip-log.txt
-
-# Unit test / coverage reports
-.coverage
-.tox
-
-# Translations
-*.mo
+*.egg-info
 
 # Cython generated files
-efl/*/*.c
-efl/*/*.h
-!efl/dbus_mainloop/e_dbus.*
-efl/*/*.html
+src/**/*.c
+src/**/*.h
+!src/efl/dbus_mainloop/e_dbus.*
+src/**/*.html
 
-# Various editors trash
+# Various editors stuff
 .idea/
 .vscode/
