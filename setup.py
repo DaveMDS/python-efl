@@ -21,7 +21,7 @@ def cmd_output(cmd):
     p = subprocess.Popen(cmd, shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
     p.wait()
     if p.returncode != 0:
-        print('WARNING: An error occurred while running "%s" (code %s)' % (cmd, p.returncode))
+        print(f'WARNING: An error occurred while running "{cmd}" (code {p.returncode})')
         stderr_content = p.stderr.read().decode('utf-8').strip()
         if stderr_content:
             print(stderr_content)
@@ -32,23 +32,23 @@ def cmd_output(cmd):
 def pkg_config(name, require, min_vers=None):
     ver = None
     try:
-        sys.stdout.write('Checking for %s: ' % name)
+        print(f'Checking for {name}: ', end='')
 
-        ver = cmd_output('pkg-config --modversion %s' % require)
+        ver = cmd_output(f'pkg-config --modversion {require}')
         if not ver:
-            raise SystemExit('Cannot find %s with pkg-config.' % name)
+            raise SystemExit(f'Cannot find {name} with pkg-config.')
 
         if min_vers is not None:
             assert Version(ver) >= Version(min_vers)
-        sys.stdout.write('OK, found %s\n' % ver)
+        print(f'OK, found {ver}')
 
-        cflags = cmd_output('pkg-config --cflags %s' % require).split()
-        libs = cmd_output('pkg-config --libs %s' % require).split()
+        cflags = cmd_output(f'pkg-config --cflags {require}').split()
+        libs = cmd_output(f'pkg-config --libs {require}').split()
         return cflags, libs
     except (OSError, subprocess.CalledProcessError):
-        raise SystemExit('Did not find %s with pkg-config.' % name)
+        raise SystemExit(f'Did not find {name} with pkg-config.')
     except AssertionError:
-        raise SystemExit('%s version mismatch. Found: %s  Needed %s' % (name, ver, min_vers))
+        raise SystemExit(f'{name} version mismatch. Found: {ver}  Needed {min_vers}')
 
 
 # use cython (git) or pre-generated C files (dist tarballs)
@@ -84,7 +84,7 @@ if {'build', 'build_ext', 'install', 'bdist', 'bdist_wheel', 'sdist'} & set(sys.
             import Cython.Compiler.Options
         except ImportError:
             raise SystemExit('Cython not found!')
-        print('Using Cython %s' % Cython.__version__)
+        print(f'Using Cython {Cython.__version__}')
         # Stop compilation on first error
         Cython.Compiler.Options.fast_fail = True
         # Generates HTML files with annotated source
