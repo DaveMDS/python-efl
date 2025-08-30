@@ -17,14 +17,14 @@ EFL_MIN_VER = '1.28.0'
 # === pkg-config helper ===
 def cmd_output(cmd):
     p = subprocess.Popen(cmd, shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
-    p.wait()
-    if p.returncode != 0:
-        print(f'WARNING: An error occurred while running "{cmd}" (code {p.returncode})')
-        stderr_content = p.stderr.read().decode('utf-8').strip()
+    retcode = p.wait()
+    if retcode != 0:
+        print(f'WARNING: An error occurred while running "{cmd}" (code {retcode})')
+        stderr_content = p.stderr.read().decode('utf-8').strip() if p.stderr else None
         if stderr_content:
             print(stderr_content)
         return ''
-    return p.stdout.read().decode('utf-8').strip()
+    return p.stdout.read().decode('utf-8').strip() if p.stdout else ''
 
 
 def pkg_config(name, require, min_vers=None):
