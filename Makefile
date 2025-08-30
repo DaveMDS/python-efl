@@ -55,7 +55,8 @@ test:
 
 .PHONY: clean
 clean:
-	find -type f -name "*.c" ! -name "e_dbus.c" -delete
+	find -type f -name "*.c" ! -name "e_dbus.c" -exec rm -r {} \;
+	find -type d -name "__pycache__" -exec rm -r {} \;
 	rm -rf build/
 	rm -rf dist/
 	rm -rf src/python_efl.egg-info/
