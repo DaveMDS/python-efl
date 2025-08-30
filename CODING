@@ -7,8 +7,6 @@ TODO
   - see https://github.com/pypa/manylinux
   - also include efl itsef in the wheels? PySide is doing this
 
-* Drop python 2 compatibility
-  - Switch to cython3
   - remove all the workarounds for py2 (see strings and enums)
 
 * Improved editors support, at least on VSCode and PyCharm

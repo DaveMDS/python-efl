@@ -51,14 +51,14 @@ py_exclude_list = [
 py_excludes = "|".join(py_exclude_list)
 
 params = {
-    "eo": ("include", "Eo", "eo"),
-    "evas": ("include", "Evas", "evas"),
-    "ecore": ("efl/ecore", "Ecore", "ecore"),
-    "ecore-file": ("efl/ecore", "Ecore_File", "ecore_file"),
-    "ecore-x": ("efl/ecore", "Ecore_X", "ecore_x"),
-    "edje": ("include", "Edje", "edje"),
-    "emotion": ("include", "Emotion", "emotion"),
-    "elementary": ("efl/elementary", "Elementary", "elm"),
+    "eo": ("src/include/efl", "Eo", "eo"),
+    "evas": ("src/include/efl", "Evas", "evas"),
+    "ecore": ("src/include/efl", "Ecore", "ecore"),
+    "ecore-file": ("src/include/efl", "Ecore_File", "ecore_file"),
+    "ecore-x": ("src/include/efl", "Ecore_X", "ecore_x"),
+    "edje": ("src/include/efl", "Edje", "edje"),
+    "emotion": ("src/include/efl", "Emotion", "emotion"),
+    "elementary": ("src/efl/elementary", "Elementary", "elm"),
 }
 
 parser = argparse.ArgumentParser(
