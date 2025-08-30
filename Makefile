@@ -16,20 +16,31 @@
 #
 
 
-PY = python3
+PY = python
 
 
 .PHONY: build
 build:
-	$(PY) setup.py build
+	$(PY) -m build
+
+
+.PHONY: dist
+dist:
+	$(PY) -m build --sdist
+	@cd dist/; for f in `ls *.tar.*` ; do \
+	echo Generating sha256 for: $$f ; \
+	sha256sum $$f > $$f.sha256; \
+	done
 
 
 .PHONY: install
 install:
-# .PHONY: uninstall
-# uninstall:
-# 	$(PY) setup.py uninstall
-# 	$(PY) -m pip uninstall python-efl --break-system-packages
+	$(PY) -m pip install . --verbose
+
+
+.PHONY: uninstall
+uninstall:
+	$(PY) -m pip uninstall python-efl
 
 
 .PHONY: doc
@@ -44,23 +55,7 @@ test:
 
 .PHONY: clean
 clean:
-	$(PY) setup.py clean --all
-
-
-.PHONY: maintainer-clean
-maintainer-clean:
-	$(PY) setup.py clean --all clean_generated_files
+	find -type f -name "*.c" ! -name "e_dbus.c" -delete
 	rm -rf build/
 	rm -rf dist/
-	rm -rf python_efl.egg-info/
-	rm -f installed_files-*.txt
-
-
-.PHONY: dist
-dist:
-	$(PY) setup.py sdist --formats=gztar,xztar
-	$(PY) setup.py bdist_wheel
-	@cd dist/; for f in `ls *.tar.*` ; do \
-	echo Generating sha256 for: $$f ; \
-	sha256sum $$f > $$f.sha256; \
-	done
+	rm -rf src/python_efl.egg-info/
