@@ -246,8 +246,8 @@ cdef class Eo(object):
             <uintptr_t>parent,
             PY_REFCOUNT(self))
 
-    def __nonzero__(self):
-        return 1 if self.obj != NULL else 0
+    def __bool__(self):
+        return self.obj != NULL
 
     cdef int _set_obj(self, cEo *obj) except 0:
         assert self.obj == NULL, "Object must be clean"

@@ -92,9 +92,6 @@ cdef class Window:
     def __int__(self):
         return self.xid
 
-    def __long__(self):
-        return self.xid
-
     def delete(self):
         "Deletes the current window."
         if self.xid != 0:

@@ -877,8 +877,8 @@ cdef class Edje(Object):
         :rtype: bool
         """
         cdef Edje_External_Param p
-        cdef const char *c_part
-        cdef const char *c_param
+        cdef char *c_part
+        cdef char *c_param
 
         if isinstance(part, unicode):
             str1 = PyUnicode_AsUTF8String(part)
@@ -929,8 +929,8 @@ cdef class Edje(Object):
         :return: *None* for errors, other values depending on the parameter type.
         """
         cdef Edje_External_Param p
-        cdef const char *c_part
-        cdef const char *c_param
+        cdef char *c_part
+        cdef char *c_param
 
         if isinstance(part, unicode):
             str1 = PyUnicode_AsUTF8String(part)

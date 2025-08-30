@@ -81,7 +81,7 @@ cdef class FileDownload(object):
         :param progress_cb: A callback called during the download operation
 
         """
-        cdef Ecore_File_Download_Job *job
+        cdef Ecore_File_Download_Job *job = NULL
 
         if completion_cb is not None and not callable(completion_cb):
             raise TypeError("Parameter 'completion_cb' must be callable, or None")

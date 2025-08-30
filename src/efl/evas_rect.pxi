@@ -429,10 +429,9 @@ cdef class Rect(object):
         else:
             raise TypeError("unsupported comparison operation")
 
-    def __nonzero__(self):
+    def __bool__(self):
         """Checks whether all coordinates are non-zero."""
-        return bool(self.x0 != 0 and self._w != 0 and \
-                    self.y0 != 0 and self._h != 0)
+        return self.x0 != 0 and self._w != 0 and self.y0 != 0 and self._h != 0
 
     def __contains__(self, obj):
         """Checks if this rectangle contains given rectangle."""
