@@ -5,10 +5,6 @@
 # want to type less or do not want to learn the python
 # setup syntax.
 #
-# NOTE: This file is also used to discriminate when we are building from
-# stable tarballs (in this case we disable cython by default) or from git
-# sources as the Makefile is not distributed.
-#
 # Usage:
 #
 # make <cmd>            to build using the default python interpreter
@@ -17,16 +13,17 @@
 
 
 PY = python
+CC = clang
 
 
 .PHONY: build
 build:
-	$(PY) -m build
+	CC=$(CC) $(PY) -m build
 
 
 .PHONY: dist
 dist:
-	$(PY) -m build --sdist
+	CC=$(CC) $(PY) -m build --sdist
 	@cd dist/; for f in `ls *.tar.*` ; do \
 	echo Generating sha256 for: $$f ; \
 	sha256sum $$f > $$f.sha256; \
@@ -35,7 +32,7 @@ dist:
 
 .PHONY: install
 install:
-	$(PY) -m pip install . --verbose
+	CC=$(CC) $(PY) -m pip install . --verbose
 
 
 .PHONY: uninstall
