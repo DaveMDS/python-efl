@@ -11,7 +11,7 @@ The documentation for Python-EFL is available [here](https://docs.enlightenment.
 
 The last stable release is always available on pypi, and pip is the raccomanded way to install Python-EFL:
 ```
-pip install python-efl
+(sudo) pip install python-efl
 ```
 The only requirement is to have the EFL already installed on your machine, see [here](https://www.enlightenment.org/docs/distros/start) for install instructions for various linux distro or for building EFL from sources.
 
@@ -23,13 +23,16 @@ NOTE: Currently only sources packages are available on pip, this means that the 
 All the stable releases of python-efl can always be found at:
 https://download.enlightenment.org/rel/bindings/python/
 
-To install download and unpack a tarball and run:
+Tarball only contain cython generated C files, the cython sources are not included. So cython is not needed to build from tarballs. If you need to rebuild the C files you must use a version from git (see below).
+
+To install unpack the tarball and run:
+```
+(sudo) python -m pip install . --verbose
+```
+
+or use build to only create the sdist/wheel packages:
 ```
 python -m build
-python -m pip install dist/python-efl-X.Y.Z.whl
-
-or
-sudo python -m pip install dist/python-efl-X.Y.Z.whl (for sistem-wide installation)
 ```
 
 NOTE: due to cython+gcc behaviour we highly suggest to build python-efl using clang, it's twice faster and eat less ram. If you experience issues using gcc (like memory exhausted or strange compile errors) just use clang in this way:
@@ -38,12 +41,16 @@ NOTE: due to cython+gcc behaviour we highly suggest to build python-efl using cl
 CC=clang python -m build
 ```
 
+To see more install options:
+```
+python -m pip install --help
+python -m build --help
+```
+
 
 ## Source repository
 
 If you would like to contribute to Python-EFL and make changes to the Python-EFL code you need to build from **git**. Development take place in the **master** branch, while we backport bugfixes in the release branches. You will find a branch for each released version, branches are named as **python-efl-X.X**.
-
-To build from git you also need to have [Cython](https://cython.org/) installed.
 
 ### Main repository
 https://git.enlightenment.org/bindings/python/python-efl.git/
@@ -54,6 +61,17 @@ https://github.com/DaveMDS/python-efl
 The GitHub repo has been created to simplify the workflow for people that do
 not have a git account in the E repo, and thus improving collaboration. 
 Feel free to make pull requests on GitHub.
+
+
+## Requirements
+- Python 3.6 or higher (http://www.python.org/)
+- Cython 3 or higher (http://cython.org/)
+- EFL must be the same minor version of the bindings,
+  es. python-efl 1.24 need efl 1.24
+- To build the DOCS you will also need:
+  - python-sphinx
+  - [optional] graphviz
+- At least 4GB of free RAM to build to build
 
 
 ## Documentation
