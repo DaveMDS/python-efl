@@ -294,22 +294,12 @@ class CleanGenerated(Command):
         os.remove(fullpath)
 
 
-# === setup.py uninstall command ===
-RECORD_FILE = 'installed_files-%d.%d.txt' % (sys.version_info[0], sys.version_info[1])
-
-
-setup(
+dist = setup(
     cmdclass={
         'test': Test,
         'clean_generated_files': CleanGenerated,
     },
-    command_options={
-        'install': {
-            'record': ('setup.py', RECORD_FILE),
-        },
-    },
     packages=packages,
     ext_modules=ext_modules,
     py_modules=py_modules,
-    zip_safe=False,
 )
