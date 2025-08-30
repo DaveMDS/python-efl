@@ -16,7 +16,7 @@ script_path = os.path.dirname(os.path.abspath(__file__))
 EFL_MIN_VER = '1.28.0'
 
 
-# basic utils
+# === pkg-config helper ===
 def cmd_output(cmd):
     p = subprocess.Popen(cmd, shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
     p.wait()
@@ -29,26 +29,6 @@ def cmd_output(cmd):
     return p.stdout.read().decode('utf-8').strip()
 
 
-# === use cython or pre-generated C files ===
-USE_CYTHON = False
-if os.getenv('DISABLE_CYTHON') is not None:
-    if os.path.exists(os.path.join(script_path, 'efl/eo/efl.eo.c')):
-        USE_CYTHON = False
-    else:
-        sys.exit(
-            'You have requested to use pregenerated files with DISABLE_CYTHON\n'
-            'but the files are not available!\n'
-            'Unset DISABLE_CYTHON from your build environment and try again.'
-        )
-elif os.getenv('ENABLE_CYTHON') is not None:
-    USE_CYTHON = True
-elif not os.path.exists(os.path.join(script_path, 'efl/eo/efl.eo.c')):
-    USE_CYTHON = True
-elif os.path.exists(os.path.join(script_path, 'Makefile')):
-    USE_CYTHON = True
-
-
-# === pkg-config helper ===
 def pkg_config(name, require, min_vers=None):
     ver = None
     try:
@@ -69,6 +49,11 @@ def pkg_config(name, require, min_vers=None):
         raise SystemExit('Did not find %s with pkg-config.' % name)
     except AssertionError:
         raise SystemExit('%s version mismatch. Found: %s  Needed %s' % (name, ver, min_vers))
+
+
+# use cython (git) or pre-generated C files (dist tarballs)
+USE_CYTHON = os.path.exists(os.path.join(script_path, 'src/efl/eo.pyx'))
+MODULES_EXT = 'pyx' if USE_CYTHON else 'c'
 
 
 ext_modules = []
@@ -92,28 +77,22 @@ if os.getenv('CFLAGS') is not None and '-fvisibility=' in os.environ['CFLAGS']:
 
 
 if {'build', 'build_ext', 'install', 'bdist', 'bdist_wheel', 'sdist'} & set(sys.argv):
-    # === check cython version ===
-    sys.stdout.write('Checking for Cython: ')
+    # configure cython
     if USE_CYTHON:
-        # check if cython is installed
         try:
             import Cython
             import Cython.Compiler.Options
         except ImportError:
-            raise SystemExit('not found!')
-
-        sys.stdout.write('OK, found %s\n' % Cython.__version__)
-        MODULES_EXT = 'pyx'
+            raise SystemExit('Cython not found!')
+        print('Using Cython %s' % Cython.__version__)
         # Stop compilation on first error
         Cython.Compiler.Options.fast_fail = True
         # Generates HTML files with annotated source
         Cython.Compiler.Options.annotate = False
         # Set to False to disable docstrings
         Cython.Compiler.Options.docstrings = True
-
     else:
-        sys.stdout.write('not needed, using pre-generated C files\n')
-        MODULES_EXT = 'c'
+        print('Cython not needed, using pre-generated C files\n')
 
     # === Eina ===
     eina_cflags, eina_libs = pkg_config('Eina', 'eina', EFL_MIN_VER)
