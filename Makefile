@@ -50,7 +50,7 @@ doc:
 
 .PHONY: test
 test:
-	$(PY) setup.py test
+	$(PY) -m unittest discover tests/ --verbose
 
 
 .PHONY: clean

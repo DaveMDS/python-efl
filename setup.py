@@ -3,10 +3,8 @@
 
 import os
 import sys
-import platform
 import subprocess
-import unittest
-from setuptools import setup, Extension, Command
+from setuptools import setup, Extension
 from packaging.version import Version
 
 script_path = os.path.dirname(os.path.abspath(__file__))
@@ -244,34 +242,7 @@ if {'build', 'build_ext', 'install', 'bdist', 'bdist_wheel', 'sdist'} & set(sys.
         )
 
 
-# === setup.py test command ===
-class Test(Command):
-    description = 'Run all the available unit tests using efl in build/'
-    user_options = []
-
-    def initialize_options(self):
-        pass
-
-    def finalize_options(self):
-        pass
-
-    def run(self):
-        sys.path.insert(0, 'build/lib.%s-%s-%d.%d' % (
-                            platform.system().lower(), platform.machine(),
-                            sys.version_info[0], sys.version_info[1]))
-        if 'efl' in sys.modules:
-            del sys.modules['efl']
-
-        loader = unittest.TestLoader()
-        suite = loader.discover('./tests')
-        runner = unittest.TextTestRunner(verbosity=1, buffer=True)
-        runner.run(suite)
-
-
 dist = setup(
-    cmdclass={
-        'test': Test,
-    },
     packages=packages,
     ext_modules=ext_modules,
     py_modules=py_modules,
