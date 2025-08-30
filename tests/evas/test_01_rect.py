@@ -148,119 +148,119 @@ class TestRectIntersects(unittest.TestCase):
 
     def testOver(self):
         r2 = evas.Rect(self.r)
-        self.assert_(self.r.intersects(r2))
+        self.assertTrue(self.r.intersects(r2))
 
     def testCross(self):
         r2 = evas.Rect(2, -2, 6, 14)
-        self.assert_(self.r.intersects(r2))
+        self.assertTrue(self.r.intersects(r2))
 
     def testIntersectTopLeft(self):
         r2 = evas.Rect(-5, -5, 10, 10)
-        self.assert_(self.r.intersects(r2))
+        self.assertTrue(self.r.intersects(r2))
 
     def testIntersectTopRight(self):
         r2 = evas.Rect(5, -5, 10, 10)
-        self.assert_(self.r.intersects(r2))
+        self.assertTrue(self.r.intersects(r2))
 
     def testIntersectBottomLeft(self):
         r2 = evas.Rect(-5, 5, 10, 10)
-        self.assert_(self.r.intersects(r2))
+        self.assertTrue(self.r.intersects(r2))
 
     def testIntersectBottomRight(self):
         r2 = evas.Rect(5, 5, 10, 10)
-        self.assert_(self.r.intersects(r2))
+        self.assertTrue(self.r.intersects(r2))
 
     def testIntersectLeft1(self):
         r2 = evas.Rect(-5, 0, 10, 10)
-        self.assert_(self.r.intersects(r2))
+        self.assertTrue(self.r.intersects(r2))
 
     def testIntersectLeft2(self):
         r2 = evas.Rect(-5, 2, 10, 5)
-        self.assert_(self.r.intersects(r2))
+        self.assertTrue(self.r.intersects(r2))
 
     def testIntersectLeft3(self):
         r2 = evas.Rect(-5, 5, 30, 5)
-        self.assert_(self.r.intersects(r2))
+        self.assertTrue(self.r.intersects(r2))
 
     def testIntersectRight1(self):
         r2 = evas.Rect(5, 0, 10, 10)
-        self.assert_(self.r.intersects(r2))
+        self.assertTrue(self.r.intersects(r2))
 
     def testIntersectRight2(self):
         r2 = evas.Rect(5, 2, 10, 5)
-        self.assert_(self.r.intersects(r2))
+        self.assertTrue(self.r.intersects(r2))
 
     def testIntersectRight3(self):
         r2 = evas.Rect(5, 5, 30, 5)
-        self.assert_(self.r.intersects(r2))
+        self.assertTrue(self.r.intersects(r2))
 
     def testIntersectTop1(self):
         r2 = evas.Rect(0, -5, 10, 10)
-        self.assert_(self.r.intersects(r2))
+        self.assertTrue(self.r.intersects(r2))
 
     def testIntersectTop2(self):
         r2 = evas.Rect(2, -5, 5, 10)
-        self.assert_(self.r.intersects(r2))
+        self.assertTrue(self.r.intersects(r2))
 
     def testIntersectTop3(self):
         r2 = evas.Rect(5, -5, 5, 30)
-        self.assert_(self.r.intersects(r2))
+        self.assertTrue(self.r.intersects(r2))
 
     def testIntersectBottom1(self):
         r2 = evas.Rect(0, 5, 10, 10)
-        self.assert_(self.r.intersects(r2))
+        self.assertTrue(self.r.intersects(r2))
 
     def testIntersectBottom2(self):
         r2 = evas.Rect(2, 5, 5, 10)
-        self.assert_(self.r.intersects(r2))
+        self.assertTrue(self.r.intersects(r2))
 
     def testIntersectBottom3(self):
         r2 = evas.Rect(5, 5, 5, 30)
-        self.assert_(self.r.intersects(r2))
+        self.assertTrue(self.r.intersects(r2))
 
     def testNoIntersect1(self):
         r2 = evas.Rect(-10, -10, 5, 5)
-        self.assert_(not self.r.intersects(r2))
+        self.assertFalse(self.r.intersects(r2))
 
     def testNoIntersect2(self):
         r2 = evas.Rect(0, -10, 5, 5)
-        self.assert_(not self.r.intersects(r2))
+        self.assertFalse(self.r.intersects(r2))
 
     def testNoIntersect3(self):
         r2 = evas.Rect(10, -10, 5, 5)
-        self.assert_(not self.r.intersects(r2))
+        self.assertFalse(self.r.intersects(r2))
 
     def testNoIntersect4(self):
         r2 = evas.Rect(-10, -10, 30, 5)
-        self.assert_(not self.r.intersects(r2))
+        self.assertFalse(self.r.intersects(r2))
 
     def testNoIntersect5(self):
         r2 = evas.Rect(-10, 15, 5, 5)
-        self.assert_(not self.r.intersects(r2))
+        self.assertFalse(self.r.intersects(r2))
 
     def testNoIntersect6(self):
         r2 = evas.Rect(0, 15, 5, 5)
-        self.assert_(not self.r.intersects(r2))
+        self.assertFalse(self.r.intersects(r2))
 
     def testNoIntersect7(self):
         r2 = evas.Rect(10, 15, 5, 5)
-        self.assert_(not self.r.intersects(r2))
+        self.assertFalse(self.r.intersects(r2))
 
     def testNoIntersect8(self):
         r2 = evas.Rect(-10, 15, 30, 5)
-        self.assert_(not self.r.intersects(r2))
+        self.assertFalse(self.r.intersects(r2))
 
     def testNoIntersect9(self):
         r2 = evas.Rect(-10, 5, 5, 5)
-        self.assert_(not self.r.intersects(r2))
+        self.assertFalse(self.r.intersects(r2))
 
     def testNoIntersect10(self):
         r2 = evas.Rect(15, 5, 5, 5)
-        self.assert_(not self.r.intersects(r2))
+        self.assertFalse(self.r.intersects(r2))
 
     def testNoIntersect11(self):
         r2 = evas.Rect(15, 15, 5, 5)
-        self.assert_(not self.r.intersects(r2))
+        self.assertFalse(self.r.intersects(r2))
 
 
 class TestRectClip(unittest.TestCase):
